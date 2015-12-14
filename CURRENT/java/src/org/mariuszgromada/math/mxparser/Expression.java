@@ -238,6 +238,20 @@ public class Expression {
 	 * Message after checking the syntax
 	 */
 	private String errorMessage;
+	
+	
+	/**
+	 * Flag used internally to mark started recursion
+	 * call on the current object, necessary to
+	 * avoid infinite loops while recursive syntax
+	 * checking (i.e. f -> g and g -> f)
+	 * or marking modified flags on the expressions
+	 * related to this expression.
+	 * 
+	 * @see setExpressionModifiedFlag()
+	 * @see checkSyntax()
+	 */
+	private boolean recursionCallPending; 
 
 	/*=================================================
 	 * 
@@ -307,14 +321,27 @@ public class Expression {
 	 * to all related expressions.
 	 */
 	void setExpressionModifiedFlag() {
-		expressionWasModified = true;
-		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		errorMessage = "Syntax status unknown.";
-		
-		for (Expression e : relatedExpressionsList)
-			e.setExpressionModifiedFlag();
+		if (recursionCallPending == false) {
+			recursionCallPending = true;
+			expressionWasModified = true;
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = "Syntax status unknown.";
+				
+			for (Expression e : relatedExpressionsList)
+				e.setExpressionModifiedFlag();
+			
+			recursionCallPending = false;
+		}
 	}
-		
+	
+	private void expressionInternalVarsInit() {
+		description = "";
+		errorMessage = "";
+		computingTime = 0;
+		recursionCallPending = false;
+	}
+	
+	
 	/**
 	 * Common elements while expression initializing
 	 */
@@ -332,11 +359,9 @@ public class Expression {
 		 * Silent mode
 		 * No recursive mode
 		 */
-		description = "";
 		setSilentMode();
 		disableRecursiveMode();
-		errorMessage = "";
-		computingTime = 0;
+		expressionInternalVarsInit();		
 	}
 	
 	/*=================================================
@@ -382,12 +407,10 @@ public class Expression {
 		functionsList = new ArrayList<Function>();
 		constantsList = new ArrayList<Constant>();
 		relatedExpressionsList = new ArrayList<Expression>();
-		description = "";
-		errorMessage = "";
-		computingTime = 0;
 		setSilentMode();
 		disableRecursiveMode();
-
+		expressionInternalVarsInit();
+		
 		this.argumentsList = argumentsList;
 		for (Argument a : argumentsList)
 			a.addRelatedExpression(this);
@@ -412,9 +435,7 @@ public class Expression {
 		this.expressionString = new String(expressionString);
 		constantsList = new ArrayList<Constant>();
 		relatedExpressionsList = new ArrayList<Expression>();
-		description = "";
-		errorMessage = "";
-		computingTime = 0;
+		expressionInternalVarsInit();
 		setSilentMode();
 		disableRecursiveMode();
 
@@ -447,9 +468,7 @@ public class Expression {
 			ArrayList<Function> functionsList, ArrayList<Constant> constantsList) {
 		this.expressionString = new String(expressionString);
 		relatedExpressionsList = new ArrayList<Expression>();		
-		description = "";
-		errorMessage = "";
-		computingTime = 0;
+		expressionInternalVarsInit();
 		setSilentMode();
 		disableRecursiveMode();
 
@@ -519,6 +538,7 @@ public class Expression {
 		description = "_internal_";
 		errorMessage = "";
 		computingTime = 0;
+		recursionCallPending = false;
 		
 		setSilentMode();
 		disableRecursiveMode();		
@@ -550,11 +570,8 @@ public class Expression {
 
 		this.expressionString = new String(expressionString);
 
-		description = "";
-		errorMessage = "";
-		computingTime = 0;
+		expressionInternalVarsInit();
 		
-
 		setSilentMode();
 		disableRecursiveMode();
 
@@ -587,6 +604,7 @@ public class Expression {
 		verboseMode = expression.verboseMode;
 		syntaxStatus = expression.syntaxStatus;
 		errorMessage = new String(expression.errorMessage);
+		recursionCallPending = expression.recursionCallPending;
 		
 	}
 	
@@ -4365,9 +4383,11 @@ public class Expression {
 		
 		if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) ) {
 			errorMessage = level + "already checked - no errors!\n";
+			recursionCallPending = false;			
 			return NO_SYNTAX_ERRORS;
 		}
 
+		recursionCallPending = true;
 		errorMessage = level +"checking ...\n";
 		boolean syntax = NO_SYNTAX_ERRORS;
 		
@@ -4420,7 +4440,7 @@ public class Expression {
 							
 						} else
 							
-							if (arg.argumentExpression != this) {
+							if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
 							
 								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
 								syntax = syntax && syntaxRec;
@@ -4443,7 +4463,7 @@ public class Expression {
 							
 					} else
 						
-						if (arg.argumentExpression != this) {
+						if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
 						
 							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
 							syntax = syntax && syntaxRec;
@@ -4479,7 +4499,7 @@ public class Expression {
 						
 					} else
 						
-						if (fun.functionExpression != this) {
+						if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
 							
 							boolean syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ");
 							syntax = syntax && syntaxRec;
@@ -4843,6 +4863,7 @@ public class Expression {
 		}
 		syntaxStatus = syntax;
 	    
+		recursionCallPending = false;
 		return syntax;
 	    
 	}

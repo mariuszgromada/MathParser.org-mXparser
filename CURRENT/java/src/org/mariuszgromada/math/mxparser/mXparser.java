@@ -105,4 +105,23 @@ public final class mXparser {
 		
 		
 	}
+	
+	
+	/**
+	 * Prints object.toString to the Console + new line
+	 * 
+	 * @param o    Object to print
+	 */
+	public static final void consolePrintln(Object o) {
+		System.out.println(o);		
+	}
+	
+	/**
+	 * Prints object.toString to the Console
+	 * 
+	 * @param o    Object to print
+	 */
+	public static final void consolePrint(Object o) {
+		System.out.print(o);		
+	}
 }
