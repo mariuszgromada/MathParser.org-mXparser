@@ -1,13 +1,16 @@
-                      mXparser - version 1.0.2
-         A flexible mathematics eXpressions parser for JAVA.
+                 mXparser - Math Parser Java C# Library beta
+         A flexible mathematical expressions parser for JAVA and C# .NET
 
 1.0.1 - Fixed BAG BIG Problem with evaluation without parenthesis - ID: 2985722 
 http://sourceforge.net/tracker/index.php?func=detail&aid=2985722&group_id=300839&atid=1268726
 1.0.2 - Fixed bug in user defined function related to RecursiveArguments
+1.0.3:
+   - Fixed bug during indirect recursion (infinite loops while syntax checking)
+   - Some minor modification of code making it more portable across platforms
 
  You may use this software under the condition of Simplified BSD License:
 
-Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+Copyright 2015 MARIUSZ GROMADA. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -49,14 +52,14 @@ doc/index.html
 If you would like to run some regression testing just hit commands listed below:
 
 JAVA:
-java -Xss515m -cp mxparser.1.0.2.jar org.mariuszgromada.math.mxparser.Tutorial
-java -Xss515m -cp mxparser.1.0.2.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression
-java -Xss515m -cp mxparser.1.0.2.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI
-java -Xss515m -cp mxparser.1.0.2.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax
+java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
+java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression
+java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI
+java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax
 
 C#:
-[Reflection.Assembly]::LoadFile("...path\to\mxparser.1.0.2.dll")
-[org.mariuszgromada.math.mxparser.Tutorial]::Main(0)
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression]::Start(0)
+[Reflection.Assembly]::LoadFile("...path\to\mxparser.dll")
+[org.mariuszgromada.math.mxparser.Tutorial]::Start(0)
+[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression]::Main(0)
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI]::Start(0)
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax]::Start(0)

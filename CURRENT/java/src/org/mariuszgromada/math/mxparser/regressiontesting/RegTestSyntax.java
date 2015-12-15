@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        1.0    2010-01-30
+ * @(#)RegTestSyntax.java        1.0.3    2015-12-15
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
