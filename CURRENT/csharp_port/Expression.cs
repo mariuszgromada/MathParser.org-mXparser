@@ -240,23 +240,36 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    private String errorMessage;
 
-    	
-	    /*=================================================
+
+        /**
+         * Flag used internally to mark started recursion
+         * call on the current object, necessary to
+         * avoid infinite loops while recursive syntax
+         * checking (i.e. f -> g and g -> f)
+         * or marking modified flags on the expressions
+         * related to this expression.
+         * 
+         * @see setExpressionModifiedFlag()
+         * @see checkSyntax()
+         */
+        private bool recursionCallPending;
+
+        /*=================================================
 	     * 
 	     * Related expressions handling
 	     * 
 	     *================================================= 
 	     */
-    	
-    	
-	    /**
+
+
+        /**
 	     * Adds related expression
 	     * The same expression could be added more than once
 	     * For example when 
 	     * 
 	     * @param      expression          the expression
 	     */
-	    internal void addRelatedExpression(Expression expression) {
+        internal void addRelatedExpression(Expression expression) {
 
 		    if ((expression != null) && (expression != this))
 			    if ( !relatedExpressionsList.Contains(expression))
@@ -281,10 +294,10 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    internal void showRelatedExpressions() {
 
-		    Console.WriteLine();
-		    Console.WriteLine(this.description + " = " + this.expressionString + ":");
+		    mXparser.consolePrintln();
+		    mXparser.consolePrintln(this.description + " = " + this.expressionString + ":");
 		    foreach (Expression e in relatedExpressionsList)
-			    Console.WriteLine("-> " + e.description + " = " + e.expressionString);
+			    mXparser.consolePrintln("-> " + e.description + " = " + e.expressionString);
 
 	    }
 
@@ -323,20 +336,33 @@ namespace org.mariuszgromada.math.mxparser {
 	     * to all related expressions.
 	     */
 	    internal void setExpressionModifiedFlag() {
+            if (recursionCallPending == false) {
+                recursionCallPending = true;
+                expressionWasModified = true;
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "Syntax status unknown.";
 
-		    expressionWasModified = true;
-		    syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		    errorMessage = "Syntax status unknown.";
-    		
-		    foreach (Expression e in relatedExpressionsList)
-			    e.setExpressionModifiedFlag();
+                foreach (Expression e in relatedExpressionsList)
+                    e.setExpressionModifiedFlag();
 
-	    }
-    		
-	    /**
+                recursionCallPending = false;
+            }
+        }
+
+        /**
+         * Common variables while expression initializing
+         */
+        private void expressionInternalVarsInit() {
+            description = "";
+            errorMessage = "";
+            computingTime = 0;
+            recursionCallPending = false;
+        }
+
+        /**
 	     * Common elements while expression initializing
 	     */
-	    private void expressionInit() {
+        private void expressionInit() {
 
 		    /*
 		     * New lists
@@ -351,32 +377,27 @@ namespace org.mariuszgromada.math.mxparser {
 		     * Silent mode
 		     * No recursive mode
 		     */
-		    description = "";
 		    setSilentMode();
 		    disableRecursiveMode();
-		    errorMessage = "";
-		    computingTime = 0;
+            expressionInternalVarsInit();
+        }
 
-	    }
-    	
-	    /*=================================================
+        /*=================================================
 	     * 
 	     * Constructors
 	     * 
 	     *================================================= 
 	     */
-    	
-    	
-    	
-	    /**
+
+
+
+        /**
 	     * Default constructor - empty expression
 	     */
-	    public Expression() {
-
+        public Expression() {
 		    expressionString = "";
 		    expressionInit();
-		    setExpressionModifiedFlag();		
-
+		    setExpressionModifiedFlag();
 	    }
     		
     	
@@ -386,11 +407,9 @@ namespace org.mariuszgromada.math.mxparser {
 	     * @param      expressionString    definition of the expression 
 	     */	
 	    public Expression(String expressionString) {
-
 		    expressionInit();
 		    this.expressionString = String.Copy(expressionString);
 		    setExpressionModifiedFlag();
-
 	    }
     	
 	    /**
@@ -411,13 +430,8 @@ namespace org.mariuszgromada.math.mxparser {
 		    functionsList = new List<Function>();
 		    constantsList = new List<Constant>();
 		    relatedExpressionsList = new List<Expression>();
-
-		    description = "";
-		    errorMessage = "";
-		    computingTime = 0;
-    		
-
-		    setSilentMode();
+            expressionInternalVarsInit();
+            setSilentMode();
 		    disableRecursiveMode();
 
 		    this.argumentsList = argumentsList;
@@ -447,12 +461,8 @@ namespace org.mariuszgromada.math.mxparser {
 
 		    constantsList = new List<Constant>();
 		    relatedExpressionsList = new List<Expression>();
-		    description = "";
-		    errorMessage = "";
-		    computingTime = 0;
-    		
-
-		    setSilentMode();
+            expressionInternalVarsInit();
+            setSilentMode();
 		    disableRecursiveMode();
 
 		    this.argumentsList = argumentsList;
@@ -486,12 +496,9 @@ namespace org.mariuszgromada.math.mxparser {
 
 		    this.expressionString = String.Copy(expressionString);
 
-		    relatedExpressionsList = new List<Expression>();		
-		    description = "";
-		    errorMessage = "";
-		    computingTime = 0;
-
-		    setSilentMode();
+		    relatedExpressionsList = new List<Expression>();
+            expressionInternalVarsInit();
+            setSilentMode();
 		    disableRecursiveMode();
 
 		    this.argumentsList = argumentsList;
@@ -566,8 +573,9 @@ namespace org.mariuszgromada.math.mxparser {
 		    description = "_internal_";
 		    errorMessage = "";
 		    computingTime = 0;
-    		
-		    setSilentMode();
+            recursionCallPending = false;
+
+            setSilentMode();
 		    disableRecursiveMode();		
 
 
@@ -597,12 +605,8 @@ namespace org.mariuszgromada.math.mxparser {
 
 		    this.expressionString = String.Copy(expressionString);
 
-		    description = "";
-		    errorMessage = "";
-		    computingTime = 0;
-    		
-
-		    setSilentMode();
+            expressionInternalVarsInit();
+            setSilentMode();
 		    disableRecursiveMode();
 
 		    this.argumentsList = argumentsList;		
@@ -634,16 +638,17 @@ namespace org.mariuszgromada.math.mxparser {
 		    verboseMode = expression.verboseMode;
 		    syntaxStatus = expression.syntaxStatus;
 		    errorMessage = String.Copy(expression.errorMessage);
-    		
-	    }
-    	
+            recursionCallPending = expression.recursionCallPending;
 
-		    /**
-		     * Sets (modifies expression) expression string.
-		     * 
-		     * @param      expressionString    the expression string
-		     */
-		    public void setExpressionString(String expressionString) {
+        }
+
+
+        /**
+         * Sets (modifies expression) expression string.
+         * 
+         * @param      expressionString    the expression string
+         */
+        public void setExpressionString(String expressionString) {
     	
 			    this.expressionString = expressionString;
     			
@@ -4411,10 +4416,12 @@ namespace org.mariuszgromada.math.mxparser {
     		
 		    if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) ) {
 			    errorMessage = level + "already checked - no errors!\n";
-			    return NO_SYNTAX_ERRORS;
+                recursionCallPending = false;
+                return NO_SYNTAX_ERRORS;
 		    }
 
-		    errorMessage = level +"checking ...\n";
+            recursionCallPending = true;
+            errorMessage = level +"checking ...\n";
 		    bool syntax = NO_SYNTAX_ERRORS;
 
             
@@ -4466,7 +4473,7 @@ namespace org.mariuszgromada.math.mxparser {
     							
 						    } else
     							
-							    if (arg.argumentExpression != this) {
+							    if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
     							
 								    bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
 								    syntax = syntax && syntaxRec;
@@ -4489,7 +4496,7 @@ namespace org.mariuszgromada.math.mxparser {
     							
 					    } else
     						
-						    if (arg.argumentExpression != this) {
+						    if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
     						
 							    bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
 							    syntax = syntax && syntaxRec;
@@ -4525,7 +4532,7 @@ namespace org.mariuszgromada.math.mxparser {
     						
 					    } else
     						
-						    if (fun.functionExpression != this) {
+						    if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
     							
 							    bool syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ");
 							    syntax = syntax && syntaxRec;
@@ -4889,8 +4896,9 @@ namespace org.mariuszgromada.math.mxparser {
 			    expressionWasModified = true;
 		    }
 		    syntaxStatus = syntax;
-    	    
-		    return syntax;
+
+            recursionCallPending = false;
+            return syntax;
     	    
 	    }
 
@@ -6000,7 +6008,7 @@ namespace org.mariuszgromada.math.mxparser {
                     if (    Regex.Match(str, ParserSymbol.NUMBER).Success )
                     {
 					    numEnd = i;
-                        Console.WriteLine("Regex -> |" + str + "=number" + " " + pos + ", " + i);
+                        mXparser.consolePrintln("Regex -> |" + str + "=number" + " " + pos + ", " + i);
 				    }*/
 
                     try
@@ -6391,17 +6399,17 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    private void showParsing(int lPos, int rPos) {
 
-		    Console.Write(" ---> ");
+		    mXparser.consolePrint(" ---> ");
 		    for (int i=lPos; i<=rPos; i++) {
 			    Token token = tokensList[i];
     			
 			    if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
-				    Console.Write(token.tokenValue + " ");
+				    mXparser.consolePrint(token.tokenValue + " ");
 			    else
-				    Console.Write(token.tokenStr + " ");
+				    mXparser.consolePrint(token.tokenStr + " ");
 		    }
     		
-		    Console.Write(" ... ");
+		    mXparser.consolePrint(" ... ");
     		
 	    }
     	
@@ -6413,10 +6421,10 @@ namespace org.mariuszgromada.math.mxparser {
 
 		    int keyWordsNumber = keyWordsList.Count;
 		    String maxStr = "KEY_WORD";
-		    Console.WriteLine("KEY WORDS:");
-		    Console.WriteLine(" -------------------------------------------");	
-		    Console.WriteLine("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
-		    Console.WriteLine(" -------------------------------------------");	
+		    mXparser.consolePrintln("KEY WORDS:");
+		    mXparser.consolePrintln(" -------------------------------------------");	
+		    mXparser.consolePrintln("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
+		    mXparser.consolePrintln(" -------------------------------------------");	
 		    for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
 			    KeyWord keyWord = keyWordsList[keyWordIndex];
     			
@@ -6425,9 +6433,9 @@ namespace org.mariuszgromada.math.mxparser {
 			    String idStr = getLeftSpaces(maxStr, keyWord.wordId.ToString());
 			    String typeIdStr = getLeftSpaces(maxStr, keyWord.wordTypeId.ToString());
     			
-			    Console.WriteLine("| " + idxStr+ " | " + wordStr + " | " + idStr + " | " + typeIdStr + " |");			
+			    mXparser.consolePrintln("| " + idxStr+ " | " + wordStr + " | " + idStr + " | " + typeIdStr + " |");			
 		    }
-		    Console.WriteLine(" -------------------------------------------");	
+		    mXparser.consolePrintln(" -------------------------------------------");	
 
 	    }
 
@@ -6531,11 +6539,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 		    String maxStr = "PartTypeId";
 		    int tokensNumber = tokensList.Count;
-		    Console.WriteLine(" -----------------------------------------");
-		    Console.WriteLine("| Expression Partitions: " + expressionString );
-		    Console.WriteLine(" -----------------------------------------------------------------------------------------");
-		    Console.WriteLine("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
-		    Console.WriteLine(" -----------------------------------------------------------------------------------------");
+		    mXparser.consolePrintln(" -----------------------------------------");
+		    mXparser.consolePrintln("| Expression Partitions: " + expressionString );
+		    mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
+		    mXparser.consolePrintln("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
+		    mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
     		
 		    for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
     			
@@ -6547,7 +6555,7 @@ namespace org.mariuszgromada.math.mxparser {
 			    String tokenLevelStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenLevel.ToString() );
 			    String tokenValueStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenValue.ToString() );
     			
-			    Console.WriteLine(	"| " + tokenIndexStr +
+			    mXparser.consolePrintln(	"| " + tokenIndexStr +
 								    " | " + tokenStr +
 								    " | " + keyWordStr +
 								    " | " + tokenIdStr +
@@ -6555,7 +6563,7 @@ namespace org.mariuszgromada.math.mxparser {
 								    " | " + tokenLevelStr +
 								    " | " + tokenValueStr + " |");		
 		    }
-		    Console.WriteLine(	" -----------------------------------------------------------------------------------------");
+		    mXparser.consolePrintln(	" -----------------------------------------------------------------------------------------");
 
 	    }
 
@@ -6566,11 +6574,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 		    String maxStr = "PartTypeId";
 		    int tokensNumber = initialTokens.Count;
-		    Console.WriteLine(" -----------------------------------------");
-		    Console.WriteLine("| Expression Partitions: " + expressionString );
-		    Console.WriteLine(" -----------------------------------------------------------------------------------------");
-		    Console.WriteLine("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
-		    Console.WriteLine(" -----------------------------------------------------------------------------------------");
+		    mXparser.consolePrintln(" -----------------------------------------");
+		    mXparser.consolePrintln("| Expression Partitions: " + expressionString );
+		    mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
+		    mXparser.consolePrintln("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
+		    mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
     		
 		    for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
     			
@@ -6582,7 +6590,7 @@ namespace org.mariuszgromada.math.mxparser {
 			    String tokenLevelStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenLevel.ToString() );
 			    String tokenValueStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenValue.ToString() );
     			
-			    Console.WriteLine(	"| " + tokenIndexStr +
+			    mXparser.consolePrintln(	"| " + tokenIndexStr +
 								    " | " + tokenStr +
 								    " | " + keyWordStr +
 								    " | " + tokenIdStr +
@@ -6590,7 +6598,7 @@ namespace org.mariuszgromada.math.mxparser {
 								    " | " + tokenLevelStr +
 								    " | " + tokenValueStr + " |");		
 		    }
-		    Console.WriteLine(	" -----------------------------------------------------------------------------------------");
+		    mXparser.consolePrintln(	" -----------------------------------------------------------------------------------------");
 
 	    }	
     	
@@ -6620,9 +6628,9 @@ namespace org.mariuszgromada.math.mxparser {
 	    private void printSystemInfo(String info, bool withExpressionString) {
 
 		    if (withExpressionString)
-			    Console.Write( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
+			    mXparser.consolePrint( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
 		    else
-			    Console.Write(/*"[" + this +  "]" + */ info);
+			    mXparser.consolePrint(/*"[" + this +  "]" + */ info);
 
 	    }
     	

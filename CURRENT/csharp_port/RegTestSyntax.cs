@@ -68,7 +68,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 
         private static bool runTest(int testId) {
 		
-		Console.WriteLine("[" + testId + "] ----------------------------------------------");
+		mXparser.consolePrintln("[" + testId + "] ----------------------------------------------");
 		
 		bool testResult = false;
 		bool syn;
@@ -83,7 +83,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 0:
 			
 			expStr = "";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr, x);
 			exp[testId] = e;
 			reg = false;
@@ -94,14 +94,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 1:
 			
 			expStr = "1++";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -112,14 +112,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 		
 		case 2:
 			
 			expStr = "1+1-";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -130,14 +130,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 3:
 			
 			expStr = "+-1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -148,14 +148,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 4:
 			
 			expStr = "1-(2))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -166,14 +166,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 5:
 			
 			expStr = "1id";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -184,14 +184,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 6:
 			
 			expStr = "(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -202,14 +202,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 7:
 			
 			expStr = "f(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -220,14 +220,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 8:
 			
 			expStr = "sin";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -238,7 +238,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -246,7 +246,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 9:
 			
 			expStr = "sin()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -257,14 +257,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 10:
 			
 			expStr = "cos(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -275,14 +275,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 11:
 			
 			expStr = "log";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -293,14 +293,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 12:
 			
 			expStr = "log()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -311,14 +311,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 13:
 			
 			expStr = "log(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -329,7 +329,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
@@ -337,7 +337,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 14:
 			
 			expStr = "log(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -348,14 +348,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 15:
 			
 			expStr = "if";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -366,14 +366,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 16:
 			
 			expStr = "if()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -384,14 +384,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 17:
 			
 			expStr = "if(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -402,14 +402,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 18:
 			
 			expStr = "if(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -420,14 +420,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 19:
 			
 			expStr = "if(1,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -438,14 +438,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 20:
 			
 			expStr = "pi()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -456,13 +456,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 21:
 			expStr = "pi(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -473,14 +473,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 22:
 			
 			expStr = "[K*]()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -491,14 +491,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 23:
 			
 			expStr = "[K*](12)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -509,14 +509,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 24:
 			
 			expStr = "min";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -527,14 +527,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 25:
 			
 			expStr = "min()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -545,14 +545,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 26:
 			
 			expStr = "max";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -563,14 +563,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 27:
 			
 			expStr = "max()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -581,14 +581,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 28:
 			
 			expStr = "iff";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -599,14 +599,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 29:
 			
 			expStr = "iff()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -617,14 +617,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 30:
 			
 			expStr = "iff(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -635,14 +635,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 31:
 			
 			expStr = "iff(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -653,14 +653,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 32:
 			
 			expStr = "iff(1,2,3,4,5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -671,14 +671,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 33:
 			
 			expStr = "sum";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -689,14 +689,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 34:
 			
 			expStr = "sum()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -707,14 +707,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 35:
 			
 			expStr = "sum(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -725,14 +725,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 36:
 			
 			expStr = "sum(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -743,14 +743,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 37:
 			
 			expStr = "sum(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -761,14 +761,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 38:
 			
 			expStr = "sum(1,2,3,4,5,6)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -779,14 +779,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 
 		case 39:
 			
 			expStr = "prod()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -797,14 +797,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 40:
 			
 			expStr = "prod(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -815,14 +815,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 41:
 			
 			expStr = "prod(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -833,14 +833,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 42:
 			
 			expStr = "prod(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -851,14 +851,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 43:
 			
 			expStr = "prod(1,2,3,4,5,6)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -869,14 +869,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 			
 		case 44:
 			
 			expStr = "sum(1,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -887,14 +887,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 45:
 			
 			expStr = "sum(a*b,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -905,14 +905,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 46:
 			
 			expStr = "sum(i,1,a,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -923,14 +923,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 47:
 			
 			expStr = "prod(1,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -941,14 +941,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 48:
 			
 			expStr = "prod(a*b,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -959,14 +959,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 49:
 			
 			expStr = "prod(i,1,a,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -977,14 +977,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 50:
 			
 			expStr = "int";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -995,14 +995,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 						
 		case 51:
 			
 			expStr = "int()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1013,14 +1013,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 52:
 			
 			expStr = "int(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1031,14 +1031,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 		
 		case 53:
 			
 			expStr = "int(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1049,14 +1049,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 			
 		case 54:
 			
 			expStr = "int(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1067,14 +1067,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 55:
 			
 			expStr = "int(1,2,3,4,5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1085,7 +1085,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
@@ -1093,7 +1093,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			
 			x = new Argument("x", 5);
 			expStr = "int(,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1104,14 +1104,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 57:
 			
 			expStr = "int(1,2,0,1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1122,14 +1122,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 58:
 			
 			expStr = "der";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1140,14 +1140,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 
 		case 59:
 			
 			expStr = "der()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1158,7 +1158,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -1166,7 +1166,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 60:
 			
 			expStr = "der(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1177,7 +1177,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 			
@@ -1185,7 +1185,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 61:
 			
 			expStr = "der(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1196,14 +1196,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 62:
 			
 			expStr = "der(1,2,3,4,5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1214,14 +1214,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 		
 		case 63:
 			
 			expStr = "der(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1232,14 +1232,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 64:
 			
 			expStr = "der+";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1250,14 +1250,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 
 		case 65:
 			
 			expStr = "der+()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1268,7 +1268,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -1276,7 +1276,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 66:
 			
 			expStr = "der+(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1287,7 +1287,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 			
@@ -1295,7 +1295,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 67:
 			
 			expStr = "der+(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1306,14 +1306,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 68:
 			
 			expStr = "der+(1,2,3,4,5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1324,14 +1324,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 		
 		case 69:
 			
 			expStr = "der+(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1342,14 +1342,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 70:
 			
 			expStr = "der-";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1360,14 +1360,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 
 		case 71:
 			
 			expStr = "der-()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1378,7 +1378,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -1386,7 +1386,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 72:
 			
 			expStr = "der-(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1397,7 +1397,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 			
@@ -1405,7 +1405,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 73:
 			
 			expStr = "der-(1,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1416,14 +1416,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 74:
 			
 			expStr = "der-(1,2,3,4,5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1434,14 +1434,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 		
 		case 75:
 			
 			expStr = "der-(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1452,7 +1452,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
@@ -1460,7 +1460,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 76:
 			
 			expStr = "diff";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1471,14 +1471,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 		
 		case 77:
 			
 			expStr = "diff()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1489,14 +1489,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 78:
 			
 			expStr = "diff(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1507,14 +1507,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 79:
 			
 			expStr = "diff(1,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1525,14 +1525,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 80:
 			
 			expStr = "diff(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1543,14 +1543,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 81:
 			
 			expStr = "difb";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1561,14 +1561,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 		
 		case 82:
 			
 			expStr = "difb()";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1579,14 +1579,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 83:
 			
 			expStr = "difb(1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1597,14 +1597,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 84:
 			
 			expStr = "difb(1,2,3,4)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1615,14 +1615,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 85:
 			
 			expStr = "difb(1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1633,7 +1633,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (syn == reg)
 				testResult = true;
 			
-			Console.Write(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
@@ -1644,9 +1644,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		
 		if (testResult == true)
-			Console.Write("OK");
+			mXparser.consolePrint("OK");
 		else
-			Console.Write("ERROR");
+			mXparser.consolePrint("ERROR");
 		
 		return testResult;
 		
@@ -1674,12 +1674,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			else
 				nError++;
 					
-			Console.WriteLine("\n");
+			mXparser.consolePrintln("\n");
 			
-			Console.WriteLine(exp[testId].getErrorMessage());
+			mXparser.consolePrintln(exp[testId].getErrorMessage());
 				
-			Console.WriteLine(", time: " + exp[testId].getComputingTime() + " s.");
-			Console.WriteLine("---------------------------------------------- [" + testId + "]");
+			mXparser.consolePrintln(", time: " + exp[testId].getComputingTime() + " s.");
+			mXparser.consolePrintln("---------------------------------------------- [" + testId + "]");
 			
 			
 			
@@ -1687,13 +1687,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
         long end =  mXparser.currentTimeMillis();
 
-		Console.WriteLine("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
+		mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
 		
 		for (int testId = 0; testId <= numberOfTests; testId++) {
 			
 			
 			if (!tests[testId])
-				Console.WriteLine("ERROR: " + testId);
+				mXparser.consolePrintln("ERROR: " + testId);
 			
 		}
 		

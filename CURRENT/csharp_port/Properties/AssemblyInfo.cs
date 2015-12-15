@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleApplication1")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("mXparser - Math Parser Java C# Library")]
+[assembly: AssemblyDescription("A flexible mathematical expressions parser for JAVA and C# .NET")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dom")]
-[assembly: AssemblyProduct("ConsoleApplication1")]
-[assembly: AssemblyCopyright("Copyright © Dom 2010")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("Mariusz Gromada")]
+[assembly: AssemblyProduct("mXparser")]
+[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2015")]
+[assembly: AssemblyTrademark("mXparser")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

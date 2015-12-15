@@ -41,8 +41,7 @@
  */ 
 package org.mariuszgromada.math.mxparser.regressiontesting;
 
-import org.mariuszgromada.math.mxparser.Argument;
-import org.mariuszgromada.math.mxparser.Expression;
+import org.mariuszgromada.math.mxparser.*;
 
 
 /**
@@ -64,7 +63,7 @@ public class RegTestSyntax {
 	
 	private static boolean runTest(int testId) {
 		
-		System.out.println("[" + testId + "] ----------------------------------------------");
+		mXparser.consolePrintln("[" + testId + "] ----------------------------------------------");
 		
 		boolean testResult = false;
 		boolean syn;
@@ -79,7 +78,7 @@ public class RegTestSyntax {
 		case 0:
 			
 			expStr = "";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr, x);
 			exp[testId] = e;
 			reg = false;
@@ -90,14 +89,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 1:
 			
 			expStr = "1++";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -108,14 +107,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 		
 		case 2:
 			
 			expStr = "1+1-";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -126,14 +125,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 3:
 			
 			expStr = "+-1";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -144,14 +143,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 4:
 			
 			expStr = "1-(2))";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -162,14 +161,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 5:
 			
 			expStr = "1id";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -180,14 +179,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 6:
 			
 			expStr = "(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -198,14 +197,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 7:
 			
 			expStr = "f(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -216,14 +215,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 8:
 			
 			expStr = "sin";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -234,7 +233,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -242,7 +241,7 @@ public class RegTestSyntax {
 		case 9:
 			
 			expStr = "sin()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -253,14 +252,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 10:
 			
 			expStr = "cos(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -271,14 +270,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 11:
 			
 			expStr = "log";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -289,14 +288,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 12:
 			
 			expStr = "log()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -307,14 +306,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 13:
 			
 			expStr = "log(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -325,7 +324,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
@@ -333,7 +332,7 @@ public class RegTestSyntax {
 		case 14:
 			
 			expStr = "log(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -344,14 +343,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 15:
 			
 			expStr = "if";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -362,14 +361,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 16:
 			
 			expStr = "if()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -380,14 +379,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 17:
 			
 			expStr = "if(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -398,14 +397,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 18:
 			
 			expStr = "if(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -416,14 +415,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 19:
 			
 			expStr = "if(1,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -434,14 +433,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 20:
 			
 			expStr = "pi()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -452,13 +451,13 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 21:
 			expStr = "pi(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -469,14 +468,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 22:
 			
 			expStr = "[K*]()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -487,14 +486,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 23:
 			
 			expStr = "[K*](12)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -505,14 +504,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 24:
 			
 			expStr = "min";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -523,14 +522,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 25:
 			
 			expStr = "min()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -541,14 +540,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 26:
 			
 			expStr = "max";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -559,14 +558,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 27:
 			
 			expStr = "max()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -577,14 +576,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 28:
 			
 			expStr = "iff";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -595,14 +594,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 29:
 			
 			expStr = "iff()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -613,14 +612,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 30:
 			
 			expStr = "iff(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -631,14 +630,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 31:
 			
 			expStr = "iff(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -649,14 +648,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 32:
 			
 			expStr = "iff(1,2,3,4,5)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -667,14 +666,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 33:
 			
 			expStr = "sum";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -685,14 +684,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 34:
 			
 			expStr = "sum()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -703,14 +702,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 35:
 			
 			expStr = "sum(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -721,14 +720,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 36:
 			
 			expStr = "sum(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -739,14 +738,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 37:
 			
 			expStr = "sum(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -757,14 +756,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 38:
 			
 			expStr = "sum(1,2,3,4,5,6)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -775,14 +774,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 
 		case 39:
 			
 			expStr = "prod()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -793,14 +792,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 40:
 			
 			expStr = "prod(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -811,14 +810,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 41:
 			
 			expStr = "prod(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -829,14 +828,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 42:
 			
 			expStr = "prod(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -847,14 +846,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 43:
 			
 			expStr = "prod(1,2,3,4,5,6)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -865,14 +864,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 			
 		case 44:
 			
 			expStr = "sum(1,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -883,14 +882,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 45:
 			
 			expStr = "sum(a*b,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -901,14 +900,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 46:
 			
 			expStr = "sum(i,1,a,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -919,14 +918,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
 		case 47:
 			
 			expStr = "prod(1,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -937,14 +936,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 48:
 			
 			expStr = "prod(a*b,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -955,14 +954,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 49:
 			
 			expStr = "prod(i,1,a,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -973,14 +972,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 50:
 			
 			expStr = "int";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -991,14 +990,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 						
 		case 51:
 			
 			expStr = "int()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1009,14 +1008,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 52:
 			
 			expStr = "int(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1027,14 +1026,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 		
 		case 53:
 			
 			expStr = "int(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1045,14 +1044,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;					
 			
 		case 54:
 			
 			expStr = "int(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1063,14 +1062,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 55:
 			
 			expStr = "int(1,2,3,4,5)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1081,7 +1080,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
@@ -1089,7 +1088,7 @@ public class RegTestSyntax {
 			
 			x = new Argument("x", 5);
 			expStr = "int(,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1100,14 +1099,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 57:
 			
 			expStr = "int(1,2,0,1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1118,14 +1117,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 58:
 			
 			expStr = "der";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1136,14 +1135,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 
 		case 59:
 			
 			expStr = "der()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1154,7 +1153,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -1162,7 +1161,7 @@ public class RegTestSyntax {
 		case 60:
 			
 			expStr = "der(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1173,7 +1172,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 			
@@ -1181,7 +1180,7 @@ public class RegTestSyntax {
 		case 61:
 			
 			expStr = "der(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1192,14 +1191,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 62:
 			
 			expStr = "der(1,2,3,4,5)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1210,14 +1209,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 		
 		case 63:
 			
 			expStr = "der(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1228,14 +1227,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 64:
 			
 			expStr = "der+";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1246,14 +1245,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 
 		case 65:
 			
 			expStr = "der+()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1264,7 +1263,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -1272,7 +1271,7 @@ public class RegTestSyntax {
 		case 66:
 			
 			expStr = "der+(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1283,7 +1282,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 			
@@ -1291,7 +1290,7 @@ public class RegTestSyntax {
 		case 67:
 			
 			expStr = "der+(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1302,14 +1301,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 68:
 			
 			expStr = "der+(1,2,3,4,5)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1320,14 +1319,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 		
 		case 69:
 			
 			expStr = "der+(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1338,14 +1337,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 70:
 			
 			expStr = "der-";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1356,14 +1355,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 
 		case 71:
 			
 			expStr = "der-()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1374,7 +1373,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 			
@@ -1382,7 +1381,7 @@ public class RegTestSyntax {
 		case 72:
 			
 			expStr = "der-(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1393,7 +1392,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 			
@@ -1401,7 +1400,7 @@ public class RegTestSyntax {
 		case 73:
 			
 			expStr = "der-(1,2,3)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1412,14 +1411,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 74:
 			
 			expStr = "der-(1,2,3,4,5)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1430,14 +1429,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;			
 		
 		case 75:
 			
 			expStr = "der-(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1448,7 +1447,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
@@ -1456,7 +1455,7 @@ public class RegTestSyntax {
 		case 76:
 			
 			expStr = "diff";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1467,14 +1466,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 		
 		case 77:
 			
 			expStr = "diff()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1485,14 +1484,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 78:
 			
 			expStr = "diff(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1503,14 +1502,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 79:
 			
 			expStr = "diff(1,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1521,14 +1520,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 80:
 			
 			expStr = "diff(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1539,14 +1538,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 81:
 			
 			expStr = "difb";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1557,14 +1556,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;		
 		
 		case 82:
 			
 			expStr = "difb()";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1575,14 +1574,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 83:
 			
 			expStr = "difb(1)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1593,14 +1592,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 84:
 			
 			expStr = "difb(1,2,3,4)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1611,14 +1610,14 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;				
 		
 		case 85:
 			
 			expStr = "difb(1,2)";
-			System.out.print(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
 			reg = false;
@@ -1629,7 +1628,7 @@ public class RegTestSyntax {
 			if (syn == reg)
 				testResult = true;
 			
-			System.out.print(syn + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
 			
 			break;
 			
@@ -1640,9 +1639,9 @@ public class RegTestSyntax {
 		
 		
 		if (testResult == true)
-			System.out.print("OK");
+			mXparser.consolePrint("OK");
 		else
-			System.out.print("ERROR");
+			mXparser.consolePrint("ERROR");
 		
 		return testResult;
 		
@@ -1670,12 +1669,12 @@ public class RegTestSyntax {
 			else
 				nError++;
 					
-			System.out.println("\n");
+			mXparser.consolePrintln("\n");
 			
-			System.out.println(exp[testId].getErrorMessage());
+			mXparser.consolePrintln(exp[testId].getErrorMessage());
 				
-			System.out.println(", time: " + exp[testId].getComputingTime() + " s.");
-			System.out.println("---------------------------------------------- [" + testId + "]");
+			mXparser.consolePrintln(", time: " + exp[testId].getComputingTime() + " s.");
+			mXparser.consolePrintln("---------------------------------------------- [" + testId + "]");
 			
 			
 			
@@ -1683,13 +1682,13 @@ public class RegTestSyntax {
 		
         long end =  System.currentTimeMillis();
 
-		System.out.println("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
+		mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
 		
 		for (int testId = 0; testId <= numberOfTests; testId++) {
 			
 			
 			if (!tests[testId])
-				System.out.println("ERROR: " + testId);
+				mXparser.consolePrintln("ERROR: " + testId);
 			
 		}
 		

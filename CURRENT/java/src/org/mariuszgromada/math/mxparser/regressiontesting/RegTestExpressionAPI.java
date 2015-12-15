@@ -668,22 +668,22 @@ public class RegTestExpressionAPI {
 			
 			if (test[i]) {
 				nOk++;
-				System.out.println("[" + i + "] " + "OK");
+				mXparser.consolePrintln("[" + i + "] " + "OK");
 			} else {
 				nError++;
-				System.out.println("[" + i + "] " + "ERROR");
+				mXparser.consolePrintln("[" + i + "] " + "ERROR");
 			}
 			
 		}
 		
 
-		System.out.println("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
+		mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
 		
 		for (int i = 0; i <= testId; i++) {
 			
 			
 			if (!test[i])
-				System.out.println("ERROR: " + testId);
+				mXparser.consolePrintln("ERROR: " + testId);
 			
 			
 		}

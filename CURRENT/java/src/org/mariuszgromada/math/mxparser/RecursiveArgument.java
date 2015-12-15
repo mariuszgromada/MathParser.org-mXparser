@@ -249,7 +249,7 @@ public class RecursiveArgument extends Argument {
 				
 				if (super.getVerboseMode() == true)
 				{
-					//System.out.println(super.getVerboseMode() + ", " +super.getArgumentName() + ", " + super.argumentExpression.expressionString + "," + "VERBOSE MODE for recurssion");
+					//mXparser.consolePrintln(super.getVerboseMode() + ", " +super.getArgumentName() + ", " + super.argumentExpression.expressionString + "," + "VERBOSE MODE for recurssion");
 					newExp.setVerboseMode();
 				}
 							

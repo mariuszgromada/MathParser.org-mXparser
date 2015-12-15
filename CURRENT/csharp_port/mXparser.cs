@@ -118,6 +118,29 @@ namespace org.mariuszgromada.math.mxparser {
     		
     		
 	    }
+
+        /**
+         * Prints object.toString to the Console + new line
+         * 
+         * @param o    Object to print
+         */
+        public static void consolePrintln(Object o) {
+            Console.WriteLine(o);
+        }
+
+        public static void consolePrintln() {
+            Console.WriteLine();
+        }
+
+        /**
+         * Prints object.toString to the Console
+         * 
+         * @param o    Object to print
+         */
+        public static void consolePrint(Object o) {
+            Console.Write(o);
+        }
+
     }
 
 }

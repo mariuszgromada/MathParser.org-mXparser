@@ -287,10 +287,10 @@ public class Expression {
 	 * Prints related expression list
 	 */
 	void showRelatedExpressions() {
-		System.out.println();
-		System.out.println(this.description + " = " + this.expressionString + ":");
+		mXparser.consolePrintln();
+		mXparser.consolePrintln(this.description + " = " + this.expressionString + ":");
 		for (Expression e : relatedExpressionsList)
-			System.out.println("-> " + e.description + " = " + e.expressionString);
+			mXparser.consolePrintln("-> " + e.description + " = " + e.expressionString);
 	}
 
 	/**
@@ -334,6 +334,9 @@ public class Expression {
 		}
 	}
 	
+	/**
+	 * Common variables while expression initializing
+	 */
 	private void expressionInternalVarsInit() {
 		description = "";
 		errorMessage = "";
@@ -6345,17 +6348,17 @@ public class Expression {
 	 */
 	private void showParsing(int lPos, int rPos) {
 
-		System.out.print(" ---> ");
+		mXparser.consolePrint(" ---> ");
 		for (int i=lPos; i<=rPos; i++) {
 			Token token = tokensList.get(i);
 			
 			if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
-				System.out.print(token.tokenValue + " ");
+				mXparser.consolePrint(token.tokenValue + " ");
 			else
-				System.out.print(token.tokenStr + " ");
+				mXparser.consolePrint(token.tokenStr + " ");
 		}
 		
-		System.out.print(" ... ");
+		mXparser.consolePrint(" ... ");
 		
 	}
 	
@@ -6367,10 +6370,10 @@ public class Expression {
 
 		int keyWordsNumber = keyWordsList.size();
 		String maxStr = "KEY_WORD";
-		System.out.println("KEY WORDS:");
-		System.out.println(" -------------------------------------------");	
-		System.out.println("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
-		System.out.println(" -------------------------------------------");	
+		mXparser.consolePrintln("KEY WORDS:");
+		mXparser.consolePrintln(" -------------------------------------------");	
+		mXparser.consolePrintln("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
+		mXparser.consolePrintln(" -------------------------------------------");	
 		for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
 			KeyWord keyWord = keyWordsList.get(keyWordIndex);
 			
@@ -6379,9 +6382,9 @@ public class Expression {
 			String idStr = getLeftSpaces(maxStr, Integer.toString(keyWord.wordId));
 			String typeIdStr = getLeftSpaces(maxStr, Integer.toString(keyWord.wordTypeId));
 			
-			System.out.println("| " + idxStr+ " | " + wordStr + " | " + idStr + " | " + typeIdStr + " |");			
+			mXparser.consolePrintln("| " + idxStr+ " | " + wordStr + " | " + idStr + " | " + typeIdStr + " |");			
 		}
-		System.out.println(" -------------------------------------------");	
+		mXparser.consolePrintln(" -------------------------------------------");	
 
 	}
 
@@ -6485,11 +6488,11 @@ public class Expression {
 
 		String maxStr = "PartTypeId";
 		int tokensNumber = tokensList.size();
-		System.out.println(" -----------------------------------------");
-		System.out.println("| Expression Partitions: " + expressionString );
-		System.out.println(" -----------------------------------------------------------------------------------------");
-		System.out.println("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
-		System.out.println(" -----------------------------------------------------------------------------------------");
+		mXparser.consolePrintln(" -----------------------------------------");
+		mXparser.consolePrintln("| Expression Partitions: " + expressionString );
+		mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
+		mXparser.consolePrintln("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
+		mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
 		
 		for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
 			
@@ -6501,7 +6504,7 @@ public class Expression {
 			String tokenLevelStr = getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenLevel) );
 			String tokenValueStr = getLeftSpaces(maxStr, Double.toString(tokensList.get(tokenIndex).tokenValue) );
 			
-			System.out.println(	"| " + tokenIndexStr +
+			mXparser.consolePrintln(	"| " + tokenIndexStr +
 								" | " + tokenStr +
 								" | " + keyWordStr +
 								" | " + tokenIdStr +
@@ -6509,7 +6512,7 @@ public class Expression {
 								" | " + tokenLevelStr +
 								" | " + tokenValueStr + " |");		
 		}
-		System.out.println(	" -----------------------------------------------------------------------------------------");
+		mXparser.consolePrintln(	" -----------------------------------------------------------------------------------------");
 
 	}
 
@@ -6520,11 +6523,11 @@ public class Expression {
 
 		String maxStr = "PartTypeId";
 		int tokensNumber = initialTokens.size();
-		System.out.println(" -----------------------------------------");
-		System.out.println("| Expression Partitions: " + expressionString );
-		System.out.println(" -----------------------------------------------------------------------------------------");
-		System.out.println("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
-		System.out.println(" -----------------------------------------------------------------------------------------");
+		mXparser.consolePrintln(" -----------------------------------------");
+		mXparser.consolePrintln("| Expression Partitions: " + expressionString );
+		mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
+		mXparser.consolePrintln("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
+		mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
 		
 		for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
 			
@@ -6536,7 +6539,7 @@ public class Expression {
 			String tokenLevelStr = getLeftSpaces(maxStr, Integer.toString(initialTokens.get(tokenIndex).tokenLevel) );
 			String tokenValueStr = getLeftSpaces(maxStr, Double.toString(initialTokens.get(tokenIndex).tokenValue) );
 			
-			System.out.println(	"| " + tokenIndexStr +
+			mXparser.consolePrintln(	"| " + tokenIndexStr +
 								" | " + tokenStr +
 								" | " + keyWordStr +
 								" | " + tokenIdStr +
@@ -6544,7 +6547,7 @@ public class Expression {
 								" | " + tokenLevelStr +
 								" | " + tokenValueStr + " |");		
 		}
-		System.out.println(	" -----------------------------------------------------------------------------------------");
+		mXparser.consolePrintln(	" -----------------------------------------------------------------------------------------");
 
 	}	
 	
@@ -6574,9 +6577,9 @@ public class Expression {
 	private void printSystemInfo(String info, boolean withExpressionString) {
 
 		if (withExpressionString)
-			System.out.print( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
+			mXparser.consolePrint( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
 		else
-			System.out.print(/*"[" + this +  "]" + */ info);
+			mXparser.consolePrint(/*"[" + this +  "]" + */ info);
 
 	}
 	

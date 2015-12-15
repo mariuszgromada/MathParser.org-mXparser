@@ -116,6 +116,10 @@ public final class mXparser {
 		System.out.println(o);		
 	}
 	
+	public static final void consolePrintln() {
+		System.out.println();		
+	}
+	
 	/**
 	 * Prints object.toString to the Console
 	 * 

@@ -41,7 +41,9 @@
  */ 
 
 using System;
+using System.Threading;
 using org.mariuszgromada.math.mxparser;
+using org.mariuszgromada.math.mxparser.mathcollection;
 
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting
@@ -69,7 +71,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 
         private static bool runTest(int testId) {
 		
-		Console.Write("[" + testId + "] ");
+		mXparser.consolePrint("[" + testId + "] ");
 		
 		bool testResult = false;
 		bool syn1;
@@ -90,21 +92,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 0:
 			
 			expStr = "";
-			Console.Write("Empty expression string ...... ");
+			mXparser.consolePrint("Empty expression string ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			
 			if ( Double.IsNaN(value) )
 				testResult = true;
 			
-			Console.Write(value + " --> ");
+			mXparser.consolePrint(value + " --> ");
 			
 			break;
 
 		case 1:
 			
 			expStr = "2+1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 2+1;
@@ -112,14 +114,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 
 		case 2:
 			
 			expStr = "1-2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1-2;
@@ -127,28 +129,28 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				
 			break;
 
 		case 3:
 			
 			expStr = "2*5";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 2*5;
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;			
 
 		case 4:
 			
 			expStr = "20/4";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 20.0/4.0;
@@ -156,14 +158,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 5:
 			
 			expStr = "-2+22";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = -2+22;
@@ -171,14 +173,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 6:
 		
 			expStr = "3-(-5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 3-(-5);
@@ -186,14 +188,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;				
 
 		case 7:
 		
 			expStr = "+5-(+7)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = +5-(+7);
@@ -201,14 +203,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 8:
 		
 			expStr = "-5+(-7)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = -5+(-7);
@@ -216,14 +218,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 9:
 		
 			expStr = "-2*(3-5)+7";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = -2*(3-5)+7;
@@ -231,14 +233,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 10:
 		
 			expStr = "5.5*(2-3 + (5.3-7.89)/2)/2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 5.5*(2-3 + (5.3-7.89)/2)/2;
@@ -246,14 +248,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 11:
 		
 			expStr = "2-(32-4)/(23+(4)/(5))-(2-4)*(4+6-98.2)+4";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 2.0-(32.0-4.0)/(23.0+(4.0)/(5.0))-(2.0-4.0)*(4.0+6.0-98.2)+4.0;
@@ -262,14 +264,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 12:
 					
 			expStr = "2^3";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow(2, 3);
@@ -278,14 +280,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 13:
 		
 			expStr = "2^(-3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow(2, -3);
@@ -294,7 +296,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 
 			
 			break;	
@@ -302,7 +304,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 14:
 		
 			expStr = "2^0.7";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow(2, 0.7);
@@ -311,14 +313,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 15:
 		
 			expStr = "4^3^2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow(4, Math.Pow(3,2));
@@ -327,7 +329,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 
 			
 			break;	
@@ -335,7 +337,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 16:
 		
 			expStr = "(4^3)^2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow( Math.Pow(4, 3), 2);
@@ -344,14 +346,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 17:
 		
 			expStr = "0.9^0.8^0.7^0.6^0.5";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow(0.9, Math.Pow(0.8, Math.Pow( 0.7, Math.Pow(0.6, 0.5))));
@@ -360,14 +362,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 18:
 		
 			expStr = "2=2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -376,14 +378,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 19:
 					
 			expStr = "2=3";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -392,14 +394,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 20:
 			
 			expStr = "2<>3";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -408,7 +410,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 			
 			break;	
@@ -416,7 +418,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 21:
 		
 			expStr = "2<>2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -425,14 +427,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 22:
 		
 			expStr = "3>2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -441,14 +443,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 23:
 		
 			expStr = "2>2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -457,14 +459,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				testResult = true;
 			
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 24:
 		
 			expStr = "3>2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -472,7 +474,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
@@ -480,7 +482,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 25:
 		
 			expStr = "2<3";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -488,14 +490,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 26:
 		
 			expStr = "2<2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -503,14 +505,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 27:
 		
 			expStr = "3<2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -518,14 +520,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 28:
 		
 			expStr = "2>=2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -533,14 +535,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 29:
 		
 			expStr = "3>=2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -548,14 +550,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 30:
 		
 			expStr = "1>=2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -563,14 +565,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 31:
 		
 			expStr = "1<=2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -578,14 +580,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 32:
 		
 			expStr = "1<=1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -593,14 +595,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 33:
 		
 			expStr = "1<=0";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -608,14 +610,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 34:
 		
 			expStr = "1 & 1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -623,14 +625,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 35:
 		
 			expStr = "1 & -1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -638,14 +640,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 36:
 		
 			expStr = "1 & 0";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -653,14 +655,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 37:
 		
 			expStr = "0 & 1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -668,14 +670,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 38:
 		
 			expStr = "0 & 0";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -683,14 +685,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 39:
 		
 			expStr = "1 | -1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -698,14 +700,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 
 		case 40:
 		
 			expStr = "0 | -1";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -713,14 +715,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 			
 		case 41:
 		
 			expStr = "1 | 0";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -728,13 +730,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 		case 42:
 		
 			expStr = "0 | 0";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -742,14 +744,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 43:
 		
 			expStr = "3>2 | 2>3";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -757,14 +759,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 44:
 		
 			expStr = "3>5 | 2>3";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -772,13 +774,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 		case 45:
 		
 			expStr = "not((3>4) & (2>=2))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -786,13 +788,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 		case 46:
 		
 			expStr = "not(-5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -800,13 +802,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 		case 47:
 		
 			expStr = "not(0)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -814,13 +816,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 		case 48:
 		
 			expStr = "if(0,1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 2;
@@ -828,13 +830,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;	
 		case 49:
 		
 			expStr = "if(5,1,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -842,14 +844,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 50:
 		
 			expStr = "sum(n,1,10,n)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 55;
@@ -857,14 +859,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 			
 		case 51:
 		
 			expStr = "prod(n,1,5,n)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 120;
@@ -872,140 +874,140 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 		case 52:
 			x = new Argument("x",5);			
 			expStr = "sin(x)-sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.00001 )
+			if ( MathFunctions.abs(value - reg) < 0.00001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			
 			break;
 		case 53:
 
 			d = new Argument("d",0.01);			
 			expStr = "pi-2*sum(x,-1,1,d*sqrt(1-x^2),d)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,d);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.01 )
+			if ( MathFunctions.abs(value - reg) < 0.01 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 			break;
 		case 54:
 		
 			x = new Argument("x",1);			
 			expStr = "1 - ( sin(x)^2+cos(x)^2 )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 			
 			break;
 		case 55:
 		
 			x = new Argument("x",1);			
 			expStr = "1 - ( sec(x)^2 - tan(x)^2 )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 			
 			break;
 		case 56:
 
 			x = new Argument("x",1);			
 			expStr = "1 - ( cosec(x)^2 - ctan(x)^2 )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");					
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");					
 			
 			break;
 		case 57:
 
 			x = new Argument("x",1);			
 			expStr = "1 - ( cosec(x)^2 - ctan(x)^2 )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");					
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");					
 			
 			break;
 		case 58:
 		
 			x = new Argument("x",1);			
 			expStr = "1 - ( csc(x)^2 - ctg(x)^2 )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");					
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");					
 			
 			break;
 		case 59:
 
 			x = new Argument("x",1);			
 			expStr = "1 - ( sec(x)^2 - tg(x)^2 )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");				
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");				
 			
 			break;
 		case 60:
 			
 			x = new Argument("x",1);			
 			expStr = "tan(x) - sin(x)/cos(x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");				
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");				
 			
 			break;
 		case 61:
@@ -1013,15 +1015,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "sin(x+y) - (sin(x)*cos(y)+cos(x)*sin(y))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 62:
@@ -1029,15 +1031,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "sin(x-y) - (sin(x)*cos(y)-cos(x)*sin(y))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 63:
@@ -1045,15 +1047,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "cos(x+y) - (cos(x)*cos(y)-sin(x)*sin(y))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 64:
@@ -1061,15 +1063,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "cos(x-y) - (cos(x)*cos(y)+sin(x)*sin(y))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 65:
@@ -1077,15 +1079,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "tg(x+y) - (tg(x)+tg(y)) / (1 - tg(x)*tg(y))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 			
@@ -1094,15 +1096,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "tg(x-y) - (tg(x)-tg(y)) / (1 + tg(x)*tg(y))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;			
 		case 67:
@@ -1110,15 +1112,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "ctg(x+y) - (ctg(x)*ctg(y)-1) / (ctg(y)+ctg(x))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 68:
@@ -1126,15 +1128,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			n = new Argument("n",10);			
 			expStr = "sin(n*x) - sum(i,0,n,(-1)^i*C(n,2*i+1)*(cos(x)^(n-2*i-1))*(sin(x)^(2*i+1))) ";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,n);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 			
@@ -1144,22 +1146,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 			n = new Argument("n",50);			
 			expStr = "n*2^(n-1) - sum(i,1,n,i*C(n,i))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 			
 			break;
 			
 		case 70:
 
 			expStr = "prod(i,2,6,1+1/i)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 7.0/2.0;
@@ -1167,14 +1169,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");				
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");				
 			
 			break;
 			
 		case 71:
 		
 			expStr = "prod(i,1,6,10)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = Math.Pow(10,6);
@@ -1182,14 +1184,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 			
 			break;
 						
 		case 72:
 		
 			expStr = "prod(i,1,6,i,0.5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			
@@ -1202,7 +1204,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 
 			
 			break;
@@ -1210,7 +1212,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		case 73:
 		
 			expStr = "sum(n,1,5,prod(i,1,n,n*i))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			
@@ -1227,7 +1229,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");			
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");			
 			
 			break;
 						
@@ -1239,7 +1241,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			fib.addBaseCase(1, 1);
 			
 			expStr = "sum(n,0,5,fib(n))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,fib);
 			value = exp[testId].calculate();
 
@@ -1248,7 +1250,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");		
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 			
 			break;
 						
@@ -1259,7 +1261,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			fact.addBaseCase(0, 1);
 			
 			expStr = "5!-fact(5)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,fact);
 			value = exp[testId].calculate();
 
@@ -1268,7 +1270,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");		
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 			
 			break;
 						
@@ -1276,15 +1278,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 			x = new Argument("x",2);			
 			expStr = "cos(x)-der(sin(x),x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.00000001 )
+			if ( MathFunctions.abs(value - reg) < 0.00000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 						
@@ -1293,15 +1295,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "-sin(x+y)-der(der(sin(x+y),x),y)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.001 )
+			if ( MathFunctions.abs(value - reg) < 0.001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 						
@@ -1310,15 +1312,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x",2);			
 			y = new Argument("y",3);			
 			expStr = "cos(x*y)-x*y*sin(x*y)-der(der(sin(x*y),x),y)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x,y);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.001 )
+			if ( MathFunctions.abs(value - reg) < 0.001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 						
@@ -1326,7 +1328,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 
 			n = new Argument("n",-5);			
 			expStr = "C(n,2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n);
 			value = exp[testId].calculate();
 			reg = 15;
@@ -1334,7 +1336,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");				
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");				
 			
 			break;
 						
@@ -1342,7 +1344,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 			x = new Argument("x",0);			
 			expStr = "der+(abs(x),x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -1350,7 +1352,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 						
@@ -1358,7 +1360,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 			x = new Argument("x",0);			
 			expStr = "der-(abs(x),x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = -1;
@@ -1366,7 +1368,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 			
@@ -1374,15 +1376,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			
 			x = new Argument("x",4);			
 			expStr = "cos(x)-der(sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!),x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if (Math.Abs(value - reg) < 0.0001 )
+			if (MathFunctions.abs(value - reg) < 0.0001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;	
 			
@@ -1392,7 +1394,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",4);	
 		
 			expStr = "C(n,k) - ( C(n-1,k-1)+C(n-1,k) )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1400,7 +1402,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1410,7 +1412,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k) - prod(i,1,k,n-i+1) / prod(i,1,k,i)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1418,7 +1420,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 85:
@@ -1427,7 +1429,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k) - prod(i,1,k,(n-i+1)/i)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1435,7 +1437,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 
 			break;
@@ -1445,7 +1447,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k) - C(n,n-k)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1453,7 +1455,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1463,7 +1465,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,0)+C(n,n)+C(0,0)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 3;
@@ -1471,7 +1473,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1481,7 +1483,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k+1)-C(n,k)*(n-k)/(k+1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1489,7 +1491,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1498,7 +1500,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			n = new Argument("n",13);	
 		
 			expStr = "2^n-sum(k,0,n,C(n,k))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1506,7 +1508,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1515,7 +1517,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			n = new Argument("n",13);	
 			
 			expStr = "C(2*n,n)-sum(k,0,n,C(n,k)^2)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1523,7 +1525,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1532,7 +1534,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			n = new Argument("n",13);	
 			
 			expStr = "sum(k,0,n,(-1)^k*C(n,k))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1540,7 +1542,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1552,7 +1554,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			r = new Argument("r",4);
 			
 			expStr = "C(r+s,m+n)-sum(k,0,n,C(r,m+k)*C(s,n-k))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,m,r,s);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1560,7 +1562,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1570,15 +1572,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k)-(n/k)*C(n-1,k-1)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) < 0.000000001 )
+			if ( MathFunctions.abs(value - reg) < 0.000000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1588,7 +1590,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "(n-k)*C(n,k)-n*C(n-1,k)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 0;
@@ -1596,7 +1598,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1606,7 +1608,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k) <= n^k/k!";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -1614,7 +1616,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1624,7 +1626,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k) <= (n*e/k)^k";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -1632,7 +1634,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1642,7 +1644,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			k = new Argument("k",6);	
 		
 			expStr = "C(n,k) >= (n/k)^k";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
 			value = exp[testId].calculate();
 			reg = 1;
@@ -1650,27 +1652,27 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 98:
 			x = new Argument("x",3);
 			expStr = "sin(3)-sin(2)-int(cos(x),x,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value-reg) <= 0.00001)
+			if ( MathFunctions.abs(value-reg) <= 0.00001)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 99:
 			i = new Argument("i", 5);
 			expStr = "2*i+sum(i,1,10,i)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,i);
 			value = exp[testId].calculate();
 			reg = 65;
@@ -1678,22 +1680,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 100:
 
 			x = new Argument("x",3);
 			expStr = "sin(x)-sin(x-1)-int(cos(x),x,2,3)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value-reg) <= 0.00001)
+			if ( MathFunctions.abs(value-reg) <= 0.00001)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 101:
@@ -1702,32 +1704,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("x", 3);
 			y = new Argument("y", 2);
 			expStr = "sin(x)+cos(y)-mg(x,y)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,x, y);
 			exp[testId].addFunctions(f);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000000000001)
+			if ( MathFunctions.abs(value - reg) <= 0.000000000001)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 102:
 
 			f = new Function("mg", "sin(x)+cos(y)", "x", "y");
 			expStr = "der(sin(x)+cos(y),x)-der(mg(x,y),x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,new Argument("x", 3), new Argument("y", 2));
 			exp[testId].addFunctions(f);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.00000001)
+			if ( MathFunctions.abs(value - reg) <= 0.00000001)
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 103:
@@ -1736,7 +1738,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			g = new Function("g", "f(x)^2", "x");
 			g.addFunctions(f);
 			expStr = "g(x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(g);
 			value = exp[testId].calculate();
@@ -1745,7 +1747,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if ( value == reg )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1755,16 +1757,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			f = new Function("f", "sin(x)", "x");
 			g = new Function("g", "cos(x)", "x");
 			expStr = "der( f(x)*g(x), x) - ( der(f(x), x)*g(x) + f(x)*der(g(x), x) )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f, g);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 105:
@@ -1773,32 +1775,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			f = new Function("f", "sin(x)", "x");
 			g = new Function("g", "cos(x)", "x");
 			expStr = "der( f(x)/g(x), x) - ( der(f(x), x)*g(x) - f(x)*der(g(x), x) )/g(x)^2";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f, g);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 106:
 
 			f = new Function("f", "sin(x)", "x");
 			expStr = "der( int(f(t), t, 0, x), x) - f(x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.0001 )
+			if ( MathFunctions.abs(value - reg) <= 0.0001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1807,16 +1809,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			f = new Function("f", "sin(x)", "x");
 			g = new Function("g", "cos(x)", "x");
 			expStr = "der(f(x)+g(x), x) - ( der(f(x), x) + der(g(x),x) )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f, g);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 
 			break;
@@ -1827,16 +1829,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			f = new Function("f", "sin(x)", "x");
 			g = new Function("g", "cos(x)", "x");
 			expStr = "der(a*f(x)+b*g(x), x) - ( a*der(f(x), x) + b*der(g(x),x) )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3), a, b);
 			exp[testId].addFunctions(f, g);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 			
 			break;
 		case 109:
@@ -1845,32 +1847,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			g = new Function("g", "cos(x)", "x");
 			h = new Function("h", "x^2", "x");
 			expStr = "der(f(x)*g(x)*h(x), x) - ( der(f(x), x)*g(x)*h(x) + f(x)*der(g(x), x)*h(x) + f(x)*g(x)*der(h(x), x))";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f, g, h);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 110:
 
 			f = new Function("f", "sin(x)", "x");
 			expStr = "der(ln(f(x)), x) - der(f(x), x) / f(x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 111:
@@ -1878,16 +1880,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			f = new Function("f", "sin(x)", "x");
 			a = new Argument("a",Math.PI);			
 			expStr = "der( f(x)^a, x) - a*f(x)^(a-1)*der(f(x), x)";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3),a);
 			exp[testId].addFunctions(f);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 		case 112:
@@ -1895,16 +1897,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			f = new Function("f", "sin(x)^2", "x");
 			g = new Function("g", "cos(x)^2", "x");
 			expStr = "der( f(x)^g(x), x) - f(x)^g(x)*( der(f(x), x)*g(x)/f(x) + der(g(x), x)*ln(f(x)) )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, new Argument("x", 3));
 			exp[testId].addFunctions(f, g);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");				
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");				
 
 			break;
 		case 113:
@@ -1917,16 +1919,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			b = new Argument("b", 4);
 			x = new Argument("x", 3);
 			expStr = "int(f(x)*g(x),x,a,b) - ( h(b)*g(b)-h(a)*g(a) - int( h(x)*der(g(x),x), x, a, b) )";
-			Console.Write(expStr + " ...... ");
+			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, x, a, b);
 			exp[testId].addFunctions(f, g, h);
 			value = exp[testId].calculate();
 			reg = 0;
 			
-			if ( Math.Abs(value - reg) <= 0.000001 )
+			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			
-			Console.Write(value + " reg ... " + reg + " --> ");	
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 			break;
 	
@@ -1938,16 +1940,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		t = new Argument("t", "g(x)", x);
 		t.addFunctions(g);
 		expStr = "der( f(g(x)), x) - der( f(t), t)*der( g(x), x)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x, t);
 		exp[testId].addFunctions(f, g);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.000001 )
+		if ( MathFunctions.abs(value - reg) <= 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");	
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 		break;
 
@@ -1960,15 +1962,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		
 		expStr = "sum(i,0,10,fact1(i)-fact2(i))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, fact1, fact2);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.000001 )
+		if ( MathFunctions.abs(value - reg) <= 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");	
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 		break;
 		
@@ -1982,15 +1984,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		
 		expStr = "sum(i,0,10,fib1(i)-fib2(i))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, fib1, fib2);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.000001 )
+		if ( MathFunctions.abs(value - reg) <= 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");	
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 		break;		
 
@@ -1999,17 +2001,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
 		Cnk.setRecursiveMode();
 		expStr = "C(10,5)-Cnk(10,5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addFunctions(Cnk);
 		
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.000001 )
+		if ( MathFunctions.abs(value - reg) <= 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");	
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 
 		break;		
 		
@@ -2026,16 +2028,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		fib3.setRecursiveMode();
 		
 		expStr = "sum(i,1,10,(fib1(i) = fib2(i)) & (fib2(i) = fib3(i)) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, fib1, fib2);
 		exp[testId].addFunctions(fib3);
 		value = exp[testId].calculate();
 		reg = 10;
 		
-		if ( Math.Abs(value - reg) <= 0.000001 )
+		if ( MathFunctions.abs(value - reg) <= 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");	
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");	
 		break;	
 		
 	case 119:
@@ -2048,16 +2050,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		H.setRecursiveMode();
 		
 		expStr = "H(0,x) + H(1,x) + H(2,x) + H(3,x) - ( (1) + (2*x) + (4*x^2-2) + (8*x^3-12*x) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 		exp[testId].addFunctions(H);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.000001 )
+		if ( MathFunctions.abs(value - reg) <= 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;
 
@@ -2073,16 +2075,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		k = new Argument("k",5);
 		expStr = "der( H(k,x), x) - 2*k*H(k-1,x)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x,k );
 		exp[testId].addFunctions(H);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.00001 )
+		if ( MathFunctions.abs(value - reg) <= 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;		
 		
@@ -2094,16 +2096,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		k = new Argument("k",5);
 		x = new Argument("x",3);
 		expStr = "T(k,x) - ( (x + sqrt(x^2-1))^k + (x - sqrt(x^2-1))^k)/2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x,k );
 		exp[testId].addFunctions(T);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.00001 )
+		if ( MathFunctions.abs(value - reg) <= 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;		
 		
@@ -2115,16 +2117,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		k = new Argument("k",5);
 		expStr = "T1(k,3)-T2(k,3) + T1(k,-3)-T2(k,-3) + T1(k,-0.5)-T2(k,-0.5) + T1(k,0.5)-T2(k,0.5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, k);
 		exp[testId].addFunctions(T1, T2);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) <= 0.00001 )
+		if ( MathFunctions.abs(value - reg) <= 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;
 
@@ -2132,7 +2134,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	case 123:
 
 		expStr = "pi+e+[g]+[p]+[r]+[B*]+[D]+[a]+[C2]+[M1]+[B2]+[B4]+[L]+[K]+[K*]+[K.]+[B'L]+[m]+[EB]+[B]+[l]+[s]+[lm]+[C]+[Ll]+[AG]+[L*]+[L.]+[Dz3]+[T]+[Bh]+[Pt]+[L2]+[Nv]+[Ks]+[Kh]+[F]+[La]+[P2]+[O]+[M]";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 3.14159265358979323846264338327950288 + /*Pi,Archimedes'constantorLudolph'snumber*/
@@ -2178,10 +2180,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			0.187859 /*MRBconstant*/
 		;
 		
-		if ( Math.Abs(value - reg) <= 0.00001 )
+		if ( MathFunctions.abs(value - reg) <= 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;
 		
@@ -2204,7 +2206,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ((syn1) && (exp[testId].getSyntaxStatus() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN))
 			testResult = true;
 				
-		Console.Write(exp[testId].getErrorMessage() + " reg ... " + "Syntax status unknown." + " --> ");
+		mXparser.consolePrint(exp[testId].getErrorMessage() + " reg ... " + "Syntax status unknown." + " --> ");
 		
 		break;				
 		
@@ -2212,7 +2214,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	case 125:
 		
 		expStr = "2==2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
@@ -2221,7 +2223,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testResult = true;
 		
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;
 		
@@ -2229,7 +2231,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	case 126:
 		
 		expStr = "2 != 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
@@ -2238,7 +2240,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testResult = true;
 		
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 	
 		
 		break;
@@ -2246,7 +2248,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	case 127:
 		
 		expStr = "2 ~= 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
@@ -2255,7 +2257,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testResult = true;
 		
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 	
 		
 		break;
@@ -2263,7 +2265,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	case 128:
 	
 		expStr = "1 && 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
@@ -2271,14 +2273,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		
 		break;
 		
 	case 129:
 	
 		expStr = "1 || -1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
@@ -2286,14 +2288,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;		
 	
-	    Console.Write(value + " reg ... " + reg + " --> ");
+	    mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 
         break;
 
 	case 130:
 		
 		expStr = "~1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
@@ -2301,14 +2303,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;
 		
 	case 131:
 		
 		expStr = "2+~(1-1)!";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 2;
@@ -2316,7 +2318,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;
 
@@ -2324,7 +2326,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		x = new Argument("x",2);
 		expStr = "if( int(2*x,x,0,pi) > 0 , 1, 2)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
@@ -2332,7 +2334,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;
 		
@@ -2340,7 +2342,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		x = new Argument("x",2);
 		expStr = "if( -int(2*x,x,0,pi) > 0 , 1, 2)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 2;
@@ -2348,14 +2350,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;
 				
 	case 134:
 		
 		expStr = "sum(n, 0, 10, if ( if( sin(n*pi/2) > 0, 1, 2) >= 2, 4, 2) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 32;
@@ -2363,1208 +2365,1208 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( value == reg )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;
 		
 	case 135:
 		
 		expStr = "sin(0)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;				
 
 	case 136:
 		
 		expStr = "cos(0) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 
 	case 137:
 		
 		expStr = "tan(0) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 
 	case 138:
 		
 		expStr = "tg(0) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 139:
 		
 		expStr = "ctan(pi/2) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 140:
 		
 		expStr = "ctg(pi/2) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 141:
 		
 		expStr = "cot(pi/2) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 142:
 		
 		expStr = "sec(0) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 143:
 		
 		expStr = "cosec(pi/2) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 144:
 		
 		expStr = "csc(pi/2) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 145:
 		
 		expStr = "asin(0.5) - pi/6";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 146:
 		
 		expStr = "arsin(0) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 147:
 		
 		expStr = "arcsin(1) - pi/2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 148:
 		
 		expStr = "acos(0) - pi/2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 149:
 		
 		expStr = "arcos(0.5) - pi/3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 150:
 		
 		expStr = "arccos(-1) - pi";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 151:
 		
 		expStr = "atan(0) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 152:
 		
 		expStr = "arctan(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 153:
 		
 		expStr = "atg(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 154:
 		
 		expStr = "arctg(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 155:
 		
 		expStr = "actan(0) - pi/2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 156:
 		
 		expStr = "arcctan(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 157:
 		
 		expStr = "actg(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 158:
 		
 		expStr = "arcctg(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 159:
 		
 		expStr = "acot(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 160:
 		
 		expStr = "arccot(1) - pi/4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 161:
 		
 		expStr = "ln(e) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 162:
 		
 		expStr = "ln(e^2) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 163:
 		
 		expStr = "log2(8) - 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 164:
 		
 		expStr = "log10(1000) - 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 165:
 		
 		expStr = "rad(180) - pi";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 166:
 		
 		expStr = "exp(2) - e^2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 167:
 		
 		expStr = "sqrt(25) - 5";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 168:
 		
 		expStr = "sinh(ln([p])) - 0.5";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 169:
 		
 		expStr = "cosh(ln([p])) - 0.5*sqrt(5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 170:
 		
 		expStr = "tanh(ln([p])) - 1/sqrt(5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 171:
 		
 		expStr = "tgh(ln([p])) - 1/sqrt(5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 172:
 		
 		expStr = "ctanh(ln([p])) - sqrt(5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 173:
 		
 		expStr = "coth(ln([p])) - sqrt(5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 174:
 		
 		expStr = "ctgh(ln([p])) - sqrt(5)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 175:
 		
 		expStr = "sech(ln([p])) - 1/(0.5*sqrt(5))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 176:
 		
 		expStr = "csch(ln([p])) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 177:
 		
 		expStr = "cosech(ln([p])) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 178:
 		
 		expStr = "deg(pi) - 180";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 179:
 		
 		expStr = "abs(-1) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 180:
 		
 		expStr = "sgn(1) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 181:
 		
 		expStr = "sgn(0) - 0";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 182:
 		
 		expStr = "floor(1.2) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 183:
 		
 		expStr = "floor(1.9) - 1";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 184:
 		
 		expStr = "floor(-1.9) - (-2)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 185:
 		
 		expStr = "ceil(1.2) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 186:
 		
 		expStr = "ceil(1.9) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 187:
 		
 		expStr = "ceil(-1.2) - (-1)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 188:
 		
 		expStr = "asinh(0.5) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 189:
 		
 		expStr = "arsinh(0.5) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 190:
 		
 		expStr = "acosh(0.5*sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;			
 	case 191:
 		
 		expStr = "arcosh(0.5*sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 192:
 		
 		expStr = "arccosh(0.5*sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 193:
 		
 		expStr = "atanh(1/sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 194:
 		
 		expStr = "arctanh(1/sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 195:
 		
 		expStr = "atgh(1/sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 196:
 		
 		expStr = "arctgh(1/sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 197:
 		
 		expStr = "actanh(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 198:
 		
 		expStr = "arcctanh(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 199:
 		
 		expStr = "acoth(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 200:
 		
 		expStr = "arcoth(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 201:
 		
 		expStr = "arccoth(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 202:
 		
 		expStr = "actgh(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 203:
 		
 		expStr = "arcctgh(sqrt(5)) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 204:
 		
 		expStr = "asech(1/(0.5*sqrt(5))) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 205:
 		
 		expStr = "arsech(1/(0.5*sqrt(5))) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 206:
 		
 		expStr = "arcsech(1/(0.5*sqrt(5))) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 207:
 		
 		expStr = "acsch(2) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 208:
 		
 		expStr = "arcsch(2) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 209:
 		
 		expStr = "arccsch(2) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 210:
 		
 		expStr = "acosech(2) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 211:
 		
 		expStr = "arcosech(2) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 212:
 		
 		expStr = "arccosech(2) - ln([p])";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 213:
 		
 		expStr = "log(2,8) - 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 214:
 		
 		expStr = "min(2,3) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 215:
 		
 		expStr = "max(2,3) - 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 216:
 		
 		expStr = "mod(10,6) - 4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 217:
 		
 		expStr = "if(1,2,3) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 218:
 		
 		expStr = "if(0,2,3) - 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 219:
 		
 		expStr = "iff(1, 2) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;	
 	case 220:
 		
 		expStr = "iff(0, 2)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = Double.NaN;
@@ -3572,76 +3574,76 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( Double.IsNaN(value) )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 		
 		break;	
 	case 221:
 		
 		expStr = "iff(0, 2, 1, 2) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;	
 	case 222:
 		
 		expStr = "iff(0, 2, 1, 2, 3, 4) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 	
 		
 		break;	
 	case 223:
 		
 		expStr = "iff(0, 2, 1, 2, 0, 4) - 2";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;	
 	case 224:
 		
 		expStr = "iff(0, 2, 0, 2, 1, 4) - 4";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(value - reg) < 0.00001 )
+		if ( MathFunctions.abs(value - reg) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;	
 	case 225:
 		
 		expStr = "iff(0, 2, 0, 2, 0, 4)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
@@ -3650,71 +3652,71 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		if ( Double.IsNaN(value) )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;	
 
 	case 226:
 		x = new Argument("x", 2);
 		expStr = "Sinc(x) - prod(n, 1, 16, cos(x / 2^n) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 227:
 		x = new Argument("x", 2);
 		expStr = "sinc(x) - prod(n, 1, 100, (1 - x^2 / n^2) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
 	case 228:
 		x = new Argument("x", 2);
 		expStr = "Sa(x) - prod(n, 1, 100, (1 - x^2 / n^2) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 229:
 		n = new Argument("n", 10);
 		expStr = "Bell(n) - sum(k, 0, n, Stirl2(n,k) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, n);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3722,32 +3724,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		n = new Argument("n", 10);
 		k = new Argument("k", 5);
 		expStr = "Worp(n, k) - k! * Stirl2(n+1, k+1)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, n, k);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 231:
 		n = new Argument("n", 10);
 		expStr = "Bern(n,0) - sum(k, 0, n, ( (-1)^k )* ( Worp(n, k) / ( k+1 ) ) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, n);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3755,16 +3757,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		n = new Argument("n", 15);
 		k = new Argument("k", 5);
 		expStr = "sum(p, k, n, Stirl1(n, p) * C(p,k)) - Stirl1(n+1, k+1)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, n, k);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3786,31 +3788,31 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					"cHi(2, 0, 2)"
 					
 					;
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 8;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;			
 		
 	case 234:
 		expStr = "2 + 10%7 + 3";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 8;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3818,16 +3820,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		x = new Argument("x", 5);
 		expStr = "int( chi(t, 0, x), t, 0, x) - x";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.0001 )
+		if ( MathFunctions.abs(reg - value) < 0.0001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3835,16 +3837,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		x = new Argument("x", 5);
 		expStr = "int( CHi(t, 0, x), t, 0, x) - x";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.0001 )
+		if ( MathFunctions.abs(reg - value) < 0.0001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;			
 		
@@ -3853,16 +3855,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		x = new Argument("x", 5);
 		expStr = "int( Chi(t, 0, x), t, 0, x) - x";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.0001 )
+		if ( MathFunctions.abs(reg - value) < 0.0001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3870,80 +3872,80 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		x = new Argument("x", 5);
 		expStr = "int( cHi(t, 0, x), t, 0, x) - x";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.0001 )
+		if ( MathFunctions.abs(reg - value) < 0.0001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 239:
 		
 		expStr = "ConFrac(1,2,3,5,6,7) - ConPol(1,2,3,4,5,6,7) / ConPol(2,3,4,5,6,7)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.001 )
+		if ( MathFunctions.abs(reg - value) < 0.001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 240:
 		
 		expStr = "min(1,2,3,4,5,-5,343,3)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = -5;
 		
-		if ( Math.Abs(reg - value) < 0.0001 )
+		if ( MathFunctions.abs(reg - value) < 0.0001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 241:
 		
 		expStr = "max(1,2,3,4,5,-5,343,3)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 
 		value = exp[testId].calculate();
 		reg = 343;
 		
-		if ( Math.Abs(reg - value) < 0.000001 )
+		if ( MathFunctions.abs(reg - value) < 0.000001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
 	case 242:
 		x = new Argument("x", 0.5);
 		expStr = "ConPol(x,x,x,x,x,x) - sum(k, 0, 6, C(6-k, k) * x^(6-2*k))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 			
@@ -3951,16 +3953,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		m = new Argument("m", 5);
 		n = new Argument("n", 10);
 		expStr = "Euler(n,m) -  sum(k,0,m, C(n+1,k)*((m+1-k)^n)*(-1)^k)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, n, m);
 
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3968,16 +3970,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		x = new Argument("x", 2);
 		f = new Function("f", "sin(x)+cos(x)", "x");
 		expStr = "diff(f(x), x) - ( f(x+1)-f(x) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 		exp[testId].addFunctions(f);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -3986,32 +3988,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Argument dh = new Argument("h", 1);
 		f = new Function("f", "sin(x)+cos(x)", "x");
 		expStr = "diff(f(x), x, h/2) - ( f(x+h/2)-f(x) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x, dh);
 		exp[testId].addFunctions(f);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 	case 246:
 		x = new Argument("x", 2);
 		f = new Function("f", "sin(x)+cos(x)", "x");
 		expStr = "difb(f(x), x) - ( f(x)-f(x-1) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x);
 		exp[testId].addFunctions(f);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -4020,16 +4022,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		dh = new Argument("h", 1);
 		f = new Function("f", "sin(x)+cos(x)", "x");
 		expStr = "difb(f(x), x, h/2) - ( f(x)-f(x-h/2) )";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr, x, dh);
 		exp[testId].addFunctions(f);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -4037,16 +4039,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Function fibr = new Function("fib","if(n>1, fib(n-1)+fib(n-2), if(n>0,1,0))","n");
 		fibr.setRecursiveMode();
 		expStr = "sum(i,0,10,Fib(i) - fib(i))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addFunctions(fibr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
@@ -4054,30 +4056,30 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Function luc = new Function("luc","if(n>1, luc(n-1)+luc(n-2), if(n>0,1,2))","n");
 		luc.setRecursiveMode();
 		expStr = "sum(i,0,10,Luc(i) - luc(i))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addFunctions(luc);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 250:
 		expStr = "sum(i,1,10,harm(i)) - sum(i,1,10,sum(k,1,i,1/k))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
@@ -4089,16 +4091,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Constant q = new Constant("q",1);
 		
 		expStr = "p -> q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -4109,16 +4111,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p <- q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 253:
@@ -4128,16 +4130,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p <- q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 254:
@@ -4147,16 +4149,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p <-> q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 255:
@@ -4166,16 +4168,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p (+) q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 256:
@@ -4185,16 +4187,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p /\\ q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 257:
@@ -4204,16 +4206,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p \\/ q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 
 		break;				
 	case 258:
@@ -4223,16 +4225,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p ~& q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 259:
@@ -4242,16 +4244,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p ~&& q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 260:
@@ -4261,16 +4263,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p ~/\\ q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 261:
@@ -4280,16 +4282,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p ~| q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 262:
@@ -4299,16 +4301,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p ~|| q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 263:
@@ -4318,16 +4320,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "p ~\\/ q";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -4339,16 +4341,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Constant rr = new Constant("r",1);
 		
 		expStr = "(p /\\ q) \\/ (~p) \\/ (~q)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q, rr);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 265:
@@ -4359,16 +4361,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		rr = new Constant("r",1);
 		
 		expStr = "(p -> q) <-> (~q -> ~p)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q, rr);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 266:
@@ -4379,16 +4381,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		rr = new Constant("r",1);
 		
 		expStr = "( (p -> q) /\\ (q -> r) ) -> (p -> r)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q, rr);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 267:
@@ -4399,16 +4401,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		rr = new Constant("r",1);
 		
 		expStr = "( (p \\/ q) /\\ (p -> r) /\\ (q -> r) ) -> r";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q, rr);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 	case 268:
@@ -4418,134 +4420,134 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		q = new Constant("q",1);
 		
 		expStr = "~(p /\\ q) <-> (~p \\/ ~q)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		exp[testId].addConstants(p, q);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 269:
 				
 		expStr = "gcd(1)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 270:
 		
 		expStr = "gcd(12,9)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 3;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 
 	case 271:
 		
 		expStr = "gcd(12,6,18)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 6;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 		
 	case 272:
 		
 		expStr = "lcm(1)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 1;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 273:
 		
 		expStr = "lcm(12,9)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 36;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;				
 
 	case 274:
 		
 		expStr = "lcm(12,6,18)";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 36;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
 	case 275:
 		expStr = "sum(i,1,10,harm(i)) - sum(i,1,10,Harm(1,i))";
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
 		value = exp[testId].calculate();
 		reg = 0;
 		
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
     case 276:
         expStr = "1/4*2";
-        Console.Write(expStr + " ...... ");
+        mXparser.consolePrint(expStr + " ...... ");
         exp[testId] = new Expression(expStr);
         value = exp[testId].calculate();
         reg = 0.5;
 
-        if (Math.Abs(reg - value) < 0.00001)
+        if (MathFunctions.abs(reg - value) < 0.00001)
             testResult = true;
 
-        Console.Write(value + " reg ... " + reg + " --> ");
+        mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 
         break;
 	
@@ -4563,17 +4565,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		n1_geq_2.addArguments(z1);
 		n1_geq_2.setRecursiveMode();
 		
-		Console.Write(c1.getConstantName() + " = " + c1.getConstantValue() + " ; " + z1.getArgumentName() + " = " + z1.getArgumentExpressionString() + " ; " + n1_geq_2.getFunctionName() + " = " + n1_geq_2.getFunctionExpressionString() + " ; " + expStr + " ...... ");
+		mXparser.consolePrint(c1.getConstantName() + " = " + c1.getConstantValue() + " ; " + z1.getArgumentName() + " = " + z1.getArgumentExpressionString() + " ; " + n1_geq_2.getFunctionName() + " = " + n1_geq_2.getFunctionExpressionString() + " ; " + expStr + " ...... ");
 		
 		exp[testId] = new Expression(expStr);
 		exp[testId].addFunctions(n1_geq_2);
 		value = exp[testId].calculate();
 		reg = 991;
 				
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
@@ -4590,17 +4592,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		n2_geq_2.addFunctions(z2);
 		n2_geq_2.setRecursiveMode();
 		
-		Console.Write(c2.getConstantName() + " = " + c2.getConstantValue() + " ; " + z2.getFunctionName() + " = " + z2.getFunctionExpressionString() + " ; " + n2_geq_2.getFunctionName() + " = " + n2_geq_2.getFunctionExpressionString() + " ; " + expStr + " ...... ");
+		mXparser.consolePrint(c2.getConstantName() + " = " + c2.getConstantValue() + " ; " + z2.getFunctionName() + " = " + z2.getFunctionExpressionString() + " ; " + n2_geq_2.getFunctionName() + " = " + n2_geq_2.getFunctionExpressionString() + " ; " + expStr + " ...... ");
 		
 		exp[testId] = new Expression(expStr);
 		exp[testId].addFunctions(n2_geq_2);
 		value = exp[testId].calculate();
 		reg = 991;
 				
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 		
@@ -4627,17 +4629,65 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		n2_geq_2.addFunctions(z2);
 		n2_geq_2.setRecursiveMode();
 		
-		Console.Write(expStr + " ...... ");
+		mXparser.consolePrint(expStr + " ...... ");
 		
 		exp[testId] = new Expression(expStr);
 		exp[testId].addFunctions(n1_geq_2, n2_geq_2);
 		value = exp[testId].calculate();
 		reg = 0;
 				
-		if ( Math.Abs(reg - value) < 0.00001 )
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
 		
-		Console.Write(value + " reg ... " + reg + " --> ");		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
+	case 280:
+		
+		expStr = "sum(i, 1, 20, IsPrime(i) )";
+		Function IsFactor = new Function("IsFactor", "if( a>b, 0, if( n%a = 0, 1, IsFactor(n, a+1, b) ) )", "n", "a", "b");
+		IsFactor.setRecursiveMode();
+		Function IsPrime = new Function("IsPrime", "if( n<2, 0, ~IsFactor(n, 2, sqrt(n)) )", "n");
+		IsPrime.setRecursiveMode();
+		IsPrime.addFunctions(IsFactor);
+		
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		exp[testId].addFunctions(IsPrime);
+		value = exp[testId].calculate();
+		reg = 8;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+		break;
+
+	case 281:
+		
+		expStr = "abs( sin(0.5)-s(0.5))+abs( cos(0.7)-c(0.7) )";
+		Constant aa = new Constant("a", 0.00001);
+		
+		Function ss = new Function("s", "if( abs(x) < a, x, 2*s(x/2)*c(x/2) )", "x");
+		Function cc = new Function("c", "if( abs(x) < a, 1, c(x/2)^2 - s(x/2)^2 )", "x");
+		ss.addConstants(aa);
+		ss.addFunctions(cc);
+		ss.setRecursiveMode();
+		
+		cc.addConstants(aa);
+		cc.addFunctions(ss);
+		cc.setRecursiveMode();
+		
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		exp[testId].addFunctions(ss, cc);
+		value = exp[testId].calculate();
+		reg = 0;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
 
@@ -4648,9 +4698,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		
 		if (testResult == true)
-			Console.Write("OK");
+			mXparser.consolePrint("OK");
 		else
-			Console.Write("ERROR");
+			mXparser.consolePrint("ERROR");
 		
 		return testResult;
 		
@@ -4659,9 +4709,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
         /**
          * @param args
          */
-        public static void Start(String[] args) {
+        public static void Start() {
 		// TODO Auto-generated method stub
-		int numberOfTests = 279;
+		int numberOfTests = 281;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
@@ -4681,28 +4731,31 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				nError++;
 				
 			if (!exp[testId].checkSyntax())
-				Console.WriteLine(exp[testId].getErrorMessage());
+				mXparser.consolePrintln(exp[testId].getErrorMessage());
 			
-			Console.WriteLine(", time: " + exp[testId].getComputingTime() + " s.");
-			
-			
-			
+			mXparser.consolePrintln(", time: " + exp[testId].getComputingTime() + " s.");
 		}
 		
         long end =  mXparser.currentTimeMillis();
 
-		Console.WriteLine("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
+		mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
 		
 		for (int testId = 0; testId <= numberOfTests; testId++) {
 			
 			
 			if (!tests[testId])
-				Console.WriteLine("ERROR: " + testId);
+				mXparser.consolePrintln("ERROR: " + testId);
 			
 		}
-		
-	}
 
+
+
+        }
+
+        public static void Main(String[] args) {
+            Thread T = new Thread(Start, 536870912);
+            T.Start();
+        }
     }
 
 }

@@ -672,22 +672,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			
 			if (test[i]) {
 				nOk++;
-                Console.WriteLine("[" + i + "] " + "OK");
+                mXparser.consolePrintln("[" + i + "] " + "OK");
 			} else {
 				nError++;
-				Console.WriteLine("[" + i + "] " + "ERROR");
+				mXparser.consolePrintln("[" + i + "] " + "ERROR");
 			}
 			
 		}
 		
 
-		Console.WriteLine("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
+		mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");
 		
 		for (int i = 0; i <= testId; i++) {
 			
 			
 			if (!test[i])
-				Console.WriteLine("ERROR: " + testId);
+				mXparser.consolePrintln("ERROR: " + testId);
 			
 			
 		}
