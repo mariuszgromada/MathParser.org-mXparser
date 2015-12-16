@@ -22,11 +22,10 @@
 - **[internal help](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp())**
 - other useful functionalities, i.e.: [computing time](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Expression.html#getComputingTime()), expression description.
 
-# [mXparser - API (english)](http://mathspace.pl/mxparser/api/)
-
-# [mXparser - Tutorial (english)](http://mathspace.pl/mxparser-tutorial/)
-
-# [MathSpace.pl - site about math (polish)](http://mathspace.pl/)
+# Project documentation
+### - [mXparser - API (english)](http://mathspace.pl/mxparser/api/)
+### - [mXparser - Tutorial (english)](http://mathspace.pl/mxparser-tutorial/)
+### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
 
 Best regards,
-Mariusz Gromada
+*Mariusz Gromada*
