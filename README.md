@@ -1,6 +1,6 @@
 ![mXparser icon](http://mathspace.pl/wp-content/uploads/2015/12/mxparser-logo-pi.png)
 # mXparser - Math Parser Java C# Library
-**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software provides easy to use math parser API for JAVA and C# .NET. 
+**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
 # Main functionalities:
 - **basic operators**, i.e.: +, , *, ^, !
