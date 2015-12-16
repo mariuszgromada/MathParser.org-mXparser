@@ -1,4 +1,5 @@
-# mXparser - Math Parser Java C# Library - a flexible mathematical expressions parser
+# mXparser
+# Math Parser Java C# Library - a flexible mathematical expressions parser
 
 mXparser is a highly flexible parser of mathematical expressions. Software provides easy to use math parser API for JAVA and C# .NET. 
 
