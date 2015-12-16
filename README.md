@@ -19,7 +19,7 @@
 - **[user defined recursive arguments](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/RecursiveArgument.html)** + simple (controlled) recursion (1 recursive argument)
 - **[user defined recursive functions / expressions (any)](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Function.html#setRecursiveMode())** - complex, many arguments, no limitation 
 - **[internal syntax checking](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Expression.html#checkSyntax())**
-- [internal help](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp())
+- **[internal help](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp())**
 - other useful functionalities, i.e.: [computing time](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/Expression.html#getComputingTime()), expression description.
 
 # [mXparser - API (english)](http://mathspace.pl/mxparser/api/)
