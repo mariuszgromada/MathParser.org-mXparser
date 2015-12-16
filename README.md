@@ -5,7 +5,7 @@ mXparser is a highly flexible parser of mathematical expressions. Software provi
 - basic operators, i.e.: +, , *, ^, !
 - Boolean logic operators i.e.: or, and, xor
 - binary relations i.e.: =, <, >
-- math functions (large library of 1-arg, 2-arg, 3-arg - - functions) i.e.: sin, cos, Stirling numbers, log, inverse functions
+- math functions (large library of 1-arg, 2-arg, 3-arg - functions) i.e.: sin, cos, Stirling numbers, log, inverse functions
 - constants (large library), i.e.: pi, e, golden ratio
 - n-args functions i.e.: greatest common divisor
 - iterated summation and product operators
