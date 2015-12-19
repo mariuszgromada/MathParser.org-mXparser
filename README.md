@@ -26,6 +26,7 @@
 ### - [mXparser - API (english)](http://mathspace.pl/mxparser/api/)
 ### - [mXparser - Tutorial (english)](http://mathspace.pl/mxparser-tutorial/)
 ### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
+### - [MathParser.org - site about mXparser (english)](http://mathparser.org/)
 
 Best regards,
 *Mariusz Gromada*
