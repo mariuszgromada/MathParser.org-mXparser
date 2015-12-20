@@ -146,7 +146,7 @@ public final class MathConstants {
 	public static final double RAMANUJAN_SOLDNER = 1.45136923488338105028396848589202744;
 	
 	/**
-	 * Erdos–Borwein constant
+	 * Erdos-Borwein constant
 	 */
 	public static final double ERDOS_BORWEIN = 1.60669515241529176378330152319092458;
 	
@@ -166,7 +166,7 @@ public final class MathConstants {
 	public static final double HAFNER_SARNAK_MCCURLEY = 0.35323637185499598454;
 	
 	/**
-	 * Golomb–Dickman constant
+	 * Golomb-Dickman constant
 	 */
 	public static final double GOLOMB_DICKMAN = 0.62432998854355087099293638310083724;
 	
@@ -226,7 +226,7 @@ public final class MathConstants {
 	public static final double NIVEN = 1.70521114010536776428855145343450816;
 	
 	/**
-	 * Sierpiñski's constant
+	 * SierpiÅ„ski's constant
 	 */
 	public static final double SIERPINSKI = 2.58498175957925321706589358738317116;
 	
@@ -236,7 +236,7 @@ public final class MathConstants {
 	public static final double KHINCHIN = 2.68545200106530644530971483548179569;
 	
 	/**
-	 * Fransén-Robinson constant
+	 * FransÃ©n-Robinson constant
 	 */
 	public static final double FRANSEN_ROBINSON = 2.80777024202851936522150118655777293;
 	

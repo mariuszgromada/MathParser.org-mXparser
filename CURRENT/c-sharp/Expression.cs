@@ -7708,11 +7708,11 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String VISWANATH_DESC = "Viswanath's constant";
         internal const String LEGENDRE_DESC = "Legendre's constant";
         internal const String RAMANUJAN_SOLDNER_DESC = "Ramanujan-Soldner constant";
-        internal const String ERDOS_BORWEIN_DESC = "Erdos–Borwein constant";
+        internal const String ERDOS_BORWEIN_DESC = "Erdos-Borwein constant";
         internal const String BERNSTEIN_DESC = "Bernstein's constant";
         internal const String GAUSS_KUZMIN_WIRSING_DESC = "Gauss-Kuzmin-Wirsing constant";
         internal const String HAFNER_SARNAK_MCCURLEY_DESC = "Hafner-Sarnak-McCurley constant";
-        internal const String GOLOMB_DICKMAN_DESC = "Golomb–Dickman constant";
+        internal const String GOLOMB_DICKMAN_DESC = "Golomb-Dickman constant";
         internal const String CAHEN_DESC = "Cahen's constant";
         internal const String LAPLACE_LIMIT_DESC = "Laplace limit";
         internal const String ALLADI_GRINSTEAD_DESC = "Alladi-Grinstead constant";

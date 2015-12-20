@@ -1,0 +1,4 @@
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\bin\Release\mXparser.dll
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\bin\Release\mXparser.pdb
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\obj\x86\Release\mXparser.dll
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\obj\x86\Release\mXparser.pdb
