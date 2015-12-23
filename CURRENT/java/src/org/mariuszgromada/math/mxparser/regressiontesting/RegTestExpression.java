@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        1.0.3    2015-12-15
+ * @(#)RegTestExpression.java        1.0.4    2015-12-23
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -4686,6 +4686,24 @@ public class RegTestExpression {
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
+	case 282:
+		
+		expStr = "f1(1,2)-f2(1,2)";
+		Function f1 = new Function("f1", "sin(x)+cos(y)", "x", "y");
+		Function f2 = new Function("f2(x,y) = sin(x)+cos(y)");
+		
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		exp[testId].addFunctions(f1, f2);
+		value = exp[testId].calculate();
+		reg = 0;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
 	}
 
 
@@ -4705,7 +4723,7 @@ public class RegTestExpression {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int numberOfTests = 281;
+		int numberOfTests = 282;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

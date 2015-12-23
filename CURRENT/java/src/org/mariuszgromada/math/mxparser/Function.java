@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        1.0.2    2015-12-06
+ * @(#)Function.java        1.1.0    2015-12-24
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -205,7 +205,53 @@ public class Function {
 		
 		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 		
-	}	
+	}
+	
+	/**
+	 * Constructor for function definition in natural math language,
+	 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
+	 * is enough to define function "f" with parameters "x and y"
+	 * and function body "sin(x) + cos(x)".
+	 * 
+	 * @param functionDefinitionString      Function definition in the form
+	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+	 */
+	public Function(String functionDefinitionString) {
+		
+		HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+		parametersNumber = 0;
+		boolean definitionError = true;
+		
+		
+		if ( (headEqBody.definitionError == false) && (headEqBody.headTokens.size() > 1) ) {
+				
+			this.functionName = headEqBody.headTokens.get(0).tokenStr;
+			functionExpression = new Expression(headEqBody.bodyStr);
+			functionExpression.setDescription(headEqBody.headStr);
+				
+			if (headEqBody.headTokens.size() > 1) {
+				Token t;
+				for (int i = 1; i < headEqBody.headTokens.size(); i++) {
+					t = headEqBody.headTokens.get(i);
+					if (t.tokenTypeId != ParserSymbol.TYPE_ID)
+						functionExpression.addArguments(new Argument(t.tokenStr));							
+				}
+				
+			}
+				
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			description = "";
+			if (parametersNumber > 0) definitionError = false;
+				
+								
+		} else functionExpression = new Expression();
+		
+		if (definitionError == true) {
+			functionExpression.setDescription(functionDefinitionString);
+			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, "Definition error in user defined function (missing function name or missing parameters or error in function body).");
+		}
+		
+	}
 	
 	/**
 	 * Private constructor used for function cloning.
@@ -1045,7 +1091,7 @@ public class Function {
 	 */
 	public String getLicense() {
 		
-		return Expression.LICENSE;
+		return mXparser.LICENSE;
 		
 	}		
 

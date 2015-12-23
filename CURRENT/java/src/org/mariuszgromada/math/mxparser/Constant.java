@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        1.0    2010-01-27
+ * @(#)Constant.java        1.1.0    2015-12-24
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -86,6 +86,13 @@ public class Constant {
 	protected static final int TYPE_ID	=	104;
 	
 	/**
+	 * Status of the Expression syntax
+	 */	
+	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
+	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	private static final String NO_SYNTAX_ERROR_MSG = "Constant - no syntax errors.";
+	
+	/**
 	 * Name of the constant
 	 */
 	private String constantName;
@@ -105,6 +112,20 @@ public class Constant {
 	 */
 	private ArrayList<Expression> relatedExpressionsList;	
 	
+	/**
+	 * Status of the expression syntax
+	 * 
+	 * Please referet to the:
+	 *    - NO_SYNTAX_ERRORS
+	 *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
+	 */
+	private boolean syntaxStatus;
+
+	/**
+	 * Message after checking the syntax
+	 */
+	private String errorMessage;
+
 
 	/**
 	 * Constructor - creates constant with a given name and given value
@@ -120,6 +141,12 @@ public class Constant {
 		this.constantValue = constantValue;
 		description = "";
 		relatedExpressionsList = new ArrayList<Expression>();
+		
+		/*
+		 * To be modified when name syntax checking will be introduced
+		 */
+		syntaxStatus = NO_SYNTAX_ERRORS;
+		errorMessage = NO_SYNTAX_ERROR_MSG;
 		
 	}
 	
@@ -140,6 +167,43 @@ public class Constant {
 		this.description = description;
 		relatedExpressionsList = new ArrayList<Expression>();
 		
+		/*
+		 * To be modified when name syntax checking will be introduced
+		 */
+		syntaxStatus = NO_SYNTAX_ERRORS;
+		errorMessage = NO_SYNTAX_ERROR_MSG;
+	}
+
+	/**
+	 * Constructor for function definition in natural math language,
+	 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
+	 * is enough to define function "f" with parameters "x and y"
+	 * and function body "sin(x) + cos(x)".
+	 * 
+	 * @param functionDefinitionString      Function definition in the form
+	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+	 */
+	public Constant(String constantDefinitionString) {
+		
+		description = "";
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
+				
+		if ( (headEqBody.definitionError == false) && (headEqBody.headTokens.size() == 1) ) {
+			this.constantName = headEqBody.headTokens.get(0).tokenStr;
+			Expression bodyExpression = new Expression(headEqBody.bodyStr);
+			constantValue = bodyExpression.calculate();
+			syntaxStatus = bodyExpression.getSyntaxStatus();
+			errorMessage = bodyExpression.getErrorMessage();
+		}
+		
+		if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+			if (headEqBody.definitionError == true) errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "Definition error in user defined constant (invalid constant name / invalid body).";
+			if (headEqBody.headTokens != null) {
+				if (headEqBody.headTokens.size() == 0) errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "--> head: no head token!";
+				if (headEqBody.headTokens.size() > 1) errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "--> head: to many tokens!";
+			} else errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "--> head: no head token!";
+		}		
 	}
 
 	
@@ -204,6 +268,28 @@ public class Constant {
 	
 	
 	/**
+	 * Method return error message after
+	 * 
+	 * @return     Error message as string.
+	 */
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	
+	/**
+	 * Gets syntax status of the expression.
+	 * 
+	 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
+	 *             Const.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
+	 *             syntax status is unknown
+	 */
+	public boolean getSyntaxStatus() {
+		return this.syntaxStatus;
+	}
+
+	
+	
+	/**
 	 * Adds related expression.
 	 * 
 	 * @param      expression          the related expression.
@@ -246,7 +332,7 @@ public class Constant {
 	 */
 	public String getLicense() {
 		
-		return Expression.LICENSE;
+		return mXparser.LICENSE;
 		
 	}		
 	

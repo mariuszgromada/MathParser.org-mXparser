@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.java        1.0.2    2015-12-06
+ * @(#)Argument.java        1.0.4    2015-12-23
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -1037,7 +1037,7 @@ public class Argument {
 	 */
 	public String getLicense() {
 		
-		return Expression.LICENSE;
+		return mXparser.LICENSE;
 		
 	}		
 
