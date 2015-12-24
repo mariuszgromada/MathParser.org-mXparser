@@ -3,3 +3,14 @@ STABLE/1.0/doc/* linguist-documentation
 STABLE/1.0.2/doc/* linguist-documentation
 STABLE/1.0.3/doc/* linguist-documentation
 STABLE/* linguist-vendored
+CURRENT/c-sharp/.vs/* linguist-vendored
+CURRENT/c-sharp/Properties/* linguist-vendored
+CURRENT/c-sharp/bin/* linguist-vendored
+CURRENT/c-sharp/obj/* linguist-vendored
+*.sln linguist-vendored
+CURRENT/java/bin/* linguist-vendored
+CURRENT/java/jar/* linguist-vendored
+*.classpath linguist-vendored
+*.project linguist-vendored
+CURRENT/java/javadoc.xml linguist-documentation
+.md linguist-documentation
