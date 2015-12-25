@@ -14,3 +14,6 @@ CURRENT/java/jar/* linguist-vendored
 *.project linguist-vendored
 CURRENT/java/javadoc.xml linguist-documentation
 .md linguist-documentation
+*.csproj linguist-vendored
+*.user linguist-vendored
+
