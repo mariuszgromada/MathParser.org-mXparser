@@ -3,7 +3,7 @@
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
 # Main functionalities:
-- **basic operators**, i.e.: +, , *, ^, !
+- **basic operators**, i.e.: +, -, *, ^, !
 - **[Boolean logic](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.html)** operators i.e.: or, and, xor
 - **[binary relations](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.html)** i.e.: =, <, >
 - **[math functions](http://mathspace.pl/mxparser/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html)** (large library of 1-arg, 2-arg, 3-arg - functions) i.e.: sin, cos, Stirling numbers, log, inverse functions
