@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpressionAPI.java        1.0.3    2015-12-15
+ * @(#)RegTestExpressionAPI.java        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -33,7 +33,10 @@
  * 
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
- *     http://mathspace.plt/
+ *     http://mathspace.pl/
+ *     http://mathparser.org/
+ *     http://github.com/mariuszgromada/mXparser/
+ *     http://mariuszgromada.github.io/mXparser/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
@@ -51,10 +54,13 @@ import java.util.ArrayList;
  * 
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.plt/">http://mathspace.plt/</a><br>
- *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+ *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        1.0
+ * @version        2.0.0
  * 
  * @see Expression
  */
@@ -252,9 +258,7 @@ public class RegTestExpressionAPI {
 		testId++;
 		syn1 = e.checkSyntax();
 		b1 = e.getRecursiveMode();
-		e.setRecursiveMode();
 		b2 = e.getRecursiveMode();
-		e.disableRecursiveMode();
 		b3 = e.getRecursiveMode();
 		syn2 = e.getSyntaxStatus();
 		if (	b1 == false

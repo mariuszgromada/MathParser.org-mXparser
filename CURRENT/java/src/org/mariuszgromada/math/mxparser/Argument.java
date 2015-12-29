@@ -1,9 +1,9 @@
 /*
- * @(#)Argument.java        1.0.4    2015-12-23
+ * @(#)Argument.java        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -34,6 +34,9 @@
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
+ *     http://mathparser.org/
+ *     http://github.com/mariuszgromada/mXparser/
+ *     http://mariuszgromada.github.io/mXparser/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
@@ -43,6 +46,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Argument class enables to declare the argument
@@ -78,17 +82,20 @@ import java.util.ArrayList;
  * 
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
- *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+ *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        1.0.2
+ * @version        2.0.0
  * 
  * @see RecursiveArgument
  * @see Expression
  * @see Function	
  * @see Constant
  */
-public class Argument {
+public class Argument extends PrimitiveElement {
 	
 	/**
 	 * No syntax errors in the dependent argument definition.
@@ -158,6 +165,11 @@ public class Argument {
 	 * Argument value (for free arguments).
 	 */
 	double argumentValue;
+	
+	/**
+	 * Index argument.
+	 */	
+	protected Argument n;
 
 	
 	/*=================================================
@@ -167,21 +179,57 @@ public class Argument {
 	 *================================================= 
 	 */
 	
-	
-	/**
-	 * Default constructor - creates free argument.
-	 * 
-	 * @param      argumentName        the argument name
-	 */
-	public Argument(String argumentName) {
 
-		this.argumentName=new String(argumentName);
-		this.argumentValue=ARGUMENT_INITIAL_VALUE;
-		argumentExpression = new Expression(); 
-		argumentType = FREE_ARGUMENT;
+	/**
+	 * Default constructor - creates argument based on the argument definition string.
+	 * 
+	 * @param      argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                             </ul>
+	 */
+	public Argument(String argumentDefinitionString) {
+		super(Argument.TYPE_ID);
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentDefinitionString) ) {
+			argumentName = argumentDefinitionString;
+			argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentType = FREE_ARGUMENT;			
+			argumentExpression = new Expression(); 
+		} else if ( Pattern.matches(ParserSymbol.constArgDefStrRegExp, argumentDefinitionString) ) {
+			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+			argumentName = headEqBody.headTokens.get(0).tokenStr;
+			Expression bodyExpr = new Expression(headEqBody.bodyStr);
+			double bodyValue = bodyExpr.calculate();
+			
+			if ( (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS) && (bodyValue != Double.NaN) ) {
+				argumentExpression = new Expression(); 
+				argumentValue = bodyValue;
+				argumentType = FREE_ARGUMENT;				
+			} else {
+				argumentExpression = bodyExpr; 
+				argumentType = DEPENDENT_ARGUMENT;				
+			}
+			
+		} else if ( Pattern.matches(ParserSymbol.functionDefStrRegExp, argumentDefinitionString) ) {
+			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+			argumentName = headEqBody.headTokens.get(0).tokenStr;
+			argumentExpression = new Expression(headEqBody.bodyStr);
+			argumentExpression.setDescription(headEqBody.headStr);
+			argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentType = DEPENDENT_ARGUMENT;
+			n = new Argument(headEqBody.headTokens.get(2).tokenStr);
+		} else {
+			argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentType = FREE_ARGUMENT;
+			argumentExpression = new Expression();
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: 'x', 'x=5', 'x=5+3/2', 'x=2*y').");
+		}
+		
 		setSilentMode();
 		description = "";
-
 	}
 
 	/**
@@ -191,6 +239,7 @@ public class Argument {
 	 * @param      argumentValue  the argument value
 	 */	
 	public Argument(String argumentName, double argumentValue) {
+		super(Argument.TYPE_ID);
 
 		this.argumentName=new String(argumentName);
 		this.argumentValue=argumentValue;
@@ -211,7 +260,8 @@ public class Argument {
 	 * @see        Expression
 	 */		
 	public Argument(String argumentName, String argumentExpressionString) {
-		
+		super(Argument.TYPE_ID);
+
 		this.argumentName=new String(argumentName);
 		argumentValue=ARGUMENT_INITIAL_VALUE;
 		argumentExpression = new Expression(argumentExpressionString);
@@ -233,6 +283,7 @@ public class Argument {
 	 * @see        Expression
 	 */				
 	public Argument(String argumentName, String argumentExpressionString, Argument... arguments) {
+		super(Argument.TYPE_ID);
 
 		this.argumentName=new String(argumentName);
 		argumentValue=ARGUMENT_INITIAL_VALUE;
@@ -242,8 +293,8 @@ public class Argument {
 		setSilentMode();
 		description = "";
 
-	}		
-
+	}
+	
 	/**
 	 * Sets argument description.
 	 * 
@@ -297,23 +348,6 @@ public class Argument {
 	}
 
 	
-	/**
-	 * Sets recursive mode
-	 */
-	public void setRecursiveMode() {
-
-		argumentExpression.setRecursiveMode();
-
-	}
-	
-	/**
-	 * Disables recursive mode 
-	 */
-	public void disableRecursiveMode() {
-
-		argumentExpression.disableRecursiveMode();
-
-	}
 	
 	/**
 	 * Gets recursive mode status
@@ -809,6 +843,20 @@ public class Argument {
 		
 	}
 
+	/**
+	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
+	 * to the expressions. 
+	 * 
+	 * @param elements Elements list (variadic), where Argument, Constant, Function
+	 *                 extend the same class PrimitiveElement  
+	 *                   
+	 * @see PrimitiveElement
+	 */
+	public void addDefinitions(PrimitiveElement... elements) {
+		
+		argumentExpression.addDefinitions(elements);
+		
+	}
 	/*=================================================
 	 * 
 	 * Functions handling API (the same as in Expression)

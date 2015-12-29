@@ -1,9 +1,9 @@
 /*
- * @(#)Expression.java        1.0.5    2015-12-24
+ * @(#)Expression.java        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -44,7 +44,6 @@ package org.mariuszgromada.math.mxparser;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.Stack;
 
@@ -73,10 +72,13 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  * 
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.plt/">http://mathspace.plt/</a><br>
- *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+ *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        1.0
+ * @version        2.0.0
  * 
  * @see            Argument
  * @see            RecursiveArgument
@@ -711,7 +713,7 @@ public class Expression {
 		/**
 		 * Sets recursive mode
 		 */
-		public void setRecursiveMode() {
+		void setRecursiveMode() {
 	
 			recursiveMode = true;
 	
@@ -720,7 +722,7 @@ public class Expression {
 		/**
 		 * Disables recursive mode 
 		 */
-		public void disableRecursiveMode() {
+		void disableRecursiveMode() {
 	
 			recursiveMode = false;
 	
@@ -748,6 +750,50 @@ public class Expression {
 			return computingTime;
 	
 		}
+		
+		/**
+		 * Adds user defined elements (such as: Arguments, Constants, Functions) 
+		 * to the expressions. 
+		 * 
+		 * @param elements Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement  
+		 *                   
+		 * @see PrimitiveElement
+		 */
+		public void addDefinitions(PrimitiveElement... elements) {
+			
+			for (PrimitiveElement e : elements) {
+				int elementTypeId = e.getMyTypeId();
+				
+				if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
+				else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
+				else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
+				
+			}
+		}
+		
+		/**
+		 * Removes user defined elements (such as: Arguments, Constants, Functions) 
+		 * to the expressions. 
+		 * 
+		 * @param elements Elements list (variadic), where Argument, Constant, Function
+		 *                 extend the same class PrimitiveElement  
+		 *                   
+		 * @see PrimitiveElement
+		 */
+		public void removeDefinitions(PrimitiveElement... elements) {
+			
+			for (PrimitiveElement e : elements) {
+				int elementTypeId = e.getMyTypeId();
+				
+				if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
+				else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
+				else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
+				
+			}
+		}
+
+		
 	
 		/*=================================================
 		 * 
@@ -2042,11 +2088,12 @@ public class Expression {
 	 */
 	private void USER_FUNCTION(int pos) {
 		Function function;
+		Function fun = functionsList.get( tokensList.get(pos).tokenId );
 		
-		if (recursiveMode == true)
-			function = functionsList.get( tokensList.get(pos).tokenId ).clone();
+		if (fun.getRecursiveMode() == true)
+			function = fun.clone();
 		else
-			function = functionsList.get( tokensList.get(pos).tokenId );
+			function = fun;
 		
 		int argsNumber = function.getParametersNumber();
 		
@@ -4496,6 +4543,7 @@ public class Expression {
 				if (t.tokenTypeId == Function.TYPE_ID) {
 				
 					Function fun = getFunction(t.tokenId);
+					fun.checkRecursiveMode();
 					
 					if ( fun.getParametersNumber() != getParametersNumber(tokenIndex) ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
@@ -4504,7 +4552,7 @@ public class Expression {
 					} else
 						
 						if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
-							
+						
 							boolean syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ");
 							syntax = syntax && syntaxRec;
 							errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.getErrorMessage();
@@ -5932,11 +5980,9 @@ public class Expression {
 		if (expressionString.length() > 0) {
 			for (int i = 0; i < expressionString.length(); i++) {
 				c = expressionString.charAt(i);
-				if ( (c != ' ') && (c != '\n') && (c != '\r') && (c != '\t') ) newExpressionString = newExpressionString + c;
+				if ( (c != ' ') && (c != '\n') && (c != '\r') && (c != '\t') && (c != '\f') ) newExpressionString = newExpressionString + c;
 			}
-		}
-		
-		
+		}		
 		
 		/*
 		 * words list and tokens list
@@ -6336,6 +6382,14 @@ public class Expression {
 		return tokensListCopy;
 	}
 
+	/**
+	 * copy initial tokens and returns copied list
+	 * 
+	 * @see Function
+	 */
+	ArrayList<Token> getInitialTokens() {
+		return initialTokens;
+	}
 	
 	/*
 	 * Text adjusting.

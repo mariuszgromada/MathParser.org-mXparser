@@ -7,17 +7,46 @@ public class GenerTests {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Function f1 = new Function("f(x,y)=sin(x)+cos(y)");
-		Function f2 = new Function("f", "sin(x) + cos(y)", "x", "y");
-		mXparser.consolePrintln(f1.calculate(1,2) + " " + f2.calculate(1,2) );
-		mXparser.consolePrintln(f1.getFunctionName() + " " +  f1.getFunctionExpressionString() + " " + f1.getParametersNumber());
-		mXparser.consolePrintln(f1.getArgument(0).getArgumentName() + " " + f1.getArgument(1).getArgumentName());
-		mXparser.consolePrintln(f2.getFunctionName() + " " + f2.getFunctionExpressionString() + " " + f2.getParametersNumber());
-		mXparser.consolePrintln(f2.getArgument(0).getArgumentName() + " " + f2.getArgument(1).getArgumentName());
+		/*
+		Function f1 = new Function("a(x,y)=sin(x)+cos(y)");
+		mXparser.consolePrintln(f1.getErrorMessage());
+		mXparser.consolePrintln(f1.calculate(1,2));
+		mXparser.consolePrintln(f1.getErrorMessage());
+		*/
 		
-		Constant a = new Constant("    ,= 5-sin(20)");
-		mXparser.consolePrintln(a.getConstantName() + " = " + a.getConstantValue());
-		mXparser.consolePrintln(a.getErrorMessage());
+		//Argument x = new Argument("x(y)=5*y");
+		//Argument y = new Argument("y=10");
+		//x.addArguments(y);
+		//mXparser.consolePrintln(x.getArgumentValue() + " " + x.getErrorMessage());
+		
+		
+		//Constant a = new Constant("    1a= 5-sin(20)");
+		//mXparser.consolePrintln(a.getConstantName() + " = " + a.getConstantValue());
+		//mXparser.consolePrintln(a.getErrorMessage());
+		
+		Function f = new Function("f(n)=if(n>0, n*f(n-1), 1)");
+		mXparser.consolePrintln(f.calculate(5) + " " + f.getRecursiveMode());
+		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
+		Expression e = new Expression("Cnk(10,4)");
+		e.addFunctions(Cnk);
+		mXparser.consolePrintln(e.calculate() + " " + e.getErrorMessage());
+		
+		
+		Expression ee = new Expression("2+x");
+		Argument x = new Argument("x");
+		ee.addDefinitions(x);
+        long start =  System.currentTimeMillis();
+  
+        for (int i=0; i<1000000; i++) {
+        	x.setArgumentValue(i);
+        	ee.calculate();
+        }
+        long end = System.currentTimeMillis();
+
+		mXparser.consolePrintln(ee.getExpressionString() + " czas: " + (end-start)/1000.0 + " s.");
+
+
+		
 		
 	}
 

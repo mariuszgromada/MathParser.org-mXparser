@@ -1,9 +1,9 @@
 /*
- * @(#)Constant.java        1.1.0    2015-12-24
+ * @(#)Constant.java        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -44,6 +44,8 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 
 
 /**
@@ -62,10 +64,13 @@ import java.util.ArrayList;
  * 
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.plt/">http://mathspace.plt/</a><br>
- *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+ *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        1.0
+ * @version        2.0.0
  * 
  * @see RecursiveArgument
  * @see Expression
@@ -73,7 +78,7 @@ import java.util.ArrayList;
  * @see Argument
  *
  */
-public class Constant {
+public class Constant extends PrimitiveElement {
 	
 	/**
 	 * When constant could not be found
@@ -136,18 +141,20 @@ public class Constant {
 	 */
 	public Constant(String constantName
 					,double constantValue) {
-		
-		this.constantName = constantName;
-		this.constantValue = constantValue;
-		description = "";
-		relatedExpressionsList = new ArrayList<Expression>();
-		
-		/*
-		 * To be modified when name syntax checking will be introduced
-		 */
-		syntaxStatus = NO_SYNTAX_ERRORS;
-		errorMessage = NO_SYNTAX_ERROR_MSG;
-		
+		super(Constant.TYPE_ID);
+
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, constantName) ) {		
+			this.constantName = constantName;
+			this.constantValue = constantValue;
+			description = "";
+			relatedExpressionsList = new ArrayList<Expression>();
+			
+			syntaxStatus = NO_SYNTAX_ERRORS;
+			errorMessage = NO_SYNTAX_ERROR_MSG;
+		} else {
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
+		}
 	}
 	
 	/**
@@ -161,17 +168,20 @@ public class Constant {
 	public Constant(String constantName
 			,double constantValue
 			,String description) {
-		
-		this.constantName = constantName;
-		this.constantValue = constantValue;
-		this.description = description;
-		relatedExpressionsList = new ArrayList<Expression>();
-		
-		/*
-		 * To be modified when name syntax checking will be introduced
-		 */
-		syntaxStatus = NO_SYNTAX_ERRORS;
-		errorMessage = NO_SYNTAX_ERROR_MSG;
+		super(Constant.TYPE_ID);
+
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, constantName) ) {		
+			this.constantName = constantName;
+			this.constantValue = constantValue;
+			this.description = description;
+			relatedExpressionsList = new ArrayList<Expression>();
+			
+			syntaxStatus = NO_SYNTAX_ERRORS;
+			errorMessage = NO_SYNTAX_ERROR_MSG;
+		} else {
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
+		}
 	}
 
 	/**
@@ -184,26 +194,20 @@ public class Constant {
 	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
 	 */
 	public Constant(String constantDefinitionString) {
+		super(Constant.TYPE_ID);
 		
 		description = "";
 		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
 				
-		if ( (headEqBody.definitionError == false) && (headEqBody.headTokens.size() == 1) ) {
-			this.constantName = headEqBody.headTokens.get(0).tokenStr;
+		if ( Pattern.matches(ParserSymbol.constArgDefStrRegExp, constantDefinitionString) ) {
+			HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
+			constantName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpression = new Expression(headEqBody.bodyStr);
+			relatedExpressionsList = new ArrayList<Expression>();
 			constantValue = bodyExpression.calculate();
 			syntaxStatus = bodyExpression.getSyntaxStatus();
 			errorMessage = bodyExpression.getErrorMessage();
-		}
-		
-		if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
-			if (headEqBody.definitionError == true) errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "Definition error in user defined constant (invalid constant name / invalid body).";
-			if (headEqBody.headTokens != null) {
-				if (headEqBody.headTokens.size() == 0) errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "--> head: no head token!";
-				if (headEqBody.headTokens.size() > 1) errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "--> head: to many tokens!";
-			} else errorMessage = errorMessage + "\n [" + constantDefinitionString + "] " + "--> head: no head token!";
-		}		
+		} else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constArgDefStrRegExp;
 	}
 
 	
@@ -226,9 +230,13 @@ public class Constant {
 	 */
 	public void setConstantName(String constantName) {
 		
-		this.constantName = constantName;
-		setExpressionModifiedFlags();
-		
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, constantName) ) {
+			this.constantName = constantName;
+			setExpressionModifiedFlags();
+		} else {
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
+		}
 	}
 	
 	

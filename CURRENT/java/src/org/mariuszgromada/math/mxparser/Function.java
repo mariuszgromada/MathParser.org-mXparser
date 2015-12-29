@@ -1,9 +1,9 @@
 /*
- * @(#)Function.java        1.1.0    2015-12-24
+ * @(#)Function.java        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -43,6 +43,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 
 
@@ -69,11 +70,14 @@ import java.util.ArrayList;
  * by the parser for this particular expression.
  * 
  * @author         <b>Mariusz Gromada</b><br/>
- *                 <a href="mailto:"></a><br>
- *                 <a href="http://mathspace.plt/">http://mathspace.plt/</a><br>
- *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+ *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
+ *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        1.0.2
+ * @version        2.0.0
  * 
  * @see RecursiveArgument
  * @see Expression
@@ -81,7 +85,7 @@ import java.util.ArrayList;
  * @see Constant
  *
  */
-public class Function {
+public class Function extends PrimitiveElement {
 
 	/**
 	 * No syntax errors in the function.
@@ -143,13 +147,23 @@ public class Function {
 	 */
 	public Function(String functionName
 					,String  functionExpressionString ) {
-		
-		this.functionName = functionName;
-		functionExpression = new Expression(functionExpressionString);
-		functionExpression.setDescription(functionName);
-		
-		parametersNumber = 0;
-		description = "";
+		super(Function.TYPE_ID);
+
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+			this.functionName = functionName;
+			functionExpression = new Expression(functionExpressionString);
+			functionExpression.setDescription(functionName);
+			
+			parametersNumber = 0;
+			description = "";
+			addFunctions(this);
+
+		} else {
+			parametersNumber = 0;
+			description = "";
+			functionExpression = new Expression("");
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);			
+		}
 		
 	}
 
@@ -167,16 +181,28 @@ public class Function {
 	public Function(String functionName
 					,String  functionExpressionString
 					,String... argumentsNames ) {
-		
-		this.functionName = functionName;
-		functionExpression = new Expression(functionExpressionString);
-		functionExpression.setDescription(functionName);
-		
-		for (String argName : argumentsNames)
-			functionExpression.addArguments(new Argument(argName));
-		
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-		description = "";
+		super(Function.TYPE_ID);
+
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+			this.functionName = functionName;
+			functionExpression = new Expression(functionExpressionString);
+			functionExpression.setDescription(functionName);
+			
+			for (String argName : argumentsNames)
+				functionExpression.addArguments(new Argument(argName));
+			
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			description = "";
+			addFunctions(this);
+
+		} else {
+			parametersNumber = 0;
+			description = "";
+			functionExpression = new Expression("");
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);			
+		}
+
+
 		
 	}
 	
@@ -195,15 +221,25 @@ public class Function {
 	public Function(String functionName
 					,String  functionExpressionString
 					,Argument... arguments ) {
-		
-		this.functionName = functionName;
-		functionExpression = new Expression(functionExpressionString);
-		functionExpression.setDescription(functionName);
-		
-		for (Argument argument : arguments)
-			functionExpression.addArguments(argument);
-		
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		super(Function.TYPE_ID);
+
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+			this.functionName = functionName;
+			functionExpression = new Expression(functionExpressionString);
+			functionExpression.setDescription(functionName);
+			
+			for (Argument argument : arguments)
+				functionExpression.addArguments(argument);
+			
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			addFunctions(this);
+
+		} else {
+			parametersNumber = 0;
+			description = "";
+			functionExpression = new Expression("");
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);			
+		}
 		
 	}
 	
@@ -217,18 +253,16 @@ public class Function {
 	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
 	 */
 	public Function(String functionDefinitionString) {
-		
-		HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+		super(Function.TYPE_ID);
+
 		parametersNumber = 0;
-		boolean definitionError = true;
-		
-		
-		if ( (headEqBody.definitionError == false) && (headEqBody.headTokens.size() > 1) ) {
-				
+
+		if ( Pattern.matches(ParserSymbol.functionDefStrRegExp, functionDefinitionString) ) {
+			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr);
 			functionExpression.setDescription(headEqBody.headStr);
-				
+
 			if (headEqBody.headTokens.size() > 1) {
 				Token t;
 				for (int i = 1; i < headEqBody.headTokens.size(); i++) {
@@ -236,19 +270,17 @@ public class Function {
 					if (t.tokenTypeId != ParserSymbol.TYPE_ID)
 						functionExpression.addArguments(new Argument(t.tokenStr));							
 				}
-				
+						
 			}
-				
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			description = "";
-			if (parametersNumber > 0) definitionError = false;
-				
-								
-		} else functionExpression = new Expression();
-		
-		if (definitionError == true) {
+			addFunctions(this);
+
+		} else {
+			functionExpression = new Expression();		
 			functionExpression.setDescription(functionDefinitionString);
-			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, "Definition error in user defined function (missing function name or missing parameters or error in function body).");
+			String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;			
+			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
 		}
 		
 	}
@@ -260,7 +292,8 @@ public class Function {
 	 *                                 to be cloned.
 	 */
 	private Function(Function function) {
-		
+		super(Function.TYPE_ID);
+
 		functionName = function.functionName;
 		description = function.description;
 		parametersNumber = function.parametersNumber;
@@ -320,11 +353,11 @@ public class Function {
 	 * 
 	 * @param      functionName        the function name
 	 */
-	public void setFunctionName(String functionName) {
-		
-		this.functionName = functionName;
-		setExpressionModifiedFlags();
-		
+	public void setFunctionName(String functionName) {		
+		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+			this.functionName = functionName;
+			setExpressionModifiedFlags();
+		} else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 	}	
 	
 	/**
@@ -349,9 +382,9 @@ public class Function {
 	 * 
 	 */
 	public boolean checkSyntax() {
-		
-		return functionExpression.checkSyntax();
-		
+		boolean syntaxStatus = functionExpression.checkSyntax(); 
+		checkRecursiveMode();
+		return syntaxStatus;
 	}
 	
 	
@@ -397,7 +430,7 @@ public class Function {
 	 */
 	public double calculate(double... params) {
 		
-		if (params.length <= this.getParametersNumber()) {
+		if (params.length == this.getParametersNumber()) {
 				
 			
 			for (int p = 0; p < params.length; p++)
@@ -406,8 +439,10 @@ public class Function {
 			return  calculate();
 			
 		}
-		else
+		else {
+			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + params.length + ")!");
 			return Double.NaN;
+		}
 		
 	}		
 
@@ -420,7 +455,7 @@ public class Function {
 	 */
 	public double calculate(Argument... arguments) {
 		
-		if (arguments.length <= this.getParametersNumber()) {
+		if (arguments.length == this.getParametersNumber()) {
 				
 			
 			for (int p = 0; p < arguments.length; p++)
@@ -429,8 +464,10 @@ public class Function {
 			return  calculate();
 			
 		}
-		else
+		else {
+			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + arguments.length + ")!");
 			return Double.NaN;
+		}
 		
 	}
 	
@@ -818,6 +855,23 @@ public class Function {
 		
 	}
 	
+	
+	
+	/**
+	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
+	 * to the expressions. 
+	 * 
+	 * @param elements Elements list (variadic), where Argument, Constant, Function
+	 *                 extend the same class PrimitiveElement  
+	 *                   
+	 * @see PrimitiveElement
+	 */
+	public void addDefinitions(PrimitiveElement... elements) {
+		
+		functionExpression.addDefinitions(elements);
+		
+	}
+
 	/*=================================================
 	 * 
 	 * Functions handling API (the same as in Expression)
@@ -1010,24 +1064,22 @@ public class Function {
 	
 	
 	/**
-	 * Sets recursive mode
+	 * Checks whether function name appears in function body
+	 * if yes the recursive mode is being set
 	 */
-	public void setRecursiveMode() {
-
-		functionExpression.setRecursiveMode();
-		addFunctions(this);
-		
+	void checkRecursiveMode() {
+		//functionExpression.showTokens();
+		ArrayList<Token> functionExpressionTokens = functionExpression.getInitialTokens();
+		functionExpression.disableRecursiveMode();
+		if (functionExpressionTokens != null)
+			for (Token t : functionExpressionTokens)
+				if (t.tokenStr.equals(functionName)) {
+					functionExpression.setRecursiveMode();
+					break;
+				}
 	}
 	
-	/**
-	 * Disables recursive mode 
-	 */
-	public void disableRecursiveMode() {
-
-		functionExpression.disableRecursiveMode();
-		removeFunctions(this);
-		
-	}
+	
 	
 	/**
 	 * Gets recursive mode status

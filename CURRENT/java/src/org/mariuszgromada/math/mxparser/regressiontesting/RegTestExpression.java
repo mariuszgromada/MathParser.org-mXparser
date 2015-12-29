@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpression.java        1.0.4    2015-12-23
+ * @(#)RegTestExpression.java        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -34,6 +34,9 @@
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
+ *     http://mathparser.org/
+ *     http://github.com/mariuszgromada/mXparser/
+ *     http://mariuszgromada.github.io/mXparser/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
@@ -51,10 +54,13 @@ import org.mariuszgromada.math.mxparser.mathcollection.*;
  * 
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
- *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+ *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        1.0.2
+ * @version        2.0.0
  * 
  * @see Expression
  */
@@ -1993,7 +1999,6 @@ public class RegTestExpression {
 	case 117:
 		
 		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
-		Cnk.setRecursiveMode();
 		expStr = "C(10,5)-Cnk(10,5)";
 		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
@@ -2016,10 +2021,8 @@ public class RegTestExpression {
 		fib1.addBaseCase(0, 0);
 		fib1.addBaseCase(1, 1);
 		fib2 = new RecursiveArgument("fib2", "if( n>1, fib2(n-1)+fib2(n-2), if(n>0,1,0) )", n);
-		fib2.setRecursiveMode();
 		
 		Function fib3 = new Function("fib3","if(n>1, fib3(n-1)+fib3(n-2), if(n>0,1,0))","n");
-		fib3.setRecursiveMode();
 		
 		expStr = "sum(i,1,10,(fib1(i) = fib2(i)) & (fib2(i) = fib3(i)) )";
 		mXparser.consolePrint(expStr + " ...... ");
@@ -2041,7 +2044,6 @@ public class RegTestExpression {
 		x = new Argument("x",3);
 		Function H = new Function("H","if(m>1, 2*x*H(n,x)-2*n*H(n-1,x), if(m>0, 2*x, 1) )", m, x, n);
 		H.setParametersNumber(2);
-		H.setRecursiveMode();
 		
 		expStr = "H(0,x) + H(1,x) + H(2,x) + H(3,x) - ( (1) + (2*x) + (4*x^2-2) + (8*x^3-12*x) )";
 		mXparser.consolePrint(expStr + " ...... ");
@@ -2065,7 +2067,6 @@ public class RegTestExpression {
 		x = new Argument("x",3);
 		H = new Function("H","if(m>1, 2*x*H(n,x)-2*n*H(n-1,x), if(m>0, 2*x, 1) )", m, x, n);
 		H.setParametersNumber(2);
-		H.setRecursiveMode();
 		
 		k = new Argument("k",5);
 		expStr = "der( H(k,x), x) - 2*k*H(k-1,x)";
@@ -2085,7 +2086,6 @@ public class RegTestExpression {
 	case 121:
 
 		Function T = new Function("T","if(k>1, 2*x*T(k-1,x)-T(k-2,x), if(k>0, x, 1) )", "k", "x");
-		T.setRecursiveMode();
 		
 		k = new Argument("k",5);
 		x = new Argument("x",3);
@@ -2106,7 +2106,6 @@ public class RegTestExpression {
 	case 122:
 
 		Function T1 = new Function("T1","if(k>1, 2*x*T1(k-1,x)-T1(k-2,x), if(k>0, x, 1) )", "k", "x");
-		T1.setRecursiveMode();
 		Function T2 = new Function("T2","if(x >= 1, cosh(k*arcosh(x)), if(x <= -1, ((-1)^k)*cosh(k*arcosh(-x)), cos(k*acos(x))) )", "k", "x");
 		
 		k = new Argument("k",5);
@@ -2188,7 +2187,6 @@ public class RegTestExpression {
 		x = new Argument("x",3);
 		H = new Function("H","if(m>1, 2*x*H(n,x)-2*n*H(n-1,x), if(m>0, 2*x, 1) )", m, x, n);
 		H.setParametersNumber(2);
-		H.setRecursiveMode();
 		
 		k = new Argument("k",5);
 		expStr = "der( H(k,x), x) - 2*k*H(k-1,x)";
@@ -4031,7 +4029,6 @@ public class RegTestExpression {
 		
 	case 248:
 		Function fibr = new Function("fib","if(n>1, fib(n-1)+fib(n-2), if(n>0,1,0))","n");
-		fibr.setRecursiveMode();
 		expStr = "sum(i,0,10,Fib(i) - fib(i))";
 		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
@@ -4048,7 +4045,6 @@ public class RegTestExpression {
 
 	case 249:
 		Function luc = new Function("luc","if(n>1, luc(n-1)+luc(n-2), if(n>0,1,2))","n");
-		luc.setRecursiveMode();
 		expStr = "sum(i,0,10,Luc(i) - luc(i))";
 		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
@@ -4558,7 +4554,6 @@ public class RegTestExpression {
 		
 		Function n1_geq_2 = new Function("n1_geq_2", "if( z1(k) > 2, k, n1_geq_2(k+1) )", "k");
 		n1_geq_2.addArguments(z1);
-		n1_geq_2.setRecursiveMode();
 		
 		mXparser.consolePrint(c1.getConstantName() + " = " + c1.getConstantValue() + " ; " + z1.getArgumentName() + " = " + z1.getArgumentExpressionString() + " ; " + n1_geq_2.getFunctionName() + " = " + n1_geq_2.getFunctionExpressionString() + " ; " + expStr + " ...... ");
 		
@@ -4581,11 +4576,9 @@ public class RegTestExpression {
 		
 		Function z2 = new Function("z2","if( n>0, z2(n-1)^2+c2, 0)", "n");
 		z2.addConstants(c2);
-		z2.setRecursiveMode();
 		
 		Function n2_geq_2 = new Function("n2_geq_2", "if( z2(k) > 2, k, n2_geq_2(k+1) )", "k");
 		n2_geq_2.addFunctions(z2);
-		n2_geq_2.setRecursiveMode();
 		
 		mXparser.consolePrint(c2.getConstantName() + " = " + c2.getConstantValue() + " ; " + z2.getFunctionName() + " = " + z2.getFunctionExpressionString() + " ; " + n2_geq_2.getFunctionName() + " = " + n2_geq_2.getFunctionExpressionString() + " ; " + expStr + " ...... ");
 		
@@ -4612,17 +4605,14 @@ public class RegTestExpression {
 		
 		n1_geq_2 = new Function("n1_geq_2", "if( z1(k) > 2, k, n1_geq_2(k+1) )", "k");
 		n1_geq_2.addArguments(z1);
-		n1_geq_2.setRecursiveMode();
 		
 		c2 = new Constant("c2", 0.25+0.00001);
 		
 		z2 = new Function("z2","if( n>0, z2(n-1)^2+c2, 0)", "n");
 		z2.addConstants(c2);
-		z2.setRecursiveMode();
 		
 		n2_geq_2 = new Function("n2_geq_2", "if( z2(k) > 2, k, n2_geq_2(k+1) )", "k");
 		n2_geq_2.addFunctions(z2);
-		n2_geq_2.setRecursiveMode();
 		
 		mXparser.consolePrint(expStr + " ...... ");
 		
@@ -4642,9 +4632,7 @@ public class RegTestExpression {
 		
 		expStr = "sum(i, 1, 20, IsPrime(i) )";
 		Function IsFactor = new Function("IsFactor", "if( a>b, 0, if( n%a = 0, 1, IsFactor(n, a+1, b) ) )", "n", "a", "b");
-		IsFactor.setRecursiveMode();
 		Function IsPrime = new Function("IsPrime", "if( n<2, 0, ~IsFactor(n, 2, sqrt(n)) )", "n");
-		IsPrime.setRecursiveMode();
 		IsPrime.addFunctions(IsFactor);
 		
 		mXparser.consolePrint(expStr + " ...... ");
@@ -4668,11 +4656,9 @@ public class RegTestExpression {
 		Function cc = new Function("c", "if( abs(x) < a, 1, c(x/2)^2 - s(x/2)^2 )", "x");
 		ss.addConstants(aa);
 		ss.addFunctions(cc);
-		ss.setRecursiveMode();
 		
 		cc.addConstants(aa);
 		cc.addFunctions(ss);
-		cc.setRecursiveMode();
 		
 		mXparser.consolePrint(expStr + " ...... ");
 		exp[testId] = new Expression(expStr);
@@ -4704,6 +4690,40 @@ public class RegTestExpression {
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
+	case 283:
+		
+		expStr = "a = 5.1, expr = 2*a";
+		
+		Constant a1 = new Constant("a = 5.1");
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression("2*a");
+		exp[testId].addConstants(a1);
+		value = exp[testId].calculate();
+		reg = 10.2;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
+	case 284:
+		
+		expStr = "a = sin(pi/2), expr = a";
+		
+		Constant a2 = new Constant("a = sin(pi/2)");
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression("a");
+		exp[testId].addConstants(a2);
+		value = exp[testId].calculate();
+		reg = 1;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
 	}
 
 
@@ -4723,7 +4743,7 @@ public class RegTestExpression {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int numberOfTests = 282;
+		int numberOfTests = 284;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
