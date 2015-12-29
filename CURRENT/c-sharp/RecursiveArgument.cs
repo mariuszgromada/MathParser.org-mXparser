@@ -1,9 +1,9 @@
 /*
- * @(#)RecursiveArgument.cs        1.0.2    2015-12-06
+ * @(#)RecursiveArgument.cs        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -33,16 +33,17 @@
  * 
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
+ *     http://mathspace.plt/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
  *                              "Yes, up to isomorphism."  
- */ 
+ */
 
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -75,12 +76,16 @@ namespace org.mariuszgromada.math.mxparser {
      * <li>For negative 'n' you will get Double.NaN. 
      * 
      * </ul>
+     * 
      * @author         <b>Mariusz Gromada</b><br/>
      *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-     *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
-     *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+     *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+     *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+     *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+     *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+     *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        1.0.2
+     * @version        2.0.0
      * 
      * @see Argument
      * @see Expression
@@ -98,13 +103,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     * Base values
 	     */	
 	    private List<Double> baseValues;
-    	
-	    /**
-	     * Index argument.
-	     */	
-	    private Argument n;
-    	
-    	
+    	    	
 	    /**
 	     * To avoid never ending loops
 	     */
@@ -124,13 +123,15 @@ namespace org.mariuszgromada.math.mxparser {
             : base(argumentName, recursiveExpressionString)
         {
 
-            this.argumentType = RECURSIVE_ARGUMENT;
-            baseValues = new List<Double>();
-            this.n = new Argument(indexName);
-            base.argumentExpression.addArguments(n);
-            base.argumentExpression.addArguments(this);
-            base.argumentExpression.setDescription(argumentName);
-            recursiveCounter = -1;
+            if (argumentName.Equals(this.getArgumentName())) {
+                this.argumentType = RECURSIVE_ARGUMENT;
+                baseValues = new List<Double>();
+                this.n = new Argument(indexName);
+                base.argumentExpression.addArguments(n);
+                base.argumentExpression.addArguments(this);
+                base.argumentExpression.setDescription(argumentName);
+                recursiveCounter = -1;
+            }
         }
 
 
@@ -144,26 +145,50 @@ namespace org.mariuszgromada.math.mxparser {
         public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n)
             : base(argumentName, recursiveExpressionString)
         {
-  			
-		    
-    		
-		    this.argumentType = RECURSIVE_ARGUMENT;
-		    baseValues = new List<Double>();
-		    this.n = n;
-		    base.argumentExpression.addArguments(n);
-            base.argumentExpression.addArguments(this);
-            base.argumentExpression.setDescription(argumentName);
-		    recursiveCounter = -1;
-    		
+            if (argumentName.Equals(this.getArgumentName())) {
+                this.argumentType = RECURSIVE_ARGUMENT;
+                baseValues = new List<Double>();
+                this.n = n;
+                base.argumentExpression.addArguments(n);
+                base.argumentExpression.addArguments(this);
+                base.argumentExpression.setDescription(argumentName);
+                recursiveCounter = -1;
+            }
 	    }
-    	
-	    /**
+
+        /**
+         * Constructor - creates argument based on the argument definition string.
+         * 
+         * @param      argumentDefinitionString        Argument definition string, i.e.:
+         *                                             <ul>
+         *                                                <li>'x' - only argument name
+         *                                                <li>'x=5' - argument name and argument value
+         *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+         *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+         *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)                                                
+         *                                             </ul>
+         */
+        public RecursiveArgument(String argumentDefinitionString) : base(argumentDefinitionString)
+        {
+            
+            if (Regex.Match(argumentDefinitionString, ParserSymbol.functionDefStrRegExp).Success) {
+                this.argumentType = RECURSIVE_ARGUMENT;
+                baseValues = new List<Double>();
+                recursiveCounter = -1;
+                base.argumentExpression.addArguments(n);
+                base.argumentExpression.addArguments(this);
+                base.argumentExpression.setDescription(argumentDefinitionString);
+            }
+        }
+
+
+        /**
 	     * Adds base case
 	     * 
 	     * @param      index               the base case index
 	     * @param      value               the base case value
-	     */	
-	    public void addBaseCase(int index, double value) {
+	     */
+        public void addBaseCase(int index, double value) {
     		
 		    int recSize = baseValues.Count;
     		
@@ -180,16 +205,24 @@ namespace org.mariuszgromada.math.mxparser {
 			    baseValues[index] = value;
     		
 	    }
-    	
-    		
-	    /**
+
+        /**
+         * Clears all based cases and stored calculated values
+         */
+        public void resetAllCases()
+        {
+            baseValues.Clear();
+            recursiveCounter = -1;
+        }
+
+        /**
 	     * Gets recursive argument value
 	     * 
 	     * @param      index               the index
 	     *   
 	     * @return     value as double
-	     */	
-	    public double getArgumentValue(double index) {
+	     */
+        public double getArgumentValue(double index) {
     		
 		    /*
 		     * Remember starting index

@@ -1,9 +1,9 @@
 /*
- * @(#)Tutorial.cs        1.0.3    2015-12-15
+ * @(#)Tutorial.cs        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -34,6 +34,9 @@
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
+ *     http://mathparser.org/
+ *     http://github.com/mariuszgromada/mXparser/
+ *     http://mariuszgromada.github.io/mXparser/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
@@ -51,10 +54,13 @@ namespace org.mariuszgromada.math.mxparser
      * 
      * @author         <b>Mariusz Gromada</b><br/>
      *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-     *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
-     *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+     *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+     *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+     *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+     *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+     *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        1.0
+     * @version        2.0.0
      * 
      * @see RecursiveArgument
      * @see Expression
@@ -422,7 +428,6 @@ namespace org.mariuszgromada.math.mxparser
 		
 		/* Fibonacci numbers using complex recursion */
 		Function fib3 = new Function("fib3","if(n>1, fib3(n-1)+fib3(n-2), if(n>0,1,0))", "n");
-		fib3.setRecursiveMode();
 		mXparser.consolePrintln("fib2: ");
 		for (int i = 0; i <= 10; i++ )
 			mXparser.consolePrint(fib3.calculate(i) + ", ");
@@ -438,7 +443,6 @@ namespace org.mariuszgromada.math.mxparser
 		 * recursive functions
 		 */
 		Function T = new Function("T","if(n>1, 2*x*T(n-1,x)-T(n-2,x), if(n>0, x, 1) )", "n", "x");
-		T.setRecursiveMode();
 		Argument k = new Argument("k", 5);
 		Expression e37 = new Expression("T(k,x) - ( (x + sqrt(x^2-1))^k + (x - sqrt(x^2-1))^k)/2", k, x);
 		e37.addFunctions(T);
@@ -450,7 +454,6 @@ namespace org.mariuszgromada.math.mxparser
 		 * Binomial coefficient using complex recursion 
 		 */
 		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
-		Cnk.setRecursiveMode();
 		
 		Expression e38 = new Expression("C(10,5) - Cnk(10,5)");
 		e38.addFunctions(Cnk);

@@ -1,9 +1,9 @@
 /*
- * @(#)Function.cs        1.0.2    2015-12-06
+ * @(#)Function.cs        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -33,15 +33,17 @@
  * 
  *     Mariusz Gromada
  *     mariusz.gromada@wp.pl
- *     http://mathspace.pl/
+ *     http://mathspace.plt/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
  *                              "Yes, up to isomorphism."  
- */ 
+ */
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -69,10 +71,13 @@ namespace org.mariuszgromada.math.mxparser {
      * 
      * @author         <b>Mariusz Gromada</b><br/>
      *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-     *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
-     *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+     *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+     *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+     *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+     *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+     *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        1.0.2
+     * @version        2.0.0
      * 
      * @see RecursiveArgument
      * @see Expression
@@ -80,7 +85,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Constant
      *
      */
-    public class Function {
+    public class Function : PrimitiveElement {
 
 	    /**
 	     * No syntax errors in the function.
@@ -141,18 +146,29 @@ namespace org.mariuszgromada.math.mxparser {
 	     * @see        Expression
 	     */
 	    public Function(String functionName
-					    ,String  functionExpressionString ) {
-    		
-		    this.functionName = functionName;
-		    functionExpression = new Expression(functionExpressionString);
-		    functionExpression.setDescription(functionName);
-    		
-		    parametersNumber = 0;
-		    description = "";
-    		
-	    }
+					    ,String  functionExpressionString ) : base(Function.TYPE_ID)
+        {
 
-	    /**
+            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.functionName = functionName;
+                functionExpression = new Expression(functionExpressionString);
+                functionExpression.setDescription(functionName);
+
+                parametersNumber = 0;
+                description = "";
+                addFunctions(this);
+            }
+            else {
+                parametersNumber = 0;
+                description = "";
+                functionExpression = new Expression("");
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+            }
+
+
+        }
+
+        /**
 	     * Constructor - creates function from function name,
 	     * function expression string and argument names.
 	     * 
@@ -163,24 +179,34 @@ namespace org.mariuszgromada.math.mxparser {
 	     *                                  
 	     * @see        Expression
 	     */
-	    public Function(String functionName
+        public Function(String functionName
 					    ,String  functionExpressionString
-					    ,params String[] argumentsNames ) {
-    		
-		    this.functionName = functionName;
-		    functionExpression = new Expression(functionExpressionString);
-		    functionExpression.setDescription(functionName);
-    		
-		    foreach (String argName in argumentsNames)
-			    functionExpression.addArguments(new Argument(argName));
-    		
-		    parametersNumber = argumentsNames.Length - countRecursiveArguments();
-		    description = "";
-    		
-	    }
-    	
-    		
-	    /**
+					    ,params String[] argumentsNames ) : base(Function.TYPE_ID)
+        {
+
+            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.functionName = functionName;
+                functionExpression = new Expression(functionExpressionString);
+                functionExpression.setDescription(functionName);
+
+                foreach (String argName in argumentsNames)
+                    functionExpression.addArguments(new Argument(argName));
+
+                parametersNumber = argumentsNames.Length - countRecursiveArguments();
+                description = "";
+                addFunctions(this);
+            }
+            else {
+                parametersNumber = 0;
+                description = "";
+                functionExpression = new Expression("");
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+            }
+
+        }
+
+
+        /**
 	     * Constructor - creates function from function name,
 	     * function expression string and arguments.
 	     * 
@@ -191,28 +217,86 @@ namespace org.mariuszgromada.math.mxparser {
 	     *                                  
 	     * @see        Expression
 	     */
-	    public Function(String functionName
+        public Function(String functionName
 					    ,String  functionExpressionString
-					    ,params Argument[] arguments ) {
-    		
-		    this.functionName = functionName;
-		    functionExpression = new Expression(functionExpressionString);
-		    functionExpression.setDescription(functionName);
-    		
-		    foreach (Argument argument in arguments)
-			    functionExpression.addArguments(argument);
-    		
-		    parametersNumber = arguments.Length - countRecursiveArguments();
-    		
-	    }	
-    	
-	    /**
+					    ,params Argument[] arguments ) : base(Function.TYPE_ID)
+        {
+
+            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.functionName = functionName;
+                functionExpression = new Expression(functionExpressionString);
+                functionExpression.setDescription(functionName);
+
+                foreach (Argument argument in arguments)
+                    functionExpression.addArguments(argument);
+
+                parametersNumber = arguments.Length - countRecursiveArguments();
+                addFunctions(this);
+
+            }
+            else {
+                parametersNumber = 0;
+                description = "";
+                functionExpression = new Expression("");
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+            }
+
+        }
+
+        /**
+         * Constructor for function definition in natural math language,
+         * for instance providing on string "f(x,y) = sin(x) + cos(x)"
+         * is enough to define function "f" with parameters "x and y"
+         * and function body "sin(x) + cos(x)".
+         * 
+         * @param functionDefinitionString      Function definition in the form
+         *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+         */
+        public Function(String functionDefinitionString) : base(Function.TYPE_ID)
+        {
+            
+            parametersNumber = 0;
+
+            if (Regex.Match(functionDefinitionString, ParserSymbol.functionDefStrRegExp).Success) {
+                HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+                this.functionName = headEqBody.headTokens[0].tokenStr;
+                functionExpression = new Expression(headEqBody.bodyStr);
+                functionExpression.setDescription(headEqBody.headStr);
+
+                if (headEqBody.headTokens.Count > 1)
+                {
+                    Token t;
+                    for (int i = 1; i < headEqBody.headTokens.Count; i++)
+                    {
+                        t = headEqBody.headTokens[i];
+                        if (t.tokenTypeId != ParserSymbol.TYPE_ID)
+                            functionExpression.addArguments(new Argument(t.tokenStr));
+                    }
+
+                }
+                parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+                description = "";
+                addFunctions(this);
+
+            }
+            else {
+                functionExpression = new Expression();
+                functionExpression.setDescription(functionDefinitionString);
+                String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
+                functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
+            }
+
+        }
+
+
+        /**
 	     * Private constructor used for function cloning.
 	     * 
 	     * @param      function            the function, which is going
 	     *                                 to be cloned.
 	     */
-	    private Function(Function function) {
+        private Function(Function function) : base(Function.TYPE_ID)
+        {
     		
 		    functionName = function.functionName;
 		    description = function.description;
@@ -272,20 +356,23 @@ namespace org.mariuszgromada.math.mxparser {
 	     * @param      functionName        the function name
 	     */
         public void setFunctionName(String functionName) {
-    		
-		    this.functionName = functionName;
-		    setExpressionModifiedFlags();
-    		
-	    }	
-    	
-	    /**
+
+            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.functionName = functionName;
+                setExpressionModifiedFlags();
+            }
+            else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+
+        }
+
+        /**
 	     * Sets value of function argument (function parameter).
 	     * 
 	     * @param      argumentIndex   the argument index (in accordance to
 	     *                             arguments declaration sequence)
 	     * @param      argumentValue   the argument value
 	     */
-	    public void setArgumentValue(int argumentIndex, double argumentValue) {
+        public void setArgumentValue(int argumentIndex, double argumentValue) {
     		
 		    functionExpression.argumentsList[argumentIndex].argumentValue = argumentValue;
     		
@@ -300,21 +387,19 @@ namespace org.mariuszgromada.math.mxparser {
 	     * 
 	     */
 	    public bool checkSyntax() {
-    		
-		    return functionExpression.checkSyntax();
-    		
-	    }
-    	
-    	
-	    /**
+            bool syntaxStatus = functionExpression.checkSyntax();
+            checkRecursiveMode();
+            return syntaxStatus;
+        }
+
+
+        /**
 	     * Returns error message after checking the syntax.
 	     * 
 	     * @return     Error message as string.
 	     */
-	    public String getErrorMessage() {
-    		
+        public String getErrorMessage() {	
 		    return functionExpression.getErrorMessage();
-    		
 	    }
     	
     	
@@ -348,7 +433,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    public double calculate(params double[] parameters) {
     		
-		    if (parameters.Length <= this.getParametersNumber()) {
+		    if (parameters.Length == this.getParametersNumber()) {
     				
     			
 			    for (int p = 0; p < parameters.Length; p++)
@@ -357,33 +442,63 @@ namespace org.mariuszgromada.math.mxparser {
 			    return  calculate();
     			
 		    }
-		    else
-			    return Double.NaN;
-    		
-	    }		
+            else {
+                this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + parameters.Length + ")!");
+                return Double.NaN;
+            }
 
-	    /**
+        }
+
+        /**
 	     * Calculates function value
 	     * 
 	     * @param      arguments   function parameters (as Arguments)
 	     * 
 	     * @return     function value as double
 	     */
-	    public double calculate(params Argument[] arguments) {
+        public double calculate(params Argument[] arguments) {
     		
-		    if (arguments.Length <= this.getParametersNumber()) {
+		    if (arguments.Length == this.getParametersNumber()) {
     				
-    			
 			    for (int p = 0; p < arguments.Length; p++)
 				    setArgumentValue(p, arguments[p].getArgumentValue());
     							
 			    return  calculate();
     			
 		    }
-		    else
-			    return Double.NaN;
-    		
-	    }
+            else {
+                this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + arguments.Length + ")!");
+                return Double.NaN;
+            }
+
+        }
+
+        /**
+         * Adds user defined elements (such as: Arguments, Constants, Functions) 
+         * to the function expressions. 
+         * 
+         * @param elements Elements list (variadic), where Argument, Constant, Function
+         *                 extend the same class PrimitiveElement  
+         *                   
+         * @see PrimitiveElement
+         */
+        public void addDefinitions(params PrimitiveElement[] elements) {
+            functionExpression.addDefinitions(elements);
+        }
+
+        /**
+         * Removes user defined elements (such as: Arguments, Constants, Functions) 
+         * from the function expressions. 
+         * 
+         * @param elements Elements list (variadic), where Argument, Constant, Function
+         *                 extend the same class PrimitiveElement  
+         *                   
+         * @see PrimitiveElement
+         */
+        public void removeDefinitions(params PrimitiveElement[] elements) {
+            functionExpression.removeDefinitions(elements);
+        }
+
 
         /*=================================================
 	     * 
@@ -957,28 +1072,23 @@ namespace org.mariuszgromada.math.mxparser {
     		
 		    return functionExpression.getVerboseMode();
     		
-	    }	
-    	
-    	
-	    /**
-	     * Sets recursive mode
-	     */
-	    public void setRecursiveMode() {
-
-		    functionExpression.setRecursiveMode();
-		    addFunctions(this);
-    		
 	    }
-    	
-	    /**
-	     * Disables recursive mode 
-	     */
-	    public void disableRecursiveMode() {
 
-		    functionExpression.disableRecursiveMode();
-		    removeFunctions(this);
-    		
-	    }
+        /**
+         * Checks whether function name appears in function body
+         * if yes the recursive mode is being set
+         */
+        internal void checkRecursiveMode() {
+            //functionExpression.showTokens();
+            List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
+            functionExpression.disableRecursiveMode();
+            if (functionExpressionTokens != null)
+                foreach (Token t in functionExpressionTokens)
+                    if (t.tokenStr.Equals(functionName)) {
+                        functionExpression.setRecursiveMode();
+                        break;
+                    }
+        }
     	
 	    /**
 	     * Gets recursive mode status
@@ -988,9 +1098,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     * 
 	     */
 	    public bool getRecursiveMode() {
-
 		    return functionExpression.getRecursiveMode();
-
 	    }		
     	
 	    /**
@@ -999,9 +1107,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     * @return     computing time in seconds.
 	     */
 	    public double getComputingTime() {
-
 		    return functionExpression.getComputingTime();
-
 	    }		
     	
 	    /**
@@ -1042,7 +1148,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    public String getLicense() {
     		
-		    return Expression.LICENSE;
+		    return mXparser.LICENSE;
     		
 	    }		
 

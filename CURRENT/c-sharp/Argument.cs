@@ -1,9 +1,9 @@
 /*
- * @(#)Argument.cs        1.0.2    2015-12-06
+ * @(#)Argument.cs        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -34,14 +34,19 @@
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
+ *     http://mathparser.org/
+ *     http://github.com/mariuszgromada/mXparser/
+ *     http://mariuszgromada.github.io/mXparser/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
  *                              "Yes, up to isomorphism."  
- */ 
+ */
+
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 
 
@@ -82,17 +87,20 @@ namespace org.mariuszgromada.math.mxparser {
      * 
      * @author         <b>Mariusz Gromada</b><br/>
      *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-     *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
-     *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+     *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+     *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+     *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+     *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+     *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        1.0.2
+     * @version        2.0.0
      * 
      * @see RecursiveArgument
      * @see Expression
-     * @see Function
+     * @see Function	
      * @see Constant
      */
-    public class Argument {
+    public class Argument : PrimitiveElement {
             	
 	    /**
 	     * No syntax errors in the dependent argument definition.
@@ -163,44 +171,97 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    internal double argumentValue;
 
-    	
-	    /*=================================================
+        /**
+         * Index argument.
+         * 
+         * @see RecursiveArgument
+         */
+        protected Argument n;
+
+        /*=================================================
 	     * 
 	     * Constructors
 	     * 
 	     *================================================= 
 	     */
-    	
-    	
-	    /**
-	     * Default constructor - creates free argument.
-	     * 
-	     * @param      argumentName        the argument name
-	     */
-	    public Argument(String argumentName) {
 
-		    this.argumentName=String.Copy(argumentName);
-		    this.argumentValue=ARGUMENT_INITIAL_VALUE;
-		    argumentExpression = new Expression(); 
-		    argumentType = FREE_ARGUMENT;
-		    setSilentMode();
-		    description = "";
 
-	    }
+        /**
+         * Default constructor - creates argument based on the argument definition string.
+         * 
+         * @param      argumentDefinitionString        Argument definition string, i.e.:
+         *                                             <ul>
+         *                                                <li>'x' - only argument name
+         *                                                <li>'x=5' - argument name and argument value
+         *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+         *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+         *                                             </ul>
+         */
+        public Argument(String argumentDefinitionString) : base(Argument.TYPE_ID)
+        {
+            if (Regex.Match(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                argumentName = argumentDefinitionString;
+                argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentType = FREE_ARGUMENT;
+                argumentExpression = new Expression();
+            }
+            else if (Regex.Match(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp).Success) {
+                HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+                argumentName = headEqBody.headTokens[0].tokenStr;
+                Expression bodyExpr = new Expression(headEqBody.bodyStr);
+                double bodyValue = bodyExpr.calculate();
 
-	    /**
+                if ((bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS) && (bodyValue != Double.NaN)) {
+                    argumentExpression = new Expression();
+                    argumentValue = bodyValue;
+                    argumentType = FREE_ARGUMENT;
+                }
+                else {
+                    argumentExpression = bodyExpr;
+                    argumentType = DEPENDENT_ARGUMENT;
+                }
+
+            }
+            else if (Regex.Match(argumentDefinitionString, ParserSymbol.functionDefStrRegExp).Success) {
+                HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+                argumentName = headEqBody.headTokens[0].tokenStr;
+                argumentExpression = new Expression(headEqBody.bodyStr);
+                argumentExpression.setDescription(headEqBody.headStr);
+                argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentType = DEPENDENT_ARGUMENT;
+                n = new Argument(headEqBody.headTokens[2].tokenStr);
+            }
+            else {
+                argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentType = FREE_ARGUMENT;
+                argumentExpression = new Expression();
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: 'x', 'x=5', 'x=5+3/2', 'x=2*y').");
+            }
+
+            setSilentMode();
+            description = "";
+        }
+
+        /**
 	     * Constructor - creates free argument.
 	     * 
 	     * @param      argumentName   the argument name
 	     * @param      argumentValue  the argument value
-	     */	
-	    public Argument(String argumentName, double argumentValue) {
+	     */
+        public Argument(String argumentName, double argumentValue) : base(Argument.TYPE_ID)
+        {
+            argumentExpression = new Expression();
+            if (Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.argumentName = String.Copy(argumentName);
+                this.argumentValue = argumentValue;
+                argumentType = FREE_ARGUMENT;
+            }
+            else {
+                this.argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+            }
 
-		    this.argumentName=String.Copy(argumentName);
-		    this.argumentValue=argumentValue;
-		    argumentExpression = new Expression(); 
-		    argumentType = FREE_ARGUMENT;		
-		    setSilentMode();
+            setSilentMode();
 		    description = "";
 
 	    }
@@ -214,14 +275,23 @@ namespace org.mariuszgromada.math.mxparser {
 	     * 
 	     * @see        Expression
 	     */		
-	    public Argument(String argumentName, String argumentExpressionString) {
-    		
-		    this.argumentName=String.Copy(argumentName);
-		    argumentValue=ARGUMENT_INITIAL_VALUE;
-		    argumentExpression = new Expression(argumentExpressionString);
-		    argumentExpression.setDescription(argumentName);
-		    argumentType = DEPENDENT_ARGUMENT;		
-		    setSilentMode();
+	    public Argument(String argumentName, String argumentExpressionString) : base(Argument.TYPE_ID)
+        {
+
+            if (Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.argumentName=String.Copy(argumentName);
+		        argumentValue=ARGUMENT_INITIAL_VALUE;
+		        argumentExpression = new Expression(argumentExpressionString);
+		        argumentExpression.setDescription(argumentName);
+		        argumentType = DEPENDENT_ARGUMENT;
+            }
+            else {
+                this.argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression = new Expression();
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+            }
+
+            setSilentMode();
 		    description = "";
 
 	    }	
@@ -236,14 +306,23 @@ namespace org.mariuszgromada.math.mxparser {
 	     *                                           associated with the argument expression.
 	     * @see        Expression
 	     */				
-	    public Argument(String argumentName, String argumentExpressionString, params Argument[] arguments) {
+	    public Argument(String argumentName, String argumentExpressionString, params Argument[] arguments) : base(Argument.TYPE_ID)
+        {
 
-		    this.argumentName=String.Copy(argumentName);
-		    argumentValue=ARGUMENT_INITIAL_VALUE;
-		    argumentExpression = new Expression(argumentExpressionString, arguments);
-		    argumentExpression.setDescription(argumentName);
-		    argumentType = DEPENDENT_ARGUMENT;		
-		    setSilentMode();
+            if (Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.argumentName = String.Copy(argumentName);
+                argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression = new Expression(argumentExpressionString, arguments);
+                argumentExpression.setDescription(argumentName);
+                argumentType = DEPENDENT_ARGUMENT;
+            }
+            else {
+                this.argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression = new Expression();
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+            }
+
+            setSilentMode();
 		    description = "";
 
 	    }		
@@ -300,25 +379,7 @@ namespace org.mariuszgromada.math.mxparser {
     		
 	    }
 
-    	
-	    /**
-	     * Sets recursive mode
-	     */
-	    public void setRecursiveMode() {
-
-		    argumentExpression.setRecursiveMode();
-
-	    }
-    	
-	    /**
-	     * Disables recursive mode 
-	     */
-	    public void disableRecursiveMode() {
-
-		    argumentExpression.disableRecursiveMode();
-
-	    }
-    	
+    	    	
 	    /**
 	     * Gets recursive mode status
 	     * 
@@ -352,13 +413,15 @@ namespace org.mariuszgromada.math.mxparser {
 	     */			
 	    public void setArgumentName(String argumentName) {
 
-		    this.argumentName = argumentName;
-    		
-		    setExpressionModifiedFlags();
-    		
-	    }
-    	
-	    /**
+            if ((Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success)) {
+                this.argumentName = argumentName;
+                setExpressionModifiedFlags();
+            }
+            else if (argumentExpression != null)
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+        }
+
+        /**
 	     * Sets argument expression string.
 	     * Each expression / function / dependent argument associated
 	     * with this argument will be marked as modified
@@ -368,7 +431,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     * 
 	     * @see        Expression
 	     */
-	    public void setArgumentExpressionString(String argumentExpressionString) {
+        public void setArgumentExpressionString(String argumentExpressionString) {
     		
 		    argumentExpression.setExpressionString(argumentExpressionString);
     		
@@ -472,17 +535,45 @@ namespace org.mariuszgromada.math.mxparser {
 
 	    }
 
-    	
-	    /*=================================================
+
+        /**
+         * Adds user defined elements (such as: Arguments, Constants, Functions) 
+         * to the argument expressions. 
+         * 
+         * @param elements Elements list (variadic), where Argument, Constant, Function
+         *                 extend the same class PrimitiveElement  
+         *                   
+         * @see PrimitiveElement
+         */
+        public void addDefinitions(params PrimitiveElement[] elements) {
+            argumentExpression.addDefinitions(elements);
+        }
+
+
+        /**
+         * Removes user defined elements (such as: Arguments, Constants, Functions) 
+         * from the argument expressions. 
+         * 
+         * @param elements Elements list (variadic), where Argument, Constant, Function
+         *                 extend the same class PrimitiveElement  
+         *                   
+         * @see PrimitiveElement
+         */
+        public void removeDefinitions(params PrimitiveElement[] elements) {
+            argumentExpression.removeDefinitions(elements);
+        }
+
+
+        /*=================================================
 	     * 
 	     * Arguments handling API (the same as in Expression)
 	     * (protected argument expression)
 	     * 
 	     *================================================= 
 	     */
-    	
-    	
-	    /**
+
+
+        /**
 	     * Adds arguments (variadic) to the argument expression definition.
 	     * 
 	     * @param      arguments           the arguments list
@@ -490,7 +581,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     * @see        Argument
 	     * @see        RecursiveArgument
 	     */
-	    public void addArguments(params Argument[] arguments) {
+        public void addArguments(params Argument[] arguments) {
     		
 		    argumentExpression.addArguments(arguments);
     		
@@ -1040,7 +1131,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    public String getLicense() {
     		
-		    return Expression.LICENSE;
+		    return mXparser.LICENSE;
     		
 	    }		
 

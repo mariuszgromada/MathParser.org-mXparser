@@ -91,8 +91,8 @@ public class Expression {
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
 	 */
-	static final int NOT_FOUND = -1;
-	static final int FOUND = 0;
+	static final int NOT_FOUND = mXparser.NOT_FOUND;
+	static final int FOUND = mXparser.FOUND;
 
 	/**
 	 * Marker for internal processing
@@ -768,6 +768,7 @@ public class Expression {
 				if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
 				else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
 				else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
+                else if (elementTypeId == RecursiveArgument.TYPE_ID) addArguments((Argument)e);
 				
 			}
 		}
@@ -789,6 +790,7 @@ public class Expression {
 				if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
 				else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
 				else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
+                else if (elementTypeId == RecursiveArgument.TYPE_ID) removeArguments((Argument)e);
 				
 			}
 		}
@@ -2110,6 +2112,7 @@ public class Expression {
 			value = function.calculate();
 		} catch(StackOverflowError soe){
 			value = Double.NaN;
+			errorMessage = soe.getMessage();
 		}
 		
 		setToNumber(pos, value);
@@ -6375,15 +6378,14 @@ public class Expression {
 		tokenizeExpressionString();
 		ArrayList<Token> tokensListCopy = new ArrayList<Token>();
 		
-		for (Token token : initialTokens) {
+		for (Token token : initialTokens)
 			tokensListCopy.add(token.clone());
-		}
 		
 		return tokensListCopy;
 	}
 
 	/**
-	 * copy initial tokens and returns copied list
+	 * Gets initial tokens and returns copied list
 	 * 
 	 * @see Function
 	 */

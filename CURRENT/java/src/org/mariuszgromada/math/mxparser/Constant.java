@@ -143,7 +143,7 @@ public class Constant extends PrimitiveElement {
 					,double constantValue) {
 		super(Constant.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, constantName) ) {		
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, constantName) ) {		
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			description = "";
@@ -170,7 +170,7 @@ public class Constant extends PrimitiveElement {
 			,String description) {
 		super(Constant.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, constantName) ) {		
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, constantName) ) {		
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			this.description = description;
@@ -230,7 +230,7 @@ public class Constant extends PrimitiveElement {
 	 */
 	public void setConstantName(String constantName) {
 		
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, constantName) ) {
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, constantName) ) {
 			this.constantName = constantName;
 			setExpressionModifiedFlags();
 		} else {

@@ -4,3 +4,5 @@
 /CURRENT/java/bin/*
 /CURRENT/java/jar/*
 *.class
+*.dll
+*.pdb

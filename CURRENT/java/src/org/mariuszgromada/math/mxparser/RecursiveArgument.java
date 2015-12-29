@@ -123,13 +123,15 @@ public class RecursiveArgument extends Argument {
 		 */
 		super(argumentName, recursiveExpressionString);
 		
-		this.argumentType = RECURSIVE_ARGUMENT;
-		baseValues = new ArrayList<Double>();
-		this.n = new Argument(indexName);
-		super.argumentExpression.addArguments(n);
-		super.argumentExpression.addArguments(this);
-		super.argumentExpression.setDescription(argumentName);
-		recursiveCounter = -1;
+		if (argumentName.equals(this.getArgumentName())) {
+			this.argumentType = RECURSIVE_ARGUMENT;
+			baseValues = new ArrayList<Double>();
+			this.n = new Argument(indexName);
+			super.argumentExpression.addArguments(n);
+			super.argumentExpression.addArguments(this);
+			super.argumentExpression.setDescription(argumentName);
+			recursiveCounter = -1;
+		} 
 	}
 	
 	
@@ -147,13 +149,15 @@ public class RecursiveArgument extends Argument {
 		 */
 		super(argumentName, recursiveExpressionString);
 		
-		this.argumentType = RECURSIVE_ARGUMENT;
-		baseValues = new ArrayList<Double>();
-		this.n = n;
-		super.argumentExpression.addArguments(n);
-		super.argumentExpression.addArguments(this);
-		super.argumentExpression.setDescription(argumentName);
-		recursiveCounter = -1;
+		if (argumentName.equals(this.getArgumentName())) {
+			this.argumentType = RECURSIVE_ARGUMENT;
+			baseValues = new ArrayList<Double>();
+			this.n = n;
+			super.argumentExpression.addArguments(n);
+			super.argumentExpression.addArguments(this);
+			super.argumentExpression.setDescription(argumentName);
+			recursiveCounter = -1;
+		}
 		
 	}
 	

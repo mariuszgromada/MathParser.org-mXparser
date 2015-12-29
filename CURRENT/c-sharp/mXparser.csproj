@@ -43,7 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>mxparser</RootNamespace>
@@ -73,10 +73,12 @@
     <Compile Include="NumberTheory.cs" />
     <Compile Include="NumericalAnalysis.cs" />
     <Compile Include="ParseException.cs" />
+    <Compile Include="PrimitiveElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecursiveArgument.cs" />
-    <Compile Include="RegTestExpression.cs" />
+    <Compile Include="RegTestExpressionV2.cs" />
     <Compile Include="RegTestExpressionAPI.cs" />
+    <Compile Include="RegTestExpression.cs" />
     <Compile Include="RegTestSyntax.cs" />
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="SyntaxChecker.cs" />

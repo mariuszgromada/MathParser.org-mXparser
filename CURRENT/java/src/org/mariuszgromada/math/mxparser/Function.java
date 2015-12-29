@@ -149,7 +149,7 @@ public class Function extends PrimitiveElement {
 					,String  functionExpressionString ) {
 		super(Function.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
 			this.functionName = functionName;
 			functionExpression = new Expression(functionExpressionString);
 			functionExpression.setDescription(functionName);
@@ -183,7 +183,7 @@ public class Function extends PrimitiveElement {
 					,String... argumentsNames ) {
 		super(Function.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
 			this.functionName = functionName;
 			functionExpression = new Expression(functionExpressionString);
 			functionExpression.setDescription(functionName);
@@ -223,7 +223,7 @@ public class Function extends PrimitiveElement {
 					,Argument... arguments ) {
 		super(Function.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
 			this.functionName = functionName;
 			functionExpression = new Expression(functionExpressionString);
 			functionExpression.setDescription(functionName);
@@ -354,7 +354,7 @@ public class Function extends PrimitiveElement {
 	 * @param      functionName        the function name
 	 */
 	public void setFunctionName(String functionName) {		
-		if ( Pattern.matches(ParserSymbol.nameTokenRegExp, functionName) ) {
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
 			this.functionName = functionName;
 			setExpressionModifiedFlags();
 		} else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
@@ -457,7 +457,6 @@ public class Function extends PrimitiveElement {
 		
 		if (arguments.length == this.getParametersNumber()) {
 				
-			
 			for (int p = 0; p < arguments.length; p++)
 				setArgumentValue(p, arguments[p].getArgumentValue());
 							
@@ -470,6 +469,33 @@ public class Function extends PrimitiveElement {
 		}
 		
 	}
+	
+	/**
+	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
+	 * to the function expressions. 
+	 * 
+	 * @param elements Elements list (variadic), where Argument, Constant, Function
+	 *                 extend the same class PrimitiveElement  
+	 *                   
+	 * @see PrimitiveElement
+	 */
+	public void addDefinitions(PrimitiveElement... elements) {
+		functionExpression.addDefinitions(elements);
+	}
+	
+	/**
+	 * Removes user defined elements (such as: Arguments, Constants, Functions) 
+	 * from the function expressions. 
+	 * 
+	 * @param elements Elements list (variadic), where Argument, Constant, Function
+	 *                 extend the same class PrimitiveElement  
+	 *                   
+	 * @see PrimitiveElement
+	 */
+	public void removeDefinitions(PrimitiveElement... elements) {
+		functionExpression.removeDefinitions(elements);
+	}
+	
 	
 	/*=================================================
 	 * 
@@ -854,23 +880,6 @@ public class Function extends PrimitiveElement {
 		functionExpression.removeAllConstants();
 		
 	}
-	
-	
-	
-	/**
-	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
-	 * to the expressions. 
-	 * 
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement  
-	 *                   
-	 * @see PrimitiveElement
-	 */
-	public void addDefinitions(PrimitiveElement... elements) {
-		
-		functionExpression.addDefinitions(elements);
-		
-	}
 
 	/*=================================================
 	 * 
@@ -1089,9 +1098,7 @@ public class Function extends PrimitiveElement {
 	 * 
 	 */
 	public boolean getRecursiveMode() {
-
 		return functionExpression.getRecursiveMode();
-
 	}		
 	
 	/**
@@ -1100,9 +1107,7 @@ public class Function extends PrimitiveElement {
 	 * @return     computing time in seconds.
 	 */
 	public double getComputingTime() {
-
 		return functionExpression.getComputingTime();
-
 	}		
 	
 	/**

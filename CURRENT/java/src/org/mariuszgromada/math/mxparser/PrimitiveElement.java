@@ -70,15 +70,42 @@ package org.mariuszgromada.math.mxparser;
  */
 public class PrimitiveElement {
 	
+	/**
+	 * Element type id
+	 * 
+	 * @see     Argument.TYPE_ID
+	 * @see     Constant.TYPE_ID
+	 * @see     Function.TYPE_ID
+	 */
+	private int myTypeId;
+	
+	
+	/**
+	 * Default constructor setting element type id
+	 * 
+	 * @param typeId     Element type id
+	 * 
+	 * @see     Argument.TYPE_ID
+	 * @see     Constant.TYPE_ID
+	 * @see     Function.TYPE_ID
+	 */
 	public PrimitiveElement(int typeId) {
 		myTypeId = typeId;
 	}
+
 	
-	private int myTypeId;
-	
+	/**
+	 * Returns element type id
+	 * 
+	 * @return  Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID 
+	 * 
+	 * @see     Argument.TYPE_ID
+	 * @see     Constant.TYPE_ID
+	 * @see     Function.TYPE_ID
+	 * 
+	 */
 	public int getMyTypeId() {
 		return myTypeId;
 	}
-	
 	
 }

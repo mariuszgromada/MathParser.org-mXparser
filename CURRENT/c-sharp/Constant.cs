@@ -1,9 +1,9 @@
 /*
- * @(#)Constant.cs        1.0    2010-02-20
+ * @(#)Constant.cs        2.0.0    2015-12-29
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@
  * 
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
+ *     http://mathspace.plt/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
@@ -42,6 +42,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -63,10 +65,13 @@ namespace org.mariuszgromada.math.mxparser {
      * 
      * @author         <b>Mariusz Gromada</b><br/>
      *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-     *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
-     *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
+     *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
+     *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+     *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
+     *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+     *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        1.0
+     * @version        2.0.0
      * 
      * @see RecursiveArgument
      * @see Expression
@@ -74,7 +79,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Argument
      *
      */
-    public class Constant {
+    public class Constant : PrimitiveElement {
     	
 	    /**
 	     * When constant could not be found
@@ -85,6 +90,13 @@ namespace org.mariuszgromada.math.mxparser {
 	     * Type identifier for constants
 	     */
         internal const int TYPE_ID = 104;
+
+        /**
+         * Status of the Expression syntax
+         */
+        public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
+	    public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	    private const String NO_SYNTAX_ERROR_MSG = "Constant - no syntax errors.";
     	
 	    /**
 	     * Name of the constant
@@ -104,25 +116,48 @@ namespace org.mariuszgromada.math.mxparser {
 	    /**
 	     * Dependent expression list
 	     */
-	    private List<Expression> relatedExpressionsList;	
-    	
+	    private List<Expression> relatedExpressionsList;
 
-	    /**
+        /**
+         * Status of the expression syntax
+         * 
+         * Please referet to the:
+         *    - NO_SYNTAX_ERRORS
+         *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
+         */
+        private bool syntaxStatus;
+
+        /**
+         * Message after checking the syntax
+         */
+        private String errorMessage;
+
+
+        /**
 	     * Constructor - creates constant with a given name and given value
 	     * 
 	     * 
 	     * @param      constantName        the constant name
 	     * @param      constantValue       the constant value
 	     */
-	    public Constant(String constantName
-					    ,double constantValue) {
-    		
-		    this.constantName = constantName;
-		    this.constantValue = constantValue;
-		    description = "";
-		    relatedExpressionsList = new List<Expression>();
-    		
-	    }
+        public Constant(String constantName
+					    ,double constantValue) : base(Constant.TYPE_ID)
+        {
+
+            if (Regex.Match(constantName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.constantName = constantName;
+                this.constantValue = constantValue;
+                description = "";
+                relatedExpressionsList = new List<Expression>();
+
+                syntaxStatus = NO_SYNTAX_ERRORS;
+                errorMessage = NO_SYNTAX_ERROR_MSG;
+            } else {
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
+            }
+
+        }
     	
 	    /**
 	     * Constructor - creates constant with a given name and given value.
@@ -134,22 +169,59 @@ namespace org.mariuszgromada.math.mxparser {
 	     */	
 	    public Constant(String constantName
 			    ,double constantValue
-			    ,String description) {
-    		
-		    this.constantName = constantName;
-		    this.constantValue = constantValue;
-		    this.description = description;
-		    relatedExpressionsList = new List<Expression>();
-    		
-	    }
+			    ,String description) : base(Constant.TYPE_ID)
+        {
 
-    	
-	    /**
+            if (Regex.Match(constantName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.constantName = constantName;
+                this.constantValue = constantValue;
+                this.description = description;
+                relatedExpressionsList = new List<Expression>();
+
+                syntaxStatus = NO_SYNTAX_ERRORS;
+                errorMessage = NO_SYNTAX_ERROR_MSG;
+            }
+            else {
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
+            }
+
+        }
+
+        /**
+         * Constructor for function definition in natural math language,
+         * for instance providing on string "f(x,y) = sin(x) + cos(x)"
+         * is enough to define function "f" with parameters "x and y"
+         * and function body "sin(x) + cos(x)".
+         * 
+         * @param functionDefinitionString      Function definition in the form
+         *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+         */
+        public Constant(String constantDefinitionString) : base(Constant.TYPE_ID)
+        {
+            description = "";
+            syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+
+            if (Regex.Match(constantDefinitionString, ParserSymbol.constArgDefStrRegExp).Success)
+            {
+                HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
+                constantName = headEqBody.headTokens[0].tokenStr;
+                Expression bodyExpression = new Expression(headEqBody.bodyStr);
+                relatedExpressionsList = new List<Expression>();
+                constantValue = bodyExpression.calculate();
+                syntaxStatus = bodyExpression.getSyntaxStatus();
+                errorMessage = bodyExpression.getErrorMessage();
+            }
+            else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constArgDefStrRegExp;
+        }
+
+
+        /**
 	     * Gets constant name
 	     * 
 	     * @return     the constant name as string.
 	     */
-	    public String getConstantName() {
+        public String getConstantName() {
     		
 		    return constantName;
     		
@@ -162,19 +234,24 @@ namespace org.mariuszgromada.math.mxparser {
 	     * @param      constantName        the constant name
 	     */
 	    public void setConstantName(String constantName) {
-    		
-		    this.constantName = constantName;
-		    setExpressionModifiedFlags();
-    		
-	    }
-    	
-    	
-	    /**
+
+            if (Regex.Match(constantName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+                this.constantName = constantName;
+                setExpressionModifiedFlags();
+            }
+            else {
+                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp; ;
+            }
+        }
+
+
+        /**
 	     * Gets constant value.
 	     * 
 	     * @return     constant value as double
 	     */
-	    public double getConstantValue() {
+        public double getConstantValue() {
     		
 		    return constantValue;
     		
@@ -202,14 +279,34 @@ namespace org.mariuszgromada.math.mxparser {
 		    this.description = description;
     		
 	    }
-    	
-    	
-	    /**
+
+        /**
+         * Method return error message after
+         * 
+         * @return     Error message as string.
+         */
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        /**
+         * Gets syntax status of the expression.
+         * 
+         * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
+         *             Const.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
+         *             syntax status is unknown
+         */
+        public bool getSyntaxStatus() {
+            return this.syntaxStatus;
+        }
+
+
+        /**
 	     * Adds related expression.
 	     * 
 	     * @param      expression          the related expression.
 	     */
-	    internal void addRelatedExpression(Expression expression) {
+        internal void addRelatedExpression(Expression expression) {
     		
 		    if (expression != null)
 			    if ( !relatedExpressionsList.Contains(expression) )
@@ -247,7 +344,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    public String getLicense() {
     		
-		    return Expression.LICENSE;
+		    return mXparser.LICENSE;
     		
 	    }		
     	

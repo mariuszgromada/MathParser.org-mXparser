@@ -168,6 +168,8 @@ public class Argument extends PrimitiveElement {
 	
 	/**
 	 * Index argument.
+	 * 
+	 * @see RecursiveArgument
 	 */	
 	protected Argument n;
 
@@ -241,13 +243,18 @@ public class Argument extends PrimitiveElement {
 	public Argument(String argumentName, double argumentValue) {
 		super(Argument.TYPE_ID);
 
-		this.argumentName=new String(argumentName);
-		this.argumentValue=argumentValue;
-		argumentExpression = new Expression(); 
-		argumentType = FREE_ARGUMENT;		
+		argumentExpression = new Expression();
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+			this.argumentName=new String(argumentName);
+			this.argumentValue=argumentValue;
+			argumentType = FREE_ARGUMENT;
+		} else {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+		}
+
 		setSilentMode();
 		description = "";
-
 	}
 
 	/**
@@ -256,17 +263,23 @@ public class Argument extends PrimitiveElement {
 	 * 
 	 * @param      argumentName                  the argument name
 	 * @param      argumentExpressionString      the argument expression string
-	 * 
 	 * @see        Expression
 	 */		
 	public Argument(String argumentName, String argumentExpressionString) {
 		super(Argument.TYPE_ID);
 
-		this.argumentName=new String(argumentName);
-		argumentValue=ARGUMENT_INITIAL_VALUE;
-		argumentExpression = new Expression(argumentExpressionString);
-		argumentExpression.setDescription(argumentName);
-		argumentType = DEPENDENT_ARGUMENT;		
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+			this.argumentName=new String(argumentName);
+			argumentValue=ARGUMENT_INITIAL_VALUE;
+			argumentExpression = new Expression(argumentExpressionString);
+			argumentExpression.setDescription(argumentName);
+			argumentType = DEPENDENT_ARGUMENT;		
+		} else {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression = new Expression();
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+		}
+		
 		setSilentMode();
 		description = "";
 
@@ -285,11 +298,18 @@ public class Argument extends PrimitiveElement {
 	public Argument(String argumentName, String argumentExpressionString, Argument... arguments) {
 		super(Argument.TYPE_ID);
 
-		this.argumentName=new String(argumentName);
-		argumentValue=ARGUMENT_INITIAL_VALUE;
-		argumentExpression = new Expression(argumentExpressionString, arguments);
-		argumentExpression.setDescription(argumentName);
-		argumentType = DEPENDENT_ARGUMENT;		
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+			this.argumentName=new String(argumentName);
+			argumentValue=ARGUMENT_INITIAL_VALUE;
+			argumentExpression = new Expression(argumentExpressionString, arguments);
+			argumentExpression.setDescription(argumentName);
+			argumentType = DEPENDENT_ARGUMENT;
+		} else {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression = new Expression();
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+		}
+		
 		setSilentMode();
 		description = "";
 
@@ -382,10 +402,12 @@ public class Argument extends PrimitiveElement {
 	 */			
 	public void setArgumentName(String argumentName) {
 
-		this.argumentName = argumentName;
-		
-		setExpressionModifiedFlags();
-		
+		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+			this.argumentName = argumentName;
+			setExpressionModifiedFlags();
+		}
+		else if (argumentExpression != null)
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
 	}
 	
 	/**
@@ -501,6 +523,33 @@ public class Argument extends PrimitiveElement {
 		else
 			return argumentExpression.calculate();
 
+	}
+
+
+	/**
+	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
+	 * to the argument expressions. 
+	 * 
+	 * @param elements Elements list (variadic), where Argument, Constant, Function
+	 *                 extend the same class PrimitiveElement  
+	 *                   
+	 * @see PrimitiveElement
+	 */
+	public void addDefinitions(PrimitiveElement... elements) {		
+		argumentExpression.addDefinitions(elements);
+	}
+
+	/**
+	 * Removes user defined elements (such as: Arguments, Constants, Functions) 
+	 * from the argument expressions. 
+	 * 
+	 * @param elements Elements list (variadic), where Argument, Constant, Function
+	 *                 extend the same class PrimitiveElement  
+	 *                   
+	 * @see PrimitiveElement
+	 */
+	public void removeDefinitions(PrimitiveElement... elements) {
+		argumentExpression.removeDefinitions(elements);
 	}
 
 	
@@ -843,20 +892,6 @@ public class Argument extends PrimitiveElement {
 		
 	}
 
-	/**
-	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
-	 * to the expressions. 
-	 * 
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement  
-	 *                   
-	 * @see PrimitiveElement
-	 */
-	public void addDefinitions(PrimitiveElement... elements) {
-		
-		argumentExpression.addDefinitions(elements);
-		
-	}
 	/*=================================================
 	 * 
 	 * Functions handling API (the same as in Expression)
