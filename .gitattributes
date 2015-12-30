@@ -16,5 +16,5 @@ CURRENT/java/javadoc.xml linguist-documentation
 .md linguist-documentation
 *.csproj linguist-vendored
 *.user linguist-vendored
-CURRENT/c-shar/* linguist-language=java,csharp
-CURRENT/java/* linguist-language=java,csharp
+CURRENT/c-sharp/* linguist-language=csharp
+CURRENT/java/* linguist-language=Java
