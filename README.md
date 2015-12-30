@@ -145,5 +145,7 @@
     e.checkSyntax();
     mXparser.consolePrintln(e.getErrorMessage());
     
+# Enjoy :-)
+
 Best regards,
 *Mariusz Gromada*
