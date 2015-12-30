@@ -1,5 +1,5 @@
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2015/12/mxparser-logo-pi-gr.png)
-# mXparser - Math Parser Java C# Library
+# mXparser - a super easy, rich and highly flexible mathematical expressions parser (Math Parser) library for JAVA and C# .NET.
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
 # Main functionalities:
@@ -28,9 +28,122 @@
 ### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
 ### - [MathParser.org - site about mXparser (english)](http://mathparser.org/)
 
+# mXparser in nutshell
+
+#### _[calculator]_ You want simple calculator?
+    Expression e = new Expression("2+3");
+    e.calculate();
+:+1: 
+
+#### _[parenthesis]_ A calculator supporting parenthesis?
+    Expression e = new Expression("2+(3-5)^2");
+    e.calculate();
+:+1: 
+
+#### _[predefined constants]_ You care about predefined constants?
+    Expression e = new Expression("2*pi");
+    e.calculate();
+:+1: 
+
+#### _[your own constants]_ You need to define your own constants?
+    Constant tau = new Constant("tau = 2*pi");
+    Expression e = new Expression("3*tau", tau);
+    e.calculate();
+:+1: 
+
+#### _[built-in functions]_ You enjoy using many built-in functions?
+    Expression e = new Expression("sin(2*pi)");
+    e.calculate();
+:+1: 
+
+#### _[not only unary functions]_ You do not limit yourself to unary functions?
+    Expression e = new Expression("gcd(2,5,10,30)");
+    e.calculate();
+:+1: 
+
+#### _[arguments]_ What about user defined arguments - do you like it?
+    Argument x = new Argument("x = 5");
+    Expression e = new Expression("sin(x)");
+    e.calculate();
+:+1: 
+
+#### _[dependent arguments]_ You are thinking of dependent arguments?
+    Argument x = new Argument("x = 5");
+    Argument y = new Argument("y = 2*x", x);
+    Expression e = new Expression("sin(y)", y);
+    e.calculate();
+:+1: 
+
+#### _[logic]_ You need to apply some logic?
+    Argument x = new Argument("x = 5");
+    Expression e = new Expression("if(sin(x) > 5, 1, 0)", x);
+    e.calculate();
+:+1:
+
+#### _[Boolean algebra]_ Yes, you are right, there is a support for Boolean algebra!
+    Expression e = new Expression("5=6");
+    e.calculate();
+:+1:
+
+#### _[binary relations]_ And for binary relations as well!
+    Expression e = new Expression("5 <= 6");
+    e.calculate();
+:+1:
+
+## Yes, mXparser i cool! But this is only the begging, we are just warming up!
+
+#### _[iterated operators]_ You want to play with iterated operators?
+    Expression e = new Expression("sum(i, 1, 10, 2*i^2 + pi)");
+    e.calculate();
+:+1:
+
+#### _[iterated operators]_ You want to iterate differently by not necessarily whole numbers?
+    Expression e = new Expression("prod(i, 1, 5, i, 0.5)");
+    e.calculate();
+:+1:
+
+#### _[iterated operators]_ You want to have fun with math? I have a special gift for you - lets approximate sin(x) by using sigma summation and Taylor series definition!
+    Argument x = new Argument("x = pi/2");
+    Expression e20 = new Expression("sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!)", x);
+    e.calculate();
+:+1:
+
+#### _[calculus - differentiation]_ You still want more fun with calculus operations? Great! There is a support for numerical differentiation!
+    Argument x = new Argument("x = pi/2");
+    Expression e = new Expression("cos(x)-der(sin(x), x)", x);
+    e.calculate();
+:+1:
+
+#### _[calculus - integrals]_ And for definite integrals as well!
+    Expression e = new Expression("2*int(sqrt(1-x^2), x, -1, 1)");
+    e.calculate();
+:+1:
+
+## Yes, mXparser is even cooler! It is time to ask about ...
+
+#### _[user defined functions]_ You agree that real power of calculations comes from user defined functions?
+    Function f = new Function("f(x,y) = sin(x) + cos(y)");
+    f.calculate(1,2);
+    Expression e = new Expression("f(1,2) - 10", f);
+    e.calculate();
+:+1:
+
+#### _[user defined recursive function]_ Recursion is your desire?
+    Function f = new Function("f(n) = if( n>0, n*f(n-1), 1)");
+    f.calculate()
+:+1:
+
+#### _[user defined recursive function]_ Any kind of recursion, really?
+    Function Cnk = new Function("Cnk(n,k) = if(k>0, if(k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)");
+    Cnk.calculate()
+:+1:
+
+## If anything above matches you then mXparser is a good choce! mXparser is freely distributed under Simplified BSD licence, but still you can give credits to the author, and even donate if you wish :+1: 
+
+#### _[grammar and syntax checking]_ mXparser can interact with end users as it supports syntax checking.
+    Expression e = new Expression("2+1/a");
+    e.checkSyntax();
+    mXparser.consolePrintln(e.getErrorMessage());
+    
 Best regards,
 *Mariusz Gromada*
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mariuszgromada/mxparser/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
