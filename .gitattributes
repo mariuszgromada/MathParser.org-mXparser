@@ -1,3 +1,5 @@
+CURRENT/c-sharp/* linguist-language=csharp
+CURRENT/java/* linguist-language=Java
 CURRENT/doc/* linguist-documentation
 STABLE/1.0/doc/* linguist-documentation
 STABLE/1.0.2/doc/* linguist-documentation
@@ -16,5 +18,4 @@ CURRENT/java/javadoc.xml linguist-documentation
 .md linguist-documentation
 *.csproj linguist-vendored
 *.user linguist-vendored
-CURRENT/c-sharp/* linguist-language=csharp
-CURRENT/java/* linguist-language=Java
+/CURRENT/c-sharp/mXparserExe/* linguist-vendored
