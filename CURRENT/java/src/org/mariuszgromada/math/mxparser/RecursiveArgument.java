@@ -44,8 +44,6 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-
 
 /**
  * RecursiveArgument class enables to declare the argument
@@ -96,7 +94,7 @@ public class RecursiveArgument extends Argument {
 	/**
 	 * Type identifier for recursive arguments.
 	 */	
-	protected static final int TYPE_ID = 102;	
+	protected static final int TYPE_ID_RECURSIVE = 102;	
 	
 	/**
 	 * Base values
@@ -131,7 +129,9 @@ public class RecursiveArgument extends Argument {
 			super.argumentExpression.addArguments(this);
 			super.argumentExpression.setDescription(argumentName);
 			recursiveCounter = -1;
-		} 
+		} else {
+			
+		}
 	}
 	
 	
@@ -141,8 +141,13 @@ public class RecursiveArgument extends Argument {
 	 * @param      argumentName                  the argument name
 	 * @param      recursiveExpressionString     the recursive expression string
 	 * @param      n                             the index argument
+	 * @param      elements                      Optional elements list (variadic - comma
+	 *                                           separated) of types: Argument, Constant, Function
+	 * 
+	 * @see        PrimitiveElement
+	 * @see        Argument
 	 */	
-	public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n) {
+	public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, PrimitiveElement... elements) {
 				
 		/*
 		 * call super class constructor
@@ -155,6 +160,7 @@ public class RecursiveArgument extends Argument {
 			this.n = n;
 			super.argumentExpression.addArguments(n);
 			super.argumentExpression.addArguments(this);
+			super.argumentExpression.addDefinitions(elements);
 			super.argumentExpression.setDescription(argumentName);
 			recursiveCounter = -1;
 		}
@@ -172,16 +178,27 @@ public class RecursiveArgument extends Argument {
 	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
 	 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)                                                
 	 *                                             </ul>
+	 *                                             
+	 * @param      elements                       Optional elements list
+	 *                                            (variadic - comma separated) of types: Argument,
+	 *                                            Constant, Function
+	 * 
+	 * @see    PrimitiveElement
+	 * @see    Argument
 	 */
-	public RecursiveArgument(String argumentDefinitionString) {
+	public RecursiveArgument(String argumentDefinitionString, PrimitiveElement... elements) {
 		super(argumentDefinitionString);
-		if ( Pattern.matches(ParserSymbol.functionDefStrRegExp, argumentDefinitionString) ) {
+		if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp) ) {
 			this.argumentType = RECURSIVE_ARGUMENT;
 			baseValues = new ArrayList<Double>();
 			recursiveCounter = -1;
-			super.argumentExpression.addArguments(n);
+			super.argumentExpression.addArguments(super.n);
 			super.argumentExpression.addArguments(this);
+			super.argumentExpression.addDefinitions(elements);
 			super.argumentExpression.setDescription(argumentDefinitionString);
+		} else {
+			super.argumentExpression = new Expression();
+			super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
 		}
 	}
 

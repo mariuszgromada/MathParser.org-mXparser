@@ -93,7 +93,7 @@ public final class BooleanAlgebra {
 	/**
 	 * AND truth table
 	 */
-	public static final double[][] AND = {
+	public static final double[][] AND_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ F, F, F} ,
@@ -106,7 +106,7 @@ public final class BooleanAlgebra {
 	/**
 	 * NAND truth table
 	 */
-	public static final double[][] NAND = {
+	public static final double[][] NAND_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ T, T, T} ,
@@ -118,7 +118,7 @@ public final class BooleanAlgebra {
 	/**
 	 * OR truth table
 	 */	
-	public static final double[][] OR = {
+	public static final double[][] OR_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ F, T, N} ,
@@ -130,7 +130,7 @@ public final class BooleanAlgebra {
 	/**
 	 * NOR truth table
 	 */	
-	public static final double[][] NOR = {
+	public static final double[][] NOR_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ T, F, N} ,
@@ -142,7 +142,7 @@ public final class BooleanAlgebra {
 	/**
 	 * XOR truth table
 	 */	
-	public static final double[][] XOR = {
+	public static final double[][] XOR_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ F, T, N} ,
@@ -155,7 +155,7 @@ public final class BooleanAlgebra {
 	/**
 	 * XNOR truth table
 	 */	
-	public static final double[][] XNOR = {
+	public static final double[][] XNOR_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ T, F, N} ,
@@ -167,7 +167,7 @@ public final class BooleanAlgebra {
 	/**
 	 * IMP truth table
 	 */	
-	public static final double[][] IMP = {
+	public static final double[][] IMP_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ T, T, T} ,
@@ -179,7 +179,7 @@ public final class BooleanAlgebra {
 	/**
 	 * CIMP truth table
 	 */
-	public static final double[][] CIMP = {
+	public static final double[][] CIMP_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ T, F, N} ,
@@ -191,7 +191,7 @@ public final class BooleanAlgebra {
 	/**
 	 * EQV truth table
 	 */	
-	public static final double[][] EQV = {
+	public static final double[][] EQV_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ T, F, N} ,
@@ -203,7 +203,7 @@ public final class BooleanAlgebra {
 	/**
 	 * NIMP truth table
 	 */
-	public static final double[][] NIMP = {
+	public static final double[][] NIMP_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ F, F, F} ,
@@ -215,7 +215,7 @@ public final class BooleanAlgebra {
 	/**
 	 * CNIMP truth table
 	 */	
-	public static final double[][] CNIMP = {
+	public static final double[][] CNIMP_TRUTH_TABLE = {
 		
 		/*		  F  T  N
 		/* F */	{ F, T, N} ,
@@ -227,7 +227,7 @@ public final class BooleanAlgebra {
 	/**
 	 * NOT truth table
 	 */	
-	public static final double[] NOT = {
+	public static final double[] NOT_TRUTH_TABLE = {
 		
    			   /* F  T  N	*/
 				  T, F, N
@@ -271,7 +271,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return AND[A][B];
+		return AND_TRUTH_TABLE[A][B];
 
 	}
 
@@ -289,7 +289,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return OR[A][B];
+		return OR_TRUTH_TABLE[A][B];
 
 	}	
 		
@@ -307,7 +307,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return XOR[A][B];
+		return XOR_TRUTH_TABLE[A][B];
 
 	}
 
@@ -325,7 +325,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return NAND[A][B];
+		return NAND_TRUTH_TABLE[A][B];
 
 	}
 	
@@ -343,7 +343,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return NOR[A][B];
+		return NOR_TRUTH_TABLE[A][B];
 
 	}
 	
@@ -361,7 +361,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return XNOR[A][B];
+		return XNOR_TRUTH_TABLE[A][B];
 
 	}	
 		
@@ -380,7 +380,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return IMP[A][B];
+		return IMP_TRUTH_TABLE[A][B];
 
 	}	
 	
@@ -399,7 +399,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return EQV[A][B];
+		return EQV_TRUTH_TABLE[A][B];
 
 	}		
 	
@@ -415,7 +415,7 @@ public final class BooleanAlgebra {
 
 		int A = double2IntBoolean(a);
 		
-		return NOT[A];
+		return NOT_TRUTH_TABLE[A];
 
 	}
 	
@@ -433,7 +433,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return CIMP[A][B];
+		return CIMP_TRUTH_TABLE[A][B];
 
 	}
 	
@@ -451,7 +451,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return NIMP[A][B];
+		return NIMP_TRUTH_TABLE[A][B];
 
 	}
 	
@@ -469,7 +469,7 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		
-		return CNIMP[A][B];
+		return CNIMP_TRUTH_TABLE[A][B];
 
 	}
 }

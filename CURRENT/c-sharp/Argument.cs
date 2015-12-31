@@ -46,9 +46,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
-
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -100,6 +97,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Function	
      * @see Constant
      */
+    [CLSCompliant(true)]
     public class Argument : PrimitiveElement {
             	
 	    /**
@@ -196,16 +194,18 @@ namespace org.mariuszgromada.math.mxparser {
          *                                                <li>'x=2*5' - argument name and argument value given as simple expression
          *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
          *                                             </ul>
+         * 
+         * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions 
          */
-        public Argument(String argumentDefinitionString) : base(Argument.TYPE_ID)
+        public Argument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID)
         {
-            if (Regex.Match(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
                 argumentName = argumentDefinitionString;
                 argumentValue = ARGUMENT_INITIAL_VALUE;
                 argumentType = FREE_ARGUMENT;
-                argumentExpression = new Expression();
+                argumentExpression = new Expression(elements);
             }
-            else if (Regex.Match(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp).Success) {
+            else if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp)) {
                 HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
                 argumentName = headEqBody.headTokens[0].tokenStr;
                 Expression bodyExpr = new Expression(headEqBody.bodyStr);
@@ -218,14 +218,15 @@ namespace org.mariuszgromada.math.mxparser {
                 }
                 else {
                     argumentExpression = bodyExpr;
+                    addDefinitions(elements);
                     argumentType = DEPENDENT_ARGUMENT;
                 }
 
             }
-            else if (Regex.Match(argumentDefinitionString, ParserSymbol.functionDefStrRegExp).Success) {
+            else if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp)) {
                 HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
                 argumentName = headEqBody.headTokens[0].tokenStr;
-                argumentExpression = new Expression(headEqBody.bodyStr);
+                argumentExpression = new Expression(headEqBody.bodyStr, elements);
                 argumentExpression.setDescription(headEqBody.headStr);
                 argumentValue = ARGUMENT_INITIAL_VALUE;
                 argumentType = DEPENDENT_ARGUMENT;
@@ -251,7 +252,7 @@ namespace org.mariuszgromada.math.mxparser {
         public Argument(String argumentName, double argumentValue) : base(Argument.TYPE_ID)
         {
             argumentExpression = new Expression();
-            if (Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.argumentName = String.Copy(argumentName);
                 this.argumentValue = argumentValue;
                 argumentType = FREE_ARGUMENT;
@@ -266,22 +267,25 @@ namespace org.mariuszgromada.math.mxparser {
 
 	    }
 
-	    /**
-	     * Constructor - creates dependent argument(with hidden 
-	     * argument expression).
-	     * 
-	     * @param      argumentName                  the argument name
-	     * @param      argumentExpressionString      the argument expression string
-	     * 
-	     * @see        Expression
-	     */		
-	    public Argument(String argumentName, String argumentExpressionString) : base(Argument.TYPE_ID)
+        /**
+         * Constructor - creates dependent argument(with hidden 
+         * argument expression).
+         * 
+         * @param      argumentName                  the argument name
+         * @param      argumentExpressionString      the argument expression string
+         * @param      elements                      Optional parameters (comma separated)
+         *                                           such as Arguments, Constants, Functions
+         *  
+         * @see        Expression
+         * @see        PrimitiveElement
+         */
+        public Argument(String argumentName, String argumentExpressionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID)
         {
 
-            if (Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.argumentName=String.Copy(argumentName);
 		        argumentValue=ARGUMENT_INITIAL_VALUE;
-		        argumentExpression = new Expression(argumentExpressionString);
+		        argumentExpression = new Expression(argumentExpressionString, elements);
 		        argumentExpression.setDescription(argumentName);
 		        argumentType = DEPENDENT_ARGUMENT;
             }
@@ -296,36 +300,6 @@ namespace org.mariuszgromada.math.mxparser {
 
 	    }	
 
-
-	    /**
-	     * Constructor - creates dependent argument (with hidden Expression).
-	     * 
-	     * @param      argumentName                  the argument name
-	     * @param      argumentExpressionString      the argument expression string
-	     * @param      arguments                     the arguments list (variadic - comma separated)
-	     *                                           associated with the argument expression.
-	     * @see        Expression
-	     */				
-	    public Argument(String argumentName, String argumentExpressionString, params Argument[] arguments) : base(Argument.TYPE_ID)
-        {
-
-            if (Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success) {
-                this.argumentName = String.Copy(argumentName);
-                argumentValue = ARGUMENT_INITIAL_VALUE;
-                argumentExpression = new Expression(argumentExpressionString, arguments);
-                argumentExpression.setDescription(argumentName);
-                argumentType = DEPENDENT_ARGUMENT;
-            }
-            else {
-                this.argumentValue = ARGUMENT_INITIAL_VALUE;
-                argumentExpression = new Expression();
-                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
-            }
-
-            setSilentMode();
-		    description = "";
-
-	    }		
 
 	    /**
 	     * Sets argument description.
@@ -413,7 +387,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */			
 	    public void setArgumentName(String argumentName) {
 
-            if ((Regex.Match(argumentName, ParserSymbol.nameOnlyTokenRegExp).Success)) {
+            if ((mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp))) {
                 this.argumentName = argumentName;
                 setExpressionModifiedFlags();
             }
@@ -540,8 +514,7 @@ namespace org.mariuszgromada.math.mxparser {
          * Adds user defined elements (such as: Arguments, Constants, Functions) 
          * to the argument expressions. 
          * 
-         * @param elements Elements list (variadic), where Argument, Constant, Function
-         *                 extend the same class PrimitiveElement  
+         * @param elements Elements list (variadic - comma separated) of types: Argument, Constant, Function
          *                   
          * @see PrimitiveElement
          */
@@ -554,8 +527,7 @@ namespace org.mariuszgromada.math.mxparser {
          * Removes user defined elements (such as: Arguments, Constants, Functions) 
          * from the argument expressions. 
          * 
-         * @param elements Elements list (variadic), where Argument, Constant, Function
-         *                 extend the same class PrimitiveElement  
+         * @param elements Elements list (variadic - comma separated) of types: Argument, Constant, Function
          *                   
          * @see PrimitiveElement
          */
@@ -586,22 +558,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    argumentExpression.addArguments(arguments);
     		
 	    }
-    	
-	    /**
-	     * Adds arguments to the argument expression definition.
-	     * 
-	     * @param      argumentsList       the arguments list
-	     * 
-	     * @see        Argument
-	     * @see        RecursiveArgument
-	     */
-	    public void addArguments(List<Argument> argumentsList) {
-    		
-		    argumentExpression.addArguments(argumentsList);
-    		
-	    }
-    	
-    	
+    	    	
 	    /**
 	     * Enables to define the arguments (associated with
 	     * the argument expression) based on the given arguments names.
@@ -768,20 +725,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    argumentExpression.addConstants(constants);
     		
 	    }
-    	
-	    /**
-	     * Adds constants to the argument expression definition.
-	     * 
-	     * @param      constantsList       the list of constants
-	     * 
-	     * @see        Constant
-	     */
-	    public void addConstants(List<Constant> constantsList) {
-    		
-		    argumentExpression.addConstants(constantsList);
-    		
-	    }
-    	
+    	    	
 	    /**
 	     * Enables to define the constant (associated with 
 	     * the argument expression) based on the constant name and
@@ -922,19 +866,6 @@ namespace org.mariuszgromada.math.mxparser {
 	    public void addFunctions(params Function[] functions) {
     		
 		    argumentExpression.addFunctions(functions);
-    		
-	    }
-    	
-	    /**
-	     * Adds functions to the argument expression definition.
-	     * 
-	     * @param      functionsList       the functions list
-	     * 
-	     * @see        Function
-	     */
-	    public void addFunctions(List<Function> functionsList) {	
-    		
-		    argumentExpression.addFunctions(functionsList);
     		
 	    }
     	

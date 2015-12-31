@@ -16,6 +16,10 @@ namespace mXparserExe
             //T1.Start();
             Thread T2 = new Thread(RegTestExpressionV2.Start, 536870912);
             T2.Start();
+            //Thread T3 = new Thread(RegTestExpressionAPI.Start);
+            //T3.Start();
+            //Thread T5 = new Thread(RegTestSyntax.Start);
+            //T5.Start();
         }
     }
 }

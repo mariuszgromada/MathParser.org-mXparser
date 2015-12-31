@@ -43,6 +43,7 @@
  *                              "Yes, up to isomorphism."  
  */
 
+using System;
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -68,6 +69,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see            Expression.addDefinitions()
      * @see            Expression.removeDefinitions()
      */
+    [CLSCompliant(true)]
     public class PrimitiveElement {
 
         /**

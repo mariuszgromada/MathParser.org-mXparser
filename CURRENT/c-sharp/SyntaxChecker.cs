@@ -5,6 +5,7 @@ namespace org.mariuszgromada.math.mxparser.syntaxchecker {
 using System;
 using System.IO;
 
+[CLSCompliant(false)]
 public sealed class SyntaxChecker : SyntaxCheckerConstants {
 
   public void checkSyntax()

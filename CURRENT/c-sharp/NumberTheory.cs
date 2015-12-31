@@ -44,7 +44,6 @@
  */
 
 using System;
-using org.mariuszgromada.math.mxparser;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 
@@ -62,6 +61,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
      *                         
      * @version        2.0.0
      */
+    [CLSCompliant(true)]
     public sealed class NumberTheory {
     	
     	

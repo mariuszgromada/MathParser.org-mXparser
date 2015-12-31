@@ -43,8 +43,6 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-
 
 
 /**
@@ -142,16 +140,18 @@ public class Function extends PrimitiveElement {
 	 * 
 	 * @param      functionName              the function name
 	 * @param      functionExpressionString  the function expression string
+	 * @param      elements                  Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
 	 * 
+	 * @see        PrimitiveElement
 	 * @see        Expression
 	 */
 	public Function(String functionName
-					,String  functionExpressionString ) {
+					,String  functionExpressionString, PrimitiveElement... elements) {
 		super(Function.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
+		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
-			functionExpression = new Expression(functionExpressionString);
+			functionExpression = new Expression(functionExpressionString, elements);
 			functionExpression.setDescription(functionName);
 			
 			parametersNumber = 0;
@@ -180,10 +180,10 @@ public class Function extends PrimitiveElement {
 	 */
 	public Function(String functionName
 					,String  functionExpressionString
-					,String... argumentsNames ) {
+					,String... argumentsNames) {
 		super(Function.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
+		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
 			functionExpression = new Expression(functionExpressionString);
 			functionExpression.setDescription(functionName);
@@ -206,43 +206,7 @@ public class Function extends PrimitiveElement {
 		
 	}
 	
-		
-	/**
-	 * Constructor - creates function from function name,
-	 * function expression string and arguments.
-	 * 
-	 * @param      functionName                  the function name
-	 * @param      functionExpressionString      the function expression string
-	 * @param      arguments                     the arguments (variadic parameters)
-	 *                                           comma separated list
-	 *                                  
-	 * @see        Expression
-	 */
-	public Function(String functionName
-					,String  functionExpressionString
-					,Argument... arguments ) {
-		super(Function.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
-			this.functionName = functionName;
-			functionExpression = new Expression(functionExpressionString);
-			functionExpression.setDescription(functionName);
-			
-			for (Argument argument : arguments)
-				functionExpression.addArguments(argument);
-			
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-			addFunctions(this);
-
-		} else {
-			parametersNumber = 0;
-			description = "";
-			functionExpression = new Expression("");
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);			
-		}
-		
-	}
-	
 	/**
 	 * Constructor for function definition in natural math language,
 	 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
@@ -251,16 +215,21 @@ public class Function extends PrimitiveElement {
 	 * 
 	 * @param functionDefinitionString      Function definition in the form
 	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+	 * @param elements                      Optional elements list (variadic - comma separated)
+	 *                                      of types: Argument, Constant, Function
+	 * 
+	 * @see    PrimitiveElement
+	 *                                      
 	 */
-	public Function(String functionDefinitionString) {
+	public Function(String functionDefinitionString, PrimitiveElement... elements) {
 		super(Function.TYPE_ID);
 
 		parametersNumber = 0;
 
-		if ( Pattern.matches(ParserSymbol.functionDefStrRegExp, functionDefinitionString) ) {
+		if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
-			functionExpression = new Expression(headEqBody.bodyStr);
+			functionExpression = new Expression(headEqBody.bodyStr, elements);
 			functionExpression.setDescription(headEqBody.headStr);
 
 			if (headEqBody.headTokens.size() > 1) {
@@ -270,7 +239,7 @@ public class Function extends PrimitiveElement {
 					if (t.tokenTypeId != ParserSymbol.TYPE_ID)
 						functionExpression.addArguments(new Argument(t.tokenStr));							
 				}
-						
+
 			}
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			description = "";
@@ -354,7 +323,7 @@ public class Function extends PrimitiveElement {
 	 * @param      functionName        the function name
 	 */
 	public void setFunctionName(String functionName) {		
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, functionName) ) {
+		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
 			setExpressionModifiedFlags();
 		} else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
@@ -529,23 +498,7 @@ public class Function extends PrimitiveElement {
 		functionExpression.addArguments(arguments);
 		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 		
-	}
-	
-	/**
-	 * Adds arguments to the function expression definition.
-	 * 
-	 * @param      argumentsList       the arguments list
-	 * 
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
-	public void addArguments(ArrayList<Argument> argumentsList) {
-		
-		functionExpression.addArguments(argumentsList);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-		
-	}
-	
+	}	
 
 	/**
 	 * Enables to define the arguments (associated with
@@ -902,20 +855,7 @@ public class Function extends PrimitiveElement {
 		functionExpression.addFunctions(functions);
 		
 	}
-	
-	/**
-	 * Adds functions to the function expression definition.
-	 * 
-	 * @param      functionsList       the functions list
-	 * 
-	 * @see        Function
-	 */
-	public void addFunctions(ArrayList<Function> functionsList) {	
 		
-		functionExpression.addFunctions(functionsList);
-		
-	}
-	
 	/**
 	 * Enables to define the function (associated with 
 	 * the function expression) based on the function name,

@@ -44,8 +44,6 @@
  */
 
 using System;
-using org.mariuszgromada.math.mxparser;
-using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting
 {
@@ -67,13 +65,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
      * 
      * @see Expression
      */
+    [CLSCompliant(true)]
     public class RegTestExpressionAPI
     {
 
         /**
          * @param args
          */
-        public static void Start(String[] args) {
+        public static void Start() {
 
         long start = mXparser.currentTimeMillis();
 		
@@ -109,26 +108,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		Argument a6 = new Argument("a6",6);
 		Argument a7 = new Argument("a7",7);
 		//Argument a8 = new Argument("a8",8);
-		
-		List<Constant> constants = new List<Constant>();
-		List<Function> functions = new List<Function>();
-		List<Argument> arguments = new List<Argument>();
-		
-		constants.Add(c1);
-		constants.Add(c2);
-		constants.Add(c3);
-		
-		functions.Add(f1);
-		functions.Add(f2);
-		functions.Add(f3);
-		functions.Add(f4);
-		
-		arguments.Add(a1);
-		arguments.Add(a2);
-		arguments.Add(a3);
-		arguments.Add(a4);
-		arguments.Add(a5);
-		
+				
 		bool[] test = new bool[100];
 		for (int i = 0; i < 100; i++)
 			test[i] = false;
@@ -149,10 +129,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		
 		
 		/*
-		 * 1. Expression(String expressionString, List<Argument> argumentsList)
+		 * 1.
 		 */
 		testId++;
-		e = new Expression("a1+c2", arguments);
+		e = new Expression("a1+c2", a1, a2, a3, a4, a5);
 		if (	e.getExpressionString().Equals("a1+c2")
 				&& e.getArgumentsNumber() == 5
 				&& e.getConstantsNumber() == 0
@@ -160,11 +140,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 		
 		/*
-		 * 2. Expression(String expressionString, List<Argument> argumentsList,
-		 *               List<Function> functionsList)
+		 * 2.
 		 */
 		testId++;
-		e = new Expression("a1+c2", arguments, functions);
+		e = new Expression("a1+c2", a1, f1, a2, f2, a3, a4, f3, a5, f4);
 		if (	e.getExpressionString().Equals("a1+c2")
 				&& e.getArgumentsNumber() == 5
 				&& e.getConstantsNumber() == 0
@@ -172,11 +151,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 		
 		/*
-		 * 3. Expression(String expressionString, List<Argument> argumentsList,
-		 * List<Function> functionsList, List<Constant> constantsList)
+		 * 3
 		 */
 		testId++;
-		e = new Expression("a1+c2", arguments, functions, constants);
+		e = new Expression("a1+c2", a1, a2, c1, c2, a3, a4, c5, a5, f1, f2, f3, f4);
 		if (	e.getExpressionString().Equals("a1+c2")
 				&& e.getArgumentsNumber() == 5
 				&& e.getConstantsNumber() == 3
@@ -235,7 +213,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 		
 		/*
-		 * 6. void setVerboseMode(), bool getVerboseMode(), void setSilentMode()
+		 * 6. void setVerboseMode(), boolean getVerboseMode(), void setSilentMode()
 		 */
 		testId++;
 		syn1 = e.checkSyntax();
@@ -255,17 +233,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	
 		/*
 		 * 7.
-		 * public bool getRecursiveMode()
+		 * public boolean getRecursiveMode()
 		 */
+		Function fa = new Function("f(x,y)=sin(x)+cos(y)");
+		Function fb = new Function("f(x,y)=sin(x)+cos(y)+f(1,2)");
 		testId++;
-		syn1 = e.checkSyntax();
-		b1 = e.getRecursiveMode();
-		b2 = e.getRecursiveMode();
-		b3 = e.getRecursiveMode();
-		syn2 = e.getSyntaxStatus();
+		syn1=fa.checkSyntax();
+		syn2=fb.checkSyntax();
+		b1 = fa.getRecursiveMode();
+		b2 = fb.getRecursiveMode();
 		if (	b1 == false
 				&& b2 == true
-				&& b3 == false	
 				&& syn1 == Expression.NO_SYNTAX_ERRORS
 				&& syn2 == Expression.NO_SYNTAX_ERRORS
 				)
@@ -300,17 +278,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		/*
 		 * 10.
 		 * void addArguments(Argument... arguments)
-		 * void addArguments( List<Argument> argumentsList)
+		 * void addArguments( ArrayList<Argument> argumentsList)
 		 * defineArguments(String... argumentsNames)
 		 * defineArgument(String argumentName, double argumentValue)
 		 */
 		testId++;
 		e = new Expression("1+2");
 		syn1 = e.checkSyntax();
-		e.addArguments(a6, a7);
+		e.addDefinitions(a6, a7);
 		syn2 = e.getSyntaxStatus();
 		syn3 = e.checkSyntax();
-		e.addArguments(arguments);
+		e.addDefinitions(a1, a2, a3, a4, a5);
 		syn4 = e.getSyntaxStatus();
 		syn5 = e.checkSyntax();
 		e.defineArguments("x1", "x2", "x3");
@@ -439,33 +417,33 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		/*
 		 * 14.
 		 * void addConstants(Constant... constants)
-		 * void addConstants( List<Constant> constantsList)
+		 * void addConstants( ArrayList<Constant> constantsList)
 		 * void defineConstant(String constantName, double constantValue)
 		 */
 		testId++;
-		e = new Expression("1+2");
+		e = new Expression("1+2", new Constant("a=5"));
 		syn1 = e.checkSyntax();
-		e.addConstants(c5, c6);
+		e.addDefinitions(c5, c6);
 		syn2 = e.getSyntaxStatus();
 		syn3 = e.checkSyntax();
-		e.addConstants(constants);
+		e.addDefinitions(c1, c2, c3, c5, c6);
 		syn4 = e.getSyntaxStatus();
 		syn5 = e.checkSyntax();
 		e.defineConstant("cx1",1);
-		e.defineConstant("cx2",2);
-		e.defineConstant("cx3",3);
-		syn6 = e.getSyntaxStatus();
+		e.removeDefinitions(c5, c6);
+		syn6 = e.checkSyntax();
+		e.removeDefinitions(c5, c6);
 		
 		if (	e.getExpressionString().Equals("1+2")
 				&& e.getArgumentsNumber() == 0
-				&& e.getConstantsNumber() == 8
+				&& e.getConstantsNumber() == 5
 				&& e.getFunctionsNumber() == 0
 				&& syn1 == Expression.NO_SYNTAX_ERRORS
 				&& syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
 				&& syn3 == Expression.NO_SYNTAX_ERRORS
 				&& syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
-				&& syn5 == Expression.NO_SYNTAX_ERRORS
-				&& syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+				&& syn5 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+				&& syn6 == Expression.NO_SYNTAX_ERRORS
 					)
 			test[testId] = true;		
 		
@@ -480,22 +458,23 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		testId++;
 		syn1 = e.checkSyntax();
 		i1 = e.getConstantIndex("asdsa"); //-1
-		i2 = e.getConstantIndex("c6"); //1
+		i2 = e.getConstantIndex("c6"); //-1
 		C1 = e.getConstant("asasas"); //null
 		C2 = e.getConstant("c1"); //c1
 		C3 = e.getConstant(-1); //null
 		C4 = e.getConstant(23);//null
-		C5 = e.getConstant(0);//c5
-		n1 = e.getConstantsNumber();//8
+		C5 = e.getConstant(1);//c1
+		n1 = e.getConstantsNumber();//5
 		syn2 = e.getSyntaxStatus();
+				
 		if (	i1 == -1
-				&& i2 == 1
+				&& i2 == -1
 				&& C1 == null
 				&& C2 == c1
 				&& C3 == null
 				&& C4 == null
-				&& C5 == c5
-				&& n1 == 8
+				&& C5 == c1
+				&& n1 == 5
 				&& syn1 == Expression.NO_SYNTAX_ERRORS
 				&& syn2 == Expression.NO_SYNTAX_ERRORS				
 				)
@@ -509,6 +488,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * void removeAllConstants()
 		 */
 		testId++;
+		e.defineConstant("cx2",1);
 		e.setExpressionString("1+2");
 		syn1 = e.checkSyntax();
 		n1 = e.getConstantsNumber();
@@ -545,20 +525,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		/*
 		 * 17.
 		 * void addFunctions(Function... functions) 
-		 * void addFunctions( List<Function> functionsList)
+		 * void addFunctions( ArrayList<Function> functionsList)
 		 * void defineFunction(String functionName, String  functionExpressionString,...
 		 */
 		testId++;
 		e = new Expression("1+2");
 		syn1 = e.checkSyntax();
-		e.addFunctions(f6, f7);
+		e.addDefinitions(f6, f7);
 		syn2 = e.getSyntaxStatus();
 		syn3 = e.checkSyntax();
-		e.addFunctions(functions);
+		e.addDefinitions(f1, f2, f3, f4, f6);
 		syn4 = e.getSyntaxStatus();
+		e.removeDefinitions(f6);
 		syn5 = e.checkSyntax();
 		e.defineFunction("ff1", "1", "x");
 		syn6 = e.getSyntaxStatus();
+		
 			
 		if (	e.getExpressionString().Equals("1+2")
 				&& e.getArgumentsNumber() == 0
@@ -584,21 +566,23 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		testId++;
 		syn1 = e.checkSyntax();
 		i1 = e.getFunctionIndex("asdsa"); //-1
-		i2 = e.getFunctionIndex("f7"); //1
+		i2 = e.getFunctionIndex("f7"); //0
 		F1 = e.getFunction("asasas"); //null
 		F2 = e.getFunction("f1"); //f1
 		F3 = e.getFunction(-1); //null
 		F4 = e.getFunction(23);//null
-		F5 = e.getFunction(0);//f6
+		F5 = e.getFunction(0);//f7
 		n1 = e.getFunctionsNumber();//7
 		syn2 = e.getSyntaxStatus();
+
+		
 		if (	i1 == -1
-				&& i2 == 1
+				&& i2 == 0
 				&& F1 == null
 				&& F2 == f1
 				&& F3 == null
 				&& F4 == null
-				&& F5 == f6
+				&& F5 == f7
 				&& n1 == 7
 				&& syn1 == Expression.NO_SYNTAX_ERRORS
 				&& syn2 == Expression.NO_SYNTAX_ERRORS				

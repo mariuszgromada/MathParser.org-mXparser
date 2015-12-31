@@ -45,6 +45,7 @@ package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.regex.Pattern;
 
 /**
  * mXparser class provides usefull methods when parsing, calculating or
@@ -137,6 +138,20 @@ public final class mXparser {
 		System.out.println();		
 	}
 	
+	
+	/**
+	 * Function used to introduce some compatibility
+	 * between JAVA and C# while regexp matching.
+	 * 
+	 * @param str         String
+	 * @param pattern     Pattern (regexp)
+	 * 
+	 * @return            True if pattern matches entirely, False otherwise
+	 */
+    static final boolean regexMatch(String str, String pattern){
+        return Pattern.matches(pattern, str);
+    }
+
 	/**
 	 * Prints object.toString to the Console
 	 * 
@@ -151,11 +166,11 @@ public final class mXparser {
 	 */
 	public static final String LICENSE =
 		"                      mXparser - version " + mXparser.VERSION + "\n" +
-		"         A flexible mathematics eXpressions parser for JAVA.\n" +
+		"         A flexible mathematical eXpressions parser for JAVA.\n" +
 		"\n" +
 		"You may use this software under the condition of Simplified BSD License:\n" +
 		"\n" +
-		"Copyright 2010 MARIUSZ GROMADA. All rights reserved.\n" +
+		"Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.\n" +
 		"\n" +
 		"Redistribution and use in source and binary forms, with or without modification, are\n" +
 		"permitted provided that the following conditions are met:\n" +
@@ -186,6 +201,9 @@ public final class mXparser {
 		"    Mariusz Gromada\n" +
 		"    mariusz.gromada@mathspace.pl\n" +
 		"    http://mathspace.plt/\n" +
+		"    http://mathparser.org/\n" +
+		"    http://github.com/mariuszgromada/mXparser/\n" +
+		"    http://mariuszgromada.github.io/mXparser/\n" +
 		"    http://mxparser.sourceforge.net/\n"
 		;
 
@@ -544,7 +562,7 @@ interface ParserSymbol {
 	final String paramsTokenRegeExp = "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
 	final String constArgDefStrRegExp = nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
 	final String functionDefStrRegExp = nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
-	final String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + ",(\\s)*)*" + "\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+	final String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 	
 	int
 		TYPE_ID 				= 11,

@@ -203,7 +203,7 @@ public class Tutorial {
 		y.setArgumentExpressionString("n*sin(y)-z");
 		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax() + "\n message = \n" + y.getErrorMessage());
 		
-		y.addArguments(n);
+		y.addDefinitions(n);
 		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax() + "\n message = \n" + y.getErrorMessage());
 		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue());
 		
@@ -331,7 +331,7 @@ public class Tutorial {
 		
 		Function f = new Function("f", "x^2", "x");
 		Expression e29 = new Expression("f(2)");
-		e29.addFunctions(f);
+		e29.addDefinitions(f);
 		mXparser.consolePrintln(e29.getExpressionString() + " = " + e29.calculate());
 		
 		
@@ -347,7 +347,7 @@ public class Tutorial {
 		
 		f = new Function("f", "a+b+c", "a", "b", "c");
 		Expression e30 = new Expression("f(1, 2, 3)");
-		e30.addFunctions(f);
+		e30.addDefinitions(f);
 		mXparser.consolePrintln(e30.getExpressionString() + " = " + e30.calculate());
 		
 		
@@ -356,16 +356,16 @@ public class Tutorial {
 		 */
 		f = new Function("f", "x^2", "x");
 		Function g = new Function("g", "f(x)^2", "x");
-		g.addFunctions(f);
+		g.addDefinitions(f);
 		mXparser.consolePrintln("g(2) = " + g.calculate(2));
 		
 		Expression e31 = new Expression("f(x)+g(2*x)", x);
-		e31.addFunctions(f, g);
+		e31.addDefinitions(f, g);
 		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e31.getExpressionString() + " = " + e31.calculate());
 		
 		x.setArgumentValue(2);
 		Expression e32 = new Expression("der(g(x),x)", x);
-		e32.addFunctions(g);
+		e32.addDefinitions(g);
 		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e32.getExpressionString() + " = " + e32.calculate());
 		
 		/*
@@ -376,9 +376,9 @@ public class Tutorial {
 		
 		f = new Function("f", "sin(x)", "x");
 		Function F = new Function("F", "int(f(t), t, 0, x)", "x");
-		F.addFunctions(f);
+		F.addDefinitions(f);
 		Expression e33 = new Expression("f(x) - der(F(x),x)", x);
-		e33.addFunctions(f, F);
+		e33.addDefinitions(f, F);
 		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e33.getExpressionString() + " = " + e33.calculate() +
 				", computing time : " + e33.getComputingTime() + " s.");
 		
@@ -430,7 +430,7 @@ public class Tutorial {
 		mXparser.consolePrintln();
 		
 		Expression e36 = new Expression("sum(i, 0, 10, fib3(i))");
-		e36.addFunctions(fib3);
+		e36.addDefinitions(fib3);
 		mXparser.consolePrintln(e36.getExpressionString() + " = " + e36.calculate() +
 				", computing time : " + e36.getComputingTime() + " s.");
 		
@@ -441,7 +441,7 @@ public class Tutorial {
 		Function T = new Function("T","if(n>1, 2*x*T(n-1,x)-T(n-2,x), if(n>0, x, 1) )", "n", "x");
 		Argument k = new Argument("k", 5);
 		Expression e37 = new Expression("T(k,x) - ( (x + sqrt(x^2-1))^k + (x - sqrt(x^2-1))^k)/2", k, x);
-		e37.addFunctions(T);
+		e37.addDefinitions(T);
 		mXparser.consolePrintln(e37.getExpressionString() + " = " + e37.calculate() +
 				", computing time : " + e37.getComputingTime() + " s.");
 		
@@ -452,7 +452,7 @@ public class Tutorial {
 		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
 		
 		Expression e38 = new Expression("C(10,5) - Cnk(10,5)");
-		e38.addFunctions(Cnk);
+		e38.addDefinitions(Cnk);
 		
 		mXparser.consolePrintln(e38.getExpressionString() + " = " + e38.calculate() +
 				", computing time : " + e38.getComputingTime() + " s.");
@@ -495,7 +495,7 @@ public class Tutorial {
 		Constant c = new Constant("c", 15);
 		
 		Expression e39 = new Expression("a+b+c");
-		e39.addConstants(a, b, c);
+		e39.addDefinitions(a, b, c);
 		
 		/*
 		 * For example in verbose mode

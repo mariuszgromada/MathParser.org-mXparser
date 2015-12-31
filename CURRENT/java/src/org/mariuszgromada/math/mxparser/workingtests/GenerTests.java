@@ -24,6 +24,8 @@ public class GenerTests {
 		//mXparser.consolePrintln(a.getConstantName() + " = " + a.getConstantValue());
 		//mXparser.consolePrintln(a.getErrorMessage());
 		
+		
+		/*
 		Function f = new Function("f(n)=if(n>0, n*f(n-1), 1)");
 		mXparser.consolePrintln(f.calculate(5) + " " + f.getRecursiveMode());
 		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
@@ -44,7 +46,31 @@ public class GenerTests {
         long end = System.currentTimeMillis();
 
 		mXparser.consolePrintln(ee.getExpressionString() + " czas: " + (end-start)/1000.0 + " s.");
-
+		*/
+		
+		/*
+		RecursiveArgument fib2 = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
+		mXparser.consolePrintln(fib2.getErrorMessage());
+		
+		fib2.addBaseCase(0, 0);
+		fib2.addBaseCase(1, 1);
+		
+		mXparser.consolePrintln(fib2.getArgumentValue(0));
+		mXparser.consolePrintln(fib2.getArgumentValue(1));
+		mXparser.consolePrintln(fib2.getArgumentValue(2));
+		mXparser.consolePrintln(fib2.getArgumentValue(3));
+		mXparser.consolePrintln(fib2.getArgumentValue(4));
+		mXparser.consolePrintln(fib2.getArgumentValue(5));
+		mXparser.consolePrintln(fib2.getArgumentValue(6));
+		mXparser.consolePrintln(fib2.getArgumentValue(7));
+		mXparser.consolePrintln(fib2.getArgumentValue(8));
+		mXparser.consolePrintln(fib2.getArgumentValue(9));
+		mXparser.consolePrintln(fib2.getArgumentValue(10));
+		 */
+		Function fibb = new Function("fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0))");
+		mXparser.consolePrintln(fibb.getErrorMessage());
+		mXparser.consolePrintln(fibb.calculate(10));
+		mXparser.consolePrintln(fibb.getErrorMessage());
 
 		
 		

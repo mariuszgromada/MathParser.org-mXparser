@@ -75,9 +75,12 @@ public class RegTestSyntax {
 		boolean syn;
 		boolean reg;
 		String expStr = "";
+		String msg = "";
 
 		Argument x = new Argument("x");
+		Constant c1;
 		Expression e;
+		Function f;
 		
 		switch (testId) {
 		
@@ -1636,6 +1639,458 @@ public class RegTestSyntax {
 			
 			break;
 			
+		case 86:
+			
+			expStr = "f()=x+y";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			msg = f.getErrorMessage();
+			e = new Expression("f", f);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 87:
+			
+			expStr = "f(1,x,y)=x+y";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			msg = f.getErrorMessage();
+			e = new Expression("f", f);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 88:
+			
+			expStr = "f(1)=x+y";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			msg = f.getErrorMessage();
+			e = new Expression("f", f);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 89:
+			
+			expStr = "f(x,)=x+y";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			msg = f.getErrorMessage();
+			e = new Expression("f", f);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 90:
+			
+			expStr = "f(x,  a, x, )=x+y";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			msg = f.getErrorMessage();
+			e = new Expression("f", f);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 91:
+			
+			expStr = "  f   (x ,   y,    z   )  = x +  y  +z  ";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			msg = f.getErrorMessage();
+			e = new Expression("f(1,2,3)", f);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+
+			if ( 
+			    (msg.indexOf("pattern not mathes") == -1) &&
+			    (reg == syn)
+			    )
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 92:
+			
+			expStr = "x()=y+z";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 93:
+			
+			expStr = "x(1,a,b)=a+b";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 94:
+			
+			expStr = "x(1)=a+b";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 95:
+			
+			expStr = "x(a,)=a+b";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 96:
+			
+			expStr = "x(a, b, c,)=a+c";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 97:
+			
+			expStr = "  x (  a, b   , c  ) = a+b+c";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+
+			if ( 
+			    (msg.indexOf("Invalid argument definition") == -1) &&
+			    (reg == syn) &&
+			    (e.calculate() == 6)
+			    )
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+			
+			break;
+		case 98:
+			
+			expStr = "x 5";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 99:
+			
+			expStr = "  x = 5 + 1 + 2";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new Argument(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+
+			if ( 
+			    (msg.indexOf("Invalid argument definition") == -1) &&
+			    (reg == syn) &&
+			    (e.calculate() == 8)
+			    )
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+			
+			break;
+		case 100:
+			
+			expStr = "f(n,m)=n*f(n-1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new RecursiveArgument(expStr);
+			msg = x.getErrorMessage();
+			e = new Expression("x", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument definition") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 101:
+			
+			expStr = "RecursiveArgument name    1fa";
+			mXparser.consolePrint(expStr + " ...... ");
+			x = new RecursiveArgument("1fa","f(n-1)", "n");
+			msg = x.getErrorMessage();
+			e = new Expression("x(1)", x);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("Invalid argument name") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 102:
+			
+			expStr = "x()=y+z";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 103:
+			
+			expStr = "x(1,a,b)=a+b";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 104:
+			
+			expStr = "x(1)=a+b";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 105:
+			
+			expStr = "x(a,)=a+b";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 106:
+			
+			expStr = "x(a, b, c,)=a+c";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+			
+		case 107:
+			
+			expStr = "  x = a+b+c";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+
+			if ( 
+			    (msg.indexOf("pattern not mathes") == -1) &&
+			    (reg == syn) &&
+			    (e.calculate() == 6)
+			    )
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+			
+			break;
+		case 108:
+			
+			expStr = "x 5";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("pattern not mathes") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
+		case 109:
+			
+			expStr = "  x = 5 + 1 + 2";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant(expStr);
+			msg = c1.getErrorMessage();
+			e = new Expression("x", c1);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+
+			if ( 
+			    (msg.indexOf("pattern not mathes") == -1) &&
+			    (reg == syn) &&
+			    (e.calculate() == 8)
+			    )
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+			
+			break;
+		case 110:
+			
+			expStr = "Constant name    1fa";
+			mXparser.consolePrint(expStr + " ...... ");
+			c1 = new Constant("1fa",1);
+			msg = c1.getErrorMessage();
+			e = new Expression("1fa", c1);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+
+			if (msg.indexOf("invalid constant name") >= 0)
+				testResult = true;
+			
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			
+			break;
 			
 		}
 
@@ -1655,7 +2110,7 @@ public class RegTestSyntax {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int numberOfTests = 85;
+		int numberOfTests = 110;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

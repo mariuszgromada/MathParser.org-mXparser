@@ -45,7 +45,6 @@
 
 using System;
 using System.Threading;
-using org.mariuszgromada.math.mxparser;
 using org.mariuszgromada.math.mxparser.mathcollection;
 
 
@@ -69,6 +68,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
      * 
      * @see Expression
      */
+    [CLSCompliant(true)]
     public class RegTestExpressionV2
     {
 
@@ -4729,6 +4729,39 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
+	case 285:
+		
+		expStr = "fib(n)= fib(n-1)+fib(n-2), fib(10) = ";
+
+		RecursiveArgument fib10 = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
+		fib10.addBaseCase(0, 0);
+		fib10.addBaseCase(1, 1);
+		
+		exp[testId] = new Expression("fib(10)", fib10);
+		value = exp[testId].calculate();
+		reg = 55;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
+	case 286:
+		
+		expStr = "fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0)), fib(10) = ";
+
+		Function fibb = new Function("fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0))");
+		exp[testId] = new Expression("fib(10)", fibb);
+		value = exp[testId].calculate();
+		reg = 55;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
 
 	
 	}
@@ -4750,7 +4783,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
          */
         public static void Start() {
 		// TODO Auto-generated method stub
-		int numberOfTests = 284;
+		int numberOfTests = 286;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

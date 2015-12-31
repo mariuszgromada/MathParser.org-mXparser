@@ -42,7 +42,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
+[assembly: CLSCompliant(true)]
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -67,6 +69,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Function
      * @see Constant
      */
+    [CLSCompliant(true)]
     public sealed class mXparser {
 
         /**
@@ -155,18 +158,30 @@ namespace org.mariuszgromada.math.mxparser {
             Console.Write(o);
         }
 
+        /**
+         * Function used to introduce some compatibility
+         * between JAVA and C# while regexp matching.
+         * 
+         * @param str         String
+         * @param pattern     Pattern (regexp)
+         * 
+         * @return            True if pattern matches entirely, False otherwise
+         */
+        internal static bool regexMatch(String str, String pattern){
+            return Regex.IsMatch(str, "^(" + pattern + ")$");
+        }
 
         /**
 	     * License info.
 	     */
         public const String LICENSE =
             "                      mXparser - version " + VERSION + "\n" +
-            "         A flexible mathematics eXpressions parser for C#.\n" +
+            "         A flexible mathematical eXpressions parser for C#.\n" +
             "                   (port from mXparser for JAVA)\n" +
             "\n" +
             "You may use this software under the condition of Simplified BSD License:\n" +
             "\n" +
-            "Copyright 2010 MARIUSZ GROMADA. All rights reserved.\n" +
+            "Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.\n" +
             "\n" +
             "Redistribution and use in source and binary forms, with or without modification, are\n" +
             "permitted provided that the following conditions are met:\n" +
@@ -196,7 +211,10 @@ namespace org.mariuszgromada.math.mxparser {
             "\n" +
             "    Mariusz Gromada\n" +
             "    mariusz.gromada@mathspace.pl\n" +
-            "    http://mathspace.pl/\n" +
+            "    http://mathspace.plt/\n" +
+            "    http://mathparser.org/\n" +
+            "    http://github.com/mariuszgromada/mXparser/\n" +
+            "    http://mariuszgromada.github.io/mXparser/\n" +
             "    http://mxparser.sourceforge.net/\n"
             ;
 
@@ -490,7 +508,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String paramsTokenRegeExp = "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
         internal const String constArgDefStrRegExp = nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
         internal const String functionDefStrRegExp = nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
-        internal const String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + ",(\\s)*)*" + "\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+        internal const String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 
 
         internal const int TYPE_ID = 11;

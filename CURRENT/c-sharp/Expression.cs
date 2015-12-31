@@ -44,12 +44,10 @@
 using System;
 using System.IO; 
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Collections.Generic;
 using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.syntaxchecker;
-
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -84,6 +82,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see            Constant
      * @see            Function  
      */
+    [CLSCompliant(true)]
     public class Expression {
 
         /**
@@ -394,157 +393,34 @@ namespace org.mariuszgromada.math.mxparser {
 
 
         /**
-	     * Default constructor - empty expression
-	     */
-        public Expression() {
+         * Default constructor - empty expression
+         * 
+         * @param  elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+         * 
+         * @see    PrimitiveElement
+         */
+        public Expression(params PrimitiveElement[] elements) {
 		    expressionString = "";
 		    expressionInit();
 		    setExpressionModifiedFlag();
-	    }
-    		
-    	
-	    /**
-	     * Constructor - creates new expression from expression string.
-	     * 
-	     * @param      expressionString    definition of the expression 
-	     */	
-	    public Expression(String expressionString) {
+            addDefinitions(elements);
+        }
+
+        /**
+         * Constructor - creates new expression from expression string.
+         * 
+         * @param      expressionString    definition of the expression
+         * @param      elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+         * 
+         * @see    PrimitiveElement
+         *  
+         */
+        public Expression(String expressionString, params PrimitiveElement[] elements) {
 		    expressionInit();
 		    this.expressionString = String.Copy(expressionString);
 		    setExpressionModifiedFlag();
-	    }
-    	
-	    /**
-	     * Constructor - creates new expression from expression string
-	     * and arguments list.
-	     * 
-	     * @param      expressionString    the expression string
-	     * @param      argumentsList       the arguments list
-	     * 
-	     * @see        Argument
-	     * @see        RecursiveArgument
-	     */
-	    public Expression(String expressionString,
-			    List<Argument> argumentsList) {
-
-		    this.expressionString = String.Copy(expressionString);
-
-		    functionsList = new List<Function>();
-		    constantsList = new List<Constant>();
-		    relatedExpressionsList = new List<Expression>();
-            expressionInternalVarsInit();
-            setSilentMode();
-		    disableRecursiveMode();
-
-		    this.argumentsList = argumentsList;
-		    foreach (Argument a in argumentsList)
-			    a.addRelatedExpression(this);
-
-		    setExpressionModifiedFlag();
-
-	    }
-
-	    /**
-	     * Constructor - creates new expression from expression string,
-	     * arguments list and functions list.
-	     *  
-	     * @param      expressionString    the expression string
-	     * @param      argumentsList       the arguments list
-	     * @param      functionsList       the functions list
-	     * 
-	     * @see        Argument
-	     * @see        RecursiveArgument
-	     * @see        Function
-	     */
-	    public Expression(String expressionString, List<Argument> argumentsList,
-			    List<Function> functionsList) {
-     
-		    this.expressionString = String.Copy(expressionString);
-
-		    constantsList = new List<Constant>();
-		    relatedExpressionsList = new List<Expression>();
-            expressionInternalVarsInit();
-            setSilentMode();
-		    disableRecursiveMode();
-
-		    this.argumentsList = argumentsList;
-		    foreach (Argument a in argumentsList)
-			    a.addRelatedExpression(this);
-
-		    this.functionsList = functionsList;
-		    foreach (Function f in functionsList)
-			    f.addRelatedExpression(this);
-
-		    setExpressionModifiedFlag();
-
-	    }
-
-	    /**
-	     * Constructor - creates new expression from expression string,
-	     * arguments, functions list and constants list.
-	     * 
-	     * @param      expressionString    the expression string
-	     * @param      argumentsList       the arguments list
-	     * @param      functionsList       the functions list
-	     * @param      constantsList       the constant list
-	     * 
-	     * @see        Argument
-	     * @see        RecursiveArgument
-	     * @see        Function
-	     * @see        Constant
-	     */
-	    public Expression(String expressionString, List<Argument> argumentsList,
-			    List<Function> functionsList, List<Constant> constantsList) {
-
-		    this.expressionString = String.Copy(expressionString);
-
-		    relatedExpressionsList = new List<Expression>();
-            expressionInternalVarsInit();
-            setSilentMode();
-		    disableRecursiveMode();
-
-		    this.argumentsList = argumentsList;
-		    foreach (Argument a in argumentsList)
-			    a.addRelatedExpression(this);
-
-		    this.functionsList = functionsList;
-		    foreach (Function f in functionsList)
-			    f.addRelatedExpression(this);
-
-		    this.constantsList = constantsList;
-		    foreach (Constant c in constantsList)
-			    c.addRelatedExpression(this);
-
-		    setExpressionModifiedFlag();
-
-	    }
-
-	    /**
-	     * Constructor - creates new expression from expression string,
-	     * and list of arguments given as variadic parameters list.
-	     * 
-	     * For example:
-	     *    Argument x1 = new Argument("x1");
-	     *    Argument x2 = new Argument("x2");
-	     *    Expression exp = new Expression("x1+x2", x1, x2);
-	     * 
-	     * @param      expressionString      definition of the expression
-	     * @param      arguments             arguments list (comma separated)
-	     * 
-	     * @see        Argument
-	     */	
-	    public Expression(String expressionString, params Argument[] arguments) {
-    		
-		    expressionInit();
-		    this.expressionString = String.Copy(expressionString);
-		    foreach (Argument arg in arguments) {
-			    arg.addRelatedExpression(this);
-			    argumentsList.Add(arg);
-		    }
-
-		    setExpressionModifiedFlag();
-
-	    }
+            addDefinitions(elements);
+        }
     	
     	
 
@@ -795,12 +671,12 @@ namespace org.mariuszgromada.math.mxparser {
 
             foreach (PrimitiveElement e in elements) {
                 int elementTypeId = e.getMyTypeId();
-
-                if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
-                else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
-                else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
-                else if (elementTypeId == RecursiveArgument.TYPE_ID) addArguments((Argument)e);
-
+                if (e != null) {
+                    if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
+                    else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
+                    else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
+                    else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) addArguments((Argument)e);
+                }
             }
         }
 
@@ -818,12 +694,12 @@ namespace org.mariuszgromada.math.mxparser {
 
             foreach (PrimitiveElement e in elements) {
                 int elementTypeId = e.getMyTypeId();
-
-                if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
-                else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
-                else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
-                else if (elementTypeId == RecursiveArgument.TYPE_ID) removeArguments((Argument)e);
-
+                if (e != null) {
+                    if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
+                    else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
+                    else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
+                    else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) removeArguments((Argument)e);
+                }
             }
         }
 
@@ -846,32 +722,16 @@ namespace org.mariuszgromada.math.mxparser {
         public void addArguments(params Argument[] arguments) {
     			
 			    foreach (Argument arg in arguments) {
-				    argumentsList.Add(arg);
-				    arg.addRelatedExpression(this);
+                    if (arg != null) {
+                        argumentsList.Add(arg);
+                        arg.addRelatedExpression(this);
+                    }
 			    }
     			
 			    setExpressionModifiedFlag();		
     	
 		    }
     	
-		    /**
-		     * Adds arguments to the expression definition.
-		     * 
-		     * @param      argumentsList       the arguments list
-		     * 
-		     * @see        Argument
-		     * @see        RecursiveArgument
-		     */
-		    public void addArguments( List<Argument> argumentsList) {
-
-			    this.argumentsList.AddRange( argumentsList );
-    			
-			    foreach (Argument arg in argumentsList)
-				    arg.addRelatedExpression(this);
-    			
-			    setExpressionModifiedFlag();		
-    	
-		    }	
     			
 		    /**
 		     * Enables to define the arguments (associated with
@@ -1086,9 +946,11 @@ namespace org.mariuszgromada.math.mxparser {
     	
     			
 			    foreach (Argument argument in arguments) {
-    	
-				    argumentsList.Remove(argument);
-				    argument.removeRelatedExpression(this);
+
+                    if (argument != null) {
+                        argumentsList.Remove(argument);
+                        argument.removeRelatedExpression(this);
+                    }
     			
 			    }
     			
@@ -1131,32 +993,16 @@ namespace org.mariuszgromada.math.mxparser {
 		    public void addConstants(params Constant[] constants) {
     	
 			    foreach (Constant constant in constants) {
-				    constantsList.Add(constant);
-				    constant.addRelatedExpression(this);
+                    if (constant != null) {
+                        constantsList.Add(constant);
+                        constant.addRelatedExpression(this);
+                    }
 			    }	
     	
 			    setExpressionModifiedFlag();
     	
 		    }
-    	
-    		
-		    /**
-		     * Adds constants to the expression definition.
-		     * 
-		     * @param      constantsList       the list of constants
-		     * 
-		     * @see        Constant
-		     */
-		    public void addConstants( List<Constant> constantsList) {
-    	
-			    this.constantsList.AddRange( constantsList );
-    	
-			    foreach (Constant c in constantsList)
-				    c.addRelatedExpression(this);
-    			
-			    setExpressionModifiedFlag();		
-    	
-		    }	
+    	    		
     		
 		    /**
 		     * Enables to define the constant (associated with 
@@ -1310,9 +1156,11 @@ namespace org.mariuszgromada.math.mxparser {
 		    public void removeConstants(params Constant[] constants) {
     	
 			    foreach (Constant constant in constants) {
-				    constantsList.Remove(constant);
-				    constant.removeRelatedExpression(this);
-				    setExpressionModifiedFlag();		
+                    if (constant != null) {
+                        constantsList.Remove(constant);
+                        constant.removeRelatedExpression(this);
+                        setExpressionModifiedFlag();
+                    }
 			    }
     			
 		    }	
@@ -1354,32 +1202,16 @@ namespace org.mariuszgromada.math.mxparser {
 		    public void addFunctions(params Function[] functions) {
     			
 			    foreach (Function f in functions) {
-				    functionsList.Add(f);
-				    f.addRelatedExpression(this);			
+                    if (f != null) {
+                        functionsList.Add(f);
+                        f.addRelatedExpression(this);
+                    }
 			    }
     			
 			    setExpressionModifiedFlag();		
     	
 		    }
-    	
-		    /**
-		     * Adds functions to the expression definition.
-		     * 
-		     * @param      functionsList       the functions list
-		     * 
-		     * @see        Function
-		     */
-		    public void addFunctions( List<Function> functionsList) {	
-    	
-			    this.functionsList.AddRange( functionsList );
-    			
-			    foreach (Function f in functionsList)
-				    f.addRelatedExpression(this);
-    			
-			    setExpressionModifiedFlag();		
-    	
-		    }
-    		
+    	    		
 		    /**
 		     * Enables to define the function (associated with 
 		     * the expression) based on the function name,
@@ -1539,8 +1371,10 @@ namespace org.mariuszgromada.math.mxparser {
 		    public void removeFunctions(params Function[] functions) {
     	
 			    foreach (Function function in functions) {
-				    function.removeRelatedExpression(this);
-				    functionsList.Remove(function);
+                    if (function != null) {
+                        function.removeRelatedExpression(this);
+                        functionsList.Remove(function);
+                    }
 			    }
 			    setExpressionModifiedFlag();
     	
@@ -3607,7 +3441,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    double a = getTokenValue(pos+2);
 		    double b = getTokenValue(pos+3);
     		
-		    f3SetDecreaseRemove(pos, MathFunctions.CHi(x, a, b) );
+		    f3SetDecreaseRemove(pos, MathFunctions.CHi_LR(x, a, b) );
     		
 	    }	
 
@@ -3623,7 +3457,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    double a = getTokenValue(pos+2);
 		    double b = getTokenValue(pos+3);
     		
-		    f3SetDecreaseRemove(pos, MathFunctions.Chi(x, a, b) );
+		    f3SetDecreaseRemove(pos, MathFunctions.Chi_L(x, a, b) );
     		
 	    }	
 
@@ -3639,7 +3473,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    double a = getTokenValue(pos+2);
 		    double b = getTokenValue(pos+3);
     		
-		    f3SetDecreaseRemove(pos, MathFunctions.cHi(x, a, b) );
+		    f3SetDecreaseRemove(pos, MathFunctions.cHi_R(x, a, b) );
     		
 	    }	
     	
@@ -4534,7 +4368,7 @@ namespace org.mariuszgromada.math.mxparser {
     				
 				    }
 
-				    if (t.tokenTypeId == RecursiveArgument.TYPE_ID) {
+				    if (t.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) {
     					
 					    Argument arg = getArgument(t.tokenId);
     						
@@ -5168,7 +5002,7 @@ namespace org.mariuszgromada.math.mxparser {
                     for (pos = lPos; pos <= rPos; pos++) {
 
                         token = tokensList[pos];
-                        if ((token.tokenTypeId == RecursiveArgument.TYPE_ID) && (recArgPos < 0))
+                        if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
                             recArgPos = pos;
                         else
                             if ((token.tokenTypeId == SpecialFunction.TYPE_ID) && (specFunPos < 0))
@@ -5891,7 +5725,7 @@ namespace org.mariuszgromada.math.mxparser {
 			    if (arg.getArgumentType() != Argument.RECURSIVE_ARGUMENT)
 				    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,Argument.TYPE_ID);
 			    else
-				    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID);
+				    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID_RECURSIVE);
     			
 		    }
 
@@ -6056,7 +5890,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 
                     /*
-                    if (    Regex.Match(str, ParserSymbol.NUMBER).Success )
+                    if (    mXparser.RegexMatch(str, ParserSymbol.NUMBER).Success )
                     {
 					    numEnd = i;
                         mXparser.consolePrintln("Regex -> |" + str + "=number" + " " + pos + ", " + i);
@@ -6233,7 +6067,7 @@ namespace org.mariuszgromada.math.mxparser {
     					
 					    if (	
 							    (kw.wordTypeId == Argument.TYPE_ID) ||	
-							    (kw.wordTypeId == RecursiveArgument.TYPE_ID) ||	
+							    (kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||	
 							    (kw.wordTypeId == Function1Arg.TYPE_ID) ||	
 							    (kw.wordTypeId == Function2Arg.TYPE_ID) ||	
 							    (kw.wordTypeId == Function3Arg.TYPE_ID) ||	
@@ -6366,7 +6200,7 @@ namespace org.mariuszgromada.math.mxparser {
 						    ( token.tokenTypeId == Function3Arg.TYPE_ID )	||
 						    ( token.tokenTypeId == Function.TYPE_ID )	||
 						    ( token.tokenTypeId == Calculus.TYPE_ID ) ||
-						    ( token.tokenTypeId == RecursiveArgument.TYPE_ID ) ||
+						    ( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
 						    ( token.tokenTypeId == SpecialFunction.TYPE_ID )
 						    ) {
     					
@@ -6565,7 +6399,7 @@ namespace org.mariuszgromada.math.mxparser {
 				    type = "BINARY_RELATION";
 			    if (keyWord.wordTypeId == Argument.TYPE_ID)
 				    type = "ARGUMENT";
-			    if (keyWord.wordTypeId == RecursiveArgument.TYPE_ID)
+			    if (keyWord.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE)
 				    type = "RECURSIVE_ARGUMENT";
 			    if (keyWord.wordTypeId == Const.TYPE_ID)
 				    type = "CONSTANT";

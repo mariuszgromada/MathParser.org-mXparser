@@ -46,7 +46,6 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 /**
  * Argument class enables to declare the argument
@@ -192,15 +191,17 @@ public class Argument extends PrimitiveElement {
 	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
 	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
 	 *                                             </ul>
+	 * 
+	 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions 
 	 */
-	public Argument(String argumentDefinitionString) {
+	public Argument(String argumentDefinitionString, PrimitiveElement...elements) {
 		super(Argument.TYPE_ID);
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentDefinitionString) ) {
+		if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp) ) {
 			argumentName = argumentDefinitionString;
 			argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentType = FREE_ARGUMENT;			
-			argumentExpression = new Expression(); 
-		} else if ( Pattern.matches(ParserSymbol.constArgDefStrRegExp, argumentDefinitionString) ) {
+			argumentExpression = new Expression(elements); 
+		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpr = new Expression(headEqBody.bodyStr);
@@ -212,13 +213,14 @@ public class Argument extends PrimitiveElement {
 				argumentType = FREE_ARGUMENT;				
 			} else {
 				argumentExpression = bodyExpr; 
+				addDefinitions(elements);
 				argumentType = DEPENDENT_ARGUMENT;				
 			}
 			
-		} else if ( Pattern.matches(ParserSymbol.functionDefStrRegExp, argumentDefinitionString) ) {
+		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
-			argumentExpression = new Expression(headEqBody.bodyStr);
+			argumentExpression = new Expression(headEqBody.bodyStr, elements);
 			argumentExpression.setDescription(headEqBody.headStr);
 			argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentType = DEPENDENT_ARGUMENT;
@@ -244,7 +246,7 @@ public class Argument extends PrimitiveElement {
 		super(Argument.TYPE_ID);
 
 		argumentExpression = new Expression();
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.argumentName=new String(argumentName);
 			this.argumentValue=argumentValue;
 			argumentType = FREE_ARGUMENT;
@@ -263,15 +265,19 @@ public class Argument extends PrimitiveElement {
 	 * 
 	 * @param      argumentName                  the argument name
 	 * @param      argumentExpressionString      the argument expression string
+	 * @param      elements                      Optional parameters (comma separated)
+	 *                                           such as Arguments, Constants, Functions
+	 *  
 	 * @see        Expression
+	 * @see        PrimitiveElement
 	 */		
-	public Argument(String argumentName, String argumentExpressionString) {
+	public Argument(String argumentName, String argumentExpressionString, PrimitiveElement... elements) {
 		super(Argument.TYPE_ID);
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.argumentName=new String(argumentName);
 			argumentValue=ARGUMENT_INITIAL_VALUE;
-			argumentExpression = new Expression(argumentExpressionString);
+			argumentExpression = new Expression(argumentExpressionString, elements);
 			argumentExpression.setDescription(argumentName);
 			argumentType = DEPENDENT_ARGUMENT;		
 		} else {
@@ -284,36 +290,6 @@ public class Argument extends PrimitiveElement {
 		description = "";
 
 	}	
-
-
-	/**
-	 * Constructor - creates dependent argument (with hidden Expression).
-	 * 
-	 * @param      argumentName                  the argument name
-	 * @param      argumentExpressionString      the argument expression string
-	 * @param      arguments                     the arguments list (variadic - comma separated)
-	 *                                           associated with the argument expression.
-	 * @see        Expression
-	 */				
-	public Argument(String argumentName, String argumentExpressionString, Argument... arguments) {
-		super(Argument.TYPE_ID);
-
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
-			this.argumentName=new String(argumentName);
-			argumentValue=ARGUMENT_INITIAL_VALUE;
-			argumentExpression = new Expression(argumentExpressionString, arguments);
-			argumentExpression.setDescription(argumentName);
-			argumentType = DEPENDENT_ARGUMENT;
-		} else {
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression = new Expression();
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
-		}
-		
-		setSilentMode();
-		description = "";
-
-	}
 	
 	/**
 	 * Sets argument description.
@@ -402,7 +378,7 @@ public class Argument extends PrimitiveElement {
 	 */			
 	public void setArgumentName(String argumentName) {
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, argumentName) ) {
+		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.argumentName = argumentName;
 			setExpressionModifiedFlags();
 		}
@@ -530,8 +506,7 @@ public class Argument extends PrimitiveElement {
 	 * Adds user defined elements (such as: Arguments, Constants, Functions) 
 	 * to the argument expressions. 
 	 * 
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement  
+	 * @param elements Elements list (variadic - comma separated) of types: Argument, Constant, Function
 	 *                   
 	 * @see PrimitiveElement
 	 */
@@ -543,8 +518,7 @@ public class Argument extends PrimitiveElement {
 	 * Removes user defined elements (such as: Arguments, Constants, Functions) 
 	 * from the argument expressions. 
 	 * 
-	 * @param elements Elements list (variadic), where Argument, Constant, Function
-	 *                 extend the same class PrimitiveElement  
+	 * @param elements Elements list (variadic - comma separated) of types: Argument, Constant, Function
 	 *                   
 	 * @see PrimitiveElement
 	 */
@@ -575,21 +549,7 @@ public class Argument extends PrimitiveElement {
 		argumentExpression.addArguments(arguments);
 		
 	}
-	
-	/**
-	 * Adds arguments to the argument expression definition.
-	 * 
-	 * @param      argumentsList       the arguments list
-	 * 
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
-	public void addArguments(ArrayList<Argument> argumentsList) {
 		
-		argumentExpression.addArguments(argumentsList);
-		
-	}
-	
 	
 	/**
 	 * Enables to define the arguments (associated with
@@ -913,20 +873,7 @@ public class Argument extends PrimitiveElement {
 		argumentExpression.addFunctions(functions);
 		
 	}
-	
-	/**
-	 * Adds functions to the argument expression definition.
-	 * 
-	 * @param      functionsList       the functions list
-	 * 
-	 * @see        Function
-	 */
-	public void addFunctions(ArrayList<Function> functionsList) {	
 		
-		argumentExpression.addFunctions(functionsList);
-		
-	}
-	
 	/**
 	 * Enables to define the function (associated with 
 	 * the argument expression) based on the function name,

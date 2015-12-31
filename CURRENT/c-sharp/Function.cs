@@ -42,8 +42,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -85,6 +83,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Constant
      *
      */
+    [CLSCompliant(true)]
     public class Function : PrimitiveElement {
 
 	    /**
@@ -128,30 +127,32 @@ namespace org.mariuszgromada.math.mxparser {
 	     * The number of function parameters
 	     */
 	    private int parametersNumber;
-    	
-	    /*=================================================
+
+        /*=================================================
 	     * 
 	     * Constructors
 	     * 
 	     *================================================= 
-	     */	
-    	
-	    /**
-	     * Constructor - creates function from function name
-	     * and function expression string.
-	     * 
-	     * @param      functionName              the function name
-	     * @param      functionExpressionString  the function expression string
-	     * 
-	     * @see        Expression
 	     */
-	    public Function(String functionName
-					    ,String  functionExpressionString ) : base(Function.TYPE_ID)
+
+        /**
+         * Constructor - creates function from function name
+         * and function expression string.
+         * 
+         * @param      functionName              the function name
+         * @param      functionExpressionString  the function expression string
+         * @param      elements                  Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+         * 
+         * @see        PrimitiveElement
+         * @see        Expression
+         */
+        public Function(String functionName
+					    ,String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID)
         {
 
-            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.functionName = functionName;
-                functionExpression = new Expression(functionExpressionString);
+                functionExpression = new Expression(functionExpressionString, elements);
                 functionExpression.setDescription(functionName);
 
                 parametersNumber = 0;
@@ -184,7 +185,7 @@ namespace org.mariuszgromada.math.mxparser {
 					    ,params String[] argumentsNames ) : base(Function.TYPE_ID)
         {
 
-            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.functionName = functionName;
                 functionExpression = new Expression(functionExpressionString);
                 functionExpression.setDescription(functionName);
@@ -205,44 +206,6 @@ namespace org.mariuszgromada.math.mxparser {
 
         }
 
-
-        /**
-	     * Constructor - creates function from function name,
-	     * function expression string and arguments.
-	     * 
-	     * @param      functionName                  the function name
-	     * @param      functionExpressionString      the function expression string
-	     * @param      arguments                     the arguments (variadic parameters)
-	     *                                           comma separated list
-	     *                                  
-	     * @see        Expression
-	     */
-        public Function(String functionName
-					    ,String  functionExpressionString
-					    ,params Argument[] arguments ) : base(Function.TYPE_ID)
-        {
-
-            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
-                this.functionName = functionName;
-                functionExpression = new Expression(functionExpressionString);
-                functionExpression.setDescription(functionName);
-
-                foreach (Argument argument in arguments)
-                    functionExpression.addArguments(argument);
-
-                parametersNumber = arguments.Length - countRecursiveArguments();
-                addFunctions(this);
-
-            }
-            else {
-                parametersNumber = 0;
-                description = "";
-                functionExpression = new Expression("");
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
-            }
-
-        }
-
         /**
          * Constructor for function definition in natural math language,
          * for instance providing on string "f(x,y) = sin(x) + cos(x)"
@@ -251,16 +214,21 @@ namespace org.mariuszgromada.math.mxparser {
          * 
          * @param functionDefinitionString      Function definition in the form
          *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+         * @param elements                      Optional elements list (variadic - comma separated)
+         *                                      of types: Argument, Constant, Function
+         * 
+         * @see    PrimitiveElement
+         *                                      
          */
-        public Function(String functionDefinitionString) : base(Function.TYPE_ID)
+        public Function(String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID)
         {
             
             parametersNumber = 0;
 
-            if (Regex.Match(functionDefinitionString, ParserSymbol.functionDefStrRegExp).Success) {
+            if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
                 HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
                 this.functionName = headEqBody.headTokens[0].tokenStr;
-                functionExpression = new Expression(headEqBody.bodyStr);
+                functionExpression = new Expression(headEqBody.bodyStr, elements);
                 functionExpression.setDescription(headEqBody.headStr);
 
                 if (headEqBody.headTokens.Count > 1)
@@ -357,7 +325,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
         public void setFunctionName(String functionName) {
 
-            if (Regex.Match(functionName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.functionName = functionName;
                 setExpressionModifiedFlags();
             }
@@ -534,22 +502,6 @@ namespace org.mariuszgromada.math.mxparser {
     		
 	    }
     	
-	    /**
-	     * Adds arguments to the function expression definition.
-	     * 
-	     * @param      argumentsList       the arguments list
-	     * 
-	     * @see        Argument
-	     * @see        RecursiveArgument
-	     */
-	    public void addArguments(List<Argument> argumentsList) {
-    		
-		    functionExpression.addArguments(argumentsList);
-		    parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-    		
-	    }
-    	
-
 	    /**
 	     * Enables to define the arguments (associated with
 	     * the function expression) based on the given arguments names.
@@ -749,20 +701,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    functionExpression.addConstants(constants);
     		
 	    }
-    	
-	    /**
-	     * Adds constants to the function expression definition.
-	     * 
-	     * @param      constantsList       the list of constants
-	     * 
-	     * @see        Constant
-	     */
-	    public void addConstants(List<Constant> constantsList) {
-    		
-		    functionExpression.addConstants(constantsList);
-    		
-	    }
-    	
+    	    	
 	    /**
 	     * Enables to define the constant (associated with 
 	     * the function expression) based on the constant name and
@@ -905,20 +844,7 @@ namespace org.mariuszgromada.math.mxparser {
 		    functionExpression.addFunctions(functions);
     		
 	    }
-    	
-	    /**
-	     * Adds functions to the function expression definition.
-	     * 
-	     * @param      functionsList       the functions list
-	     * 
-	     * @see        Function
-	     */
-	    public void addFunctions(List<Function> functionsList) {	
-    		
-		    functionExpression.addFunctions(functionsList);
-    		
-	    }
-    	
+    	    	
 	    /**
 	     * Enables to define the function (associated with 
 	     * the function expression) based on the function name,

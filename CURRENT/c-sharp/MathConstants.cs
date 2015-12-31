@@ -42,7 +42,7 @@
  *                              Asked if he believes in one God, a mathematician answered: 
  *                              "Yes, up to isomorphism."  
  */
-
+using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 
@@ -59,6 +59,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
      *                         
      * @version        2.0.0
      */
+    [CLSCompliant(true)]
     public sealed class MathConstants {
 
 	    /**

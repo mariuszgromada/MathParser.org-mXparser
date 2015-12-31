@@ -4,6 +4,7 @@ namespace org.mariuszgromada.math.mxparser.syntaxchecker {
 using System;
 using System.IO;
 
+[CLSCompliant(false)]
 public class SyntaxCheckerTokenManager : SyntaxCheckerConstants {
   public  System.IO.TextWriter debugStream = Console.Out;
   public  void SetDebugStream(System.IO.TextWriter ds) { debugStream = ds; }
@@ -140,12 +141,11 @@ private void mccCheckNAddStates(int start)
 }
 private int mccMoveNfa_0(int startState, int curPos)
 {
-   int[] nextStates;
    int startsAt = 0;
    mccnewStateCnt = 67;
    int i = 1;
    mccstateSet[0] = startState;
-   int j, kind = Int32.MaxValue;
+   int kind = Int32.MaxValue;
    for (;;)
    {
       if (++mccround == Int32.MaxValue)
@@ -691,8 +691,6 @@ int mccmatchedPos;
 int mccmatchedKind;
 
 public Token GetNextToken() {
-  int kind;
-  Token specialToken = null;
   Token matchedToken;
   int curPos = 0;
 

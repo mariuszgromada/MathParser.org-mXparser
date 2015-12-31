@@ -44,9 +44,6 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-
-
 
 /**
  * Constant class provides ability to declare constants.
@@ -142,12 +139,12 @@ public class Constant extends PrimitiveElement {
 	public Constant(String constantName
 					,double constantValue) {
 		super(Constant.TYPE_ID);
+		relatedExpressionsList = new ArrayList<Expression>();
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, constantName) ) {		
+		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp) ) {		
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			description = "";
-			relatedExpressionsList = new ArrayList<Expression>();
 			
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			errorMessage = NO_SYNTAX_ERROR_MSG;
@@ -169,12 +166,12 @@ public class Constant extends PrimitiveElement {
 			,double constantValue
 			,String description) {
 		super(Constant.TYPE_ID);
+		relatedExpressionsList = new ArrayList<Expression>();
 
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, constantName) ) {		
+		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp) ) {		
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			this.description = description;
-			relatedExpressionsList = new ArrayList<Expression>();
 			
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			errorMessage = NO_SYNTAX_ERROR_MSG;
@@ -192,18 +189,20 @@ public class Constant extends PrimitiveElement {
 	 * 
 	 * @param functionDefinitionString      Function definition in the form
 	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+	 *                                      
+	 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions 
 	 */
-	public Constant(String constantDefinitionString) {
+	public Constant(String constantDefinitionString, PrimitiveElement...elements) {
 		super(Constant.TYPE_ID);
 		
 		description = "";
 		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		relatedExpressionsList = new ArrayList<Expression>();
 				
-		if ( Pattern.matches(ParserSymbol.constArgDefStrRegExp, constantDefinitionString) ) {
+		if ( mXparser.regexMatch(constantDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
 			constantName = headEqBody.headTokens.get(0).tokenStr;
-			Expression bodyExpression = new Expression(headEqBody.bodyStr);
-			relatedExpressionsList = new ArrayList<Expression>();
+			Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
 			constantValue = bodyExpression.calculate();
 			syntaxStatus = bodyExpression.getSyntaxStatus();
 			errorMessage = bodyExpression.getErrorMessage();
@@ -230,7 +229,7 @@ public class Constant extends PrimitiveElement {
 	 */
 	public void setConstantName(String constantName) {
 		
-		if ( Pattern.matches(ParserSymbol.nameOnlyTokenRegExp, constantName) ) {
+		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.constantName = constantName;
 			setExpressionModifiedFlags();
 		} else {

@@ -60,6 +60,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
      *                         
      * @version        2.0.0
      */
+    [CLSCompliant(true)]
     public sealed class BooleanAlgebra {
 
 	    /**
@@ -95,7 +96,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * AND truth table
 	     */
-	    public static double[,] AND = {
+	    public static double[,] AND_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ F, F, F} ,
@@ -108,7 +109,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * NAND truth table
 	     */
-        public static double[,] NAND = {
+        public static double[,] NAND_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ T, T, T} ,
@@ -120,7 +121,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * OR truth table
 	     */
-        public static double[,] OR = {
+        public static double[,] OR_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ F, T, N} ,
@@ -132,7 +133,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * NOR truth table
 	     */
-        public static double[,] NOR = {
+        public static double[,] NOR_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ T, F, N} ,
@@ -144,7 +145,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * XOR truth table
 	     */
-        public static double[,] XOR = {
+        public static double[,] XOR_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ F, T, N} ,
@@ -157,7 +158,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * XNOR truth table
 	     */
-        public static double[,] XNOR = {
+        public static double[,] XNOR_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ T, F, N} ,
@@ -169,7 +170,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * IMP truth table
 	     */
-        public static double[,] IMP = {
+        public static double[,] IMP_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ T, T, T} ,
@@ -181,7 +182,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * CIMP truth table
 	     */
-        public static double[,] CIMP = {
+        public static double[,] CIMP_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ T, F, N} ,
@@ -193,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * EQV truth table
 	     */
-        public static double[,] EQV = {
+        public static double[,] EQV_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ T, F, N} ,
@@ -205,7 +206,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * NIMP truth table
 	     */
-        public static double[,] NIMP = {
+        public static double[,] NIMP_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ F, F, F} ,
@@ -217,7 +218,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * CNIMP truth table
 	     */
-        public static double[,] CNIMP = {
+        public static double[,] CNIMP_TRUTH_TABLE = {
     		
 		    /*		  F  T  N
 		    /* F */	{ F, T, N} ,
@@ -229,7 +230,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    /**
 	     * NOT truth table
 	     */
-        public static double[] NOT = {
+        public static double[] NOT_TRUTH_TABLE = {
     		
    			       /* F  T  N	*/
 				      T, F, N
@@ -273,7 +274,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return AND[A, B];
+		    return AND_TRUTH_TABLE[A, B];
 
 	    }
 
@@ -291,7 +292,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return OR[A, B];
+		    return OR_TRUTH_TABLE[A, B];
 
 	    }	
     		
@@ -309,7 +310,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return XOR[A, B];
+		    return XOR_TRUTH_TABLE[A, B];
 
 	    }
 
@@ -327,7 +328,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return NAND[A, B];
+		    return NAND_TRUTH_TABLE[A, B];
 
 	    }
     	
@@ -345,7 +346,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return NOR[A, B];
+		    return NOR_TRUTH_TABLE[A, B];
 
 	    }
     	
@@ -363,7 +364,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return XNOR[A, B];
+		    return XNOR_TRUTH_TABLE[A, B];
 
 	    }	
     		
@@ -382,7 +383,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return IMP[A, B];
+		    return IMP_TRUTH_TABLE[A, B];
 
 	    }	
     	
@@ -401,7 +402,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return EQV[A, B];
+		    return EQV_TRUTH_TABLE[A, B];
 
 	    }		
     	
@@ -417,7 +418,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 		    int A = double2IntBoolean(a);
     		
-		    return NOT[A];
+		    return NOT_TRUTH_TABLE[A];
 
 	    }
     	
@@ -435,7 +436,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return CIMP[A, B];
+		    return CIMP_TRUTH_TABLE[A, B];
 
 	    }
     	
@@ -453,7 +454,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return NIMP[A, B];
+		    return NIMP_TRUTH_TABLE[A, B];
 
 	    }
     	
@@ -472,7 +473,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		    int A = double2IntBoolean(a);
 		    int B = double2IntBoolean(b);
     		
-		    return CNIMP[A, B];
+		    return CNIMP_TRUTH_TABLE[A, B];
 
 	    }
     }

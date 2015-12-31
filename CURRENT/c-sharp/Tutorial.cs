@@ -67,6 +67,7 @@ namespace org.mariuszgromada.math.mxparser
      * @see Function
      * @see Constant
      */
+    [CLSCompliant(true)]
     public class Tutorial
     {
 

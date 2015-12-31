@@ -44,7 +44,6 @@ package org.mariuszgromada.math.mxparser;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 import java.util.Stack;
 
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
@@ -379,143 +378,34 @@ public class Expression {
 	
 	/**
 	 * Default constructor - empty expression
+	 * 
+	 * @param  elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * 
+	 * @see    PrimitiveElement
 	 */
-	public Expression() {
+	public Expression(PrimitiveElement...elements) {
 		expressionString = "";
 		expressionInit();
 		setExpressionModifiedFlag();
+		addDefinitions(elements);
 	}
 		
 	/**
 	 * Constructor - creates new expression from expression string.
 	 * 
-	 * @param      expressionString    definition of the expression 
+	 * @param      expressionString    definition of the expression
+	 * @param      elements     Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
+	 * 
+	 * @see    PrimitiveElement
+	 *  
 	 */	
-	public Expression(String expressionString) {
+	public Expression(String expressionString, PrimitiveElement...elements) {
 		expressionInit();
 		this.expressionString = new String(expressionString);
 		setExpressionModifiedFlag();
+		addDefinitions(elements);
 	}
 	
-	/**
-	 * Constructor - creates new expression from expression string
-	 * and arguments list.
-	 * 
-	 * @param      expressionString    the expression string
-	 * @param      argumentsList       the arguments list
-	 * 
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 */
-	public Expression(String expressionString, ArrayList<Argument> argumentsList) {
-
-		this.expressionString = new String(expressionString);
-		functionsList = new ArrayList<Function>();
-		constantsList = new ArrayList<Constant>();
-		relatedExpressionsList = new ArrayList<Expression>();
-		setSilentMode();
-		disableRecursiveMode();
-		expressionInternalVarsInit();
-		
-		this.argumentsList = argumentsList;
-		for (Argument a : argumentsList)
-			a.addRelatedExpression(this);
-
-		setExpressionModifiedFlag();
-	}
-
-	/**
-	 * Constructor - creates new expression from expression string,
-	 * arguments list and functions list.
-	 *  
-	 * @param      expressionString    the expression string
-	 * @param      argumentsList       the arguments list
-	 * @param      functionsList       the functions list
-	 * 
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 * @see        Function
-	 */
-	public Expression(String expressionString, ArrayList<Argument> argumentsList,
-			ArrayList<Function> functionsList) {
-		this.expressionString = new String(expressionString);
-		constantsList = new ArrayList<Constant>();
-		relatedExpressionsList = new ArrayList<Expression>();
-		expressionInternalVarsInit();
-		setSilentMode();
-		disableRecursiveMode();
-
-		this.argumentsList = argumentsList;
-		for (Argument a : argumentsList)
-			a.addRelatedExpression(this);
-
-		this.functionsList = functionsList;
-		for (Function f : functionsList)
-			f.addRelatedExpression(this);
-
-		setExpressionModifiedFlag();
-	}
-
-	/**
-	 * Constructor - creates new expression from expression string,
-	 * arguments, functions list and constants list.
-	 * 
-	 * @param      expressionString    the expression string
-	 * @param      argumentsList       the arguments list
-	 * @param      functionsList       the functions list
-	 * @param      constantsList       the constant list
-	 * 
-	 * @see        Argument
-	 * @see        RecursiveArgument
-	 * @see        Function
-	 * @see        Constant
-	 */
-	public Expression(String expressionString, ArrayList<Argument> argumentsList,
-			ArrayList<Function> functionsList, ArrayList<Constant> constantsList) {
-		this.expressionString = new String(expressionString);
-		relatedExpressionsList = new ArrayList<Expression>();		
-		expressionInternalVarsInit();
-		setSilentMode();
-		disableRecursiveMode();
-
-		this.argumentsList = argumentsList;
-		for (Argument a : argumentsList)
-			a.addRelatedExpression(this);
-
-		this.functionsList = functionsList;
-		for (Function f : functionsList)
-			f.addRelatedExpression(this);
-
-		this.constantsList = constantsList;
-		for (Constant c : constantsList)
-			c.addRelatedExpression(this);
-
-		setExpressionModifiedFlag();
-	}
-
-	/**
-	 * Constructor - creates new expression from expression string,
-	 * and list of arguments given as variadic parameters list.
-	 * 
-	 * For example:
-	 *    Argument x1 = new Argument("x1");
-	 *    Argument x2 = new Argument("x2");
-	 *    Expression exp = new Expression("x1+x2", x1, x2);
-	 * 
-	 * @param      expressionString      definition of the expression
-	 * @param      arguments             arguments list (comma separated)
-	 * 
-	 * @see        Argument
-	 */	
-	public Expression(String expressionString, Argument... arguments) {
-		expressionInit();
-		this.expressionString = new String(expressionString);
-		for (Argument arg : arguments) {
-			arg.addRelatedExpression(this);
-			argumentsList.add(arg);
-		}
-		setExpressionModifiedFlag();
-	}
 	
 	/**
 	 * Package level constructor - creates new expression from subexpression
@@ -765,10 +655,12 @@ public class Expression {
 			for (PrimitiveElement e : elements) {
 				int elementTypeId = e.getMyTypeId();
 				
-				if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
-				else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
-				else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
-                else if (elementTypeId == RecursiveArgument.TYPE_ID) addArguments((Argument)e);
+				if (e != null) {
+					if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
+					else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
+					else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
+	                else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) addArguments((Argument)e);
+				}
 				
 			}
 		}
@@ -786,11 +678,12 @@ public class Expression {
 			
 			for (PrimitiveElement e : elements) {
 				int elementTypeId = e.getMyTypeId();
-				
-				if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
-				else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
-				else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
-                else if (elementTypeId == RecursiveArgument.TYPE_ID) removeArguments((Argument)e);
+				if (e != null) {
+					if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
+					else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
+					else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
+	                else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) removeArguments((Argument)e);
+				}
 				
 			}
 		}
@@ -816,32 +709,16 @@ public class Expression {
 		public void addArguments(Argument... arguments) {
 			
 			for (Argument arg : arguments) {
-				argumentsList.add(arg);
-				arg.addRelatedExpression(this);
+				if (arg != null) {
+					argumentsList.add(arg);
+					arg.addRelatedExpression(this);
+				}
 			}
 			
 			setExpressionModifiedFlag();		
 	
 		}
 	
-		/**
-		 * Adds arguments to the expression definition.
-		 * 
-		 * @param      argumentsList       the arguments list
-		 * 
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
-		public void addArguments( ArrayList<Argument> argumentsList) {
-			
-			this.argumentsList.addAll( argumentsList );
-			
-			for (Argument arg : argumentsList)
-				arg.addRelatedExpression(this);
-			
-			setExpressionModifiedFlag();		
-	
-		}	
 			
 		/**
 		 * Enables to define the arguments (associated with
@@ -1056,9 +933,10 @@ public class Expression {
 	
 			
 			for (Argument argument : arguments) {
-	
-				argumentsList.remove(argument);
-				argument.removeRelatedExpression(this);
+				if (argument != null) {
+					argumentsList.remove(argument);
+					argument.removeRelatedExpression(this);
+				}
 			
 			}
 			
@@ -1101,8 +979,10 @@ public class Expression {
 		public void addConstants(Constant... constants) {
 	
 			for (Constant constant : constants) {
-				constantsList.add(constant);
-				constant.addRelatedExpression(this);
+				if (constant != null) {
+					constantsList.add(constant);
+					constant.addRelatedExpression(this);
+				}
 			}	
 	
 			setExpressionModifiedFlag();
@@ -1279,10 +1159,12 @@ public class Expression {
 		 */
 		public void removeConstants(Constant... constants) {
 	
-			for (Constant constant : constants) {
-				constantsList.remove(constant);
-				constant.removeRelatedExpression(this);
-				setExpressionModifiedFlag();		
+			for (Constant constant : constants) {				
+				if (constant != null) {
+					constantsList.remove(constant);
+					constant.removeRelatedExpression(this);
+					setExpressionModifiedFlag();		
+				}
 			}
 			
 		}	
@@ -1324,31 +1206,16 @@ public class Expression {
 		public void addFunctions(Function... functions) {
 			
 			for (Function f : functions) {
-				functionsList.add(f);
-				f.addRelatedExpression(this);			
+				if (f != null) {				
+					functionsList.add(f);
+					f.addRelatedExpression(this);
+				}
 			}
 			
 			setExpressionModifiedFlag();		
 	
 		}
 	
-		/**
-		 * Adds functions to the expression definition.
-		 * 
-		 * @param      functionsList       the functions list
-		 * 
-		 * @see        Function
-		 */
-		public void addFunctions( ArrayList<Function> functionsList) {	
-	
-			this.functionsList.addAll( functionsList );
-			
-			for (Function f : functionsList)
-				f.addRelatedExpression(this);
-			
-			setExpressionModifiedFlag();		
-	
-		}
 		
 		/**
 		 * Enables to define the function (associated with 
@@ -1509,8 +1376,10 @@ public class Expression {
 		public void removeFunctions(Function... functions) {
 	
 			for (Function function : functions) {
-				function.removeRelatedExpression(this);
-				functionsList.remove(function);
+				if (function != null) {
+					function.removeRelatedExpression(this);
+					functionsList.remove(function);
+				}
 			}
 			setExpressionModifiedFlag();
 	
@@ -4505,7 +4374,7 @@ public class Expression {
 				
 				}
 
-				if (t.tokenTypeId == RecursiveArgument.TYPE_ID) {
+				if (t.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) {
 					
 					Argument arg = getArgument(t.tokenId);
 						
@@ -5138,7 +5007,7 @@ public class Expression {
 				for (pos = lPos; pos <= rPos; pos++) {
 					
 					token = tokensList.get(pos);
-					if ((token.tokenTypeId == RecursiveArgument.TYPE_ID) && (recArgPos < 0))
+					if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 						recArgPos = pos;
 					else
 					if ((token.tokenTypeId == SpecialFunction.TYPE_ID) && (specFunPos < 0))
@@ -5855,7 +5724,7 @@ public class Expression {
 			if (arg.getArgumentType() != Argument.RECURSIVE_ARGUMENT)
 				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,Argument.TYPE_ID);
 			else
-				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID);
+				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID_RECURSIVE);
 			
 		}
 
@@ -6015,7 +5884,7 @@ public class Expression {
 			for (int i=pos; i<newExpressionString.length(); i++) {
 				String str = newExpressionString.substring(pos, i+1);
 				
-				if ( Pattern.matches(ParserSymbol.NUMBER_REG_EXP, str) ){
+				if ( mXparser.regexMatch(str, ParserSymbol.NUMBER_REG_EXP) ){
 					numEnd = i;
 				}
 					
@@ -6179,7 +6048,7 @@ public class Expression {
 					
 					if (	
 							(kw.wordTypeId == Argument.TYPE_ID) ||	
-							(kw.wordTypeId == RecursiveArgument.TYPE_ID) ||	
+							(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||	
 							(kw.wordTypeId == Function1Arg.TYPE_ID) ||	
 							(kw.wordTypeId == Function2Arg.TYPE_ID) ||	
 							(kw.wordTypeId == Function3Arg.TYPE_ID) ||	
@@ -6312,7 +6181,7 @@ public class Expression {
 						( token.tokenTypeId == Function3Arg.TYPE_ID )	||
 						( token.tokenTypeId == Function.TYPE_ID )	||
 						( token.tokenTypeId == Calculus.TYPE_ID ) ||
-						( token.tokenTypeId == RecursiveArgument.TYPE_ID ) ||
+						( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
 						( token.tokenTypeId == SpecialFunction.TYPE_ID )
 						) {
 					
@@ -6512,7 +6381,7 @@ public class Expression {
 				type = "BINARY_RELATION";
 			if (keyWord.wordTypeId == Argument.TYPE_ID)
 				type = "ARGUMENT";
-			if (keyWord.wordTypeId == RecursiveArgument.TYPE_ID)
+			if (keyWord.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE)
 				type = "RECURSIVE_ARGUMENT";
 			if (keyWord.wordTypeId == Const.TYPE_ID)
 				type = "CONSTANT";

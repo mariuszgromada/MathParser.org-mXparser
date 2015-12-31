@@ -45,7 +45,6 @@
 
 using System;
 using System.Threading;
-using org.mariuszgromada.math.mxparser;
 using org.mariuszgromada.math.mxparser.mathcollection;
 
 
@@ -69,6 +68,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
      * 
      * @see Expression
      */
+    [CLSCompliant(true)]
     public class RegTestExpression
     {
 

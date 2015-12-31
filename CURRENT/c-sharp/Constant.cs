@@ -42,8 +42,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -79,6 +77,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Argument
      *
      */
+    [CLSCompliant(true)]
     public class Constant : PrimitiveElement {
     	
 	    /**
@@ -143,12 +142,12 @@ namespace org.mariuszgromada.math.mxparser {
         public Constant(String constantName
 					    ,double constantValue) : base(Constant.TYPE_ID)
         {
+            relatedExpressionsList = new List<Expression>();
 
-            if (Regex.Match(constantName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.constantName = constantName;
                 this.constantValue = constantValue;
                 description = "";
-                relatedExpressionsList = new List<Expression>();
 
                 syntaxStatus = NO_SYNTAX_ERRORS;
                 errorMessage = NO_SYNTAX_ERROR_MSG;
@@ -171,12 +170,12 @@ namespace org.mariuszgromada.math.mxparser {
 			    ,double constantValue
 			    ,String description) : base(Constant.TYPE_ID)
         {
+            relatedExpressionsList = new List<Expression>();
 
-            if (Regex.Match(constantName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.constantName = constantName;
                 this.constantValue = constantValue;
                 this.description = description;
-                relatedExpressionsList = new List<Expression>();
 
                 syntaxStatus = NO_SYNTAX_ERRORS;
                 errorMessage = NO_SYNTAX_ERROR_MSG;
@@ -196,18 +195,20 @@ namespace org.mariuszgromada.math.mxparser {
          * 
          * @param functionDefinitionString      Function definition in the form
          *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+    	 *                                      
+	     * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions 
          */
-        public Constant(String constantDefinitionString) : base(Constant.TYPE_ID)
+        public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID)
         {
             description = "";
             syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+            relatedExpressionsList = new List<Expression>();
 
-            if (Regex.Match(constantDefinitionString, ParserSymbol.constArgDefStrRegExp).Success)
+            if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constArgDefStrRegExp))
             {
                 HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
                 constantName = headEqBody.headTokens[0].tokenStr;
-                Expression bodyExpression = new Expression(headEqBody.bodyStr);
-                relatedExpressionsList = new List<Expression>();
+                Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
                 constantValue = bodyExpression.calculate();
                 syntaxStatus = bodyExpression.getSyntaxStatus();
                 errorMessage = bodyExpression.getErrorMessage();
@@ -235,7 +236,7 @@ namespace org.mariuszgromada.math.mxparser {
 	     */
 	    public void setConstantName(String constantName) {
 
-            if (Regex.Match(constantName, ParserSymbol.nameOnlyTokenRegExp).Success) {
+            if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp)) {
                 this.constantName = constantName;
                 setExpressionModifiedFlags();
             }

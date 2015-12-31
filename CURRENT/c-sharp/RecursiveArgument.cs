@@ -43,7 +43,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -92,12 +91,13 @@ namespace org.mariuszgromada.math.mxparser {
      * @see Function
      * @see Constant
      */
+    [CLSCompliant(true)]
     public class RecursiveArgument : Argument {
 
 	    /**
 	     * Type identifier for recursive arguments.
 	     */	
-	    internal const int TYPE_ID = 102;	
+	    internal const int TYPE_ID_RECURSIVE = 102;	
     	
 	    /**
 	     * Base values
@@ -136,13 +136,18 @@ namespace org.mariuszgromada.math.mxparser {
 
 
         /**
-	     * Constructor - creates recursive argument.
-	     * 
-	     * @param      argumentName                  the argument name
-	     * @param      recursiveExpressionString     the recursive expression string
-	     * @param      n                             the index argument
-	     */
-        public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n)
+         * Constructor - creates recursive argument.
+         * 
+         * @param      argumentName                  the argument name
+         * @param      recursiveExpressionString     the recursive expression string
+         * @param      n                             the index argument
+         * @param      elements                      Optional elements list (variadic - comma
+         *                                           separated) of types: Argument, Constant, Function
+         * 
+         * @see        PrimitiveElement
+         * @see        Argument
+         */
+        public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements)
             : base(argumentName, recursiveExpressionString)
         {
             if (argumentName.Equals(this.getArgumentName())) {
@@ -151,6 +156,7 @@ namespace org.mariuszgromada.math.mxparser {
                 this.n = n;
                 base.argumentExpression.addArguments(n);
                 base.argumentExpression.addArguments(this);
+                base.argumentExpression.addDefinitions(elements);
                 base.argumentExpression.setDescription(argumentName);
                 recursiveCounter = -1;
             }
@@ -167,17 +173,29 @@ namespace org.mariuszgromada.math.mxparser {
          *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
          *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)                                                
          *                                             </ul>
+         *                                             
+         * @param      elements                       Optional elements list
+         *                                            (variadic - comma separated) of types: Argument,
+         *                                            Constant, Function
+         * 
+         * @see    PrimitiveElement
+         * @see    Argument
          */
-        public RecursiveArgument(String argumentDefinitionString) : base(argumentDefinitionString)
+        public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString)
         {
             
-            if (Regex.Match(argumentDefinitionString, ParserSymbol.functionDefStrRegExp).Success) {
+            if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
                 this.argumentType = RECURSIVE_ARGUMENT;
                 baseValues = new List<Double>();
                 recursiveCounter = -1;
-                base.argumentExpression.addArguments(n);
+                base.argumentExpression.addArguments(base.n);
                 base.argumentExpression.addArguments(this);
+                base.argumentExpression.addDefinitions(elements);
                 base.argumentExpression.setDescription(argumentDefinitionString);
+            }
+            else {
+                base.argumentExpression = new Expression();
+                base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
             }
         }
 
