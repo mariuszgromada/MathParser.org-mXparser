@@ -3446,7 +3446,7 @@ public class Expression {
 		double a = getTokenValue(pos+2);
 		double b = getTokenValue(pos+3);
 		
-		f3SetDecreaseRemove(pos, MathFunctions.CHi(x, a, b) );
+		f3SetDecreaseRemove(pos, MathFunctions.CHi_LR(x, a, b) );
 		
 	}	
 
@@ -3462,7 +3462,7 @@ public class Expression {
 		double a = getTokenValue(pos+2);
 		double b = getTokenValue(pos+3);
 		
-		f3SetDecreaseRemove(pos, MathFunctions.Chi(x, a, b) );
+		f3SetDecreaseRemove(pos, MathFunctions.Chi_L(x, a, b) );
 		
 	}	
 
@@ -3478,7 +3478,7 @@ public class Expression {
 		double a = getTokenValue(pos+2);
 		double b = getTokenValue(pos+3);
 		
-		f3SetDecreaseRemove(pos, MathFunctions.cHi(x, a, b) );
+		f3SetDecreaseRemove(pos, MathFunctions.cHi_R(x, a, b) );
 		
 	}	
 	
