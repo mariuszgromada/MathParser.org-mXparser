@@ -175,8 +175,8 @@ public class Tutorial {
 		 * Free Arguments
 		 */
 		
-		Argument x = new Argument("x", 1);
-		Argument y = new Argument("y", 2);
+		Argument x = new Argument("x=1");
+		Argument y = new Argument("y=2");
 		Argument z = new Argument("z", 3);
 		Argument n = new Argument("n", 4);
 		
@@ -345,7 +345,7 @@ public class Tutorial {
 		 * In the expressions f will be c alled as f( . , . , . )
 		 */
 		
-		f = new Function("f", "a+b+c", "a", "b", "c");
+		f = new Function("f(a,b,c)=a+b+c");
 		Expression e30 = new Expression("f(1, 2, 3)");
 		e30.addDefinitions(f);
 		mXparser.consolePrintln(e30.getExpressionString() + " = " + e30.calculate());

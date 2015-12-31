@@ -1,16 +1,103 @@
-                 mXparser - Math Parser Java C# Library beta
-         A flexible mathematical expressions parser for JAVA and C# .NET
+                 mXparser - Math Parser Java C# .NET (CLS) Library beta
+         A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
-1.0.1 - Fixed BAG BIG Problem with evaluation without parenthesis - ID: 2985722 
-http://sourceforge.net/tracker/index.php?func=detail&aid=2985722&group_id=300839&atid=1268726
-1.0.2 - Fixed bug in user defined function related to RecursiveArguments
-1.0.3:
-   - Fixed bug during indirect recursion (infinite loops while syntax checking)
-   - Some minor modification of code making it more portable across platforms
+v.2.0.0 (2015-12-31): Major update of the library providing more intuitive and
+much simpler to use API, no changes to the MathCollection.
+
+    * Methods removed: setRecursiveMode(), disableRecursiveMode()
+        - No need to manually mark recursive mode, mXparser is recognizing this
+		   mode automatically.
+        - New handy and super easy (natural to use) constructors:
+
+    * Constructors for user defined arguments (Argument / RecursiveArgument
+	  classes), user defined constant (Constant class), user defined functions
+	  (Function class).
+
+    Sample code:
+
+       Constant c = new Constant("c=5");
+       Constant c = new Constant("c=5+2");
+       Argument x = new Argument("x=5");
+       Constant c = new Constant("c=5+x", x);
+       Argument y = new Argument("y=2*x", x);
+       RecursiveArgument f = new RecursiveArgument("f(n)=n*f(n-1)");
+       Function f = new Function("f(x,y)=sin(x)+y");
+       Function f = new Function("f(n)=if( n>0, n*f(n-1), 1)");
+	   
+	   
+    * New methods: addDefinitions(PrimitiveElement... elements),
+	  removeDefinitions(PrimitiveElement... elements)
+
+    * New class PrimitiveElement introduced only to simplify constructors of
+	  arguments, constants, functions and expressions.
+
+	* Classes Argument, RecursiveArgument, Constant, Functions inherits now
+	  from PrimitiveElement class, it means you can call one method for
+	  adding / removing definitions by passing comma separated list of elements
+	  that can be different type (supported types: Argument, RecursiveArgument,
+	  Constant, Function).
+
+	* Method addArguments(), addConstants(), addFunctions(),removeArguments(),
+	  removeConstants(), removeFunctions() are still public, but this will
+	  change in the future.
+
+	Sample code:
+
+       Constant c = new Constant("c=5");
+       Argument x = new Argument("x=10/2");
+       Expression e = new Expression("c+x");
+       e.addDefinitions(x,c);
+	   
+    * Modified constructors for classes Argument, RecursiveArgument, Constant,
+	  Function
+
+    * Constructors relying on directly given argument / constant / function
+	  name are now checking given name according to the predefined regular
+	  expression (the name must start with letters, and then
+	  digits / underscores/ letters are allowed).
+
+	* Constructors removed – all constructors relying on ArrayList/List
+	  of arguments, constants, functions or on varidic type Argument, Constant,
+	  Function were substituted based on comma separated prams list of
+	  PrimitiveElement type, where Argument, Constant, Functions
+	  extend / inherit PrimitiveElement).
+	  
+    * C# library is now Common Language Specification Compliant, it means
+	  mXparser is available right now to many other .NET languages
+	  (providing exactly the same API), including:
+
+       - C#
+       - Visual Basic .NET
+       - C++/CLI
+       - F#
+	   
+    * Other changes
+
+       - New extended list of regression tests (to cover new methods,
+	     constructors, etc...)
+	   - Implemented PerformanceTests
+       - Source code converted from cp150 to UTF-8
+       - Source code reorganization (some part of package level code of the
+	     Expression class was moved to the mXparser class)
+       - Some bugs fixed (for sure there are others)
+	   
+v.1.0.3 (2015-12-15):
+    * Fixed bug during indirect recursion (infinite loops while syntax checking)
+	  Some minor modification of code making it more portable across platforms
+
+v.1.0.2 (2015-12-06):
+    * Fixed bug in user defined function related to RecursiveArguments
+	
+v.1.0.1 (2010-04-17):
+    * Fixed BAG BIG Problem with evaluation without parenthesis
+	  ID: 2985722http://sourceforge.net/tracker/index.php?func=detail&aid=2985722&group_id=300839&atid=1268726
+	  
+v.1.0.0 (2010-02-01):
+    * Initial release
 
  You may use this software under the condition of Simplified BSD License:
 
-Copyright 2015 MARIUSZ GROMADA. All rights reserved.
+Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -41,6 +128,9 @@ If you have any questions/bugs feel free to contact:
     Mariusz Gromada
     mariusz.gromada@mathspace.pl
     http://mathspace.pl/
+    http://mathparser.org/
+    http://github.com/mariuszgromada/mXparser/
+    http://mariuszgromada.github.io/mXparser/
     http://mxparser.sourceforge.net/
 
 mXparser tutorial:
@@ -52,14 +142,16 @@ doc/index.html
 If you would like to run some regression testing just hit commands listed below:
 
 JAVA:
-java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
-java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression
-java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI
-java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax
+jav -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
+java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests
 
 C#:
-[Reflection.Assembly]::LoadFile("...path\to\mxparser.dll")
+[Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
 [org.mariuszgromada.math.mxparser.Tutorial]::Start(0)
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression]::Main(0)
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI]::Start(0)
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax]::Start(0)
+[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2]::Main()
+[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI]::Start()
+[org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax]::Start()
+[org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests]::Start()
