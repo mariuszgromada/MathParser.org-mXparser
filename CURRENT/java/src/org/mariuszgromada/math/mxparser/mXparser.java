@@ -55,8 +55,8 @@ import java.util.regex.Pattern;
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
  *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
  *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
- *                 <a href="http://github.com/mariuszgromada/mXparser/" target="_blank">mXparser on GitHub</a><br>
- *                 <a href="http://mariuszgromada.github.io/mXparser/" target="_blank">mXparser on GitHub pages</a><br>
+ *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
  *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
  * @version        2.0.0
@@ -202,8 +202,8 @@ public final class mXparser {
 		"    mariusz.gromada@mathspace.pl\n" +
 		"    http://mathspace.plt/\n" +
 		"    http://mathparser.org/\n" +
-		"    http://github.com/mariuszgromada/mXparser/\n" +
-		"    http://mariuszgromada.github.io/mXparser/\n" +
+		"    http://github.com/mariuszgromada/MathParser.org-mXparser\n" +
+		"    http://mariuszgromada.github.io/MathParser.org-mXparser/\n" +
 		"    http://mxparser.sourceforge.net/\n"
 		;
 

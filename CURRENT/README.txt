@@ -75,7 +75,7 @@ much simpler to use API, no changes to the MathCollection.
 
        - New extended list of regression tests (to cover new methods,
 	     constructors, etc...)
-	   - Implemented PerformanceTests
+	   - Implemented Performance Tests
        - Source code converted from cp150 to UTF-8
        - Source code reorganization (some part of package level code of the
 	     Expression class was moved to the mXparser class)
@@ -129,8 +129,8 @@ If you have any questions/bugs feel free to contact:
     mariusz.gromada@mathspace.pl
     http://mathspace.pl/
     http://mathparser.org/
-    http://github.com/mariuszgromada/mXparser/
-    http://mariuszgromada.github.io/mXparser/
+    http://github.com/mariuszgromada/MathParser.org-mXparser
+    http://mariuszgromada.github.io/MathParser.org-mXparser/
     http://mxparser.sourceforge.net/
 
 mXparser tutorial:
@@ -150,7 +150,7 @@ java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.Perform
 
 C#:
 [Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
-[org.mariuszgromada.math.mxparser.Tutorial]::Start(0)
+[org.mariuszgromada.math.mxparser.Tutorial]::Start()
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2]::Main()
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI]::Start()
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax]::Start()

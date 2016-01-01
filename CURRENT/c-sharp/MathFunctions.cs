@@ -35,8 +35,8 @@
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
  *     http://mathparser.org/
- *     http://github.com/mariuszgromada/mXparser/
- *     http://mariuszgromada.github.io/mXparser/
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser/
  *     http://mxparser.sourceforge.net/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
