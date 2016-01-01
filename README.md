@@ -8,8 +8,8 @@
 - **[binary relations](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.html)** i.e.: =, <, >
 - **[math functions](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html)** (large library of 1-arg, 2-arg, 3-arg - functions) i.e.: sin, cos, Stirling numbers, log, inverse functions
 - **[constants](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathConstants.html)** (large library), i.e.: pi, e, golden ratio
-- **n-args functions**, i.e.: [greatest common divisor](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html#gcd(int...))
-- **[iterated summation and product operators](mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.html)**
+- **n-args functions**, i.e.: [greatest common divisor](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.html#gcd-int...-)
+- **[iterated summation and product operators](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.html#sigmaSummation-org.mariuszgromada.math.mxparser.Expression-org.mariuszgromada.math.mxparser.Argument-double-double-double-)**
 - **[differentiation and integration](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/NumericalAnalysis.html)**
 
 
@@ -17,10 +17,10 @@
 - **[user defined constants](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Constant.html)** and arguments, both free - and dependent on other arguments + possibility of use in functions
 - **[user defined functions](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html)** (both free and depended)
 - **[user defined recursive arguments](http://mathparser.org/api/org/mariuszgromada/math/mxparser/RecursiveArgument.html)** + simple (controlled) recursion (1 recursive argument)
-- **[user defined recursive functions / expressions (any)](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html#setRecursiveMode())** - complex, many arguments, no limitation 
-- **[internal syntax checking](http:/mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#checkSyntax())**
-- **[internal help](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp())**
-- other useful functionalities, i.e.: [computing time](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getComputingTime()), expression description.
+- **[user defined recursive functions / expressions (any)](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Function.html#getRecursiveMode--)** - complex, many arguments, no limitation 
+- **[internal syntax checking](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#checkSyntax--)**
+- **[internal help](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getHelp--)**
+- other useful functionalities, i.e.: [computing time](http://mathparser.org/api/org/mariuszgromada/math/mxparser/Expression.html#getComputingTime--), expression description.
 
 # Project documentation
 ### - [mXparser - API (english)](http://mathparser.org/api/)
