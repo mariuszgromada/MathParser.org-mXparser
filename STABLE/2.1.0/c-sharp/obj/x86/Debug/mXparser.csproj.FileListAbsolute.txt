@@ -1,0 +1,8 @@
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\bin\Debug\mxparser.dll
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\bin\Debug\mxparser.pdb
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\obj\x86\Debug\mxparser.dll
+D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\obj\x86\Debug\mxparser.pdb
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\bin\Debug\mxparser.dll
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\bin\Debug\mxparser.pdb
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\obj\x86\Debug\mxparser.dll
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\obj\x86\Debug\mxparser.pdb

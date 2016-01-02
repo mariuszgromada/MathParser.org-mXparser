@@ -1,0 +1,158 @@
+/**
+* JTB file
+*/
+
+options {
+  JDK_VERSION = "1.5";
+  STATIC = false;
+}
+
+PARSER_BEGIN(SyntaxChecker)
+
+package org.mariuszgromada.math.mxparser.syntaxchecker;
+
+public final class SyntaxChecker {
+
+  public final void checkSyntax() throws ParseException, TokenMgrError  {    start();  }
+  
+}
+
+PARSER_END(SyntaxChecker)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN : /* TOKENS */
+{
+	< #LETTER:		["_","a"-"z","A"-"Z"] >
+| 	< #DIGIT:		["0"-"9"] >
+| 	< #LETTERS:		<LETTER>(<LETTER >)* >
+|  	< INTEGER:		<DIGIT>(<DIGIT>)* >
+| 	< LEFT_PAR:	"(" >
+| 	< RIGHT_PAR:	")" >
+| 	< PLUS:	"+" >
+| 	< MINUS:	"-" >
+| 	< MULTIPLY:	"*" >
+| 	< DIV:	"/" >
+| 	< POWER:	"^" >
+| 	< MODULO:	"%" >
+| 	< FACTORIAL:	"!" >
+| 	< COMMA:	"," >
+| 	< SEMICOLON:	";" >
+| 	< EQ:	( "=" | "==" ) >
+| 	< NEQ:	( "<>" | "!=" | "~=" ) >
+| 	< LT:	"<" >
+| 	< LEQ:	"<=" >
+| 	< GT:	">"  >
+| 	< GEQ:	">=" >
+| 	< OR:	( "|" | "||" | "\\/") >
+| 	< AND:	( "&" | "&&" | "/\\" ) >
+| 	< NOT:	"~" >
+| 	< IMP:	<MINUS><GT> >
+| 	< CIMP:	<LT><MINUS> >
+| 	< NIMP:	 <MINUS><DIV><GT> >
+| 	< CNIMP: <LT><DIV><MINUS> >
+|   < NAND: <NOT><AND> >
+|   < EQV:  <LT><MINUS><GT> >
+|   < NOR: <NOT><OR> >
+| 	< XOR:	<LEFT_PAR><PLUS><RIGHT_PAR> >
+| 	< CHAR:	( "`"  | "@" | "#" | "$" | "." | "'" | ":" | ";" | "\\" | "/" | "?" )  >
+}
+
+
+TOKEN : /* NUMBER DECIMALS */
+{
+ 	< REAL:
+ 				"." <INTEGER>
+|  				<INTEGER> "."
+|  				<INTEGER> "." <INTEGER>
+	>
+}
+
+
+
+TOKEN : /* IDENTIFIER */
+{
+ 	< IDENTIFIER:	<LETTERS> ( <LETTERS> | <INTEGER> )*  >
+}
+
+TOKEN : /* SPECIAL FUNCTION */
+{
+ 	< FUNCTION: "der+" | "der-" >
+}
+
+
+void start():{}
+{
+  ( expression() (<EOF>) | <EOF > )
+}
+void expression():{ } 
+{
+  booleanExpression()
+}
+void booleanExpression():{ } 
+{
+  equalExpression() (
+    						<OR> equalExpression()
+    						| <AND> equalExpression()
+    						| <NOR> equalExpression()
+    						| <NAND> equalExpression()
+    						| <XOR> equalExpression()
+    						| <IMP> equalExpression()
+    						| <CIMP> equalExpression()
+    						| <NIMP> equalExpression()
+    						| <CNIMP> equalExpression()
+    						| <EQV> equalExpression()
+  )* 
+}
+void equalExpression():{}
+{
+  relationalExpression() (	 <EQ> relationalExpression()
+  							| <NEQ> relationalExpression()
+  							| <GT> relationalExpression()
+  							| <GEQ> relationalExpression()
+  							| <LT> relationalExpression()
+  							| <LEQ> relationalExpression()
+  							)*
+}
+void relationalExpression():{}
+{
+  additiveExpression() 
+}
+void additiveExpression():{}
+{
+  multiplicativeExpression() ( <PLUS> multiplicativeExpression() | <MINUS> multiplicativeExpression() )* 
+}
+void multiplicativeExpression():{}
+{
+  unaryExpression() ( <POWER> unaryExpression() | <MULTIPLY> unaryExpression() | <DIV> unaryExpression() | <MODULO> unaryExpression() )* 
+}
+void unaryExpression():{}
+{
+  (<NOT>)? ( <PLUS> | <MINUS> )? ( realConstant() | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> ) ( <FACTORIAL> )?
+}
+void argumentList():{}
+{
+ ( expression() ( ( <COMMA> | <SEMICOLON> ) expression() )* )?
+}
+void identifier():{}
+{
+ (
+   <IDENTIFIER> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <REAL> )* )+ "]" 
+ )
+}
+void realConstant():{}
+{
+  ( <REAL> | <INTEGER> ) 
+}
+
+< * > TOKEN : 
+{
+< INVALID_TOKEN : "++" | "--" | "+-" | "-+" >  
+|  < UNEXPECTED_CHAR : ~[] > 
+} 
