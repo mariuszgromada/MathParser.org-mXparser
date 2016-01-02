@@ -1,0 +1,644 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly mxparser, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class org.mariuszgromada.math.mxparser.Argument: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :org.mariuszgromada.math.mxparser.PrimitiveElement
+    Void .ctor(System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, Double): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Boolean NO_SYNTAX_ERRORS = True : Public, Static, Literal, HasDefault
+    Boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = False : Public, Static, Literal, HasDefault
+    Double ARGUMENT_INITIAL_VALUE = NaN : Public, Static, Literal, HasDefault
+    Int32 NOT_FOUND = -1 : Public, Static, Literal, HasDefault
+    Int32 FREE_ARGUMENT = 1 : Public, Static, Literal, HasDefault
+    Int32 DEPENDENT_ARGUMENT = 2 : Public, Static, Literal, HasDefault
+    Int32 RECURSIVE_ARGUMENT = 3 : Public, Static, Literal, HasDefault
+  Methods:
+    setDescription(String): PrivateScope, Public, HideBySig
+    getDescription(): PrivateScope, Public, HideBySig
+    setVerboseMode(): PrivateScope, Public, HideBySig
+    setSilentMode(): PrivateScope, Public, HideBySig
+    getVerboseMode(): PrivateScope, Public, HideBySig
+    getRecursiveMode(): PrivateScope, Public, HideBySig
+    getComputingTime(): PrivateScope, Public, HideBySig
+    setArgumentName(String): PrivateScope, Public, HideBySig
+    setArgumentExpressionString(String): PrivateScope, Public, HideBySig
+    getArgumentName(): PrivateScope, Public, HideBySig
+    getArgumentExpressionString(): PrivateScope, Public, HideBySig
+    getArgumentType(): PrivateScope, Public, HideBySig
+    setArgumentValue(Double): PrivateScope, Public, HideBySig
+    checkSyntax(): PrivateScope, Public, HideBySig
+    getErrorMessage(): PrivateScope, Public, HideBySig
+    getArgumentValue(): PrivateScope, Public, HideBySig
+    addDefinitions(PrimitiveElement[]): PrivateScope, Public, HideBySig
+    removeDefinitions(PrimitiveElement[]): PrivateScope, Public, HideBySig
+    addArguments(Argument[]): PrivateScope, Public, HideBySig
+    defineArguments(String[]): PrivateScope, Public, HideBySig
+    defineArgument(String, Double): PrivateScope, Public, HideBySig
+    getArgumentIndex(String): PrivateScope, Public, HideBySig
+    getArgument(String): PrivateScope, Public, HideBySig
+    getArgument(Int32): PrivateScope, Public, HideBySig
+    getArgumentsNumber(): PrivateScope, Public, HideBySig
+    removeArguments(String[]): PrivateScope, Public, HideBySig
+    removeArguments(Argument[]): PrivateScope, Public, HideBySig
+    removeAllArguments(): PrivateScope, Public, HideBySig
+    addConstants(Constant[]): PrivateScope, Public, HideBySig
+    defineConstant(String, Double): PrivateScope, Public, HideBySig
+    getConstantIndex(String): PrivateScope, Public, HideBySig
+    getConstant(String): PrivateScope, Public, HideBySig
+    getConstant(Int32): PrivateScope, Public, HideBySig
+    getConstantsNumber(): PrivateScope, Public, HideBySig
+    removeConstants(String[]): PrivateScope, Public, HideBySig
+    removeConstants(Constant[]): PrivateScope, Public, HideBySig
+    removeAllConstants(): PrivateScope, Public, HideBySig
+    addFunctions(Function[]): PrivateScope, Public, HideBySig
+    defineFunction(String, String, String[]): PrivateScope, Public, HideBySig
+    getFunctionIndex(String): PrivateScope, Public, HideBySig
+    getFunction(String): PrivateScope, Public, HideBySig
+    getFunction(Int32): PrivateScope, Public, HideBySig
+    getFunctionsNumber(): PrivateScope, Public, HideBySig
+    removeFunctions(String[]): PrivateScope, Public, HideBySig
+    removeFunctions(Function[]): PrivateScope, Public, HideBySig
+    removeAllFunctions(): PrivateScope, Public, HideBySig
+    clone(): PrivateScope, Public, HideBySig
+    getLicense(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.Constant: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :org.mariuszgromada.math.mxparser.PrimitiveElement
+    Void .ctor(System.String, Double): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, Double, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 NOT_FOUND = -1 : Public, Static, Literal, HasDefault
+    Boolean NO_SYNTAX_ERRORS = True : Public, Static, Literal, HasDefault
+    Boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = False : Public, Static, Literal, HasDefault
+  Methods:
+    getConstantName(): PrivateScope, Public, HideBySig
+    setConstantName(String): PrivateScope, Public, HideBySig
+    getConstantValue(): PrivateScope, Public, HideBySig
+    getDescription(): PrivateScope, Public, HideBySig
+    setDescription(String): PrivateScope, Public, HideBySig
+    getErrorMessage(): PrivateScope, Public, HideBySig
+    getSyntaxStatus(): PrivateScope, Public, HideBySig
+    getLicense(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.Expression: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Boolean NO_SYNTAX_ERRORS = True : Public, Static, Literal, HasDefault
+    Boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = False : Public, Static, Literal, HasDefault
+  Methods:
+    checkSyntax(): PrivateScope, Public, HideBySig
+    calculate(): PrivateScope, Public, HideBySig
+    getHelp(): PrivateScope, Public, HideBySig
+    getHelp(String): PrivateScope, Public, HideBySig
+    getLicense(): PrivateScope, Public, HideBySig
+    getErrorMessage(): PrivateScope, Public, HideBySig
+    getSyntaxStatus(): PrivateScope, Public, HideBySig
+    setExpressionString(String): PrivateScope, Public, HideBySig
+    getExpressionString(): PrivateScope, Public, HideBySig
+    clearExpressionString(): PrivateScope, Public, HideBySig
+    setDescription(String): PrivateScope, Public, HideBySig
+    getDescription(): PrivateScope, Public, HideBySig
+    clearDescription(): PrivateScope, Public, HideBySig
+    setVerboseMode(): PrivateScope, Public, HideBySig
+    setSilentMode(): PrivateScope, Public, HideBySig
+    getVerboseMode(): PrivateScope, Public, HideBySig
+    getRecursiveMode(): PrivateScope, Public, HideBySig
+    getComputingTime(): PrivateScope, Public, HideBySig
+    addDefinitions(PrimitiveElement[]): PrivateScope, Public, HideBySig
+    removeDefinitions(PrimitiveElement[]): PrivateScope, Public, HideBySig
+    addArguments(Argument[]): PrivateScope, Public, HideBySig
+    defineArguments(String[]): PrivateScope, Public, HideBySig
+    defineArgument(String, Double): PrivateScope, Public, HideBySig
+    getArgumentIndex(String): PrivateScope, Public, HideBySig
+    getArgument(String): PrivateScope, Public, HideBySig
+    getArgument(Int32): PrivateScope, Public, HideBySig
+    getArgumentsNumber(): PrivateScope, Public, HideBySig
+    setArgumentValue(String, Double): PrivateScope, Public, HideBySig
+    getArgumentValue(String): PrivateScope, Public, HideBySig
+    removeArguments(String[]): PrivateScope, Public, HideBySig
+    removeArguments(Argument[]): PrivateScope, Public, HideBySig
+    removeAllArguments(): PrivateScope, Public, HideBySig
+    addConstants(Constant[]): PrivateScope, Public, HideBySig
+    defineConstant(String, Double): PrivateScope, Public, HideBySig
+    getConstantIndex(String): PrivateScope, Public, HideBySig
+    getConstant(String): PrivateScope, Public, HideBySig
+    getConstant(Int32): PrivateScope, Public, HideBySig
+    getConstantsNumber(): PrivateScope, Public, HideBySig
+    removeConstants(String[]): PrivateScope, Public, HideBySig
+    removeConstants(Constant[]): PrivateScope, Public, HideBySig
+    removeAllConstants(): PrivateScope, Public, HideBySig
+    addFunctions(Function[]): PrivateScope, Public, HideBySig
+    defineFunction(String, String, String[]): PrivateScope, Public, HideBySig
+    getFunctionIndex(String): PrivateScope, Public, HideBySig
+    getFunction(String): PrivateScope, Public, HideBySig
+    getFunction(Int32): PrivateScope, Public, HideBySig
+    getFunctionsNumber(): PrivateScope, Public, HideBySig
+    removeFunctions(String[]): PrivateScope, Public, HideBySig
+    removeFunctions(Function[]): PrivateScope, Public, HideBySig
+    removeAllFunctions(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.Function: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :org.mariuszgromada.math.mxparser.PrimitiveElement
+    Void .ctor(System.String, System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, System.String, System.String[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Boolean NO_SYNTAX_ERRORS = True : Public, Static, Literal, HasDefault
+    Boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = False : Public, Static, Literal, HasDefault
+    Int32 NOT_FOUND = -1 : Public, Static, Literal, HasDefault
+  Methods:
+    setDescription(String): PrivateScope, Public, HideBySig
+    getDescription(): PrivateScope, Public, HideBySig
+    getFunctionName(): PrivateScope, Public, HideBySig
+    getFunctionExpressionString(): PrivateScope, Public, HideBySig
+    setFunctionName(String): PrivateScope, Public, HideBySig
+    setArgumentValue(Int32, Double): PrivateScope, Public, HideBySig
+    checkSyntax(): PrivateScope, Public, HideBySig
+    getErrorMessage(): PrivateScope, Public, HideBySig
+    calculate(): PrivateScope, Public, HideBySig
+    calculate(Double[]): PrivateScope, Public, HideBySig
+    calculate(Argument[]): PrivateScope, Public, HideBySig
+    addDefinitions(PrimitiveElement[]): PrivateScope, Public, HideBySig
+    removeDefinitions(PrimitiveElement[]): PrivateScope, Public, HideBySig
+    addArguments(Argument[]): PrivateScope, Public, HideBySig
+    defineArguments(String[]): PrivateScope, Public, HideBySig
+    defineArgument(String, Double): PrivateScope, Public, HideBySig
+    getArgumentIndex(String): PrivateScope, Public, HideBySig
+    getArgument(String): PrivateScope, Public, HideBySig
+    getArgument(Int32): PrivateScope, Public, HideBySig
+    getParametersNumber(): PrivateScope, Public, HideBySig
+    setParametersNumber(Int32): PrivateScope, Public, HideBySig
+    getArgumentsNumber(): PrivateScope, Public, HideBySig
+    removeArguments(String[]): PrivateScope, Public, HideBySig
+    removeArguments(Argument[]): PrivateScope, Public, HideBySig
+    removeAllArguments(): PrivateScope, Public, HideBySig
+    addConstants(Constant[]): PrivateScope, Public, HideBySig
+    defineConstant(String, Double): PrivateScope, Public, HideBySig
+    getConstantIndex(String): PrivateScope, Public, HideBySig
+    getConstant(String): PrivateScope, Public, HideBySig
+    getConstant(Int32): PrivateScope, Public, HideBySig
+    getConstantsNumber(): PrivateScope, Public, HideBySig
+    removeConstants(String[]): PrivateScope, Public, HideBySig
+    removeConstants(Constant[]): PrivateScope, Public, HideBySig
+    removeAllConstants(): PrivateScope, Public, HideBySig
+    addFunctions(Function[]): PrivateScope, Public, HideBySig
+    defineFunction(String, String, String[]): PrivateScope, Public, HideBySig
+    getFunctionIndex(String): PrivateScope, Public, HideBySig
+    getFunction(String): PrivateScope, Public, HideBySig
+    getFunction(Int32): PrivateScope, Public, HideBySig
+    getFunctionsNumber(): PrivateScope, Public, HideBySig
+    removeFunctions(String[]): PrivateScope, Public, HideBySig
+    removeFunctions(Function[]): PrivateScope, Public, HideBySig
+    removeAllFunctions(): PrivateScope, Public, HideBySig
+    setVerboseMode(): PrivateScope, Public, HideBySig
+    setSilentMode(): PrivateScope, Public, HideBySig
+    getVerboseMode(): PrivateScope, Public, HideBySig
+    getRecursiveMode(): PrivateScope, Public, HideBySig
+    getComputingTime(): PrivateScope, Public, HideBySig
+    getLicense(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.mXparser: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.String LICENSE =                       mXparser - version 2.0.0
+         A flexible mathematical eXpressions parser for C#.
+                   (port from mXparser for JAVA)
+
+You may use this software under the condition of Simplified BSD License:
+
+Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
+
+   1. Redistributions of source code must retain the above copyright notice, this list of
+      conditions and the following disclaimer.
+
+   2. Redistributions in binary form must reproduce the above copyright notice, this list
+      of conditions and the following disclaimer in the documentation and/or other materials
+      provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY MARIUSZ GROMADA ``AS IS'' AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MARIUSZ GROMADA OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the
+authors and should not be interpreted as representing official policies, either expressed
+or implied, of MARIUSZ GROMADA.
+
+If you have any questions/bugs feel free to contact:
+
+    Mariusz Gromada
+    mariusz.gromada@mathspace.pl
+    http://mathspace.plt/
+    http://mathparser.org/
+    http://github.com/mariuszgromada/MathParser.org-mXparser
+    http://mariuszgromada.github.io/MathParser.org-mXparser/
+    http://mxparser.sourceforge.net/
+ : Public, Static, Literal, HasDefault
+  Methods:
+    currentTimeMillis(): PrivateScope, Public, Static, HideBySig
+    getFunctionValue(Expression, Argument, Double): PrivateScope, Public, Static, HideBySig
+    arraList2double(List`1): PrivateScope, Public, Static, HideBySig
+    numberToHexString(Int32): PrivateScope, Public, Static, HideBySig
+    numberToHexString(Int64): PrivateScope, Public, Static, HideBySig
+    numberToHexString(Double): PrivateScope, Public, Static, HideBySig
+    hexString2AsciiString(String): PrivateScope, Public, Static, HideBySig
+    numberToAsciiString(Int32): PrivateScope, Public, Static, HideBySig
+    numberToAsciiString(Int64): PrivateScope, Public, Static, HideBySig
+    numberToAsciiString(Double): PrivateScope, Public, Static, HideBySig
+    consolePrintln(Object): PrivateScope, Public, Static, HideBySig
+    consolePrintln(): PrivateScope, Public, Static, HideBySig
+    consolePrint(Object): PrivateScope, Public, Static, HideBySig
+    wait(Int32): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.PrimitiveElement: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    getMyTypeId(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.RecursiveArgument: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :org.mariuszgromada.math.mxparser.Argument
+    Void .ctor(System.String, System.String, System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, System.String, org.mariuszgromada.math.mxparser.Argument, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, org.mariuszgromada.math.mxparser.PrimitiveElement[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    addBaseCase(Int32, Double): PrivateScope, Public, HideBySig
+    resetAllCases(): PrivateScope, Public, HideBySig
+    getArgumentValue(Double): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.Tutorial: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Start(): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    test000(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test001(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test002(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test003(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test004(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test005(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test006(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test007(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test008(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test009(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test010(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test011(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test012(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test013(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test014(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test015(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test016(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test017(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test018(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test019(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    test020(PerformanceTestResult, Int32): PrivateScope, Public, Static, HideBySig
+    Start(): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTestResult: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+Class org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Start(): PrivateScope, Public, Static, HideBySig
+    Main(): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Start(): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpression: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Start(): PrivateScope, Public, Static, HideBySig
+    Main(String[]): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Start(): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.syntaxchecker.ParseException: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Exception
+    Void .ctor(org.mariuszgromada.math.mxparser.syntaxchecker.Token, Int32[][], System.String[]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    org.mariuszgromada.math.mxparser.syntaxchecker.Token currentToken : Public
+    Int32[][] expectedTokenSequences : Public
+    System.String[] tokenImage : Public
+  Properties:
+    System.String Message 'get ' : 
+  Methods:
+    get_Message(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+Class org.mariuszgromada.math.mxparser.syntaxchecker.SimpleCharStream: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.IO.TextReader, Int32, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.IO.TextReader, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.IO.TextReader): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.IO.Stream, Int32, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.IO.Stream, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.IO.Stream): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 bufpos : Public
+    Boolean staticFlag : Public, Static, InitOnly
+  Properties:
+    Int32 Column 'get ' :  (Obsolete)
+    Int32 Line 'get ' :  (Obsolete)
+    Int32 EndColumn 'get ' : 
+    Int32 EndLine 'get ' : 
+    Int32 BeginColumn 'get ' : 
+    Int32 BeginLine 'get ' : 
+  Methods:
+    BeginToken(): PrivateScope, Public, HideBySig
+    ReadChar(): PrivateScope, Public, HideBySig
+    get_Column(): PrivateScope, Public, HideBySig, SpecialName
+    get_Line(): PrivateScope, Public, HideBySig, SpecialName
+    get_EndColumn(): PrivateScope, Public, HideBySig, SpecialName
+    get_EndLine(): PrivateScope, Public, HideBySig, SpecialName
+    get_BeginColumn(): PrivateScope, Public, HideBySig, SpecialName
+    get_BeginLine(): PrivateScope, Public, HideBySig, SpecialName
+    Backup(Int32): PrivateScope, Public, HideBySig
+    ReInit(TextReader, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    ReInit(TextReader, Int32, Int32): PrivateScope, Public, HideBySig
+    ReInit(TextReader): PrivateScope, Public, HideBySig
+    ReInit(Stream, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    ReInit(Stream): PrivateScope, Public, HideBySig
+    ReInit(Stream, Int32, Int32): PrivateScope, Public, HideBySig
+    GetImage(): PrivateScope, Public, HideBySig
+    GetSuffix(Int32): PrivateScope, Public, HideBySig
+    Done(): PrivateScope, Public, HideBySig
+    AdjustBeginLineColumn(Int32, Int32): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker: AutoLayout, AnsiClass, Class, Public, Sealed
+  :org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerConstants
+    Void .ctor(System.IO.Stream): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.IO.TextReader): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerTokenManager): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerTokenManager token_source : Public
+    org.mariuszgromada.math.mxparser.syntaxchecker.Token token : Public
+    org.mariuszgromada.math.mxparser.syntaxchecker.Token mcc_nt : Public
+  Methods:
+    checkSyntax(): PrivateScope, Public, HideBySig
+    start(): PrivateScope, Public, HideBySig
+    expression(): PrivateScope, Public, HideBySig
+    booleanExpression(): PrivateScope, Public, HideBySig
+    equalExpression(): PrivateScope, Public, HideBySig
+    relationalExpression(): PrivateScope, Public, HideBySig
+    additiveExpression(): PrivateScope, Public, HideBySig
+    multiplicativeExpression(): PrivateScope, Public, HideBySig
+    unaryExpression(): PrivateScope, Public, HideBySig
+    argumentList(): PrivateScope, Public, HideBySig
+    identifier(): PrivateScope, Public, HideBySig
+    realConstant(): PrivateScope, Public, HideBySig
+    ReInit(Stream): PrivateScope, Public, HideBySig
+    ReInit(TextReader): PrivateScope, Public, HideBySig
+    ReInit(SyntaxCheckerTokenManager): PrivateScope, Public, HideBySig
+    GetNextToken(): PrivateScope, Public, HideBySig
+    GetToken(Int32): PrivateScope, Public, HideBySig
+    GenerateParseException(): PrivateScope, Public, HideBySig
+    enable_tracing(): PrivateScope, Public, HideBySig
+    disable_tracing(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerConstants: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerTokenManager: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerConstants
+    Void .ctor(org.mariuszgromada.math.mxparser.syntaxchecker.SimpleCharStream): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(org.mariuszgromada.math.mxparser.syntaxchecker.SimpleCharStream, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.IO.TextWriter debugStream : Public
+    System.String[] mccstrLiteralImages : Public, Static, InitOnly
+    System.String[] lexStateNames : Public, Static, InitOnly
+  Methods:
+    SetDebugStream(TextWriter): PrivateScope, Public, HideBySig
+    ReInit(SimpleCharStream): PrivateScope, Public, HideBySig
+    ReInit(SimpleCharStream, Int32): PrivateScope, Public, HideBySig
+    SwitchTo(Int32): PrivateScope, Public, HideBySig
+    GetNextToken(): PrivateScope, Public, HideBySig
+Class org.mariuszgromada.math.mxparser.syntaxchecker.Token: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 kind : Public
+    Int32 beginLine : Public
+    Int32 beginColumn : Public
+    Int32 endLine : Public
+    Int32 endColumn : Public
+    System.String image : Public
+    org.mariuszgromada.math.mxparser.syntaxchecker.Token next : Public
+    org.mariuszgromada.math.mxparser.syntaxchecker.Token specialToken : Public
+  Methods:
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+    NewToken(Int32): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.syntaxchecker.TokenMgrError: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.SystemException
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(System.String, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Boolean, Int32, Int32, Int32, System.String, Char, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.String Message 'get ' : 
+  Methods:
+    get_Message(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+Class org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    eq(Double, Double): PrivateScope, Public, Static, HideBySig
+    neq(Double, Double): PrivateScope, Public, Static, HideBySig
+    lt(Double, Double): PrivateScope, Public, Static, HideBySig
+    gt(Double, Double): PrivateScope, Public, Static, HideBySig
+    leq(Double, Double): PrivateScope, Public, Static, HideBySig
+    geq(Double, Double): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Double[,] AND_TRUTH_TABLE : Public, Static
+    Double[,] NAND_TRUTH_TABLE : Public, Static
+    Double[,] OR_TRUTH_TABLE : Public, Static
+    Double[,] NOR_TRUTH_TABLE : Public, Static
+    Double[,] XOR_TRUTH_TABLE : Public, Static
+    Double[,] XNOR_TRUTH_TABLE : Public, Static
+    Double[,] IMP_TRUTH_TABLE : Public, Static
+    Double[,] CIMP_TRUTH_TABLE : Public, Static
+    Double[,] EQV_TRUTH_TABLE : Public, Static
+    Double[,] NIMP_TRUTH_TABLE : Public, Static
+    Double[,] CNIMP_TRUTH_TABLE : Public, Static
+    Double[] NOT_TRUTH_TABLE : Public, Static
+    Int32 FALSE = 0 : Public, Static, Literal, HasDefault
+    Int32 TRUE = 1 : Public, Static, Literal, HasDefault
+    Int32 NULL = 2 : Public, Static, Literal, HasDefault
+    Double F = 0 : Public, Static, Literal, HasDefault
+    Double T = 1 : Public, Static, Literal, HasDefault
+    Double N = NaN : Public, Static, Literal, HasDefault
+  Methods:
+    double2IntBoolean(Double): PrivateScope, Public, Static, HideBySig
+    and(Double, Double): PrivateScope, Public, Static, HideBySig
+    or(Double, Double): PrivateScope, Public, Static, HideBySig
+    xor(Double, Double): PrivateScope, Public, Static, HideBySig
+    nand(Double, Double): PrivateScope, Public, Static, HideBySig
+    nor(Double, Double): PrivateScope, Public, Static, HideBySig
+    xnor(Double, Double): PrivateScope, Public, Static, HideBySig
+    imp(Double, Double): PrivateScope, Public, Static, HideBySig
+    eqv(Double, Double): PrivateScope, Public, Static, HideBySig
+    not(Double): PrivateScope, Public, Static, HideBySig
+    cimp(Double, Double): PrivateScope, Public, Static, HideBySig
+    nimp(Double, Double): PrivateScope, Public, Static, HideBySig
+    cnimp(Double, Double): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.mathcollection.MathConstants: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Double PI = 3,14159265358979 : Public, Static, Literal, HasDefault
+    Double E = 2,71828182845905 : Public, Static, Literal, HasDefault
+    Double EULER_MASCHERONI = 0,577215664901533 : Public, Static, Literal, HasDefault
+    Double GOLDEN_RATIO = 1,61803398874989 : Public, Static, Literal, HasDefault
+    Double PLASTIC = 1,32471795724475 : Public, Static, Literal, HasDefault
+    Double EMBREE_TREFETHEN = 0,70258 : Public, Static, Literal, HasDefault
+    Double FEIGENBAUM_DELTA = 4,66920160910299 : Public, Static, Literal, HasDefault
+    Double FEIGENBAUM_ALFA = 2,50290787509589 : Public, Static, Literal, HasDefault
+    Double TWIN_PRIME = 0,66016181584687 : Public, Static, Literal, HasDefault
+    Double MEISSEL_MERTEENS = 0,261497212847643 : Public, Static, Literal, HasDefault
+    Double BRAUN_TWIN_PRIME = 1,9021605823 : Public, Static, Literal, HasDefault
+    Double BRAUN_PRIME_QUADR = 0,87058838 : Public, Static, Literal, HasDefault
+    Double BRUIJN_NEWMAN = -2,7E-09 : Public, Static, Literal, HasDefault
+    Double CATALAN = 0,915965594177219 : Public, Static, Literal, HasDefault
+    Double LANDAU_RAMANUJAN = 0,764223653589221 : Public, Static, Literal, HasDefault
+    Double VISWANATH = 1,13198824 : Public, Static, Literal, HasDefault
+    Double LEGENDRE = 1 : Public, Static, Literal, HasDefault
+    Double RAMANUJAN_SOLDNER = 1,45136923488338 : Public, Static, Literal, HasDefault
+    Double ERDOS_BORWEIN = 1,60669515241529 : Public, Static, Literal, HasDefault
+    Double BERNSTEIN = 0,280169499023869 : Public, Static, Literal, HasDefault
+    Double GAUSS_KUZMIN_WIRSING = 0,303663002898733 : Public, Static, Literal, HasDefault
+    Double HAFNER_SARNAK_MCCURLEY = 0,353236371854996 : Public, Static, Literal, HasDefault
+    Double GOLOMB_DICKMAN = 0,624329988543551 : Public, Static, Literal, HasDefault
+    Double CAHEN = 0,6434105463 : Public, Static, Literal, HasDefault
+    Double LAPLACE_LIMIT = 0,662743419349182 : Public, Static, Literal, HasDefault
+    Double ALLADI_GRINSTEAD = 0,8093940205 : Public, Static, Literal, HasDefault
+    Double LENGYEL = 1,0986858055 : Public, Static, Literal, HasDefault
+    Double LEVY = 3,27582291872181 : Public, Static, Literal, HasDefault
+    Double APERY = 1,20205690315959 : Public, Static, Literal, HasDefault
+    Double MILLS = 1,30637788386308 : Public, Static, Literal, HasDefault
+    Double BACKHOUSE = 1,45607494858269 : Public, Static, Literal, HasDefault
+    Double PORTER = 1,4670780794 : Public, Static, Literal, HasDefault
+    Double LIEB_QUARE_ICE = 1,5396007178 : Public, Static, Literal, HasDefault
+    Double NIVEN = 1,70521114010537 : Public, Static, Literal, HasDefault
+    Double SIERPINSKI = 2,58498175957925 : Public, Static, Literal, HasDefault
+    Double KHINCHIN = 2,68545200106531 : Public, Static, Literal, HasDefault
+    Double FRANSEN_ROBINSON = 2,80777024202852 : Public, Static, Literal, HasDefault
+    Double LANDAU = 0,5 : Public, Static, Literal, HasDefault
+    Double PARABOLIC = 2,29558714939264 : Public, Static, Literal, HasDefault
+    Double OMEGA = 0,567143290409784 : Public, Static, Literal, HasDefault
+    Double MRB = 0,187859 : Public, Static, Literal, HasDefault
+Class org.mariuszgromada.math.mxparser.mathcollection.MathFunctions: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    lcm(Double, Double): PrivateScope, Public, Static, HideBySig
+    lcm(Int32[]): PrivateScope, Public, Static, HideBySig
+    lcm(Double[]): PrivateScope, Public, Static, HideBySig
+    bellNumber(Int32): PrivateScope, Public, Static, HideBySig
+    bellNumber(Double): PrivateScope, Public, Static, HideBySig
+    eulerNumber(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    eulerNumber(Double, Double): PrivateScope, Public, Static, HideBySig
+    factorial(Int32): PrivateScope, Public, Static, HideBySig
+    factorial(Double): PrivateScope, Public, Static, HideBySig
+    binomCoeff(Double, Int32): PrivateScope, Public, Static, HideBySig
+    binomCoeff(Double, Double): PrivateScope, Public, Static, HideBySig
+    bernoulliNumber(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    bernoulliNumber(Double, Double): PrivateScope, Public, Static, HideBySig
+    Srirling1Number(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    Srirling1Number(Double, Double): PrivateScope, Public, Static, HideBySig
+    Srirling2Number(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    Srirling2Number(Double, Double): PrivateScope, Public, Static, HideBySig
+    worpitzkyNumber(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    worpitzkyNumber(Double, Double): PrivateScope, Public, Static, HideBySig
+    harmonicNumber(Int32): PrivateScope, Public, Static, HideBySig
+    harmonicNumber(Double): PrivateScope, Public, Static, HideBySig
+    harmonicNumber(Double, Int32): PrivateScope, Public, Static, HideBySig
+    harmonicNumber(Double, Double): PrivateScope, Public, Static, HideBySig
+    catalanNumber(Int32): PrivateScope, Public, Static, HideBySig
+    catalanNumber(Double): PrivateScope, Public, Static, HideBySig
+    fibonacciNumber(Int32): PrivateScope, Public, Static, HideBySig
+    fibonacciNumber(Double): PrivateScope, Public, Static, HideBySig
+    lucasNumber(Int32): PrivateScope, Public, Static, HideBySig
+    lucasNumber(Double): PrivateScope, Public, Static, HideBySig
+    kroneckerDelta(Double, Double): PrivateScope, Public, Static, HideBySig
+    kroneckerDelta(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    continuedFraction(Double[]): PrivateScope, Public, Static, HideBySig
+    continuedPolynomial(Double[]): PrivateScope, Public, Static, HideBySig
+    eulerPolynomial(Int32, Double): PrivateScope, Public, Static, HideBySig
+    eulerPolynomial(Double, Double): PrivateScope, Public, Static, HideBySig
+    chi(Double, Double, Double): PrivateScope, Public, Static, HideBySig
+    CHi_LR(Double, Double, Double): PrivateScope, Public, Static, HideBySig
+    Chi_L(Double, Double, Double): PrivateScope, Public, Static, HideBySig
+    cHi_R(Double, Double, Double): PrivateScope, Public, Static, HideBySig
+    power(Double, Double): PrivateScope, Public, Static, HideBySig
+    mod(Double, Double): PrivateScope, Public, Static, HideBySig
+    div(Double, Double): PrivateScope, Public, Static, HideBySig
+    sin(Double): PrivateScope, Public, Static, HideBySig
+    cos(Double): PrivateScope, Public, Static, HideBySig
+    tan(Double): PrivateScope, Public, Static, HideBySig
+    ctan(Double): PrivateScope, Public, Static, HideBySig
+    sec(Double): PrivateScope, Public, Static, HideBySig
+    cosec(Double): PrivateScope, Public, Static, HideBySig
+    asin(Double): PrivateScope, Public, Static, HideBySig
+    acos(Double): PrivateScope, Public, Static, HideBySig
+    atan(Double): PrivateScope, Public, Static, HideBySig
+    actan(Double): PrivateScope, Public, Static, HideBySig
+    ln(Double): PrivateScope, Public, Static, HideBySig
+    log2(Double): PrivateScope, Public, Static, HideBySig
+    log10(Double): PrivateScope, Public, Static, HideBySig
+    rad(Double): PrivateScope, Public, Static, HideBySig
+    exp(Double): PrivateScope, Public, Static, HideBySig
+    sqrt(Double): PrivateScope, Public, Static, HideBySig
+    sinh(Double): PrivateScope, Public, Static, HideBySig
+    cosh(Double): PrivateScope, Public, Static, HideBySig
+    tanh(Double): PrivateScope, Public, Static, HideBySig
+    coth(Double): PrivateScope, Public, Static, HideBySig
+    sech(Double): PrivateScope, Public, Static, HideBySig
+    csch(Double): PrivateScope, Public, Static, HideBySig
+    deg(Double): PrivateScope, Public, Static, HideBySig
+    abs(Double): PrivateScope, Public, Static, HideBySig
+    sgn(Double): PrivateScope, Public, Static, HideBySig
+    floor(Double): PrivateScope, Public, Static, HideBySig
+    ceil(Double): PrivateScope, Public, Static, HideBySig
+    arsinh(Double): PrivateScope, Public, Static, HideBySig
+    arcosh(Double): PrivateScope, Public, Static, HideBySig
+    artanh(Double): PrivateScope, Public, Static, HideBySig
+    arcoth(Double): PrivateScope, Public, Static, HideBySig
+    arsech(Double): PrivateScope, Public, Static, HideBySig
+    arcsch(Double): PrivateScope, Public, Static, HideBySig
+    sa(Double): PrivateScope, Public, Static, HideBySig
+    sinc(Double): PrivateScope, Public, Static, HideBySig
+    log(Double, Double): PrivateScope, Public, Static, HideBySig
+    min(Double, Double): PrivateScope, Public, Static, HideBySig
+    min(Double[]): PrivateScope, Public, Static, HideBySig
+    max(Double, Double): PrivateScope, Public, Static, HideBySig
+    max(Double[]): PrivateScope, Public, Static, HideBySig
+    gcd(Int32, Int32): PrivateScope, Public, Static, HideBySig
+    gcd(Double, Double): PrivateScope, Public, Static, HideBySig
+    gcd(Int32[]): PrivateScope, Public, Static, HideBySig
+    gcd(Double[]): PrivateScope, Public, Static, HideBySig
+    lcm(Int32, Int32): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.mathcollection.NumberTheory: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    sigmaSummation(Expression, Argument, Double, Double, Double): PrivateScope, Public, Static, HideBySig
+    piProduct(Expression, Argument, Double, Double, Double): PrivateScope, Public, Static, HideBySig
+    forwardDifference(Expression, Argument, Double): PrivateScope, Public, Static, HideBySig
+    forwardDifference(Expression, Argument): PrivateScope, Public, Static, HideBySig
+    backwardDifference(Expression, Argument, Double): PrivateScope, Public, Static, HideBySig
+    backwardDifference(Expression, Argument): PrivateScope, Public, Static, HideBySig
+    forwardDifference(Expression, Double, Argument, Double): PrivateScope, Public, Static, HideBySig
+    forwardDifference(Expression, Double, Argument): PrivateScope, Public, Static, HideBySig
+    backwardDifference(Expression, Double, Argument, Double): PrivateScope, Public, Static, HideBySig
+    backwardDifference(Expression, Double, Argument): PrivateScope, Public, Static, HideBySig
+Class org.mariuszgromada.math.mxparser.mathcollection.NumericalAnalysis: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 LEFT_DERIVATIVE = 1 : Public, Static, Literal, HasDefault
+    Int32 RIGHT_DERIVATIVE = 2 : Public, Static, Literal, HasDefault
+    Int32 GENERAL_DERIVATIVE = 3 : Public, Static, Literal, HasDefault
+  Methods:
+    integralTrapezoid(Expression, Argument, Double, Double, Double, Int32): PrivateScope, Public, Static, HideBySig
+    derivative(Expression, Argument, Double, Int32, Double, Int32): PrivateScope, Public, Static, HideBySig
+    derivativeNth(Expression, Double, Argument, Double, Int32, Double, Int32): PrivateScope, Public, Static, HideBySig

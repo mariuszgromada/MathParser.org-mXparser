@@ -1,6 +1,21 @@
                  mXparser - Math Parser Java C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
+v.2.1.0 (2016-01-02): 
+    * New static methods in class mxparser
+        - mXparser.numberToHexString(number) + overloads: int, long, double
+        - mXparser.hexString2AsciiString(String hexString)
+        - mXparser.numberToAsciiString(number) + overloads: int, long, double
+		- additional regression tests for the above methods
+		
+	* Hello World examples of how to use mXparser binary library (manual includes:
+	  projects, code, screenshots) for:
+	    - JAVA (project done in Eclipse Mars 1)
+		- C# (project done in Visual Studio 2015)
+		- Visual Basic (project done in Visual Studio 2015)
+		- C++/CLI (project done in Visual Studio 2015)
+		- F# (project done in Visual Studio 2015)
+
 v.2.0.0 (2015-12-31): Major update of the library providing more intuitive and
 much simpler to use API, no changes to the MathCollection.
 

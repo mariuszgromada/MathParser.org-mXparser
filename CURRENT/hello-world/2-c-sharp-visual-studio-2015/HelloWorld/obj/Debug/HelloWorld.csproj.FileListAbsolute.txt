@@ -1,0 +1,8 @@
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Debug\HelloWorld.exe.config
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Debug\HelloWorld.exe
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Debug\HelloWorld.pdb
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Debug\mxparser.dll
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Debug\mxparser.pdb
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\obj\Debug\HelloWorld.csprojResolveAssemblyReference.cache
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\obj\Debug\HelloWorld.exe
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\obj\Debug\HelloWorld.pdb

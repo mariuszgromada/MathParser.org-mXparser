@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionV2.java        2.0.0    2015-12-29
+ * @(#)RegTestExpressionV2.java        2.1.0    2016-01-01
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -4728,6 +4728,7 @@ public class RegTestExpressionV2 {
 		
 		expStr = "fib(n)= fib(n-1)+fib(n-2), fib(10) = ";
 
+		mXparser.consolePrint(expStr + " ...... ");
 		RecursiveArgument fib10 = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
 		fib10.addBaseCase(0, 0);
 		fib10.addBaseCase(1, 1);
@@ -4746,6 +4747,7 @@ public class RegTestExpressionV2 {
 		
 		expStr = "fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0)), fib(10) = ";
 
+		mXparser.consolePrint(expStr + " ...... ");
 		Function fibb = new Function("fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0))");
 		exp[testId] = new Expression("fib(10)", fibb);
 		value = exp[testId].calculate();
@@ -4755,6 +4757,36 @@ public class RegTestExpressionV2 {
 			testResult = true;
 		
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
+	case 287:
+		
+		expStr = "5^2 * 7^3 * 11^1 * 67^1 * 49201^1";
+
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		String hello = mXparser.numberToAsciiString(exp[testId].calculate());
+		String regHello = "Hello";
+		
+		if ( regHello.equals(hello) )
+			testResult = true;
+		
+		mXparser.consolePrint(hello + " reg ... " + regHello + " --> ");		
+
+		break;
+	case 288:
+		
+		expStr = "71^1 * 218549^1 * 6195547^1";
+
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		String world = mXparser.numberToAsciiString(exp[testId].calculate());
+		String regWorld = "World!";
+		
+		if ( regWorld.equals(world) )
+			testResult = true;
+		
+		mXparser.consolePrint(world + " reg ... " + regWorld + " --> ");		
 
 		break;
 	}
@@ -4776,7 +4808,7 @@ public class RegTestExpressionV2 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int numberOfTests = 286	;
+		int numberOfTests = 288	;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

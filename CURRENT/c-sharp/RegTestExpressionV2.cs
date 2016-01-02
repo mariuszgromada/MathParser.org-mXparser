@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        2.0.0    2015-12-29
+ * @(#)RegTestExpression.cs        2.1.0    2016-01-01
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -64,7 +64,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
      *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
      *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        2.0.0
+     * @version        2.1.0
      * 
      * @see Expression
      */
@@ -4762,6 +4762,36 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
 
 		break;
+	case 287:
+		
+		expStr = "5^2 * 7^3 * 11^1 * 67^1 * 49201^1";
+
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		String hello = mXparser.numberToAsciiString(exp[testId].calculate());
+		String regHello = "Hello";
+		
+		if ( regHello.Equals(hello) )
+			testResult = true;
+		
+		mXparser.consolePrint(hello + " reg ... " + regHello + " --> ");		
+
+		break;
+	case 288:
+		
+		expStr = "71^1 * 218549^1 * 6195547^1";
+
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		String world = mXparser.numberToAsciiString(exp[testId].calculate());
+		String regWorld = "World!";
+		
+		if ( regWorld.Equals(world) )
+			testResult = true;
+		
+		mXparser.consolePrint(world + " reg ... " + regWorld + " --> ");		
+
+		break;
 
 	
 	}
@@ -4783,7 +4813,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
          */
         public static void Start() {
 		// TODO Auto-generated method stub
-		int numberOfTests = 286;
+		int numberOfTests = 288;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
