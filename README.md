@@ -1,4 +1,4 @@
-![mXparser icon](http://mathparser.org/wp-content/uploads/2015/12/mxparser-logo-pi-gr.png)
+![mXparser icon](http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-java-csharp.jpg)
 # mXparser - a super easy, rich and highly flexible mathematical expressions parser (Math Parser) library for JAVA and C# .NET.
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
@@ -122,7 +122,7 @@
 
 ##  mXparser is even cooler! It is time to ask about ...
 
-#### _[user defined functions] user defined functions...
+#### _[user defined functions]_ user defined functions...
     Function f = new Function("f(x,y) = sin(x) + cos(y)");
     f.calculate(1,2);
     Expression e = new Expression("f(1,2) - 10", f);
