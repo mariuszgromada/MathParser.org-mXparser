@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        2.1.0    2016-01-01
+ * @(#)mXparser.cs        2.1.1    2016-01-03
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -63,7 +63,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
      *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
      *                         
-     * @version        2.1.0
+     * @version        2.1.1
      * 
      * @see RecursiveArgument
      * @see Expression
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
 	     * mXparser version
 	     */
-        internal const String VERSION = "2.0.0";
+        internal const String VERSION = "2.1.1";
 
         /**
 	     * FOUND / NOT_FOUND

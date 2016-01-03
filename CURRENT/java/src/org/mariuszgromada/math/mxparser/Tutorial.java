@@ -88,15 +88,13 @@ public class Tutorial {
 		/*
 		 * Start from the license 
 		 */
-		Expression e = new Expression();
-		mXparser.consolePrintln(e.getLicense());
-		mXparser.consolePrintln();
+		mXparser.consolePrintln( mXparser.LICENSE );
 		
 		
 		/*
 		 * Using help
 		 */
-		mXparser.consolePrintln();
+		Expression e = new Expression();
 		mXparser.consolePrintln(e.getHelp());
 		
 		/*
@@ -188,7 +186,6 @@ public class Tutorial {
 		
 		x.setArgumentValue(5);
 		mXparser.consolePrintln(x.getArgumentName() + " = " + x.getArgumentValue());
-		
 		/*
 		 * Dependent arguments
 		 */
@@ -198,7 +195,7 @@ public class Tutorial {
 		
 		y = new Argument("y","sin(y)-z", y, z);
 		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue());
-		
+
 		/* syntax checking */
 		y.setArgumentExpressionString("n*sin(y)-z");
 		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax() + "\n message = \n" + y.getErrorMessage());
@@ -206,7 +203,6 @@ public class Tutorial {
 		y.addDefinitions(n);
 		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax() + "\n message = \n" + y.getErrorMessage());
 		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue());
-		
 		/*
 		 * the same methods could be called
 		 * for the expression syntax checking

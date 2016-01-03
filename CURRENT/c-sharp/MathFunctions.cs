@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        2.0.0    2015-12-29
+ * @(#)MathFunctions.cs        2.1.1    2016-01-03
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -59,7 +59,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
      *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
      *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
      *                         
-     * @version        1.0
+     * @version        2.1.1
      */
     [CLSCompliant(true)]
     public sealed class MathFunctions {
@@ -1748,7 +1748,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	    public static double min(params double[] numbers) {
 
     		
-		    double min = Double.MaxValue;
+		    double min = Double.PositiveInfinity;
     		
 		    foreach (double number in numbers) {
     			
@@ -1792,7 +1792,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	     */		
 	    public static double max(params double[] numbers) {
 
-		    double max = Double.MinValue;
+		    double max = Double.NegativeInfinity;
     				
 		    foreach (double number in numbers) {
     			

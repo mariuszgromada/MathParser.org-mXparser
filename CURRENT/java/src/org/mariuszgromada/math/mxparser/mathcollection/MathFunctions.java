@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        2.0.0    2015-12-29
+ * @(#)MathFunctions.java        2.1.1    2016-01-03
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -58,7 +58,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://mathspace.pl/">http://mathspace.pl/</a><br>
  *                 <a href="http://mxparser.sourceforge.net/">http://mxparser.sourceforge.net/</a><br>
  *                         
- * @version        1.0
+ * @version        2.1.1
  */
 public final class MathFunctions {
 
@@ -1746,7 +1746,7 @@ public final class MathFunctions {
 	public static final double min(double... numbers) {
 
 		
-		double min = Double.MAX_VALUE;
+		double min = Double.POSITIVE_INFINITY;
 		
 		for (double number : numbers) {
 			
@@ -1790,13 +1790,12 @@ public final class MathFunctions {
 	 */		
 	public static final double max(double... numbers) {
 
-		double max = Double.MIN_VALUE;
+		double max = Double.NEGATIVE_INFINITY;
 				
 		for (double number : numbers) {
 			
 			if (Double.isNaN(number))
 				return Double.NaN;			
-			
 			if (number > max)
 				max = number;
 		}

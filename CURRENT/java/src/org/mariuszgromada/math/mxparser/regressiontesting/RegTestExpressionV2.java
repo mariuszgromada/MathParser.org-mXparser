@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionV2.java        2.1.0    2016-01-01
+ * @(#)RegTestExpressionV2.java        2.1.1    2016-01-03
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -60,7 +60,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.*;
  *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
  *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        2.0.0
+ * @version        2.1.1
  * 
  * @see Expression
  */
@@ -4789,6 +4789,21 @@ public class RegTestExpressionV2 {
 		mXparser.consolePrint(world + " reg ... " + regWorld + " --> ");		
 
 		break;
+	case 289:
+		
+		expStr = "min(3,4)+max(-2,-1)";
+
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 2;
+		
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");		
+
+		break;
 	}
 
 
@@ -4808,7 +4823,7 @@ public class RegTestExpressionV2 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int numberOfTests = 288	;
+		int numberOfTests = 289	;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
