@@ -1,0 +1,8 @@
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\bin\Release\mXparserExe.exe.config
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\bin\Release\mXparserExe.exe
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\bin\Release\mXparserExe.pdb
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\bin\Release\mxparser.dll
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\bin\Release\mxparser.pdb
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\obj\Release\mXparserExe.csprojResolveAssemblyReference.cache
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\obj\Release\mXparserExe.exe
+D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\mXparserExe\obj\Release\mXparserExe.pdb

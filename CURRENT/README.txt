@@ -1,6 +1,9 @@
                  mXparser - Math Parser Java C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
+v.2.1.1 (2016-01-04): 
+    * fixed bug w min/max function
+		 
 v.2.1.0 (2016-01-02): 
     * New static methods in class mxparser
         - mXparser.numberToHexString(number) + overloads: int, long, double
