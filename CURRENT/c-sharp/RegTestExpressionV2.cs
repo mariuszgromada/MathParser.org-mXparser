@@ -44,7 +44,6 @@
  */
 
 using System;
-using System.Threading;
 using org.mariuszgromada.math.mxparser.mathcollection;
 
 
@@ -4867,10 +4866,6 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 
         }
 
-        public static void Main() {
-            Thread T = new Thread(Start, 536870912);
-            T.Start();
-        }
     }
 
 }
