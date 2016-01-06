@@ -4,6 +4,5 @@ D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\obj\x86\Release\mXparser.dll
 D:\Mariusz\projekty\mXparser\CURRENT\csharp_port\obj\x86\Release\mXparser.pdb
 D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\bin\Release\mxparser.dll
 D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\bin\Release\mxparser.pdb
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\obj\x86\Release\mXparser.csprojResolveAssemblyReference.cache
 D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\obj\x86\Release\mxparser.dll
 D:\Mariusz\projekty\GitHub\mXparser\CURRENT\c-sharp\obj\x86\Release\mxparser.pdb

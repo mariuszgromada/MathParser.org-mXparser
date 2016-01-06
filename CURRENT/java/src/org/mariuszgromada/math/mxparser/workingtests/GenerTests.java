@@ -369,10 +369,21 @@ public class GenerTests {
 		//e.checkSyntax();
 		//mXparser.consolePrintln(e.getErrorMessage());
 		
-		Expression e = new Expression("sum(i, 1, 1000000, 1)");
+		//Expression e = new Expression("sum(i, 1, 1000000, 1)");
+		//mXparser.consolePrintln("Res : " + e.getExpressionString() + " = " + e.calculate());
+		//mXparser.consolePrintln("Computing time = " + e.getComputingTime() + " s.");
+
+		/* Function */
+		Function f = new Function("f(x) = sin(x)");
+		
+		/* Antiderivative */
+		Function F = new Function("F(x) = int(f(t), t, 0, x)", f);
+		
+		/* function = derivative ( antiderivative ) */
+		Argument x = new Argument("x = pi");
+		Expression e = new Expression("f(x) - der(F(x), x)", x, f, F);
 		mXparser.consolePrintln("Res : " + e.getExpressionString() + " = " + e.calculate());
 		mXparser.consolePrintln("Computing time = " + e.getComputingTime() + " s.");
-		
 		
 	}
 

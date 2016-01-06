@@ -2,7 +2,7 @@
 /CURRENT/c-sharp/bin/*
 /CURRENT/c-sharp/obj/*
 /CURRENT/java/bin/*
-/CURRENT/java/jar/*
 *.class
 *.dll
 *.pdb
+*.class

@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionV2.java        2.1.1    2016-01-03
+ * @(#)RegTestExpressionV2.java        2.1.2    2016-01-06
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
@@ -60,7 +60,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.*;
  *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
  *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                         
- * @version        2.1.1
+ * @version        2.1.2
  * 
  * @see Expression
  */
@@ -4546,7 +4546,7 @@ public class RegTestExpressionV2 {
 
 		expStr = "n1_geq_2(0)";
 		
-		Constant c1 = new Constant("c1", 0.25+0.00001);
+		Constant c1 = new Constant("c1", 0.25+0.01);
 			
 		RecursiveArgument z1 = new RecursiveArgument("z1","z1(n-1)^2+c1", "n");
 		z1.addDefinitions(c1);
@@ -4560,7 +4560,7 @@ public class RegTestExpressionV2 {
 		exp[testId] = new Expression(expStr);
 		exp[testId].addDefinitions(n1_geq_2);
 		value = exp[testId].calculate();
-		reg = 991;
+		reg = 30;
 				
 		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
@@ -4572,7 +4572,7 @@ public class RegTestExpressionV2 {
 	case 278:
 
 		expStr = "n2_geq_2(0)";
-		Constant c2 = new Constant("c2", 0.25+0.00001);
+		Constant c2 = new Constant("c2", 0.25+0.01);
 		
 		Function z2 = new Function("z2","if( n>0, z2(n-1)^2+c2, 0)", "n");
 		z2.addDefinitions(c2);
@@ -4585,7 +4585,7 @@ public class RegTestExpressionV2 {
 		exp[testId] = new Expression(expStr);
 		exp[testId].addDefinitions(n2_geq_2);
 		value = exp[testId].calculate();
-		reg = 991;
+		reg = 30;
 				
 		if ( MathFunctions.abs(reg - value) < 0.00001 )
 			testResult = true;
@@ -4597,7 +4597,7 @@ public class RegTestExpressionV2 {
 	case 279:
 		expStr = "n1_geq_2(0) - n2_geq_2(0)";
 		
-		c1 = new Constant("c1", 0.25+0.00001);
+		c1 = new Constant("c1", 0.25+0.01);
 			
 		z1 = new RecursiveArgument("z1","z1(n-1)^2+c1", "n");
 		z1.addDefinitions(c1);
@@ -4606,7 +4606,7 @@ public class RegTestExpressionV2 {
 		n1_geq_2 = new Function("n1_geq_2", "if( z1(k) > 2, k, n1_geq_2(k+1) )", "k");
 		n1_geq_2.addDefinitions(z1);
 		
-		c2 = new Constant("c2", 0.25+0.00001);
+		c2 = new Constant("c2", 0.25+0.01);
 		
 		z2 = new Function("z2","if( n>0, z2(n-1)^2+c2, 0)", "n");
 		z2.addDefinitions(c2);
