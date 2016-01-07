@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpression.java        2.1.2    2016-01-06
+ * @(#)RegTestExpression.java        2.1.1-1    2016-01-07
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -59,6 +59,10 @@ import org.mariuszgromada.math.mxparser.mathcollection.*;
  *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
  *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
  *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
+ *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+ *                         
+ * @version        2.1.1-1
  *                         
  * @version        2.1.2
  * 

@@ -1,9 +1,9 @@
 /*
- * @(#)Function.cs        2.0.0    2015-12-29
+ * @(#)Function.cs        2.1.1-1    2016-01-07
  * 
  * You may use this software under the condition of "Simplified BSD License"
  * 
- * Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -32,9 +32,14 @@
  * If you have any questions/bugs feel free to contact:
  * 
  *     Mariusz Gromada
- *     mariusz.gromada@wp.pl
- *     http://mathspace.plt/
+ *     mariusz.gromada@mathspace.pl
+ *     http://mathspace.pl/
+ *     http://mathparser.org/
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser/
  *     http://mxparser.sourceforge.net/
+ *     http://bitbucket.org/mariuszgromada/mxparser/
+ *     http://mxparser.codeplex.com/
  * 
  *                              Asked if he believes in one God, a mathematician answered: 
  *                              "Yes, up to isomorphism."  
@@ -74,8 +79,10 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
      *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
      *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
-     *                         
-     * @version        2.0.0
+     *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
+     *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+     *
+     * @version        2.1.1-1
      * 
      * @see RecursiveArgument
      * @see Expression

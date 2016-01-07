@@ -119,7 +119,7 @@ v.1.0.0 (2010-02-01):
 
  You may use this software under the condition of Simplified BSD License:
 
-Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.
+Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:
@@ -154,6 +154,9 @@ If you have any questions/bugs feel free to contact:
     http://github.com/mariuszgromada/MathParser.org-mXparser
     http://mariuszgromada.github.io/MathParser.org-mXparser/
     http://mxparser.sourceforge.net/
+    http://bitbucket.org/mariuszgromada/mxparser/
+    http://mxparser.codeplex.com/
+
 
 mXparser tutorial:
 doc/tutorial.html
@@ -164,16 +167,16 @@ doc/index.html
 If you would like to run some regression testing just hit commands listed below:
 
 JAVA:
-jav -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
-java -Xss515m -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2
 java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI
 java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax
 java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests
 
-C#:
+C# (using PowerShell):
 [Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
 [org.mariuszgromada.math.mxparser.Tutorial]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2]::Main()
+[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2]::Start()
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI]::Start()
 [org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax]::Start()
 [org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests]::Start()
