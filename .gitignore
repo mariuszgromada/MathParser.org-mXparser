@@ -1,8 +1,5 @@
-/CURRENT/c-sharp/.vs/*
-/CURRENT/c-sharp/bin/*
-/CURRENT/c-sharp/obj/*
-/CURRENT/java/bin/*
-*.class
-*.dll
-*.pdb
-*.class
+.vs/
+bin/
+obj/
+Debug/
+ipch/
