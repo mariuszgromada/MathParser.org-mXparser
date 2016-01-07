@@ -1,6 +1,10 @@
                  mXparser - Math Parser Java C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
+v.2.1.1-1 (2016-01-07): 
+    * Binaries for java: 1.5, 1.6, 1.7, 1.8
+	* Binaries for .NET: 2.0, 3.0, 3.5, 4.0, 4.5, 4.6
+		 
 v.2.1.1 (2016-01-04): 
     * fixed bug w min/max function
 		 
