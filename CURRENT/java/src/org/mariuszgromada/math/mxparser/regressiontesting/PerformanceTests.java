@@ -1,20 +1,20 @@
 /*
  * @(#)PerformanceTests.java       2.1.1-1    2016-01-07
- * 
+ *
  * You may use this software under the condition of "Simplified BSD License"
- * 
+ *
  * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
- * 
+ *
  *    1. Redistributions of source code must retain the above copyright notice, this list of
  *       conditions and the following disclaimer.
- * 
+ *
  *    2. Redistributions in binary form must reproduce the above copyright notice, this list
  *       of conditions and the following disclaimer in the documentation and/or other materials
  *       provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY <MARIUSZ GROMADA> ``AS IS'' AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
@@ -24,13 +24,13 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * The views and conclusions contained in the software and documentation are those of the
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of MARIUSZ GROMADA.
- * 
+ *
  * If you have any questions/bugs feel free to contact:
- * 
+ *
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
@@ -40,19 +40,22 @@
  *     http://mxparser.sourceforge.net/
  *     http://bitbucket.org/mariuszgromada/mxparser/
  *     http://mxparser.codeplex.com/
- * 
- *                              Asked if he believes in one God, a mathematician answered: 
- *                              "Yes, up to isomorphism."  
- */ 
+ *
+ *                              Asked if he believes in one God, a mathematician answered:
+ *                              "Yes, up to isomorphism."
+ */
 
 package org.mariuszgromada.math.mxparser.regressiontesting;
 
-
-import org.mariuszgromada.math.mxparser.*;
+import org.mariuszgromada.math.mxparser.Argument;
+import org.mariuszgromada.math.mxparser.Constant;
+import org.mariuszgromada.math.mxparser.Expression;
+import org.mariuszgromada.math.mxparser.Function;
+import org.mariuszgromada.math.mxparser.mXparser;
 
 /**
  * PerformanceTests - mXparser performance tests
- * 
+ *
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
  *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
@@ -62,13 +65,13 @@ import org.mariuszgromada.math.mxparser.*;
  *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
- *                         
+ *
  * @version        2.1.1-1
- * 
+ *
  * @see Expression
  */
 public class PerformanceTests {
-	
+
 	private static PerformanceTestResult[] tests;
 
 	public static void test000(PerformanceTestResult test, int testId) {
@@ -79,12 +82,12 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
 
 	public static void test001(PerformanceTestResult test, int testId) {
@@ -95,14 +98,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test002(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - division. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -111,14 +114,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test003(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - power. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -127,14 +130,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test004(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - sinus. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -143,14 +146,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test005(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - 2 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -159,14 +162,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test006(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - 3 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -175,14 +178,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test007(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - 3 additions + 1 parenthesis. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -191,14 +194,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test008(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -207,14 +210,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test009(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -223,14 +226,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test010(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Combination of different operations. Expression created once. Iteration: repeatedly recalculated same expression.";
@@ -239,14 +242,14 @@ public class PerformanceTests {
 
 		Expression e = new Expression(test.exprStr);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e.calculate();
 		}
 		test.testClose();
-	
+
 	}
-	
+
 	public static void test011(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Simple calculations - addition with argument. Expression created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
@@ -256,12 +259,12 @@ public class PerformanceTests {
 		Argument x = new Argument("x");
 		Expression e = new Expression(test.exprStr, x);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			x.setArgumentValue(i);
 			e.calculate();
 		}
-		
+
 		test.testClose();
 	}
 
@@ -271,23 +274,23 @@ public class PerformanceTests {
 		test.iterNum = 2000000;
 		test.exprStr = "3*f(x,y)-(2*x+3*y)";
 
-		
+
 		Argument x = new Argument("x");
 		Argument y = new Argument("y");
 		Function f = new Function("f(x,y)=3*x+4*y");
 		Expression e = new Expression(test.exprStr, f, x, y);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			x.setArgumentValue(i);
 			y.setArgumentValue(i);
 			e.calculate();
 		}
-		
+
 		test.testClose();
 	}
 
-	
+
 	public static void test013(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Creating constants: Iteration: Constant c = new Constant(\"c\", 5)";
@@ -299,11 +302,11 @@ public class PerformanceTests {
 		for (int i = 0; i <= test.iterNum; i++) {
 			c = new Constant("c", 5);
 		}
-		
+
 		test.testClose();
 		c.getConstantValue();
 	}
-	
+
 	public static void test014(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Creating constants: Iteration: Constant c = new Constant(\"c=5\")";
@@ -312,11 +315,11 @@ public class PerformanceTests {
 
 		Constant c = new Constant("c", 5);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			c = new Constant("c=5");
 		}
-		
+
 		test.testClose();
 		c.getConstantValue();
 	}
@@ -329,16 +332,16 @@ public class PerformanceTests {
 
 		Argument x = new Argument("x", 2);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			x = new Argument("x", 5);
 		}
-		
+
 		test.testClose();
 		x.getArgumentValue();
-	
+
 	}
-	
+
 	public static void test016(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x=5\")";
@@ -347,14 +350,14 @@ public class PerformanceTests {
 
 		Argument x = new Argument("x", 2);
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			x = new Argument("x=5");
 		}
 		x.getArgumentValue();
-		
+
 		test.testClose();
-	
+
 	}
 
 	public static void test017(PerformanceTestResult test, int testId) {
@@ -362,18 +365,18 @@ public class PerformanceTests {
 		test.description = "Creating functions: Iteration: Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
 		test.iterNum = 1000000;
 		test.exprStr = "Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
-		
+
 		Function f = new Function("f", "x", "x");
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			f = new Function("f", "x+y", "x", "y");
 		}
-		
+
 		test.testClose();
 		f.calculate(1);
 	}
-	
+
 	public static void test018(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Creating functions: Iteration: Function f = new Function(\"f(x,y)=x+y\")";
@@ -382,16 +385,16 @@ public class PerformanceTests {
 
 		Function f = new Function("f", "x", "x");
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			f = new Function("f(x,y)=x+y");
 		}
-		
+
 		test.testClose();
 		f.calculate(1);
-	
+
 	}
-	
+
 	public static void test019(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Creating expressions: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
@@ -400,15 +403,15 @@ public class PerformanceTests {
 
 		Expression e = new Expression("");
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e = new Expression("sin(2+(3*4)^2)/10");
 		}
-		
+
 		test.testClose();
 		e.calculate();
 	}
-	
+
 	public static void test020(PerformanceTestResult test, int testId) {
 		test.Id = testId;
 		test.description = "Creating expressions + checking syntax: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
@@ -417,20 +420,20 @@ public class PerformanceTests {
 
 		Expression e = new Expression("");
 		test.testInit();
-		
+
 		for (int i = 0; i <= test.iterNum; i++) {
 			e = new Expression("sin(2+(3*4)^2)/10");
 			e.checkSyntax();
 		}
-		
+
 		test.testClose();
 		e.calculate();
-	
+
 	}
 	public static void main(String[] args) {
-		
+
 		tests = new PerformanceTestResult[100];
-		
+
 		int testId = -1;
 		tests[++testId] = new PerformanceTestResult(); test000(tests[testId], testId);
 		tests[++testId] = new PerformanceTestResult(); test001(tests[testId], testId);
@@ -453,7 +456,7 @@ public class PerformanceTests {
 		tests[++testId] = new PerformanceTestResult(); test018(tests[testId], testId);
 		tests[++testId] = new PerformanceTestResult(); test019(tests[testId], testId);
 		tests[++testId] = new PerformanceTestResult(); test020(tests[testId], testId);
-		
+
 	}
 
 }
@@ -467,19 +470,19 @@ class PerformanceTestResult {
 	int Id;
 	String description;
 	String exprStr;
-	
+
 	PerformanceTestResult() {
 	}
-	
+
 	void testInit() {
 		startTime = System.currentTimeMillis();
 	}
-	
+
 	void testClose() {
 		endTime = System.currentTimeMillis();
 		computingTimeSec = (endTime - startTime)/1000.0;
 		iterPerSec = Math.round(iterNum / computingTimeSec);
 		mXparser.consolePrintln(Id + "; " + exprStr + "; " + iterPerSec + "; " + computingTimeSec + "; " + iterNum + "; " + description);
 	}
-	
+
 }

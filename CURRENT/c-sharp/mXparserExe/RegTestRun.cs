@@ -1,6 +1,5 @@
 ﻿using System;
 using org.mariuszgromada.math.mxparser.regressiontesting;
-
 namespace mXparserExe
 {
     class RegTestRun

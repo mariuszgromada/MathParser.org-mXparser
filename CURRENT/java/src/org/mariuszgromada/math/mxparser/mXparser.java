@@ -1,20 +1,20 @@
 /*
  * @(#)mXparser.java        2.1.1-1    2016-01-07
- * 
+ *
  * You may use this software under the condition of "Simplified BSD License"
- * 
+ *
  * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
- * 
+ *
  *    1. Redistributions of source code must retain the above copyright notice, this list of
  *       conditions and the following disclaimer.
- * 
+ *
  *    2. Redistributions in binary form must reproduce the above copyright notice, this list
  *       of conditions and the following disclaimer in the documentation and/or other materials
  *       provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY <MARIUSZ GROMADA> ``AS IS'' AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
@@ -24,13 +24,13 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * The views and conclusions contained in the software and documentation are those of the
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of MARIUSZ GROMADA.
- * 
+ *
  * If you have any questions/bugs feel free to contact:
- * 
+ *
  *     Mariusz Gromada
  *     mariusz.gromada@mathspace.pl
  *     http://mathspace.pl/
@@ -40,22 +40,19 @@
  *     http://mxparser.sourceforge.net/
  *     http://bitbucket.org/mariuszgromada/mxparser/
  *     http://mxparser.codeplex.com/
- * 
- *                              Asked if he believes in one God, a mathematician answered: 
- *                              "Yes, up to isomorphism."  
- */ 
-
-
+ *
+ *                              Asked if he believes in one God, a mathematician answered:
+ *                              "Yes, up to isomorphism."
+ */
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.regex.Pattern;
-
 /**
  * mXparser class provides usefull methods when parsing, calculating or
  * parameters transforming.
- * 
+ *
  * @author         <b>Mariusz Gromada</b><br/>
  *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
  *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
@@ -65,107 +62,88 @@ import java.util.regex.Pattern;
  *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
- *                         
+ *
  * @version        2.1.1-1
- * 
+ *
  * @see RecursiveArgument
  * @see Expression
  * @see Function
  * @see Constant
  */
 public final class mXparser {
-	
-	
 	/**
 	 * mXparser version
 	 */
 	static final String VERSION = "2.1.1";
-	
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
 	 */
 	static final int NOT_FOUND = -1;
-	static final int FOUND = 0;	
-	
+	static final int FOUND = 0;
 	/**
 	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
-	 * 
-	 * 
+	 *
+	 *
 	 * @param      f                   the expression
 	 * @param      x                   the argument
 	 * @param      x0                  the argument value
-	 * 
+	 *
 	 * @return     f.calculate()
-	 * 
+	 *
 	 * @see        Expression
 	 */
 	public static final double getFunctionValue(Expression f, Argument x, double x0) {
-
 		x.setArgumentValue(x0);
 		return f.calculate();
-
-	}	
-	
-	
+	}
 	/**
 	 * Converts ArrayList<Double> to double[]
-	 * 
+	 *
 	 * @param      numbers             the numbers list
-	 * 
+	 *
 	 * @return     numbers array
 	 */
 	public static final double[] arraList2double(ArrayList<Double> numbers) {
-
 		if (numbers == null)
 			return null;
-		
 		int size = numbers.size();
 		double[] newNumbers = new double[size];
-		
 		for (int i = 0; i < size; i++)
 			newNumbers[i] = numbers.get(i).doubleValue();
-		
 		return newNumbers;
-		
-		
 	}
-	
 	/**
 	 * Converts integer number to hex string (plain text)
-	 * 
+	 *
 	 * @param number   Integer number
 	 * @return         Hex string (i.e. FF23)
 	 */
 	public static final String numberToHexString(int number) {
-		return Integer.toHexString(number);		
+		return Integer.toHexString(number);
 	}
-	
 	/**
 	 * Converts long number to hex string (plain text)
-	 * 
+	 *
 	 * @param number   Long number
 	 * @return         Hex string (i.e. FF23)
 	 */
 	public static final String numberToHexString(long number) {
-		return Long.toHexString(number);		
+		return Long.toHexString(number);
 	}
-	
 	/**
 	 * Converts (long)double number to hex string (plain text)
-	 * 
+	 *
 	 * @param number   Double number
 	 * @return         Hex string (i.e. FF23)
 	 */
 	public static final String numberToHexString(double number) {
-		return numberToHexString((long)number);		
+		return numberToHexString((long)number);
 	}
-	
-	
 	/**
 	 * Converts hex string into ASCII string, where each letter is
 	 * represented by two hex digits (byte) from the hex string.
-	 * 
+	 *
 	 * @param hexString   Hex string (i.e. 48656C6C6F)
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
@@ -180,84 +158,75 @@ public final class mXparser {
 		}
 		return asciiString;
 	}
-	
 	/**
 	 * Converts number into ASCII string, where each letter is
 	 * represented by two hex digits (byte) from the hex representation
 	 * of the original number
-	 * 
+	 *
 	 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
 	public static final String numberToAsciiString(int number) {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
-	
 	/**
 	 * Converts number into ASCII string, where each letter is
 	 * represented by two hex digits (byte) from the hex representation
 	 * of the original number
-	 * 
+	 *
 	 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
 	public static final String numberToAsciiString(long number) {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
-	
 	/**
 	 * Converts (long)double number into ASCII string, where each letter is
 	 * represented by two hex digits (byte) from the hex representation
 	 * of the original number casted to long type.
-	 * 
+	 *
 	 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
 	public static final String numberToAsciiString(double number) {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
-	
 	/**
 	 * Prints object.toString to the Console + new line
-	 * 
+	 *
 	 * @param o    Object to print
 	 */
 	public static final void consolePrintln(Object o) {
-		System.out.println(o);		
+		System.out.println(o);
 	}
-	
 	/**
 	 * Prints object.toString to the Console, no new line
-	 * 
+	 *
 	 * @param o    Object to print
 	 */
 	public static final void consolePrintln() {
-		System.out.println();		
+		System.out.println();
 	}
-	
-	
 	/**
 	 * Function used to introduce some compatibility
 	 * between JAVA and C# while regexp matching.
-	 * 
+	 *
 	 * @param str         String
 	 * @param pattern     Pattern (regexp)
-	 * 
+	 *
 	 * @return            True if pattern matches entirely, False otherwise
 	 */
     static final boolean regexMatch(String str, String pattern){
         return Pattern.matches(pattern, str);
     }
-
 	/**
 	 * Prints object.toString to the Console
-	 * 
+	 *
 	 * @param o    Object to print
 	 */
 	public static final void consolePrint(Object o) {
-		System.out.print(o);		
+		System.out.print(o);
 	}
-	
 	/**
 	 * License info.
 	 */
@@ -303,7 +272,6 @@ public final class mXparser {
 		"    http://mariuszgromada.github.io/MathParser.org-mXparser/\n" +
 		"    http://mxparser.sourceforge.net/\n"
 		;
-
 	public static void wait (int n){
         long t0,t1;
         t0=System.currentTimeMillis();
@@ -312,42 +280,30 @@ public final class mXparser {
         }
         while (t1-t0<1000);
 	}
-	
 }
-
-
-
 /*=================================================
- * 
- * Package level classes and interfaces 
- * 
- *================================================= 
+ *
+ * Package level classes and interfaces
+ *
+ *=================================================
  */
-
-
-
 /**
  * Package level class for retriving calculus parameters
  * Holds params number and partameter string
  */
 class FunctionParameter {
-
 	/**
-	 * 
+	 *
 	 */
 	ArrayList<Token> tokens;
-	
 	/**
-	 * 
+	 *
 	 */
 	String paramStr;
 	int fromIndex;
 	int toIndex;
-	
-	
-	
 	/**
-	 * 
+	 *
 	 * @param paramStr
 	 * @param parametersNumber
 	 */
@@ -360,54 +316,42 @@ class FunctionParameter {
 		this.fromIndex = fromIndex;
 		this.toIndex = toIndex;
 	}
-	
 }
-
-
 /**
  * Package level class
- * 
+ *
  */
-
-
 class ArgumentParameter {
-
 	Argument argument;
 	double initialValue;
-	int initialType;	
+	int initialType;
 	int presence;
 	int index;
-	
 	ArgumentParameter() {
 		argument = null;
 		initialValue = Double.NaN;
 		initialType = Const.NaN;
 		presence = Expression.NOT_FOUND;
 	}
-	
 }
-
 /**
  * Base class prepresenting key words knwon by the parsere
  */
 class KeyWord {
-	
-	String wordString;	
+	String wordString;
 	int	wordId;
 	int wordTypeId;
 	String description;
-	
 	public KeyWord() {
 		wordString = "";
 		wordId = Const.NaN;
 		wordTypeId = Const.NaN;
 		description = "";
 	}
-	
 	/**
 	 * Constructor - creates key words form wordStrin wordId
 	 * and wordTypId
-	 * 
+	 *
 	 * @param wordString   the word string (refere to below interfaces)
 	 * @param wordId       the word identifier (refere to below interfaces)
 	 * @param wordTypeId   the word type (refere to below interfaces)
@@ -415,62 +359,46 @@ class KeyWord {
 	KeyWord(String wordString, int wordId, int wordTypeId) {
 		this.wordString = wordString;
 		this.wordId = wordId;
-		this.wordTypeId = wordTypeId;		
+		this.wordTypeId = wordTypeId;
 	}
-
 	KeyWord(String wordString, String description, int wordId, int wordTypeId) {
 		this.wordString = wordString;
 		this.wordId = wordId;
 		this.wordTypeId = wordTypeId;
 		this.description = description;
-	}	
-	
+	}
 }
-
 /**
  * Internal token class
  * which is used with stack while
  * evaluation of tokens levels
  */
 class TokenStackElement {
-
 	int tokenIndex;
 	int tokenId;
 	int tokenTypeId;
 	int tokenLevel;
 	boolean precedingFunction;
-
 }
-
-
 class SyntaxStackElement {
-
 	String tokenStr;
 	int tokenLevel;
-	
 	SyntaxStackElement(String tokenStr, int tokenLevel) {
-		
 		this.tokenStr = tokenStr;
 		this.tokenLevel = tokenLevel;
-		
 	}
-	
 }
-
-
 /**
- * Token - base class for tokens definition 
+ * Token - base class for tokens definition
  */
 class Token {
-
 	/**
 	 * String token
 	 */
 	String tokenStr;
-	
 	/**
 	 * Key word string (if matched)
-	 * 
+	 *
 	 * Please refer to below interfaces
 	 *    Operator
 	 *    Function1Arg
@@ -481,10 +409,9 @@ class Token {
 	 *    ParserSymbol
 	 */
 	String keyWord;
-	
 	/**
 	 * Partition identifier
-	 * 
+	 *
 	 * Please refer to below interfaces
 	 *    Operator
 	 *    Function1Arg
@@ -493,12 +420,11 @@ class Token {
 	 *    BinaryRelation
 	 *    Const
 	 *    ParserSymbol
-	 */	
+	 */
 	int tokenId;
-	
 	/**
 	 * Partition type
-	 * 
+	 *
 	 * Please refer to below interfaces
 	 *    Operator
 	 *    Function1Arg
@@ -507,19 +433,16 @@ class Token {
 	 *    BinaryRelation
 	 *    Const
 	 *    ParserSymbol
-	 */	
+	 */
 	int tokenTypeId;
-	
 	/**
 	 * Partition level
-	 */		
+	 */
 	int tokenLevel;
-	
 	/**
 	 * Partition value if number
-	 */		
+	 */
 	double tokenValue;
-	
 	/**
 	 * Default constructor
 	 */
@@ -531,49 +454,38 @@ class Token {
 		tokenLevel = Const.NaN;
 		tokenValue = Double.NaN;
 	}
-	
+	@Override
 	public Token clone() {
 		Token token = new Token();
-		
 		token.keyWord = keyWord;
 		token.tokenStr = tokenStr;
 		token.tokenId = tokenId;
 		token.tokenLevel = tokenLevel;
 		token.tokenTypeId = tokenTypeId;
 		token.tokenValue = tokenValue;
-		
 		return token;
 	}
-	
-
 }
-
-
 /*
  * ---------------------------------------------------------
- * Comparators for sorting 
+ * Comparators for sorting
  * ---------------------------------------------------------
  */
-
 /**
  * Comparator for key word list sorting by key word string.
  * This king of sorting is used while checking the syntax
  * (duplicated key word error)
  */
 class KwStrComparator implements Comparator<KeyWord> {
-	
 	/**
-	 * 
+	 *
 	 */
 	public int compare(KeyWord kw1, KeyWord kw2) {
 		String s1 = kw1.wordString;
 		String s2 = kw2.wordString;
 		return s1.compareTo(s2);
 	}
-
 }
-
-
 /**
  * Comparator for key word list sorting by
  * descending key word length
@@ -582,59 +494,42 @@ class KwStrComparator implements Comparator<KeyWord> {
  * (best match)
  */
 class DescKwLenComparator implements Comparator<KeyWord> {
-	
 	/**
-	 * 
+	 *
 	 */
 	public int compare(KeyWord kw1, KeyWord kw2) {
-		
 		int l1 = kw1.wordString.length();
 		int l2 = kw2.wordString.length();
-				
 		return l2-l1;
-		
 	}
-
 }
-
-
 /**
  * Comparator for key word list sorting by
  * type of the key word
- * 
+ *
  */
 class KwTypeComparator implements Comparator<KeyWord> {
-	
 	/**
-	 * 
+	 *
 	 */
 	public int compare(KeyWord kw1, KeyWord kw2) {
-		
 		int t1 = kw1.wordTypeId*1000 + kw1.wordId;
 		int t2 = kw2.wordTypeId*1000 + kw2.wordId;
-				
 		return t1-t2;
-		
 	}
-
 }
-
-
 /*
  * ---------------------------------------------------------
- * Grouping constants by interfaces 
+ * Grouping constants by interfaces
  * ---------------------------------------------------------
  */
-
-
 /**
  * ParserSymbol
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface ParserSymbol {
-
 	final String Digits     = "(\\p{Digit}+)";
 	final String HexDigits  = "(\\p{XDigit}+)";
 	final String Exp        = "[eE][+-]?"+Digits;
@@ -652,15 +547,13 @@ interface ParserSymbol {
 	        "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" +
 	        ")[pP][+-]?" + Digits + "))" +
 	        "[fFdD]?))" +
-	        "[\\x00-\\x20]*");	
-
+	        "[\\x00-\\x20]*");
 	final String nameOnlyTokenRegExp = "([a-zA-Z_])+([a-zA-Z0-9_])*";
 	final String nameTokenRegExp = "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
 	final String paramsTokenRegeExp = "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
 	final String constArgDefStrRegExp = nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
 	final String functionDefStrRegExp = nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 	final String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
-	
 	int
 		TYPE_ID 				= 11,
 		LEFT_PARENTHESES_ID 	= 1,
@@ -669,7 +562,6 @@ interface ParserSymbol {
 		NUMBER_ID				= 1,
 		NUMBER_TYPE_ID			= 0
 	;
-	
 	String
 		LEFT_PARENTHESES_STR 	= "(",
 		RIGHT_PARENTHESES_STR	= ")",
@@ -677,70 +569,51 @@ interface ParserSymbol {
 		SEMI_STR				= ";",
 		NUMBER_STR				= "_num_",
 		NUMBER_REG_EXP			= fpRegex,
-		
 		LEFT_PARENTHESES_DESC 	= "left parentheses",
 		RIGHT_PARENTHESES_DESC	= "right parentheses",
 		COMMA_DESC				= "comma (function parameters)",
 		SEMI_DESC				= "semicolon (function parameters)",
 		NUMBER_DESC				= "decimal number",
-		NUMBER_REG_DESC			= "regullar expression for decimal numbers"		
+		NUMBER_REG_DESC			= "regullar expression for decimal numbers"
 	;
-
 }
-
 /**
  * Operator
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface Operator {
-
 	int
 		TYPE_ID 			= 1,
-		
 		PLUS_ID 			= 1,
 		MINUS_ID 			= 2,
 		MULTIPLY_ID 		= 3,
 		DIVIDE_ID 			= 4,
 		POWER_ID 			= 5,
-				
 		FACT_ID				= 6,
 		MOD_ID				= 7
-		
-		
 	;
-	
 	String
 		PLUS_STR 			= "+",
 		MINUS_STR 			= "-",
 		MULTIPLY_STR 		= "*",
 		DIVIDE_STR 			= "/",
 		POWER_STR 			= "^",
-		
-		
 		FACT_STR 			= "!",
 		MOD_STR				= "%",
-			
-			
 		PLUS_DESC 			= "addition",
 		MINUS_DESC 			= "subtraction",
 		MULTIPLY_DESC 		= "multiplication",
 		DIVIDE_DESC 		= "division",
 		POWER_DESC 			= "exponentiation",
 		FACT_DESC			= "factorial",
-		MOD_DESC			= "modulo function"		
-		
+		MOD_DESC			= "modulo function"
 	;
-
 }
-
-
 interface BooleanOperator {
-
 	int
 		TYPE_ID 			= 2,
-		
 		AND_ID				= 1,
 		NAND_ID				= 2,
 		OR_ID				= 3,
@@ -751,20 +624,16 @@ interface BooleanOperator {
 		NIMP_ID				= 8,
 		CNIMP_ID			= 9,
 		EQV_ID				= 10,
-		NEG_ID				= 11		
-		
+		NEG_ID				= 11
 	;
-	
 	String
 		NEG_STR				= "~",
-		
 		AND_STR				= "&",
 		AND1_STR			= "&&",
 		AND2_STR			= "/\\",
 		NAND_STR			= NEG_STR + AND_STR,
 		NAND1_STR			= NEG_STR + AND1_STR,
 		NAND2_STR			= NEG_STR + AND2_STR,
-		
 		OR_STR				= "|",
 		OR1_STR				= "||",
 		OR2_STR				= "\\/",
@@ -775,13 +644,11 @@ interface BooleanOperator {
 		IMP_STR				= "->",
 		CIMP_STR			= "<-",
 		NIMP_STR			= "-/>",
-		CNIMP_STR			= "</-",		
-		EQV_STR				= "<->",		
-		
+		CNIMP_STR			= "</-",
+		EQV_STR				= "<->",
 		AND_DESC			= "logical conjunction (AND)",
-		OR_DESC				= "logical disjunction (OR)",	
+		OR_DESC				= "logical disjunction (OR)",
 		NEG_DESC			= "negation",
-		
 		NAND_DESC			= "NAND - Sheffer stroke",
 		NOR_DESC			= "logical NOR",
 		XOR_DESC			= "exclusive or (XOR)",
@@ -790,23 +657,15 @@ interface BooleanOperator {
 		NIMP_DESC			= "material nonimplication (NIMP)",
 		CNIMP_DESC			= "converse nonimplication (CNIMP)",
 		EQV_DESC			= "logical biconditional (EQV)"
-		
-		
 	;
-
 }
-
-
-
 /**
  * BinaryRelation
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
-
 interface BinaryRelation {
-
 	int
 		TYPE_ID 			= 3,
 		EQ_ID 				= 1,
@@ -816,44 +675,31 @@ interface BinaryRelation {
 		LEQ_ID 				= 5,
 		GEQ_ID 				= 6
 	;
-
 	String
 		EQ_STR 				= "=",
 		EQ1_STR 			= "==",
-		
 		NEQ_STR 			= "<>",
 		NEQ1_STR 			= "~=",
 		NEQ2_STR 			= "!=",
-		
 		LT_STR 				= "<",
-		
 		GT_STR 				= ">",
-		
 		LEQ_STR 			= "<=",
-		
 		GEQ_STR 			= ">=",
-			
 		EQ_DESC 			= "equality",
 		NEQ_DESC			= "inequation",
 		LT_DESC 			= "lower than",
 		GT_DESC 			= "greater than",
 		LEQ_DESC 			= "lower or equal",
-		GEQ_DESC 			= "greater or equal"			
+		GEQ_DESC 			= "greater or equal"
 	;
-
 }
-
-
-
-
 /**
  * Function1Arg
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface Function1Arg {
-
 	int
 		TYPE_ID 			= 4,
 		SIN_ID 				= 1,
@@ -890,19 +736,13 @@ interface Function1Arg {
 		ARCOTH_ID			= 33,
 		ARSECH_ID			= 34,
 		ARCSCH_ID			= 35,
-		
-		SA_ID				= 36, 
+		SA_ID				= 36,
 		SINC_ID				= 37,
-		
 		BELL_NUMBER_ID		= 38,
 		LUCAS_NUMBER_ID		= 39,
 		FIBONACCI_NUMBER_ID	= 40,
 		HARMONIC_NUMBER_ID	= 41
-		
-		
-		
 	;
-	
 	String
 		SIN_STR 			= "sin",
 		COS_STR 			= "cos",
@@ -911,38 +751,31 @@ interface Function1Arg {
 		CTAN_STR 			= "ctan",
 		CTG_STR 			= "ctg",
 		COT_STR 			= "cot",
-		
 		SEC_STR 			= "sec",
 		COSEC_STR 			= "cosec",
 		CSC_STR 			= "csc",
-		
 		ASIN_STR 			= "asin",
 		ARSIN_STR 			= "arsin",
 		ARCSIN_STR 			= "arcsin",
-		
 		ACOS_STR 			= "acos",
 		ARCOS_STR 			= "arcos",
 		ARCCOS_STR 			= "arccos",
-		
 		ATAN_STR 			= "atan",
 		ARCTAN_STR 			= "arctan",
 		ATG_STR 			= "atg",
 		ARCTG_STR 			= "arctg",
-		ACTAN_STR 			= "actan",		
-		ARCCTAN_STR 		= "arcctan",		
+		ACTAN_STR 			= "actan",
+		ARCCTAN_STR 		= "arcctan",
 		ACTG_STR 			= "actg",
 		ARCCTG_STR 			= "arcctg",
 		ACOT_STR 			= "acot",
 		ARCCOT_STR 			= "arccot",
-		
  		LN_STR 				= "ln",
 		LOG2_STR 			= "log2",
 		LOG10_STR 			= "log10",
-		
 		RAD_STR 			= "rad",
 		EXP_STR 			= "exp",
 		SQRT_STR 			= "sqrt",
-		
 		SINH_STR 			= "sinh",
 		COSH_STR 			= "cosh",
 		TANH_STR 			= "tanh",
@@ -953,60 +786,45 @@ interface Function1Arg {
 		SECH_STR 			= "sech",
 		CSCH_STR 			= "csch",
 		COSECH_STR 			= "cosech",
-		
 		DEG_STR 			= "deg",
 		ABS_STR 			= "abs",
 		SGN_STR				= "sgn",
 		FLOOR_STR			= "floor",
 		CEIL_STR			= "ceil",
-		
 		NOT_STR				= "not",
-
 		ASINH_STR 			= "asinh",
 		ARSINH_STR 			= "arsinh",
 		ARCSINH_STR 		= "arcsinh",
-		
 		ACOSH_STR 			= "acosh",
 		ARCOSH_STR 			= "arcosh",
 		ARCCOSH_STR 		= "arccosh",
-		
 		ATANH_STR 			= "atanh",
 		ARCTANH_STR 		= "arctanh",
-		
 		ATGH_STR 			= "atgh",
 		ARCTGH_STR 			= "arctgh",
-		
 		ACTANH_STR 			= "actanh",
 		ARCCTANH_STR 		= "arcctanh",
-		
 		ACOTH_STR 			= "acoth",
 		ARCOTH_STR 			= "arcoth",
 		ARCCOTH_STR 		= "arccoth",
-		
 		ACTGH_STR 			= "actgh",
 		ARCCTGH_STR 		= "arcctgh",
-		
 		ASECH_STR 			= "asech",
 		ARSECH_STR 			= "arsech",
 		ARCSECH_STR 		= "arcsech",
-		
 		ACSCH_STR 			= "acsch",
 		ARCSCH_STR 			= "arcsch",
 		ARCCSCH_STR 		= "arccsch",
-		
 		ACOSECH_STR 		= "acosech",
 		ARCOSECH_STR 		= "arcosech",
 		ARCCOSECH_STR 		= "arccosech",
-		
-		SA_STR				= "sinc", 
-		SA1_STR				= "Sa", 
-		SINC_STR			= "Sinc", 
+		SA_STR				= "sinc",
+		SA1_STR				= "Sa",
+		SINC_STR			= "Sinc",
 		BELL_NUMBER_STR		= "Bell",
 		LUCAS_NUMBER_STR	= "Luc",
 		FIBONACCI_NUMBER_STR= "Fib",
 		HARMONIC_NUMBER_STR	= "harm",
-
-			
 		SIN_DESC 			= "trigonometric sine function",
 		COS_DESC 			= "trigonometric cosine function",
 		TAN_DESC			= "trigonometric tangent function",
@@ -1040,31 +858,24 @@ interface Function1Arg {
 		ARTANH_DESC			= "inverse hyperbolic tangent function",
 		ARCOTH_DESC			= "inverse hyperbolic cotangent function",
 		ARSECH_DESC			= "inverse hyperbolic secant function",
-		ARCSCH_DESC			= "inverse hyperbolic cosecant function",				
-
-		SA_DESC				= "sinc function (normalized)", 
-		SINC_DESC			= "sinc function (unnormalized)", 
+		ARCSCH_DESC			= "inverse hyperbolic cosecant function",
+		SA_DESC				= "sinc function (normalized)",
+		SINC_DESC			= "sinc function (unnormalized)",
 		BELL_NUMBER_DESC	= "Bell number",
 		LUCAS_NUMBER_DESC	= "Lucas number",
 		FIBONACCI_NUMBER_DESC= "Fionacci number",
 		HARMONIC_NUMBER_DESC	= "Harmonic number"
-			
-			
 	;
-	
 }
-
 /**
  * Function2Arg
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface Function2Arg {
-
 	int
 		TYPE_ID 			= 5,
-		
 		LOG_ID 				= 1,
 		MOD_ID				= 2,
 		BINOM_COEFF_ID		= 3,
@@ -1073,25 +884,22 @@ interface Function2Arg {
 		STIRLING2_NUMBER_ID	= 6,
 		WORPITZKY_NUMBER_ID	= 7,
 		EULER_NUMBER_ID		= 8,
-		KRONECKER_DELTA_ID	= 9,		
-		EULER_POLYNOMIAL_ID	= 10,		
+		KRONECKER_DELTA_ID	= 9,
+		EULER_POLYNOMIAL_ID	= 10,
 		HARMONIC_NUMBER_ID	= 11
-		
 	;
-	
 	String
 		LOG_STR 				= "log",
 		MOD_STR 				= "mod",
 		BINOM_COEFF_STR			= "C",
-		BERNOULLI_NUMBER_STR	= "Bern", 
+		BERNOULLI_NUMBER_STR	= "Bern",
 		STIRLING1_NUMBER_STR	= "Stirl1",
 		STIRLING2_NUMBER_STR	= "Stirl2",
 		WORPITZKY_NUMBER_STR	= "Worp",
-		EULER_NUMBER_STR		= "Euler",		
-		KRONECKER_DELTA_STR		= "KDelta",		
+		EULER_NUMBER_STR		= "Euler",
+		KRONECKER_DELTA_STR		= "KDelta",
 		EULER_POLYNOMIAL_STR	= "EulerPol",
 		HARMONIC_NUMBER_STR		= "Harm",
-		
 		LOG_DESC 				= "logarithm function",
 		MOD_DESC				= "modulo function",
 		BINOM_COEFF_DESC		= "binomial coefficient function",
@@ -1099,57 +907,42 @@ interface Function2Arg {
 		STIRLING1_NUMBER_DESC	= "Stirling numbers of the first kind",
 		STIRLING2_NUMBER_DESC	= "Stirling numbers of the second kind",
 		WORPITZKY_NUMBER_DESC	= "Worpitzky number",
-		EULER_NUMBER_DESC		= "Euler number",		
-		KRONECKER_DELTA_DESC	= "Kronecker delta",			
+		EULER_NUMBER_DESC		= "Euler number",
+		KRONECKER_DELTA_DESC	= "Kronecker delta",
 		EULER_POLYNOMIAL_DESC	= "EulerPol",
 		HARMONIC_NUMBER_DESC	= "Harmonic number"
-			
-			
 	;
-
 }
-
 /**
  * Function3Arg
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface Function3Arg {
-
 	int
 		TYPE_ID 			= 6,
 		IF_CONDITION_ID		= 1,
 		IF_ID 				= 2,
-		
-		CHI_ab_ID			= 3,		
-		CHI_AB_ID			= 4,		
-		CHI_Ab_ID			= 5,		
-		CHI_aB_ID			= 6		
-		
+		CHI_ab_ID			= 3,
+		CHI_AB_ID			= 4,
+		CHI_Ab_ID			= 5,
+		CHI_aB_ID			= 6
 	;
-
 	String
 		IF_STR 				= "if",
-		
-		CHI_ab_STR			= "chi",		
-		CHI_AB_STR			= "CHi",		
-		CHI_Ab_STR			= "Chi",		
-		CHI_aB_STR			= "cHi",		
-		
+		CHI_ab_STR			= "chi",
+		CHI_AB_STR			= "CHi",
+		CHI_Ab_STR			= "Chi",
+		CHI_aB_STR			= "cHi",
 		IF_DESC 			= "if function ( if(con, if_true, if_false) )",
-		CHI_ab_DESC			= "Characteristic function for x in (a,b) - chi(x, a, b)",		
-		CHI_AB_DESC			= "Characteristic function for x in [a,b] - CHi(x, a, b)",		
+		CHI_ab_DESC			= "Characteristic function for x in (a,b) - chi(x, a, b)",
+		CHI_AB_DESC			= "Characteristic function for x in [a,b] - CHi(x, a, b)",
 		CHI_Ab_DESC			= "Characteristic function for x in [a,b) - Chi(x, a, b)",
 		CHI_aB_DESC			= "Characteristic function for x in (a,b] - cHi(x, a, b)"
-		
 	;
-
 }
-
-
 interface SpecialFunction {
-
 	int
 		TYPE_ID 			= 7,
 		IFF_ID 				= 1,
@@ -1159,11 +952,7 @@ interface SpecialFunction {
 		CONT_POL_ID			= 5,
 		GCD_ID				= 6,
 		LCM_ID				= 7
-		
-		
-		
 	;
-
 	String
 		IFF_STR 			= "iff",
 		MIN_STR				= "min",
@@ -1172,7 +961,6 @@ interface SpecialFunction {
 		CONT_POL_STR		= "ConPol",
 		GCD_STR				= "gcd",
 		LCM_STR				= "lcm",
-		
 		IFF_DESC 			= "if function ( iff(con_1, if_true_1_exp, ..., con_n, if_true_n_exp) )",
 		MIN_DESC 			= "minimum function: min(a,b,c,...)",
 		MAX_DESC 			= "maximum function: max(a,b,c,...)",
@@ -1180,20 +968,15 @@ interface SpecialFunction {
 		CONT_POL_DESC		= "Continued polynomial: ConPol(a,b,c,...)",
 		GCD_DESC			= "Greatest common divisor: gcd(a,b,c,...)",
 		LCM_DESC			= "Least common multiple: lcm(a,b,c,...)"
-		
 	;
-
 }
-
-
 /**
  * Calculus
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface Calculus {
-
 	int
 		TYPE_ID 			= 8,
 		SUM_ID 				= 1,
@@ -1206,7 +989,6 @@ interface Calculus {
 		FORW_DIFF_ID		= 10,
 		BACKW_DIFF_ID		= 11
 	;
-
 	String
 		SUM_STR				= "sum",
 		PROD_STR			= "prod",
@@ -1217,7 +999,6 @@ interface Calculus {
 		DERN_STR			= "dern",
 		FORW_DIFF_STR		= "diff",
 		BACKW_DIFF_STR		= "difb",
-			
 		SUM_DESC			= "summation operator (SIGMA) sum(i, from, to, f(i,...))",
 		PROD_DESC			= "product operator (PI) prod(i, from, to, f(i,...))",
 		INT_DESC			= "definite integral operator ( int(f(x,...), x, a, b) )",
@@ -1227,22 +1008,17 @@ interface Calculus {
 		DERN_DESC			= "n-th derivative operator ( dern(f(x,...), x) ) ",
 		FORW_DIFF_DESC		= "forward difference operator",
 		BACKW_DIFF_DESC		= "backward difference operator"
-			
 	;
-
 }
-
 /**
  * Const
- * 
+ *
  * Identifiers and strings (words) definition.
- * Used mailny by the addParserKeywords() 
+ * Used mailny by the addParserKeywords()
  */
 interface Const {
-
 	int
 		TYPE_ID 					= 10,
-		
 		PI_ID 						= 1,
 		EULER_ID 					= 2,
 		EULER_MASCHERONI_ID			= 3,
@@ -1284,10 +1060,8 @@ interface Const {
 		PARABOLIC_ID				= 39,
 		OMEGA_ID					= 40,
 		MRB_ID						= 41,
-		
 		NaN							= -1
 	;
-
 	String
 		PI_STR 						= "pi",
 		EULER_STR 					= "e",
@@ -1330,8 +1104,6 @@ interface Const {
 		PARABOLIC_STR				= "[P2]",
 		OMEGA_STR					= "[O]",
 		MRB_STR						= "[M]",
-			
-			
 		PI_DESC 					= "Pi, Archimedes' constant or Ludolph's number",
 		EULER_DESC 					= "Napier's constant, or Euler's number, base of Natural logarithm",
 		EULER_MASCHERONI_DESC		= "Euler-Mascheroni constant",
@@ -1372,12 +1144,9 @@ interface Const {
 		LANDAU_DESC					= "Landau's constant",
 		PARABOLIC_DESC				= "Parabolic constant",
 		OMEGA_DESC					= "Omega constant",
-		MRB_DESC					= "MRB constant"					
+		MRB_DESC					= "MRB constant"
 		;
-
 }
-
-
 /*
  * Package level class to be used
  * while function, argument, constant definition
@@ -1391,20 +1160,16 @@ class HeadEqBody {
 	int eqPos;
 	ArrayList<Token> headTokens;
 	boolean definitionError;
-	
 	HeadEqBody(String definitionString) {
 		char c;
 		eqPos = 0;
 		int matchStatus = mXparser.NOT_FOUND;
-		
 		definitionError = false;
-		
 		do {
 			c = definitionString.charAt(eqPos);
 			if (c == '=') matchStatus = mXparser.FOUND;
 			else eqPos++;
 		} while ( (eqPos < definitionString.length()) && (matchStatus == mXparser.NOT_FOUND) );
-		
 		if ( (matchStatus == mXparser.FOUND) && (eqPos > 0) && (eqPos <= definitionString.length()-2) ) {
 			headStr = definitionString.substring(0, eqPos);
 			bodyStr  = definitionString.substring(eqPos+1);
