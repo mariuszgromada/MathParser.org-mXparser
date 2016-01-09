@@ -136,8 +136,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param number   Integer number
 		 * @return         Hex string (i.e. FF23)
 		 */
-		public static String numberToHexString(int number)
-		{
+		public static String numberToHexString(int number) {
 			return number.ToString("X");
 		}
 		/**
@@ -146,8 +145,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param number   Long number
 		 * @return         Hex string (i.e. FF23)
 		 */
-		public static String numberToHexString(long number)
-		{
+		public static String numberToHexString(long number) {
 			return number.ToString("X");
 		}
 		/**
@@ -156,8 +154,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param number   Double number
 		 * @return         Hex string (i.e. FF23)
 		 */
-		public static String numberToHexString(double number)
-		{
+		public static String numberToHexString(double number) {
 			return numberToHexString((long)number);
 		}
 		/**
@@ -167,13 +164,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param hexString   Hex string (i.e. 48656C6C6F)
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 		 */
-		public static String hexString2AsciiString(String hexString)
-		{
+		public static String hexString2AsciiString(String hexString) {
 			String hexByteStr;
 			int hexByteInt;
 			String asciiString = "";
-			for (int i = 0; i < hexString.Length; i += 2)
-			{
+			for (int i = 0; i < hexString.Length; i += 2) {
 				hexByteStr = hexString.Substring(i, 2);
 				hexByteInt = int.Parse(hexByteStr, NumberStyles.HexNumber);
 				asciiString = asciiString + (char)hexByteInt;
@@ -188,8 +183,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 		 */
-		public static String numberToAsciiString(int number)
-		{
+		public static String numberToAsciiString(int number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
 		/**
@@ -200,8 +194,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 		 */
-		public static String numberToAsciiString(long number)
-		{
+		public static String numberToAsciiString(long number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
 		/**
@@ -212,8 +205,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 		 */
-		public static String numberToAsciiString(double number)
-		{
+		public static String numberToAsciiString(double number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
 		/**
@@ -329,11 +321,9 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void wait(int n) {
 			long t0, t1;
 			t0 = DateTime.Now.Millisecond;
-			do
-			{
+			do {
 				t1 = DateTime.Now.Millisecond;
-			}
-			while (t1 - t0 < 1000);
+			} while (t1 - t0 < 1000);
 		}
 	}
 	/*=================================================
