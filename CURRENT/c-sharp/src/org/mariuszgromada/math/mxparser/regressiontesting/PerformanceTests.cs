@@ -46,8 +46,7 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.regressiontesting
-{
+namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	/**
 	 * PerformanceTests - mXparser performance tests
 	 *

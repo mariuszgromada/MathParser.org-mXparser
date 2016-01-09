@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        2.1.1-1    2016-01-07
+ * @(#)mXparser.java        2.2.0    2016-01-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -63,7 +63,7 @@ import java.util.regex.Pattern;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
  *
- * @version        2.1.1-1
+ * @version        2.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -74,13 +74,20 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "2.1.1";
+	static final String VERSION = "2.2.0";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
 	 */
 	static final int NOT_FOUND = -1;
 	static final int FOUND = 0;
+	/**
+	 * Console output string  for below methods
+	 *
+	 * @see mXparser.#consolePrintln(Object)
+	 * @see mXparser.#consolePrint(Object)
+	 */
+	private static String CONSOLE_OUTPUT = "";
 	/**
 	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
 	 *
@@ -198,14 +205,50 @@ public final class mXparser {
 	 */
 	public static final void consolePrintln(Object o) {
 		System.out.println(o);
+		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n";
 	}
 	/**
-	 * Prints object.toString to the Console, no new line
+	 * Prints new line to the Console, no new line
 	 *
-	 * @param o    Object to print
 	 */
 	public static final void consolePrintln() {
 		System.out.println();
+		CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n";
+	}
+	/**
+	 * Prints object.toString to the Console
+	 *
+	 * @param o    Object to print
+	 */
+	public static final void consolePrint(Object o) {
+		System.out.print(o);
+		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
+	}
+	/**
+	 * Resets console output string, console output
+	 * string is being built by consolePrintln(), consolePrint().
+	 *
+	 * @see mXparser.#consolePrint(Object)
+	 * @see mXparser.#consolePrintln(Object)
+	 * @see mXparser.#consolePrintln();
+	 * @see mXparser.#resetConsoleOutput();
+	 */
+	public static final void resetConsoleOutput() {
+		CONSOLE_OUTPUT = "";
+	}
+	/**
+	 * Returns console output string, console output string
+	 * is being built by consolePrintln(), consolePrint().
+	 *
+	 * @return Console output string
+	 *
+	 * @see mXparser.#consolePrint(Object)
+	 * @see mXparser.#consolePrintln(Object)
+	 * @see mXparser.#consolePrintln();
+	 * @see mXparser.#resetConsoleOutput();
+	 */
+	public static final String getConsoleOutput() {
+		return CONSOLE_OUTPUT;
 	}
 	/**
 	 * Function used to introduce some compatibility
@@ -219,14 +262,6 @@ public final class mXparser {
     static final boolean regexMatch(String str, String pattern){
         return Pattern.matches(pattern, str);
     }
-	/**
-	 * Prints object.toString to the Console
-	 *
-	 * @param o    Object to print
-	 */
-	public static final void consolePrint(Object o) {
-		System.out.print(o);
-	}
 	/**
 	 * License info.
 	 */

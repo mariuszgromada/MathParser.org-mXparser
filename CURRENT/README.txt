@@ -1,6 +1,33 @@
                  mXparser - Math Parser Java C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
+v.2.2.0 (2016-01-09): 
+    * New public methods in the mXparser class
+	    - static String getConsoleOutput() - returns as string output
+		  produced by mXparser.consolePrin/ln() methods. Using this method
+		  you can capture the output to the string variable.
+		- static void resetConsoleOutput() - resets the string
+		  representing console output
+		  
+	* Method modified in mXparser class
+	    - consolePrintln()
+		- consolePrintln(Object o)
+		- consolePrint(Object o)
+	    Above methods are outputing also to string representing
+		console output.
+		
+	* New RunTest method in regressiontesting, method executes 
+	  specified scenario according to below params:
+	    - reg - Expression regression tests
+		- api - mXparser API regression tests
+		- syn - Syntax checking regression tests
+		- perf - Performance tests
+		
+    * Code clean-up
+	    - blank lines
+		- trailing white spaces
+		- src folders structure for c-sharp is now the same as in java
+		 
 v.2.1.1-1 (2016-01-07): 
     * Binaries for java: 1.5, 1.6, 1.7, 1.8
 	* Binaries for .NET: 2.0, 3.0, 3.5, 4.0, 4.5, 4.6
@@ -168,15 +195,17 @@ If you would like to run some regression testing just hit commands listed below:
 
 JAVA:
 java -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest reg
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest api
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest syn
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest perf
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest reg api syn perf
 
 C# (using PowerShell):
 [Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
 [org.mariuszgromada.math.mxparser.Tutorial]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionV2]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestExpressionAPI]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.RegTestSyntax]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests]::Start()
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("reg")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("api")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("syn")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("perf")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("reg", "api", "syn", "perf")
