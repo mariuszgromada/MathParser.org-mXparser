@@ -87,8 +87,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 *
 		 * @param args  reg - Expression regression test, api - mXparser API test
 		 *              Param: syn - Syntax checking test, perf - Performance test
+		 * @return Number of tests with error result.
 		 */
-		public static void Main(params String[] args) {
+		public static int Start(string[] args) {
+			int nError = 0;
 			if (args != null)
 				foreach (String test in args) {
 					if (test.Equals("reg")) {
@@ -96,7 +98,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 						mXparser.consolePrintln();
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln("=== Expression regression tests - Starting");
-						RegTestExpressionV2.Start();
+						nError += RegTestExpressionV2.Start();
 						mXparser.consolePrintln("=== Expression regression tests - Finished");
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln();
@@ -107,7 +109,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 						mXparser.consolePrintln();
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln("=== mXparser API regression test - Starting");
-						RegTestExpressionAPI.Start();
+						nError += RegTestExpressionAPI.Start();
 						mXparser.consolePrintln("=== mXparser API regression test - Finished");
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln();
@@ -118,7 +120,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 						mXparser.consolePrintln();
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln("=== Syntax checking regression tests - Starting");
-						RegTestSyntax.Start();
+						nError += RegTestSyntax.Start();
 						mXparser.consolePrintln("=== Syntax checking regression tests - Finished");
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln();
@@ -129,13 +131,29 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 						mXparser.consolePrintln();
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln("=== Performance tests - Starting");
-						PerformanceTests.Start();
+						nError += PerformanceTests.Start();
 						mXparser.consolePrintln("=== Performance tests - Finished");
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln();
 						mXparser.consolePrintln();
 					}
 				}
+			return nError;
+		}
+		/**
+		 * Use this class to run one of the following test
+		 * <ul>
+		 * <li>Param: reg - Expression regression test
+		 * <li>Param: api - mXparser API test
+		 * <li>Param: syn - Syntax checking test
+		 * <li>Param: perf - Performance test
+		 * </ul>,
+		 *
+		 * @param args  reg - Expression regression test, api - mXparser API test
+		 *              Param: syn - Syntax checking test, perf - Performance test
+		 */
+		public static void Main(string[] args) {
+			Start(args);
 		}
 	}
 }

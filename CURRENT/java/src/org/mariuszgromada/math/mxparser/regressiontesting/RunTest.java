@@ -76,7 +76,70 @@ import org.mariuszgromada.math.mxparser.mXparser;
  * @see Constant
  */
 public class RunTest {
-
+	/**
+	 * Use this class to run one of the following test
+	 * <ul>
+	 * <li>Param: reg - Expression regression test
+	 * <li>Param: api - mXparser API test
+	 * <li>Param: syn - Syntax checking test
+	 * <li>Param: perf - Performance test
+	 * </ul>,
+	 *
+	 * @param args  reg - Expression regression test, api - mXparser API test
+	 *              Param: syn - Syntax checking test, perf - Performance test
+	 * @return Number of tests with error result.
+	 */
+	public static int start(String... args) {
+		int nError = 0;
+		if (args != null)
+			for (String test : args) {
+				if (test.equals("reg")) {
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln("=== Expression regression tests - Starting");
+					nError += RegTestExpressionV2.start();
+					mXparser.consolePrintln("=== Expression regression tests - Finished");
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+				}
+				if (test.equals("api")) {
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln("=== mXparser API regression test - Starting");
+					nError += RegTestExpressionAPI.start();
+					mXparser.consolePrintln("=== mXparser API regression test - Finished");
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+				}
+				if (test.equals("syn")) {
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln("=== Syntax checking regression tests - Starting");
+					nError += RegTestSyntax.start();
+					mXparser.consolePrintln("=== Syntax checking regression tests - Finished");
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+				}
+				if (test.equals("perf")) {
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln("=== Performance tests - Starting");
+					nError += PerformanceTests.start();
+					mXparser.consolePrintln("=== Performance tests - Finished");
+					mXparser.consolePrintln("====================================================================");
+					mXparser.consolePrintln();
+					mXparser.consolePrintln();
+				}
+			}
+		return nError;
+	}
 	/**
 	 * Use this class to run one of the following test
 	 * <ul>
@@ -90,53 +153,6 @@ public class RunTest {
 	 *              Param: syn - Syntax checking test, perf - Performance test
 	 */
 	public static void main(String[] args) {
-		if (args != null)
-			for (String test : args) {
-				if (test.equals("reg")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== Expression regression tests - Starting");
-					RegTestExpressionV2.main(args);
-					mXparser.consolePrintln("=== Expression regression tests - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-				if (test.equals("api")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== mXparser API regression test - Starting");
-					RegTestExpressionAPI.main(args);
-					mXparser.consolePrintln("=== mXparser API regression test - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-				if (test.equals("syn")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== Syntax checking regression tests - Starting");
-					RegTestSyntax.main(args);
-					mXparser.consolePrintln("=== Syntax checking regression tests - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-				if (test.equals("perf")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== Performance tests - Starting");
-					PerformanceTests.main(args);
-					mXparser.consolePrintln("=== Performance tests - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-			}
+		start(args);
 	}
-
 }
