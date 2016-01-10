@@ -1,14 +1,18 @@
-                 mXparser - Math Parser Java C# .NET (CLS) Library beta
+            mXparser - Math Parser Java Android C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
-v.2.2.0 (2016-01-09): 
+v.2.2.0 (2016-01-10): Android is coming!
+    * mXparser_jdk1.7.jar - tested with Android !!!
+	    - all regression tests passed
+		
     * New public methods in the mXparser class
 	    - static String getConsoleOutput() - returns as string output
 		  produced by mXparser.consolePrin/ln() methods. Using this method
 		  you can capture the output to the string variable.
 		- static void resetConsoleOutput() - resets the string
 		  representing console output
-		  
+		- Added CONSOLE/PREFIX & CONSOLUE_OUTPUT_STRING/PREFIX + configuration
+		
 	* Method modified in mXparser class
 	    - consolePrintln()
 		- consolePrintln(Object o)
@@ -184,7 +188,6 @@ If you have any questions/bugs feel free to contact:
     http://bitbucket.org/mariuszgromada/mxparser/
     http://mxparser.codeplex.com/
 
-
 mXparser tutorial:
 doc/tutorial.html
 
@@ -204,8 +207,7 @@ java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest
 C# (using PowerShell):
 [Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
 [org.mariuszgromada.math.mxparser.Tutorial]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("reg")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("api")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("syn")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("perf")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Main("reg", "api", "syn", "perf")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("reg")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("api")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("syn")
+[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("perf")
