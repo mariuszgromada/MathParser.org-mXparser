@@ -88,6 +88,9 @@ public final class mXparser {
 	 * @see mXparser.#consolePrint(Object)
 	 */
 	private static String CONSOLE_OUTPUT = "";
+	private static String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+	private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
+	private static int CONSOLE_ROW_NUMBER = 1;
 	/**
 	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
 	 *
@@ -204,16 +207,28 @@ public final class mXparser {
 	 * @param o    Object to print
 	 */
 	public static final void consolePrintln(Object o) {
+		if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+			System.out.print(CONSOLE_PREFIX);
+			CONSOLE_OUTPUT = CONSOLE_PREFIX;
+		}
 		System.out.println(o);
-		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n";
+		CONSOLE_ROW_NUMBER++;
+		System.out.print(CONSOLE_PREFIX);
+		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 	}
 	/**
 	 * Prints new line to the Console, no new line
 	 *
 	 */
 	public static final void consolePrintln() {
+		if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+			System.out.print(CONSOLE_PREFIX);
+			CONSOLE_OUTPUT = CONSOLE_PREFIX;
+		}
 		System.out.println();
-		CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n";
+		CONSOLE_ROW_NUMBER++;
+		System.out.print(CONSOLE_PREFIX);
+		CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 	}
 	/**
 	 * Prints object.toString to the Console
@@ -221,6 +236,10 @@ public final class mXparser {
 	 * @param o    Object to print
 	 */
 	public static final void consolePrint(Object o) {
+		if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+			System.out.print(CONSOLE_PREFIX);
+			CONSOLE_OUTPUT = CONSOLE_PREFIX;
+		}
 		System.out.print(o);
 		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 	}
@@ -235,6 +254,31 @@ public final class mXparser {
 	 */
 	public static final void resetConsoleOutput() {
 		CONSOLE_OUTPUT = "";
+		CONSOLE_ROW_NUMBER = 1;
+	}
+	/**
+	 * Sets default console prefix.
+	 */
+	public void setDefaultConsolePrefix() {
+		CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+	}
+	/**
+	 * Sets default console output string prefix.
+	 */
+	public void setDefaultConsoleOutputPrefix() {
+		CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
+	}
+	/**
+	 * Sets console prefix.
+	 */
+	public void setConsolePrefix(String consolePrefix) {
+		CONSOLE_PREFIX = consolePrefix;
+	}
+	/**
+	 * Sets console output string prefix.
+	 */
+	public void setConsoleOutputPrefix(String consoleOutputPrefix) {
+		CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
 	}
 	/**
 	 * Returns console output string, console output string
@@ -305,15 +349,23 @@ public final class mXparser {
 		"    http://mathparser.org/\n" +
 		"    http://github.com/mariuszgromada/MathParser.org-mXparser\n" +
 		"    http://mariuszgromada.github.io/MathParser.org-mXparser/\n" +
-		"    http://mxparser.sourceforge.net/\n"
+		"    http://mxparser.sourceforge.net/\n" +
+		"    http://bitbucket.org/mariuszgromada/mxparser/\n" +
+		"    http://mxparser.codeplex.com/\n"
 		;
+
+	/**
+	 * Waits given number of milliseconds
+	 *
+	 * @param n Number of milliseconds
+	 */
 	public static void wait (int n){
         long t0,t1;
         t0=System.currentTimeMillis();
         do{
             t1=System.currentTimeMillis();
         }
-        while (t1-t0<1000);
+        while (t1-t0<n);
 	}
 }
 /*=================================================

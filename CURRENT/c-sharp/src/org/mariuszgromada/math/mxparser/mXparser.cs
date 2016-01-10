@@ -91,11 +91,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser.#consolePrint(Object)
 		 */
 		private static String CONSOLE_OUTPUT = "";
+		private static String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+		private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
+		private static int CONSOLE_ROW_NUMBER = 1;
 
 		private static readonly DateTime Jan1st1970 = new DateTime
 			(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-		public static long currentTimeMillis()
-		{
+		public static long currentTimeMillis() {
 			return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
 		}
 		/**
@@ -214,16 +216,28 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param o    Object to print
 		 */
 		public static void consolePrintln(Object o) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+				Console.Write(CONSOLE_PREFIX);
+				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			}
 			Console.WriteLine(o);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n";
+			CONSOLE_ROW_NUMBER++;
+			Console.Write(CONSOLE_PREFIX);
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
 		/**
 		 * Prints new line to the Console, no new line
 		 *
 		 */
 		public static void consolePrintln() {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+				Console.Write(CONSOLE_PREFIX);
+				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			}
 			Console.WriteLine();
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n";
+			CONSOLE_ROW_NUMBER++;
+			Console.Write(CONSOLE_PREFIX);
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
 		/**
 		 * Prints object.toString to the Console, no new line
@@ -231,6 +245,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param o    Object to print
 		 */
 		public static void consolePrint(Object o) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+				Console.Write(CONSOLE_PREFIX);
+				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			}
 			Console.Write(o);
 			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 		}
@@ -245,6 +263,31 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void resetConsoleOutput() {
 			CONSOLE_OUTPUT = "";
+			CONSOLE_ROW_NUMBER = 1;
+		}
+		/**
+		 * Sets default console prefix.
+		 */
+		public void setDefaultConsolePrefix() {
+			CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+		}
+		/**
+		 * Sets default console output string prefix.
+		 */
+		public void setDefaultConsoleOutputPrefix() {
+			CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
+		}
+		/**
+		 * Sets console prefix.
+		 */
+		public void setConsolePrefix(String consolePrefix) {
+			CONSOLE_PREFIX = consolePrefix;
+		}
+		/**
+		 * Sets console output string prefix.
+		 */
+		public void setConsoleOutputPrefix(String consoleOutputPrefix) {
+			CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
 		}
 		/**
 		 * Returns console output string, console output string
@@ -316,14 +359,22 @@ namespace org.mariuszgromada.math.mxparser {
 			"    http://mathparser.org/\n" +
 			"    http://github.com/mariuszgromada/MathParser.org-mXparser\n" +
 			"    http://mariuszgromada.github.io/MathParser.org-mXparser/\n" +
-			"    http://mxparser.sourceforge.net/\n"
+			"    http://mxparser.sourceforge.net/\n" +
+			"    http://bitbucket.org/mariuszgromada/mxparser/\n" +
+			"    http://mxparser.codeplex.com/\n"
 			;
+
+		/**
+		 * Waits given number of milliseconds
+		 *
+		 * @param n Number of milliseconds
+		 */
 		public static void wait(int n) {
 			long t0, t1;
 			t0 = DateTime.Now.Millisecond;
 			do {
 				t1 = DateTime.Now.Millisecond;
-			} while (t1 - t0 < 1000);
+			} while (t1 - t0 < n);
 		}
 	}
 	/*=================================================
