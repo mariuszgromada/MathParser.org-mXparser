@@ -392,6 +392,10 @@ public class GenerTests {
 		//System.out.println("aaaaaaaaaaaaaaaaaaaa");
 		//System.out.println(mXparser.getConsoleOutput());
 
+		boolean[] prime = new boolean[10000000];
+		for (int i=0; i<10000000; i++)
+			prime[i]=true;
+
 	}
 
 }

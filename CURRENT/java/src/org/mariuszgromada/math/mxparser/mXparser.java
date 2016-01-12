@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        2.2.0    2016-01-08
+ * @(#)mXparser.java        2.2.1    2016-01-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -91,6 +91,22 @@ public final class mXparser {
 	private static String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 	private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 	private static int CONSOLE_ROW_NUMBER = 1;
+	/**
+	 * Threads number settings
+	 */
+	private static int THREADS_NUMBER = 1;
+	/**
+	 * Gets maximum threads number
+	 */
+	public static final int getThreadsNumber() {
+		return THREADS_NUMBER;
+	}
+	/**
+	 * Sets maximum threads number
+	 */
+	public static final void setThreadsNumber(int threadsNumber) {
+		if (threadsNumber > 0) THREADS_NUMBER = threadsNumber;
+	}
 	/**
 	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
 	 *
