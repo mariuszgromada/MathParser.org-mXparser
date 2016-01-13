@@ -83,7 +83,7 @@ public class PerformanceTests {
 	 */
 	static void createRunJoinThreads(PerformanceTestResult test, int classId) {
 		test.testInit();
-		Runnable[] runners = new Runnable[test.threadsNum];
+		TestThread[] runners = new TestThread[test.threadsNum];
 		Thread[] threads = new Thread[test.threadsNum];
 		for (int threadId = 0; threadId < test.threadsNum; threadId++) {
 			switch (classId) {

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        2.2.0    2016-01-09
+ * @(#)mXparser.cs        2.2.1    2016-01-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -94,6 +94,22 @@ namespace org.mariuszgromada.math.mxparser {
 		private static String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 		private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static int CONSOLE_ROW_NUMBER = 1;
+		/**
+		 * Threads number settings
+		 */
+		private static int THREADS_NUMBER = 1;
+		/**
+		 * Gets maximum threads number
+		 */
+		public static int getThreadsNumber() {
+			return THREADS_NUMBER;
+		}
+		/**
+		 * Sets maximum threads number
+		 */
+		public static void setThreadsNumber(int threadsNumber) {
+			if (threadsNumber > 0) THREADS_NUMBER = threadsNumber;
+		}
 
 		private static readonly DateTime Jan1st1970 = new DateTime
 			(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
