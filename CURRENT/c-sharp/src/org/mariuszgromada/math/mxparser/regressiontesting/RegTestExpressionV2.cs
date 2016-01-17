@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        2.2.0    2016-01-09
+ * @(#)RegTestExpression.cs        2.3.0    2016-01-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -58,11 +58,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
 	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
 	 *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
-	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
+	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.2.0
+	 * @version        2.3.0
 	 *
 	 * @see Expression
 	 */
@@ -1485,7 +1485,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
 			case 123:
-				expStr = "pi+e+[g]+[p]+[r]+[B*]+[D]+[a]+[C2]+[M1]+[B2]+[B4]+[L]+[K]+[K*]+[K.]+[B'L]+[m]+[EB]+[B]+[l]+[s]+[lm]+[C]+[Ll]+[AG]+[L*]+[L.]+[Dz3]+[T]+[Bh]+[Pt]+[L2]+[Nv]+[Ks]+[Kh]+[F]+[La]+[P2]+[O]+[M]";
+				expStr = "pi+e+[g]+[p]+[r]+[B*]+[D]+[a]+[C2]+[M1]+[B2]+[B4]+[L]+[K]+[K*]+[K.]+[B'L]+[m]+[EB]+[B]+[l]+[s]+[lm]+[C]+[Ll]+[AG]+[L*]+[L.]+[Dz3]+[T]+[Bh]+[Pt]+[L2]+[Nv]+[Ks]+[Kh]+[F]+[La]+[P2]+[O]+[M]+[li2]+[G]";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -1529,9 +1529,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					0.5 + /*Landau'sconstant*/
 					2.29558714939263807403429804918949039 + /*Parabolicconstant*/
 					0.56714329040978387299996866221035555 + /*Omegaconstant*/
-					0.187859 /*MRBconstant*/
+					0.187859 + /*MRBconstant*/
+					1.045163780117492784844588889194613136522615578151 + /* l2(2) */
+					0.596347362323194074341078499369279376074 /* Gompertz Constant */
 				;
-				if ( MathFunctions.abs(value - reg) <= 0.00001 )
+					if ( MathFunctions.abs(value - reg) <= 0.00001 )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
@@ -3354,6 +3356,279 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 290:
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 291:
+				mXparser.initPrimesCache(50);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 292:
+				mXparser.initPrimesCache(55);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 293:
+				mXparser.initPrimesCache(97);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 294:
+				mXparser.initPrimesCache(99);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 295:
+				mXparser.initPrimesCache(101);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 296:
+				mXparser.initPrimesCache(999);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 297:
+				mXparser.initPrimesCache(2000);
+				expStr = "sum(i, 0, 1000, ispr(i) )";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 298:
+				mXparser.setNoPrimesCache();
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 299:
+				mXparser.initPrimesCache(50);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 300:
+				mXparser.initPrimesCache(55);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 301:
+				mXparser.initPrimesCache(97);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 302:
+				mXparser.initPrimesCache(99);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 303:
+				mXparser.initPrimesCache(101);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 304:
+				mXparser.initPrimesCache(999);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 305:
+				mXparser.initPrimesCache(2000);
+				expStr = "Pi(1000)";
+				mXparser.consolePrint(expStr + " primes cache size: " + mXparser.getMaxNumInPrimesCache() + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 168;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 306:
+				expStr = "Ei( ln([m]) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) < 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 307:
+				expStr = "-e*Ei(-1) - [G]";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) < 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 308:
+				expStr =	"abs( Ei(-1)  / (0.219383934395520274 * 10^0 ) ) + " +
+							"abs( Ei(-4)  / (0.377935240984890648 * 10^-2 ) ) + " +
+							"abs( Ei(-6)  / (0.360082452162658659 * 10^-3 ) ) + " +
+							"abs( Ei(-8)  / (0.376656228439249018 * 10^-4 ) ) + " +
+							"abs( Ei(-11) / (0.140030030424744178 * 10^-5 ) ) + " +
+							"abs( Ei(-16) / (0.664048724944104278 * 10^-8 ) ) + " +
+							"abs( Ei(-21) / (0.345320126714675627 * 10^-10 ) ) + " +
+							"abs( Ei(-26) / (0.189468588567497824 * 10^-12 ) ) + " +
+							"abs( Ei(-31) / (0.107676703861623826 * 10^-14 ) ) + " +
+							"abs( Ei(-36) / (0.627333900976224159 * 10^-17 ) ) + " +
+							"abs( Ei(-41) / (0.372316677645997772 * 10^-19 ) ) + " +
+							"abs( Ei(-46) / (0.224153175974429975 * 10^-21 ) ) + " +
+							"abs( Ei(-50) / (0.378326402955045902 * 10^-23 ) ) + " +
+							"abs( Ei(1)  / (0.189511781635593676 * 10^1 ) ) + " +
+							"abs( Ei(4)  / (0.196308744700562200 * 10^2 ) ) + " +
+							"abs( Ei(6)  / (0.859897621424392048 * 10^2 ) ) + " +
+							"abs( Ei(8)  / (0.440379899534838269 * 10^3 ) ) + " +
+							"abs( Ei(11) / (0.607140637409861151 * 10^4 ) ) + " +
+							"abs( Ei(16) / (0.595560998670837002 * 10^6 ) ) + " +
+							"abs( Ei(21) / (0.661271863554849213 * 10^8 ) ) + " +
+							"abs( Ei(26) / (0.784294099189818637 * 10^10 ) ) + " +
+							"abs( Ei(31) / (0.969455575968393966 * 10^12 ) ) + " +
+							"abs( Ei(36) / (0.123285207991209769 * 10^15 ) ) + " +
+							"abs( Ei(41) / (0.160066491432450411 * 10^17 ) ) + " +
+							"abs( Ei(46) / (0.211134238864782419 * 10^19 ) ) + " +
+							"abs( Ei(50) / (0.105856368971316910 * 10^21 ) ) - 26"
+							;
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) < 0.000000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 309:
+				expStr = "sum(x; -11; 11; [g] + ln(abs(x)) + sum(k, 1, 50, x^k / (k*k!)) - Ei(x), 2)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) < 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 310:
+				expStr = "Li(0) + [li2]";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) < 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 311:
+				mXparser.initPrimesCache(10000000);
+				expStr = "Pi(10000000) / Li(10000000)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) < 0.001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 312:
+				x = new Argument("x = 100000000");
+				expStr = "( ( x / ln(x) ) * sum(k, 0, 20, k! / ln(x)^k ) ) / li(x)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) < 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -3368,7 +3643,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 289;
+			int numberOfTests = 312;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

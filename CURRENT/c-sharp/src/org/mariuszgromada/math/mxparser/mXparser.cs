@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        2.2.1    2016-01-13
+ * @(#)mXparser.cs        2.3.0    2016-01-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -49,6 +49,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
+using org.mariuszgromada.math.mxparser.mathcollection;
+
 [assembly: CLSCompliant(true)]
 namespace org.mariuszgromada.math.mxparser {
 	/**
@@ -61,11 +63,11 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
 	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
 	 *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
-	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
+	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.2.0
+	 * @version        2.3.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -77,7 +79,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		internal const String VERSION = "2.2.0";
+		internal const String VERSION = "2.3.0";
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -95,9 +97,56 @@ namespace org.mariuszgromada.math.mxparser {
 		private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static int CONSOLE_ROW_NUMBER = 1;
 		/**
+		 * Prime numbers cache
+		 */
+		public static PrimesCache primesCache;
+		public const int PRIMES_CACHE_NOT_INITIALIZED = -1;
+		/**
 		 * Threads number settings
 		 */
-		private static int THREADS_NUMBER = 1;
+		private static int THREADS_NUMBER = Environment.ProcessorCount;
+		/**
+		 * Initialization of prime numbers cache.
+		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
+		 * @see PrimesCache
+		 */
+		public static void initPrimesCache() {
+			primesCache = new PrimesCache();
+		}
+		/**
+		 * Initialization of prime numbers cache.
+		 * @param mximumNumberInCache The maximum integer number that
+		 *                            will be stored in cache.
+		 * @see PrimesCache
+		 */
+		public static void initPrimesCache(int mximumNumberInCache) {
+			primesCache = new PrimesCache(mximumNumberInCache);
+		}
+		/**
+		 * Initialization of prime numbers cache.
+		 * @param primesCache The primes cache object
+		 * @see PrimesCache
+		 */
+		public static void initPrimesCache(PrimesCache primesCache) {
+			mXparser.primesCache = primesCache;
+		}
+		/**
+		 * Sets {@value mXparser#primesCache} to null
+		 */
+		public static void setNoPrimesCache() {
+			primesCache = null;
+		}
+		/**
+		 * Returns maximum integer number in primes cache
+		 * @return If primes cache was initialized then maximum number in
+		 * primes cache, otherwise {@link mXparser#PRIMES_CACHE_NOT_INITIALIZED}
+		 */
+		public static int getMaxNumInPrimesCache() {
+			if (primesCache != null)
+				return primesCache.getMaxNumInCache();
+			else
+				return PRIMES_CACHE_NOT_INITIALIZED;
+		}
 		/**
 		 * Gets maximum threads number
 		 */
@@ -105,7 +154,13 @@ namespace org.mariuszgromada.math.mxparser {
 			return THREADS_NUMBER;
 		}
 		/**
-		 * Sets maximum threads number
+		 * Sets default threads number
+		 */
+		public static  void setDefaultThreadsNumber() {
+			THREADS_NUMBER = Environment.ProcessorCount;
+		}
+		/**
+		 * Sets threads number
 		 */
 		public static void setThreadsNumber(int threadsNumber) {
 			if (threadsNumber > 0) THREADS_NUMBER = threadsNumber;
@@ -403,8 +458,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Package level class for retriving calculus parameters
 	 * Holds params number and partameter string
 	 */
-	internal class FunctionParameter
-	{
+	internal class FunctionParameter {
 		/**
 		 *
 		 */
@@ -423,8 +477,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal FunctionParameter(List<Token> tokens,
 				String paramStr,
 				int fromIndex,
-				int toIndex)
-		{
+				int toIndex) {
 			this.tokens = tokens;
 			this.paramStr = paramStr;
 			this.fromIndex = fromIndex;
@@ -435,15 +488,13 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Package level class
 	 *
 	 */
-	internal class ArgumentParameter
-	{
+	internal class ArgumentParameter {
 		internal Argument argument;
 		internal double initialValue;
 		internal int initialType;
 		internal int presence;
 		internal int index;
-		internal ArgumentParameter()
-		{
+		internal ArgumentParameter() {
 			argument = null;
 			initialValue = Double.NaN;
 			initialType = Const.NaN;
@@ -453,14 +504,12 @@ namespace org.mariuszgromada.math.mxparser {
 	/**
 	 * Base class prepresenting key words knwon by the parsere
 	 */
-	internal class KeyWord
-	{
+	internal class KeyWord {
 		internal String wordString;
 		internal int wordId;
 		internal int wordTypeId;
 		internal String description;
-		internal KeyWord()
-		{
+		internal KeyWord() {
 			wordString = "";
 			wordId = Const.NaN;
 			wordTypeId = Const.NaN;
@@ -474,14 +523,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param wordId       the word identifier (refere to below interfaces)
 		 * @param wordTypeId   the word type (refere to below interfaces)
 		 */
-		internal KeyWord(String wordString, int wordId, int wordTypeId)
-		{
+		internal KeyWord(String wordString, int wordId, int wordTypeId) {
 			this.wordString = wordString;
 			this.wordId = wordId;
 			this.wordTypeId = wordTypeId;
 		}
-		internal KeyWord(String wordString, String description, int wordId, int wordTypeId)
-		{
+		internal KeyWord(String wordString, String description, int wordId, int wordTypeId) {
 			this.wordString = wordString;
 			this.wordId = wordId;
 			this.wordTypeId = wordTypeId;
@@ -493,20 +540,17 @@ namespace org.mariuszgromada.math.mxparser {
 	 * which is used with stack while
 	 * evaluation of tokens levels
 	 */
-	internal class TokenStackElement
-	{
+	internal class TokenStackElement {
 		internal int tokenIndex;
 		internal int tokenId;
 		internal int tokenTypeId;
 		internal int tokenLevel;
 		internal bool precedingFunction;
 	}
-	internal class SyntaxStackElement
-	{
+	internal class SyntaxStackElement {
 		internal String tokenStr;
 		internal int tokenLevel;
-		internal SyntaxStackElement(String tokenStr, int tokenLevel)
-		{
+		internal SyntaxStackElement(String tokenStr, int tokenLevel) {
 			this.tokenStr = tokenStr;
 			this.tokenLevel = tokenLevel;
 		}
@@ -598,13 +642,11 @@ namespace org.mariuszgromada.math.mxparser {
 	 * This king of sorting is used while checking the syntax
 	 * (duplicated key word error)
 	 */
-	class KwStrComparator : IComparer<KeyWord>
-	{
+	class KwStrComparator : IComparer<KeyWord> {
 		/**
 		 *
 		 */
-		public int Compare(KeyWord kw1, KeyWord kw2)
-		{
+		public int Compare(KeyWord kw1, KeyWord kw2) {
 			String s1 = kw1.wordString;
 			String s2 = kw2.wordString;
 			return s1.CompareTo(s2);
@@ -617,13 +659,11 @@ namespace org.mariuszgromada.math.mxparser {
 	 * This king of sorting is used while tokenizing
 	 * (best match)
 	 */
-	class DescKwLenComparator : IComparer<KeyWord>
-	{
+	class DescKwLenComparator : IComparer<KeyWord> {
 		/**
 		 *
 		 */
-		public int Compare(KeyWord kw1, KeyWord kw2)
-		{
+		public int Compare(KeyWord kw1, KeyWord kw2) {
 			int l1 = kw1.wordString.Length;
 			int l2 = kw2.wordString.Length;
 			return l2 - l1;
@@ -634,13 +674,11 @@ namespace org.mariuszgromada.math.mxparser {
 	 * type of the key word
 	 *
 	 */
-	class KwTypeComparator : IComparer<KeyWord>
-	{
+	class KwTypeComparator : IComparer<KeyWord> {
 		/**
 		 *
 		 */
-		public int Compare(KeyWord kw1, KeyWord kw2)
-		{
+		public int Compare(KeyWord kw1, KeyWord kw2) {
 			int t1 = kw1.wordTypeId * 1000 + kw1.wordId;
 			int t2 = kw2.wordTypeId * 1000 + kw2.wordId;
 			return t1 - t2;
@@ -657,8 +695,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class ParserSymbol
-	{
+	internal sealed class ParserSymbol {
 		internal const String Digits = "([0-9]+)";
 		internal const String HexDigits = "(([0-9]|[A-F])+)";
 		internal const String Exp = "[eE][+-]?" + Digits;
@@ -714,8 +751,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class Operator
-	{
+	internal sealed class Operator {
 		internal const int TYPE_ID = 1;
 		internal const int PLUS_ID = 1;
 		internal const int MINUS_ID = 2;
@@ -739,8 +775,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String FACT_DESC = "factorial";
 		internal const String MOD_DESC = "modulo function";
 	}
-	internal sealed class BooleanOperator
-	{
+	internal sealed class BooleanOperator {
 		internal const int TYPE_ID = 2;
 		internal const int AND_ID = 1;
 		internal const int NAND_ID = 2;
@@ -790,8 +825,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class BinaryRelation
-	{
+	internal sealed class BinaryRelation {
 		internal const int TYPE_ID = 3;
 		internal const int EQ_ID = 1;
 		internal const int NEQ_ID = 2;
@@ -821,170 +855,186 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class Function1Arg
-	{
-		internal const int TYPE_ID = 4;
-		internal const int SIN_ID = 1;
-		internal const int COS_ID = 2;
-		internal const int TAN_ID = 3;
-		internal const int CTAN_ID = 4;
-		internal const int SEC_ID = 5;
-		internal const int COSEC_ID = 6;
-		internal const int ASIN_ID = 7;
-		internal const int ACOS_ID = 8;
-		internal const int ATAN_ID = 9;
-		internal const int ACTAN_ID = 10;
-		internal const int LN_ID = 11;
-		internal const int LOG2_ID = 12;
-		internal const int LOG10_ID = 13;
-		internal const int RAD_ID = 14;
-		internal const int EXP_ID = 15;
-		internal const int SQRT_ID = 16;
-		internal const int SINH_ID = 17;
-		internal const int COSH_ID = 18;
-		internal const int TANH_ID = 19;
-		internal const int COTH_ID = 20;
-		internal const int SECH_ID = 21;
-		internal const int CSCH_ID = 22;
-		internal const int DEG_ID = 23;
-		internal const int ABS_ID = 24;
-		internal const int SGN_ID = 25;
-		internal const int FLOOR_ID = 26;
-		internal const int CEIL_ID = 27;
-		internal const int NOT_ID = 29;
-		internal const int ARSINH_ID = 30;
-		internal const int ARCOSH_ID = 31;
-		internal const int ARTANH_ID = 32;
-		internal const int ARCOTH_ID = 33;
-		internal const int ARSECH_ID = 34;
-		internal const int ARCSCH_ID = 35;
-		internal const int SA_ID = 36;
-		internal const int SINC_ID = 37;
-		internal const int BELL_NUMBER_ID = 38;
-		internal const int LUCAS_NUMBER_ID = 39;
-		internal const int FIBONACCI_NUMBER_ID = 40;
-		internal const int HARMONIC_NUMBER_ID = 41;
-		internal const String SIN_STR = "sin";
-		internal const String COS_STR = "cos";
-		internal const String TAN_STR = "tan";
-		internal const String TG_STR = "tg";
-		internal const String CTAN_STR = "ctan";
-		internal const String CTG_STR = "ctg";
-		internal const String COT_STR = "cot";
-		internal const String SEC_STR = "sec";
-		internal const String COSEC_STR = "cosec";
-		internal const String CSC_STR = "csc";
-		internal const String ASIN_STR = "asin";
-		internal const String ARSIN_STR = "arsin";
-		internal const String ARCSIN_STR = "arcsin";
-		internal const String ACOS_STR = "acos";
-		internal const String ARCOS_STR = "arcos";
-		internal const String ARCCOS_STR = "arccos";
-		internal const String ATAN_STR = "atan";
-		internal const String ARCTAN_STR = "arctan";
-		internal const String ATG_STR = "atg";
-		internal const String ARCTG_STR = "arctg";
-		internal const String ACTAN_STR = "actan";
-		internal const String ARCCTAN_STR = "arcctan";
-		internal const String ACTG_STR = "actg";
-		internal const String ARCCTG_STR = "arcctg";
-		internal const String ACOT_STR = "acot";
-		internal const String ARCCOT_STR = "arccot";
-		internal const String LN_STR = "ln";
-		internal const String LOG2_STR = "log2";
-		internal const String LOG10_STR = "log10";
-		internal const String RAD_STR = "rad";
-		internal const String EXP_STR = "exp";
-		internal const String SQRT_STR = "sqrt";
-		internal const String SINH_STR = "sinh";
-		internal const String COSH_STR = "cosh";
-		internal const String TANH_STR = "tanh";
-		internal const String TGH_STR = "tgh";
-		internal const String CTANH_STR = "ctanh";
-		internal const String COTH_STR = "coth";
-		internal const String CTGH_STR = "ctgh";
-		internal const String SECH_STR = "sech";
-		internal const String CSCH_STR = "csch";
-		internal const String COSECH_STR = "cosech";
-		internal const String DEG_STR = "deg";
-		internal const String ABS_STR = "abs";
-		internal const String SGN_STR = "sgn";
-		internal const String FLOOR_STR = "floor";
-		internal const String CEIL_STR = "ceil";
-		internal const String NOT_STR = "not";
-		internal const String ASINH_STR = "asinh";
-		internal const String ARSINH_STR = "arsinh";
-		internal const String ARCSINH_STR = "arcsinh";
-		internal const String ACOSH_STR = "acosh";
-		internal const String ARCOSH_STR = "arcosh";
-		internal const String ARCCOSH_STR = "arccosh";
-		internal const String ATANH_STR = "atanh";
-		internal const String ARCTANH_STR = "arctanh";
-		internal const String ATGH_STR = "atgh";
-		internal const String ARCTGH_STR = "arctgh";
-		internal const String ACTANH_STR = "actanh";
-		internal const String ARCCTANH_STR = "arcctanh";
-		internal const String ACOTH_STR = "acoth";
-		internal const String ARCOTH_STR = "arcoth";
-		internal const String ARCCOTH_STR = "arccoth";
-		internal const String ACTGH_STR = "actgh";
-		internal const String ARCCTGH_STR = "arcctgh";
-		internal const String ASECH_STR = "asech";
-		internal const String ARSECH_STR = "arsech";
-		internal const String ARCSECH_STR = "arcsech";
-		internal const String ACSCH_STR = "acsch";
-		internal const String ARCSCH_STR = "arcsch";
-		internal const String ARCCSCH_STR = "arccsch";
-		internal const String ACOSECH_STR = "acosech";
-		internal const String ARCOSECH_STR = "arcosech";
-		internal const String ARCCOSECH_STR = "arccosech";
-		internal const String SA_STR = "sinc";
-		internal const String SA1_STR = "Sa";
-		internal const String SINC_STR = "Sinc";
-		internal const String BELL_NUMBER_STR = "Bell";
-		internal const String LUCAS_NUMBER_STR = "Luc";
-		internal const String FIBONACCI_NUMBER_STR = "Fib";
-		internal const String HARMONIC_NUMBER_STR = "harm";
-		internal const String SIN_DESC = "trigonometric sine function";
-		internal const String COS_DESC = "trigonometric cosine function";
-		internal const String TAN_DESC = "trigonometric tangent function";
-		internal const String CTAN_DESC = "trigonometric cotangent function";
-		internal const String SEC_DESC = "trigonometric secant function";
-		internal const String COSEC_DESC = "trigonometric cosecant function";
-		internal const String ASIN_DESC = "inverse trigonometric sine function";
-		internal const String ACOS_DESC = "inverse trigonometric cosine function";
-		internal const String ATAN_DESC = "inverse trigonometric tangent function";
-		internal const String ACTAN_DESC = "inverse trigonometric cotangent function";
-		internal const String LN_DESC = "natural logarithm function (base e)";
-		internal const String LOG2_DESC = "binary logarithm function (base 2)";
-		internal const String LOG10_DESC = "common logarithm function (base 10)";
-		internal const String RAD_DESC = "degrees to radians function";
-		internal const String EXP_DESC = "exponential function";
-		internal const String SQRT_DESC = "squre root function";
-		internal const String SINH_DESC = "hyperbolic sine function";
-		internal const String COSH_DESC = "hyperbolic cosine function";
-		internal const String TANH_DESC = "hyperbolic tangent function";
-		internal const String COTH_DESC = "hyperbolic cotangent function";
-		internal const String SECH_DESC = "hyperbolic secant function";
-		internal const String CSCH_DESC = "hyperbolic cosecant function";
-		internal const String DEG_DESC = "radians to degrees function";
-		internal const String ABS_DESC = "absolut value function";
-		internal const String SGN_DESC = "signum function";
-		internal const String FLOOR_DESC = "floor function";
-		internal const String CEIL_DESC = "ceiling function";
-		internal const String NOT_DESC = "negation function";
-		internal const String ARSINH_DESC = "inverse hyperbolic sine function";
-		internal const String ARCOSH_DESC = "inverse hyperbolic cosine function";
-		internal const String ARTANH_DESC = "inverse hyperbolic tangent function";
-		internal const String ARCOTH_DESC = "inverse hyperbolic cotangent function";
-		internal const String ARSECH_DESC = "inverse hyperbolic secant function";
-		internal const String ARCSCH_DESC = "inverse hyperbolic cosecant function";
-		internal const String SA_DESC = "sinc function (normalized)";
-		internal const String SINC_DESC = "sinc function (unnormalized)";
-		internal const String BELL_NUMBER_DESC = "Bell number";
-		internal const String LUCAS_NUMBER_DESC = "Lucas number";
-		internal const String FIBONACCI_NUMBER_DESC = "Fionacci number";
-		internal const String HARMONIC_NUMBER_DESC = "Harmonic number";
+	internal sealed class Function1Arg {
+		internal const int TYPE_ID				= 4;
+		internal const int SIN_ID				= 1;
+		internal const int COS_ID				= 2;
+		internal const int TAN_ID				= 3;
+		internal const int CTAN_ID				= 4;
+		internal const int SEC_ID				= 5;
+		internal const int COSEC_ID				= 6;
+		internal const int ASIN_ID				= 7;
+		internal const int ACOS_ID				= 8;
+		internal const int ATAN_ID				= 9;
+		internal const int ACTAN_ID				= 10;
+		internal const int LN_ID				= 11;
+		internal const int LOG2_ID				= 12;
+		internal const int LOG10_ID				= 13;
+		internal const int RAD_ID				= 14;
+		internal const int EXP_ID				= 15;
+		internal const int SQRT_ID				= 16;
+		internal const int SINH_ID				= 17;
+		internal const int COSH_ID				= 18;
+		internal const int TANH_ID				= 19;
+		internal const int COTH_ID				= 20;
+		internal const int SECH_ID				= 21;
+		internal const int CSCH_ID				= 22;
+		internal const int DEG_ID				= 23;
+		internal const int ABS_ID				= 24;
+		internal const int SGN_ID				= 25;
+		internal const int FLOOR_ID				= 26;
+		internal const int CEIL_ID				= 27;
+		internal const int NOT_ID				= 29;
+		internal const int ARSINH_ID			= 30;
+		internal const int ARCOSH_ID			= 31;
+		internal const int ARTANH_ID			= 32;
+		internal const int ARCOTH_ID			= 33;
+		internal const int ARSECH_ID			= 34;
+		internal const int ARCSCH_ID			= 35;
+		internal const int SA_ID				= 36;
+		internal const int SINC_ID				= 37;
+		internal const int BELL_NUMBER_ID		= 38;
+		internal const int LUCAS_NUMBER_ID		= 39;
+		internal const int FIBONACCI_NUMBER_ID	= 40;
+		internal const int HARMONIC_NUMBER_ID	= 41;
+		internal const int IS_PRIME_ID			= 42;
+		internal const int PRIME_COUNT_ID		= 43;
+		internal const int EXP_INT_ID			= 44;
+		internal const int LOG_INT_ID			= 45;
+		internal const int OFF_LOG_INT_ID		= 46;
+
+		internal const String SIN_STR				= "sin";
+		internal const String COS_STR				= "cos";
+		internal const String TAN_STR				= "tan";
+		internal const String TG_STR				= "tg";
+		internal const String CTAN_STR				= "ctan";
+		internal const String CTG_STR				= "ctg";
+		internal const String COT_STR				= "cot";
+		internal const String SEC_STR				= "sec";
+		internal const String COSEC_STR				= "cosec";
+		internal const String CSC_STR				= "csc";
+		internal const String ASIN_STR				= "asin";
+		internal const String ARSIN_STR				= "arsin";
+		internal const String ARCSIN_STR			= "arcsin";
+		internal const String ACOS_STR				= "acos";
+		internal const String ARCOS_STR				= "arcos";
+		internal const String ARCCOS_STR			= "arccos";
+		internal const String ATAN_STR				= "atan";
+		internal const String ARCTAN_STR			= "arctan";
+		internal const String ATG_STR				= "atg";
+		internal const String ARCTG_STR				= "arctg";
+		internal const String ACTAN_STR				= "actan";
+		internal const String ARCCTAN_STR			= "arcctan";
+		internal const String ACTG_STR				= "actg";
+		internal const String ARCCTG_STR			= "arcctg";
+		internal const String ACOT_STR				= "acot";
+		internal const String ARCCOT_STR			= "arccot";
+		internal const String LN_STR				= "ln";
+		internal const String LOG2_STR				= "log2";
+		internal const String LOG10_STR				= "log10";
+		internal const String RAD_STR				= "rad";
+		internal const String EXP_STR				= "exp";
+		internal const String SQRT_STR				= "sqrt";
+		internal const String SINH_STR				= "sinh";
+		internal const String COSH_STR				= "cosh";
+		internal const String TANH_STR				= "tanh";
+		internal const String TGH_STR				= "tgh";
+		internal const String CTANH_STR				= "ctanh";
+		internal const String COTH_STR				= "coth";
+		internal const String CTGH_STR				= "ctgh";
+		internal const String SECH_STR				= "sech";
+		internal const String CSCH_STR				= "csch";
+		internal const String COSECH_STR			= "cosech";
+		internal const String DEG_STR				= "deg";
+		internal const String ABS_STR				= "abs";
+		internal const String SGN_STR				= "sgn";
+		internal const String FLOOR_STR				= "floor";
+		internal const String CEIL_STR				= "ceil";
+		internal const String NOT_STR				= "not";
+		internal const String ASINH_STR				= "asinh";
+		internal const String ARSINH_STR			= "arsinh";
+		internal const String ARCSINH_STR			= "arcsinh";
+		internal const String ACOSH_STR				= "acosh";
+		internal const String ARCOSH_STR			= "arcosh";
+		internal const String ARCCOSH_STR			= "arccosh";
+		internal const String ATANH_STR				= "atanh";
+		internal const String ARCTANH_STR			= "arctanh";
+		internal const String ATGH_STR				= "atgh";
+		internal const String ARCTGH_STR			= "arctgh";
+		internal const String ACTANH_STR			= "actanh";
+		internal const String ARCCTANH_STR			= "arcctanh";
+		internal const String ACOTH_STR				= "acoth";
+		internal const String ARCOTH_STR			= "arcoth";
+		internal const String ARCCOTH_STR			= "arccoth";
+		internal const String ACTGH_STR				= "actgh";
+		internal const String ARCCTGH_STR			= "arcctgh";
+		internal const String ASECH_STR				= "asech";
+		internal const String ARSECH_STR			= "arsech";
+		internal const String ARCSECH_STR			= "arcsech";
+		internal const String ACSCH_STR				= "acsch";
+		internal const String ARCSCH_STR			= "arcsch";
+		internal const String ARCCSCH_STR			= "arccsch";
+		internal const String ACOSECH_STR			= "acosech";
+		internal const String ARCOSECH_STR			= "arcosech";
+		internal const String ARCCOSECH_STR			= "arccosech";
+		internal const String SA_STR				= "sinc";
+		internal const String SA1_STR				= "Sa";
+		internal const String SINC_STR				= "Sinc";
+		internal const String BELL_NUMBER_STR		= "Bell";
+		internal const String LUCAS_NUMBER_STR		= "Luc";
+		internal const String FIBONACCI_NUMBER_STR	= "Fib";
+		internal const String HARMONIC_NUMBER_STR	= "harm";
+		internal const String IS_PRIME_STR			= "ispr";
+		internal const String PRIME_COUNT_STR		= "Pi";
+		internal const String EXP_INT_STR			= "Ei";
+		internal const String LOG_INT_STR			= "li";
+		internal const String OFF_LOG_INT_STR		= "Li";
+
+		internal const String SIN_DESC					= "trigonometric sine function";
+		internal const String COS_DESC					= "trigonometric cosine function";
+		internal const String TAN_DESC					= "trigonometric tangent function";
+		internal const String CTAN_DESC					= "trigonometric cotangent function";
+		internal const String SEC_DESC					= "trigonometric secant function";
+		internal const String COSEC_DESC				= "trigonometric cosecant function";
+		internal const String ASIN_DESC					= "inverse trigonometric sine function";
+		internal const String ACOS_DESC					= "inverse trigonometric cosine function";
+		internal const String ATAN_DESC					= "inverse trigonometric tangent function";
+		internal const String ACTAN_DESC				= "inverse trigonometric cotangent function";
+		internal const String LN_DESC					= "natural logarithm function (base e)";
+		internal const String LOG2_DESC					= "binary logarithm function (base 2)";
+		internal const String LOG10_DESC				= "common logarithm function (base 10)";
+		internal const String RAD_DESC					= "degrees to radians function";
+		internal const String EXP_DESC					= "exponential function";
+		internal const String SQRT_DESC					= "squre root function";
+		internal const String SINH_DESC					= "hyperbolic sine function";
+		internal const String COSH_DESC					= "hyperbolic cosine function";
+		internal const String TANH_DESC					= "hyperbolic tangent function";
+		internal const String COTH_DESC					= "hyperbolic cotangent function";
+		internal const String SECH_DESC					= "hyperbolic secant function";
+		internal const String CSCH_DESC					= "hyperbolic cosecant function";
+		internal const String DEG_DESC					= "radians to degrees function";
+		internal const String ABS_DESC					= "absolut value function";
+		internal const String SGN_DESC					= "signum function";
+		internal const String FLOOR_DESC				= "floor function";
+		internal const String CEIL_DESC					= "ceiling function";
+		internal const String NOT_DESC					= "negation function";
+		internal const String ARSINH_DESC				= "inverse hyperbolic sine function";
+		internal const String ARCOSH_DESC				= "inverse hyperbolic cosine function";
+		internal const String ARTANH_DESC				= "inverse hyperbolic tangent function";
+		internal const String ARCOTH_DESC				= "inverse hyperbolic cotangent function";
+		internal const String ARSECH_DESC				= "inverse hyperbolic secant function";
+		internal const String ARCSCH_DESC				= "inverse hyperbolic cosecant function";
+		internal const String SA_DESC					= "sinc function (normalized)";
+		internal const String SINC_DESC					= "sinc function (unnormalized)";
+		internal const String BELL_NUMBER_DESC			= "Bell number";
+		internal const String LUCAS_NUMBER_DESC			= "Lucas number";
+		internal const String FIBONACCI_NUMBER_DESC		= "Fionacci number";
+		internal const String HARMONIC_NUMBER_DESC		= "Harmonic number";
+		internal const String IS_PRIME_DESC				= "Prime number test (is number a prime?)";
+		internal const String PRIME_COUNT_DESC			= "Prime-counting function - Pi(x)";
+		internal const String EXP_INT_DESC				= "Exponential integral function - Ei(x)";
+		internal const String LOG_INT_DESC				= "Logarithmic integral function - li(x)";
+		internal const String OFF_LOG_INT_DESC			= "Offset logarithmic integral function - Li(x)";
 	}
 	/**
 	 * Function2Arg
@@ -992,8 +1042,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class Function2Arg
-	{
+	internal sealed class Function2Arg {
 		internal const int TYPE_ID = 5;
 		internal const int LOG_ID = 1;
 		internal const int MOD_ID = 2;
@@ -1035,8 +1084,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class Function3Arg
-	{
+	internal sealed class Function3Arg {
 		internal const int TYPE_ID = 6;
 		internal const int IF_CONDITION_ID = 1;
 		internal const int IF_ID = 2;
@@ -1055,16 +1103,14 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String CHI_Ab_DESC = "Characteristic function for x in [a;b) - Chi(x; a; b)";
 		internal const String CHI_aB_DESC = "Characteristic function for x in (a;b] - cHi(x; a; b)";
 	}
-	internal sealed class SpecialFunction
-	{
+	internal sealed class SpecialFunction {
 		internal const int TYPE_ID = 7;
 		internal const int IFF_ID = 1;
 		internal const int MIN_ID = 2;
 		internal const int MAX_ID = 3;
 		internal const int CONT_FRAC_ID = 4;
 		internal const int CONT_POL_ID = 5;
-		internal const int GCD_ID
-			= 6;
+		internal const int GCD_ID = 6;
 		internal const int LCM_ID = 7;
 		internal const String IFF_STR = "iff";
 		internal const String MIN_STR = "min";
@@ -1087,8 +1133,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class Calculus
-	{
+	internal sealed class Calculus {
 		internal const int TYPE_ID = 8;
 		internal const int SUM_ID = 1;
 		internal const int PROD_ID = 3;
@@ -1124,8 +1169,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Identifiers and strings (words) definition.
 	 * Used mailny by the addParserKeywords()
 	 */
-	internal sealed class Const
-	{
+	internal sealed class Const {
 		internal const int TYPE_ID = 10;
 		internal const int PI_ID = 1;
 		internal const int EULER_ID = 2;
@@ -1168,7 +1212,10 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const int PARABOLIC_ID = 39;
 		internal const int OMEGA_ID = 40;
 		internal const int MRB_ID = 41;
+		internal const int LI2_ID = 42;
+		internal const int GOMPERTZ_ID = 43;
 		internal const int NaN = -1;
+
 		internal const String PI_STR = "pi";
 		internal const String EULER_STR = "e";
 		internal const String EULER_MASCHERONI_STR = "[g]";
@@ -1210,6 +1257,9 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String PARABOLIC_STR = "[P2]";
 		internal const String OMEGA_STR = "[O]";
 		internal const String MRB_STR = "[M]";
+		internal const String LI2_STR = "[li2]";
+		internal const String GOMPERTZ_STR = "[G]";
+
 		internal const String PI_DESC = "Pi, Archimedes' constant or Ludolph's number";
 		internal const String EULER_DESC = "Napier's constant, or Euler's number, base of Natural logarithm";
 		internal const String EULER_MASCHERONI_DESC = "Euler-Mascheroni constant";
@@ -1251,6 +1301,8 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String PARABOLIC_DESC = "Parabolic constant";
 		internal const String OMEGA_DESC = "Omega constant";
 		internal const String MRB_DESC = "MRB constant";
+		internal const String LI2_DESC = "li(2) - logarithmic integral function at x=2";
+		internal const String GOMPERTZ_DESC = "Gompertz constant";
 	}
 	/*
 	 * Package level class to be used

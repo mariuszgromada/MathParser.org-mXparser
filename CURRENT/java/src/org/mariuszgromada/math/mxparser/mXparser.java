@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        2.2.1    2016-01-12
+ * @(#)mXparser.java        2.3.0    2016-01-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -49,6 +49,7 @@ package org.mariuszgromada.math.mxparser;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.regex.Pattern;
+import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
 /**
  * mXparser class provides usefull methods when parsing, calculating or
  * parameters transforming.
@@ -59,11 +60,11 @@ import java.util.regex.Pattern;
  *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
  *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
  *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
- *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
- *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
+ *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.2.0
+ * @version        2.3.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -74,7 +75,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "2.2.0";
+	static final String VERSION = "2.3.0";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -92,9 +93,56 @@ public final class mXparser {
 	private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 	private static int CONSOLE_ROW_NUMBER = 1;
 	/**
+	 * Prime numbers cache
+	 */
+	public static PrimesCache primesCache;
+	public static final int PRIMES_CACHE_NOT_INITIALIZED = -1;
+	/**
 	 * Threads number settings
 	 */
-	private static int THREADS_NUMBER = 1;
+	private static int THREADS_NUMBER = Runtime.getRuntime().availableProcessors();
+	/**
+	 * Initialization of prime numbers cache.
+	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
+	 * @see PrimesCache
+	 */
+	public static final void initPrimesCache() {
+		primesCache = new PrimesCache();
+	}
+	/**
+	 * Initialization of prime numbers cache.
+	 * @param mximumNumberInCache The maximum integer number that
+	 *                            will be stored in cache.
+	 * @see PrimesCache
+	 */
+	public static final void initPrimesCache(int mximumNumberInCache) {
+		primesCache = new PrimesCache(mximumNumberInCache);
+	}
+	/**
+	 * Initialization of prime numbers cache.
+	 * @param primesCache The primes cache object
+	 * @see PrimesCache
+	 */
+	public static final void initPrimesCache(PrimesCache primesCache) {
+		mXparser.primesCache = primesCache;
+	}
+	/**
+	 * Sets {@value mXparser#primesCache} to null
+	 */
+	public static void setNoPrimesCache() {
+		primesCache = null;
+	}
+	/**
+	 * Returns maximum integer number in primes cache
+	 * @return If primes cache was initialized then maximum number in
+	 * primes cache, otherwise {@link mXparser#PRIMES_CACHE_NOT_INITIALIZED}
+	 */
+	public static final int getMaxNumInPrimesCache() {
+		if ( primesCache != null )
+			return primesCache.getMaxNumInCache();
+		else
+			return PRIMES_CACHE_NOT_INITIALIZED;
+	}
 	/**
 	 * Gets maximum threads number
 	 */
@@ -102,7 +150,13 @@ public final class mXparser {
 		return THREADS_NUMBER;
 	}
 	/**
-	 * Sets maximum threads number
+	 * Sets default threads number
+	 */
+	public static final void setDefaultThreadsNumber() {
+		THREADS_NUMBER = Runtime.getRuntime().availableProcessors();
+	}
+	/**
+	 * Sets threads number
 	 */
 	public static final void setThreadsNumber(int threadsNumber) {
 		if (threadsNumber > 0) THREADS_NUMBER = threadsNumber;
@@ -331,7 +385,7 @@ public final class mXparser {
 		"\n" +
 		"You may use this software under the condition of Simplified BSD License:\n" +
 		"\n" +
-		"Copyright 2010-2015 MARIUSZ GROMADA. All rights reserved.\n" +
+		"Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.\n" +
 		"\n" +
 		"Redistribution and use in source and binary forms, with or without modification, are\n" +
 		"permitted provided that the following conditions are met:\n" +
@@ -844,7 +898,12 @@ interface Function1Arg {
 		BELL_NUMBER_ID		= 38,
 		LUCAS_NUMBER_ID		= 39,
 		FIBONACCI_NUMBER_ID	= 40,
-		HARMONIC_NUMBER_ID	= 41
+		HARMONIC_NUMBER_ID	= 41,
+		IS_PRIME_ID			= 42,
+		PRIME_COUNT_ID		= 43,
+		EXP_INT_ID			= 44,
+		LOG_INT_ID			= 45,
+		OFF_LOG_INT_ID		= 46
 	;
 	String
 		SIN_STR 			= "sin",
@@ -928,6 +987,11 @@ interface Function1Arg {
 		LUCAS_NUMBER_STR	= "Luc",
 		FIBONACCI_NUMBER_STR= "Fib",
 		HARMONIC_NUMBER_STR	= "harm",
+		IS_PRIME_STR		= "ispr",
+		PRIME_COUNT_STR		= "Pi",
+		EXP_INT_STR			= "Ei",
+		LOG_INT_STR			= "li",
+		OFF_LOG_INT_STR		= "Li",
 		SIN_DESC 			= "trigonometric sine function",
 		COS_DESC 			= "trigonometric cosine function",
 		TAN_DESC			= "trigonometric tangent function",
@@ -966,8 +1030,13 @@ interface Function1Arg {
 		SINC_DESC			= "sinc function (unnormalized)",
 		BELL_NUMBER_DESC	= "Bell number",
 		LUCAS_NUMBER_DESC	= "Lucas number",
-		FIBONACCI_NUMBER_DESC= "Fionacci number",
-		HARMONIC_NUMBER_DESC	= "Harmonic number"
+		FIBONACCI_NUMBER_DESC	= "Fionacci number",
+		HARMONIC_NUMBER_DESC	= "Harmonic number",
+		IS_PRIME_DESC		= "Prime number test (is number a prime?)",
+		PRIME_COUNT_DESC	= "Prime-counting function - Pi(x)",
+		EXP_INT_DESC		= "Exponential integral function - Ei(x)",
+		LOG_INT_DESC		= "Logarithmic integral function - li(x)",
+		OFF_LOG_INT_DESC	= "Offset logarithmic integral function - Li(x)"
 	;
 }
 /**
@@ -1163,6 +1232,8 @@ interface Const {
 		PARABOLIC_ID				= 39,
 		OMEGA_ID					= 40,
 		MRB_ID						= 41,
+		LI2_ID						= 42,
+		GOMPERTZ_ID					= 43,
 		NaN							= -1
 	;
 	String
@@ -1207,6 +1278,8 @@ interface Const {
 		PARABOLIC_STR				= "[P2]",
 		OMEGA_STR					= "[O]",
 		MRB_STR						= "[M]",
+		LI2_STR						= "[li2]",
+		GOMPERTZ_STR				= "[G]",
 		PI_DESC 					= "Pi, Archimedes' constant or Ludolph's number",
 		EULER_DESC 					= "Napier's constant, or Euler's number, base of Natural logarithm",
 		EULER_MASCHERONI_DESC		= "Euler-Mascheroni constant",
@@ -1247,7 +1320,9 @@ interface Const {
 		LANDAU_DESC					= "Landau's constant",
 		PARABOLIC_DESC				= "Parabolic constant",
 		OMEGA_DESC					= "Omega constant",
-		MRB_DESC					= "MRB constant"
+		MRB_DESC					= "MRB constant",
+		LI2_DESC					= "li(2) - logarithmic integral function at x=2",
+		GOMPERTZ_DESC				= "Gompertz constant"
 		;
 }
 /*

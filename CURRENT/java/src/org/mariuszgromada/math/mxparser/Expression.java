@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        2.1.1-1    2016-01-07
+ * @(#)Expression.java        2.3.0    2016-01-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,11 +78,11 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
  *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
  *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
- *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
- *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+ *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
+ *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.1.1-1
+ * @version        2.3.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -1746,6 +1746,12 @@ public class Expression {
 		case Const.MRB_ID:
 			constValue = MathConstants.MRB;
 			break;
+		case Const.LI2_ID:
+			constValue = MathConstants.LI2;
+			break;
+		case Const.GOMPERTZ_ID:
+			constValue = MathConstants.GOMPERTZ;
+			break;
 		}
 		setToNumber(pos, constValue);
 	}
@@ -2396,6 +2402,51 @@ public class Expression {
 	private void HARMONIC_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, MathFunctions.harmonicNumber(n) );
+	}
+	/**
+	 * Prime test
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void IS_PRIME(int pos) {
+		double n = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, MathFunctions.primeTest(n) );
+	}
+	/**
+	 * Prime counting
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void PRIME_COUNT(int pos) {
+		double n = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, MathFunctions.primeCount(n) );
+	}
+	/**
+	 * Exponential integral function
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void EXP_INT(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, MathFunctions.exponentialIntegralEi(x) );
+	}
+	/**
+	 * Logarithmic exponential integral function
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void LOG_INT(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, MathFunctions.logarithmicIntegralLi(x) );
+	}
+	/**
+	 * Offset logarithmic exponential integral function
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void OFF_LOG_INT(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, MathFunctions.offsetLogarithmicIntegralLi(x) );
 	}
 	/**
 	 * Factorilal function
@@ -4017,6 +4068,16 @@ public class Expression {
 					break;
 				case Function1Arg.HARMONIC_NUMBER_ID: HARMONIC_NUMBER(f1ArgPos);
 					break;
+				case Function1Arg.IS_PRIME_ID: IS_PRIME(f1ArgPos);
+					break;
+				case Function1Arg.PRIME_COUNT_ID: PRIME_COUNT(f1ArgPos);
+					break;
+				case Function1Arg.EXP_INT_ID: EXP_INT(f1ArgPos);
+					break;
+				case Function1Arg.LOG_INT_ID: LOG_INT(f1ArgPos);
+					break;
+				case Function1Arg.OFF_LOG_INT_ID: OFF_LOG_INT(f1ArgPos);
+					break;
 				}
 			} else
 			/* ... user functions  ... */
@@ -4111,6 +4172,8 @@ public class Expression {
 			} else
 			if ( (lParPos >= 0) && (rParPos > lParPos) ) {
 				PARENTHESES(lParPos,rParPos);
+			} else if (tokensList.size() > 1) {
+				this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Fatal error - not know what to do with tokens while calculate().";
 			}
 			if (verboseMode == true) {
 				showParsing(0,tokensList.size()-1);
@@ -4264,6 +4327,11 @@ public class Expression {
 		addKeyWord(Function1Arg.FIBONACCI_NUMBER_STR, Function1Arg.FIBONACCI_NUMBER_DESC, Function1Arg.FIBONACCI_NUMBER_ID, Function1Arg.TYPE_ID);
 		addKeyWord(Function1Arg.LUCAS_NUMBER_STR, Function1Arg.LUCAS_NUMBER_DESC, Function1Arg.LUCAS_NUMBER_ID, Function1Arg.TYPE_ID);
 		addKeyWord(Function1Arg.HARMONIC_NUMBER_STR, Function1Arg.HARMONIC_NUMBER_DESC, Function1Arg.HARMONIC_NUMBER_ID, Function1Arg.TYPE_ID);
+		addKeyWord(Function1Arg.IS_PRIME_STR, Function1Arg.IS_PRIME_DESC, Function1Arg.IS_PRIME_ID, Function1Arg.TYPE_ID);
+		addKeyWord(Function1Arg.PRIME_COUNT_STR, Function1Arg.PRIME_COUNT_DESC, Function1Arg.PRIME_COUNT_ID, Function1Arg.TYPE_ID);
+		addKeyWord(Function1Arg.EXP_INT_STR, Function1Arg.EXP_INT_DESC, Function1Arg.EXP_INT_ID, Function1Arg.TYPE_ID);
+		addKeyWord(Function1Arg.LOG_INT_STR, Function1Arg.LOG_INT_DESC, Function1Arg.LOG_INT_ID, Function1Arg.TYPE_ID);
+		addKeyWord(Function1Arg.OFF_LOG_INT_STR, Function1Arg.OFF_LOG_INT_DESC, Function1Arg.OFF_LOG_INT_ID, Function1Arg.TYPE_ID);
 		/*
 		 * 2 args functions key words
 		 */
@@ -4352,6 +4420,8 @@ public class Expression {
 		addKeyWord(Const.PARABOLIC_STR, Const.PARABOLIC_DESC, Const.PARABOLIC_ID, Const.TYPE_ID);
 		addKeyWord(Const.OMEGA_STR, Const.OMEGA_DESC, Const.OMEGA_ID, Const.TYPE_ID);
 		addKeyWord(Const.MRB_STR, Const.MRB_DESC, Const.MRB_ID, Const.TYPE_ID);
+		addKeyWord(Const.LI2_STR, Const.LI2_DESC, Const.LI2_ID, Const.TYPE_ID);
+		addKeyWord(Const.GOMPERTZ_STR, Const.GOMPERTZ_DESC, Const.GOMPERTZ_ID, Const.TYPE_ID);
 		/*
 		 * Other parser symbols key words
 		 */

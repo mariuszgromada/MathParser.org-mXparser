@@ -1,6 +1,5 @@
 package org.mariuszgromada.math.mxparser.workingtests;
-
-public class GenerTests {
+public class WorkingTests {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -391,11 +390,80 @@ public class GenerTests {
 		//mXparser.resetConsoleOutput();
 		//System.out.println("aaaaaaaaaaaaaaaaaaaa");
 		//System.out.println(mXparser.getConsoleOutput());
+		/*
+			abs( Ei(-1)  / (0.219383934395520274 * 10^0 ) )
+			abs( Ei(-4)  / (0.377935240984890648 * 10^-2 ) )
+			abs( Ei(-8)  / (0.376656228439249018 * 10^-4 ) )
+			abs( Ei(-11) / (0.140030030424744178 * 10^-5 ) )
+			abs( Ei(-16) / (0.664048724944104278 * 10^-8 ) )
+			abs( Ei(-21) / (0.345320126714675627 * 10^-10 ) )
+			abs( Ei(-26) / (0.189468588567497824 * 10^-12 ) )
+			abs( Ei(-31) / (0.107676703861623826 * 10^-14 ) )
+			abs( Ei(-36) / (0.627333900976224159 * 10^-17 ) )
+			abs( Ei(-41) / (0.372316677645997772 * 10^-19 ) )
+			abs( Ei(-46) / (0.224153175974429975 * 10^-21 ) )
+			abs( Ei(-50) / (0.378326402955045902 * 10^-23 ) )
 
-		boolean[] prime = new boolean[10000000];
-		for (int i=0; i<10000000; i++)
-			prime[i]=true;
-
+			abs( Ei(1)  / (0.189511781635593676 * 10^1 ) )
+			abs( Ei(4)  / (0.196308744700562200 * 10^2 ) )
+			abs( Ei(6)  / (0.859897621424392048 * 10^2 ) )
+			abs( Ei(8)  / (0.440379899534838269 * 10^3 ) )
+			abs( Ei(11) / (0.607140637409861151 * 10^4 ) )
+			abs( Ei(16) / (0.595560998670837002 * 10^6 ) )
+			abs( Ei(21) / (0.661271863554849213 * 10^8 ) )
+			abs( Ei(26) / (0.784294099189818637 * 10^10 ) )
+			abs( Ei(31) / (0.969455575968393966 * 10^12 ) )
+			abs( Ei(36) / (0.123285207991209769 * 10^15 ) )
+			abs( Ei(41) / (0.160066491432450411 * 10^17 ) )
+			abs( Ei(46) / (0.211134238864782419 * 10^19 ) )
+			abs( Ei(50) / (0.105856368971316910 * 10^21 ) )
+		*/
+		//int primes = 0;
+		//for (int i = 0; i < 10000000; i++)
+		//	if ( NumberTheory.primeTest(i) == true) primes++;
+		//mXparser.initPrimesCache(2);
+		/*
+		Expression e = new Expression(
+			"abs( Ei(-1)  / (0.219383934395520274 * 10^0 ) ) + " +
+			"abs( Ei(-4)  / (0.377935240984890648 * 10^-2 ) ) + " +
+			"abs( Ei(-6)  / (0.360082452162658659 * 10^-3 ) ) + " +
+			"abs( Ei(-8)  / (0.376656228439249018 * 10^-4 ) ) + " +
+			"abs( Ei(-11) / (0.140030030424744178 * 10^-5 ) ) + " +
+			"abs( Ei(-16) / (0.664048724944104278 * 10^-8 ) ) + " +
+			"abs( Ei(-21) / (0.345320126714675627 * 10^-10 ) ) + " +
+			"abs( Ei(-26) / (0.189468588567497824 * 10^-12 ) ) + " +
+			"abs( Ei(-31) / (0.107676703861623826 * 10^-14 ) ) + " +
+			"abs( Ei(-36) / (0.627333900976224159 * 10^-17 ) ) + " +
+			"abs( Ei(-41) / (0.372316677645997772 * 10^-19 ) ) + " +
+			"abs( Ei(-46) / (0.224153175974429975 * 10^-21 ) ) + " +
+			"abs( Ei(-50) / (0.378326402955045902 * 10^-23 ) ) + " +
+			"abs( Ei(1)  / (0.189511781635593676 * 10^1 ) ) + " +
+			"abs( Ei(4)  / (0.196308744700562200 * 10^2 ) ) + " +
+			"abs( Ei(6)  / (0.859897621424392048 * 10^2 ) ) + " +
+			"abs( Ei(8)  / (0.440379899534838269 * 10^3 ) ) + " +
+			"abs( Ei(11) / (0.607140637409861151 * 10^4 ) ) + " +
+			"abs( Ei(16) / (0.595560998670837002 * 10^6 ) ) + " +
+			"abs( Ei(21) / (0.661271863554849213 * 10^8 ) ) + " +
+			"abs( Ei(26) / (0.784294099189818637 * 10^10 ) ) + " +
+			"abs( Ei(31) / (0.969455575968393966 * 10^12 ) ) + " +
+			"abs( Ei(36) / (0.123285207991209769 * 10^15 ) ) + " +
+			"abs( Ei(41) / (0.160066491432450411 * 10^17 ) ) + " +
+			"abs( Ei(46) / (0.211134238864782419 * 10^19 ) ) + " +
+			"abs( Ei(50) / (0.105856368971316910 * 10^21 ) ) - 26"
+			);
+			*/
+		//for (Argument x = new Argument("x = -51"); x.getArgumentValue() <= 51; x.setArgumentValue(x.getArgumentValue()+0.1) ) {
+		//	Expression e = new Expression("Ei(x)", x);
+		//	System.out.println(x.getArgumentValue() + ";" + e.calculate());
+		//}
+		//Argument x = new Argument("x = 100000000");
+		//Expression e = new Expression("( ( x / ln(x) ) * sum(k, 0, 20, k! / ln(x)^k ) ) / li(x)", x);
+		//mXparser.consolePrintln(e.calculate() + " " + e.getComputingTime() + " s. " + e.getErrorMessage());
+		//mXparser.consolePrintln(MathFunctions.primeCount(10000000));
+		//Constant n = new Constant("n = 110000000");
+		//Constant Pi = new Constant("a = Pi(n)", n);
+		//Constant Li = new Constant("b = Li(n)", n);
+		//Expression e = new Expression("abs(a-b)/a", Pi, Li);
+		//mXparser.consolePrintln(e.calculate() + " " + e.getComputingTime() + " s. ");
 	}
-
 }

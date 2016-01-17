@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.cs        2.1.1-1    2016-01-07
+ * @(#)MathConstants.cs        2.3.0    2016-01-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -56,11 +56,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
 	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
 	 *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge/</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket/</a><br>
-	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex/</a><br>
+	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
+	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.1.1-1
+	 * @version        2.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathConstants {
@@ -228,5 +228,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * MRB constant
 		 */
 		public const double MRB = 0.187859;
+		/**
+		 * A069284 - Logarithmic integral function li(2)
+		 */
+		public const double LI2 = 1.045163780117492784844588889194613136522615578151;
+		/**
+		 * Gompertz Constant OEIS A073003
+		 */
+		public const double GOMPERTZ = 0.596347362323194074341078499369279376074;
+
 	}
 }

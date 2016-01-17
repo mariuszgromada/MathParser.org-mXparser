@@ -75,6 +75,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\MathFunctions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\NumberTheory.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\NumericalAnalysis.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mXparser.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs" />
