@@ -1,5 +1,33 @@
             mXparser - Math Parser Java Android C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
+		 
+v.2.3.0 (2016-01-17): Prime numbers supported! Multithreading performance tests!
+                      New functions: Exponential/Offset/Logarithmic integral!
+					  
+    * Prime numbers supported:
+        - new class PrimesCache in mathcollection
+		- MathFunctions extended with prime testes
+		- ispr(n) - Prime test function supported in expressions
+		- Pi(n) - Prime Counting function supported in expressions
+		- mXparser.initPrimesCache() methods (and others) to initialize prime numbers cache
+		
+    * Some special functions supported
+        - Ei(x) - Exponential integral function supported in expressions
+        - li(x) - Logarithmic integral function supported in expressions
+        - Li(x) - Offset logarithmic integral function supported in expressions
+		
+    * New constants
+        - [G] - Gompertz Constant OEIS A073003 supported in expressions
+		- [li2] - li(2) A069284 - supported in expressions
+
+	* Multithreading performance tests
+	    - Default number of cores taken from the environment
+		- Possibility to change number of default threads:
+		    - PerformanceTests.start(int threadsNum)
+            - mXparser.setThreadsNumber(int threadsNumber) 
+			
+	* New regression tests to cover new functionalities
+
 
 v.2.2.0 (2016-01-10): Android is coming!
     * mXparser_jdk1.7.jar - tested with Android !!!
@@ -204,6 +232,9 @@ java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest
 java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest perf
 java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest reg api syn perf
 
+Setting number of threads in performance tests:
+java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests 4
+
 C# (using PowerShell):
 [Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
 [org.mariuszgromada.math.mxparser.Tutorial]::Start()
@@ -211,3 +242,6 @@ C# (using PowerShell):
 [org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("api")
 [org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("syn")
 [org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("perf")
+
+Setting number of threads in performance tests:
+[org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests]::Start(4)
