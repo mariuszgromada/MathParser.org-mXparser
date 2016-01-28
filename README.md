@@ -1,5 +1,5 @@
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-java-csharp.jpg)
-# mXparser - a super easy, rich and highly flexible mathematical expressions parser (Math Parser) library for JAVA, Android and C# .NET.
+# mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android and C# .NET.
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
 # Supported frameworks
