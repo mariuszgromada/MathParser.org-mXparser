@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        2.3.0    2016-01-15
+ * @(#)Expression.cs        2.3.1    2016-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -79,7 +79,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
 	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.3.0
+	 * @version        2.3.1
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -219,6 +219,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see checkSyntax()
 		 */
 		private bool recursionCallPending;
+		/**
+		 * Internal indicator for tokenization process
+		 * if true, then keywords such as constants
+		 * functions etc.. will not be recognized
+		 * during tokenization
+		 */
+		private bool parserKeyWordsOnly;
 		/*=================================================
 		 *
 		 * Related expressions handling
@@ -312,6 +319,7 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = "";
 			computingTime = 0;
 			recursionCallPending = false;
+			parserKeyWordsOnly = false;
 		}
 		/**
 		 * Common elements while expression initializing
@@ -368,6 +376,18 @@ namespace org.mariuszgromada.math.mxparser {
 			addDefinitions(elements);
 		}
 		/**
+		 * Constructor - creates new expression from expression string.
+		 * @param expressionString    definition of the expression
+		 * @param parserKeyWordsOnly  if true then all keywords such as functions,
+		 *                            constants, arguments will not be recognized.
+		 */
+		internal Expression(String expressionString, bool parserKeyWordsOnly) {
+			expressionInit();
+			this.expressionString = String.Copy(expressionString);
+			setExpressionModifiedFlag();
+			this.parserKeyWordsOnly = parserKeyWordsOnly;
+		}
+		/**
 		 * Package level constructor - creates new expression from subexpression
 		 * (sublist of the tokens list), arguments list, functions list and
 		 * constants list (used by the internal calculus operations, etc...).
@@ -393,6 +413,7 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = "";
 			computingTime = 0;
 			recursionCallPending = false;
+			parserKeyWordsOnly = false;
 			setSilentMode();
 			disableRecursiveMode();
 		}
@@ -447,6 +468,7 @@ namespace org.mariuszgromada.math.mxparser {
 			syntaxStatus = expression.syntaxStatus;
 			errorMessage = String.Copy(expression.errorMessage);
 			recursionCallPending = expression.recursionCallPending;
+			parserKeyWordsOnly = expression.parserKeyWordsOnly;
 		}
 		/**
 		 * Sets (modifies expression) expression string.
@@ -4237,185 +4259,187 @@ namespace org.mariuszgromada.math.mxparser {
 			addKeyWord(BinaryRelation.GT_STR, BinaryRelation.GT_DESC, BinaryRelation.GT_ID, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.LEQ_STR, BinaryRelation.LEQ_DESC, BinaryRelation.LEQ_ID, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.GEQ_STR, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.TYPE_ID);
-			/*
-			 * 1 arg functions key words
-			 */
-			addKeyWord(Function1Arg.SIN_STR, Function1Arg.SIN_DESC, Function1Arg.SIN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.COS_STR, Function1Arg.COS_DESC, Function1Arg.COS_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.TAN_STR, Function1Arg.TAN_DESC, Function1Arg.TAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.TG_STR, Function1Arg.TAN_DESC, Function1Arg.TAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CTAN_STR, Function1Arg.CTAN_DESC, Function1Arg.CTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CTG_STR, Function1Arg.CTAN_DESC, Function1Arg.CTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.COT_STR, Function1Arg.CTAN_DESC, Function1Arg.CTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SEC_STR, Function1Arg.SEC_DESC, Function1Arg.SEC_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.COSEC_STR, Function1Arg.COSEC_DESC, Function1Arg.COSEC_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CSC_STR, Function1Arg.COSEC_DESC, Function1Arg.COSEC_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ASIN_STR, Function1Arg.ASIN_DESC, Function1Arg.ASIN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARSIN_STR, Function1Arg.ASIN_DESC, Function1Arg.ASIN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCSIN_STR, Function1Arg.ASIN_DESC, Function1Arg.ASIN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACOS_STR, Function1Arg.ACOS_DESC, Function1Arg.ACOS_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCOS_STR, Function1Arg.ACOS_DESC, Function1Arg.ACOS_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCOS_STR, Function1Arg.ACOS_DESC, Function1Arg.ACOS_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ATAN_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCTAN_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ATG_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCTG_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACTAN_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCTAN_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACTG_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCTG_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACOT_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCOT_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.LN_STR, Function1Arg.LN_DESC, Function1Arg.LN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.LOG2_STR, Function1Arg.LOG2_DESC, Function1Arg.LOG2_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.LOG10_STR, Function1Arg.LOG10_DESC, Function1Arg.LOG10_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.RAD_STR, Function1Arg.RAD_DESC, Function1Arg.RAD_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.EXP_STR, Function1Arg.EXP_DESC, Function1Arg.EXP_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SQRT_STR, Function1Arg.SQRT_DESC, Function1Arg.SQRT_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SINH_STR, Function1Arg.SINH_DESC, Function1Arg.SINH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.COSH_STR, Function1Arg.COSH_DESC, Function1Arg.COSH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.TANH_STR, Function1Arg.TANH_DESC, Function1Arg.TANH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.TGH_STR, Function1Arg.TANH_DESC, Function1Arg.TANH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CTANH_STR, Function1Arg.COTH_DESC, Function1Arg.COTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.COTH_STR, Function1Arg.COTH_DESC, Function1Arg.COTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CTGH_STR, Function1Arg.COTH_DESC, Function1Arg.COTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SECH_STR, Function1Arg.SECH_DESC, Function1Arg.SECH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CSCH_STR, Function1Arg.CSCH_DESC, Function1Arg.CSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.COSECH_STR, Function1Arg.CSCH_DESC, Function1Arg.CSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.DEG_STR, Function1Arg.DEG_DESC, Function1Arg.DEG_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ABS_STR, Function1Arg.ABS_DESC, Function1Arg.ABS_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SGN_STR, Function1Arg.SGN_DESC, Function1Arg.SGN_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.FLOOR_STR, Function1Arg.FLOOR_DESC, Function1Arg.FLOOR_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.CEIL_STR, Function1Arg.CEIL_DESC, Function1Arg.CEIL_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.NOT_STR, Function1Arg.NOT_DESC, Function1Arg.NOT_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ASINH_STR, Function1Arg.ARSINH_DESC, Function1Arg.ARSINH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARSINH_STR, Function1Arg.ARSINH_DESC, Function1Arg.ARSINH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCSINH_STR, Function1Arg.ARSINH_DESC, Function1Arg.ARSINH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACOSH_STR, Function1Arg.ARCOSH_DESC, Function1Arg.ARCOSH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCOSH_STR, Function1Arg.ARCOSH_DESC, Function1Arg.ARCOSH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCOSH_STR, Function1Arg.ARCOSH_DESC, Function1Arg.ARCOSH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ATANH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCTANH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ATGH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCTGH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACTANH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCTANH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACOTH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCOTH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCOTH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACTGH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCTGH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ASECH_STR, Function1Arg.ARSECH_DESC, Function1Arg.ARSECH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARSECH_STR, Function1Arg.ARSECH_DESC, Function1Arg.ARSECH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCSECH_STR, Function1Arg.ARSECH_DESC, Function1Arg.ARSECH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACSCH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCSCH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCSCH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ACOSECH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCOSECH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.ARCCOSECH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SA_STR, Function1Arg.SA_DESC, Function1Arg.SA_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SA1_STR, Function1Arg.SA_DESC, Function1Arg.SA_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.SINC_STR, Function1Arg.SINC_DESC, Function1Arg.SINC_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.BELL_NUMBER_STR, Function1Arg.BELL_NUMBER_DESC, Function1Arg.BELL_NUMBER_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.FIBONACCI_NUMBER_STR, Function1Arg.FIBONACCI_NUMBER_DESC, Function1Arg.FIBONACCI_NUMBER_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.LUCAS_NUMBER_STR, Function1Arg.LUCAS_NUMBER_DESC, Function1Arg.LUCAS_NUMBER_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.HARMONIC_NUMBER_STR, Function1Arg.HARMONIC_NUMBER_DESC, Function1Arg.HARMONIC_NUMBER_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.IS_PRIME_STR, Function1Arg.IS_PRIME_DESC, Function1Arg.IS_PRIME_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.PRIME_COUNT_STR, Function1Arg.PRIME_COUNT_DESC, Function1Arg.PRIME_COUNT_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.EXP_INT_STR, Function1Arg.EXP_INT_DESC, Function1Arg.EXP_INT_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.LOG_INT_STR, Function1Arg.LOG_INT_DESC, Function1Arg.LOG_INT_ID, Function1Arg.TYPE_ID);
-			addKeyWord(Function1Arg.OFF_LOG_INT_STR, Function1Arg.OFF_LOG_INT_DESC, Function1Arg.OFF_LOG_INT_ID, Function1Arg.TYPE_ID);
-			/*
-			 * 2 args functions key words
-			 */
-			addKeyWord(Function2Arg.LOG_STR, Function2Arg.LOG_DESC, Function2Arg.LOG_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.MOD_STR, Function2Arg.MOD_DESC, Function2Arg.MOD_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.BINOM_COEFF_STR, Function2Arg.BINOM_COEFF_DESC, Function2Arg.BINOM_COEFF_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.BERNOULLI_NUMBER_STR, Function2Arg.BERNOULLI_NUMBER_DESC, Function2Arg.BERNOULLI_NUMBER_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.STIRLING1_NUMBER_STR, Function2Arg.STIRLING1_NUMBER_DESC, Function2Arg.STIRLING1_NUMBER_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.STIRLING2_NUMBER_STR, Function2Arg.STIRLING2_NUMBER_DESC, Function2Arg.STIRLING2_NUMBER_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.WORPITZKY_NUMBER_STR, Function2Arg.WORPITZKY_NUMBER_DESC, Function2Arg.WORPITZKY_NUMBER_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.EULER_NUMBER_STR, Function2Arg.EULER_NUMBER_DESC, Function2Arg.EULER_NUMBER_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.KRONECKER_DELTA_STR, Function2Arg.KRONECKER_DELTA_DESC, Function2Arg.KRONECKER_DELTA_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.EULER_POLYNOMIAL_STR, Function2Arg.EULER_POLYNOMIAL_DESC, Function2Arg.EULER_POLYNOMIAL_ID, Function2Arg.TYPE_ID);
-			addKeyWord(Function2Arg.HARMONIC_NUMBER_STR, Function2Arg.HARMONIC_NUMBER_DESC, Function2Arg.HARMONIC_NUMBER_ID, Function2Arg.TYPE_ID);
-			/*
-			 * 3 args functions key words
-			 */
-			addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.TYPE_ID);
-			addKeyWord(Function3Arg.CHI_ab_STR, Function3Arg.CHI_ab_DESC, Function3Arg.CHI_ab_ID, Function3Arg.TYPE_ID);
-			addKeyWord(Function3Arg.CHI_AB_STR, Function3Arg.CHI_AB_DESC, Function3Arg.CHI_AB_ID, Function3Arg.TYPE_ID);
-			addKeyWord(Function3Arg.CHI_Ab_STR, Function3Arg.CHI_Ab_DESC, Function3Arg.CHI_Ab_ID, Function3Arg.TYPE_ID);
-			addKeyWord(Function3Arg.CHI_aB_STR, Function3Arg.CHI_aB_DESC, Function3Arg.CHI_aB_ID, Function3Arg.TYPE_ID);
-			/*
-			 * Speciall functions as key words
-			 */
-			addKeyWord(SpecialFunction.IFF_STR, SpecialFunction.IFF_DESC, SpecialFunction.IFF_ID, SpecialFunction.TYPE_ID);
-			addKeyWord(SpecialFunction.MIN_STR, SpecialFunction.MIN_DESC, SpecialFunction.MIN_ID, SpecialFunction.TYPE_ID);
-			addKeyWord(SpecialFunction.MAX_STR, SpecialFunction.MAX_DESC, SpecialFunction.MAX_ID, SpecialFunction.TYPE_ID);
-			addKeyWord(SpecialFunction.CONT_FRAC_STR, SpecialFunction.CONT_FRAC_DESC, SpecialFunction.CONT_FRAC_ID, SpecialFunction.TYPE_ID);
-			addKeyWord(SpecialFunction.CONT_POL_STR, SpecialFunction.CONT_POL_DESC, SpecialFunction.CONT_POL_ID, SpecialFunction.TYPE_ID);
-			addKeyWord(SpecialFunction.GCD_STR, SpecialFunction.GCD_DESC, SpecialFunction.GCD_ID, SpecialFunction.TYPE_ID);
-			addKeyWord(SpecialFunction.LCM_STR, SpecialFunction.LCM_DESC, SpecialFunction.LCM_ID, SpecialFunction.TYPE_ID);
-			/*
-			 * Calculus key words
-			 */
-			addKeyWord(Calculus.SUM_STR, Calculus.SUM_DESC, Calculus.SUM_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.PROD_STR, Calculus.PROD_DESC, Calculus.PROD_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.INT_STR, Calculus.INT_DESC, Calculus.INT_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.DER_STR, Calculus.DER_DESC, Calculus.DER_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.DER_LEFT_STR, Calculus.DER_LEFT_DESC, Calculus.DER_LEFT_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.DER_RIGHT_STR, Calculus.DER_RIGHT_DESC, Calculus.DER_RIGHT_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.DERN_STR, Calculus.DERN_DESC, Calculus.DERN_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.FORW_DIFF_STR, Calculus.FORW_DIFF_DESC, Calculus.FORW_DIFF_ID, Calculus.TYPE_ID);
-			addKeyWord(Calculus.BACKW_DIFF_STR, Calculus.BACKW_DIFF_DESC, Calculus.BACKW_DIFF_ID, Calculus.TYPE_ID);
-			/*
-			 * Constants key words
-			 */
-			addKeyWord(Const.PI_STR, Const.PI_DESC, Const.PI_ID, Const.TYPE_ID);
-			addKeyWord(Const.EULER_STR, Const.EULER_DESC, Const.EULER_ID, Const.TYPE_ID);
-			addKeyWord(Const.EULER_MASCHERONI_STR, Const.EULER_MASCHERONI_DESC, Const.EULER_MASCHERONI_ID, Const.TYPE_ID);
-			addKeyWord(Const.GOLDEN_RATIO_STR, Const.GOLDEN_RATIO_DESC, Const.GOLDEN_RATIO_ID, Const.TYPE_ID);
-			addKeyWord(Const.PLASTIC_STR, Const.PLASTIC_DESC, Const.PLASTIC_ID, Const.TYPE_ID);
-			addKeyWord(Const.EMBREE_TREFETHEN_STR, Const.EMBREE_TREFETHEN_DESC, Const.EMBREE_TREFETHEN_ID, Const.TYPE_ID);
-			addKeyWord(Const.FEIGENBAUM_DELTA_STR, Const.FEIGENBAUM_DELTA_DESC, Const.FEIGENBAUM_DELTA_ID, Const.TYPE_ID);
-			addKeyWord(Const.FEIGENBAUM_ALFA_STR, Const.FEIGENBAUM_ALFA_DESC, Const.FEIGENBAUM_ALFA_ID, Const.TYPE_ID);
-			addKeyWord(Const.TWIN_PRIME_STR, Const.TWIN_PRIME_DESC, Const.TWIN_PRIME_ID, Const.TYPE_ID);
-			addKeyWord(Const.MEISSEL_MERTEENS_STR, Const.MEISSEL_MERTEENS_DESC, Const.MEISSEL_MERTEENS_ID, Const.TYPE_ID);
-			addKeyWord(Const.BRAUN_TWIN_PRIME_STR, Const.BRAUN_TWIN_PRIME_DESC, Const.BRAUN_TWIN_PRIME_ID, Const.TYPE_ID);
-			addKeyWord(Const.BRAUN_PRIME_QUADR_STR, Const.BRAUN_PRIME_QUADR_DESC, Const.BRAUN_PRIME_QUADR_ID, Const.TYPE_ID);
-			addKeyWord(Const.BRUIJN_NEWMAN_STR, Const.BRUIJN_NEWMAN_DESC, Const.BRUIJN_NEWMAN_ID, Const.TYPE_ID);
-			addKeyWord(Const.CATALAN_STR, Const.CATALAN_DESC, Const.CATALAN_ID, Const.TYPE_ID);
-			addKeyWord(Const.LANDAU_RAMANUJAN_STR, Const.LANDAU_RAMANUJAN_DESC, Const.LANDAU_RAMANUJAN_ID, Const.TYPE_ID);
-			addKeyWord(Const.VISWANATH_STR, Const.VISWANATH_DESC, Const.VISWANATH_ID, Const.TYPE_ID);
-			addKeyWord(Const.LEGENDRE_STR, Const.LEGENDRE_DESC, Const.LEGENDRE_ID, Const.TYPE_ID);
-			addKeyWord(Const.RAMANUJAN_SOLDNER_STR, Const.RAMANUJAN_SOLDNER_DESC, Const.RAMANUJAN_SOLDNER_ID, Const.TYPE_ID);
-			addKeyWord(Const.ERDOS_BORWEIN_STR, Const.ERDOS_BORWEIN_DESC, Const.ERDOS_BORWEIN_ID, Const.TYPE_ID);
-			addKeyWord(Const.BERNSTEIN_STR, Const.BERNSTEIN_DESC, Const.BERNSTEIN_ID, Const.TYPE_ID);
-			addKeyWord(Const.GAUSS_KUZMIN_WIRSING_STR, Const.GAUSS_KUZMIN_WIRSING_DESC, Const.GAUSS_KUZMIN_WIRSING_ID, Const.TYPE_ID);
-			addKeyWord(Const.HAFNER_SARNAK_MCCURLEY_STR, Const.HAFNER_SARNAK_MCCURLEY_DESC, Const.HAFNER_SARNAK_MCCURLEY_ID, Const.TYPE_ID);
-			addKeyWord(Const.GOLOMB_DICKMAN_STR, Const.GOLOMB_DICKMAN_DESC, Const.GOLOMB_DICKMAN_ID, Const.TYPE_ID);
-			addKeyWord(Const.CAHEN_STR, Const.CAHEN_DESC, Const.CAHEN_ID, Const.TYPE_ID);
-			addKeyWord(Const.LAPLACE_LIMIT_STR, Const.LAPLACE_LIMIT_DESC, Const.LAPLACE_LIMIT_ID, Const.TYPE_ID);
-			addKeyWord(Const.ALLADI_GRINSTEAD_STR, Const.ALLADI_GRINSTEAD_DESC, Const.ALLADI_GRINSTEAD_ID, Const.TYPE_ID);
-			addKeyWord(Const.LENGYEL_STR, Const.LENGYEL_DESC, Const.LENGYEL_ID, Const.TYPE_ID);
-			addKeyWord(Const.LEVY_STR, Const.LEVY_DESC, Const.LEVY_ID, Const.TYPE_ID);
-			addKeyWord(Const.APERY_STR, Const.APERY_DESC, Const.APERY_ID, Const.TYPE_ID);
-			addKeyWord(Const.MILLS_STR, Const.MILLS_DESC, Const.MILLS_ID, Const.TYPE_ID);
-			addKeyWord(Const.BACKHOUSE_STR, Const.BACKHOUSE_DESC, Const.BACKHOUSE_ID, Const.TYPE_ID);
-			addKeyWord(Const.PORTER_STR, Const.PORTER_DESC, Const.PORTER_ID, Const.TYPE_ID);
-			addKeyWord(Const.LIEB_QUARE_ICE_STR, Const.LIEB_QUARE_ICE_DESC, Const.LIEB_QUARE_ICE_ID, Const.TYPE_ID);
-			addKeyWord(Const.NIVEN_STR, Const.NIVEN_DESC, Const.NIVEN_ID, Const.TYPE_ID);
-			addKeyWord(Const.SIERPINSKI_STR, Const.SIERPINSKI_DESC, Const.SIERPINSKI_ID, Const.TYPE_ID);
-			addKeyWord(Const.KHINCHIN_STR, Const.KHINCHIN_DESC, Const.KHINCHIN_ID, Const.TYPE_ID);
-			addKeyWord(Const.FRANSEN_ROBINSON_STR, Const.FRANSEN_ROBINSON_DESC, Const.FRANSEN_ROBINSON_ID, Const.TYPE_ID);
-			addKeyWord(Const.LANDAU_STR, Const.LANDAU_DESC, Const.LANDAU_ID, Const.TYPE_ID);
-			addKeyWord(Const.PARABOLIC_STR, Const.PARABOLIC_DESC, Const.PARABOLIC_ID, Const.TYPE_ID);
-			addKeyWord(Const.OMEGA_STR, Const.OMEGA_DESC, Const.OMEGA_ID, Const.TYPE_ID);
-			addKeyWord(Const.MRB_STR, Const.MRB_DESC, Const.MRB_ID, Const.TYPE_ID);
-			addKeyWord(Const.LI2_STR, Const.LI2_DESC, Const.LI2_ID, Const.TYPE_ID);
-			addKeyWord(Const.GOMPERTZ_STR, Const.GOMPERTZ_DESC, Const.GOMPERTZ_ID, Const.TYPE_ID);
+			if (parserKeyWordsOnly == false) {
+				/*
+				 * 1 arg functions key words
+				 */
+				addKeyWord(Function1Arg.SIN_STR, Function1Arg.SIN_DESC, Function1Arg.SIN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.COS_STR, Function1Arg.COS_DESC, Function1Arg.COS_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.TAN_STR, Function1Arg.TAN_DESC, Function1Arg.TAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.TG_STR, Function1Arg.TAN_DESC, Function1Arg.TAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CTAN_STR, Function1Arg.CTAN_DESC, Function1Arg.CTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CTG_STR, Function1Arg.CTAN_DESC, Function1Arg.CTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.COT_STR, Function1Arg.CTAN_DESC, Function1Arg.CTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SEC_STR, Function1Arg.SEC_DESC, Function1Arg.SEC_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.COSEC_STR, Function1Arg.COSEC_DESC, Function1Arg.COSEC_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CSC_STR, Function1Arg.COSEC_DESC, Function1Arg.COSEC_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ASIN_STR, Function1Arg.ASIN_DESC, Function1Arg.ASIN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARSIN_STR, Function1Arg.ASIN_DESC, Function1Arg.ASIN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCSIN_STR, Function1Arg.ASIN_DESC, Function1Arg.ASIN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACOS_STR, Function1Arg.ACOS_DESC, Function1Arg.ACOS_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCOS_STR, Function1Arg.ACOS_DESC, Function1Arg.ACOS_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCOS_STR, Function1Arg.ACOS_DESC, Function1Arg.ACOS_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ATAN_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCTAN_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ATG_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCTG_STR, Function1Arg.ATAN_DESC, Function1Arg.ATAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACTAN_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCTAN_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACTG_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCTG_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACOT_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCOT_STR, Function1Arg.ACTAN_DESC, Function1Arg.ACTAN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.LN_STR, Function1Arg.LN_DESC, Function1Arg.LN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.LOG2_STR, Function1Arg.LOG2_DESC, Function1Arg.LOG2_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.LOG10_STR, Function1Arg.LOG10_DESC, Function1Arg.LOG10_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.RAD_STR, Function1Arg.RAD_DESC, Function1Arg.RAD_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.EXP_STR, Function1Arg.EXP_DESC, Function1Arg.EXP_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SQRT_STR, Function1Arg.SQRT_DESC, Function1Arg.SQRT_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SINH_STR, Function1Arg.SINH_DESC, Function1Arg.SINH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.COSH_STR, Function1Arg.COSH_DESC, Function1Arg.COSH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.TANH_STR, Function1Arg.TANH_DESC, Function1Arg.TANH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.TGH_STR, Function1Arg.TANH_DESC, Function1Arg.TANH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CTANH_STR, Function1Arg.COTH_DESC, Function1Arg.COTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.COTH_STR, Function1Arg.COTH_DESC, Function1Arg.COTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CTGH_STR, Function1Arg.COTH_DESC, Function1Arg.COTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SECH_STR, Function1Arg.SECH_DESC, Function1Arg.SECH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CSCH_STR, Function1Arg.CSCH_DESC, Function1Arg.CSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.COSECH_STR, Function1Arg.CSCH_DESC, Function1Arg.CSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.DEG_STR, Function1Arg.DEG_DESC, Function1Arg.DEG_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ABS_STR, Function1Arg.ABS_DESC, Function1Arg.ABS_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SGN_STR, Function1Arg.SGN_DESC, Function1Arg.SGN_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.FLOOR_STR, Function1Arg.FLOOR_DESC, Function1Arg.FLOOR_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.CEIL_STR, Function1Arg.CEIL_DESC, Function1Arg.CEIL_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.NOT_STR, Function1Arg.NOT_DESC, Function1Arg.NOT_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ASINH_STR, Function1Arg.ARSINH_DESC, Function1Arg.ARSINH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARSINH_STR, Function1Arg.ARSINH_DESC, Function1Arg.ARSINH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCSINH_STR, Function1Arg.ARSINH_DESC, Function1Arg.ARSINH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACOSH_STR, Function1Arg.ARCOSH_DESC, Function1Arg.ARCOSH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCOSH_STR, Function1Arg.ARCOSH_DESC, Function1Arg.ARCOSH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCOSH_STR, Function1Arg.ARCOSH_DESC, Function1Arg.ARCOSH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ATANH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCTANH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ATGH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCTGH_STR, Function1Arg.ARTANH_DESC, Function1Arg.ARTANH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACTANH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCTANH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACOTH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCOTH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCOTH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACTGH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCTGH_STR, Function1Arg.ARCOTH_DESC, Function1Arg.ARCOTH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ASECH_STR, Function1Arg.ARSECH_DESC, Function1Arg.ARSECH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARSECH_STR, Function1Arg.ARSECH_DESC, Function1Arg.ARSECH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCSECH_STR, Function1Arg.ARSECH_DESC, Function1Arg.ARSECH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACSCH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCSCH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCSCH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ACOSECH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCOSECH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ARCCOSECH_STR, Function1Arg.ARCSCH_DESC, Function1Arg.ARCSCH_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SA_STR, Function1Arg.SA_DESC, Function1Arg.SA_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SA1_STR, Function1Arg.SA_DESC, Function1Arg.SA_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SINC_STR, Function1Arg.SINC_DESC, Function1Arg.SINC_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.BELL_NUMBER_STR, Function1Arg.BELL_NUMBER_DESC, Function1Arg.BELL_NUMBER_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.FIBONACCI_NUMBER_STR, Function1Arg.FIBONACCI_NUMBER_DESC, Function1Arg.FIBONACCI_NUMBER_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.LUCAS_NUMBER_STR, Function1Arg.LUCAS_NUMBER_DESC, Function1Arg.LUCAS_NUMBER_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.HARMONIC_NUMBER_STR, Function1Arg.HARMONIC_NUMBER_DESC, Function1Arg.HARMONIC_NUMBER_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.IS_PRIME_STR, Function1Arg.IS_PRIME_DESC, Function1Arg.IS_PRIME_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.PRIME_COUNT_STR, Function1Arg.PRIME_COUNT_DESC, Function1Arg.PRIME_COUNT_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.EXP_INT_STR, Function1Arg.EXP_INT_DESC, Function1Arg.EXP_INT_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.LOG_INT_STR, Function1Arg.LOG_INT_DESC, Function1Arg.LOG_INT_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.OFF_LOG_INT_STR, Function1Arg.OFF_LOG_INT_DESC, Function1Arg.OFF_LOG_INT_ID, Function1Arg.TYPE_ID);
+				/*
+				 * 2 args functions key words
+				 */
+				addKeyWord(Function2Arg.LOG_STR, Function2Arg.LOG_DESC, Function2Arg.LOG_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.MOD_STR, Function2Arg.MOD_DESC, Function2Arg.MOD_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.BINOM_COEFF_STR, Function2Arg.BINOM_COEFF_DESC, Function2Arg.BINOM_COEFF_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.BERNOULLI_NUMBER_STR, Function2Arg.BERNOULLI_NUMBER_DESC, Function2Arg.BERNOULLI_NUMBER_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.STIRLING1_NUMBER_STR, Function2Arg.STIRLING1_NUMBER_DESC, Function2Arg.STIRLING1_NUMBER_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.STIRLING2_NUMBER_STR, Function2Arg.STIRLING2_NUMBER_DESC, Function2Arg.STIRLING2_NUMBER_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.WORPITZKY_NUMBER_STR, Function2Arg.WORPITZKY_NUMBER_DESC, Function2Arg.WORPITZKY_NUMBER_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.EULER_NUMBER_STR, Function2Arg.EULER_NUMBER_DESC, Function2Arg.EULER_NUMBER_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.KRONECKER_DELTA_STR, Function2Arg.KRONECKER_DELTA_DESC, Function2Arg.KRONECKER_DELTA_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.EULER_POLYNOMIAL_STR, Function2Arg.EULER_POLYNOMIAL_DESC, Function2Arg.EULER_POLYNOMIAL_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.HARMONIC_NUMBER_STR, Function2Arg.HARMONIC_NUMBER_DESC, Function2Arg.HARMONIC_NUMBER_ID, Function2Arg.TYPE_ID);
+				/*
+				 * 3 args functions key words
+				 */
+				addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_ab_STR, Function3Arg.CHI_ab_DESC, Function3Arg.CHI_ab_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_AB_STR, Function3Arg.CHI_AB_DESC, Function3Arg.CHI_AB_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_Ab_STR, Function3Arg.CHI_Ab_DESC, Function3Arg.CHI_Ab_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_aB_STR, Function3Arg.CHI_aB_DESC, Function3Arg.CHI_aB_ID, Function3Arg.TYPE_ID);
+				/*
+				 * Speciall functions as key words
+				 */
+				addKeyWord(SpecialFunction.IFF_STR, SpecialFunction.IFF_DESC, SpecialFunction.IFF_ID, SpecialFunction.TYPE_ID);
+				addKeyWord(SpecialFunction.MIN_STR, SpecialFunction.MIN_DESC, SpecialFunction.MIN_ID, SpecialFunction.TYPE_ID);
+				addKeyWord(SpecialFunction.MAX_STR, SpecialFunction.MAX_DESC, SpecialFunction.MAX_ID, SpecialFunction.TYPE_ID);
+				addKeyWord(SpecialFunction.CONT_FRAC_STR, SpecialFunction.CONT_FRAC_DESC, SpecialFunction.CONT_FRAC_ID, SpecialFunction.TYPE_ID);
+				addKeyWord(SpecialFunction.CONT_POL_STR, SpecialFunction.CONT_POL_DESC, SpecialFunction.CONT_POL_ID, SpecialFunction.TYPE_ID);
+				addKeyWord(SpecialFunction.GCD_STR, SpecialFunction.GCD_DESC, SpecialFunction.GCD_ID, SpecialFunction.TYPE_ID);
+				addKeyWord(SpecialFunction.LCM_STR, SpecialFunction.LCM_DESC, SpecialFunction.LCM_ID, SpecialFunction.TYPE_ID);
+				/*
+				 * Calculus key words
+				 */
+				addKeyWord(Calculus.SUM_STR, Calculus.SUM_DESC, Calculus.SUM_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.PROD_STR, Calculus.PROD_DESC, Calculus.PROD_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.INT_STR, Calculus.INT_DESC, Calculus.INT_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.DER_STR, Calculus.DER_DESC, Calculus.DER_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.DER_LEFT_STR, Calculus.DER_LEFT_DESC, Calculus.DER_LEFT_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.DER_RIGHT_STR, Calculus.DER_RIGHT_DESC, Calculus.DER_RIGHT_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.DERN_STR, Calculus.DERN_DESC, Calculus.DERN_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.FORW_DIFF_STR, Calculus.FORW_DIFF_DESC, Calculus.FORW_DIFF_ID, Calculus.TYPE_ID);
+				addKeyWord(Calculus.BACKW_DIFF_STR, Calculus.BACKW_DIFF_DESC, Calculus.BACKW_DIFF_ID, Calculus.TYPE_ID);
+				/*
+				 * Constants key words
+				 */
+				addKeyWord(Const.PI_STR, Const.PI_DESC, Const.PI_ID, Const.TYPE_ID);
+				addKeyWord(Const.EULER_STR, Const.EULER_DESC, Const.EULER_ID, Const.TYPE_ID);
+				addKeyWord(Const.EULER_MASCHERONI_STR, Const.EULER_MASCHERONI_DESC, Const.EULER_MASCHERONI_ID, Const.TYPE_ID);
+				addKeyWord(Const.GOLDEN_RATIO_STR, Const.GOLDEN_RATIO_DESC, Const.GOLDEN_RATIO_ID, Const.TYPE_ID);
+				addKeyWord(Const.PLASTIC_STR, Const.PLASTIC_DESC, Const.PLASTIC_ID, Const.TYPE_ID);
+				addKeyWord(Const.EMBREE_TREFETHEN_STR, Const.EMBREE_TREFETHEN_DESC, Const.EMBREE_TREFETHEN_ID, Const.TYPE_ID);
+				addKeyWord(Const.FEIGENBAUM_DELTA_STR, Const.FEIGENBAUM_DELTA_DESC, Const.FEIGENBAUM_DELTA_ID, Const.TYPE_ID);
+				addKeyWord(Const.FEIGENBAUM_ALFA_STR, Const.FEIGENBAUM_ALFA_DESC, Const.FEIGENBAUM_ALFA_ID, Const.TYPE_ID);
+				addKeyWord(Const.TWIN_PRIME_STR, Const.TWIN_PRIME_DESC, Const.TWIN_PRIME_ID, Const.TYPE_ID);
+				addKeyWord(Const.MEISSEL_MERTEENS_STR, Const.MEISSEL_MERTEENS_DESC, Const.MEISSEL_MERTEENS_ID, Const.TYPE_ID);
+				addKeyWord(Const.BRAUN_TWIN_PRIME_STR, Const.BRAUN_TWIN_PRIME_DESC, Const.BRAUN_TWIN_PRIME_ID, Const.TYPE_ID);
+				addKeyWord(Const.BRAUN_PRIME_QUADR_STR, Const.BRAUN_PRIME_QUADR_DESC, Const.BRAUN_PRIME_QUADR_ID, Const.TYPE_ID);
+				addKeyWord(Const.BRUIJN_NEWMAN_STR, Const.BRUIJN_NEWMAN_DESC, Const.BRUIJN_NEWMAN_ID, Const.TYPE_ID);
+				addKeyWord(Const.CATALAN_STR, Const.CATALAN_DESC, Const.CATALAN_ID, Const.TYPE_ID);
+				addKeyWord(Const.LANDAU_RAMANUJAN_STR, Const.LANDAU_RAMANUJAN_DESC, Const.LANDAU_RAMANUJAN_ID, Const.TYPE_ID);
+				addKeyWord(Const.VISWANATH_STR, Const.VISWANATH_DESC, Const.VISWANATH_ID, Const.TYPE_ID);
+				addKeyWord(Const.LEGENDRE_STR, Const.LEGENDRE_DESC, Const.LEGENDRE_ID, Const.TYPE_ID);
+				addKeyWord(Const.RAMANUJAN_SOLDNER_STR, Const.RAMANUJAN_SOLDNER_DESC, Const.RAMANUJAN_SOLDNER_ID, Const.TYPE_ID);
+				addKeyWord(Const.ERDOS_BORWEIN_STR, Const.ERDOS_BORWEIN_DESC, Const.ERDOS_BORWEIN_ID, Const.TYPE_ID);
+				addKeyWord(Const.BERNSTEIN_STR, Const.BERNSTEIN_DESC, Const.BERNSTEIN_ID, Const.TYPE_ID);
+				addKeyWord(Const.GAUSS_KUZMIN_WIRSING_STR, Const.GAUSS_KUZMIN_WIRSING_DESC, Const.GAUSS_KUZMIN_WIRSING_ID, Const.TYPE_ID);
+				addKeyWord(Const.HAFNER_SARNAK_MCCURLEY_STR, Const.HAFNER_SARNAK_MCCURLEY_DESC, Const.HAFNER_SARNAK_MCCURLEY_ID, Const.TYPE_ID);
+				addKeyWord(Const.GOLOMB_DICKMAN_STR, Const.GOLOMB_DICKMAN_DESC, Const.GOLOMB_DICKMAN_ID, Const.TYPE_ID);
+				addKeyWord(Const.CAHEN_STR, Const.CAHEN_DESC, Const.CAHEN_ID, Const.TYPE_ID);
+				addKeyWord(Const.LAPLACE_LIMIT_STR, Const.LAPLACE_LIMIT_DESC, Const.LAPLACE_LIMIT_ID, Const.TYPE_ID);
+				addKeyWord(Const.ALLADI_GRINSTEAD_STR, Const.ALLADI_GRINSTEAD_DESC, Const.ALLADI_GRINSTEAD_ID, Const.TYPE_ID);
+				addKeyWord(Const.LENGYEL_STR, Const.LENGYEL_DESC, Const.LENGYEL_ID, Const.TYPE_ID);
+				addKeyWord(Const.LEVY_STR, Const.LEVY_DESC, Const.LEVY_ID, Const.TYPE_ID);
+				addKeyWord(Const.APERY_STR, Const.APERY_DESC, Const.APERY_ID, Const.TYPE_ID);
+				addKeyWord(Const.MILLS_STR, Const.MILLS_DESC, Const.MILLS_ID, Const.TYPE_ID);
+				addKeyWord(Const.BACKHOUSE_STR, Const.BACKHOUSE_DESC, Const.BACKHOUSE_ID, Const.TYPE_ID);
+				addKeyWord(Const.PORTER_STR, Const.PORTER_DESC, Const.PORTER_ID, Const.TYPE_ID);
+				addKeyWord(Const.LIEB_QUARE_ICE_STR, Const.LIEB_QUARE_ICE_DESC, Const.LIEB_QUARE_ICE_ID, Const.TYPE_ID);
+				addKeyWord(Const.NIVEN_STR, Const.NIVEN_DESC, Const.NIVEN_ID, Const.TYPE_ID);
+				addKeyWord(Const.SIERPINSKI_STR, Const.SIERPINSKI_DESC, Const.SIERPINSKI_ID, Const.TYPE_ID);
+				addKeyWord(Const.KHINCHIN_STR, Const.KHINCHIN_DESC, Const.KHINCHIN_ID, Const.TYPE_ID);
+				addKeyWord(Const.FRANSEN_ROBINSON_STR, Const.FRANSEN_ROBINSON_DESC, Const.FRANSEN_ROBINSON_ID, Const.TYPE_ID);
+				addKeyWord(Const.LANDAU_STR, Const.LANDAU_DESC, Const.LANDAU_ID, Const.TYPE_ID);
+				addKeyWord(Const.PARABOLIC_STR, Const.PARABOLIC_DESC, Const.PARABOLIC_ID, Const.TYPE_ID);
+				addKeyWord(Const.OMEGA_STR, Const.OMEGA_DESC, Const.OMEGA_ID, Const.TYPE_ID);
+				addKeyWord(Const.MRB_STR, Const.MRB_DESC, Const.MRB_ID, Const.TYPE_ID);
+				addKeyWord(Const.LI2_STR, Const.LI2_DESC, Const.LI2_ID, Const.TYPE_ID);
+				addKeyWord(Const.GOMPERTZ_STR, Const.GOMPERTZ_DESC, Const.GOMPERTZ_ID, Const.TYPE_ID);
+			}
 			/*
 			 * Other parser symbols key words
 			 */
@@ -4493,9 +4517,11 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			keyWordsList = new List<KeyWord>();
 			addParserKeyWords();
-			addArgumentsKeyWords();
-			addFunctionsKeyWords();
-			addConstantsKeyWords();
+			if (parserKeyWordsOnly == false) {
+				addArgumentsKeyWords();
+				addFunctionsKeyWords();
+				addConstantsKeyWords();
+			}
 			keyWordsList.Sort(new DescKwLenComparator());
 			/*
 			 * Evaluate position after soritng for the following kwywords types
@@ -4928,9 +4954,11 @@ namespace org.mariuszgromada.math.mxparser {
 			keyWordsList = new List<KeyWord>();
 			String helpStr = "Help content: \n\n";
 			addParserKeyWords();
-			addArgumentsKeyWords();
-			addFunctionsKeyWords();
-			addConstantsKeyWords();
+			if (parserKeyWordsOnly == false) {
+				addArgumentsKeyWords();
+				addFunctionsKeyWords();
+				addConstantsKeyWords();
+			}
 			keyWordsList.Sort( new KwTypeComparator() );
 			int keyWordsNumber = keyWordsList.Count;
 			String type, kw;

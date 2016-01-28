@@ -1,5 +1,5 @@
 /*
- * @(#)PrimesCache.java        2.3.0    2016-01-14
+ * @(#)PrimesCache.java        2.3.1    2016-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -59,7 +59,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.0
+ * @version        2.3.1
  */
 public class PrimesCache {
 	/**
@@ -101,7 +101,7 @@ public class PrimesCache {
 	 * how long did it take to finalize prime numbers
 	 * caching.
 	 */
-	long computingTime;
+	double computingTime;
 	/**
 	 * Caching process status
 	 */
@@ -133,7 +133,7 @@ public class PrimesCache {
                 for (int j = i; i*j <= maxNumInCache; j++)
                     isPrime[i*j] = false;
 		long endTime = System.currentTimeMillis();
-		computingTime = (endTime - startTime)/1000;
+		computingTime = (endTime - startTime)/1000.0;
 	}
 	/**
 	 * Counting found primes
@@ -171,7 +171,7 @@ public class PrimesCache {
 	 * Returns computing time of Eratosthenes Sieve
 	 * @return Computing time in seconds
 	 */
-	public long getComputingTime() {
+	public double getComputingTime() {
 		return computingTime;
 	}
 	/**

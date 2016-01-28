@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        2.3.0    2016-01-15
+ * @(#)mXparser.cs        2.3.1   2016-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -67,7 +67,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
 	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.3.0
+	 * @version        2.3.1
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -79,7 +79,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		internal const String VERSION = "2.3.0";
+		internal const String VERSION = "2.3.1";
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -105,6 +105,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Threads number settings
 		 */
 		private static int THREADS_NUMBER = Environment.ProcessorCount;
+		/**
+		 * Empty expression for general help purposes.
+		 */
+		private static Expression MXPARSER_HELP = new Expression();
 		/**
 		 * Initialization of prime numbers cache.
 		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -373,6 +377,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static String getConsoleOutput() {
 			return CONSOLE_OUTPUT;
+		}
+		/**
+		 * General mXparser expression help
+		 *
+		 * @return String with all general help content
+		 */
+		public static String getHelp() {
+			return MXPARSER_HELP.getHelp();
+		}
+		/**
+		 * General mXparser expression help - in-line key word searching
+		 * @param   word    Key word to be searched
+		 * @return  String with all help content
+		 * lines containing given keyword
+		 */
+		public static String getHelp(String word) {
+			return MXPARSER_HELP.getHelp(word);
 		}
 		/**
 		 * Function used to introduce some compatibility
@@ -1312,6 +1333,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Constant "a = 5/20"
 	 */
 	internal class HeadEqBody {
+		private const bool ONLY_PARSER_KEYWORDS = true;
 		internal String headStr;
 		internal String bodyStr;
 		internal int eqPos;
@@ -1330,7 +1352,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if ((matchStatus == mXparser.FOUND) && (eqPos > 0) && (eqPos <= definitionString.Length - 2)) {
 				headStr = definitionString.Substring(0, eqPos);
 				bodyStr = definitionString.Substring(eqPos + 1);
-				Expression headExpression = new Expression(headStr);
+				Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
 				headTokens = headExpression.getCopyOfInitialTokens();
 			}
 			else {

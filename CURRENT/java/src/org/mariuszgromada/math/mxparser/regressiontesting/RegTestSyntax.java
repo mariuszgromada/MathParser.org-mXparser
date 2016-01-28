@@ -66,7 +66,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        22.2.0
+ * @version        2.2.0
  *
  * @see Expression
  */

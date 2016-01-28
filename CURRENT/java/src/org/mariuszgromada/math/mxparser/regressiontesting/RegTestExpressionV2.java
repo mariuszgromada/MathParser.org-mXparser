@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionV2.java        2.3.0    2016-01-16
+ * @(#)RegTestExpressionV2.java        2.3.1    2016-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -67,7 +67,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.0
+ * @version        2.3.1
  *
  * @see Expression
  */
@@ -3637,6 +3637,17 @@ public class RegTestExpressionV2 {
 			testResult = true;
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		break;
+	case 313:
+		Function fefe = new Function("fefe(x)=2*x");
+		expStr = "fefe(2) + fefe(3)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr, fefe);
+		value = exp[testId].calculate();
+		reg = 10;
+		if ( MathFunctions.abs(reg - value) < 0.00001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
 	}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -3651,7 +3662,7 @@ public class RegTestExpressionV2 {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 312	;
+		int numberOfTests = 313	;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

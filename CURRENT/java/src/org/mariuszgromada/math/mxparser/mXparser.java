@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        2.3.0    2016-01-15
+ * @(#)mXparser.java        2.3.1   2016-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -64,7 +64,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.0
+ * @version        2.3.1
  *
  * @see RecursiveArgument
  * @see Expression
@@ -75,7 +75,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "2.3.0";
+	static final String VERSION = "2.3.1";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -101,6 +101,10 @@ public final class mXparser {
 	 * Threads number settings
 	 */
 	private static int THREADS_NUMBER = Runtime.getRuntime().availableProcessors();
+	/**
+	 * Empty expression for general help purposes.
+	 */
+	private static final Expression MXPARSER_HELP = new Expression();
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -363,6 +367,23 @@ public final class mXparser {
 	 */
 	public static final String getConsoleOutput() {
 		return CONSOLE_OUTPUT;
+	}
+	/**
+	 * General mXparser expression help
+	 *
+	 * @return String with all general help content
+	 */
+	public static final String getHelp() {
+		return MXPARSER_HELP.getHelp();
+	}
+	/**
+	 * General mXparser expression help - in-line key word searching
+	 * @param   word    Key word to be searched
+	 * @return  String with all help content
+	 * lines containing given keyword
+	 */
+	public static final String getHelp(String word) {
+		return MXPARSER_HELP.getHelp(word);
 	}
 	/**
 	 * Function used to introduce some compatibility
@@ -1333,6 +1354,7 @@ interface Const {
  * Constant "a = 5/20"
  */
 class HeadEqBody {
+	private boolean ONLY_PARSER_KEYWORDS = true;
 	String headStr;
 	String bodyStr;
 	int eqPos;
@@ -1351,7 +1373,7 @@ class HeadEqBody {
 		if ( (matchStatus == mXparser.FOUND) && (eqPos > 0) && (eqPos <= definitionString.length()-2) ) {
 			headStr = definitionString.substring(0, eqPos);
 			bodyStr  = definitionString.substring(eqPos+1);
-			Expression headExpression = new Expression(headStr);
+			Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
 			headTokens = headExpression.getCopyOfInitialTokens();
 		} else {
 			definitionError = true;

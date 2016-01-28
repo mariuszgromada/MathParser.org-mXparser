@@ -6,10 +6,10 @@ namespace mXparserExe
     {
         public static void Main(String[] args)
         {
-            RegTestExpressionV2.Start();
-            //RegTestExpressionAPI.Start();
-            //RegTestSyntax.Start();
-            //PerformanceTests.Start();
-        }
+			RegTestExpressionV2.Start();
+			//PerformanceTests.Start();
+			//RegTestExpressionAPI.Start();
+			//RegTestSyntax.Start();
+		}
     }
 }
