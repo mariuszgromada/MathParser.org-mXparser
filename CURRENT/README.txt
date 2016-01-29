@@ -1,5 +1,7 @@
             mXparser - Math Parser Java Android C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
+
+v.2.3.1 (2016-01-29): Trailing letter 'e' bug fix + some minor changes in the code.
 		 
 v.2.3.0 (2016-01-17): Prime numbers supported! Multithreading performance tests!
                       New functions: Exponential/Offset/Logarithmic integral!
