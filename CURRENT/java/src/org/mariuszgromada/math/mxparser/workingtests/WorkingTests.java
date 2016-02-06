@@ -523,8 +523,8 @@ public class WorkingTests {
 		//x.setVerboseMode();
 		//System.out.println(x.calculate(3));
 
-		Function f = new Function("Fefe(n) = 10");
-		System.out.println(f.getFunctionName());
+		//Function f = new Function("Fefe(n) = 10");
+		//System.out.println(f.getFunctionName());
 
 
 		/*
@@ -533,10 +533,32 @@ public class WorkingTests {
 			System.out.println(x.calculate(f.calculate(n)) + ", " + y.calculate(f.calculate(n)));
 		}
 		*/
+		/*
+		Function f = new Function("f(x) = x^2");
+		Expression e = new Expression("f(2)+(2+3)^2", f);
+		e.setDescription("Example - verbose mode");
+		e.setVerboseMode();
 
+		mXparser.consolePrintln("Res: " + e.getExpressionString() + " = " + e.calculate());
+*/
 
+		/* Function and expression definition */
+		Function fib = new Function("fib(n) = if( n>1, fib(n-1)+fib(n-2), if(n > 0, 1, 0) )");
+		Expression e = new Expression("fib(10) + 20/sin(x)", fib);
 
+		/* 1st trial of syntax checking. */
+		mXparser.consolePrintln("1st trial of syntax checking.");
+		e.checkSyntax();
+		mXparser.consolePrintln(e.getErrorMessage());
 
+		/* Definition modification */
+		Argument x = new Argument("x = 2");
+		e.addDefinitions(x);
+
+		/* 1st trial of syntax checking. */
+		mXparser.consolePrintln("2nd trial of syntax checking.");
+		e.checkSyntax();
+		mXparser.consolePrintln(e.getErrorMessage());
 
 
 
