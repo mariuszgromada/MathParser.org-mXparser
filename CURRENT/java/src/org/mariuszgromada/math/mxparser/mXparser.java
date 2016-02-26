@@ -1144,7 +1144,12 @@ interface SpecialFunction {
 		CONT_FRAC_ID		= 4,
 		CONT_POL_ID			= 5,
 		GCD_ID				= 6,
-		LCM_ID				= 7
+		LCM_ID				= 7,
+		SUM_SPC_ID			= 8,
+		PROD_SPC_ID			= 9,
+		AVG_SPC_ID			= 10,
+		VAR_SPC_ID			= 11,
+		STD_SPC_ID			= 12
 	;
 	String
 		IFF_STR 			= "iff",
@@ -1160,7 +1165,12 @@ interface SpecialFunction {
 		CONT_FRAC_DESC		= "Continued fraction: ConFrac(a,b,c,...)",
 		CONT_POL_DESC		= "Continued polynomial: ConPol(a,b,c,...)",
 		GCD_DESC			= "Greatest common divisor: gcd(a,b,c,...)",
-		LCM_DESC			= "Least common multiple: lcm(a,b,c,...)"
+		LCM_DESC			= "Least common multiple: lcm(a,b,c,...)",
+		SUM_SPC_DESC		= "Summation operator Sum(a1,a3,a3,...,an)",
+		PROD_SPC_DESC		= "Product opertator Prod(a1,a3,a3,...,an)",
+		AVG_SPC_DESC		= "Average operator Avg(a1,a3,a3,...,an)",
+		VAR_SPC_DESC		= "Variance Var(a1,a3,a3,...,an)",
+		STD_SPC_DESC		= "Standard deviation Std(a1,a3,a3,...,an)"
 	;
 }
 /**
@@ -1180,7 +1190,10 @@ interface Calculus {
 		DER_RIGHT_ID		= 8,
 		DERN_ID				= 9,
 		FORW_DIFF_ID		= 10,
-		BACKW_DIFF_ID		= 11
+		BACKW_DIFF_ID		= 11,
+		AVG_ID				= 12,
+		VAR_ID				= 13,
+		STD_ID				= 14
 	;
 	String
 		SUM_STR				= "sum",
@@ -1200,7 +1213,10 @@ interface Calculus {
 		DER_RIGHT_DESC		= "right derivative operator ( der+(f(x,...), x) ) ",
 		DERN_DESC			= "n-th derivative operator ( dern(f(x,...), x) ) ",
 		FORW_DIFF_DESC		= "forward difference operator",
-		BACKW_DIFF_DESC		= "backward difference operator"
+		BACKW_DIFF_DESC		= "backward difference operator",
+		AVG_DESC			= "Average operator avg(i, from, to, f(i,...))",
+		VAR_DESC			= "Variance operator var(i, from, to, f(i,...))",
+		STD_DESC			= "Standard deviation operator std(i, from, to, f(i,...))"
 	;
 }
 /**

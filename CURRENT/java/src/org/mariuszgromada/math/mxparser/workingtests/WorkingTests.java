@@ -543,25 +543,48 @@ public class WorkingTests {
 */
 
 		/* Function and expression definition */
-		Function fib = new Function("fib(n) = if( n>1, fib(n-1)+fib(n-2), if(n > 0, 1, 0) )");
-		Expression e = new Expression("fib(10) + 20/sin(x)", fib);
+		//Function fib = new Function("fib(n) = if( n>1, fib(n-1)+fib(n-2), if(n > 0, 1, 0) )");
+		//Expression e = new Expression("fib(10) + 20/sin(x)", fib);
 
 		/* 1st trial of syntax checking. */
-		mXparser.consolePrintln("1st trial of syntax checking.");
-		e.checkSyntax();
-		mXparser.consolePrintln(e.getErrorMessage());
+		//mXparser.consolePrintln("1st trial of syntax checking.");
+		//e.checkSyntax();
+		//mXparser.consolePrintln(e.getErrorMessage());
 
 		/* Definition modification */
-		Argument x = new Argument("x = 2");
-		e.addDefinitions(x);
+		//Argument x = new Argument("x = 2");
+		//e.addDefinitions(x);
 
 		/* 1st trial of syntax checking. */
-		mXparser.consolePrintln("2nd trial of syntax checking.");
-		e.checkSyntax();
-		mXparser.consolePrintln(e.getErrorMessage());
+		//mXparser.consolePrintln("2nd trial of syntax checking.");
+		//e.checkSyntax();
+		//mXparser.consolePrintln(e.getErrorMessage());
 
+		/*
+		Function Size = new Function("Size(n) = ceil( ( -1 + sqrt(1 + 4*n) )/2 )");
+		Function ElBefore = new Function("ElBefore(n) = Size(n) * ( Size(n) - 1 )", Size);
+		Function ItemNrInGrBig = new Function("ItemNrInGrBig(n) = n - ElBefore(n)", ElBefore);
+		Function GrBefore = new Function("GrBefore(n) = 2 * ( Size(n) - 1 )", Size);
+		Function SubGrNr = new Function("SubGrNr(n) = ceil( ItemNrInGrBig(n) / Size(n) )", Size, ItemNrInGrBig);
+		Function GrNr = new Function("GrNr(n) = GrBefore(n) + SubGrNr(n)", GrBefore, SubGrNr);
+		Function ItemNrInGr = new Function("ItemNrInGr(n) = ( ItemNrInGrBig(n) - 1 ) % Sizee(n) ", ItemNrInGrBig, Size);
+		Function Dir = new Function("Dir(n) = ( GrNr(n) - 1 ) % 4", GrNr);
+		Function dx = new Function("dx(n) = iff( Dir(n) = 0, 1; Dir(n) = 1, 0; Dir(n) = 2, -1; Dir(n) = 3, 0)", Dir);
+		Function dy = new Function("dy(n) = iff( Dir(n) = 0, 0; Dir(n) = 1, 1; Dir(n) = 2, 0; Dir(n) = 3, -1)", Dir);
+		RecursiveArgument x = new RecursiveArgument("x(n) = x(n-1) + dx(n-1)", dx);
+		RecursiveArgument y = new RecursiveArgument("y(n) = y(n-1) + dy(n-1)", dy);
+		x.addBaseCase(1, 0);
+		y.addBaseCase(1, 0);
+		Function xx = new Function("x(n) = if( n > 1, sum(i, 1, n-1, dx(i) ), 0)", dx);
+		Function yy = new Function("y(n) = if( n > 1, sum(i, 1, n-1, dy(i) ), 0)", dy);
 
-
-
+		mXparser.consolePrintln(x.getArgumentValue(300) + ", " + x.getComputingTime());
+		mXparser.consolePrintln(xx.calculate(300) + ", " + xx.getComputingTime());
+		*/
+		Function V = new Function("V(n,k) = n! / (n-k)!");
+		Function B = new Function("B(n,k) = V(n,k) * Stirl2(n,k)", V);
+		int n = 6;
+		for (int k = 0; k <= n+1; k++)
+			mXparser.consolePrintln("B(" + n + "," + k + ") = " + B.calculate(n,k) );
 	}
 }
