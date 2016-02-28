@@ -18,9 +18,9 @@ v.2.4.0 (2016-02-28): Average, variance and standard deviation.
 										  from function values
 
 	* New regression tests to cover new functions
-	
 	* Small code reorganization
-	
+	* Added manifest to jar files containg version information
+	* .dll files were signed
 		 
 v.2.3.1 (2016-01-29): Trailing letter 'e' bug fix + some minor changes in the code.
 		 
