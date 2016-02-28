@@ -3753,7 +3753,6 @@ public class RegTestExpressionV2 {
 			mXparser.consolePrint("OK");
 		else
 			mXparser.consolePrint("ERROR");
-		return testResult;
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

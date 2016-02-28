@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        2.3.1   2016-01-28
+ * @(#)mXparser.cs        2.4.0   2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -67,7 +67,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
 	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.3.1
+	 * @version        2.4.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -79,7 +79,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		internal const String VERSION = "2.3.1";
+		internal const String VERSION = "2.4.0";
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -206,6 +206,51 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int i = 0; i < size; i++)
 				newNumbers[i] = numbers[i];
 			return newNumbers;
+		}
+		/**
+		 * Returns array of double values of the function f(i)
+		 * calculated on the range: i = from to i = to by step = delta
+		 *
+		 * @param f            Function expression
+		 * @param index        Index argument
+		 * @param from         'from' value
+		 * @param to           'to' value
+		 * @param delta        'delta' step definition
+		 * @return             Array of function values
+		 */
+		public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return null;
+			int n = 0;
+			double[] values;
+			if ((to >= from) && (delta > 0)) {
+				for (double i = from; i < to; i += delta)
+					n++;
+				n++;
+				values = new double[n];
+				int j = 0;
+				for (double i = from; i < to; i += delta) {
+					values[j] = getFunctionValue(f, index, i);
+					j++;
+				}
+				values[j] = getFunctionValue(f, index, to);
+			} else if ((to <= from) && (delta < 0)) {
+				for (double i = from; i > to; i += delta)
+					n++;
+				n++;
+				values = new double[n];
+				int j = 0;
+				for (double i = from; i > to; i += delta) {
+					values[j] = getFunctionValue(f, index, i);
+					j++;
+				}
+				values[j] = getFunctionValue(f, index, to);
+			} else if (from == to) {
+				n = 1;
+				values = new double[n];
+				values[0] = getFunctionValue(f, index, from);
+			} else values = null;
+			return values;
 		}
 		/**
 		 * Converts integer number to hex string (plain text)
@@ -476,25 +521,14 @@ namespace org.mariuszgromada.math.mxparser {
 	 *=================================================
 	 */
 	/**
-	 * Package level class for retriving calculus parameters
-	 * Holds params number and partameter string
+	 * Package level class for retrieving calculus parameters
+	 * Holds params number and parameter string
 	 */
 	internal class FunctionParameter {
-		/**
-		 *
-		 */
 		internal List<Token> tokens;
-		/**
-		 *
-		 */
 		internal String paramStr;
 		internal int fromIndex;
 		internal int toIndex;
-		/**
-		 *
-		 * @param paramStr
-		 * @param parametersNumber
-		 */
 		internal FunctionParameter(List<Token> tokens,
 				String paramStr,
 				int fromIndex,
@@ -503,6 +537,57 @@ namespace org.mariuszgromada.math.mxparser {
 			this.paramStr = paramStr;
 			this.fromIndex = fromIndex;
 			this.toIndex = toIndex;
+		}
+	}
+	/**
+	 * Package level class for generating iterative operator parameters
+	 */
+	internal class IterativeOperatorParameters {
+		internal FunctionParameter indexParam;
+		internal FunctionParameter fromParam;
+		internal FunctionParameter toParam;
+		internal FunctionParameter funParam;
+		internal FunctionParameter deltaParam;
+		internal Expression fromExp;
+		internal Expression toExp;
+		internal Expression funExp;
+		internal Expression deltaExp;
+		internal double from;
+		internal double to;
+		internal double delta;
+		internal bool withDelta;
+
+		internal IterativeOperatorParameters(List<FunctionParameter> functionParameters) {
+			/*
+			 * Get index string
+			 * 1st parameter
+			 */
+			indexParam = functionParameters[0];
+			/*
+			 * Get from string (range from-to)
+			 * 2nd parameter
+			 */
+			fromParam = functionParameters[1];
+			/*
+			 * Get to string (range from-to)
+			 * 3rd parameter
+			 */
+			toParam = functionParameters[2];
+			/*
+			 * Get internal function strinng
+			 * 4th - parameter
+			 */
+			funParam = functionParameters[3];
+			/*
+			 * Get internal function strinng
+			 * 5th - parameter
+			 */
+			deltaParam = null;
+			withDelta = false;
+			if (functionParameters.Count == 5) {
+				deltaParam = functionParameters[4];
+				withDelta = true;
+			}
 		}
 	}
 	/**
@@ -1133,6 +1218,12 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const int CONT_POL_ID = 5;
 		internal const int GCD_ID = 6;
 		internal const int LCM_ID = 7;
+		internal const int SUM_ID = 8;
+		internal const int PROD_ID = 9;
+		internal const int AVG_ID = 10;
+		internal const int VAR_ID = 11;
+		internal const int STD_ID = 12;
+
 		internal const String IFF_STR = "iff";
 		internal const String MIN_STR = "min";
 		internal const String MAX_STR = "max";
@@ -1140,6 +1231,12 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String CONT_POL_STR = "ConPol";
 		internal const String GCD_STR = "gcd";
 		internal const String LCM_STR = "lcm";
+		internal const String SUM_STR = "add";
+		internal const String PROD_STR = "multi";
+		internal const String AVG_STR = "mean";
+		internal const String VAR_STR = "var";
+		internal const String STD_STR = "std";
+
 		internal const String IFF_DESC = "if function ( iff(con_1; if_true_1_exp; ...; con_n; if_true_n_exp) )";
 		internal const String MIN_DESC = "minimum function: min(a;b;c;...)";
 		internal const String MAX_DESC = "maximum function: max(a;b;c;...)";
@@ -1147,6 +1244,11 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String CONT_POL_DESC = "Continued polynomial: ConPol(a;b;c;...)";
 		internal const String GCD_DESC = "Greatest common divisor: gcd(a;b;c;...)";
 		internal const String LCM_DESC = "Least common multiple: lcm(a;b;c;...)";
+		internal const String SUM_DESC = "Summation operator add(a1,a2,a3,...,an)";
+		internal const String PROD_DESC = "Multiplication multi(a1,a2,a3,...,an)";
+		internal const String AVG_DESC = "Mean / average value mean(a1,a2,a3,...,an)";
+		internal const String VAR_DESC = "Bias-corrected sample variance var(a1,a2,a3,...,an)";
+		internal const String STD_DESC = "Bias-corrected sample standard deviation std(a1,a2,a3,...,an)";
 	}
 	/**
 	 * Calculus
@@ -1165,6 +1267,12 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const int DERN_ID = 9;
 		internal const int FORW_DIFF_ID = 10;
 		internal const int BACKW_DIFF_ID = 11;
+		internal const int AVG_ID = 12;
+		internal const int VAR_ID = 13;
+		internal const int STD_ID = 14;
+		internal const int MIN_ID = 15;
+		internal const int MAX_ID = 16;
+
 		internal const String SUM_STR = "sum";
 		internal const String PROD_STR = "prod";
 		internal const String INT_STR = "int";
@@ -1174,6 +1282,12 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String DERN_STR = "dern";
 		internal const String FORW_DIFF_STR = "diff";
 		internal const String BACKW_DIFF_STR = "difb";
+		internal const String AVG_STR = "avg";
+		internal const String VAR_STR = "vari";
+		internal const String STD_STR = "stdi";
+		internal const String MIN_STR = "mini";
+		internal const String MAX_STR = "maxi";
+
 		internal const String SUM_DESC = "summation operator (SIGMA) sum(i; from; to; f(i;...))";
 		internal const String PROD_DESC = "product operator (PI) prod(i; from; to; f(i;...))";
 		internal const String INT_DESC = "definite integral operator ( int(f(x;...); x; a; b) )";
@@ -1183,6 +1297,11 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String DERN_DESC = "n-th derivative operator ( dern(f(x;...); x) ) ";
 		internal const String FORW_DIFF_DESC = "forward difference operator";
 		internal const String BACKW_DIFF_DESC = "backward difference operator";
+		internal const String AVG_DESC = "Average operator avg(i, from, to, f(i,...))";
+		internal const String VAR_DESC = "Bias-corrected sample variance operator vari(i, from, to, f(i,...))";
+		internal const String STD_DESC = "Bias-corrected sample standard deviation operator stdi(i, from, to, f(i,...))";
+		internal const String MIN_DESC = "Minimum value mini(i, from, to, f(i,...))";
+		internal const String MAX_DESC = "Maximum valu maxi(i, from, to, f(i,...))";
 	}
 	/**
 	 * Const

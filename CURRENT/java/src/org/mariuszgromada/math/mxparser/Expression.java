@@ -2790,45 +2790,58 @@ public class Expression {
 				t.tokenTypeId = tokenTypeId;
 			}
 	}
-	private void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters params) {
+	/**
+	 * Update missing tokens in expression related
+	 * to iterative operators.
+	 *
+	 * @param index      Index parameter of the iterative operator
+	 * @param iterParams     Parameters list of the iterative operator
+	 */
+	private void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters iterParams) {
 		if (index.presence == Argument.NOT_FOUND) {
-			updateMissingTokens(params.indexParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(params.fromParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(params.toParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(params.funParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(iterParams.indexParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(iterParams.fromParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(iterParams.toParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(iterParams.funParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
 		}
 	}
-	private void evalFromToDeltaParameters(ArgumentParameter index, IterativeOperatorParameters params) {
+	/**
+	 * Evaluates ranges 'from', 'to', 'delta' for the iterative operator
+	 *
+	 * @param index      Index parameter of the iterative operator
+	 * @param iterParams     Parameters list of the iterative operator
+	 */
+	private void evalFromToDeltaParameters(ArgumentParameter index, IterativeOperatorParameters iterParams) {
 		/*
 		 * Create from, to, fun expression
 		 * based on the from string
 		 *    expressions will use the same arguments list
 		 *    as used in the main expression (this.argumentsList)
 		 */
-		params.fromExp = new Expression(params.fromParam.paramStr, params.fromParam.tokens, argumentsList, functionsList, constantsList);
-		params.toExp = new Expression(params.toParam.paramStr, params.toParam.tokens, argumentsList, functionsList, constantsList);
-		params.funExp = new Expression(params.funParam.paramStr, params.funParam.tokens, argumentsList, functionsList, constantsList);
-		params.deltaExp = null;
+		iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList);
+		iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList);
+		iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList);
+		iterParams.deltaExp = null;
 		if (verboseMode == true) {
-			params.fromExp.setVerboseMode();
-			params.toExp.setVerboseMode();
-			params.funExp.setVerboseMode();
+			iterParams.fromExp.setVerboseMode();
+			iterParams.toExp.setVerboseMode();
+			iterParams.funExp.setVerboseMode();
 		}
 		/*
 		 * Evaluate range
 		 */
-		params.from = params.fromExp.calculate();
-		params.to = params.toExp.calculate();
-		params.delta = 1;
-		if (params.to < params.from) params.delta = -1;
-		if (params.withDelta == true) {
-			params.deltaExp = new Expression(params.deltaParam.paramStr, params.deltaParam.tokens, argumentsList, functionsList, constantsList);
+		iterParams.from = iterParams.fromExp.calculate();
+		iterParams.to = iterParams.toExp.calculate();
+		iterParams.delta = 1;
+		if (iterParams.to < iterParams.from) iterParams.delta = -1;
+		if (iterParams.withDelta == true) {
+			iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList);
 			if (index.presence == Argument.NOT_FOUND) {
-				updateMissingTokens(params.deltaParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+				updateMissingTokens(iterParams.deltaParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
 			}
 			if (verboseMode == true)
-				params.deltaExp.setVerboseMode();
-			params.delta = params.deltaExp.calculate();
+				iterParams.deltaExp.setVerboseMode();
+			iterParams.delta = iterParams.deltaExp.calculate();
 		}
 	}
 	/**
@@ -2842,11 +2855,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void SUM(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double sigma = NumberTheory.sigmaSummation(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double sigma = NumberTheory.sigmaSummation(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, sigma);
 	}
@@ -2861,11 +2874,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void PROD(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double product = NumberTheory.piProduct(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double product = NumberTheory.piProduct(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, product);
 	}
@@ -2880,11 +2893,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void MIN(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double min = NumberTheory.min(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double min = NumberTheory.min(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, min);
 	}
@@ -2899,11 +2912,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void MAX(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double max = NumberTheory.max(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double max = NumberTheory.max(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, max);
 	}
@@ -2918,11 +2931,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void AVG(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double avg = NumberTheory.avg(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double avg = NumberTheory.avg(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, avg);
 	}
@@ -2937,11 +2950,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void VAR(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double var = NumberTheory.var(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double var = NumberTheory.var(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, var);
 	}
@@ -2956,11 +2969,11 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void STD(int pos) {
-		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
-		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
-		updateMissingTokens(index, params);
-		evalFromToDeltaParameters(index, params);
-		double std = NumberTheory.std(params.funExp, index.argument, params.from, params.to, params.delta);
+		IterativeOperatorParameters iterParams = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
+		updateMissingTokens(index, iterParams);
+		evalFromToDeltaParameters(index, iterParams);
+		double std = NumberTheory.std(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 		clearParamArgument(index);
 		calcSetDecreaseRemove(pos, std);
 	}

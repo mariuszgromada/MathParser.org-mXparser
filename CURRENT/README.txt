@@ -1,6 +1,27 @@
             mXparser - Math Parser Java Android C# .NET (CLS) Library beta
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
+v.2.4.0 (2016-02-28): Average, variance and standard deviation.
+
+	* New functions with variadic parameters:
+		- mean(a1, a2, ... , an) - sample average
+		- var(a1, a2, ... , an) - bias-corrected sample variance
+		- std(a1, a2, ... , an) - bias-corrected sample standard deviation
+		
+	* New iterative operators:
+		- mini(i, from, to, f(i), <by>) - minimum from function values
+		- maxi(i, from, to, f(i), <by>) - maximum from function values
+		- avg(i, from, to, f(i), <by>) - average from function values
+		- vari(i, from, to, f(i), <by>) - bias-corrected sample variance from
+										  function values
+		- stdi(i, from, to, f(i), <by>) - bias-corrected sample standard deviation
+										  from function values
+
+	* New regression tests to cover new functions
+	
+	* Small code reorganization
+	
+		 
 v.2.3.1 (2016-01-29): Trailing letter 'e' bug fix + some minor changes in the code.
 		 
 v.2.3.0 (2016-01-17): Prime numbers supported! Multithreading performance tests!

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        2.3.0    2016-01-15
+ * @(#)MathFunctions.cs        2.4.0    2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -64,7 +64,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
 	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.3.0
+	 * @version        2.4.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -1469,6 +1469,107 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return 0;
 			}
 			return lcm(intNumbers);
+		}
+		/**
+		 * Adding numbers.
+		 *
+		 * @param      numbers             the numbers
+		 *
+		 * @return     if each number from numbers <> Double.NaN returns
+		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
+		public static double sum(params double[] numbers) {
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			double sum = 0;
+			foreach (double xi in numbers) {
+				if (Double.IsNaN(xi))
+					return Double.NaN;
+				sum += xi;
+			}
+			return sum;
+		}
+		/**
+		 * Numbers multiplication.
+		 *
+		 * @param      numbers             the numbers
+		 *
+		 * @return     if each number from numbers <> Double.NaN returns
+		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
+		public static double prod(params double[] numbers) {
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			double prod = 1;
+			foreach (double xi in numbers) {
+				if (Double.IsNaN(xi))
+					return Double.NaN;
+				prod *= xi;
+			}
+			return prod;
+		}
+		/**
+		 * Sample average.
+		 *
+		 * @param      numbers             the numbers
+		 *
+		 * @return     if each number from numbers <> Double.NaN returns
+		 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
+		public static double avg(params double[] numbers) {
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			double sum = 0;
+			foreach (double xi in numbers) {
+				if (Double.IsNaN(xi))
+					return Double.NaN;
+				sum += xi;
+			}
+			return sum / numbers.Length;
+		}
+		/**
+		 * Sample variance (biased-corrected).
+		 *
+		 * @param      numbers             the numbers
+		 *
+		 * @return     if each number from numbers <> Double.NaN returns
+		 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
+		public static double var(params double[] numbers) {
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) {
+				if (Double.IsNaN(numbers[0])) return Double.NaN;
+				return 0;
+			}
+			double m = avg(numbers);
+			double sum = 0;
+			foreach (double xi in numbers) {
+				if (Double.IsNaN(xi))
+					return Double.NaN;
+				sum += (xi - m) * (xi - m);
+			}
+			return sum / (numbers.Length - 1);
+		}
+		/**
+		 * Sample standard deviation (biased-corrected).
+		 *
+		 * @param      numbers             the numbers
+		 *
+		 * @return     if each number from numbers <> Double.NaN returns
+		 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
+		 *             otherwise returns Double.NaN.
+		 */
+		public static double std(params double[] numbers) {
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) {
+				if (Double.IsNaN(numbers[0])) return Double.NaN;
+				return 0;
+			}
+			return sqrt(var(numbers));
 		}
 		/**
 		 * Prime test

@@ -212,7 +212,7 @@ public final class mXparser {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return null;
 		int n = 0;
-		double values[];
+		double[] values;
 		if ( (to >= from) && (delta > 0) ) {
 			for (double i = from; i < to; i+=delta)
 				n++;

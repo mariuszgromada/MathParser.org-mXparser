@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        2.1.1-1    2016-01-07
+ * @(#)NumberTheory.cs        2.4.0    2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -60,7 +60,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
 	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
 	 *
-	 * @version        2.1.1-1
+	 * @version        2.4.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
@@ -77,7 +77,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
 			double result = 0;
-			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) )
+			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to)) || (delta == 0) )
 				return Double.NaN;
 			if ( (to >= from) && (delta > 0) ) {
 				for (double i = from; i < to; i+=delta)
@@ -106,7 +106,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Argument
 		 */
 		public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
-			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) )
+			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to)) || (delta == 0) )
 				return Double.NaN;
 			double result = 1;
 			if ( (to >= from) && (delta > 0) ) {
@@ -120,6 +120,155 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			} else if (from == to)
 				result *= mXparser.getFunctionValue(f, index, from);
 			return result;
+		}
+		/**
+		 * Minimum value - iterative operator.
+		 *
+		 * @param      f                   the expression
+		 * @param      index               the name of index argument
+		 * @param      from                FROM index = form
+		 * @param      to                  TO index = to
+		 * @param      delta               BY delta
+		 *
+		 * @return     product operation (for empty product operations returns 1).
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 */
+		public static double min(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return Double.NaN;
+			double min = Double.PositiveInfinity;
+			double v;
+			if ((to >= from) && (delta > 0)) {
+				for (double i = from; i < to; i += delta) {
+					v = mXparser.getFunctionValue(f, index, i);
+					if (v < min) min = v;
+				}
+				v = mXparser.getFunctionValue(f, index, to);
+				if (v < min) min = v;
+			} else if ((to <= from) && (delta < 0)) {
+				for (double i = from; i > to; i += delta) {
+					v = mXparser.getFunctionValue(f, index, i);
+					if (v < min) min = v;
+				}
+				v = mXparser.getFunctionValue(f, index, to);
+				if (v < min) min = v;
+			} else if (from == to)
+				min = mXparser.getFunctionValue(f, index, from);
+			return min;
+		}
+		/**
+		 * Maximum value - iterative operator.
+		 *
+		 * @param      f                   the expression
+		 * @param      index               the name of index argument
+		 * @param      from                FROM index = form
+		 * @param      to                  TO index = to
+		 * @param      delta               BY delta
+		 *
+		 * @return     product operation (for empty product operations returns 1).
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 */
+		public static double max(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return Double.NaN;
+			double max = Double.NegativeInfinity;
+			double v;
+			if ((to >= from) && (delta > 0)) {
+				for (double i = from; i < to; i += delta) {
+					v = mXparser.getFunctionValue(f, index, i);
+					if (v > max) max = v;
+				}
+				v = mXparser.getFunctionValue(f, index, to);
+				if (v > max) max = v;
+			} else if ((to <= from) && (delta < 0)) {
+				for (double i = from; i > to; i += delta) {
+					v = mXparser.getFunctionValue(f, index, i);
+					if (v > max) max = v;
+				}
+				v = mXparser.getFunctionValue(f, index, to);
+				if (v > max) max = v;
+			} else if (from == to)
+				max = mXparser.getFunctionValue(f, index, from);
+			return max;
+		}
+		/**
+		 * Average from sample function values - iterative operator.
+		 *
+		 * @param      f                   the expression
+		 * @param      index               the name of index argument
+		 * @param      from                FROM index = form
+		 * @param      to                  TO index = to
+		 * @param      delta               BY delta
+		 *
+		 * @return     product operation (for empty product operations returns 1).
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 */
+		public static double avg(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return Double.NaN;
+			double sum = 0;
+			int n = 0;
+			if ((to >= from) && (delta > 0)) {
+				for (double i = from; i < to; i += delta) {
+					sum += mXparser.getFunctionValue(f, index, i);
+					n++;
+				}
+				sum += mXparser.getFunctionValue(f, index, to);
+				n++;
+			} else if ((to <= from) && (delta < 0)) {
+				for (double i = from; i > to; i += delta) {
+					sum += mXparser.getFunctionValue(f, index, i);
+					n++;
+				}
+				sum += mXparser.getFunctionValue(f, index, to);
+				n++;
+			} else if (from == to)
+				return mXparser.getFunctionValue(f, index, from);
+			return sum / n;
+		}
+		/**
+		 * Bias-corrected variance from sample function values - iterative operator.
+		 *
+		 * @param      f                   the expression
+		 * @param      index               the name of index argument
+		 * @param      from                FROM index = form
+		 * @param      to                  TO index = to
+		 * @param      delta               BY delta
+		 *
+		 * @return     product operation (for empty product operations returns 1).
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 */
+		public static double var(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return Double.NaN;
+			return MathFunctions.var(mXparser.getFunctionValues(f, index, from, to, delta));
+		}
+		/**
+		 * Bias-corrected standard deviation from sample function values - iterative operator.
+		 *
+		 * @param      f                   the expression
+		 * @param      index               the name of index argument
+		 * @param      from                FROM index = form
+		 * @param      to                  TO index = to
+		 * @param      delta               BY delta
+		 *
+		 * @return     product operation (for empty product operations returns 1).
+		 *
+		 * @see        Expression
+		 * @see        Argument
+		 */
+		public static double std(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return Double.NaN;
+			return MathFunctions.std(mXparser.getFunctionValues(f, index, from, to, delta));
 		}
 		/**
 		 * Forward difference(1) operator (at x = x0)
@@ -163,7 +312,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return delta;
 		}
 		/**
-		 * Backward difference(1) operator (at x = x0)
+		 * Backward difference(1) operator (at x = x0).
 		 *
 		 * @param      f                   the expression
 		 * @param      x                   the argument name
