@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        2.3.1   2016-01-28
+ * @(#)mXparser.java        2.4.0   2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -64,7 +64,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.1
+ * @version        2.4.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -75,7 +75,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "2.3.1";
+	static final String VERSION = "2.4.0";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -196,6 +196,51 @@ public final class mXparser {
 		for (int i = 0; i < size; i++)
 			newNumbers[i] = numbers.get(i).doubleValue();
 		return newNumbers;
+	}
+	/**
+	 * Returns array of double values of the function f(i)
+	 * calculated on the range: i = from to i = to by step = delta
+	 *
+	 * @param f            Function expression
+	 * @param index        Index argument
+	 * @param from         'from' value
+	 * @param to           'to' value
+	 * @param delta        'delta' step definition
+	 * @return             Array of function values
+	 */
+	public static final double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
+		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
+			return null;
+		int n = 0;
+		double values[];
+		if ( (to >= from) && (delta > 0) ) {
+			for (double i = from; i < to; i+=delta)
+				n++;
+			n++;
+			values = new double[n];
+			int j = 0;
+			for (double i = from; i < to; i+=delta) {
+				values[j] = getFunctionValue(f, index, i);
+				j++;
+			}
+			values[j] = getFunctionValue(f, index, to);
+		} else if ( (to <= from) && (delta < 0) ) {
+			for (double i = from; i > to; i+=delta)
+				n++;
+			n++;
+			values = new double[n];
+			int j = 0;
+			for (double i = from; i > to; i+=delta) {
+				values[j] = getFunctionValue(f, index, i);
+				j++;
+			}
+			values[j] = getFunctionValue(f, index, to);
+		} else if (from == to) {
+			n = 1;
+			values = new double[n];
+			values[0] = getFunctionValue(f, index, from);
+		} else values = null;
+		return values;
 	}
 	/**
 	 * Converts integer number to hex string (plain text)
@@ -466,25 +511,14 @@ public final class mXparser {
  *=================================================
  */
 /**
- * Package level class for retriving calculus parameters
- * Holds params number and partameter string
+ * Package level class for retrieving calculus parameters
+ * Holds params number and parameter string
  */
 class FunctionParameter {
-	/**
-	 *
-	 */
 	ArrayList<Token> tokens;
-	/**
-	 *
-	 */
 	String paramStr;
 	int fromIndex;
 	int toIndex;
-	/**
-	 *
-	 * @param paramStr
-	 * @param parametersNumber
-	 */
 	FunctionParameter(ArrayList<Token> tokens,
 			String paramStr,
 			int fromIndex,
@@ -493,6 +527,56 @@ class FunctionParameter {
 		this.paramStr = paramStr;
 		this.fromIndex = fromIndex;
 		this.toIndex = toIndex;
+	}
+}
+/**
+ * Package level class for generating iterative operator parameters
+ */
+class IterativeOperatorParameters {
+	FunctionParameter indexParam;
+	FunctionParameter fromParam;
+	FunctionParameter toParam;
+	FunctionParameter funParam;
+	FunctionParameter deltaParam;
+	Expression fromExp;
+	Expression toExp;
+	Expression funExp;
+	Expression deltaExp;
+	double from;
+	double to;
+	double delta;
+	boolean withDelta;
+	IterativeOperatorParameters(ArrayList<FunctionParameter> functionParameters) {
+		/*
+		 * Get index string
+		 * 1st parameter
+		 */
+		indexParam = functionParameters.get(0);
+		/*
+		 * Get from string (range from-to)
+		 * 2nd parameter
+		 */
+		fromParam = functionParameters.get(1);
+		/*
+		 * Get to string (range from-to)
+		 * 3rd parameter
+		 */
+		toParam = functionParameters.get(2);
+		/*
+		 * Get internal function strinng
+		 * 4th - parameter
+		 */
+		funParam = functionParameters.get(3);
+		/*
+		 * Get internal function strinng
+		 * 5th - parameter
+		 */
+		deltaParam = null;
+		withDelta = false;
+		if (functionParameters.size() == 5) {
+			deltaParam = functionParameters.get(4);
+			withDelta = true;
+		}
 	}
 }
 /**
@@ -1145,11 +1229,11 @@ interface SpecialFunction {
 		CONT_POL_ID			= 5,
 		GCD_ID				= 6,
 		LCM_ID				= 7,
-		SUM_SPC_ID			= 8,
-		PROD_SPC_ID			= 9,
-		AVG_SPC_ID			= 10,
-		VAR_SPC_ID			= 11,
-		STD_SPC_ID			= 12
+		SUM_ID				= 8,
+		PROD_ID				= 9,
+		AVG_ID				= 10,
+		VAR_ID				= 11,
+		STD_ID				= 12
 	;
 	String
 		IFF_STR 			= "iff",
@@ -1159,18 +1243,23 @@ interface SpecialFunction {
 		CONT_POL_STR		= "ConPol",
 		GCD_STR				= "gcd",
 		LCM_STR				= "lcm",
+		SUM_STR				= "add",
+		PROD_STR			= "multi",
+		AVG_STR				= "mean",
+		VAR_STR				= "var",
+		STD_STR				= "std",
 		IFF_DESC 			= "if function ( iff(con_1, if_true_1_exp, ..., con_n, if_true_n_exp) )",
-		MIN_DESC 			= "minimum function: min(a,b,c,...)",
-		MAX_DESC 			= "maximum function: max(a,b,c,...)",
+		MIN_DESC 			= "Minimum function: min(a,b,c,...)",
+		MAX_DESC 			= "Maximum function: max(a,b,c,...)",
 		CONT_FRAC_DESC		= "Continued fraction: ConFrac(a,b,c,...)",
 		CONT_POL_DESC		= "Continued polynomial: ConPol(a,b,c,...)",
 		GCD_DESC			= "Greatest common divisor: gcd(a,b,c,...)",
 		LCM_DESC			= "Least common multiple: lcm(a,b,c,...)",
-		SUM_SPC_DESC		= "Summation operator Sum(a1,a3,a3,...,an)",
-		PROD_SPC_DESC		= "Product opertator Prod(a1,a3,a3,...,an)",
-		AVG_SPC_DESC		= "Average operator Avg(a1,a3,a3,...,an)",
-		VAR_SPC_DESC		= "Variance Var(a1,a3,a3,...,an)",
-		STD_SPC_DESC		= "Standard deviation Std(a1,a3,a3,...,an)"
+		SUM_DESC			= "Summation operator add(a1,a2,a3,...,an)",
+		PROD_DESC			= "Multiplication multi(a1,a2,a3,...,an)",
+		AVG_DESC			= "Mean / average value mean(a1,a2,a3,...,an)",
+		VAR_DESC			= "Bias-corrected sample variance var(a1,a2,a3,...,an)",
+		STD_DESC			= "Bias-corrected sample standard deviation std(a1,a2,a3,...,an)"
 	;
 }
 /**
@@ -1193,7 +1282,9 @@ interface Calculus {
 		BACKW_DIFF_ID		= 11,
 		AVG_ID				= 12,
 		VAR_ID				= 13,
-		STD_ID				= 14
+		STD_ID				= 14,
+		MIN_ID				= 15,
+		MAX_ID				= 16
 	;
 	String
 		SUM_STR				= "sum",
@@ -1205,6 +1296,12 @@ interface Calculus {
 		DERN_STR			= "dern",
 		FORW_DIFF_STR		= "diff",
 		BACKW_DIFF_STR		= "difb",
+		AVG_STR				= "avg",
+		VAR_STR				= "vari",
+		STD_STR				= "stdi",
+		MIN_STR				= "mini",
+		MAX_STR				= "maxi",
+
 		SUM_DESC			= "summation operator (SIGMA) sum(i, from, to, f(i,...))",
 		PROD_DESC			= "product operator (PI) prod(i, from, to, f(i,...))",
 		INT_DESC			= "definite integral operator ( int(f(x,...), x, a, b) )",
@@ -1215,8 +1312,10 @@ interface Calculus {
 		FORW_DIFF_DESC		= "forward difference operator",
 		BACKW_DIFF_DESC		= "backward difference operator",
 		AVG_DESC			= "Average operator avg(i, from, to, f(i,...))",
-		VAR_DESC			= "Variance operator var(i, from, to, f(i,...))",
-		STD_DESC			= "Standard deviation operator std(i, from, to, f(i,...))"
+		VAR_DESC			= "Bias-corrected sample variance operator vari(i, from, to, f(i,...))",
+		STD_DESC			= "Bias-corrected sample standard deviation operator stdi(i, from, to, f(i,...))",
+		MIN_DESC			= "Minimum value mini(i, from, to, f(i,...))",
+		MAX_DESC			= "Maximum valu maxi(i, from, to, f(i,...))"
 	;
 }
 /**

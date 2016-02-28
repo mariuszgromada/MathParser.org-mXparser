@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionV2.java        2.3.1    2016-01-28
+ * @(#)RegTestExpressionV2.java        2.4.0    2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -67,7 +67,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.1
+ * @version        2.4.0
  *
  * @see Expression
  */
@@ -3648,6 +3648,106 @@ public class RegTestExpressionV2 {
 			testResult = true;
 		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 		break;
+	case 314:
+		expStr = "add(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 55;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 315:
+		expStr = "multi(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 3628800;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 316:
+		expStr = "mean(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 5.5;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 317:
+		expStr = "var(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 9.166666667;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 318:
+		expStr = "std(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 3.027650354;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 319:
+		expStr = "avg(i, 1, 10, i)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 5.5;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 320:
+		expStr = "vari(i, 1, 10, i)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 9.166666667;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 321:
+		expStr = "stdi(i, 1, 10, i)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 3.027650354;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 322:
+		expStr = "mini(i, -10, 10, i)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = -10;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
+	case 323:
+		expStr = "maxi(i, -10, 10, i)";
+		mXparser.consolePrint(expStr + " ...... ");
+		exp[testId] = new Expression(expStr);
+		value = exp[testId].calculate();
+		reg = 10;
+		if ( MathFunctions.abs(reg - value) < 0.0000001 )
+			testResult = true;
+		mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+		break;
 	}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -3662,7 +3762,7 @@ public class RegTestExpressionV2 {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 313	;
+		int numberOfTests = 323;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

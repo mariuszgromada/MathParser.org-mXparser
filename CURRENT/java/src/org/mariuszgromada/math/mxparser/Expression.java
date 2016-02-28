@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        2.3.1    2016-01-28
+ * @(#)Expression.java        2.4.0    2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -82,7 +82,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.1
+ * @version        2.4.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -2790,6 +2790,47 @@ public class Expression {
 				t.tokenTypeId = tokenTypeId;
 			}
 	}
+	private void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters params) {
+		if (index.presence == Argument.NOT_FOUND) {
+			updateMissingTokens(params.indexParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(params.fromParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(params.toParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			updateMissingTokens(params.funParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+		}
+	}
+	private void evalFromToDeltaParameters(ArgumentParameter index, IterativeOperatorParameters params) {
+		/*
+		 * Create from, to, fun expression
+		 * based on the from string
+		 *    expressions will use the same arguments list
+		 *    as used in the main expression (this.argumentsList)
+		 */
+		params.fromExp = new Expression(params.fromParam.paramStr, params.fromParam.tokens, argumentsList, functionsList, constantsList);
+		params.toExp = new Expression(params.toParam.paramStr, params.toParam.tokens, argumentsList, functionsList, constantsList);
+		params.funExp = new Expression(params.funParam.paramStr, params.funParam.tokens, argumentsList, functionsList, constantsList);
+		params.deltaExp = null;
+		if (verboseMode == true) {
+			params.fromExp.setVerboseMode();
+			params.toExp.setVerboseMode();
+			params.funExp.setVerboseMode();
+		}
+		/*
+		 * Evaluate range
+		 */
+		params.from = params.fromExp.calculate();
+		params.to = params.toExp.calculate();
+		params.delta = 1;
+		if (params.to < params.from) params.delta = -1;
+		if (params.withDelta == true) {
+			params.deltaExp = new Expression(params.deltaParam.paramStr, params.deltaParam.tokens, argumentsList, functionsList, constantsList);
+			if (index.presence == Argument.NOT_FOUND) {
+				updateMissingTokens(params.deltaParam.tokens, params.indexParam.paramStr, index.index, Argument.TYPE_ID );
+			}
+			if (verboseMode == true)
+				params.deltaExp.setVerboseMode();
+			params.delta = params.deltaExp.calculate();
+		}
+	}
 	/**
 	 * Summation operator (SIGMA by)
      * sum(i,m,n,f(i),b) --> sum f(i) from i=m to i=n by delta
@@ -2801,92 +2842,12 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void SUM(int pos) {
-		ArrayList<FunctionParameter> sumParams = getFunctionParameters(pos, tokensList);
-		/*
-		 * Get index string
-		 * 1st parameter
-		 */
-		FunctionParameter indexParam = sumParams.get(0);
-		/*
-		 * Get from string (range from-to)
-		 * 2nd parameter
-		 */
-		FunctionParameter fromParam = sumParams.get(1);
-		/*
-		 * Get to string (range from-to)
-		 * 3rd parameter
-		 */
-		FunctionParameter toParam = sumParams.get(2);
-		/*
-		 * Get internal function strinng
-		 * 4th - parameter
-		 */
-		FunctionParameter funParam = sumParams.get(3);
-		/*
-		 * Get internal function strinng
-		 * 5th - parameter
-		 */
-		FunctionParameter deltaParam = null;
-		boolean withDelta = false;
-		if (sumParams.size() == 5) {
-			deltaParam = sumParams.get(4);
-			withDelta = true;
-		}
-		/*
-		 * Create index argument
-		 */
-		ArgumentParameter index = getParamArgument(indexParam.paramStr);
-		if (index.presence == Argument.NOT_FOUND) {
-			updateMissingTokens(indexParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(fromParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(toParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(funParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-		}
-		/*
-		 * Create from, to, fun expression
-		 * based on the from string
-		 *    expressions will use the same arguments list
-		 *    as used in the main expression (this.argumentsList)
-		 */
-		Expression fromExp = new Expression(fromParam.paramStr, fromParam.tokens, argumentsList, functionsList, constantsList);
-		Expression toExp = new Expression(toParam.paramStr, toParam.tokens, argumentsList, functionsList, constantsList);
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
-		Expression deltaExp = null;
-		if (verboseMode == true) {
-			fromExp.setVerboseMode();
-			toExp.setVerboseMode();
-			funExp.setVerboseMode();
-		}
-		/*
-		 * Evaluate range
-		 */
-		double from = fromExp.calculate();
-		double to = toExp.calculate();
-		double delta = 1;
-		if (to < from) delta = -1;
-		if (withDelta == true) {
-			deltaExp = new Expression(deltaParam.paramStr, deltaParam.tokens, argumentsList, functionsList, constantsList);
-			if (index.presence == Argument.NOT_FOUND) {
-				updateMissingTokens(deltaParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			}
-			if (verboseMode == true)
-				deltaExp.setVerboseMode();
-			delta = deltaExp.calculate();
-		}
-		/*
-		 * Perform summary operation.
-		 * i goes within the range (form-to by byExp)
-		 * funExp value depends on the index vale
-		 */
-		double sigma = NumberTheory.sigmaSummation(funExp, index.argument, from, to, delta);
-		/*
-		 * Clear index attribute
-		 */
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double sigma = NumberTheory.sigmaSummation(params.funExp, index.argument, params.from, params.to, params.delta);
 		clearParamArgument(index);
-		/*
-		 * Call SetDecreaseRemove like method
-		 * refer to f1SetDecreaseRemove()
-		 */
 		calcSetDecreaseRemove(pos, sigma);
 	}
 	/**
@@ -2900,92 +2861,108 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void PROD(int pos) {
-		ArrayList<FunctionParameter> prodParams = getFunctionParameters(pos, tokensList);
-		/*
-		 * Get index string
-		 * 1st parameter
-		 */
-		FunctionParameter indexParam = prodParams.get(0);
-		/*
-		 * Get from string (range from-to)
-		 * 2nd parameter
-		 */
-		FunctionParameter fromParam = prodParams.get(1);
-		/*
-		 * Get to string (range from-to)
-		 * 3rd parameter
-		 */
-		FunctionParameter toParam = prodParams.get(2);
-		/*
-		 * Get internal function strinng
-		 * 4th - parameter
-		 */
-		FunctionParameter funParam = prodParams.get(3);
-		/*
-		 * Get internal function strinng
-		 * 5th - parameter
-		 */
-		FunctionParameter deltaParam = null;
-		boolean withDelta = false;
-		if (prodParams.size() == 5) {
-			deltaParam = prodParams.get(4);
-			withDelta = true;
-		}
-		/*
-		 * Create index argument
-		 */
-		ArgumentParameter index = getParamArgument(indexParam.paramStr);
-		if (index.presence == Argument.NOT_FOUND) {
-			updateMissingTokens(indexParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(fromParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(toParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			updateMissingTokens(funParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-		}
-		/*
-		 * Create from, to, fun expression
-		 * based on the from string
-		 *    expressions will use the same arguments list
-		 *    as used in the main expression (this.argumentsList)
-		 */
-		Expression fromExp = new Expression(fromParam.paramStr, fromParam.tokens, argumentsList, functionsList, constantsList);
-		Expression toExp = new Expression(toParam.paramStr, toParam.tokens, argumentsList, functionsList, constantsList);
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
-		Expression deltaExp = null;
-		if (verboseMode == true) {
-			fromExp.setVerboseMode();
-			toExp.setVerboseMode();
-			funExp.setVerboseMode();
-		}
-		/*
-		 * Evaluate range
-		 */
-		double from = fromExp.calculate();
-		double to = toExp.calculate();
-		double delta = 1;
-		if (to < from) delta = -1;
-		if (withDelta == true) {
-			if (index.presence == Argument.NOT_FOUND)
-				updateMissingTokens(deltaParam.tokens, indexParam.paramStr, index.index, Argument.TYPE_ID );
-			deltaExp = new Expression(deltaParam.paramStr, deltaParam.tokens, argumentsList, functionsList, constantsList);
-			if (verboseMode == true)
-				deltaExp.setVerboseMode();
-			delta = deltaExp.calculate();
-		}
-		/*
-		 * Perform summary operation.
-		 * i goes within the range (form-to by byExp)
-		 * funExp value depends on the index vale
-		 */
-		double product = NumberTheory.piProduct(funExp, index.argument, from, to, delta);
-		/*
-		 * clear index attribute
-		 */
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double product = NumberTheory.piProduct(params.funExp, index.argument, params.from, params.to, params.delta);
 		clearParamArgument(index);
-		/*
-		 * Call SetDecreaseRemove like method
-		 * refer to f1SetDecreaseRemove()
-		 */
 		calcSetDecreaseRemove(pos, product);
+	}
+	/**
+	 * Minimum value - iterative operator
+     * mini(i,m,n,f(i),b) --> min f(i) from i=m to i=n by delta
+     * i - index (argument)
+     * m, n - numbers or expressions
+     * f(i) - function string
+     * by delta
+     *
+	 * @param      pos                 the token position
+	 */
+	private void MIN(int pos) {
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double min = NumberTheory.min(params.funExp, index.argument, params.from, params.to, params.delta);
+		clearParamArgument(index);
+		calcSetDecreaseRemove(pos, min);
+	}
+	/**
+	 * Maximum value - iterative operator
+     * maxi(i,m,n,f(i),b) --> max f(i) from i=m to i=n by delta
+     * i - index (argument)
+     * m, n - numbers or expressions
+     * f(i) - function string
+     * by delta
+     *
+	 * @param      pos                 the token position
+	 */
+	private void MAX(int pos) {
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double max = NumberTheory.max(params.funExp, index.argument, params.from, params.to, params.delta);
+		clearParamArgument(index);
+		calcSetDecreaseRemove(pos, max);
+	}
+	/**
+	 * Average function value - iterative operator
+     * avg(i,m,n,f(i),b) --> avg f(i) from i=m to i=n by delta
+     * i - index (argument)
+     * m, n - numbers or expressions
+     * f(i) - function string
+     * by delta
+     *
+	 * @param      pos                 the token position
+	 */
+	private void AVG(int pos) {
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double avg = NumberTheory.avg(params.funExp, index.argument, params.from, params.to, params.delta);
+		clearParamArgument(index);
+		calcSetDecreaseRemove(pos, avg);
+	}
+	/**
+	 * Variance from sample function values - iterative operator
+     * vari(i,m,n,f(i),b) --> var f(i) from i=m to i=n by delta
+     * i - index (argument)
+     * m, n - numbers or expressions
+     * f(i) - function string
+     * by delta
+     *
+	 * @param      pos                 the token position
+	 */
+	private void VAR(int pos) {
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double var = NumberTheory.var(params.funExp, index.argument, params.from, params.to, params.delta);
+		clearParamArgument(index);
+		calcSetDecreaseRemove(pos, var);
+	}
+	/**
+	 * Standard deviation from sample function values - iterative operator
+     * stdi(i,m,n,f(i),b) --> std f(i) from i=m to i=n by delta
+     * i - index (argument)
+     * m, n - numbers or expressions
+     * f(i) - function string
+     * by delta
+     *
+	 * @param      pos                 the token position
+	 */
+	private void STD(int pos) {
+		IterativeOperatorParameters params = new IterativeOperatorParameters( getFunctionParameters(pos, tokensList) );
+		ArgumentParameter index = getParamArgument(params.indexParam.paramStr);
+		updateMissingTokens(index, params);
+		evalFromToDeltaParameters(index, params);
+		double std = NumberTheory.std(params.funExp, index.argument, params.from, params.to, params.delta);
+		clearParamArgument(index);
+		calcSetDecreaseRemove(pos, std);
 	}
 	/**
 	 * Function derivative
@@ -3215,24 +3192,74 @@ public class Expression {
 		clearParamArgument(x);
 	}
 	/**
-	 * Minimum
+	 * Minimum variadic
 	 * Sets tokens to number token
 	 *
 	 * @param      pos                 the token position
 	 */
-	private void MIN(int pos) {
+	private void MIN_VARIADIC(int pos) {
 		ArrayList<Double> numbers = getNumbers(pos);
 		specSetDecreaseRemove(pos, MathFunctions.min( mXparser.arraList2double(numbers) ), numbers.size() );
 	}
 	/**
-	 * Maximum
+	 * Maximum variadic
 	 * Sets tokens to number token
 	 *
 	 * @param pos token index (position)
 	 */
-	private void MAX(int pos) {
+	private void MAX_VARIADIC(int pos) {
 		ArrayList<Double> numbers = getNumbers(pos);
 		specSetDecreaseRemove(pos, MathFunctions.max( mXparser.arraList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * Sum variadic
+	 * Sets tokens to number token
+	 *
+	 * @param pos token index (position)
+	 */
+	private void SUM_VARIADIC(int pos) {
+		ArrayList<Double> numbers = getNumbers(pos);
+		specSetDecreaseRemove(pos, MathFunctions.sum( mXparser.arraList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * Sum variadic
+	 * Sets tokens to number token
+	 *
+	 * @param pos token index (position)
+	 */
+	private void PROD_VARIADIC(int pos) {
+		ArrayList<Double> numbers = getNumbers(pos);
+		specSetDecreaseRemove(pos, MathFunctions.prod( mXparser.arraList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * Average variadic
+	 * Sets tokens to number token
+	 *
+	 * @param pos token index (position)
+	 */
+	private void AVG_VARIADIC(int pos) {
+		ArrayList<Double> numbers = getNumbers(pos);
+		specSetDecreaseRemove(pos, MathFunctions.avg( mXparser.arraList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * Variance variadic
+	 * Sets tokens to number token
+	 *
+	 * @param pos token index (position)
+	 */
+	private void VAR_VARIADIC(int pos) {
+		ArrayList<Double> numbers = getNumbers(pos);
+		specSetDecreaseRemove(pos, MathFunctions.var( mXparser.arraList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * Standard deviation variadic
+	 * Sets tokens to number token
+	 *
+	 * @param pos token index (position)
+	 */
+	private void STD_VARIADIC(int pos) {
+		ArrayList<Double> numbers = getNumbers(pos);
+		specSetDecreaseRemove(pos, MathFunctions.std( mXparser.arraList2double(numbers) ), numbers.size() );
 	}
 	/**
 	 * Continued fraction
@@ -3489,32 +3516,6 @@ public class Expression {
 							}
 						}
 					}
-				/*
-					if (t.tokenId == Calculus.DER_LEFT_ID) {
-						if ( (paramsNumber !=2) && (paramsNumber != 4) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<LEFT_DERIVATIVE> expecting 2 or 4 calculus arguments.\n";
-						} else {
-							FunctionParameter argParam = funParams.get(1);
-							if ( checkIfKnownArgument(argParam) == false) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
-							}
-						}
-					}
-					if (t.tokenId == Calculus.DER_RIGHT_ID) {
-						if ( (paramsNumber !=2) && (paramsNumber != 4) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<RIGTH_DERIVATIVE> expecting 2 or 4 calculus arguments.\n";
-						} else {
-							FunctionParameter argParam = funParams.get(1);
-							if ( checkIfKnownArgument(argParam) == false) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
-							}
-						}
-					}
-				 	*/
 					if (t.tokenId == Calculus.DERN_ID) {
 						if ( (paramsNumber !=3) && (paramsNumber != 5) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
@@ -3546,29 +3547,17 @@ public class Expression {
 							}
 						}
 					}
-					if (t.tokenId == Calculus.PROD_ID) {
+					if ( 	(t.tokenId == Calculus.PROD_ID) ||
+							(t.tokenId == Calculus.SUM_ID)  ||
+							(t.tokenId == Calculus.MIN_ID)  ||
+							(t.tokenId == Calculus.MAX_ID)  ||
+							(t.tokenId == Calculus.AVG_ID)  ||
+							(t.tokenId == Calculus.VAR_ID)  ||
+							(t.tokenId == Calculus.STD_ID)
+															) {
 						if ( (paramsNumber != 4) && (paramsNumber != 5) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<PRODUCT> expecting 4 or 5 calculus arguments.\n";
-						} else {
-							FunctionParameter indexParam = funParams.get(0);
-							stackElement = new SyntaxStackElement(indexParam.paramStr, t.tokenLevel+1);
-							syntaxStack.push(stackElement);
-							int errors = checkCalculusParameter(stackElement.tokenStr);
-							if (errors > 0) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "Found duplicated key words for calculus parameter " + "(" + stackElement.tokenStr + ", " + errors + ").\n";
-							}
-							if ( !checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam) ) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "One token (argument or unknown) was expected.\n";
-							}
-						}
-					}
-					if (t.tokenId == Calculus.SUM_ID) {
-						if ( (paramsNumber != 4) && (paramsNumber != 5) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<SUMMATION> expecting 4 or 5 calculus arguments.\n";
+							errorMessage = errorMessage + level + tokenStr + "<ITER_OPERATOR> expecting 4 or 5 calculus arguments.\n";
 						} else {
 							FunctionParameter indexParam = funParams.get(0);
 							stackElement = new SyntaxStackElement(indexParam.paramStr, t.tokenLevel+1);
@@ -3596,20 +3585,6 @@ public class Expression {
 							}
 						}
 					}
-					/*
-					if (t.tokenId == Calculus.BACKW_DIFF_ID) {
-						if ( (paramsNumber != 2) && (paramsNumber != 3) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<BACKW_DIFF> expecting 2 or 3 arguments.\n";
-						} else {
-							FunctionParameter xParam = funParams.get(1);
-							if ( checkIfKnownArgument(xParam) == false) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<BACKW_DIFF> argument was expected.\n";
-							}
-						}
-					}
-					*/
 				}
 				if (t.tokenTypeId == SpecialFunction.TYPE_ID) {
 					int paramsNumber = getParametersNumber(tokenIndex);
@@ -3618,6 +3593,11 @@ public class Expression {
 							|| (t.tokenId == SpecialFunction.LCM_ID)
 							|| (t.tokenId == SpecialFunction.MAX_ID)
 							|| (t.tokenId == SpecialFunction.MIN_ID)
+							|| (t.tokenId == SpecialFunction.SUM_ID)
+							|| (t.tokenId == SpecialFunction.PROD_ID)
+							|| (t.tokenId == SpecialFunction.AVG_ID)
+							|| (t.tokenId == SpecialFunction.VAR_ID)
+							|| (t.tokenId == SpecialFunction.STD_ID)
 							) {
 						if (paramsNumber < 1) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
@@ -3920,6 +3900,16 @@ public class Expression {
 					break;
 				case Calculus.PROD_ID: PROD(calculusPos);
 					break;
+				case Calculus.MIN_ID: MIN(calculusPos);
+					break;
+				case Calculus.MAX_ID: MAX(calculusPos);
+					break;
+				case Calculus.AVG_ID: AVG(calculusPos);
+					break;
+				case Calculus.VAR_ID: VAR(calculusPos);
+					break;
+				case Calculus.STD_ID: STD(calculusPos);
+					break;
 				case Calculus.INT_ID: INTEGRAL(calculusPos);
 					break;
 				case Calculus.DER_ID: DERIVATIVE(calculusPos, NumericalAnalysis.GENERAL_DERIVATIVE);
@@ -3951,9 +3941,19 @@ public class Expression {
 				switch (tokensList.get(specFunPos).tokenId) {
 				case SpecialFunction.IFF_ID: IFF(specFunPos);
 					break;
-				case SpecialFunction.MIN_ID: MIN(specFunPos);
+				case SpecialFunction.MIN_ID: MIN_VARIADIC(specFunPos);
 					break;
-				case SpecialFunction.MAX_ID: MAX(specFunPos);
+				case SpecialFunction.MAX_ID: MAX_VARIADIC(specFunPos);
+					break;
+				case SpecialFunction.SUM_ID: SUM_VARIADIC(specFunPos);
+					break;
+				case SpecialFunction.PROD_ID: PROD_VARIADIC(specFunPos);
+					break;
+				case SpecialFunction.AVG_ID: AVG_VARIADIC(specFunPos);
+					break;
+				case SpecialFunction.VAR_ID: VAR_VARIADIC(specFunPos);
+					break;
+				case SpecialFunction.STD_ID: STD_VARIADIC(specFunPos);
 					break;
 				case SpecialFunction.CONT_FRAC_ID: CONTINUED_FRACTION(specFunPos);
 					break;
@@ -4387,6 +4387,11 @@ public class Expression {
 			addKeyWord(SpecialFunction.CONT_POL_STR, SpecialFunction.CONT_POL_DESC, SpecialFunction.CONT_POL_ID, SpecialFunction.TYPE_ID);
 			addKeyWord(SpecialFunction.GCD_STR, SpecialFunction.GCD_DESC, SpecialFunction.GCD_ID, SpecialFunction.TYPE_ID);
 			addKeyWord(SpecialFunction.LCM_STR, SpecialFunction.LCM_DESC, SpecialFunction.LCM_ID, SpecialFunction.TYPE_ID);
+			addKeyWord(SpecialFunction.SUM_STR, SpecialFunction.SUM_DESC, SpecialFunction.SUM_ID, SpecialFunction.TYPE_ID);
+			addKeyWord(SpecialFunction.PROD_STR, SpecialFunction.PROD_DESC, SpecialFunction.PROD_ID, SpecialFunction.TYPE_ID);
+			addKeyWord(SpecialFunction.AVG_STR, SpecialFunction.AVG_DESC, SpecialFunction.AVG_ID, SpecialFunction.TYPE_ID);
+			addKeyWord(SpecialFunction.VAR_STR, SpecialFunction.VAR_DESC, SpecialFunction.VAR_ID, SpecialFunction.TYPE_ID);
+			addKeyWord(SpecialFunction.STD_STR, SpecialFunction.STD_DESC, SpecialFunction.STD_ID, SpecialFunction.TYPE_ID);
 			/*
 			 * Calculus key words
 			 */
@@ -4399,6 +4404,11 @@ public class Expression {
 			addKeyWord(Calculus.DERN_STR, Calculus.DERN_DESC, Calculus.DERN_ID, Calculus.TYPE_ID);
 			addKeyWord(Calculus.FORW_DIFF_STR, Calculus.FORW_DIFF_DESC, Calculus.FORW_DIFF_ID, Calculus.TYPE_ID);
 			addKeyWord(Calculus.BACKW_DIFF_STR, Calculus.BACKW_DIFF_DESC, Calculus.BACKW_DIFF_ID, Calculus.TYPE_ID);
+			addKeyWord(Calculus.AVG_STR, Calculus.AVG_DESC, Calculus.AVG_ID, Calculus.TYPE_ID);
+			addKeyWord(Calculus.VAR_STR, Calculus.VAR_DESC, Calculus.VAR_ID, Calculus.TYPE_ID);
+			addKeyWord(Calculus.STD_STR, Calculus.STD_DESC, Calculus.STD_ID, Calculus.TYPE_ID);
+			addKeyWord(Calculus.MIN_STR, Calculus.MIN_DESC, Calculus.MIN_ID, Calculus.TYPE_ID);
+			addKeyWord(Calculus.MAX_STR, Calculus.MAX_DESC, Calculus.MAX_ID, Calculus.TYPE_ID);
 			/*
 			 * Constants key words
 			 */

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        2.3.0    2016-01-15
+ * @(#)MathFunctions.java        2.4.0    2016-02-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -47,7 +47,6 @@
 package org.mariuszgromada.math.mxparser.mathcollection;
 
 import org.mariuszgromada.math.mxparser.mXparser;
-
 /**
  * MathFunctions - the most popular math functions. Many of function implemented by this class
  * could be found in java Math package (in fact functions from MathFunctions typically calls
@@ -65,7 +64,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
  *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
  *
- * @version        2.3.0
+ * @version        2.4.0
  */
 public final class MathFunctions {
 	/**
@@ -1469,6 +1468,107 @@ public final class MathFunctions {
 				return 0;
 		}
 		return lcm(intNumbers);
+	}
+	/**
+	 * Adding numbers.
+	 *
+	 * @param      numbers             the numbers
+	 *
+	 * @return     if each number from numbers <> Double.NaN returns
+	 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double sum(double... numbers) {
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1) return numbers[0];
+		double sum = 0;
+		for (double xi : numbers) {
+			if ( Double.isNaN(xi) )
+				return Double.NaN;
+			sum+=xi;
+		}
+		return sum;
+	}
+	/**
+	 * Numbers multiplication.
+	 *
+	 * @param      numbers             the numbers
+	 *
+	 * @return     if each number from numbers <> Double.NaN returns
+	 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double prod(double... numbers) {
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1) return numbers[0];
+		double prod = 1;
+		for (double xi : numbers) {
+			if ( Double.isNaN(xi) )
+				return Double.NaN;
+			prod*=xi;
+		}
+		return prod;
+	}
+	/**
+	 * Sample average.
+	 *
+	 * @param      numbers             the numbers
+	 *
+	 * @return     if each number from numbers <> Double.NaN returns
+	 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double avg(double... numbers) {
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1) return numbers[0];
+		double sum = 0;
+		for (double xi : numbers) {
+			if ( Double.isNaN(xi) )
+				return Double.NaN;
+			sum+=xi;
+		}
+		return sum / numbers.length;
+	}
+	/**
+	 * Sample variance (biased-corrected).
+	 *
+	 * @param      numbers             the numbers
+	 *
+	 * @return     if each number from numbers <> Double.NaN returns
+	 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double var(double... numbers) {
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1) {
+			if (Double.isNaN(numbers[0])) return Double.NaN;
+			return 0;
+		}
+		double m = avg(numbers);
+		double sum = 0;
+		for (double xi : numbers) {
+			if ( Double.isNaN(xi) )
+				return Double.NaN;
+			sum+=(xi-m)*(xi-m);
+		}
+		return sum / (numbers.length - 1);
+	}
+	/**
+	 * Sample standard deviation (biased-corrected).
+	 *
+	 * @param      numbers             the numbers
+	 *
+	 * @return     if each number from numbers <> Double.NaN returns
+	 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double std(double... numbers) {
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1) {
+			if (Double.isNaN(numbers[0])) return Double.NaN;
+			return 0;
+		}
+		return sqrt( var(numbers) );
 	}
 	/**
 	 * Prime test
