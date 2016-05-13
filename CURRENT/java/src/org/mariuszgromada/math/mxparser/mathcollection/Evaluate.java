@@ -1,5 +1,5 @@
 /*
- * @(#)RunTest.java        3.0.0    2016-05-07
+ * @(#)Evaluate.java        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -29,6 +29,11 @@
  * authors and should not be interpreted as representing official policies, either expressed
  * or implied, of MARIUSZ GROMADA.
  *
+ * Some parts of the Evaluate class were adopted from Math.NET Numerics project
+ * Copyright (c) 2002-2015 Math.NET   http://numerics.mathdotnet.com/
+ * http://numerics.mathdotnet.com/License.html
+ *
+ *
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
@@ -50,19 +55,10 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
-package org.mariuszgromada.math.mxparser.regressiontesting;
-
-import org.mariuszgromada.math.mxparser.mXparser;
+package org.mariuszgromada.math.mxparser.mathcollection;
 
 /**
- * Use this class to run one of the following test
- * <ul>
- * <li>Param: reg - Expression regression test
- * <li>Param: api - mXparser API test
- * <li>Param: syn - Syntax checking test
- * <li>Param: perf - Performance test
- * </ul>
- *
+ * Evaluate - currently only polynomial evaluation based on provided coefficients.
  *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -80,84 +76,25 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *
  * @version        3.0.0
  */
-public class RunTest {
+public final class Evaluate {
 	/**
-	 * Use this class to run one of the following test
-	 * <ul>
-	 * <li>Param: reg - Expression regression test
-	 * <li>Param: api - mXparser API test
-	 * <li>Param: syn - Syntax checking test
-	 * <li>Param: perf - Performance test
-	 * </ul>,
-	 *
-	 * @param args  reg - Expression regression test, api - mXparser API test
-	 *              Param: syn - Syntax checking test, perf - Performance test
-	 * @return Number of tests with error result.
+	 * Polynomial evaluation based on provided coefficients.
+	 * @param x                  Point at which polynomial will be evaluated
+	 * @param coefficients       Polynomial coefficients
+	 * @return                   Polynomial value
 	 */
-	public static int start(String... args) {
-		int nError = 0;
-		if (args != null)
-			for (String test : args) {
-				if (test.equals("reg")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== Expression regression tests - Starting");
-					nError += RegTestExpressionV2.start();
-					mXparser.consolePrintln("=== Expression regression tests - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-				if (test.equals("api")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== mXparser API regression test - Starting");
-					nError += RegTestExpressionAPI.start();
-					mXparser.consolePrintln("=== mXparser API regression test - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-				if (test.equals("syn")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== Syntax checking regression tests - Starting");
-					nError += RegTestSyntax.start();
-					mXparser.consolePrintln("=== Syntax checking regression tests - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-				if (test.equals("perf")) {
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln("=== Performance tests - Starting");
-					nError += PerformanceTests.start();
-					mXparser.consolePrintln("=== Performance tests - Finished");
-					mXparser.consolePrintln("====================================================================");
-					mXparser.consolePrintln();
-					mXparser.consolePrintln();
-				}
-			}
-		return nError;
-	}
-	/**
-	 * Use this class to run one of the following test
-	 * <ul>
-	 * <li>Param: reg - Expression regression test
-	 * <li>Param: api - mXparser API test
-	 * <li>Param: syn - Syntax checking test
-	 * <li>Param: perf - Performance test
-	 * </ul>,
-	 *
-	 * @param args  reg - Expression regression test, api - mXparser API test
-	 *              Param: syn - Syntax checking test, perf - Performance test
-	 */
-	public static void main(String[] args) {
-		start(args);
+	public static final double polynomial(double x, double[] coefficients) {
+		if (Double.isNaN(x)) return Double.NaN;
+		if (coefficients == null) return Double.NaN;
+		if (coefficients.length == 0) return Double.NaN;
+		if (coefficients.length == 1) return coefficients[0];
+		double sum = coefficients[coefficients.length - 1];
+		if (Double.isNaN(sum)) return Double.NaN;
+		for (int i = coefficients.length - 2; i >= 0; i--) {
+			if (Double.isNaN(coefficients[i])) return Double.NaN;
+			sum *= x;
+			sum += coefficients[i];
+		}
+        return sum;
 	}
 }

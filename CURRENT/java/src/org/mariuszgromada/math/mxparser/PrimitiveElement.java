@@ -1,5 +1,5 @@
 /*
- * @(#)PrimitiveElement.java        2.1.1-1    2016-01-07
+ * @(#)PrimitiveElement.java        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -32,14 +32,20 @@
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
- *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
- *     http://mathparser.org/
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser/
- *     http://mxparser.sourceforge.net/
- *     http://bitbucket.org/mariuszgromada/mxparser/
- *     http://mxparser.codeplex.com/
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -51,32 +57,36 @@ package org.mariuszgromada.math.mxparser;
  * Function. Class not used by the end user.
  *
  *
- * @author         <b>Mariusz Gromada</b><br/>
- *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
- *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ * @author         <b>Mariusz Gromada</b><br>
+ *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
+ *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
  *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
- *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
- *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
- *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
+ *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
+ *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
+ *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
+ *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
+ *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        2.1.1-1
+ * @version        3.0.0
  *
  * @see            Argument
  * @see            Constant
  * @see            Function
  * @see            RecursiveArgument
- * @see            Expression.addDefinitions()
- * @see            Expression.removeDefinitions()
+ * @see            Expression#addDefinitions(PrimitiveElement...)
+ * @see            Expression#removeDefinitions(PrimitiveElement...)
  */
 public class PrimitiveElement {
 	/**
 	 * Element type id
 	 *
-	 * @see     Argument.TYPE_ID
-	 * @see     Constant.TYPE_ID
-	 * @see     Function.TYPE_ID
+	 * @see     Argument#TYPE_ID
+	 * @see     Constant#TYPE_ID
+	 * @see     Function#TYPE_ID
 	 */
 	private int myTypeId;
 	/**
@@ -84,9 +94,9 @@ public class PrimitiveElement {
 	 *
 	 * @param typeId     Element type id
 	 *
-	 * @see     Argument.TYPE_ID
-	 * @see     Constant.TYPE_ID
-	 * @see     Function.TYPE_ID
+	 * @see     Argument#TYPE_ID
+	 * @see     Constant#TYPE_ID
+	 * @see     Function#TYPE_ID
 	 */
 	public PrimitiveElement(int typeId) {
 		myTypeId = typeId;
@@ -96,9 +106,9 @@ public class PrimitiveElement {
 	 *
 	 * @return  Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID
 	 *
-	 * @see     Argument.TYPE_ID
-	 * @see     Constant.TYPE_ID
-	 * @see     Function.TYPE_ID
+	 * @see     Argument#TYPE_ID
+	 * @see     Constant#TYPE_ID
+	 * @see     Function#TYPE_ID
 	 *
 	 */
 	public int getMyTypeId() {

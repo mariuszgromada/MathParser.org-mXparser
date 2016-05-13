@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.java        2.1.1-1    2016-01-07
+ * @(#)RecursiveArgument.java        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -32,14 +32,20 @@
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
- *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
- *     http://mathparser.org/
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser/
- *     http://mxparser.sourceforge.net/
- *     http://bitbucket.org/mariuszgromada/mxparser/
- *     http://mxparser.codeplex.com/
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -57,6 +63,7 @@ import java.util.ArrayList;
  * <ul>
  * <li>'fib(n) = fin(n-1)+fib(n-2), fib(0) = 0, fib(1) = 1'
  * <li>'factorial(n) = n*factorial(n-1), factorial(0) = 1'
+ * </ul>
  * <p>
  * When creating an argument you should avoid:
  * <ul>
@@ -76,17 +83,21 @@ import java.util.ArrayList;
  *
  * </ul>
  *
- * @author         <b>Mariusz Gromada</b><br/>
- *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
- *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ * @author         <b>Mariusz Gromada</b><br>
+ *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
+ *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
  *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
- *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
- *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
- *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
+ *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
+ *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
+ *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
+ *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
+ *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        2.1.1-1
+ * @version        3.0.0
  *
  * @see Argument
  * @see Expression
@@ -98,6 +109,7 @@ public class RecursiveArgument extends Argument {
 	 * Type identifier for recursive arguments.
 	 */
 	protected static final int TYPE_ID_RECURSIVE = 102;
+	static final String TYPE_DESC = "User defined recursive argument";
 	/**
 	 * Base values
 	 */

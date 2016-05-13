@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.java        2.3.0    2016-01-15
+ * @(#)MathConstants.java        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -32,14 +32,20 @@
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
- *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
- *     http://mathparser.org/
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser/
- *     http://mxparser.sourceforge.net/
- *     http://bitbucket.org/mariuszgromada/mxparser/
- *     http://mxparser.codeplex.com/
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -49,17 +55,21 @@ package org.mariuszgromada.math.mxparser.mathcollection;
 /**
  * MathConstants - class representing the most important math constants.
  *
- * @author         <b>Mariusz Gromada</b><br/>
- *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
- *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
- *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+ * @author         <b>Mariusz Gromada</b><br>
+ *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
+ *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+ *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
  *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
- *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
- *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
- *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
+ *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
+ *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
+ *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
+ *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
+ *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
+ *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
+ *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        2.3.0
+ * @version        3.0.0
  */
 public final class MathConstants {
 	/**
@@ -234,4 +244,10 @@ public final class MathConstants {
 	 * Gompertz Constant OEIS A073003
 	 */
 	public static final double GOMPERTZ = 0.596347362323194074341078499369279376074;
+
+	/**
+	 * Square root of 2
+	 */
+	public static final double SQRT2 = 1.4142135623730950488016887242096980785696718753769d;
+	public static final double SQRT2Pi = 2.5066282746310005024157652848110452530069867406099d;
 }
