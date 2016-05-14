@@ -131,7 +131,6 @@ class Token {
 		tokenLevel = ConstantValue.NaN;
 		tokenValue = Double.NaN;
 	}
-	@Override
 	public Token clone() {
 		Token token = new Token();
 		token.keyWord = keyWord;
@@ -143,6 +142,9 @@ class Token {
 		return token;
 	}
 }
+/**
+ * Package level class for handling function parameters.
+ */
 class FunctionParameter {
 	ArrayList<Token> tokens;
 	String paramStr;
@@ -209,8 +211,7 @@ class IterativeOperatorParameters {
 	}
 }
 /**
-* Package level class
-*
+* Handling argument parameters
 */
 class ArgumentParameter {
 	Argument argument;
@@ -243,9 +244,9 @@ class KeyWord {
 	 * Constructor - creates key words form wordStrin wordId
 	 * and wordTypId
 	 *
-	 * @param wordString   the word string (refere to below interfaces)
-	 * @param wordId       the word identifier (refere to below interfaces)
-	 * @param wordTypeId   the word type (refere to below interfaces)
+	 * @param wordString   the word string (refers to below interfaces)
+	 * @param wordId       the word identifier (refers to below interfaces)
+	 * @param wordTypeId   the word type (refers to below interfaces)
 	 */
 	KeyWord(String wordString, int wordId, int wordTypeId) {
 		this.wordString = wordString;

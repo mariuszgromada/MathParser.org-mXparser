@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        2.4.0    2016-02-28
+ * @(#)Expression.cs        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -32,14 +32,20 @@
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
- *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
- *     http://mathparser.org/
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser/
- *     http://mxparser.sourceforge.net/
- *     http://bitbucket.org/mariuszgromada/mxparser/
- *     http://mxparser.codeplex.com/
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -69,17 +75,21 @@ namespace org.mariuszgromada.math.mxparser {
 	 * Class provides easy way to define multivariate arithmetic expression.
 	 *
 	 *
-	 * @author         <b>Mariusz Gromada</b><br/>
-	 *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-	 *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
-	 *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+	 * @author         <b>Mariusz Gromada</b><br>
+	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
+	 *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+	 *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
 	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
-	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
+	 *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
+	 *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
+	 *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
+	 *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
+	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
+	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        2.4.0
+	 * @version        3.0.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -1310,7 +1320,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      result              the number
 		 * @param      length              the special function range
 		 */
-		private void specSetDecreaseRemove(int pos, double value, int length) {
+		private void variadicSetDecreaseRemove(int pos, double value, int length) {
 			setToNumber(pos, value );
 			tokensList[pos].tokenLevel--;
 			for (int p = pos + length; p > pos; p--)
@@ -1629,137 +1639,244 @@ namespace org.mariuszgromada.math.mxparser {
 		private void CONSTANT(int pos) {
 			double constValue = Double.NaN;
 			switch (tokensList[pos].tokenId) {
-			case Const.PI_ID:
+			case ConstantValue.PI_ID:
 				constValue = MathConstants.PI;
 				break;
-			case Const.EULER_ID:
+			case ConstantValue.EULER_ID:
 				constValue = MathConstants.E;
 				break;
-			case Const.EULER_MASCHERONI_ID:
+			case ConstantValue.EULER_MASCHERONI_ID:
 				constValue = MathConstants.EULER_MASCHERONI;
 				break;
-			case Const.GOLDEN_RATIO_ID:
+			case ConstantValue.GOLDEN_RATIO_ID:
 				constValue = MathConstants.GOLDEN_RATIO;
 				break;
-			case Const.PLASTIC_ID:
+			case ConstantValue.PLASTIC_ID:
 				constValue = MathConstants.PLASTIC;
 				break;
-			case Const.EMBREE_TREFETHEN_ID:
+			case ConstantValue.EMBREE_TREFETHEN_ID:
 				constValue = MathConstants.EMBREE_TREFETHEN;
 				break;
-			case Const.FEIGENBAUM_DELTA_ID:
+			case ConstantValue.FEIGENBAUM_DELTA_ID:
 				constValue = MathConstants.FEIGENBAUM_DELTA;
 				break;
-			case Const.FEIGENBAUM_ALFA_ID:
+			case ConstantValue.FEIGENBAUM_ALFA_ID:
 				constValue = MathConstants.FEIGENBAUM_ALFA;
 				break;
-			case Const.TWIN_PRIME_ID:
+			case ConstantValue.TWIN_PRIME_ID:
 				constValue = MathConstants.TWIN_PRIME;
 				break;
-			case Const.MEISSEL_MERTEENS_ID:
+			case ConstantValue.MEISSEL_MERTEENS_ID:
 				constValue = MathConstants.MEISSEL_MERTEENS;
 				break;
-			case Const.BRAUN_TWIN_PRIME_ID:
+			case ConstantValue.BRAUN_TWIN_PRIME_ID:
 				constValue = MathConstants.BRAUN_TWIN_PRIME;
 				break;
-			case Const.BRAUN_PRIME_QUADR_ID:
+			case ConstantValue.BRAUN_PRIME_QUADR_ID:
 				constValue = MathConstants.BRAUN_PRIME_QUADR;
 				break;
-			case Const.BRUIJN_NEWMAN_ID:
+			case ConstantValue.BRUIJN_NEWMAN_ID:
 				constValue = MathConstants.BRUIJN_NEWMAN;
 				break;
-			case Const.CATALAN_ID:
+			case ConstantValue.CATALAN_ID:
 				constValue = MathConstants.CATALAN;
 				break;
-			case Const.LANDAU_RAMANUJAN_ID:
+			case ConstantValue.LANDAU_RAMANUJAN_ID:
 				constValue = MathConstants.LANDAU_RAMANUJAN;
 				break;
-			case Const.VISWANATH_ID:
+			case ConstantValue.VISWANATH_ID:
 				constValue = MathConstants.VISWANATH;
 				break;
-			case Const.LEGENDRE_ID:
+			case ConstantValue.LEGENDRE_ID:
 				constValue = MathConstants.LEGENDRE;
 				break;
-			case Const.RAMANUJAN_SOLDNER_ID:
+			case ConstantValue.RAMANUJAN_SOLDNER_ID:
 				constValue = MathConstants.RAMANUJAN_SOLDNER;
 				break;
-			case Const.ERDOS_BORWEIN_ID:
+			case ConstantValue.ERDOS_BORWEIN_ID:
 				constValue = MathConstants.ERDOS_BORWEIN;
 				break;
-			case Const.BERNSTEIN_ID:
+			case ConstantValue.BERNSTEIN_ID:
 				constValue = MathConstants.BERNSTEIN;
 				break;
-			case Const.GAUSS_KUZMIN_WIRSING_ID:
+			case ConstantValue.GAUSS_KUZMIN_WIRSING_ID:
 				constValue = MathConstants.GAUSS_KUZMIN_WIRSING;
 				break;
-			case Const.HAFNER_SARNAK_MCCURLEY_ID:
+			case ConstantValue.HAFNER_SARNAK_MCCURLEY_ID:
 				constValue = MathConstants.HAFNER_SARNAK_MCCURLEY;
 				break;
-			case Const.GOLOMB_DICKMAN_ID:
+			case ConstantValue.GOLOMB_DICKMAN_ID:
 				constValue = MathConstants.GOLOMB_DICKMAN;
 				break;
-			case Const.CAHEN_ID:
+			case ConstantValue.CAHEN_ID:
 				constValue = MathConstants.CAHEN;
 				break;
-			case Const.LAPLACE_LIMIT_ID:
+			case ConstantValue.LAPLACE_LIMIT_ID:
 				constValue = MathConstants.LAPLACE_LIMIT;
 				break;
-			case Const.ALLADI_GRINSTEAD_ID:
+			case ConstantValue.ALLADI_GRINSTEAD_ID:
 				constValue = MathConstants.ALLADI_GRINSTEAD;
 				break;
-			case Const.LENGYEL_ID:
+			case ConstantValue.LENGYEL_ID:
 				constValue = MathConstants.LENGYEL;
 				break;
-			case Const.LEVY_ID:
+			case ConstantValue.LEVY_ID:
 				constValue = MathConstants.LEVY;
 				break;
-			case Const.APERY_ID:
+			case ConstantValue.APERY_ID:
 				constValue = MathConstants.APERY;
 				break;
-			case Const.MILLS_ID:
+			case ConstantValue.MILLS_ID:
 				constValue = MathConstants.MILLS;
 				break;
-			case Const.BACKHOUSE_ID:
+			case ConstantValue.BACKHOUSE_ID:
 				constValue = MathConstants.BACKHOUSE;
 				break;
-			case Const.PORTER_ID:
+			case ConstantValue.PORTER_ID:
 				constValue = MathConstants.PORTER;
 				break;
-			case Const.LIEB_QUARE_ICE_ID:
+			case ConstantValue.LIEB_QUARE_ICE_ID:
 				constValue = MathConstants.LIEB_QUARE_ICE;
 				break;
-			case Const.NIVEN_ID:
+			case ConstantValue.NIVEN_ID:
 				constValue = MathConstants.NIVEN;
 				break;
-			case Const.SIERPINSKI_ID:
+			case ConstantValue.SIERPINSKI_ID:
 				constValue = MathConstants.SIERPINSKI;
 				break;
-			case Const.KHINCHIN_ID:
+			case ConstantValue.KHINCHIN_ID:
 				constValue = MathConstants.KHINCHIN;
 				break;
-			case Const.FRANSEN_ROBINSON_ID:
+			case ConstantValue.FRANSEN_ROBINSON_ID:
 				constValue = MathConstants.FRANSEN_ROBINSON;
 				break;
-			case Const.LANDAU_ID:
+			case ConstantValue.LANDAU_ID:
 				constValue = MathConstants.LANDAU;
 				break;
-			case Const.PARABOLIC_ID:
+			case ConstantValue.PARABOLIC_ID:
 				constValue = MathConstants.PARABOLIC;
 				break;
-			case Const.OMEGA_ID:
+			case ConstantValue.OMEGA_ID:
 				constValue = MathConstants.OMEGA;
 				break;
-			case Const.MRB_ID:
+			case ConstantValue.MRB_ID:
 				constValue = MathConstants.MRB;
 				break;
-			case Const.LI2_ID:
+			case ConstantValue.LI2_ID:
 				constValue = MathConstants.LI2;
 				break;
-			case Const.GOMPERTZ_ID:
+			case ConstantValue.GOMPERTZ_ID:
 				constValue = MathConstants.GOMPERTZ;
 				break;
 			}
 			setToNumber(pos, constValue);
+		}
+		/**
+		 * Random Variables handling.
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void RANDOM_VARIABLE(int pos) {
+			double rndVar = Double.NaN;
+			switch (tokensList[pos].tokenId) {
+			case RandomVariable.UNIFORM_ID:
+				rndVar = ProbabilityDistributions.rndUniformContinuous(ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT_ID:
+				rndVar = ProbabilityDistributions.rndInteger(ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT1_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-10, 10, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT2_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-100, 100, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT3_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-1000, 1000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT4_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-10000, 10000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT5_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-100000, 100000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT6_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-1000000, 1000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT7_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-10000000, 10000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT8_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-100000000, 100000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.INT9_ID:
+				rndVar = ProbabilityDistributions.rndInteger(-1000000000, 1000000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 2147483646, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_1_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 10, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_2_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 100, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_3_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 1000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_4_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 10000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_5_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 100000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_6_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 1000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_7_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 10000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_8_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 100000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT0_9_ID:
+				rndVar = ProbabilityDistributions.rndInteger(0, 1000000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 2147483646, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_1_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 10, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_2_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 100, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_3_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 1000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_4_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 10000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_5_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 100000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_6_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 1000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_7_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 10000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_8_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 100000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NAT1_9_ID:
+				rndVar = ProbabilityDistributions.rndInteger(1, 1000000000, ProbabilityDistributions.randomGenerator);
+				break;
+			case RandomVariable.NOR_ID:
+				rndVar = ProbabilityDistributions.rndNormal(0.0, 1.0, ProbabilityDistributions.randomGenerator);
+				break;
+			}
+			setToNumber(pos, rndVar);
 		}
 		/**
 		 * Gets token value
@@ -2416,7 +2533,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void IS_PRIME(int pos) {
 			double n = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, MathFunctions.primeTest(n));
+			f1SetDecreaseRemove(pos, NumberTheory.primeTest(n));
 		}
 		/**
 		 * Prime counting
@@ -2425,7 +2542,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PRIME_COUNT(int pos) {
 			double n = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, MathFunctions.primeCount(n));
+			f1SetDecreaseRemove(pos, NumberTheory.primeCount(n));
 		}
 		/**
 		 * Exponential integral function
@@ -2434,7 +2551,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void EXP_INT(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, MathFunctions.exponentialIntegralEi(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.exponentialIntegralEi(x));
 		}
 		/**
 		 * Logarithmic exponential integral function
@@ -2443,7 +2560,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LOG_INT(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, MathFunctions.logarithmicIntegralLi(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.logarithmicIntegralLi(x));
 		}
 		/**
 		 * Offset logarithmic exponential integral function
@@ -2452,7 +2569,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void OFF_LOG_INT(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, MathFunctions.offsetLogarithmicIntegralLi(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.offsetLogarithmicIntegralLi(x));
 		}
 		/**
 		 * Factorilal function
@@ -2474,6 +2591,42 @@ namespace org.mariuszgromada.math.mxparser {
 		private void NOT(int pos) {
 			double a = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, BooleanAlgebra.not(a) );
+		}
+		/**
+		 * Gauss error function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void GAUSS_ERF(int pos) {
+			double x = getTokenValue(pos + 1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.erf(x));
+		}
+		/**
+		 * Gauss complementary error function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void GAUSS_ERFC(int pos) {
+			double x = getTokenValue(pos + 1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.erfc(x));
+		}
+		/**
+		 * Inverse of Gauss error function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void GAUSS_ERF_INV(int pos) {
+			double x = getTokenValue(pos + 1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.erfInv(x));
+		}
+		/**
+		 * Inverse of Gauss complementary error function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void GAUSS_ERFC_INV(int pos) {
+			double x = getTokenValue(pos + 1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.erfcInv(x));
 		}
 		/**
 		 * Logarithm
@@ -2614,6 +2767,46 @@ namespace org.mariuszgromada.math.mxparser {
 			f2SetDecreaseRemove(pos, MathFunctions.harmonicNumber(x, n) );
 		}
 		/**
+		 * Decimal rounding
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void ROUND(int pos) {
+			double value = getTokenValue(pos + 1);
+			int places = (int)getTokenValue(pos + 2);
+			f2SetDecreaseRemove(pos, MathFunctions.round(value, places));
+		}
+		/**
+		 * Random number - Uniform Continuous distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void RND_VAR_UNIFORM_CONT(int pos) {
+			double a = getTokenValue(pos + 1);
+			double b = getTokenValue(pos + 2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndUniformContinuous(a, b, ProbabilityDistributions.randomGenerator));
+		}
+		/**
+		 * Random number - Uniform Discrete distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void RND_VAR_UNIFORM_DISCR(int pos) {
+			int a = (int)getTokenValue(pos + 1);
+			int b = (int)getTokenValue(pos + 2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndInteger(a, b, ProbabilityDistributions.randomGenerator));
+		}
+		/**
+		 * Random number - Normal distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void RND_NORMAL(int pos) {
+			double mean = getTokenValue(pos + 1);
+			double stddev = getTokenValue(pos + 2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormal(mean, stddev, ProbabilityDistributions.randomGenerator));
+		}
+		/**
 		 * IF function
 		 *
 		 * @param      pos                 the token position
@@ -2751,10 +2944,76 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void CHI_aB(int pos) {
-			double x = getTokenValue(pos+1);
-			double a = getTokenValue(pos+2);
-			double b = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, MathFunctions.cHi_R(x, a, b) );
+			double x = getTokenValue(pos + 1);
+			double a = getTokenValue(pos + 2);
+			double b = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, MathFunctions.cHi_R(x, a, b));
+		}
+		/**
+		 * Probability Distribution Function - Uniform Continuous distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void PDF_UNIFORM_CONT(int pos) {
+			double x = getTokenValue(pos + 1);
+			double a = getTokenValue(pos + 2);
+			double b = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfUniformContinuous(x, a, b));
+		}
+		/**
+		 * Cumulative Distribution Function - Uniform Continuous distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void CDF_UNIFORM_CONT(int pos) {
+			double x = getTokenValue(pos + 1);
+			double a = getTokenValue(pos + 2);
+			double b = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfUniformContinuous(x, a, b));
+		}
+		/**
+		 * Quantile Function - Uniform Continuous distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void QNT_UNIFORM_CONT(int pos) {
+			double q = getTokenValue(pos + 1);
+			double a = getTokenValue(pos + 2);
+			double b = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntUniformContinuous(q, a, b));
+		}
+		/**
+		 * Probability Distribution Function - Normal distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void PDF_NORMAL(int pos) {
+			double x = getTokenValue(pos + 1);
+			double mean = getTokenValue(pos + 2);
+			double stddev = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfNormal(x, mean, stddev));
+		}
+		/**
+		 * Cumulative Distribution Function - Normal distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void CDF_NORMAL(int pos) {
+			double x = getTokenValue(pos + 1);
+			double mean = getTokenValue(pos + 2);
+			double stddev = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfNormal(x, mean, stddev));
+		}
+		/**
+		 * Quantile Function - Normal distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void QNT_NORMAL(int pos) {
+			double q = getTokenValue(pos + 1);
+			double mean = getTokenValue(pos + 2);
+			double stddev = getTokenValue(pos + 3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntNormal(q, mean, stddev));
 		}
 		/**
 		 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
@@ -2768,7 +3027,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
 			foreach (Token t in tokens)
-				if ( (t.tokenTypeId == Const.NaN) && (t.tokenStr.Equals(keyWord))) {
+				if ( (t.tokenTypeId == ConstantValue.NaN) && (t.tokenStr.Equals(keyWord))) {
 					t.keyWord = keyWord;
 					t.tokenId = tokenId;
 					t.tokenTypeId = tokenTypeId;
@@ -2919,7 +3178,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double avg = NumberTheory.avg(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double avg = Statistics.avg(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, avg);
 		}
@@ -2938,7 +3197,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double var = NumberTheory.var(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double var = Statistics.var(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, var);
 		}
@@ -2957,7 +3216,7 @@ namespace org.mariuszgromada.math.mxparser {
 			ArgumentParameter index = getParamArgument(iterParams.indexParam.paramStr);
 			updateMissingTokens(index, iterParams);
 			evalFromToDeltaParameters(index, iterParams);
-			double std = NumberTheory.std(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
+			double std = Statistics.std(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
 			calcSetDecreaseRemove(pos, std);
 		}
@@ -3008,14 +3267,14 @@ namespace org.mariuszgromada.math.mxparser {
 				eps = epsExpr.calculate();
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
-			if (derivativeType == NumericalAnalysis.GENERAL_DERIVATIVE) {
-				double general = NumericalAnalysis.derivative(funExp, x.argument, x0, NumericalAnalysis.GENERAL_DERIVATIVE, eps, maxSteps);
+			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
+				double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, general);
-			} else if (derivativeType == NumericalAnalysis.LEFT_DERIVATIVE) {
-				double left = NumericalAnalysis.derivative(funExp, x.argument, x0, NumericalAnalysis.LEFT_DERIVATIVE, eps, maxSteps);
+			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
+				double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, left);
 			} else {
-				double right = NumericalAnalysis.derivative(funExp, x.argument, x0, NumericalAnalysis.RIGHT_DERIVATIVE, eps, maxSteps);
+				double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, right);
 			}
 			clearParamArgument(x);
@@ -3072,15 +3331,15 @@ namespace org.mariuszgromada.math.mxparser {
 				eps = epsExpr.calculate();
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
-			if (derivativeType == NumericalAnalysis.GENERAL_DERIVATIVE) {
-				double left = NumericalAnalysis.derivativeNth(funExp, n, x.argument, x0, NumericalAnalysis.LEFT_DERIVATIVE, eps, maxSteps);
-				double right = NumericalAnalysis.derivativeNth(funExp, n, x.argument, x0, NumericalAnalysis.RIGHT_DERIVATIVE, eps, maxSteps);
+			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
+				double left = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+				double right = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, (left + right) / 2.0);
-			} else if (derivativeType == NumericalAnalysis.LEFT_DERIVATIVE) {
-				double left = NumericalAnalysis.derivativeNth(funExp, n, x.argument, x0, NumericalAnalysis.LEFT_DERIVATIVE, eps, maxSteps);
+			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
+				double left = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, left);
 			} else {
-				double right = NumericalAnalysis.derivativeNth(funExp, n, x.argument, x0, NumericalAnalysis.RIGHT_DERIVATIVE, eps, maxSteps);
+				double right = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, right);
 			}
 			clearParamArgument(x);
@@ -3138,7 +3397,7 @@ namespace org.mariuszgromada.math.mxparser {
 				eps = epsExpr.getExpressionValue();
 				maxSteps = (int)Math.round(maxStepsExp.getExpressionValue());
 			} */
-			calcSetDecreaseRemove(pos, NumericalAnalysis.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
+			calcSetDecreaseRemove(pos, Calculus.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
 			clearParamArgument(x);
 		}
 		/**
@@ -3162,7 +3421,7 @@ namespace org.mariuszgromada.math.mxparser {
 					hExp.setVerboseMode();
 				h = hExp.calculate();
 			}
-			calcSetDecreaseRemove(pos, NumberTheory.forwardDifference(funExp, h, x.argument) );
+			calcSetDecreaseRemove(pos, Calculus.forwardDifference(funExp, h, x.argument) );
 			clearParamArgument(x);
 		}
 		/**
@@ -3186,7 +3445,7 @@ namespace org.mariuszgromada.math.mxparser {
 					hExp.setVerboseMode();
 				h = hExp.calculate();
 			}
-			calcSetDecreaseRemove(pos, NumberTheory.backwardDifference(funExp, h, x.argument) );
+			calcSetDecreaseRemove(pos, Calculus.backwardDifference(funExp, h, x.argument) );
 			clearParamArgument(x);
 		}
 		/**
@@ -3197,7 +3456,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MIN_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.min( mXparser.arraList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.min( mXparser.arrayList2double(numbers) ), numbers.Count );
 		}
 		/**
 		 * Maximum variadic
@@ -3207,7 +3466,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MAX_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.max( mXparser.arraList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.max( mXparser.arrayList2double(numbers) ), numbers.Count );
 		}
 		/**
 		 * Sum variadic
@@ -3217,7 +3476,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void SUM_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.sum(mXparser.arraList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.sum(mXparser.arrayList2double(numbers)), numbers.Count );
 		}
 		/**
 		 * Sum variadic
@@ -3227,7 +3486,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PROD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.prod(mXparser.arraList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.prod(mXparser.arrayList2double(numbers)), numbers.Count );
 		}
 		/**
 		 * Average variadic
@@ -3237,7 +3496,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void AVG_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.avg(mXparser.arraList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.avg(mXparser.arrayList2double(numbers)), numbers.Count );
 		}
 		/**
 		 * Variance variadic
@@ -3247,7 +3506,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void VAR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.var(mXparser.arraList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.var(mXparser.arrayList2double(numbers)), numbers.Count );
 		}
 		/**
 		 * Standard deviation variadic
@@ -3257,7 +3516,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void STD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.std(mXparser.arraList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.std(mXparser.arrayList2double(numbers)), numbers.Count );
 		}
 		/**
 		 * Continued fraction
@@ -3266,7 +3525,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void CONTINUED_FRACTION(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.continuedFraction( mXparser.arraList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, MathFunctions.continuedFraction( mXparser.arrayList2double(numbers) ), numbers.Count );
 		}
 		/**
 		 * Continued polynomial
@@ -3275,7 +3534,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void CONTINUED_POLYNOMIAL(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.continuedPolynomial( mXparser.arraList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomial( mXparser.arrayList2double(numbers) ), numbers.Count );
 		}
 		/**
 		 * Greates Common Divisor
@@ -3284,7 +3543,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void GCD(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.gcd( mXparser.arraList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.gcd( mXparser.arrayList2double(numbers) ), numbers.Count );
 		}
 		/**
 		 * Lowest Common Multiply
@@ -3293,7 +3552,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void LCM(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			specSetDecreaseRemove(pos, MathFunctions.lcm( mXparser.arraList2double(numbers) ), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.lcm( mXparser.arrayList2double(numbers) ), numbers.Count );
+		}
+		/**
+		 * Random number from list
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void RND_LIST(int pos) {
+			List<Double> numbers = getNumbers(pos);
+			int n = numbers.Count;
+			int i = ProbabilityDistributions.rndIndex(n, ProbabilityDistributions.randomGenerator);
+			variadicSetDecreaseRemove(pos, numbers[i], numbers.Count);
 		}
 		/**
 		 * Parser symbols
@@ -3374,7 +3644,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (param.tokens.Count > 1)
 				return false;
 			Token t = param.tokens[0];
-			if (t.tokenTypeId != Const.NaN)
+			if (t.tokenTypeId != ConstantValue.NaN)
 				return false;
 			return true;
 		}
@@ -3401,6 +3671,9 @@ namespace org.mariuszgromada.math.mxparser {
 				 * IF there are no lex error
 				 */
 				tokenizeExpressionString();
+				/*
+				 * Duplicated tokens?
+				 */
 				String kw1;
 				String kw2;
 				keyWordsList.Sort( new KwStrComparator() );
@@ -3418,6 +3691,9 @@ namespace org.mariuszgromada.math.mxparser {
 				for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 					Token t = initialTokens[tokenIndex];
 					String tokenStr = "(" + t.tokenStr +", " + tokenIndex + ") ";
+					/*
+					 * Check syntax for "ARGUMENT" token
+					 */
 					if (t.tokenTypeId == Argument.TYPE_ID) {
 						Argument arg = getArgument(t.tokenId);
 						if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
@@ -3432,6 +3708,9 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 						}
 					}
+					/*
+					 * Check syntax for "RECURSIVE ARGUMENT" token
+					 */
 					if (t.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) {
 						Argument arg = getArgument(t.tokenId);
 						if (getParametersNumber(tokenIndex) != 1 ) {
@@ -3444,7 +3723,10 @@ namespace org.mariuszgromada.math.mxparser {
 								errorMessage = errorMessage + level + tokenStr + "checking recursive argument ...\n" + arg.argumentExpression.getErrorMessage();
 							}
 					}
-					if (t.tokenTypeId == Const.NaN) {
+					/*
+					 * Check syntax for "NOT RECOGNIZED" token
+					 */
+					if (t.tokenTypeId == ConstantValue.NaN) {
 						bool calculusToken = false;
 						foreach (SyntaxStackElement e in syntaxStack)
 							if ( e.tokenStr.Equals(t.tokenStr) )
@@ -3454,6 +3736,9 @@ namespace org.mariuszgromada.math.mxparser {
 							errorMessage = errorMessage + level + tokenStr + "invalid <TOKEN>.\n";
 						}
 					}
+					/*
+					 * Check syntax for "USER DEFINED FUNCTION" token
+					 */
 					if (t.tokenTypeId == Function.TYPE_ID) {
 						Function fun = getFunction(t.tokenId);
 						fun.checkRecursiveMode();
@@ -3467,42 +3752,60 @@ namespace org.mariuszgromada.math.mxparser {
 								errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.getErrorMessage();
 							}
 					}
-					if (t.tokenTypeId == Const.TYPE_ID) {
+					/*
+					 * Check syntax for "CONSTANT" token
+					 */
+					if (t.tokenTypeId == ConstantValue.TYPE_ID) {
 						if ( getParametersNumber(tokenIndex) >= 0 ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<CONSTANT> was expected.\n";
 						}
 					}
+					/*
+					 * Check syntax for "USER DEFINED CONSTANT" token
+					 */
 					if (t.tokenTypeId == Constant.TYPE_ID) {
 						if ( getParametersNumber(tokenIndex) >= 0 ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_CONSTANT> was expected.\n";
 						}
 					}
+					/*
+					 * Check syntax for "UNARY FUNCTION" token
+					 */
 					if (t.tokenTypeId == Function1Arg.TYPE_ID) {
 						if ( getParametersNumber(tokenIndex) != 1 ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<FUNCTION> expecting 1 argument.\n";
 						}
 					}
+					/*
+					 * Check syntax for "BINARY FUNCTION" token
+					 */
 					if (t.tokenTypeId == Function2Arg.TYPE_ID) {
 						if ( getParametersNumber(tokenIndex) != 2 ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<FUNCTION> expecting 2 arguments.\n";
 						}
 					}
+					/*
+					 * Check syntax for "3 args FUNCTION" token
+					 */
 					if (t.tokenTypeId == Function3Arg.TYPE_ID) {
 						if ( getParametersNumber(tokenIndex) != 3 ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<FUNCTION> expecting 3 arguments.\n";
 						}
 					}
-					if (t.tokenTypeId == Calculus.TYPE_ID) {
+					/*
+					 * Check syntax for "CALCULUS OPERATOR" token
+					 */
+					if (t.tokenTypeId == CalculusOperator.TYPE_ID) {
 						int paramsNumber = getParametersNumber(tokenIndex);
 						List<FunctionParameter> funParams = null;
 						if (paramsNumber > 0)
 							funParams = getFunctionParameters(tokenIndex, initialTokens);
-						if ( (t.tokenId == Calculus.DER_ID) || (t.tokenId == Calculus.DER_LEFT_ID) || (t.tokenId == Calculus.DER_RIGHT_ID) )  {
+						if ( (t.tokenId == CalculusOperator.DER_ID) || (t.tokenId == CalculusOperator.DER_LEFT_ID) || (t.tokenId == CalculusOperator.DER_RIGHT_ID) )  {
 							if ( (paramsNumber !=2) && (paramsNumber != 4) ) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> expecting 2 or 4 calculus arguments.\n";
@@ -3514,7 +3817,7 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 							}
 						}
-						if (t.tokenId == Calculus.DERN_ID) {
+						if (t.tokenId == CalculusOperator.DERN_ID) {
 							if ( (paramsNumber !=3) && (paramsNumber != 5) ) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "<NTH_DERIVATIVE> expecting 3 or 5 calculus arguments.\n";
@@ -3526,7 +3829,7 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 							}
 						}
-						if (t.tokenId == Calculus.INT_ID) {
+						if (t.tokenId == CalculusOperator.INT_ID) {
 							if (paramsNumber !=4) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "<INTEGRAL> expecting 4 calculus arguments.\n";
@@ -3545,13 +3848,13 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 							}
 						}
-						if ((t.tokenId == Calculus.PROD_ID) ||
-								(t.tokenId == Calculus.SUM_ID) ||
-								(t.tokenId == Calculus.MIN_ID) ||
-								(t.tokenId == Calculus.MAX_ID) ||
-								(t.tokenId == Calculus.AVG_ID) ||
-								(t.tokenId == Calculus.VAR_ID) ||
-								(t.tokenId == Calculus.STD_ID)
+						if ((t.tokenId == CalculusOperator.PROD_ID) ||
+								(t.tokenId == CalculusOperator.SUM_ID) ||
+								(t.tokenId == CalculusOperator.MIN_ID) ||
+								(t.tokenId == CalculusOperator.MAX_ID) ||
+								(t.tokenId == CalculusOperator.AVG_ID) ||
+								(t.tokenId == CalculusOperator.VAR_ID) ||
+								(t.tokenId == CalculusOperator.STD_ID)
 																) {
 							if ( (paramsNumber != 4) && (paramsNumber != 5) ) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
@@ -3571,7 +3874,7 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 							}
 						}
-						if ( (t.tokenId == Calculus.FORW_DIFF_ID) || (t.tokenId == Calculus.BACKW_DIFF_ID) ) {
+						if ( (t.tokenId == CalculusOperator.FORW_DIFF_ID) || (t.tokenId == CalculusOperator.BACKW_DIFF_ID) ) {
 							if ( (paramsNumber != 2) && (paramsNumber != 3) ) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "<DIFF> expecting 2 or 3 arguments.\n";
@@ -3584,26 +3887,17 @@ namespace org.mariuszgromada.math.mxparser {
 							}
 						}
 					}
-					if (t.tokenTypeId == SpecialFunction.TYPE_ID) {
+					/*
+					 * Check syntax for "VARIADIC FUNCTION" token
+					 */
+					if (t.tokenTypeId == VariadicFunction.TYPE_ID) {
 						int paramsNumber = getParametersNumber(tokenIndex);
-						if ( 	(t.tokenId == SpecialFunction.CONT_FRAC_ID)
-								|| (t.tokenId == SpecialFunction.CONT_POL_ID)
-								|| (t.tokenId == SpecialFunction.LCM_ID)
-								|| (t.tokenId == SpecialFunction.MAX_ID)
-								|| (t.tokenId == SpecialFunction.MIN_ID)
-								|| (t.tokenId == SpecialFunction.SUM_ID)
-								|| (t.tokenId == SpecialFunction.PROD_ID)
-								|| (t.tokenId == SpecialFunction.AVG_ID)
-								|| (t.tokenId == SpecialFunction.VAR_ID)
-								|| (t.tokenId == SpecialFunction.STD_ID)
-								) {
-							if (paramsNumber < 1) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "At least one argument was expected.\n";
-							}
+						if (paramsNumber < 1) {
+							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+							errorMessage = errorMessage + level + tokenStr + "At least one argument was expected.\n";
 						}
-						if (t.tokenId == SpecialFunction.IFF_ID) {
-							if ( (paramsNumber % 2 != 0) || (paramsNumber < 2) ) {
+						if (t.tokenId == VariadicFunction.IFF_ID) {
+							if ((paramsNumber % 2 != 0) || (paramsNumber < 2)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "Expecting parity number of arguments.\n";
 							}
@@ -3666,7 +3960,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int calculusPos;
 			int ifPos;
 			int iffPos;
-			int specFunPos;
+			int variadicFunPos;
 			int recArgPos;
 			int f3ArgPos;
 			int f2ArgPos;
@@ -3714,7 +4008,7 @@ namespace org.mariuszgromada.math.mxparser {
 				calculusPos = -1;
 				ifPos = -1;
 				iffPos = -1;
-				specFunPos = -1;
+				variadicFunPos = -1;
 				recArgPos = -1;
 				f3ArgPos = -1;
 				f2ArgPos = -1;
@@ -3745,7 +4039,7 @@ namespace org.mariuszgromada.math.mxparser {
 				do {
 					p++;
 					token = tokensList[p];
-					if (token.tokenTypeId == Calculus.TYPE_ID)
+					if (token.tokenTypeId == CalculusOperator.TYPE_ID)
 						calculusPos = p;
 				} while ((p < tokensNumber - 1) && (calculusPos < 0));
 				/* if operations ... */
@@ -3764,7 +4058,7 @@ namespace org.mariuszgromada.math.mxparser {
 					do {
 						p++;
 						token = tokensList[p];
-						if ((token.tokenTypeId == SpecialFunction.TYPE_ID) && (token.tokenId == SpecialFunction.IFF_ID))
+						if ((token.tokenTypeId == VariadicFunction.TYPE_ID) && (token.tokenId == VariadicFunction.IFF_ID))
 							iffPos = p;
 					} while ((p < tokensNumber - 1) && (iffPos < 0));
 				}
@@ -3778,12 +4072,12 @@ namespace org.mariuszgromada.math.mxparser {
 						}
 						if (token.tokenTypeId == Argument.TYPE_ID)
 							ARGUMENT(tokenIndex);
-						else
-							if (token.tokenTypeId == Const.TYPE_ID)
-								CONSTANT(tokenIndex);
-							else
-								if (token.tokenTypeId == Constant.TYPE_ID)
-									USER_CONSTANT(tokenIndex);
+						else if (token.tokenTypeId == ConstantValue.TYPE_ID)
+							CONSTANT(tokenIndex);
+						else if (token.tokenTypeId == Constant.TYPE_ID)
+							USER_CONSTANT(tokenIndex);
+						else if (token.tokenTypeId == RandomVariable.TYPE_ID)
+							RANDOM_VARIABLE(tokenIndex);
 					}
 					tokenIndex = lPos;
 					/* Find end index of the tokens with the highest level */
@@ -3802,82 +4096,82 @@ namespace org.mariuszgromada.math.mxparser {
 						if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 							recArgPos = pos;
 						else
-							if ((token.tokenTypeId == SpecialFunction.TYPE_ID) && (specFunPos < 0))
-								specFunPos = pos;
+						if ((token.tokenTypeId == VariadicFunction.TYPE_ID) && (variadicFunPos < 0))
+							variadicFunPos = pos;
+						else
+						if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
+							f3ArgPos = pos;
+						else
+						if ((token.tokenTypeId == Function2Arg.TYPE_ID) && (f2ArgPos < 0))
+							f2ArgPos = pos;
+						else
+						if ((token.tokenTypeId == Function1Arg.TYPE_ID) && (f1ArgPos < 0))
+							f1ArgPos = pos;
+						else
+						if ((token.tokenTypeId == Function.TYPE_ID) && (userFunPos < 0))
+							userFunPos = pos;
+						else
+						if (token.tokenTypeId == Operator.TYPE_ID) {
+							if (token.tokenId == Operator.POWER_ID) {
+								powerPos = pos;
+								powerNum++;
+							} else
+						if ((token.tokenId == Operator.FACT_ID) && (factPos < 0)) {
+								factPos = pos;
+							} else
+							if ((token.tokenId == Operator.MOD_ID) && (modPos < 0)) {
+								modPos = pos;
+							} else
+							if ((token.tokenId == Operator.PLUS_ID) && (plusPos < 0))
+								plusPos = pos;
 							else
-								if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
-									f3ArgPos = pos;
-								else
-									if ((token.tokenTypeId == Function2Arg.TYPE_ID) && (f2ArgPos < 0))
-										f2ArgPos = pos;
-									else
-										if ((token.tokenTypeId == Function1Arg.TYPE_ID) && (f1ArgPos < 0))
-											f1ArgPos = pos;
-										else
-											if ((token.tokenTypeId == Function.TYPE_ID) && (userFunPos < 0))
-												userFunPos = pos;
-											else
-												if (token.tokenTypeId == Operator.TYPE_ID) {
-													if (token.tokenId == Operator.POWER_ID) {
-														powerPos = pos;
-														powerNum++;
-													} else
-														if ((token.tokenId == Operator.FACT_ID) && (factPos < 0)) {
-															factPos = pos;
-														} else
-															if ((token.tokenId == Operator.MOD_ID) && (modPos < 0)) {
-																modPos = pos;
-															} else
-																if ((token.tokenId == Operator.PLUS_ID) && (plusPos < 0))
-																	plusPos = pos;
-																else
-																	if ((token.tokenId == Operator.MINUS_ID) && (minusPos < 0))
-																		minusPos = pos;
-																	else
-																		if ((token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0))
-																			multiplyPos = pos;
-																		else
-																			if ((token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0))
-																				dividePos = pos;
-												} else
-													if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0)) {
-														negPos = pos;
-													} else
-														if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0)) {
-															bolPos = pos;
-														} else
-															if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
-																if ((token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0))
-																	eqPos = pos;
-																else
-																	if ((token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0))
-																		neqPos = pos;
-																	else
-																		if ((token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0))
-																			ltPos = pos;
-																		else
-																			if ((token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0))
-																				gtPos = pos;
-																			else
-																				if ((token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0))
-																					leqPos = pos;
-																				else
-																					if ((token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0))
-																						geqPos = pos;
-															} else
-																if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
-																	if ((token.tokenId == ParserSymbol.COMMA_ID)) {
-																		if (commaPos < 0)
-																			commas = new List<int>();
-																		commas.Add(pos);
-																		commaPos = pos;
-																	} else
-																		if ((token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) && (lParPos < 0))
-																			lParPos = pos;
-																		else
-																			if ((token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) && (rParPos < 0))
-																				rParPos = pos;
-																}
+							if ((token.tokenId == Operator.MINUS_ID) && (minusPos < 0))
+								minusPos = pos;
+							else
+							if ((token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0))
+								multiplyPos = pos;
+							else
+							if ((token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0))
+								dividePos = pos;
+						} else
+						if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0)) {
+							negPos = pos;
+						} else
+						if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0)) {
+							bolPos = pos;
+						} else
+						if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
+							if ((token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0))
+								eqPos = pos;
+							else
+							if ((token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0))
+								neqPos = pos;
+							else
+							if ((token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0))
+								ltPos = pos;
+							else
+							if ((token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0))
+								gtPos = pos;
+							else
+							if ((token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0))
+								leqPos = pos;
+							else
+							if ((token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0))
+								geqPos = pos;
+						} else
+						if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
+							if ((token.tokenId == ParserSymbol.COMMA_ID)) {
+								if (commaPos < 0)
+									commas = new List<int>();
+								commas.Add(pos);
+								commaPos = pos;
+							} else
+							if ((token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) && (lParPos < 0))
+								lParPos = pos;
+							else
+							if ((token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) && (rParPos < 0))
+								rParPos = pos;
+						}
 					}
 					/*
 					 * powering should be done using backwards sequence
@@ -3894,321 +4188,100 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 				}
 				/* calculus operations */
-				if (calculusPos >= 0) {
-					switch (tokensList[calculusPos].tokenId) {
-						case Calculus.SUM_ID: SUM(calculusPos);
-							break;
-						case Calculus.PROD_ID: PROD(calculusPos);
-							break;
-						case Calculus.MIN_ID:
-							MIN(calculusPos);
-							break;
-						case Calculus.MAX_ID:
-							MAX(calculusPos);
-							break;
-						case Calculus.AVG_ID:
-							AVG(calculusPos);
-							break;
-						case Calculus.VAR_ID:
-							VAR(calculusPos);
-							break;
-						case Calculus.STD_ID:
-							STD(calculusPos);
-							break;
-						case Calculus.INT_ID: INTEGRAL(calculusPos);
-							break;
-						case Calculus.DER_ID: DERIVATIVE(calculusPos, NumericalAnalysis.GENERAL_DERIVATIVE);
-							break;
-						case Calculus.DER_LEFT_ID: DERIVATIVE(calculusPos, NumericalAnalysis.LEFT_DERIVATIVE);
-							break;
-						case Calculus.DER_RIGHT_ID: DERIVATIVE(calculusPos, NumericalAnalysis.RIGHT_DERIVATIVE);
-							break;
-						case Calculus.DERN_ID: DERIVATIVE_NTH(calculusPos, NumericalAnalysis.GENERAL_DERIVATIVE);
-							break;
-						case Calculus.FORW_DIFF_ID: FORWARD_DIFFERENCE(calculusPos);
-							break;
-						case Calculus.BACKW_DIFF_ID: BACKWARD_DIFFERENCE(calculusPos);
-							break;
-					}
+				if (calculusPos >= 0) calculusCalc(calculusPos);
+				else
+				if (ifPos >= 0) {
+					IF_CONDITION(ifPos);
 				} else
-					if (ifPos >= 0) {
-						IF_CONDITION(ifPos);
-					} else
-						if (iffPos >= 0) {
-							IFF(iffPos);
-						} else				/* ... arguments ... */
-							/* ... recursive arguments ... */
-							if (recArgPos >= 0) {
-								RECURSIVE_ARGUMENT(recArgPos);
-							} else
-								/* ... special functions  ... */
-								if (specFunPos >= 0) {
-									switch (tokensList[specFunPos].tokenId) {
-										case SpecialFunction.IFF_ID: IFF(specFunPos);
-											break;
-										case SpecialFunction.MIN_ID: MIN_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.MAX_ID: MAX_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.SUM_ID:
-											SUM_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.PROD_ID:
-											PROD_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.AVG_ID:
-											AVG_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.VAR_ID:
-											VAR_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.STD_ID:
-											STD_VARIADIC(specFunPos);
-											break;
-										case SpecialFunction.CONT_FRAC_ID: CONTINUED_FRACTION(specFunPos);
-											break;
-										case SpecialFunction.CONT_POL_ID: CONTINUED_POLYNOMIAL(specFunPos);
-											break;
-										case SpecialFunction.GCD_ID: GCD(specFunPos);
-											break;
-										case SpecialFunction.LCM_ID: LCM(specFunPos);
-											break;
-									}
-								} else
-									/* ... 3-args functions  ... */
-									if (f3ArgPos >= 0) {
-										switch (tokensList[f3ArgPos].tokenId) {
-											case Function3Arg.IF_ID: IF(f3ArgPos);
-												break;
-											case Function3Arg.CHI_ab_ID: CHI_ab(f3ArgPos);
-												break;
-											case Function3Arg.CHI_AB_ID: CHI_AB(f3ArgPos);
-												break;
-											case Function3Arg.CHI_Ab_ID: CHI_Ab(f3ArgPos);
-												break;
-											case Function3Arg.CHI_aB_ID: CHI_aB(f3ArgPos);
-												break;
-										}
-									} else
-										/* ... 2-args functions  ... */
-										if (f2ArgPos >= 0) {
-											switch (tokensList[f2ArgPos].tokenId) {
-												case Function2Arg.LOG_ID: LOG(f2ArgPos);
-													break;
-												case Function2Arg.MOD_ID: MOD(f2ArgPos);
-													break;
-												case Function2Arg.BINOM_COEFF_ID: BINOM_COEFF(f2ArgPos);
-													break;
-												case Function2Arg.BERNOULLI_NUMBER_ID: BERNOULLI_NUMBER(f2ArgPos);
-													break;
-												case Function2Arg.STIRLING1_NUMBER_ID: STIRLING1_NUMBER(f2ArgPos);
-													break;
-												case Function2Arg.STIRLING2_NUMBER_ID: STIRLING2_NUMBER(f2ArgPos);
-													break;
-												case Function2Arg.WORPITZKY_NUMBER_ID: WORPITZKY_NUMBER(f2ArgPos);
-													break;
-												case Function2Arg.EULER_NUMBER_ID: EULER_NUMBER(f2ArgPos);
-													break;
-												case Function2Arg.KRONECKER_DELTA_ID: KRONECKER_DELTA(f2ArgPos);
-													break;
-												case Function2Arg.EULER_POLYNOMIAL_ID: EULER_POLYNOMIAL(f2ArgPos);
-													break;
-												case Function2Arg.HARMONIC_NUMBER_ID: HARMONIC2_NUMBER(f2ArgPos);
-													break;
-											}
-										} else
-											/* ... 1-arg functions  ... */
-											if (f1ArgPos >= 0) {
-												switch (tokensList[f1ArgPos].tokenId) {
-													case Function1Arg.SIN_ID: SIN(f1ArgPos);
-														break;
-													case Function1Arg.COS_ID: COS(f1ArgPos);
-														break;
-													case Function1Arg.TAN_ID: TAN(f1ArgPos);
-														break;
-													case Function1Arg.CTAN_ID: CTAN(f1ArgPos);
-														break;
-													case Function1Arg.SEC_ID: SEC(f1ArgPos);
-														break;
-													case Function1Arg.COSEC_ID: COSEC(f1ArgPos);
-														break;
-													case Function1Arg.ASIN_ID: ASIN(f1ArgPos);
-														break;
-													case Function1Arg.ACOS_ID: ACOS(f1ArgPos);
-														break;
-													case Function1Arg.ATAN_ID: ATAN(f1ArgPos);
-														break;
-													case Function1Arg.ACTAN_ID: ACTAN(f1ArgPos);
-														break;
-													case Function1Arg.LN_ID: LN(f1ArgPos);
-														break;
-													case Function1Arg.LOG2_ID: LOG2(f1ArgPos);
-														break;
-													case Function1Arg.LOG10_ID: LOG10(f1ArgPos);
-														break;
-													case Function1Arg.RAD_ID: RAD(f1ArgPos);
-														break;
-													case Function1Arg.EXP_ID: EXP(f1ArgPos);
-														break;
-													case Function1Arg.SQRT_ID: SQRT(f1ArgPos);
-														break;
-													case Function1Arg.SINH_ID: SINH(f1ArgPos);
-														break;
-													case Function1Arg.COSH_ID: COSH(f1ArgPos);
-														break;
-													case Function1Arg.TANH_ID: TANH(f1ArgPos);
-														break;
-													case Function1Arg.COTH_ID: COTH(f1ArgPos);
-														break;
-													case Function1Arg.SECH_ID: SECH(f1ArgPos);
-														break;
-													case Function1Arg.CSCH_ID: CSCH(f1ArgPos);
-														break;
-													case Function1Arg.DEG_ID: DEG(f1ArgPos);
-														break;
-													case Function1Arg.ABS_ID: ABS(f1ArgPos);
-														break;
-													case Function1Arg.SGN_ID: SGN(f1ArgPos);
-														break;
-													case Function1Arg.FLOOR_ID: FLOOR(f1ArgPos);
-														break;
-													case Function1Arg.CEIL_ID: CEIL(f1ArgPos);
-														break;
-													case Function1Arg.NOT_ID: NOT(f1ArgPos);
-														break;
-													case Function1Arg.ARSINH_ID: ARSINH(f1ArgPos);
-														break;
-													case Function1Arg.ARCOSH_ID: ARCOSH(f1ArgPos);
-														break;
-													case Function1Arg.ARTANH_ID: ARTANH(f1ArgPos);
-														break;
-													case Function1Arg.ARCOTH_ID: ARCOTH(f1ArgPos);
-														break;
-													case Function1Arg.ARSECH_ID: ARSECH(f1ArgPos);
-														break;
-													case Function1Arg.ARCSCH_ID: ARCSCH(f1ArgPos);
-														break;
-													case Function1Arg.SA_ID: SA(f1ArgPos);
-														break;
-													case Function1Arg.SINC_ID: SINC(f1ArgPos);
-														break;
-													case Function1Arg.BELL_NUMBER_ID: BELL_NUMBER(f1ArgPos);
-														break;
-													case Function1Arg.LUCAS_NUMBER_ID: LUCAS_NUMBER(f1ArgPos);
-														break;
-													case Function1Arg.FIBONACCI_NUMBER_ID: FIBONACCI_NUMBER(f1ArgPos);
-														break;
-													case Function1Arg.HARMONIC_NUMBER_ID: HARMONIC_NUMBER(f1ArgPos);
-														break;
-													case Function1Arg.IS_PRIME_ID:
-														IS_PRIME(f1ArgPos);
-														break;
-													case Function1Arg.PRIME_COUNT_ID:
-														PRIME_COUNT(f1ArgPos);
-														break;
-													case Function1Arg.EXP_INT_ID:
-														EXP_INT(f1ArgPos);
-														break;
-													case Function1Arg.LOG_INT_ID:
-														LOG_INT(f1ArgPos);
-														break;
-													case Function1Arg.OFF_LOG_INT_ID:
-														OFF_LOG_INT(f1ArgPos);
-														break;
-												}
-											} else
-												/* ... user functions  ... */
-												if (userFunPos >= 0) {
-													USER_FUNCTION(userFunPos);
-												} else
-													/* ... powering  ... */
-													if (powerPos >= 0) {
-														POWER(powerPos);
-													} else
-														if (factPos >= 0) {
-															FACT(factPos);
-														} else
-															if (modPos >= 0) {
-																MODULO(modPos);
-															} else
-																if (negPos >= 0) {
-																	NEG(negPos);
-																} else
-																	/* ... arithmetical operators  ... */
-																	if ((multiplyPos >= 0) || (dividePos >= 0)) {
-																		if ((multiplyPos >= 0) && (dividePos >= 0))
-																			if (multiplyPos <= dividePos)
-																				MULTIPLY(multiplyPos);
-																			else
-																				DIVIDE(dividePos);
-																		else
-																			if (multiplyPos >= 0)
-																				MULTIPLY(multiplyPos);
-																			else
-																				DIVIDE(dividePos);
-																	} else
-																		if ((minusPos >= 0) || (plusPos >= 0)) {
-																				if ((minusPos >= 0) && (plusPos >= 0))
-																					if (minusPos <= plusPos)
-																						MINUS(minusPos);
-																					else
-																						PLUS(plusPos);
-																				else
-																					if (minusPos >= 0)
-																						MINUS(minusPos);
-																					else
-																						PLUS(plusPos);
-																			} else
-																				if (neqPos >= 0) {
-																					NEQ(neqPos);
-																				} else
-																					/* ... binary relations ... */
-																					if (eqPos >= 0) {
-																						EQ(eqPos);
-																					} else
-																						if (ltPos >= 0) {
-																							LT(ltPos);
-																						} else
-																							if (gtPos >= 0) {
-																								GT(gtPos);
-																							} else
-																								if (leqPos >= 0) {
-																									LEQ(leqPos);
-																								} else
-																									if (geqPos >= 0) {
-																										GEQ(geqPos);
-																									} else
-																										if (commaPos >= 0) {
-																											for (int i = commas.Count - 1; i >= 0; i--)
-																												COMMA(commas[i]);
-																										} else
-																											/* ... logical operators  ... */
-																											if (bolPos >= 0) {
-																												switch (tokensList[bolPos].tokenId) {
-																													case BooleanOperator.AND_ID: AND(bolPos);
-																														break;
-																													case BooleanOperator.CIMP_ID: CIMP(bolPos);
-																														break;
-																													case BooleanOperator.CNIMP_ID: CNIMP(bolPos);
-																														break;
-																													case BooleanOperator.EQV_ID: EQV(bolPos);
-																														break;
-																													case BooleanOperator.IMP_ID: IMP(bolPos);
-																														break;
-																													case BooleanOperator.NAND_ID: NAND(bolPos);
-																														break;
-																													case BooleanOperator.NIMP_ID: NIMP(bolPos);
-																														break;
-																													case BooleanOperator.NOR_ID: NOR(bolPos);
-																														break;
-																													case BooleanOperator.OR_ID: OR(bolPos);
-																														break;
-																													case BooleanOperator.XOR_ID: XOR(bolPos);
-																														break;
-																												}
-																											} else
-																												if ((lParPos >= 0) && (rParPos > lParPos)) {
-																													PARENTHESES(lParPos, rParPos);
+				if (iffPos >= 0) {
+					IFF(iffPos);
+				} else				/* ... arguments ... */
+				/* ... recursive arguments ... */
+				if (recArgPos >= 0) {
+					RECURSIVE_ARGUMENT(recArgPos);
+				} else
+				/* ... variadic functions  ... */
+				if (variadicFunPos >= 0) variadicFunCalc(variadicFunPos);
+				else
+				/* ... 3-args functions  ... */
+				if (f3ArgPos >= 0) f3ArgCalc(f3ArgPos);
+				else
+				/* ... 2-args functions  ... */
+				if (f2ArgPos >= 0) f2ArgCalc(f2ArgPos);
+				else
+				/* ... 1-arg functions  ... */
+				if (f1ArgPos >= 0) f1ArgCalc(f1ArgPos);
+				else
+				/* ... user functions  ... */
+				if (userFunPos >= 0) {
+					USER_FUNCTION(userFunPos);
+				} else
+				/* ... powering  ... */
+				if (powerPos >= 0) {
+					POWER(powerPos);
+				} else
+				if (factPos >= 0) {
+					FACT(factPos);
+				} else
+				if (modPos >= 0) {
+					MODULO(modPos);
+				} else
+				if (negPos >= 0) {
+					NEG(negPos);
+				} else
+				/* ... arithmetical operators  ... */
+				if ((multiplyPos >= 0) || (dividePos >= 0)) {
+					if ((multiplyPos >= 0) && (dividePos >= 0))
+						if (multiplyPos <= dividePos)
+							MULTIPLY(multiplyPos);
+						else
+							DIVIDE(dividePos);
+					else
+						if (multiplyPos >= 0)
+							MULTIPLY(multiplyPos);
+						else
+							DIVIDE(dividePos);
+				} else
+				if ((minusPos >= 0) || (plusPos >= 0)) {
+					if ((minusPos >= 0) && (plusPos >= 0))
+						if (minusPos <= plusPos)
+							MINUS(minusPos);
+						else
+							PLUS(plusPos);
+					else
+						if (minusPos >= 0)
+							MINUS(minusPos);
+						else
+							PLUS(plusPos);
+				} else
+				if (neqPos >= 0) {
+					NEQ(neqPos);
+				} else
+				/* ... binary relations ... */
+				if (eqPos >= 0) {
+					EQ(eqPos);
+				} else
+				if (ltPos >= 0) {
+					LT(ltPos);
+				} else
+				if (gtPos >= 0) {
+					GT(gtPos);
+				} else
+				if (leqPos >= 0) {
+					LEQ(leqPos);
+				} else
+				if (geqPos >= 0) {
+					GEQ(geqPos);
+				} else
+				if (commaPos >= 0) {
+					for (int i = commas.Count - 1; i >= 0; i--)
+						COMMA(commas[i]);
+				} else
+				/* ... logical operators  ... */
+				if (bolPos >= 0) bolCalc(bolPos);
+				else
+				if ((lParPos >= 0) && (rParPos > lParPos)) {
+					PARENTHESES(lParPos, rParPos);
 				} else if (tokensList.Count > 1) {
 					this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Fatal error - not know what to do with tokens while calculate().";
 				}
@@ -4227,6 +4300,166 @@ namespace org.mariuszgromada.math.mxparser {
 			long endTime = mXparser.currentTimeMillis();
 			computingTime = (endTime - startTime) / 1000.0;
 			return tokensList[0].tokenValue;
+		}
+		/**
+		 * Calculates unary function
+		 * @param pos    token position
+		 */
+		private void f1ArgCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+			case Function1Arg.SIN_ID: SIN(pos); break;
+			case Function1Arg.COS_ID: COS(pos); break;
+			case Function1Arg.TAN_ID: TAN(pos); break;
+			case Function1Arg.CTAN_ID: CTAN(pos); break;
+			case Function1Arg.SEC_ID: SEC(pos); break;
+			case Function1Arg.COSEC_ID: COSEC(pos); break;
+			case Function1Arg.ASIN_ID: ASIN(pos); break;
+			case Function1Arg.ACOS_ID: ACOS(pos); break;
+			case Function1Arg.ATAN_ID: ATAN(pos); break;
+			case Function1Arg.ACTAN_ID: ACTAN(pos); break;
+			case Function1Arg.LN_ID: LN(pos); break;
+			case Function1Arg.LOG2_ID: LOG2(pos); break;
+			case Function1Arg.LOG10_ID: LOG10(pos); break;
+			case Function1Arg.RAD_ID: RAD(pos); break;
+			case Function1Arg.EXP_ID: EXP(pos); break;
+			case Function1Arg.SQRT_ID: SQRT(pos); break;
+			case Function1Arg.SINH_ID: SINH(pos); break;
+			case Function1Arg.COSH_ID: COSH(pos); break;
+			case Function1Arg.TANH_ID: TANH(pos); break;
+			case Function1Arg.COTH_ID: COTH(pos); break;
+			case Function1Arg.SECH_ID: SECH(pos); break;
+			case Function1Arg.CSCH_ID: CSCH(pos); break;
+			case Function1Arg.DEG_ID: DEG(pos); break;
+			case Function1Arg.ABS_ID: ABS(pos); break;
+			case Function1Arg.SGN_ID: SGN(pos); break;
+			case Function1Arg.FLOOR_ID: FLOOR(pos); break;
+			case Function1Arg.CEIL_ID: CEIL(pos); break;
+			case Function1Arg.NOT_ID: NOT(pos); break;
+			case Function1Arg.ARSINH_ID: ARSINH(pos); break;
+			case Function1Arg.ARCOSH_ID: ARCOSH(pos); break;
+			case Function1Arg.ARTANH_ID: ARTANH(pos); break;
+			case Function1Arg.ARCOTH_ID: ARCOTH(pos); break;
+			case Function1Arg.ARSECH_ID: ARSECH(pos); break;
+			case Function1Arg.ARCSCH_ID: ARCSCH(pos); break;
+			case Function1Arg.SA_ID: SA(pos); break;
+			case Function1Arg.SINC_ID: SINC(pos); break;
+			case Function1Arg.BELL_NUMBER_ID: BELL_NUMBER(pos); break;
+			case Function1Arg.LUCAS_NUMBER_ID: LUCAS_NUMBER(pos); break;
+			case Function1Arg.FIBONACCI_NUMBER_ID: FIBONACCI_NUMBER(pos); break;
+			case Function1Arg.HARMONIC_NUMBER_ID: HARMONIC_NUMBER(pos); break;
+			case Function1Arg.IS_PRIME_ID: IS_PRIME(pos); break;
+			case Function1Arg.PRIME_COUNT_ID: PRIME_COUNT(pos); break;
+			case Function1Arg.EXP_INT_ID: EXP_INT(pos); break;
+			case Function1Arg.LOG_INT_ID: LOG_INT(pos); break;
+			case Function1Arg.OFF_LOG_INT_ID: OFF_LOG_INT(pos); break;
+			case Function1Arg.GAUSS_ERF_ID: GAUSS_ERF(pos); break;
+			case Function1Arg.GAUSS_ERFC_ID: GAUSS_ERFC(pos); break;
+			case Function1Arg.GAUSS_ERF_INV_ID: GAUSS_ERF_INV(pos); break;
+			case Function1Arg.GAUSS_ERFC_INV_ID: GAUSS_ERFC_INV(pos); break;
+			}
+		}
+		/**
+		 * Calculates binary function
+		 * @param pos   Token position
+		 */
+		private void f2ArgCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+			case Function2Arg.LOG_ID: LOG(pos); break;
+			case Function2Arg.MOD_ID: MOD(pos); break;
+			case Function2Arg.BINOM_COEFF_ID: BINOM_COEFF(pos); break;
+			case Function2Arg.BERNOULLI_NUMBER_ID: BERNOULLI_NUMBER(pos); break;
+			case Function2Arg.STIRLING1_NUMBER_ID: STIRLING1_NUMBER(pos); break;
+			case Function2Arg.STIRLING2_NUMBER_ID: STIRLING2_NUMBER(pos); break;
+			case Function2Arg.WORPITZKY_NUMBER_ID: WORPITZKY_NUMBER(pos); break;
+			case Function2Arg.EULER_NUMBER_ID: EULER_NUMBER(pos); break;
+			case Function2Arg.KRONECKER_DELTA_ID: KRONECKER_DELTA(pos); break;
+			case Function2Arg.EULER_POLYNOMIAL_ID: EULER_POLYNOMIAL(pos); break;
+			case Function2Arg.HARMONIC_NUMBER_ID: HARMONIC2_NUMBER(pos); break;
+			case Function2Arg.RND_UNIFORM_CONT_ID: RND_VAR_UNIFORM_CONT(pos); break;
+			case Function2Arg.RND_UNIFORM_DISCR_ID: RND_VAR_UNIFORM_DISCR(pos); break;
+			case Function2Arg.ROUND_ID: ROUND(pos); break;
+			case Function2Arg.RND_NORMAL_ID: RND_NORMAL(pos); break;
+			}
+		}
+		/**
+		 * Calculates function with 3 arguments
+		 * @param pos   Token position
+		 */
+		private void f3ArgCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+			case Function3Arg.IF_ID: IF(pos); break;
+			case Function3Arg.CHI_ab_ID: CHI_ab(pos); break;
+			case Function3Arg.CHI_AB_ID: CHI_AB(pos); break;
+			case Function3Arg.CHI_Ab_ID: CHI_Ab(pos); break;
+			case Function3Arg.CHI_aB_ID: CHI_aB(pos); break;
+			case Function3Arg.PDF_UNIFORM_CONT_ID: PDF_UNIFORM_CONT(pos); break;
+			case Function3Arg.CDF_UNIFORM_CONT_ID: CDF_UNIFORM_CONT(pos); break;
+			case Function3Arg.QNT_UNIFORM_CONT_ID: QNT_UNIFORM_CONT(pos); break;
+			case Function3Arg.PDF_NORMAL_ID: PDF_NORMAL(pos); break;
+			case Function3Arg.CDF_NORMAL_ID: CDF_NORMAL(pos); break;
+			case Function3Arg.QNT_NORMAL_ID: QNT_NORMAL(pos); break;
+			}
+		}
+		/**
+		 * Calculates Variadic function
+		 * @param pos   Token position
+		 */
+		private void variadicFunCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+			case VariadicFunction.IFF_ID: IFF(pos); break;
+			case VariadicFunction.MIN_ID: MIN_VARIADIC(pos); break;
+			case VariadicFunction.MAX_ID: MAX_VARIADIC(pos); break;
+			case VariadicFunction.SUM_ID: SUM_VARIADIC(pos); break;
+			case VariadicFunction.PROD_ID: PROD_VARIADIC(pos); break;
+			case VariadicFunction.AVG_ID: AVG_VARIADIC(pos); break;
+			case VariadicFunction.VAR_ID: VAR_VARIADIC(pos); break;
+			case VariadicFunction.STD_ID: STD_VARIADIC(pos); break;
+			case VariadicFunction.CONT_FRAC_ID: CONTINUED_FRACTION(pos); break;
+			case VariadicFunction.CONT_POL_ID: CONTINUED_POLYNOMIAL(pos); break;
+			case VariadicFunction.GCD_ID: GCD(pos); break;
+			case VariadicFunction.LCM_ID: LCM(pos); break;
+			case VariadicFunction.RND_LIST_ID: RND_LIST(pos); break;
+			}
+		}
+		/**
+		 * Calculates calculus operators
+		 * @param pos
+		 */
+		private void calculusCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+			case CalculusOperator.SUM_ID: SUM(pos); break;
+			case CalculusOperator.PROD_ID: PROD(pos); break;
+			case CalculusOperator.MIN_ID: MIN(pos); break;
+			case CalculusOperator.MAX_ID: MAX(pos); break;
+			case CalculusOperator.AVG_ID: AVG(pos); break;
+			case CalculusOperator.VAR_ID: VAR(pos); break;
+			case CalculusOperator.STD_ID: STD(pos); break;
+			case CalculusOperator.INT_ID: INTEGRAL(pos); break;
+			case CalculusOperator.DER_ID: DERIVATIVE(pos, Calculus.GENERAL_DERIVATIVE); break;
+			case CalculusOperator.DER_LEFT_ID: DERIVATIVE(pos, Calculus.LEFT_DERIVATIVE); break;
+			case CalculusOperator.DER_RIGHT_ID: DERIVATIVE(pos, Calculus.RIGHT_DERIVATIVE); break;
+			case CalculusOperator.DERN_ID: DERIVATIVE_NTH(pos, Calculus.GENERAL_DERIVATIVE); break;
+			case CalculusOperator.FORW_DIFF_ID: FORWARD_DIFFERENCE(pos); break;
+			case CalculusOperator.BACKW_DIFF_ID: BACKWARD_DIFFERENCE(pos); break;
+			}
+		}
+		/**
+		 * Calculates boolean operators
+		 * @param pos
+		 */
+		private void bolCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+			case BooleanOperator.AND_ID: AND(pos); break;
+			case BooleanOperator.CIMP_ID: CIMP(pos); break;
+			case BooleanOperator.CNIMP_ID: CNIMP(pos); break;
+			case BooleanOperator.EQV_ID: EQV(pos); break;
+			case BooleanOperator.IMP_ID: IMP(pos); break;
+			case BooleanOperator.NAND_ID: NAND(pos); break;
+			case BooleanOperator.NIMP_ID: NIMP(pos); break;
+			case BooleanOperator.NOR_ID: NOR(pos); break;
+			case BooleanOperator.OR_ID: OR(pos); break;
+			case BooleanOperator.XOR_ID: XOR(pos); break;
+			}
 		}
 		/*=================================================
 		 *
@@ -4372,6 +4605,10 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function1Arg.EXP_INT_STR, Function1Arg.EXP_INT_DESC, Function1Arg.EXP_INT_ID, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.LOG_INT_STR, Function1Arg.LOG_INT_DESC, Function1Arg.LOG_INT_ID, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.OFF_LOG_INT_STR, Function1Arg.OFF_LOG_INT_DESC, Function1Arg.OFF_LOG_INT_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.GAUSS_ERF_STR, Function1Arg.GAUSS_ERF_DESC, Function1Arg.GAUSS_ERF_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.GAUSS_ERFC_STR, Function1Arg.GAUSS_ERFC_DESC, Function1Arg.GAUSS_ERFC_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.GAUSS_ERF_INV_STR, Function1Arg.GAUSS_ERF_INV_DESC, Function1Arg.GAUSS_ERF_INV_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.GAUSS_ERFC_INV_STR, Function1Arg.GAUSS_ERFC_INV_DESC, Function1Arg.GAUSS_ERFC_INV_ID, Function1Arg.TYPE_ID);
 				/*
 				 * 2 args functions key words
 				 */
@@ -4386,6 +4623,10 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function2Arg.KRONECKER_DELTA_STR, Function2Arg.KRONECKER_DELTA_DESC, Function2Arg.KRONECKER_DELTA_ID, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.EULER_POLYNOMIAL_STR, Function2Arg.EULER_POLYNOMIAL_DESC, Function2Arg.EULER_POLYNOMIAL_ID, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.HARMONIC_NUMBER_STR, Function2Arg.HARMONIC_NUMBER_DESC, Function2Arg.HARMONIC_NUMBER_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.RND_UNIFORM_CONT_STR, Function2Arg.RND_UNIFORM_CONT_DESC, Function2Arg.RND_UNIFORM_CONT_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.RND_UNIFORM_DISCR_STR, Function2Arg.RND_UNIFORM_DISCR_DESC, Function2Arg.RND_UNIFORM_DISCR_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.ROUND_STR, Function2Arg.ROUND_DESC, Function2Arg.ROUND_ID, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.RND_NORMAL_STR, Function2Arg.RND_NORMAL_DESC, Function2Arg.RND_NORMAL_ID, Function2Arg.TYPE_ID);
 				/*
 				 * 3 args functions key words
 				 */
@@ -4394,86 +4635,127 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function3Arg.CHI_AB_STR, Function3Arg.CHI_AB_DESC, Function3Arg.CHI_AB_ID, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.CHI_Ab_STR, Function3Arg.CHI_Ab_DESC, Function3Arg.CHI_Ab_ID, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.CHI_aB_STR, Function3Arg.CHI_aB_DESC, Function3Arg.CHI_aB_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.PDF_UNIFORM_CONT_STR, Function3Arg.PDF_UNIFORM_CONT_DESC, Function3Arg.PDF_UNIFORM_CONT_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CDF_UNIFORM_CONT_STR, Function3Arg.CDF_UNIFORM_CONT_DESC, Function3Arg.CDF_UNIFORM_CONT_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.QNT_UNIFORM_CONT_STR, Function3Arg.QNT_UNIFORM_CONT_DESC, Function3Arg.QNT_UNIFORM_CONT_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.PDF_NORMAL_STR, Function3Arg.PDF_NORMAL_DESC, Function3Arg.PDF_NORMAL_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CDF_NORMAL_STR, Function3Arg.CDF_NORMAL_DESC, Function3Arg.CDF_NORMAL_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.QNT_NORMAL_STR, Function3Arg.QNT_NORMAL_DESC, Function3Arg.QNT_NORMAL_ID, Function3Arg.TYPE_ID);
 				/*
-				 * Speciall functions as key words
+				 * Variadic functions as key words
 				 */
-				addKeyWord(SpecialFunction.IFF_STR, SpecialFunction.IFF_DESC, SpecialFunction.IFF_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.MIN_STR, SpecialFunction.MIN_DESC, SpecialFunction.MIN_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.MAX_STR, SpecialFunction.MAX_DESC, SpecialFunction.MAX_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.CONT_FRAC_STR, SpecialFunction.CONT_FRAC_DESC, SpecialFunction.CONT_FRAC_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.CONT_POL_STR, SpecialFunction.CONT_POL_DESC, SpecialFunction.CONT_POL_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.GCD_STR, SpecialFunction.GCD_DESC, SpecialFunction.GCD_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.LCM_STR, SpecialFunction.LCM_DESC, SpecialFunction.LCM_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.SUM_STR, SpecialFunction.SUM_DESC, SpecialFunction.SUM_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.PROD_STR, SpecialFunction.PROD_DESC, SpecialFunction.PROD_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.AVG_STR, SpecialFunction.AVG_DESC, SpecialFunction.AVG_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.VAR_STR, SpecialFunction.VAR_DESC, SpecialFunction.VAR_ID, SpecialFunction.TYPE_ID);
-				addKeyWord(SpecialFunction.STD_STR, SpecialFunction.STD_DESC, SpecialFunction.STD_ID, SpecialFunction.TYPE_ID);
-
+				addKeyWord(VariadicFunction.IFF_STR, VariadicFunction.IFF_DESC, VariadicFunction.IFF_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.MIN_STR, VariadicFunction.MIN_DESC, VariadicFunction.MIN_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.MAX_STR, VariadicFunction.MAX_DESC, VariadicFunction.MAX_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.CONT_FRAC_STR, VariadicFunction.CONT_FRAC_DESC, VariadicFunction.CONT_FRAC_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.CONT_POL_STR, VariadicFunction.CONT_POL_DESC, VariadicFunction.CONT_POL_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.GCD_STR, VariadicFunction.GCD_DESC, VariadicFunction.GCD_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.LCM_STR, VariadicFunction.LCM_DESC, VariadicFunction.LCM_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.SUM_STR, VariadicFunction.SUM_DESC, VariadicFunction.SUM_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.PROD_STR, VariadicFunction.PROD_DESC, VariadicFunction.PROD_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.AVG_STR, VariadicFunction.AVG_DESC, VariadicFunction.AVG_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.VAR_STR, VariadicFunction.VAR_DESC, VariadicFunction.VAR_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.STD_STR, VariadicFunction.STD_DESC, VariadicFunction.STD_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(VariadicFunction.RND_LIST_STR, VariadicFunction.RND_LIST_DESC, VariadicFunction.RND_LIST_ID, VariadicFunction.TYPE_ID);
 				/*
 				 * Calculus key words
 				 */
-				addKeyWord(Calculus.SUM_STR, Calculus.SUM_DESC, Calculus.SUM_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.PROD_STR, Calculus.PROD_DESC, Calculus.PROD_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.INT_STR, Calculus.INT_DESC, Calculus.INT_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.DER_STR, Calculus.DER_DESC, Calculus.DER_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.DER_LEFT_STR, Calculus.DER_LEFT_DESC, Calculus.DER_LEFT_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.DER_RIGHT_STR, Calculus.DER_RIGHT_DESC, Calculus.DER_RIGHT_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.DERN_STR, Calculus.DERN_DESC, Calculus.DERN_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.FORW_DIFF_STR, Calculus.FORW_DIFF_DESC, Calculus.FORW_DIFF_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.BACKW_DIFF_STR, Calculus.BACKW_DIFF_DESC, Calculus.BACKW_DIFF_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.AVG_STR, Calculus.AVG_DESC, Calculus.AVG_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.VAR_STR, Calculus.VAR_DESC, Calculus.VAR_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.STD_STR, Calculus.STD_DESC, Calculus.STD_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.MIN_STR, Calculus.MIN_DESC, Calculus.MIN_ID, Calculus.TYPE_ID);
-				addKeyWord(Calculus.MAX_STR, Calculus.MAX_DESC, Calculus.MAX_ID, Calculus.TYPE_ID);
+				addKeyWord(CalculusOperator.SUM_STR, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.PROD_STR, CalculusOperator.PROD_DESC, CalculusOperator.PROD_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.INT_STR, CalculusOperator.INT_DESC, CalculusOperator.INT_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DER_STR, CalculusOperator.DER_DESC, CalculusOperator.DER_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DER_LEFT_STR, CalculusOperator.DER_LEFT_DESC, CalculusOperator.DER_LEFT_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DER_RIGHT_STR, CalculusOperator.DER_RIGHT_DESC, CalculusOperator.DER_RIGHT_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DERN_STR, CalculusOperator.DERN_DESC, CalculusOperator.DERN_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.FORW_DIFF_STR, CalculusOperator.FORW_DIFF_DESC, CalculusOperator.FORW_DIFF_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.BACKW_DIFF_STR, CalculusOperator.BACKW_DIFF_DESC, CalculusOperator.BACKW_DIFF_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.AVG_STR, CalculusOperator.AVG_DESC, CalculusOperator.AVG_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.VAR_STR, CalculusOperator.VAR_DESC, CalculusOperator.VAR_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.STD_STR, CalculusOperator.STD_DESC, CalculusOperator.STD_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.MIN_STR, CalculusOperator.MIN_DESC, CalculusOperator.MIN_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.MAX_STR, CalculusOperator.MAX_DESC, CalculusOperator.MAX_ID, CalculusOperator.TYPE_ID);
 
 				/*
 				 * Constants key words
 				 */
-				addKeyWord(Const.PI_STR, Const.PI_DESC, Const.PI_ID, Const.TYPE_ID);
-				addKeyWord(Const.EULER_STR, Const.EULER_DESC, Const.EULER_ID, Const.TYPE_ID);
-				addKeyWord(Const.EULER_MASCHERONI_STR, Const.EULER_MASCHERONI_DESC, Const.EULER_MASCHERONI_ID, Const.TYPE_ID);
-				addKeyWord(Const.GOLDEN_RATIO_STR, Const.GOLDEN_RATIO_DESC, Const.GOLDEN_RATIO_ID, Const.TYPE_ID);
-				addKeyWord(Const.PLASTIC_STR, Const.PLASTIC_DESC, Const.PLASTIC_ID, Const.TYPE_ID);
-				addKeyWord(Const.EMBREE_TREFETHEN_STR, Const.EMBREE_TREFETHEN_DESC, Const.EMBREE_TREFETHEN_ID, Const.TYPE_ID);
-				addKeyWord(Const.FEIGENBAUM_DELTA_STR, Const.FEIGENBAUM_DELTA_DESC, Const.FEIGENBAUM_DELTA_ID, Const.TYPE_ID);
-				addKeyWord(Const.FEIGENBAUM_ALFA_STR, Const.FEIGENBAUM_ALFA_DESC, Const.FEIGENBAUM_ALFA_ID, Const.TYPE_ID);
-				addKeyWord(Const.TWIN_PRIME_STR, Const.TWIN_PRIME_DESC, Const.TWIN_PRIME_ID, Const.TYPE_ID);
-				addKeyWord(Const.MEISSEL_MERTEENS_STR, Const.MEISSEL_MERTEENS_DESC, Const.MEISSEL_MERTEENS_ID, Const.TYPE_ID);
-				addKeyWord(Const.BRAUN_TWIN_PRIME_STR, Const.BRAUN_TWIN_PRIME_DESC, Const.BRAUN_TWIN_PRIME_ID, Const.TYPE_ID);
-				addKeyWord(Const.BRAUN_PRIME_QUADR_STR, Const.BRAUN_PRIME_QUADR_DESC, Const.BRAUN_PRIME_QUADR_ID, Const.TYPE_ID);
-				addKeyWord(Const.BRUIJN_NEWMAN_STR, Const.BRUIJN_NEWMAN_DESC, Const.BRUIJN_NEWMAN_ID, Const.TYPE_ID);
-				addKeyWord(Const.CATALAN_STR, Const.CATALAN_DESC, Const.CATALAN_ID, Const.TYPE_ID);
-				addKeyWord(Const.LANDAU_RAMANUJAN_STR, Const.LANDAU_RAMANUJAN_DESC, Const.LANDAU_RAMANUJAN_ID, Const.TYPE_ID);
-				addKeyWord(Const.VISWANATH_STR, Const.VISWANATH_DESC, Const.VISWANATH_ID, Const.TYPE_ID);
-				addKeyWord(Const.LEGENDRE_STR, Const.LEGENDRE_DESC, Const.LEGENDRE_ID, Const.TYPE_ID);
-				addKeyWord(Const.RAMANUJAN_SOLDNER_STR, Const.RAMANUJAN_SOLDNER_DESC, Const.RAMANUJAN_SOLDNER_ID, Const.TYPE_ID);
-				addKeyWord(Const.ERDOS_BORWEIN_STR, Const.ERDOS_BORWEIN_DESC, Const.ERDOS_BORWEIN_ID, Const.TYPE_ID);
-				addKeyWord(Const.BERNSTEIN_STR, Const.BERNSTEIN_DESC, Const.BERNSTEIN_ID, Const.TYPE_ID);
-				addKeyWord(Const.GAUSS_KUZMIN_WIRSING_STR, Const.GAUSS_KUZMIN_WIRSING_DESC, Const.GAUSS_KUZMIN_WIRSING_ID, Const.TYPE_ID);
-				addKeyWord(Const.HAFNER_SARNAK_MCCURLEY_STR, Const.HAFNER_SARNAK_MCCURLEY_DESC, Const.HAFNER_SARNAK_MCCURLEY_ID, Const.TYPE_ID);
-				addKeyWord(Const.GOLOMB_DICKMAN_STR, Const.GOLOMB_DICKMAN_DESC, Const.GOLOMB_DICKMAN_ID, Const.TYPE_ID);
-				addKeyWord(Const.CAHEN_STR, Const.CAHEN_DESC, Const.CAHEN_ID, Const.TYPE_ID);
-				addKeyWord(Const.LAPLACE_LIMIT_STR, Const.LAPLACE_LIMIT_DESC, Const.LAPLACE_LIMIT_ID, Const.TYPE_ID);
-				addKeyWord(Const.ALLADI_GRINSTEAD_STR, Const.ALLADI_GRINSTEAD_DESC, Const.ALLADI_GRINSTEAD_ID, Const.TYPE_ID);
-				addKeyWord(Const.LENGYEL_STR, Const.LENGYEL_DESC, Const.LENGYEL_ID, Const.TYPE_ID);
-				addKeyWord(Const.LEVY_STR, Const.LEVY_DESC, Const.LEVY_ID, Const.TYPE_ID);
-				addKeyWord(Const.APERY_STR, Const.APERY_DESC, Const.APERY_ID, Const.TYPE_ID);
-				addKeyWord(Const.MILLS_STR, Const.MILLS_DESC, Const.MILLS_ID, Const.TYPE_ID);
-				addKeyWord(Const.BACKHOUSE_STR, Const.BACKHOUSE_DESC, Const.BACKHOUSE_ID, Const.TYPE_ID);
-				addKeyWord(Const.PORTER_STR, Const.PORTER_DESC, Const.PORTER_ID, Const.TYPE_ID);
-				addKeyWord(Const.LIEB_QUARE_ICE_STR, Const.LIEB_QUARE_ICE_DESC, Const.LIEB_QUARE_ICE_ID, Const.TYPE_ID);
-				addKeyWord(Const.NIVEN_STR, Const.NIVEN_DESC, Const.NIVEN_ID, Const.TYPE_ID);
-				addKeyWord(Const.SIERPINSKI_STR, Const.SIERPINSKI_DESC, Const.SIERPINSKI_ID, Const.TYPE_ID);
-				addKeyWord(Const.KHINCHIN_STR, Const.KHINCHIN_DESC, Const.KHINCHIN_ID, Const.TYPE_ID);
-				addKeyWord(Const.FRANSEN_ROBINSON_STR, Const.FRANSEN_ROBINSON_DESC, Const.FRANSEN_ROBINSON_ID, Const.TYPE_ID);
-				addKeyWord(Const.LANDAU_STR, Const.LANDAU_DESC, Const.LANDAU_ID, Const.TYPE_ID);
-				addKeyWord(Const.PARABOLIC_STR, Const.PARABOLIC_DESC, Const.PARABOLIC_ID, Const.TYPE_ID);
-				addKeyWord(Const.OMEGA_STR, Const.OMEGA_DESC, Const.OMEGA_ID, Const.TYPE_ID);
-				addKeyWord(Const.MRB_STR, Const.MRB_DESC, Const.MRB_ID, Const.TYPE_ID);
-				addKeyWord(Const.LI2_STR, Const.LI2_DESC, Const.LI2_ID, Const.TYPE_ID);
-				addKeyWord(Const.GOMPERTZ_STR, Const.GOMPERTZ_DESC, Const.GOMPERTZ_ID, Const.TYPE_ID);
+				addKeyWord(ConstantValue.PI_STR, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.EULER_STR, ConstantValue.EULER_DESC, ConstantValue.EULER_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.EULER_MASCHERONI_STR, ConstantValue.EULER_MASCHERONI_DESC, ConstantValue.EULER_MASCHERONI_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.GOLDEN_RATIO_STR, ConstantValue.GOLDEN_RATIO_DESC, ConstantValue.GOLDEN_RATIO_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.PLASTIC_STR, ConstantValue.PLASTIC_DESC, ConstantValue.PLASTIC_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.EMBREE_TREFETHEN_STR, ConstantValue.EMBREE_TREFETHEN_DESC, ConstantValue.EMBREE_TREFETHEN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.FEIGENBAUM_DELTA_STR, ConstantValue.FEIGENBAUM_DELTA_DESC, ConstantValue.FEIGENBAUM_DELTA_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.FEIGENBAUM_ALFA_STR, ConstantValue.FEIGENBAUM_ALFA_DESC, ConstantValue.FEIGENBAUM_ALFA_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.TWIN_PRIME_STR, ConstantValue.TWIN_PRIME_DESC, ConstantValue.TWIN_PRIME_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.MEISSEL_MERTEENS_STR, ConstantValue.MEISSEL_MERTEENS_DESC, ConstantValue.MEISSEL_MERTEENS_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.BRAUN_TWIN_PRIME_STR, ConstantValue.BRAUN_TWIN_PRIME_DESC, ConstantValue.BRAUN_TWIN_PRIME_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.BRAUN_PRIME_QUADR_STR, ConstantValue.BRAUN_PRIME_QUADR_DESC, ConstantValue.BRAUN_PRIME_QUADR_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.BRUIJN_NEWMAN_STR, ConstantValue.BRUIJN_NEWMAN_DESC, ConstantValue.BRUIJN_NEWMAN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.CATALAN_STR, ConstantValue.CATALAN_DESC, ConstantValue.CATALAN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LANDAU_RAMANUJAN_STR, ConstantValue.LANDAU_RAMANUJAN_DESC, ConstantValue.LANDAU_RAMANUJAN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.VISWANATH_STR, ConstantValue.VISWANATH_DESC, ConstantValue.VISWANATH_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LEGENDRE_STR, ConstantValue.LEGENDRE_DESC, ConstantValue.LEGENDRE_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.RAMANUJAN_SOLDNER_STR, ConstantValue.RAMANUJAN_SOLDNER_DESC, ConstantValue.RAMANUJAN_SOLDNER_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.ERDOS_BORWEIN_STR, ConstantValue.ERDOS_BORWEIN_DESC, ConstantValue.ERDOS_BORWEIN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.BERNSTEIN_STR, ConstantValue.BERNSTEIN_DESC, ConstantValue.BERNSTEIN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.GAUSS_KUZMIN_WIRSING_STR, ConstantValue.GAUSS_KUZMIN_WIRSING_DESC, ConstantValue.GAUSS_KUZMIN_WIRSING_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.HAFNER_SARNAK_MCCURLEY_STR, ConstantValue.HAFNER_SARNAK_MCCURLEY_DESC, ConstantValue.HAFNER_SARNAK_MCCURLEY_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.GOLOMB_DICKMAN_STR, ConstantValue.GOLOMB_DICKMAN_DESC, ConstantValue.GOLOMB_DICKMAN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.CAHEN_STR, ConstantValue.CAHEN_DESC, ConstantValue.CAHEN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LAPLACE_LIMIT_STR, ConstantValue.LAPLACE_LIMIT_DESC, ConstantValue.LAPLACE_LIMIT_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.ALLADI_GRINSTEAD_STR, ConstantValue.ALLADI_GRINSTEAD_DESC, ConstantValue.ALLADI_GRINSTEAD_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LENGYEL_STR, ConstantValue.LENGYEL_DESC, ConstantValue.LENGYEL_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LEVY_STR, ConstantValue.LEVY_DESC, ConstantValue.LEVY_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.APERY_STR, ConstantValue.APERY_DESC, ConstantValue.APERY_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.MILLS_STR, ConstantValue.MILLS_DESC, ConstantValue.MILLS_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.BACKHOUSE_STR, ConstantValue.BACKHOUSE_DESC, ConstantValue.BACKHOUSE_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.PORTER_STR, ConstantValue.PORTER_DESC, ConstantValue.PORTER_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LIEB_QUARE_ICE_STR, ConstantValue.LIEB_QUARE_ICE_DESC, ConstantValue.LIEB_QUARE_ICE_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.NIVEN_STR, ConstantValue.NIVEN_DESC, ConstantValue.NIVEN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.SIERPINSKI_STR, ConstantValue.SIERPINSKI_DESC, ConstantValue.SIERPINSKI_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.KHINCHIN_STR, ConstantValue.KHINCHIN_DESC, ConstantValue.KHINCHIN_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.FRANSEN_ROBINSON_STR, ConstantValue.FRANSEN_ROBINSON_DESC, ConstantValue.FRANSEN_ROBINSON_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LANDAU_STR, ConstantValue.LANDAU_DESC, ConstantValue.LANDAU_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.PARABOLIC_STR, ConstantValue.PARABOLIC_DESC, ConstantValue.PARABOLIC_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.OMEGA_STR, ConstantValue.OMEGA_DESC, ConstantValue.OMEGA_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.MRB_STR, ConstantValue.MRB_DESC, ConstantValue.MRB_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.LI2_STR, ConstantValue.LI2_DESC, ConstantValue.LI2_ID, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.GOMPERTZ_STR, ConstantValue.GOMPERTZ_DESC, ConstantValue.GOMPERTZ_ID, ConstantValue.TYPE_ID);
+				/*
+				 * Random variables
+				 */
+				addKeyWord(RandomVariable.UNIFORM_STR, RandomVariable.UNIFORM_DESC, RandomVariable.UNIFORM_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT_STR, RandomVariable.INT_DESC, RandomVariable.INT_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT1_STR, RandomVariable.INT1_DESC, RandomVariable.INT1_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT2_STR, RandomVariable.INT2_DESC, RandomVariable.INT2_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT3_STR, RandomVariable.INT3_DESC, RandomVariable.INT3_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT4_STR, RandomVariable.INT4_DESC, RandomVariable.INT4_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT5_STR, RandomVariable.INT5_DESC, RandomVariable.INT5_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT6_STR, RandomVariable.INT6_DESC, RandomVariable.INT6_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT7_STR, RandomVariable.INT7_DESC, RandomVariable.INT7_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT8_STR, RandomVariable.INT8_DESC, RandomVariable.INT8_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.INT9_STR, RandomVariable.INT9_DESC, RandomVariable.INT9_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_STR, RandomVariable.NAT0_DESC, RandomVariable.NAT0_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_1_STR, RandomVariable.NAT0_1_DESC, RandomVariable.NAT0_1_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_2_STR, RandomVariable.NAT0_2_DESC, RandomVariable.NAT0_2_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_3_STR, RandomVariable.NAT0_3_DESC, RandomVariable.NAT0_3_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_4_STR, RandomVariable.NAT0_4_DESC, RandomVariable.NAT0_4_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_5_STR, RandomVariable.NAT0_5_DESC, RandomVariable.NAT0_5_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_6_STR, RandomVariable.NAT0_6_DESC, RandomVariable.NAT0_6_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_7_STR, RandomVariable.NAT0_7_DESC, RandomVariable.NAT0_7_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_8_STR, RandomVariable.NAT0_8_DESC, RandomVariable.NAT0_8_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT0_9_STR, RandomVariable.NAT0_9_DESC, RandomVariable.NAT0_9_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_STR, RandomVariable.NAT1_DESC, RandomVariable.NAT1_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_1_STR, RandomVariable.NAT1_1_DESC, RandomVariable.NAT1_1_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_2_STR, RandomVariable.NAT1_2_DESC, RandomVariable.NAT1_2_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_3_STR, RandomVariable.NAT1_3_DESC, RandomVariable.NAT1_3_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_4_STR, RandomVariable.NAT1_4_DESC, RandomVariable.NAT1_4_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_5_STR, RandomVariable.NAT1_5_DESC, RandomVariable.NAT1_5_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_6_STR, RandomVariable.NAT1_6_DESC, RandomVariable.NAT1_6_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_7_STR, RandomVariable.NAT1_7_DESC, RandomVariable.NAT1_7_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_8_STR, RandomVariable.NAT1_8_DESC, RandomVariable.NAT1_8_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NAT1_9_STR, RandomVariable.NAT1_9_DESC, RandomVariable.NAT1_9_ID, RandomVariable.TYPE_ID);
+				addKeyWord(RandomVariable.NOR_STR, RandomVariable.NOR_DESC, RandomVariable.NOR_ID, RandomVariable.TYPE_ID);
 			}
 			/*
 			 * Other parser symbols key words
@@ -4572,9 +4854,9 @@ namespace org.mariuszgromada.math.mxparser {
 			 * 1-2 : two numbers and one operator, but -2 is also a valid number
 			 * (-2)+3 : two number and one operator
 			 */
-			int numberKwId = Const.NaN;
-			int plusKwId = Const.NaN;
-			int minusKwId = Const.NaN;
+			int numberKwId = ConstantValue.NaN;
+			int plusKwId = ConstantValue.NaN;
+			int minusKwId = ConstantValue.NaN;
 			for (int kwId = 0; kwId < keyWordsList.Count; kwId++) {
 				if ( keyWordsList[kwId].wordTypeId == ParserSymbol.NUMBER_TYPE_ID)
 					numberKwId = kwId;
@@ -4759,10 +5041,10 @@ namespace org.mariuszgromada.math.mxparser {
 								(kw.wordTypeId == Function1Arg.TYPE_ID) ||
 								(kw.wordTypeId == Function2Arg.TYPE_ID) ||
 								(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-								(kw.wordTypeId == Const.TYPE_ID) ||
+								(kw.wordTypeId == ConstantValue.TYPE_ID) ||
 								(kw.wordTypeId == Constant.TYPE_ID) ||
 								(kw.wordTypeId == Function.TYPE_ID) ||
-								(kw.wordTypeId == Calculus.TYPE_ID)	)
+								(kw.wordTypeId == CalculusOperator.TYPE_ID)	)
 							if ( pos + kwStr.Length < newExpressionString.Length ) {
 								c = newExpressionString[pos + kwStr.Length];
 								if (
@@ -4860,9 +5142,9 @@ namespace org.mariuszgromada.math.mxparser {
 							( token.tokenTypeId == Function2Arg.TYPE_ID ) ||
 							( token.tokenTypeId == Function3Arg.TYPE_ID )	||
 							( token.tokenTypeId == Function.TYPE_ID )	||
-							( token.tokenTypeId == Calculus.TYPE_ID ) ||
+							( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
 							( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
-							( token.tokenTypeId == SpecialFunction.TYPE_ID )
+							( token.tokenTypeId == VariadicFunction.TYPE_ID )
 							) {
 						tokenLevel++;
 						precedingFunction = true;
@@ -5002,38 +5284,24 @@ namespace org.mariuszgromada.math.mxparser {
 				KeyWord keyWord = keyWordsList[keyWordIndex];
 				type = "";
 				kw = keyWord.wordString;
-				if ( (keyWord.wordTypeId == ParserSymbol.NUMBER_TYPE_ID) )
-					kw = "_number_";
-				if (keyWord.wordTypeId == Operator.TYPE_ID)
-					type = "OPERATOR";
-				if (keyWord.wordTypeId == BinaryRelation.TYPE_ID)
-					type = "BINARY_RELATION";
-				if (keyWord.wordTypeId == Argument.TYPE_ID)
-					type = "ARGUMENT";
-				if (keyWord.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE)
-					type = "RECURSIVE_ARGUMENT";
-				if (keyWord.wordTypeId == Const.TYPE_ID)
-					type = "CONSTANT";
-				if (keyWord.wordTypeId == Constant.TYPE_ID)
-					type = "USER_CONSTANT";
-				if (keyWord.wordTypeId == Function1Arg.TYPE_ID)
-					type = "FUNCTION_1_ARG";
-				if (keyWord.wordTypeId == Function2Arg.TYPE_ID)
-					type = "FUNCTION_2_ARG";
-				if (keyWord.wordTypeId == Function3Arg.TYPE_ID)
-					type = "FUNCTION_3_ARG";
-				if (keyWord.wordTypeId == Calculus.TYPE_ID)
-					type = "CALCULUS / OPERATOR";
-				if (keyWord.wordTypeId == ParserSymbol.TYPE_ID)
-					type = "PARSER";
-				if (keyWord.wordTypeId == ParserSymbol.NUMBER_TYPE_ID)
-					type = "NUMBER";
-				if (keyWord.wordTypeId == Function.TYPE_ID)
-					type = "USER_FUNCTION";
-				if (keyWord.wordTypeId == SpecialFunction.TYPE_ID)
-					type = "SPECIAL_FUNCTION";
-				if (keyWord.wordTypeId == BooleanOperator.TYPE_ID)
-					type = "BOOLEAN_OPERATOR";
+				switch (keyWord.wordTypeId) {
+				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
+				case ParserSymbol.NUMBER_TYPE_ID: type = "number"; kw = "_number_"; break;
+				case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
+				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
+				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
+				case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
+				case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
+				case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
+				case VariadicFunction.TYPE_ID: type = VariadicFunction.TYPE_DESC; break;
+				case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
+				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
+				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
+				case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
+				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC; break;
+				case Function.TYPE_ID: type = Function.TYPE_DESC; break;
+				case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
+				}
 				line = getLeftSpaces("12345",(keyWordIndex+1).ToString()) + ". " +
 				getRightSpaces("0123456789", kw) + getRightSpaces("                        ","<" + type + ">") + keyWord.description + "\n";
 				if ( (line.ToLower().IndexOf(word.ToLower()) >= 0) ){

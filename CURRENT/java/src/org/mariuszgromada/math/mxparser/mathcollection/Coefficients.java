@@ -301,7 +301,7 @@ final class Coefficients {
 	 * Supporting function
 	 * while Exponential integral function Ei(x) calculation
 	 */
-	static final double EI[] = {
+	static final double[] EI = {
 			1.915047433355013959531e2, 4.403798995348382689974e2,
 			1.037878290717089587658e3, 2.492228976241877759138e3,
 			6.071406374098611507965e3, 1.495953266639752885229e4,

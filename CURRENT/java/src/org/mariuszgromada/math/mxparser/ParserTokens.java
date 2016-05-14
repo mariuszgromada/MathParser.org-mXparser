@@ -163,7 +163,10 @@ final class Operator {
 	static final String FACT_DESC			= "factorial";
 	static final String MOD_DESC			= "modulo function";
 }
-interface BooleanOperator {
+/**
+ * Boolean Operators
+ */
+final class BooleanOperator {
 	/**
 	 * BooleanOperator - token type id.
 	 */
@@ -598,8 +601,9 @@ final class Function3Arg {
 	static final String CDF_NORMAL_DESC				= "(3.0) Cumulative distribution function - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * cNor(x, 1, 2)";
 	static final String QNT_NORMAL_DESC				= "(3.0) Quantile function (inverse cumulative distribution function) - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * qNor(q, 1, 2)";
 }
-
-
+/**
+ * Variadic parameters Functions
+ */
 final class VariadicFunction {
 	/**
 	 * BooleanOperator - token type id.

@@ -50,7 +50,6 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
-
 package org.mariuszgromada.math.mxparser.regressiontesting;
 
 import org.mariuszgromada.math.mxparser.Argument;

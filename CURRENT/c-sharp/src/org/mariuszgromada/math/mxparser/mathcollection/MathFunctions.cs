@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        2.4.0    2016-02-28
+ * @(#)MathFunctions.java        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -32,14 +32,20 @@
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
- *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
- *     http://mathparser.org/
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser/
- *     http://mxparser.sourceforge.net/
- *     http://bitbucket.org/mariuszgromada/mxparser/
- *     http://mxparser.codeplex.com/
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -54,17 +60,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 * if you decide to implement your own function you do not need to change anything in the parser,
 	 * jut modify function implementation in this class.
 	 *
-	 * @author         <b>Mariusz Gromada</b><br/>
-	 *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-	 *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
-	 *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+	 * @author         <b>Mariusz Gromada</b><br>
+	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
+	 *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+	 *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
 	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
-	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
+	 *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
+	 *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
+	 *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
+	 *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
+	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
+	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        2.4.0
+	 * @version        3.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -1275,584 +1285,32 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return result;
 		}
 		/**
-		 * Minimum function.
+		 * Double rounding
 		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a,b <> Double.NaN returns Math.min(a, b),
-		 *             otherwise returns Double.NaN.
+		 * @param value    double value to be rounded
+		 * @param places   decimal places
+		 * @return         If conversion from double to Decimal possible
+		 *                 returns rounded value, otherwise Double.NaN.
 		 */
-		public static double min(double a, double b) {
-			if (Double.IsNaN(a) || Double.IsNaN(b))
+		public static double round(double value, int places) {
+			if (Double.IsNaN(value)) return Double.NaN;
+			if (places < 0) return Double.NaN;
+			try {
+				Decimal bd = Convert.ToDecimal(value);
+				bd = Decimal.Round(bd, places, MidpointRounding.AwayFromZero);
+				return Convert.ToDouble(bd);
+			} catch (Exception e) {
 				return Double.NaN;
-			return Math.Min(a, b);
-		}
-		/**
-		 * Minimum function.
-		 *
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers <> Double.NaN returns the smallest number,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double min(params double[] numbers) {
-			double min = Double.PositiveInfinity;
-			foreach (double number in numbers) {
-				if (Double.IsNaN(number))
-					return Double.NaN;
-				if (number < min)
-					min = number;
 			}
-			return min;
 		}
 		/**
-		 * Maximum function.
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a,b <> Double.NaN returns Math.max(a, b),
-		 *             otherwise returns Double.NaN.
+		 * Unit in the last place(ULP) for double
+		 * @return ULP for a given double.
 		 */
-		public static double max(double a, double b) {
-			if (Double.IsNaN(a) || Double.IsNaN(b))
-				return Double.NaN;
-			return Math.Max(a, b);
-		}
-		/**
-		 * Maximum function.
-		 *
-		 * @param      numbers             the a function parameter
-		 *
-		 * @return     if each number form numbers <> Double.NaN returns the highest number,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double max(params double[] numbers) {
-			double max = Double.NegativeInfinity;
-			foreach (double number in numbers) {
-				if (Double.IsNaN(number))
-					return Double.NaN;
-				if (number > max)
-					max = number;
-			}
-			return max;
-		}
-		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 * @return     GCD(a,b)
-		 */
-		public static double gcd(int a, int b) {
-			a = Math.Abs(a);
-			b = Math.Abs(b);
-			if (a == 0)
-				return b;
-			while (b != 0)
-				if (a > b)
-					a -= b;
-				else
-					b -= a;
-			return a;
-		}
-		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a, b <> Double.NaN returns gcd( (int)Math.round(a),(int)Math.round(b) ),
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double gcd(double a, double b) {
-			if ( Double.IsNaN(a) || Double.IsNaN(a) )
-				return Double.NaN;
-			return gcd( (int)Math.Round(a),(int)Math.Round(b) );
-		}
-		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
-		 */
-		public static double gcd(params int[] numbers) {
-			if (numbers.Length == 1)
-				return numbers[0];
-			if (numbers.Length == 2)
-				return gcd( numbers[0], numbers[1] );
-			for (int i = 1; i < numbers.Length; i++)
-				numbers[i] = (int)gcd( numbers[i-1], numbers[i] );
-			return numbers[numbers.Length-1];
-		}
-		/**
-		 * Greatest common divisor (GCD)
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers <> Double.NaN returns
-		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double gcd(params double[] numbers) {
-			int[] intNumbers = new int[numbers.Length];
-			for(int i = 0; i < numbers.Length; i++) {
-				double n = numbers[i];
-				if ( Double.IsNaN(n) )
-					return Double.NaN;
-				intNumbers[i] = (int)Math.Round(n);
-			}
-			return gcd(intNumbers);
-		}
-		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     LCM(a,b)
-		 */
-		public static double lcm(int a, int b) {
-			if ( (a == 0) || (b == 0) )
-				return 0;
-			return Math.Abs(a*b) / gcd(a, b);
-		}
-		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * @param      a                   the a function parameter
-		 * @param      b                   the b function parameter
-		 *
-		 * @return     if a, b <> Double.NaN returns lcm( (int)Math.round(a), (int)Math.round(b) ),
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double lcm(double a, double b) {
-			if ( Double.IsNaN(a) || Double.IsNaN(a) )
-				return Double.NaN;
-			return lcm( (int)Math.Round(a), (int)Math.Round(b) );
-		}
-		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
-		 */
-		public static double lcm(params int[] numbers) {
-			if (numbers.Length == 1)
-				return numbers[0];
-			if (numbers.Length == 2)
-				return lcm( numbers[0], numbers[1] );
-			for (int i = 1; i < numbers.Length; i++)
-				numbers[i] = (int)lcm( numbers[i-1], numbers[i] );
-			return numbers[numbers.Length-1];
-		}
-		/**
-		 * Latest common multiply (LCM)
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number form numbers <> Double.NaN returns
-		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double lcm(params double[] numbers) {
-			int[] intNumbers = new int[numbers.Length];
-			for(int i = 0; i < numbers.Length; i++) {
-				double n = numbers[i];
-				if ( Double.IsNaN(n) )
-					return Double.NaN;
-				intNumbers[i] = (int)Math.Round(n);
-				if (intNumbers[i] == 0)
-					return 0;
-			}
-			return lcm(intNumbers);
-		}
-		/**
-		 * Adding numbers.
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers <> Double.NaN returns
-		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double sum(params double[] numbers) {
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			double sum = 0;
-			foreach (double xi in numbers) {
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				sum += xi;
-			}
-			return sum;
-		}
-		/**
-		 * Numbers multiplication.
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers <> Double.NaN returns
-		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double prod(params double[] numbers) {
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			double prod = 1;
-			foreach (double xi in numbers) {
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				prod *= xi;
-			}
-			return prod;
-		}
-		/**
-		 * Sample average.
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers <> Double.NaN returns
-		 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double avg(params double[] numbers) {
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			double sum = 0;
-			foreach (double xi in numbers) {
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				sum += xi;
-			}
-			return sum / numbers.Length;
-		}
-		/**
-		 * Sample variance (biased-corrected).
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers <> Double.NaN returns
-		 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double var(params double[] numbers) {
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) {
-				if (Double.IsNaN(numbers[0])) return Double.NaN;
-				return 0;
-			}
-			double m = avg(numbers);
-			double sum = 0;
-			foreach (double xi in numbers) {
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				sum += (xi - m) * (xi - m);
-			}
-			return sum / (numbers.Length - 1);
-		}
-		/**
-		 * Sample standard deviation (biased-corrected).
-		 *
-		 * @param      numbers             the numbers
-		 *
-		 * @return     if each number from numbers <> Double.NaN returns
-		 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
-		 *             otherwise returns Double.NaN.
-		 */
-		public static double std(params double[] numbers) {
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) {
-				if (Double.IsNaN(numbers[0])) return Double.NaN;
-				return 0;
-			}
-			return sqrt(var(numbers));
-		}
-		/**
-		 * Prime test
-		 *
-		 * @param n
-		 *
-		 * @return true if number is prime, otherwise false
-		 */
-		public static bool primeTest(long n) {
-			/*
-			 * 2 is a prime :-)
-			 */
-			if (n == 2) return true;
-			/*
-			 * Even number is not a prime
-			 */
-			if (n % 2 == 0) return false;
-			/*
-			 * Everything <= 1 is not a prime
-			 */
-			if (n <= 1) return false;
-			/*
-			 * Will be searching for divisors till sqrt(n)
-			 */
-			long top = (long)Math.Sqrt(n);
-			/*
-			 * Supporting variable indicating odd end of primes cache
-			 */
-			long primesCacheOddEnd = 3;
-			/*
-			 * If prime cache exist
-			 */
-			if (mXparser.primesCache != null)
-				if (mXparser.primesCache.cacheStatus == PrimesCache.CACHING_FINISHED) {
-					/*
-					 * If prime cache is ready and number we are querying
-					 * is in cache the cache answer will be returned
-					 */
-					if (n <= mXparser.primesCache.maxNumInCache)
-						return mXparser.primesCache.isPrime[(int)n];
-					else {
-						/*
-						 * If number is bigger than maximum stored in cache
-						 * the we are querying each prime in cache
-						 * and checking if it is a divisor of n
-						 */
-						long topCache = Math.Min(top, mXparser.primesCache.maxNumInCache);
-						long i;
-						for (i = 3; i <= topCache; i += 2) {
-							if (mXparser.primesCache.isPrime[(int)i] == true)
-								if (n % i == 0) return false;
-						}
-						/*
-						 * If no prime divisor of n in primes cache
-						 * we are seting the odd end of prime cache
-						 */
-						primesCacheOddEnd = i;
-					}
-				}
-			/*
-			 * Finally we are checking any odd number that
-			 * still left and is below sqrt(n) agains being
-			 * divisor of n
-			 */
-			for (long i = primesCacheOddEnd; i <= top; i += 2)
-				if (n % i == 0) return false;
-			return true;
-		}
-		/**
-		 * Prime test
-		 *
-		 * @param n
-		 *
-		 * @return true if number is prime, otherwise false
-		 */
-		public static double primeTest(double n) {
-			if (Double.IsNaN(n)) return Double.NaN;
-			bool isPrime = primeTest((long)n);
-			if (isPrime == true)
-				return 1;
-			else
-				return 0;
-		}
-		/**
-		 * Prime counting function
-		 *
-		 * @param n number
-		 *
-		 * @return Number of primes below or equal x
-		 */
-		public static long primeCount(long n) {
-			if (n <= 1) return 0;
-			if (n == 2) return 1;
-			long numberOfPrimes = 1;
-			for (long i = 3; i <= n; i++)
-				if (primeTest(i) == true)
-					numberOfPrimes++;
-			return numberOfPrimes;
-		}
-		/**
-		 * Prime counting function
-		 *
-		 * @param n number
-		 *
-		 * @return Number of primes below or equal x
-		 */
-		public static double primeCount(double n) {
-			return primeCount((long)n);
-		}
-		/**
-		 * Exponential integral function Ei(x)
-		 * @param x
-		 * @return Exponential integral function Ei(x)
-		 */
-		public static double exponentialIntegralEi(double x) {
-			if (Double.IsNaN(x))
-				return Double.NaN;
-			if (x < -5.0)
-				return continuedFractionEi(x);
-			if (x == 0.0)
-				return -Double.MaxValue;
-			if (x < 6.8)
-				return powerSeriesEi(x);
-			if (x < 50.0)
-				return argumentAdditionSeriesEi(x);
-			return continuedFractionEi(x);
-		}
-		/**
-		 * unit in the last place(ULP) for doubles
-		 */
-		private static double ulp(double value) {
+		public static double ulp(double value) {
 			long bits = BitConverter.DoubleToInt64Bits(value) & 0x7FFFFFFFFFFFFFFFL;
 			double nextValue = BitConverter.Int64BitsToDouble(bits + 1);
 			return nextValue - value;
-		}
-		/**
-		 * Constants for Exponential integral function Ei(x) calculation
-		 */
-		private static double EI_DBL_EPSILON = ulp(1.0);
-		private static double EI_EPSILON = 10.0 * EI_DBL_EPSILON;
-		/**
-		 * Supporting function
-		 * while Exponential integral function Ei(x) calculation
-		 */
-		private static double continuedFractionEi(double x) {
-			double Am1 = 1.0;
-			double A0 = 0.0;
-			double Bm1 = 0.0;
-			double B0 = 1.0;
-			double a = Math.Exp(x);
-			double b = -x + 1.0;
-			double Ap1 = b * A0 + a * Am1;
-			double Bp1 = b * B0 + a * Bm1;
-			int j = 1;
-			a = 1.0;
-			while (Math.Abs(Ap1 * B0 - A0 * Bp1) > EI_EPSILON * Math.Abs(A0 * Bp1)) {
-				if (Math.Abs(Bp1) > 1.0) {
-					Am1 = A0 / Bp1;
-					A0 = Ap1 / Bp1;
-					Bm1 = B0 / Bp1;
-					B0 = 1.0;
-				} else {
-					Am1 = A0;
-					A0 = Ap1;
-					Bm1 = B0;
-					B0 = Bp1;
-				}
-				a = -j * j;
-				b += 2.0;
-				Ap1 = b * A0 + a * Am1;
-				Bp1 = b * B0 + a * Bm1;
-				j += 1;
-			}
-			return (-Ap1 / Bp1);
-		}
-		/**
-		 * Supporting function
-		 * while Exponential integral function Ei(x) calculation
-		 */
-		private static double powerSeriesEi(double x) {
-			double xn = -x;
-			double Sn = -x;
-			double Sm1 = 0.0;
-			double hsum = 1.0;
-			double g = MathConstants.EULER_MASCHERONI;
-			double y = 1.0;
-			double factorial = 1.0;
-			if (x == 0.0)
-				return -Double.MaxValue;
-			while (Math.Abs(Sn - Sm1) > EI_EPSILON * Math.Abs(Sm1)) {
-				Sm1 = Sn;
-				y += 1.0;
-				xn *= (-x);
-				factorial *= y;
-				hsum += (1.0 / y);
-				Sn += hsum * xn / factorial;
-			}
-			return (g + Math.Log(Math.Abs(x)) - Math.Exp(x) * Sn);
-		}
-		/**
-		 * Supporting function
-		 * while Exponential integral function Ei(x) calculation
-		 */
-		private static double[] EI = {
-										1.915047433355013959531e2, 4.403798995348382689974e2,
-										1.037878290717089587658e3, 2.492228976241877759138e3,
-										6.071406374098611507965e3, 1.495953266639752885229e4,
-										3.719768849068903560439e4, 9.319251363396537129882e4,
-										2.349558524907683035782e5, 5.955609986708370018502e5,
-										1.516637894042516884433e6, 3.877904330597443502996e6,
-										9.950907251046844760026e6, 2.561565266405658882048e7,
-										6.612718635548492136250e7, 1.711446713003636684975e8,
-										4.439663698302712208698e8, 1.154115391849182948287e9,
-										3.005950906525548689841e9, 7.842940991898186370453e9,
-										2.049649711988081236484e10, 5.364511859231469415605e10,
-										1.405991957584069047340e11, 3.689732094072741970640e11,
-										9.694555759683939661662e11, 2.550043566357786926147e12,
-										6.714640184076497558707e12,	1.769803724411626854310e13,
-										4.669055014466159544500e13,	1.232852079912097685431e14,
-										3.257988998672263996790e14,	8.616388199965786544948e14,
-										2.280446200301902595341e15,	6.039718263611241578359e15,
-										1.600664914324504111070e16,	4.244796092136850759368e16,
-										1.126348290166966760275e17,	2.990444718632336675058e17,
-										7.943916035704453771510e17,	2.111342388647824195000e18,
-										5.614329680810343111535e18,	1.493630213112993142255e19,
-										3.975442747903744836007e19,	1.058563689713169096306e20
-				};
-		/**
-		 * Supporting function
-		 * while Exponential integral function Ei(x) calculation
-		 */
-		private static double argumentAdditionSeriesEi(double x) {
-			int k = (int)(x + 0.5);
-			int j = 0;
-			double xx = k;
-			double dx = x - xx;
-			double xxj = xx;
-			double edx = Math.Exp(dx);
-			double Sm = 1.0;
-			double Sn = (edx - 1.0) / xxj;
-			double term = Double.MaxValue;
-			double factorial = 1.0;
-			double dxj = 1.0;
-			while (Math.Abs(term) > EI_EPSILON * Math.Abs(Sn)) {
-				j++;
-				factorial *= j;
-				xxj *= xx;
-				dxj *= (-dx);
-				Sm += (dxj / factorial);
-				term = (factorial * (edx * Sm - 1.0)) / xxj;
-				Sn += term;
-			}
-			return EI[k - 7] + Sn * Math.Exp(xx);
-		}
-		/**
-		 * Logarithmic integral function li(x)
-		 * @param x
-		 * @return Logarithmic integral function li(x)
-		 */
-		public static double logarithmicIntegralLi(double x) {
-			if (Double.IsNaN(x))
-				return Double.NaN;
-			if (x < 0)
-				return Double.NaN;
-			if (x == 0)
-				return 0;
-			if (x == 2)
-				return MathConstants.LI2;
-			return exponentialIntegralEi(ln(x));
-		}
-		/**
-		 * Offset logarithmic integral function Li(x)
-		 * @param x
-		 * @return Offset logarithmic integral function Li(x)
-		 */
-		public static double offsetLogarithmicIntegralLi(double x) {
-			if (Double.IsNaN(x))
-				return Double.NaN;
-			if (x < 0)
-				return Double.NaN;
-			if (x == 0)
-				return -MathConstants.LI2;
-			return logarithmicIntegralLi(x) - MathConstants.LI2;
 		}
 	}
 }

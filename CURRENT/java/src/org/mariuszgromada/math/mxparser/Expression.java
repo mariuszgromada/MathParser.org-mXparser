@@ -2618,7 +2618,7 @@ public class Expression {
 	 *
 	 * @param      pos                 the token position
 	 */
-	public void GAUSS_ERF(int pos) {
+	private void GAUSS_ERF(int pos) {
 		double x = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, SpecialFunctions.erf(x) );
 	}
@@ -2627,7 +2627,7 @@ public class Expression {
 	 *
 	 * @param      pos                 the token position
 	 */
-	public void GAUSS_ERFC(int pos) {
+	private void GAUSS_ERFC(int pos) {
 		double x = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, SpecialFunctions.erfc(x) );
 	}
@@ -2636,7 +2636,7 @@ public class Expression {
 	 *
 	 * @param      pos                 the token position
 	 */
-	public void GAUSS_ERF_INV(int pos) {
+	private void GAUSS_ERF_INV(int pos) {
 		double x = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, SpecialFunctions.erfInv(x) );
 	}
@@ -2645,7 +2645,7 @@ public class Expression {
 	 *
 	 * @param      pos                 the token position
 	 */
-	public void GAUSS_ERFC_INV(int pos) {
+	private void GAUSS_ERFC_INV(int pos) {
 		double x = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, SpecialFunctions.erfcInv(x) );
 	}
@@ -3980,7 +3980,7 @@ public class Expression {
 		int calculusPos;
 		int ifPos;
 		int iffPos;
-		int specFunPos;
+		int variadicFunPos;
 		int recArgPos;
 		int f3ArgPos;
 		int f2ArgPos;
@@ -4026,7 +4026,7 @@ public class Expression {
 			calculusPos = -1;
 			ifPos = -1;
 			iffPos = -1;
-			specFunPos = -1;
+			variadicFunPos = -1;
 			recArgPos = -1;
 			f3ArgPos = -1;
 			f2ArgPos = -1;
@@ -4114,8 +4114,8 @@ public class Expression {
 					if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 						recArgPos = pos;
 					else
-					if ((token.tokenTypeId == VariadicFunction.TYPE_ID) && (specFunPos < 0))
-						specFunPos = pos;
+					if ((token.tokenTypeId == VariadicFunction.TYPE_ID) && (variadicFunPos < 0))
+						variadicFunPos = pos;
 					else
 					if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
 						f3ArgPos = pos;
@@ -4218,8 +4218,8 @@ public class Expression {
 			if (recArgPos >= 0) {
 				RECURSIVE_ARGUMENT(recArgPos);
 			} else
-			/* ... special functions  ... */
-			if (specFunPos >= 0) variadicFunCalc(specFunPos);
+			/* ... variadic functions  ... */
+			if (variadicFunPos >= 0) variadicFunCalc(variadicFunPos);
 			else
 			/* ... 3-args functions  ... */
 			if (f3ArgPos >= 0) f3ArgCalc(f3ArgPos);
@@ -4658,7 +4658,7 @@ public class Expression {
 			addKeyWord(Function3Arg.CDF_NORMAL_STR, Function3Arg.CDF_NORMAL_DESC, Function3Arg.CDF_NORMAL_ID, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.QNT_NORMAL_STR, Function3Arg.QNT_NORMAL_DESC, Function3Arg.QNT_NORMAL_ID, Function3Arg.TYPE_ID);
 			/*
-			 * Speciall functions as key words
+			 * Variadic functions as key words
 			 */
 			addKeyWord(VariadicFunction.IFF_STR, VariadicFunction.IFF_DESC, VariadicFunction.IFF_ID, VariadicFunction.TYPE_ID);
 			addKeyWord(VariadicFunction.MIN_STR, VariadicFunction.MIN_DESC, VariadicFunction.MIN_ID, VariadicFunction.TYPE_ID);

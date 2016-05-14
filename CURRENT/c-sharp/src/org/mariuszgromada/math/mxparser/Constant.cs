@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        2.1.1-1    2016-01-07
+ * @(#)Constant.cs        3.0.0    2016-05-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -32,14 +32,20 @@
  * If you have any questions/bugs feel free to contact:
  *
  *     Mariusz Gromada
- *     mariusz.gromada@mathspace.pl
- *     http://mathspace.pl/
- *     http://mathparser.org/
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser/
- *     http://mxparser.sourceforge.net/
- *     http://bitbucket.org/mariuszgromada/mxparser/
- *     http://mxparser.codeplex.com/
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -62,17 +68,21 @@ namespace org.mariuszgromada.math.mxparser {
 	 * It means that it could not be the same as any other key word known
 	 * by the parser for this particular expression.
 	 *
-	 * @author         <b>Mariusz Gromada</b><br/>
-	 *                 <a href="mailto:mariusz.gromada@mathspace.pl">mariusz.gromada@mathspace.pl</a><br>
-	 *                 <a href="http://mathspace.pl/" target="_blank">MathSpace.pl</a><br>
-	 *                 <a href="http://mathparser.org/" target="_blank">MathParser.org - mXparser project page</a><br>
+	 * @author         <b>Mariusz Gromada</b><br>
+	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
+	 *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+	 *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
 	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="http://mariuszgromada.github.io/MathParser.org-mXparser/" target="_blank">mXparser on GitHub pages</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net/" target="_blank">mXparser on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser/" target="_blank">mXparser on Bitbucket</a><br>
-	 *                 <a href="http://mxparser.codeplex.com/" target="_blank">mXparser on CodePlex</a><br>
+	 *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
+	 *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
+	 *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
+	 *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
+	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
+	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
+	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        2.1.1-1
+	 * @version        3.0.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -89,7 +99,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Type identifier for constants
 		 */
-		internal const int TYPE_ID = 104;
+		internal const int TYPE_ID			= 104;
+		internal const String TYPE_DESC		= "User defined constant";
 		/**
 		 * Status of the Expression syntax
 		 */
@@ -172,9 +183,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * is enough to define function "f" with parameters "x and y"
 		 * and function body "sin(x) + cos(x)".
 		 *
-		 * @param functionDefinitionString      Function definition in the form
-		 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
-		 *
+		 * @param constantDefinitionString      Constant definition in the form
+		 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
 		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
@@ -252,7 +262,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Gets syntax status of the expression.
 		 *
 		 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
-		 *             Const.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
+		 *             ConstantValue.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
 		 *             syntax status is unknown
 		 */
 		public bool getSyntaxStatus() {

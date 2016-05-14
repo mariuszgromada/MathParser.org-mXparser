@@ -237,8 +237,7 @@ public final class ProbabilityDistributions {
 	 * Random integer.
 	 *
 	 * @param rnd     Random number generator.
-	 * @return        Double.NaN if a or b is null, or b is lower than a -
-	 *                otherwise returns random number.
+	 * @return        Returns random number.
 	 */
 	public static final int rndInteger(Random rnd) {
 		return rnd.nextInt();

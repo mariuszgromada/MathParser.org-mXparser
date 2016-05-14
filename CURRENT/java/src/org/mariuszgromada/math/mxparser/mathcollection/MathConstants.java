@@ -244,10 +244,12 @@ public final class MathConstants {
 	 * Gompertz Constant OEIS A073003
 	 */
 	public static final double GOMPERTZ = 0.596347362323194074341078499369279376074;
-
 	/**
 	 * Square root of 2
 	 */
 	public static final double SQRT2 = 1.4142135623730950488016887242096980785696718753769d;
+	/**
+	 * Square root of 2*pi
+	 */
 	public static final double SQRT2Pi = 2.5066282746310005024157652848110452530069867406099d;
 }

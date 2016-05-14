@@ -1299,4 +1299,11 @@ public final class MathFunctions {
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
  	}
+	/**
+	 * Unit in the last place(ULP) for double
+	 * @return ULP for a given double.
+	 */
+	public static final double ulp(double value) {
+		return Math.ulp(value);
+	}
 }

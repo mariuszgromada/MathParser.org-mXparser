@@ -187,8 +187,6 @@ public class Constant extends PrimitiveElement {
 	 *
 	 * @param constantDefinitionString      Constant definition in the form
 	 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
-	 * @param elements                      Optional elements
-	 *
 	 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 	 */
 	public Constant(String constantDefinitionString, PrimitiveElement...elements) {

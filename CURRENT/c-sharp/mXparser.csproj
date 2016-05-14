@@ -7,9 +7,8 @@
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>mxparser</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -60,6 +59,10 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>mXparser.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -77,12 +80,19 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\Function.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Coefficients.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Evaluate.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\MathConstants.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\MathFunctions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\NumberTheory.cs" />
-    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\NumericalAnalysis.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Calculus.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mXparser.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\ParserTokens.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs" />
@@ -123,6 +133,9 @@
   <ItemGroup>
     <None Include="mXparser.net4.6.pfx" />
     <None Include="mXparser.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="mXparser-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
