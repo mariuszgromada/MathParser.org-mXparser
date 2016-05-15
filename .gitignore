@@ -15,4 +15,5 @@ ipch/
 *.jar
 *.pdb
 *.nupkg
+*.csproj.user
 DTAR_*_DTAR/
