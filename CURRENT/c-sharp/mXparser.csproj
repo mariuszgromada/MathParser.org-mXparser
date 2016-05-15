@@ -96,9 +96,8 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs" />
-    <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpression.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpressionAPI.cs" />
-    <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpressionV2.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpression.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestSyntax.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\RunTest.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\ParseException.cs" />
@@ -127,9 +126,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\org\mariuszgromada\math\mxparser\workingtests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="mXparser.net4.6.pfx" />
     <None Include="mXparser.pfx" />

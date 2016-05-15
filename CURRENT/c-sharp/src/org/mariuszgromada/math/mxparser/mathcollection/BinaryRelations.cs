@@ -155,9 +155,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double eq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
 			double result = 0;
 			if (epsilonComparison) {
-				if (MathFunctions.abs(a - b) < epsilon) result = 1;
+				if (MathFunctions.abs(a - b) <= eps) result = 1;
 			} else if (a == b) result = 1;
 			return result;
 		}
@@ -173,9 +174,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double neq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
 			double result = 0;
 			if (epsilonComparison) {
-				if (MathFunctions.abs(a - b) >= epsilon) result = 1;
+				if (MathFunctions.abs(a - b) > eps) result = 1;
 			} else if (a != b) result = 1;
 			return result;
 		}
@@ -191,9 +193,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double lt(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
 			double result = 0;
 			if (epsilonComparison) {
-				if (a <= b - epsilon) result = 1;
+				if (a < b - eps) result = 1;
 			} else if (a < b) result = 1;
 			return result;
 		}
@@ -209,9 +212,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double gt(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
 			double result = 0;
 			if (epsilonComparison) {
-				if (a >= b + epsilon) result = 1;
+				if (a > b + eps) result = 1;
 			} else if (a > b) result = 1;
 			return result;
 		}
@@ -227,9 +231,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double leq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
 			double result = 0;
 			if (epsilonComparison) {
-				if (a < b + epsilon) result = 1;
+				if (a <= b + eps) result = 1;
 			} else if (a <= b) result = 1;
 			return result;
 		}
@@ -245,9 +250,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double geq(double a, double b) {
 			if ((Double.IsNaN(a)) || (Double.IsNaN(b))) return Double.NaN;
+			double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b));
 			double result = 0;
 			if (epsilonComparison) {
-				if (a > b - epsilon) result = 1;
+				if (a >= b - eps) result = 1;
 			} else if (a >= b) result = 1;
 			return result;
 		}

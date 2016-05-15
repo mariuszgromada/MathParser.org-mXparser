@@ -139,22 +139,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				int derType, double eps, int maxSteps) {
 			const double START_DX = 0.1;
 			int step = 0;
-			double error = 2*eps;
-			double y0 = 0;
-			double derF = 0;
-			double derFprev = 0;
-			double dx = 0;
+			double error = 2.0*eps;
+			double y0 = 0.0;
+			double derF = 0.0;
+			double derFprev = 0.0;
+			double dx = 0.0;
 			if (derType == LEFT_DERIVATIVE)
 				dx = -START_DX;
 			else
 				dx = START_DX;
-			double dy = 0;
+			double dy = 0.0;
 			if ( (derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE) ) {
 				y0 = mXparser.getFunctionValue(f, x, x0);
 				dy = mXparser.getFunctionValue(f, x, x0+dx) - y0;
 				derF = dy/dx;
 			} else
-				derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2*dx);
+				derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
 			do {
 				derFprev = derF;
 				dx = dx/2.0;
@@ -162,7 +162,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					dy = mXparser.getFunctionValue(f, x, x0+dx) - y0;
 					derF = dy/dx;
 				} else
-					derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2*dx);
+					derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
 				error = Math.Abs(derF - derFprev);
 				step++;
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));

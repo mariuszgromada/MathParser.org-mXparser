@@ -102,7 +102,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 						mXparser.consolePrintln();
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln("=== Expression regression tests - Starting");
-						nError += RegTestExpressionV2.Start();
+						nError += RegTestExpression.Start();
 						mXparser.consolePrintln("=== Expression regression tests - Finished");
 						mXparser.consolePrintln("====================================================================");
 						mXparser.consolePrintln();

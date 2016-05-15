@@ -330,6 +330,7 @@ final class Function1Arg {
 	static final int GAUSS_ERFC_ID				= 48;
 	static final int GAUSS_ERF_INV_ID			= 49;
 	static final int GAUSS_ERFC_INV_ID			= 50;
+	static final int ULP_ID						= 51;
 
 	/**
 	 * UnaryFunction - tokens key words.
@@ -424,6 +425,7 @@ final class Function1Arg {
 	static final String GAUSS_ERFC_STR			= "erfc";
 	static final String GAUSS_ERF_INV_STR		= "erfInv";
 	static final String GAUSS_ERFC_INV_STR		= "erfcInv";
+	static final String ULP_STR					= "ulp";
 
 	/**
 	 * UnaryFunction - tokens description.
@@ -477,6 +479,7 @@ final class Function1Arg {
 	static final String GAUSS_ERFC_DESC			= "(3.0) Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)";
 	static final String GAUSS_ERF_INV_DESC		= "(3.0) Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
 	static final String GAUSS_ERFC_INV_DESC		= "(3.0) Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
+	static final String ULP_DESC				= "(3.0) Unit in The Last Place - ulp(0.1)";
 }
 /**
  * Function2Arg

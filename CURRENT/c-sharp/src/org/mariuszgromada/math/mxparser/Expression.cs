@@ -206,6 +206,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private bool verboseMode;
 		/**
+		 * Internal parameter for calculus expressions
+		 * to avoid decrease in accuracy.
+		 */
+		internal bool disableUlpRounding;
+		internal const bool DISABLE_ULP_ROUNDING = true;
+		internal const bool KEEP_ULP_ROUNDING_SETTINGS = false;
+		/**
 		 * Status of the expression syntax
 		 *
 		 * Please referet to the:
@@ -330,6 +337,7 @@ namespace org.mariuszgromada.math.mxparser {
 			computingTime = 0;
 			recursionCallPending = false;
 			parserKeyWordsOnly = false;
+			disableUlpRounding = KEEP_ULP_ROUNDING_SETTINGS;
 		}
 		/**
 		 * Common elements while expression initializing
@@ -410,7 +418,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      constantsList       the constants list
 		 */
 		internal Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
-				List<Function> functionsList, List<Constant> constantsList) {
+				List<Function> functionsList, List<Constant> constantsList, bool disableUlpRounding) {
 			this.expressionString = String.Copy(expressionString);
 			this.initialTokens = initialTokens;
 			this.argumentsList = argumentsList;
@@ -424,6 +432,7 @@ namespace org.mariuszgromada.math.mxparser {
 			computingTime = 0;
 			recursionCallPending = false;
 			parserKeyWordsOnly = false;
+			this.disableUlpRounding = disableUlpRounding;
 			setSilentMode();
 			disableRecursiveMode();
 		}
@@ -479,6 +488,7 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = String.Copy(expression.errorMessage);
 			recursionCallPending = expression.recursionCallPending;
 			parserKeyWordsOnly = expression.parserKeyWordsOnly;
+			disableUlpRounding = expression.disableUlpRounding;
 		}
 		/**
 		 * Sets (modifies expression) expression string.
@@ -1169,13 +1179,34 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
 		 * @param      number              the number
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void setToNumber(int pos, double number) {
+		private void setToNumber(int pos, double number, bool ulpRound) {
 			Token token = tokensList[pos];
-			token.tokenValue = number;
+			if ((mXparser.ulpRounding) && (disableUlpRounding == false)) {
+				if (ulpRound) {
+					if ((Double.IsNaN(number)) || (Double.IsInfinity(number)))
+						token.tokenValue = number;
+					else {
+						int precision = MathFunctions.ulpDecimalDigitsBefore(number);
+						if (precision >= 0)
+							token.tokenValue = MathFunctions.round(number, precision);
+						else
+							token.tokenValue = number;
+					}
+				} else {
+					token.tokenValue = number;
+				}
+			} else {
+				token.tokenValue = number;
+			}
 			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 			token.tokenId = ParserSymbol.NUMBER_ID;
 			token.keyWord = ParserSymbol.NUMBER_STR;
+		}
+		private void setToNumber(int pos, double number) {
+			setToNumber(pos, number, false);
 		}
 		/**
 		 * SetDecreaseRemove for 1 arg functions
@@ -1227,11 +1258,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
 		 * @param      result              the number
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void f1SetDecreaseRemove(int pos, double result) {
-			setToNumber(pos, result);
+		private void f1SetDecreaseRemove(int pos, double result, bool ulpRound) {
+			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
 			tokensList.RemoveAt(pos+1);
+		}
+		private void f1SetDecreaseRemove(int pos, double result) {
+			f1SetDecreaseRemove(pos, result, false);
 		}
 		/**
 		 * SetDecreaseRemove for 2-args functions
@@ -1242,12 +1278,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
 		 * @param      result              the number
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void f2SetDecreaseRemove(int pos, double result) {
-			setToNumber(pos, result);
+		private void f2SetDecreaseRemove(int pos, double result, bool ulpRound) {
+			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
 			tokensList.RemoveAt(pos+2);
 			tokensList.RemoveAt(pos+1);
+		}
+		private void f2SetDecreaseRemove(int pos, double result) {
+			f2SetDecreaseRemove(pos, result, false);
 		}
 		/**
 		 * SetDecreaseRemove for 3-args functions
@@ -1258,13 +1299,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
 		 * @param      result              the number
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void f3SetDecreaseRemove(int pos, double result) {
-			setToNumber(pos, result);
+		private void f3SetDecreaseRemove(int pos, double result, bool ulpRound) {
+			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
 			tokensList.RemoveAt(pos+3);
 			tokensList.RemoveAt(pos+2);
 			tokensList.RemoveAt(pos+1);
+		}
+		private void f3SetDecreaseRemove(int pos, double result) {
+			f3SetDecreaseRemove(pos, result, false);
 		}
 		/**
 		 * SetDecreaseRemove for operators
@@ -1275,11 +1321,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
 		 * @param      result              the number
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void opSetDecreaseRemove(int pos, double result) {
-			setToNumber(pos, result);
+		private void opSetDecreaseRemove(int pos, double result, bool ulpRound) {
+			setToNumber(pos, result, ulpRound);
 			tokensList.RemoveAt(pos+1);
 			tokensList.RemoveAt(pos-1);
+		}
+		private void opSetDecreaseRemove(int pos, double result) {
+			opSetDecreaseRemove(pos, result, false);
 		}
 		/**
 		 * SetDecreaseRemove for calculus operators.
@@ -1290,9 +1341,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
 		 * @param      result              the number
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void calcSetDecreaseRemove(int pos, double result) {
-			setToNumber(pos, result);
+		private void calcSetDecreaseRemove(int pos, double result, bool ulpRound) {
+			setToNumber(pos, result, ulpRound);
 			tokensList[pos].tokenLevel--;
 			/*
 			 * left parethesis position
@@ -1309,6 +1362,9 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int p = rPos; p >= lPos; p--)
 				tokensList.RemoveAt(p);
 		}
+		private void calcSetDecreaseRemove(int pos, double result) {
+			calcSetDecreaseRemove(pos, result, false);
+		}
 		/**
 		 * SetDecreaseRemove for special functions.
 		 *
@@ -1319,20 +1375,27 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                                 should be updated to the given number
 		 * @param      result              the number
 		 * @param      length              the special function range
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void variadicSetDecreaseRemove(int pos, double value, int length) {
-			setToNumber(pos, value );
+		private void variadicSetDecreaseRemove(int pos, double value, int length, bool ulpRound) {
+			setToNumber(pos, value, ulpRound);
 			tokensList[pos].tokenLevel--;
 			for (int p = pos + length; p > pos; p--)
 				tokensList.RemoveAt(p);
+		}
+		private void variadicSetDecreaseRemove(int pos, double value, int length) {
+			variadicSetDecreaseRemove(pos, value, length, false);
 		}
 		/**
 		 * If set remove method for the if function.
 		 *
 		 * @param      pos                 the position
 		 * @param      ifCondition         the result of if condition
+		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
+		 *                                 intelligent ULP rounding is applied.
 		 */
-		private void ifSetRemove(int pos, double ifCondition) {
+		private void ifSetRemove(int pos, double ifCondition, bool ulpRound) {
 			/*
 			 * left parethesis position
 			 */
@@ -1395,7 +1458,7 @@ namespace org.mariuszgromada.math.mxparser {
 					for (int p = to; p >= from; p--)
 						tokensList.RemoveAt(p);
 			}
-			setToNumber(lPos+1, ifCondition);
+			setToNumber(lPos+1, ifCondition, ulpRound);
 			tokensList[lPos+1].tokenLevel = ifLevel;
 			from = lPos+2;
 			to = c1Pos-1;
@@ -1403,6 +1466,9 @@ namespace org.mariuszgromada.math.mxparser {
 				for (int p = to; p >= from; p--)
 					tokensList.RemoveAt(p);
 			tokensList[pos].tokenId = Function3Arg.IF_ID;
+		}
+		private void ifSetRemove(int pos, double ifCondition) {
+			ifSetRemove(pos, ifCondition, false);
 		}
 		/**
 		 * Creates string tokens list from the subexpression.
@@ -1895,7 +1961,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void POWER(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
-			opSetDecreaseRemove(pos, MathFunctions.power(a, b) );
+			opSetDecreaseRemove(pos, MathFunctions.power(a, b), true);
 		}
 		/**
 		 * Modulo handling.
@@ -1915,7 +1981,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void DIVIDE(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
-			opSetDecreaseRemove(pos, MathFunctions.div(a, b) );
+			opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
 		}
 		/**
 		 * Multiplication handling.
@@ -1925,7 +1991,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void MULTIPLY(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
-			opSetDecreaseRemove(pos, a * b );
+			opSetDecreaseRemove(pos, a * b, true);
 		}
 		/**
 		 * Addition handling.
@@ -1937,7 +2003,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (pos>0) {
 				Token a = tokensList[pos-1];
 				if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-					opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue );
+					opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
 				else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					setToNumber(pos,b.tokenValue);
 					tokensList.RemoveAt(pos+1);
@@ -1959,7 +2025,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (pos>0) {
 				Token a = tokensList[pos-1];
 				if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-					opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue );
+					opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
 				else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					setToNumber(pos,-b.tokenValue);
 					tokensList.RemoveAt(pos+1);
@@ -2629,6 +2695,16 @@ namespace org.mariuszgromada.math.mxparser {
 			f1SetDecreaseRemove(pos, SpecialFunctions.erfcInv(x));
 		}
 		/**
+		 * Unit in The Last Place
+		 * Sets tokens to number token
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void ULP(int pos) {
+			double x = getTokenValue(pos + 1);
+			f1SetDecreaseRemove(pos, MathFunctions.ulp(x));
+		}
+		/**
 		 * Logarithm
 		 * Sets tokens to number token
 		 *
@@ -2818,7 +2894,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			List<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
 			FunctionParameter ifParam = ifParams[0];
-			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList);
+			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS);
 			if (verboseMode == true)
 				ifExp.setVerboseMode();
 			ifSetRemove(pos, ifExp.calculate());
@@ -2843,7 +2919,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double iffValue = 0;
 			bool iffCon = true;
 			do {
-				iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList);
+				iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS);
 				if (verboseMode == true)
 					iffExp.setVerboseMode();
 				iffCon = true;
@@ -3061,9 +3137,9 @@ namespace org.mariuszgromada.math.mxparser {
 			 *    expressions will use the same arguments list
 			 *    as used in the main expression (this.argumentsList)
 			 */
-			iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList);
-			iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList);
-			iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList);
+			iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS);
+			iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS);
+			iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			iterParams.deltaExp = null;
 			if (verboseMode == true) {
 				iterParams.fromExp.setVerboseMode();
@@ -3078,7 +3154,7 @@ namespace org.mariuszgromada.math.mxparser {
 			iterParams.delta = 1;
 			if (iterParams.to < iterParams.from) iterParams.delta = -1;
 			if (iterParams.withDelta == true) {
-				iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList);
+				iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 				if (index.presence == Argument.NOT_FOUND) {
 					updateMissingTokens(iterParams.deltaParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID);
 				}
@@ -3104,7 +3180,7 @@ namespace org.mariuszgromada.math.mxparser {
 			evalFromToDeltaParameters(index, iterParams);
 			double sigma = NumberTheory.sigmaSummation(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
-			calcSetDecreaseRemove(pos, sigma);
+			calcSetDecreaseRemove(pos, sigma, true);
 		}
 		/**
 		 * Product operator (SIGMA by)
@@ -3123,7 +3199,7 @@ namespace org.mariuszgromada.math.mxparser {
 			evalFromToDeltaParameters(index, iterParams);
 			double product = NumberTheory.piProduct(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
-			calcSetDecreaseRemove(pos, product);
+			calcSetDecreaseRemove(pos, product, true);
 		}
 		/**
 		 * Minimum value - iterative operator
@@ -3180,7 +3256,7 @@ namespace org.mariuszgromada.math.mxparser {
 			evalFromToDeltaParameters(index, iterParams);
 			double avg = Statistics.avg(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
-			calcSetDecreaseRemove(pos, avg);
+			calcSetDecreaseRemove(pos, avg, true);
 		}
 		/**
 		 * Variance from sample function values - iterative operator
@@ -3199,7 +3275,7 @@ namespace org.mariuszgromada.math.mxparser {
 			evalFromToDeltaParameters(index, iterParams);
 			double var = Statistics.var(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
-			calcSetDecreaseRemove(pos, var);
+			calcSetDecreaseRemove(pos, var, true);
 		}
 		/**
 		 * Standard deviation from sample function values - iterative operator
@@ -3218,7 +3294,7 @@ namespace org.mariuszgromada.math.mxparser {
 			evalFromToDeltaParameters(index, iterParams);
 			double std = Statistics.std(iterParams.funExp, index.argument, iterParams.from, iterParams.to, iterParams.delta);
 			clearParamArgument(index);
-			calcSetDecreaseRemove(pos, std);
+			calcSetDecreaseRemove(pos, std, true);
 		}
 		/*
 		 * Function derivative
@@ -3251,7 +3327,7 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			double x0 = x.argument.getArgumentValue();
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
@@ -3262,8 +3338,8 @@ namespace org.mariuszgromada.math.mxparser {
 					updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 					updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				}
-				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList);
-				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList);
+				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 				eps = epsExpr.calculate();
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
@@ -3313,8 +3389,8 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
-			Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+			Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			double n = nExp.calculate();
 			double x0 = x.argument.getArgumentValue();
 			double eps = DEF_EPS;
@@ -3326,8 +3402,8 @@ namespace org.mariuszgromada.math.mxparser {
 					updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 					updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				}
-				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList);
-				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList);
+				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 				eps = epsExpr.calculate();
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
@@ -3383,9 +3459,9 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
-			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList);
-			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
 			/*
@@ -3410,13 +3486,13 @@ namespace org.mariuszgromada.math.mxparser {
 			FunctionParameter funParam = parameters[0];
 			FunctionParameter xParam = parameters[1];
 			ArgumentParameter x = getParamArgument(xParam.paramStr);
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			if (verboseMode == true)
 				funExp.setVerboseMode();
 			double h = 1;
 			if (parameters.Count == 3) {
 				FunctionParameter hParam = parameters[2];
-				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList);
+				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 				if (verboseMode == true)
 					hExp.setVerboseMode();
 				h = hExp.calculate();
@@ -3434,13 +3510,13 @@ namespace org.mariuszgromada.math.mxparser {
 			FunctionParameter funParam = parameters[0];
 			FunctionParameter xParam = parameters[1];
 			ArgumentParameter x = getParamArgument(xParam.paramStr);
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			if (verboseMode == true)
 				funExp.setVerboseMode();
 			double h = 1;
 			if (parameters.Count == 3) {
 				FunctionParameter hParam = parameters[2];
-				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList);
+				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 				if (verboseMode == true)
 					hExp.setVerboseMode();
 				h = hExp.calculate();
@@ -3476,7 +3552,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void SUM_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.sum(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.sum(mXparser.arrayList2double(numbers)), numbers.Count, true);
 		}
 		/**
 		 * Sum variadic
@@ -3486,7 +3562,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PROD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, NumberTheory.prod(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, NumberTheory.prod(mXparser.arrayList2double(numbers)), numbers.Count, true);
 		}
 		/**
 		 * Average variadic
@@ -3496,7 +3572,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void AVG_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.avg(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.avg(mXparser.arrayList2double(numbers)), numbers.Count, true);
 		}
 		/**
 		 * Variance variadic
@@ -3506,7 +3582,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void VAR_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.var(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.var(mXparser.arrayList2double(numbers)), numbers.Count, true);
 		}
 		/**
 		 * Standard deviation variadic
@@ -3516,7 +3592,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void STD_VARIADIC(int pos) {
 			List<Double> numbers = getNumbers(pos);
-			variadicSetDecreaseRemove(pos, Statistics.std(mXparser.arrayList2double(numbers)), numbers.Count );
+			variadicSetDecreaseRemove(pos, Statistics.std(mXparser.arrayList2double(numbers)), numbers.Count, true);
 		}
 		/**
 		 * Continued fraction
@@ -4356,6 +4432,7 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function1Arg.GAUSS_ERFC_ID: GAUSS_ERFC(pos); break;
 			case Function1Arg.GAUSS_ERF_INV_ID: GAUSS_ERF_INV(pos); break;
 			case Function1Arg.GAUSS_ERFC_INV_ID: GAUSS_ERFC_INV(pos); break;
+			case Function1Arg.ULP_ID: ULP(pos); break;
 			}
 		}
 		/**
@@ -4609,6 +4686,7 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function1Arg.GAUSS_ERFC_STR, Function1Arg.GAUSS_ERFC_DESC, Function1Arg.GAUSS_ERFC_ID, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.GAUSS_ERF_INV_STR, Function1Arg.GAUSS_ERF_INV_DESC, Function1Arg.GAUSS_ERF_INV_ID, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.GAUSS_ERFC_INV_STR, Function1Arg.GAUSS_ERFC_INV_DESC, Function1Arg.GAUSS_ERFC_INV_ID, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.ULP_STR, Function1Arg.ULP_DESC, Function1Arg.ULP_ID, Function1Arg.TYPE_ID);
 				/*
 				 * 2 args functions key words
 				 */

@@ -103,7 +103,7 @@ public class RunTest {
 					mXparser.consolePrintln();
 					mXparser.consolePrintln("====================================================================");
 					mXparser.consolePrintln("=== Expression regression tests - Starting");
-					nError += RegTestExpressionV2.start();
+					nError += RegTestExpression.start();
 					mXparser.consolePrintln("=== Expression regression tests - Finished");
 					mXparser.consolePrintln("====================================================================");
 					mXparser.consolePrintln();

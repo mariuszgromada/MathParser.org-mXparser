@@ -153,9 +153,10 @@ public final class BinaryRelations {
 	 */
 	public static final double eq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
+		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		double result = 0;
 		if (epsilonComparison) {
-			if ( MathFunctions.abs(a-b) < epsilon ) result = 1;
+			if ( MathFunctions.abs(a-b) <= eps ) result = 1;
 		} else if ( a == b ) result = 1;
 		return result;
 	}
@@ -171,9 +172,10 @@ public final class BinaryRelations {
 	 */
 	public static final double neq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
+		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		double result = 0;
 		if (epsilonComparison) {
-			if ( MathFunctions.abs(a-b) >= epsilon ) result = 1;
+			if ( MathFunctions.abs(a-b) > eps ) result = 1;
 		} else if ( a != b ) result = 1;
 		return result;
 	}
@@ -189,9 +191,10 @@ public final class BinaryRelations {
 	 */
 	public static final double lt(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
+		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		double result = 0;
 		if (epsilonComparison) {
-			if ( a <= b - epsilon ) result = 1;
+			if ( a < b - eps ) result = 1;
 		} else if ( a < b ) result = 1;
 		return result;
 	}
@@ -207,9 +210,10 @@ public final class BinaryRelations {
 	 */
 	public static final double gt(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
+		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		double result = 0;
 		if (epsilonComparison) {
-			if ( a >= b + epsilon ) result = 1;
+			if ( a > b + eps ) result = 1;
 		} else if ( a > b ) result = 1;
 		return result;
 	}
@@ -225,9 +229,10 @@ public final class BinaryRelations {
 	 */
 	public static final double leq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
+		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		double result = 0;
 		if (epsilonComparison) {
-			if ( a < b + epsilon ) result = 1;
+			if ( a <= b + eps ) result = 1;
 		} else if ( a <= b ) result = 1;
 		return result;
 	}
@@ -243,9 +248,10 @@ public final class BinaryRelations {
 	 */
 	public static final double geq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
+		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		double result = 0;
 		if (epsilonComparison) {
-			if ( a > b - epsilon ) result = 1;
+			if ( a >= b - eps ) result = 1;
 		} else if ( a >= b ) result = 1;
 		return result;
 	}

@@ -337,6 +337,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const int GAUSS_ERFC_ID			= 48;
 		internal const int GAUSS_ERF_INV_ID			= 49;
 		internal const int GAUSS_ERFC_INV_ID		= 50;
+		internal const int ULP_ID					= 51;
 
 		/**
 		 * UnaryFunction - tokens key words.
@@ -431,6 +432,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String GAUSS_ERFC_STR		= "erfc";
 		internal const String GAUSS_ERF_INV_STR		= "erfInv";
 		internal const String GAUSS_ERFC_INV_STR	= "erfcInv";
+		internal const String ULP_STR				= "ulp";
 
 		/**
 		 * UnaryFunction - tokens description.
@@ -484,6 +486,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const String GAUSS_ERFC_DESC		= "(3.0) Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)";
 		internal const String GAUSS_ERF_INV_DESC	= "(3.0) Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
 		internal const String GAUSS_ERFC_INV_DESC	= "(3.0) Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
+		internal const String ULP_DESC				= "(3.0) Unit in The Last Place - ulp(0.1)";
 	}
 	/**
 	 * Function2Arg

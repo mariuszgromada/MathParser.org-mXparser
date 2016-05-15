@@ -120,6 +120,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private static Expression mXparserHelp = new Expression();
 		/**
+		 * Double floating-point precision arithmetic causes
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
+		 *
+		 * mXparser provides intelligent ULP rounding to avoid this
+		 * type of errors.
+		 */
+		internal static bool ulpRounding = true;
+		/**
 		 * Initialization of prime numbers cache.
 		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
 		 * @see PrimesCache
@@ -337,6 +345,50 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static bool checkIfExactMode() {
 			return BinaryRelations.checkIfExactMode();
+		}
+		/**
+		 * Double floating-point precision arithmetic causes
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * additionally doubles are having a lot of advantages
+		 * providing flexible number representation regardless of
+		 * number size. mXparser is fully based on double numbers
+		 * and that is why is providing intelligent ULP rounding
+		 * to minimize misleading results. By default this option is
+		 * enabled resulting in automatic rounding only in some cases.
+		 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
+		 */
+		public static void enableUlpRounding() {
+			ulpRounding = true;
+		}
+		/**
+		 * Double floating-point precision arithmetic causes
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * additionally doubles are having a lot of advantages
+		 * providing flexible number representation regardless of
+		 * number size. mXparser is fully based on double numbers
+		 * and that is why is providing intelligent ULP rounding
+		 * to minimize misleading results. By default this option is
+		 * enabled resulting in automatic rounding only in some cases.
+		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+		 */
+		public static void disableUlpRounding() {
+			ulpRounding = false;
+		}
+		/**
+		 * Double floating-point precision arithmetic causes
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * additionally doubles are having a lot of advantages
+		 * providing flexible number representation regardless of
+		 * number size. mXparser is fully based on double numbers
+		 * and that is why is providing intelligent ULP rounding
+		 * to minimize misleading results. By default this option is
+		 * enabled resulting in automatic rounding only in some cases.
+		 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
+		 *
+		 * @return True if ULP rounding is enabled, otherwise false.
+		 */
+		public static bool checkIfUlpRounding() {
+			return ulpRounding;
 		}
 		/**
 		 * Converts integer number to hex string (plain text)
