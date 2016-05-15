@@ -1,5 +1,102 @@
-            mXparser - Math Parser Java Android C# .NET (CLS) Library beta
+            mXparser - Math Parser Java Android C# .NET (CLS) Library
          A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
+		 
+v.3.0.0 (2016-05-16): Random numbers, Probability distributions & Random variables
+                      Double precision rounding, ULP rounding, epsilon comparison
+					  New special functions
+
+    * Random numbers - new functions
+	    - rUni(a, b) - Random number from uniform continuous distribution U(a,b)
+		- rUnid(a, b) - Random number from uniform discrete distribution U{a,b}
+		- rNor(m, s) - Random number from normal distribution N(m,s)
+		- rList(a1, a2, ..., an) - Random number from given list of numbers
+		
+	* Probability distributions - new functions
+	    - pUni(x, a, b) - Probability distribution function - Uniform continuous distribution U(a,b)
+		- cUni(x, a, b) - Cumulative distribution function - Uniform continuous distribution U(a,b)
+		- qUni(q, a, b) - Quantile function (inverse cumulative distribution function) - 
+		                  Uniform continuous distribution U(a,b)
+	    - pNor(x, a, b) - Probability distribution function - Normal distribution N(m,s)
+		- cNor(x, a, b) - Cumulative distribution function - Normal distribution N(m,s)
+		- qNor(q, m, s) - Quantile function (inverse cumulative distribution function) -
+		                  Normal distribution N(m,s)
+		
+	* Random variables (predefined) - acting as random constant (no parameters)
+	
+		- [Uni] - Random variable - Uniform continuous distribution U(0,1)
+		
+		- [Int] - Random variable - random integer
+		- [Int1] - Random variable - random integer - Uniform discrete distribution U{-10^1, 10^1}
+		- [Int2] - Random variable - random integer - Uniform discrete distribution U{-10^2, 10^2}
+		- [Int3] - Random variable - random integer - Uniform discrete distribution U{-10^3, 10^3}
+		- [Int4] - Random variable - random integer - Uniform discrete distribution U{-10^4, 10^4}
+		- [Int5] - Random variable - random integer - Uniform discrete distribution U{-10^5, 10^5}
+		- [Int6] - Random variable - random integer - Uniform discrete distribution U{-10^6, 10^6}
+		- [Int7] - Random variable - random integer - Uniform discrete distribution U{-10^7, 10^7}
+		- [Int8] - Random variable - random integer - Uniform discrete distribution U{-10^8, 10^8}
+		- [Int9] - Random variable - random integer - Uniform discrete distribution U{-10^9, 10^9}
+		
+		- [nat] - Random variable - random natural number including 0
+		
+		- [nat1] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^1}
+		- [nat2] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^2}
+		- [nat3] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^3}
+		- [nat4] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^4}
+		- [nat5] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^5}
+		- [nat6] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^6}
+		- [nat7] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^7}
+		- [nat8] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^8}
+		- [nat9] - Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^9}
+		
+		- [Nat] - Random variable - random natural number
+		
+		- [Nat1] - Random variable - random natural number - Uniform discrete distribution U{1, 10^1}
+		- [Nat2] - Random variable - random natural number - Uniform discrete distribution U{1, 10^2}
+		- [Nat3] - Random variable - random natural number - Uniform discrete distribution U{1, 10^3}
+		- [Nat4] - Random variable - random natural number - Uniform discrete distribution U{1, 10^4}
+		- [Nat5] - Random variable - random natural number - Uniform discrete distribution U{1, 10^5}
+		- [Nat6] - Random variable - random natural number - Uniform discrete distribution U{1, 10^6}
+		- [Nat7] - Random variable - random natural number - Uniform discrete distribution U{1, 10^7}
+		- [Nat8] - Random variable - random natural number - Uniform discrete distribution U{1, 10^8}
+		- [Nat9] - Random variable - random natural number - Uniform discrete distribution U{1, 10^9}
+		
+		- [Nor] - Random variable - Normal distribution N(0,1)
+		
+	* Double precision rounding
+	    - round(value, places) - decimal rounding (half-up)
+		
+	* New special functions
+	    - erf(x) - Gauss error function
+		- erfc(x) - Gauss complementary error function
+		- erfInv(x) - Inverse Gauss error function
+		- erfcInv(x) - Inverse Gauss complementary error function
+		
+	* Other functions
+	    - ulp(x) - Unit in The Last Place
+		
+	* Binary relations - epsilon+ulp comparison - enabled as default
+	  If a rel b then applied epsilon is maximum from epsilon and ulp(b)
+	  a eq b if a \in [b-eps; b+eps] inclusive
+	    - mXparser.setExactComparison()
+	    - mXparser.setEpsilonComparison()
+	    - mXparser.setEpsilon(double epsilon)
+	    - mXparser.setDefaultEpsilon()
+	    - mXparser.getEpsilon()
+	    - mXparser.checkIfEpsilonMode()
+	    - mXparser.checkIfExactMode() 
+		
+	* Intelligent automatic double ULP rounding - enabled as default
+	  Try 0.1 + 0.1 + 0.1 - it will give exact 0.3 :-)
+	    - mXparser.enableUlpRounding()
+	    - mXparser.disableUlpRounding()
+	    - mXparser.checkIfUlpRounding()
+
+	* Significant reorganization of code
+	    - Mainly mathcollection
+		
+	* Backwards compatibility
+	    - is preserved for String API (parser at a runtime)
+		- other public API was reorganized (mainly math collection)
 
 v.2.4.0 (2016-02-28): Average, variance and standard deviation.
 
