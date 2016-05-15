@@ -97,6 +97,12 @@ v.3.0.0 (2016-05-16): Random numbers, Probability distributions & Random variabl
 	* Backwards compatibility
 	    - is preserved for String API (parser at a runtime)
 		- other public API was reorganized (mainly math collection)
+	
+	* Bugs fixed
+	    - bugs related to iterated operators
+		
+	* Other changes
+	    - Many new regression tests
 
 v.2.4.0 (2016-02-28): Average, variance and standard deviation.
 
