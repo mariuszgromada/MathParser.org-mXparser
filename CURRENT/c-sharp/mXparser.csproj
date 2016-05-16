@@ -57,7 +57,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>mXparser.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\..\..\pfx-keys\mariuszgromada.org.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>
@@ -92,7 +92,18 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mXparser.cs" />
-    <Compile Include="src\org\mariuszgromada\math\mxparser\ParserTokens.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\BinaryRelation.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\BooleanOperator.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\CalculusOperator.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\ConstantValue.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Function1Arg.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Function2Arg.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Function3Arg.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\FunctionVariadic.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Operator.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\ParserSymbol.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs" />
@@ -128,11 +139,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="mXparser.net4.6.pfx" />
-    <None Include="mXparser.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="mXparser-logo.ico" />
+    <None Include="mariuszgromada.org.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

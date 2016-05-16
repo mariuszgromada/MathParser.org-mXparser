@@ -1,7 +1,8 @@
 			mXparser - Math Parser Java Android C# .NET (CLS) Library
 		 A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 		 
-v.3.0.0 (2016-05-16): Random numbers, Probability distributions & Random variables
+v.3.0.0 (2016-05-16): Major update
+					  Random numbers, Probability distributions & Random variables
 					  Double precision rounding, ULP rounding, epsilon comparison
 					  New special functions
 
@@ -91,12 +92,19 @@ v.3.0.0 (2016-05-16): Random numbers, Probability distributions & Random variabl
 		- mXparser.disableUlpRounding()
 		- mXparser.checkIfUlpRounding()
 
+	* Parser tokens definition now public in API
+		- mxparser.parsertokens.*
+		
+	* Expression after tokenization now public in API
+		- Expression.getCopyOfInitialTokens()
+		- mxparser.parsertokens.*
+		
 	* Significant reorganization of code
 		- Mainly mathcollection
 		
 	* Backwards compatibility
 		- is preserved for String API (parser at a runtime)
-		- other public API was reorganized (mainly math collection)
+		- other public API was reorganized (mainly mxparser.mathcollection)
 	
 	* Bugs fixed
 		- bugs related to iterated operators

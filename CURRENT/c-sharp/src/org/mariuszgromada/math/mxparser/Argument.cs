@@ -50,6 +50,7 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
+using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 
 namespace org.mariuszgromada.math.mxparser {

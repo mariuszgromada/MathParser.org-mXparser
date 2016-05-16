@@ -55,93 +55,15 @@ package org.mariuszgromada.math.mxparser;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
+import org.mariuszgromada.math.mxparser.parsertokens.Token;
+
 /*=================================================
 *
 * Package level classes and interfaces
 *
 *=================================================
 */
-/**
-* Package level class for retrieving calculus parameters
-* Holds params number and parameter string
-*/
-/**
- * Token - base class for tokens definition
- */
-class Token {
-	/**
-	 * String token
-	 */
-	String tokenStr;
-	/**
-	 * Key word string (if matched)
-	 *
-	 * Please refer to below interfaces
-	 *    Operator
-	 *    Function1Arg
-	 *    Function2Arg
-	 *    Function3Arg
-	 *    BinaryRelation
-	 *    Const
-	 *    ParserSymbol
-	 */
-	String keyWord;
-	/**
-	 * Partition identifier
-	 *
-	 * Please refer to below interfaces
-	 *    Operator
-	 *    Function1Arg
-	 *    Function2Arg
-	 *    Function3Arg
-	 *    BinaryRelation
-	 *    Const
-	 *    ParserSymbol
-	 */
-	int tokenId;
-	/**
-	 * Partition type
-	 *
-	 * Please refer to below interfaces
-	 *    Operator
-	 *    Function1Arg
-	 *    Function2Arg
-	 *    Function3Arg
-	 *    BinaryRelation
-	 *    Const
-	 *    ParserSymbol
-	 */
-	int tokenTypeId;
-	/**
-	 * Partition level
-	 */
-	int tokenLevel;
-	/**
-	 * Partition value if number
-	 */
-	double tokenValue;
-	/**
-	 * Default constructor
-	 */
-	Token() {
-		tokenStr = "";
-		keyWord = "";
-		tokenId = ConstantValue.NaN;
-		tokenTypeId = ConstantValue.NaN;
-		tokenLevel = ConstantValue.NaN;
-		tokenValue = Double.NaN;
-	}
-	public Token clone() {
-		Token token = new Token();
-		token.keyWord = keyWord;
-		token.tokenStr = tokenStr;
-		token.tokenId = tokenId;
-		token.tokenLevel = tokenLevel;
-		token.tokenTypeId = tokenTypeId;
-		token.tokenValue = tokenValue;
-		return token;
-	}
-}
 /**
  * Package level class for handling function parameters.
  */

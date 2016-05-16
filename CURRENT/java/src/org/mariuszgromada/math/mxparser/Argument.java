@@ -53,6 +53,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 /**
  * Argument class enables to declare the argument
  * (variable) which can be used in further processing

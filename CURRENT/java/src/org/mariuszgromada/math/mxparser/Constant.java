@@ -53,6 +53,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 /**
  * Constant class provides ability to declare constants.
  * Constants can be used in further processing by any expression,

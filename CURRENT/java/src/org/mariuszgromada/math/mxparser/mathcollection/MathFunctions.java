@@ -1301,6 +1301,7 @@ public final class MathFunctions {
  	}
 	/**
 	 * Unit in the last place(ULP) for double
+	 * @param value Double number
 	 * @return ULP for a given double.
 	 */
 	public static final double ulp(double value) {

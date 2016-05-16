@@ -53,6 +53,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 /**
  * RecursiveArgument class enables to declare the argument
  * (variable) which is defined in a recursive way. Such an argument

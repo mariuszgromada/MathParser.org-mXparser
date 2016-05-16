@@ -53,10 +53,12 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
+import org.mariuszgromada.math.mxparser.parsertokens.Token;
 /**
  * Function class provides possibility to define user functions.
  * Functions can be used in further processing by any expression,
- * dependent or recursive argument, function, etc... For expamle:
+ * dependent or recursive argument, function, etc... For example:
  *
  * <ul>
  * <li>'f(x) = sin(x)'

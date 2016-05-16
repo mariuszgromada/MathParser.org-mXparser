@@ -50,6 +50,7 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
+using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
 
@@ -60,87 +61,6 @@ namespace org.mariuszgromada.math.mxparser {
 	*
 	*=================================================
 	*/
-	/**
-	* Package level class for retrieving calculus parameters
-	* Holds params number and parameter string
-*/
-	/**
-	 * Token - base class for tokens definition
-	 */
-	internal class Token {
-		/**
-		 * String token
-		 */
-		internal String tokenStr;
-		/**
-		 * Key word string (if matched)
-		 *
-		 * Please refer to below interfaces
-		 *    Operator
-		 *    Function1Arg
-		 *    Function2Arg
-		 *    Function3Arg
-		 *    BinaryRelation
-		 *    Const
-		 *    ParserSymbol
-		 */
-		internal String keyWord;
-		/**
-		 * Partition identifier
-		 *
-		 * Please refer to below interfaces
-		 *    Operator
-		 *    Function1Arg
-		 *    Function2Arg
-		 *    Function3Arg
-		 *    BinaryRelation
-		 *    Const
-		 *    ParserSymbol
-		 */
-		internal int tokenId;
-		/**
-		 * Partition type
-		 *
-		 * Please refer to below interfaces
-		 *    Operator
-		 *    Function1Arg
-		 *    Function2Arg
-		 *    Function3Arg
-		 *    BinaryRelation
-		 *    Const
-		 *    ParserSymbol
-		 */
-		internal int tokenTypeId;
-		/**
-		 * Partition level
-		 */
-		internal int tokenLevel;
-		/**
-		 * Partition value if number
-		 */
-		internal double tokenValue;
-		/**
-		 * Default constructor
-		 */
-		internal Token() {
-			tokenStr = "";
-			keyWord = "";
-			tokenId = ConstantValue.NaN;
-			tokenTypeId = ConstantValue.NaN;
-			tokenLevel = ConstantValue.NaN;
-			tokenValue = Double.NaN;
-		}
-		public Token clone() {
-			Token token = new Token();
-			token.keyWord = keyWord;
-			token.tokenStr = tokenStr;
-			token.tokenId = tokenId;
-			token.tokenLevel = tokenLevel;
-			token.tokenTypeId = tokenTypeId;
-			token.tokenValue = tokenValue;
-			return token;
-		}
-	}
 	/**
 	 * Package level class for handling function parameters.
 	 */

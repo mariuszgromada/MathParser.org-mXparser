@@ -56,8 +56,9 @@ using System.Text;
 using System.Globalization;
 using System.Collections.Generic;
 
+using org.mariuszgromada.math.mxparser;
 using org.mariuszgromada.math.mxparser.mathcollection;
-using org.mariuszgromada.math.mxparser.syntaxchecker;
+using org.mariuszgromada.math.mxparser.parsertokens;
 
 namespace org.mariuszgromada.math.mxparser {
 	/**
@@ -3740,7 +3741,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallPending = true;
 			errorMessage = level +"checking ...\n";
 			bool syntax = NO_SYNTAX_ERRORS;
-			SyntaxChecker syn = new SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
+			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
 			try {
 				syn.checkSyntax();
 				/*
@@ -3966,13 +3967,13 @@ namespace org.mariuszgromada.math.mxparser {
 					/*
 					 * Check syntax for "VARIADIC FUNCTION" token
 					 */
-					if (t.tokenTypeId == VariadicFunction.TYPE_ID) {
+					if (t.tokenTypeId == FunctionVariadic.TYPE_ID) {
 						int paramsNumber = getParametersNumber(tokenIndex);
 						if (paramsNumber < 1) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "At least one argument was expected.\n";
 						}
-						if (t.tokenId == VariadicFunction.IFF_ID) {
+						if (t.tokenId == FunctionVariadic.IFF_ID) {
 							if ((paramsNumber % 2 != 0) || (paramsNumber < 2)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "Expecting parity number of arguments.\n";
@@ -4134,7 +4135,7 @@ namespace org.mariuszgromada.math.mxparser {
 					do {
 						p++;
 						token = tokensList[p];
-						if ((token.tokenTypeId == VariadicFunction.TYPE_ID) && (token.tokenId == VariadicFunction.IFF_ID))
+						if ((token.tokenTypeId == FunctionVariadic.TYPE_ID) && (token.tokenId == FunctionVariadic.IFF_ID))
 							iffPos = p;
 					} while ((p < tokensNumber - 1) && (iffPos < 0));
 				}
@@ -4172,7 +4173,7 @@ namespace org.mariuszgromada.math.mxparser {
 						if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 							recArgPos = pos;
 						else
-						if ((token.tokenTypeId == VariadicFunction.TYPE_ID) && (variadicFunPos < 0))
+						if ((token.tokenTypeId == FunctionVariadic.TYPE_ID) && (variadicFunPos < 0))
 							variadicFunPos = pos;
 						else
 						if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
@@ -4483,19 +4484,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void variadicFunCalc(int pos) {
 			switch (tokensList[pos].tokenId) {
-			case VariadicFunction.IFF_ID: IFF(pos); break;
-			case VariadicFunction.MIN_ID: MIN_VARIADIC(pos); break;
-			case VariadicFunction.MAX_ID: MAX_VARIADIC(pos); break;
-			case VariadicFunction.SUM_ID: SUM_VARIADIC(pos); break;
-			case VariadicFunction.PROD_ID: PROD_VARIADIC(pos); break;
-			case VariadicFunction.AVG_ID: AVG_VARIADIC(pos); break;
-			case VariadicFunction.VAR_ID: VAR_VARIADIC(pos); break;
-			case VariadicFunction.STD_ID: STD_VARIADIC(pos); break;
-			case VariadicFunction.CONT_FRAC_ID: CONTINUED_FRACTION(pos); break;
-			case VariadicFunction.CONT_POL_ID: CONTINUED_POLYNOMIAL(pos); break;
-			case VariadicFunction.GCD_ID: GCD(pos); break;
-			case VariadicFunction.LCM_ID: LCM(pos); break;
-			case VariadicFunction.RND_LIST_ID: RND_LIST(pos); break;
+			case FunctionVariadic.IFF_ID: IFF(pos); break;
+			case FunctionVariadic.MIN_ID: MIN_VARIADIC(pos); break;
+			case FunctionVariadic.MAX_ID: MAX_VARIADIC(pos); break;
+			case FunctionVariadic.SUM_ID: SUM_VARIADIC(pos); break;
+			case FunctionVariadic.PROD_ID: PROD_VARIADIC(pos); break;
+			case FunctionVariadic.AVG_ID: AVG_VARIADIC(pos); break;
+			case FunctionVariadic.VAR_ID: VAR_VARIADIC(pos); break;
+			case FunctionVariadic.STD_ID: STD_VARIADIC(pos); break;
+			case FunctionVariadic.CONT_FRAC_ID: CONTINUED_FRACTION(pos); break;
+			case FunctionVariadic.CONT_POL_ID: CONTINUED_POLYNOMIAL(pos); break;
+			case FunctionVariadic.GCD_ID: GCD(pos); break;
+			case FunctionVariadic.LCM_ID: LCM(pos); break;
+			case FunctionVariadic.RND_LIST_ID: RND_LIST(pos); break;
 			}
 		}
 		/**
@@ -4722,19 +4723,19 @@ namespace org.mariuszgromada.math.mxparser {
 				/*
 				 * Variadic functions as key words
 				 */
-				addKeyWord(VariadicFunction.IFF_STR, VariadicFunction.IFF_DESC, VariadicFunction.IFF_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.MIN_STR, VariadicFunction.MIN_DESC, VariadicFunction.MIN_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.MAX_STR, VariadicFunction.MAX_DESC, VariadicFunction.MAX_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.CONT_FRAC_STR, VariadicFunction.CONT_FRAC_DESC, VariadicFunction.CONT_FRAC_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.CONT_POL_STR, VariadicFunction.CONT_POL_DESC, VariadicFunction.CONT_POL_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.GCD_STR, VariadicFunction.GCD_DESC, VariadicFunction.GCD_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.LCM_STR, VariadicFunction.LCM_DESC, VariadicFunction.LCM_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.SUM_STR, VariadicFunction.SUM_DESC, VariadicFunction.SUM_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.PROD_STR, VariadicFunction.PROD_DESC, VariadicFunction.PROD_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.AVG_STR, VariadicFunction.AVG_DESC, VariadicFunction.AVG_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.VAR_STR, VariadicFunction.VAR_DESC, VariadicFunction.VAR_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.STD_STR, VariadicFunction.STD_DESC, VariadicFunction.STD_ID, VariadicFunction.TYPE_ID);
-				addKeyWord(VariadicFunction.RND_LIST_STR, VariadicFunction.RND_LIST_DESC, VariadicFunction.RND_LIST_ID, VariadicFunction.TYPE_ID);
+				addKeyWord(FunctionVariadic.IFF_STR, FunctionVariadic.IFF_DESC, FunctionVariadic.IFF_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.MIN_STR, FunctionVariadic.MIN_DESC, FunctionVariadic.MIN_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.MAX_STR, FunctionVariadic.MAX_DESC, FunctionVariadic.MAX_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.CONT_FRAC_STR, FunctionVariadic.CONT_FRAC_DESC, FunctionVariadic.CONT_FRAC_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.CONT_POL_STR, FunctionVariadic.CONT_POL_DESC, FunctionVariadic.CONT_POL_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.GCD_STR, FunctionVariadic.GCD_DESC, FunctionVariadic.GCD_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.LCM_STR, FunctionVariadic.LCM_DESC, FunctionVariadic.LCM_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.SUM_STR, FunctionVariadic.SUM_DESC, FunctionVariadic.SUM_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.PROD_STR, FunctionVariadic.PROD_DESC, FunctionVariadic.PROD_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.AVG_STR, FunctionVariadic.AVG_DESC, FunctionVariadic.AVG_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.VAR_STR, FunctionVariadic.VAR_DESC, FunctionVariadic.VAR_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.STD_STR, FunctionVariadic.STD_DESC, FunctionVariadic.STD_ID, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.RND_LIST_STR, FunctionVariadic.RND_LIST_DESC, FunctionVariadic.RND_LIST_ID, FunctionVariadic.TYPE_ID);
 				/*
 				 * Calculus key words
 				 */
@@ -5222,7 +5223,7 @@ namespace org.mariuszgromada.math.mxparser {
 							( token.tokenTypeId == Function.TYPE_ID )	||
 							( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
 							( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
-							( token.tokenTypeId == VariadicFunction.TYPE_ID )
+							( token.tokenTypeId == FunctionVariadic.TYPE_ID )
 							) {
 						tokenLevel++;
 						precedingFunction = true;
@@ -5262,7 +5263,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see Function
 		 */
-		internal List<Token> getCopyOfInitialTokens() {
+		public List<Token> getCopyOfInitialTokens() {
 			tokenizeExpressionString();
 			List<Token> tokensListCopy = new List<Token>();
 			foreach (Token token in initialTokens)
@@ -5371,7 +5372,7 @@ namespace org.mariuszgromada.math.mxparser {
 				case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
 				case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
 				case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
-				case VariadicFunction.TYPE_ID: type = VariadicFunction.TYPE_DESC; break;
+				case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
 				case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
 				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
 				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
