@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MathParser.org-mXparser</id>
+    <version>3.0.0</version>
+    <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</title>
+    <authors>Mariusz Gromada</authors>
+    <owners>Mariusz Gromada</owners>
+    <licenseUrl>http://mathparser.org/mxparser-license/</licenseUrl>
+    <projectUrl>http://mathparser.org/</projectUrl>
+    <iconUrl>http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-Tutorial.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
+    <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
+    <releaseNotes>Recompiled for better performance, previously "Debug" dll included. Added: Average, Variance, Standard deviation + New iterated operators.</releaseNotes>
+    <copyright>Copyright 2016 - Mariusz Gromada - MathParser.org</copyright>
+    <tags>Math Mathematics Mathematical Expressions Parser Formula Evaluator</tags>
+  </metadata>
+  <files>
+    <file src="..\README.txt" target="" />
+  </files>
+</package>

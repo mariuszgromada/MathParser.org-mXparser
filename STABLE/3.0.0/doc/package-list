@@ -1,0 +1,4 @@
+org.mariuszgromada.math.mxparser
+org.mariuszgromada.math.mxparser.mathcollection
+org.mariuszgromada.math.mxparser.parsertokens
+org.mariuszgromada.math.mxparser.regressiontesting

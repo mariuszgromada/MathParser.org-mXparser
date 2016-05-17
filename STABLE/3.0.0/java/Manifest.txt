@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Name: mXparser
+Specification-Title: mXparser - Mathematical Expressions Parser & Evaluator
+Specification-Version: 3.0.0
+Specification-Vendor: Mariusz Gromada, MathParser.org
+Implementation-Title: org.mariuszgromada.math.mxparser
+Implementation-Version: 3.0.0
+Implementation-Vendor: Mariusz Gromada, MathParser.org
