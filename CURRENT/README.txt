@@ -5,6 +5,8 @@ v.3.0.0 (2016-05-16): Major update
 					  Random numbers, Probability distributions & Random variables
 					  Double precision rounding, ULP rounding, epsilon comparison
 					  New special functions
+	
+	* .NET: since v.3.0.0 dll I started to use different private key for signing.
 
 	* Random numbers - new functions
 		- rUni(a, b) - Random number from uniform continuous distribution U(a,b)
@@ -98,12 +100,14 @@ v.3.0.0 (2016-05-16): Major update
 	* Expression after tokenization now public in API
 		- Expression.getCopyOfInitialTokens()
 		- mxparser.parsertokens.*
+		- mXparser.consolePrintTokens()
 		
 	* Significant reorganization of code
-		- Mainly mathcollection
+		- Mainly mathcollection & parser tokens
 		
 	* Backwards compatibility
-		- is preserved for String API (parser at a runtime)
+		- is preserved for String API, Expression, Function, Argument,
+		  Constnat, ...
 		- other public API was reorganized (mainly mxparser.mathcollection)
 	
 	* Bugs fixed

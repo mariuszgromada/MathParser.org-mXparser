@@ -93,7 +93,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 *              Param: syn - Syntax checking test, perf - Performance test
 		 * @return Number of tests with error result.
 		 */
-		public static int Start(string[] args) {
+		public static int Start(params string[] args) {
 			int nError = 0;
 			if (args != null)
 				foreach (String test in args) {

@@ -16,4 +16,7 @@
     <copyright>Copyright 2016 - Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expressions Parser Formula Evaluator</tags>
   </metadata>
+  <files>
+    <file src="..\README.txt" target="" />
+  </files>
 </package>

@@ -52,11 +52,17 @@
  */
 package org.mariuszgromada.math.mxparser.regressiontesting;
 
+import java.util.ArrayList;
+
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
 import org.mariuszgromada.math.mxparser.mXparser;
+import org.mariuszgromada.math.mxparser.parsertokens.Function1Arg;
+import org.mariuszgromada.math.mxparser.parsertokens.Operator;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
+import org.mariuszgromada.math.mxparser.parsertokens.Token;
 
 /**
  * RegTestExpressionAPI - regression tests for the expression API
@@ -605,6 +611,55 @@ public class RegTestExpressionAPI {
 				&& syn2 == Expression.NO_SYNTAX_ERRORS
 				&& d1 == 3)
 			test[testId] = true;
+		/*
+		 * 21. Tokens
+		 */
+		testId++;
+		e = new Expression("1+(2+3)-sin(10)");
+		ArrayList<Token> tokens = e.getCopyOfInitialTokens();
+		mXparser.consolePrintTokens(tokens);
+		if (
+				(tokens.get(0).tokenStr.equals("1")) &&
+				(tokens.get(1).tokenStr.equals("+")) &&
+				(tokens.get(2).tokenStr.equals("(")) &&
+				(tokens.get(3).tokenStr.equals("2")) &&
+				(tokens.get(4).tokenStr.equals("+")) &&
+				(tokens.get(5).tokenStr.equals("3")) &&
+				(tokens.get(6).tokenStr.equals(")")) &&
+				(tokens.get(7).tokenStr.equals("-")) &&
+				(tokens.get(8).tokenStr.equals("sin")) &&
+				(tokens.get(9).tokenStr.equals("(")) &&
+				(tokens.get(10).tokenStr.equals("10")) &&
+				(tokens.get(11).tokenStr.equals(")")) &&
+				
+				(tokens.get(0).tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+				(tokens.get(1).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(2).tokenTypeId == ParserSymbol.TYPE_ID) &&
+				(tokens.get(3).tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+				(tokens.get(4).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(5).tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+				(tokens.get(6).tokenTypeId == ParserSymbol.TYPE_ID) &&
+				(tokens.get(7).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(8).tokenTypeId == Function1Arg.TYPE_ID) &&
+				(tokens.get(9).tokenTypeId == ParserSymbol.TYPE_ID) &&
+				(tokens.get(10).tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+				(tokens.get(11).tokenTypeId == ParserSymbol.TYPE_ID) &&
+				
+				(tokens.get(0).tokenLevel == 0) &&
+				(tokens.get(1).tokenLevel == 0) &&
+				(tokens.get(2).tokenLevel == 1) &&
+				(tokens.get(3).tokenLevel == 1) &&
+				(tokens.get(4).tokenLevel == 1) &&
+				(tokens.get(5).tokenLevel == 1) &&
+				(tokens.get(6).tokenLevel == 1) &&
+				(tokens.get(7).tokenLevel == 0) &&
+				(tokens.get(8).tokenLevel == 1) &&
+				(tokens.get(9).tokenLevel == 2) &&
+				(tokens.get(10).tokenLevel == 2) &&
+				(tokens.get(11).tokenLevel == 2)
+
+		) test[testId] = true;
+			
         long end =  System.currentTimeMillis();
 		int nOk = 0;
 		int nError = 0;

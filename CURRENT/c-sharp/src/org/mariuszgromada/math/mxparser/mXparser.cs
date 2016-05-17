@@ -56,6 +56,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 
 using org.mariuszgromada.math.mxparser.mathcollection;
+using org.mariuszgromada.math.mxparser.parsertokens;
 
 [assembly: CLSCompliant(true)]
 namespace org.mariuszgromada.math.mxparser {
@@ -606,6 +607,16 @@ namespace org.mariuszgromada.math.mxparser {
 			return Regex.IsMatch(str, "^(" + pattern + ")$");
 		}
 		/**
+		 * Prints tokens to the console.
+		 * @param tokens   Tokens list.
+		 *
+		 * @see Expression#getCopyOfInitialTokens()
+		 * @see Token
+		 */
+		public static void consolePrintTokens(List<Token> tokens) {
+			Expression.showTokens(tokens);
+		}
+		/**
 		 * License info.
 		 */
 		public const String LICENSE =
@@ -644,14 +655,15 @@ namespace org.mariuszgromada.math.mxparser {
 			"If you have any questions/bugs feel free to contact:\n" +
 			"\n" +
 			"    Mariusz Gromada\n" +
-			"    mariusz.gromada@mathspace.pl\n" +
+			"    mariuszgromada.org@gmail.com\n" +
 			"    http://mathspace.plt/\n" +
 			"    http://mathparser.org/\n" +
 			"    http://github.com/mariuszgromada/MathParser.org-mXparser\n" +
 			"    http://mariuszgromada.github.io/MathParser.org-mXparser/\n" +
 			"    http://mxparser.sourceforge.net/\n" +
 			"    http://bitbucket.org/mariuszgromada/mxparser/\n" +
-			"    http://mxparser.codeplex.com/\n"
+			"    http://mxparser.codeplex.com/\n" +
+			"    http://janetsudoku.mariuszgromada.org/\n"
 			;
 
 		/**

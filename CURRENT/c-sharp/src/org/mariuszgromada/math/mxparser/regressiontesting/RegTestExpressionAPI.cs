@@ -50,7 +50,9 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
+using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
+using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting
 {
@@ -602,6 +604,56 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					&& syn2 == Expression.NO_SYNTAX_ERRORS
 					&& d1 == 3)
 				test[testId] = true;
+
+			/*
+			 * 21. Tokens
+			 */
+			testId++;
+			e = new Expression("1+(2+3)-sin(10)");
+			List<Token> tokens = e.getCopyOfInitialTokens();
+			mXparser.consolePrintTokens(tokens);
+			if (
+					(tokens[0].tokenStr.Equals("1")) &&
+					(tokens[1].tokenStr.Equals("+")) &&
+					(tokens[2].tokenStr.Equals("(")) &&
+					(tokens[3].tokenStr.Equals("2")) &&
+					(tokens[4].tokenStr.Equals("+")) &&
+					(tokens[5].tokenStr.Equals("3")) &&
+					(tokens[6].tokenStr.Equals(")")) &&
+					(tokens[7].tokenStr.Equals("-")) &&
+					(tokens[8].tokenStr.Equals("sin")) &&
+					(tokens[9].tokenStr.Equals("(")) &&
+					(tokens[10].tokenStr.Equals("10")) &&
+					(tokens[11].tokenStr.Equals(")")) &&
+
+					(tokens[0].tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+					(tokens[1].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[2].tokenTypeId == ParserSymbol.TYPE_ID) &&
+					(tokens[3].tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+					(tokens[4].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[5].tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+					(tokens[6].tokenTypeId == ParserSymbol.TYPE_ID) &&
+					(tokens[7].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[8].tokenTypeId == Function1Arg.TYPE_ID) &&
+					(tokens[9].tokenTypeId == ParserSymbol.TYPE_ID) &&
+					(tokens[10].tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
+					(tokens[11].tokenTypeId == ParserSymbol.TYPE_ID) &&
+
+					(tokens[0].tokenLevel == 0) &&
+					(tokens[1].tokenLevel == 0) &&
+					(tokens[2].tokenLevel == 1) &&
+					(tokens[3].tokenLevel == 1) &&
+					(tokens[4].tokenLevel == 1) &&
+					(tokens[5].tokenLevel == 1) &&
+					(tokens[6].tokenLevel == 1) &&
+					(tokens[7].tokenLevel == 0) &&
+					(tokens[8].tokenLevel == 1) &&
+					(tokens[9].tokenLevel == 2) &&
+					(tokens[10].tokenLevel == 2) &&
+					(tokens[11].tokenLevel == 2)
+
+			) test[testId] = true;
+
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;
 			int nError = 0;

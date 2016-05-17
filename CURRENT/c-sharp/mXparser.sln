@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser", "mXparser.csproj", "{DAB07121-1F1D-4D95-B837-539E2FE64BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Run-Tests-Reg", "exe-lib-tests\Run-Tests-Reg\Run-Tests-Reg.csproj", "{C27B3CA5-FF2E-4BEB-8C39-D33A777E852C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Run-Tests", "exe-lib-tests\Run-Tests-Reg\Run-Tests.csproj", "{C27B3CA5-FF2E-4BEB-8C39-D33A777E852C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Run-Tests-Working", "exe-lib-tests\Run-Tests-Working\Run-Tests-Working.csproj", "{379A29D3-CE34-43AA-A333-AAF73165359A}"
 EndProject

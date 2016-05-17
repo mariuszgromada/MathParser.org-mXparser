@@ -3465,15 +3465,6 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
-			/*
-			if (argParam.parametersNumber == 4) {
-				CalculusParameter epsParam = getCalculusParameter(pos,3);
-				CalculusParameter maxStepsParam = getCalculusParameter(pos,4);
-				Expression epsExpr = new Expression(epsParam.paramStr, argumentsList);
-				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, argumentsList);
-				eps = epsExpr.getExpressionValue();
-				maxSteps = (int)Math.round(maxStepsExp.getExpressionValue());
-			} */
 			calcSetDecreaseRemove(pos, Calculus.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
 			clearParamArgument(x);
 		}
@@ -5259,9 +5250,13 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		/**
-		 * copy initial tokens and returns copied list
+		 * Tokenizes expression string and returns tokens list,
+		 * including: string, type, level.
 		 *
-		 * @see Function
+		 * @return Copy of initial tokens.
+		 *
+		 * @see Token
+		 * @see mXparser#consolePrintTokens(ArrayList)
 		 */
 		public List<Token> getCopyOfInitialTokens() {
 			tokenizeExpressionString();
@@ -5281,7 +5276,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/*
 		 * Text adjusting.
 		 */
-		private String getLeftSpaces(String maxStr, String str) {
+		private static String getLeftSpaces(String maxStr, String str) {
 			String spc = "";
 			for (int i=0; i<maxStr.Length - str.Length; i++)
 				spc = spc + " ";
@@ -5290,7 +5285,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/*
 		 * Text adjusting.
 		 */
-		private String getRightSpaces(String maxStr, String str) {
+		private static String getRightSpaces(String maxStr, String str) {
 			String spc = "";
 			for (int i=0; i<maxStr.Length - str.Length; i++)
 				spc = " " + spc;
@@ -5398,14 +5393,14 @@ namespace org.mariuszgromada.math.mxparser {
 		/*
 		 * show tokens
 		 */
-		void showTokens(List<Token> tokensList) {
-			String maxStr = "PartTypeId";
+		internal static void showTokens(List<Token> tokensList) {
+			String maxStr = "TokenTypeId";
 			int tokensNumber = tokensList.Count;
-			mXparser.consolePrintln(" -----------------------------------------");
-			mXparser.consolePrintln("| Expression Partitions: " + expressionString );
-			mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
-			mXparser.consolePrintln("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
-			mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
+			mXparser.consolePrintln(" --------------------");
+			mXparser.consolePrintln("| Expression tokens: |");
+			mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
+			mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |");
+			mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
 			for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
 				String tokenIndexStr = getLeftSpaces(maxStr, tokenIndex.ToString() );
 				String tokenStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenStr );
@@ -5422,36 +5417,13 @@ namespace org.mariuszgromada.math.mxparser {
 									" | " + tokenLevelStr +
 									" | " + tokenValueStr + " |");
 			}
-			mXparser.consolePrintln(	" -----------------------------------------------------------------------------------------");
+			mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
 		}
 		/**
 		 * shows initial tokens
 		 */
 		void showInitialTokens() {
-			String maxStr = "PartTypeId";
-			int tokensNumber = initialTokens.Count;
-			mXparser.consolePrintln(" -----------------------------------------");
-			mXparser.consolePrintln("| Expression Partitions: " + expressionString );
-			mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
-			mXparser.consolePrintln("|    PartIdx |       Part |       KeyW |     PartId | PartTypeId |  PartLevel |  PartValue |");
-			mXparser.consolePrintln(" -----------------------------------------------------------------------------------------");
-			for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
-				String tokenIndexStr = getLeftSpaces(maxStr, tokenIndex.ToString() );
-				String tokenStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenStr );
-				String keyWordStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].keyWord );
-				String tokenIdStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenId.ToString() );
-				String tokenTypeIdStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenTypeId.ToString() );
-				String tokenLevelStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenLevel.ToString() );
-				String tokenValueStr = getLeftSpaces(maxStr, initialTokens[tokenIndex].tokenValue.ToString() );
-				mXparser.consolePrintln(	"| " + tokenIndexStr +
-									" | " + tokenStr +
-									" | " + keyWordStr +
-									" | " + tokenIdStr +
-									" | " + tokenTypeIdStr +
-									" | " + tokenLevelStr +
-									" | " + tokenValueStr + " |");
-			}
-			mXparser.consolePrintln(	" -----------------------------------------------------------------------------------------");
+			showTokens(initialTokens);
 		}
 		/*
 		 * show arguments
