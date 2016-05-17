@@ -7,7 +7,7 @@
     <ProjectGuid>{379A29D3-CE34-43AA-A333-AAF73165359A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Run_Tests_Working</RootNamespace>
+    <RootNamespace>mxparser.runtests</RootNamespace>
     <AssemblyName>Run-Tests-Working</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
