@@ -2987,7 +2987,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param      pos                 the token position
 		 */
-		private void CHI_ab(int pos) {
+		private void CHI(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
@@ -2998,33 +2998,33 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param      pos                 the token position
 		 */
-		private void CHI_AB(int pos) {
+		private void CHI_LR(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, MathFunctions.CHi_LR(x, a, b) );
+			f3SetDecreaseRemove(pos, MathFunctions.chi_LR(x, a, b) );
 		}
 		/**
 		 * Characteristic function [a,b)
 		 *
 		 * @param      pos                 the token position
 		 */
-		private void CHI_Ab(int pos) {
+		private void CHI_L(int pos) {
 			double x = getTokenValue(pos+1);
 			double a = getTokenValue(pos+2);
 			double b = getTokenValue(pos+3);
-			f3SetDecreaseRemove(pos, MathFunctions.Chi_L(x, a, b) );
+			f3SetDecreaseRemove(pos, MathFunctions.chi_L(x, a, b) );
 		}
 		/**
 		 * Characteristic function (a,b]
 		 *
 		 * @param      pos                 the token position
 		 */
-		private void CHI_aB(int pos) {
+		private void CHI_R(int pos) {
 			double x = getTokenValue(pos + 1);
 			double a = getTokenValue(pos + 2);
 			double b = getTokenValue(pos + 3);
-			f3SetDecreaseRemove(pos, MathFunctions.cHi_R(x, a, b));
+			f3SetDecreaseRemove(pos, MathFunctions.chi_R(x, a, b));
 		}
 		/**
 		 * Probability Distribution Function - Uniform Continuous distribution
@@ -4457,10 +4457,10 @@ namespace org.mariuszgromada.math.mxparser {
 		private void f3ArgCalc(int pos) {
 			switch (tokensList[pos].tokenId) {
 			case Function3Arg.IF_ID: IF(pos); break;
-			case Function3Arg.CHI_ab_ID: CHI_ab(pos); break;
-			case Function3Arg.CHI_AB_ID: CHI_AB(pos); break;
-			case Function3Arg.CHI_Ab_ID: CHI_Ab(pos); break;
-			case Function3Arg.CHI_aB_ID: CHI_aB(pos); break;
+			case Function3Arg.CHI_ID: CHI(pos); break;
+			case Function3Arg.CHI_LR_ID: CHI_LR(pos); break;
+			case Function3Arg.CHI_L_ID: CHI_L(pos); break;
+			case Function3Arg.CHI_R_ID: CHI_R(pos); break;
 			case Function3Arg.PDF_UNIFORM_CONT_ID: PDF_UNIFORM_CONT(pos); break;
 			case Function3Arg.CDF_UNIFORM_CONT_ID: CDF_UNIFORM_CONT(pos); break;
 			case Function3Arg.QNT_UNIFORM_CONT_ID: QNT_UNIFORM_CONT(pos); break;
@@ -4701,10 +4701,10 @@ namespace org.mariuszgromada.math.mxparser {
 				 * 3 args functions key words
 				 */
 				addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.TYPE_ID);
-				addKeyWord(Function3Arg.CHI_ab_STR, Function3Arg.CHI_ab_DESC, Function3Arg.CHI_ab_ID, Function3Arg.TYPE_ID);
-				addKeyWord(Function3Arg.CHI_AB_STR, Function3Arg.CHI_AB_DESC, Function3Arg.CHI_AB_ID, Function3Arg.TYPE_ID);
-				addKeyWord(Function3Arg.CHI_Ab_STR, Function3Arg.CHI_Ab_DESC, Function3Arg.CHI_Ab_ID, Function3Arg.TYPE_ID);
-				addKeyWord(Function3Arg.CHI_aB_STR, Function3Arg.CHI_aB_DESC, Function3Arg.CHI_aB_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_STR, Function3Arg.CHI_DESC, Function3Arg.CHI_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_LR_STR, Function3Arg.CHI_LR_DESC, Function3Arg.CHI_LR_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_L_STR, Function3Arg.CHI_L_DESC, Function3Arg.CHI_L_ID, Function3Arg.TYPE_ID);
+				addKeyWord(Function3Arg.CHI_R_STR, Function3Arg.CHI_R_DESC, Function3Arg.CHI_R_ID, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.PDF_UNIFORM_CONT_STR, Function3Arg.PDF_UNIFORM_CONT_DESC, Function3Arg.PDF_UNIFORM_CONT_ID, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.CDF_UNIFORM_CONT_STR, Function3Arg.CDF_UNIFORM_CONT_DESC, Function3Arg.CDF_UNIFORM_CONT_ID, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.QNT_UNIFORM_CONT_STR, Function3Arg.QNT_UNIFORM_CONT_DESC, Function3Arg.QNT_UNIFORM_CONT_ID, Function3Arg.TYPE_ID);

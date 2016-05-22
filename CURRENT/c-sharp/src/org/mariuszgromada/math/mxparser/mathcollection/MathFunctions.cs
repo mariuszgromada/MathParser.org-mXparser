@@ -671,7 +671,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if x, a, b <> Double.NaN returns
 		 * 			   characteristic function value on the [a,b] range.
 		 */
-		public static double CHi_LR(double x, double a, double b) {
+		public static double chi_LR(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
 			double result = Double.NaN;
@@ -692,7 +692,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if x, a, b <> Double.NaN returns
 		 * 			   characteristic function value on the [a,b) range.
 		 */
-		public static double Chi_L(double x, double a, double b) {
+		public static double chi_L(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
 			double result = Double.NaN;
@@ -713,7 +713,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if x, a, b <> Double.NaN returns
 		 * 			   characteristic function value on the (a,b] range.
 		 */
-		public static double cHi_R(double x, double a, double b) {
+		public static double chi_R(double x, double a, double b) {
 			if (Double.IsNaN(x) || Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
 			double result = Double.NaN;

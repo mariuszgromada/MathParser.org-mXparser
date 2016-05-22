@@ -672,7 +672,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the [a,b] range.
 	 */
-	public static final double CHi_LR(double x, double a, double b) {
+	public static final double chi_LR(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -693,7 +693,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the [a,b) range.
 	 */
-	public static final double Chi_L(double x, double a, double b) {
+	public static final double chi_L(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -714,7 +714,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the (a,b] range.
 	 */
-	public static final double cHi_R(double x, double a, double b) {
+	public static final double chi_R(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;

@@ -84,10 +84,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
 		public const int IF_CONDITION_ID				= 1;
 		public const int IF_ID							= 2;
-		public const int CHI_ab_ID						= 3;
-		public const int CHI_AB_ID						= 4;
-		public const int CHI_Ab_ID						= 5;
-		public const int CHI_aB_ID						= 6;
+		public const int CHI_ID							= 3;
+		public const int CHI_LR_ID						= 4;
+		public const int CHI_L_ID						= 5;
+		public const int CHI_R_ID						= 6;
 		public const int PDF_UNIFORM_CONT_ID			= 7;
 		public const int CDF_UNIFORM_CONT_ID			= 8;
 		public const int QNT_UNIFORM_CONT_ID			= 9;
@@ -98,10 +98,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * 3-args Function - tokens key words.
 		 */
 		public const String IF_STR 						= "if";
-		public const String CHI_ab_STR					= "chi";
-		public const String CHI_AB_STR					= "CHi";
-		public const String CHI_Ab_STR					= "Chi";
-		public const String CHI_aB_STR					= "cHi";
+		public const String CHI_STR						= "chi";
+		public const String CHI_LR_STR					= "CHi";
+		public const String CHI_L_STR					= "Chi";
+		public const String CHI_R_STR					= "cHi";
 		public const String PDF_UNIFORM_CONT_STR		= "pUni";
 		public const String CDF_UNIFORM_CONT_STR		= "cUni";
 		public const String QNT_UNIFORM_CONT_STR		= "qUni";
@@ -112,10 +112,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * 3-args Function - tokens description.
 		 */
 		public const String IF_DESC 					= "if function ( if(con, if_true, if_false) )";
-		public const String CHI_ab_DESC					= "Characteristic function for x in (a,b) - chi(x, a, b)";
-		public const String CHI_AB_DESC					= "Characteristic function for x in [a,b] - CHi(x, a, b)";
-		public const String CHI_Ab_DESC					= "Characteristic function for x in [a,b) - Chi(x, a, b)";
-		public const String CHI_aB_DESC					= "Characteristic function for x in (a,b] - cHi(x, a, b)";
+		public const String CHI_DESC					= "Characteristic function for x in (a,b) - chi(x, a, b)";
+		public const String CHI_LR_DESC					= "Characteristic function for x in [a,b] - CHi(x, a, b)";
+		public const String CHI_L_DESC					= "Characteristic function for x in [a,b) - Chi(x, a, b)";
+		public const String CHI_R_DESC					= "Characteristic function for x in (a,b] - cHi(x, a, b)";
 		public const String PDF_UNIFORM_CONT_DESC		= "(3.0) Probability distribution function - Uniform continuous distribution U(a,b), usage example: 2 * pUni(x, 2, 10)";
 		public const String CDF_UNIFORM_CONT_DESC		= "(3.0) Cumulative distribution function - Uniform continuous distribution U(a,b), usage example: 2 * cUni(x, 2, 10)";
 		public const String QNT_UNIFORM_CONT_DESC		= "(3.0) Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b), usage example: 2 * qUni(q, 2, 10)";
