@@ -4977,15 +4977,13 @@ namespace org.mariuszgromada.math.mxparser {
 						numEnd = i;
 						mXparser.consolePrintln("Regex -> |" + str + "=number" + " " + pos + ", " + i);
 					}*/
-					try
+					double tmp = 0;
+					if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmp))
+					    numEnd = i;
+					else
 					{
-						Double.Parse(str, NumberStyles.Float, CultureInfo.InvariantCulture);
-						numEnd = i;
-					}
-					catch (Exception e)
-					{
-						errorMessage = e.Message;
-						syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+					    errorMessage = "Invalid String Format";
+					    syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 					}
 				}
 				/*
