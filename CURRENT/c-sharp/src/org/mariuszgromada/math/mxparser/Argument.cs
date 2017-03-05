@@ -241,7 +241,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public Argument(String argumentName, double argumentValue) : base(Argument.TYPE_ID) {
 			argumentExpression = new Expression();
 			if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-				this.argumentName = String.Copy(argumentName);
+				this.argumentName = "" + argumentName;
 				this.argumentValue = argumentValue;
 				argumentType = FREE_ARGUMENT;
 			}

@@ -390,7 +390,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Expression(String expressionString, params PrimitiveElement[] elements) {
 			expressionInit();
-			this.expressionString = String.Copy(expressionString);
+			this.expressionString = "" + expressionString;
 			setExpressionModifiedFlag();
 			addDefinitions(elements);
 		}
@@ -402,7 +402,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal Expression(String expressionString, bool parserKeyWordsOnly) {
 			expressionInit();
-			this.expressionString = String.Copy(expressionString);
+			this.expressionString = "" + expressionString;
 			setExpressionModifiedFlag();
 			this.parserKeyWordsOnly = parserKeyWordsOnly;
 		}
@@ -420,7 +420,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
 				List<Function> functionsList, List<Constant> constantsList, bool disableUlpRounding) {
-			this.expressionString = String.Copy(expressionString);
+			this.expressionString = "" + expressionString;
 			this.initialTokens = initialTokens;
 			this.argumentsList = argumentsList;
 			this.functionsList = functionsList;
@@ -458,7 +458,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal Expression(String expressionString, List<Argument> argumentsList,
 				List<Function> functionsList, List<Constant> constantsList
 				,bool i) {
-			this.expressionString = String.Copy(expressionString);
+			this.expressionString = "" + expressionString;
 			expressionInternalVarsInit();
 			setSilentMode();
 			disableRecursiveMode();
@@ -474,8 +474,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      expression          the base expression
 		 */
 		private Expression(Expression expression) {
-			expressionString = String.Copy(expression.expressionString);
-			description = String.Copy(expression.description);
+			expressionString = "" + expression.expressionString;
+			description = "" + expression.description;
 			argumentsList = expression.argumentsList;
 			functionsList = expression.functionsList;
 			constantsList = expression.constantsList;
@@ -486,7 +486,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursiveMode = expression.recursiveMode;
 			verboseMode = expression.verboseMode;
 			syntaxStatus = expression.syntaxStatus;
-			errorMessage = String.Copy(expression.errorMessage);
+			errorMessage = "" + expression.errorMessage;
 			recursionCallPending = expression.recursionCallPending;
 			parserKeyWordsOnly = expression.parserKeyWordsOnly;
 			disableUlpRounding = expression.disableUlpRounding;

@@ -1297,7 +1297,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (places < 0) return Double.NaN;
 			try {
 				Decimal bd = Convert.ToDecimal(value);
-				bd = Decimal.Round(bd, places, MidpointRounding.AwayFromZero);
+				bd = Math.Round(bd, places, MidpointRounding.AwayFromZero);
 				return Convert.ToDouble(bd);
 			} catch (Exception e) {
 				return value;
