@@ -837,7 +837,6 @@ public class Function extends PrimitiveElement {
 	 * if yes the recursive mode is being set
 	 */
 	void checkRecursiveMode() {
-		//functionExpression.showTokens();
 		ArrayList<Token> functionExpressionTokens = functionExpression.getInitialTokens();
 		functionExpression.disableRecursiveMode();
 		if (functionExpressionTokens != null)

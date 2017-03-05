@@ -1458,47 +1458,35 @@ public class Expression {
 			&&	( tokensList.get(rPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID )
 			&&	( tokensList.get(rPos).tokenLevel ==  ifLevel)	)	)
 			rPos++;
-		int from;
-		int to;
 		if ( !Double.isNaN(ifCondition) ) {
 			if (ifCondition != 0) {
 				setToNumber(c2Pos+1, Double.NaN);
 				tokensList.get(c2Pos+1).tokenLevel = ifLevel;
-				from = c2Pos+2;
-				to = rPos-1;
+				removeTokens(c2Pos+2, rPos-1);
 			} else {
 				setToNumber(c1Pos+1, Double.NaN);
 				tokensList.get(c1Pos+1).tokenLevel = ifLevel;
-				from = c1Pos+2;
-				to = c2Pos-1;
+				removeTokens(c1Pos+2, c2Pos-1);
 			}
-			if (from < to)
-				for (int p = to; p >= from; p--)
-					tokensList.remove(p);
 		} else {
 			setToNumber(c1Pos+1, Double.NaN);
 			setToNumber(c2Pos+1, Double.NaN);
 			tokensList.get(c1Pos+1).tokenLevel = ifLevel;
 			tokensList.get(c2Pos+1).tokenLevel = ifLevel;
-			from = c2Pos+2;
-			to = rPos-1;
-			if (from < to)
-				for (int p = to; p >= from; p--)
-					tokensList.remove(p);
-			from = c1Pos+2;
-			to = c2Pos-1;
-			if (from < to)
-				for (int p = to; p >= from; p--)
-					tokensList.remove(p);
+			removeTokens(c2Pos+2, rPos-1);
+			removeTokens(c1Pos+2, c2Pos-1);
 		}
 		setToNumber(lPos+1, ifCondition, ulpRound);
 		tokensList.get(lPos+1).tokenLevel = ifLevel;
-		from = lPos+2;
-		to = c1Pos-1;
-		if (from < to)
+		removeTokens(lPos+2, c1Pos-1);
+		tokensList.get(pos).tokenId = Function3Arg.IF_ID;
+	}
+	private void removeTokens(int from, int to) {
+		if (from < to) {
 			for (int p = to; p >= from; p--)
 				tokensList.remove(p);
-		tokensList.get(pos).tokenId = Function3Arg.IF_ID;
+		} else if (from == to)
+			tokensList.remove(from);
 	}
 	private void ifSetRemove(int pos, double ifCondition) {
 		ifSetRemove(pos, ifCondition, false);
@@ -2924,6 +2912,10 @@ public class Expression {
 		/*
 		 * Get condition string
 		 * 1st parameter
+		 * The goal is to avoid calculation
+		 * of not needed part of IF function
+		 * Example: If(1=1, 2, sin(3) ) - here sin(3) does not
+		 * require to be calculated.
 		 */
 		ArrayList<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
 		FunctionParameter ifParam = ifParams.get(0);
@@ -4908,7 +4900,7 @@ public class Expression {
 	}
 	/**
 	 * Adds expression token
-	 * Method is caleld by the tokenExpressionString()
+	 * Method is called by the tokenExpressionString()
 	 * while parsing string expression
 	 *
 	 * @param      tokenStr            the token string
@@ -4945,7 +4937,7 @@ public class Expression {
 		}
 		java.util.Collections.sort(keyWordsList, new DescKwLenComparator());
 		/*
-		 * Evaluate position after soritng for the following kwywords types
+		 * Evaluate position after sorting for the following keywords types
 		 *    number
 		 *    plus operator
 		 *    minus operator
@@ -5091,7 +5083,7 @@ public class Expression {
 				tokenStr = newExpressionString.substring(pos, numEnd+1);
 				addToken(tokenStr, keyWordsList.get(numberKwId));
 				/*
-				 * change current position (just after the numeber ends)
+				 * change current position (just after the number ends)
 				 */
 				pos = numEnd+1;
 				lastPos = pos;
@@ -5102,7 +5094,7 @@ public class Expression {
 				matchStatusPrev = FOUND;
 			} else {
 			/*
-			 * If there is no number wich starts with current position
+			 * If there is no number which starts with current position
 			 */
 				/*
 				 * Check for known key words
@@ -5273,7 +5265,7 @@ public class Expression {
 	/**
 	 * Tokenizes expression string and returns tokens list,
 	 * including: string, type, level.
-	 * 
+	 *
 	 * @return Copy of initial tokens.
 	 *
 	 * @see Token
