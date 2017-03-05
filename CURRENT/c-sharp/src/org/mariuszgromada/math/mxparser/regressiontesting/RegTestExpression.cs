@@ -5731,6 +5731,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 507:
+				mXparser.setExactComparison();
+				expStr = "sum(i, 1, 3, 0.1) = 0.3";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if (MathFunctions.abs(reg - value) <= 0.0000000000000001)
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 508:
+				mXparser.setExactComparison();
+				Argument a = new Argument("a");
+				Argument b = new Argument("b");
+				a.setArgumentValue(1);
+				b.setArgumentValue(5);
+				expStr = "if(a=6,-b,15)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, a, b);
+				value = exp[testId].calculate();
+				reg = 15;
+				if (MathFunctions.abs(reg - value) <= 0.0000000000000001)
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -5746,7 +5772,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 506;
+			int numberOfTests = 508;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

@@ -1426,47 +1426,35 @@ namespace org.mariuszgromada.math.mxparser {
 				&&	( tokensList[rPos].tokenId == ParserSymbol.RIGHT_PARENTHESES_ID )
 				&&	( tokensList[rPos].tokenLevel ==  ifLevel)	)	)
 				rPos++;
-			int from;
-			int to;
 			if ( !Double.IsNaN(ifCondition) ) {
 				if (ifCondition != 0) {
 					setToNumber(c2Pos+1, Double.NaN);
 					tokensList[c2Pos+1].tokenLevel = ifLevel;
-					from = c2Pos+2;
-					to = rPos-1;
+					removeTokens(c2Pos + 2, rPos - 1);
 				} else {
 					setToNumber(c1Pos+1, Double.NaN);
 					tokensList[c1Pos+1].tokenLevel = ifLevel;
-					from = c1Pos+2;
-					to = c2Pos-1;
+					removeTokens(c1Pos + 2, c2Pos - 1);
 				}
-				if (from < to)
-					for (int p = to; p >= from; p--)
-						tokensList.RemoveAt(p);
 			} else {
 				setToNumber(c1Pos+1, Double.NaN);
 				setToNumber(c2Pos+1, Double.NaN);
 				tokensList[c1Pos+1].tokenLevel = ifLevel;
 				tokensList[c2Pos+1].tokenLevel = ifLevel;
-				from = c2Pos+2;
-				to = rPos-1;
-				if (from < to)
-					for (int p = to; p >= from; p--)
-						tokensList.RemoveAt(p);
-				from = c1Pos+2;
-				to = c2Pos-1;
-				if (from < to)
-					for (int p = to; p >= from; p--)
-						tokensList.RemoveAt(p);
+				removeTokens(c2Pos + 2, rPos - 1);
+				removeTokens(c1Pos + 2, c2Pos - 1);
 			}
 			setToNumber(lPos+1, ifCondition, ulpRound);
 			tokensList[lPos+1].tokenLevel = ifLevel;
-			from = lPos+2;
-			to = c1Pos-1;
-			if (from < to)
+			removeTokens(lPos + 2, c1Pos - 1);
+			tokensList[pos].tokenId = Function3Arg.IF_ID;
+		}
+		private void removeTokens(int from, int to) {
+			if (from < to) {
 				for (int p = to; p >= from; p--)
 					tokensList.RemoveAt(p);
-			tokensList[pos].tokenId = Function3Arg.IF_ID;
+			} else if (from == to)
+				tokensList.RemoveAt(from);
 		}
 		private void ifSetRemove(int pos, double ifCondition) {
 			ifSetRemove(pos, ifCondition, false);
