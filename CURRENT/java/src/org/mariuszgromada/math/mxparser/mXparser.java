@@ -89,7 +89,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "3.0.0";
+	static final String VERSION = "3.1.0";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -622,7 +622,7 @@ public final class mXparser {
 		"\n" +
 		"You may use this software under the condition of Simplified BSD License:\n" +
 		"\n" +
-		"Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.\n" +
+		"Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.\n" +
 		"\n" +
 		"Redistribution and use in source and binary forms, with or without modification, are\n" +
 		"permitted provided that the following conditions are met:\n" +

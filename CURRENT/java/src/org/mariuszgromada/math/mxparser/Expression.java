@@ -66,6 +66,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions;
 import org.mariuszgromada.math.mxparser.mathcollection.SpecialFunctions;
 import org.mariuszgromada.math.mxparser.mathcollection.Statistics;
 import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
+import org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator;
 import org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator;
 import org.mariuszgromada.math.mxparser.parsertokens.CalculusOperator;
 import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
@@ -4077,6 +4078,8 @@ public class Expression {
 		int lParPos;
 		int rParPos;
 		Token token;
+		Token tokenL;
+		Token tokenR;
 		int tokensNumber;
 		int maxPartLevel;
 		int lPos;
@@ -4180,8 +4183,20 @@ public class Expression {
 				/* if no calculus operations were found
 				 * check for other tokens
 				 */
+				boolean leftIsNUmber;
+				boolean rigthIsNUmber;
 				for (pos = lPos; pos <= rPos; pos++) {
+					leftIsNUmber = false;
+					rigthIsNUmber = false;
 					token = tokensList.get(pos);
+					if (pos-1 >= 0) {
+						tokenL = tokensList.get(pos-1);
+						if (tokenL.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) leftIsNUmber = true;
+					}
+					if (pos+1 < tokensNumber) {
+						tokenR = tokensList.get(pos+1);
+						if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNUmber = true;						
+					}
 					if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 						recArgPos = pos;
 					else
@@ -4201,51 +4216,51 @@ public class Expression {
 						userFunPos = pos;
 					else
 					if (token.tokenTypeId == Operator.TYPE_ID) {
-						if (token.tokenId == Operator.POWER_ID) {
+						if ( (token.tokenId == Operator.POWER_ID) && (leftIsNUmber && rigthIsNUmber) ) {
 							powerPos = pos;
 							powerNum++;
 						} else
-						if ( (token.tokenId == Operator.FACT_ID) && (factPos < 0) ) {
+						if ( (token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNUmber)) {
 							factPos = pos;
 						} else
-						if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) ) {
+						if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
 							modPos = pos;
 						} else
-						if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0))
+						if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							plusPos = pos;
 						else
-						if ( (token.tokenId == Operator.MINUS_ID)  && (minusPos < 0))
+						if ( (token.tokenId == Operator.MINUS_ID)  && (minusPos < 0) && (rigthIsNUmber))
 							minusPos = pos;
 						else
-						if ( (token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0))
+						if ( (token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							multiplyPos = pos;
 						else
-						if ( (token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0))
+						if ( (token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNUmber && rigthIsNUmber))
 							dividePos = pos;
 					} else
-					if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) ) {
+					if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNUmber)) {
 						negPos = pos;
 					} else
-					if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) ) {
+					if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
 						bolPos = pos;
 					} else
 					if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
-						if ( (token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) )
+						if ( (token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							eqPos = pos;
 						else
-						if ( (token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0))
+						if ( (token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							neqPos = pos;
 						else
-						if ( (token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0))
+						if ( (token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							ltPos = pos;
 						else
-						if ( (token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0))
+						if ( (token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							gtPos = pos;
 						else
-						if ( (token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0))
+						if ( (token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							leqPos = pos;
 						else
-						if ( (token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0))
+						if ( (token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							geqPos = pos;
 					} else
 					if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
@@ -4844,6 +4859,15 @@ public class Expression {
 			addKeyWord(RandomVariable.NAT1_8_STR, RandomVariable.NAT1_8_DESC, RandomVariable.NAT1_8_ID, RandomVariable.TYPE_ID);
 			addKeyWord(RandomVariable.NAT1_9_STR, RandomVariable.NAT1_9_DESC, RandomVariable.NAT1_9_ID, RandomVariable.TYPE_ID);
 			addKeyWord(RandomVariable.NOR_STR, RandomVariable.NOR_DESC, RandomVariable.NOR_ID, RandomVariable.TYPE_ID);
+			/*
+			 * BiteWise Operators
+			 */
+			addKeyWord(BitwiseOperator.COMPL_STR, BitwiseOperator.COMPL_DESC, BitwiseOperator.COMPL_ID, BitwiseOperator.TYPE_ID);
+			addKeyWord(BitwiseOperator.AND_STR, BitwiseOperator.AND_DESC, BitwiseOperator.AND_ID, BitwiseOperator.TYPE_ID);
+			addKeyWord(BitwiseOperator.XOR_STR, BitwiseOperator.XOR_DESC, BitwiseOperator.XOR_ID, BitwiseOperator.TYPE_ID);
+			addKeyWord(BitwiseOperator.OR_STR, BitwiseOperator.OR_DESC, BitwiseOperator.OR_ID, BitwiseOperator.TYPE_ID);
+			addKeyWord(BitwiseOperator.LEFT_SHIFT_STR, BitwiseOperator.LEFT_SHIFT_DESC, BitwiseOperator.LEFT_SHIFT_ID, BitwiseOperator.TYPE_ID);
+			addKeyWord(BitwiseOperator.RIGHT_SHIFT_STR, BitwiseOperator.RIGHT_SHIFT_DESC, BitwiseOperator.RIGHT_SHIFT_ID, BitwiseOperator.TYPE_ID);
 		}
 		/*
 		 * Other parser symbols key words
@@ -5058,7 +5082,10 @@ public class Expression {
 				if ( (fc == '-') || (fc == '+') ) {
 					if (initialTokens.size() > 0) {
 						Token lastToken = initialTokens.get(initialTokens.size()-1);
-						if (	(lastToken.tokenTypeId == Operator.TYPE_ID) ||
+						if (	( (lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID)) ||
+								(lastToken.tokenTypeId == BinaryRelation.TYPE_ID) ||
+								(lastToken.tokenTypeId == BooleanOperator.TYPE_ID) ||
+								(lastToken.tokenTypeId == BitwiseOperator.TYPE_ID) ||
 								( (lastToken.tokenTypeId == ParserSymbol.TYPE_ID) && (lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) ))
 							leadingOp = false;
 						 else leadingOp = true;

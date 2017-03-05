@@ -5765,6 +5765,72 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 509:
+			mXparser.setExactComparison();
+			expStr = "5!^2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 14400;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 510:
+			mXparser.setExactComparison();
+			expStr = "5!-3";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 117;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 511:
+			mXparser.setExactComparison();
+			expStr = "5!+3";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 123;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 512:
+			mXparser.setExactComparison();
+			expStr = "10/5-(5!)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -118;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 513:
+			mXparser.setExactComparison();
+			expStr = "10/5+(5!)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 122;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 514:
+			mXparser.setExactComparison();
+			expStr = "10/5+5!";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 122;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -5779,7 +5845,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 508;
+		int numberOfTests = 514;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
