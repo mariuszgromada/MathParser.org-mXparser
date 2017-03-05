@@ -95,6 +95,7 @@ public final class BooleanOperator {
 	 * BooleanOperator - tokens key words.
 	 */
 	public static final String NEG_STR				= "~";
+	public static final String NEG_ALT_STR			= "¬";
 	public static final String AND_STR				= "&";
 	public static final String AND1_STR				= "&&";
 	public static final String AND2_STR				= "/\\";
