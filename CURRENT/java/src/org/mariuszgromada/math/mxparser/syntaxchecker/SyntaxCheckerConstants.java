@@ -43,49 +43,55 @@ public interface SyntaxCheckerConstants {
   /** RegularExpression Id. */
   int EQ = 20;
   /** RegularExpression Id. */
-  int NEQ = 21;
+  int UNIT = 21;
   /** RegularExpression Id. */
-  int LT = 22;
+  int NEQ = 22;
   /** RegularExpression Id. */
-  int LEQ = 23;
+  int LT = 23;
   /** RegularExpression Id. */
-  int GT = 24;
+  int LEQ = 24;
   /** RegularExpression Id. */
-  int GEQ = 25;
+  int GT = 25;
   /** RegularExpression Id. */
-  int OR = 26;
+  int GEQ = 26;
   /** RegularExpression Id. */
-  int AND = 27;
+  int OR = 27;
   /** RegularExpression Id. */
-  int NOT = 28;
+  int AND = 28;
   /** RegularExpression Id. */
-  int IMP = 29;
+  int NOT = 29;
   /** RegularExpression Id. */
-  int CIMP = 30;
+  int BITNOT = 30;
   /** RegularExpression Id. */
-  int NIMP = 31;
+  int IMP = 31;
   /** RegularExpression Id. */
-  int CNIMP = 32;
+  int CIMP = 32;
   /** RegularExpression Id. */
-  int NAND = 33;
+  int NIMP = 33;
   /** RegularExpression Id. */
-  int EQV = 34;
+  int CNIMP = 34;
   /** RegularExpression Id. */
-  int NOR = 35;
+  int NAND = 35;
   /** RegularExpression Id. */
-  int XOR = 36;
+  int EQV = 36;
   /** RegularExpression Id. */
-  int CHAR = 37;
+  int NOR = 37;
   /** RegularExpression Id. */
-  int REAL = 38;
+  int BIT = 38;
   /** RegularExpression Id. */
-  int IDENTIFIER = 39;
+  int XOR = 39;
   /** RegularExpression Id. */
-  int FUNCTION = 40;
+  int CHAR = 40;
   /** RegularExpression Id. */
-  int INVALID_TOKEN = 43;
+  int REAL = 41;
   /** RegularExpression Id. */
-  int UNEXPECTED_CHAR = 44;
+  int IDENTIFIER = 42;
+  /** RegularExpression Id. */
+  int FUNCTION = 43;
+  /** RegularExpression Id. */
+  int INVALID_TOKEN = 46;
+  /** RegularExpression Id. */
+  int UNEXPECTED_CHAR = 47;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -108,11 +114,12 @@ public interface SyntaxCheckerConstants {
     "\"*\"",
     "\"/\"",
     "\"^\"",
-    "\"%\"",
+    "\"#\"",
     "\"!\"",
     "\",\"",
     "\";\"",
     "<EQ>",
+    "<UNIT>",
     "<NEQ>",
     "\"<\"",
     "\"<=\"",
@@ -120,15 +127,17 @@ public interface SyntaxCheckerConstants {
     "\">=\"",
     "<OR>",
     "<AND>",
-    "\"~\"",
-    "<IMP>",
-    "<CIMP>",
-    "<NIMP>",
-    "<CNIMP>",
+    "<NOT>",
+    "\"@~\"",
+    "\"-->\"",
+    "\"<--\"",
+    "\"-/>\"",
+    "\"</-\"",
     "<NAND>",
-    "<EQV>",
+    "\"<->\"",
     "<NOR>",
-    "<XOR>",
+    "<BIT>",
+    "\"(+)\"",
     "<CHAR>",
     "<REAL>",
     "<IDENTIFIER>",

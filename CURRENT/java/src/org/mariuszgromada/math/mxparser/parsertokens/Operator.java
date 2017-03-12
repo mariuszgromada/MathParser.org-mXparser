@@ -96,7 +96,7 @@ public final class Operator {
 	public static final String DIVIDE_STR 			= "/";
 	public static final String POWER_STR 			= "^";
 	public static final String FACT_STR 			= "!";
-	public static final String MOD_STR				= "%";
+	public static final String MOD_STR				= "#";
 	/*
 	 * Operator - tokens description.
 	 */

@@ -40,27 +40,30 @@ TOKEN : /* TOKENS */
 | 	< MULTIPLY:	"*" >
 | 	< DIV:	"/" >
 | 	< POWER:	"^" >
-| 	< MODULO:	"%" >
+| 	< MODULO:	"#" >
 | 	< FACTORIAL:	"!" >
 | 	< COMMA:	"," >
 | 	< SEMICOLON:	";" >
 | 	< EQ:	( "=" | "==" ) >
+| 	< UNIT:	( "[%]" | "[%%]" ) >
 | 	< NEQ:	( "<>" | "!=" | "~=" ) >
 | 	< LT:	"<" >
 | 	< LEQ:	"<=" >
 | 	< GT:	">"  >
 | 	< GEQ:	">=" >
-| 	< OR:	( "|" | "||" | "\\/") >
+| 	< OR:	( "|" | "||" | "\\/" ) >
 | 	< AND:	( "&" | "&&" | "/\\" ) >
-| 	< NOT:	"~" >
-| 	< IMP:	<MINUS><GT> >
-| 	< CIMP:	<LT><MINUS> >
-| 	< NIMP:	 <MINUS><DIV><GT> >
-| 	< CNIMP: <LT><DIV><MINUS> >
+| 	< NOT:	( "~" | "\u00ac" ) >
+| 	< BITNOT:   "@~" >
+| 	< IMP:	"-->" >
+| 	< CIMP:	"<--" >
+| 	< NIMP:	"-/>" >
+| 	< CNIMP:"</-" >
 |   < NAND: <NOT><AND> >
-|   < EQV:  <LT><MINUS><GT> >
+|   < EQV:  "<->" >
 |   < NOR: <NOT><OR> >
-| 	< XOR:	<LEFT_PAR><PLUS><RIGHT_PAR> >
+|   < BIT: ( "@&" | "@^" | "@|" | "@<<" | "@>>" ) >
+| 	< XOR:	"(+)" >
 | 	< CHAR:	( "`"  | "@" | "#" | "$" | "." | "'" | ":" | ";" | "\\" | "/" | "?" )  >
 }
 
@@ -108,6 +111,7 @@ void booleanExpression():{ }
     						| <NIMP> equalExpression()
     						| <CNIMP> equalExpression()
     						| <EQV> equalExpression()
+							| <BIT> equalExpression()
   )* 
 }
 void equalExpression():{}
@@ -134,7 +138,7 @@ void multiplicativeExpression():{}
 }
 void unaryExpression():{}
 {
-  (<NOT>)? ( <PLUS> | <MINUS> )? ( realConstant() | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> ) ( <FACTORIAL> )?
+  (<NOT> | <BITNOT>)? ( <PLUS> | <MINUS> )? ( realConstant() | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> ) ( <FACTORIAL> )?
 }
 void argumentList():{}
 {
@@ -143,7 +147,7 @@ void argumentList():{}
 void identifier():{}
 {
  (
-   <IDENTIFIER> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <REAL> )* )+ "]" 
+   <IDENTIFIER> | <UNIT> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <REAL> )* )+ "]" 
  )
 }
 void realConstant():{}

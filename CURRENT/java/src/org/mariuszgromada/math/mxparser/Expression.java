@@ -1,9 +1,9 @@
 /*
- * @(#)Expression.java        3.0.0    2016-05-07
+ * @(#)Expression.java        4.0.0    2017-03-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -56,15 +56,18 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import org.mariuszgromada.math.mxparser.mathcollection.AstronomicalConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
 import org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra;
 import org.mariuszgromada.math.mxparser.mathcollection.MathConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
 import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
+import org.mariuszgromada.math.mxparser.mathcollection.PhysicalConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.Calculus;
 import org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions;
 import org.mariuszgromada.math.mxparser.mathcollection.SpecialFunctions;
 import org.mariuszgromada.math.mxparser.mathcollection.Statistics;
+import org.mariuszgromada.math.mxparser.mathcollection.Units;
 import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
 import org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator;
 import org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator;
@@ -78,6 +81,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Operator;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
+import org.mariuszgromada.math.mxparser.parsertokens.Unit;
 import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
 /**
  * Expression - base class for real expressions definition.
@@ -108,7 +112,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -1720,7 +1724,7 @@ public class Expression {
 			argument.setSilentMode();
 	}
 	/**
-	 * COnstants handling handling.
+	 * Constants handling.
 	 *
 	 * @param      pos                 the token position
 	 */
@@ -1856,8 +1860,445 @@ public class Expression {
 		case ConstantValue.GOMPERTZ_ID:
 			constValue = MathConstants.GOMPERTZ;
 			break;
+		case ConstantValue.LIGHT_SPEED_ID:
+			constValue = PhysicalConstants.LIGHT_SPEED;
+			break;
+		case ConstantValue.GRAVITATIONAL_CONSTANT_ID:
+			constValue = PhysicalConstants.GRAVITATIONAL_CONSTANT;
+			break;
+		case ConstantValue.GRAVIT_ACC_EARTH_ID:
+			constValue = PhysicalConstants.GRAVIT_ACC_EARTH;
+			break;
+		case ConstantValue.PLANCK_CONSTANT_ID:
+			constValue = PhysicalConstants.PLANCK_CONSTANT;
+			break;
+		case ConstantValue.PLANCK_CONSTANT_REDUCED_ID:
+			constValue = PhysicalConstants.PLANCK_CONSTANT_REDUCED;
+			break;
+		case ConstantValue.PLANCK_LENGTH_ID:
+			constValue = PhysicalConstants.PLANCK_LENGTH;
+			break;
+		case ConstantValue.PLANCK_MASS_ID:
+			constValue = PhysicalConstants.PLANCK_MASS;
+			break;
+		case ConstantValue.PLANCK_TIME_ID:
+			constValue = PhysicalConstants.PLANCK_TIME;
+			break;
+		case ConstantValue.LIGHT_YEAR_ID:
+			constValue = AstronomicalConstants.LIGHT_YEAR;
+			break;
+		case ConstantValue.ASTRONOMICAL_UNIT_ID:
+			constValue = AstronomicalConstants.ASTRONOMICAL_UNIT;
+			break;
+		case ConstantValue.PARSEC_ID:
+			constValue = AstronomicalConstants.PARSEC;
+			break;
+		case ConstantValue.KILOPARSEC_ID:
+			constValue = AstronomicalConstants.KILOPARSEC;
+			break;
+		case ConstantValue.EARTH_RADIUS_EQUATORIAL_ID:
+			constValue = AstronomicalConstants.EARTH_RADIUS_EQUATORIAL;
+			break;
+		case ConstantValue.EARTH_RADIUS_POLAR_ID:
+			constValue = AstronomicalConstants.EARTH_RADIUS_POLAR;
+			break;
+		case ConstantValue.EARTH_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.EARTH_RADIUS_MEAN;
+			break;
+		case ConstantValue.EARTH_MASS_ID:
+			constValue = AstronomicalConstants.EARTH_MASS;
+			break;
+		case ConstantValue.EARTH_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.EARTH_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.MOON_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.MOON_RADIUS_MEAN;
+			break;
+		case ConstantValue.MOON_MASS_ID:
+			constValue = AstronomicalConstants.MOON_MASS;
+			break;
+		case ConstantValue.MONN_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.MONN_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.SOLAR_RADIUS_ID:
+			constValue = AstronomicalConstants.SOLAR_RADIUS;
+			break;
+		case ConstantValue.SOLAR_MASS_ID:
+			constValue = AstronomicalConstants.SOLAR_MASS;
+			break;
+		case ConstantValue.MERCURY_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.MERCURY_RADIUS_MEAN;
+			break;
+		case ConstantValue.MERCURY_MASS_ID:
+			constValue = AstronomicalConstants.MERCURY_MASS;
+			break;
+		case ConstantValue.MERCURY_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.MERCURY_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.VENUS_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.VENUS_RADIUS_MEAN;
+			break;
+		case ConstantValue.VENUS_MASS_ID:
+			constValue = AstronomicalConstants.VENUS_MASS;
+			break;
+		case ConstantValue.VENUS_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.VENUS_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.MARS_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.MARS_RADIUS_MEAN;
+			break;
+		case ConstantValue.MARS_MASS_ID:
+			constValue = AstronomicalConstants.MARS_MASS;
+			break;
+		case ConstantValue.MARS_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.MARS_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.JUPITER_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.JUPITER_RADIUS_MEAN;
+			break;
+		case ConstantValue.JUPITER_MASS_ID:
+			constValue = AstronomicalConstants.JUPITER_MASS;
+			break;
+		case ConstantValue.JUPITER_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.JUPITER_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.SATURN_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.SATURN_RADIUS_MEAN;
+			break;
+		case ConstantValue.SATURN_MASS_ID:
+			constValue = AstronomicalConstants.SATURN_MASS;
+			break;
+		case ConstantValue.SATURN_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.SATURN_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.URANUS_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.URANUS_RADIUS_MEAN;
+			break;
+		case ConstantValue.URANUS_MASS_ID:
+			constValue = AstronomicalConstants.URANUS_MASS;
+			break;
+		case ConstantValue.URANUS_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.URANUS_SEMI_MAJOR_AXIS;
+			break;
+		case ConstantValue.NEPTUNE_RADIUS_MEAN_ID:
+			constValue = AstronomicalConstants.NEPTUNE_RADIUS_MEAN;
+			break;
+		case ConstantValue.NEPTUNE_MASS_ID:
+			constValue = AstronomicalConstants.NEPTUNE_MASS;
+			break;
+		case ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_ID:
+			constValue = AstronomicalConstants.NEPTUNE_SEMI_MAJOR_AXIS;
+			break;
 		}
 		setToNumber(pos, constValue);
+	}
+	/**
+	 * Constants handling.
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void UNIT(int pos) {
+		double unitValue = Double.NaN;
+		switch (tokensList.get(pos).tokenId) {
+		/* Ratio, Fraction */
+		case Unit.PERC_ID:
+			unitValue = Units.PERC;
+			break;
+		case Unit.PROMIL_ID:
+			unitValue = Units.PROMIL;
+			break;
+			/* Metric prefixes */
+		case Unit.YOTTA_ID:
+			unitValue = Units.YOTTA;
+			break;
+		case Unit.ZETTA_ID:
+			unitValue = Units.ZETTA;
+			break;
+		case Unit.EXA_ID:
+			unitValue = Units.EXA;
+			break;
+		case Unit.PETA_ID:
+			unitValue = Units.PETA;
+			break;
+		case Unit.TERA_ID:
+			unitValue = Units.TERA;
+			break;
+		case Unit.GIGA_ID:
+			unitValue = Units.GIGA;
+			break;
+		case Unit.MEGA_ID:
+			unitValue = Units.MEGA;
+			break;
+		case Unit.KILO_ID:
+			unitValue = Units.KILO;
+			break;
+		case Unit.HECTO_ID:
+			unitValue = Units.HECTO;
+			break;
+		case Unit.DECA_ID:
+			unitValue = Units.DECA;
+			break;
+		case Unit.DECI_ID:
+			unitValue = Units.DECI;
+			break;
+		case Unit.CENTI_ID:
+			unitValue = Units.CENTI;
+			break;
+		case Unit.MILLI_ID:
+			unitValue = Units.MILLI;
+			break;
+		case Unit.MICRO_ID:
+			unitValue = Units.MICRO;
+			break;
+		case Unit.NANO_ID:
+			unitValue = Units.NANO;
+			break;
+		case Unit.PICO_ID:
+			unitValue = Units.PICO;
+			break;
+		case Unit.FEMTO_ID:
+			unitValue = Units.FEMTO;
+			break;
+		case Unit.ATTO_ID:
+			unitValue = Units.ATTO;
+			break;
+		case Unit.ZEPTO_ID:
+			unitValue = Units.ZEPTO;
+			break;
+		case Unit.YOCTO_ID:
+			unitValue = Units.YOCTO;
+			break;
+			/* Units of length / distance */
+		case Unit.METRE_ID:
+			unitValue = Units.METRE;
+			break;
+		case Unit.KILOMETRE_ID:
+			unitValue = Units.KILOMETRE;
+			break;
+		case Unit.CENTIMETRE_ID:
+			unitValue = Units.CENTIMETRE;
+			break;
+		case Unit.MILLIMETRE_ID:
+			unitValue = Units.MILLIMETRE;
+			break;
+		case Unit.INCH_ID:
+			unitValue = Units.INCH;
+			break;
+		case Unit.YARD_ID:
+			unitValue = Units.YARD;
+			break;
+		case Unit.FEET_ID:
+			unitValue = Units.FEET;
+			break;
+		case Unit.MILE_ID:
+			unitValue = Units.MILE;
+			break;
+		case Unit.NAUTICAL_MILE_ID:
+			unitValue = Units.NAUTICAL_MILE;
+			break;
+			/* Units of area */
+		case Unit.METRE2_ID:
+			unitValue = Units.METRE2;
+			break;
+		case Unit.CENTIMETRE2_ID:
+			unitValue = Units.CENTIMETRE2;
+			break;
+		case Unit.MILLIMETRE2_ID:
+			unitValue = Units.MILLIMETRE2;
+			break;
+		case Unit.ARE_ID:
+			unitValue = Units.ARE;
+			break;
+		case Unit.HECTARE_ID:
+			unitValue = Units.HECTARE;
+			break;
+		case Unit.ACRE_ID:
+			unitValue = Units.ACRE;
+			break;
+		case Unit.KILOMETRE2_ID:
+			unitValue = Units.KILOMETRE2;
+			break;
+			/* Units of volume */
+		case Unit.MILLIMETRE3_ID:
+			unitValue = Units.MILLIMETRE3;
+			break;
+		case Unit.CENTIMETRE3_ID:
+			unitValue = Units.CENTIMETRE3;
+			break;
+		case Unit.METRE3_ID:
+			unitValue = Units.METRE3;
+			break;
+		case Unit.KILOMETRE3_ID:
+			unitValue = Units.KILOMETRE3;
+			break;
+		case Unit.MILLILITRE_ID:
+			unitValue = Units.MILLILITRE;
+			break;
+		case Unit.LITRE_ID:
+			unitValue = Units.LITRE;
+			break;
+		case Unit.GALLON_ID:
+			unitValue = Units.GALLON;
+			break;
+		case Unit.PINT_ID:
+			unitValue = Units.PINT;
+			break;
+			/* Units of time */
+		case Unit.SECOND_ID:
+			unitValue = Units.SECOND;
+			break;
+		case Unit.MILLISECOND_ID:
+			unitValue = Units.MILLISECOND;
+			break;
+		case Unit.MINUTE_ID:
+			unitValue = Units.MINUTE;
+			break;
+		case Unit.HOUR_ID:
+			unitValue = Units.HOUR;
+			break;
+		case Unit.DAY_ID:
+			unitValue = Units.DAY;
+			break;
+		case Unit.WEEK_ID:
+			unitValue = Units.WEEK;
+			break;
+		case Unit.JULIAN_YEAR_ID:
+			unitValue = Units.JULIAN_YEAR;
+			break;
+			/* Units of mass */
+		case Unit.KILOGRAM_ID:
+			unitValue = Units.KILOGRAM;
+			break;
+		case Unit.GRAM_ID:
+			unitValue = Units.GRAM;
+			break;
+		case Unit.MILLIGRAM_ID:
+			unitValue = Units.MILLIGRAM;
+			break;
+		case Unit.DECAGRAM_ID:
+			unitValue = Units.DECAGRAM;
+			break;
+		case Unit.TONNE_ID:
+			unitValue = Units.TONNE;
+			break;
+		case Unit.OUNCE_ID:
+			unitValue = Units.OUNCE;
+			break;
+		case Unit.POUND_ID:
+			unitValue = Units.POUND;
+			break;
+			/* Units of information */
+		case Unit.BIT_ID:
+			unitValue = Units.BIT;
+			break;
+		case Unit.KILOBIT_ID:
+			unitValue = Units.KILOBIT;
+			break;
+		case Unit.MEGABIT_ID:
+			unitValue = Units.MEGABIT;
+			break;
+		case Unit.GIGABIT_ID:
+			unitValue = Units.GIGABIT;
+			break;
+		case Unit.TERABIT_ID:
+			unitValue = Units.TERABIT;
+			break;
+		case Unit.PETABIT_ID:
+			unitValue = Units.PETABIT;
+			break;
+		case Unit.EXABIT_ID:
+			unitValue = Units.EXABIT;
+			break;
+		case Unit.ZETTABIT_ID:
+			unitValue = Units.ZETTABIT;
+			break;
+		case Unit.YOTTABIT_ID:
+			unitValue = Units.YOTTABIT;
+			break;
+		case Unit.BYTE_ID:
+			unitValue = Units.BYTE;
+			break;
+		case Unit.KILOBYTE_ID:
+			unitValue = Units.KILOBYTE;
+			break;
+		case Unit.MEGABYTE_ID:
+			unitValue = Units.MEGABYTE;
+			break;
+		case Unit.GIGABYTE_ID:
+			unitValue = Units.GIGABYTE;
+			break;
+		case Unit.TERABYTE_ID:
+			unitValue = Units.TERABYTE;
+			break;
+		case Unit.PETABYTE_ID:
+			unitValue = Units.PETABYTE;
+			break;
+		case Unit.EXABYTE_ID:
+			unitValue = Units.EXABYTE;
+			break;
+		case Unit.ZETTABYTE_ID:
+			unitValue = Units.ZETTABYTE;
+			break;
+		case Unit.YOTTABYTE_ID:
+			unitValue = Units.YOTTABYTE;
+			break;
+			/* Units of energy */
+		case Unit.JOULE_ID:
+			unitValue = Units.JOULE;
+			break;
+		case Unit.ELECTRONO_VOLT_ID:
+			unitValue = Units.ELECTRONO_VOLT;
+			break;
+		case Unit.KILO_ELECTRONO_VOLT_ID:
+			unitValue = Units.KILO_ELECTRONO_VOLT;
+			break;
+		case Unit.MEGA_ELECTRONO_VOLT_ID:
+			unitValue = Units.MEGA_ELECTRONO_VOLT;
+			break;
+		case Unit.GIGA_ELECTRONO_VOLT_ID:
+			unitValue = Units.GIGA_ELECTRONO_VOLT;
+			break;
+		case Unit.TERA_ELECTRONO_VOLT_ID:
+			unitValue = Units.TERA_ELECTRONO_VOLT;
+			break;
+			/* Units of speed */
+		case Unit.METRE_PER_SECOND_ID:
+			unitValue = Units.METRE_PER_SECOND;
+			break;
+		case Unit.KILOMETRE_PER_HOUR_ID:
+			unitValue = Units.KILOMETRE_PER_HOUR;
+			break;
+		case Unit.MILE_PER_HOUR_ID:
+			unitValue = Units.MILE_PER_HOUR;
+			break;
+		case Unit.KNOT_ID:
+			unitValue = Units.KNOT;
+			break;
+			/* Units of acceleration */
+		case Unit.METRE_PER_SECOND2_ID:
+			unitValue = Units.METRE_PER_SECOND2;
+			break;
+		case Unit.KILOMETRE_PER_HOUR2_ID:
+			unitValue = Units.KILOMETRE_PER_HOUR2;
+			break;
+		case Unit.MILE_PER_HOUR2_ID:
+			unitValue = Units.MILE_PER_HOUR2;
+			break;
+			/* Units of angle */
+		case Unit.RADIAN_ARC_ID:
+			unitValue = Units.RADIAN_ARC;
+			break;
+		case Unit.DEGREE_ARC_ID:
+			unitValue = Units.DEGREE_ARC;
+			break;
+		case Unit.MINUTE_ARC_ID:
+			unitValue = Units.MINUTE_ARC;
+			break;
+		case Unit.SECOND_ARC_ID:
+			unitValue = Units.SECOND_ARC;
+			break;
+		}
+		setToNumber(pos, unitValue);
 	}
 	/**
 	 * Random Variables handling.
@@ -2230,6 +2671,66 @@ public class Expression {
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.geq(a, b) );
+	}
+	/**
+	 * Bitwise COMPL
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BITWISE_COMPL(int pos) {
+		long a = (long)getTokenValue(pos+1);
+		setToNumber(pos, ~a);
+		tokensList.remove(pos+1);
+	}
+	/**
+	 * Bitwise AND
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BITWISE_AND(int pos) {
+		long a = (long)getTokenValue(pos-1);
+		long b = (long)getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, a & b);
+	}
+	/**
+	 * Bitwise OR
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BITWISE_OR(int pos) {
+		long a = (long)getTokenValue(pos-1);
+		long b = (long)getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, a | b);
+	}
+	/**
+	 * Bitwise XOR
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BITWISE_XOR(int pos) {
+		long a = (long)getTokenValue(pos-1);
+		long b = (long)getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, a ^ b);
+	}
+	/**
+	 * Bitwise LEFT SHIFT
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BITWISE_LEFT_SHIFT(int pos) {
+		long a = (long)getTokenValue(pos-1);
+		long b = (long)getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, a << b);
+	}
+	/**
+	 * Bitwise RIGHT SHIFT
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BITWISE_RIGHT_SHIFT(int pos) {
+		long a = (long)getTokenValue(pos-1);
+		long b = (long)getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, a >> b);
 	}
 	/**
 	 * Sine function
@@ -4077,6 +4578,8 @@ public class Expression {
 		int commaPos;
 		int lParPos;
 		int rParPos;
+		int bitwisePos;
+		int bitwiseComplPos;
 		Token token;
 		Token tokenL;
 		Token tokenR;
@@ -4125,6 +4628,8 @@ public class Expression {
 			commaPos = -1;
 			lParPos = -1;
 			rParPos = -1;
+			bitwisePos = -1;
+			bitwiseComplPos = -1;
 			tokensNumber = tokensList.size();
 			/* calculus operations ... */
 			p = -1;
@@ -4166,6 +4671,8 @@ public class Expression {
 						ARGUMENT(tokenIndex);
 					else if (token.tokenTypeId == ConstantValue.TYPE_ID)
 						CONSTANT(tokenIndex);
+					else if (token.tokenTypeId == Unit.TYPE_ID)
+						UNIT(tokenIndex);
 					else if (token.tokenTypeId == Constant.TYPE_ID)
 						USER_CONSTANT(tokenIndex);
 					else if (token.tokenTypeId == RandomVariable.TYPE_ID)
@@ -4263,6 +4770,13 @@ public class Expression {
 						if ( (token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNUmber && rigthIsNUmber))
 							geqPos = pos;
 					} else
+					if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
+						if ((token.tokenId == BitwiseOperator.COMPL_ID) && (bitwiseComplPos < 0) && (rigthIsNUmber))
+							bitwiseComplPos = pos;
+						else
+						if ((bitwisePos < 0) && (leftIsNUmber && rigthIsNUmber))
+							bitwisePos = pos;
+					} else
 					if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
 						if ( (token.tokenId == ParserSymbol.COMMA_ID) ) {
 							if (commaPos < 0)
@@ -4333,6 +4847,9 @@ public class Expression {
 			if (negPos >= 0) {
 				NEG(negPos);
 			} else
+			if (bitwiseComplPos >= 0) {
+				BITWISE_COMPL(bitwiseComplPos);
+			} else
 			/* ... arithmetical operators  ... */
 			if ( (multiplyPos >= 0) || (dividePos >= 0) ) {
 				if ( (multiplyPos >= 0) && (dividePos >= 0) )
@@ -4383,6 +4900,9 @@ public class Expression {
 			} else
 			/* ... logical operators  ... */
 			if (bolPos >= 0) bolCalc(bolPos);
+			else
+			/* ... bitwise operators  ... */
+			if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
 			else
 			if ( (lParPos >= 0) && (rParPos > lParPos) ) {
 				PARENTHESES(lParPos,rParPos);
@@ -4562,6 +5082,19 @@ public class Expression {
 		case BooleanOperator.NOR_ID: NOR(pos); break;
 		case BooleanOperator.OR_ID: OR(pos); break;
 		case BooleanOperator.XOR_ID: XOR(pos); break;
+		}
+	}
+	/**
+	 * Calculates Bitwise operators
+	 * @param pos
+	 */
+	private void bitwiseCalc(int pos) {
+		switch (tokensList.get(pos).tokenId) {
+		case BitwiseOperator.AND_ID: BITWISE_AND(pos); break;
+		case BitwiseOperator.OR_ID: BITWISE_OR(pos); break;
+		case BitwiseOperator.XOR_ID: BITWISE_XOR(pos); break;
+		case BitwiseOperator.LEFT_SHIFT_ID: BITWISE_LEFT_SHIFT(pos); break;
+		case BitwiseOperator.RIGHT_SHIFT_ID: BITWISE_RIGHT_SHIFT(pos); break;
 		}
 	}
 	/*=================================================
@@ -4825,6 +5358,51 @@ public class Expression {
 			addKeyWord(ConstantValue.MRB_STR, ConstantValue.MRB_DESC, ConstantValue.MRB_ID, ConstantValue.TYPE_ID);
 			addKeyWord(ConstantValue.LI2_STR, ConstantValue.LI2_DESC, ConstantValue.LI2_ID, ConstantValue.TYPE_ID);
 			addKeyWord(ConstantValue.GOMPERTZ_STR, ConstantValue.GOMPERTZ_DESC, ConstantValue.GOMPERTZ_ID, ConstantValue.TYPE_ID);
+			/* Physical Constants */
+			addKeyWord(ConstantValue.LIGHT_SPEED_STR, ConstantValue.LIGHT_SPEED_DESC, ConstantValue.LIGHT_SPEED_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.GRAVITATIONAL_CONSTANT_STR, ConstantValue.GRAVITATIONAL_CONSTANT_DESC, ConstantValue.GRAVITATIONAL_CONSTANT_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.GRAVIT_ACC_EARTH_STR, ConstantValue.GRAVIT_ACC_EARTH_DESC, ConstantValue.GRAVIT_ACC_EARTH_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.PLANCK_CONSTANT_STR, ConstantValue.PLANCK_CONSTANT_DESC, ConstantValue.PLANCK_CONSTANT_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.PLANCK_CONSTANT_REDUCED_STR, ConstantValue.PLANCK_CONSTANT_REDUCED_DESC, ConstantValue.PLANCK_CONSTANT_REDUCED_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.PLANCK_LENGTH_STR, ConstantValue.PLANCK_LENGTH_DESC, ConstantValue.PLANCK_LENGTH_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.PLANCK_MASS_STR, ConstantValue.PLANCK_MASS_DESC, ConstantValue.PLANCK_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.PLANCK_TIME_STR, ConstantValue.PLANCK_TIME_DESC, ConstantValue.PLANCK_TIME_ID, ConstantValue.TYPE_ID);
+			/* Astronomical Constants */
+			addKeyWord(ConstantValue.LIGHT_YEAR_STR, ConstantValue.LIGHT_YEAR_DESC, ConstantValue.LIGHT_YEAR_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.ASTRONOMICAL_UNIT_STR, ConstantValue.ASTRONOMICAL_UNIT_DESC, ConstantValue.ASTRONOMICAL_UNIT_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.PARSEC_STR, ConstantValue.PARSEC_DESC, ConstantValue.PARSEC_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.KILOPARSEC_STR, ConstantValue.KILOPARSEC_DESC, ConstantValue.KILOPARSEC_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.EARTH_RADIUS_EQUATORIAL_STR, ConstantValue.EARTH_RADIUS_EQUATORIAL_DESC, ConstantValue.EARTH_RADIUS_EQUATORIAL_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.EARTH_RADIUS_POLAR_STR, ConstantValue.EARTH_RADIUS_POLAR_DESC, ConstantValue.EARTH_RADIUS_POLAR_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.EARTH_RADIUS_MEAN_STR, ConstantValue.EARTH_RADIUS_MEAN_DESC, ConstantValue.EARTH_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.EARTH_MASS_STR, ConstantValue.EARTH_MASS_DESC, ConstantValue.EARTH_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.EARTH_SEMI_MAJOR_AXIS_STR, ConstantValue.EARTH_SEMI_MAJOR_AXIS_DESC, ConstantValue.EARTH_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MOON_RADIUS_MEAN_STR, ConstantValue.MOON_RADIUS_MEAN_DESC, ConstantValue.MOON_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MOON_MASS_STR, ConstantValue.MOON_MASS_DESC, ConstantValue.MOON_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MONN_SEMI_MAJOR_AXIS_STR, ConstantValue.MONN_SEMI_MAJOR_AXIS_DESC, ConstantValue.MONN_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.SOLAR_RADIUS_STR, ConstantValue.SOLAR_RADIUS_DESC, ConstantValue.SOLAR_RADIUS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.SOLAR_MASS_STR, ConstantValue.SOLAR_MASS_DESC, ConstantValue.SOLAR_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MERCURY_RADIUS_MEAN_STR, ConstantValue.MERCURY_RADIUS_MEAN_DESC, ConstantValue.MERCURY_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MERCURY_MASS_STR, ConstantValue.MERCURY_MASS_DESC, ConstantValue.MERCURY_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MERCURY_SEMI_MAJOR_AXIS_STR, ConstantValue.MERCURY_SEMI_MAJOR_AXIS_DESC, ConstantValue.MERCURY_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.VENUS_RADIUS_MEAN_STR, ConstantValue.VENUS_RADIUS_MEAN_DESC, ConstantValue.VENUS_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.VENUS_MASS_STR, ConstantValue.VENUS_MASS_DESC, ConstantValue.VENUS_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.VENUS_SEMI_MAJOR_AXIS_STR, ConstantValue.VENUS_SEMI_MAJOR_AXIS_DESC, ConstantValue.VENUS_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MARS_RADIUS_MEAN_STR, ConstantValue.MARS_RADIUS_MEAN_DESC, ConstantValue.MARS_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MARS_MASS_STR, ConstantValue.MARS_MASS_DESC, ConstantValue.MARS_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.MARS_SEMI_MAJOR_AXIS_STR, ConstantValue.MARS_SEMI_MAJOR_AXIS_DESC, ConstantValue.MARS_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.JUPITER_RADIUS_MEAN_STR, ConstantValue.JUPITER_RADIUS_MEAN_DESC, ConstantValue.JUPITER_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.JUPITER_MASS_STR, ConstantValue.JUPITER_MASS_DESC, ConstantValue.JUPITER_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.JUPITER_SEMI_MAJOR_AXIS_STR, ConstantValue.JUPITER_SEMI_MAJOR_AXIS_DESC, ConstantValue.JUPITER_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.SATURN_RADIUS_MEAN_STR, ConstantValue.SATURN_RADIUS_MEAN_DESC, ConstantValue.SATURN_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.SATURN_MASS_STR, ConstantValue.SATURN_MASS_DESC, ConstantValue.SATURN_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.SATURN_SEMI_MAJOR_AXIS_STR, ConstantValue.SATURN_SEMI_MAJOR_AXIS_DESC, ConstantValue.SATURN_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.URANUS_RADIUS_MEAN_STR, ConstantValue.URANUS_RADIUS_MEAN_DESC, ConstantValue.URANUS_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.URANUS_MASS_STR, ConstantValue.URANUS_MASS_DESC, ConstantValue.URANUS_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.URANUS_SEMI_MAJOR_AXIS_STR, ConstantValue.URANUS_SEMI_MAJOR_AXIS_DESC, ConstantValue.URANUS_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.NEPTUNE_RADIUS_MEAN_STR, ConstantValue.NEPTUNE_RADIUS_MEAN_DESC, ConstantValue.NEPTUNE_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.NEPTUNE_MASS_STR, ConstantValue.NEPTUNE_MASS_DESC, ConstantValue.NEPTUNE_MASS_ID, ConstantValue.TYPE_ID);
+			addKeyWord(ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_STR, ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_DESC, ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);			
 			/*
 			 * Random variables
 			 */
@@ -4869,6 +5447,125 @@ public class Expression {
 			addKeyWord(BitwiseOperator.OR_STR, BitwiseOperator.OR_DESC, BitwiseOperator.OR_ID, BitwiseOperator.TYPE_ID);
 			addKeyWord(BitwiseOperator.LEFT_SHIFT_STR, BitwiseOperator.LEFT_SHIFT_DESC, BitwiseOperator.LEFT_SHIFT_ID, BitwiseOperator.TYPE_ID);
 			addKeyWord(BitwiseOperator.RIGHT_SHIFT_STR, BitwiseOperator.RIGHT_SHIFT_DESC, BitwiseOperator.RIGHT_SHIFT_ID, BitwiseOperator.TYPE_ID);
+			/*
+			 * Units
+			 */			
+			addKeyWord(Unit.PERC_STR, Unit.PERC_DESC, Unit.PERC_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PROMIL_STR, Unit.PROMIL_DESC, Unit.PROMIL_ID, Unit.TYPE_ID);
+			/* Metric prefixes */
+			addKeyWord(Unit.YOTTA_STR, Unit.YOTTA_DESC, Unit.YOTTA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.YOTTA_SEPT_STR, Unit.YOTTA_DESC, Unit.YOTTA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ZETTA_STR, Unit.ZETTA_DESC, Unit.ZETTA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ZETTA_SEXT_STR, Unit.ZETTA_DESC, Unit.ZETTA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.EXA_STR, Unit.EXA_DESC, Unit.EXA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.EXA_QUINT_STR, Unit.EXA_DESC, Unit.EXA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PETA_STR, Unit.PETA_DESC, Unit.PETA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PETA_QUAD_STR, Unit.PETA_DESC, Unit.PETA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.TERA_STR, Unit.TERA_DESC, Unit.TERA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.TERA_TRIL_STR, Unit.TERA_DESC, Unit.TERA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GIGA_STR, Unit.GIGA_DESC, Unit.GIGA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GIGA_BIL_STR, Unit.GIGA_DESC, Unit.GIGA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MEGA_STR, Unit.MEGA_DESC, Unit.MEGA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MEGA_MIL_STR, Unit.MEGA_DESC, Unit.MEGA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILO_STR, Unit.KILO_DESC, Unit.KILO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILO_TH_STR, Unit.KILO_DESC, Unit.KILO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.HECTO_STR, Unit.HECTO_DESC, Unit.HECTO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.HECTO_HUND_STR, Unit.HECTO_DESC, Unit.HECTO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.DECA_STR, Unit.DECA_DESC, Unit.DECA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.DECA_TEN_STR, Unit.DECA_DESC, Unit.DECA_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.DECI_STR, Unit.DECI_DESC, Unit.DECI_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.CENTI_STR, Unit.CENTI_DESC, Unit.CENTI_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILLI_STR, Unit.MILLI_DESC, Unit.MILLI_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MICRO_STR, Unit.MICRO_DESC, Unit.MICRO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.NANO_STR, Unit.NANO_DESC, Unit.NANO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PICO_STR, Unit.PICO_DESC, Unit.PICO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.FEMTO_STR, Unit.FEMTO_DESC, Unit.FEMTO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ATTO_STR, Unit.ATTO_DESC, Unit.ATTO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ZEPTO_STR, Unit.ZEPTO_DESC, Unit.ZEPTO_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.YOCTO_STR, Unit.YOCTO_DESC, Unit.YOCTO_ID, Unit.TYPE_ID);
+			/* Units of length / distance */			
+			addKeyWord(Unit.METRE_STR, Unit.METRE_DESC, Unit.METRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOMETRE_STR, Unit.KILOMETRE_DESC, Unit.KILOMETRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.CENTIMETRE_STR, Unit.CENTIMETRE_DESC, Unit.CENTIMETRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILLIMETRE_STR, Unit.MILLIMETRE_DESC, Unit.MILLIMETRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.INCH_STR, Unit.INCH_DESC, Unit.INCH_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.YARD_STR, Unit.YARD_DESC, Unit.YARD_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.FEET_STR, Unit.FEET_DESC, Unit.FEET_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILE_STR, Unit.MILE_DESC, Unit.MILE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.NAUTICAL_MILE_STR, Unit.NAUTICAL_MILE_DESC, Unit.NAUTICAL_MILE_ID, Unit.TYPE_ID);
+			/* Units of area */
+			addKeyWord(Unit.METRE2_STR, Unit.METRE2_DESC, Unit.METRE2_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.CENTIMETRE2_STR, Unit.CENTIMETRE2_DESC, Unit.CENTIMETRE2_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILLIMETRE2_STR, Unit.MILLIMETRE2_DESC, Unit.MILLIMETRE2_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ARE_STR, Unit.ARE_DESC, Unit.ARE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.HECTARE_STR, Unit.HECTARE_DESC, Unit.HECTARE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ACRE_STR, Unit.ACRE_DESC, Unit.ACRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOMETRE2_STR, Unit.KILOMETRE2_DESC, Unit.KILOMETRE2_ID, Unit.TYPE_ID);
+			/* Units of volume */
+			addKeyWord(Unit.MILLIMETRE3_STR, Unit.MILLIMETRE3_DESC, Unit.MILLIMETRE3_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.CENTIMETRE3_STR, Unit.CENTIMETRE3_DESC, Unit.CENTIMETRE3_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.METRE3_STR, Unit.METRE3_DESC, Unit.METRE3_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOMETRE3_STR, Unit.KILOMETRE3_DESC, Unit.KILOMETRE3_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILLILITRE_STR, Unit.MILLILITRE_DESC, Unit.MILLILITRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.LITRE_STR, Unit.LITRE_DESC, Unit.LITRE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GALLON_STR, Unit.GALLON_DESC, Unit.GALLON_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PINT_STR, Unit.PINT_DESC, Unit.PINT_ID, Unit.TYPE_ID);
+			/* Units of time */
+			addKeyWord(Unit.SECOND_STR, Unit.SECOND_DESC, Unit.SECOND_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILLISECOND_STR, Unit.MILLISECOND_DESC, Unit.MILLISECOND_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MINUTE_STR, Unit.MINUTE_DESC, Unit.MINUTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.HOUR_STR, Unit.HOUR_DESC, Unit.HOUR_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.DAY_STR, Unit.DAY_DESC, Unit.DAY_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.WEEK_STR, Unit.WEEK_DESC, Unit.WEEK_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.JULIAN_YEAR_STR, Unit.JULIAN_YEAR_DESC, Unit.JULIAN_YEAR_ID, Unit.TYPE_ID);
+			/* Units of mass */
+			addKeyWord(Unit.KILOGRAM_STR, Unit.KILOGRAM_DESC, Unit.KILOGRAM_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GRAM_STR, Unit.GRAM_DESC, Unit.GRAM_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILLIGRAM_STR, Unit.MILLIGRAM_DESC, Unit.MILLIGRAM_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.DECAGRAM_STR, Unit.DECAGRAM_DESC, Unit.DECAGRAM_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.TONNE_STR, Unit.TONNE_DESC, Unit.TONNE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.OUNCE_STR, Unit.OUNCE_DESC, Unit.OUNCE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.POUND_STR, Unit.POUND_DESC, Unit.POUND_ID, Unit.TYPE_ID);
+			/* Units of information */
+			addKeyWord(Unit.BIT_STR, Unit.BIT_DESC, Unit.BIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOBIT_STR, Unit.KILOBIT_DESC, Unit.KILOBIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MEGABIT_STR, Unit.MEGABIT_DESC, Unit.MEGABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GIGABIT_STR, Unit.GIGABIT_DESC, Unit.GIGABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.TERABIT_STR, Unit.TERABIT_DESC, Unit.TERABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PETABIT_STR, Unit.PETABIT_DESC, Unit.PETABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.EXABIT_STR, Unit.EXABIT_DESC, Unit.EXABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ZETTABIT_STR, Unit.ZETTABIT_DESC, Unit.ZETTABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.YOTTABIT_STR, Unit.YOTTABIT_DESC, Unit.YOTTABIT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.BYTE_STR, Unit.BYTE_DESC, Unit.BYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOBYTE_STR, Unit.KILOBYTE_DESC, Unit.KILOBYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MEGABYTE_STR, Unit.MEGABYTE_DESC, Unit.MEGABYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GIGABYTE_STR, Unit.GIGABYTE_DESC, Unit.GIGABYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.TERABYTE_STR, Unit.TERABYTE_DESC, Unit.TERABYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.PETABYTE_STR, Unit.PETABYTE_DESC, Unit.PETABYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.EXABYTE_STR, Unit.EXABYTE_DESC, Unit.EXABYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ZETTABYTE_STR, Unit.ZETTABYTE_DESC, Unit.ZETTABYTE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.YOTTABYTE_STR, Unit.YOTTABYTE_DESC, Unit.YOTTABYTE_ID, Unit.TYPE_ID);
+			/* Units of energy */
+			addKeyWord(Unit.JOULE_STR, Unit.JOULE_DESC, Unit.JOULE_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.ELECTRONO_VOLT_STR, Unit.ELECTRONO_VOLT_DESC, Unit.ELECTRONO_VOLT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILO_ELECTRONO_VOLT_STR, Unit.KILO_ELECTRONO_VOLT_DESC, Unit.KILO_ELECTRONO_VOLT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MEGA_ELECTRONO_VOLT_STR, Unit.MEGA_ELECTRONO_VOLT_DESC, Unit.MEGA_ELECTRONO_VOLT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.GIGA_ELECTRONO_VOLT_STR, Unit.GIGA_ELECTRONO_VOLT_DESC, Unit.GIGA_ELECTRONO_VOLT_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.TERA_ELECTRONO_VOLT_STR, Unit.TERA_ELECTRONO_VOLT_DESC, Unit.TERA_ELECTRONO_VOLT_ID, Unit.TYPE_ID);
+			/* Units of speed */
+			addKeyWord(Unit.METRE_PER_SECOND_STR, Unit.METRE_PER_SECOND_DESC, Unit.METRE_PER_SECOND_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOMETRE_PER_HOUR_STR, Unit.KILOMETRE_PER_HOUR_DESC, Unit.KILOMETRE_PER_HOUR_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILE_PER_HOUR_STR, Unit.MILE_PER_HOUR_DESC, Unit.MILE_PER_HOUR_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KNOT_STR, Unit.KNOT_DESC, Unit.KNOT_ID, Unit.TYPE_ID);
+			/* Units of acceleration */
+			addKeyWord(Unit.METRE_PER_SECOND2_STR, Unit.METRE_PER_SECOND2_DESC, Unit.METRE_PER_SECOND2_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.KILOMETRE_PER_HOUR2_STR, Unit.KILOMETRE_PER_HOUR2_DESC, Unit.KILOMETRE_PER_HOUR2_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MILE_PER_HOUR2_STR, Unit.MILE_PER_HOUR2_DESC, Unit.MILE_PER_HOUR2_ID, Unit.TYPE_ID);
+			/* Units of angle */
+			addKeyWord(Unit.RADIAN_ARC_STR, Unit.RADIAN_ARC_DESC, Unit.RADIAN_ARC_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.DEGREE_ARC_STR, Unit.DEGREE_ARC_DESC, Unit.DEGREE_ARC_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.MINUTE_ARC_STR, Unit.MINUTE_ARC_DESC, Unit.MINUTE_ARC_ID, Unit.TYPE_ID);
+			addKeyWord(Unit.SECOND_ARC_STR, Unit.SECOND_ARC_DESC, Unit.SECOND_ARC_ID, Unit.TYPE_ID);
 		}
 		/*
 		 * Other parser symbols key words
@@ -5050,6 +5747,9 @@ public class Expression {
 							( c != '<' ) &&
 							( c != '~' ) &&
 							( c != '^' ) &&
+							( c != '¬' ) &&
+							( c != '#' ) &&
+							( c != '%' ) &&
 							( c != '!' )	)
 						numEnd = -1;
 				}
@@ -5176,6 +5876,9 @@ public class Expression {
 									( c != '<' ) &&
 									( c != '~' ) &&
 									( c != '^' ) &&
+									( c != '¬' ) &&
+									( c != '#' ) &&
+									( c != '%' ) &&									
 									( c != '!' )	)
 								matchStatus = NOT_FOUND;
 						}
@@ -5416,9 +6119,11 @@ public class Expression {
 			case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC; break;
 			case Function.TYPE_ID: type = Function.TYPE_DESC; break;
 			case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
+			case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
+			case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
 			}
 			line = getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + ". " +
-			getRightSpaces("0123456789", kw) + getRightSpaces("                        ","<" + type + ">") + keyWord.description + "\n";
+			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ","<" + type + ">") + keyWord.description + "\n";
 			if ( (line.toLowerCase().indexOf(word.toLowerCase()) >= 0) ){
 				helpStr = helpStr + line;
 			}

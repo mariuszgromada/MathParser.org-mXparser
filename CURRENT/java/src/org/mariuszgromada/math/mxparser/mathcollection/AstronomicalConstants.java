@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.java        4.0.0    2017-03-12
+ * @(#)AstronomicalConstants.java        4.0.0    2017-03-11
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -50,10 +50,10 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
-package org.mariuszgromada.math.mxparser.parsertokens;
+package org.mariuszgromada.math.mxparser.mathcollection;
 
 /**
- * Bitwise Operators - mXparser tokens definition.
+ * AstronomicalConstants - class representing the most important astronomical constants.
  *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -71,38 +71,145 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *
  * @version        4.0.0
  */
-public final class BitwiseOperator {
-	/*
-	 * BitwiseOperator - token type id.
+public final class AstronomicalConstants {
+	/**
+	 * Light year
 	 */
-	public static final int TYPE_ID 				= 11;
-	public static final String TYPE_DESC			= "Bitwise Operator";
-	/*
-	 * BitwiseOperator - tokens id.
+	public static final double LIGHT_YEAR = PhysicalConstants.LIGHT_SPEED * Units.JULIAN_YEAR;
+	/**
+	 * Astronomical unit
 	 */
-	public static final int COMPL_ID				= 1;
-	public static final int AND_ID					= 2;
-	public static final int XOR_ID					= 3;
-	public static final int OR_ID					= 4;
-	public static final int LEFT_SHIFT_ID			= 5;
-	public static final int RIGHT_SHIFT_ID			= 6;
-	/*
-	 * BitwiseOperator - tokens key words.
+	public static final double ASTRONOMICAL_UNIT = 149597870700.0 * Units.METRE;
+	/**
+	 * Parsec
 	 */
-	public static final String COMPL_STR			= "@~";
-	public static final String AND_STR				= "@&";
-	public static final String XOR_STR				= "@^";
-	public static final String OR_STR				= "@|";
-	public static final String LEFT_SHIFT_STR		= "@<<";
-	public static final String RIGHT_SHIFT_STR		= "@>>";
-	/*
-	 * BitwiseOperator - tokens description.
+	public static final double PARSEC = 206264.806247096 * ASTRONOMICAL_UNIT;
+	/**
+	 * Kiloparsec
 	 */
-	public static final String COMPL_DESC			= "(4.0) Bitwise unary complement";
-	public static final String AND_DESC				= "(4.0) Bitwise AND";
-	public static final String XOR_DESC				= "(4.0) Bitwise exclusive OR";
-	public static final String OR_DESC				= "(4.0) Bitwise inclusive OR";
-	public static final String LEFT_SHIFT_DESC		= "(4.0) Signed left shift";
-	public static final String RIGHT_SHIFT_DESC		= "(4.0) Signed right shift";
+	public static final double KILOPARSEC = Units.KILO * PARSEC;	
+	/**
+	 * Earth equatorial radius
+	 */
+	public static final double EARTH_RADIUS_EQUATORIAL = 6378.1370 * Units.KILOMETRE;
+	/**
+	 * Earth polar radius
+	 */
+	public static final double EARTH_RADIUS_POLAR = 6356.7523 * Units.KILOMETRE;
+	/**
+	 * Earth mean radius
+	 */
+	public static final double EARTH_RADIUS_MEAN = 6371.0088 * Units.KILOMETRE;
+	/**
+	 * Earth mass
+	 */
+	public static final double EARTH_MASS = 5.9722 * Units.YOTTA * Units.KILOGRAM;
+	/**
+	 * Earth semi-major axis
+	 */
+	public static final double EARTH_SEMI_MAJOR_AXIS = 1.000001018 * ASTRONOMICAL_UNIT;
+	/**
+	 * Moon mean radius
+	 */
+	public static final double MOON_RADIUS_MEAN = 1737.1 * Units.KILOMETRE;
+	/**
+	 * Moon mass
+	 */
+	public static final double MOON_MASS = 0.012300037 * EARTH_MASS;	
+	/**
+	 * Moon semi-major axis
+	 */
+	public static final double MONN_SEMI_MAJOR_AXIS = 384399 * Units.KILOMETRE;
+	/**
+	 * Solar radius
+	 */
+	public static final double SOLAR_RADIUS = 695700 * Units.KILOMETRE;
+	/**
+	 * Solar mass
+	 */
+	public static final double SOLAR_MASS = 332946.0487 * EARTH_MASS;	
+	/**
+	 * Mercury radius
+	 */
+	public static final double MERCURY_RADIUS_MEAN = 2439.7 * Units.KILOMETRE;
+	/**
+	 * Mercury mass
+	 */
+	public static final double MERCURY_MASS = 0.0553 * EARTH_MASS;	
+	/**
+	 * Mercury semi-major axis
+	 */
+	public static final double MERCURY_SEMI_MAJOR_AXIS = 0.387098 * ASTRONOMICAL_UNIT;
+	/**
+	 * Venus radius
+	 */
+	public static final double VENUS_RADIUS_MEAN = 6051.8 * Units.KILOMETRE;
+	/**
+	 * Venus mass
+	 */
+	public static final double VENUS_MASS = 0.815 * EARTH_MASS;	
+	/**
+	 * Venus semi-major axis
+	 */
+	public static final double VENUS_SEMI_MAJOR_AXIS = 0.723332 * ASTRONOMICAL_UNIT;
+	/**
+	 * Mars radius
+	 */
+	public static final double MARS_RADIUS_MEAN = 3389.5 * Units.KILOMETRE;
+	/**
+	 * Mars mass
+	 */
+	public static final double MARS_MASS = 0.107 * EARTH_MASS;	
+	/**
+	 * Mars semi-major axis
+	 */
+	public static final double MARS_SEMI_MAJOR_AXIS = 1.523679 * ASTRONOMICAL_UNIT;
+	/**
+	 * Jupiter radius
+	 */
+	public static final double JUPITER_RADIUS_MEAN = 69911 * Units.KILOMETRE;
+	/**
+	 * Jupiter mass
+	 */
+	public static final double JUPITER_MASS = 317.8 * EARTH_MASS;	
+	/**
+	 * Jupiter semi-major axis
+	 */
+	public static final double JUPITER_SEMI_MAJOR_AXIS = 5.20260 * ASTRONOMICAL_UNIT;
+	/**
+	 * Saturn radius
+	 */
+	public static final double SATURN_RADIUS_MEAN = 58232 * Units.KILOMETRE;
+	/**
+	 * Saturn mass
+	 */
+	public static final double SATURN_MASS = 95.159 * EARTH_MASS;	
+	/**
+	 * Saturn semi-major axis
+	 */
+	public static final double SATURN_SEMI_MAJOR_AXIS = 9.5549 * ASTRONOMICAL_UNIT;
+	/**
+	 * Uranus radius
+	 */
+	public static final double URANUS_RADIUS_MEAN = 25362 * Units.KILOMETRE;
+	/**
+	 * Uranus mass
+	 */
+	public static final double URANUS_MASS = 14.536 * EARTH_MASS;	
+	/**
+	 * Uranus semi-major axis
+	 */
+	public static final double URANUS_SEMI_MAJOR_AXIS = 19.2184 * ASTRONOMICAL_UNIT;
+	/**
+	 * Neptune radius
+	 */
+	public static final double NEPTUNE_RADIUS_MEAN = 24622 * Units.KILOMETRE;
+	/**
+	 * Neptune mass
+	 */
+	public static final double NEPTUNE_MASS = 17.147 * EARTH_MASS;	
+	/**
+	 * Neptune semi-major axis
+	 */
+	public static final double NEPTUNE_SEMI_MAJOR_AXIS = 30.110387 * ASTRONOMICAL_UNIT;
 }
-

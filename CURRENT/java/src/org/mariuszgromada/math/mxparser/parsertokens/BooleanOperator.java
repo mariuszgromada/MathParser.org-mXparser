@@ -109,8 +109,8 @@ public final class BooleanOperator {
 	public static final String NOR1_STR				= NEG_STR + OR1_STR;
 	public static final String NOR2_STR				= NEG_STR + OR2_STR;
 	public static final String XOR_STR				= "(+)";
-	public static final String IMP_STR				= "->";
-	public static final String CIMP_STR				= "<-";
+	public static final String IMP_STR				= "-->";
+	public static final String CIMP_STR				= "<--";
 	public static final String NIMP_STR				= "-/>";
 	public static final String CNIMP_STR			= "</-";
 	public static final String EQV_STR				= "<->";

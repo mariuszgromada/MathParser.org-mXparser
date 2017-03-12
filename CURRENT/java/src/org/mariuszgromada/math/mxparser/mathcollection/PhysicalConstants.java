@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.java        4.0.0    2017-03-12
+ * @(#)PhysicalConstants.java        4.0.0    2017-03-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -50,10 +50,10 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
-package org.mariuszgromada.math.mxparser.parsertokens;
+package org.mariuszgromada.math.mxparser.mathcollection;
 
 /**
- * Bitwise Operators - mXparser tokens definition.
+ * PhysicalConstants - class representing the most important physical constants.
  *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -71,38 +71,37 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *
  * @version        4.0.0
  */
-public final class BitwiseOperator {
-	/*
-	 * BitwiseOperator - token type id.
+public final class PhysicalConstants {
+	/**
+	 * Light speed
 	 */
-	public static final int TYPE_ID 				= 11;
-	public static final String TYPE_DESC			= "Bitwise Operator";
-	/*
-	 * BitwiseOperator - tokens id.
+	public static final double LIGHT_SPEED = 299792458.0 * Units.METRE_PER_SECOND;
+	/**
+	 * Gravitational constant
 	 */
-	public static final int COMPL_ID				= 1;
-	public static final int AND_ID					= 2;
-	public static final int XOR_ID					= 3;
-	public static final int OR_ID					= 4;
-	public static final int LEFT_SHIFT_ID			= 5;
-	public static final int RIGHT_SHIFT_ID			= 6;
-	/*
-	 * BitwiseOperator - tokens key words.
+	public static final double GRAVITATIONAL_CONSTANT = 6.67408E-11 * Units.METRE3 * (1.0 / Units.KILOGRAM) * (1.0 / (Units.SECOND * Units.SECOND)) ;
+	/**
+	 * Gravitational acceleration - Earth (normal)
 	 */
-	public static final String COMPL_STR			= "@~";
-	public static final String AND_STR				= "@&";
-	public static final String XOR_STR				= "@^";
-	public static final String OR_STR				= "@|";
-	public static final String LEFT_SHIFT_STR		= "@<<";
-	public static final String RIGHT_SHIFT_STR		= "@>>";
-	/*
-	 * BitwiseOperator - tokens description.
+	public static final double GRAVIT_ACC_EARTH = 9.80665 * Units.METRE_PER_SECOND2;
+	/**
+	 * Planck constant
 	 */
-	public static final String COMPL_DESC			= "(4.0) Bitwise unary complement";
-	public static final String AND_DESC				= "(4.0) Bitwise AND";
-	public static final String XOR_DESC				= "(4.0) Bitwise exclusive OR";
-	public static final String OR_DESC				= "(4.0) Bitwise inclusive OR";
-	public static final String LEFT_SHIFT_DESC		= "(4.0) Signed left shift";
-	public static final String RIGHT_SHIFT_DESC		= "(4.0) Signed right shift";
+	public static final double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;	
+	/**
+	 * Reduced Planck constant
+	 */
+	public static final double PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * MathConstants.PI);
+	/**
+	 * Planck length
+	 */
+	public static final double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;	
+	/**
+	 * Planck mass
+	 */
+	public static final double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;	
+	/**
+	 * Planck time
+	 */
+	public static final double PLANCK_TIME = 5.39116E-44 * Units.SECOND;	
 }
-

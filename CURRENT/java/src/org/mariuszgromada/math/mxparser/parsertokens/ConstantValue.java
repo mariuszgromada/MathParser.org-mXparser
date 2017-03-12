@@ -1,9 +1,9 @@
 /*
- * @(#)ConstantValue.java        3.0.0    2016-05-07
+ * @(#)ConstantValue.java        4.0.0    2017-03-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  */
 public final class ConstantValue {
 	/*
@@ -80,6 +80,7 @@ public final class ConstantValue {
 	/*
 	 * ConstantValue - tokens id.
 	 */
+	/* Math Constants */
 	public static final int PI_ID 								= 1;
 	public static final int EULER_ID 							= 2;
 	public static final int EULER_MASCHERONI_ID					= 3;
@@ -123,53 +124,143 @@ public final class ConstantValue {
 	public static final int MRB_ID								= 41;
 	public static final int LI2_ID								= 42;
 	public static final int GOMPERTZ_ID							= 43;
+	/* Physical Constants */
+	public static final int LIGHT_SPEED_ID						= 101;
+	public static final int GRAVITATIONAL_CONSTANT_ID			= 102;
+	public static final int GRAVIT_ACC_EARTH_ID					= 103;
+	public static final int PLANCK_CONSTANT_ID					= 104;
+	public static final int PLANCK_CONSTANT_REDUCED_ID			= 105;
+	public static final int PLANCK_LENGTH_ID					= 106;
+	public static final int PLANCK_MASS_ID						= 107;
+	public static final int PLANCK_TIME_ID						= 108;
+	/* Astronomical Constants */
+	public static final int LIGHT_YEAR_ID						= 201;
+	public static final int ASTRONOMICAL_UNIT_ID				= 202;
+	public static final int PARSEC_ID							= 203;
+	public static final int KILOPARSEC_ID						= 204;
+	public static final int EARTH_RADIUS_EQUATORIAL_ID			= 205;
+	public static final int EARTH_RADIUS_POLAR_ID				= 206;
+	public static final int EARTH_RADIUS_MEAN_ID				= 207;
+	public static final int EARTH_MASS_ID						= 208;
+	public static final int EARTH_SEMI_MAJOR_AXIS_ID			= 209;
+	public static final int MOON_RADIUS_MEAN_ID					= 210;
+	public static final int MOON_MASS_ID						= 211;
+	public static final int MONN_SEMI_MAJOR_AXIS_ID				= 212;
+	public static final int SOLAR_RADIUS_ID						= 213;
+	public static final int SOLAR_MASS_ID						= 214;
+	public static final int MERCURY_RADIUS_MEAN_ID				= 215;
+	public static final int MERCURY_MASS_ID						= 216;
+	public static final int MERCURY_SEMI_MAJOR_AXIS_ID			= 217;
+	public static final int VENUS_RADIUS_MEAN_ID				= 218;
+	public static final int VENUS_MASS_ID						= 219;
+	public static final int VENUS_SEMI_MAJOR_AXIS_ID			= 220;
+	public static final int MARS_RADIUS_MEAN_ID					= 221;
+	public static final int MARS_MASS_ID						= 222;
+	public static final int MARS_SEMI_MAJOR_AXIS_ID				= 223;
+	public static final int JUPITER_RADIUS_MEAN_ID				= 224;
+	public static final int JUPITER_MASS_ID						= 225;
+	public static final int JUPITER_SEMI_MAJOR_AXIS_ID			= 226;
+	public static final int SATURN_RADIUS_MEAN_ID				= 227;
+	public static final int SATURN_MASS_ID						= 228;
+	public static final int SATURN_SEMI_MAJOR_AXIS_ID			= 229;
+	public static final int URANUS_RADIUS_MEAN_ID				= 230;
+	public static final int URANUS_MASS_ID						= 231;
+	public static final int URANUS_SEMI_MAJOR_AXIS_ID			= 232;
+	public static final int NEPTUNE_RADIUS_MEAN_ID				= 233;
+	public static final int NEPTUNE_MASS_ID						= 234;
+	public static final int NEPTUNE_SEMI_MAJOR_AXIS_ID			= 235;
 	public static final int NaN									= -1;
 	/*
 	 * ConstantValue - tokens key words.
 	 */
 	public static final String PI_STR 							= "pi";
 	public static final String EULER_STR 						= "e";
-	public static final String EULER_MASCHERONI_STR				= "[g]";
-	public static final String GOLDEN_RATIO_STR					= "[p]";
-	public static final String PLASTIC_STR						= "[r]";
+	public static final String EULER_MASCHERONI_STR				= "[gam]";
+	public static final String GOLDEN_RATIO_STR					= "[phi]";
+	public static final String PLASTIC_STR						= "[PN]";
 	public static final String EMBREE_TREFETHEN_STR				= "[B*]";
-	public static final String FEIGENBAUM_DELTA_STR				= "[D]";
-	public static final String FEIGENBAUM_ALFA_STR				= "[a]";
+	public static final String FEIGENBAUM_DELTA_STR				= "[F'd]";
+	public static final String FEIGENBAUM_ALFA_STR				= "[F'a]";
 	public static final String TWIN_PRIME_STR					= "[C2]";
 	public static final String MEISSEL_MERTEENS_STR				= "[M1]";
 	public static final String BRAUN_TWIN_PRIME_STR				= "[B2]";
 	public static final String BRAUN_PRIME_QUADR_STR			= "[B4]";
-	public static final String BRUIJN_NEWMAN_STR				= "[L]";
-	public static final String CATALAN_STR						= "[K]";
+	public static final String BRUIJN_NEWMAN_STR				= "[BN'L]";
+	public static final String CATALAN_STR						= "[Kat]";
 	public static final String LANDAU_RAMANUJAN_STR				= "[K*]";
 	public static final String VISWANATH_STR					= "[K.]";
 	public static final String LEGENDRE_STR						= "[B'L]";
-	public static final String RAMANUJAN_SOLDNER_STR			= "[m]";
-	public static final String ERDOS_BORWEIN_STR				= "[EB]";
-	public static final String BERNSTEIN_STR					= "[B]";
-	public static final String GAUSS_KUZMIN_WIRSING_STR			= "[l]";
-	public static final String HAFNER_SARNAK_MCCURLEY_STR		= "[s]";
+	public static final String RAMANUJAN_SOLDNER_STR			= "[RS'm]";
+	public static final String ERDOS_BORWEIN_STR				= "[EB'e]";
+	public static final String BERNSTEIN_STR					= "[Bern]";
+	public static final String GAUSS_KUZMIN_WIRSING_STR			= "[GKW'l]";
+	public static final String HAFNER_SARNAK_MCCURLEY_STR		= "[HSM's]";
 	public static final String GOLOMB_DICKMAN_STR				= "[lm]";
-	public static final String CAHEN_STR						= "[C]";
+	public static final String CAHEN_STR						= "[Cah]";
 	public static final String LAPLACE_LIMIT_STR				= "[Ll]";
 	public static final String ALLADI_GRINSTEAD_STR				= "[AG]";
 	public static final String LENGYEL_STR						= "[L*]";
 	public static final String LEVY_STR							= "[L.]";
 	public static final String APERY_STR						= "[Dz3]";
-	public static final String MILLS_STR						= "[T]";
+	public static final String MILLS_STR						= "[A3n]";
 	public static final String BACKHOUSE_STR					= "[Bh]";
 	public static final String PORTER_STR						= "[Pt]";
 	public static final String LIEB_QUARE_ICE_STR				= "[L2]";
 	public static final String NIVEN_STR						= "[Nv]";
 	public static final String SIERPINSKI_STR					= "[Ks]";
 	public static final String KHINCHIN_STR						= "[Kh]";
-	public static final String FRANSEN_ROBINSON_STR				= "[F]";
+	public static final String FRANSEN_ROBINSON_STR				= "[FR]";
 	public static final String LANDAU_STR						= "[La]";
 	public static final String PARABOLIC_STR					= "[P2]";
-	public static final String OMEGA_STR						= "[O]";
-	public static final String MRB_STR							= "[M]";
+	public static final String OMEGA_STR						= "[Om]";
+	public static final String MRB_STR							= "[MRB]";
 	public static final String LI2_STR							= "[li2]";
-	public static final String GOMPERTZ_STR						= "[G]";
+	public static final String GOMPERTZ_STR						= "[EG]";
+	/* Physical Constants */
+	public static final String LIGHT_SPEED_STR					= "[c]";
+	public static final String GRAVITATIONAL_CONSTANT_STR		= "[G.]";
+	public static final String GRAVIT_ACC_EARTH_STR				= "[g]";
+	public static final String PLANCK_CONSTANT_STR				= "[hP]";
+	public static final String PLANCK_CONSTANT_REDUCED_STR		= "[h-]";
+	public static final String PLANCK_LENGTH_STR				= "[lP]";
+	public static final String PLANCK_MASS_STR					= "[mP]";
+	public static final String PLANCK_TIME_STR					= "[tP]";
+	/* AstronomicalConstants */
+	public static final String LIGHT_YEAR_STR					= "[ly]";
+	public static final String ASTRONOMICAL_UNIT_STR			= "[au]";
+	public static final String PARSEC_STR						= "[pc]";
+	public static final String KILOPARSEC_STR					= "[kpc]";
+	public static final String EARTH_RADIUS_EQUATORIAL_STR		= "[Earth-R-eq]";
+	public static final String EARTH_RADIUS_POLAR_STR			= "[Earth-R-po]";
+	public static final String EARTH_RADIUS_MEAN_STR			= "[Earth-R]";
+	public static final String EARTH_MASS_STR					= "[Earth-M]";
+	public static final String EARTH_SEMI_MAJOR_AXIS_STR		= "[Earth-D]";
+	public static final String MOON_RADIUS_MEAN_STR				= "[Moon-R]";
+	public static final String MOON_MASS_STR					= "[Moon-M]";
+	public static final String MONN_SEMI_MAJOR_AXIS_STR			= "[Moon-D]";
+	public static final String SOLAR_RADIUS_STR					= "[Solar-R]";
+	public static final String SOLAR_MASS_STR					= "[Solar-M]";
+	public static final String MERCURY_RADIUS_MEAN_STR			= "[Mercury-R]";
+	public static final String MERCURY_MASS_STR					= "[Mercury-M]";
+	public static final String MERCURY_SEMI_MAJOR_AXIS_STR		= "[Mercury-D]";
+	public static final String VENUS_RADIUS_MEAN_STR			= "[Venus-R]";
+	public static final String VENUS_MASS_STR					= "[Venus-M]";
+	public static final String VENUS_SEMI_MAJOR_AXIS_STR		= "[Venus-D]";
+	public static final String MARS_RADIUS_MEAN_STR				= "[Mars-R]";
+	public static final String MARS_MASS_STR					= "[Mars-M]";
+	public static final String MARS_SEMI_MAJOR_AXIS_STR			= "[Mars-D]";
+	public static final String JUPITER_RADIUS_MEAN_STR			= "[Jupiter-R]";
+	public static final String JUPITER_MASS_STR					= "[Jupiter-M]";
+	public static final String JUPITER_SEMI_MAJOR_AXIS_STR		= "[Jupiter-D]";
+	public static final String SATURN_RADIUS_MEAN_STR			= "[Saturn-R]";
+	public static final String SATURN_MASS_STR					= "[Saturn-M]";
+	public static final String SATURN_SEMI_MAJOR_AXIS_STR		= "[Saturn-D]";
+	public static final String URANUS_RADIUS_MEAN_STR			= "[Uranus-R]";
+	public static final String URANUS_MASS_STR					= "[Uranus-M]";
+	public static final String URANUS_SEMI_MAJOR_AXIS_STR		= "[Uranus-D]";
+	public static final String NEPTUNE_RADIUS_MEAN_STR			= "[Neptune-R]";
+	public static final String NEPTUNE_MASS_STR					= "[Neptune-M]";
+	public static final String NEPTUNE_SEMI_MAJOR_AXIS_STR		= "[Neptune-D]";
 	/*
 	 * ConstantValue - tokens description.
 	 */
@@ -216,5 +307,50 @@ public final class ConstantValue {
 	public static final String MRB_DESC							= "MRB constant";
 	public static final String LI2_DESC							= "(2.3) li(2) - logarithmic integral function at x=2";
 	public static final String GOMPERTZ_DESC					= "(2.3) Gompertz constant";
+	/* Physical Constants */
+	public static final String LIGHT_SPEED_DESC					= "(4.0) <Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)";
+	public static final String GRAVITATIONAL_CONSTANT_DESC		= "(4.0) <Physical Constant> Gravitational constant (m=1, kg=1, s=1)]";
+	public static final String GRAVIT_ACC_EARTH_DESC			= "(4.0) <Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)";
+	public static final String PLANCK_CONSTANT_DESC				= "(4.0) <Physical Constant> Planck constant (m=1, kg=1, s=1)";
+	public static final String PLANCK_CONSTANT_REDUCED_DESC		= "(4.0) <Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]";
+	public static final String PLANCK_LENGTH_DESC				= "(4.0) <Physical Constant> Planck length [m] (m=1)";
+	public static final String PLANCK_MASS_DESC					= "(4.0) <Physical Constant> Planck mass [kg] (kg=1)";
+	public static final String PLANCK_TIME_DESC					= "(4.0) <Physical Constant> Planck time [s] (s=1)";
+	/* Astronomical Constants */
+	public static final String LIGHT_YEAR_DESC					= "(4.0) <Astronomical Constant> Light year [m] (m=1)";
+	public static final String ASTRONOMICAL_UNIT_DESC			= "(4.0) <Astronomical Constant> Astronomical unit [m] (m=1)";
+	public static final String PARSEC_DESC						= "(4.0) <Astronomical Constant> Parsec [m] (m=1)";
+	public static final String KILOPARSEC_DESC					= "(4.0) <Astronomical Constant> Kiloparsec [m] (m=1)";
+	public static final String EARTH_RADIUS_EQUATORIAL_DESC		= "(4.0) <Astronomical Constant> Earth equatorial radius [m] (m=1)";
+	public static final String EARTH_RADIUS_POLAR_DESC			= "(4.0) <Astronomical Constant> Earth polar radius [m] (m=1)";
+	public static final String EARTH_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Earth mean radius (m=1)";
+	public static final String EARTH_MASS_DESC					= "(4.0) <Astronomical Constant> Earth mass [kg] (kg=1)";
+	public static final String EARTH_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)";
+	public static final String MOON_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Moon mean radius [m] (m=1)";
+	public static final String MOON_MASS_DESC					= "(4.0) <Astronomical Constant> Moon mass [kg] (kg=1)";
+	public static final String MONN_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)";
+	public static final String SOLAR_RADIUS_DESC				= "(4.0) <Astronomical Constant> Solar mean radius [m] (m=1)";
+	public static final String SOLAR_MASS_DESC					= "(4.0) <Astronomical Constant> Solar mass [kg] (kg=1)";
+	public static final String MERCURY_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Mercury mean radius [m] (m=1)";
+	public static final String MERCURY_MASS_DESC				= "(4.0) <Astronomical Constant> Mercury mass [kg] (kg=1)";
+	public static final String MERCURY_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)";
+	public static final String VENUS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Venus mean radius [m] (m=1)";
+	public static final String VENUS_MASS_DESC					= "(4.0) <Astronomical Constant> Venus mass [kg] (kg=1)";
+	public static final String VENUS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)";
+	public static final String MARS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Mars mean radius [m] (m=1)";
+	public static final String MARS_MASS_DESC					= "(4.0) <Astronomical Constant> Mars mass [kg] (kg=1)";
+	public static final String MARS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)";
+	public static final String JUPITER_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Jupiter mean radius [m] (m=1)";
+	public static final String JUPITER_MASS_DESC				= "(4.0) <Astronomical Constant> Jupiter mass [kg] (kg=1)";
+	public static final String JUPITER_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)";
+	public static final String SATURN_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Saturn mean radius [m] (m=1)";
+	public static final String SATURN_MASS_DESC					= "(4.0) <Astronomical Constant> Saturn mass [kg] (kg=1)";
+	public static final String SATURN_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)";
+	public static final String URANUS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Uranus mean radius [m] (m=1)";
+	public static final String URANUS_MASS_DESC					= "(4.0) <Astronomical Constant> Uranus mass [kg] (kg=1)";
+	public static final String URANUS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)";
+	public static final String NEPTUNE_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Neptune mean radius [m] (m=1)";
+	public static final String NEPTUNE_MASS_DESC				= "(4.0) <Astronomical Constant> Neptune mass [kg] (kg=1)";
+	public static final String NEPTUNE_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
 }
 
