@@ -1,9 +1,9 @@
 /*
- * @(#)Operator.java        4.0.0    2017-03-13
+ * @(#)BitwiseOperator.cs        4.0.0    2017-03-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -54,7 +54,7 @@ using System;
 
 namespace org.mariuszgromada.math.mxparser.parsertokens {
 	/**
-	 * Operators - mXparser tokens definition.
+	 * Bitwise Operators - mXparser tokens definition.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
 	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -73,41 +73,38 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
-	public sealed class Operator {
+	public sealed class BitwiseOperator {
 		/*
-		 * Operator - token type id.
+		 * BitwiseOperator - token type id.
 		 */
-		public const int TYPE_ID				= 1;
-		public const String TYPE_DESC			= "Operator";
+		public const int TYPE_ID = 11;
+		public const String TYPE_DESC = "Bitwise Operator";
 		/*
-		 * Operator - tokens id.
+		 * BitwiseOperator - tokens id.
 		 */
-		public const int PLUS_ID				= 1;
-		public const int MINUS_ID				= 2;
-		public const int MULTIPLY_ID			= 3;
-		public const int DIVIDE_ID				= 4;
-		public const int POWER_ID				= 5;
-		public const int FACT_ID				= 6;
-		public const int MOD_ID					= 7;
+		public const int COMPL_ID = 1;
+		public const int AND_ID = 2;
+		public const int XOR_ID = 3;
+		public const int OR_ID = 4;
+		public const int LEFT_SHIFT_ID = 5;
+		public const int RIGHT_SHIFT_ID = 6;
 		/*
-		 * Operator - tokens key words.
+		 * BitwiseOperator - tokens key words.
 		 */
-		public const String PLUS_STR 			= "+";
-		public const String MINUS_STR 			= "-";
-		public const String MULTIPLY_STR 		= "*";
-		public const String DIVIDE_STR 			= "/";
-		public const String POWER_STR 			= "^";
-		public const String FACT_STR 			= "!";
-		public const String MOD_STR				= "#";
+		public const String COMPL_STR = "@~";
+		public const String AND_STR = "@&";
+		public const String XOR_STR = "@^";
+		public const String OR_STR = "@|";
+		public const String LEFT_SHIFT_STR = "@<<";
+		public const String RIGHT_SHIFT_STR = "@>>";
 		/*
-		 * Operator - tokens description.
+		 * BitwiseOperator - tokens description.
 		 */
-		public const String PLUS_DESC 			= "addition";
-		public const String MINUS_DESC 			= "subtraction";
-		public const String MULTIPLY_DESC 		= "multiplication";
-		public const String DIVIDE_DESC 		= "division";
-		public const String POWER_DESC 			= "exponentiation";
-		public const String FACT_DESC			= "factorial";
-		public const String MOD_DESC			= "modulo function";
+		public const String COMPL_DESC = "(4.0) Bitwise unary complement";
+		public const String AND_DESC = "(4.0) Bitwise AND";
+		public const String XOR_DESC = "(4.0) Bitwise exclusive OR";
+		public const String OR_DESC = "(4.0) Bitwise inclusive OR";
+		public const String LEFT_SHIFT_DESC = "(4.0) Signed left shift";
+		public const String RIGHT_SHIFT_DESC = "(4.0) Signed right shift";
 	}
 }

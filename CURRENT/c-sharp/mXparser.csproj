@@ -78,6 +78,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\Constant.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Expression.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Function.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Coefficients.cs" />
@@ -86,13 +87,16 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\MathFunctions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\NumberTheory.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Calculus.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\PhysicalConstants.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mXparser.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\BinaryRelation.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\BitwiseOperator.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\BooleanOperator.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\CalculusOperator.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\ConstantValue.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\ParserSymbol.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Unit.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs" />

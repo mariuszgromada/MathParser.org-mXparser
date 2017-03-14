@@ -2719,7 +2719,7 @@ public class Expression {
 	 */
 	private void BITWISE_LEFT_SHIFT(int pos) {
 		long a = (long)getTokenValue(pos-1);
-		long b = (long)getTokenValue(pos+1);
+		int b = (int)getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, a << b);
 	}
 	/**
@@ -2729,7 +2729,7 @@ public class Expression {
 	 */
 	private void BITWISE_RIGHT_SHIFT(int pos) {
 		long a = (long)getTokenValue(pos-1);
-		long b = (long)getTokenValue(pos+1);
+		int b = (int)getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, a >> b);
 	}
 	/**

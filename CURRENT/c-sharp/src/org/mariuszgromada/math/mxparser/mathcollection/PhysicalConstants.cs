@@ -1,9 +1,9 @@
 /*
- * @(#)Operator.java        4.0.0    2017-03-13
+ * @(#)PhysicalConstants.cs        4.0.0    2017-03-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -52,9 +52,9 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.parsertokens {
+namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
-	 * Operators - mXparser tokens definition.
+	 * PhysicalConstants - class representing the most important physical constants.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
 	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -73,41 +73,38 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
-	public sealed class Operator {
-		/*
-		 * Operator - token type id.
+	public sealed class PhysicalConstants {
+		/**
+		 * Light speed
 		 */
-		public const int TYPE_ID				= 1;
-		public const String TYPE_DESC			= "Operator";
-		/*
-		 * Operator - tokens id.
+		public const double LIGHT_SPEED = 299792458.0 * Units.METRE_PER_SECOND;
+		/**
+		 * Gravitational constant
 		 */
-		public const int PLUS_ID				= 1;
-		public const int MINUS_ID				= 2;
-		public const int MULTIPLY_ID			= 3;
-		public const int DIVIDE_ID				= 4;
-		public const int POWER_ID				= 5;
-		public const int FACT_ID				= 6;
-		public const int MOD_ID					= 7;
-		/*
-		 * Operator - tokens key words.
+		public const double GRAVITATIONAL_CONSTANT = 6.67408E-11 * Units.METRE3 * (1.0 / Units.KILOGRAM) * (1.0 / (Units.SECOND * Units.SECOND));
+		/**
+		 * Gravitational acceleration - Earth (normal)
 		 */
-		public const String PLUS_STR 			= "+";
-		public const String MINUS_STR 			= "-";
-		public const String MULTIPLY_STR 		= "*";
-		public const String DIVIDE_STR 			= "/";
-		public const String POWER_STR 			= "^";
-		public const String FACT_STR 			= "!";
-		public const String MOD_STR				= "#";
-		/*
-		 * Operator - tokens description.
+		public const double GRAVIT_ACC_EARTH = 9.80665 * Units.METRE_PER_SECOND2;
+		/**
+		 * Planck constant
 		 */
-		public const String PLUS_DESC 			= "addition";
-		public const String MINUS_DESC 			= "subtraction";
-		public const String MULTIPLY_DESC 		= "multiplication";
-		public const String DIVIDE_DESC 		= "division";
-		public const String POWER_DESC 			= "exponentiation";
-		public const String FACT_DESC			= "factorial";
-		public const String MOD_DESC			= "modulo function";
+		public const double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;
+		/**
+		 * Reduced Planck constant
+		 */
+		public const double PLANCK_CONSTANT_REDUCED = PLANCK_CONSTANT / (2 * MathConstants.PI);
+		/**
+		 * Planck length
+		 */
+		public const double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;
+		/**
+		 * Planck mass
+		 */
+		public const double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;
+		/**
+		 * Planck time
+		 */
+		public const double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
 	}
 }

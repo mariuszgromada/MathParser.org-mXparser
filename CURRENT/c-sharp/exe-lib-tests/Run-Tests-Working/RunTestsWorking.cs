@@ -17,10 +17,9 @@ namespace mxparser.runtests {
 			mXparser.consolePrintln(MathFunctions.ulpDecimalDigitsBefore(6.28318530717959));
 			mXparser.consolePrintln(MathFunctions.round(6.28318530717959, 13));
 			*/
-			Expression e = new Expression("1000 * (1 - 0.05) * ((1 + 0.08) ^ (6 -1)) / ((1 + 0.08) ^ (6 - 1)) - 200");
-			double result = e.calculate();
-			mXparser.consolePrintln(result + " " + e.getComputingTime());
-			Console.In.Read();
+			Expression e = new Expression("¬1");
+			mXparser.consolePrintln(e.calculate());
+			mXparser.consolePrintln(e.getErrorMessage());
 		}
 	}
 }

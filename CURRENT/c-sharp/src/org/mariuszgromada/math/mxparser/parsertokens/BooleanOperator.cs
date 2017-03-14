@@ -1,9 +1,9 @@
 /*
- * @(#)BooleanOperator.java        3.0.0    2016-05-07
+ * @(#)BooleanOperator.java        4.0.0    2017-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BooleanOperator {
@@ -97,6 +97,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * BooleanOperator - tokens key words.
 		 */
 		public const String NEG_STR				= "~";
+		public const String NEG_ALT_STR			= "¬";
 		public const String AND_STR				= "&";
 		public const String AND1_STR			= "&&";
 		public const String AND2_STR			= "/\\";
@@ -110,8 +111,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NOR1_STR			= NEG_STR + OR1_STR;
 		public const String NOR2_STR			= NEG_STR + OR2_STR;
 		public const String XOR_STR				= "(+)";
-		public const String IMP_STR				= "->";
-		public const String CIMP_STR			= "<-";
+		public const String IMP_STR				= "-->";
+		public const String CIMP_STR			= "<--";
 		public const String NIMP_STR			= "-/>";
 		public const String CNIMP_STR			= "</-";
 		public const String EQV_STR				= "<->";

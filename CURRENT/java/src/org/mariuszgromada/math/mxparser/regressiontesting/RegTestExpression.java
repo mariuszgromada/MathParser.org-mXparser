@@ -6893,7 +6893,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
-			reg = ((long)(-100.0)) >> ((long)(4.0));
+			reg = ((long)(-100.0)) >> ((int)(4.0));
 			if ( MathFunctions.abs(reg - value) <= 0.000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
@@ -6904,7 +6904,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
-			reg = ((long)(-100.0)) << ((long)(4.0));
+			reg = ((long)(-100.0)) << ((int)(4.0));
 			if ( MathFunctions.abs(reg - value) <= 0.000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
