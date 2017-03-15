@@ -5666,6 +5666,7 @@ namespace org.mariuszgromada.math.mxparser {
 			String tokenStr = "";
 			int matchStatusPrev = NOT_FOUND; /* unknown key word (previous) */
 			int matchStatus = NOT_FOUND; /* unknown key word (current) */
+			double tmpParsed = 0;
 			/*
 			 * Check all available positions in the expression tokens list
 			 */
@@ -5680,20 +5681,10 @@ namespace org.mariuszgromada.math.mxparser {
 				int numEnd = -1;
 				for (int i=pos; i<newExpressionString.Length; i++) {
 					String str = newExpressionString.Substring(pos, i+1-pos);
-					/*
-					if (    mXparser.RegexMatch(str, ParserSymbol.NUMBER).Success )
-					{
+					if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed))
 						numEnd = i;
-						mXparser.consolePrintln("Regex -> |" + str + "=number" + " " + pos + ", " + i);
-					}*/
-					try
-					{
-						Double.Parse(str, NumberStyles.Float, CultureInfo.InvariantCulture);
-						numEnd = i;
-					}
-					catch (Exception e)
-					{
-						errorMessage = e.Message;
+					else {
+						errorMessage = "Failed to parse real number - check number format.";
 						syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 					}
 				}
