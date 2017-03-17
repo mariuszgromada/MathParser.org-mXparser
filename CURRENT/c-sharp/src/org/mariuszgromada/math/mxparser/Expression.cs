@@ -5679,13 +5679,51 @@ namespace org.mariuszgromada.math.mxparser {
 				 * with the given regExp
 				 */
 				int numEnd = -1;
-				for (int i=pos; i<newExpressionString.Length; i++) {
-					String str = newExpressionString.Substring(pos, i+1-pos);
-					if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed))
-						numEnd = i;
-					else {
-						errorMessage = "Failed to parse real number - check number format.";
-						syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+				/*
+				 * Number has to start with digit
+				 */
+				c = newExpressionString[pos];
+				if (	(c == '+') ||
+						(c == '-') ||
+						(c == '0') ||
+						(c == '1') ||
+						(c == '2') ||
+						(c == '3') ||
+						(c == '4') ||
+						(c == '5') ||
+						(c == '6') ||
+						(c == '7') ||
+						(c == '8') ||
+						(c == '9')	) {
+					for (int i = pos; i < newExpressionString.Length; i++) {
+						/*
+						 * Escaping if encountering char that can not
+						 * be included in number
+						 */
+						if (i > pos) {
+							c = newExpressionString[i];
+							if (	(c != '+') &&
+									(c != '-') &&
+									(c != '0') &&
+									(c != '1') &&
+									(c != '2') &&
+									(c != '3') &&
+									(c != '4') &&
+									(c != '5') &&
+									(c != '6') &&
+									(c != '7') &&
+									(c != '8') &&
+									(c != '9') &&
+									(c != '.') &&
+									(c != 'e') &&
+									(c != 'E')	) break;
+						}
+						/*
+						 * Checking if substring represents number
+						 */
+						String str = newExpressionString.Substring(pos, i + 1 - pos);
+						if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed))
+							numEnd = i;
 					}
 				}
 				/*

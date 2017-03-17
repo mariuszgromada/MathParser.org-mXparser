@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("mXparser - Math Parser Java C# Library")]
 [assembly: AssemblyDescription("A flexible mathematical expressions parser for JAVA and C# .NET")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mariusz Gromada")]
+[assembly: AssemblyCompany("Mariusz Gromada, MathParser.org")]
 [assembly: AssemblyProduct("mXparser")]
-[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2016")]
+[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2017")]
 [assembly: AssemblyTrademark("mXparser")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyVersion("4.0.0.0")]
+[assembly: AssemblyFileVersion("4.0.0.0")]

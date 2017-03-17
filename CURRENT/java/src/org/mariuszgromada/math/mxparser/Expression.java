@@ -5717,10 +5717,51 @@ public class Expression {
 			 * with the given regExp
 			 */
 			int numEnd = -1;
-			for (int i=pos; i<newExpressionString.length(); i++) {
-				String str = newExpressionString.substring(pos, i+1);
-				if ( mXparser.regexMatch(str, ParserSymbol.NUMBER_REG_EXP) ){
-					numEnd = i;
+			/*
+			 * Number has to start with digit
+			 */
+			c = newExpressionString.charAt(pos);
+			if (	(c == '+') ||
+					(c == '-') ||
+					(c == '0') ||
+					(c == '1') ||
+					(c == '2') ||
+					(c == '3') ||
+					(c == '4') ||
+					(c == '5') ||
+					(c == '6') ||
+					(c == '7') ||
+					(c == '8') ||
+					(c == '9')	) {
+				for (int i=pos; i<newExpressionString.length(); i++) {
+					/*
+					 * Escaping if encountering char that can not
+					 * be included in number
+					 */
+					if (i > pos) {
+						c = newExpressionString.charAt(i);
+						if (	(c != '+') &&
+								(c != '-') &&
+								(c != '0') &&
+								(c != '1') &&
+								(c != '2') &&
+								(c != '3') &&
+								(c != '4') &&
+								(c != '5') &&
+								(c != '6') &&
+								(c != '7') &&
+								(c != '8') &&
+								(c != '9') &&
+								(c != '.') &&
+								(c != 'e') &&
+								(c != 'E') ) break;
+					}
+					/*
+					 * Checking if substring represents number
+					 */
+					String str = newExpressionString.substring(pos, i+1);
+					if ( mXparser.regexMatch(str, ParserSymbol.NUMBER_REG_EXP) )
+						numEnd = i;
 				}
 			}
 			/*
@@ -5747,7 +5788,6 @@ public class Expression {
 							( c != '<' ) &&
 							( c != '~' ) &&
 							( c != '^' ) &&
-							( c != '¬' ) &&
 							( c != '#' ) &&
 							( c != '%' ) &&
 							( c != '!' )	)
@@ -5852,8 +5892,11 @@ public class Expression {
 							(kw.wordTypeId == Function1Arg.TYPE_ID) ||
 							(kw.wordTypeId == Function2Arg.TYPE_ID) ||
 							(kw.wordTypeId == Function3Arg.TYPE_ID) ||
+							(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
 							(kw.wordTypeId == ConstantValue.TYPE_ID) ||
 							(kw.wordTypeId == Constant.TYPE_ID) ||
+							(kw.wordTypeId == RandomVariable.TYPE_ID) ||
+							(kw.wordTypeId == Unit.TYPE_ID) ||
 							(kw.wordTypeId == Function.TYPE_ID) ||
 							(kw.wordTypeId == CalculusOperator.TYPE_ID)	)
 						if ( pos + kwStr.length() < newExpressionString.length() ) {
@@ -5876,7 +5919,6 @@ public class Expression {
 									( c != '<' ) &&
 									( c != '~' ) &&
 									( c != '^' ) &&
-									( c != '¬' ) &&
 									( c != '#' ) &&
 									( c != '%' ) &&									
 									( c != '!' )	)

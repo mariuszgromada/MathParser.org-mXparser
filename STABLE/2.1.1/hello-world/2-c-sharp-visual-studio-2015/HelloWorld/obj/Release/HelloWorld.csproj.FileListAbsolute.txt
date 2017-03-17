@@ -1,7 +1,0 @@
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Release\HelloWorld.exe.config
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Release\HelloWorld.exe
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Release\HelloWorld.pdb
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Release\mxparser.dll
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\bin\Release\mxparser.pdb
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\obj\Release\HelloWorld.exe
-D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\2-c-sharp-visual-studio-2015\HelloWorld\obj\Release\HelloWorld.pdb

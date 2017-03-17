@@ -1,10 +1,61 @@
-/**
-* JTB file
-*/
+/*
+ * @(#)SyntaxChecker.jj        4.0.0    2017-03-17
+ *
+ * SyntaxChecker.jj - mXparser grammar specification for JavaCC
+ *
+ * You may use this software under the condition of "Simplified BSD License"
+ *
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *    1. Redistributions of source code must retain the above copyright notice, this list of
+ *       conditions and the following disclaimer.
+ *
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *       of conditions and the following disclaimer in the documentation and/or other materials
+ *       provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY <MARIUSZ GROMADA> ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of MARIUSZ GROMADA.
+ *
+ * If you have any questions/bugs feel free to contact:
+ *
+ *     Mariusz Gromada
+ *     mariuszgromada.org@gmail.com
+ *     http://mathparser.org
+ *     http://mathspace.pl
+ *     http://janetsudoku.mariuszgromada.org
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://mariuszgromada.github.io/MathParser.org-mXparser
+ *     http://mxparser.sourceforge.net
+ *     http://bitbucket.org/mariuszgromada/mxparser
+ *     http://mxparser.codeplex.com
+ *     http://github.com/mariuszgromada/Janet-Sudoku
+ *     http://janetsudoku.codeplex.com
+ *     http://sourceforge.net/projects/janetsudoku
+ *     http://bitbucket.org/mariuszgromada/janet-sudoku
+ *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *
+ *                              Asked if he believes in one God, a mathematician answered:
+ *                              "Yes, up to isomorphism."
+ */
 
 options {
-  JDK_VERSION = "1.5";
-  STATIC = false;
+	JDK_VERSION = "1.5";
+	STATIC = false;
 }
 
 PARSER_BEGIN(SyntaxChecker)
@@ -12,9 +63,10 @@ PARSER_BEGIN(SyntaxChecker)
 package org.mariuszgromada.math.mxparser.syntaxchecker;
 
 public final class SyntaxChecker {
+	public final void checkSyntax() throws ParseException, TokenMgrError {
+		start();
+	}
 
-  public final void checkSyntax() throws ParseException, TokenMgrError  {    start();  }
-  
 }
 
 PARSER_END(SyntaxChecker)
@@ -29,134 +81,166 @@ SKIP :
 
 TOKEN : /* TOKENS */
 {
-	< #LETTER:		["_","a"-"z","A"-"Z"] >
-| 	< #DIGIT:		["0"-"9"] >
-| 	< #LETTERS:		<LETTER>(<LETTER >)* >
-|  	< INTEGER:		<DIGIT>(<DIGIT>)* >
-| 	< LEFT_PAR:	"(" >
-| 	< RIGHT_PAR:	")" >
-| 	< PLUS:	"+" >
-| 	< MINUS:	"-" >
-| 	< MULTIPLY:	"*" >
-| 	< DIV:	"/" >
-| 	< POWER:	"^" >
-| 	< MODULO:	"#" >
-| 	< FACTORIAL:	"!" >
-| 	< COMMA:	"," >
-| 	< SEMICOLON:	";" >
-| 	< EQ:	( "=" | "==" ) >
-| 	< UNIT:	( "[%]" | "[%%]" ) >
-| 	< NEQ:	( "<>" | "!=" | "~=" ) >
-| 	< LT:	"<" >
-| 	< LEQ:	"<=" >
-| 	< GT:	">"  >
-| 	< GEQ:	">=" >
-| 	< OR:	( "|" | "||" | "\\/" ) >
-| 	< AND:	( "&" | "&&" | "/\\" ) >
-| 	< NOT:	( "~" | "\u00ac" ) >
-| 	< BITNOT:   "@~" >
-| 	< IMP:	"-->" >
-| 	< CIMP:	"<--" >
-| 	< NIMP:	"-/>" >
-| 	< CNIMP:"</-" >
-|   < NAND: <NOT><AND> >
-|   < EQV:  "<->" >
-|   < NOR: <NOT><OR> >
-|   < BIT: ( "@&" | "@^" | "@|" | "@<<" | "@>>" ) >
-| 	< XOR:	"(+)" >
-| 	< CHAR:	( "`"  | "@" | "#" | "$" | "." | "'" | ":" | ";" | "\\" | "/" | "?" )  >
+	< #LETTER:		["_","a"-"z","A"-"Z"]														>
+| 	< #DIGIT:		["0"-"9"]																	>
+| 	< #DIGIT19:		["1"-"9"]																	>
+| 	< #LETTERS:		<LETTER>(<LETTER>)*															>
+|  	< #DIGITS:		<DIGIT>(<DIGIT>)*															>
+|  	< #INTEGER:		( "0" | <DIGIT19>(<DIGIT>)* )												>
+| 	< LEFT_PAR:		"("																			>
+| 	< RIGHT_PAR:	")"																			>
+| 	< PLUS:			"+"																			>
+| 	< MINUS:		"-"																			>
+| 	< MULTIPLY:		"*"																			>
+| 	< DIV:			"/"																			>
+| 	< POWER:		"^"																			>
+| 	< MODULO:		"#"																			>
+| 	< FACTORIAL:	"!"																			>
+| 	< COMMA:		","																			>
+| 	< SEMICOLON:	";"																			>
+| 	< EQ:			( "=" | "==" )																>
+| 	< UNIT:			( "[%]" | "[%%]" )															>
+| 	< NEQ:			( "<>" | "!=" | "~=" )														>
+| 	< LT:			"<"																			>
+| 	< LEQ:			"<="																		>
+| 	< GT:			">"																			>
+| 	< GEQ:			">="																		>
+| 	< OR:			( "|" | "||" | "\\/" )														>
+| 	< AND:			( "&" | "&&" | "/\\" )														>
+| 	< NOT:			"~"																			>
+| 	< BITNOT:   	"@~"																		>
+| 	< IMP:			"-->"																		>
+| 	< CIMP:			"<--"																		>
+| 	< NIMP:			"-/>"																		>
+| 	< CNIMP:		"</-"																		>
+|   < NAND:			<NOT><AND>																	>
+|   < EQV:  		"<->"																		>
+|   < NOR:			<NOT><OR>																	>
+|   < BITWISE:		( "@&" | "@^" | "@|" | "@<<" | "@>>" )										>
+| 	< XOR:			"(+)"																		>
+| 	< CHAR:			( "`"  | "@" | "#" | "$" | "." | "'" | ":" | ";" | "\\" | "/" | "?" )		>
 }
 
 
-TOKEN : /* NUMBER DECIMALS */
+/*
+ * Tokens representing numbers
+ */
+TOKEN :
 {
- 	< REAL:
- 				"." <INTEGER>
-|  				<INTEGER> "."
-|  				<INTEGER> "." <INTEGER>
-	>
+	< #REAL:			( "0." <DIGITS> | <INTEGER> "." <DIGITS> )								>
+|	< #NUMBER:			( <REAL> | <INTEGER> )													>
+|	< NUMBER_CONSTANT:	<NUMBER> ( ( "E" | "e" ) ( "+" | "-" )? <INTEGER> )?					>
 }
 
-
-
-TOKEN : /* IDENTIFIER */
+/*
+ * Token representing identifiers
+ */
+TOKEN :
 {
- 	< IDENTIFIER:	<LETTERS> ( <LETTERS> | <INTEGER> )*  >
+	< IDENTIFIER:	<LETTERS> ( <LETTERS> | <DIGITS> )*  										>
 }
 
+/*
+ * Token representing functions with special names
+ */
 TOKEN : /* SPECIAL FUNCTION */
 {
- 	< FUNCTION: "der+" | "der-" >
+	< FUNCTION: "der+" | "der-"																	>
 }
 
-
+/*
+ * Lexer logic - grammar
+ */
 void start():{}
 {
-  ( expression() (<EOF>) | <EOF > )
-}
-void expression():{ } 
-{
-  booleanExpression()
-}
-void booleanExpression():{ } 
-{
-  equalExpression() (
-    						<OR> equalExpression()
-    						| <AND> equalExpression()
-    						| <NOR> equalExpression()
-    						| <NAND> equalExpression()
-    						| <XOR> equalExpression()
-    						| <IMP> equalExpression()
-    						| <CIMP> equalExpression()
-    						| <NIMP> equalExpression()
-    						| <CNIMP> equalExpression()
-    						| <EQV> equalExpression()
-							| <BIT> equalExpression()
-  )* 
-}
-void equalExpression():{}
-{
-  relationalExpression() (	 <EQ> relationalExpression()
-  							| <NEQ> relationalExpression()
-  							| <GT> relationalExpression()
-  							| <GEQ> relationalExpression()
-  							| <LT> relationalExpression()
-  							| <LEQ> relationalExpression()
-  							)*
-}
-void relationalExpression():{}
-{
-  additiveExpression() 
-}
-void additiveExpression():{}
-{
-  multiplicativeExpression() ( <PLUS> multiplicativeExpression() | <MINUS> multiplicativeExpression() )* 
-}
-void multiplicativeExpression():{}
-{
-  unaryExpression() ( <POWER> unaryExpression() | <MULTIPLY> unaryExpression() | <DIV> unaryExpression() | <MODULO> unaryExpression() )* 
-}
-void unaryExpression():{}
-{
-  (<NOT> | <BITNOT>)? ( <PLUS> | <MINUS> )? ( realConstant() | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> ) ( <FACTORIAL> )?
-}
-void argumentList():{}
-{
- ( expression() ( ( <COMMA> | <SEMICOLON> ) expression() )* )?
-}
-void identifier():{}
-{
- (
-   <IDENTIFIER> | <UNIT> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <REAL> )* )+ "]" 
- )
-}
-void realConstant():{}
-{
-  ( <REAL> | <INTEGER> ) 
+	( expression() (<EOF>) | <EOF > )
 }
 
+/*
+ * Grammar for expression
+ */
+void expression():{ } 
+{
+	binaryExpression()
+}
+
+/*
+ * Grammar for binary operators
+ */
+void binaryExpression():{ } 
+{
+	unaryRigthExpression() (
+								<PLUS>		unaryRigthExpression()
+							|	<MINUS>		unaryRigthExpression()
+							|	<MULTIPLY>	unaryRigthExpression()
+							|	<DIV>		unaryRigthExpression()
+							|	<MODULO>	unaryRigthExpression()
+							|	<POWER>		unaryRigthExpression()
+							|	<EQ>		unaryRigthExpression()
+  							|	<NEQ>		unaryRigthExpression()
+  							|	<GT>		unaryRigthExpression()
+  							|	<GEQ>		unaryRigthExpression()
+  							|	<LT>		unaryRigthExpression()
+  							|	<LEQ>		unaryRigthExpression()  
+							|	<OR>		unaryRigthExpression()
+    						|	<AND>		unaryRigthExpression()
+    						|	<NOR>		unaryRigthExpression()
+    						|	<NAND>		unaryRigthExpression()
+    						|	<XOR>		unaryRigthExpression()
+    						|	<IMP>		unaryRigthExpression()
+    						|	<CIMP>		unaryRigthExpression()
+    						|	<NIMP>		unaryRigthExpression()
+    						|	<CNIMP>		unaryRigthExpression()
+    						|	<EQV>		unaryRigthExpression()
+							|	<BITWISE>	unaryRigthExpression()
+	)* 
+}
+
+/*
+ * Grammar for unary rigth operators
+ */
+void unaryRigthExpression():{}
+{
+	unaryLeftExpression() ( <FACTORIAL> )?
+}
+
+/*
+ * Grammar for unary left operators
+ */
+void unaryLeftExpression():{}
+{
+	( <NOT> | <BITNOT> )? itemExpression()
+}
+
+/*
+ * Grammar for items
+ */
+void itemExpression():{}
+{
+    ( <PLUS> | <MINUS> )? ( <NUMBER_CONSTANT> | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> )
+}
+
+/*
+ * Grammar for arguments list
+ */
+void argumentList():{}
+{
+	( expression() ( ( <COMMA> | <SEMICOLON> ) expression() )* )?
+}
+
+/*
+ * Grammar for identifiers
+ */
+void identifier():{}
+{
+	( <IDENTIFIER> | <UNIT> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <NUMBER_CONSTANT> )* )+ "]" )
+}
+
+/*
+ * Unexpected and invalid tokens
+ */
 < * > TOKEN : 
 {
-< INVALID_TOKEN : "++" | "--" | "+-" | "-+" >  
-|  < UNEXPECTED_CHAR : ~[] > 
-} 
+	< INVALID_TOKEN: ( "++" | "--" | "+-" | "-+" ) >  
+|	< UNEXPECTED_CHAR: ~[] > 
+}

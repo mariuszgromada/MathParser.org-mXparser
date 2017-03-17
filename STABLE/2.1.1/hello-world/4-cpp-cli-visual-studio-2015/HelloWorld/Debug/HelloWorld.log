@@ -1,4 +1,0 @@
-﻿  HelloWorld.cpp
-  AssemblyInfo.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
-  HelloWorld.vcxproj -> D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\4-cpp-cli-visual-studio-2015\HelloWorld\Debug\HelloWorld.exe
-  HelloWorld.vcxproj -> D:\Mariusz\projekty\GitHub\mXparser\CURRENT\hello-world\4-cpp-cli-visual-studio-2015\HelloWorld\Debug\HelloWorld.pdb (Partial PDB)

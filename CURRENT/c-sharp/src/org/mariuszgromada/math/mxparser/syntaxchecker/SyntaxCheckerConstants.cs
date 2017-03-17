@@ -8,45 +8,49 @@ public class SyntaxCheckerConstants {
   public const int EOF = 0;
   public const int LETTER = 5;
   public const int DIGIT = 6;
-  public const int LETTERS = 7;
-  public const int INTEGER = 8;
-  public const int LEFT_PAR = 9;
-  public const int RIGHT_PAR = 10;
-  public const int PLUS = 11;
-  public const int MINUS = 12;
-  public const int MULTIPLY = 13;
-  public const int DIV = 14;
-  public const int POWER = 15;
-  public const int MODULO = 16;
-  public const int FACTORIAL = 17;
-  public const int COMMA = 18;
-  public const int SEMICOLON = 19;
-  public const int EQ = 20;
-  public const int UNIT = 21;
-  public const int NEQ = 22;
-  public const int LT = 23;
-  public const int LEQ = 24;
-  public const int GT = 25;
-  public const int GEQ = 26;
-  public const int OR = 27;
-  public const int AND = 28;
-  public const int NOT = 29;
-  public const int BITNOT = 30;
-  public const int IMP = 31;
-  public const int CIMP = 32;
-  public const int NIMP = 33;
-  public const int CNIMP = 34;
-  public const int NAND = 35;
-  public const int EQV = 36;
-  public const int NOR = 37;
-  public const int BIT = 38;
-  public const int XOR = 39;
-  public const int CHAR = 40;
-  public const int REAL = 41;
-  public const int IDENTIFIER = 42;
-  public const int FUNCTION = 43;
-  public const int INVALID_TOKEN = 46;
-  public const int UNEXPECTED_CHAR = 47;
+  public const int DIGIT19 = 7;
+  public const int LETTERS = 8;
+  public const int DIGITS = 9;
+  public const int INTEGER = 10;
+  public const int LEFT_PAR = 11;
+  public const int RIGHT_PAR = 12;
+  public const int PLUS = 13;
+  public const int MINUS = 14;
+  public const int MULTIPLY = 15;
+  public const int DIV = 16;
+  public const int POWER = 17;
+  public const int MODULO = 18;
+  public const int FACTORIAL = 19;
+  public const int COMMA = 20;
+  public const int SEMICOLON = 21;
+  public const int EQ = 22;
+  public const int UNIT = 23;
+  public const int NEQ = 24;
+  public const int LT = 25;
+  public const int LEQ = 26;
+  public const int GT = 27;
+  public const int GEQ = 28;
+  public const int OR = 29;
+  public const int AND = 30;
+  public const int NOT = 31;
+  public const int BITNOT = 32;
+  public const int IMP = 33;
+  public const int CIMP = 34;
+  public const int NIMP = 35;
+  public const int CNIMP = 36;
+  public const int NAND = 37;
+  public const int EQV = 38;
+  public const int NOR = 39;
+  public const int BITWISE = 40;
+  public const int XOR = 41;
+  public const int CHAR = 42;
+  public const int REAL = 43;
+  public const int NUMBER = 44;
+  public const int NUMBER_CONSTANT = 45;
+  public const int IDENTIFIER = 46;
+  public const int FUNCTION = 47;
+  public const int INVALID_TOKEN = 50;
+  public const int UNEXPECTED_CHAR = 51;
 
   public const int DEFAULT = 0;
 
@@ -58,7 +62,9 @@ public class SyntaxCheckerConstants {
     "\"\\r\"",
     "<LETTER>",
     "<DIGIT>",
+    "<DIGIT19>",
     "<LETTERS>",
+    "<DIGITS>",
     "<INTEGER>",
     "\"(\"",
     "\")\"",
@@ -80,7 +86,7 @@ public class SyntaxCheckerConstants {
     "\">=\"",
     "<OR>",
     "<AND>",
-    "<NOT>",
+    "\"~\"",
     "\"@~\"",
     "\"-->\"",
     "\"<--\"",
@@ -89,10 +95,12 @@ public class SyntaxCheckerConstants {
     "<NAND>",
     "\"<->\"",
     "<NOR>",
-    "<BIT>",
+    "<BITWISE>",
     "\"(+)\"",
     "<CHAR>",
     "<REAL>",
+    "<NUMBER>",
+    "<NUMBER_CONSTANT>",
     "<IDENTIFIER>",
     "<FUNCTION>",
     "\"[\"",
