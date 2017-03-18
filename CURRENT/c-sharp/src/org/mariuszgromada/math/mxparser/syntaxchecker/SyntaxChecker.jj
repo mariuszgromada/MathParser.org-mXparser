@@ -66,8 +66,10 @@ using System.IO;
 
 public class SyntaxChecker {
 
-  public void checkSyntax()  {    start();  }
-  
+	public void checkSyntax() {
+		start();
+	}
+
 }
 
 PARSER_END(SyntaxChecker)
