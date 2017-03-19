@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.java        3.0.0    2016-05-07
+ * @(#)RegTestExpressionAPI.java        4.0.0    2017-03-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -59,6 +59,7 @@ import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
 import org.mariuszgromada.math.mxparser.mXparser;
+import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
 import org.mariuszgromada.math.mxparser.parsertokens.Function1Arg;
 import org.mariuszgromada.math.mxparser.parsertokens.Operator;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
@@ -81,7 +82,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  *
  * @see Expression
  */
@@ -657,6 +658,78 @@ public class RegTestExpressionAPI {
 				(tokens.get(9).tokenLevel == 2) &&
 				(tokens.get(10).tokenLevel == 2) &&
 				(tokens.get(11).tokenLevel == 2)
+
+		) test[testId] = true;
+		/*
+		 * 21. Invalid tokens
+		 */
+		testId++;
+		e = new Expression("token1+toke2n*sin(token3-t3^t5)^t4.5+pi-pie+e");
+		tokens = e.getCopyOfInitialTokens();
+		mXparser.consolePrintTokens(tokens);
+		if (
+				(tokens.get(0).tokenStr.equals("token1")) &&
+				(tokens.get(1).tokenStr.equals("+")) &&
+				(tokens.get(2).tokenStr.equals("toke2n")) &&
+				(tokens.get(3).tokenStr.equals("*")) &&
+				(tokens.get(4).tokenStr.equals("sin")) &&
+				(tokens.get(5).tokenStr.equals("(")) &&
+				(tokens.get(6).tokenStr.equals("token3")) &&
+				(tokens.get(7).tokenStr.equals("-")) &&
+				(tokens.get(8).tokenStr.equals("t3")) &&
+				(tokens.get(9).tokenStr.equals("^")) &&
+				(tokens.get(10).tokenStr.equals("t5")) &&
+				(tokens.get(11).tokenStr.equals(")")) &&
+				(tokens.get(12).tokenStr.equals("^")) &&
+				(tokens.get(13).tokenStr.equals("t4.5")) &&
+				(tokens.get(14).tokenStr.equals("+")) &&
+				(tokens.get(15).tokenStr.equals("pi")) &&
+				(tokens.get(16).tokenStr.equals("-")) &&
+				(tokens.get(17).tokenStr.equals("pie")) &&
+				(tokens.get(18).tokenStr.equals("+")) &&
+				(tokens.get(19).tokenStr.equals("e")) &&
+				
+				(tokens.get(0).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(1).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(2).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(3).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(4).tokenTypeId == Function1Arg.TYPE_ID) &&
+				(tokens.get(5).tokenTypeId == ParserSymbol.TYPE_ID) &&
+				(tokens.get(6).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(7).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(8).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(9).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(10).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(11).tokenTypeId == ParserSymbol.TYPE_ID) &&
+				(tokens.get(12).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(13).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(14).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(15).tokenTypeId == ConstantValue.TYPE_ID) &&
+				(tokens.get(16).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(17).tokenTypeId == Token.NOT_MATCHED) &&
+				(tokens.get(18).tokenTypeId == Operator.TYPE_ID) &&
+				(tokens.get(19).tokenTypeId == ConstantValue.TYPE_ID) &&
+				
+				(tokens.get(0).tokenLevel == 0) &&
+				(tokens.get(1).tokenLevel == 0) &&
+				(tokens.get(2).tokenLevel == 0) &&
+				(tokens.get(3).tokenLevel == 0) &&
+				(tokens.get(4).tokenLevel == 1) &&
+				(tokens.get(5).tokenLevel == 2) &&
+				(tokens.get(6).tokenLevel == 2) &&
+				(tokens.get(7).tokenLevel == 2) &&
+				(tokens.get(8).tokenLevel == 2) &&
+				(tokens.get(9).tokenLevel == 2) &&
+				(tokens.get(10).tokenLevel == 2) &&
+				(tokens.get(11).tokenLevel == 2) &&
+				(tokens.get(12).tokenLevel == 0) &&
+				(tokens.get(13).tokenLevel == 0) &&
+				(tokens.get(14).tokenLevel == 0) &&
+				(tokens.get(15).tokenLevel == 0) &&
+				(tokens.get(16).tokenLevel == 0) &&
+				(tokens.get(17).tokenLevel == 0) &&
+				(tokens.get(18).tokenLevel == 0) &&
+				(tokens.get(19).tokenLevel == 0)
 
 		) test[testId] = true;
 			

@@ -5666,6 +5666,12 @@ namespace org.mariuszgromada.math.mxparser {
 			String tokenStr = "";
 			int matchStatusPrev = NOT_FOUND; /* unknown key word (previous) */
 			int matchStatus = NOT_FOUND; /* unknown key word (current) */
+			KeyWord kw = null;
+			String sub = "";
+			String kwStr = "";
+			char precedingChar;
+			char followingChar;
+			char firstChar;
 			double tmpParsed = 0;
 			/*
 			 * Check all available positions in the expression tokens list
@@ -5731,29 +5737,27 @@ namespace org.mariuszgromada.math.mxparser {
 				 */
 				if (numEnd >= 0)
 					if (pos > 0) {
-						c = newExpressionString[pos-1];
+						precedingChar = newExpressionString[pos-1];
 						if (
-								( c != ',' ) &&
-								( c != ';' ) &&
-								( c != '|' ) &&
-								( c != '&' ) &&
-								( c != '+' ) &&
-								( c != '-' ) &&
-								( c != '*' ) &&
-								( c != '\\' ) &&
-								( c != '/' ) &&
-								( c != '%' ) &&
-								( c != '(' ) &&
-								( c != ')' ) &&
-								( c != '=' ) &&
-								( c != '>' ) &&
-								( c != '<' ) &&
-								( c != '~' ) &&
-								( c != '^' ) &&
-								( c != '¬' ) &&
-								( c != '#' ) &&
-								( c != '%' ) &&
-								( c != '!' )	)
+								( precedingChar != ',' ) &&
+								( precedingChar != ';' ) &&
+								( precedingChar != '|' ) &&
+								( precedingChar != '&' ) &&
+								( precedingChar != '+' ) &&
+								( precedingChar != '-' ) &&
+								( precedingChar != '*' ) &&
+								( precedingChar != '\\' ) &&
+								( precedingChar != '/' ) &&
+								( precedingChar != '(' ) &&
+								( precedingChar != ')' ) &&
+								( precedingChar != '=' ) &&
+								( precedingChar != '>' ) &&
+								( precedingChar != '<' ) &&
+								( precedingChar != '~' ) &&
+								( precedingChar != '^' ) &&
+								( precedingChar != '#' ) &&
+								( precedingChar != '%' ) &&
+								( precedingChar != '!' )	)
 							numEnd = -1;
 					}
 				if (numEnd >= 0) {
@@ -5781,9 +5785,9 @@ namespace org.mariuszgromada.math.mxparser {
 					 *    '2-1' :  1(num) -(op) 2(num) = 1(num)
 					 *    -1+2  : -1(num) +(op) 2(num) = 1(num)
 					 */
-					char fc = newExpressionString[pos];
+					firstChar = newExpressionString[pos];
 					bool leadingOp = true;
-					if ( (fc == '-') || (fc == '+') ) {
+					if ( (firstChar == '-') || (firstChar == '+') ) {
 						if (initialTokens.Count > 0) {
 							Token lastToken = initialTokens[initialTokens.Count-1];
 							if (((lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID)) ||
@@ -5802,9 +5806,9 @@ namespace org.mariuszgromada.math.mxparser {
 						/*
 						 * Add leading operator to the tokens list
 						 */
-						if ( fc == '-')
+						if (firstChar == '-')
 							addToken("-", keyWordsList[minusKwId] );
-						if ( fc == '+')
+						if (firstChar == '+')
 							addToken("+", keyWordsList[plusKwId] );
 						pos++;
 					}
@@ -5826,15 +5830,10 @@ namespace org.mariuszgromada.math.mxparser {
 				} else {
 					/*
 					 * If there is no number which starts with current position
-					 */
-					/*
 					 * Check for known key words
 					 */
 					int kwId = -1;
 					matchStatus = NOT_FOUND;
-					KeyWord kw;
-					String sub = "";
-					String kwStr = "";
 					do {
 						kwId++;
 						kw = keyWordsList[kwId];
@@ -5843,48 +5842,83 @@ namespace org.mariuszgromada.math.mxparser {
 							sub = newExpressionString.Substring(pos, kwStr.Length );
 							if (sub.Equals(kwStr))
 								matchStatus = FOUND;
+							/*
+							 * If key word is known by the parser
+							 */
+							if (matchStatus == FOUND) {
+								/*
+								 * If key word is in the form of identifier
+								 * then check preceding and following characters
+								 */
+								if ((kw.wordTypeId == Argument.TYPE_ID) ||
+										(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
+										(kw.wordTypeId == Function1Arg.TYPE_ID) ||
+										(kw.wordTypeId == Function2Arg.TYPE_ID) ||
+										(kw.wordTypeId == Function3Arg.TYPE_ID) ||
+										(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
+										(kw.wordTypeId == ConstantValue.TYPE_ID) ||
+										(kw.wordTypeId == Constant.TYPE_ID) ||
+										(kw.wordTypeId == RandomVariable.TYPE_ID) ||
+										(kw.wordTypeId == Unit.TYPE_ID) ||
+										(kw.wordTypeId == Function.TYPE_ID) ||
+										(kw.wordTypeId == CalculusOperator.TYPE_ID)) {
+									/*
+									 * Checking preceding character
+									 */
+									if (pos > 0) {
+										precedingChar = newExpressionString[pos - 1];
+										if (	(precedingChar != ',') &&
+												(precedingChar != ';') &&
+												(precedingChar != '|') &&
+												(precedingChar != '&') &&
+												(precedingChar != '+') &&
+												(precedingChar != '-') &&
+												(precedingChar != '*') &&
+												(precedingChar != '\\') &&
+												(precedingChar != '/') &&
+												(precedingChar != '(') &&
+												(precedingChar != ')') &&
+												(precedingChar != '=') &&
+												(precedingChar != '>') &&
+												(precedingChar != '<') &&
+												(precedingChar != '~') &&
+												(precedingChar != '^') &&
+												(precedingChar != '#') &&
+												(precedingChar != '%') &&
+												(precedingChar != '!')) matchStatus = NOT_FOUND;
+									}
+									/*
+									 * Checking following character
+									 */
+									if ((matchStatus == FOUND) && (pos + kwStr.Length < newExpressionString.Length)) {
+										followingChar = newExpressionString[pos + kwStr.Length];
+										if (	(followingChar != ',') &&
+												(followingChar != ';') &&
+												(followingChar != '|') &&
+												(followingChar != '&') &&
+												(followingChar != '+') &&
+												(followingChar != '-') &&
+												(followingChar != '*') &&
+												(followingChar != '\\') &&
+												(followingChar != '/') &&
+												(followingChar != '(') &&
+												(followingChar != ')') &&
+												(followingChar != '=') &&
+												(followingChar != '>') &&
+												(followingChar != '<') &&
+												(followingChar != '~') &&
+												(followingChar != '^') &&
+												(followingChar != '#') &&
+												(followingChar != '%') &&
+												(followingChar != '!')) matchStatus = NOT_FOUND;
+									}
+								}
+							}
 						}
 					} while ( (kwId < keyWordsList.Count-1) && (matchStatus == NOT_FOUND) );
 					/*
-					 * If key word is known by the parser
+					 * If key word known by the parser was found
 					 */
-					if (matchStatus == FOUND)
-						if (
-								(kw.wordTypeId == Argument.TYPE_ID) ||
-								(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
-								(kw.wordTypeId == Function1Arg.TYPE_ID) ||
-								(kw.wordTypeId == Function2Arg.TYPE_ID) ||
-								(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-								(kw.wordTypeId == ConstantValue.TYPE_ID) ||
-								(kw.wordTypeId == Constant.TYPE_ID) ||
-								(kw.wordTypeId == Function.TYPE_ID) ||
-								(kw.wordTypeId == CalculusOperator.TYPE_ID)	)
-							if ( pos + kwStr.Length < newExpressionString.Length ) {
-								c = newExpressionString[pos + kwStr.Length];
-								if (
-										( c != ',' ) &&
-										( c != ';' ) &&
-										( c != '|' ) &&
-										( c != '&' ) &&
-										( c != '+' ) &&
-										( c != '-' ) &&
-										( c != '*' ) &&
-										( c != '\\' ) &&
-										( c != '/' ) &&
-										( c != '%' ) &&
-										( c != '(' ) &&
-										( c != ')' ) &&
-										( c != '=' ) &&
-										( c != '>' ) &&
-										( c != '<' ) &&
-										( c != '~' ) &&
-										( c != '^' ) &&
-										( c != '¬' ) &&
-										( c != '#' ) &&
-										( c != '%' ) &&
-										( c != '!' )	)
-									matchStatus = NOT_FOUND;
-							}
 					if (matchStatus == FOUND) {
 						/*
 						 * if preceding word was not known by the parser

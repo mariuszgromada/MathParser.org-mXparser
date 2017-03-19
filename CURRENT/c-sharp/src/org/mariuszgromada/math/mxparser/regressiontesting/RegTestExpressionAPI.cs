@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        3.0.0    2016-05-07
+ * @(#)RegTestExpressionAPI.cs        4.0.0    2017-03-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -73,7 +73,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 *
 	 * @see Expression
 	 */
@@ -651,6 +651,78 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(tokens[9].tokenLevel == 2) &&
 					(tokens[10].tokenLevel == 2) &&
 					(tokens[11].tokenLevel == 2)
+
+			) test[testId] = true;
+			/*
+			 * 21. Invalid tokens
+			 */
+			testId++;
+			e = new Expression("token1+toke2n*sin(token3-t3^t5)^t4.5+pi-pie+e");
+			tokens = e.getCopyOfInitialTokens();
+			mXparser.consolePrintTokens(tokens);
+			if (
+					(tokens[0].tokenStr.Equals("token1")) &&
+					(tokens[1].tokenStr.Equals("+")) &&
+					(tokens[2].tokenStr.Equals("toke2n")) &&
+					(tokens[3].tokenStr.Equals("*")) &&
+					(tokens[4].tokenStr.Equals("sin")) &&
+					(tokens[5].tokenStr.Equals("(")) &&
+					(tokens[6].tokenStr.Equals("token3")) &&
+					(tokens[7].tokenStr.Equals("-")) &&
+					(tokens[8].tokenStr.Equals("t3")) &&
+					(tokens[9].tokenStr.Equals("^")) &&
+					(tokens[10].tokenStr.Equals("t5")) &&
+					(tokens[11].tokenStr.Equals(")")) &&
+					(tokens[12].tokenStr.Equals("^")) &&
+					(tokens[13].tokenStr.Equals("t4.5")) &&
+					(tokens[14].tokenStr.Equals("+")) &&
+					(tokens[15].tokenStr.Equals("pi")) &&
+					(tokens[16].tokenStr.Equals("-")) &&
+					(tokens[17].tokenStr.Equals("pie")) &&
+					(tokens[18].tokenStr.Equals("+")) &&
+					(tokens[19].tokenStr.Equals("e")) &&
+
+					(tokens[0].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[1].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[2].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[3].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[4].tokenTypeId == Function1Arg.TYPE_ID) &&
+					(tokens[5].tokenTypeId == ParserSymbol.TYPE_ID) &&
+					(tokens[6].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[7].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[8].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[9].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[10].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[11].tokenTypeId == ParserSymbol.TYPE_ID) &&
+					(tokens[12].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[13].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[14].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[15].tokenTypeId == ConstantValue.TYPE_ID) &&
+					(tokens[16].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[17].tokenTypeId == Token.NOT_MATCHED) &&
+					(tokens[18].tokenTypeId == Operator.TYPE_ID) &&
+					(tokens[19].tokenTypeId == ConstantValue.TYPE_ID) &&
+
+					(tokens[0].tokenLevel == 0) &&
+					(tokens[1].tokenLevel == 0) &&
+					(tokens[2].tokenLevel == 0) &&
+					(tokens[3].tokenLevel == 0) &&
+					(tokens[4].tokenLevel == 1) &&
+					(tokens[5].tokenLevel == 2) &&
+					(tokens[6].tokenLevel == 2) &&
+					(tokens[7].tokenLevel == 2) &&
+					(tokens[8].tokenLevel == 2) &&
+					(tokens[9].tokenLevel == 2) &&
+					(tokens[10].tokenLevel == 2) &&
+					(tokens[11].tokenLevel == 2) &&
+					(tokens[12].tokenLevel == 0) &&
+					(tokens[13].tokenLevel == 0) &&
+					(tokens[14].tokenLevel == 0) &&
+					(tokens[15].tokenLevel == 0) &&
+					(tokens[16].tokenLevel == 0) &&
+					(tokens[17].tokenLevel == 0) &&
+					(tokens[18].tokenLevel == 0) &&
+					(tokens[19].tokenLevel == 0)
 
 			) test[testId] = true;
 

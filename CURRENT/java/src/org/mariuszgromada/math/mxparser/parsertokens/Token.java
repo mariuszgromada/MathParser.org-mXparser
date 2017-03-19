@@ -1,9 +1,9 @@
 /*
- * @(#)Token.java        3.0.0    2016-05-07
+ * @(#)Token.java        4.0.0    2017-03-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -69,9 +69,13 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  */
 public class Token {
+	/**
+	 * Indicator that token was not matched
+	 */
+	public static final int NOT_MATCHED = ConstantValue.NaN;
 	/**
 	 * String token
 	 */
@@ -102,9 +106,9 @@ public class Token {
 	public Token() {
 		tokenStr = "";
 		keyWord = "";
-		tokenId = ConstantValue.NaN;
-		tokenTypeId = ConstantValue.NaN;
-		tokenLevel = ConstantValue.NaN;
+		tokenId = NOT_MATCHED;
+		tokenTypeId = NOT_MATCHED;
+		tokenLevel = -1;
 		tokenValue = Double.NaN;
 	}
 	/**

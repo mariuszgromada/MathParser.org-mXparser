@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.0.0    2017-03-12
+ * @(#)Expression.java        4.0.0    2017-03-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5705,6 +5705,12 @@ public class Expression {
 		String tokenStr = "";
 		int matchStatusPrev = NOT_FOUND; /* unknown key word (previous) */
 		int matchStatus = NOT_FOUND; /* unknown key word (current) */
+		KeyWord kw = null;
+		String sub = "";
+		String kwStr = "";
+		char precedingChar;
+		char followingChar;
+		char firstChar;
 		/*
 		 * Check all available positions in the expression tokens list
 		 */
@@ -5769,28 +5775,27 @@ public class Expression {
 			 */
 			if (numEnd >= 0)
 				if (pos > 0) {
-					c = newExpressionString.charAt(pos-1);
+					precedingChar = newExpressionString.charAt(pos-1);
 					if (
-							( c != ',' ) &&
-							( c != ';' ) &&
-							( c != '|' ) &&
-							( c != '&' ) &&
-							( c != '+' ) &&
-							( c != '-' ) &&
-							( c != '*' ) &&
-							( c != '\\' ) &&
-							( c != '/' ) &&
-							( c != '%' ) &&
-							( c != '(' ) &&
-							( c != ')' ) &&
-							( c != '=' ) &&
-							( c != '>' ) &&
-							( c != '<' ) &&
-							( c != '~' ) &&
-							( c != '^' ) &&
-							( c != '#' ) &&
-							( c != '%' ) &&
-							( c != '!' )	)
+							( precedingChar != ',' ) &&
+							( precedingChar != ';' ) &&
+							( precedingChar != '|' ) &&
+							( precedingChar != '&' ) &&
+							( precedingChar != '+' ) &&
+							( precedingChar != '-' ) &&
+							( precedingChar != '*' ) &&
+							( precedingChar != '\\' ) &&
+							( precedingChar != '/' ) &&
+							( precedingChar != '(' ) &&
+							( precedingChar != ')' ) &&
+							( precedingChar != '=' ) &&
+							( precedingChar != '>' ) &&
+							( precedingChar != '<' ) &&
+							( precedingChar != '~' ) &&
+							( precedingChar != '^' ) &&
+							( precedingChar != '#' ) &&
+							( precedingChar != '%' ) &&
+							( precedingChar != '!' )	)
 						numEnd = -1;
 				}
 			if (numEnd >= 0) {
@@ -5818,16 +5823,16 @@ public class Expression {
 				 *    '2-1' :  1(num) -(op) 2(num) = 1(num)
 				 *    -1+2  : -1(num) +(op) 2(num) = 1(num)
 				 */
-				char fc = newExpressionString.charAt(pos);
+				firstChar = newExpressionString.charAt(pos);
 				boolean leadingOp = true;
-				if ( (fc == '-') || (fc == '+') ) {
+				if ( (firstChar == '-') || (firstChar == '+') ) {
 					if (initialTokens.size() > 0) {
 						Token lastToken = initialTokens.get(initialTokens.size()-1);
-						if (	( (lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID)) ||
+						if (	((lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID)) ||
 								(lastToken.tokenTypeId == BinaryRelation.TYPE_ID) ||
 								(lastToken.tokenTypeId == BooleanOperator.TYPE_ID) ||
 								(lastToken.tokenTypeId == BitwiseOperator.TYPE_ID) ||
-								( (lastToken.tokenTypeId == ParserSymbol.TYPE_ID) && (lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) ))
+								((lastToken.tokenTypeId == ParserSymbol.TYPE_ID) && (lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) ))
 							leadingOp = false;
 						 else leadingOp = true;
 					} else leadingOp = false;
@@ -5839,9 +5844,9 @@ public class Expression {
 					/*
 					 * Add leading operator to the tokens list
 					 */
-					if ( fc == '-')
+					if (firstChar == '-')
 						addToken("-", keyWordsList.get(minusKwId));
-					if ( fc == '+')
+					if (firstChar == '+')
 						addToken("+", keyWordsList.get(plusKwId));
 					pos++;
 				}
@@ -5861,17 +5866,12 @@ public class Expression {
 				matchStatus = FOUND;
 				matchStatusPrev = FOUND;
 			} else {
-			/*
-			 * If there is no number which starts with current position
-			 */
 				/*
+				 * If there is no number which starts with current position
 				 * Check for known key words
 				 */
 				int kwId = -1;
 				matchStatus = NOT_FOUND;
-				KeyWord kw;
-				String sub = "";
-				String kwStr = "";
 				do {
 					kwId++;
 					kw = keyWordsList.get(kwId);
@@ -5880,50 +5880,83 @@ public class Expression {
 						sub = newExpressionString.substring(pos, pos + kwStr.length() );
 						if (sub.equals(kwStr))
 							matchStatus = FOUND;
+						/*
+						 * If key word is known by the parser
+						 */
+						if (matchStatus == FOUND) {
+							/*
+							 * If key word is in the form of identifier
+							 * then check preceding and following characters
+							 */
+							if (	(kw.wordTypeId == Argument.TYPE_ID) ||
+									(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
+									(kw.wordTypeId == Function1Arg.TYPE_ID) ||
+									(kw.wordTypeId == Function2Arg.TYPE_ID) ||
+									(kw.wordTypeId == Function3Arg.TYPE_ID) ||
+									(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
+									(kw.wordTypeId == ConstantValue.TYPE_ID) ||
+									(kw.wordTypeId == Constant.TYPE_ID) ||
+									(kw.wordTypeId == RandomVariable.TYPE_ID) ||
+									(kw.wordTypeId == Unit.TYPE_ID) ||
+									(kw.wordTypeId == Function.TYPE_ID) ||
+									(kw.wordTypeId == CalculusOperator.TYPE_ID)	) {
+								/*
+								 * Checking preceding character
+								 */
+								if (pos > 0) {
+									precedingChar = newExpressionString.charAt(pos-1);									
+									if (	( precedingChar != ',' ) &&
+											( precedingChar != ';' ) &&
+											( precedingChar != '|' ) &&
+											( precedingChar != '&' ) &&
+											( precedingChar != '+' ) &&
+											( precedingChar != '-' ) &&
+											( precedingChar != '*' ) &&
+											( precedingChar != '\\' ) &&
+											( precedingChar != '/' ) &&
+											( precedingChar != '(' ) &&
+											( precedingChar != ')' ) &&
+											( precedingChar != '=' ) &&
+											( precedingChar != '>' ) &&
+											( precedingChar != '<' ) &&
+											( precedingChar != '~' ) &&
+											( precedingChar != '^' ) &&
+											( precedingChar != '#' ) &&
+											( precedingChar != '%' ) &&									
+											( precedingChar != '!' ) ) matchStatus = NOT_FOUND;
+								}
+								/*
+								 * Checking following character
+								 */
+								if ( (matchStatus == FOUND) && ( pos + kwStr.length() < newExpressionString.length() ) ) {
+									followingChar = newExpressionString.charAt(pos + kwStr.length());
+									if (	( followingChar != ',' ) &&
+											( followingChar != ';' ) &&
+											( followingChar != '|' ) &&
+											( followingChar != '&' ) &&
+											( followingChar != '+' ) &&
+											( followingChar != '-' ) &&
+											( followingChar != '*' ) &&
+											( followingChar != '\\' ) &&
+											( followingChar != '/' ) &&
+											( followingChar != '(' ) &&
+											( followingChar != ')' ) &&
+											( followingChar != '=' ) &&
+											( followingChar != '>' ) &&
+											( followingChar != '<' ) &&
+											( followingChar != '~' ) &&
+											( followingChar != '^' ) &&
+											( followingChar != '#' ) &&
+											( followingChar != '%' ) &&									
+											( followingChar != '!' ) ) matchStatus = NOT_FOUND;
+								}
+							}
+						}
 					}
 				} while ( (kwId < keyWordsList.size()-1) && (matchStatus == NOT_FOUND) );
 				/*
-				 * If key word is known by the parser
+				 * If key word known by the parser was found
 				 */
-				if (matchStatus == FOUND)
-					if (
-							(kw.wordTypeId == Argument.TYPE_ID) ||
-							(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
-							(kw.wordTypeId == Function1Arg.TYPE_ID) ||
-							(kw.wordTypeId == Function2Arg.TYPE_ID) ||
-							(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-							(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
-							(kw.wordTypeId == ConstantValue.TYPE_ID) ||
-							(kw.wordTypeId == Constant.TYPE_ID) ||
-							(kw.wordTypeId == RandomVariable.TYPE_ID) ||
-							(kw.wordTypeId == Unit.TYPE_ID) ||
-							(kw.wordTypeId == Function.TYPE_ID) ||
-							(kw.wordTypeId == CalculusOperator.TYPE_ID)	)
-						if ( pos + kwStr.length() < newExpressionString.length() ) {
-							c = newExpressionString.charAt(pos + kwStr.length());
-							if (
-									( c != ',' ) &&
-									( c != ';' ) &&
-									( c != '|' ) &&
-									( c != '&' ) &&
-									( c != '+' ) &&
-									( c != '-' ) &&
-									( c != '*' ) &&
-									( c != '\\' ) &&
-									( c != '/' ) &&
-									( c != '%' ) &&
-									( c != '(' ) &&
-									( c != ')' ) &&
-									( c != '=' ) &&
-									( c != '>' ) &&
-									( c != '<' ) &&
-									( c != '~' ) &&
-									( c != '^' ) &&
-									( c != '#' ) &&
-									( c != '%' ) &&									
-									( c != '!' )	)
-								matchStatus = NOT_FOUND;
-						}
 				if (matchStatus == FOUND) {
 					/*
 					 * if preceding word was not known by the parser

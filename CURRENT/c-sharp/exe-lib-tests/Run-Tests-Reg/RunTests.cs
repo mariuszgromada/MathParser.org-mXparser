@@ -3,7 +3,7 @@
 namespace mxparser.runtests {
 	class RunTestsReg {
 		static void Main(string[] args) {
-			RunTest.Start("syn");
+			RunTest.Start("syn","api","reg");
 		}
 	}
 }
