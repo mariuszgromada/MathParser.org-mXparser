@@ -109,8 +109,8 @@ public class RecursiveArgument extends Argument {
 	/**
 	 * Type identifier for recursive arguments.
 	 */
-	protected static final int TYPE_ID_RECURSIVE	= 102;
-	static final String TYPE_DESC					= "User defined recursive argument";
+	public static final int TYPE_ID_RECURSIVE		= 102;
+	public static final String TYPE_DESC					= "User defined recursive argument";
 	/**
 	 * Base values
 	 */

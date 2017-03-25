@@ -1055,7 +1055,8 @@ public class Expression {
 		for (Function f : functions) {
 			if (f != null) {
 				functionsList.add(f);
-				f.addRelatedExpression(this);
+				if (f.getFunctionBodyType() == Function.BODY_RUNTIME)
+					f.addRelatedExpression(this);
 			}
 		}
 		setExpressionModifiedFlag();
@@ -4191,8 +4192,24 @@ public class Expression {
 	 *
 	 * @return     true if syntax is ok
 	 */
+	public boolean checkLexSyntax() {
+		boolean syntax = NO_SYNTAX_ERRORS;
+		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionString.getBytes()));
+	    try {
+	        syn.checkSyntax();
+	    } catch (Exception e) {
+	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = "lexical error \n\n" + e.getMessage() + "\n";
+	    }
+		return syntax;
+	}
+	/**
+	 * Checks syntax of the expression string.
+	 *
+	 * @return     true if syntax is ok
+	 */
 	public boolean checkSyntax() {
-		boolean syntax = checkSyntax("[" + expressionString + "] ");
+		boolean syntax = checkSyntax("[" + expressionString + "] ", false);
 		return syntax;
 	}
 	/**
@@ -4248,11 +4265,18 @@ public class Expression {
 	 * @return     true if syntax was correct,
 	 *             otherwise returns false.
 	 */
-	private boolean checkSyntax(String level) {
+	private boolean checkSyntax(String level, boolean functionWithBodyExt) {
 		if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) ) {
 			errorMessage = level + "already checked - no errors!\n";
 			recursionCallPending = false;
 			return NO_SYNTAX_ERRORS;
+		}
+		if (functionWithBodyExt) {
+			syntaxStatus = NO_SYNTAX_ERRORS;
+			recursionCallPending = false;
+			expressionWasModified = false;			
+			errorMessage = errorMessage + level + "function with extended body - assuming no errors.\n";
+			return NO_SYNTAX_ERRORS;			
 		}
 		recursionCallPending = true;
 		errorMessage = level +"checking ...\n";
@@ -4295,7 +4319,7 @@ public class Expression {
 							errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
 						} else
 							if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
+								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
 								syntax = syntax && syntaxRec;
 								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
 							}
@@ -4311,7 +4335,7 @@ public class Expression {
 						errorMessage = errorMessage + level + tokenStr + "<RECURSIVE_ARGUMENT> expecting 1 parameter.\n";
 					} else
 						if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
+							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
 							syntax = syntax && syntaxRec;
 							errorMessage = errorMessage + level + tokenStr + "checking recursive argument ...\n" + arg.argumentExpression.getErrorMessage();
 						}
@@ -4340,7 +4364,11 @@ public class Expression {
 						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + fun.getParametersNumber() + " arguments.\n";
 					} else
 						if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
-							boolean syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ");
+							boolean syntaxRec;
+							if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
+								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", false);
+							else
+								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", true);
 							syntax = syntax && syntaxRec;
 							errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.getErrorMessage();
 						}
@@ -5795,7 +5823,34 @@ public class Expression {
 							( precedingChar != '^' ) &&
 							( precedingChar != '#' ) &&
 							( precedingChar != '%' ) &&
+							( precedingChar != '@' ) &&
 							( precedingChar != '!' )	)
+						numEnd = -1;
+				}
+			if (numEnd >= 0)
+				if (numEnd < newExpressionString.length()-1) {
+					followingChar = newExpressionString.charAt(numEnd+1);
+					if (
+							( followingChar != ',' ) &&
+							( followingChar != ';' ) &&
+							( followingChar != '|' ) &&
+							( followingChar != '&' ) &&
+							( followingChar != '+' ) &&
+							( followingChar != '-' ) &&
+							( followingChar != '*' ) &&
+							( followingChar != '\\' ) &&
+							( followingChar != '/' ) &&
+							( followingChar != '(' ) &&
+							( followingChar != ')' ) &&
+							( followingChar != '=' ) &&
+							( followingChar != '>' ) &&
+							( followingChar != '<' ) &&
+							( followingChar != '~' ) &&
+							( followingChar != '^' ) &&
+							( followingChar != '#' ) &&
+							( followingChar != '%' ) &&
+							( followingChar != '@' ) &&
+							( followingChar != '!' )	)
 						numEnd = -1;
 				}
 			if (numEnd >= 0) {
@@ -5923,6 +5978,7 @@ public class Expression {
 											( precedingChar != '^' ) &&
 											( precedingChar != '#' ) &&
 											( precedingChar != '%' ) &&									
+											( precedingChar != '@' ) &&
 											( precedingChar != '!' ) ) matchStatus = NOT_FOUND;
 								}
 								/*
@@ -5947,7 +6003,8 @@ public class Expression {
 											( followingChar != '~' ) &&
 											( followingChar != '^' ) &&
 											( followingChar != '#' ) &&
-											( followingChar != '%' ) &&									
+											( followingChar != '%' ) &&	
+											( followingChar != '@' ) &&	
 											( followingChar != '!' ) ) matchStatus = NOT_FOUND;
 								}
 							}
@@ -6053,9 +6110,11 @@ public class Expression {
 				token.tokenLevel = tokenLevel;
 				if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)) {
 					tokenLevel--;
-					TokenStackElement stackEl = tokenStack.pop();
-					if (stackEl.precedingFunction == true)
-						tokenLevel--;
+					if (!tokenStack.isEmpty()) {
+						TokenStackElement stackEl = tokenStack.pop();
+						if (stackEl.precedingFunction == true)
+							tokenLevel--;
+					}
 				}
 			}
 	}
@@ -6078,10 +6137,28 @@ public class Expression {
 	 * @see mXparser#consolePrintTokens(ArrayList)
 	 */
 	public ArrayList<Token> getCopyOfInitialTokens() {
+		final String FUNCTION = "function";
+		final String ARGUMENT = "argument";
+		final String ERROR    = "error";
 		tokenizeExpressionString();
 		ArrayList<Token> tokensListCopy = new ArrayList<Token>();
-		for (Token token : initialTokens)
+		Token token;
+		for (int i = 0; i < initialTokens.size(); i++) {
+			token =  initialTokens.get(i);
+			if (token.tokenTypeId == Token.NOT_MATCHED) {
+				if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+					token.looksLike = ARGUMENT;
+					if (i < initialTokens.size()-1) {
+						Token tokenNext = initialTokens.get(i+1);
+						if ( (tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) )
+							token.looksLike = FUNCTION;
+					}
+				} else {
+					token.looksLike = ERROR;
+				}
+			}
 			tokensListCopy.add(token.clone());
+		}
 		return tokensListCopy;
 	}
 	/**
@@ -6216,12 +6293,16 @@ public class Expression {
 	 */
 	static final void showTokens(ArrayList<Token> tokensList) {
 		String maxStr = "TokenTypeId";
-		int tokensNumber = tokensList.size();
 		mXparser.consolePrintln(" --------------------");
 		mXparser.consolePrintln("| Expression tokens: |");
-		mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
-		mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |");
-		mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
+		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+		mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
+		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+		if (tokensList == null) {
+			mXparser.consolePrintln("NULL tokens list");
+			return;
+		}
+		int tokensNumber = tokensList.size();
 		for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
 			String tokenIndexStr = getLeftSpaces(maxStr, Integer.toString(tokenIndex) );
 			String tokenStr = getLeftSpaces(maxStr, tokensList.get(tokenIndex).tokenStr );
@@ -6230,15 +6311,17 @@ public class Expression {
 			String tokenTypeIdStr = getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenTypeId) );
 			String tokenLevelStr = getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenLevel) );
 			String tokenValueStr = getLeftSpaces(maxStr, Double.toString(tokensList.get(tokenIndex).tokenValue) );
+			String tokenLooksLikeStr = getLeftSpaces(maxStr, tokensList.get(tokenIndex).looksLike );
 			mXparser.consolePrintln(	"| " + tokenIndexStr +
 								" | " + tokenStr +
 								" | " + keyWordStr +
 								" | " + tokenIdStr +
 								" | " + tokenTypeIdStr +
 								" | " + tokenLevelStr +
-								" | " + tokenValueStr + " |");
+								" | " + tokenValueStr + 
+								" | " + tokenLooksLikeStr + " |");
 		}
-		mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
+		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 	}
 	/**
 	 * shows initial tokens
@@ -6268,14 +6351,6 @@ public class Expression {
 			mXparser.consolePrint( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
 		else
 			mXparser.consolePrint(/*"[" + this +  "]" + */ info);
-	}
-	/**
-	 * Gets license info
-	 *
-	 * @return     License info as string.
-	 */
-	public String getLicense() {
-		return mXparser.LICENSE;
 	}
 	/**
 	 * Expression cloning.

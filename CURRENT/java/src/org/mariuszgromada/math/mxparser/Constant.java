@@ -98,8 +98,8 @@ public class Constant extends PrimitiveElement {
 	/**
 	 * Type identifier for constants
 	 */
-	protected static final int TYPE_ID			= 104;
-	protected static final String TYPE_DESC		= "User defined constant";
+	public static final int TYPE_ID				= 104;
+	public static final String TYPE_DESC		= "User defined constant";
 	/**
 	 * Status of the Expression syntax
 	 */
@@ -294,13 +294,5 @@ public class Constant extends PrimitiveElement {
 	void setExpressionModifiedFlags() {
 		for (Expression e : relatedExpressionsList)
 			e.setExpressionModifiedFlag();
-	}
-	/**
-	 * Gets license info
-	 *
-	 * @return     license info as string.
-	 */
-	public String getLicense() {
-		return mXparser.LICENSE;
 	}
 }

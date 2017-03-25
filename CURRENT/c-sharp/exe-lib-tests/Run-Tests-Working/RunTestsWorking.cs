@@ -17,9 +17,9 @@ namespace mxparser.runtests {
 			mXparser.consolePrintln(MathFunctions.ulpDecimalDigitsBefore(6.28318530717959));
 			mXparser.consolePrintln(MathFunctions.round(6.28318530717959, 13));
 			*/
-			Expression e = new Expression("¬1");
-			mXparser.consolePrintln(e.calculate());
-			mXparser.consolePrintln(e.getErrorMessage());
+			String mathInput = "2 * 5";
+			Expression ex = new Expression(mathInput);
+			Console.WriteLine(ex.calculate());
 		}
 	}
 }

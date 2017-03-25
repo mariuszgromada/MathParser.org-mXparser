@@ -1,9 +1,9 @@
 /*
- * @(#)ParserSymbol.java        3.0.0    2016-05-07
+ * @(#)FunctionExtension.java        4.0.0    2017-03-23
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -50,10 +50,18 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
-package org.mariuszgromada.math.mxparser.parsertokens;
+package org.mariuszgromada.math.mxparser;
 
 /**
- * Parser symbols - mXparser tokens definition.
+ * FunctionExtension provides interface for function algorithm definition.
+ * In this case algorithm definition is based on source code using 
+ * JAVA (for JAVA / Android) or .NET. If implemented Function Extension
+ * object can be further used while Function object
+ * construction, which means it can extend mXparser math collection.
+ * mXparser extension with your own implementation can be achieved
+ * by implementing FunctionExtension interface, creating an FunctionExtension
+ * object, creating Function object based on FunctionExtension, adding Function
+ * object to Expression / mXparser definition.
  *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -69,54 +77,44 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
+ *
+ * @see Function
+ *
  */
-public final class ParserSymbol {
-	/*
-	 * ParserSymbol - reg exp patterns.
+public interface FunctionExtension {
+	/**
+	 * Type identifier for Function Extension
 	 */
-	public static final String DIGIT		= "[0-9]";
-	public static final String DIGIT19		= "[1-9]";
-	public static final String DIGITS		= DIGIT + "(" + DIGIT + ")*";
-	public static final String INTEGER		= "(0|" + DIGIT19 + "(" + DIGIT + ")*" + ")";
-	public static final String REAL			= "(0\\." + DIGITS + "|" + INTEGER + "\\." + DIGITS + ")";
-	public static final String NUMBER		= "(" + REAL + "|" + INTEGER + ")";
-	public static final String NUMBER_CONST	= "[+-]?" + NUMBER + "([eE][+-]?" + INTEGER + ")?";
-	public static final String nameOnlyTokenRegExp = "([a-zA-Z_])+([a-zA-Z0-9_])*";
-	public static final String nameTokenRegExp = "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
-	public static final String paramsTokenRegeExp = "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
-	public static final String constArgDefStrRegExp = nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
-	public static final String functionDefStrRegExp = nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
-	public static final String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
-	/*
-	 * ParserSymbol - token type id.
+	public static final int TYPE_ID				= 105;
+	public static final String TYPE_DESC		= "Implemented function extension";
+	/**
+	 * Gets parameters number.
+	 * 
+	 * @return Returns parameters number.
 	 */
-	public static final int TYPE_ID 						= 20;
-	public static final String TYPE_DESC					= "Parser Symbol";
-	/*
-	 * ParserSymbol - tokens id.
+	public int getParametersNumber();
+	/**
+	 * Sets value of function parameter
+	 * 
+	 * @param parameterIndex    - parameter index (from 0 to n-1)
+	 * @param parameterValue    - parameter value
 	 */
-	public static final int LEFT_PARENTHESES_ID 			= 1;
-	public static final int RIGHT_PARENTHESES_ID			= 2;
-	public static final int COMMA_ID						= 3;
-	public static final int NUMBER_ID						= 1;
-	public static final int NUMBER_TYPE_ID					= 0;
-	/*
-	 * ParserSymbol - tokens key words.
+	public void setParameterValue(int parameterIndex, double parameterValue);
+	/**
+	 * Actual algorithm implementation.
+	 * 
+	 * @param params Function parameters.
+	 * @return Function Extension value.
 	 */
-	public static final String LEFT_PARENTHESES_STR 		= "(";
-	public static final String RIGHT_PARENTHESES_STR		= ")";
-	public static final String COMMA_STR					= ",";
-	public static final String SEMI_STR						= ";";
-	public static final String NUMBER_STR					= "_num_";
-	public static final String NUMBER_REG_EXP				= NUMBER_CONST;
-	/*
-	 * ParserSymbol - tokens description.
+	public double calculate(double... params);
+	/**
+	 * Cloning in case of usage in Expression
+	 * with recursive statements.
+	 * 
+	 * @return Returns FunctionExtension object that was cloned.
+	 * 
+	 * @see Expression#getRecursiveMode()
 	 */
-	public static final String LEFT_PARENTHESES_DESC 		= "left parentheses";
-	public static final String RIGHT_PARENTHESES_DESC		= "right parentheses";
-	public static final String COMMA_DESC					= "comma (function parameters)";
-	public static final String SEMI_DESC					= "semicolon (function parameters)";
-	public static final String NUMBER_DESC					= "decimal number";
-	public static final String NUMBER_REG_DESC				= "regullar expression for decimal numbers";
+	public FunctionExtension clone();
 }

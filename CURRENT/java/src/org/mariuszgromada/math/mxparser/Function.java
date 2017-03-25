@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        3.0.0    2016-05-07
+ * @(#)Function.java        4.0.0    2017-03-24
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -91,12 +91,13 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  *
  * @see RecursiveArgument
  * @see Expression
  * @see Argument
  * @see Constant
+ * @see FunctionExtension
  *
  */
 public class Function extends PrimitiveElement {
@@ -115,8 +116,29 @@ public class Function extends PrimitiveElement {
 	/**
 	 * Function type id identifier
 	 */
-	static final int TYPE_ID		= 103;
-	static final String TYPE_DESC	= "User defined function";
+	public static final int TYPE_ID			= 103;
+	public static final String TYPE_DESC	= "User defined function";
+	/**
+	 * Function with body based on the expression string.
+	 * 
+	 * @see Function#getFunctionBodyType()
+	 */
+	public static final int BODY_RUNTIME = 1;
+	/**
+	 * Function with body based on the extended code.
+	 * 
+	 * @see FunctionExtension
+	 * @see Function#getFunctionBodyType()
+	 */
+	public static final int BODY_EXTENDED = 2;
+	/**
+	 * Function body type.
+	 * 
+	 * @see Function#BODY_RUNTIME
+	 * @see Function#BODY_EXTENDED
+	 * @see Function#getFunctionBodyType()
+	 */
+	private int functionBodyType;
 	/**
 	 * function expression
 	 */
@@ -133,6 +155,13 @@ public class Function extends PrimitiveElement {
 	 * The number of function parameters
 	 */
 	private int parametersNumber;
+	/**
+	 * Function extension (body based in code)
+	 * 
+	 * @see FunctionExtension
+	 * @see Function#Function(String, FunctionExtension)
+	 */
+	private FunctionExtension functionExtension;
 	/*=================================================
 	 *
 	 * Constructors
@@ -159,6 +188,7 @@ public class Function extends PrimitiveElement {
 			functionExpression.setDescription(functionName);
 			parametersNumber = 0;
 			description = "";
+			functionBodyType = BODY_RUNTIME;
 			addFunctions(this);
 		} else {
 			parametersNumber = 0;
@@ -190,6 +220,7 @@ public class Function extends PrimitiveElement {
 				functionExpression.addArguments(new Argument(argName));
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			description = "";
+			functionBodyType = BODY_RUNTIME;
 			addFunctions(this);
 		} else {
 			parametersNumber = 0;
@@ -230,12 +261,29 @@ public class Function extends PrimitiveElement {
 			}
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			description = "";
+			functionBodyType = BODY_RUNTIME;
 			addFunctions(this);
 		} else {
 			functionExpression = new Expression();
 			functionExpression.setDescription(functionDefinitionString);
 			String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
 			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
+		}
+	}
+	public Function(String functionName, FunctionExtension functionExtension) {
+		super(Function.TYPE_ID);
+		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
+			this.functionName = functionName;
+			functionExpression = new Expression("{body-ext}");
+			parametersNumber = functionExtension.getParametersNumber();
+			description = "";
+			this.functionExtension = functionExtension;
+			functionBodyType = BODY_EXTENDED;
+		} else {
+			parametersNumber = 0;
+			description = "";
+			functionExpression = new Expression("");
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 		}
 	}
 	/**
@@ -250,6 +298,9 @@ public class Function extends PrimitiveElement {
 		description = function.description;
 		parametersNumber = function.parametersNumber;
 		functionExpression = function.functionExpression.clone();
+		functionBodyType = function.functionBodyType;
+		if (functionBodyType == BODY_EXTENDED)
+			functionExtension = function.functionExtension.clone();
 	}
 	/**
 	 * Sets function description.
@@ -302,7 +353,13 @@ public class Function extends PrimitiveElement {
 	 * @param      argumentValue   the argument value
 	 */
 	public void setArgumentValue(int argumentIndex, double argumentValue) {
-		functionExpression.argumentsList.get(argumentIndex).argumentValue = argumentValue;
+		if (functionBodyType == BODY_RUNTIME)
+			functionExpression.argumentsList.get(argumentIndex).argumentValue = argumentValue;
+		else
+			functionExtension.setParameterValue(argumentIndex, argumentValue);
+	}
+	public int getFunctionBodyType() {
+		return functionBodyType;
 	}
 	/**
 	 * Checks function syntax
@@ -312,7 +369,9 @@ public class Function extends PrimitiveElement {
 	 *
 	 */
 	public boolean checkSyntax() {
-		boolean syntaxStatus = functionExpression.checkSyntax();
+		boolean syntaxStatus = Function.NO_SYNTAX_ERRORS;
+		if (functionBodyType == BODY_RUNTIME)
+			functionExpression.checkSyntax();
 		checkRecursiveMode();
 		return syntaxStatus;
 	}
@@ -327,7 +386,6 @@ public class Function extends PrimitiveElement {
 	/**
 	 * clone method
 	 */
-	@Override
 	protected Function clone() {
 		Function newFunction = new Function(this);
 		return newFunction;
@@ -338,7 +396,10 @@ public class Function extends PrimitiveElement {
 	 * @return     Function value as double.
 	 */
 	public double calculate() {
-		return functionExpression.calculate();
+		if (functionBodyType == BODY_RUNTIME)
+			return functionExpression.calculate();
+		else
+			return functionExtension.calculate();
 	}
 	/**
 	 * Calculates function value
@@ -349,9 +410,14 @@ public class Function extends PrimitiveElement {
 	 */
 	public double calculate(double... params) {
 		if (params.length == this.getParametersNumber()) {
-			for (int p = 0; p < params.length; p++)
-				setArgumentValue(p, params[p]);
-			return  calculate();
+			if (functionBodyType == BODY_RUNTIME) {
+				for (int p = 0; p < params.length; p++)
+					setArgumentValue(p, params[p]);
+			} else {
+				for (int p = 0; p < params.length; p++)
+					functionExtension.setParameterValue(p, params[p]);				
+			}
+			return calculate();
 		}
 		else {
 			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + params.length + ")!");
@@ -367,8 +433,13 @@ public class Function extends PrimitiveElement {
 	 */
 	public double calculate(Argument... arguments) {
 		if (arguments.length == this.getParametersNumber()) {
-			for (int p = 0; p < arguments.length; p++)
-				setArgumentValue(p, arguments[p].getArgumentValue());
+			if (functionBodyType == BODY_RUNTIME) {
+				for (int p = 0; p < arguments.length; p++)
+					setArgumentValue(p, arguments[p].getArgumentValue());
+			} else {
+				for (int p = 0; p < arguments.length; p++)
+					functionExtension.setParameterValue(p, arguments[p].getArgumentValue());				
+			}
 			return  calculate();
 		}
 		else {
@@ -386,7 +457,8 @@ public class Function extends PrimitiveElement {
 	 * @see PrimitiveElement
 	 */
 	public void addDefinitions(PrimitiveElement... elements) {
-		functionExpression.addDefinitions(elements);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.addDefinitions(elements);
 	}
 	/**
 	 * Removes user defined elements (such as: Arguments, Constants, Functions)
@@ -398,7 +470,8 @@ public class Function extends PrimitiveElement {
 	 * @see PrimitiveElement
 	 */
 	public void removeDefinitions(PrimitiveElement... elements) {
-		functionExpression.removeDefinitions(elements);
+		if (functionBodyType == Function.BODY_RUNTIME)		
+			functionExpression.removeDefinitions(elements);
 	}
 	/*=================================================
 	 *
@@ -409,8 +482,9 @@ public class Function extends PrimitiveElement {
 	 */
 	private int countRecursiveArguments() {
 		int numOfRecursiveArguments = 0;
-		for (Argument argument : functionExpression.argumentsList)
-			if (argument.getArgumentType() == Argument.RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
+		if (functionBodyType == Function.BODY_RUNTIME)		
+			for (Argument argument : functionExpression.argumentsList)
+				if (argument.getArgumentType() == Argument.RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
 		return numOfRecursiveArguments;
 	}
 	/**
@@ -422,8 +496,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public void addArguments(Argument... arguments) {
-		functionExpression.addArguments(arguments);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			functionExpression.addArguments(arguments);
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		}
 	}
 	/**
 	 * Enables to define the arguments (associated with
@@ -436,8 +512,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public void defineArguments(String... argumentsNames) {
-		functionExpression.defineArguments(argumentsNames);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			functionExpression.defineArguments(argumentsNames);
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		}
 	}
 	/**
 	 * Enables to define the argument (associated with the function expression)
@@ -450,8 +528,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public void defineArgument(String argumentName, double argumentValue) {
-		functionExpression.defineArgument(argumentName, argumentValue);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			functionExpression.defineArgument(argumentName, argumentValue);
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		}
 	}
 	/**
 	 * Gets argument index from the function expression.
@@ -465,7 +545,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public int getArgumentIndex(String argumentName) {
-		return functionExpression.getArgumentIndex(argumentName);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getArgumentIndex(argumentName);
+		else
+			return -1;
 	}
 	/**
 	 * Gets argument from the function expression.
@@ -480,7 +563,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public Argument getArgument(String argumentName) {
-		return functionExpression.getArgument(argumentName);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getArgument(argumentName);
+		else
+			return null;
 	}
 	/**
 	 * Gets argument from the function expression.
@@ -495,7 +581,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public Argument getArgument(int argumentIndex) {
-		return functionExpression.getArgument(argumentIndex);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getArgument(argumentIndex);
+		else
+			return null;
 	}
 	/**
 	 * Gets number of parameters associated with the function expression.
@@ -515,8 +604,10 @@ public class Function extends PrimitiveElement {
 	 *                                 (less number might be specified).
 	 */
 	public void setParametersNumber(int parametersNumber) {
-		this.parametersNumber = parametersNumber;
-		functionExpression.setExpressionModifiedFlag();
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			this.parametersNumber = parametersNumber;
+			functionExpression.setExpressionModifiedFlag();
+		}
 	}
 	/**
 	 * Gets number of arguments associated with the function expression.
@@ -527,7 +618,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public int getArgumentsNumber() {
-		return functionExpression.getArgumentsNumber();
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getArgumentsNumber();
+		else
+			return 0;
 	}
 	/**
 	 * Removes first occurrences of the arguments
@@ -541,8 +635,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public void removeArguments(String... argumentsNames) {
-		functionExpression.removeArguments(argumentsNames);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			functionExpression.removeArguments(argumentsNames);
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		}
 	}
 	/**
 	 * Removes first occurrences of the arguments
@@ -555,8 +651,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public void removeArguments(Argument... arguments) {
-		functionExpression.removeArguments(arguments);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			functionExpression.removeArguments(arguments);
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		}
 	}
 	/**
 	 * Removes all arguments associated with the function expression.
@@ -565,8 +663,10 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public void removeAllArguments() {
-		functionExpression.removeAllArguments();
-		parametersNumber = 0;
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			functionExpression.removeAllArguments();
+			parametersNumber = 0;
+		}
 	}
 	/*=================================================
 	 *
@@ -584,7 +684,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public void addConstants(Constant... constants) {
-		functionExpression.addConstants(constants);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.addConstants(constants);
 	}
 	/**
 	 * Adds constants to the function expression definition.
@@ -594,7 +695,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public void addConstants(ArrayList<Constant> constantsList) {
-		functionExpression.addConstants(constantsList);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.addConstants(constantsList);
 	}
 	/**
 	 * Enables to define the constant (associated with
@@ -607,7 +709,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public void defineConstant(String constantName, double constantValue) {
-		functionExpression.defineConstant(constantName, constantValue);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.defineConstant(constantName, constantValue);
 	}
 	/**
 	 * Gets constant index associated with the function expression.
@@ -620,7 +723,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public int getConstantIndex(String constantName) {
-		return functionExpression.getConstantIndex(constantName);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getConstantIndex(constantName);
+		else
+			return -1;
 	}
 	/**
 	 * Gets constant associated with the function expression.
@@ -633,7 +739,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public Constant getConstant(String constantName) {
-		return functionExpression.getConstant(constantName);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getConstant(constantName);
+		else
+			return null;
 	}
 	/**
 	 * Gets constant associated with the function expression.
@@ -648,7 +757,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public Constant getConstant(int constantIndex) {
-		return functionExpression.getConstant(constantIndex);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getConstant(constantIndex);
+		else
+			return null;
 	}
 	/**
 	 * Gets number of constants associated with the function expression.
@@ -658,7 +770,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public int getConstantsNumber() {
-		return functionExpression.getConstantsNumber();
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getConstantsNumber();
+		else
+			return 0;
 	}
 	/**
 	 * Removes first occurrences of the constants
@@ -670,7 +785,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public void removeConstants(String... constantsNames) {
-		functionExpression.removeConstants(constantsNames);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeConstants(constantsNames);
 	}
 	/**
 	 * Removes first occurrences of the constants
@@ -682,7 +798,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public void removeConstants(Constant... constants) {
-		functionExpression.removeConstants(constants);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeConstants(constants);
 	}
 	/**
 	 * Removes all constants
@@ -691,7 +808,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Constant
 	 */
 	public void removeAllConstants() {
-		functionExpression.removeAllConstants();
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeAllConstants();
 	}
 	/*=================================================
 	 *
@@ -709,7 +827,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public void addFunctions(Function... functions) {
-		functionExpression.addFunctions(functions);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.addFunctions(functions);
 	}
 	/**
 	 * Enables to define the function (associated with
@@ -726,7 +845,8 @@ public class Function extends PrimitiveElement {
 	 */
 	public void defineFunction(String functionName, String  functionExpressionString,
 			String... argumentsNames) {
-		functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 	}
 	/**
 	 * Gets index of function associated with the function expression.
@@ -739,7 +859,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public int getFunctionIndex(String functionName) {
-		return functionExpression.getFunctionIndex(functionName);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getFunctionIndex(functionName);
+		else
+			return -1;
 	}
 	/**
 	 * Gets function associated with the function expression.
@@ -752,7 +875,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public Function getFunction(String functionName) {
-		return functionExpression.getFunction(functionName);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getFunction(functionName);
+		else
+			return null;
 	}
 	/**
 	 * Gets function associated with the function expression.
@@ -766,7 +892,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public Function getFunction(int functionIndex) {
-		return functionExpression.getFunction(functionIndex);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getFunction(functionIndex);
+		else
+			return null;
 	}
 	/**
 	 * Gets number of functions associated with the function expression.
@@ -776,7 +905,10 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public int getFunctionsNumber() {
-		return functionExpression.getFunctionsNumber();
+		if (functionBodyType == Function.BODY_RUNTIME)
+			return functionExpression.getFunctionsNumber();
+		else
+			return 0;
 	}
 	/**
 	 * Removes first occurrences of the functions
@@ -788,7 +920,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public void removeFunctions(String... functionsNames) {
-		functionExpression.removeFunctions(functionsNames);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeFunctions(functionsNames);
 	}
 	/**
 	 * Removes first occurrences of the functions
@@ -800,7 +933,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public void removeFunctions(Function... functions) {
-		functionExpression.removeFunctions(functions);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeFunctions(functions);
 	}
 	/**
 	 * Removes all functions
@@ -809,7 +943,8 @@ public class Function extends PrimitiveElement {
 	 * @see        Function
 	 */
 	public void removeAllFunctions() {
-		functionExpression.removeAllFunctions();
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeAllFunctions();
 	}
 	/**
 	 * Enables verbose function mode
@@ -837,14 +972,16 @@ public class Function extends PrimitiveElement {
 	 * if yes the recursive mode is being set
 	 */
 	void checkRecursiveMode() {
-		ArrayList<Token> functionExpressionTokens = functionExpression.getInitialTokens();
-		functionExpression.disableRecursiveMode();
-		if (functionExpressionTokens != null)
-			for (Token t : functionExpressionTokens)
-				if (t.tokenStr.equals(functionName)) {
-					functionExpression.setRecursiveMode();
-					break;
-				}
+		if (functionBodyType == Function.BODY_RUNTIME) {
+			ArrayList<Token> functionExpressionTokens = functionExpression.getInitialTokens();
+			functionExpression.disableRecursiveMode();
+			if (functionExpressionTokens != null)
+				for (Token t : functionExpressionTokens)
+					if (t.tokenStr.equals(functionName)) {
+						functionExpression.setRecursiveMode();
+						break;
+					}
+		}
 	}
 	/**
 	 * Gets recursive mode status
@@ -870,7 +1007,8 @@ public class Function extends PrimitiveElement {
 	 * @param      expression          the related expression
 	 */
 	void addRelatedExpression(Expression expression) {
-		functionExpression.addRelatedExpression(expression);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.addRelatedExpression(expression);
 	}
 	/**
 	 * Removes related expression.
@@ -878,20 +1016,14 @@ public class Function extends PrimitiveElement {
 	 * @param      expression          the related expression
 	 */
 	void removeRelatedExpression(Expression expression) {
-		functionExpression.removeRelatedExpression(expression);
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.removeRelatedExpression(expression);
 	}
 	/**
 	 * Set expression modified flags in the related expressions.
 	 */
 	void setExpressionModifiedFlags() {
-		functionExpression.setExpressionModifiedFlag();
-	}
-	/**
-	 * Gets license info
-	 *
-	 * @return     license info as string
-	 */
-	public String getLicense() {
-		return mXparser.LICENSE;
+		if (functionBodyType == Function.BODY_RUNTIME)
+			functionExpression.setExpressionModifiedFlag();
 	}
 }

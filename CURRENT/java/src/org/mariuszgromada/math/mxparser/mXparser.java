@@ -661,7 +661,14 @@ public final class mXparser {
 		"    http://mxparser.codeplex.com/\n" +
 		"    http://janetsudoku.mariuszgromada.org/\n"
 		;
-
+	/**
+	 * Gets license info
+	 *
+	 * @return     license info as string
+	 */
+	public String getLicense() {
+		return LICENSE;
+	}
 	/**
 	 * Waits given number of milliseconds
 	 *

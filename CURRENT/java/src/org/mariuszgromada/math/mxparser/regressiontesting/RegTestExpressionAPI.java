@@ -65,6 +65,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Operator;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
 
+
 /**
  * RegTestExpressionAPI - regression tests for the expression API
  *
@@ -661,10 +662,10 @@ public class RegTestExpressionAPI {
 
 		) test[testId] = true;
 		/*
-		 * 21. Invalid tokens
+		 * 22. Invalid tokens
 		 */
 		testId++;
-		e = new Expression("token1+toke2n*sin(token3-t3^t5)^t4.5+pi-pie+e");
+		e = new Expression("token1+toke2n*sin(token3-t3^t5)^t45+pi-pie+e");
 		tokens = e.getCopyOfInitialTokens();
 		mXparser.consolePrintTokens(tokens);
 		if (
@@ -681,7 +682,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(10).tokenStr.equals("t5")) &&
 				(tokens.get(11).tokenStr.equals(")")) &&
 				(tokens.get(12).tokenStr.equals("^")) &&
-				(tokens.get(13).tokenStr.equals("t4.5")) &&
+				(tokens.get(13).tokenStr.equals("t45")) &&
 				(tokens.get(14).tokenStr.equals("+")) &&
 				(tokens.get(15).tokenStr.equals("pi")) &&
 				(tokens.get(16).tokenStr.equals("-")) &&
@@ -731,8 +732,94 @@ public class RegTestExpressionAPI {
 				(tokens.get(18).tokenLevel == 0) &&
 				(tokens.get(19).tokenLevel == 0)
 
-		) test[testId] = true;
-			
+		) test[testId] = true;		
+		/*
+		 * 23. Function Extension - calculate()
+		 */
+		testId++;
+		Function ff = new Function("ff", new FunExt());
+		if (ff.calculate(2,3) == 6) test[testId] = true;
+		/*
+		 * 24. Function Extension - setArgumentValue - calculate
+		 */
+		testId++;
+		ff = new Function("ff", new FunExt());
+		ff.setArgumentValue(0, 3);
+		ff.setArgumentValue(1, 4);
+		if (ff.calculate() == 12) test[testId] = true;
+		/*
+		 * 25. Function Extension - parameters
+		 */
+		testId++;
+		ff = new Function("ff", new FunExt());
+		if ( 
+				(ff.getParametersNumber() == 2) &&
+				(ff.getFunctionBodyType() == Function.BODY_EXTENDED) &&
+				(ff.checkSyntax() == Function.NO_SYNTAX_ERRORS)
+			) test[testId] = true;
+		/*
+		 * 26. Function Extension - calculate
+		 */
+		testId++;
+		ff = new Function("ff", new FunExt());
+		Argument x = new Argument("x = 5");
+		Argument y = new Argument("y = 6");
+		if (ff.calculate(x, y) == 30) test[testId] = true;
+		/*
+		 * 27. Invalid tokens looks like
+		 */
+		testId++;
+		e = new Expression("1pi+2pi3+((_d1(a)+(_d^_g)))))");
+		tokens = e.getCopyOfInitialTokens();
+		mXparser.consolePrintTokens(tokens);
+		if (
+				(tokens.get(0).tokenStr.equals("1pi")) &&
+				(tokens.get(1).tokenStr.equals("+")) &&
+				(tokens.get(2).tokenStr.equals("2pi3")) &&
+				(tokens.get(3).tokenStr.equals("+")) &&
+				(tokens.get(4).tokenStr.equals("(")) &&
+				(tokens.get(5).tokenStr.equals("(")) &&
+				(tokens.get(6).tokenStr.equals("_d1")) &&
+				(tokens.get(7).tokenStr.equals("(")) &&
+				(tokens.get(8).tokenStr.equals("a")) &&
+				(tokens.get(9).tokenStr.equals(")")) &&
+				(tokens.get(10).tokenStr.equals("+")) &&
+				(tokens.get(11).tokenStr.equals("(")) &&
+				(tokens.get(12).tokenStr.equals("_d")) &&
+				(tokens.get(13).tokenStr.equals("^")) &&
+				(tokens.get(14).tokenStr.equals("_g")) &&
+				(tokens.get(15).tokenStr.equals(")")) &&
+				(tokens.get(16).tokenStr.equals(")")) &&
+				(tokens.get(17).tokenStr.equals(")")) &&
+				(tokens.get(18).tokenStr.equals(")")) &&
+				(tokens.get(19).tokenStr.equals(")")) &&
+				
+				(tokens.get(0).looksLike.equals("error")) &&
+				(tokens.get(2).looksLike.equals("error")) &&
+				(tokens.get(6).looksLike.equals("function")) &&
+				(tokens.get(8).looksLike.equals("argument")) &&
+				(tokens.get(12).looksLike.equals("argument")) &&
+				(tokens.get(14).looksLike.equals("argument"))
+			) test[testId] = true;
+		/*
+		 * 28. Check Lex Syntax
+		 */
+		testId++;
+		e = new Expression("1+2+3+(4+5)+a+b");
+		if (
+				(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+				(e.checkLexSyntax() == Expression.NO_SYNTAX_ERRORS)
+			) test[testId] = true;
+		/*
+		 * 29. Check Lex Syntax
+		 */
+		testId++;
+		e = new Expression("1+2+3+(4+5)+a)+b");
+		if (
+				(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+				(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			) test[testId] = true;
+
         long end =  System.currentTimeMillis();
 		int nOk = 0;
 		int nError = 0;

@@ -56,6 +56,7 @@ import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
+import org.mariuszgromada.math.mxparser.FunctionExtension;
 import org.mariuszgromada.math.mxparser.RecursiveArgument;
 import org.mariuszgromada.math.mxparser.mXparser;
 
@@ -93,6 +94,7 @@ public class RegTestSyntax {
 		Constant c1;
 		Expression e;
 		Function f;
+		Function ff;
 		switch (testId) {
 		case 0:
 			expStr = "";
@@ -1385,6 +1387,30 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 111:
+			ff = new Function("ff", new FunExt());
+			expStr = "ff(4,5)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, ff);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+			if (syn == Expression.NO_SYNTAX_ERRORS)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 112:
+			ff = new Function("ff", new FunExt());
+			expStr = "ff(4,5,6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, ff);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -1398,7 +1424,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 110;
+		int numberOfTests = 112;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
@@ -1432,5 +1458,35 @@ public class RegTestSyntax {
 	 */
 	public static void main(String[] args) {
 		start();
+	}
+}
+/**
+ * Example of implementation
+ * FunctionExtension interface
+ * @see FunctionExtension
+ */
+class FunExt implements FunctionExtension {
+	double x;
+	double y;
+	FunExt() {
+		x = Double.NaN;
+		y = Double.NaN;
+	}
+	FunExt(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+	public int getParametersNumber() {
+		return 2;
+	}
+	public void setParameterValue(int argumentIndex, double argumentValue) {
+		if (argumentIndex == 0) x = argumentValue;
+		if (argumentIndex == 1) y = argumentValue;
+	}
+	public double calculate(double... params) {
+		return x*y;
+	}
+	public FunExt clone() {
+		return new FunExt(x, y);
 	}
 }

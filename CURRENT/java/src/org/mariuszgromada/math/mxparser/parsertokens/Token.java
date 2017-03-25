@@ -101,6 +101,12 @@ public class Token {
 	 */
 	public double tokenValue;
 	/**
+	 * If token was not matched then
+	 * looksLike functionality is trying asses
+	 * the kind of token
+	 */
+	public String looksLike;
+	/**
 	 * Default constructor
 	 */
 	public Token() {
@@ -110,6 +116,7 @@ public class Token {
 		tokenTypeId = NOT_MATCHED;
 		tokenLevel = -1;
 		tokenValue = Double.NaN;
+		looksLike = "";
 	}
 	/**
 	 * Token cloning.
@@ -122,6 +129,7 @@ public class Token {
 		token.tokenLevel = tokenLevel;
 		token.tokenTypeId = tokenTypeId;
 		token.tokenValue = tokenValue;
+		token.looksLike = looksLike;
 		return token;
 	}
 }

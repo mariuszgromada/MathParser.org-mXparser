@@ -879,12 +879,4 @@ public class Argument extends PrimitiveElement {
 		newArg.n = this.n;
 		return newArg;
 	}
-	/**
-	 * Gets license info
-	 *
-	 * @return     license info as string.
-	 */
-	public String getLicense() {
-		return mXparser.LICENSE;
-	}
 }
