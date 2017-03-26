@@ -393,6 +393,8 @@ public final class Calculus {
 	 * @param x  Argument
 	 * @param a  Left limit
 	 * @param b  Right limit
+	 * @param eps      Epsilon value (accuracy)
+	 * @param maxSteps Maximum number of iterations
 	 * @return   Function root - if found, otherwise Double.NaN.
 	 */
 	public static final double solveBrent(Expression f, Argument x, double a, double b, double eps, double maxSteps) {

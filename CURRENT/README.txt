@@ -1,6 +1,222 @@
 			mXparser - Math Parser Java Android C# .NET (CLS) Library
 		 A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
-		 
+
+v.4.0.0 (2017-03-27): Major update
+					  - Bitwise Operators
+					  - Numbers in scientific notation
+					  - Units, Physical & Astronomical Constants,
+					  - Equations solving via finding function root
+					  - Better tokens handling
+					  - Function Extensions - possibility of using your own implementation
+					  - Bugs fixed
+
+	* Bitwise Operators
+	
+		- @~   Bitwise unary complement
+		- @&   Bitwise AND
+		- @^   Bitwise exclusive OR
+		- @|   Bitwise inclusive OR
+		- @<<  Signed left shift
+		- @>>  Signed right shift
+		
+	* Numbers in scientific notation
+
+		- 1.2e10
+		- 1.2e-10
+		- 1.2e+10
+		- 1.2E10
+		- 1.2E-10
+		- 1.2E+10
+		- ...
+	
+	* Units
+
+		- [%]			<Ratio, Fraction> Percentage = 0.01
+		- [%%]			<Ratio, Fraction> Promil, Per mille = 0.001
+		- [Y]			<Metric prefix> Septillion / Yotta = 10^24
+		- [sept]		<Metric prefix> Septillion / Yotta = 10^24
+		- [Z]			<Metric prefix> Sextillion / Zetta = 10^21
+		- [sext]		<Metric prefix> Sextillion / Zetta = 10^21
+		- [E]			<Metric prefix> Quintillion / Exa = 10^18
+		- [quint]		<Metric prefix> Quintillion / Exa = 10^18
+		- [P]			<Metric prefix> Quadrillion / Peta = 10^15
+		- [quad]		<Metric prefix> Quadrillion / Peta = 10^15
+		- [T]			<Metric prefix> Trillion / Tera = 10^12
+		- [tril]		<Metric prefix> Trillion / Tera = 10^12
+		- [G]			<Metric prefix> Billion / Giga = 10^9
+		- [bil]			<Metric prefix> Billion / Giga = 10^9
+		- [M]			<Metric prefix> Million / Mega = 10^6
+		- [mil]			<Metric prefix> Million / Mega = 10^6
+		- [k]			<Metric prefix> Thousand / Kilo = 10^3
+		- [th]			<Metric prefix> Thousand / Kilo = 10^3
+		- [hecto]		<Metric prefix> Hundred / Hecto = 10^2
+		- [hund]		<Metric prefix> Hundred / Hecto = 10^2
+		- [deca]		<Metric prefix> Ten / Deca = 10
+		- [ten]			<Metric prefix> Ten / Deca = 10
+		- [deci]		<Metric prefix> Tenth / Deci = 0.1
+		- [centi]		<Metric prefix> Hundredth / Centi = 0.01
+		- [milli]		<Metric prefix> Thousandth / Milli = 0.001
+		- [mic]			<Metric prefix> Millionth / Micro = 10^-6
+		- [n]			<Metric prefix> Billionth / Nano = 10^-9
+		- [p]			<Metric prefix> Trillionth / Pico = 10^-12
+		- [f]			<Metric prefix> Quadrillionth / Femto = 10^-15
+		- [a]			<Metric prefix> Quintillionth / Atoo = 10^-18
+		- [z]			<Metric prefix> Sextillionth / Zepto = 10^-21
+		- [y]			<Metric prefix> Septillionth / Yocto = 10^-24
+		- [m]			<Unit of length> Metre / Meter (m=1)
+		- [km]			<Unit of length> Kilometre / Kilometer (m=1)
+		- [cm]			<Unit of length> Centimetre / Centimeter (m=1)
+		- [mm]			<Unit of length> Millimetre / Millimeter (m=1)
+		- [inch]		<Unit of length> Inch (m=1)
+		- [yd]			<Unit of length> Yard (m=1)
+		- [ft]			<Unit of length> Feet (m=1)
+		- [mile]		<Unit of length> Mile (m=1)
+		- [nmi]			<Unit of length> Nautical mile (m=1)
+		- [m2]			<Unit of area> Square metre / Square meter (m=
+		- [cm2]			<Unit of area> Square centimetre / Square cent
+		- [mm2]			<Unit of area> Square millimetre / Square mill
+		- [are]			<Unit of area> Are (m=1)
+		- [ha]			<Unit of area> Hectare (m=1)
+		- [acre]		<Unit of area> Acre (m=1)
+		- [km2]			<Unit of area> Square kilometre / Square kilom
+		- [mm3]			<Unit of volume> Cubic millimetre / Cubic mill
+		- [cm3]			<Unit of volume> Cubic centimetre / Cubic cent
+		- [m3]			<Unit of volume> Cubic metre / Cubic meter (m=
+		- [km3]			<Unit of volume> Cubic kilometre / Cubic kilom
+		- [ml]			<Unit of volume> Millilitre / Milliliter (m=1)
+		- [l]			<Unit of volume> Litre / Liter (m=1)
+		- [gall]		<Unit of volume> Gallon (m=1)
+		- [pint]		<Unit of volume> Pint (m=1)
+		- [s]			<Unit of time> Second (s=1)
+		- [ms]			<Unit of time> Millisecond (s=1)
+		- [min]			<Unit of time> Minute (s=1)
+		- [h]			<Unit of time> Hour (s=1)
+		- [day]			<Unit of time> Day (s=1)
+		- [week]		<Unit of time> Week (s=1)
+		- [yearj]		<Unit of time> Julian year = 365.25 days (s=1)
+		- [kg]			<Unit of mass> Kilogram (kg=1)
+		- [gr]			<Unit of mass> Gram (kg=1)
+		- [mg]			<Unit of mass> Milligram (kg=1)
+		- [dag]			<Unit of mass> Decagram (kg=1)
+		- [t]			<Unit of mass> Tonne (kg=1)
+		- [oz]			<Unit of mass> Ounce (kg=1)
+		- [lb]			<Unit of mass> Pound (kg=1)
+		- [b]			<Unit of information> Bit (bit=1)
+		- [kb]			<Unit of information> Kilobit (bit=1)
+		- [Mb]			<Unit of information> Megabit (bit=1)
+		- [Gb]			<Unit of information> Gigabit (bit=1)
+		- [Tb]			<Unit of information> Terabit (bit=1)
+		- [Pb]			<Unit of information> Petabit (bit=1)
+		- [Eb]			<Unit of information> Exabit (bit=1)
+		- [Zb]			<Unit of information> Zettabit (bit=1)
+		- [Yb]			<Unit of information> Yottabit (bit=1)
+		- [B]			<Unit of information> Byte (bit=1)
+		- [kB]			<Unit of information> Kilobyte (bit=1)
+		- [MB]			<Unit of information> Megabyte (bit=1)
+		- [GB]			<Unit of information> Gigabyte (bit=1)
+		- [TB]			<Unit of information> Terabyte (bit=1)
+		- [PB]			<Unit of information> Petabyte (bit=1)
+		- [EB]			<Unit of information> Exabyte (bit=1)
+		- [ZB]			<Unit of information> Zettabyte (bit=1)
+		- [YB]			<Unit of information> Yottabyte (bit=1)
+		- [J]			<Unit of energy> Joule (m=1, kg=1, s=1)
+		- [eV]			<Unit of energy> Electronovolt (m=1, kg=1, s=1
+		- [keV]			<Unit of energy> Kiloelectronovolt (m=1, kg=1,
+		- [MeV]			<Unit of energy> Megaelectronovolt (m=1, kg=1,
+		- [GeV]			<Unit of energy> Gigaelectronovolt (m=1, kg=1,
+		- [TeV]			<Unit of energy> Teraelectronovolt (m=1, kg=1,
+		- [m/s]			<Unit of speed> Metre / Meter per second (m=1,
+		- [km/h]		<Unit of speed> Kilometre / Kilometer per hour
+		- [mi/h]		<Unit of speed> Mile per hour (m=1, s=1)
+		- [knot]		<Unit of speed> Knot (m=1, s=1)
+		- [m/s2]		<Unit of acceleration> Metre / Meter per squar
+		- [km/h2]		<Unit of acceleration> Kilometre / Kilometer p
+		- [mi/h2]		<Unit of acceleration> Mile per square hour (m
+		- [rad]			<Unit of angle> Radian (rad=1)
+		- [deg]			<Unit of angle> Degree of arc (rad=1)
+		- [']			<Unit of angle> Minute of arc (rad=1)
+		- ['']			<Unit of angle> Second of arc (rad=1)
+
+	* Physical Constants
+
+		- [c]		Light speed in vacuum [m/s] (m=1, s=1)
+		- [G.]		Gravitational constant (m=1, kg=1, s=1)]
+		- [g]		Gravitational acceleration on Earth [m/s^2] (m=1, s=1)
+		- [hP]		Planck constant (m=1, kg=1, s=1)
+		- [h-]		Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]
+		- [lP]		Planck length [m] (m=1)
+		- [mP]		Planck mass [kg] (kg=1)
+		- [tP]		Planck time [s] (s=1)
+
+	* Astronomical Constants
+	
+		- [ly]				Light year [m] (m=1)
+		- [au]				Astronomical unit [m] (m=1)
+		- [pc]				Parsec [m] (m=1)
+		- [kpc]				Kiloparsec [m] (m=1)
+		- [Earth-R-eq]		Earth equatorial radius [m] (m=1)
+		- [Earth-R-po]		Earth polar radius [m] (m=1)
+		- [Earth-R]			Earth mean radius (m=1)
+		- [Earth-M]			Earth mass [kg] (kg=1)
+		- [Earth-D]			Earth-Sun distance - semi major axis [m] (m=1)
+		- [Moon-R]			Moon mean radius [m] (m=1)
+		- [Moon-M]			Moon mass [kg] (kg=1)
+		- [Moon-D]			Moon-Earth distance - semi major axis [m] (m=1)
+		- [Solar-R]			Solar mean radius [m] (m=1)
+		- [Solar-M]			Solar mass [kg] (kg=1)
+		- [Mercury-R]		Mercury mean radius [m] (m=1)
+		- [Mercury-M]		Mercury mass [kg] (kg=1)
+		- [Mercury-D]		Mercury-Sun distance - semi major axis [m] (m=1)
+		- [Venus-R]			Venus mean radius [m] (m=1)
+		- [Venus-M]			Venus mass [kg] (kg=1)
+		- [Venus-D]			Venus-Sun distance - semi major axis [m] (m=1)
+		- [Mars-R]			Mars mean radius [m] (m=1)
+		- [Mars-M]			Mars mass [kg] (kg=1)
+		- [Mars-D]			Mars-Sun distance - semi major axis [m] (m=1)
+		- [Jupiter-R]		Jupiter mean radius [m] (m=1)
+		- [Jupiter-M]		Jupiter mass [kg] (kg=1)
+		- [Jupiter-D]		Jupiter-Sun distance - semi major axis [m] (m=1)
+		- [Saturn-R]		Saturn mean radius [m] (m=1)
+		- [Saturn-M]		Saturn mass [kg] (kg=1)
+		- [Saturn-D]		Saturn-Sun distance - semi major axis [m] (m=1)
+		- [Uranus-R]		Uranus mean radius [m] (m=1)
+		- [Uranus-M]		Uranus mass [kg] (kg=1)
+		- [Uranus-D]		Uranus-Sun distance - semi major axis [m] (m=1)
+		- [Neptune-R]		Neptune mean radius [m] (m=1)
+		- [Neptune-M]		Neptune mass [kg] (kg=1)
+		- [Neptune-D]		Neptune-Sun distance - semi major axis [m] (m=1)
+	
+	* Equations solving via finding function root
+	
+	    - solve( f(x), x, a, b ) - solving f(x) = 0
+	
+	* Function Extensions
+	
+		- FileExtension interface + new constructor in Function class
+	
+	* Better tokens handling
+	
+		- Better handling of invalid / not known tokens
+		- Looks like functionality
+	
+	* Bugs fixed
+	
+		- Exception thrown by getCopyOfInitialTokens() #21
+		- System.format.exception - system.IO.EndOfStreamException #20
+		- Expression relating factorial "!" cause the application to hang #17
+		- Negative sign missing when is right of operators #16
+		- Negative in if statement #12
+		- Speed when debugging #11
+		- User defined arguments ending in e #10
+	
+	* New regression tests - current tests coverage:
+	
+		- 622 expression related tests
+		- 114 syntax related tests
+		- 30 api related tests
+		- 20 performance tests
+
+	
 v.3.0.0 (2016-05-16): Major update
 					  Random numbers, Probability distributions & Random variables
 					  Double precision rounding, ULP rounding, epsilon comparison
