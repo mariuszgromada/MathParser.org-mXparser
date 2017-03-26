@@ -270,6 +270,14 @@ public class Function extends PrimitiveElement {
 			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
 		}
 	}
+	/**
+	 * Constructor for function definition based on
+	 * your own source code - this is via implementation
+	 * of FunctionExtension interface.
+	 * 
+	 * @param functionName       Function name
+	 * @param functionExtension  Your own source code
+	 */
 	public Function(String functionName, FunctionExtension functionExtension) {
 		super(Function.TYPE_ID);
 		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
@@ -358,6 +366,10 @@ public class Function extends PrimitiveElement {
 		else
 			functionExtension.setParameterValue(argumentIndex, argumentValue);
 	}
+	/**
+	 * Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
+	 * @return Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED} 
+	 */
 	public int getFunctionBodyType() {
 		return functionBodyType;
 	}

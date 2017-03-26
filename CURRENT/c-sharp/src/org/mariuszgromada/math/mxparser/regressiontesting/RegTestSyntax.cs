@@ -90,6 +90,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			Expression e;
 			Constant c1;
 			Function f;
+			Function ff;
 			switch (testId) {
 			case 0:
 				expStr = "";
@@ -1382,6 +1383,30 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
+			case 111:
+				ff = new Function("ff", new FunExt());
+				expStr = "ff(4,5)";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr, ff);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == Expression.NO_SYNTAX_ERRORS)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 112:
+				ff = new Function("ff", new FunExt());
+				expStr = "ff(4,5,6)";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr, ff);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -1393,7 +1418,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * Runs syntax checking regression test.
 		 */
 		public static int Start() {
-			int numberOfTests = 110;
+			int numberOfTests = 112;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
@@ -1427,6 +1452,36 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 */
 		public static void Main(string[] args) {
 			Start();
+		}
+	}
+	/**
+	 * Example of implementation
+	 * FunctionExtension interface
+	 * @see FunctionExtension
+	 */
+	internal class FunExt : FunctionExtension {
+		double x;
+		double y;
+		public FunExt() {
+			x = Double.NaN;
+			y = Double.NaN;
+		}
+		public FunExt(double x, double y) {
+			this.x = x;
+			this.y = y;
+		}
+		public int getParametersNumber() {
+			return 2;
+		}
+		public void setParameterValue(int argumentIndex, double argumentValue) {
+			if (argumentIndex == 0) x = argumentValue;
+			if (argumentIndex == 1) y = argumentValue;
+		}
+		public double calculate(params double[] parameters) {
+			return x * y;
+		}
+		public FunctionExtension clone() {
+			return new FunExt(x, y);
 		}
 	}
 }

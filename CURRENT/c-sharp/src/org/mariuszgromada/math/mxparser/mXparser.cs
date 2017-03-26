@@ -665,7 +665,14 @@ namespace org.mariuszgromada.math.mxparser {
 			"    http://mxparser.codeplex.com/\n" +
 			"    http://janetsudoku.mariuszgromada.org/\n"
 			;
-
+		/**
+		 * Gets license info
+		 *
+		 * @return     license info as string.
+		 */
+		public String getLicense() {
+			return mXparser.LICENSE;
+		}
 		/**
 		 * Waits given number of milliseconds
 		 *

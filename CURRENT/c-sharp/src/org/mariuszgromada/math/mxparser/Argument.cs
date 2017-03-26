@@ -142,8 +142,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Argument type id for the definition of key words
 		 * known by the parser.
 		 */
-		internal const int TYPE_ID			= 101;
-		internal const String TYPE_DESC		= "User defined argument";
+		public const int TYPE_ID			= 101;
+		public const String TYPE_DESC		= "User defined argument";
 		/**
 		 * Description of the argument.
 		 */
@@ -872,14 +872,6 @@ namespace org.mariuszgromada.math.mxparser {
 			newArg.description = this.description;
 			newArg.n = this.n;
 			return newArg;
-		}
-		/**
-		 * Gets license info
-		 *
-		 * @return     license info as string.
-		 */
-		public String getLicense() {
-			return mXparser.LICENSE;
 		}
 	}
 }

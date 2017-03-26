@@ -78,6 +78,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\Constant.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Expression.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Function.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs" />

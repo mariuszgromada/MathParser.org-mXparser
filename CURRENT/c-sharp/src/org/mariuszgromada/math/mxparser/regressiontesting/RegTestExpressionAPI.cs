@@ -654,10 +654,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 
 			) test[testId] = true;
 			/*
-			 * 21. Invalid tokens
+			 * 22. Invalid tokens
 			 */
 			testId++;
-			e = new Expression("token1+toke2n*sin(token3-t3^t5)^t4.5+pi-pie+e");
+			e = new Expression("token1+toke2n*sin(token3-t3^t5)^t45+pi-pie+e");
 			tokens = e.getCopyOfInitialTokens();
 			mXparser.consolePrintTokens(tokens);
 			if (
@@ -674,7 +674,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(tokens[10].tokenStr.Equals("t5")) &&
 					(tokens[11].tokenStr.Equals(")")) &&
 					(tokens[12].tokenStr.Equals("^")) &&
-					(tokens[13].tokenStr.Equals("t4.5")) &&
+					(tokens[13].tokenStr.Equals("t45")) &&
 					(tokens[14].tokenStr.Equals("+")) &&
 					(tokens[15].tokenStr.Equals("pi")) &&
 					(tokens[16].tokenStr.Equals("-")) &&
@@ -725,6 +725,92 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(tokens[19].tokenLevel == 0)
 
 			) test[testId] = true;
+			/*
+			 * 23. Function Extension - calculate()
+			 */
+			testId++;
+			Function ff = new Function("ff", new FunExt());
+			if (ff.calculate(2, 3) == 6) test[testId] = true;
+			/*
+			 * 24. Function Extension - setArgumentValue - calculate
+			 */
+			testId++;
+			ff = new Function("ff", new FunExt());
+			ff.setArgumentValue(0, 3);
+			ff.setArgumentValue(1, 4);
+			if (ff.calculate() == 12) test[testId] = true;
+			/*
+			 * 25. Function Extension - parameters
+			 */
+			testId++;
+			ff = new Function("ff", new FunExt());
+			if (
+					(ff.getParametersNumber() == 2) &&
+					(ff.getFunctionBodyType() == Function.BODY_EXTENDED) &&
+					(ff.checkSyntax() == Function.NO_SYNTAX_ERRORS)
+				) test[testId] = true;
+			/*
+			 * 26. Function Extension - calculate
+			 */
+			testId++;
+			ff = new Function("ff", new FunExt());
+			Argument x = new Argument("x = 5");
+			Argument y = new Argument("y = 6");
+			if (ff.calculate(x, y) == 30) test[testId] = true;
+			/*
+			 * 27. Invalid tokens looks like
+			 */
+			testId++;
+			e = new Expression("1pi+2pi3+((_d1(a)+(_d^_g)))))");
+			tokens = e.getCopyOfInitialTokens();
+			mXparser.consolePrintTokens(tokens);
+			if (
+					(tokens[0].tokenStr.Equals("1pi")) &&
+					(tokens[1].tokenStr.Equals("+")) &&
+					(tokens[2].tokenStr.Equals("2pi3")) &&
+					(tokens[3].tokenStr.Equals("+")) &&
+					(tokens[4].tokenStr.Equals("(")) &&
+					(tokens[5].tokenStr.Equals("(")) &&
+					(tokens[6].tokenStr.Equals("_d1")) &&
+					(tokens[7].tokenStr.Equals("(")) &&
+					(tokens[8].tokenStr.Equals("a")) &&
+					(tokens[9].tokenStr.Equals(")")) &&
+					(tokens[10].tokenStr.Equals("+")) &&
+					(tokens[11].tokenStr.Equals("(")) &&
+					(tokens[12].tokenStr.Equals("_d")) &&
+					(tokens[13].tokenStr.Equals("^")) &&
+					(tokens[14].tokenStr.Equals("_g")) &&
+					(tokens[15].tokenStr.Equals(")")) &&
+					(tokens[16].tokenStr.Equals(")")) &&
+					(tokens[17].tokenStr.Equals(")")) &&
+					(tokens[18].tokenStr.Equals(")")) &&
+					(tokens[19].tokenStr.Equals(")")) &&
+
+					(tokens[0].looksLike.Equals("error")) &&
+					(tokens[2].looksLike.Equals("error")) &&
+					(tokens[6].looksLike.Equals("function")) &&
+					(tokens[8].looksLike.Equals("argument")) &&
+					(tokens[12].looksLike.Equals("argument")) &&
+					(tokens[14].looksLike.Equals("argument"))
+				) test[testId] = true;
+			/*
+			 * 28. Check Lex Syntax
+			 */
+			testId++;
+			e = new Expression("1+2+3+(4+5)+a+b");
+			if (
+					(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+					(e.checkLexSyntax() == Expression.NO_SYNTAX_ERRORS)
+				) test[testId] = true;
+			/*
+			 * 29. Check Lex Syntax
+			 */
+			testId++;
+			e = new Expression("1+2+3+(4+5)+a)+b");
+			if (
+					(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+					(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+				) test[testId] = true;
 
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

@@ -100,7 +100,7 @@ namespace org.mariuszgromada.math.mxparser
 		 * Start from the license
 		 */
 		Expression e = new Expression();
-		mXparser.consolePrintln(e.getLicense());
+		mXparser.consolePrintln(mXparser.LICENSE);
 		mXparser.consolePrintln();
 		/*
 		 * Using help

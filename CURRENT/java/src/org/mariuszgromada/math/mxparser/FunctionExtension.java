@@ -84,11 +84,6 @@ package org.mariuszgromada.math.mxparser;
  */
 public interface FunctionExtension {
 	/**
-	 * Type identifier for Function Extension
-	 */
-	public static final int TYPE_ID				= 105;
-	public static final String TYPE_DESC		= "Implemented function extension";
-	/**
 	 * Gets parameters number.
 	 * 
 	 * @return Returns parameters number.
@@ -104,10 +99,10 @@ public interface FunctionExtension {
 	/**
 	 * Actual algorithm implementation.
 	 * 
-	 * @param params Function parameters.
+	 * @param parameters Function parameters.
 	 * @return Function Extension value.
 	 */
-	public double calculate(double... params);
+	public double calculate(double... parameters);
 	/**
 	 * Cloning in case of usage in Expression
 	 * with recursive statements.

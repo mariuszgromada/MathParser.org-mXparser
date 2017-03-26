@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        3.0.0    2016-05-07
+ * @(#)Function.cs        4.0.0    2017-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -91,12 +91,13 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
 	 * @see Argument
 	 * @see Constant
+	 * @see FunctionExtension
 	 *
 	 */
 	[CLSCompliant(true)]
@@ -116,8 +117,29 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Function type id identifier
 		 */
-		internal const int TYPE_ID			=	103;
-		internal const String TYPE_DESC		= "User defined function";
+		public const int TYPE_ID			= 103;
+		public const String TYPE_DESC		= "User defined function";
+		/**
+		 * Function with body based on the expression string.
+		 *
+		 * @see Function#getFunctionBodyType()
+		 */
+		public const int BODY_RUNTIME = 1;
+		/**
+		 * Function with body based on the extended code.
+		 *
+		 * @see FunctionExtension
+		 * @see Function#getFunctionBodyType()
+		 */
+		public const int BODY_EXTENDED = 2;
+		/**
+		 * Function body type.
+		 *
+		 * @see Function#BODY_RUNTIME
+		 * @see Function#BODY_EXTENDED
+		 * @see Function#getFunctionBodyType()
+		 */
+		private int functionBodyType;
 		/**
 		 * function expression
 		 */
@@ -134,6 +156,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * The number of function parameters
 		 */
 		private int parametersNumber;
+		/**
+		 * Function extension (body based in code)
+		 *
+		 * @see FunctionExtension
+		 * @see Function#Function(String, FunctionExtension)
+		 */
+		private FunctionExtension functionExtension;
 		/*=================================================
 		 *
 		 * Constructors
@@ -160,6 +189,7 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setDescription(functionName);
 				parametersNumber = 0;
 				description = "";
+				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			}
 			else {
@@ -192,6 +222,7 @@ namespace org.mariuszgromada.math.mxparser {
 					functionExpression.addArguments(new Argument(argName));
 				parametersNumber = argumentsNames.Length - countRecursiveArguments();
 				description = "";
+				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			}
 			else {
@@ -235,6 +266,7 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 				description = "";
+				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			}
 			else {
@@ -242,6 +274,29 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setDescription(functionDefinitionString);
 				String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
 				functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
+			}
+		}
+		/**
+		 * Constructor for function definition based on
+		 * your own source code - this is via implementation
+		 * of FunctionExtension interface.
+		 *
+		 * @param functionName       Function name
+		 * @param functionExtension  Your own source code
+		 */
+		public Function(String functionName, FunctionExtension functionExtension) : base(Function.TYPE_ID) {
+			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
+				this.functionName = functionName;
+				functionExpression = new Expression("{body-ext}");
+				parametersNumber = functionExtension.getParametersNumber();
+				description = "";
+				this.functionExtension = functionExtension;
+				functionBodyType = BODY_EXTENDED;
+			} else {
+				parametersNumber = 0;
+				description = "";
+				functionExpression = new Expression("");
+				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 			}
 		}
 		/**
@@ -256,6 +311,9 @@ namespace org.mariuszgromada.math.mxparser {
 			description = function.description;
 			parametersNumber = function.parametersNumber;
 			functionExpression = function.functionExpression.clone();
+			functionBodyType = function.functionBodyType;
+			if (functionBodyType == BODY_EXTENDED)
+				functionExtension = function.functionExtension.clone();
 		}
 		/**
 		 * Sets function description.
@@ -309,7 +367,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argumentValue   the argument value
 		 */
 		public void setArgumentValue(int argumentIndex, double argumentValue) {
-			functionExpression.argumentsList[argumentIndex].argumentValue = argumentValue;
+			if (functionBodyType == BODY_RUNTIME)
+				functionExpression.argumentsList[argumentIndex].argumentValue = argumentValue;
+			else
+				functionExtension.setParameterValue(argumentIndex, argumentValue);
+		}
+		/**
+		 * Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
+		 * @return Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
+		 */
+		public int getFunctionBodyType() {
+			return functionBodyType;
 		}
 		/**
 		 * Checks function syntax
@@ -319,7 +387,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 */
 		public bool checkSyntax() {
-			bool syntaxStatus = functionExpression.checkSyntax();
+			bool syntaxStatus = Function.NO_SYNTAX_ERRORS;
+			if (functionBodyType == BODY_RUNTIME)
+				functionExpression.checkSyntax();
 			checkRecursiveMode();
 			return syntaxStatus;
 		}
@@ -344,7 +414,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     Function value as double.
 		 */
 		public double calculate() {
-			return functionExpression.calculate();
+			if (functionBodyType == BODY_RUNTIME)
+				return functionExpression.calculate();
+			else
+				return functionExtension.calculate();
 		}
 		/**
 		 * Calculates function value
@@ -355,8 +428,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public double calculate(params double[] parameters) {
 			if (parameters.Length == this.getParametersNumber()) {
-				for (int p = 0; p < parameters.Length; p++)
+				if (functionBodyType == BODY_RUNTIME) {
+					for (int p = 0; p < parameters.Length; p++)
 					setArgumentValue(p, parameters[p]);
+				} else {
+					for (int p = 0; p < parameters.Length; p++)
+					functionExtension.setParameterValue(p, parameters[p]);
+				}
 				return  calculate();
 			}
 			else {
@@ -373,8 +451,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public double calculate(params Argument[] arguments) {
 			if (arguments.Length == this.getParametersNumber()) {
-				for (int p = 0; p < arguments.Length; p++)
-					setArgumentValue(p, arguments[p].getArgumentValue());
+				if (functionBodyType == BODY_RUNTIME) {
+					for (int p = 0; p < arguments.Length; p++)
+						setArgumentValue(p, arguments[p].getArgumentValue());
+				} else {
+					for (int p = 0; p < arguments.Length; p++)
+						functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
+				}
 				return  calculate();
 			}
 			else {
@@ -392,7 +475,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see PrimitiveElement
 		 */
 		public void addDefinitions(params PrimitiveElement[] elements) {
-			functionExpression.addDefinitions(elements);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.addDefinitions(elements);
 		}
 		/**
 		 * Removes user defined elements (such as: Arguments, Constants, Functions)
@@ -404,7 +488,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see PrimitiveElement
 		 */
 		public void removeDefinitions(params PrimitiveElement[] elements) {
-			functionExpression.removeDefinitions(elements);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeDefinitions(elements);
 		}
 		/*=================================================
 		 *
@@ -415,8 +500,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private int countRecursiveArguments() {
 			int numOfRecursiveArguments = 0;
-			foreach (Argument argument in functionExpression.argumentsList)
-				if (argument.getArgumentType() == Argument.RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
+			if (functionBodyType == Function.BODY_RUNTIME)
+				foreach (Argument argument in functionExpression.argumentsList)
+					if (argument.getArgumentType() == Argument.RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
 			return numOfRecursiveArguments;
 		}
 		/**
@@ -428,8 +514,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void addArguments(params Argument[] arguments) {
-			functionExpression.addArguments(arguments);
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				functionExpression.addArguments(arguments);
+				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			}
 		}
 		/**
 		 * Enables to define the arguments (associated with
@@ -442,8 +530,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void defineArguments(params String[] argumentsNames) {
-			functionExpression.defineArguments(argumentsNames);
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				functionExpression.defineArguments(argumentsNames);
+				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			}
 		}
 		/**
 		 * Enables to define the argument (associated with the function expression)
@@ -456,8 +546,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void defineArgument(String argumentName, double argumentValue) {
-			functionExpression.defineArgument(argumentName, argumentValue);
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				functionExpression.defineArgument(argumentName, argumentValue);
+				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			}
 		}
 		/**
 		 * Gets argument index from the function expression.
@@ -471,7 +563,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getArgumentIndex(String argumentName) {
-			return functionExpression.getArgumentIndex(argumentName);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getArgumentIndex(argumentName);
+			else
+				return -1;
 		}
 		/**
 		 * Gets argument from the function expression.
@@ -486,7 +581,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public Argument getArgument(String argumentName) {
-			return functionExpression.getArgument(argumentName);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getArgument(argumentName);
+			else
+				return null;
 		}
 		/**
 		 * Gets argument from the function expression.
@@ -501,7 +599,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public Argument getArgument(int argumentIndex) {
-			return functionExpression.getArgument(argumentIndex);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getArgument(argumentIndex);
+			else
+				return null;
 		}
 		/**
 		 * Gets number of parameters associated with the function expression.
@@ -521,8 +622,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                                 (less number might be specified).
 		 */
 		public void setParametersNumber(int parametersNumber) {
-			this.parametersNumber = parametersNumber;
-			functionExpression.setExpressionModifiedFlag();
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				this.parametersNumber = parametersNumber;
+				functionExpression.setExpressionModifiedFlag();
+			}
 		}
 		/**
 		 * Gets number of arguments associated with the function expression.
@@ -533,7 +636,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getArgumentsNumber() {
-			return functionExpression.getArgumentsNumber();
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getArgumentsNumber();
+			else
+				return 0;
 		}
 		/**
 		 * Removes first occurrences of the arguments
@@ -547,8 +653,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeArguments(params String[] argumentsNames) {
-			functionExpression.removeArguments(argumentsNames);
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				functionExpression.removeArguments(argumentsNames);
+				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			}
 		}
 		/**
 		 * Removes first occurrences of the arguments
@@ -561,8 +669,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeArguments(params Argument[] arguments) {
-			functionExpression.removeArguments(arguments);
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				functionExpression.removeArguments(arguments);
+				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			}
 		}
 		/**
 		 * Removes all arguments associated with the function expression.
@@ -571,8 +681,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeAllArguments() {
-			functionExpression.removeAllArguments();
-			parametersNumber = 0;
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				functionExpression.removeAllArguments();
+				parametersNumber = 0;
+			}
 		}
 		/*=================================================
 		 *
@@ -590,7 +702,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void addConstants(params Constant[] constants) {
-			functionExpression.addConstants(constants);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.addConstants(constants);
 		}
 		/**
 		 * Enables to define the constant (associated with
@@ -603,7 +716,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void defineConstant(String constantName, double constantValue) {
-			functionExpression.defineConstant(constantName, constantValue);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.defineConstant(constantName, constantValue);
 		}
 		/**
 		 * Gets constant index associated with the function expression.
@@ -616,7 +730,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public int getConstantIndex(String constantName) {
-			return functionExpression.getConstantIndex(constantName);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getConstantIndex(constantName);
+			else
+				return -1;
 		}
 		/**
 		 * Gets constant associated with the function expression.
@@ -629,7 +746,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public Constant getConstant(String constantName) {
-			return functionExpression.getConstant(constantName);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getConstant(constantName);
+			else
+				return null;
 		}
 		/**
 		 * Gets constant associated with the function expression.
@@ -644,7 +764,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public Constant getConstant(int constantIndex) {
-			return functionExpression.getConstant(constantIndex);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getConstant(constantIndex);
+			else
+				return null;
 		}
 		/**
 		 * Gets number of constants associated with the function expression.
@@ -654,7 +777,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public int getConstantsNumber() {
-			return functionExpression.getConstantsNumber();
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getConstantsNumber();
+			else
+				return 0;
 		}
 		/**
 		 * Removes first occurrences of the constants
@@ -666,7 +792,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeConstants(params String[] constantsNames) {
-			functionExpression.removeConstants(constantsNames);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeConstants(constantsNames);
 		}
 		/**
 		 * Removes first occurrences of the constants
@@ -678,7 +805,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeConstants(params Constant[] constants) {
-			functionExpression.removeConstants(constants);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeConstants(constants);
 		}
 		/**
 		 * Removes all constants
@@ -705,7 +833,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void addFunctions(params Function[] functions) {
-			functionExpression.addFunctions(functions);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.addFunctions(functions);
 		}
 		/**
 		 * Enables to define the function (associated with
@@ -722,7 +851,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void defineFunction(String functionName, String  functionExpressionString,
 				params String[] argumentsNames) {
-			functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 		}
 		/**
 		 * Gets index of function associated with the function expression.
@@ -735,7 +865,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public int getFunctionIndex(String functionName) {
-			return functionExpression.getFunctionIndex(functionName);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getFunctionIndex(functionName);
+			else
+				return -1;
 		}
 		/**
 		 * Gets function associated with the function expression.
@@ -748,7 +881,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public Function getFunction(String functionName) {
-			return functionExpression.getFunction(functionName);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getFunction(functionName);
+			else
+				return null;
 		}
 		/**
 		 * Gets function associated with the function expression.
@@ -762,7 +898,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public Function getFunction(int functionIndex) {
-			return functionExpression.getFunction(functionIndex);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getFunction(functionIndex);
+			else
+				return null;
 		}
 		/**
 		 * Gets number of functions associated with the function expression.
@@ -772,7 +911,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public int getFunctionsNumber() {
-			return functionExpression.getFunctionsNumber();
+			if (functionBodyType == Function.BODY_RUNTIME)
+				return functionExpression.getFunctionsNumber();
+			else
+				return 0;
 		}
 		/**
 		 * Removes first occurrences of the functions
@@ -784,7 +926,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeFunctions(params String[] functionsNames) {
-			functionExpression.removeFunctions(functionsNames);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeFunctions(functionsNames);
 		}
 		/**
 		 * Removes first occurrences of the functions
@@ -796,7 +939,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeFunctions(params Function[] functions) {
-			functionExpression.removeFunctions(functions);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeFunctions(functions);
 		}
 		/**
 		 * Removes all functions
@@ -805,7 +949,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeAllFunctions() {
-			functionExpression.removeAllFunctions();
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeAllFunctions();
 		}
 		/*
 		 * ---------------------------------------------
@@ -836,15 +981,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 * if yes the recursive mode is being set
 		 */
 		internal void checkRecursiveMode() {
-			//functionExpression.showTokens();
-			List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
-			functionExpression.disableRecursiveMode();
-			if (functionExpressionTokens != null)
-				foreach (Token t in functionExpressionTokens)
-					if (t.tokenStr.Equals(functionName)) {
-						functionExpression.setRecursiveMode();
-						break;
-					}
+			if (functionBodyType == Function.BODY_RUNTIME) {
+				List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
+				functionExpression.disableRecursiveMode();
+				if (functionExpressionTokens != null)
+					foreach (Token t in functionExpressionTokens)
+						if (t.tokenStr.Equals(functionName)) {
+							functionExpression.setRecursiveMode();
+							break;
+						}
+			}
 		}
 		/**
 		 * Gets recursive mode status
@@ -870,7 +1016,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      expression          the related expression
 		 */
 		internal void addRelatedExpression(Expression expression) {
-			functionExpression.addRelatedExpression(expression);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.addRelatedExpression(expression);
 		}
 		/**
 		 * Removes related expression.
@@ -878,21 +1025,15 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      expression          the related expression
 		 */
 		internal void removeRelatedExpression(Expression expression) {
-			functionExpression.removeRelatedExpression(expression);
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.removeRelatedExpression(expression);
 		}
 		/**
 		 * Set expression modified flags in the related expressions.
 		 */
 		internal void setExpressionModifiedFlags() {
-			functionExpression.setExpressionModifiedFlag();
-		}
-		/**
-		 * Gets license info
-		 *
-		 * @return     license info as string
-		 */
-		public String getLicense() {
-			return mXparser.LICENSE;
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.setExpressionModifiedFlag();
 		}
 	}
 }

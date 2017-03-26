@@ -5024,6 +5024,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			double value = 0;
 			double reg = 0;
 			String expStr = "";
+			Function ff;
 			switch (testId) {
 			case 443:
 				mXparser.disableUlpRounding();
@@ -6956,6 +6957,18 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 618:
+				mXparser.setEpsilonComparison();
+				ff = new Function("ff", new FunExt());
+				expStr = "5*6-ff(5,6)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, ff);
+				value = exp[testId].calculate();
+				reg = 0;
+				if (MathFunctions.abs(reg - value) <= 0.000000001)
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -6971,7 +6984,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 617;
+			int numberOfTests = 618;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

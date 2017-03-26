@@ -100,8 +100,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Type identifier for constants
 		 */
-		internal const int TYPE_ID			= 104;
-		internal const String TYPE_DESC		= "User defined constant";
+		public const int TYPE_ID			= 104;
+		public const String TYPE_DESC		= "User defined constant";
 		/**
 		 * Status of the Expression syntax
 		 */
@@ -294,14 +294,6 @@ namespace org.mariuszgromada.math.mxparser {
 		void setExpressionModifiedFlags() {
 			foreach (Expression e in relatedExpressionsList)
 				e.setExpressionModifiedFlag();
-		}
-		/**
-		 * Gets license info
-		 *
-		 * @return     license info as string.
-		 */
-		public String getLicense() {
-			return mXparser.LICENSE;
 		}
 	}
 }

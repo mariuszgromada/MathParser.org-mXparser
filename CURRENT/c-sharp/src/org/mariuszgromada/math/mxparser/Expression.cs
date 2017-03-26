@@ -1018,7 +1018,8 @@ namespace org.mariuszgromada.math.mxparser {
 				foreach (Function f in functions) {
 					if (f != null) {
 						functionsList.Add(f);
-						f.addRelatedExpression(this);
+						if (f.getFunctionBodyType() == Function.BODY_RUNTIME)
+							f.addRelatedExpression(this);
 					}
 				}
 				setExpressionModifiedFlag();
@@ -4155,8 +4156,24 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     true if syntax is ok
 		 */
+		public bool checkLexSyntax() {
+			bool syntax = NO_SYNTAX_ERRORS;
+			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
+			try {
+				syn.checkSyntax();
+			} catch (Exception e) {
+				syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+				errorMessage = "lexical error \n\n" + e.Message + "\n";
+			}
+			return syntax;
+		}
+		/**
+		 * Checks syntax of the expression string.
+		 *
+		 * @return     true if syntax is ok
+		 */
 		public bool checkSyntax() {
-			bool syntax = checkSyntax("[" + expressionString + "] ");
+			bool syntax = checkSyntax("[" + expressionString + "] ", false);
 			return syntax;
 		}
 		/**
@@ -4212,10 +4229,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     true if syntax was correct,
 		 *             otherwise returns false.
 		 */
-		private bool checkSyntax(String level) {
+		private bool checkSyntax(String level, bool functionWithBodyExt) {
 			if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) ) {
 				errorMessage = level + "already checked - no errors!\n";
 				recursionCallPending = false;
+				return NO_SYNTAX_ERRORS;
+			}
+			if (functionWithBodyExt) {
+				syntaxStatus = NO_SYNTAX_ERRORS;
+				recursionCallPending = false;
+				expressionWasModified = false;
+				errorMessage = errorMessage + level + "function with extended body - assuming no errors.\n";
 				return NO_SYNTAX_ERRORS;
 			}
 			recursionCallPending = true;
@@ -4259,7 +4283,7 @@ namespace org.mariuszgromada.math.mxparser {
 								errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
 							} else
 								if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-									bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
+									bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
 									syntax = syntax && syntaxRec;
 									errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
 								}
@@ -4275,7 +4299,7 @@ namespace org.mariuszgromada.math.mxparser {
 							errorMessage = errorMessage + level + tokenStr + "<RECURSIVE_ARGUMENT> expecting 1 parameter.\n";
 						} else
 							if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-								bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ");
+								bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
 								syntax = syntax && syntaxRec;
 								errorMessage = errorMessage + level + tokenStr + "checking recursive argument ...\n" + arg.argumentExpression.getErrorMessage();
 							}
@@ -4304,7 +4328,11 @@ namespace org.mariuszgromada.math.mxparser {
 							errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + fun.getParametersNumber() + " arguments.\n";
 						} else
 							if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
-								bool syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ");
+								bool syntaxRec;
+								if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
+									syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", false);
+								else
+									syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", true);
 								syntax = syntax && syntaxRec;
 								errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.getErrorMessage();
 							}
@@ -5757,7 +5785,34 @@ namespace org.mariuszgromada.math.mxparser {
 								( precedingChar != '^' ) &&
 								( precedingChar != '#' ) &&
 								( precedingChar != '%' ) &&
+								( precedingChar != '@' ) &&
 								( precedingChar != '!' )	)
+							numEnd = -1;
+					}
+				if (numEnd >= 0)
+					if (numEnd < newExpressionString.Length - 1) {
+						followingChar = newExpressionString[numEnd + 1];
+						if (
+								(followingChar != ',') &&
+								(followingChar != ';') &&
+								(followingChar != '|') &&
+								(followingChar != '&') &&
+								(followingChar != '+') &&
+								(followingChar != '-') &&
+								(followingChar != '*') &&
+								(followingChar != '\\') &&
+								(followingChar != '/') &&
+								(followingChar != '(') &&
+								(followingChar != ')') &&
+								(followingChar != '=') &&
+								(followingChar != '>') &&
+								(followingChar != '<') &&
+								(followingChar != '~') &&
+								(followingChar != '^') &&
+								(followingChar != '#') &&
+								(followingChar != '%') &&
+								(followingChar != '@') &&
+								(followingChar != '!'))
 							numEnd = -1;
 					}
 				if (numEnd >= 0) {
@@ -5885,6 +5940,7 @@ namespace org.mariuszgromada.math.mxparser {
 												(precedingChar != '^') &&
 												(precedingChar != '#') &&
 												(precedingChar != '%') &&
+												(precedingChar != '@') &&
 												(precedingChar != '!')) matchStatus = NOT_FOUND;
 									}
 									/*
@@ -5910,6 +5966,7 @@ namespace org.mariuszgromada.math.mxparser {
 												(followingChar != '^') &&
 												(followingChar != '#') &&
 												(followingChar != '%') &&
+												(followingChar != '@') &&
 												(followingChar != '!')) matchStatus = NOT_FOUND;
 									}
 								}
@@ -6015,9 +6072,11 @@ namespace org.mariuszgromada.math.mxparser {
 					token.tokenLevel = tokenLevel;
 					if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)) {
 						tokenLevel--;
-						TokenStackElement stackEl = tokenStack.Pop();
-						if (stackEl.precedingFunction == true)
-							tokenLevel--;
+						if (tokenStack.Count > 0) {
+							TokenStackElement stackEl = tokenStack.Pop();
+							if (stackEl.precedingFunction == true)
+								tokenLevel--;
+						}
 					}
 				}
 		}
@@ -6040,10 +6099,28 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#consolePrintTokens(ArrayList)
 		 */
 		public List<Token> getCopyOfInitialTokens() {
+			const String FUNCTION = "function";
+			const String ARGUMENT = "argument";
+			const String ERROR = "error";
 			tokenizeExpressionString();
 			List<Token> tokensListCopy = new List<Token>();
-			foreach (Token token in initialTokens)
+			Token token;
+			for (int i = 0; i < initialTokens.Count; i++) {
+				token = initialTokens[i];
+				if (token.tokenTypeId == Token.NOT_MATCHED) {
+					if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+						token.looksLike = ARGUMENT;
+						if (i < initialTokens.Count - 1) {
+							Token tokenNext = initialTokens[i + 1];
+							if ((tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID))
+								token.looksLike = FUNCTION;
+						}
+					} else {
+						token.looksLike = ERROR;
+					}
+				}
 				tokensListCopy.Add(token.clone());
+			}
 			return tokensListCopy;
 		}
 		/**
@@ -6178,12 +6255,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal static void showTokens(List<Token> tokensList) {
 			String maxStr = "TokenTypeId";
-			int tokensNumber = tokensList.Count;
 			mXparser.consolePrintln(" --------------------");
 			mXparser.consolePrintln("| Expression tokens: |");
-			mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
-			mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |");
-			mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
+			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+			mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
+			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+			if (tokensList == null) {
+				mXparser.consolePrintln("NULL tokens list");
+				return;
+			}
+			int tokensNumber = tokensList.Count;
 			for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
 				String tokenIndexStr = getLeftSpaces(maxStr, tokenIndex.ToString() );
 				String tokenStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenStr );
@@ -6192,15 +6273,17 @@ namespace org.mariuszgromada.math.mxparser {
 				String tokenTypeIdStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenTypeId.ToString() );
 				String tokenLevelStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenLevel.ToString() );
 				String tokenValueStr = getLeftSpaces(maxStr, tokensList[tokenIndex].tokenValue.ToString() );
+				String tokenLooksLikeStr = getLeftSpaces(maxStr, tokensList[tokenIndex].looksLike);
 				mXparser.consolePrintln(	"| " + tokenIndexStr +
 									" | " + tokenStr +
 									" | " + keyWordStr +
 									" | " + tokenIdStr +
 									" | " + tokenTypeIdStr +
 									" | " + tokenLevelStr +
-									" | " + tokenValueStr + " |");
+									" | " + tokenValueStr +
+									" | " + tokenLooksLikeStr + " |");
 			}
-			mXparser.consolePrintln(" -------------------------------------------------------------------------------------------------");
+			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 		}
 		/**
 		 * shows initial tokens
@@ -6230,14 +6313,6 @@ namespace org.mariuszgromada.math.mxparser {
 				mXparser.consolePrint( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
 			else
 				mXparser.consolePrint(/*"[" + this +  "]" + */ info);
-		}
-		/**
-		 * Gets license info
-		 *
-		 * @return     License info as string.
-		 */
-		public String getLicense() {
-			return mXparser.LICENSE;
 		}
 		/**
 		 * Expression cloning.

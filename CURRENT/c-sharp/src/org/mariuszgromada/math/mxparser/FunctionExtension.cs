@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cs        4.0.0    2016-03-26
+ * @(#)FunctionExtension.cs        4.0.0    2017-03-23
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,9 +52,17 @@
  */
 using System;
 
-namespace org.mariuszgromada.math.mxparser.parsertokens {
+namespace org.mariuszgromada.math.mxparser {
 	/**
-	 * Token recognized by mXparser after string tokenization process.
+	 * FunctionExtension provides interface for function algorithm definition.
+	 * In this case algorithm definition is based on source code using
+	 * JAVA (for JAVA / Android) or .NET. If implemented Function Extension
+	 * object can be further used while Function object
+	 * construction, which means it can extend mXparser math collection.
+	 * mXparser extension with your own implementation can be achieved
+	 * by implementing FunctionExtension interface, creating an FunctionExtension
+	 * object, creating Function object based on FunctionExtension, adding Function
+	 * object to Expression / mXparser definition.
 	 *
 	 * @author         <b>Mariusz Gromada</b><br>
 	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
@@ -71,68 +79,40 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
 	 * @version        4.0.0
+	 *
+	 * @see Function
+	 *
 	 */
 	[CLSCompliant(true)]
-	public class Token {
+	public interface FunctionExtension {
 		/**
-		 * Indicator that token was not matched
+		 * Gets parameters number.
+		 *
+		 * @return Returns parameters number.
 		 */
-		public const int NOT_MATCHED = ConstantValue.NaN;
+		int getParametersNumber();
 		/**
-		 * String token
+		 * Sets value of function parameter
+		 *
+		 * @param parameterIndex    - parameter index (from 0 to n-1)
+		 * @param parameterValue    - parameter value
 		 */
-		public String tokenStr;
+		void setParameterValue(int parameterIndex, double parameterValue);
 		/**
-		 * Key word string (if matched)
+		 * Actual algorithm implementation.
+		 *
+		 * @param params Function parameters.
+		 * @return Function Extension value.
 		 */
-		public String keyWord;
+		double calculate(params double[] parameters);
 		/**
-		 * Token identifier
+		 * Cloning in case of usage in Expression
+		 * with recursive statements.
+		 *
+		 * @return Returns FunctionExtension object that was cloned.
+		 *
+		 * @see Expression#getRecursiveMode()
 		 */
-		public int tokenId;
-		/**
-		 * Token type
-		 */
-		public int tokenTypeId;
-		/**
-		 * Token level
-		 */
-		public int tokenLevel;
-		/**
-		 * Token value if number
-		 */
-		public double tokenValue;
-		/**
-		 * If token was not matched then
-		 * looksLike functionality is trying asses
-		 * the kind of token
-		 */
-		public String looksLike;
-		/**
-		 * Default constructor
-		 */
-		public Token() {
-			tokenStr = "";
-			keyWord = "";
-			tokenId = NOT_MATCHED;
-			tokenTypeId = NOT_MATCHED;
-			tokenLevel = -1;
-			tokenValue = Double.NaN;
-			looksLike = "";
-		}
-		/**
-		 * Token cloning.
-		 */
-		public Token clone() {
-			Token token = new Token();
-			token.keyWord = keyWord;
-			token.tokenStr = tokenStr;
-			token.tokenId = tokenId;
-			token.tokenLevel = tokenLevel;
-			token.tokenTypeId = tokenTypeId;
-			token.tokenValue = tokenValue;
-			token.looksLike = looksLike;
-			return token;
-		}
+		FunctionExtension clone();
 	}
 }
