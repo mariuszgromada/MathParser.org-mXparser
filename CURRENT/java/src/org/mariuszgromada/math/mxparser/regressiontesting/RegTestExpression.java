@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpression.java        3.0.0    2016-05-07
+ * @(#)RegTestExpression.java        4.0.0    2017-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  *
  * @see Expression
  */
@@ -6978,6 +6978,41 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 619:
+			mXparser.setEpsilonComparison();
+			expStr = "solve(2*x-4, x, -10, 10)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 2;
+			if ( MathFunctions.abs(reg - value) <= 0.000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 620:
+			mXparser.setEpsilonComparison();
+			Argument x = new Argument("x=0");
+			expStr = "solve( der(sin(x), x), x, 0, pi )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = MathConstants.PI / 2.0;
+			if ( MathFunctions.abs(reg - value) <= 0.000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 621:
+			mXparser.setEpsilonComparison();
+			expStr = "solve( sin(x), x, -pi-1, 1 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			if 
+				( 	( MathFunctions.abs(-MathConstants.PI - value) <= 0.000001 ) ||
+					( MathFunctions.abs(0 - value) <= 0.000001 )	)
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + 0 + " or " + (MathConstants.PI) + " --> ");
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -6992,7 +7027,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 618;
+		int numberOfTests = 621;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

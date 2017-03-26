@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestSyntax.java        3.0.0    2016-05-07
+ * @(#)RegTestSyntax.java        4.0.0    2017-04-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -77,7 +77,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  *
  * @see Expression
  */
@@ -1411,7 +1411,17 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
-		}
+		case 113:
+			expStr = "solve(2*x - 4, x+y, -10, 10)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
 		else
@@ -1424,7 +1434,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 112;
+		int numberOfTests = 113;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

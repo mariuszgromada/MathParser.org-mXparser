@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.0.0    2017-03-19
+ * @(#)RegTestExpressionAPI.java        4.0.0    2017-03-27
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -819,7 +819,7 @@ public class RegTestExpressionAPI {
 				(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
 				(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 			) test[testId] = true;
-
+		
         long end =  System.currentTimeMillis();
 		int nOk = 0;
 		int nError = 0;

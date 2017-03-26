@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.0.0    2017-03-19
+ * @(#)Expression.java        4.0.0    2017-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3995,6 +3995,52 @@ public class Expression {
 		clearParamArgument(x);
 	}
 	/**
+	 * Function SOLVE
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void SOLVE(int pos) {
+		/**
+		 * Default epsilon
+		 */
+		final double DEF_EPS		= 1E-9;
+		/*
+		 * Default max number of steps
+		 */
+		final int DEF_MAX_STEPS		= 100;
+		ArrayList<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
+		/*
+		 * Get internal function strinng
+		 * 1th - parameter
+		 */
+		FunctionParameter funParam = intParams.get(0);
+		/*
+		 * Get argument
+		 * 2nd - parameter
+		 */
+		FunctionParameter xParam = intParams.get(1);
+		/*
+		 * Get <a,b>
+		 * 2nd - parameter
+		 */
+		FunctionParameter aParam = intParams.get(2);
+		FunctionParameter bParam = intParams.get(3);
+		ArgumentParameter x = getParamArgument(xParam.paramStr);
+		if (x.presence == Argument.NOT_FOUND) {
+			updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
+			updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
+			updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
+			updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
+		}
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+		Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+		double eps = DEF_EPS;
+		int maxSteps = DEF_MAX_STEPS;
+		calcSetDecreaseRemove(pos, Calculus.solveBrent(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
+		clearParamArgument(x);
+	}
+	/**
 	 * Forward difference operator
 	 *
 	 * @param      pos                 the token position
@@ -4450,10 +4496,11 @@ public class Expression {
 							}
 						}
 					}
-					if (t.tokenId == CalculusOperator.INT_ID) {
+					if (	(t.tokenId == CalculusOperator.INT_ID) ||
+							(t.tokenId == CalculusOperator.SOLVE_ID)	) {
 						if (paramsNumber !=4) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<INTEGRAL> expecting 4 calculus arguments.\n";
+							errorMessage = errorMessage + level + tokenStr + "<INTEGRAL/SOLVE> expecting 4 calculus arguments.\n";
 						} else {
 							FunctionParameter argParam = funParams.get(1);
 							stackElement = new SyntaxStackElement(argParam.paramStr, t.tokenLevel+1);
@@ -5086,6 +5133,7 @@ public class Expression {
 		case CalculusOperator.VAR_ID: VAR(pos); break;
 		case CalculusOperator.STD_ID: STD(pos); break;
 		case CalculusOperator.INT_ID: INTEGRAL(pos); break;
+		case CalculusOperator.SOLVE_ID: SOLVE(pos); break;
 		case CalculusOperator.DER_ID: DERIVATIVE(pos, Calculus.GENERAL_DERIVATIVE); break;
 		case CalculusOperator.DER_LEFT_ID: DERIVATIVE(pos, Calculus.LEFT_DERIVATIVE); break;
 		case CalculusOperator.DER_RIGHT_ID: DERIVATIVE(pos, Calculus.RIGHT_DERIVATIVE); break;
@@ -5340,6 +5388,7 @@ public class Expression {
 			addKeyWord(CalculusOperator.STD_STR, CalculusOperator.STD_DESC, CalculusOperator.STD_ID, CalculusOperator.TYPE_ID);
 			addKeyWord(CalculusOperator.MIN_STR, CalculusOperator.MIN_DESC, CalculusOperator.MIN_ID, CalculusOperator.TYPE_ID);
 			addKeyWord(CalculusOperator.MAX_STR, CalculusOperator.MAX_DESC, CalculusOperator.MAX_ID, CalculusOperator.TYPE_ID);
+			addKeyWord(CalculusOperator.SOLVE_STR, CalculusOperator.SOLVE_DESC, CalculusOperator.SOLVE_ID, CalculusOperator.TYPE_ID);
 			/*
 			 * Constants key words
 			 */
@@ -5608,32 +5657,32 @@ public class Expression {
 	 * Adds arguments key words to the keywords list
 	 */
 	private void addArgumentsKeyWords() {
-		int argumentsNumber = argumentsList.size();
-		for (int argumentIndex = 0; argumentIndex<argumentsNumber; argumentIndex++) {
-			Argument arg = argumentsList.get(argumentIndex);
+		int argumentIndex = -1;
+		for (Argument arg : argumentsList) {
+			argumentIndex++;
 			if (arg.getArgumentType() != Argument.RECURSIVE_ARGUMENT)
 				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,Argument.TYPE_ID);
 			else
-				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID_RECURSIVE);
+				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID_RECURSIVE);			
 		}
 	}
 	/**
 	 * Adds functions key words to the keywords list
 	 */
 	private void addFunctionsKeyWords() {
-		int functionsNumber = functionsList.size();
-		for (int functionIndex = 0; functionIndex<functionsNumber; functionIndex++) {
-			Function fun = functionsList.get(functionIndex);
-			addKeyWord(fun.getFunctionName(),fun.getDescription(), functionIndex,Function.TYPE_ID);
+		int functionIndex = -1;
+		for (Function fun : functionsList) {
+			functionIndex++;
+			addKeyWord(fun.getFunctionName(),fun.getDescription(), functionIndex,Function.TYPE_ID);			
 		}
 	}
 	/**
 	 * Adds constants key words to the keywords list
 	 */
 	private void addConstantsKeyWords() {
-		int constantsNumber = constantsList.size();
-		for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++) {
-			Constant c = constantsList.get(constantIndex);
+		int constantIndex = -1;
+		for (Constant c : constantsList) {
+			constantIndex++;
 			addKeyWord(c.getConstantName(), c.getDescription(), constantIndex, Constant.TYPE_ID);
 		}
 	}

@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        3.0.0    2016-05-07
+ * @(#)MathFunctions.java        4.0.0    2016-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import java.math.RoundingMode;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.0.0
  */
 public final class MathFunctions {
 	/**
@@ -1299,26 +1299,7 @@ public final class MathFunctions {
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
  	}
-	/**
-	 * Unit in the last place(ULP) for double
-	 * @param value Double number
-	 * @return ULP for a given double.
-	 */
-	public static final double ulp(double value) {
-		return Math.ulp(value);
-	}
-	/**
-	 * Unit in The Last Place - number of decimal digits before
-	 * @param value   Double number
-	 * @return        Positive number of digits N for ulp = 1e-{N+1},
-	 *                if ulp is &gt; 1 then -1 is returned.
-	 *                Returned proper value is always between -1 and +99.
-	 *                If value is NaN then -2 is returned.
-	 */
-	public static final int  ulpDecimalDigitsBefore(double value) {
-		if (Double.isNaN(value)) return -2;
-		double u = ulp(value);
-
+	public static final int decimalDigitsBefore(double u) {
 		if (u <= 1e-90) {
 
 			if (u <= 1e-99) return 99;
@@ -1462,7 +1443,27 @@ public final class MathFunctions {
 			else if (u <= 1e-1) return 1;
 			else if (u <= 1.0) return 0;
 			else return -1;
-
 		}
+	}
+	/**
+	 * Unit in the last place(ULP) for double
+	 * @param value Double number
+	 * @return ULP for a given double.
+	 */
+	public static final double ulp(double value) {
+		return Math.ulp(value);
+	}
+	/**
+	 * Unit in The Last Place - number of decimal digits before
+	 * @param value   Double number
+	 * @return        Positive number of digits N for ulp = 1e-{N+1},
+	 *                if ulp is &gt; 1 then -1 is returned.
+	 *                Returned proper value is always between -1 and +99.
+	 *                If value is NaN then -2 is returned.
+	 */
+	public static final int  ulpDecimalDigitsBefore(double value) {
+		if (Double.isNaN(value)) return -2;
+		double u = ulp(value);
+		return decimalDigitsBefore(u);
 	}
 }

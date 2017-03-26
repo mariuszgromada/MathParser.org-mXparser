@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.0.0    2017-03-12
+ * @(#)mXparser.java        4.0.0    2016-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -118,7 +118,7 @@ public final class mXparser {
 	/**
 	 * Empty expression for general help purposes.
 	 */
-	private static final Expression mXparserHelp = new Expression();
+	static final Expression mXparserExp = new Expression();
 	/**
 	 * Double floating-point precision arithmetic causes
 	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
@@ -567,7 +567,7 @@ public final class mXparser {
 	 * @return String with all general help content
 	 */
 	public static final String getHelp() {
-		return mXparserHelp.getHelp();
+		return mXparserExp.getHelp();
 	}
 	/**
 	 * General mXparser expression help - in-line key word searching
@@ -576,7 +576,7 @@ public final class mXparser {
 	 * lines containing given keyword
 	 */
 	public static final String getHelp(String word) {
-		return mXparserHelp.getHelp(word);
+		return mXparserExp.getHelp(word);
 	}
 	/**
 	 * Prints all help content.
