@@ -1,9 +1,9 @@
 /*
- * @(#)ParserSymbol.cs        3.0.0    2016-05-07
+ * @(#)ParserSymbol.cs        4.0.0    2017-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,37 +70,23 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ParserSymbol {
 		/**
 		* ParserSymbol - reg exp patterns.
 		*/
-		public const String Digits = "([0-9]+)";
-		public const String HexDigits = "(([0-9]|[A-F])+)";
-		public const String Exp = "[eE][+-]?" + Digits;
-		public const String fpRegex =
-				("[\\x00-\\x20]*" +  // Optional leading "whitespace"
-				"[+-]?(" + // Optional sign character
-				"NaN|" +           // "NaN" string
-				"Infinity|" +      // "Infinity" string
-				"(((" + Digits + "(\\.)?(" + Digits + "?)(" + Exp + ")?)|" +
-				"(\\.(" + Digits + ")(" + Exp + ")?)|" +
-				"((" +
-				// 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
-				"(0[xX]" + HexDigits + "(\\.)?)|" +
-				// 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
-				"(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" +
-				")[pP][+-]?" + Digits + "))" +
-				"[fFdD]?))" +
-				"[\\x00-\\x20]*");
-		public const String NOT_NUM = "[^0-9.-]";
-		public const String TWO_DOT = "[0-9]*[.][0-9]*[.][0-9]*";
-		public const String TWO_MIN = "[0-9]*[-][0-9]*[-][0-9]*";
-		public const String REAL = "^([-]|[.]|[-.]|[0-9])[0-9]*[.]*[0-9]+$";
-		public const String INTEGER = "^([-])[0-9]+$";
-		public const String NUMBER = fpRegex;
+		/*
+		 * ParserSymbol - reg exp patterns.
+		 */
+		public const String DIGIT				= "[0-9]";
+		public const String DIGIT19				= "[1-9]";
+		public const String DIGITS				= DIGIT + "(" + DIGIT + ")*";
+		public const String INTEGER				= "(0|" + DIGIT19 + "(" + DIGIT + ")*" + ")";
+		public const String REAL				= "(0\\." + DIGITS + "|" + INTEGER + "\\." + DIGITS + ")";
+		public const String NUMBER				= "(" + REAL + "|" + INTEGER + ")";
+		public const String NUMBER_CONST		= "[+-]?" + NUMBER + "([eE][+-]?" + INTEGER + ")?";
 		public const String nameOnlyTokenRegExp = "([a-zA-Z_])+([a-zA-Z0-9_])*";
 		public const String nameTokenRegExp = "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
 		public const String paramsTokenRegeExp = "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
@@ -129,7 +115,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String COMMA_STR						= ",";
 		public const String SEMI_STR						= ";";
 		public const String NUMBER_STR						= "_num_";
-		public const String NUMBER_REG_EXP					= fpRegex;
+		public const String NUMBER_REG_EXP					= NUMBER_CONST;
 
 		/**
 		 * ParserSymbol - tokens description.

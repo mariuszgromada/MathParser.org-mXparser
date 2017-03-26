@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        3.0.0    2016-05-07
+ * @(#)Constant.cs        4.0.0    2016-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -83,7 +83,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression

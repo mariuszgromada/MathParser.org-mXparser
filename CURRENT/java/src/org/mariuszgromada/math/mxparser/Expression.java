@@ -5657,32 +5657,32 @@ public class Expression {
 	 * Adds arguments key words to the keywords list
 	 */
 	private void addArgumentsKeyWords() {
-		int argumentIndex = -1;
-		for (Argument arg : argumentsList) {
-			argumentIndex++;
+		int argumentsNumber = argumentsList.size();
+		for (int argumentIndex = 0; argumentIndex<argumentsNumber; argumentIndex++) {
+			Argument arg = argumentsList.get(argumentIndex);
 			if (arg.getArgumentType() != Argument.RECURSIVE_ARGUMENT)
 				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,Argument.TYPE_ID);
 			else
-				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID_RECURSIVE);			
+				addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex,RecursiveArgument.TYPE_ID_RECURSIVE);
 		}
 	}
 	/**
 	 * Adds functions key words to the keywords list
 	 */
 	private void addFunctionsKeyWords() {
-		int functionIndex = -1;
-		for (Function fun : functionsList) {
-			functionIndex++;
-			addKeyWord(fun.getFunctionName(),fun.getDescription(), functionIndex,Function.TYPE_ID);			
+		int functionsNumber = functionsList.size();
+		for (int functionIndex = 0; functionIndex<functionsNumber; functionIndex++) {
+			Function fun = functionsList.get(functionIndex);
+			addKeyWord(fun.getFunctionName(),fun.getDescription(), functionIndex,Function.TYPE_ID);
 		}
 	}
 	/**
 	 * Adds constants key words to the keywords list
 	 */
 	private void addConstantsKeyWords() {
-		int constantIndex = -1;
-		for (Constant c : constantsList) {
-			constantIndex++;
+		int constantsNumber = constantsList.size();
+		for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++) {
+			Constant c = constantsList.get(constantIndex);
 			addKeyWord(c.getConstantName(), c.getDescription(), constantIndex, Constant.TYPE_ID);
 		}
 	}

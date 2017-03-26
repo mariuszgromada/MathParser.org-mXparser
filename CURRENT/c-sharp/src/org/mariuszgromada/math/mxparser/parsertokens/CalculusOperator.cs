@@ -1,9 +1,9 @@
 /*
- * @(#)CalculusOperator.cs        3.0.0    2016-05-07
+ * @(#)CalculusOperator.cs        4.0.0    2016-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class CalculusOperator {
@@ -96,6 +96,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int STD_ID						= 14;
 		public const int MIN_ID						= 15;
 		public const int MAX_ID						= 16;
+		public const int SOLVE_ID					= 17;
 		/*
 		 * CalculusOperator - tokens key words.
 		 */
@@ -113,6 +114,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_STR					= "stdi";
 		public const String MIN_STR					= "mini";
 		public const String MAX_STR					= "maxi";
+		public const String SOLVE_STR				= "solve";
 		/*
 		 * CalculusOperator - tokens description.
 		 */
@@ -130,5 +132,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_DESC				= "(2.4) Bias-corrected sample standard deviation operator stdi(i, from, to, f(i,...))";
 		public const String MIN_DESC				= "(2.4) Minimum value mini(i, from, to, f(i,...))";
 		public const String MAX_DESC				= "(2.4) Maximum valu maxi(i, from, to, f(i,...))";
+		public const String SOLVE_DESC				= "(4.0) f(x) = 0 equation solving, function root finding: solve( f(x,...), x, a, b )";
 	}
 }

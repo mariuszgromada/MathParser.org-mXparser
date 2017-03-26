@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.0.0    2017-03-13
+ * @(#)Expression.cs        4.0.0    2017-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3959,6 +3959,52 @@ namespace org.mariuszgromada.math.mxparser {
 			clearParamArgument(x);
 		}
 		/**
+		 * Function SOLVE
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void SOLVE(int pos) {
+			/**
+			 * Default epsilon
+			 */
+			const double DEF_EPS = 1E-9;
+			/*
+			 * Default max number of steps
+			 */
+			const int DEF_MAX_STEPS = 100;
+			List<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
+			/*
+			 * Get internal function strinng
+			 * 1th - parameter
+			 */
+			FunctionParameter funParam = intParams[0];
+			/*
+			 * Get argument
+			 * 2nd - parameter
+			 */
+			FunctionParameter xParam = intParams[1];
+			/*
+			 * Get <a,b>
+			 * 2nd - parameter
+			 */
+			FunctionParameter aParam = intParams[2];
+			FunctionParameter bParam = intParams[3];
+			ArgumentParameter x = getParamArgument(xParam.paramStr);
+			if (x.presence == Argument.NOT_FOUND) {
+				updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+				updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+				updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+			}
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+			double eps = DEF_EPS;
+			int maxSteps = DEF_MAX_STEPS;
+			calcSetDecreaseRemove(pos, Calculus.solveBrent(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps));
+			clearParamArgument(x);
+		}
+		/**
 		 * Forward difference operator
 		 *
 		 * @param      pos                 the token position
@@ -4414,10 +4460,11 @@ namespace org.mariuszgromada.math.mxparser {
 								}
 							}
 						}
-						if (t.tokenId == CalculusOperator.INT_ID) {
+						if ((t.tokenId == CalculusOperator.INT_ID) ||
+								(t.tokenId == CalculusOperator.SOLVE_ID)) {
 							if (paramsNumber !=4) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<INTEGRAL> expecting 4 calculus arguments.\n";
+								errorMessage = errorMessage + level + tokenStr + "<INTEGRAL/SOLVE> expecting 4 calculus arguments.\n";
 							} else {
 								FunctionParameter argParam = funParams[1];
 								stackElement = new SyntaxStackElement(argParam.paramStr, t.tokenLevel+1);
@@ -5054,6 +5101,7 @@ namespace org.mariuszgromada.math.mxparser {
 			case CalculusOperator.VAR_ID: VAR(pos); break;
 			case CalculusOperator.STD_ID: STD(pos); break;
 			case CalculusOperator.INT_ID: INTEGRAL(pos); break;
+			case CalculusOperator.SOLVE_ID: SOLVE(pos); break;
 			case CalculusOperator.DER_ID: DERIVATIVE(pos, Calculus.GENERAL_DERIVATIVE); break;
 			case CalculusOperator.DER_LEFT_ID: DERIVATIVE(pos, Calculus.LEFT_DERIVATIVE); break;
 			case CalculusOperator.DER_RIGHT_ID: DERIVATIVE(pos, Calculus.RIGHT_DERIVATIVE); break;
@@ -5308,6 +5356,7 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(CalculusOperator.STD_STR, CalculusOperator.STD_DESC, CalculusOperator.STD_ID, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.MIN_STR, CalculusOperator.MIN_DESC, CalculusOperator.MIN_ID, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.MAX_STR, CalculusOperator.MAX_DESC, CalculusOperator.MAX_ID, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.SOLVE_STR, CalculusOperator.SOLVE_DESC, CalculusOperator.SOLVE_ID, CalculusOperator.TYPE_ID);
 
 				/*
 				 * Constants key words

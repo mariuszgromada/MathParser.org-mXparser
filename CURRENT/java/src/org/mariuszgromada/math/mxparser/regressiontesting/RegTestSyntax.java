@@ -1421,7 +1421,8 @@ public class RegTestSyntax {
 			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
-			break;		}
+			break;
+		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
 		else

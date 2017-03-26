@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        3.0.0    2016-05-07
+ * @(#)MathFunctions.java        4.0.0    2016-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -1304,6 +1304,138 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 		}
 		/**
+		 * For very small number returns number of zeros
+		 * before first significant digit.
+		 *
+		 * @param value Double value, small one.
+		 * @return Number of digits, number of places.
+		 */
+		public static int decimalDigitsBefore(double value) {
+			if (value <= 1e-90) {
+				if (value <= 1e-99) return 99;
+				else if (value <= 1e-98) return 98;
+				else if (value <= 1e-97) return 97;
+				else if (value <= 1e-96) return 96;
+				else if (value <= 1e-95) return 95;
+				else if (value <= 1e-94) return 94;
+				else if (value <= 1e-93) return 93;
+				else if (value <= 1e-92) return 92;
+				else if (value <= 1e-91) return 91;
+				else return 90;
+			} else if (value <= 1e-80) {
+				if (value <= 1e-89) return 89;
+				else if (value <= 1e-88) return 88;
+				else if (value <= 1e-87) return 87;
+				else if (value <= 1e-86) return 86;
+				else if (value <= 1e-85) return 85;
+				else if (value <= 1e-84) return 84;
+				else if (value <= 1e-83) return 83;
+				else if (value <= 1e-82) return 82;
+				else if (value <= 1e-81) return 81;
+				else return 80;
+			} else if (value <= 1e-70) {
+				if (value <= 1e-79) return 79;
+				else if (value <= 1e-78) return 78;
+				else if (value <= 1e-77) return 77;
+				else if (value <= 1e-76) return 76;
+				else if (value <= 1e-75) return 75;
+				else if (value <= 1e-74) return 74;
+				else if (value <= 1e-73) return 73;
+				else if (value <= 1e-72) return 72;
+				else if (value <= 1e-71) return 71;
+				else return 70;
+			} else if (value <= 1e-60) {
+				if (value <= 1e-69) return 69;
+				else if (value <= 1e-68) return 68;
+				else if (value <= 1e-67) return 67;
+				else if (value <= 1e-66) return 66;
+				else if (value <= 1e-65) return 65;
+				else if (value <= 1e-64) return 64;
+				else if (value <= 1e-63) return 63;
+				else if (value <= 1e-62) return 62;
+				else if (value <= 1e-61) return 61;
+				else return 60;
+			} else if (value <= 1e-50) {
+				if (value <= 1e-59) return 59;
+				else if (value <= 1e-58) return 58;
+				else if (value <= 1e-57) return 57;
+				else if (value <= 1e-56) return 56;
+				else if (value <= 1e-55) return 55;
+				else if (value <= 1e-54) return 54;
+				else if (value <= 1e-53) return 53;
+				else if (value <= 1e-52) return 52;
+				else if (value <= 1e-51) return 51;
+				else return 50;
+			} else if (value <= 1e-40) {
+				if (value <= 1e-49) return 49;
+				else if (value <= 1e-48) return 48;
+				else if (value <= 1e-47) return 47;
+				else if (value <= 1e-46) return 46;
+				else if (value <= 1e-45) return 45;
+				else if (value <= 1e-44) return 44;
+				else if (value <= 1e-43) return 43;
+				else if (value <= 1e-42) return 42;
+				else if (value <= 1e-41) return 41;
+				else return 40;
+			} else if (value <= 1e-40) {
+				if (value <= 1e-49) return 49;
+				else if (value <= 1e-48) return 48;
+				else if (value <= 1e-47) return 47;
+				else if (value <= 1e-46) return 46;
+				else if (value <= 1e-45) return 45;
+				else if (value <= 1e-44) return 44;
+				else if (value <= 1e-43) return 43;
+				else if (value <= 1e-42) return 42;
+				else if (value <= 1e-41) return 41;
+				else return 40;
+			} else if (value <= 1e-30) {
+				if (value <= 1e-39) return 39;
+				else if (value <= 1e-38) return 38;
+				else if (value <= 1e-37) return 37;
+				else if (value <= 1e-36) return 36;
+				else if (value <= 1e-35) return 35;
+				else if (value <= 1e-34) return 34;
+				else if (value <= 1e-33) return 33;
+				else if (value <= 1e-32) return 32;
+				else if (value <= 1e-31) return 31;
+				else return 30;
+			} else if (value <= 1e-20) {
+				if (value <= 1e-29) return 29;
+				else if (value <= 1e-28) return 28;
+				else if (value <= 1e-27) return 27;
+				else if (value <= 1e-26) return 26;
+				else if (value <= 1e-25) return 25;
+				else if (value <= 1e-24) return 24;
+				else if (value <= 1e-23) return 23;
+				else if (value <= 1e-22) return 22;
+				else if (value <= 1e-21) return 21;
+				else return 20;
+			} else if (value <= 1e-10) {
+				if (value <= 1e-19) return 19;
+				else if (value <= 1e-18) return 18;
+				else if (value <= 1e-17) return 17;
+				else if (value <= 1e-16) return 16;
+				else if (value <= 1e-15) return 15;
+				else if (value <= 1e-14) return 14;
+				else if (value <= 1e-13) return 13;
+				else if (value <= 1e-12) return 12;
+				else if (value <= 1e-11) return 11;
+				else return 10;
+			} else {
+				if (value <= 1e-9) return 9;
+				else if (value <= 1e-8) return 8;
+				else if (value <= 1e-7) return 7;
+				else if (value <= 1e-6) return 6;
+				else if (value <= 1e-5) return 5;
+				else if (value <= 1e-4) return 4;
+				else if (value <= 1e-3) return 3;
+				else if (value <= 1e-2) return 2;
+				else if (value <= 1e-1) return 1;
+				else if (value <= 1.0) return 0;
+				else return -1;
+			}
+		}
+		/**
 		 * Unit in the last place(ULP) for double
 		 * @return ULP for a given double.
 		 */
@@ -1324,130 +1456,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static int ulpDecimalDigitsBefore(double value) {
 			if (Double.IsNaN(value)) return -2;
 			double u = ulp(value);
-
-			if (u <= 1e-90) {
-				if (u <= 1e-99) return 99;
-				else if (u <= 1e-98) return 98;
-				else if (u <= 1e-97) return 97;
-				else if (u <= 1e-96) return 96;
-				else if (u <= 1e-95) return 95;
-				else if (u <= 1e-94) return 94;
-				else if (u <= 1e-93) return 93;
-				else if (u <= 1e-92) return 92;
-				else if (u <= 1e-91) return 91;
-				else return 90;
-			} else if (u <= 1e-80) {
-				if (u <= 1e-89) return 89;
-				else if (u <= 1e-88) return 88;
-				else if (u <= 1e-87) return 87;
-				else if (u <= 1e-86) return 86;
-				else if (u <= 1e-85) return 85;
-				else if (u <= 1e-84) return 84;
-				else if (u <= 1e-83) return 83;
-				else if (u <= 1e-82) return 82;
-				else if (u <= 1e-81) return 81;
-				else return 80;
-			} else if (u <= 1e-70) {
-				if (u <= 1e-79) return 79;
-				else if (u <= 1e-78) return 78;
-				else if (u <= 1e-77) return 77;
-				else if (u <= 1e-76) return 76;
-				else if (u <= 1e-75) return 75;
-				else if (u <= 1e-74) return 74;
-				else if (u <= 1e-73) return 73;
-				else if (u <= 1e-72) return 72;
-				else if (u <= 1e-71) return 71;
-				else return 70;
-			} else if (u <= 1e-60) {
-				if (u <= 1e-69) return 69;
-				else if (u <= 1e-68) return 68;
-				else if (u <= 1e-67) return 67;
-				else if (u <= 1e-66) return 66;
-				else if (u <= 1e-65) return 65;
-				else if (u <= 1e-64) return 64;
-				else if (u <= 1e-63) return 63;
-				else if (u <= 1e-62) return 62;
-				else if (u <= 1e-61) return 61;
-				else return 60;
-			} else if (u <= 1e-50) {
-				if (u <= 1e-59) return 59;
-				else if (u <= 1e-58) return 58;
-				else if (u <= 1e-57) return 57;
-				else if (u <= 1e-56) return 56;
-				else if (u <= 1e-55) return 55;
-				else if (u <= 1e-54) return 54;
-				else if (u <= 1e-53) return 53;
-				else if (u <= 1e-52) return 52;
-				else if (u <= 1e-51) return 51;
-				else return 50;
-			} else if (u <= 1e-40) {
-				if (u <= 1e-49) return 49;
-				else if (u <= 1e-48) return 48;
-				else if (u <= 1e-47) return 47;
-				else if (u <= 1e-46) return 46;
-				else if (u <= 1e-45) return 45;
-				else if (u <= 1e-44) return 44;
-				else if (u <= 1e-43) return 43;
-				else if (u <= 1e-42) return 42;
-				else if (u <= 1e-41) return 41;
-				else return 40;
-			} else if (u <= 1e-40) {
-				if (u <= 1e-49) return 49;
-				else if (u <= 1e-48) return 48;
-				else if (u <= 1e-47) return 47;
-				else if (u <= 1e-46) return 46;
-				else if (u <= 1e-45) return 45;
-				else if (u <= 1e-44) return 44;
-				else if (u <= 1e-43) return 43;
-				else if (u <= 1e-42) return 42;
-				else if (u <= 1e-41) return 41;
-				else return 40;
-			} else if (u <= 1e-30) {
-				if (u <= 1e-39) return 39;
-				else if (u <= 1e-38) return 38;
-				else if (u <= 1e-37) return 37;
-				else if (u <= 1e-36) return 36;
-				else if (u <= 1e-35) return 35;
-				else if (u <= 1e-34) return 34;
-				else if (u <= 1e-33) return 33;
-				else if (u <= 1e-32) return 32;
-				else if (u <= 1e-31) return 31;
-				else return 30;
-			} else if (u <= 1e-20) {
-				if (u <= 1e-29) return 29;
-				else if (u <= 1e-28) return 28;
-				else if (u <= 1e-27) return 27;
-				else if (u <= 1e-26) return 26;
-				else if (u <= 1e-25) return 25;
-				else if (u <= 1e-24) return 24;
-				else if (u <= 1e-23) return 23;
-				else if (u <= 1e-22) return 22;
-				else if (u <= 1e-21) return 21;
-				else return 20;
-			} else if (u <= 1e-10) {
-				if (u <= 1e-19) return 19;
-				else if (u <= 1e-18) return 18;
-				else if (u <= 1e-17) return 17;
-				else if (u <= 1e-16) return 16;
-				else if (u <= 1e-15) return 15;
-				else if (u <= 1e-14) return 14;
-				else if (u <= 1e-13) return 13;
-				else if (u <= 1e-12) return 12;
-				else if (u <= 1e-11) return 11;
-				else return 10;
-			} else {
-				if (u <= 1e-9) return 9;
-				else if (u <= 1e-8) return 8;
-				else if (u <= 1e-7) return 7;
-				else if (u <= 1e-6) return 6;
-				else if (u <= 1e-5) return 5;
-				else if (u <= 1e-4) return 4;
-				else if (u <= 1e-3) return 3;
-				else if (u <= 1e-2) return 2;
-				else if (u <= 1e-1) return 1;
-				else if (u <= 1.0) return 0;
-				else return -1;
-			}
+			return decimalDigitsBefore(u);
 		}
 	}
 }

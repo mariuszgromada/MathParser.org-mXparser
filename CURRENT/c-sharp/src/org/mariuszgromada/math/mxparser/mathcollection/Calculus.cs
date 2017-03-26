@@ -1,9 +1,9 @@
 /*
- * @(#)Calculus.cs        3.0.0    2016-05-07
+ * @(#)Calculus.cs        4.0.0    2016-03-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Calculus {
@@ -383,6 +383,114 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double delta = fv - f.calculate();
 			x.setArgumentValue(xb);
 			return delta;
+		}
+		/**
+		 * Brent solver (Brent root finder)
+		 *
+		 * @param f  Function given in the Expression form
+		 * @param x  Argument
+		 * @param a  Left limit
+		 * @param b  Right limit
+		 * @return   Function root - if found, otherwise Double.NaN.
+		 */
+		public static double solveBrent(Expression f, Argument x, double a, double b, double eps, double maxSteps) {
+			double fa, fb, fc, fs, c, c0, c1, c2;
+			double tmp, d, s;
+			bool mflag;
+			int iter;
+			/*
+			 * If b lower than b then swap
+			 */
+			if (b < a) {
+				tmp = a;
+				a = b;
+				b = tmp;
+			}
+			fa = mXparser.getFunctionValue(f, x, a);
+			fb = mXparser.getFunctionValue(f, x, b);
+			/*
+			 * If already root then no need to solve
+			 */
+			if (MathFunctions.abs(fa) <= eps) return a;
+			if (MathFunctions.abs(fb) <= eps) return b;
+			if (b == a) return Double.NaN;
+			/*
+			 * If root not bracketed the perform random search
+			 */
+			if (fa * fb > 0) {
+				bool rndflag = false;
+				double ap, bp;
+				for (int i = 0; i < maxSteps; i++) {
+					ap = ProbabilityDistributions.rndUniformContinuous(a, b);
+					bp = ProbabilityDistributions.rndUniformContinuous(a, b);
+					if (bp < ap) {
+						tmp = ap;
+						ap = bp;
+						bp = tmp;
+					}
+					fa = mXparser.getFunctionValue(f, x, ap);
+					fb = mXparser.getFunctionValue(f, x, bp);
+					if (MathFunctions.abs(fa) <= eps) return ap;
+					if (MathFunctions.abs(fb) <= eps) return bp;
+					if (fa * fb < 0) {
+						rndflag = true;
+						a = ap;
+						b = bp;
+						break;
+					}
+				}
+				if (rndflag == false) return Double.NaN;
+			}
+			c = a;
+			d = c;
+			fc = mXparser.getFunctionValue(f, x, c);
+			if (MathFunctions.abs(fa) < MathFunctions.abs(fb)) {
+				tmp = a;
+				a = b;
+				b = tmp;
+				tmp = fa;
+				fa = fb;
+				fb = tmp;
+			}
+			mflag = true;
+			iter = 0;
+			/*
+			 * Perform actual Brent algorithm
+			 */
+			while ((MathFunctions.abs(fb) > eps) && (MathFunctions.abs(b - a) > eps) && (iter < maxSteps)) {
+				if ((fa != fc) && (fb != fc)) {
+					c0 = (a * fb * fc) / ((fa - fb) * (fa - fc));
+					c1 = (b * fa * fc) / ((fb - fa) * (fb - fc));
+					c2 = (c * fa * fb) / ((fc - fa) * (fc - fb));
+					s = c0 + c1 + c2;
+				} else
+					s = b - (fb * (b - a)) / (fb - fa);
+				if ((s < (3 * (a + b) / 4) || s > b) ||
+						((mflag == true) && MathFunctions.abs(s - b) >= (MathFunctions.abs(b - c) / 2)) ||
+						((mflag == false) && MathFunctions.abs(s - b) >= (MathFunctions.abs(c - d) / 2))) {
+					s = (a + b) / 2;
+					mflag = true;
+				} else
+					mflag = true;
+				fs = mXparser.getFunctionValue(f, x, s);
+				d = c;
+				c = b;
+				fc = fb;
+				if ((fa * fs) < 0)
+					b = s;
+				else
+					a = s;
+				if (MathFunctions.abs(fa) < MathFunctions.abs(fb)) {
+					tmp = a;
+					a = b;
+					b = tmp;
+					tmp = fa;
+					fa = fb;
+					fb = tmp;
+				}
+				iter++;
+			}
+			return MathFunctions.round(b, MathFunctions.decimalDigitsBefore(eps) - 1);
 		}
 	}
 }
