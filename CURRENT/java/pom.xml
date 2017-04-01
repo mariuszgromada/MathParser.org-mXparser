@@ -1,0 +1,51 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.mariuszgromada</groupId>
+	<artifactId>MathParser.org-mXparser</artifactId>
+	<version>4.0.0</version>
+	<packaging>jar</packaging>
+	<name>mXparser - Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</name>
+	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
+	<url>http://mathparser.org/</url>
+	<developers>
+		<developer>
+			<name>Mariusz Gromada</name>
+			<email>mariuszgromada.org@gmail.com</email>
+			<organization>MathParser.org</organization>
+			<organizationUrl>http://mathparser.org/</organizationUrl>
+		</developer>
+	</developers>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<scm>
+		<connection>scm:git:git@github.com:mariuszgromada/MathParser.org-mXparser.git</connection>
+		<developerConnection>scm:git:git@github.com:mariuszgromada/MathParser.org-mXparser.git</developerConnection>
+		<url>git@github.com:mariuszgromada/MathParser.org-mXparser.git</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>Simplified BSD License</name>
+			<url>http://mathparser.org/mxparser-license/</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+</project>
