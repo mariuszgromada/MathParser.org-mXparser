@@ -153,6 +153,7 @@
 
 # Built-in tokens
 
+
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
 |Number|Decimal Number|Decimal number|1, 1.5, -2.3|1.0|
@@ -380,49 +381,49 @@
 | [MRB] |Constant Value|MRB constant|2*[MRB]|1.0|
 | [li2] |Constant Value|li(2) - logarithmic integral function at x=2|[li2]*3|2.3|
 | [EG] |Constant Value|Gompertz constant|2*[EG]|2.3|
-| [c] |Constant Value|<Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)|[c]*3|4.0|
-| [G.] |Constant Value|<Physical Constant> Gravitational constant (m=1, kg=1, s=1)]|2*[G.]|4.0|
-| [g] |Constant Value|<Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)|[g]*3|4.0|
-| [hP] |Constant Value|<Physical Constant> Planck constant (m=1, kg=1, s=1)|2*[hP]|4.0|
-| [h-] |Constant Value|<Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]|[h-]*3|4.0|
-| [lP] |Constant Value|<Physical Constant> Planck length [m] (m=1)|2*[lP]|4.0|
-| [mP] |Constant Value|<Physical Constant> Planck mass [kg] (kg=1)|[mP]*3|4.0|
-| [tP] |Constant Value|<Physical Constant> Planck time [s] (s=1)|2*[tP]|4.0|
-| [ly] |Constant Value|<Astronomical Constant> Light year [m] (m=1)|[ly]*3|4.0|
-| [au] |Constant Value|<Astronomical Constant> Astronomical unit [m] (m=1)|2*[au]|4.0|
-| [pc] |Constant Value|<Astronomical Constant> Parsec [m] (m=1)|[pc]*3|4.0|
-| [kpc] |Constant Value|<Astronomical Constant> Kiloparsec [m] (m=1)|2*[kpc]|4.0|
-| [Earth-R-eq] |Constant Value|<Astronomical Constant> Earth equatorial radius [m] (m=1)|[Earth-R-eq]*3|4.0|
-| [Earth-R-po] |Constant Value|<Astronomical Constant> Earth polar radius [m] (m=1)|2*[Earth-R-po]|4.0|
-| [Earth-R] |Constant Value|<Astronomical Constant> Earth mean radius (m=1)|[Earth-R]*3|4.0|
-| [Earth-M] |Constant Value|<Astronomical Constant> Earth mass [kg] (kg=1)|2*[Earth-M]|4.0|
-| [Earth-D] |Constant Value|<Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)|[Earth-D]*3|4.0|
-| [Moon-R] |Constant Value|<Astronomical Constant> Moon mean radius [m] (m=1)|2*[Moon-R]|4.0|
-| [Moon-M] |Constant Value|<Astronomical Constant> Moon mass [kg] (kg=1)|[Moon-M]*3|4.0|
-| [Moon-D] |Constant Value|<Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)|2*[Moon-D]|4.0|
-| [Solar-R] |Constant Value|<Astronomical Constant> Solar mean radius [m] (m=1)|[Solar-R]*3|4.0|
-| [Solar-M] |Constant Value|<Astronomical Constant> Solar mass [kg] (kg=1)|2*[Solar-M]|4.0|
-| [Mercury-R] |Constant Value|<Astronomical Constant> Mercury mean radius [m] (m=1)|[Mercury-R]*3|4.0|
-| [Mercury-M] |Constant Value|<Astronomical Constant> Mercury mass [kg] (kg=1)|2*[Mercury-M]|4.0|
-| [Mercury-D] |Constant Value|<Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)|[Mercury-D]*3|4.0|
-| [Venus-R] |Constant Value|<Astronomical Constant> Venus mean radius [m] (m=1)|2*[Venus-R]|4.0|
-| [Venus-M] |Constant Value|<Astronomical Constant> Venus mass [kg] (kg=1)|[Venus-M]*3|4.0|
-| [Venus-D] |Constant Value|<Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)|2*[Venus-D]|4.0|
-| [Mars-R] |Constant Value|<Astronomical Constant> Mars mean radius [m] (m=1)|[Mars-R]*3|4.0|
-| [Mars-M] |Constant Value|<Astronomical Constant> Mars mass [kg] (kg=1)|2*[Mars-M]|4.0|
-| [Mars-D] |Constant Value|<Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)|[Mars-D]*3|4.0|
-| [Jupiter-R] |Constant Value|<Astronomical Constant> Jupiter mean radius [m] (m=1)|2*[Jupiter-R]|4.0|
-| [Jupiter-M] |Constant Value|<Astronomical Constant> Jupiter mass [kg] (kg=1)|[Jupiter-M]*3|4.0|
-| [Jupiter-D] |Constant Value|<Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)|2*[Jupiter-D]|4.0|
-| [Saturn-R] |Constant Value|<Astronomical Constant> Saturn mean radius [m] (m=1)|[Saturn-R]*3|4.0|
-| [Saturn-M] |Constant Value|<Astronomical Constant> Saturn mass [kg] (kg=1)|2*[Saturn-M]|4.0|
-| [Saturn-D] |Constant Value|<Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)|[Saturn-D]*3|4.0|
-| [Uranus-R] |Constant Value|<Astronomical Constant> Uranus mean radius [m] (m=1)|2*[Uranus-R]|4.0|
-| [Uranus-M] |Constant Value|<Astronomical Constant> Uranus mass [kg] (kg=1)|[Uranus-M]*3|4.0|
-| [Uranus-D] |Constant Value|<Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)|2*[Uranus-D]|4.0|
-| [Neptune-R] |Constant Value|<Astronomical Constant> Neptune mean radius [m] (m=1)|[Neptune-R]*3|4.0|
-| [Neptune-M] |Constant Value|<Astronomical Constant> Neptune mass [kg] (kg=1)|2*[Neptune-M]|4.0|
-| [Neptune-D] |Constant Value|<Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)|[Neptune-D]*3|4.0|
+| [c] |Constant Value|\<Physical Constant\> Light speed in vacuum [m/s] (m=1, s=1)|[c]*3|4.0|
+| [G.] |Constant Value|\<Physical Constant\> Gravitational constant (m=1, kg=1, s=1)]|2*[G.]|4.0|
+| [g] |Constant Value|\<Physical Constant\> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)|[g]*3|4.0|
+| [hP] |Constant Value|\<Physical Constant\> Planck constant (m=1, kg=1, s=1)|2*[hP]|4.0|
+| [h-] |Constant Value|\<Physical Constant\> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]|[h-]*3|4.0|
+| [lP] |Constant Value|\<Physical Constant\> Planck length [m] (m=1)|2*[lP]|4.0|
+| [mP] |Constant Value|\<Physical Constant\> Planck mass [kg] (kg=1)|[mP]*3|4.0|
+| [tP] |Constant Value|\<Physical Constant\> Planck time [s] (s=1)|2*[tP]|4.0|
+| [ly] |Constant Value|\<Astronomical Constant\> Light year [m] (m=1)|[ly]*3|4.0|
+| [au] |Constant Value|\<Astronomical Constant\> Astronomical unit [m] (m=1)|2*[au]|4.0|
+| [pc] |Constant Value|\<Astronomical Constant\> Parsec [m] (m=1)|[pc]*3|4.0|
+| [kpc] |Constant Value|\<Astronomical Constant\> Kiloparsec [m] (m=1)|2*[kpc]|4.0|
+| [Earth-R-eq] |Constant Value|\<Astronomical Constant\> Earth equatorial radius [m] (m=1)|[Earth-R-eq]*3|4.0|
+| [Earth-R-po] |Constant Value|\<Astronomical Constant\> Earth polar radius [m] (m=1)|2*[Earth-R-po]|4.0|
+| [Earth-R] |Constant Value|\<Astronomical Constant\> Earth mean radius (m=1)|[Earth-R]*3|4.0|
+| [Earth-M] |Constant Value|\<Astronomical Constant\> Earth mass [kg] (kg=1)|2*[Earth-M]|4.0|
+| [Earth-D] |Constant Value|\<Astronomical Constant\> Earth-Sun distance - semi major axis [m] (m=1)|[Earth-D]*3|4.0|
+| [Moon-R] |Constant Value|\<Astronomical Constant\> Moon mean radius [m] (m=1)|2*[Moon-R]|4.0|
+| [Moon-M] |Constant Value|\<Astronomical Constant\> Moon mass [kg] (kg=1)|[Moon-M]*3|4.0|
+| [Moon-D] |Constant Value|\<Astronomical Constant\> Moon-Earth distance - semi major axis [m] (m=1)|2*[Moon-D]|4.0|
+| [Solar-R] |Constant Value|\<Astronomical Constant\> Solar mean radius [m] (m=1)|[Solar-R]*3|4.0|
+| [Solar-M] |Constant Value|\<Astronomical Constant\> Solar mass [kg] (kg=1)|2*[Solar-M]|4.0|
+| [Mercury-R] |Constant Value|\<Astronomical Constant\> Mercury mean radius [m] (m=1)|[Mercury-R]*3|4.0|
+| [Mercury-M] |Constant Value|\<Astronomical Constant\> Mercury mass [kg] (kg=1)|2*[Mercury-M]|4.0|
+| [Mercury-D] |Constant Value|\<Astronomical Constant\> Mercury-Sun distance - semi major axis [m] (m=1)|[Mercury-D]*3|4.0|
+| [Venus-R] |Constant Value|\<Astronomical Constant\> Venus mean radius [m] (m=1)|2*[Venus-R]|4.0|
+| [Venus-M] |Constant Value|\<Astronomical Constant\> Venus mass [kg] (kg=1)|[Venus-M]*3|4.0|
+| [Venus-D] |Constant Value|\<Astronomical Constant\> Venus-Sun distance - semi major axis [m] (m=1)|2*[Venus-D]|4.0|
+| [Mars-R] |Constant Value|\<Astronomical Constant\> Mars mean radius [m] (m=1)|[Mars-R]*3|4.0|
+| [Mars-M] |Constant Value|\<Astronomical Constant\> Mars mass [kg] (kg=1)|2*[Mars-M]|4.0|
+| [Mars-D] |Constant Value|\<Astronomical Constant\> Mars-Sun distance - semi major axis [m] (m=1)|[Mars-D]*3|4.0|
+| [Jupiter-R] |Constant Value|\<Astronomical Constant\> Jupiter mean radius [m] (m=1)|2*[Jupiter-R]|4.0|
+| [Jupiter-M] |Constant Value|\<Astronomical Constant\> Jupiter mass [kg] (kg=1)|[Jupiter-M]*3|4.0|
+| [Jupiter-D] |Constant Value|\<Astronomical Constant\> Jupiter-Sun distance - semi major axis [m] (m=1)|2*[Jupiter-D]|4.0|
+| [Saturn-R] |Constant Value|\<Astronomical Constant\> Saturn mean radius [m] (m=1)|[Saturn-R]*3|4.0|
+| [Saturn-M] |Constant Value|\<Astronomical Constant\> Saturn mass [kg] (kg=1)|2*[Saturn-M]|4.0|
+| [Saturn-D] |Constant Value|\<Astronomical Constant\> Saturn-Sun distance - semi major axis [m] (m=1)|[Saturn-D]*3|4.0|
+| [Uranus-R] |Constant Value|\<Astronomical Constant\> Uranus mean radius [m] (m=1)|2*[Uranus-R]|4.0|
+| [Uranus-M] |Constant Value|\<Astronomical Constant\> Uranus mass [kg] (kg=1)|[Uranus-M]*3|4.0|
+| [Uranus-D] |Constant Value|\<Astronomical Constant\> Uranus-Sun distance - semi major axis [m] (m=1)|2*[Uranus-D]|4.0|
+| [Neptune-R] |Constant Value|\<Astronomical Constant\> Neptune mean radius [m] (m=1)|[Neptune-R]*3|4.0|
+| [Neptune-M] |Constant Value|\<Astronomical Constant\> Neptune mass [kg] (kg=1)|2*[Neptune-M]|4.0|
+| [Neptune-D] |Constant Value|\<Astronomical Constant\> Neptune-Sun distance - semi major axis [m] (m=1)|[Neptune-D]*3|4.0|
 | [Uni] |Random Variable|Random variable - Uniform continuous distribution U(0,1), usage example: 2*[Uni]|2*[Uni]|3.0|
 | [Int] |Random Variable|Random variable - random integer - usage example sin( 3*[Int] )|[Int]*3|3.0|
 | [Int1] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^1, 10^1} - usage example sin( 3*[Int1] )|2*[Int1]|3.0|
@@ -461,62 +462,62 @@
 | @\| |Bitwise Operator|Bitwise inclusive OR|10 @\| 2|4.0|
 | @<< |Bitwise Operator|Signed left shift|10 @<< 2|4.0|
 | @>> |Bitwise Operator|Signed right shift|10 @>> 2|4.0|
-| [%] |Unit|<Ratio, Fraction> Percentage = 0.01|2*[%]|4.0|
-| [%%] |Unit|<Ratio, Fraction> Promil, Per mille = 0.001|[%%]*3|4.0|
-| [Y] |Unit|<Metric prefix> Septillion / Yotta = 10^24|2*[Y]|4.0|
-| [sept] |Unit|<Metric prefix> Septillion / Yotta = 10^24|[sept]*3|4.0|
-| [Z] |Unit|<Metric prefix> Sextillion / Zetta = 10^21|2*[Z]|4.0|
-| [sext] |Unit|<Metric prefix> Sextillion / Zetta = 10^21|[sext]*3|4.0|
-| [E] |Unit|<Metric prefix> Quintillion / Exa = 10^18|2*[E]|4.0|
-| [quint] |Unit|<Metric prefix> Quintillion / Exa = 10^18|[quint]*3|4.0|
-| [P] |Unit|<Metric prefix> Quadrillion / Peta = 10^15|2*[P]|4.0|
-| [quad] |Unit|<Metric prefix> Quadrillion / Peta = 10^15|[quad]*3|4.0|
-| [T] |Unit|<Metric prefix> Trillion / Tera = 10^12|2*[T]|4.0|
-| [tril] |Unit|<Metric prefix> Trillion / Tera = 10^12|[tril]*3|4.0|
-| [G] |Unit|<Metric prefix> Billion / Giga = 10^9|2*[G]|4.0|
-| [bil] |Unit|<Metric prefix> Billion / Giga = 10^9|[bil]*3|4.0|
-| [M] |Unit|<Metric prefix> Million / Mega = 10^6|2*[M]|4.0|
-| [mil] |Unit|<Metric prefix> Million / Mega = 10^6|[mil]*3|4.0|
-| [k] |Unit|<Metric prefix> Thousand / Kilo = 10^3|2*[k]|4.0|
-| [th] |Unit|<Metric prefix> Thousand / Kilo = 10^3|[th]*3|4.0|
-| [hecto] |Unit|<Metric prefix> Hundred / Hecto = 10^2|2*[hecto]|4.0|
-| [hund] |Unit|<Metric prefix> Hundred / Hecto = 10^2|[hund]*3|4.0|
-| [deca] |Unit|<Metric prefix> Ten / Deca = 10|2*[deca]|4.0|
-| [ten] |Unit|<Metric prefix> Ten / Deca = 10|[ten]*3|4.0|
-| [deci] |Unit|<Metric prefix> Tenth / Deci = 0.1|2*[deci]|4.0|
-| [centi] |Unit|<Metric prefix> Hundredth / Centi = 0.01|[centi]*3|4.0|
-| [milli] |Unit|<Metric prefix> Thousandth / Milli = 0.001|2*[milli]|4.0|
-| [mic] |Unit|<Metric prefix> Millionth / Micro = 10^-6|[mic]*3|4.0|
-| [n] |Unit|<Metric prefix> Billionth / Nano = 10^-9|2*[n]|4.0|
-| [p] |Unit|<Metric prefix> Trillionth / Pico = 10^-12|[p]*3|4.0|
-| [f] |Unit|<Metric prefix> Quadrillionth / Femto = 10^-15|2*[f]|4.0|
-| [a] |Unit|<Metric prefix> Quintillionth / Atoo = 10^-18|[a]*3|4.0|
-| [z] |Unit|<Metric prefix> Sextillionth / Zepto = 10^-21|2*[z]|4.0|
-| [y] |Unit|<Metric prefix> Septillionth / Yocto = 10^-24|[y]*3|4.0|
-| [m] |Unit|<Unit of length> Metre / Meter (m=1)|2*[m]|4.0|
-| [km] |Unit|<Unit of length> Kilometre / Kilometer (m=1)|[km]*3|4.0|
-| [cm] |Unit|<Unit of length> Centimetre / Centimeter (m=1)|2*[cm]|4.0|
-| [mm] |Unit|<Unit of length> Millimetre / Millimeter (m=1)|[mm]*3|4.0|
-| [inch] |Unit|<Unit of length> Inch (m=1)|2*[inch]|4.0|
-| [yd] |Unit|<Unit of length> Yard (m=1)|[yd]*3|4.0|
-| [ft] |Unit|<Unit of length> Feet (m=1)|2*[ft]|4.0|
-| [mile] |Unit|<Unit of length> Mile (m=1)|[mile]*3|4.0|
-| [nmi] |Unit|<Unit of length> Nautical mile (m=1)|2*[nmi]|4.0|
-| [m2] |Unit|<Unit of area> Square metre / Square meter (m=1)|[m2]*3|4.0|
-| [cm2] |Unit|<Unit of area> Square centimetre / Square centimeter (m=1)|2*[cm2]|4.0|
-| [mm2] |Unit|<Unit of area> Square millimetre / Square millimeter (m=1)|[mm2]*3|4.0|
-| [are] |Unit|<Unit of area> Are (m=1)|2*[are]|4.0|
-| [ha] |Unit|<Unit of area> Hectare (m=1)|[ha]*3|4.0|
-| [acre] |Unit|<Unit of area> Acre (m=1)|2*[acre]|4.0|
-| [km2] |Unit|<Unit of area> Square kilometre / Square kilometer (m=1)|[km2]*3|4.0|
-| [mm3] |Unit|<Unit of volume> Cubic millimetre / Cubic millimeter (m=1)|2*[mm3]|4.0|
-| [cm3] |Unit|<Unit of volume> Cubic centimetre / Cubic centimeter (m=1)|[cm3]*3|4.0|
-| [m3] |Unit|<Unit of volume> Cubic metre / Cubic meter (m=1)|2*[m3]|4.0|
-| [km3] |Unit|<Unit of volume> Cubic kilometre / Cubic kilometer (m=1)|[km3]*3|4.0|
-| [ml] |Unit|<Unit of volume> Millilitre / Milliliter (m=1)|2*[ml]|4.0|
-| [l] |Unit|<Unit of volume> Litre / Liter (m=1)|[l]*3|4.0|
-| [gall] |Unit|<Unit of volume> Gallon (m=1)|2*[gall]|4.0|
-| [pint] |Unit|<Unit of volume> Pint (m=1)|[pint]*3|4.0|
+| [%] |Unit|\<Ratio, Fraction\> Percentage = 0.01|2*[%]|4.0|
+| [%%] |Unit|\<Ratio, Fraction\> Promil, Per mille = 0.001|[%%]*3|4.0|
+| [Y] |Unit|\<Metric prefix\> Septillion / Yotta = 10^24|2*[Y]|4.0|
+| [sept] |Unit|\<Metric prefix\> Septillion / Yotta = 10^24|[sept]*3|4.0|
+| [Z] |Unit|\<Metric prefix\> Sextillion / Zetta = 10^21|2*[Z]|4.0|
+| [sext] |Unit|\<Metric prefix\> Sextillion / Zetta = 10^21|[sext]*3|4.0|
+| [E] |Unit|\<Metric prefix\> Quintillion / Exa = 10^18|2*[E]|4.0|
+| [quint] |Unit|\<Metric prefix\> Quintillion / Exa = 10^18|[quint]*3|4.0|
+| [P] |Unit|\<Metric prefix\> Quadrillion / Peta = 10^15|2*[P]|4.0|
+| [quad] |Unit|\<Metric prefix\> Quadrillion / Peta = 10^15|[quad]*3|4.0|
+| [T] |Unit|\<Metric prefix\> Trillion / Tera = 10^12|2*[T]|4.0|
+| [tril] |Unit|\<Metric prefix\> Trillion / Tera = 10^12|[tril]*3|4.0|
+| [G] |Unit|\<Metric prefix\> Billion / Giga = 10^9|2*[G]|4.0|
+| [bil] |Unit|\<Metric prefix\> Billion / Giga = 10^9|[bil]*3|4.0|
+| [M] |Unit|\<Metric prefix\> Million / Mega = 10^6|2*[M]|4.0|
+| [mil] |Unit|\<Metric prefix\> Million / Mega = 10^6|[mil]*3|4.0|
+| [k] |Unit|\<Metric prefix\> Thousand / Kilo = 10^3|2*[k]|4.0|
+| [th] |Unit|\<Metric prefix\> Thousand / Kilo = 10^3|[th]*3|4.0|
+| [hecto] |Unit|\<Metric prefix\> Hundred / Hecto = 10^2|2*[hecto]|4.0|
+| [hund] |Unit|\<Metric prefix\> Hundred / Hecto = 10^2|[hund]*3|4.0|
+| [deca] |Unit|\<Metric prefix\> Ten / Deca = 10|2*[deca]|4.0|
+| [ten] |Unit|\<Metric prefix\> Ten / Deca = 10|[ten]*3|4.0|
+| [deci] |Unit|\<Metric prefix\> Tenth / Deci = 0.1|2*[deci]|4.0|
+| [centi] |Unit|\<Metric prefix\> Hundredth / Centi = 0.01|[centi]*3|4.0|
+| [milli] |Unit|\<Metric prefix\> Thousandth / Milli = 0.001|2*[milli]|4.0|
+| [mic] |Unit|\<Metric prefix\> Millionth / Micro = 10^-6|[mic]*3|4.0|
+| [n] |Unit|\<Metric prefix\> Billionth / Nano = 10^-9|2*[n]|4.0|
+| [p] |Unit|\<Metric prefix\> Trillionth / Pico = 10^-12|[p]*3|4.0|
+| [f] |Unit|\<Metric prefix\> Quadrillionth / Femto = 10^-15|2*[f]|4.0|
+| [a] |Unit|\<Metric prefix\> Quintillionth / Atoo = 10^-18|[a]*3|4.0|
+| [z] |Unit|\<Metric prefix\> Sextillionth / Zepto = 10^-21|2*[z]|4.0|
+| [y] |Unit|\<Metric prefix\> Septillionth / Yocto = 10^-24|[y]*3|4.0|
+| [m] |Unit|\<Unit of length\> Metre / Meter (m=1)|2*[m]|4.0|
+| [km] |Unit|\<Unit of length\> Kilometre / Kilometer (m=1)|[km]*3|4.0|
+| [cm] |Unit|\<Unit of length\> Centimetre / Centimeter (m=1)|2*[cm]|4.0|
+| [mm] |Unit|\<Unit of length\> Millimetre / Millimeter (m=1)|[mm]*3|4.0|
+| [inch] |Unit|\<Unit of length\> Inch (m=1)|2*[inch]|4.0|
+| [yd] |Unit|\<Unit of length\> Yard (m=1)|[yd]*3|4.0|
+| [ft] |Unit|\<Unit of length\> Feet (m=1)|2*[ft]|4.0|
+| [mile] |Unit|\<Unit of length\> Mile (m=1)|[mile]*3|4.0|
+| [nmi] |Unit|\<Unit of length\> Nautical mile (m=1)|2*[nmi]|4.0|
+| [m2] |Unit|\<Unit of area\> Square metre / Square meter (m=1)|[m2]*3|4.0|
+| [cm2] |Unit|\<Unit of area\> Square centimetre / Square centimeter (m=1)|2*[cm2]|4.0|
+| [mm2] |Unit|\<Unit of area\> Square millimetre / Square millimeter (m=1)|[mm2]*3|4.0|
+| [are] |Unit|\<Unit of area\> Are (m=1)|2*[are]|4.0|
+| [ha] |Unit|\<Unit of area\> Hectare (m=1)|[ha]*3|4.0|
+| [acre] |Unit|\<Unit of area\> Acre (m=1)|2*[acre]|4.0|
+| [km2] |Unit|\<Unit of area\> Square kilometre / Square kilometer (m=1)|[km2]*3|4.0|
+| [mm3] |Unit|\<Unit of volume\> Cubic millimetre / Cubic millimeter (m=1)|2*[mm3]|4.0|
+| [cm3] |Unit|\<Unit of volume\> Cubic centimetre / Cubic centimeter (m=1)|[cm3]*3|4.0|
+| [m3] |Unit|\<Unit of volume\> Cubic metre / Cubic meter (m=1)|2*[m3]|4.0|
+| [km3] |Unit|\<Unit of volume\> Cubic kilometre / Cubic kilometer (m=1)|[km3]*3|4.0|
+| [ml] |Unit|\<Unit of volume\> Millilitre / Milliliter (m=1)|2*[ml]|4.0|
+| [l] |Unit|\<Unit of volume\> Litre / Liter (m=1)|[l]*3|4.0|
+| [gall] |Unit|\<Unit of volume\> Gallon (m=1)|2*[gall]|4.0|
+| [pint] |Unit|\<Unit of volume\> Pint (m=1)|[pint]*3|4.0|
 | [s] |Unit|<Unit of time> Second (s=1)|2*[s]|4.0|
 | [ms] |Unit|<Unit of time> Millisecond (s=1)|[ms]*3|4.0|
 | [min] |Unit|<Unit of time> Minute (s=1)|2*[min]|4.0|
@@ -524,48 +525,48 @@
 | [day] |Unit|<Unit of time> Day (s=1)|2*[day]|4.0|
 | [week] |Unit|<Unit of time> Week (s=1)|[week]*3|4.0|
 | [yearj] |Unit|<Unit of time> Julian year = 365.25 days (s=1)|2*[yearj]|4.0|
-| [kg] |Unit|<Unit of mass> Kilogram (kg=1)|[kg]*3|4.0|
-| [gr] |Unit|<Unit of mass> Gram (kg=1)|2*[gr]|4.0|
-| [mg] |Unit|<Unit of mass> Milligram (kg=1)|[mg]*3|4.0|
-| [dag] |Unit|<Unit of mass> Decagram (kg=1)|2*[dag]|4.0|
-| [t] |Unit|<Unit of mass> Tonne (kg=1)|[t]*3|4.0|
-| [oz] |Unit|<Unit of mass> Ounce (kg=1)|2*[oz]|4.0|
-| [lb] |Unit|<Unit of mass> Pound (kg=1)|[lb]*3|4.0|
-| [b] |Unit|<Unit of information> Bit (bit=1)|2*[b]|4.0|
-| [kb] |Unit|<Unit of information> Kilobit (bit=1)|[kb]*3|4.0|
-| [Mb] |Unit|<Unit of information> Megabit (bit=1)|2*[Mb]|4.0|
-| [Gb] |Unit|<Unit of information> Gigabit (bit=1)|[Gb]*3|4.0|
-| [Tb] |Unit|<Unit of information> Terabit (bit=1)|2*[Tb]|4.0|
-| [Pb] |Unit|<Unit of information> Petabit (bit=1)|[Pb]*3|4.0|
-| [Eb] |Unit|<Unit of information> Exabit (bit=1)|2*[Eb]|4.0|
-| [Zb] |Unit|<Unit of information> Zettabit (bit=1)|[Zb]*3|4.0|
-| [Yb] |Unit|<Unit of information> Yottabit (bit=1)|2*[Yb]|4.0|
-| [B] |Unit|<Unit of information> Byte (bit=1)|[B]*3|4.0|
-| [kB] |Unit|<Unit of information> Kilobyte (bit=1)|2*[kB]|4.0|
-| [MB] |Unit|<Unit of information> Megabyte (bit=1)|[MB]*3|4.0|
-| [GB] |Unit|<Unit of information> Gigabyte (bit=1)|2*[GB]|4.0|
-| [TB] |Unit|<Unit of information> Terabyte (bit=1)|[TB]*3|4.0|
-| [PB] |Unit|<Unit of information> Petabyte (bit=1)|2*[PB]|4.0|
-| [EB] |Unit|<Unit of information> Exabyte (bit=1)|[EB]*3|4.0|
-| [ZB] |Unit|<Unit of information> Zettabyte (bit=1)|2*[ZB]|4.0|
-| [YB] |Unit|<Unit of information> Yottabyte (bit=1)|[YB]*3|4.0|
-| [J] |Unit|<Unit of energy> Joule (m=1, kg=1, s=1)|2*[J]|4.0|
-| [eV] |Unit|<Unit of energy> Electronovolt (m=1, kg=1, s=1)|[eV]*3|4.0|
-| [keV] |Unit|<Unit of energy> Kiloelectronovolt (m=1, kg=1, s=1)|2*[keV]|4.0|
-| [MeV] |Unit|<Unit of energy> Megaelectronovolt (m=1, kg=1, s=1)|[MeV]*3|4.0|
-| [GeV] |Unit|<Unit of energy> Gigaelectronovolt (m=1, kg=1, s=1)|2*[GeV]|4.0|
-| [TeV] |Unit|<Unit of energy> Teraelectronovolt (m=1, kg=1, s=1)|[TeV]*3|4.0|
-| [m/s] |Unit|<Unit of speed> Metre / Meter per second (m=1, s=1)|2*[m/s]|4.0|
-| [km/h] |Unit|<Unit of speed> Kilometre / Kilometer per hour (m=1, s=1)|[km/h]*3|4.0|
-| [mi/h] |Unit|<Unit of speed> Mile per hour (m=1, s=1)|2*[mi/h]|4.0|
-| [knot] |Unit|<Unit of speed> Knot (m=1, s=1)|[knot]*3|4.0|
-| [m/s2] |Unit|<Unit of acceleration> Metre / Meter per square second (m=1, s=1)|2*[m/s2]|4.0|
-| [km/h2] |Unit|<Unit of acceleration> Kilometre / Kilometer per square hour (m=1, s=1)|[km/h2]*3|4.0|
-| [mi/h2] |Unit|<Unit of acceleration> Mile per square hour (m=1, s=1)|2*[mi/h2]|4.0|
-| [rad] |Unit|<Unit of angle> Radian (rad=1)|[rad]*pi|4.0|
-| [deg] |Unit|<Unit of angle> Degree of arc (rad=1)|180*[deg]|4.0|
-| ['] |Unit|<Unit of angle> Minute of arc (rad=1)|[']*3|4.0|
-| [''] |Unit|<Unit of angle> Second of arc (rad=1)|2*['']|4.0|
+| [kg] |Unit|\<Unit of mass\> Kilogram (kg=1)|[kg]*3|4.0|
+| [gr] |Unit|\<Unit of mass\> Gram (kg=1)|2*[gr]|4.0|
+| [mg] |Unit|\<Unit of mass\> Milligram (kg=1)|[mg]*3|4.0|
+| [dag] |Unit|\<Unit of mass\> Decagram (kg=1)|2*[dag]|4.0|
+| [t] |Unit|\<Unit of mass\> Tonne (kg=1)|[t]*3|4.0|
+| [oz] |Unit|\<Unit of mass\> Ounce (kg=1)|2*[oz]|4.0|
+| [lb] |Unit|\<Unit of mass\> Pound (kg=1)|[lb]*3|4.0|
+| [b] |Unit|\<Unit of information\> Bit (bit=1)|2*[b]|4.0|
+| [kb] |Unit|\<Unit of information\> Kilobit (bit=1)|[kb]*3|4.0|
+| [Mb] |Unit|\<Unit of information\> Megabit (bit=1)|2*[Mb]|4.0|
+| [Gb] |Unit|\<Unit of information\> Gigabit (bit=1)|[Gb]*3|4.0|
+| [Tb] |Unit|\<Unit of information\> Terabit (bit=1)|2*[Tb]|4.0|
+| [Pb] |Unit|\<Unit of information\> Petabit (bit=1)|[Pb]*3|4.0|
+| [Eb] |Unit|\<Unit of information\> Exabit (bit=1)|2*[Eb]|4.0|
+| [Zb] |Unit|\<Unit of information\> Zettabit (bit=1)|[Zb]*3|4.0|
+| [Yb] |Unit|\<Unit of information\> Yottabit (bit=1)|2*[Yb]|4.0|
+| [B] |Unit|\<Unit of information\> Byte (bit=1)|[B]*3|4.0|
+| [kB] |Unit|\<Unit of information\> Kilobyte (bit=1)|2*[kB]|4.0|
+| [MB] |Unit|\<Unit of information\> Megabyte (bit=1)|[MB]*3|4.0|
+| [GB] |Unit|\<Unit of information\> Gigabyte (bit=1)|2*[GB]|4.0|
+| [TB] |Unit|\<Unit of information\> Terabyte (bit=1)|[TB]*3|4.0|
+| [PB] |Unit|\<Unit of information\> Petabyte (bit=1)|2*[PB]|4.0|
+| [EB] |Unit|\<Unit of information\> Exabyte (bit=1)|[EB]*3|4.0|
+| [ZB] |Unit|\<Unit of information\> Zettabyte (bit=1)|2*[ZB]|4.0|
+| [YB] |Unit|\<Unit of information\> Yottabyte (bit=1)|[YB]*3|4.0|
+| [J] |Unit|\<Unit of energy\> Joule (m=1, kg=1, s=1)|2*[J]|4.0|
+| [eV] |Unit|\<Unit of energy\> Electronovolt (m=1, kg=1, s=1)|[eV]*3|4.0|
+| [keV] |Unit|\<Unit of energy\> Kiloelectronovolt (m=1, kg=1, s=1)|2*[keV]|4.0|
+| [MeV] |Unit|\<Unit of energy\> Megaelectronovolt (m=1, kg=1, s=1)|[MeV]*3|4.0|
+| [GeV] |Unit|\<Unit of energy\> Gigaelectronovolt (m=1, kg=1, s=1)|2*[GeV]|4.0|
+| [TeV] |Unit|\<Unit of energy\> Teraelectronovolt (m=1, kg=1, s=1)|[TeV]*3|4.0|
+| [m/s] |Unit|\<Unit of speed\> Metre / Meter per second (m=1, s=1)|2*[m/s]|4.0|
+| [km/h] |Unit|\<Unit of speed\> Kilometre / Kilometer per hour (m=1, s=1)|[km/h]*3|4.0|
+| [mi/h] |Unit|\<Unit of speed\> Mile per hour (m=1, s=1)|2*[mi/h]|4.0|
+| [knot] |Unit|\<Unit of speed\> Knot (m=1, s=1)|[knot]*3|4.0|
+| [m/s2] |Unit|\<Unit of acceleration\> Metre / Meter per square second (m=1, s=1)|2*[m/s2]|4.0|
+| [km/h2] |Unit|\<Unit of acceleration\> Kilometre / Kilometer per square hour (m=1, s=1)|[km/h2]*3|4.0|
+| [mi/h2] |Unit|\<Unit of acceleration\> Mile per square hour (m=1, s=1)|2*[mi/h2]|4.0|
+| [rad] |Unit|\<Unit of angle\> Radian (rad=1)|[rad]*pi|4.0|
+| [deg] |Unit|\<Unit of angle\> Degree of arc (rad=1)|180*[deg]|4.0|
+| ['] |Unit|\<Unit of angle\> Minute of arc (rad=1)|[']*3|4.0|
+| [''] |Unit|\<Unit of angle\> Second of arc (rad=1)|2*['']|4.0|
 | ( |Parser Symbol|Left parentheses|(3+2)/4|1.0|
 | ) |Parser Symbol|Right parentheses|(3+2)/4|1.0|
 | , |Parser Symbol|Comma (function parameters)|min(2,3,1)|1.0|
