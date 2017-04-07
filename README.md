@@ -30,7 +30,7 @@
 # Project documentation
 ### - [mXparser - API (english)](http://mathparser.org/api/)
 ### - [mXparser - WIKI (english)](https://github.com/mariuszgromada/MathParser.org-mXparser/wiki)
-### - [mXparser - Tutorial (english)](http://mathspace.pl/mxparser-tutorial/)
+### - [mXparser - Tutorial (english)](http://mathparser.org/mxparser-tutorial/)
 ### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
 ### - [MathParser.org - site about mXparser (english)](http://mathparser.org/)
 
