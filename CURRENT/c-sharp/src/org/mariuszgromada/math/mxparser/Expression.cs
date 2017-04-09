@@ -1651,7 +1651,13 @@ namespace org.mariuszgromada.math.mxparser {
 			double value;
 			try {
 				value = function.calculate();
-			} catch(StackOverflowException soe){
+			} catch(
+				#if PCL || CORE
+					Exception
+				#else
+					StackOverflowException
+				#endif
+			soe){
 				value = Double.NaN;
 				errorMessage = soe.Message;
 			}
@@ -4204,7 +4210,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public bool checkLexSyntax() {
 			bool syntax = NO_SYNTAX_ERRORS;
-			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
+			#if PCL
+				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
+			#else
+				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
+			#endif
 			try {
 				syn.checkSyntax();
 			} catch (Exception e) {
@@ -4291,7 +4301,11 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallPending = true;
 			errorMessage = level +"checking ...\n";
 			bool syntax = NO_SYNTAX_ERRORS;
-			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
+			#if PCL
+				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
+			#else
+				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
+			#endif
 			try {
 				syn.checkSyntax();
 				/*
@@ -6279,7 +6293,7 @@ namespace org.mariuszgromada.math.mxparser {
 				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
 				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
 				case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC; break;
+				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
 				case Function.TYPE_ID: type = Function.TYPE_DESC; break;
 				case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
 				case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;

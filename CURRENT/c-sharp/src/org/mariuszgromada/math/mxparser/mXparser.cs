@@ -469,6 +469,29 @@ namespace org.mariuszgromada.math.mxparser {
 		public static String numberToAsciiString(double number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
+		public static void doNothing(Object o) {
+		}
+		private static void consoleWriteLine(Object o) {
+			#if PCL
+				System.Diagnostics.Debug.WriteLine(o);
+			#else
+				Console.WriteLine(o);
+			#endif
+		}
+		private static void consoleWriteLine() {
+			#if PCL
+				System.Diagnostics.Debug.WriteLine("");
+			#else
+				Console.WriteLine();
+			#endif
+		}
+		private static void consoleWrite(Object o) {
+			#if PCL
+				System.Diagnostics.Debug.WriteLine(o);
+			#else
+				Console.Write(o);
+			#endif
+		}
 		/**
 		 * Prints object.toString to the Console + new line
 		 *
@@ -476,12 +499,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln(Object o) {
 			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
-				Console.Write(CONSOLE_PREFIX);
+				consoleWrite(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
-			Console.WriteLine(o);
+			consoleWriteLine(o);
 			CONSOLE_ROW_NUMBER++;
-			Console.Write(CONSOLE_PREFIX);
+			consoleWrite(CONSOLE_PREFIX);
 			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
 		/**
@@ -490,12 +513,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln() {
 			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
-				Console.Write(CONSOLE_PREFIX);
+				consoleWrite(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
-			Console.WriteLine();
+			consoleWriteLine();
 			CONSOLE_ROW_NUMBER++;
-			Console.Write(CONSOLE_PREFIX);
+			consoleWrite(CONSOLE_PREFIX);
 			CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
 		/**
@@ -505,10 +528,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrint(Object o) {
 			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
-				Console.Write(CONSOLE_PREFIX);
+				consoleWrite(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
-			Console.Write(o);
+			consoleWrite(o);
 			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 		}
 		/**
@@ -585,14 +608,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Prints all help content.
 		 */
 		public static void consolePrintHelp() {
-			Console.WriteLine(getHelp());
+			consoleWriteLine(getHelp());
 		}
 		/**
 		 * Prints filtered help content.
 		 * @param word      Key word.
 		 */
 		public static void consolePrintHelp(String word) {
-			Console.WriteLine(getHelp(word));
+			consoleWriteLine(getHelp(word));
 		}
 		/**
 		 * Function used to introduce some compatibility

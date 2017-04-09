@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.0.0</version>
+    <version>4.0.0.2</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -12,12 +12,24 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.	</releaseNotes>
-    <copyright>Copyright 2016 - Mariusz Gromada - MathParser.org</copyright>
-    <tags>Math Mathematics Mathematical Expressions Parser Formula Evaluator Calculator Solve Probability Integration Calculus</tags>
+    <releaseNotes>!!! Added port to PCL + .NET Core !!! Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.	</releaseNotes>
+    <copyright>Copyright 2017 - Mariusz Gromada - MathParser.org</copyright>
+    <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</tags>
   </metadata>
   <files>
     <file src="..\README.txt" target="" />
     <file src="..\doc\**\*.*" target="content\docs" />
+    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.2.0\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net20" />
+    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.3.5\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net35-client" />
+    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.4.0\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net40-client" />
+    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.4.5\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net45" />
+    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.4.6\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net46" />
+    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
+    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\MonoTouch10" />
+    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\MonoAndroid10" />
+    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\mxparser.dll" target="lib\netstandard16" />
+    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
+    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\mxparser.dll" target="lib\netcoreapp10" />
+    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\*.json" target="lib\netcoreapp10" />
   </files>
 </package>

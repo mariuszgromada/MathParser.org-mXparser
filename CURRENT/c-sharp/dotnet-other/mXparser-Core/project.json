@@ -1,0 +1,77 @@
+﻿{
+  "copyright": "Copyright © Mariusz Gromada 2017",
+  "description": "A flexible mathematical expressions parser for JAVA and C# .NET",
+  "title": "mXparser - Math Parser Java C# Library",
+  "version": "4.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  },
+
+  "buildOptions": {
+    "outputName": "mxparser",
+    "keyFile": "..\\..\\..\\..\\..\\pfx-keys\\mariuszgromada.org.snk",
+    "define": [ "CORE" ],
+    "compile": {
+      "include": [
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\Argument.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\Constant.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\Expression.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\Function.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\FunctionExtension.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\AstronomicalConstants.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\BinaryRelations.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\BooleanAlgebra.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\Calculus.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\Coefficients.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\Evaluate.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\MathConstants.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\MathFunctions.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\NumberTheory.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\PhysicalConstants.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\PrimesCache.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\ProbabilityDistributions.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\SpecialFunctions.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\Statistics.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mathcollection\\Units.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\Miscellaneous.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\mXparser.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\BinaryRelation.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\BitwiseOperator.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\BooleanOperator.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\CalculusOperator.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\ConstantValue.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\Function1Arg.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\Function2Arg.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\Function3Arg.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\FunctionVariadic.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\Operator.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\ParserSymbol.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\RandomVariable.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\Token.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\parsertokens\\Unit.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\PrimitiveElement.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\RecursiveArgument.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\regressiontesting\\PerformanceTests.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\regressiontesting\\RegTestExpression.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\regressiontesting\\RegTestExpressionAPI.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\regressiontesting\\RegTestSyntax.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\regressiontesting\\RunTest.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\ParseException.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\SimpleCharStream.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\SyntaxChecker.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\SyntaxCheckerConstants.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\SyntaxCheckerTokenManager.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\Token.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\syntaxchecker\\TokenMgrError.cs",
+        "..\\..\\src\\org\\mariuszgromada\\math\\mxparser\\Tutorial.cs"
+      ]
+    }
+    }
+  }

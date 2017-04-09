@@ -269,7 +269,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SINC_DESC				= "sinc function (unnormalized)";
 		public const String BELL_NUMBER_DESC		= "Bell number";
 		public const String LUCAS_NUMBER_DESC		= "Lucas number";
-		public const String FIBONACCI_NUMBER_DESC	= "Fionacci number";
+		public const String FIBONACCI_NUMBER_DESC	= "Fibonacci number";
 		public const String HARMONIC_NUMBER_DESC	= "Harmonic number";
 		public const String IS_PRIME_DESC			= "(2.3) Prime number test (is number a prime?)";
 		public const String PRIME_COUNT_DESC		= "(2.3) Prime-counting function - Pi(x)";

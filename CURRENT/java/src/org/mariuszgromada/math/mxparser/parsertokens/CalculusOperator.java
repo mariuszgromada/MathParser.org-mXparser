@@ -130,7 +130,7 @@ public final class CalculusOperator {
 	public static final String VAR_DESC					= "(2.4) Bias-corrected sample variance operator vari(i, from, to, f(i,...))";
 	public static final String STD_DESC					= "(2.4) Bias-corrected sample standard deviation operator stdi(i, from, to, f(i,...))";
 	public static final String MIN_DESC					= "(2.4) Minimum value mini(i, from, to, f(i,...))";
-	public static final String MAX_DESC					= "(2.4) Maximum valu maxi(i, from, to, f(i,...))";
+	public static final String MAX_DESC					= "(2.4) Maximum value maxi(i, from, to, f(i,...))";
 	public static final String SOLVE_DESC				= "(4.0) f(x) = 0 equation solving, function root finding: solve( f(x,...), x, a, b )";
 }
 

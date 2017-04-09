@@ -266,7 +266,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Argument(String argumentName, String argumentExpressionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
 			if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-				this.argumentName=String.Copy(argumentName);
+				this.argumentName="" + argumentName;
 				argumentValue=ARGUMENT_INITIAL_VALUE;
 				argumentExpression = new Expression(argumentExpressionString, elements);
 				argumentExpression.setDescription(argumentName);

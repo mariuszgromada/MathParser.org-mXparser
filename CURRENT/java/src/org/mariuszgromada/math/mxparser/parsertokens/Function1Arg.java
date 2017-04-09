@@ -265,7 +265,7 @@ public final class Function1Arg {
 	public static final String SINC_DESC				= "sinc function (unnormalized)";
 	public static final String BELL_NUMBER_DESC			= "Bell number";
 	public static final String LUCAS_NUMBER_DESC		= "Lucas number";
-	public static final String FIBONACCI_NUMBER_DESC	= "Fionacci number";
+	public static final String FIBONACCI_NUMBER_DESC	= "Fibonacci number";
 	public static final String HARMONIC_NUMBER_DESC		= "Harmonic number";
 	public static final String IS_PRIME_DESC			= "(2.3) Prime number test (is number a prime?)";
 	public static final String PRIME_COUNT_DESC			= "(2.3) Prime-counting function - Pi(x)";

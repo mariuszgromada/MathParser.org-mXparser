@@ -6317,7 +6317,7 @@ public class Expression {
 			case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
 			case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
 			case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-			case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC; break;
+			case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
 			case Function.TYPE_ID: type = Function.TYPE_DESC; break;
 			case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
 			case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;

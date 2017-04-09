@@ -91,7 +91,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void createRunJoinThreads(PerformanceTestResult test, int classId) {
 			test.testInit();
 			TestThread[] runners = new TestThread[test.threadsNum];
-			Thread[] threads = new Thread[test.threadsNum];
+			#if !PCL && !CORE
+				Thread[] threads = new Thread[test.threadsNum];
+			#endif
 			for (int threadId = 0; threadId < test.threadsNum; threadId++) {
 				switch (classId) {
 				case 0:  runners[threadId] = new TestSimpleCalcThread(test); break;
@@ -116,15 +118,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 				case 19: runners[threadId] = new Test019Thread(test); break;
 				case 20: runners[threadId] = new Test020Thread(test); break;
 				}
-				threads[threadId] = new Thread(runners[threadId].run);
-				threads[threadId].Start();
+				#if PCL || CORE
+					runners[threadId].run();
+				#else
+					threads[threadId] = new Thread(runners[threadId].run);
+					threads[threadId].Start();
+				#endif
 			}
-			for (int threadId = 0; threadId < test.threadsNum; threadId++)
-				try {
-					threads[threadId].Join();
-				} catch (ThreadInterruptedException e) {
-					Console.WriteLine(e.StackTrace);
-				}
+			#if !PCL && !CORE
+				for (int threadId = 0; threadId < test.threadsNum; threadId++)
+					try {
+						threads[threadId].Join();
+					} catch (ThreadInterruptedException e) {
+						mXparser.consolePrintln(e.StackTrace);
+					}
+			#endif
 			test.testClose();
 		}
 		/**

@@ -112,7 +112,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Type identifier for recursive arguments.
 		 */
 		public const int TYPE_ID_RECURSIVE			= 102;
-		public const String TYPE_DESC					= "User defined recursive argument";
+		public const String TYPE_DESC_RECURSIVE		= "User defined recursive argument";
 		/**
 		 * Base values
 		 */
