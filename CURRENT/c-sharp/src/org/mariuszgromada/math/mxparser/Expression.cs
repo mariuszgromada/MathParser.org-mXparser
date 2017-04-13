@@ -1652,7 +1652,7 @@ namespace org.mariuszgromada.math.mxparser {
 			try {
 				value = function.calculate();
 			} catch(
-				#if PCL || CORE
+				#if PCL || CORE || NETSTANDARD
 					Exception
 				#else
 					StackOverflowException
@@ -4210,7 +4210,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public bool checkLexSyntax() {
 			bool syntax = NO_SYNTAX_ERRORS;
-			#if PCL
+			#if PCL || NETSTANDARD
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
@@ -4301,7 +4301,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallPending = true;
 			errorMessage = level +"checking ...\n";
 			bool syntax = NO_SYNTAX_ERRORS;
-			#if PCL
+			#if PCL || NETSTANDARD
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );

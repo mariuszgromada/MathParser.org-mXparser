@@ -5,7 +5,7 @@ using System.IO;
 
 public class SyntaxCheckerTokenManager : SyntaxCheckerConstants
 {
-#if PCL
+#if PCL || NETSTANDARD
 	public System.IO.TextWriter debugStream = new System.IO.StreamWriter(new System.IO.MemoryStream());
 #else
 	public  System.IO.TextWriter debugStream = new System.IO.StreamWriter(System.Console.OpenStandardError());
@@ -64,7 +64,7 @@ private int jjStartNfaWithStates_0(int pos, int kind, int state)
    jjmatchedPos = pos;
    try { curChar = input_stream.readChar(); }
    catch(System.IO.IOException e) {
-		#if PCL || CORE
+		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
 			mXparser.doNothing(e);
 		#endif
 		return pos + 1;
@@ -121,7 +121,7 @@ private int jjMoveStringLiteralDfa1_0(long active0)
 {
    try { curChar = input_stream.readChar(); }
    catch(System.IO.IOException e) {
-	#if PCL || CORE
+	#if PCL || CORE || NETSTANDARD || ANDROID || IOS
 		mXparser.doNothing(e);
 	#endif
 	  jjStopStringLiteralDfa_0(0, active0);
@@ -156,7 +156,7 @@ private int jjMoveStringLiteralDfa2_0(long old0, long active0)
       return jjStartNfa_0(0, old0);
    try { curChar = input_stream.readChar(); }
    catch(System.IO.IOException e) {
-		#if PCL || CORE
+		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
 			mXparser.doNothing(e);
 		#endif
 		jjStopStringLiteralDfa_0(1, active0);
@@ -219,14 +219,14 @@ private void jjCheckNAddStates(int start)
 }
 private int jjMoveNfa_0(int startState, int curPos)
 {
-	#if !PCL && !CORE
+#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 	int[] nextStates;
-	#endif
-   int startsAt = 0;
+#endif
+            int startsAt = 0;
    jjnewStateCnt = 72;
    int i = 1;
    jjstateSet[0] = startState;
-   #if !PCL && !CORE
+   #if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 	int j;
    #endif
    int kind = 0x7fffffff;
@@ -237,7 +237,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       if (curChar < 64)
       {
          ulong l = 1UL << curChar;
-		#if !PCL && !CORE
+		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			MatchLoop:
 		#endif
 		 do
@@ -542,7 +542,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       else if (curChar < 128)
       {
          ulong l = 1UL << (curChar & 0x3F);
-		#if !PCL && !CORE
+		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			MatchLoop:
 		#endif
 		do
@@ -723,7 +723,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       {
          int i2 = (curChar & 0xff) >> 6;
          ulong l2 = 1UL << (curChar & 0x3F);
-		#if !PCL && !CORE
+		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			MatchLoop:
 		#endif
 		do
@@ -745,7 +745,7 @@ private int jjMoveNfa_0(int startState, int curPos)
          return curPos;
       try { curChar = input_stream.readChar(); }
       catch(System.IO.IOException e) {
-		#if PCL || CORE
+		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
 			mXparser.doNothing(e);
 		#endif
 			return curPos;
@@ -840,11 +840,11 @@ int jjmatchedKind;
 
 public Token getNextToken()
 {
-#if !PCL && !CORE
+#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
   int kind;
   Token specialToken = null;
 #endif
-			Token matchedToken;
+            Token matchedToken;
   int curPos = 0;
 
   EOFLoop :
@@ -852,9 +852,9 @@ public Token getNextToken()
    try{
       curChar = input_stream.BeginToken();
    }catch(System.IO.IOException e){
-#if PCL || CORE
+        #if PCL || CORE || NETSTANDARD || ANDROID || IOS
 			mXparser.doNothing(e);
-#endif
+        #endif
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
       return matchedToken;
@@ -865,8 +865,8 @@ public Token getNextToken()
          curChar = input_stream.BeginToken();
    }
    catch (System.IO.IOException e1) {
-		#if PCL || CORE
-			mXparser.doNothing(e1);
+        #if PCL || CORE || NETSTANDARD || ANDROID || IOS
+                    mXparser.doNothing(e1);
 		#endif
 		goto EOFLoop;
 	}
@@ -895,8 +895,8 @@ public Token getNextToken()
    bool EOFSeen = false;
    try { input_stream.readChar(); input_stream.backup(1); }
    catch (System.IO.IOException e1) {
-		#if PCL || CORE
-			mXparser.doNothing(e1);
+        #if PCL || CORE || NETSTANDARD || ANDROID || IOS
+                    mXparser.doNothing(e1);
 		#endif
       EOFSeen = true;
       error_after = curPos <= 1 ? "" : input_stream.GetImage();

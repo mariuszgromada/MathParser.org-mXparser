@@ -561,7 +561,7 @@ or implied, of MARIUSZ GROMADA.
 If you have any questions/bugs feel free to contact:
 
 	Mariusz Gromada
-	mariusz.gromada@mathspace.pl
+	mariuszgromada.org@gmail.com
 	http://mathspace.pl/
 	http://mathparser.org/
 	http://github.com/mariuszgromada/MathParser.org-mXparser

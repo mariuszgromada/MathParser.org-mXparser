@@ -1300,7 +1300,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				bd = Math.Round(bd, places, MidpointRounding.AwayFromZero);
 				return Convert.ToDouble(bd);
 			} catch (Exception e) {
-				#if PCL || CORE
+				#if PCL || CORE || NETSTANDARD || ANDROID || IOS
 					mXparser.doNothing(e);
 				#endif
 				return value;

@@ -472,21 +472,21 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void doNothing(Object o) {
 		}
 		private static void consoleWriteLine(Object o) {
-			#if PCL
+			#if PCL || NETSTANDARD
 				System.Diagnostics.Debug.WriteLine(o);
 			#else
 				Console.WriteLine(o);
 			#endif
 		}
 		private static void consoleWriteLine() {
-			#if PCL
+			#if PCL || NETSTANDARD
 				System.Diagnostics.Debug.WriteLine("");
 			#else
 				Console.WriteLine();
 			#endif
 		}
 		private static void consoleWrite(Object o) {
-			#if PCL
+			#if PCL || NETSTANDARD
 				System.Diagnostics.Debug.WriteLine(o);
 			#else
 				Console.Write(o);

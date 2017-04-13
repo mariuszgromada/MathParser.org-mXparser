@@ -96,7 +96,7 @@ public class SimpleCharStream{
      try {
         if (stream_closed || (i = inputStream.Read(buffer, maxNextCharInd, available - maxNextCharInd)) <= 0){
            stream_closed = true;
-			#if PCL || CORE
+			#if PCL || CORE || NETSTANDARD
 				inputStream.Dispose();
 			#else
 				inputStream.Close();
