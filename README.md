@@ -34,6 +34,12 @@
 ### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
 ### - [MathParser.org - site about mXparser (english)](http://mathparser.org/)
 
+# mXparser - optional donation
+
+### If you found the software useful donation is something you might consider :-)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
+
 # mXparser in nutshell
 
 #### _[calculator]_ You want simple calculator...
