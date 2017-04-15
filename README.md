@@ -1,4 +1,11 @@
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-java-csharp.jpg)
+
+# mXparser - optional donation
+
+### If you found the software useful donation is something you might consider :-)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
+
 # mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android and C# .NET.
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
@@ -33,10 +40,6 @@
 ### - [mXparser - Tutorial (english)](http://mathparser.org/mxparser-tutorial/)
 ### - [MathSpace.pl - site about math with mXparser examples (polish)](http://mathspace.pl/)
 ### - [MathParser.org - site about mXparser (english)](http://mathparser.org/)
-
-# mXparser - optional donation
-
-### If you found the software useful donation is something you might consider :-)
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
@@ -151,6 +154,8 @@
 :+1:
 
 ## If anything above matches you then mXparser is a good choce! mXparser is freely distributed under Simplified BSD licence, but still you can give credits to the author, and even donate if you wish :+1: 
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
 #### _[grammar and syntax checking]_ mXparser can interact with end users as it supports syntax checking.
     Expression e = new Expression("2+1/a");
@@ -676,6 +681,8 @@
 | ) |Parser Symbol|Right parentheses|(3+2)/4|1.0|
 | , |Parser Symbol|Comma (function parameters)|min(2,3,1)|1.0|
 | ; |Parser Symbol|Semicolon (function parameters)|min(2;3;1)|1.0|
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
 # Enjoy :-)
 
