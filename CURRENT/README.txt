@@ -3,7 +3,7 @@
 
                        *** Donation through PayPal ***
   *** If you found the software useful donation is something you might consider :-) ***
-   https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN
+                    *** http://mathparser.org/donate/ ***
 
 v.4.0.0 (2017-03-27): Major update
 					  - Bitwise Operators

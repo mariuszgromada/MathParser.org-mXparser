@@ -3,33 +3,49 @@
   <metadata>
     <id>MathParser.org-mXparser</id>
     <version>4.0.0.2</version>
-    <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</title>
+    <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
     <licenseUrl>http://mathparser.org/mxparser-license/</licenseUrl>
     <projectUrl>http://mathparser.org/</projectUrl>
     <iconUrl>http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-Tutorial.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
+    <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ ***</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>!!! Added port to PCL + .NET Core !!! Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.</releaseNotes>
+    <releaseNotes>!!! Added ports to: .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS !!! Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.</releaseNotes>
     <copyright>Copyright 2017 - Mariusz Gromada - MathParser.org</copyright>
-    <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</tags>
+    <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS</tags>
   </metadata>
   <files>
     <file src="..\README.txt" target="" />
     <file src="..\doc\**\*.*" target="content\docs" />
-    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.2.0\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net20" />
-    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.3.5\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net35-client" />
-    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.4.0\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net40-client" />
-    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.4.5\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net45" />
-    <file src="..\..\..\MathParser.org-mXparser-Binaries\dot.net.4.6\CURRENT\c-sharp\bin\Release\*.dll" target="lib\net46" />
+    <file src="dotnet-other\mXparser-dot.net.2.0\bin\Release\*.dll" target="lib\net20" />
+    <file src="dotnet-other\mXparser-dot.net.3.0\bin\Release\*.dll" target="lib\net30" />
+    <file src="dotnet-other\mXparser-dot.net.3.5\bin\Release\*.dll" target="lib\net35-client" />
+    <file src="dotnet-other\mXparser-dot.net.4.0\bin\Release\*.dll" target="lib\net40-client" />
+    <file src="dotnet-other\mXparser-dot.net.4.5\bin\Release\*.dll" target="lib\net45" />
+    <file src="dotnet-other\mXparser-dot.net.4.5.1\bin\Release\*.dll" target="lib\net451" />
+    <file src="dotnet-other\mXparser-dot.net.4.5.2\bin\Release\*.dll" target="lib\net452" />
+    <file src="dotnet-other\mXparser-dot.net.4.6\bin\Release\*.dll" target="lib\net46" />
+    <file src="dotnet-other\mXparser-dot.net.4.6.1\bin\Release\*.dll" target="lib\net461" />
+    <file src="dotnet-other\mXparser-dot.net.4.6.2\bin\Release\*.dll" target="lib\net462" />
+	
+	
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
-    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\MonoTouch10" />
-    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\MonoAndroid10" />
-    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\mxparser.dll" target="lib\netstandard16" />
-    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
-    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\mxparser.dll" target="lib\netcoreapp10" />
-    <file src="dotnet-other\mXparser-Core\bin\Release\netstandard1.6\*.json" target="lib\netcoreapp10" />
+    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\monotouch10" />
+    <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\monoandroid10" />
+    <file src="dotnet-other\mXparser-Android\bin\Release\*.dll" target="lib\monoandroid60" />
+    <file src="dotnet-other\mXparser-iOS\bin\Release\*.dll" target="lib\xamarinios10" />
+	
+    <file src="dotnet-other\mXparser-Core.1.0\bin\Release\netcoreapp1.0\*.dll" target="lib\netcoreapp10" />
+    <file src="dotnet-other\mXparser-Core.1.0\bin\Release\netcoreapp1.0\*.json" target="lib\netcoreapp10" />
+    <file src="dotnet-other\mXparser-Core.1.1\bin\Release\netcoreapp1.1\*.dll" target="lib\netcoreapp11" />
+    <file src="dotnet-other\mXparser-Core.1.1\bin\Release\netcoreapp1.1\*.json" target="lib\netcoreapp11" />
+
+    <file src="dotnet-other\mXparser-dot.stand.1.0\bin\Release\netstandard1.0\*.dll" target="lib\netstandard10" />
+    <file src="dotnet-other\mXparser-dot.stand.1.0\bin\Release\netstandard1.0\*.json" target="lib\netstandard10" />
+    <file src="dotnet-other\mXparser-dot.stand.1.6\bin\Release\netstandard1.6\*.dll" target="lib\netstandard16" />
+    <file src="dotnet-other\mXparser-dot.stand.1.6\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
+
   </files>
 </package>
