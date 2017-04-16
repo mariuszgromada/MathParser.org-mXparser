@@ -13,6 +13,10 @@
 - JAVA: 1.5, 1.6, 1.7, 1.8
 - Android - tested with mxparser compiled using jdk 1.7
 - .NET / MONO: 2.0, 3.0, 3.5, 4.0, 4.5, 4.6 (CLS)
+- .NET Core
+- .NET Standard, .NET PCL
+- Xamarin.Android
+- Xamarin.iOS
 
 # Main functionalities:
 - **basic operators**, i.e.: +, -, *, ^, !
