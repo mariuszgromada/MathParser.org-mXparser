@@ -5,6 +5,13 @@
   *** If you found the software useful donation is something you might consider :-) ***
                     *** http://mathparser.org/donate/ ***
 
+v.4.0.0.2 (2017-04-17): Port to various .NET frameworks
+					  - .NET Core
+					  - .NET Standard
+					  - .NET PCL
+					  - Xamarin.Android
+					  - Xamarin.iOS
+					
 v.4.0.0 (2017-03-27): Major update
 					  - Bitwise Operators
 					  - Numbers in scientific notation
