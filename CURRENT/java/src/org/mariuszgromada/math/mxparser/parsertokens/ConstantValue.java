@@ -366,7 +366,6 @@ public final class ConstantValue {
 	public static final String TRUE_DESC						= "(4.1) Boolean True represented as double, [true] = 1";
 	public static final String FALSE_DESC						= "(4.1) Boolean False represented as double, [false] = 0";
 	/* other values */	
-
 	public static final String NAN_DESC							= "(4.1) Not-a-Number";
 }
 
