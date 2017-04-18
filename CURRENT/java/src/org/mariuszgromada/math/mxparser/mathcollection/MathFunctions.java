@@ -1473,4 +1473,19 @@ public final class MathFunctions {
 		double u = ulp(value);
 		return decimalDigitsBefore(u);
 	}
+	/**
+	 * Returns the first non-NaN value
+	 * 
+	 * @param values   List of values
+	 * @return         Returns the first non-NaN value, if list is null
+	 *                 then returns Double.NaN, if list contains no elements
+	 *                 then returns Double.NaN. 
+	 */
+	public static final double coalesce(double[] values) {
+		if (values == null) return Double.NaN;
+		if (values.length == 0) return Double.NaN;
+		for (double v : values)
+			if (!Double.isNaN(v)) return v;
+		return Double.NaN;
+	}
 }

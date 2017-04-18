@@ -1,5 +1,5 @@
 /*
- * @(#)ConstantValue.java        4.0.0    2017-03-12
+ * @(#)ConstantValue.java        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public final class ConstantValue {
 	/*
@@ -169,6 +169,11 @@ public final class ConstantValue {
 	public static final int NEPTUNE_RADIUS_MEAN_ID				= 233;
 	public static final int NEPTUNE_MASS_ID						= 234;
 	public static final int NEPTUNE_SEMI_MAJOR_AXIS_ID			= 235;
+	/* boolean values */
+	public static final int TRUE_ID								= 301;
+	public static final int FALSE_ID							= 302;
+	/* other values */	
+	public static final int NAN_ID								= 999;
 	public static final int NaN									= -1;
 	/*
 	 * ConstantValue - tokens key words.
@@ -261,6 +266,11 @@ public final class ConstantValue {
 	public static final String NEPTUNE_RADIUS_MEAN_STR			= "[Neptune-R]";
 	public static final String NEPTUNE_MASS_STR					= "[Neptune-M]";
 	public static final String NEPTUNE_SEMI_MAJOR_AXIS_STR		= "[Neptune-D]";
+	/* boolean values */
+	public static final String TRUE_STR							= "[true]";
+	public static final String FALSE_STR						= "[false]";
+	/* other values */	
+	public static final String NAN_STR							= "[NaN]";
 	/*
 	 * ConstantValue - tokens description.
 	 */
@@ -352,5 +362,11 @@ public final class ConstantValue {
 	public static final String NEPTUNE_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Neptune mean radius [m] (m=1)";
 	public static final String NEPTUNE_MASS_DESC				= "(4.0) <Astronomical Constant> Neptune mass [kg] (kg=1)";
 	public static final String NEPTUNE_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
+	/* boolean values */
+	public static final String TRUE_DESC						= "(4.1) Boolean True represented as double, [true] = 1";
+	public static final String FALSE_DESC						= "(4.1) Boolean False represented as double, [false] = 0";
+	/* other values */	
+
+	public static final String NAN_DESC							= "(4.1) Not-a-Number";
 }
 

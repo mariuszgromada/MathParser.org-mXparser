@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.0.0    2017-03-26
+ * @(#)RegTestExpression.java        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  *
  * @see Expression
  */
@@ -7013,6 +7013,116 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + 0 + " or " + (MathConstants.PI) + " --> ");
 			break;
+		case 622:
+			mXparser.setEpsilonComparison();
+			expStr = "if( [true] && ([false] || ([false] && [true])) = [false], 1, 0)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 623:
+			mXparser.setEpsilonComparison();
+			expStr = "if( isNaN(3/0) = [true], 1, 0)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 624:
+			mXparser.setEpsilonComparison();
+			expStr = "if( isNaN(3/1) = [false], 1, 0)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 625:
+			mXparser.setEpsilonComparison();
+			expStr = "if( isNaN([NaN]) = [true], 1, 0)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 626:
+			mXparser.setEpsilonComparison();
+			expStr = "coalesce( 1, 2, 3 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 627:
+			mXparser.setEpsilonComparison();
+			expStr = "coalesce( [NaN], 2, 3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 2;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 628:
+			mXparser.setEpsilonComparison();
+			expStr = "coalesce( [NaN], [NaN], 3, 5, 6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 3;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 629:
+			mXparser.setEpsilonComparison();
+			expStr = "coalesce( [NaN], 3/0, [NaN], 5, 6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 5;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 630:
+			mXparser.setEpsilonComparison();
+			expStr = "coalesce( [NaN], 3/0, [NaN], 5/0, 6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 6;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 631:
+			mXparser.setEpsilonComparison();
+			expStr = "if( isNaN( coalesce( [NaN], 3/0, [NaN], 5/0, [NaN]) ) = [true], 1, 0)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -7027,7 +7137,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 621;
+		int numberOfTests = 631;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

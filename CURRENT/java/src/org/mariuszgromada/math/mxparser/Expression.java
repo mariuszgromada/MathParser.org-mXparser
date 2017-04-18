@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.0.0    2017-03-26
+ * @(#)Expression.java        4.2.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -112,7 +112,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -1990,6 +1990,15 @@ public class Expression {
 		case ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_ID:
 			constValue = AstronomicalConstants.NEPTUNE_SEMI_MAJOR_AXIS;
 			break;
+		case ConstantValue.TRUE_ID:
+			constValue = BooleanAlgebra.TRUE;
+			break;
+		case ConstantValue.FALSE_ID:
+			constValue = BooleanAlgebra.FALSE;
+			break;
+		case ConstantValue.NAN_ID:
+			constValue = MathConstants.NOT_A_NUMBER;
+			break;
 		}
 		setToNumber(pos, constValue);
 	}
@@ -3229,6 +3238,19 @@ public class Expression {
 		f1SetDecreaseRemove(pos, MathFunctions.ulp(x) );
 	}
 	/**
+	 * Is Not-a-Number
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void ISNAN(int pos) {
+		double x = getTokenValue(pos+1);
+		if (Double.isNaN(x))
+			f1SetDecreaseRemove(pos, BooleanAlgebra.TRUE);
+		else
+			f1SetDecreaseRemove(pos, BooleanAlgebra.FALSE);
+	}
+	/**
 	 * Logarithm
 	 * Sets tokens to number token
 	 *
@@ -4206,6 +4228,15 @@ public class Expression {
 		variadicSetDecreaseRemove(pos, numbers.get(i), numbers.size() );
 	}
 	/**
+	 * Coalesce
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void COALESCE(int pos) {
+		ArrayList<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, MathFunctions.coalesce( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
 	 * Parser symbols
 	 * Removes comma
 	 *
@@ -5054,6 +5085,7 @@ public class Expression {
 		case Function1Arg.GAUSS_ERF_INV_ID: GAUSS_ERF_INV(pos); break;
 		case Function1Arg.GAUSS_ERFC_INV_ID: GAUSS_ERFC_INV(pos); break;
 		case Function1Arg.ULP_ID: ULP(pos); break;
+		case Function1Arg.ISNAN_ID: ISNAN(pos); break;
 		}
 	}
 	/**
@@ -5117,6 +5149,7 @@ public class Expression {
 		case FunctionVariadic.GCD_ID: GCD(pos); break;
 		case FunctionVariadic.LCM_ID: LCM(pos); break;
 		case FunctionVariadic.RND_LIST_ID: RND_LIST(pos); break;
+		case FunctionVariadic.COALESCE_ID: COALESCE(pos); break;
 		}
 	}
 	/**
@@ -5215,7 +5248,6 @@ public class Expression {
 		addKeyWord(BooleanOperator.CNIMP_STR, BooleanOperator.CNIMP_DESC, BooleanOperator.CNIMP_ID, BooleanOperator.TYPE_ID);
 		addKeyWord(BooleanOperator.EQV_STR, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.TYPE_ID);
 		addKeyWord(BooleanOperator.NEG_STR, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.TYPE_ID);
-		addKeyWord(BooleanOperator.NEG_ALT_STR, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.TYPE_ID);
 		/*
 		 * Binary relations key words
 		 */
@@ -5323,6 +5355,7 @@ public class Expression {
 			addKeyWord(Function1Arg.GAUSS_ERF_INV_STR, Function1Arg.GAUSS_ERF_INV_DESC, Function1Arg.GAUSS_ERF_INV_ID, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.GAUSS_ERFC_INV_STR, Function1Arg.GAUSS_ERFC_INV_DESC, Function1Arg.GAUSS_ERFC_INV_ID, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ULP_STR, Function1Arg.ULP_DESC, Function1Arg.ULP_ID, Function1Arg.TYPE_ID);
+			addKeyWord(Function1Arg.ISNAN_STR, Function1Arg.ISNAN_DESC, Function1Arg.ISNAN_ID, Function1Arg.TYPE_ID);
 			/*
 			 * 2 args functions key words
 			 */
@@ -5371,6 +5404,7 @@ public class Expression {
 			addKeyWord(FunctionVariadic.VAR_STR, FunctionVariadic.VAR_DESC, FunctionVariadic.VAR_ID, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.STD_STR, FunctionVariadic.STD_DESC, FunctionVariadic.STD_ID, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.RND_LIST_STR, FunctionVariadic.RND_LIST_DESC, FunctionVariadic.RND_LIST_ID, FunctionVariadic.TYPE_ID);
+			addKeyWord(FunctionVariadic.COALESCE_STR, FunctionVariadic.COALESCE_DESC, FunctionVariadic.COALESCE_ID, FunctionVariadic.TYPE_ID);
 			/*
 			 * Calculus key words
 			 */
@@ -5480,6 +5514,9 @@ public class Expression {
 			addKeyWord(ConstantValue.NEPTUNE_RADIUS_MEAN_STR, ConstantValue.NEPTUNE_RADIUS_MEAN_DESC, ConstantValue.NEPTUNE_RADIUS_MEAN_ID, ConstantValue.TYPE_ID);
 			addKeyWord(ConstantValue.NEPTUNE_MASS_STR, ConstantValue.NEPTUNE_MASS_DESC, ConstantValue.NEPTUNE_MASS_ID, ConstantValue.TYPE_ID);
 			addKeyWord(ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_STR, ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_DESC, ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_ID, ConstantValue.TYPE_ID);			
+			addKeyWord(ConstantValue.TRUE_STR, ConstantValue.TRUE_DESC, ConstantValue.TRUE_ID, ConstantValue.TYPE_ID);			
+			addKeyWord(ConstantValue.FALSE_STR, ConstantValue.FALSE_DESC, ConstantValue.FALSE_ID, ConstantValue.TYPE_ID);			
+			addKeyWord(ConstantValue.NAN_STR, ConstantValue.NAN_DESC, ConstantValue.NAN_ID, ConstantValue.TYPE_ID);			
 			/*
 			 * Random variables
 			 */

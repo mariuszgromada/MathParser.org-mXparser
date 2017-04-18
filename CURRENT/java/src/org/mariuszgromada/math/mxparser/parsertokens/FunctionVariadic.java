@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.java        3.0.0    2016-05-07
+ * @(#)FunctionVariadic.java        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -69,16 +69,16 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class FunctionVariadic {
 	/*
-	 * BooleanOperator - token type id.
+	 * FunctionVariadic - token type id.
 	 */
 	public static final int TYPE_ID 					= 7;
 	public static final String TYPE_DESC				= "Variadic Function";
 	/*
-	 * BooleanOperator - tokens id.
+	 * FunctionVariadic - tokens id.
 	 */
 	public static final int IFF_ID 						= 1;
 	public static final int MIN_ID 						= 2;
@@ -93,8 +93,9 @@ public final class FunctionVariadic {
 	public static final int VAR_ID						= 11;
 	public static final int STD_ID						= 12;
 	public static final int RND_LIST_ID					= 13;
+	public static final int COALESCE_ID					= 14;
 	/*
-	 * BooleanOperator - tokens key words.
+	 * FunctionVariadic - tokens key words.
 	 */
 	public static final String IFF_STR 					= "iff";
 	public static final String MIN_STR					= "min";
@@ -109,8 +110,9 @@ public final class FunctionVariadic {
 	public static final String VAR_STR					= "var";
 	public static final String STD_STR					= "std";
 	public static final String RND_LIST_STR				= "rList";
+	public static final String COALESCE_STR				= "coalesce";
 	/*
-	 * BooleanOperator - tokens description.
+	 * FunctionVariadic - tokens description.
 	 */
 	public static final String IFF_DESC 				= "if function ( iff(con_1, if_true_1_exp, ..., con_n, if_true_n_exp) )";
 	public static final String MIN_DESC 				= "Minimum function: min(a,b,c,...)";
@@ -125,5 +127,6 @@ public final class FunctionVariadic {
 	public static final String VAR_DESC					= "(2.4) Bias-corrected sample variance var(a1,a2,a3,...,an)";
 	public static final String STD_DESC					= "(2.4) Bias-corrected sample standard deviation std(a1,a2,a3,...,an)";
 	public static final String RND_LIST_DESC			= "(3.0) Random number from given list of numbers rList(a1,a2,a3,...,an)";
+	public static final String COALESCE_DESC			= "(4.1) Returns the first non-NaN value, coalesce(a1,a2,a3,...,an)";
 }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)BooleanOperator.java        4.0.0    2017-03-13
+ * @(#)BooleanOperator.java        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public final class BooleanOperator {
 	/*
@@ -95,7 +95,6 @@ public final class BooleanOperator {
 	 * BooleanOperator - tokens key words.
 	 */
 	public static final String NEG_STR				= "~";
-	public static final String NEG_ALT_STR			= "¬";
 	public static final String AND_STR				= "&";
 	public static final String AND1_STR				= "&&";
 	public static final String AND2_STR				= "/\\";

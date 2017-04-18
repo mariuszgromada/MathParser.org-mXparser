@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        3.0.0    2016-05-07
+ * @(#)Function1Arg.java        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class Function1Arg {
 	/*
@@ -130,6 +130,7 @@ public final class Function1Arg {
 	public static final int GAUSS_ERF_INV_ID			= 49;
 	public static final int GAUSS_ERFC_INV_ID			= 50;
 	public static final int ULP_ID						= 51;
+	public static final int ISNAN_ID					= 52;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -224,6 +225,7 @@ public final class Function1Arg {
 	public static final String GAUSS_ERF_INV_STR		= "erfInv";
 	public static final String GAUSS_ERFC_INV_STR		= "erfcInv";
 	public static final String ULP_STR					= "ulp";
+	public static final String ISNAN_STR				= "isNaN";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -277,5 +279,6 @@ public final class Function1Arg {
 	public static final String GAUSS_ERF_INV_DESC		= "(3.0) Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
 	public static final String GAUSS_ERFC_INV_DESC		= "(3.0) Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
 	public static final String ULP_DESC					= "(3.0) Unit in The Last Place - ulp(0.1)";
+	public static final String ISNAN_DESC				= "(4.1) Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
 }
 
