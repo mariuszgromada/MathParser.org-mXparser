@@ -41,6 +41,9 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs">
       <Link>src\org\mariuszgromada\math\mxparser\Argument.cs</Link>
     </Compile>
@@ -194,7 +197,6 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs">
       <Link>src\org\mariuszgromada\math\mxparser\Tutorial.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        3.0.0    2016-05-07
+ * @(#)Function1Arg.cs        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        3.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function1Arg {
@@ -132,6 +132,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int GAUSS_ERF_INV_ID			= 49;
 		public const int GAUSS_ERFC_INV_ID			= 50;
 		public const int ULP_ID						= 51;
+		public const int ISNAN_ID					= 52;
 
 		/*
 		 * UnaryFunction - tokens key words.
@@ -227,6 +228,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String GAUSS_ERF_INV_STR		= "erfInv";
 		public const String GAUSS_ERFC_INV_STR		= "erfcInv";
 		public const String ULP_STR					= "ulp";
+		public const String ISNAN_STR				= "isNaN";
 
 		/*
 		 * UnaryFunction - tokens description.
@@ -281,5 +283,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String GAUSS_ERF_INV_DESC		= "(3.0) Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
 		public const String GAUSS_ERFC_INV_DESC		= "(3.0) Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
 		public const String ULP_DESC				= "(3.0) Unit in The Last Place - ulp(0.1)";
+		public const String ISNAN_DESC				= "(4.1) Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
 	}
 }

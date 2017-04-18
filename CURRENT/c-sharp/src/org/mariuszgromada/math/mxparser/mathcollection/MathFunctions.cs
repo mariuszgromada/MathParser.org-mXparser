@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.0.0    2016-03-26
+ * @(#)MathFunctions.java        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -1460,6 +1460,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(value)) return -2;
 			double u = ulp(value);
 			return decimalDigitsBefore(u);
+		}
+		/**
+		 * Returns the first non-NaN value
+		 * 
+		 * @param values   List of values
+		 * @return         Returns the first non-NaN value, if list is null
+		 *                 then returns Double.NaN, if list contains no elements
+		 *                 then returns Double.NaN. 
+		 */
+		public static double coalesce(double[] values) {
+			if (values == null) return Double.NaN;
+			if (values.Length == 0) return Double.NaN;
+			foreach (double v in values)
+				if (!Double.IsNaN(v)) return v;
+			return Double.NaN;
 		}
 	}
 }

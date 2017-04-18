@@ -1,5 +1,5 @@
 /*
- * @(#)ConstantValue.cs        4.0.0    2017-03-13
+ * @(#)ConstantValue.cs        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ConstantValue {
@@ -171,7 +171,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int NEPTUNE_RADIUS_MEAN_ID				= 233;
 		public const int NEPTUNE_MASS_ID					= 234;
 		public const int NEPTUNE_SEMI_MAJOR_AXIS_ID			= 235;
-
+		/* boolean values */
+		public const int TRUE_ID							= 301;
+		public const int FALSE_ID							= 302;
+		/* other values */
+		public const int NAN_ID								= 999;
 		public const int NaN								= -1;
 		/*
 		 * ConstantValue - tokens key words.
@@ -264,6 +268,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NEPTUNE_RADIUS_MEAN_STR			= "[Neptune-R]";
 		public const String NEPTUNE_MASS_STR				= "[Neptune-M]";
 		public const String NEPTUNE_SEMI_MAJOR_AXIS_STR		= "[Neptune-D]";
+		/* boolean values */
+		public const String TRUE_STR						= "[true]";
+		public const String FALSE_STR						= "[false]";
+		/* other values */	
+		public const String NAN_STR							= "[NaN]";
 
 		/*
 		 * ConstantValue - tokens description.
@@ -356,5 +365,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NEPTUNE_RADIUS_MEAN_DESC		= "(4.0) <Astronomical Constant> Neptune mean radius [m] (m=1)";
 		public const String NEPTUNE_MASS_DESC				= "(4.0) <Astronomical Constant> Neptune mass [kg] (kg=1)";
 		public const String NEPTUNE_SEMI_MAJOR_AXIS_DESC	= "(4.0) <Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
+		/* boolean values */
+		public const String TRUE_DESC						= "(4.1) Boolean True represented as double, [true] = 1";
+		public const String FALSE_DESC						= "(4.1) Boolean False represented as double, [false] = 0";
+		/* other values */	
+		public const String NAN_DESC						= "(4.1) Not-a-Number";
+
 	}
 }

@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs">
       <Link>src\org\mariuszgromada\math\mxparser\Argument.cs</Link>
     </Compile>
@@ -197,7 +200,6 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs">
       <Link>src\org\mariuszgromada\math\mxparser\Tutorial.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
   </ItemGroup>
   <ItemGroup>

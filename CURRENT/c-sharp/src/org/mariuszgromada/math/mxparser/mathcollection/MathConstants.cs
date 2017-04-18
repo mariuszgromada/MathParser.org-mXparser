@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.cs        4.0.0    2017-03-13
+ * @(#)MathConstants.cs        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathConstants {
@@ -254,5 +254,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Square root of 2*pi
 		 */
 		public const double SQRT2Pi = 2.5066282746310005024157652848110452530069867406099d;
+		/**
+		 * Not-a-Number
+		 */
+		public const double NOT_A_NUMBER = Double.NaN;
 	}
 }

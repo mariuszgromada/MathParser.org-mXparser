@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.cs        3.0.0    2016-05-07
+ * @(#)FunctionVariadic.cs        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class FunctionVariadic {
@@ -95,6 +95,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int VAR_ID						= 11;
 		public const int STD_ID						= 12;
 		public const int RND_LIST_ID				= 13;
+		public const int COALESCE_ID				= 14;
 		/*
 		 * BooleanOperator - tokens key words.
 		 */
@@ -111,6 +112,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String VAR_STR					= "var";
 		public const String STD_STR					= "std";
 		public const String RND_LIST_STR			= "rList";
+		public const String COALESCE_STR			= "coalesce";
 		/*
 		 * BooleanOperator - tokens description.
 		 */
@@ -127,5 +129,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String VAR_DESC				= "(2.4) Bias-corrected sample variance var(a1,a2,a3,...,an)";
 		public const String STD_DESC				= "(2.4) Bias-corrected sample standard deviation std(a1,a2,a3,...,an)";
 		public const String RND_LIST_DESC			= "(3.0) Random number from given list of numbers rList(a1,a2,a3,...,an)";
+		public const String COALESCE_DESC			= "(4.1) Returns the first non-NaN value, coalesce(a1,a2,a3,...,an)";
 	}
 }

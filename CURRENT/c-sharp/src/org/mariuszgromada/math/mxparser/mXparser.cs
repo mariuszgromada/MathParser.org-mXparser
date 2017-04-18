@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.0.0    2016-03-26
+ * @(#)mXparser.cs        4.1.0    2017-04-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -90,7 +90,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		internal const String VERSION = "4.0.0";
+		internal const String VERSION = "4.1.0";
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
