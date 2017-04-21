@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.1.0    2017-04-18
+ * @(#)mXparser.cs        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -128,6 +128,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * type of errors.
 		 */
 		internal static bool ulpRounding = true;
+		/**
+		 * List of built-in tokens to remove.
+		 */
+		internal static List<String> tokensToRemove = new List<String>();
+		/**
+		 * List of built-in tokens to modify
+		 */
+		internal static List<TokenModification> tokensToModify = new List<TokenModification>();
 		/**
 		 * Initialization of prime numbers cache.
 		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -391,6 +399,136 @@ namespace org.mariuszgromada.math.mxparser {
 		public static bool checkIfUlpRounding() {
 			return ulpRounding;
 		}
+		/**
+		 * Removes built-in tokens form the list of tokens recognized by the parsers.
+		 * Procedure affects only tokens classified to built-in functions, built-in
+		 * constants, built-in units, built-in random variables.
+		 * 
+		 * @param tokens  List of tokens to remove.
+		 */
+		public static void removeBuiltinTokens(params String[] tokens) {
+			if (tokens == null) return;
+			foreach (String token in tokens)
+				if (token != null)
+					if (token.Length > 0)
+						if (!tokensToRemove.Contains(token))
+							tokensToRemove.Add(token);
+		}
+		/**
+		 * Un-marks tokens previously marked to be removed. 
+		 * @param tokens List of tokens to un-mark.
+		 */
+		public static void unremoveBuiltinTokens(params String[] tokens) {
+			if (tokens == null) return;
+			if (tokens.Length == 0) return;
+			if (tokensToRemove.Count == 0) return;
+			foreach (String token in tokens)
+				if (token != null)
+					tokensToRemove.Remove(token);
+		}
+		/**
+		 * Un-marks all tokens previously marked to be removed.
+		 */
+		public static void unremoveAllBuiltinTokens() {
+			tokensToRemove.Clear();
+		}
+		/**
+		 * Returns current list of tokens marked to be removed.
+		 * @return Current list of tokens marked to be removed
+		 */
+		public static String[] getBuiltinTokensToRemove() {
+			int tokensNum = tokensToRemove.Count;
+			String[] tokensToRemoveArray = new String[tokensNum];
+			for (int i = 0; i < tokensNum; i++)
+				tokensToRemoveArray[i] = tokensToRemove[i];
+			return tokensToRemoveArray;
+		}
+		/**
+		 * Method to change definition of built-in token - more precisely
+		 * using this method allows to modify token string recognized by the parser
+		 * (i.e. sin(x) -> sinus(x)).
+		 * Procedure affects only tokens classified to built-in functions, built-in
+		 * constants, built-in units, built-in random variables.
+		 * @param currentToken     Current token name
+		 * @param newToken         New token name
+		 */
+		public static void modifyBuiltinToken(String currentToken, String newToken) {
+			if (currentToken == null) return;
+			if (currentToken.Length == 0) return;
+			if (newToken == null) return;
+			if (newToken.Length == 0) return;
+			foreach (TokenModification tm in tokensToModify)
+				if (tm.currentToken.Equals(currentToken)) return;
+			TokenModification tma = new TokenModification();
+			tma.currentToken = currentToken;
+			tma.newToken = newToken;
+			tma.newTokenDescription = null;
+			tokensToModify.Add(tma);
+		}
+		/**
+		 * Method to change definition of built-in token - more precisely
+		 * using this method allows to modify token string recognized by the parser
+		 * (i.e. sin(x) -> sinus(x)).
+		 * Procedure affects only tokens classified to built-in functions, built-in
+		 * constants, built-in units, built-in random variables.
+		 * @param currentToken          Current token name
+		 * @param newToken              New token name
+		 * @param newTokenDescription   New token description (if null the previous one will be used)
+		 */
+		public static void modifyBuiltinToken(String currentToken, String newToken, String newTokenDescription) {
+			if (currentToken == null) return;
+			if (currentToken.Length == 0) return;
+			if (newToken == null) return;
+			if (newToken.Length == 0) return;
+			foreach (TokenModification tm in tokensToModify)
+				if (tm.currentToken.Equals(currentToken)) return;
+			TokenModification tma = new TokenModification();
+			tma.currentToken = currentToken;
+			tma.newToken = newToken;
+			tma.newTokenDescription = newTokenDescription;
+			tokensToModify.Add(tma);
+		}
+		/**
+		 * Un-marks tokens previously marked to be modified.
+		 * @param currentOrNewTokens   List of tokens to be un-marked (current or modified).
+		 */
+		public static void unmodifyBuiltinTokens(params String[] currentOrNewTokens) {
+			if (currentOrNewTokens == null) return;
+			if (currentOrNewTokens.Length == 0) return;
+			if (tokensToModify.Count == 0) return;
+			List<TokenModification> toRemove = new List<TokenModification>();
+			foreach (String token in currentOrNewTokens)
+				if (token != null)
+					if (token.Length > 0) {
+						foreach (TokenModification tm in tokensToModify)
+							if ((token.Equals(tm.currentToken)) || (token.Equals(tm.newToken))) toRemove.Add(tm);
+					}
+			foreach (TokenModification tm in toRemove)
+				tokensToModify.Remove(tm);
+		}
+		/**
+		 * Un-marks all tokens previously marked to be modified.
+		 */
+		public static void unmodifyAllBuiltinTokens() {
+			tokensToModify.Clear();
+		}
+		/**
+		 * Return details on tokens marked to be modified.
+		 * @return String[i][0] - current token, String[i][1] - new token,
+		 *                        String[i][2] - new token description.  
+		 */
+		public static String[,] getBuiltinTokensToModify() {
+			int tokensNum = tokensToModify.Count;
+			String[,] tokensToModifyArray = new String[tokensNum, 3];
+			for (int i = 0; i < tokensNum; i++) {
+				TokenModification tm = tokensToModify[i];
+				tokensToModifyArray[i, 0] = tm.currentToken;
+				tokensToModifyArray[i, 1] = tm.newToken;
+				tokensToModifyArray[i, 2] = tm.newTokenDescription;
+			}
+			return tokensToModifyArray;
+		}
+
 		/**
 		 * Converts integer number to hex string (plain text)
 		 *

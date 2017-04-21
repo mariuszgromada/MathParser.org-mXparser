@@ -1,9 +1,9 @@
 /*
- * @(#)Miscellaneous.java        3.0.0    2016-05-07
+ * @(#)Miscellaneous.java        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -296,4 +296,12 @@ class HeadEqBody {
 			eqPos = -1;
 		}
 	}
+}
+/**
+ * Data structure used internally for token to be modified list
+ */
+class TokenModification {
+	String currentToken;
+	String newToken;
+	String newTokenDescription;
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.1.0    2017-04-18
+ * @(#)Expression.cs        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5709,6 +5709,26 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		private void addKeyWord(String wordString, String wordDescription, int wordId, int wordTypeId) {
+			if ((mXparser.tokensToRemove.Count > 0) || (mXparser.tokensToModify.Count > 0))
+				if ((wordTypeId == Function1Arg.TYPE_ID) ||
+						(wordTypeId == Function2Arg.TYPE_ID) ||
+						(wordTypeId == Function3Arg.TYPE_ID) ||
+						(wordTypeId == FunctionVariadic.TYPE_ID) ||
+						(wordTypeId == CalculusOperator.TYPE_ID) ||
+						(wordTypeId == ConstantValue.TYPE_ID) ||
+						(wordTypeId == RandomVariable.TYPE_ID) ||
+						(wordTypeId == Unit.TYPE_ID)) {
+					if (mXparser.tokensToRemove.Count > 0)
+						if (mXparser.tokensToRemove.Contains(wordString)) return;
+					if (mXparser.tokensToModify.Count > 0) {
+						foreach (TokenModification tm in mXparser.tokensToModify)
+							if (tm.currentToken.Equals(wordString)) {
+								wordString = tm.newToken;
+								if (tm.newTokenDescription != null)
+									wordDescription = tm.newTokenDescription;
+							}
+					}
+				}
 			keyWordsList.Add(new KeyWord(wordString, wordDescription, wordId, wordTypeId));
 		}
 		/**

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.1.0    2017-04-18
+ * @(#)Expression.java        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5734,6 +5734,26 @@ public class Expression {
 	 * @param wordTypeId
 	 */
 	private void addKeyWord(String wordString, String wordDescription, int wordId, int wordTypeId) {
+		if ( (mXparser.tokensToRemove.size() > 0) || (mXparser.tokensToModify.size() > 0) )
+			if (	(wordTypeId == Function1Arg.TYPE_ID) ||
+					(wordTypeId == Function2Arg.TYPE_ID) ||
+					(wordTypeId == Function3Arg.TYPE_ID) ||
+					(wordTypeId == FunctionVariadic.TYPE_ID) ||
+					(wordTypeId == CalculusOperator.TYPE_ID) ||
+					(wordTypeId == ConstantValue.TYPE_ID) ||
+					(wordTypeId == RandomVariable.TYPE_ID) ||
+					(wordTypeId == Unit.TYPE_ID)	) {
+				if (mXparser.tokensToRemove.size() > 0)
+					if (mXparser.tokensToRemove.contains(wordString)) return;
+				if (mXparser.tokensToModify.size() > 0) {
+					for (TokenModification tm :	mXparser.tokensToModify)
+						if (tm.currentToken.equals(wordString)) {
+							wordString = tm.newToken;
+							if (tm.newTokenDescription != null)
+								wordDescription = tm.newTokenDescription;
+						}
+				}
+			}
 		keyWordsList.add(new KeyWord(wordString, wordDescription, wordId, wordTypeId));
 	}
 	/**

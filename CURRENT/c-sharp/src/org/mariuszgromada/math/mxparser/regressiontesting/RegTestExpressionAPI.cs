@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.0.0    2017-03-27
+ * @(#)RegTestExpressionAPI.cs        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -73,7 +73,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 *
 	 * @see Expression
 	 */
@@ -811,7 +811,67 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
 					(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 				) test[testId] = true;
-
+			/*
+			 * 30. Tokens to remove
+			 */
+			testId++;
+			String t = null;
+			mXparser.removeBuiltinTokens("sin");
+			mXparser.removeBuiltinTokens("sin");
+			mXparser.removeBuiltinTokens("cos");
+			mXparser.removeBuiltinTokens("sin");
+			mXparser.removeBuiltinTokens("sin", "cos", t, "", "tg");
+			mXparser.removeBuiltinTokens(t);
+			mXparser.unremoveBuiltinTokens(t);
+			mXparser.unremoveBuiltinTokens(t, "");
+			mXparser.unremoveBuiltinTokens("sin", "tg");
+			String[] tokensToRemove1 = mXparser.getBuiltinTokensToRemove();
+			mXparser.unremoveAllBuiltinTokens();
+			String[] tokensToRemove2 = mXparser.getBuiltinTokensToRemove();
+			if (
+					(tokensToRemove1.Length == 1) &&
+					(tokensToRemove1[0].Equals("cos")) &&
+					(tokensToRemove2.Length == 0)
+				) test[testId] = true;
+			/*
+			 * 31. Tokens to modify
+			 */
+			String u = null;
+			testId++;
+			mXparser.modifyBuiltinToken("sin", "SIN");
+			mXparser.modifyBuiltinToken("cos", "");
+			mXparser.modifyBuiltinToken("tan", u);
+			mXparser.modifyBuiltinToken(u, u);
+			mXparser.modifyBuiltinToken(u, "TAN");
+			mXparser.modifyBuiltinToken("tg", "TG", "NEW TG");
+			mXparser.modifyBuiltinToken("", "TG", "NEW TG");
+			mXparser.modifyBuiltinToken(u, "TG", "NEW TG");
+			mXparser.modifyBuiltinToken("sin", "TG", "NEW TG");
+			mXparser.modifyBuiltinToken("cos", "COS", "NEW COS");
+			mXparser.modifyBuiltinToken("cos", "COS1", "NEW COS1");
+			String[,] tokensToModify1 = mXparser.getBuiltinTokensToModify();
+			mXparser.unmodifyBuiltinTokens("", u, "SIN", "tg");
+			String[,] tokensToModify2 = mXparser.getBuiltinTokensToModify();
+			mXparser.unmodifyAllBuiltinTokens();
+			String[,] tokensToModify3 = mXparser.getBuiltinTokensToModify();
+			if (
+					(tokensToModify1.GetLength(0) == 3) && (tokensToModify1.GetLength(1) == 3) &&
+					(tokensToModify2.GetLength(0) == 1) && (tokensToModify2.GetLength(1) == 3) &&
+					(tokensToModify3.GetLength(0) == 0) &&
+					(tokensToModify1[0, 0].Equals("sin")) &&
+					(tokensToModify1[0, 1].Equals("SIN")) &&
+					(tokensToModify1[0, 2] == null) &&
+					(tokensToModify1[1, 0].Equals("tg")) &&
+					(tokensToModify1[1, 1].Equals("TG")) &&
+					(tokensToModify1[1, 2].Equals("NEW TG")) &&
+					(tokensToModify1[2, 0].Equals("cos")) &&
+					(tokensToModify1[2, 1].Equals("COS")) &&
+					(tokensToModify1[2, 2].Equals("NEW COS")) &&
+					(tokensToModify2[0, 0].Equals("cos")) &&
+					(tokensToModify2[0, 1].Equals("COS")) &&
+					(tokensToModify2[0, 2].Equals("NEW COS"))
+					) test[testId] = true;
+			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;
 			int nError = 0;

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.0    2017-04-18
+ * @(#)mXparser.java        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -127,6 +127,14 @@ public final class mXparser {
 	 * type of errors.
 	 */
 	static boolean ulpRounding = true;
+	/**
+	 * List of built-in tokens to remove.
+	 */
+	static final ArrayList<String> tokensToRemove = new ArrayList<String>();
+	/**
+	 * List of built-in tokens to modify
+	 */
+	static final ArrayList<TokenModification> tokensToModify = new ArrayList<TokenModification>();
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -385,6 +393,135 @@ public final class mXparser {
 	 */
 	public static final boolean checkIfUlpRounding() {
 		return ulpRounding;
+	}
+	/**
+	 * Removes built-in tokens form the list of tokens recognized by the parsers.
+	 * Procedure affects only tokens classified to built-in functions, built-in
+	 * constants, built-in units, built-in random variables.
+	 * 
+	 * @param tokens  List of tokens to remove.
+	 */
+	public static final void removeBuiltinTokens(String... tokens) {
+		if (tokens == null) return;
+		for (String token : tokens)
+			if (token != null)
+				if (token.length() > 0)
+					if (!tokensToRemove.contains(token))
+						tokensToRemove.add(token);
+	}
+	/**
+	 * Un-marks tokens previously marked to be removed. 
+	 * @param tokens List of tokens to un-mark.
+	 */
+	public static final void unremoveBuiltinTokens(String... tokens) {
+		if (tokens == null) return;
+		if (tokens.length == 0) return;
+		if (tokensToRemove.size() == 0) return;
+		for (String token : tokens) 
+			if (token != null)
+				tokensToRemove.remove(token);
+	}
+	/**
+	 * Un-marks all tokens previously marked to be removed.
+	 */
+	public static final void unremoveAllBuiltinTokens() {
+		tokensToRemove.clear();
+	}
+	/**
+	 * Returns current list of tokens marked to be removed.
+	 * @return Current list of tokens marked to be removed
+	 */
+	public static final String[] getBuiltinTokensToRemove() {
+		int tokensNum = tokensToRemove.size();
+		String[] tokensToRemoveArray = new String[tokensNum];
+		for (int i = 0; i < tokensNum; i++)
+			tokensToRemoveArray[i] = tokensToRemove.get(i);
+		return tokensToRemoveArray;
+	}
+	/**
+	 * Method to change definition of built-in token - more precisely
+	 * using this method allows to modify token string recognized by the parser
+	 * (i.e. sin(x) -> sinus(x)).
+	 * Procedure affects only tokens classified to built-in functions, built-in
+	 * constants, built-in units, built-in random variables.
+	 * @param currentToken     Current token name
+	 * @param newToken         New token name
+	 */
+	public static final void modifyBuiltinToken(String currentToken, String newToken) {
+		if (currentToken == null) return;
+		if (currentToken.length() == 0) return;
+		if (newToken == null) return;
+		if (newToken.length() == 0) return;
+		for (TokenModification tm : tokensToModify)
+			if (tm.currentToken.equals(currentToken)) return;
+		TokenModification tma = new TokenModification();
+		tma.currentToken = currentToken;
+		tma.newToken = newToken;
+		tma.newTokenDescription = null;
+		tokensToModify.add(tma);
+	}
+	/**
+	 * Method to change definition of built-in token - more precisely
+	 * using this method allows to modify token string recognized by the parser
+	 * (i.e. sin(x) -> sinus(x)).
+	 * Procedure affects only tokens classified to built-in functions, built-in
+	 * constants, built-in units, built-in random variables.
+	 * @param currentToken          Current token name
+	 * @param newToken              New token name
+	 * @param newTokenDescription   New token description (if null the previous one will be used)
+	 */
+	public static final void modifyBuiltinToken(String currentToken, String newToken, String newTokenDescription) {
+		if (currentToken == null) return;
+		if (currentToken.length() == 0) return;
+		if (newToken == null) return;
+		if (newToken.length() == 0) return;
+		for (TokenModification tm : tokensToModify)
+			if (tm.currentToken.equals(currentToken)) return;
+		TokenModification tma = new TokenModification();
+		tma.currentToken = currentToken;
+		tma.newToken = newToken;
+		tma.newTokenDescription = newTokenDescription;
+		tokensToModify.add(tma);
+	}
+	/**
+	 * Un-marks tokens previously marked to be modified.
+	 * @param currentOrNewTokens   List of tokens to be un-marked (current or modified).
+	 */
+	public static final void unmodifyBuiltinTokens(String... currentOrNewTokens) {
+		if (currentOrNewTokens == null) return;
+		if (currentOrNewTokens.length == 0) return;
+		if (tokensToModify.size() == 0) return;
+		ArrayList<TokenModification> toRemove = new ArrayList<TokenModification>();
+		for (String token : currentOrNewTokens)
+			if (token != null)
+				if (token.length() > 0) {
+					for (TokenModification tm : tokensToModify)
+						if ( (token.equals(tm.currentToken)) || (token.equals(tm.newToken)) ) toRemove.add(tm);
+				}
+		for (TokenModification tm : toRemove)
+			tokensToModify.remove(tm);
+	}
+	/**
+	 * Un-marks all tokens previously marked to be modified.
+	 */
+	public static final void unmodifyAllBuiltinTokens() {
+		tokensToModify.clear();
+	}
+	/**
+	 * Return details on tokens marked to be modified.
+	 * @return String[i][0] - current token, String[i][1] - new token,
+	 *                        String[i][2] - new token description.  
+	 */
+	public static final String[][] getBuiltinTokensToModify() {
+		int tokensNum = tokensToModify.size();
+		String[][] tokensToModifyArray = new String[tokensNum][3];
+		for (int i = 0; i < tokensNum; i++) {
+			TokenModification tm = tokensToModify.get(i);
+			tokensToModifyArray[i][0] = tm.currentToken;
+			tokensToModifyArray[i][1] = tm.newToken;
+			tokensToModifyArray[i][2] = tm.newTokenDescription;
+		}
+		return tokensToModifyArray;
 	}
 	/**
 	 * Converts integer number to hex string (plain text)

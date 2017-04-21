@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.0.0    2017-03-27
+ * @(#)RegTestExpressionAPI.java        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -83,7 +83,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  *
  * @see Expression
  */
@@ -819,7 +819,67 @@ public class RegTestExpressionAPI {
 				(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
 				(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 			) test[testId] = true;
-		
+		/*
+		 * 30. Tokens to remove
+		 */
+		testId++;
+		String t = null;
+		mXparser.removeBuiltinTokens("sin");
+		mXparser.removeBuiltinTokens("sin");
+		mXparser.removeBuiltinTokens("cos");
+		mXparser.removeBuiltinTokens("sin");
+		mXparser.removeBuiltinTokens("sin", "cos", t, "", "tg");
+		mXparser.removeBuiltinTokens(t);
+		mXparser.unremoveBuiltinTokens(t);
+		mXparser.unremoveBuiltinTokens(t, "");
+		mXparser.unremoveBuiltinTokens("sin", "tg");
+		String[] tokensToRemove1 = mXparser.getBuiltinTokensToRemove();
+		mXparser.unremoveAllBuiltinTokens();
+		String[] tokensToRemove2 = mXparser.getBuiltinTokensToRemove();
+		if (
+				(tokensToRemove1.length == 1) &&
+				(tokensToRemove1[0].equals("cos")) &&
+				(tokensToRemove2.length == 0)
+			) test[testId] = true;
+		/*
+		 * 31. Tokens to modify
+		 */
+		String u = null;
+		testId++;
+		mXparser.modifyBuiltinToken("sin", "SIN");
+		mXparser.modifyBuiltinToken("cos", "");
+		mXparser.modifyBuiltinToken("tan", u);
+		mXparser.modifyBuiltinToken(u, u);
+		mXparser.modifyBuiltinToken(u, "TAN");
+		mXparser.modifyBuiltinToken("tg", "TG", "NEW TG");
+		mXparser.modifyBuiltinToken("", "TG", "NEW TG");
+		mXparser.modifyBuiltinToken(u, "TG", "NEW TG");
+		mXparser.modifyBuiltinToken("sin", "TG", "NEW TG");
+		mXparser.modifyBuiltinToken("cos", "COS", "NEW COS");
+		mXparser.modifyBuiltinToken("cos", "COS1", "NEW COS1");
+		String[][] tokensToModify1 = mXparser.getBuiltinTokensToModify();
+		mXparser.unmodifyBuiltinTokens("", u, "SIN", "tg");
+		String[][] tokensToModify2 = mXparser.getBuiltinTokensToModify();
+		mXparser.unmodifyAllBuiltinTokens();
+		String[][] tokensToModify3 = mXparser.getBuiltinTokensToModify();
+		if (
+				( tokensToModify1.length == 3 ) && (tokensToModify1[0].length == 3) &&
+				( tokensToModify2.length == 1 ) && (tokensToModify2[0].length == 3) &&
+				( tokensToModify3.length == 0 ) &&
+				( tokensToModify1[0][0].equals("sin") ) &&
+				( tokensToModify1[0][1].equals("SIN") ) &&
+				( tokensToModify1[0][2] == null ) &&
+				( tokensToModify1[1][0].equals("tg") ) &&
+				( tokensToModify1[1][1].equals("TG") ) &&
+				( tokensToModify1[1][2].equals("NEW TG") ) &&
+				( tokensToModify1[2][0].equals("cos") ) &&
+				( tokensToModify1[2][1].equals("COS") ) &&
+				( tokensToModify1[2][2].equals("NEW COS") ) &&
+				( tokensToModify2[0][0].equals("cos") ) &&
+				( tokensToModify2[0][1].equals("COS") ) &&
+				( tokensToModify2[0][2].equals("NEW COS") )
+				) test[testId] = true;
+		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;
 		int nError = 0;
