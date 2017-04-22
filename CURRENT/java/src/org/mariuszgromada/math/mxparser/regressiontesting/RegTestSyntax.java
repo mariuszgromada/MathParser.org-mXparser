@@ -1536,7 +1536,7 @@ class FunExt implements FunctionExtension {
 		if (argumentIndex == 0) x = argumentValue;
 		if (argumentIndex == 1) y = argumentValue;
 	}
-	public double calculate(double... params) {
+	public double calculate() {
 		return x*y;
 	}
 	public FunExt clone() {

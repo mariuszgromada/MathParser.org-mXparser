@@ -1530,7 +1530,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (argumentIndex == 0) x = argumentValue;
 			if (argumentIndex == 1) y = argumentValue;
 		}
-		public double calculate(params double[] parameters) {
+		public double calculate() {
 			return x * y;
 		}
 		public FunctionExtension clone() {

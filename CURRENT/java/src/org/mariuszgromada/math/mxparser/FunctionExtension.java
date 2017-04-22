@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtension.java        4.0.0    2017-03-23
+ * @(#)FunctionExtension.java        4.1.0    2017-04-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -77,7 +77,7 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  *
  * @see Function
  *
@@ -102,7 +102,7 @@ public interface FunctionExtension {
 	 * @param parameters Function parameters.
 	 * @return Function Extension value.
 	 */
-	public double calculate(double... parameters);
+	public double calculate();
 	/**
 	 * Cloning in case of usage in Expression
 	 * with recursive statements.
