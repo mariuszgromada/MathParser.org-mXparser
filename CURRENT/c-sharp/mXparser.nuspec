@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.0.0.2</version>
+    <version>4.1.0</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -17,6 +17,7 @@
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS</tags>
   </metadata>
   <files>
+
     <file src="..\README.txt" target="" />
     <file src="..\doc\**\*.*" target="content\docs" />
     <file src="dotnet-other\mXparser-dot.net.2.0\bin\Release\*.dll" target="lib\net20" />
@@ -29,14 +30,14 @@
     <file src="dotnet-other\mXparser-dot.net.4.6\bin\Release\*.dll" target="lib\net46" />
     <file src="dotnet-other\mXparser-dot.net.4.6.1\bin\Release\*.dll" target="lib\net461" />
     <file src="dotnet-other\mXparser-dot.net.4.6.2\bin\Release\*.dll" target="lib\net462" />
-	
-	
+    <file src="dotnet-other\mXparser-dot.net.4.7\bin\Release\*.dll" target="lib\net47" />
+
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\monotouch10" />
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\monoandroid10" />
     <file src="dotnet-other\mXparser-Android\bin\Release\*.dll" target="lib\monoandroid60" />
     <file src="dotnet-other\mXparser-iOS\bin\Release\*.dll" target="lib\xamarinios10" />
-	
+
     <file src="dotnet-other\mXparser-Core.1.0\bin\Release\netcoreapp1.0\*.dll" target="lib\netcoreapp10" />
     <file src="dotnet-other\mXparser-Core.1.0\bin\Release\netcoreapp1.0\*.json" target="lib\netcoreapp10" />
     <file src="dotnet-other\mXparser-Core.1.1\bin\Release\netcoreapp1.1\*.dll" target="lib\netcoreapp11" />
