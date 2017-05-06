@@ -7114,6 +7114,48 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 632:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 2*y");
+				Argument y = new Argument("y = 2*x");
+				x.addDefinitions(y);
+				y.addDefinitions(x);
+				expStr = "x+y";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x, y);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 633:
+				mXparser.setEpsilonComparison();
+				Function f = new Function("f(x) = 2*g(x)");
+				Function g = new Function("g(x) = 2*f(x)");
+				f.addDefinitions(g);
+				g.addDefinitions(f);
+				expStr = "f(1)+g(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f, g);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 634:
+				mXparser.setEpsilonComparison();
+				f = new Function("f(n) = f(n-1)");
+				expStr = "f(10)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -7129,7 +7171,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 631;
+			int numberOfTests = 634;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

@@ -280,6 +280,22 @@ public class Expression {
 	 * during tokenization
 	 */
 	private boolean parserKeyWordsOnly;
+	/**
+	 * Internal indicator for calculation process
+	 * Expression.Calculate() method
+	 * It show whether to build again tokens list
+	 * if clone - build again
+	 * if not clone - build only at the beginning
+	 * 
+	 * Indicator helps to solve the problem with
+	 * above definitions
+	 * 
+	 * Function f = new Function("f(x) = 2*g(x)");
+	 * Function g = new Function("g(x) = 2*f(x)");
+	 * f.addDefinitions(g);
+	 * g.addDefinitions(f); 
+	 */
+	private boolean internalClone;
 	/*=================================================
 	 *
 	 * Related expressions handling
@@ -359,6 +375,7 @@ public class Expression {
 		if (recursionCallPending == false) {
 			recursionCallPending = true;
 			recursionCallsCounter = 0;
+			internalClone = false;
 			expressionWasModified = true;
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			errorMessage = "Syntax status unknown.";
@@ -376,6 +393,7 @@ public class Expression {
 		computingTime = 0;
 		recursionCallPending = false;
 		recursionCallsCounter = 0;
+		internalClone = false;
 		parserKeyWordsOnly = false;
 		disableUlpRounding = KEEP_ULP_ROUNDING_SETTINGS;
 	}
@@ -472,6 +490,7 @@ public class Expression {
 		computingTime = 0;
 		recursionCallPending = false;
 		recursionCallsCounter = 0;
+		internalClone = false;
 		parserKeyWordsOnly = false;
 		this.disableUlpRounding = disableUlpRounding;
 		setSilentMode();
@@ -531,6 +550,7 @@ public class Expression {
 		recursionCallsCounter = expression.recursionCallsCounter;
 		parserKeyWordsOnly = expression.parserKeyWordsOnly;
 		disableUlpRounding = expression.disableUlpRounding;
+		internalClone = true;
 	}
 	/**
 	 * Sets (modifies expression) expression string.
@@ -4734,7 +4754,19 @@ public class Expression {
 			recursionCallsCounter = 0;
 			return Double.NaN;
 		}
-		copyInitialTokens();
+		/*
+		 * Building initial tokens only if this is first recursion call
+		 * or we have expression clone, helps to solve problem with
+		 * definitions similar to the below example
+		 * 
+		 * 
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 */
+		if ( (recursionCallsCounter == 0) || (internalClone) )
+			copyInitialTokens();
 		/*
 		 * if nothing to calculate return Double.NaN
 		 */
@@ -4923,7 +4955,6 @@ public class Expression {
 				 */
 				if (depArgPos >= 0) {
 					boolean depArgFound;
-					int n;
 					do {
 						depArgFound = false;
 						int currentTokensNumber = tokensList.size();

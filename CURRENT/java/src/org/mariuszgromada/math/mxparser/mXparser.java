@@ -141,7 +141,7 @@ public final class mXparser {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 */
-	static int MAX_RECURSION_CALLS = 100;
+	static int MAX_RECURSION_CALLS = 200;
 	/**
 	 * List of built-in tokens to remove.
 	 */

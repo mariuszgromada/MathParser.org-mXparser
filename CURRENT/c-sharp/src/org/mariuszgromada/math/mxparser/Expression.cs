@@ -238,12 +238,43 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private bool recursionCallPending;
 		/**
+		 * Internal counter to avoid infinite loops while calculating
+		 * expression defined in the way shown by below examples
+		 * 
+		 * Argument x = new Argument("x = 2*y");
+		 * Argument y = new Argument("y = 2*x"); 
+		 * x.addDefinitions(y);
+		 * y.addDefinitions(x);
+		 * 
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 */
+		private int recursionCallsCounter;
+		/**
 		 * Internal indicator for tokenization process
 		 * if true, then keywords such as constants
 		 * functions etc.. will not be recognized
 		 * during tokenization
 		 */
 		private bool parserKeyWordsOnly;
+		/**
+		 * Internal indicator for calculation process
+		 * Expression.Calculate() method
+		 * It show whether to build again tokens list
+		 * if clone - build again
+		 * if not clone - build only at the beginning
+		 * 
+		 * Indicator helps to solve the problem with
+		 * above definitions
+		 * 
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f); 
+		 */
+		private bool internalClone;
 		/*=================================================
 		 *
 		 * Related expressions handling
@@ -321,6 +352,8 @@ namespace org.mariuszgromada.math.mxparser {
 		internal void setExpressionModifiedFlag() {
 			if (recursionCallPending == false) {
 				recursionCallPending = true;
+				recursionCallsCounter = 0;
+				internalClone = false;
 				expressionWasModified = true;
 				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 				errorMessage = "Syntax status unknown.";
@@ -337,6 +370,8 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = "";
 			computingTime = 0;
 			recursionCallPending = false;
+			recursionCallsCounter = 0;
+			internalClone = false;
 			parserKeyWordsOnly = false;
 			disableUlpRounding = KEEP_ULP_ROUNDING_SETTINGS;
 		}
@@ -432,6 +467,8 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = "";
 			computingTime = 0;
 			recursionCallPending = false;
+			recursionCallsCounter = 0;
+			internalClone = false;
 			parserKeyWordsOnly = false;
 			this.disableUlpRounding = disableUlpRounding;
 			setSilentMode();
@@ -490,6 +527,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallPending = expression.recursionCallPending;
 			parserKeyWordsOnly = expression.parserKeyWordsOnly;
 			disableUlpRounding = expression.disableUlpRounding;
+			internalClone = true;
 		}
 		/**
 		 * Sets (modifies expression) expression string.
@@ -1617,16 +1655,49 @@ namespace org.mariuszgromada.math.mxparser {
 		 *=================================================
 		 */
 		/**
-		 * Arguments handling.
+		 * Free Arguments handling.
 		 *
 		 * @param      pos                 the token position
 		 */
-		private void ARGUMENT(int pos) {
+		private void FREE_ARGUMENT(int pos) {
 			Argument argument = argumentsList[ tokensList[pos].tokenId ];
 			bool argumentVerboseMode = argument.getVerboseMode();
 			if (verboseMode == true)
 				argument.setVerboseMode();
-			setToNumber(pos,argument.getArgumentValue());
+			setToNumber(pos, argument.getArgumentValue());
+			if (argumentVerboseMode == false)
+				argument.setSilentMode();
+		}
+		/**
+		 * Dependent Arguments handling.
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void DEPENDENT_ARGUMENT(int pos) {
+			Argument argument = argumentsList[ tokensList[pos].tokenId ];
+			bool argumentVerboseMode = argument.getVerboseMode();
+			if (verboseMode == true)
+				argument.setVerboseMode();
+			/*
+			 * Handling possible recursive calls that can change
+			 * the structure of the tokens list, i.e.
+			 * 
+			 * Argument x = new Argument("x = 2*y");
+			 * Argument y = new Argument("y = 2*x"); 
+			 * x.addDefinitions(y);
+			 * y.addDefinitions(x);
+			 * x.getArgumentValue();
+			 */
+			int tokensListSizeBefore = tokensList.Count;
+			Token tokenBefore = tokensList[pos];
+			double argumentValue = argument.getArgumentValue();
+			int tokensListSizeAfter = tokensList.Count;
+			if (tokensListSizeBefore == tokensListSizeAfter) {
+				Token tokenAfter = tokensList[pos];
+				if ((tokenBefore.tokenTypeId == tokenAfter.tokenTypeId) && (tokenBefore.tokenId == tokenAfter.tokenId)) {
+					setToNumber(pos, argumentValue);
+				}
+			}
 			if (argumentVerboseMode == false)
 				argument.setSilentMode();
 		}
@@ -1648,6 +1719,17 @@ namespace org.mariuszgromada.math.mxparser {
 			bool functionVerboseMode = function.getVerboseMode();
 			if (verboseMode == true)
 				function.setVerboseMode();
+			/*
+			 * Handling possible recursive calls that can change
+			 * the structure of the tokens list, i.e.
+			 * 
+			 * Function f = new Function("f(x) = 2*g(x)");
+			 * Function g = new Function("g(x) = 2*f(x)");
+			 * f.addDefinitions(g);
+			 * g.addDefinitions(f);
+			 */
+			int tokensListSizeBefore = tokensList.Count;
+			Token tokenBefore = tokensList[pos];
 			double value;
 			try {
 				value = function.calculate();
@@ -1661,12 +1743,18 @@ namespace org.mariuszgromada.math.mxparser {
 				value = Double.NaN;
 				errorMessage = soe.Message;
 			}
-			setToNumber(pos, value);
-			tokensList[pos].tokenLevel--;
+			int tokensListSizeAfter = tokensList.Count;
+			if (tokensListSizeBefore == tokensListSizeAfter) {
+				Token tokenAfter = tokensList[pos];
+				if ((tokenBefore.tokenTypeId == tokenAfter.tokenTypeId) && (tokenBefore.tokenId == tokenAfter.tokenId)) {
+					setToNumber(pos, value);
+					tokensList[pos].tokenLevel--;
+					for (int argIdx = argsNumber; argIdx > 0; argIdx--)
+						tokensList.RemoveAt(pos + argIdx);
+				}
+			}
 			if (functionVerboseMode == false)
 				function.setSilentMode();
-			for (int argIdx = argsNumber; argIdx > 0 ; argIdx--)
-				tokensList.RemoveAt(pos+argIdx);
 		}
 		/**
 		 * User constants handling.
@@ -4241,6 +4329,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public bool checkLexSyntax() {
 			bool syntax = NO_SYNTAX_ERRORS;
+			recursionCallsCounter = 0;
 			#if PCL || NETSTANDARD
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
@@ -4623,14 +4712,66 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			if ((expressionWasModified == true) || (syntaxStatus != NO_SYNTAX_ERRORS))
 				syntaxStatus = checkSyntax();
-			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+				/*
+				 * Recursive counter to avoid infinite loops in expressions
+				 * created in they way shown in below examples
+				 *
+				 * Argument x = new Argument("x = 2*y");
+				 * Argument y = new Argument("y = 2*x"); 
+				 * x.addDefinitions(y);
+				 * y.addDefinitions(x);
+				 * 
+				 * Function f = new Function("f(x) = 2*g(x)");
+				 * Function g = new Function("g(x) = 2*f(x)");
+				 * f.addDefinitions(g);
+				 * g.addDefinitions(f);
+				 * 
+				 */
+				recursionCallsCounter = 0;
 				return Double.NaN;
-			copyInitialTokens();
+			}
+			/*
+			 * Building initial tokens only if this is first recursion call
+			 * or we have expression clone, helps to solve problem with
+			 * definitions similar to the below example
+			 * 
+			 * 
+			 * Function f = new Function("f(x) = 2*g(x)");
+			 * Function g = new Function("g(x) = 2*f(x)");
+			 * f.addDefinitions(g);
+			 * g.addDefinitions(f);
+			 */
+			if ((recursionCallsCounter == 0) || (internalClone))
+				copyInitialTokens();
 			/*
 			 * if nothing to calculate return Double.NaN
 			 */
-			if (tokensList.Count == 0)
+			if (tokensList.Count == 0) {
+				recursionCallsCounter = 0;
 				return Double.NaN;
+			}
+			/*
+			 * Incrementing recursive counter to avoid infinite loops in expressions
+			 * created in they way shown in below examples
+			 *
+			 * Argument x = new Argument("x = 2*y");
+			 * Argument y = new Argument("y = 2*x"); 
+			 * x.addDefinitions(y);
+			 * y.addDefinitions(x);
+			 * 
+			 * Function f = new Function("f(x) = 2*g(x)");
+			 * Function g = new Function("g(x) = 2*f(x)");
+			 * f.addDefinitions(g);
+			 * g.addDefinitions(f);
+			 * 
+			 */
+			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
+				recursionCallsCounter = 0;
+				this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Maximum recursion calls reached.\n";
+				return Double.NaN;
+			}
+			recursionCallsCounter++;
 			/*
 			 * position for particular tokens types
 			 */
@@ -4638,6 +4779,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int ifPos;
 			int iffPos;
 			int variadicFunPos;
+			int depArgPos;
 			int recArgPos;
 			int f3ArgPos;
 			int f2ArgPos;
@@ -4667,6 +4809,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Token token;
 			Token tokenL;
 			Token tokenR;
+			Argument argument;
 			int tokensNumber;
 			int maxPartLevel;
 			int lPos;
@@ -4691,6 +4834,7 @@ namespace org.mariuszgromada.math.mxparser {
 				iffPos = -1;
 				variadicFunPos = -1;
 				recArgPos = -1;
+				depArgPos = -1;
 				f3ArgPos = -1;
 				f2ArgPos = -1;
 				f1ArgPos = -1;
@@ -4753,9 +4897,22 @@ namespace org.mariuszgromada.math.mxparser {
 							maxPartLevel = tokensList[tokenIndex].tokenLevel;
 							lPos = tokenIndex;
 						}
-						if (token.tokenTypeId == Argument.TYPE_ID)
-							ARGUMENT(tokenIndex);
-						else if (token.tokenTypeId == ConstantValue.TYPE_ID)
+						if (token.tokenTypeId == Argument.TYPE_ID) {
+							argument = argumentsList[ tokensList[tokenIndex].tokenId ];
+							/*
+							 * Only free arguments can be directly
+							 * replaced with numbers. This is in order to
+							 * avoid tokensList change in possible
+							 * recursive calls from dependent arguments
+							 * as dependent arguments will not work
+							 * on argument clones. Here we are also checking
+							 * if there is dependent argument in expression.
+							 */
+							if (argument.argumentType == Argument.FREE_ARGUMENT)
+								FREE_ARGUMENT(tokenIndex);
+							else
+								depArgPos = tokenIndex;
+						} else if (token.tokenTypeId == ConstantValue.TYPE_ID)
 							CONSTANT(tokenIndex);
 						else if (token.tokenTypeId == Unit.TYPE_ID)
 							UNIT(tokenIndex);
@@ -4764,131 +4921,171 @@ namespace org.mariuszgromada.math.mxparser {
 						else if (token.tokenTypeId == RandomVariable.TYPE_ID)
 							RANDOM_VARIABLE(tokenIndex);
 					}
-					tokenIndex = lPos;
-					/* Find end index of the tokens with the highest level */
-					while ((tokenIndex < tokensNumber) && (maxPartLevel == tokensList[tokenIndex].tokenLevel))
-						tokenIndex++;
-					rPos = tokenIndex - 1;
-					if (verboseMode == true) {
-						printSystemInfo("Parsing (" + lPos + ", " + rPos + ") ", WITH_EXP_STR);
-						showParsing(lPos, rPos);
-					}
-					/* if no calculus operations were found
-					 * check for other tokens
-					 */
-					bool leftIsNUmber;
-					bool rigthIsNUmber;
-					for (pos = lPos; pos <= rPos; pos++) {
-						leftIsNUmber = false;
-						rigthIsNUmber = false;
-						token = tokensList[pos];
-						if (pos - 1 >= 0) {
-							tokenL = tokensList[pos - 1];
-							if (tokenL.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) leftIsNUmber = true;
-						}
-						if (pos + 1 < tokensNumber) {
-							tokenR = tokensList[pos + 1];
-							if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNUmber = true;
-						}
-						if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
-							recArgPos = pos;
-						else
-						if ((token.tokenTypeId == FunctionVariadic.TYPE_ID) && (variadicFunPos < 0))
-							variadicFunPos = pos;
-						else
-						if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
-							f3ArgPos = pos;
-						else
-						if ((token.tokenTypeId == Function2Arg.TYPE_ID) && (f2ArgPos < 0))
-							f2ArgPos = pos;
-						else
-						if ((token.tokenTypeId == Function1Arg.TYPE_ID) && (f1ArgPos < 0))
-							f1ArgPos = pos;
-						else
-						if ((token.tokenTypeId == Function.TYPE_ID) && (userFunPos < 0))
-							userFunPos = pos;
-						else
-						if (token.tokenTypeId == Operator.TYPE_ID) {
-							if ((token.tokenId == Operator.POWER_ID) && (leftIsNUmber && rigthIsNUmber)) {
-								powerPos = pos;
-								powerNum++;
-							} else
-							if ((token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNUmber)) {
-								factPos = pos;
-							} else
-							if ((token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
-								modPos = pos;
-							} else
-							if ((token.tokenId == Operator.PLUS_ID) && (plusPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								plusPos = pos;
-							else
-							if ((token.tokenId == Operator.MINUS_ID) && (minusPos < 0) && (rigthIsNUmber))
-								minusPos = pos;
-							else
-							if ((token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								multiplyPos = pos;
-							else
-							if ((token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNUmber && rigthIsNUmber))
-								dividePos = pos;
-						} else
-						if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNUmber)) {
-							negPos = pos;
-						} else
-						if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
-							bolPos = pos;
-						} else
-						if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
-							if ((token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								eqPos = pos;
-							else
-							if ((token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								neqPos = pos;
-							else
-							if ((token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								ltPos = pos;
-							else
-							if ((token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								gtPos = pos;
-							else
-							if ((token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								leqPos = pos;
-							else
-							if ((token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNUmber && rigthIsNUmber))
-								geqPos = pos;
-						} else
-						if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
-							if ((token.tokenId == BitwiseOperator.COMPL_ID) && (bitwiseComplPos < 0) && (rigthIsNUmber))
-								bitwiseComplPos = pos;
-							else
-							if ((bitwisePos < 0) && (leftIsNUmber && rigthIsNUmber))
-								bitwisePos = pos;
-						} else
-						if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
-							if ((token.tokenId == ParserSymbol.COMMA_ID)) {
-								if (commaPos < 0)
-									commas = new List<int>();
-								commas.Add(pos);
-								commaPos = pos;
-							} else
-							if ((token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) && (lParPos < 0))
-								lParPos = pos;
-							else
-							if ((token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) && (rParPos < 0))
-								rParPos = pos;
-						}
-					}
 					/*
-					 * powering should be done using backwards sequence
+					 * If dependent argument was found then dependent arguments
+					 * in the tokensList need to replaced one after another in
+					 * separate loops as tokensList might change in some other
+					 * call done in possible recursive call.
+					 * 
+					 * Argument x = new Argument("x = 2*y");
+					 * Argument y = new Argument("y = 2*x"); 
+					 * x.addDefinitions(y);
+					 * y.addDefinitions(x);
 					 */
-					if (powerNum > 1) {
-						powerPos = -1;
-						p = rPos + 1;
+					if (depArgPos >= 0) {
+						bool depArgFound;
 						do {
-							p--;
-							token = tokensList[p];
-							if ((token.tokenTypeId == Operator.TYPE_ID) && (token.tokenId == Operator.POWER_ID))
-								powerPos = p;
-						} while ((p > lPos) && (powerPos == -1));
+							depArgFound = false;
+							int currentTokensNumber = tokensList.Count;
+							for (tokenIndex = 0; tokenIndex < currentTokensNumber; tokenIndex++) {
+								token = tokensList[tokenIndex];
+								if (token.tokenTypeId == Argument.TYPE_ID) {
+									argument = argumentsList[tokensList[tokenIndex].tokenId];
+									if (argument.argumentType == Argument.DEPENDENT_ARGUMENT) {
+										DEPENDENT_ARGUMENT(tokenIndex);
+										depArgFound = true;
+										break;
+									}
+								}
+							}
+						} while (depArgFound);
+					}
+					else {
+						tokenIndex = lPos;
+						/* Find end index of the tokens with the highest level */
+						while ((tokenIndex < tokensNumber) && (maxPartLevel == tokensList[tokenIndex].tokenLevel))
+							tokenIndex++;
+						rPos = tokenIndex - 1;
+						if (verboseMode == true) {
+							printSystemInfo("Parsing (" + lPos + ", " + rPos + ") ", WITH_EXP_STR);
+							showParsing(lPos, rPos);
+						}
+						/* if no calculus operations were found
+						 * check for other tokens
+						 */
+						bool leftIsNUmber;
+						bool rigthIsNUmber;
+						for (pos = lPos; pos <= rPos; pos++) {
+							leftIsNUmber = false;
+							rigthIsNUmber = false;
+							token = tokensList[pos];
+							if (pos - 1 >= 0) {
+								tokenL = tokensList[pos - 1];
+								if (tokenL.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) leftIsNUmber = true;
+							}
+							if (pos + 1 < tokensNumber) {
+								tokenR = tokensList[pos + 1];
+								if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNUmber = true;
+							}
+							if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
+								recArgPos = pos;
+							else
+							if ((token.tokenTypeId == FunctionVariadic.TYPE_ID) && (variadicFunPos < 0))
+								variadicFunPos = pos;
+							else
+							if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
+								f3ArgPos = pos;
+							else
+							if ((token.tokenTypeId == Function2Arg.TYPE_ID) && (f2ArgPos < 0))
+								f2ArgPos = pos;
+							else
+							if ((token.tokenTypeId == Function1Arg.TYPE_ID) && (f1ArgPos < 0))
+								f1ArgPos = pos;
+							else
+							if ((token.tokenTypeId == Function.TYPE_ID) && (userFunPos < 0))
+								userFunPos = pos;
+							else
+							if (token.tokenTypeId == Operator.TYPE_ID) {
+								if ((token.tokenId == Operator.POWER_ID) && (leftIsNUmber && rigthIsNUmber)) {
+									powerPos = pos;
+									powerNum++;
+								}
+								else
+								if ((token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNUmber)) {
+									factPos = pos;
+								}
+								else
+								if ((token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
+									modPos = pos;
+								}
+								else
+								if ((token.tokenId == Operator.PLUS_ID) && (plusPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									plusPos = pos;
+								else
+								if ((token.tokenId == Operator.MINUS_ID) && (minusPos < 0) && (rigthIsNUmber))
+									minusPos = pos;
+								else
+								if ((token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									multiplyPos = pos;
+								else
+								if ((token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNUmber && rigthIsNUmber))
+									dividePos = pos;
+							}
+							else
+							if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNUmber)) {
+								negPos = pos;
+							}
+							else
+							if ((token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
+								bolPos = pos;
+							}
+							else
+							if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
+								if ((token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									eqPos = pos;
+								else
+								if ((token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									neqPos = pos;
+								else
+								if ((token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									ltPos = pos;
+								else
+								if ((token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									gtPos = pos;
+								else
+								if ((token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									leqPos = pos;
+								else
+								if ((token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+									geqPos = pos;
+							}
+							else
+							if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
+								if ((token.tokenId == BitwiseOperator.COMPL_ID) && (bitwiseComplPos < 0) && (rigthIsNUmber))
+									bitwiseComplPos = pos;
+								else
+								if ((bitwisePos < 0) && (leftIsNUmber && rigthIsNUmber))
+									bitwisePos = pos;
+							}
+							else
+							if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
+								if ((token.tokenId == ParserSymbol.COMMA_ID)) {
+									if (commaPos < 0)
+										commas = new List<int>();
+									commas.Add(pos);
+									commaPos = pos;
+								}
+								else
+								if ((token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) && (lParPos < 0))
+									lParPos = pos;
+								else
+								if ((token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) && (rParPos < 0))
+									rParPos = pos;
+							}
+						}
+						/*
+						 * powering should be done using backwards sequence
+						 */
+						if (powerNum > 1) {
+							powerPos = -1;
+							p = rPos + 1;
+							do {
+								p--;
+								token = tokensList[p];
+								if ((token.tokenTypeId == Operator.TYPE_ID) && (token.tokenId == Operator.POWER_ID))
+									powerPos = p;
+							} while ((p > lPos) && (powerPos == -1));
+						}
 					}
 				}
 				/* calculus operations */
@@ -4899,7 +5096,7 @@ namespace org.mariuszgromada.math.mxparser {
 				} else
 				if (iffPos >= 0) {
 					IFF(iffPos);
-				} else				/* ... arguments ... */
+				} else	/* ... arguments ... */
 				/* ... recursive arguments ... */
 				if (recArgPos >= 0) {
 					RECURSIVE_ARGUMENT(recArgPos);
@@ -4993,7 +5190,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if ((lParPos >= 0) && (rParPos > lParPos)) {
 					PARENTHESES(lParPos, rParPos);
 				} else if (tokensList.Count > 1) {
-					this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Fatal error - not know what to do with tokens while calculate().";
+					this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Fatal error - not know what to do with tokens while calculate().\n";
 				}
 				if (verboseMode == true) {
 					showParsing(0, tokensList.Count - 1);
@@ -5009,6 +5206,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			long endTime = mXparser.currentTimeMillis();
 			computingTime = (endTime - startTime) / 1000.0;
+			recursionCallsCounter = 0;
 			return tokensList[0].tokenValue;
 		}
 		/**

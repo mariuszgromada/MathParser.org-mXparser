@@ -129,6 +129,21 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal static bool ulpRounding = true;
 		/**
+		 * Internal limit for counter to avoid infinite loops while calculating
+		 * expression defined in the way shown by below examples
+		 * 
+		 * Argument x = new Argument("x = 2*y");
+		 * Argument y = new Argument("y = 2*x"); 
+		 * x.addDefinitions(y);
+		 * y.addDefinitions(x);
+		 * 
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 */
+		internal static int MAX_RECURSION_CALLS = 200;
+		/**
 		 * List of built-in tokens to remove.
 		 */
 		internal static List<String> tokensToRemove = new List<String>();
@@ -398,6 +413,46 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static bool checkIfUlpRounding() {
 			return ulpRounding;
+		}
+		/**
+		 * Internal limit to avoid infinite loops while calculating
+		 * expression defined in the way shown by below examples.
+		 * 
+		 * Argument x = new Argument("x = 2*y");
+		 * Argument y = new Argument("y = 2*x"); 
+		 * x.addDefinitions(y);
+		 * y.addDefinitions(x);
+		 * 
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 * 
+		 * Currently does not affect properly defined recursive mode.
+		 * 
+		 * @param maxAllowedRecursionDepth
+		 */
+		public static void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
+			MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
+		}
+		/**
+		 * Internal limit to avoid infinite loops while calculating
+		 * expression defined in the way shown by below examples.
+		 * 
+		 * Argument x = new Argument("x = 2*y");
+		 * Argument y = new Argument("y = 2*x"); 
+		 * x.addDefinitions(y);
+		 * y.addDefinitions(x);
+		 * 
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 * 
+		 * Currently does not affect properly defined recursive mode.
+		 */
+		public static int getMaxAllowedRecursionDepth() {
+			return MAX_RECURSION_CALLS;
 		}
 		/**
 		 * Removes built-in tokens form the list of tokens recognized by the parsers.
