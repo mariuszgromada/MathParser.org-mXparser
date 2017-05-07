@@ -7156,6 +7156,19 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 635:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = x + 2");
+				x.addDefinitions(x);
+				expStr = "x-3";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -7171,7 +7184,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 634;
+			int numberOfTests = 635;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

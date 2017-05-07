@@ -1747,9 +1747,10 @@ public class Expression {
 	private void USER_FUNCTION(int pos) {
 		Function function;
 		Function fun = functionsList.get( tokensList.get(pos).tokenId );
-		if (fun.getRecursiveMode() == true)
+		if (fun.getRecursiveMode() == true) {
 			function = fun.clone();
-		else
+			function.functionExpression.recursionCallsCounter = recursionCallsCounter;
+		} else
 			function = fun;
 		int argsNumber = function.getParametersNumber();
 		for (int argIdx = 0; argIdx < argsNumber; argIdx++)
