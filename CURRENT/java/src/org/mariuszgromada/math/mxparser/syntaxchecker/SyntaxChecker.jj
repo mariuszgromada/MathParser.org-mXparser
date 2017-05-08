@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxChecker.jj        4.0.0    2017-03-17
+ * @(#)SyntaxChecker.jj        4.1.0    2017-05-08
  *
  * SyntaxChecker.jj - mXparser grammar specification for JavaCC
  *
@@ -83,10 +83,8 @@ TOKEN : /* TOKENS */
 {
 	< #LETTER:		["_","a"-"z","A"-"Z"]														>
 | 	< #DIGIT:		["0"-"9"]																	>
-| 	< #DIGIT19:		["1"-"9"]																	>
 | 	< #LETTERS:		<LETTER>(<LETTER>)*															>
-|  	< #DIGITS:		<DIGIT>(<DIGIT>)*															>
-|  	< #INTEGER:		( "0" | <DIGIT19>(<DIGIT>)* )												>
+|  	< #INTEGER:		<DIGIT>(<DIGIT>)*															>
 | 	< LEFT_PAR:		"("																			>
 | 	< RIGHT_PAR:	")"																			>
 | 	< PLUS:			"+"																			>
@@ -127,7 +125,7 @@ TOKEN : /* TOKENS */
  */
 TOKEN :
 {
-	< #REAL:			( "0." <DIGITS> | <INTEGER> "." <DIGITS> )								>
+	< #REAL:			<INTEGER> "." <INTEGER>													>
 |	< #NUMBER:			( <REAL> | <INTEGER> )													>
 |	< NUMBER_CONSTANT:	<NUMBER> ( ( "E" | "e" ) ( "+" | "-" )? <INTEGER> )?					>
 }
@@ -137,7 +135,7 @@ TOKEN :
  */
 TOKEN :
 {
-	< IDENTIFIER:	<LETTERS> ( <LETTERS> | <DIGITS> )*  										>
+	< IDENTIFIER:	<LETTERS> ( <LETTERS> | <INTEGER> )*  										>
 }
 
 /*

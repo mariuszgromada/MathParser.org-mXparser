@@ -76,10 +76,8 @@ public final class ParserSymbol {
 	 * ParserSymbol - reg exp patterns.
 	 */
 	public static final String DIGIT		= "[0-9]";
-	public static final String DIGIT19		= "[1-9]";
-	public static final String DIGITS		= DIGIT + "(" + DIGIT + ")*";
-	public static final String INTEGER		= "(0|" + DIGIT19 + "(" + DIGIT + ")*" + ")";
-	public static final String REAL			= "(0\\." + DIGITS + "|" + INTEGER + "\\." + DIGITS + ")";
+	public static final String INTEGER		= DIGIT + "(" + DIGIT + ")*";
+	public static final String REAL			= INTEGER + "\\." + INTEGER;
 	public static final String NUMBER		= "(" + REAL + "|" + INTEGER + ")";
 	public static final String NUMBER_CONST	= "[+-]?" + NUMBER + "([eE][+-]?" + INTEGER + ")?";
 	public static final String nameOnlyTokenRegExp = "([a-zA-Z_])+([a-zA-Z0-9_])*";

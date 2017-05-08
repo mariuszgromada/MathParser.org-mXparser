@@ -21,7 +21,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case NUMBER_CONSTANT:
     case IDENTIFIER:
     case FUNCTION:
-    case 48:{
+    case 46:{
       expression();
       jj_consume_token(0);
       break;
@@ -287,11 +287,11 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case UNIT:
     case IDENTIFIER:
     case FUNCTION:
-    case 48:{
+    case 46:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case UNIT:
       case IDENTIFIER:
-      case 48:{
+      case 46:{
         identifier();
         break;
         }
@@ -344,7 +344,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case NUMBER_CONSTANT:
     case IDENTIFIER:
     case FUNCTION:
-    case 48:{
+    case 46:{
       expression();
       label_2:
       while (true) {
@@ -395,8 +395,8 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
       jj_consume_token(UNIT);
       break;
       }
-    case 48:{
-      jj_consume_token(48);
+    case 46:{
+      jj_consume_token(46);
       label_3:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -516,7 +516,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
           break label_3;
         }
       }
-      jj_consume_token(49);
+      jj_consume_token(47);
       break;
       }
     default:
@@ -543,10 +543,10 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x80806801,0x7f47e000,0x7f47e000,0x80000,0x80000000,0x80000000,0x6000,0x6000,0x800000,0x800,0x800800,0x300000,0x300000,0x80806800,0xea17f800,0xea17f800,0x0,0x0,0x800000,};
+      jj_la1_0 = new int[] {0x60201a01,0x9fd1f800,0x9fd1f800,0x20000,0x60000000,0x60000000,0x1800,0x1800,0x200000,0x200,0x200200,0xc0000,0xc0000,0x60201a00,0x3a85fe00,0x3a85fe00,0x0,0x0,0x200000,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x1e001,0x3fe,0x3fe,0x0,0x1,0x1,0x0,0x0,0x1c000,0x0,0x1e000,0x0,0x0,0x1e001,0x2000,0x2000,0x4400,0x4400,0x14000,};
+      jj_la1_1 = new int[] {0x7800,0xff,0xff,0x0,0x0,0x0,0x0,0x0,0x7000,0x0,0x7800,0x0,0x0,0x7800,0x800,0x800,0x1100,0x1100,0x5000,};
    }
 
   /** Constructor with InputStream. */
@@ -663,7 +663,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[52];
+    boolean[] la1tokens = new boolean[50];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -680,7 +680,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
         }
       }
     }
-    for (int i = 0; i < 52; i++) {
+    for (int i = 0; i < 50; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
