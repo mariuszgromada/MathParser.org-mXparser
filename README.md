@@ -115,7 +115,7 @@
     e.calculate();
 :+1:
 
-## mXparser i cool! But this is only the begging, we are just warming up!
+## mXparser is cool! But this is only the begging, we are just warming up!
 
 #### _[iterated operators]_ You want to play with iterated operators...
     Expression e = new Expression("sum(i, 1, 10, 2*i^2 + pi)");
