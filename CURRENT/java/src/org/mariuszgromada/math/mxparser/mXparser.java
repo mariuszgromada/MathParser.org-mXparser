@@ -714,13 +714,13 @@ public final class mXparser {
 	/**
 	 * Sets default console prefix.
 	 */
-	public void setDefaultConsolePrefix() {
+	public static void setDefaultConsolePrefix() {
 		CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 	}
 	/**
 	 * Sets default console output string prefix.
 	 */
-	public void setDefaultConsoleOutputPrefix() {
+	public static void setDefaultConsoleOutputPrefix() {
 		CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
 	}
 	/**
@@ -728,7 +728,7 @@ public final class mXparser {
 	 *
 	 * @param consolePrefix String containing console prefix definition.
 	 */
-	public void setConsolePrefix(String consolePrefix) {
+	public static void setConsolePrefix(String consolePrefix) {
 		CONSOLE_PREFIX = consolePrefix;
 	}
 	/**
@@ -736,7 +736,7 @@ public final class mXparser {
 	 *
 	 * @param consoleOutputPrefix String containing console output prefix definition.
 	 */
-	public void setConsoleOutputPrefix(String consoleOutputPrefix) {
+	public static void setConsoleOutputPrefix(String consoleOutputPrefix) {
 		CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
 	}
 	/**
@@ -858,7 +858,7 @@ public final class mXparser {
 	 *
 	 * @return     license info as string
 	 */
-	public String getLicense() {
+	public static String getLicense() {
 		return LICENSE;
 	}
 	/**

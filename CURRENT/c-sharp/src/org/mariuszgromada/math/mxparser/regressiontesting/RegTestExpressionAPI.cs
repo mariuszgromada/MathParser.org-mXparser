@@ -871,6 +871,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(tokensToModify2[0, 1].Equals("COS")) &&
 					(tokensToModify2[0, 2].Equals("NEW COS"))
 					) test[testId] = true;
+			/*
+			 * 32. Recursion counter
+			 */
+			testId++;
+			mXparser.setMaxAllowedRecursionDepth(100);
+			int rc100 = mXparser.getMaxAllowedRecursionDepth();
+			mXparser.setMaxAllowedRecursionDepth(200);
+			int rc200 = mXparser.getMaxAllowedRecursionDepth();
+			if ((rc100 == 100) && (rc200 == 200))
+				test[testId] = true;
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

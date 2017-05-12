@@ -80,19 +80,17 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * ParserSymbol - reg exp patterns.
 		 */
-		public const String DIGIT				= "[0-9]";
-		public const String DIGIT19				= "[1-9]";
-		public const String DIGITS				= DIGIT + "(" + DIGIT + ")*";
-		public const String INTEGER				= "(0|" + DIGIT19 + "(" + DIGIT + ")*" + ")";
-		public const String REAL				= "(0\\." + DIGITS + "|" + INTEGER + "\\." + DIGITS + ")";
-		public const String NUMBER				= "(" + REAL + "|" + INTEGER + ")";
-		public const String NUMBER_CONST		= "[+-]?" + NUMBER + "([eE][+-]?" + INTEGER + ")?";
-		public const String nameOnlyTokenRegExp = "([a-zA-Z_])+([a-zA-Z0-9_])*";
-		public const String nameTokenRegExp = "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
-		public const String paramsTokenRegeExp = "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
-		public const String constArgDefStrRegExp = nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
-		public const String functionDefStrRegExp = nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
-		public const String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+		public const String DIGIT						= "[0-9]";
+		public const String INTEGER						= DIGIT + "(" + DIGIT + ")*";
+		public const String REAL						= INTEGER + "\\." + INTEGER;
+		public const String NUMBER						= "(" + REAL + "|" + INTEGER + ")";
+		public const String NUMBER_CONST				= "[+-]?" + NUMBER + "([eE][+-]?" + INTEGER + ")?";
+		public const String nameOnlyTokenRegExp			= "([a-zA-Z_])+([a-zA-Z0-9_])*";
+		public const String nameTokenRegExp				= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
+		public const String paramsTokenRegeExp			= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
+		public const String constArgDefStrRegExp		= nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
+		public const String functionDefStrRegExp		= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
+		public const String function1ArgDefStrRegExp	= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 
 		/**
 		 * ParserSymbol - token type id.

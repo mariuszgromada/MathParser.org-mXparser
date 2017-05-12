@@ -743,27 +743,27 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Sets default console prefix.
 		 */
-		public void setDefaultConsolePrefix() {
+		public static void setDefaultConsolePrefix() {
 			CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 		}
 		/**
 		 * Sets default console output string prefix.
 		 */
-		public void setDefaultConsoleOutputPrefix() {
+		public static void setDefaultConsoleOutputPrefix() {
 			CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
 		}
 		/**
 		 * Sets console prefix.
 		 * @param consolePrefix String containing console prefix definition.
 		 */
-		public void setConsolePrefix(String consolePrefix) {
+		public static void setConsolePrefix(String consolePrefix) {
 			CONSOLE_PREFIX = consolePrefix;
 		}
 		/**
 		 * Sets console output string prefix.
 		 * @param consoleOutputPrefix String containing console output prefix definition.
 		 */
-		public void setConsoleOutputPrefix(String consoleOutputPrefix) {
+		public static void setConsoleOutputPrefix(String consoleOutputPrefix) {
 			CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
 		}
 		/**
@@ -886,7 +886,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     license info as string.
 		 */
-		public String getLicense() {
+		public static String getLicense() {
 			return mXparser.LICENSE;
 		}
 		/**
