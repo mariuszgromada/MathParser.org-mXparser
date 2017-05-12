@@ -1,6 +1,6 @@
 ## other docs etc..
 exclude_paths:
-- "CURRENT/doc/"
-- "CURRENT/hello-world/"
-- "CURRENT/c-sharp/exe-lib-tests/"
-- "CURRENT/c-sharp/dotnet-other/"
+- CURRENT/doc/
+- CURRENT/hello-world/
+- CURRENT/c-sharp/exe-lib-tests/
+- CURRENT/c-sharp/dotnet-other/
