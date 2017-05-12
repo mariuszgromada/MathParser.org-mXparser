@@ -9,6 +9,9 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    config:
+      languages:
+      - "java"
 
 ## other docs etc..
 exclude_paths:
