@@ -1,3 +1,6 @@
+Java: true
+Csharp: true
+
 ## other docs etc..
 exclude_paths:
 - CURRENT/doc/
