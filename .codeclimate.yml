@@ -1,5 +1,14 @@
-Java: true
-Csharp: true
+engines:
+  rubocop:
+    enabled: true
+  golint:
+   	enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
 
 ## other docs etc..
 exclude_paths:
