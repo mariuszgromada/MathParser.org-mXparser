@@ -12,6 +12,11 @@ engines:
     config:
       languages:
       - "java"
+      
+ratings:
+  paths:
+  - CURRENT/java/
+  - "**.java"
 
 ## other docs etc..
 exclude_paths:
