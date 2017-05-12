@@ -16,7 +16,9 @@ engines:
 ratings:
   paths:
   - CURRENT/java/
+  - CURRENT/c-sharp/
   - "**.java"
+  - "**.cs"
 
 ## other docs etc..
 exclude_paths:
