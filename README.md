@@ -23,9 +23,13 @@
 - Xamarin.Android
 - Xamarin.iOS
 
-# Main functionalities:
+# JAVA intro
 ![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
+
+# C# intro
 ![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
+
+# Main functionalities:
 - **basic operators**, i.e.: +, -, *, ^, !
 - **[Boolean logic](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.html)** operators i.e.: or, and, xor
 - **[binary relations](http://mathparser.org/api/org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.html)** i.e.: =, <, >
