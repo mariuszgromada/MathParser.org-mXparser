@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.1.0    2017-04-22
+ * @(#)RegTestSyntax.java        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1532,9 +1532,14 @@ class FunExt implements FunctionExtension {
 	public int getParametersNumber() {
 		return 2;
 	}
-	public void setParameterValue(int argumentIndex, double argumentValue) {
-		if (argumentIndex == 0) x = argumentValue;
-		if (argumentIndex == 1) y = argumentValue;
+	public void setParameterValue(int parameterIndex, double parameterValue) {
+		if (parameterIndex == 0) x = parameterValue;
+		if (parameterIndex == 1) y = parameterValue;
+	}
+	public String getParameterName(int parameterIndex) {
+		if (parameterIndex == 0) return "x";
+		if (parameterIndex == 1) return "y";
+		return "";
 	}
 	public double calculate() {
 		return x*y;

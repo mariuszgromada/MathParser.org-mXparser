@@ -1,9 +1,9 @@
 /*
- * @(#)RandomVariable.java        3.0.0    2016-05-07
+ * @(#)RandomVariable.java        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Random variables - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class RandomVariable {
 	/*
@@ -148,39 +149,109 @@ public final class RandomVariable {
 	public static final String NAT1_9_STR 					= "[Nat9]";
 	public static final String NOR_STR						= "[Nor]";
 	/*
+	 * BooleanOperator - syntax.
+	 */
+	public static final String UNIFORM_SYN					= UNIFORM_STR;
+	public static final String INT_SYN						= INT_STR;
+	public static final String INT1_SYN						= INT1_STR;
+	public static final String INT2_SYN						= INT2_STR;
+	public static final String INT3_SYN						= INT3_STR;
+	public static final String INT4_SYN						= INT4_STR;
+	public static final String INT5_SYN						= INT5_STR;
+	public static final String INT6_SYN						= INT6_STR;
+	public static final String INT7_SYN						= INT7_STR;
+	public static final String INT8_SYN						= INT8_STR;
+	public static final String INT9_SYN						= INT9_STR;
+	public static final String NAT0_SYN						= NAT0_STR;
+	public static final String NAT0_1_SYN					= NAT0_1_STR;
+	public static final String NAT0_2_SYN					= NAT0_2_STR;
+	public static final String NAT0_3_SYN					= NAT0_3_STR;
+	public static final String NAT0_4_SYN					= NAT0_4_STR;
+	public static final String NAT0_5_SYN					= NAT0_5_STR;
+	public static final String NAT0_6_SYN					= NAT0_6_STR;
+	public static final String NAT0_7_SYN					= NAT0_7_STR;
+	public static final String NAT0_8_SYN					= NAT0_8_STR;
+	public static final String NAT0_9_SYN					= NAT0_9_STR;
+	public static final String NAT1_SYN						= NAT1_STR;
+	public static final String NAT1_1_SYN					= NAT1_1_STR;
+	public static final String NAT1_2_SYN					= NAT1_2_STR;
+	public static final String NAT1_3_SYN					= NAT1_3_STR;
+	public static final String NAT1_4_SYN					= NAT1_4_STR;
+	public static final String NAT1_5_SYN					= NAT1_5_STR;
+	public static final String NAT1_6_SYN					= NAT1_6_STR;
+	public static final String NAT1_7_SYN					= NAT1_7_STR;
+	public static final String NAT1_8_SYN					= NAT1_8_STR;
+	public static final String NAT1_9_SYN					= NAT1_9_STR;
+	public static final String NOR_SYN						= NOR_STR;
+	/*
 	 * BooleanOperator - tokens description.
 	 */
-	public static final String UNIFORM_DESC					= "(3.0) Random variable - Uniform continuous distribution U(0,1), usage example: 2*[Uni]";
-	public static final String INT_DESC 					= "(3.0) Random variable - random integer - usage example sin( 3*[Int] )";
-	public static final String INT1_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^1, 10^1} - usage example sin( 3*[Int1] )";
-	public static final String INT2_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^2, 10^2} - usage example sin( 3*[Int2] )";
-	public static final String INT3_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^3, 10^3} - usage example sin( 3*[Int3] )";
-	public static final String INT4_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^4, 10^4} - usage example sin( 3*[Int4] )";
-	public static final String INT5_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^5, 10^5} - usage example sin( 3*[Int5] )";
-	public static final String INT6_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^6, 10^6} - usage example sin( 3*[Int6] )";
-	public static final String INT7_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^7, 10^7} - usage example sin( 3*[Int7] )";
-	public static final String INT8_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^8, 10^8} - usage example sin( 3*[Int8] )";
-	public static final String INT9_DESC 					= "(3.0) Random variable - random integer - Uniform discrete distribution U{-10^9, 10^9} - usage example sin( 3*[Int9] )";
-	public static final String NAT0_DESC 					= "(3.0) Random variable - random natural number including 0 - usage example sin( 3*[nat] )";
-	public static final String NAT0_1_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^1} - usage example sin( 3*[nat1] )";
-	public static final String NAT0_2_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^2} - usage example sin( 3*[nat2] )";
-	public static final String NAT0_3_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^3} - usage example sin( 3*[nat3] )";
-	public static final String NAT0_4_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^4} - usage example sin( 3*[nat4] )";
-	public static final String NAT0_5_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^5} - usage example sin( 3*[nat5] )";
-	public static final String NAT0_6_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^6} - usage example sin( 3*[nat6] )";
-	public static final String NAT0_7_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^7} - usage example sin( 3*[nat7] )";
-	public static final String NAT0_8_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^8} - usage example sin( 3*[nat8] )";
-	public static final String NAT0_9_DESC 					= "(3.0) Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^9} - usage example sin( 3*[nat9] )";
-	public static final String NAT1_DESC 					= "(3.0) Random variable - random natural number - usage example sin( 3*[Nat] )";
-	public static final String NAT1_1_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^1} - usage example sin( 3*[Nat1] )";
-	public static final String NAT1_2_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^2} - usage example sin( 3*[Nat2] )";
-	public static final String NAT1_3_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^3} - usage example sin( 3*[Nat3] )";
-	public static final String NAT1_4_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^4} - usage example sin( 3*[Nat4] )";
-	public static final String NAT1_5_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^5} - usage example sin( 3*[Nat5] )";
-	public static final String NAT1_6_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^6} - usage example sin( 3*[Nat6] )";
-	public static final String NAT1_7_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^7} - usage example sin( 3*[Nat7] )";
-	public static final String NAT1_8_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^8} - usage example sin( 3*[Nat8] )";
-	public static final String NAT1_9_DESC 					= "(3.0) Random variable - random natural number - Uniform discrete distribution U{1, 10^9} - usage example sin( 3*[Nat9] )";
-	public static final String NOR_DESC 					= "(3.0) Random variable - Normal distribution N(0,1) - usage example cos( 3*[Nor]+1 )";
+	public static final String UNIFORM_DESC					= "Random variable - Uniform continuous distribution U(0,1)";
+	public static final String INT_DESC 					= "Random variable - random integer";
+	public static final String INT1_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^1, 10^1}";
+	public static final String INT2_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^2, 10^2}";
+	public static final String INT3_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^3, 10^3}";
+	public static final String INT4_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^4, 10^4}";
+	public static final String INT5_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^5, 10^5}";
+	public static final String INT6_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^6, 10^6}";
+	public static final String INT7_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^7, 10^7}";
+	public static final String INT8_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^8, 10^8}";
+	public static final String INT9_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^9, 10^9}";
+	public static final String NAT0_DESC 					= "Random variable - random natural number including 0";
+	public static final String NAT0_1_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^1}";
+	public static final String NAT0_2_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^2}";
+	public static final String NAT0_3_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^3}";
+	public static final String NAT0_4_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^4}";
+	public static final String NAT0_5_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^5}";
+	public static final String NAT0_6_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^6}";
+	public static final String NAT0_7_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^7}";
+	public static final String NAT0_8_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^8}";
+	public static final String NAT0_9_DESC 					= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^9}";
+	public static final String NAT1_DESC 					= "Random variable - random natural number";
+	public static final String NAT1_1_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^1}";
+	public static final String NAT1_2_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^2}";
+	public static final String NAT1_3_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^3}";
+	public static final String NAT1_4_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^4}";
+	public static final String NAT1_5_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^5}";
+	public static final String NAT1_6_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^6}";
+	public static final String NAT1_7_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^7}";
+	public static final String NAT1_8_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^8}";
+	public static final String NAT1_9_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^9}";
+	public static final String NOR_DESC 					= "Random variable - Normal distribution N(0,1)";
+	/*
+	 * BooleanOperator - since.
+	 */
+	public static final String UNIFORM_SINCE				= mXparser.NAMEv30;
+	public static final String INT_SINCE					= mXparser.NAMEv30;
+	public static final String INT1_SINCE					= mXparser.NAMEv30;
+	public static final String INT2_SINCE					= mXparser.NAMEv30;
+	public static final String INT3_SINCE					= mXparser.NAMEv30;
+	public static final String INT4_SINCE					= mXparser.NAMEv30;
+	public static final String INT5_SINCE					= mXparser.NAMEv30;
+	public static final String INT6_SINCE					= mXparser.NAMEv30;
+	public static final String INT7_SINCE					= mXparser.NAMEv30;
+	public static final String INT8_SINCE					= mXparser.NAMEv30;
+	public static final String INT9_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_1_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_2_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_3_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_4_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_5_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_6_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_7_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_8_SINCE					= mXparser.NAMEv30;
+	public static final String NAT0_9_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_1_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_2_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_3_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_4_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_5_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_6_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_7_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_8_SINCE					= mXparser.NAMEv30;
+	public static final String NAT1_9_SINCE					= mXparser.NAMEv30;
+	public static final String NOR_SINCE					= mXparser.NAMEv30;
 }
 

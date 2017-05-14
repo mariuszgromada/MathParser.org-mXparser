@@ -1,5 +1,5 @@
 /*
- * @(#)Unit.java        4.0.0    2017-03-12
+ * @(#)Unit.java        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Units - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public final class Unit {
 	/*
@@ -308,115 +309,356 @@ public final class Unit {
 	public static final String DEGREE_ARC_STR			= "[deg]";
 	public static final String MINUTE_ARC_STR			= "[']";
 	public static final String SECOND_ARC_STR			= "['']";
+	/*
+	 * Unit - syntax.
+	 */
+	/* Ratio, Fraction */
+	public static final String PERC_SYN					= PERC_STR;
+	public static final String PROMIL_SYN				= PROMIL_STR;
+	/* Metric prefixes */
+	public static final String YOTTA_SYN				= YOTTA_STR;
+	public static final String YOTTA_SEPT_SYN			= YOTTA_SEPT_STR;
+	public static final String ZETTA_SYN				= ZETTA_STR;
+	public static final String ZETTA_SEXT_SYN			= ZETTA_SEXT_STR;
+	public static final String EXA_SYN					= EXA_STR;
+	public static final String EXA_QUINT_SYN			= EXA_QUINT_STR;
+	public static final String PETA_SYN					= PETA_STR;
+	public static final String PETA_QUAD_SYN			= PETA_QUAD_STR;
+	public static final String TERA_SYN					= TERA_STR;
+	public static final String TERA_TRIL_SYN			= TERA_TRIL_STR;
+	public static final String GIGA_SYN					= GIGA_STR;
+	public static final String GIGA_BIL_SYN				= GIGA_BIL_STR;
+	public static final String MEGA_SYN					= MEGA_STR;
+	public static final String MEGA_MIL_SYN				= MEGA_MIL_STR;
+	public static final String KILO_SYN					= KILO_STR;
+	public static final String KILO_TH_SYN				= KILO_TH_STR;
+	public static final String HECTO_SYN				= HECTO_STR;
+	public static final String HECTO_HUND_SYN			= HECTO_HUND_STR;
+	public static final String DECA_SYN					= DECA_STR;
+	public static final String DECA_TEN_SYN				= DECA_TEN_STR;
+	public static final String DECI_SYN					= DECI_STR;
+	public static final String CENTI_SYN				= CENTI_STR;
+	public static final String MILLI_SYN				= MILLI_STR;
+	public static final String MICRO_SYN				= MICRO_STR;
+	public static final String NANO_SYN					= NANO_STR;
+	public static final String PICO_SYN					= PICO_STR;
+	public static final String FEMTO_SYN				= FEMTO_STR;
+	public static final String ATTO_SYN					= ATTO_STR;
+	public static final String ZEPTO_SYN				= ZEPTO_STR;
+	public static final String YOCTO_SYN				= YOCTO_STR;
+	/* Units of length / distance */
+	public static final String METRE_SYN				= METRE_STR;
+	public static final String KILOMETRE_SYN			= KILOMETRE_STR;
+	public static final String CENTIMETRE_SYN			= CENTIMETRE_STR;
+	public static final String MILLIMETRE_SYN			= MILLIMETRE_STR;
+	public static final String INCH_SYN					= INCH_STR;
+	public static final String YARD_SYN					= YARD_STR;
+	public static final String FEET_SYN					= FEET_STR;
+	public static final String MILE_SYN					= MILE_STR;
+	public static final String NAUTICAL_MILE_SYN		= NAUTICAL_MILE_STR;
+	/* Units of area */
+	public static final String METRE2_SYN				= METRE2_STR;
+	public static final String CENTIMETRE2_SYN			= CENTIMETRE2_STR;
+	public static final String MILLIMETRE2_SYN			= MILLIMETRE2_STR;
+	public static final String ARE_SYN					= ARE_STR;
+	public static final String HECTARE_SYN				= HECTARE_STR;
+	public static final String ACRE_SYN					= ACRE_STR;
+	public static final String KILOMETRE2_SYN			= KILOMETRE2_STR;
+	/* Units of volume */
+	public static final String MILLIMETRE3_SYN			= MILLIMETRE3_STR;
+	public static final String CENTIMETRE3_SYN			= CENTIMETRE3_STR;
+	public static final String METRE3_SYN				= METRE3_STR;
+	public static final String KILOMETRE3_SYN			= KILOMETRE3_STR;
+	public static final String MILLILITRE_SYN			= MILLILITRE_STR;
+	public static final String LITRE_SYN				= LITRE_STR;
+	public static final String GALLON_SYN				= GALLON_STR;
+	public static final String PINT_SYN					= PINT_STR;
+	/* Units of time */
+	public static final String SECOND_SYN				= SECOND_STR;
+	public static final String MILLISECOND_SYN			= MILLISECOND_STR;
+	public static final String MINUTE_SYN				= MINUTE_STR;
+	public static final String HOUR_SYN					= HOUR_STR;
+	public static final String DAY_SYN					= DAY_STR;
+	public static final String WEEK_SYN					= WEEK_STR;
+	public static final String JULIAN_YEAR_SYN			= JULIAN_YEAR_STR;
+	/* Units of mass */
+	public static final String KILOGRAM_SYN				= KILOGRAM_STR;
+	public static final String GRAM_SYN					= GRAM_STR;
+	public static final String MILLIGRAM_SYN			= MILLIGRAM_STR;
+	public static final String DECAGRAM_SYN				= DECAGRAM_STR;
+	public static final String TONNE_SYN				= TONNE_STR;
+	public static final String OUNCE_SYN				= OUNCE_STR;
+	public static final String POUND_SYN				= POUND_STR;
+	/* Units of information */
+	public static final String BIT_SYN					= BIT_STR;
+	public static final String KILOBIT_SYN				= KILOBIT_STR;
+	public static final String MEGABIT_SYN				= MEGABIT_STR;
+	public static final String GIGABIT_SYN				= GIGABIT_STR;
+	public static final String TERABIT_SYN				= TERABIT_STR;
+	public static final String PETABIT_SYN				= PETABIT_STR;
+	public static final String EXABIT_SYN				= EXABIT_STR;
+	public static final String ZETTABIT_SYN				= ZETTABIT_STR;
+	public static final String YOTTABIT_SYN				= YOTTABIT_STR;
+	public static final String BYTE_SYN					= BYTE_STR;
+	public static final String KILOBYTE_SYN				= KILOBYTE_STR;
+	public static final String MEGABYTE_SYN				= MEGABYTE_STR;
+	public static final String GIGABYTE_SYN				= GIGABYTE_STR;
+	public static final String TERABYTE_SYN				= TERABYTE_STR;
+	public static final String PETABYTE_SYN				= PETABYTE_STR;
+	public static final String EXABYTE_SYN				= EXABYTE_STR;
+	public static final String ZETTABYTE_SYN			= ZETTABYTE_STR;
+	public static final String YOTTABYTE_SYN			= YOTTABYTE_STR;
+	/* Units of energy */
+	public static final String JOULE_SYN				= JOULE_STR;
+	public static final String ELECTRONO_VOLT_SYN		= ELECTRONO_VOLT_STR;
+	public static final String KILO_ELECTRONO_VOLT_SYN	= KILO_ELECTRONO_VOLT_STR;
+	public static final String MEGA_ELECTRONO_VOLT_SYN	= MEGA_ELECTRONO_VOLT_STR;
+	public static final String GIGA_ELECTRONO_VOLT_SYN	= GIGA_ELECTRONO_VOLT_STR;
+	public static final String TERA_ELECTRONO_VOLT_SYN	= TERA_ELECTRONO_VOLT_STR;
+	/* Units of speed */
+	public static final String METRE_PER_SECOND_SYN		= METRE_PER_SECOND_STR;
+	public static final String KILOMETRE_PER_HOUR_SYN	= KILOMETRE_PER_HOUR_STR;
+	public static final String MILE_PER_HOUR_SYN		= MILE_PER_HOUR_STR;
+	public static final String KNOT_SYN					= KNOT_STR;
+	/* Units of acceleration */
+	public static final String METRE_PER_SECOND2_SYN	= METRE_PER_SECOND2_STR;
+	public static final String KILOMETRE_PER_HOUR2_SYN	= KILOMETRE_PER_HOUR2_STR;
+	public static final String MILE_PER_HOUR2_SYN		= MILE_PER_HOUR2_STR;
+	/* Units of angle */
+	public static final String RADIAN_ARC_SYN			= RADIAN_ARC_STR;
+	public static final String DEGREE_ARC_SYN			= DEGREE_ARC_STR;
+	public static final String MINUTE_ARC_SYN			= MINUTE_ARC_STR;
+	public static final String SECOND_ARC_SYN			= SECOND_ARC_STR;
 
 	/*
 	 * Unit - tokens description.
 	 */
 	/* Ratio, Fraction */
-	public static final String PERC_DESC				= "(4.0) <Ratio, Fraction> Percentage = 0.01";
-	public static final String PROMIL_DESC				= "(4.0) <Ratio, Fraction> Promil, Per mille = 0.001";
+	public static final String PERC_DESC				= "<Ratio, Fraction> Percentage = 0.01";
+	public static final String PROMIL_DESC				= "<Ratio, Fraction> Promil, Per mille = 0.001";
 	/* Metric prefixes */
-	public static final String YOTTA_DESC				= "(4.0) <Metric prefix> Septillion / Yotta = 10^24";
-	public static final String ZETTA_DESC				= "(4.0) <Metric prefix> Sextillion / Zetta = 10^21";
-	public static final String EXA_DESC					= "(4.0) <Metric prefix> Quintillion / Exa = 10^18";
-	public static final String PETA_DESC				= "(4.0) <Metric prefix> Quadrillion / Peta = 10^15";
-	public static final String TERA_DESC				= "(4.0) <Metric prefix> Trillion / Tera = 10^12";
-	public static final String GIGA_DESC				= "(4.0) <Metric prefix> Billion / Giga = 10^9";
-	public static final String MEGA_DESC				= "(4.0) <Metric prefix> Million / Mega = 10^6";
-	public static final String KILO_DESC				= "(4.0) <Metric prefix> Thousand / Kilo = 10^3";
-	public static final String HECTO_DESC				= "(4.0) <Metric prefix> Hundred / Hecto = 10^2";
-	public static final String DECA_DESC				= "(4.0) <Metric prefix> Ten / Deca = 10";
-	public static final String DECI_DESC				= "(4.0) <Metric prefix> Tenth / Deci = 0.1";
-	public static final String CENTI_DESC				= "(4.0) <Metric prefix> Hundredth / Centi = 0.01";
-	public static final String MILLI_DESC				= "(4.0) <Metric prefix> Thousandth / Milli = 0.001";
-	public static final String MICRO_DESC				= "(4.0) <Metric prefix> Millionth / Micro = 10^-6";
-	public static final String NANO_DESC				= "(4.0) <Metric prefix> Billionth / Nano = 10^-9";
-	public static final String PICO_DESC				= "(4.0) <Metric prefix> Trillionth / Pico = 10^-12";
-	public static final String FEMTO_DESC				= "(4.0) <Metric prefix> Quadrillionth / Femto = 10^-15";
-	public static final String ATTO_DESC				= "(4.0) <Metric prefix> Quintillionth / Atoo = 10^-18";
-	public static final String ZEPTO_DESC				= "(4.0) <Metric prefix> Sextillionth / Zepto = 10^-21";
-	public static final String YOCTO_DESC				= "(4.0) <Metric prefix> Septillionth / Yocto = 10^-24";
+	public static final String YOTTA_DESC				= "<Metric prefix> Septillion / Yotta = 10^24";
+	public static final String ZETTA_DESC				= "<Metric prefix> Sextillion / Zetta = 10^21";
+	public static final String EXA_DESC					= "<Metric prefix> Quintillion / Exa = 10^18";
+	public static final String PETA_DESC				= "<Metric prefix> Quadrillion / Peta = 10^15";
+	public static final String TERA_DESC				= "<Metric prefix> Trillion / Tera = 10^12";
+	public static final String GIGA_DESC				= "<Metric prefix> Billion / Giga = 10^9";
+	public static final String MEGA_DESC				= "<Metric prefix> Million / Mega = 10^6";
+	public static final String KILO_DESC				= "<Metric prefix> Thousand / Kilo = 10^3";
+	public static final String HECTO_DESC				= "<Metric prefix> Hundred / Hecto = 10^2";
+	public static final String DECA_DESC				= "<Metric prefix> Ten / Deca = 10";
+	public static final String DECI_DESC				= "<Metric prefix> Tenth / Deci = 0.1";
+	public static final String CENTI_DESC				= "<Metric prefix> Hundredth / Centi = 0.01";
+	public static final String MILLI_DESC				= "<Metric prefix> Thousandth / Milli = 0.001";
+	public static final String MICRO_DESC				= "<Metric prefix> Millionth / Micro = 10^-6";
+	public static final String NANO_DESC				= "<Metric prefix> Billionth / Nano = 10^-9";
+	public static final String PICO_DESC				= "<Metric prefix> Trillionth / Pico = 10^-12";
+	public static final String FEMTO_DESC				= "<Metric prefix> Quadrillionth / Femto = 10^-15";
+	public static final String ATTO_DESC				= "<Metric prefix> Quintillionth / Atoo = 10^-18";
+	public static final String ZEPTO_DESC				= "<Metric prefix> Sextillionth / Zepto = 10^-21";
+	public static final String YOCTO_DESC				= "<Metric prefix> Septillionth / Yocto = 10^-24";
 	/* Units of length / distance */
-	public static final String METRE_DESC				= "(4.0) <Unit of length> Metre / Meter (m=1)";
-	public static final String KILOMETRE_DESC			= "(4.0) <Unit of length> Kilometre / Kilometer (m=1)";
-	public static final String CENTIMETRE_DESC			= "(4.0) <Unit of length> Centimetre / Centimeter (m=1)";
-	public static final String MILLIMETRE_DESC			= "(4.0) <Unit of length> Millimetre / Millimeter (m=1)";
-	public static final String INCH_DESC				= "(4.0) <Unit of length> Inch (m=1)";
-	public static final String YARD_DESC				= "(4.0) <Unit of length> Yard (m=1)";
-	public static final String FEET_DESC				= "(4.0) <Unit of length> Feet (m=1)";
-	public static final String MILE_DESC				= "(4.0) <Unit of length> Mile (m=1)";
-	public static final String NAUTICAL_MILE_DESC		= "(4.0) <Unit of length> Nautical mile (m=1)";
+	public static final String METRE_DESC				= "<Unit of length> Metre / Meter (m=1)";
+	public static final String KILOMETRE_DESC			= "<Unit of length> Kilometre / Kilometer (m=1)";
+	public static final String CENTIMETRE_DESC			= "<Unit of length> Centimetre / Centimeter (m=1)";
+	public static final String MILLIMETRE_DESC			= "<Unit of length> Millimetre / Millimeter (m=1)";
+	public static final String INCH_DESC				= "<Unit of length> Inch (m=1)";
+	public static final String YARD_DESC				= "<Unit of length> Yard (m=1)";
+	public static final String FEET_DESC				= "<Unit of length> Feet (m=1)";
+	public static final String MILE_DESC				= "<Unit of length> Mile (m=1)";
+	public static final String NAUTICAL_MILE_DESC		= "<Unit of length> Nautical mile (m=1)";
 	/* Units of area */
-	public static final String METRE2_DESC				= "(4.0) <Unit of area> Square metre / Square meter (m=1)";
-	public static final String CENTIMETRE2_DESC			= "(4.0) <Unit of area> Square centimetre / Square centimeter (m=1)";
-	public static final String MILLIMETRE2_DESC			= "(4.0) <Unit of area> Square millimetre / Square millimeter (m=1)";
-	public static final String ARE_DESC					= "(4.0) <Unit of area> Are (m=1)";
-	public static final String HECTARE_DESC				= "(4.0) <Unit of area> Hectare (m=1)";
-	public static final String ACRE_DESC				= "(4.0) <Unit of area> Acre (m=1)";
-	public static final String KILOMETRE2_DESC			= "(4.0) <Unit of area> Square kilometre / Square kilometer (m=1)";
+	public static final String METRE2_DESC				= "<Unit of area> Square metre / Square meter (m=1)";
+	public static final String CENTIMETRE2_DESC			= "<Unit of area> Square centimetre / Square centimeter (m=1)";
+	public static final String MILLIMETRE2_DESC			= "<Unit of area> Square millimetre / Square millimeter (m=1)";
+	public static final String ARE_DESC					= "<Unit of area> Are (m=1)";
+	public static final String HECTARE_DESC				= "<Unit of area> Hectare (m=1)";
+	public static final String ACRE_DESC				= "<Unit of area> Acre (m=1)";
+	public static final String KILOMETRE2_DESC			= "<Unit of area> Square kilometre / Square kilometer (m=1)";
 	/* Units of volume */
-	public static final String MILLIMETRE3_DESC			= "(4.0) <Unit of volume> Cubic millimetre / Cubic millimeter (m=1)";
-	public static final String CENTIMETRE3_DESC			= "(4.0) <Unit of volume> Cubic centimetre / Cubic centimeter (m=1)";
-	public static final String METRE3_DESC				= "(4.0) <Unit of volume> Cubic metre / Cubic meter (m=1)";
-	public static final String KILOMETRE3_DESC			= "(4.0) <Unit of volume> Cubic kilometre / Cubic kilometer (m=1)";
-	public static final String MILLILITRE_DESC			= "(4.0) <Unit of volume> Millilitre / Milliliter (m=1)";
-	public static final String LITRE_DESC				= "(4.0) <Unit of volume> Litre / Liter (m=1)";
-	public static final String GALLON_DESC				= "(4.0) <Unit of volume> Gallon (m=1)";
-	public static final String PINT_DESC				= "(4.0) <Unit of volume> Pint (m=1)";
+	public static final String MILLIMETRE3_DESC			= "<Unit of volume> Cubic millimetre / Cubic millimeter (m=1)";
+	public static final String CENTIMETRE3_DESC			= "<Unit of volume> Cubic centimetre / Cubic centimeter (m=1)";
+	public static final String METRE3_DESC				= "<Unit of volume> Cubic metre / Cubic meter (m=1)";
+	public static final String KILOMETRE3_DESC			= "<Unit of volume> Cubic kilometre / Cubic kilometer (m=1)";
+	public static final String MILLILITRE_DESC			= "<Unit of volume> Millilitre / Milliliter (m=1)";
+	public static final String LITRE_DESC				= "<Unit of volume> Litre / Liter (m=1)";
+	public static final String GALLON_DESC				= "<Unit of volume> Gallon (m=1)";
+	public static final String PINT_DESC				= "<Unit of volume> Pint (m=1)";
 	/* Units of time */
-	public static final String SECOND_DESC				= "(4.0) <Unit of time> Second (s=1)";
-	public static final String MILLISECOND_DESC			= "(4.0) <Unit of time> Millisecond (s=1)";
-	public static final String MINUTE_DESC				= "(4.0) <Unit of time> Minute (s=1)";
-	public static final String HOUR_DESC				= "(4.0) <Unit of time> Hour (s=1)";
-	public static final String DAY_DESC					= "(4.0) <Unit of time> Day (s=1)";
-	public static final String WEEK_DESC				= "(4.0) <Unit of time> Week (s=1)";
-	public static final String JULIAN_YEAR_DESC			= "(4.0) <Unit of time> Julian year = 365.25 days (s=1)";
+	public static final String SECOND_DESC				= "<Unit of time> Second (s=1)";
+	public static final String MILLISECOND_DESC			= "<Unit of time> Millisecond (s=1)";
+	public static final String MINUTE_DESC				= "<Unit of time> Minute (s=1)";
+	public static final String HOUR_DESC				= "<Unit of time> Hour (s=1)";
+	public static final String DAY_DESC					= "<Unit of time> Day (s=1)";
+	public static final String WEEK_DESC				= "<Unit of time> Week (s=1)";
+	public static final String JULIAN_YEAR_DESC			= "<Unit of time> Julian year = 365.25 days (s=1)";
 	/* Units of mass */
-	public static final String KILOGRAM_DESC			= "(4.0) <Unit of mass> Kilogram (kg=1)";
-	public static final String GRAM_DESC				= "(4.0) <Unit of mass> Gram (kg=1)";
-	public static final String MILLIGRAM_DESC			= "(4.0) <Unit of mass> Milligram (kg=1)";
-	public static final String DECAGRAM_DESC			= "(4.0) <Unit of mass> Decagram (kg=1)";
-	public static final String TONNE_DESC				= "(4.0) <Unit of mass> Tonne (kg=1)";
-	public static final String OUNCE_DESC				= "(4.0) <Unit of mass> Ounce (kg=1)";
-	public static final String POUND_DESC				= "(4.0) <Unit of mass> Pound (kg=1)";
+	public static final String KILOGRAM_DESC			= "<Unit of mass> Kilogram (kg=1)";
+	public static final String GRAM_DESC				= "<Unit of mass> Gram (kg=1)";
+	public static final String MILLIGRAM_DESC			= "<Unit of mass> Milligram (kg=1)";
+	public static final String DECAGRAM_DESC			= "<Unit of mass> Decagram (kg=1)";
+	public static final String TONNE_DESC				= "<Unit of mass> Tonne (kg=1)";
+	public static final String OUNCE_DESC				= "<Unit of mass> Ounce (kg=1)";
+	public static final String POUND_DESC				= "<Unit of mass> Pound (kg=1)";
 	/* Units of information */
-	public static final String BIT_DESC					= "(4.0) <Unit of information> Bit (bit=1)";
-	public static final String KILOBIT_DESC				= "(4.0) <Unit of information> Kilobit (bit=1)";
-	public static final String MEGABIT_DESC				= "(4.0) <Unit of information> Megabit (bit=1)";
-	public static final String GIGABIT_DESC				= "(4.0) <Unit of information> Gigabit (bit=1)";
-	public static final String TERABIT_DESC				= "(4.0) <Unit of information> Terabit (bit=1)";
-	public static final String PETABIT_DESC				= "(4.0) <Unit of information> Petabit (bit=1)";
-	public static final String EXABIT_DESC				= "(4.0) <Unit of information> Exabit (bit=1)";
-	public static final String ZETTABIT_DESC			= "(4.0) <Unit of information> Zettabit (bit=1)";
-	public static final String YOTTABIT_DESC			= "(4.0) <Unit of information> Yottabit (bit=1)";
-	public static final String BYTE_DESC				= "(4.0) <Unit of information> Byte (bit=1)";
-	public static final String KILOBYTE_DESC			= "(4.0) <Unit of information> Kilobyte (bit=1)";
-	public static final String MEGABYTE_DESC			= "(4.0) <Unit of information> Megabyte (bit=1)";
-	public static final String GIGABYTE_DESC			= "(4.0) <Unit of information> Gigabyte (bit=1)";
-	public static final String TERABYTE_DESC			= "(4.0) <Unit of information> Terabyte (bit=1)";
-	public static final String PETABYTE_DESC			= "(4.0) <Unit of information> Petabyte (bit=1)";
-	public static final String EXABYTE_DESC				= "(4.0) <Unit of information> Exabyte (bit=1)";
-	public static final String ZETTABYTE_DESC			= "(4.0) <Unit of information> Zettabyte (bit=1)";
-	public static final String YOTTABYTE_DESC			= "(4.0) <Unit of information> Yottabyte (bit=1)";
+	public static final String BIT_DESC					= "<Unit of information> Bit (bit=1)";
+	public static final String KILOBIT_DESC				= "<Unit of information> Kilobit (bit=1)";
+	public static final String MEGABIT_DESC				= "<Unit of information> Megabit (bit=1)";
+	public static final String GIGABIT_DESC				= "<Unit of information> Gigabit (bit=1)";
+	public static final String TERABIT_DESC				= "<Unit of information> Terabit (bit=1)";
+	public static final String PETABIT_DESC				= "<Unit of information> Petabit (bit=1)";
+	public static final String EXABIT_DESC				= "<Unit of information> Exabit (bit=1)";
+	public static final String ZETTABIT_DESC			= "<Unit of information> Zettabit (bit=1)";
+	public static final String YOTTABIT_DESC			= "<Unit of information> Yottabit (bit=1)";
+	public static final String BYTE_DESC				= "<Unit of information> Byte (bit=1)";
+	public static final String KILOBYTE_DESC			= "<Unit of information> Kilobyte (bit=1)";
+	public static final String MEGABYTE_DESC			= "<Unit of information> Megabyte (bit=1)";
+	public static final String GIGABYTE_DESC			= "<Unit of information> Gigabyte (bit=1)";
+	public static final String TERABYTE_DESC			= "<Unit of information> Terabyte (bit=1)";
+	public static final String PETABYTE_DESC			= "<Unit of information> Petabyte (bit=1)";
+	public static final String EXABYTE_DESC				= "<Unit of information> Exabyte (bit=1)";
+	public static final String ZETTABYTE_DESC			= "<Unit of information> Zettabyte (bit=1)";
+	public static final String YOTTABYTE_DESC			= "<Unit of information> Yottabyte (bit=1)";
 	/* Units of energy */
-	public static final String JOULE_DESC				= "(4.0) <Unit of energy> Joule (m=1, kg=1, s=1)";
-	public static final String ELECTRONO_VOLT_DESC		= "(4.0) <Unit of energy> Electronovolt (m=1, kg=1, s=1)";
-	public static final String KILO_ELECTRONO_VOLT_DESC	= "(4.0) <Unit of energy> Kiloelectronovolt (m=1, kg=1, s=1)";
-	public static final String MEGA_ELECTRONO_VOLT_DESC	= "(4.0) <Unit of energy> Megaelectronovolt (m=1, kg=1, s=1)";
-	public static final String GIGA_ELECTRONO_VOLT_DESC	= "(4.0) <Unit of energy> Gigaelectronovolt (m=1, kg=1, s=1)";
-	public static final String TERA_ELECTRONO_VOLT_DESC	= "(4.0) <Unit of energy> Teraelectronovolt (m=1, kg=1, s=1)";
+	public static final String JOULE_DESC				= "<Unit of energy> Joule (m=1, kg=1, s=1)";
+	public static final String ELECTRONO_VOLT_DESC		= "<Unit of energy> Electronovolt (m=1, kg=1, s=1)";
+	public static final String KILO_ELECTRONO_VOLT_DESC	= "<Unit of energy> Kiloelectronovolt (m=1, kg=1, s=1)";
+	public static final String MEGA_ELECTRONO_VOLT_DESC	= "<Unit of energy> Megaelectronovolt (m=1, kg=1, s=1)";
+	public static final String GIGA_ELECTRONO_VOLT_DESC	= "<Unit of energy> Gigaelectronovolt (m=1, kg=1, s=1)";
+	public static final String TERA_ELECTRONO_VOLT_DESC	= "<Unit of energy> Teraelectronovolt (m=1, kg=1, s=1)";
 	/* Units of speed */
-	public static final String METRE_PER_SECOND_DESC	= "(4.0) <Unit of speed> Metre / Meter per second (m=1, s=1)";
-	public static final String KILOMETRE_PER_HOUR_DESC	= "(4.0) <Unit of speed> Kilometre / Kilometer per hour (m=1, s=1)";
-	public static final String MILE_PER_HOUR_DESC		= "(4.0) <Unit of speed> Mile per hour (m=1, s=1)";
-	public static final String KNOT_DESC				= "(4.0) <Unit of speed> Knot (m=1, s=1)";
+	public static final String METRE_PER_SECOND_DESC	= "<Unit of speed> Metre / Meter per second (m=1, s=1)";
+	public static final String KILOMETRE_PER_HOUR_DESC	= "<Unit of speed> Kilometre / Kilometer per hour (m=1, s=1)";
+	public static final String MILE_PER_HOUR_DESC		= "<Unit of speed> Mile per hour (m=1, s=1)";
+	public static final String KNOT_DESC				= "<Unit of speed> Knot (m=1, s=1)";
 	/* Units of acceleration */
-	public static final String METRE_PER_SECOND2_DESC	= "(4.0) <Unit of acceleration> Metre / Meter per square second (m=1, s=1)";
-	public static final String KILOMETRE_PER_HOUR2_DESC	= "(4.0) <Unit of acceleration> Kilometre / Kilometer per square hour (m=1, s=1)";
-	public static final String MILE_PER_HOUR2_DESC		= "(4.0) <Unit of acceleration> Mile per square hour (m=1, s=1)";
+	public static final String METRE_PER_SECOND2_DESC	= "<Unit of acceleration> Metre / Meter per square second (m=1, s=1)";
+	public static final String KILOMETRE_PER_HOUR2_DESC	= "<Unit of acceleration> Kilometre / Kilometer per square hour (m=1, s=1)";
+	public static final String MILE_PER_HOUR2_DESC		= "<Unit of acceleration> Mile per square hour (m=1, s=1)";
 	/* Units of angle */
-	public static final String RADIAN_ARC_DESC			= "(4.0) <Unit of angle> Radian (rad=1)";
-	public static final String DEGREE_ARC_DESC			= "(4.0) <Unit of angle> Degree of arc (rad=1)";
-	public static final String MINUTE_ARC_DESC			= "(4.0) <Unit of angle> Minute of arc (rad=1)";
-	public static final String SECOND_ARC_DESC			= "(4.0) <Unit of angle> Second of arc (rad=1)";
+	public static final String RADIAN_ARC_DESC			= "<Unit of angle> Radian (rad=1)";
+	public static final String DEGREE_ARC_DESC			= "<Unit of angle> Degree of arc (rad=1)";
+	public static final String MINUTE_ARC_DESC			= "<Unit of angle> Minute of arc (rad=1)";
+	public static final String SECOND_ARC_DESC			= "<Unit of angle> Second of arc (rad=1)";
+
+	/*
+	 * Unit - since.
+	 */
+	/* Ratio, Fraction */
+	public static final String PERC_SINCE					= mXparser.NAMEv40;
+	public static final String PROMIL_SINCE					= mXparser.NAMEv40;
+	/* Metric prefixes */
+	public static final String YOTTA_SINCE					= mXparser.NAMEv40;
+	public static final String YOTTA_SEPT_SINCE				= mXparser.NAMEv40;
+	public static final String ZETTA_SINCE					= mXparser.NAMEv40;
+	public static final String ZETTA_SEXT_SINCE				= mXparser.NAMEv40;
+	public static final String EXA_SINCE					= mXparser.NAMEv40;
+	public static final String EXA_QUINT_SINCE				= mXparser.NAMEv40;
+	public static final String PETA_SINCE					= mXparser.NAMEv40;
+	public static final String PETA_QUAD_SINCE				= mXparser.NAMEv40;
+	public static final String TERA_SINCE					= mXparser.NAMEv40;
+	public static final String TERA_TRIL_SINCE				= mXparser.NAMEv40;
+	public static final String GIGA_SINCE					= mXparser.NAMEv40;
+	public static final String GIGA_BIL_SINCE				= mXparser.NAMEv40;
+	public static final String MEGA_SINCE					= mXparser.NAMEv40;
+	public static final String MEGA_MIL_SINCE				= mXparser.NAMEv40;
+	public static final String KILO_SINCE					= mXparser.NAMEv40;
+	public static final String KILO_TH_SINCE				= mXparser.NAMEv40;
+	public static final String HECTO_SINCE					= mXparser.NAMEv40;
+	public static final String HECTO_HUND_SINCE				= mXparser.NAMEv40;
+	public static final String DECA_SINCE					= mXparser.NAMEv40;
+	public static final String DECA_TEN_SINCE				= mXparser.NAMEv40;
+	public static final String DECI_SINCE					= mXparser.NAMEv40;
+	public static final String CENTI_SINCE					= mXparser.NAMEv40;
+	public static final String MILLI_SINCE					= mXparser.NAMEv40;
+	public static final String MICRO_SINCE					= mXparser.NAMEv40;
+	public static final String NANO_SINCE					= mXparser.NAMEv40;
+	public static final String PICO_SINCE					= mXparser.NAMEv40;
+	public static final String FEMTO_SINCE					= mXparser.NAMEv40;
+	public static final String ATTO_SINCE					= mXparser.NAMEv40;
+	public static final String ZEPTO_SINCE					= mXparser.NAMEv40;
+	public static final String YOCTO_SINCE					= mXparser.NAMEv40;
+	/* Units of length / distance */
+	public static final String METRE_SINCE					= mXparser.NAMEv40;
+	public static final String KILOMETRE_SINCE				= mXparser.NAMEv40;
+	public static final String CENTIMETRE_SINCE				= mXparser.NAMEv40;
+	public static final String MILLIMETRE_SINCE				= mXparser.NAMEv40;
+	public static final String INCH_SINCE					= mXparser.NAMEv40;
+	public static final String YARD_SINCE					= mXparser.NAMEv40;
+	public static final String FEET_SINCE					= mXparser.NAMEv40;
+	public static final String MILE_SINCE					= mXparser.NAMEv40;
+	public static final String NAUTICAL_MILE_SINCE			= mXparser.NAMEv40;
+	/* Units of area */
+	public static final String METRE2_SINCE					= mXparser.NAMEv40;
+	public static final String CENTIMETRE2_SINCE			= mXparser.NAMEv40;
+	public static final String MILLIMETRE2_SINCE			= mXparser.NAMEv40;
+	public static final String ARE_SINCE					= mXparser.NAMEv40;
+	public static final String HECTARE_SINCE				= mXparser.NAMEv40;
+	public static final String ACRE_SINCE					= mXparser.NAMEv40;
+	public static final String KILOMETRE2_SINCE				= mXparser.NAMEv40;
+	/* Units of volume */
+	public static final String MILLIMETRE3_SINCE			= mXparser.NAMEv40;
+	public static final String CENTIMETRE3_SINCE			= mXparser.NAMEv40;
+	public static final String METRE3_SINCE					= mXparser.NAMEv40;
+	public static final String KILOMETRE3_SINCE				= mXparser.NAMEv40;
+	public static final String MILLILITRE_SINCE				= mXparser.NAMEv40;
+	public static final String LITRE_SINCE					= mXparser.NAMEv40;
+	public static final String GALLON_SINCE					= mXparser.NAMEv40;
+	public static final String PINT_SINCE					= mXparser.NAMEv40;
+	/* Units of time */
+	public static final String SECOND_SINCE					= mXparser.NAMEv40;
+	public static final String MILLISECOND_SINCE			= mXparser.NAMEv40;
+	public static final String MINUTE_SINCE					= mXparser.NAMEv40;
+	public static final String HOUR_SINCE					= mXparser.NAMEv40;
+	public static final String DAY_SINCE					= mXparser.NAMEv40;
+	public static final String WEEK_SINCE					= mXparser.NAMEv40;
+	public static final String JULIAN_YEAR_SINCE			= mXparser.NAMEv40;
+	/* Units of mass */
+	public static final String KILOGRAM_SINCE				= mXparser.NAMEv40;
+	public static final String GRAM_SINCE					= mXparser.NAMEv40;
+	public static final String MILLIGRAM_SINCE				= mXparser.NAMEv40;
+	public static final String DECAGRAM_SINCE				= mXparser.NAMEv40;
+	public static final String TONNE_SINCE					= mXparser.NAMEv40;
+	public static final String OUNCE_SINCE					= mXparser.NAMEv40;
+	public static final String POUND_SINCE					= mXparser.NAMEv40;
+	/* Units of information */
+	public static final String BIT_SINCE					= mXparser.NAMEv40;
+	public static final String KILOBIT_SINCE				= mXparser.NAMEv40;
+	public static final String MEGABIT_SINCE				= mXparser.NAMEv40;
+	public static final String GIGABIT_SINCE				= mXparser.NAMEv40;
+	public static final String TERABIT_SINCE				= mXparser.NAMEv40;
+	public static final String PETABIT_SINCE				= mXparser.NAMEv40;
+	public static final String EXABIT_SINCE					= mXparser.NAMEv40;
+	public static final String ZETTABIT_SINCE				= mXparser.NAMEv40;
+	public static final String YOTTABIT_SINCE				= mXparser.NAMEv40;
+	public static final String BYTE_SINCE					= mXparser.NAMEv40;
+	public static final String KILOBYTE_SINCE				= mXparser.NAMEv40;
+	public static final String MEGABYTE_SINCE				= mXparser.NAMEv40;
+	public static final String GIGABYTE_SINCE				= mXparser.NAMEv40;
+	public static final String TERABYTE_SINCE				= mXparser.NAMEv40;
+	public static final String PETABYTE_SINCE				= mXparser.NAMEv40;
+	public static final String EXABYTE_SINCE				= mXparser.NAMEv40;
+	public static final String ZETTABYTE_SINCE				= mXparser.NAMEv40;
+	public static final String YOTTABYTE_SINCE				= mXparser.NAMEv40;
+	/* Units of energy */
+	public static final String JOULE_SINCE					= mXparser.NAMEv40;
+	public static final String ELECTRONO_VOLT_SINCE			= mXparser.NAMEv40;
+	public static final String KILO_ELECTRONO_VOLT_SINCE	= mXparser.NAMEv40;
+	public static final String MEGA_ELECTRONO_VOLT_SINCE	= mXparser.NAMEv40;
+	public static final String GIGA_ELECTRONO_VOLT_SINCE	= mXparser.NAMEv40;
+	public static final String TERA_ELECTRONO_VOLT_SINCE	= mXparser.NAMEv40;
+	/* Units of speed */
+	public static final String METRE_PER_SECOND_SINCE		= mXparser.NAMEv40;
+	public static final String KILOMETRE_PER_HOUR_SINCE		= mXparser.NAMEv40;
+	public static final String MILE_PER_HOUR_SINCE			= mXparser.NAMEv40;
+	public static final String KNOT_SINCE					= mXparser.NAMEv40;
+	/* Units of acceleration */
+	public static final String METRE_PER_SECOND2_SINCE		= mXparser.NAMEv40;
+	public static final String KILOMETRE_PER_HOUR2_SINCE	= mXparser.NAMEv40;
+	public static final String MILE_PER_HOUR2_SINCE			= mXparser.NAMEv40;
+	/* Units of angle */
+	public static final String RADIAN_ARC_SINCE				= mXparser.NAMEv40;
+	public static final String DEGREE_ARC_SINCE				= mXparser.NAMEv40;
+	public static final String MINUTE_ARC_SINCE				= mXparser.NAMEv40;
+	public static final String SECOND_ARC_SINCE				= mXparser.NAMEv40;
 }

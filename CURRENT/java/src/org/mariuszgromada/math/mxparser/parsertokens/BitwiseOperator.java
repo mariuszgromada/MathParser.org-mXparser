@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.java        4.0.0    2017-03-12
+ * @(#)BitwiseOperator.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Bitwise Operators - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public final class BitwiseOperator {
 	/*
@@ -96,13 +97,31 @@ public final class BitwiseOperator {
 	public static final String LEFT_SHIFT_STR		= "@<<";
 	public static final String RIGHT_SHIFT_STR		= "@>>";
 	/*
+	 * BitwiseOperator - syntax.
+	 */
+	public static final String COMPL_SYN			= "a @~ b";
+	public static final String AND_SYN				= "a @& b";
+	public static final String XOR_SYN				= "a @^ b";
+	public static final String OR_SYN				= "a @| b";
+	public static final String LEFT_SHIFT_SYN		= "a @<< b";
+	public static final String RIGHT_SHIFT_SYN		= "a @>> b";
+	/*
 	 * BitwiseOperator - tokens description.
 	 */
-	public static final String COMPL_DESC			= "(4.0) Bitwise unary complement";
-	public static final String AND_DESC				= "(4.0) Bitwise AND";
-	public static final String XOR_DESC				= "(4.0) Bitwise exclusive OR";
-	public static final String OR_DESC				= "(4.0) Bitwise inclusive OR";
-	public static final String LEFT_SHIFT_DESC		= "(4.0) Signed left shift";
-	public static final String RIGHT_SHIFT_DESC		= "(4.0) Signed right shift";
+	public static final String COMPL_DESC			= "Bitwise unary complement";
+	public static final String AND_DESC				= "Bitwise AND";
+	public static final String XOR_DESC				= "Bitwise exclusive OR";
+	public static final String OR_DESC				= "Bitwise inclusive OR";
+	public static final String LEFT_SHIFT_DESC		= "Signed left shift";
+	public static final String RIGHT_SHIFT_DESC		= "Signed right shift";
+	/*
+	 * BitwiseOperator - tokens since.
+	 */
+	public static final String COMPL_SINCE			= mXparser.NAMEv40;
+	public static final String AND_SINCE			= mXparser.NAMEv40;
+	public static final String XOR_SINCE			= mXparser.NAMEv40;
+	public static final String OR_SINCE				= mXparser.NAMEv40;
+	public static final String LEFT_SHIFT_SINCE		= mXparser.NAMEv40;
+	public static final String RIGHT_SHIFT_SINCE	= mXparser.NAMEv40;
 }
 

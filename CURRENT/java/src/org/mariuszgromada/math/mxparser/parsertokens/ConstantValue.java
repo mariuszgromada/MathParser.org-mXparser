@@ -1,5 +1,5 @@
 /*
- * @(#)ConstantValue.java        4.1.0    2017-04-18
+ * @(#)ConstantValue.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Constant Values - mXparser tokens definition.
  *
@@ -272,6 +273,102 @@ public final class ConstantValue {
 	/* other values */	
 	public static final String NAN_STR							= "[NaN]";
 	/*
+	 * ConstantValue - syntax.
+	 */
+	public static final String PI_SYN							= PI_STR;
+	public static final String EULER_SYN						= EULER_STR;
+	public static final String EULER_MASCHERONI_SYN				= EULER_MASCHERONI_STR;
+	public static final String GOLDEN_RATIO_SYN					= GOLDEN_RATIO_STR;
+	public static final String PLASTIC_SYN						= PLASTIC_STR;
+	public static final String EMBREE_TREFETHEN_SYN				= EMBREE_TREFETHEN_STR;
+	public static final String FEIGENBAUM_DELTA_SYN				= FEIGENBAUM_DELTA_STR;
+	public static final String FEIGENBAUM_ALFA_SYN				= FEIGENBAUM_ALFA_STR;
+	public static final String TWIN_PRIME_SYN					= TWIN_PRIME_STR;
+	public static final String MEISSEL_MERTEENS_SYN				= MEISSEL_MERTEENS_STR;
+	public static final String BRAUN_TWIN_PRIME_SYN				= BRAUN_TWIN_PRIME_STR;
+	public static final String BRAUN_PRIME_QUADR_SYN			= BRAUN_PRIME_QUADR_STR;
+	public static final String BRUIJN_NEWMAN_SYN				= BRUIJN_NEWMAN_STR;
+	public static final String CATALAN_SYN						= CATALAN_STR;
+	public static final String LANDAU_RAMANUJAN_SYN				= LANDAU_RAMANUJAN_STR;
+	public static final String VISWANATH_SYN					= VISWANATH_STR;
+	public static final String LEGENDRE_SYN						= LEGENDRE_STR;
+	public static final String RAMANUJAN_SOLDNER_SYN			= RAMANUJAN_SOLDNER_STR;
+	public static final String ERDOS_BORWEIN_SYN				= ERDOS_BORWEIN_STR;
+	public static final String BERNSTEIN_SYN					= BERNSTEIN_STR;
+	public static final String GAUSS_KUZMIN_WIRSING_SYN			= GAUSS_KUZMIN_WIRSING_STR;
+	public static final String HAFNER_SARNAK_MCCURLEY_SYN		= HAFNER_SARNAK_MCCURLEY_STR;
+	public static final String GOLOMB_DICKMAN_SYN				= GOLOMB_DICKMAN_STR;
+	public static final String CAHEN_SYN						= CAHEN_STR;
+	public static final String LAPLACE_LIMIT_SYN				= LAPLACE_LIMIT_STR;
+	public static final String ALLADI_GRINSTEAD_SYN				= ALLADI_GRINSTEAD_STR;
+	public static final String LENGYEL_SYN						= LENGYEL_STR;
+	public static final String LEVY_SYN							= LEVY_STR;
+	public static final String APERY_SYN						= APERY_STR;
+	public static final String MILLS_SYN						= MILLS_STR;
+	public static final String BACKHOUSE_SYN					= BACKHOUSE_STR;
+	public static final String PORTER_SYN						= PORTER_STR;
+	public static final String LIEB_QUARE_ICE_SYN				= LIEB_QUARE_ICE_STR;
+	public static final String NIVEN_SYN						= NIVEN_STR;
+	public static final String SIERPINSKI_SYN					= SIERPINSKI_STR;
+	public static final String KHINCHIN_SYN						= KHINCHIN_STR;
+	public static final String FRANSEN_ROBINSON_SYN				= FRANSEN_ROBINSON_STR;
+	public static final String LANDAU_SYN						= LANDAU_STR;
+	public static final String PARABOLIC_SYN					= PARABOLIC_STR;
+	public static final String OMEGA_SYN						= OMEGA_STR;
+	public static final String MRB_SYN							= MRB_STR;
+	public static final String LI2_SYN							= LI2_STR;
+	public static final String GOMPERTZ_SYN						= GOMPERTZ_STR;
+	/* Physical Constants */
+	public static final String LIGHT_SPEED_SYN					= LIGHT_SPEED_STR;
+	public static final String GRAVITATIONAL_CONSTANT_SYN		= GRAVITATIONAL_CONSTANT_STR;
+	public static final String GRAVIT_ACC_EARTH_SYN				= GRAVIT_ACC_EARTH_STR;
+	public static final String PLANCK_CONSTANT_SYN				= PLANCK_CONSTANT_STR;
+	public static final String PLANCK_CONSTANT_REDUCED_SYN		= PLANCK_CONSTANT_REDUCED_STR;
+	public static final String PLANCK_LENGTH_SYN				= PLANCK_LENGTH_STR;
+	public static final String PLANCK_MASS_SYN					= PLANCK_MASS_STR;
+	public static final String PLANCK_TIME_SYN					= PLANCK_TIME_STR;
+	/* AstronomicalConstants */
+	public static final String LIGHT_YEAR_SYN					= LIGHT_YEAR_STR;
+	public static final String ASTRONOMICAL_UNIT_SYN			= ASTRONOMICAL_UNIT_STR;
+	public static final String PARSEC_SYN						= PARSEC_STR;
+	public static final String KILOPARSEC_SYN					= KILOPARSEC_STR;
+	public static final String EARTH_RADIUS_EQUATORIAL_SYN		= EARTH_RADIUS_EQUATORIAL_STR;
+	public static final String EARTH_RADIUS_POLAR_SYN			= EARTH_RADIUS_POLAR_STR;
+	public static final String EARTH_RADIUS_MEAN_SYN			= EARTH_RADIUS_MEAN_STR;
+	public static final String EARTH_MASS_SYN					= EARTH_MASS_STR;
+	public static final String EARTH_SEMI_MAJOR_AXIS_SYN		= EARTH_SEMI_MAJOR_AXIS_STR;
+	public static final String MOON_RADIUS_MEAN_SYN				= MOON_RADIUS_MEAN_STR;
+	public static final String MOON_MASS_SYN					= MOON_MASS_STR;
+	public static final String MONN_SEMI_MAJOR_AXIS_SYN			= MONN_SEMI_MAJOR_AXIS_STR;
+	public static final String SOLAR_RADIUS_SYN					= SOLAR_RADIUS_STR;
+	public static final String SOLAR_MASS_SYN					= SOLAR_MASS_STR;
+	public static final String MERCURY_RADIUS_MEAN_SYN			= MERCURY_RADIUS_MEAN_STR;
+	public static final String MERCURY_MASS_SYN					= MERCURY_MASS_STR;
+	public static final String MERCURY_SEMI_MAJOR_AXIS_SYN		= MERCURY_SEMI_MAJOR_AXIS_STR;
+	public static final String VENUS_RADIUS_MEAN_SYN			= VENUS_RADIUS_MEAN_STR;
+	public static final String VENUS_MASS_SYN					= VENUS_MASS_STR;
+	public static final String VENUS_SEMI_MAJOR_AXIS_SYN		= VENUS_SEMI_MAJOR_AXIS_STR;
+	public static final String MARS_RADIUS_MEAN_SYN				= MARS_RADIUS_MEAN_STR;
+	public static final String MARS_MASS_SYN					= MARS_MASS_STR;
+	public static final String MARS_SEMI_MAJOR_AXIS_SYN			= MARS_SEMI_MAJOR_AXIS_STR;
+	public static final String JUPITER_RADIUS_MEAN_SYN			= JUPITER_RADIUS_MEAN_STR;
+	public static final String JUPITER_MASS_SYN					= JUPITER_MASS_STR;
+	public static final String JUPITER_SEMI_MAJOR_AXIS_SYN		= JUPITER_SEMI_MAJOR_AXIS_STR;
+	public static final String SATURN_RADIUS_MEAN_SYN			= SATURN_RADIUS_MEAN_STR;
+	public static final String SATURN_MASS_SYN					= SATURN_MASS_STR;
+	public static final String SATURN_SEMI_MAJOR_AXIS_SYN		= SATURN_SEMI_MAJOR_AXIS_STR;
+	public static final String URANUS_RADIUS_MEAN_SYN			= URANUS_RADIUS_MEAN_STR;
+	public static final String URANUS_MASS_SYN					= URANUS_MASS_STR;
+	public static final String URANUS_SEMI_MAJOR_AXIS_SYN		= URANUS_SEMI_MAJOR_AXIS_STR;
+	public static final String NEPTUNE_RADIUS_MEAN_SYN			= NEPTUNE_RADIUS_MEAN_STR;
+	public static final String NEPTUNE_MASS_SYN					= NEPTUNE_MASS_STR;
+	public static final String NEPTUNE_SEMI_MAJOR_AXIS_SYN		= NEPTUNE_SEMI_MAJOR_AXIS_STR;
+	/* boolean values */
+	public static final String TRUE_SYN							= TRUE_STR;
+	public static final String FALSE_SYN						= FALSE_STR;
+	/* other values */
+	public static final String NAN_SYN							= NAN_STR;
+	/*
 	 * ConstantValue - tokens description.
 	 */
 	public static final String PI_DESC 							= "Pi, Archimedes' constant or Ludolph's number";
@@ -315,57 +412,154 @@ public final class ConstantValue {
 	public static final String PARABOLIC_DESC					= "Parabolic constant";
 	public static final String OMEGA_DESC						= "Omega constant";
 	public static final String MRB_DESC							= "MRB constant";
-	public static final String LI2_DESC							= "(2.3) li(2) - logarithmic integral function at x=2";
-	public static final String GOMPERTZ_DESC					= "(2.3) Gompertz constant";
+	public static final String LI2_DESC							= "li(2) - Logarithmic integral function at x=2";
+	public static final String GOMPERTZ_DESC					= "Gompertz constant";
 	/* Physical Constants */
-	public static final String LIGHT_SPEED_DESC					= "(4.0) <Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)";
-	public static final String GRAVITATIONAL_CONSTANT_DESC		= "(4.0) <Physical Constant> Gravitational constant (m=1, kg=1, s=1)]";
-	public static final String GRAVIT_ACC_EARTH_DESC			= "(4.0) <Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)";
-	public static final String PLANCK_CONSTANT_DESC				= "(4.0) <Physical Constant> Planck constant (m=1, kg=1, s=1)";
-	public static final String PLANCK_CONSTANT_REDUCED_DESC		= "(4.0) <Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]";
-	public static final String PLANCK_LENGTH_DESC				= "(4.0) <Physical Constant> Planck length [m] (m=1)";
-	public static final String PLANCK_MASS_DESC					= "(4.0) <Physical Constant> Planck mass [kg] (kg=1)";
-	public static final String PLANCK_TIME_DESC					= "(4.0) <Physical Constant> Planck time [s] (s=1)";
+	public static final String LIGHT_SPEED_DESC					= "<Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)";
+	public static final String GRAVITATIONAL_CONSTANT_DESC		= "<Physical Constant> Gravitational constant (m=1, kg=1, s=1)]";
+	public static final String GRAVIT_ACC_EARTH_DESC			= "<Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)";
+	public static final String PLANCK_CONSTANT_DESC				= "<Physical Constant> Planck constant (m=1, kg=1, s=1)";
+	public static final String PLANCK_CONSTANT_REDUCED_DESC		= "<Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]";
+	public static final String PLANCK_LENGTH_DESC				= "<Physical Constant> Planck length [m] (m=1)";
+	public static final String PLANCK_MASS_DESC					= "<Physical Constant> Planck mass [kg] (kg=1)";
+	public static final String PLANCK_TIME_DESC					= "<Physical Constant> Planck time [s] (s=1)";
 	/* Astronomical Constants */
-	public static final String LIGHT_YEAR_DESC					= "(4.0) <Astronomical Constant> Light year [m] (m=1)";
-	public static final String ASTRONOMICAL_UNIT_DESC			= "(4.0) <Astronomical Constant> Astronomical unit [m] (m=1)";
-	public static final String PARSEC_DESC						= "(4.0) <Astronomical Constant> Parsec [m] (m=1)";
-	public static final String KILOPARSEC_DESC					= "(4.0) <Astronomical Constant> Kiloparsec [m] (m=1)";
-	public static final String EARTH_RADIUS_EQUATORIAL_DESC		= "(4.0) <Astronomical Constant> Earth equatorial radius [m] (m=1)";
-	public static final String EARTH_RADIUS_POLAR_DESC			= "(4.0) <Astronomical Constant> Earth polar radius [m] (m=1)";
-	public static final String EARTH_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Earth mean radius (m=1)";
-	public static final String EARTH_MASS_DESC					= "(4.0) <Astronomical Constant> Earth mass [kg] (kg=1)";
-	public static final String EARTH_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)";
-	public static final String MOON_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Moon mean radius [m] (m=1)";
-	public static final String MOON_MASS_DESC					= "(4.0) <Astronomical Constant> Moon mass [kg] (kg=1)";
-	public static final String MONN_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)";
-	public static final String SOLAR_RADIUS_DESC				= "(4.0) <Astronomical Constant> Solar mean radius [m] (m=1)";
-	public static final String SOLAR_MASS_DESC					= "(4.0) <Astronomical Constant> Solar mass [kg] (kg=1)";
-	public static final String MERCURY_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Mercury mean radius [m] (m=1)";
-	public static final String MERCURY_MASS_DESC				= "(4.0) <Astronomical Constant> Mercury mass [kg] (kg=1)";
-	public static final String MERCURY_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)";
-	public static final String VENUS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Venus mean radius [m] (m=1)";
-	public static final String VENUS_MASS_DESC					= "(4.0) <Astronomical Constant> Venus mass [kg] (kg=1)";
-	public static final String VENUS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)";
-	public static final String MARS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Mars mean radius [m] (m=1)";
-	public static final String MARS_MASS_DESC					= "(4.0) <Astronomical Constant> Mars mass [kg] (kg=1)";
-	public static final String MARS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)";
-	public static final String JUPITER_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Jupiter mean radius [m] (m=1)";
-	public static final String JUPITER_MASS_DESC				= "(4.0) <Astronomical Constant> Jupiter mass [kg] (kg=1)";
-	public static final String JUPITER_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)";
-	public static final String SATURN_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Saturn mean radius [m] (m=1)";
-	public static final String SATURN_MASS_DESC					= "(4.0) <Astronomical Constant> Saturn mass [kg] (kg=1)";
-	public static final String SATURN_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)";
-	public static final String URANUS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Uranus mean radius [m] (m=1)";
-	public static final String URANUS_MASS_DESC					= "(4.0) <Astronomical Constant> Uranus mass [kg] (kg=1)";
-	public static final String URANUS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)";
-	public static final String NEPTUNE_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Neptune mean radius [m] (m=1)";
-	public static final String NEPTUNE_MASS_DESC				= "(4.0) <Astronomical Constant> Neptune mass [kg] (kg=1)";
-	public static final String NEPTUNE_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
+	public static final String LIGHT_YEAR_DESC					= "<Astronomical Constant> Light year [m] (m=1)";
+	public static final String ASTRONOMICAL_UNIT_DESC			= "<Astronomical Constant> Astronomical unit [m] (m=1)";
+	public static final String PARSEC_DESC						= "<Astronomical Constant> Parsec [m] (m=1)";
+	public static final String KILOPARSEC_DESC					= "<Astronomical Constant> Kiloparsec [m] (m=1)";
+	public static final String EARTH_RADIUS_EQUATORIAL_DESC		= "<Astronomical Constant> Earth equatorial radius [m] (m=1)";
+	public static final String EARTH_RADIUS_POLAR_DESC			= "<Astronomical Constant> Earth polar radius [m] (m=1)";
+	public static final String EARTH_RADIUS_MEAN_DESC			= "<Astronomical Constant> Earth mean radius (m=1)";
+	public static final String EARTH_MASS_DESC					= "<Astronomical Constant> Earth mass [kg] (kg=1)";
+	public static final String EARTH_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)";
+	public static final String MOON_RADIUS_MEAN_DESC			= "<Astronomical Constant> Moon mean radius [m] (m=1)";
+	public static final String MOON_MASS_DESC					= "<Astronomical Constant> Moon mass [kg] (kg=1)";
+	public static final String MONN_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)";
+	public static final String SOLAR_RADIUS_DESC				= "<Astronomical Constant> Solar mean radius [m] (m=1)";
+	public static final String SOLAR_MASS_DESC					= "<Astronomical Constant> Solar mass [kg] (kg=1)";
+	public static final String MERCURY_RADIUS_MEAN_DESC			= "<Astronomical Constant> Mercury mean radius [m] (m=1)";
+	public static final String MERCURY_MASS_DESC				= "<Astronomical Constant> Mercury mass [kg] (kg=1)";
+	public static final String MERCURY_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)";
+	public static final String VENUS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Venus mean radius [m] (m=1)";
+	public static final String VENUS_MASS_DESC					= "<Astronomical Constant> Venus mass [kg] (kg=1)";
+	public static final String VENUS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)";
+	public static final String MARS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Mars mean radius [m] (m=1)";
+	public static final String MARS_MASS_DESC					= "<Astronomical Constant> Mars mass [kg] (kg=1)";
+	public static final String MARS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)";
+	public static final String JUPITER_RADIUS_MEAN_DESC			= "<Astronomical Constant> Jupiter mean radius [m] (m=1)";
+	public static final String JUPITER_MASS_DESC				= "<Astronomical Constant> Jupiter mass [kg] (kg=1)";
+	public static final String JUPITER_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)";
+	public static final String SATURN_RADIUS_MEAN_DESC			= "<Astronomical Constant> Saturn mean radius [m] (m=1)";
+	public static final String SATURN_MASS_DESC					= "<Astronomical Constant> Saturn mass [kg] (kg=1)";
+	public static final String SATURN_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)";
+	public static final String URANUS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Uranus mean radius [m] (m=1)";
+	public static final String URANUS_MASS_DESC					= "<Astronomical Constant> Uranus mass [kg] (kg=1)";
+	public static final String URANUS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)";
+	public static final String NEPTUNE_RADIUS_MEAN_DESC			= "<Astronomical Constant> Neptune mean radius [m] (m=1)";
+	public static final String NEPTUNE_MASS_DESC				= "<Astronomical Constant> Neptune mass [kg] (kg=1)";
+	public static final String NEPTUNE_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
 	/* boolean values */
-	public static final String TRUE_DESC						= "(4.1) Boolean True represented as double, [true] = 1";
-	public static final String FALSE_DESC						= "(4.1) Boolean False represented as double, [false] = 0";
+	public static final String TRUE_DESC						= "Boolean True represented as double, [true] = 1";
+	public static final String FALSE_DESC						= "Boolean False represented as double, [false] = 0";
 	/* other values */	
-	public static final String NAN_DESC							= "(4.1) Not-a-Number";
+	public static final String NAN_DESC							= "Not-a-Number";
+
+	/*
+	 * ConstantValue - since.
+	 */
+	public static final String PI_SINCE							= mXparser.NAMEv10;
+	public static final String EULER_SINCE						= mXparser.NAMEv10;
+	public static final String EULER_MASCHERONI_SINCE			= mXparser.NAMEv10;
+	public static final String GOLDEN_RATIO_SINCE				= mXparser.NAMEv10;
+	public static final String PLASTIC_SINCE					= mXparser.NAMEv10;
+	public static final String EMBREE_TREFETHEN_SINCE			= mXparser.NAMEv10;
+	public static final String FEIGENBAUM_DELTA_SINCE			= mXparser.NAMEv10;
+	public static final String FEIGENBAUM_ALFA_SINCE			= mXparser.NAMEv10;
+	public static final String TWIN_PRIME_SINCE					= mXparser.NAMEv10;
+	public static final String MEISSEL_MERTEENS_SINCE			= mXparser.NAMEv10;
+	public static final String BRAUN_TWIN_PRIME_SINCE			= mXparser.NAMEv10;
+	public static final String BRAUN_PRIME_QUADR_SINCE			= mXparser.NAMEv10;
+	public static final String BRUIJN_NEWMAN_SINCE				= mXparser.NAMEv10;
+	public static final String CATALAN_SINCE					= mXparser.NAMEv10;
+	public static final String LANDAU_RAMANUJAN_SINCE			= mXparser.NAMEv10;
+	public static final String VISWANATH_SINCE					= mXparser.NAMEv10;
+	public static final String LEGENDRE_SINCE					= mXparser.NAMEv10;
+	public static final String RAMANUJAN_SOLDNER_SINCE			= mXparser.NAMEv10;
+	public static final String ERDOS_BORWEIN_SINCE				= mXparser.NAMEv10;
+	public static final String BERNSTEIN_SINCE					= mXparser.NAMEv10;
+	public static final String GAUSS_KUZMIN_WIRSING_SINCE		= mXparser.NAMEv10;
+	public static final String HAFNER_SARNAK_MCCURLEY_SINCE		= mXparser.NAMEv10;
+	public static final String GOLOMB_DICKMAN_SINCE				= mXparser.NAMEv10;
+	public static final String CAHEN_SINCE						= mXparser.NAMEv10;
+	public static final String LAPLACE_LIMIT_SINCE				= mXparser.NAMEv10;
+	public static final String ALLADI_GRINSTEAD_SINCE			= mXparser.NAMEv10;
+	public static final String LENGYEL_SINCE					= mXparser.NAMEv10;
+	public static final String LEVY_SINCE						= mXparser.NAMEv10;
+	public static final String APERY_SINCE						= mXparser.NAMEv10;
+	public static final String MILLS_SINCE						= mXparser.NAMEv10;
+	public static final String BACKHOUSE_SINCE					= mXparser.NAMEv10;
+	public static final String PORTER_SINCE						= mXparser.NAMEv10;
+	public static final String LIEB_QUARE_ICE_SINCE				= mXparser.NAMEv10;
+	public static final String NIVEN_SINCE						= mXparser.NAMEv10;
+	public static final String SIERPINSKI_SINCE					= mXparser.NAMEv10;
+	public static final String KHINCHIN_SINCE					= mXparser.NAMEv10;
+	public static final String FRANSEN_ROBINSON_SINCE			= mXparser.NAMEv10;
+	public static final String LANDAU_SINCE						= mXparser.NAMEv10;
+	public static final String PARABOLIC_SINCE					= mXparser.NAMEv10;
+	public static final String OMEGA_SINCE						= mXparser.NAMEv10;
+	public static final String MRB_SINCE						= mXparser.NAMEv10;
+	public static final String LI2_SINCE						= mXparser.NAMEv23;
+	public static final String GOMPERTZ_SINCE					= mXparser.NAMEv23;
+	/* Physical Constants */
+	public static final String LIGHT_SPEED_SINCE				= mXparser.NAMEv40;
+	public static final String GRAVITATIONAL_CONSTANT_SINCE		= mXparser.NAMEv40;
+	public static final String GRAVIT_ACC_EARTH_SINCE			= mXparser.NAMEv40;
+	public static final String PLANCK_CONSTANT_SINCE			= mXparser.NAMEv40;
+	public static final String PLANCK_CONSTANT_REDUCED_SINCE	= mXparser.NAMEv40;
+	public static final String PLANCK_LENGTH_SINCE				= mXparser.NAMEv40;
+	public static final String PLANCK_MASS_SINCE				= mXparser.NAMEv40;
+	public static final String PLANCK_TIME_SINCE				= mXparser.NAMEv40;
+	/* AstronomicalConstants */
+	public static final String LIGHT_YEAR_SINCE					= mXparser.NAMEv40;
+	public static final String ASTRONOMICAL_UNIT_SINCE			= mXparser.NAMEv40;
+	public static final String PARSEC_SINCE						= mXparser.NAMEv40;
+	public static final String KILOPARSEC_SINCE					= mXparser.NAMEv40;
+	public static final String EARTH_RADIUS_EQUATORIAL_SINCE	= mXparser.NAMEv40;
+	public static final String EARTH_RADIUS_POLAR_SINCE			= mXparser.NAMEv40;
+	public static final String EARTH_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+	public static final String EARTH_MASS_SINCE					= mXparser.NAMEv40;
+	public static final String EARTH_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+	public static final String MOON_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+	public static final String MOON_MASS_SINCE					= mXparser.NAMEv40;
+	public static final String MONN_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+	public static final String SOLAR_RADIUS_SINCE				= mXparser.NAMEv40;
+	public static final String SOLAR_MASS_SINCE					= mXparser.NAMEv40;
+	public static final String MERCURY_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+	public static final String MERCURY_MASS_SINCE				= mXparser.NAMEv40;
+	public static final String MERCURY_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+	public static final String VENUS_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+	public static final String VENUS_MASS_SINCE					= mXparser.NAMEv40;
+	public static final String VENUS_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+	public static final String MARS_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+	public static final String MARS_MASS_SINCE					= mXparser.NAMEv40;
+	public static final String MARS_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+	public static final String JUPITER_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+	public static final String JUPITER_MASS_SINCE				= mXparser.NAMEv40;
+	public static final String JUPITER_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+	public static final String SATURN_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+	public static final String SATURN_MASS_SINCE				= mXparser.NAMEv40;
+	public static final String SATURN_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+	public static final String URANUS_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+	public static final String URANUS_MASS_SINCE				= mXparser.NAMEv40;
+	public static final String URANUS_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+	public static final String NEPTUNE_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+	public static final String NEPTUNE_MASS_SINCE				= mXparser.NAMEv40;
+	public static final String NEPTUNE_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+	/* boolean values */
+	public static final String TRUE_SINCE						= mXparser.NAMEv41;
+	public static final String FALSE_SINCE						= mXparser.NAMEv41;
+	/* other values */
+	public static final String NAN_SINCE						= mXparser.NAMEv41;
 }
 

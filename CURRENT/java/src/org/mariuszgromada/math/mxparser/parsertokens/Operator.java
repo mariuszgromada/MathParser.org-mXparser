@@ -1,9 +1,9 @@
 /*
- * @(#)Operator.java        3.0.0    2016-05-07
+ * @(#)Operator.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Operators - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class Operator {
 	/*
@@ -98,13 +99,33 @@ public final class Operator {
 	public static final String FACT_STR 			= "!";
 	public static final String MOD_STR				= "#";
 	/*
+	 * Operator - syntax.
+	 */
+	public static final String PLUS_SYN 			= "a + b";
+	public static final String MINUS_SYN 			= "a - b";
+	public static final String MULTIPLY_SYN 		= "a * b";
+	public static final String DIVIDE_SYN 			= "a / b";
+	public static final String POWER_SYN 			= "a^b";
+	public static final String FACT_SYN 			= "n!";
+	public static final String MOD_SYN				= "a # b";
+	/*
 	 * Operator - tokens description.
 	 */
-	public static final String PLUS_DESC 			= "addition";
-	public static final String MINUS_DESC 			= "subtraction";
-	public static final String MULTIPLY_DESC 		= "multiplication";
-	public static final String DIVIDE_DESC 			= "division";
-	public static final String POWER_DESC 			= "exponentiation";
-	public static final String FACT_DESC			= "factorial";
-	public static final String MOD_DESC				= "modulo function";
+	public static final String PLUS_DESC 			= "Addition";
+	public static final String MINUS_DESC 			= "Subtraction";
+	public static final String MULTIPLY_DESC 		= "Nultiplication";
+	public static final String DIVIDE_DESC 			= "Division";
+	public static final String POWER_DESC 			= "Exponentiation";
+	public static final String FACT_DESC			= "Factorial";
+	public static final String MOD_DESC				= "Modulo function";
+	/*
+	 * Operator - since.
+	 */
+	public static final String PLUS_SINCE 			= mXparser.NAMEv10;
+	public static final String MINUS_SINCE 			= mXparser.NAMEv10;
+	public static final String MULTIPLY_SINCE 		= mXparser.NAMEv10;
+	public static final String DIVIDE_SINCE 		= mXparser.NAMEv10;
+	public static final String POWER_SINCE 			= mXparser.NAMEv10;
+	public static final String FACT_SINCE			= mXparser.NAMEv10;
+	public static final String MOD_SINCE			= mXparser.NAMEv10;
 }

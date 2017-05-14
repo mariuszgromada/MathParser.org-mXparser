@@ -1,5 +1,5 @@
 /*
- * @(#)BooleanOperator.java        4.1.0    2017-04-18
+ * @(#)BooleanOperator.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Boolean Operators - mXparser tokens definition.
  *
@@ -114,18 +115,53 @@ public final class BooleanOperator {
 	public static final String CNIMP_STR			= "</-";
 	public static final String EQV_STR				= "<->";
 	/*
+	 * BooleanOperator - syntax.
+	 */
+	public static final String NEG_SYN				= "~p";
+	public static final String AND_SYN				= "p & q";
+	public static final String AND1_SYN				= "p && q";
+	public static final String AND2_SYN				= "p /\\ q";
+	public static final String NAND_SYN				= "p " + NEG_STR + AND_STR + " q";
+	public static final String NAND1_SYN			= "p " + NEG_STR + AND1_STR + " q";
+	public static final String NAND2_SYN			= "p " + NEG_STR + AND2_STR + " q";
+	public static final String OR_SYN				= "p | q";
+	public static final String OR1_SYN				= "p || q";
+	public static final String OR2_SYN				= "p \\/ q";
+	public static final String NOR_SYN				= "p " + NEG_STR + OR_STR + " q";
+	public static final String NOR1_SYN				= "p " + NEG_STR + OR1_STR + " q";
+	public static final String NOR2_SYN				= "p " + NEG_STR + OR2_STR + " q";
+	public static final String XOR_SYN				= "p (+) q";
+	public static final String IMP_SYN				= "p --> q";
+	public static final String CIMP_SYN				= "p <-- q";
+	public static final String NIMP_SYN				= "p  -/> q";
+	public static final String CNIMP_SYN			= "p </- q";
+	public static final String EQV_SYN				= "p <-> q";
+	/*
 	 * BooleanOperator - tokens description.
 	 */
-	public static final String AND_DESC				= "logical conjunction (AND)";
-	public static final String OR_DESC				= "logical disjunction (OR)";
-	public static final String NEG_DESC				= "negation";
+	public static final String AND_DESC				= "Logical conjunction (AND)";
+	public static final String OR_DESC				= "Logical disjunction (OR)";
+	public static final String NEG_DESC				= "Negation";
 	public static final String NAND_DESC			= "NAND - Sheffer stroke";
-	public static final String NOR_DESC				= "logical NOR";
-	public static final String XOR_DESC				= "exclusive or (XOR)";
-	public static final String IMP_DESC				= "implication (IMP)";
-	public static final String CIMP_DESC			= "converse implication (CIMP)";
-	public static final String NIMP_DESC			= "material nonimplication (NIMP)";
-	public static final String CNIMP_DESC			= "converse nonimplication (CNIMP)";
-	public static final String EQV_DESC				= "logical biconditional (EQV)";
+	public static final String NOR_DESC				= "Logical NOR";
+	public static final String XOR_DESC				= "Exclusive or (XOR)";
+	public static final String IMP_DESC				= "Implication (IMP)";
+	public static final String CIMP_DESC			= "Converse implication (CIMP)";
+	public static final String NIMP_DESC			= "Material nonimplication (NIMP)";
+	public static final String CNIMP_DESC			= "Converse nonimplication (CNIMP)";
+	public static final String EQV_DESC				= "Logical biconditional (EQV)";
+	/*
+	 * BooleanOperator - since.
+	 */
+	public static final String AND_SINCE			= mXparser.NAMEv10;
+	public static final String OR_SINCE				= mXparser.NAMEv10;
+	public static final String NEG_SINCE			= mXparser.NAMEv10;
+	public static final String NAND_SINCE			= mXparser.NAMEv10;
+	public static final String NOR_SINCE			= mXparser.NAMEv10;
+	public static final String XOR_SINCE			= mXparser.NAMEv10;
+	public static final String IMP_SINCE			= mXparser.NAMEv10;
+	public static final String CIMP_SINCE			= mXparser.NAMEv10;
+	public static final String NIMP_SINCE			= mXparser.NAMEv10;
+	public static final String CNIMP_SINCE			= mXparser.NAMEv10;
+	public static final String EQV_SINCE			= mXparser.NAMEv10;
 }
-

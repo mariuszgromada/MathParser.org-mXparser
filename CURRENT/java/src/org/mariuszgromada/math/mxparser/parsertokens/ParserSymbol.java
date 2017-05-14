@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        4.0.0    2017-03-26
+ * @(#)ParserSymbol.java        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Parser symbols - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public final class ParserSymbol {
 	/*
@@ -109,12 +110,28 @@ public final class ParserSymbol {
 	public static final String NUMBER_STR					= "_num_";
 	public static final String NUMBER_REG_EXP				= NUMBER_CONST;
 	/*
+	 * ParserSymbol - syntax.
+	 */
+	public static final String LEFT_PARENTHESES_SYN 		= "( ... )";
+	public static final String RIGHT_PARENTHESES_SYN		= "( ... )";
+	public static final String COMMA_SYN					= "(a1, ... ,an)";
+	public static final String SEMI_SYN						= "(a1; ... ;an)";
+	public static final String NUMBER_SYN					= "1, -2, 001, +001.2e-10, ...";
+	/*
 	 * ParserSymbol - tokens description.
 	 */
-	public static final String LEFT_PARENTHESES_DESC 		= "left parentheses";
-	public static final String RIGHT_PARENTHESES_DESC		= "right parentheses";
-	public static final String COMMA_DESC					= "comma (function parameters)";
-	public static final String SEMI_DESC					= "semicolon (function parameters)";
-	public static final String NUMBER_DESC					= "decimal number";
-	public static final String NUMBER_REG_DESC				= "regullar expression for decimal numbers";
+	public static final String LEFT_PARENTHESES_DESC 		= "Left parentheses";
+	public static final String RIGHT_PARENTHESES_DESC		= "Right parentheses";
+	public static final String COMMA_DESC					= "Comma (function parameters)";
+	public static final String SEMI_DESC					= "Semicolon (function parameters)";
+	public static final String NUMBER_DESC					= "Decimal number";
+	public static final String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
+	/*
+	 * ParserSymbol - since.
+	 */
+	public static final String LEFT_PARENTHESES_SINCE 		= mXparser.NAMEv10;
+	public static final String RIGHT_PARENTHESES_SINCE		= mXparser.NAMEv10;
+	public static final String COMMA_SINCE					= mXparser.NAMEv10;
+	public static final String SEMI_SINCE					= mXparser.NAMEv10;
+	public static final String NUMBER_SINCE					= mXparser.NAMEv10;
 }

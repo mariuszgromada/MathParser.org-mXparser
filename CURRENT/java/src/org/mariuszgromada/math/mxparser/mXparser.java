@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.0    2017-04-22
+ * @(#)mXparser.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -874,4 +874,14 @@ public final class mXparser {
         }
         while (t1-t0<n);
 	}
+	/*
+	 * mXparser version names
+	 */
+	public static final String NAMEv10 = "1.0";
+	public static final String NAMEv20 = "2.0";
+	public static final String NAMEv23 = "2.3";
+	public static final String NAMEv24 = "2.4";
+	public static final String NAMEv30 = "3.0";
+	public static final String NAMEv40 = "4.0";
+	public static final String NAMEv41 = "4.1";
 }

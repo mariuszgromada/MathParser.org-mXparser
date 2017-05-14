@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        4.1.0    2017-04-22
+ * @(#)Miscellaneous.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -156,30 +156,31 @@ class KeyWord {
 	int	wordId;
 	int wordTypeId;
 	String description;
+	String syntax;
+	String since;
 	public KeyWord() {
 		wordString = "";
 		wordId = ConstantValue.NaN;
 		wordTypeId = ConstantValue.NaN;
 		description = "";
+		syntax = "";
+		since = "";
 	}
 	/**
-	 * Constructor - creates key words form wordStrin wordId
+	 * Constructor - creates key words form wordString wordId
 	 * and wordTypId
 	 *
 	 * @param wordString   the word string (refers to below interfaces)
 	 * @param wordId       the word identifier (refers to below interfaces)
 	 * @param wordTypeId   the word type (refers to below interfaces)
 	 */
-	KeyWord(String wordString, int wordId, int wordTypeId) {
-		this.wordString = wordString;
-		this.wordId = wordId;
-		this.wordTypeId = wordTypeId;
-	}
-	KeyWord(String wordString, String description, int wordId, int wordTypeId) {
+	KeyWord(String wordString, String description, int wordId, String syntax, String since, int wordTypeId) {
 		this.wordString = wordString;
 		this.wordId = wordId;
 		this.wordTypeId = wordTypeId;
 		this.description = description;
+		this.syntax = syntax;
+		this.since = since;
 	}
 }
 /**

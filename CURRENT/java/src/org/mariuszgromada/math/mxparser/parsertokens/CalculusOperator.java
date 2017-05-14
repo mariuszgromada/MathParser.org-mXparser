@@ -1,5 +1,5 @@
 /*
- * @(#)CalculusOperator.java        4.0.0    2016-03-26
+ * @(#)CalculusOperator.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Calculus Operators - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public final class CalculusOperator {
 	/*
@@ -113,24 +114,58 @@ public final class CalculusOperator {
 	public static final String MIN_STR					= "mini";
 	public static final String MAX_STR					= "maxi";
 	public static final String SOLVE_STR				= "solve";
-
+	/*
+	 * CalculusOperator - tokens key words.
+	 */
+	public static final String SUM_SYN					= "sum( i, from, to, expr , <by> )";
+	public static final String PROD_SYN					= "prod( i, from, to, expr , <by> )";
+	public static final String INT_SYN					= "int( expr, arg, from, to )";
+	public static final String DER_SYN					= "der( expr, arg )";
+	public static final String DER_LEFT_SYN				= "der-( expr, arg )";
+	public static final String DER_RIGHT_SYN			= "der+( expr, arg )";
+	public static final String DERN_SYN					= "dern( expr, n, arg )";
+	public static final String FORW_DIFF_SYN			= "diff( expr, arg, <delta> )";
+	public static final String BACKW_DIFF_SYN			= "difb( expr, arg, <delta> )";
+	public static final String AVG_SYN					= "avg( i, from, to, expr , <by> )";
+	public static final String VAR_SYN					= "vari( i, from, to, expr , <by> )";
+	public static final String STD_SYN					= "stdi( i, from, to, expr , <by> )";
+	public static final String MIN_SYN					= "mini( i, from, to, expr , <by> )";
+	public static final String MAX_SYN					= "maxi( i, from, to, expr , <by> )";
+	public static final String SOLVE_SYN				= "solve( expr, a, b )";
 	/*
 	 * CalculusOperator - tokens description.
 	 */
-	public static final String SUM_DESC					= "summation operator (SIGMA) sum(i, from, to, f(i,...))";
-	public static final String PROD_DESC				= "product operator (PI) prod(i, from, to, f(i,...))";
-	public static final String INT_DESC					= "definite integral operator ( int(f(x,...), x, a, b) )";
-	public static final String DER_DESC					= "derivative operator ( der(f(x,...), x) ) ";
-	public static final String DER_LEFT_DESC			= "left derivative operator ( der-(f(x,...), x) ) ";
-	public static final String DER_RIGHT_DESC			= "right derivative operator ( der+(f(x,...), x) ) ";
-	public static final String DERN_DESC				= "n-th derivative operator ( dern(f(x,...), x) ) ";
-	public static final String FORW_DIFF_DESC			= "forward difference operator";
-	public static final String BACKW_DIFF_DESC			= "backward difference operator";
-	public static final String AVG_DESC					= "(2.4) Average operator avg(i, from, to, f(i,...))";
-	public static final String VAR_DESC					= "(2.4) Bias-corrected sample variance operator vari(i, from, to, f(i,...))";
-	public static final String STD_DESC					= "(2.4) Bias-corrected sample standard deviation operator stdi(i, from, to, f(i,...))";
-	public static final String MIN_DESC					= "(2.4) Minimum value mini(i, from, to, f(i,...))";
-	public static final String MAX_DESC					= "(2.4) Maximum value maxi(i, from, to, f(i,...))";
-	public static final String SOLVE_DESC				= "(4.0) f(x) = 0 equation solving, function root finding: solve( f(x,...), x, a, b )";
+	public static final String SUM_DESC					= "Summation operator - SIGMA";
+	public static final String PROD_DESC				= "Product operator - PI";
+	public static final String INT_DESC					= "Definite integral operator";
+	public static final String DER_DESC					= "Derivative operator";
+	public static final String DER_LEFT_DESC			= "Left derivative operator";
+	public static final String DER_RIGHT_DESC			= "Right derivative operator";
+	public static final String DERN_DESC				= "n-th derivative operator";
+	public static final String FORW_DIFF_DESC			= "Forward difference operator";
+	public static final String BACKW_DIFF_DESC			= "Backward difference operator";
+	public static final String AVG_DESC					= "Average operator";
+	public static final String VAR_DESC					= "Bias-corrected sample variance operator";
+	public static final String STD_DESC					= "Bias-corrected sample standard deviation operator";
+	public static final String MIN_DESC					= "Minimum value";
+	public static final String MAX_DESC					= "Maximum value";
+	public static final String SOLVE_DESC				= "f(x) = 0 equation solving, function root finding";
+	/*
+	 * CalculusOperator - tokens since.
+	 */
+	public static final String SUM_SINCE				= mXparser.NAMEv10;
+	public static final String PROD_SINCE				= mXparser.NAMEv10;
+	public static final String INT_SINCE				= mXparser.NAMEv10;
+	public static final String DER_SINCE				= mXparser.NAMEv10;
+	public static final String DER_LEFT_SINCE			= mXparser.NAMEv10;
+	public static final String DER_RIGHT_SINCE			= mXparser.NAMEv10;
+	public static final String DERN_SINCE				= mXparser.NAMEv10;
+	public static final String FORW_DIFF_SINCE			= mXparser.NAMEv10;
+	public static final String BACKW_DIFF_SINCE			= mXparser.NAMEv10;
+	public static final String AVG_SINCE				= mXparser.NAMEv24;
+	public static final String VAR_SINCE				= mXparser.NAMEv24;
+	public static final String STD_SINCE				= mXparser.NAMEv24;
+	public static final String MIN_SINCE				= mXparser.NAMEv24;
+	public static final String MAX_SINCE				= mXparser.NAMEv24;
+	public static final String SOLVE_SINCE				= mXparser.NAMEv40;
 }
-

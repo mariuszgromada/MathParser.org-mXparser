@@ -1,9 +1,9 @@
 /*
- * @(#)BinaryRelation.java        3.0.0    2016-05-07
+ * @(#)BinaryRelation.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Binary Relations - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class BinaryRelation {
 	/*
@@ -99,12 +100,33 @@ public final class BinaryRelation {
 	public static final String LEQ_STR 				= "<=";
 	public static final String GEQ_STR 				= ">=";
 	/*
+	 * BinaryRelation - syntax.
+	 */
+	public static final String EQ_SYN 				= "a = b";
+	public static final String EQ1_SYN 				= "a == b";
+	public static final String NEQ_SYN 				= "a <> b";
+	public static final String NEQ1_SYN 			= "a ~= b";
+	public static final String NEQ2_SYN 			= "a != b";
+	public static final String LT_SYN 				= "a < b";
+	public static final String GT_SYN 				= "a > b";
+	public static final String LEQ_SYN 				= "a <= b";
+	public static final String GEQ_SYN 				= "a >= b";
+	/*
 	 * BinaryRelation - tokens description.
 	 */
-	public static final String EQ_DESC 				= "equality";
-	public static final String NEQ_DESC				= "inequation";
-	public static final String LT_DESC 				= "lower than";
-	public static final String GT_DESC 				= "greater than";
-	public static final String LEQ_DESC 			= "lower or equal";
-	public static final String GEQ_DESC 			= "greater or equal";
+	public static final String EQ_DESC 				= "Equality";
+	public static final String NEQ_DESC				= "Inequation";
+	public static final String LT_DESC 				= "Lower than";
+	public static final String GT_DESC 				= "Greater than";
+	public static final String LEQ_DESC 			= "Lower or equal";
+	public static final String GEQ_DESC 			= "Greater or equal";
+	/*
+	 * BinaryRelation - since.
+	 */
+	public static final String EQ_SINCE				= mXparser.NAMEv10;
+	public static final String NEQ_SINCE			= mXparser.NAMEv10;
+	public static final String LT_SINCE 			= mXparser.NAMEv10;
+	public static final String GT_SINCE				= mXparser.NAMEv10;
+	public static final String LEQ_SINCE 			= mXparser.NAMEv10;
+	public static final String GEQ_SINCE 			= mXparser.NAMEv10;
 }

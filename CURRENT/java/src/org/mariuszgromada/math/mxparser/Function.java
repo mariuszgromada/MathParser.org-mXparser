@@ -622,6 +622,19 @@ public class Function extends PrimitiveElement {
 		}
 	}
 	/**
+	 * Gets user defined function parameter name
+	 * 
+	 * @param parameterIndex  Parameter index between 0 and n-1
+	 * @return If parameter exists returns parameters name, otherwise empty string is returned.
+	 */
+	public String getParameterName(int parameterIndex) {
+		if (parameterIndex < 0) return "";
+		if (parameterIndex >= parametersNumber) return "";
+		if (functionBodyType == BODY_RUNTIME) return getArgument(parameterIndex).getArgumentName();
+		if (functionBodyType == BODY_EXTENDED) return this.functionExtension.getParameterName(parameterIndex);
+		return "";
+	}
+	/**
 	 * Gets number of arguments associated with the function expression.
 	 *
 	 * @return     The number of arguments (int &gt;= 0)

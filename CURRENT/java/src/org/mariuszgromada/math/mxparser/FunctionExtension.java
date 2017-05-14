@@ -97,6 +97,13 @@ public interface FunctionExtension {
 	 */
 	public void setParameterValue(int parameterIndex, double parameterValue);
 	/**
+	 * Gets parameter name
+	 * 
+	 * @param parameterIndex    - parameter index (from 0 to n-1)
+	 * @return Returns parameter name
+	 */
+	public String getParameterName(int parameterIndex);
+	/**
 	 * Actual algorithm implementation.
 	 * 
 	 * @param parameters Function parameters.

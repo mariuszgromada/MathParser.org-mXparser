@@ -3,7 +3,7 @@
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Unary functions (1 argument) - mXparser tokens definition.
  *
@@ -227,58 +228,207 @@ public final class Function1Arg {
 	public static final String ULP_STR					= "ulp";
 	public static final String ISNAN_STR				= "isNaN";
 	/*
+	 * UnaryFunction - syntax.
+	 */
+	public static final String SIN_SYN 					= SIN_STR + "(x)";
+	public static final String COS_SYN 					= COS_STR + "(x)";
+	public static final String TAN_SYN					= TAN_STR + "(x)";
+	public static final String TG_SYN					= TG_STR + "(x)";
+	public static final String CTAN_SYN 				= CTAN_STR + "(x)";
+	public static final String CTG_SYN 					= CTG_STR + "(x)";
+	public static final String COT_SYN 					= COT_STR + "(x)";
+	public static final String SEC_SYN 					= SEC_STR + "(x)";
+	public static final String COSEC_SYN 				= COSEC_STR + "(x)";
+	public static final String CSC_SYN 					= CSC_STR + "(x)";
+	public static final String ASIN_SYN 				= ASIN_STR + "(x)";
+	public static final String ARSIN_SYN 				= ARSIN_STR + "(x)";
+	public static final String ARCSIN_SYN 				= ARCSIN_STR + "(x)";
+	public static final String ACOS_SYN 				= ACOS_STR + "(x)";
+	public static final String ARCOS_SYN 				= ARCOS_STR + "(x)";
+	public static final String ARCCOS_SYN 				= ARCCOS_STR + "(x)";
+	public static final String ATAN_SYN 				= ATAN_STR + "(x)";
+	public static final String ARCTAN_SYN 				= ARCTAN_STR + "(x)";
+	public static final String ATG_SYN 					= ATG_STR + "(x)";
+	public static final String ARCTG_SYN 				= ARCTG_STR + "(x)";
+	public static final String ACTAN_SYN 				= ACTAN_STR + "(x)";
+	public static final String ARCCTAN_SYN 				= ARCCTAN_STR + "(x)";
+	public static final String ACTG_SYN 				= ACTG_STR + "(x)";
+	public static final String ARCCTG_SYN 				= ARCCTG_STR + "(x)";
+	public static final String ACOT_SYN 				= ACOT_STR + "(x)";
+	public static final String ARCCOT_SYN 				= ARCCOT_STR + "(x)";
+	public static final String LN_SYN 					= LN_STR + "(x)";
+	public static final String LOG2_SYN 				= LOG2_STR + "(x)";
+	public static final String LOG10_SYN 				= LOG10_STR + "(x)";
+	public static final String RAD_SYN 					= RAD_STR + "(x)";
+	public static final String EXP_SYN 					= EXP_STR + "(x)";
+	public static final String SQRT_SYN 				= SQRT_STR + "(x)";
+	public static final String SINH_SYN 				= SINH_STR + "(x)";
+	public static final String COSH_SYN 				= COSH_STR + "(x)";
+	public static final String TANH_SYN 				= TANH_STR + "(x)";
+	public static final String TGH_SYN 					= TGH_STR + "(x)";
+	public static final String CTANH_SYN 				= CTANH_STR + "(x)";
+	public static final String COTH_SYN 				= COTH_STR + "(x)";
+	public static final String CTGH_SYN 				= CTGH_STR + "(x)";
+	public static final String SECH_SYN 				= SECH_STR + "(x)";
+	public static final String CSCH_SYN 				= CSCH_STR + "(x)";
+	public static final String COSECH_SYN 				= COSECH_STR + "(x)";
+	public static final String DEG_SYN 					= DEG_STR + "(x)";
+	public static final String ABS_SYN 					= ABS_STR + "(x)";
+	public static final String SGN_SYN					= SGN_STR + "(x)";
+	public static final String FLOOR_SYN				= FLOOR_STR + "(x)";
+	public static final String CEIL_SYN					= CEIL_STR + "(x)";
+	public static final String NOT_SYN					= NOT_STR + "(x)";
+	public static final String ASINH_SYN 				= ASINH_STR + "(x)";
+	public static final String ARSINH_SYN 				= ARSINH_STR + "(x)";
+	public static final String ARCSINH_SYN 				= ARCSINH_STR + "(x)";
+	public static final String ACOSH_SYN 				= ACOSH_STR + "(x)";
+	public static final String ARCOSH_SYN 				= ARCOSH_STR + "(x)";
+	public static final String ARCCOSH_SYN 				= ARCCOSH_STR + "(x)";
+	public static final String ATANH_SYN 				= ATANH_STR + "(x)";
+	public static final String ARCTANH_SYN 				= ARCTANH_STR + "(x)";
+	public static final String ATGH_SYN 				= ATGH_STR + "(x)";
+	public static final String ARCTGH_SYN 				= ARCTGH_STR + "(x)";
+	public static final String ACTANH_SYN 				= ACTANH_STR + "(x)";
+	public static final String ARCCTANH_SYN 			= ARCCTANH_STR + "(x)";
+	public static final String ACOTH_SYN 				= ACOTH_STR + "(x)";
+	public static final String ARCOTH_SYN 				= ARCOTH_STR + "(x)";
+	public static final String ARCCOTH_SYN 				= ARCCOTH_STR + "(x)";
+	public static final String ACTGH_SYN 				= ACTGH_STR + "(x)";
+	public static final String ARCCTGH_SYN 				= ARCCTGH_STR + "(x)";
+	public static final String ASECH_SYN 				= ASECH_STR + "(x)";
+	public static final String ARSECH_SYN 				= ARSECH_STR + "(x)";
+	public static final String ARCSECH_SYN 				= ARCSECH_STR + "(x)";
+	public static final String ACSCH_SYN 				= ACSCH_STR + "(x)";
+	public static final String ARCSCH_SYN 				= ARCSCH_STR + "(x)";
+	public static final String ARCCSCH_SYN 				= ARCCSCH_STR + "(x)";
+	public static final String ACOSECH_SYN 				= ACOSECH_STR + "(x)";
+	public static final String ARCOSECH_SYN 			= ARCOSECH_STR + "(x)";
+	public static final String ARCCOSECH_SYN 			= ARCCOSECH_STR + "(x)";
+	public static final String SA_SYN					= SA_STR + "(x)";
+	public static final String SA1_SYN					= SA1_STR + "(x)";
+	public static final String SINC_SYN					= SINC_STR + "(x)";
+	public static final String BELL_NUMBER_SYN			= BELL_NUMBER_STR + "(n)";
+	public static final String LUCAS_NUMBER_SYN			= LUCAS_NUMBER_STR + "(n)";
+	public static final String FIBONACCI_NUMBER_SYN		= FIBONACCI_NUMBER_STR + "(n)";
+	public static final String HARMONIC_NUMBER_SYN		= HARMONIC_NUMBER_STR + "(n)";
+	public static final String IS_PRIME_SYN				= IS_PRIME_STR + "(n)";
+	public static final String PRIME_COUNT_SYN			= PRIME_COUNT_STR + "(n)";
+	public static final String EXP_INT_SYN				= EXP_INT_STR + "(x)";
+	public static final String LOG_INT_SYN				= LOG_INT_STR + "(x)";
+	public static final String OFF_LOG_INT_SYN			= OFF_LOG_INT_STR + "(x)";
+	public static final String GAUSS_ERF_SYN			= GAUSS_ERF_STR + "(x)";
+	public static final String GAUSS_ERFC_SYN			= GAUSS_ERFC_STR + "(x)";
+	public static final String GAUSS_ERF_INV_SYN		= GAUSS_ERF_INV_STR + "(x)";
+	public static final String GAUSS_ERFC_INV_SYN		= GAUSS_ERFC_INV_STR + "(x)";
+	public static final String ULP_SYN					= ULP_STR + "(x)";
+	public static final String ISNAN_SYN				= ISNAN_STR + "(x)";
+	/*
 	 * UnaryFunction - tokens description.
 	 */
-	public static final String SIN_DESC 				= "trigonometric sine function";
-	public static final String COS_DESC 				= "trigonometric cosine function";
-	public static final String TAN_DESC					= "trigonometric tangent function";
-	public static final String CTAN_DESC 				= "trigonometric cotangent function";
-	public static final String SEC_DESC 				= "trigonometric secant function";
-	public static final String COSEC_DESC 				= "trigonometric cosecant function";
-	public static final String ASIN_DESC 				= "inverse trigonometric sine function";
-	public static final String ACOS_DESC 				= "inverse trigonometric cosine function";
-	public static final String ATAN_DESC 				= "inverse trigonometric tangent function";
-	public static final String ACTAN_DESC 				= "inverse trigonometric cotangent function";
-	public static final String LN_DESC 					= "natural logarithm function (base e)";
-	public static final String LOG2_DESC 				= "binary logarithm function (base 2)";
-	public static final String LOG10_DESC 				= "common logarithm function (base 10)";
-	public static final String RAD_DESC 				= "degrees to radians function";
-	public static final String EXP_DESC 				= "exponential function";
-	public static final String SQRT_DESC 				= "squre root function";
-	public static final String SINH_DESC 				= "hyperbolic sine function";
-	public static final String COSH_DESC 				= "hyperbolic cosine function";
-	public static final String TANH_DESC 				= "hyperbolic tangent function";
-	public static final String COTH_DESC 				= "hyperbolic cotangent function";
-	public static final String SECH_DESC 				= "hyperbolic secant function";
-	public static final String CSCH_DESC 				= "hyperbolic cosecant function";
-	public static final String DEG_DESC 				= "radians to degrees function";
-	public static final String ABS_DESC 				= "absolut value function";
-	public static final String SGN_DESC					= "signum function";
-	public static final String FLOOR_DESC				= "floor function";
-	public static final String CEIL_DESC				= "ceiling function";
-	public static final String NOT_DESC					= "negation function";
-	public static final String ARSINH_DESC				= "inverse hyperbolic sine function";
-	public static final String ARCOSH_DESC				= "inverse hyperbolic cosine function";
-	public static final String ARTANH_DESC				= "inverse hyperbolic tangent function";
-	public static final String ARCOTH_DESC				= "inverse hyperbolic cotangent function";
-	public static final String ARSECH_DESC				= "inverse hyperbolic secant function";
-	public static final String ARCSCH_DESC				= "inverse hyperbolic cosecant function";
-	public static final String SA_DESC					= "sinc function (normalized)";
-	public static final String SINC_DESC				= "sinc function (unnormalized)";
+	public static final String SIN_DESC 				= "Trigonometric sine function";
+	public static final String COS_DESC 				= "Trigonometric cosine function";
+	public static final String TAN_DESC					= "Trigonometric tangent function";
+	public static final String CTAN_DESC 				= "Trigonometric cotangent function";
+	public static final String SEC_DESC 				= "Trigonometric secant function";
+	public static final String COSEC_DESC 				= "Trigonometric cosecant function";
+	public static final String ASIN_DESC 				= "Inverse trigonometric sine function";
+	public static final String ACOS_DESC 				= "Inverse trigonometric cosine function";
+	public static final String ATAN_DESC 				= "Inverse trigonometric tangent function";
+	public static final String ACTAN_DESC 				= "Inverse trigonometric cotangent function";
+	public static final String LN_DESC 					= "Natural logarithm function (base e)";
+	public static final String LOG2_DESC 				= "Binary logarithm function (base 2)";
+	public static final String LOG10_DESC 				= "Common logarithm function (base 10)";
+	public static final String RAD_DESC 				= "Degrees to radians function";
+	public static final String EXP_DESC 				= "Exponential function";
+	public static final String SQRT_DESC 				= "Squre root function";
+	public static final String SINH_DESC 				= "Hyperbolic sine function";
+	public static final String COSH_DESC 				= "Hyperbolic cosine function";
+	public static final String TANH_DESC 				= "Hyperbolic tangent function";
+	public static final String COTH_DESC 				= "Hyperbolic cotangent function";
+	public static final String SECH_DESC 				= "Hyperbolic secant function";
+	public static final String CSCH_DESC 				= "Hyperbolic cosecant function";
+	public static final String DEG_DESC 				= "Radians to degrees function";
+	public static final String ABS_DESC 				= "Absolut value function";
+	public static final String SGN_DESC					= "Signum function";
+	public static final String FLOOR_DESC				= "Floor function";
+	public static final String CEIL_DESC				= "Ceiling function";
+	public static final String NOT_DESC					= "Negation function";
+	public static final String ARSINH_DESC				= "Inverse hyperbolic sine function";
+	public static final String ARCOSH_DESC				= "Inverse hyperbolic cosine function";
+	public static final String ARTANH_DESC				= "Inverse hyperbolic tangent function";
+	public static final String ARCOTH_DESC				= "Inverse hyperbolic cotangent function";
+	public static final String ARSECH_DESC				= "Inverse hyperbolic secant function";
+	public static final String ARCSCH_DESC				= "Inverse hyperbolic cosecant function";
+	public static final String SA_DESC					= "Sinc function (normalized)";
+	public static final String SINC_DESC				= "Sinc function (unnormalized)";
 	public static final String BELL_NUMBER_DESC			= "Bell number";
 	public static final String LUCAS_NUMBER_DESC		= "Lucas number";
 	public static final String FIBONACCI_NUMBER_DESC	= "Fibonacci number";
 	public static final String HARMONIC_NUMBER_DESC		= "Harmonic number";
-	public static final String IS_PRIME_DESC			= "(2.3) Prime number test (is number a prime?)";
-	public static final String PRIME_COUNT_DESC			= "(2.3) Prime-counting function - Pi(x)";
-	public static final String EXP_INT_DESC				= "(2.3) Exponential integral function (non-elementary special function) - usage example: Ei(x)";
-	public static final String LOG_INT_DESC				= "(2.3) Logarithmic integral function (non-elementary special function) - usage example: li(x)";
-	public static final String OFF_LOG_INT_DESC			= "(2.3) Offset logarithmic integral function (non-elementary special function) - usage example: Li(x)";
-	public static final String GAUSS_ERF_DESC			= "(3.0) Gauss error function (non-elementary special function) - usage example: 2 + erf(x)";
-	public static final String GAUSS_ERFC_DESC			= "(3.0) Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)";
-	public static final String GAUSS_ERF_INV_DESC		= "(3.0) Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
-	public static final String GAUSS_ERFC_INV_DESC		= "(3.0) Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
-	public static final String ULP_DESC					= "(3.0) Unit in The Last Place - ulp(0.1)";
-	public static final String ISNAN_DESC				= "(4.1) Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
+	public static final String IS_PRIME_DESC			= "Prime number test (is number a prime?)";
+	public static final String PRIME_COUNT_DESC			= "Prime-counting function - Pi(x)";
+	public static final String EXP_INT_DESC				= "Exponential integral function (non-elementary special function) - usage example: Ei(x)";
+	public static final String LOG_INT_DESC				= "Logarithmic integral function (non-elementary special function) - usage example: li(x)";
+	public static final String OFF_LOG_INT_DESC			= "Offset logarithmic integral function (non-elementary special function) - usage example: Li(x)";
+	public static final String GAUSS_ERF_DESC			= "Gauss error function (non-elementary special function) - usage example: 2 + erf(x)";
+	public static final String GAUSS_ERFC_DESC			= "Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)";
+	public static final String GAUSS_ERF_INV_DESC		= "Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
+	public static final String GAUSS_ERFC_INV_DESC		= "Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
+	public static final String ULP_DESC					= "Unit in The Last Place - ulp(0.1)";
+	public static final String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
+	/*
+	 * UnaryFunction - tokens description.
+	 */
+	public static final String SIN_SINCE 				= mXparser.NAMEv10;
+	public static final String COS_SINCE 				= mXparser.NAMEv10;
+	public static final String TAN_SINCE				= mXparser.NAMEv10;
+	public static final String CTAN_SINCE 				= mXparser.NAMEv10;
+	public static final String SEC_SINCE 				= mXparser.NAMEv10;
+	public static final String COSEC_SINCE 				= mXparser.NAMEv10;
+	public static final String ASIN_SINCE 				= mXparser.NAMEv10;
+	public static final String ACOS_SINCE 				= mXparser.NAMEv10;
+	public static final String ATAN_SINCE 				= mXparser.NAMEv10;
+	public static final String ACTAN_SINCE 				= mXparser.NAMEv10;
+	public static final String LN_SINCE 				= mXparser.NAMEv10;
+	public static final String LOG2_SINCE 				= mXparser.NAMEv10;
+	public static final String LOG10_SINCE 				= mXparser.NAMEv10;
+	public static final String RAD_SINCE 				= mXparser.NAMEv10;
+	public static final String EXP_SINCE 				= mXparser.NAMEv10;
+	public static final String SQRT_SINCE 				= mXparser.NAMEv10;
+	public static final String SINH_SINCE 				= mXparser.NAMEv10;
+	public static final String COSH_SINCE 				= mXparser.NAMEv10;
+	public static final String TANH_SINCE 				= mXparser.NAMEv10;
+	public static final String COTH_SINCE 				= mXparser.NAMEv10;
+	public static final String SECH_SINCE 				= mXparser.NAMEv10;
+	public static final String CSCH_SINCE 				= mXparser.NAMEv10;
+	public static final String DEG_SINCE 				= mXparser.NAMEv10;
+	public static final String ABS_SINCE 				= mXparser.NAMEv10;
+	public static final String SGN_SINCE				= mXparser.NAMEv10;
+	public static final String FLOOR_SINCE				= mXparser.NAMEv10;
+	public static final String CEIL_SINCE				= mXparser.NAMEv10;
+	public static final String NOT_SINCE				= mXparser.NAMEv10;
+	public static final String ARSINH_SINCE				= mXparser.NAMEv10;
+	public static final String ARCOSH_SINCE				= mXparser.NAMEv10;
+	public static final String ARTANH_SINCE				= mXparser.NAMEv10;
+	public static final String ARCOTH_SINCE				= mXparser.NAMEv10;
+	public static final String ARSECH_SINCE				= mXparser.NAMEv10;
+	public static final String ARCSCH_SINCE				= mXparser.NAMEv10;
+	public static final String SA_SINCE					= mXparser.NAMEv10;
+	public static final String SINC_SINCE				= mXparser.NAMEv10;
+	public static final String BELL_NUMBER_SINCE		= mXparser.NAMEv10;
+	public static final String LUCAS_NUMBER_SINCE		= mXparser.NAMEv10;
+	public static final String FIBONACCI_NUMBER_SINCE	= mXparser.NAMEv10;
+	public static final String HARMONIC_NUMBER_SINCE	= mXparser.NAMEv10;
+	public static final String IS_PRIME_SINCE			= mXparser.NAMEv23;
+	public static final String PRIME_COUNT_SINCE		= mXparser.NAMEv23;
+	public static final String EXP_INT_SINCE			= mXparser.NAMEv23;
+	public static final String LOG_INT_SINCE			= mXparser.NAMEv23;
+	public static final String OFF_LOG_INT_SINCE		= mXparser.NAMEv23;
+	public static final String GAUSS_ERF_SINCE			= mXparser.NAMEv30;
+	public static final String GAUSS_ERFC_SINCE			= mXparser.NAMEv30;
+	public static final String GAUSS_ERF_INV_SINCE		= mXparser.NAMEv30;
+	public static final String GAUSS_ERFC_INV_SINCE		= mXparser.NAMEv30;
+	public static final String ULP_SINCE				= mXparser.NAMEv30;
+	public static final String ISNAN_SINCE				= mXparser.NAMEv41;
 }
 

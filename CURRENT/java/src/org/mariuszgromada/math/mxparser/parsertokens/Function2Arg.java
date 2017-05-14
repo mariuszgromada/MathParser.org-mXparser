@@ -1,9 +1,9 @@
 /*
- * @(#)Function2Arg.java        3.0.0    2016-05-07
+ * @(#)Function2Arg.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.mXparser;
 /**
  * Binary functions (2 arguments) - mXparser tokens definition.
  *
@@ -69,7 +70,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class Function2Arg {
 	/*
@@ -114,11 +115,29 @@ public final class Function2Arg {
 	public static final String ROUND_STR						= "round";
 	public static final String RND_NORMAL_STR					= "rNor";
 	/*
+	 * BinaryFunction - syntax.
+	 */
+	public static final String LOG_SYN 							= "log(a, b)";
+	public static final String MOD_SYN 							= "mod(a, b)";
+	public static final String BINOM_COEFF_SYN					= "C(n, k)";
+	public static final String BERNOULLI_NUMBER_SYN				= "Bern(m, n)";
+	public static final String STIRLING1_NUMBER_SYN				= "Stirl1(n, k)";
+	public static final String STIRLING2_NUMBER_SYN				= "Stirl2(n, k)";
+	public static final String WORPITZKY_NUMBER_SYN				= "Worp(n, k)";
+	public static final String EULER_NUMBER_SYN					= "Euler(n, k)";
+	public static final String KRONECKER_DELTA_SYN				= "KDelta(i, j)";
+	public static final String EULER_POLYNOMIAL_SYN				= "EulerPol";
+	public static final String HARMONIC_NUMBER_SYN				= "Harm(x, n)";
+	public static final String RND_UNIFORM_CONT_SYN 			= "rUni(a, b)";
+	public static final String RND_UNIFORM_DISCR_SYN  			= "rUnid(a, b)";
+	public static final String ROUND_SYN						= "round(x, n)";
+	public static final String RND_NORMAL_SYN					= "rNor(mean, stdv)";
+	/*
 	 * BinaryFunction - tokens description.
 	 */
-	public static final String LOG_DESC 						= "logarithm function";
-	public static final String MOD_DESC							= "modulo function";
-	public static final String BINOM_COEFF_DESC					= "binomial coefficient function";
+	public static final String LOG_DESC 						= "Logarithm function";
+	public static final String MOD_DESC							= "Modulo function";
+	public static final String BINOM_COEFF_DESC					= "Binomial coefficient function";
 	public static final String BERNOULLI_NUMBER_DESC			= "Bernoulli numbers";
 	public static final String STIRLING1_NUMBER_DESC			= "Stirling numbers of the first kind";
 	public static final String STIRLING2_NUMBER_DESC			= "Stirling numbers of the second kind";
@@ -127,9 +146,27 @@ public final class Function2Arg {
 	public static final String KRONECKER_DELTA_DESC				= "Kronecker delta";
 	public static final String EULER_POLYNOMIAL_DESC			= "EulerPol";
 	public static final String HARMONIC_NUMBER_DESC				= "Harmonic number";
-	public static final String RND_UNIFORM_CONT_DESC 			= "(3.0) Random variable - Uniform continuous distribution U(a,b), usage example: 2*rUni(2,10)";
-	public static final String RND_UNIFORM_DISCR_DESC  			= "(3.0) Random variable - Uniform discrete distribution U{a,b}, usage example: 2*rUnid(2,100)";
-	public static final String ROUND_DESC						= "(3.0) Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7";
-	public static final String RND_NORMAL_DESC					= "(3.0) Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
+	public static final String RND_UNIFORM_CONT_DESC 			= "Random variable - Uniform continuous distribution U(a,b), usage example: 2*rUni(2,10)";
+	public static final String RND_UNIFORM_DISCR_DESC  			= "Random variable - Uniform discrete distribution U{a,b}, usage example: 2*rUnid(2,100)";
+	public static final String ROUND_DESC						= "Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7";
+	public static final String RND_NORMAL_DESC					= "Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
+	/*
+	 * BinaryFunction - since.
+	 */
+	public static final String LOG_SINCE 						= mXparser.NAMEv10;
+	public static final String MOD_SINCE						= mXparser.NAMEv10;
+	public static final String BINOM_COEFF_SINCE				= mXparser.NAMEv10;
+	public static final String BERNOULLI_NUMBER_SINCE			= mXparser.NAMEv10;
+	public static final String STIRLING1_NUMBER_SINCE			= mXparser.NAMEv10;
+	public static final String STIRLING2_NUMBER_SINCE			= mXparser.NAMEv10;
+	public static final String WORPITZKY_NUMBER_SINCE			= mXparser.NAMEv10;
+	public static final String EULER_NUMBER_SINCE				= mXparser.NAMEv10;
+	public static final String KRONECKER_DELTA_SINCE			= mXparser.NAMEv10;
+	public static final String EULER_POLYNOMIAL_SINCE			= mXparser.NAMEv10;
+	public static final String HARMONIC_NUMBER_SINCE			= mXparser.NAMEv10;
+	public static final String RND_UNIFORM_CONT_SINCE 			= mXparser.NAMEv30;
+	public static final String RND_UNIFORM_DISCR_SINCE  		= mXparser.NAMEv30;
+	public static final String ROUND_SINCE						= mXparser.NAMEv30;
+	public static final String RND_NORMAL_SINCE					= mXparser.NAMEv30;
 }
 
