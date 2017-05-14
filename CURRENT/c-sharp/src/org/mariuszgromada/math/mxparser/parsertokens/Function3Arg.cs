@@ -1,9 +1,9 @@
 /*
- * @(#)Function3Arg.cs        3.0.0    2016-05-07
+ * @(#)Function3Arg.cs        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function3Arg {
@@ -109,18 +109,46 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_NORMAL_STR				= "cNor";
 		public const String QNT_NORMAL_STR				= "qNor";
 		/*
+		 * 3-args Function - syntax.
+		 */
+		public const String IF_SYN 						= "if( cond, expr-if-true, expr-if-false )";
+		public const String CHI_SYN						= "chi(x, a, b)";
+		public const String CHI_LR_SYN					= "CHi(x, a, b)";
+		public const String CHI_L_SYN					= "Chi(x, a, b)";
+		public const String CHI_R_SYN					= "cHi(x, a, b)";
+		public const String PDF_UNIFORM_CONT_SYN		= "pUni(x, a, b)";
+		public const String CDF_UNIFORM_CONT_SYN		= "cUni(x, a, b)";
+		public const String QNT_UNIFORM_CONT_SYN		= "qUni(q, a, b)";
+		public const String PDF_NORMAL_SYN				= "pNor(x, mean, stdv)";
+		public const String CDF_NORMAL_SYN				= "cNor(x, mean, stdv)";
+		public const String QNT_NORMAL_SYN				= "qNor(q, mean, stdv)";
+		/*
 		 * 3-args Function - tokens description.
 		 */
-		public const String IF_DESC 					= "if function ( if(con, if_true, if_false) )";
-		public const String CHI_DESC					= "Characteristic function for x in (a,b) - chi(x, a, b)";
-		public const String CHI_LR_DESC					= "Characteristic function for x in [a,b] - CHi(x, a, b)";
-		public const String CHI_L_DESC					= "Characteristic function for x in [a,b) - Chi(x, a, b)";
-		public const String CHI_R_DESC					= "Characteristic function for x in (a,b] - cHi(x, a, b)";
-		public const String PDF_UNIFORM_CONT_DESC		= "(3.0) Probability distribution function - Uniform continuous distribution U(a,b), usage example: 2 * pUni(x, 2, 10)";
-		public const String CDF_UNIFORM_CONT_DESC		= "(3.0) Cumulative distribution function - Uniform continuous distribution U(a,b), usage example: 2 * cUni(x, 2, 10)";
-		public const String QNT_UNIFORM_CONT_DESC		= "(3.0) Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b), usage example: 2 * qUni(q, 2, 10)";
-		public const String PDF_NORMAL_DESC				= "(3.0) Probability distribution function - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * pNor(x, 1, 2)";
-		public const String CDF_NORMAL_DESC				= "(3.0) Cumulative distribution function - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * cNor(x, 1, 2)";
-		public const String QNT_NORMAL_DESC				= "(3.0) Quantile function (inverse cumulative distribution function) - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * qNor(q, 1, 2)";
+		public const String IF_DESC 					= "If function";
+		public const String CHI_DESC					= "Characteristic function for x in (a,b)";
+		public const String CHI_LR_DESC					= "Characteristic function for x in [a,b]";
+		public const String CHI_L_DESC					= "Characteristic function for x in [a,b)";
+		public const String CHI_R_DESC					= "Characteristic function for x in (a,b]";
+		public const String PDF_UNIFORM_CONT_DESC		= "Probability distribution function - Uniform continuous distribution U(a,b)";
+		public const String CDF_UNIFORM_CONT_DESC		= "Cumulative distribution function - Uniform continuous distribution U(a,b)";
+		public const String QNT_UNIFORM_CONT_DESC		= "Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b)";
+		public const String PDF_NORMAL_DESC				= "Probability distribution function - Normal distribution N(m,s)";
+		public const String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
+		public const String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function)";
+		/*
+		 * 3-args Function - since.
+		 */
+		public const String IF_SINCE 					= mXparser.NAMEv10;
+		public const String CHI_SINCE					= mXparser.NAMEv10;
+		public const String CHI_LR_SINCE				= mXparser.NAMEv10;
+		public const String CHI_L_SINCE					= mXparser.NAMEv10;
+		public const String CHI_R_SINCE					= mXparser.NAMEv10;
+		public const String PDF_UNIFORM_CONT_SINCE		= mXparser.NAMEv30;
+		public const String CDF_UNIFORM_CONT_SINCE		= mXparser.NAMEv30;
+		public const String QNT_UNIFORM_CONT_SINCE		= mXparser.NAMEv30;
+		public const String PDF_NORMAL_SINCE			= mXparser.NAMEv30;
+		public const String CDF_NORMAL_SINCE			= mXparser.NAMEv30;
+		public const String QNT_NORMAL_SINCE			= mXparser.NAMEv30;
 	}
 }

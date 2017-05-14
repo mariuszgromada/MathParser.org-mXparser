@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        4.0.0    2016-03-26
+ * @(#)Function.java        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -91,7 +91,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  *
  * @see RecursiveArgument
  * @see Expression

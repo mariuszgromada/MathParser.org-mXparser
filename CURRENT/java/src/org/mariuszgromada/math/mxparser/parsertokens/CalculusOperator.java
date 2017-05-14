@@ -115,7 +115,7 @@ public final class CalculusOperator {
 	public static final String MAX_STR					= "maxi";
 	public static final String SOLVE_STR				= "solve";
 	/*
-	 * CalculusOperator - tokens key words.
+	 * CalculusOperator - syntax.
 	 */
 	public static final String SUM_SYN					= "sum( i, from, to, expr , <by> )";
 	public static final String PROD_SYN					= "prod( i, from, to, expr , <by> )";
@@ -151,7 +151,7 @@ public final class CalculusOperator {
 	public static final String MAX_DESC					= "Maximum value";
 	public static final String SOLVE_DESC				= "f(x) = 0 equation solving, function root finding";
 	/*
-	 * CalculusOperator - tokens since.
+	 * CalculusOperator - since.
 	 */
 	public static final String SUM_SINCE				= mXparser.NAMEv10;
 	public static final String PROD_SINCE				= mXparser.NAMEv10;

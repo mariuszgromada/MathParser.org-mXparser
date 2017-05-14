@@ -113,7 +113,7 @@ public final class FunctionVariadic {
 	public static final String RND_LIST_STR				= "rList";
 	public static final String COALESCE_STR				= "coalesce";
 	/*
-	 * FunctionVariadic - tokens key words.
+	 * FunctionVariadic - syntax.
 	 */
 	public static final String IFF_SYN 					= "iff( cond-1, expr-1; ... ; cond-n, expr-n )";
 	public static final String MIN_SYN					= "min(a1, ..., an)";

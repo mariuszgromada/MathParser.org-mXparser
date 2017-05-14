@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtension.cs        4.1.0    2017-04-22
+ * @(#)FunctionExtension.cs        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -98,6 +98,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param parameterValue    - parameter value
 		 */
 		void setParameterValue(int parameterIndex, double parameterValue);
+		/**
+		 * Gets parameter name
+		 * 
+		 * @param parameterIndex    - parameter index (from 0 to n-1)
+		 * @return Returns parameter name
+		 */
+		String getParameterName(int parameterIndex);
 		/**
 		 * Actual algorithm implementation.
 		 *

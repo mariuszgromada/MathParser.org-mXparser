@@ -1,9 +1,9 @@
 /*
- * @(#)BinaryRelation.cs        3.0.0    2016-05-07
+ * @(#)BinaryRelation.cs        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BinaryRelation {
@@ -101,13 +101,34 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LEQ_STR 			= "<=";
 		public const String GEQ_STR 			= ">=";
 		/*
+		 * BinaryRelation - syntax.
+		 */
+		public const String EQ_SYN 				= "a = b";
+		public const String EQ1_SYN 			= "a == b";
+		public const String NEQ_SYN 			= "a <> b";
+		public const String NEQ1_SYN 			= "a ~= b";
+		public const String NEQ2_SYN 			= "a != b";
+		public const String LT_SYN 				= "a < b";
+		public const String GT_SYN 				= "a > b";
+		public const String LEQ_SYN 			= "a <= b";
+		public const String GEQ_SYN 			= "a >= b";
+		/*
 		 * BinaryRelation - tokens description.
 		 */
-		public const String EQ_DESC 			= "equality";
-		public const String NEQ_DESC			= "inequation";
-		public const String LT_DESC 			= "lower than";
-		public const String GT_DESC 			= "greater than";
-		public const String LEQ_DESC 			= "lower or equal";
-		public const String GEQ_DESC 			= "greater or equal";
+		public const String EQ_DESC 			= "Equality";
+		public const String NEQ_DESC			= "Inequation";
+		public const String LT_DESC 			= "Lower than";
+		public const String GT_DESC 			= "Greater than";
+		public const String LEQ_DESC 			= "Lower or equal";
+		public const String GEQ_DESC 			= "Greater or equal";
+		/*
+		 * BinaryRelation - since.
+		 */
+		public const String EQ_SINCE			= mXparser.NAMEv10;
+		public const String NEQ_SINCE			= mXparser.NAMEv10;
+		public const String LT_SINCE 			= mXparser.NAMEv10;
+		public const String GT_SINCE			= mXparser.NAMEv10;
+		public const String LEQ_SINCE 			= mXparser.NAMEv10;
+		public const String GEQ_SINCE 			= mXparser.NAMEv10;
 	}
 }

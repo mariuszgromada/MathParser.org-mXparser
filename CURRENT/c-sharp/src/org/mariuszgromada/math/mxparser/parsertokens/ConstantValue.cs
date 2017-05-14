@@ -1,9 +1,9 @@
 /*
- * @(#)ConstantValue.cs        4.1.0    2017-04-18
+ * @(#)ConstantValue.cs        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -273,7 +273,102 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FALSE_STR						= "[false]";
 		/* other values */	
 		public const String NAN_STR							= "[NaN]";
-
+		/*
+		 * ConstantValue - syntax.
+		 */
+		public const String PI_SYN							= PI_STR;
+		public const String EULER_SYN						= EULER_STR;
+		public const String EULER_MASCHERONI_SYN			= EULER_MASCHERONI_STR;
+		public const String GOLDEN_RATIO_SYN				= GOLDEN_RATIO_STR;
+		public const String PLASTIC_SYN						= PLASTIC_STR;
+		public const String EMBREE_TREFETHEN_SYN			= EMBREE_TREFETHEN_STR;
+		public const String FEIGENBAUM_DELTA_SYN			= FEIGENBAUM_DELTA_STR;
+		public const String FEIGENBAUM_ALFA_SYN				= FEIGENBAUM_ALFA_STR;
+		public const String TWIN_PRIME_SYN					= TWIN_PRIME_STR;
+		public const String MEISSEL_MERTEENS_SYN			= MEISSEL_MERTEENS_STR;
+		public const String BRAUN_TWIN_PRIME_SYN			= BRAUN_TWIN_PRIME_STR;
+		public const String BRAUN_PRIME_QUADR_SYN			= BRAUN_PRIME_QUADR_STR;
+		public const String BRUIJN_NEWMAN_SYN				= BRUIJN_NEWMAN_STR;
+		public const String CATALAN_SYN						= CATALAN_STR;
+		public const String LANDAU_RAMANUJAN_SYN			= LANDAU_RAMANUJAN_STR;
+		public const String VISWANATH_SYN					= VISWANATH_STR;
+		public const String LEGENDRE_SYN					= LEGENDRE_STR;
+		public const String RAMANUJAN_SOLDNER_SYN			= RAMANUJAN_SOLDNER_STR;
+		public const String ERDOS_BORWEIN_SYN				= ERDOS_BORWEIN_STR;
+		public const String BERNSTEIN_SYN					= BERNSTEIN_STR;
+		public const String GAUSS_KUZMIN_WIRSING_SYN		= GAUSS_KUZMIN_WIRSING_STR;
+		public const String HAFNER_SARNAK_MCCURLEY_SYN		= HAFNER_SARNAK_MCCURLEY_STR;
+		public const String GOLOMB_DICKMAN_SYN				= GOLOMB_DICKMAN_STR;
+		public const String CAHEN_SYN						= CAHEN_STR;
+		public const String LAPLACE_LIMIT_SYN				= LAPLACE_LIMIT_STR;
+		public const String ALLADI_GRINSTEAD_SYN			= ALLADI_GRINSTEAD_STR;
+		public const String LENGYEL_SYN						= LENGYEL_STR;
+		public const String LEVY_SYN						= LEVY_STR;
+		public const String APERY_SYN						= APERY_STR;
+		public const String MILLS_SYN						= MILLS_STR;
+		public const String BACKHOUSE_SYN					= BACKHOUSE_STR;
+		public const String PORTER_SYN						= PORTER_STR;
+		public const String LIEB_QUARE_ICE_SYN				= LIEB_QUARE_ICE_STR;
+		public const String NIVEN_SYN						= NIVEN_STR;
+		public const String SIERPINSKI_SYN					= SIERPINSKI_STR;
+		public const String KHINCHIN_SYN					= KHINCHIN_STR;
+		public const String FRANSEN_ROBINSON_SYN			= FRANSEN_ROBINSON_STR;
+		public const String LANDAU_SYN						= LANDAU_STR;
+		public const String PARABOLIC_SYN					= PARABOLIC_STR;
+		public const String OMEGA_SYN						= OMEGA_STR;
+		public const String MRB_SYN							= MRB_STR;
+		public const String LI2_SYN							= LI2_STR;
+		public const String GOMPERTZ_SYN					= GOMPERTZ_STR;
+		/* Physical Constants */
+		public const String LIGHT_SPEED_SYN					= LIGHT_SPEED_STR;
+		public const String GRAVITATIONAL_CONSTANT_SYN		= GRAVITATIONAL_CONSTANT_STR;
+		public const String GRAVIT_ACC_EARTH_SYN			= GRAVIT_ACC_EARTH_STR;
+		public const String PLANCK_CONSTANT_SYN				= PLANCK_CONSTANT_STR;
+		public const String PLANCK_CONSTANT_REDUCED_SYN		= PLANCK_CONSTANT_REDUCED_STR;
+		public const String PLANCK_LENGTH_SYN				= PLANCK_LENGTH_STR;
+		public const String PLANCK_MASS_SYN					= PLANCK_MASS_STR;
+		public const String PLANCK_TIME_SYN					= PLANCK_TIME_STR;
+		/* AstronomicalConstants */
+		public const String LIGHT_YEAR_SYN					= LIGHT_YEAR_STR;
+		public const String ASTRONOMICAL_UNIT_SYN			= ASTRONOMICAL_UNIT_STR;
+		public const String PARSEC_SYN						= PARSEC_STR;
+		public const String KILOPARSEC_SYN					= KILOPARSEC_STR;
+		public const String EARTH_RADIUS_EQUATORIAL_SYN		= EARTH_RADIUS_EQUATORIAL_STR;
+		public const String EARTH_RADIUS_POLAR_SYN			= EARTH_RADIUS_POLAR_STR;
+		public const String EARTH_RADIUS_MEAN_SYN			= EARTH_RADIUS_MEAN_STR;
+		public const String EARTH_MASS_SYN					= EARTH_MASS_STR;
+		public const String EARTH_SEMI_MAJOR_AXIS_SYN		= EARTH_SEMI_MAJOR_AXIS_STR;
+		public const String MOON_RADIUS_MEAN_SYN			= MOON_RADIUS_MEAN_STR;
+		public const String MOON_MASS_SYN					= MOON_MASS_STR;
+		public const String MONN_SEMI_MAJOR_AXIS_SYN		= MONN_SEMI_MAJOR_AXIS_STR;
+		public const String SOLAR_RADIUS_SYN				= SOLAR_RADIUS_STR;
+		public const String SOLAR_MASS_SYN					= SOLAR_MASS_STR;
+		public const String MERCURY_RADIUS_MEAN_SYN			= MERCURY_RADIUS_MEAN_STR;
+		public const String MERCURY_MASS_SYN				= MERCURY_MASS_STR;
+		public const String MERCURY_SEMI_MAJOR_AXIS_SYN		= MERCURY_SEMI_MAJOR_AXIS_STR;
+		public const String VENUS_RADIUS_MEAN_SYN			= VENUS_RADIUS_MEAN_STR;
+		public const String VENUS_MASS_SYN					= VENUS_MASS_STR;
+		public const String VENUS_SEMI_MAJOR_AXIS_SYN		= VENUS_SEMI_MAJOR_AXIS_STR;
+		public const String MARS_RADIUS_MEAN_SYN			= MARS_RADIUS_MEAN_STR;
+		public const String MARS_MASS_SYN					= MARS_MASS_STR;
+		public const String MARS_SEMI_MAJOR_AXIS_SYN		= MARS_SEMI_MAJOR_AXIS_STR;
+		public const String JUPITER_RADIUS_MEAN_SYN			= JUPITER_RADIUS_MEAN_STR;
+		public const String JUPITER_MASS_SYN				= JUPITER_MASS_STR;
+		public const String JUPITER_SEMI_MAJOR_AXIS_SYN		= JUPITER_SEMI_MAJOR_AXIS_STR;
+		public const String SATURN_RADIUS_MEAN_SYN			= SATURN_RADIUS_MEAN_STR;
+		public const String SATURN_MASS_SYN					= SATURN_MASS_STR;
+		public const String SATURN_SEMI_MAJOR_AXIS_SYN		= SATURN_SEMI_MAJOR_AXIS_STR;
+		public const String URANUS_RADIUS_MEAN_SYN			= URANUS_RADIUS_MEAN_STR;
+		public const String URANUS_MASS_SYN					= URANUS_MASS_STR;
+		public const String URANUS_SEMI_MAJOR_AXIS_SYN		= URANUS_SEMI_MAJOR_AXIS_STR;
+		public const String NEPTUNE_RADIUS_MEAN_SYN			= NEPTUNE_RADIUS_MEAN_STR;
+		public const String NEPTUNE_MASS_SYN				= NEPTUNE_MASS_STR;
+		public const String NEPTUNE_SEMI_MAJOR_AXIS_SYN		= NEPTUNE_SEMI_MAJOR_AXIS_STR;
+		/* boolean values */
+		public const String TRUE_SYN						= TRUE_STR;
+		public const String FALSE_SYN						= FALSE_STR;
+		/* other values */
+		public const String NAN_SYN							= NAN_STR;
 		/*
 		 * ConstantValue - tokens description.
 		 */
@@ -318,58 +413,154 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PARABOLIC_DESC					= "Parabolic constant";
 		public const String OMEGA_DESC						= "Omega constant";
 		public const String MRB_DESC						= "MRB constant";
-		public const String LI2_DESC						= "(2.3) li(2) - logarithmic integral function at x=2";
-		public const String GOMPERTZ_DESC					= "(2.3) Gompertz constant";
+		public const String LI2_DESC						= "li(2) - Logarithmic integral function at x=2";
+		public const String GOMPERTZ_DESC					= "Gompertz constant";
 		/* Physical Constants */
-		public const String LIGHT_SPEED_DESC				= "(4.0) <Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)";
-		public const String GRAVITATIONAL_CONSTANT_DESC		= "(4.0) <Physical Constant> Gravitational constant (m=1, kg=1, s=1)]";
-		public const String GRAVIT_ACC_EARTH_DESC			= "(4.0) <Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)";
-		public const String PLANCK_CONSTANT_DESC			= "(4.0) <Physical Constant> Planck constant (m=1, kg=1, s=1)";
-		public const String PLANCK_CONSTANT_REDUCED_DESC	= "(4.0) <Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]";
-		public const String PLANCK_LENGTH_DESC				= "(4.0) <Physical Constant> Planck length [m] (m=1)";
-		public const String PLANCK_MASS_DESC				= "(4.0) <Physical Constant> Planck mass [kg] (kg=1)";
-		public const String PLANCK_TIME_DESC				= "(4.0) <Physical Constant> Planck time [s] (s=1)";
+		public const String LIGHT_SPEED_DESC				= "<Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)";
+		public const String GRAVITATIONAL_CONSTANT_DESC		= "<Physical Constant> Gravitational constant (m=1, kg=1, s=1)]";
+		public const String GRAVIT_ACC_EARTH_DESC			= "<Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)";
+		public const String PLANCK_CONSTANT_DESC			= "<Physical Constant> Planck constant (m=1, kg=1, s=1)";
+		public const String PLANCK_CONSTANT_REDUCED_DESC	= "<Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]";
+		public const String PLANCK_LENGTH_DESC				= "<Physical Constant> Planck length [m] (m=1)";
+		public const String PLANCK_MASS_DESC				= "<Physical Constant> Planck mass [kg] (kg=1)";
+		public const String PLANCK_TIME_DESC				= "<Physical Constant> Planck time [s] (s=1)";
 		/* Astronomical Constants */
-		public const String LIGHT_YEAR_DESC					= "(4.0) <Astronomical Constant> Light year [m] (m=1)";
-		public const String ASTRONOMICAL_UNIT_DESC			= "(4.0) <Astronomical Constant> Astronomical unit [m] (m=1)";
-		public const String PARSEC_DESC						= "(4.0) <Astronomical Constant> Parsec [m] (m=1)";
-		public const String KILOPARSEC_DESC					= "(4.0) <Astronomical Constant> Kiloparsec [m] (m=1)";
-		public const String EARTH_RADIUS_EQUATORIAL_DESC	= "(4.0) <Astronomical Constant> Earth equatorial radius [m] (m=1)";
-		public const String EARTH_RADIUS_POLAR_DESC			= "(4.0) <Astronomical Constant> Earth polar radius [m] (m=1)";
-		public const String EARTH_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Earth mean radius (m=1)";
-		public const String EARTH_MASS_DESC					= "(4.0) <Astronomical Constant> Earth mass [kg] (kg=1)";
-		public const String EARTH_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)";
-		public const String MOON_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Moon mean radius [m] (m=1)";
-		public const String MOON_MASS_DESC					= "(4.0) <Astronomical Constant> Moon mass [kg] (kg=1)";
-		public const String MONN_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)";
-		public const String SOLAR_RADIUS_DESC				= "(4.0) <Astronomical Constant> Solar mean radius [m] (m=1)";
-		public const String SOLAR_MASS_DESC					= "(4.0) <Astronomical Constant> Solar mass [kg] (kg=1)";
-		public const String MERCURY_RADIUS_MEAN_DESC		= "(4.0) <Astronomical Constant> Mercury mean radius [m] (m=1)";
-		public const String MERCURY_MASS_DESC				= "(4.0) <Astronomical Constant> Mercury mass [kg] (kg=1)";
-		public const String MERCURY_SEMI_MAJOR_AXIS_DESC	= "(4.0) <Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)";
-		public const String VENUS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Venus mean radius [m] (m=1)";
-		public const String VENUS_MASS_DESC					= "(4.0) <Astronomical Constant> Venus mass [kg] (kg=1)";
-		public const String VENUS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)";
-		public const String MARS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Mars mean radius [m] (m=1)";
-		public const String MARS_MASS_DESC					= "(4.0) <Astronomical Constant> Mars mass [kg] (kg=1)";
-		public const String MARS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)";
-		public const String JUPITER_RADIUS_MEAN_DESC		= "(4.0) <Astronomical Constant> Jupiter mean radius [m] (m=1)";
-		public const String JUPITER_MASS_DESC				= "(4.0) <Astronomical Constant> Jupiter mass [kg] (kg=1)";
-		public const String JUPITER_SEMI_MAJOR_AXIS_DESC	= "(4.0) <Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)";
-		public const String SATURN_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Saturn mean radius [m] (m=1)";
-		public const String SATURN_MASS_DESC				= "(4.0) <Astronomical Constant> Saturn mass [kg] (kg=1)";
-		public const String SATURN_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)";
-		public const String URANUS_RADIUS_MEAN_DESC			= "(4.0) <Astronomical Constant> Uranus mean radius [m] (m=1)";
-		public const String URANUS_MASS_DESC				= "(4.0) <Astronomical Constant> Uranus mass [kg] (kg=1)";
-		public const String URANUS_SEMI_MAJOR_AXIS_DESC		= "(4.0) <Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)";
-		public const String NEPTUNE_RADIUS_MEAN_DESC		= "(4.0) <Astronomical Constant> Neptune mean radius [m] (m=1)";
-		public const String NEPTUNE_MASS_DESC				= "(4.0) <Astronomical Constant> Neptune mass [kg] (kg=1)";
-		public const String NEPTUNE_SEMI_MAJOR_AXIS_DESC	= "(4.0) <Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
+		public const String LIGHT_YEAR_DESC					= "<Astronomical Constant> Light year [m] (m=1)";
+		public const String ASTRONOMICAL_UNIT_DESC			= "<Astronomical Constant> Astronomical unit [m] (m=1)";
+		public const String PARSEC_DESC						= "<Astronomical Constant> Parsec [m] (m=1)";
+		public const String KILOPARSEC_DESC					= "<Astronomical Constant> Kiloparsec [m] (m=1)";
+		public const String EARTH_RADIUS_EQUATORIAL_DESC	= "<Astronomical Constant> Earth equatorial radius [m] (m=1)";
+		public const String EARTH_RADIUS_POLAR_DESC			= "<Astronomical Constant> Earth polar radius [m] (m=1)";
+		public const String EARTH_RADIUS_MEAN_DESC			= "<Astronomical Constant> Earth mean radius (m=1)";
+		public const String EARTH_MASS_DESC					= "<Astronomical Constant> Earth mass [kg] (kg=1)";
+		public const String EARTH_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)";
+		public const String MOON_RADIUS_MEAN_DESC			= "<Astronomical Constant> Moon mean radius [m] (m=1)";
+		public const String MOON_MASS_DESC					= "<Astronomical Constant> Moon mass [kg] (kg=1)";
+		public const String MONN_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)";
+		public const String SOLAR_RADIUS_DESC				= "<Astronomical Constant> Solar mean radius [m] (m=1)";
+		public const String SOLAR_MASS_DESC					= "<Astronomical Constant> Solar mass [kg] (kg=1)";
+		public const String MERCURY_RADIUS_MEAN_DESC		= "<Astronomical Constant> Mercury mean radius [m] (m=1)";
+		public const String MERCURY_MASS_DESC				= "<Astronomical Constant> Mercury mass [kg] (kg=1)";
+		public const String MERCURY_SEMI_MAJOR_AXIS_DESC	= "<Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)";
+		public const String VENUS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Venus mean radius [m] (m=1)";
+		public const String VENUS_MASS_DESC					= "<Astronomical Constant> Venus mass [kg] (kg=1)";
+		public const String VENUS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)";
+		public const String MARS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Mars mean radius [m] (m=1)";
+		public const String MARS_MASS_DESC					= "<Astronomical Constant> Mars mass [kg] (kg=1)";
+		public const String MARS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)";
+		public const String JUPITER_RADIUS_MEAN_DESC		= "<Astronomical Constant> Jupiter mean radius [m] (m=1)";
+		public const String JUPITER_MASS_DESC				= "<Astronomical Constant> Jupiter mass [kg] (kg=1)";
+		public const String JUPITER_SEMI_MAJOR_AXIS_DESC	= "<Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)";
+		public const String SATURN_RADIUS_MEAN_DESC			= "<Astronomical Constant> Saturn mean radius [m] (m=1)";
+		public const String SATURN_MASS_DESC				= "<Astronomical Constant> Saturn mass [kg] (kg=1)";
+		public const String SATURN_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)";
+		public const String URANUS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Uranus mean radius [m] (m=1)";
+		public const String URANUS_MASS_DESC				= "<Astronomical Constant> Uranus mass [kg] (kg=1)";
+		public const String URANUS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)";
+		public const String NEPTUNE_RADIUS_MEAN_DESC		= "<Astronomical Constant> Neptune mean radius [m] (m=1)";
+		public const String NEPTUNE_MASS_DESC				= "<Astronomical Constant> Neptune mass [kg] (kg=1)";
+		public const String NEPTUNE_SEMI_MAJOR_AXIS_DESC	= "<Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
 		/* boolean values */
-		public const String TRUE_DESC						= "(4.1) Boolean True represented as double, [true] = 1";
-		public const String FALSE_DESC						= "(4.1) Boolean False represented as double, [false] = 0";
+		public const String TRUE_DESC						= "Boolean True represented as double, [true] = 1";
+		public const String FALSE_DESC						= "Boolean False represented as double, [false] = 0";
 		/* other values */	
-		public const String NAN_DESC						= "(4.1) Not-a-Number";
+		public const String NAN_DESC						= "Not-a-Number";
 
+		/*
+		 * ConstantValue - since.
+		 */
+		public const String PI_SINCE						= mXparser.NAMEv10;
+		public const String EULER_SINCE						= mXparser.NAMEv10;
+		public const String EULER_MASCHERONI_SINCE			= mXparser.NAMEv10;
+		public const String GOLDEN_RATIO_SINCE				= mXparser.NAMEv10;
+		public const String PLASTIC_SINCE					= mXparser.NAMEv10;
+		public const String EMBREE_TREFETHEN_SINCE			= mXparser.NAMEv10;
+		public const String FEIGENBAUM_DELTA_SINCE			= mXparser.NAMEv10;
+		public const String FEIGENBAUM_ALFA_SINCE			= mXparser.NAMEv10;
+		public const String TWIN_PRIME_SINCE				= mXparser.NAMEv10;
+		public const String MEISSEL_MERTEENS_SINCE			= mXparser.NAMEv10;
+		public const String BRAUN_TWIN_PRIME_SINCE			= mXparser.NAMEv10;
+		public const String BRAUN_PRIME_QUADR_SINCE			= mXparser.NAMEv10;
+		public const String BRUIJN_NEWMAN_SINCE				= mXparser.NAMEv10;
+		public const String CATALAN_SINCE					= mXparser.NAMEv10;
+		public const String LANDAU_RAMANUJAN_SINCE			= mXparser.NAMEv10;
+		public const String VISWANATH_SINCE					= mXparser.NAMEv10;
+		public const String LEGENDRE_SINCE					= mXparser.NAMEv10;
+		public const String RAMANUJAN_SOLDNER_SINCE			= mXparser.NAMEv10;
+		public const String ERDOS_BORWEIN_SINCE				= mXparser.NAMEv10;
+		public const String BERNSTEIN_SINCE					= mXparser.NAMEv10;
+		public const String GAUSS_KUZMIN_WIRSING_SINCE		= mXparser.NAMEv10;
+		public const String HAFNER_SARNAK_MCCURLEY_SINCE	= mXparser.NAMEv10;
+		public const String GOLOMB_DICKMAN_SINCE			= mXparser.NAMEv10;
+		public const String CAHEN_SINCE						= mXparser.NAMEv10;
+		public const String LAPLACE_LIMIT_SINCE				= mXparser.NAMEv10;
+		public const String ALLADI_GRINSTEAD_SINCE			= mXparser.NAMEv10;
+		public const String LENGYEL_SINCE					= mXparser.NAMEv10;
+		public const String LEVY_SINCE						= mXparser.NAMEv10;
+		public const String APERY_SINCE						= mXparser.NAMEv10;
+		public const String MILLS_SINCE						= mXparser.NAMEv10;
+		public const String BACKHOUSE_SINCE					= mXparser.NAMEv10;
+		public const String PORTER_SINCE					= mXparser.NAMEv10;
+		public const String LIEB_QUARE_ICE_SINCE			= mXparser.NAMEv10;
+		public const String NIVEN_SINCE						= mXparser.NAMEv10;
+		public const String SIERPINSKI_SINCE				= mXparser.NAMEv10;
+		public const String KHINCHIN_SINCE					= mXparser.NAMEv10;
+		public const String FRANSEN_ROBINSON_SINCE			= mXparser.NAMEv10;
+		public const String LANDAU_SINCE					= mXparser.NAMEv10;
+		public const String PARABOLIC_SINCE					= mXparser.NAMEv10;
+		public const String OMEGA_SINCE						= mXparser.NAMEv10;
+		public const String MRB_SINCE						= mXparser.NAMEv10;
+		public const String LI2_SINCE						= mXparser.NAMEv23;
+		public const String GOMPERTZ_SINCE					= mXparser.NAMEv23;
+		/* Physical Constants */
+		public const String LIGHT_SPEED_SINCE				= mXparser.NAMEv40;
+		public const String GRAVITATIONAL_CONSTANT_SINCE	= mXparser.NAMEv40;
+		public const String GRAVIT_ACC_EARTH_SINCE			= mXparser.NAMEv40;
+		public const String PLANCK_CONSTANT_SINCE			= mXparser.NAMEv40;
+		public const String PLANCK_CONSTANT_REDUCED_SINCE	= mXparser.NAMEv40;
+		public const String PLANCK_LENGTH_SINCE				= mXparser.NAMEv40;
+		public const String PLANCK_MASS_SINCE				= mXparser.NAMEv40;
+		public const String PLANCK_TIME_SINCE				= mXparser.NAMEv40;
+		/* AstronomicalConstants */
+		public const String LIGHT_YEAR_SINCE				= mXparser.NAMEv40;
+		public const String ASTRONOMICAL_UNIT_SINCE			= mXparser.NAMEv40;
+		public const String PARSEC_SINCE					= mXparser.NAMEv40;
+		public const String KILOPARSEC_SINCE				= mXparser.NAMEv40;
+		public const String EARTH_RADIUS_EQUATORIAL_SINCE	= mXparser.NAMEv40;
+		public const String EARTH_RADIUS_POLAR_SINCE		= mXparser.NAMEv40;
+		public const String EARTH_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+		public const String EARTH_MASS_SINCE				= mXparser.NAMEv40;
+		public const String EARTH_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+		public const String MOON_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+		public const String MOON_MASS_SINCE					= mXparser.NAMEv40;
+		public const String MONN_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+		public const String SOLAR_RADIUS_SINCE				= mXparser.NAMEv40;
+		public const String SOLAR_MASS_SINCE				= mXparser.NAMEv40;
+		public const String MERCURY_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+		public const String MERCURY_MASS_SINCE				= mXparser.NAMEv40;
+		public const String MERCURY_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+		public const String VENUS_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+		public const String VENUS_MASS_SINCE				= mXparser.NAMEv40;
+		public const String VENUS_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+		public const String MARS_RADIUS_MEAN_SINCE			= mXparser.NAMEv40;
+		public const String MARS_MASS_SINCE					= mXparser.NAMEv40;
+		public const String MARS_SEMI_MAJOR_AXIS_SINCE		= mXparser.NAMEv40;
+		public const String JUPITER_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+		public const String JUPITER_MASS_SINCE				= mXparser.NAMEv40;
+		public const String JUPITER_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+		public const String SATURN_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+		public const String SATURN_MASS_SINCE				= mXparser.NAMEv40;
+		public const String SATURN_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+		public const String URANUS_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+		public const String URANUS_MASS_SINCE				= mXparser.NAMEv40;
+		public const String URANUS_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+		public const String NEPTUNE_RADIUS_MEAN_SINCE		= mXparser.NAMEv40;
+		public const String NEPTUNE_MASS_SINCE				= mXparser.NAMEv40;
+		public const String NEPTUNE_SEMI_MAJOR_AXIS_SINCE	= mXparser.NAMEv40;
+		/* boolean values */
+		public const String TRUE_SINCE						= mXparser.NAMEv41;
+		public const String FALSE_SINCE						= mXparser.NAMEv41;
+		/* other values */
+		public const String NAN_SINCE						= mXparser.NAMEv41;
 	}
 }

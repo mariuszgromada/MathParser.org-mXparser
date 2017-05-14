@@ -1,9 +1,9 @@
 /*
- * @(#)Operator.java        4.0.0    2017-03-13
+ * @(#)Operator.java        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Operator {
@@ -100,14 +100,34 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACT_STR 			= "!";
 		public const String MOD_STR				= "#";
 		/*
+		 * Operator - syntax.
+		 */
+		public const String PLUS_SYN 			= "a + b";
+		public const String MINUS_SYN 			= "a - b";
+		public const String MULTIPLY_SYN 		= "a * b";
+		public const String DIVIDE_SYN 			= "a / b";
+		public const String POWER_SYN 			= "a^b";
+		public const String FACT_SYN 			= "n!";
+		public const String MOD_SYN				= "a # b";
+		/*
 		 * Operator - tokens description.
 		 */
-		public const String PLUS_DESC 			= "addition";
-		public const String MINUS_DESC 			= "subtraction";
-		public const String MULTIPLY_DESC 		= "multiplication";
-		public const String DIVIDE_DESC 		= "division";
-		public const String POWER_DESC 			= "exponentiation";
-		public const String FACT_DESC			= "factorial";
-		public const String MOD_DESC			= "modulo function";
+		public const String PLUS_DESC 			= "Addition";
+		public const String MINUS_DESC 			= "Subtraction";
+		public const String MULTIPLY_DESC 		= "Nultiplication";
+		public const String DIVIDE_DESC 		= "Division";
+		public const String POWER_DESC 			= "Exponentiation";
+		public const String FACT_DESC			= "Factorial";
+		public const String MOD_DESC			= "Modulo function";
+		/*
+		 * Operator - since.
+		 */
+		public const String PLUS_SINCE 			= mXparser.NAMEv10;
+		public const String MINUS_SINCE 		= mXparser.NAMEv10;
+		public const String MULTIPLY_SINCE 		= mXparser.NAMEv10;
+		public const String DIVIDE_SINCE 		= mXparser.NAMEv10;
+		public const String POWER_SINCE 		= mXparser.NAMEv10;
+		public const String FACT_SINCE			= mXparser.NAMEv10;
+		public const String MOD_SINCE			= mXparser.NAMEv10;
 	}
 }

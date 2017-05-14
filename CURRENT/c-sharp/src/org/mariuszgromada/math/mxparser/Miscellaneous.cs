@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        4.1.0    2017-04-22
+ * @(#)Miscellaneous.cs        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -155,30 +155,34 @@ namespace org.mariuszgromada.math.mxparser {
 		internal int wordId;
 		internal int wordTypeId;
 		internal String description;
+		internal String syntax;
+		internal String since;
 		internal KeyWord() {
 			wordString = "";
 			wordId = ConstantValue.NaN;
 			wordTypeId = ConstantValue.NaN;
 			description = "";
+			syntax = "";
+			since = "";
 		}
 		/**
-		 * Constructor - creates key words form wordStrin wordId
-		 * and wordTypId
+		 * Constructor - creates key words form wordString wordId
+		 * wordTypId syntax since
 		 *
-		 * @param wordString   the word string (refere to below interfaces)
-		 * @param wordId       the word identifier (refere to below interfaces)
-		 * @param wordTypeId   the word type (refere to below interfaces)
+		 * @param wordString   the word string (refers to below interfaces)
+		 * @param wordId       the word identifier (refers to below interfaces)
+		 * @param wordTypeId   the word type (refers to below interfaces)
+		 * @param description  the word description
+		 * @param syntax       the word syntax
+		 * @param since        the word version since
 		 */
-		internal KeyWord(String wordString, int wordId, int wordTypeId) {
-			this.wordString = wordString;
-			this.wordId = wordId;
-			this.wordTypeId = wordTypeId;
-		}
-		internal KeyWord(String wordString, String description, int wordId, int wordTypeId) {
+		internal KeyWord(String wordString, String description, int wordId, String syntax, String since, int wordTypeId) {
 			this.wordString = wordString;
 			this.wordId = wordId;
 			this.wordTypeId = wordTypeId;
 			this.description = description;
+			this.syntax = syntax;
+			this.since = since;
 		}
 	}
 	/**

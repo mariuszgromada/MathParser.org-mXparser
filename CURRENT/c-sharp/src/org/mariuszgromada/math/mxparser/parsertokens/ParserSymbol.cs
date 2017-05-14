@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.cs        4.0.0    2017-03-26
+ * @(#)ParserSymbol.cs        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ParserSymbol {
@@ -114,15 +114,30 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SEMI_STR						= ";";
 		public const String NUMBER_STR						= "_num_";
 		public const String NUMBER_REG_EXP					= NUMBER_CONST;
-
-		/**
+		/*
+		 * ParserSymbol - syntax.
+		 */
+		public const String LEFT_PARENTHESES_SYN 		= "( ... )";
+		public const String RIGHT_PARENTHESES_SYN		= "( ... )";
+		public const String COMMA_SYN					= "(a1, ... ,an)";
+		public const String SEMI_SYN					= "(a1; ... ;an)";
+		public const String NUMBER_SYN					= "1, -2, 001, +001.2e-10, ...";
+		/*
 		 * ParserSymbol - tokens description.
 		 */
-		public const String LEFT_PARENTHESES_DESC 			= "left parentheses";
-		public const String RIGHT_PARENTHESES_DESC			= "right parentheses";
-		public const String COMMA_DESC						= "comma (function parameters)";
-		public const String SEMI_DESC						= "semicolon (function parameters)";
-		public const String NUMBER_DESC						= "decimal number";
-		public const String NUMBER_REG_DESC					= "regullar expression for decimal numbers";
+		public const String LEFT_PARENTHESES_DESC 		= "Left parentheses";
+		public const String RIGHT_PARENTHESES_DESC		= "Right parentheses";
+		public const String COMMA_DESC					= "Comma (function parameters)";
+		public const String SEMI_DESC					= "Semicolon (function parameters)";
+		public const String NUMBER_DESC					= "Decimal number";
+		public const String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
+		/*
+		 * ParserSymbol - since.
+		 */
+		public const String LEFT_PARENTHESES_SINCE 		= mXparser.NAMEv10;
+		public const String RIGHT_PARENTHESES_SINCE		= mXparser.NAMEv10;
+		public const String COMMA_SINCE					= mXparser.NAMEv10;
+		public const String SEMI_SINCE					= mXparser.NAMEv10;
+		public const String NUMBER_SINCE				= mXparser.NAMEv10;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.cs        4.0.0    2017-03-12
+ * @(#)BitwiseOperator.cs        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,41 +70,59 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BitwiseOperator {
 		/*
 		 * BitwiseOperator - token type id.
 		 */
-		public const int TYPE_ID = 11;
-		public const String TYPE_DESC = "Bitwise Operator";
+		public const int TYPE_ID 				= 11;
+		public const String TYPE_DESC			= "Bitwise Operator";
 		/*
 		 * BitwiseOperator - tokens id.
 		 */
-		public const int COMPL_ID = 1;
-		public const int AND_ID = 2;
-		public const int XOR_ID = 3;
-		public const int OR_ID = 4;
-		public const int LEFT_SHIFT_ID = 5;
-		public const int RIGHT_SHIFT_ID = 6;
+		public const int COMPL_ID				= 1;
+		public const int AND_ID					= 2;
+		public const int XOR_ID					= 3;
+		public const int OR_ID					= 4;
+		public const int LEFT_SHIFT_ID			= 5;
+		public const int RIGHT_SHIFT_ID			= 6;
 		/*
 		 * BitwiseOperator - tokens key words.
 		 */
-		public const String COMPL_STR = "@~";
-		public const String AND_STR = "@&";
-		public const String XOR_STR = "@^";
-		public const String OR_STR = "@|";
-		public const String LEFT_SHIFT_STR = "@<<";
-		public const String RIGHT_SHIFT_STR = "@>>";
+		public const String COMPL_STR			= "@~";
+		public const String AND_STR				= "@&";
+		public const String XOR_STR				= "@^";
+		public const String OR_STR				= "@|";
+		public const String LEFT_SHIFT_STR		= "@<<";
+		public const String RIGHT_SHIFT_STR		= "@>>";
+		/*
+		 * BitwiseOperator - syntax.
+		 */
+		public const String COMPL_SYN			= "a @~ b";
+		public const String AND_SYN				= "a @& b";
+		public const String XOR_SYN				= "a @^ b";
+		public const String OR_SYN				= "a @| b";
+		public const String LEFT_SHIFT_SYN		= "a @<< b";
+		public const String RIGHT_SHIFT_SYN		= "a @>> b";
 		/*
 		 * BitwiseOperator - tokens description.
 		 */
-		public const String COMPL_DESC = "(4.0) Bitwise unary complement";
-		public const String AND_DESC = "(4.0) Bitwise AND";
-		public const String XOR_DESC = "(4.0) Bitwise exclusive OR";
-		public const String OR_DESC = "(4.0) Bitwise inclusive OR";
-		public const String LEFT_SHIFT_DESC = "(4.0) Signed left shift";
-		public const String RIGHT_SHIFT_DESC = "(4.0) Signed right shift";
+		public const String COMPL_DESC			= "Bitwise unary complement";
+		public const String AND_DESC			= "Bitwise AND";
+		public const String XOR_DESC			= "Bitwise exclusive OR";
+		public const String OR_DESC				= "Bitwise inclusive OR";
+		public const String LEFT_SHIFT_DESC		= "Signed left shift";
+		public const String RIGHT_SHIFT_DESC	= "Signed right shift";
+		/*
+		 * BitwiseOperator - tokens since.
+		 */
+		public const String COMPL_SINCE			= mXparser.NAMEv40;
+		public const String AND_SINCE			= mXparser.NAMEv40;
+		public const String XOR_SINCE			= mXparser.NAMEv40;
+		public const String OR_SINCE			= mXparser.NAMEv40;
+		public const String LEFT_SHIFT_SINCE	= mXparser.NAMEv40;
+		public const String RIGHT_SHIFT_SINCE	= mXparser.NAMEv40;
 	}
 }

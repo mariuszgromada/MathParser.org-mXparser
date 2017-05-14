@@ -74,12 +74,12 @@ import org.mariuszgromada.math.mxparser.mXparser;
  */
 public final class RandomVariable {
 	/*
-	 * BooleanOperator - token type id.
+	 * RandomVariable - token type id.
 	 */
 	public static final int TYPE_ID 						= 10;
 	public static final String TYPE_DESC					= "Random Variable";
 	/*
-	 * BooleanOperator - tokens id.
+	 * RandomVariable - tokens id.
 	 */
 	public static final int UNIFORM_ID 						= 1;
 	public static final int INT_ID 							= 2;
@@ -114,7 +114,7 @@ public final class RandomVariable {
 	public static final int NAT1_9_ID 						= 31;
 	public static final int NOR_ID							= 32;
 	/*
-	 * BooleanOperator - tokens key words.
+	 * RandomVariable - tokens key words.
 	 */
 	public static final String UNIFORM_STR 					= "[Uni]";
 	public static final String INT_STR 						= "[Int]";
@@ -149,7 +149,7 @@ public final class RandomVariable {
 	public static final String NAT1_9_STR 					= "[Nat9]";
 	public static final String NOR_STR						= "[Nor]";
 	/*
-	 * BooleanOperator - syntax.
+	 * RandomVariable - syntax.
 	 */
 	public static final String UNIFORM_SYN					= UNIFORM_STR;
 	public static final String INT_SYN						= INT_STR;
@@ -184,7 +184,7 @@ public final class RandomVariable {
 	public static final String NAT1_9_SYN					= NAT1_9_STR;
 	public static final String NOR_SYN						= NOR_STR;
 	/*
-	 * BooleanOperator - tokens description.
+	 * RandomVariable - tokens description.
 	 */
 	public static final String UNIFORM_DESC					= "Random variable - Uniform continuous distribution U(0,1)";
 	public static final String INT_DESC 					= "Random variable - random integer";
@@ -219,7 +219,7 @@ public final class RandomVariable {
 	public static final String NAT1_9_DESC 					= "Random variable - random natural number - Uniform discrete distribution U{1, 10^9}";
 	public static final String NOR_DESC 					= "Random variable - Normal distribution N(0,1)";
 	/*
-	 * BooleanOperator - since.
+	 * RandomVariable - since.
 	 */
 	public static final String UNIFORM_SINCE				= mXparser.NAMEv30;
 	public static final String INT_SINCE					= mXparser.NAMEv30;

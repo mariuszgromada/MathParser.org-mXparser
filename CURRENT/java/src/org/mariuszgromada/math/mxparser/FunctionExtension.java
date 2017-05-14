@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtension.java        4.1.0    2017-04-22
+ * @(#)FunctionExtension.java        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *

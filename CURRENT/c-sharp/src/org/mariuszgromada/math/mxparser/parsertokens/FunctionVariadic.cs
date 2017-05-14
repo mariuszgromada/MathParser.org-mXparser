@@ -1,9 +1,9 @@
 /*
- * @(#)FunctionVariadic.cs        4.1.0    2017-04-18
+ * @(#)FunctionVariadic.cs        4.1.0    2017-05-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -114,21 +114,55 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RND_LIST_STR			= "rList";
 		public const String COALESCE_STR			= "coalesce";
 		/*
-		 * BooleanOperator - tokens description.
+		 * FunctionVariadic - syntax.
 		 */
-		public const String IFF_DESC 				= "if function ( iff(con_1, if_true_1_exp, ..., con_n, if_true_n_exp) )";
-		public const String MIN_DESC 				= "Minimum function: min(a,b,c,...)";
-		public const String MAX_DESC 				= "Maximum function: max(a,b,c,...)";
-		public const String CONT_FRAC_DESC			= "Continued fraction: ConFrac(a,b,c,...)";
-		public const String CONT_POL_DESC			= "Continued polynomial: ConPol(a,b,c,...)";
-		public const String GCD_DESC				= "Greatest common divisor: gcd(a,b,c,...)";
-		public const String LCM_DESC				= "Least common multiple: lcm(a,b,c,...)";
-		public const String SUM_DESC				= "(2.4) Summation operator add(a1,a2,a3,...,an)";
-		public const String PROD_DESC				= "(2.4) Multiplication multi(a1,a2,a3,...,an)";
-		public const String AVG_DESC				= "(2.4) Mean / average value mean(a1,a2,a3,...,an)";
-		public const String VAR_DESC				= "(2.4) Bias-corrected sample variance var(a1,a2,a3,...,an)";
-		public const String STD_DESC				= "(2.4) Bias-corrected sample standard deviation std(a1,a2,a3,...,an)";
-		public const String RND_LIST_DESC			= "(3.0) Random number from given list of numbers rList(a1,a2,a3,...,an)";
-		public const String COALESCE_DESC			= "(4.1) Returns the first non-NaN value, coalesce(a1,a2,a3,...,an)";
+		public const String IFF_SYN 				= "iff( cond-1, expr-1; ... ; cond-n, expr-n )";
+		public const String MIN_SYN					= "min(a1, ..., an)";
+		public const String MAX_SYN					= "max(a1, ..., an)";
+		public const String CONT_FRAC_SYN			= "ConFrac(a1, ..., an)";
+		public const String CONT_POL_SYN			= "ConPol(a1, ..., an)";
+		public const String GCD_SYN					= "gcd(a1, ..., an)";
+		public const String LCM_SYN					= "lcm(a1, ..., an)";
+		public const String SUM_SYN					= "add(a1, ..., an)";
+		public const String PROD_SYN				= "multi(a1, ..., an)";
+		public const String AVG_SYN					= "mean(a1, ..., an)";
+		public const String VAR_SYN					= "var(a1, ..., an)";
+		public const String STD_SYN					= "std(a1, ..., an)";
+		public const String RND_LIST_SYN			= "rList(a1, ..., an)";
+		public const String COALESCE_SYN			= "coalesce(a1, ..., an)";
+		/*
+		 * FunctionVariadic - tokens description.
+		 */
+		public const String IFF_DESC 				= "If function";
+		public const String MIN_DESC 				= "Minimum function";
+		public const String MAX_DESC 				= "Maximum function";
+		public const String CONT_FRAC_DESC			= "Continued fraction";
+		public const String CONT_POL_DESC			= "Continued polynomial";
+		public const String GCD_DESC				= "Greatest common divisor";
+		public const String LCM_DESC				= "Least common multiple";
+		public const String SUM_DESC				= "Summation operator";
+		public const String PROD_DESC				= "Multiplication";
+		public const String AVG_DESC				= "Mean / average value";
+		public const String VAR_DESC				= "Bias-corrected sample variance";
+		public const String STD_DESC				= "Bias-corrected sample standard deviation";
+		public const String RND_LIST_DESC			= "Random number from given list of numbers";
+		public const String COALESCE_DESC			= "Returns the first non-NaN value";
+		/*
+		 * FunctionVariadic - since.
+		 */
+		public const String IFF_SINCE 				= mXparser.NAMEv10;
+		public const String MIN_SINCE 				= mXparser.NAMEv10;
+		public const String MAX_SINCE 				= mXparser.NAMEv10;
+		public const String CONT_FRAC_SINCE			= mXparser.NAMEv10;
+		public const String CONT_POL_SINCE			= mXparser.NAMEv10;
+		public const String GCD_SINCE				= mXparser.NAMEv10;
+		public const String LCM_SINCE				= mXparser.NAMEv10;
+		public const String SUM_SINCE				= mXparser.NAMEv24;
+		public const String PROD_SINCE				= mXparser.NAMEv24;
+		public const String AVG_SINCE				= mXparser.NAMEv24;
+		public const String VAR_SINCE				= mXparser.NAMEv24;
+		public const String STD_SINCE				= mXparser.NAMEv24;
+		public const String RND_LIST_SINCE			= mXparser.NAMEv30;
+		public const String COALESCE_SINCE			= mXparser.NAMEv41;
 	}
 }

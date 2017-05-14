@@ -168,11 +168,14 @@ class KeyWord {
 	}
 	/**
 	 * Constructor - creates key words form wordString wordId
-	 * and wordTypId
+	 * wordTypId syntax since
 	 *
 	 * @param wordString   the word string (refers to below interfaces)
 	 * @param wordId       the word identifier (refers to below interfaces)
 	 * @param wordTypeId   the word type (refers to below interfaces)
+	 * @param description  the word description
+	 * @param syntax       the word syntax
+	 * @param since        the word version since
 	 */
 	KeyWord(String wordString, String description, int wordId, String syntax, String since, int wordTypeId) {
 		this.wordString = wordString;

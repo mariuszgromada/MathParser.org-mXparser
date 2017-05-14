@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        4.0.0    2016-03-26
+ * @(#)Function.cs        4.1.0    2017-05-14
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -91,7 +91,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.1.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -626,6 +626,19 @@ namespace org.mariuszgromada.math.mxparser {
 				this.parametersNumber = parametersNumber;
 				functionExpression.setExpressionModifiedFlag();
 			}
+		}
+		/**
+		 * Gets user defined function parameter name
+		 * 
+		 * @param parameterIndex  Parameter index between 0 and n-1
+		 * @return If parameter exists returns parameters name, otherwise empty string is returned.
+		 */
+		public String getParameterName(int parameterIndex) {
+			if (parameterIndex < 0) return "";
+			if (parameterIndex >= parametersNumber) return "";
+			if (functionBodyType == BODY_RUNTIME) return getArgument(parameterIndex).getArgumentName();
+			if (functionBodyType == BODY_EXTENDED) return this.functionExtension.getParameterName(parameterIndex);
+			return "";
 		}
 		/**
 		 * Gets number of arguments associated with the function expression.
