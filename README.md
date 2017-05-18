@@ -34,6 +34,11 @@
 
 # C# intro
 ![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
+# Tutorial
+
+![mXparser tutorial - csharp](http://mathparser.org/wp-content/uploads/2017/05/tutorial.gif)
+
+# [>>> Click to learn from examples <<<](http://mathparser.org/mxparser-tutorial/)
 
 # Main functionalities:
 - **basic operators**, i.e.: +, -, *, ^, !
