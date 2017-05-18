@@ -1,5 +1,7 @@
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-java-csharp.jpg)
 
+![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
+
 # mXparser - optional donation
 
 ### If you found the software useful donation is something you might consider :-)
@@ -10,6 +12,8 @@
 
     ### 04.05.2017: first 10000 downloads!
     ### 31.03.2016: first 1000 downloads!
+    
+![02-mXparser-sin.gif](http://mathparser.org/wp-content/uploads/2017/05/02-mXparser-sin.gif)
 
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
 
@@ -22,6 +26,8 @@
 - .NET Standard, .NET PCL
 - Xamarin.Android
 - Xamarin.iOS
+
+![03-mXparser-sum.gif](http://mathparser.org/wp-content/uploads/2017/05/03-mXparser-sum.gif)
 
 # JAVA intro
 ![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
