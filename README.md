@@ -148,7 +148,6 @@
 :+1:
 
 #### And for binary relations as well!
-![true-false](http://mathparser.org/wp-content/uploads/2017/05/true-false.png)
 
     Expression e = new Expression("5 <= 6");
     e.calculate();
