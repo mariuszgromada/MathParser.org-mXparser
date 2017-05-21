@@ -71,110 +71,145 @@
 
 # mXparser in nutshell
 
-#### _[calculator]_ You want simple calculator...
+#### You want simple calculator...
+![calc](http://mathparser.org/wp-content/uploads/2017/05/calc.png)
+
     Expression e = new Expression("2+3");
     e.calculate();
 :+1: 
 
-#### _[parenthesis]_ A calculator supporting parenthesis...
+#### A calculator supporting parenthesis...
+![parenth](http://mathparser.org/wp-content/uploads/2017/05/parenth.png)
+
     Expression e = new Expression("2+(3-5)^2");
     e.calculate();
 :+1: 
 
-#### _[predefined constants]_ You care about predefined constants...
+#### You care about predefined constants...
+![const](http://mathparser.org/wp-content/uploads/2017/05/const.png)
+
     Expression e = new Expression("2*pi");
     e.calculate();
 :+1: 
 
-#### _[your own constants]_ You need to define your own constants...
+
+#### You need to define your own constants...
+![const-user](http://mathparser.org/wp-content/uploads/2017/05/const-user.png)
+
     Constant tau = new Constant("tau = 2*pi");
     Expression e = new Expression("3*tau", tau);
     e.calculate();
 :+1: 
 
-#### _[built-in functions]_ You enjoy using many built-in functions...
+#### You enjoy using many built-in functions...
+![sinx](http://mathparser.org/wp-content/uploads/2017/05/sinx.png)
+
     Expression e = new Expression("sin(2*pi)");
     e.calculate();
 :+1: 
 
-#### _[not only unary functions]_ You do not limit yourself to unary functions...
+#### You do not limit yourself to unary functions...
+![fun-variadic](http://mathparser.org/wp-content/uploads/2017/05/fun-variadic.png)
+
     Expression e = new Expression("gcd(2,5,10,30)");
     e.calculate();
 :+1: 
 
-#### _[arguments]_ What about user defined arguments...
+#### What about user defined arguments...
+![arg-free](http://mathparser.org/wp-content/uploads/2017/05/arg-free.png)
+
     Argument x = new Argument("x = 5");
     Expression e = new Expression("sin(x)");
     e.calculate();
 :+1: 
 
-#### _[dependent arguments]_ You are considering dependent arguments...
+#### You are considering dependent arguments...
+![arg-dep](http://mathparser.org/wp-content/uploads/2017/05/arg-dep.png)
+
     Argument x = new Argument("x = 5");
     Argument y = new Argument("y = 2*x", x);
     Expression e = new Expression("sin(y)", y);
     e.calculate();
 :+1: 
 
-#### _[logic]_ You need to apply some logic...
+#### You need to apply some logic...
+![if-then](http://mathparser.org/wp-content/uploads/2017/05/if-then.png)
+
     Argument x = new Argument("x = 5");
     Expression e = new Expression("if(sin(x) > 5, 1, 0)", x);
     e.calculate();
 :+1:
 
-#### _[Boolean algebra]_ Yes, you are right, there is a support for Boolean algebra!
+#### Yes, you are right, there is a support for Boolean algebra!
+![true-false](http://mathparser.org/wp-content/uploads/2017/05/true-false.png)
+
     Expression e = new Expression("5=6");
     e.calculate();
 :+1:
 
-#### _[binary relations]_ And for binary relations as well!
+#### And for binary relations as well!
+![true-false](http://mathparser.org/wp-content/uploads/2017/05/true-false.png)
+
     Expression e = new Expression("5 <= 6");
     e.calculate();
 :+1:
 
 ## mXparser is cool! But this is only the begging, we are just warming up!
 
-#### _[iterated operators]_ You want to play with iterated operators...
+#### You want to play with iterated operators...
+![sum](http://mathparser.org/wp-content/uploads/2017/05/sum.png)
+
     Expression e = new Expression("sum(i, 1, 10, 2*i^2 + pi)");
     e.calculate();
 :+1:
 
-#### _[iterated operators]_ You want to iterate differently by not necessarily whole numbes...
+#### You want to iterate differently by not necessarily whole numbes...
+![prod](http://mathparser.org/wp-content/uploads/2017/05/prod.png)
+
     Expression e = new Expression("prod(i, 1, 5, i, 0.5)");
     e.calculate();
 :+1:
 
-#### _[iterated operators]_ You want to have more fun with math...
+#### You want to have more fun with math...
     Argument x = new Argument("x = pi/2");
     Expression e20 = new Expression("sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!)", x);
     e.calculate();
 :+1:
 
-#### _[calculus - differentiation]_ You still want more fun with calculus operations, i.e. differentiation...
+#### You still want more fun with calculus operations, i.e. differentiation...
+![der](http://mathparser.org/wp-content/uploads/2017/05/der.png)
+
     Argument x = new Argument("x = pi/2");
     Expression e = new Expression("cos(x)-der(sin(x), x)", x);
     e.calculate();
 :+1:
 
-#### _[calculus - integrals]_ And definite integrals as well...
+#### And definite integrals as well...
+![int](http://mathparser.org/wp-content/uploads/2017/05/int.png)
+
     Expression e = new Expression("2*int(sqrt(1-x^2), x, -1, 1)");
     e.calculate();
 :+1:
 
 ##  mXparser is even cooler! It is time to ask about ...
 
-#### _[user defined functions]_ user defined functions...
+#### user defined functions...
+![fun-user](http://mathparser.org/wp-content/uploads/2017/05/fun-user.png)
+
     Function f = new Function("f(x,y) = sin(x) + cos(y)");
     f.calculate(1,2);
     Expression e = new Expression("f(1,2) - 10", f);
     e.calculate();
 :+1:
 
-#### _[user defined recursive function]_ Recursion is your desire...
+#### Recursion is your desire...
+![recur](http://mathparser.org/wp-content/uploads/2017/05/recur.png)
+
     Function f = new Function("f(n) = if( n>0, n*f(n-1), 1)");
     f.calculate()
 :+1:
 
-#### _[user defined recursive function]_ Any kind of recursion...
+#### Any kind of recursion...
     Function Cnk = new Function("Cnk(n,k) = if(k>0, if(k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)");
     Cnk.calculate()
 :+1:
@@ -183,7 +218,9 @@
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
-#### _[grammar and syntax checking]_ mXparser can interact with end users as it supports syntax checking.
+#### mXparser can interact with end users as it supports syntax checking.
+![syntax](http://mathparser.org/wp-content/uploads/2017/05/syntax.png)
+
     Expression e = new Expression("2+1/a");
     e.checkSyntax();
     mXparser.consolePrintln(e.getErrorMessage());
