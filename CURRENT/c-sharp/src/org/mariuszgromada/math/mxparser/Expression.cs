@@ -5940,8 +5940,9 @@ namespace org.mariuszgromada.math.mxparser {
 								wordString = tm.newToken;
 								if (tm.newTokenDescription != null)
 									wordDescription = tm.newTokenDescription;
-							}
-					}
+                                wordSyntax = wordSyntax.Replace(tm.currentToken, tm.newToken);
+                            }
+                    }
 				}
 			keyWordsList.Add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 		}

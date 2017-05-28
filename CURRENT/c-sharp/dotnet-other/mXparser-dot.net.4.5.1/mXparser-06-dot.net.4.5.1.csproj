@@ -170,6 +170,9 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\FunctionVariadic.cs">
       <Link>src\org\mariuszgromada\math\mxparser\parsertokens\FunctionVariadic.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\KeyWord.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\KeyWord.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Operator.cs">
       <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Operator.cs</Link>
     </Compile>

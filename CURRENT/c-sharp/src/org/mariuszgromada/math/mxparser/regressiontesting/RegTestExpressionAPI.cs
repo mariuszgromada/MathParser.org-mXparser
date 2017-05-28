@@ -849,7 +849,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			mXparser.modifyBuiltinToken("sin", "TG", "NEW TG");
 			mXparser.modifyBuiltinToken("cos", "COS", "NEW COS");
 			mXparser.modifyBuiltinToken("cos", "COS1", "NEW COS1");
-			String[,] tokensToModify1 = mXparser.getBuiltinTokensToModify();
+            String help = mXparser.getHelp("COS");
+            String[,] tokensToModify1 = mXparser.getBuiltinTokensToModify();
 			mXparser.unmodifyBuiltinTokens("", u, "SIN", "tg");
 			String[,] tokensToModify2 = mXparser.getBuiltinTokensToModify();
 			mXparser.unmodifyAllBuiltinTokens();
@@ -869,8 +870,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(tokensToModify1[2, 2].Equals("NEW COS")) &&
 					(tokensToModify2[0, 0].Equals("cos")) &&
 					(tokensToModify2[0, 1].Equals("COS")) &&
-					(tokensToModify2[0, 2].Equals("NEW COS"))
-					) test[testId] = true;
+					(tokensToModify2[0, 2].Equals("NEW COS")) &&
+                    (help.Contains("COS(x)"))
+                    ) test[testId] = true;
 			/*
 			 * 32. Recursion counter
 			 */
