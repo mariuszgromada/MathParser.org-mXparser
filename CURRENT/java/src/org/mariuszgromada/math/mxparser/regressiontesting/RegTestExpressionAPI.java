@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.1.0    2017-04-22
+ * @(#)RegTestExpressionAPI.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -890,6 +890,20 @@ public class RegTestExpressionAPI {
 		mXparser.setMaxAllowedRecursionDepth(200);
 		int rc200 = mXparser.getMaxAllowedRecursionDepth();
 		if ( (rc100 == 100) && (rc200 == 200) )
+			test[testId] = true;
+		/*
+		 * 33. Override built-in tokens
+		 */
+		testId++;
+		mXparser.setToOverrideBuiltinTokens();
+		boolean over1 = mXparser.checkIfsetToOverrideBuiltinTokens();
+		mXparser.setNotToOverrideBuiltinTokens();
+		boolean over2 = mXparser.checkIfsetToOverrideBuiltinTokens();
+		mXparser.setToOverrideBuiltinTokens();
+		boolean over3 = mXparser.checkIfsetToOverrideBuiltinTokens();
+		mXparser.setNotToOverrideBuiltinTokens();
+		boolean over4 = mXparser.checkIfsetToOverrideBuiltinTokens();
+		if ( (over1 == true) && (over2 == false) && (over3 == true) && (over4 == false) )
 			test[testId] = true;
 		/* ============================================= */
         long end =  System.currentTimeMillis();

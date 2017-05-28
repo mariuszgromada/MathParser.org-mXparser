@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.cs        4.1.0    2017-05-14
+ * @(#)RegTestSyntax.cs        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1460,6 +1460,36 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
+			case 117:
+				mXparser.setNotToOverrideBuiltinTokens();
+				Function sin = new Function("sin(x,y) = 2*x + y");
+				Argument ee = new Argument("e = 5");
+				Constant pi = new Constant("pi = 2");
+				expStr = "sin(e,pi)";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr, sin, ee, pi);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 118:
+				mXparser.setToOverrideBuiltinTokens();
+				sin = new Function("sin(x,y) = 2*x + y");
+				ee = new Argument("e = 5");
+				pi = new Constant("pi = 2");
+				expStr = "sin(e,pi)";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr, sin, ee, pi);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -1471,7 +1501,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * Runs syntax checking regression test.
 		 */
 		public static int Start() {
-			int numberOfTests = 116;
+			int numberOfTests = 118;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

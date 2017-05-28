@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        4.1.0    2017-05-13
+ * @(#)Miscellaneous.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *

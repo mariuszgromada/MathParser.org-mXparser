@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.1.0    2017-04-18
+ * @(#)RegTestExpression.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -7460,6 +7460,22 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 661:
+			mXparser.setEpsilonComparison();
+			mXparser.setToOverrideBuiltinTokens();
+			Function sin = new Function("sin(x,y) = 2*x + y");
+			Argument ee = new Argument("e = 5");
+			Constant pi = new Constant("pi = 2");			
+			expStr = "sin(e,pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, sin, ee, pi);
+			value = exp[testId].calculate();
+			reg = 12;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -7474,7 +7490,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 660;
+		int numberOfTests = 661;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

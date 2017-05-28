@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.1.0    2017-05-14
+ * @(#)Expression.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5946,6 +5946,43 @@ public class Expression {
 		}
 	}
 	/**
+	 * Final validation of key words
+	 */
+	private void validateParserKeyWords() {
+		if (mXparser.overrideBuiltinTokens) {
+			/*
+			 * Building list of user defined tokens
+			 */
+			List<String> userDefinedTokens = new ArrayList<String>();
+			for (Argument arg : argumentsList)
+				userDefinedTokens.add( arg.getArgumentName() );
+			for (Function fun : functionsList)
+				userDefinedTokens.add( fun.getFunctionName() );
+			for (Constant cons : constantsList)
+				userDefinedTokens.add( cons.getConstantName() );
+			/*
+			 * If no user defined tokens then exit
+			 */
+			if (userDefinedTokens.isEmpty()) return;
+			/*
+			 * Building list of built-in tokens to remove
+			 */
+			List<KeyWord> keyWordsToOverride = new ArrayList<KeyWord>();
+			for (KeyWord kw : keyWordsList)
+				if (userDefinedTokens.contains(kw.wordString))
+					keyWordsToOverride.add(kw);
+			/*
+			 * If nothing to remove then exit
+			 */
+			if (keyWordsToOverride.isEmpty()) return;
+			/*
+			 * Performing final override
+			 */
+			for (KeyWord kw : keyWordsToOverride)
+				keyWordsList.remove(kw);
+		}
+	}
+	/**
 	 * Adds key word to the keyWords list
 	 *
 	 * @param wordString
@@ -6009,6 +6046,7 @@ public class Expression {
 		 */
 		keyWordsList = new ArrayList<KeyWord>();
 		addParserKeyWords();
+		validateParserKeyWords();
 		if (parserKeyWordsOnly == false) {
 			addArgumentsKeyWords();
 			addFunctionsKeyWords();
@@ -6570,6 +6608,7 @@ public class Expression {
 		keyWordsList = new ArrayList<KeyWord>();
 		String helpStr = "Help content: \n\n";
 		addParserKeyWords();
+		validateParserKeyWords();
 		if (parserKeyWordsOnly == false) {
 			addArgumentsKeyWords();
 			addFunctionsKeyWords();

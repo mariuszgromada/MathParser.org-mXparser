@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.0    2017-05-13
+ * @(#)mXparser.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -151,6 +151,11 @@ public final class mXparser {
 	 * List of built-in tokens to modify
 	 */
 	static final List<TokenModification> tokensToModify = new ArrayList<TokenModification>();
+	/**
+	 * Indicator whether user defined tokens should override
+	 * built-in tokens.
+	 */
+	static boolean overrideBuiltinTokens = false;
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -578,6 +583,29 @@ public final class mXparser {
 			tokensToModifyArray[i][2] = tm.newTokenDescription;
 		}
 		return tokensToModifyArray;
+	}
+	/**
+	 * Sets mXparser to override built-in tokens
+	 * by user defined tokens.
+	 */
+	public static final void setToOverrideBuiltinTokens() {
+		overrideBuiltinTokens = true;
+	}
+	/**
+	 * Sets mXparser not to override built-in tokens
+	 * by user defined tokens.
+	 */
+	public static final void setNotToOverrideBuiltinTokens() {
+		overrideBuiltinTokens = false;
+	}
+	/**
+	 * Checks whether mXparser is set to override built-in tokens.
+	 * 
+	 * @return True if mXparser is set to override built-in tokens by
+	 *         user defined tokens, otherwise false.
+	 */
+	public static final boolean checkIfsetToOverrideBuiltinTokens() {
+		return overrideBuiltinTokens;
 	}
 	/**
 	 * Converts integer number to hex string (plain text)

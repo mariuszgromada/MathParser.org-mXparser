@@ -5932,6 +5932,43 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		/**
+		 * Final validation of key words
+		 */
+		private void validateParserKeyWords() {
+			if (mXparser.overrideBuiltinTokens) {
+				/*
+				 * Building list of user defined tokens
+				 */
+				List<String> userDefinedTokens = new List<String>();
+				foreach (Argument arg in argumentsList)
+					userDefinedTokens.Add(arg.getArgumentName());
+				foreach (Function fun in functionsList)
+					userDefinedTokens.Add(fun.getFunctionName());
+				foreach (Constant cons in constantsList)
+					userDefinedTokens.Add(cons.getConstantName());
+				/*
+				 * If no user defined tokens then exit
+				 */
+				if (userDefinedTokens.Count == 0) return;
+				/*
+				 * Building list of built-in tokens to remove
+				 */
+				List<KeyWord> keyWordsToOverride = new List<KeyWord>();
+				foreach (KeyWord kw in keyWordsList)
+					if (userDefinedTokens.Contains(kw.wordString))
+						keyWordsToOverride.Add(kw);
+				/*
+				 * If nothing to remove then exit
+				 */
+				if (keyWordsToOverride.Count == 0) return;
+				/*
+				 * Performing final override
+				 */
+				foreach (KeyWord kw in keyWordsToOverride)
+					keyWordsList.Remove(kw);
+			}
+		}
+		/**
 		 * Adds key word to the keyWords list
 		 *
 		 * @param wordString
@@ -5995,6 +6032,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			keyWordsList = new List<KeyWord>();
 			addParserKeyWords();
+			validateParserKeyWords();
 			if (parserKeyWordsOnly == false) {
 				addArgumentsKeyWords();
 				addFunctionsKeyWords();
@@ -6557,6 +6595,7 @@ namespace org.mariuszgromada.math.mxparser {
 			keyWordsList = new List<KeyWord>();
 			String helpStr = "Help content: \n\n";
 			addParserKeyWords();
+			validateParserKeyWords();
 			if (parserKeyWordsOnly == false) {
 				addArgumentsKeyWords();
 				addFunctionsKeyWords();
