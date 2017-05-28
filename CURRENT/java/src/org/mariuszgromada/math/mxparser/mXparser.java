@@ -53,6 +53,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -145,11 +146,11 @@ public final class mXparser {
 	/**
 	 * List of built-in tokens to remove.
 	 */
-	static final ArrayList<String> tokensToRemove = new ArrayList<String>();
+	static final List<String> tokensToRemove = new ArrayList<String>();
 	/**
 	 * List of built-in tokens to modify
 	 */
-	static final ArrayList<TokenModification> tokensToModify = new ArrayList<TokenModification>();
+	static final List<TokenModification> tokensToModify = new ArrayList<TokenModification>();
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -231,13 +232,13 @@ public final class mXparser {
 		return f.calculate();
 	}
 	/**
-	 * Converts ArrayList of double to double[]
+	 * Converts List of double to double[]
 	 *
 	 * @param      numbers             the numbers list
 	 *
 	 * @return     numbers array
 	 */
-	public static final double[] arrayList2double(ArrayList<Double> numbers) {
+	public static final double[] arrayList2double(List<Double> numbers) {
 		if (numbers == null)
 			return null;
 		int size = numbers.size();
@@ -546,7 +547,7 @@ public final class mXparser {
 		if (currentOrNewTokens == null) return;
 		if (currentOrNewTokens.length == 0) return;
 		if (tokensToModify.size() == 0) return;
-		ArrayList<TokenModification> toRemove = new ArrayList<TokenModification>();
+		List<TokenModification> toRemove = new ArrayList<TokenModification>();
 		for (String token : currentOrNewTokens)
 			if (token != null)
 				if (token.length() > 0) {
@@ -802,7 +803,7 @@ public final class mXparser {
      * @see Expression#getCopyOfInitialTokens()
      * @see Token
      */
-    public static final void consolePrintTokens(ArrayList<Token> tokens) {
+    public static final void consolePrintTokens(List<Token> tokens) {
     	Expression.showTokens(tokens);
     }
 	/**

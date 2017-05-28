@@ -52,7 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
 /**
@@ -719,7 +719,7 @@ public class Function extends PrimitiveElement {
 	 *
 	 * @see        Constant
 	 */
-	public void addConstants(ArrayList<Constant> constantsList) {
+	public void addConstants(List<Constant> constantsList) {
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.addConstants(constantsList);
 	}
@@ -998,7 +998,7 @@ public class Function extends PrimitiveElement {
 	 */
 	void checkRecursiveMode() {
 		if (functionBodyType == Function.BODY_RUNTIME) {
-			ArrayList<Token> functionExpressionTokens = functionExpression.getInitialTokens();
+			List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
 			functionExpression.disableRecursiveMode();
 			if (functionExpressionTokens != null)
 				for (Token t : functionExpressionTokens)

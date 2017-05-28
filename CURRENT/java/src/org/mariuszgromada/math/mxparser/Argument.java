@@ -52,7 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser;
 
-import java.util.ArrayList;
+import java.util.List;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 /**
  * Argument class enables to declare the argument
@@ -612,7 +612,7 @@ public class Argument extends PrimitiveElement {
 	 *
 	 * @see        Constant
 	 */
-	public void addConstants(ArrayList<Constant> constantsList) {
+	public void addConstants(List<Constant> constantsList) {
 		argumentExpression.addConstants(constantsList);
 	}
 	/**

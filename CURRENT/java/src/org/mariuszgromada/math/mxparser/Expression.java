@@ -53,6 +53,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -77,6 +78,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Function1Arg;
 import org.mariuszgromada.math.mxparser.parsertokens.Function2Arg;
 import org.mariuszgromada.math.mxparser.parsertokens.Function3Arg;
 import org.mariuszgromada.math.mxparser.parsertokens.FunctionVariadic;
+import org.mariuszgromada.math.mxparser.parsertokens.KeyWord;
 import org.mariuszgromada.math.mxparser.parsertokens.Operator;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
@@ -151,23 +153,23 @@ public class Expression {
 	 * @see        Argument
 	 * @see        RecursiveArgument
 	 */
-	ArrayList<Argument> argumentsList;
+	List<Argument> argumentsList;
 	/**
 	 * List of user defined functions
 	 *
 	 * @see        Function
 	 */
-	ArrayList<Function> functionsList;
+	List<Function> functionsList;
 	/**
 	 * List of user defined constants
 	 *
 	 * @see        Constant
 	 */
-	ArrayList<Constant> constantsList;
+	List<Constant> constantsList;
 	/**
 	 * List of key words known by the parser
 	 */
-	private ArrayList<KeyWord> keyWordsList;
+	private List<KeyWord> keyWordsList;
 	/**
 	 * List of expression tokens (words).
 	 * Token class defines all needed
@@ -180,7 +182,7 @@ public class Expression {
 	 *    - token value (if token is a number)
 	 *    - token level - key information regarding sequence (order) of further parsing
 	 */
-	private ArrayList<Token> initialTokens;
+	private List<Token> initialTokens;
 	/**
 	 * the initialTokens list keeps unchanged information about
 	 * found tokens.
@@ -193,7 +195,7 @@ public class Expression {
 	 * At the end of the calculation the tokensList should contain only one
 	 * element - the result of all calculations.
 	 */
-	private ArrayList<Token> tokensList;
+	private List<Token> tokensList;
 	/**
 	 * List of related expressions, for example when
 	 * user defined function is used in the expression
@@ -206,7 +208,7 @@ public class Expression {
 	 * - recursive arguments
 	 * - user functions
 	 */
-	ArrayList<Expression> relatedExpressionsList;
+	List<Expression> relatedExpressionsList;
 	/**
 	 * Keeps computing time
 	 */
@@ -475,8 +477,8 @@ public class Expression {
 	 * @param      functionsList       the functions list
 	 * @param      constantsList       the constants list
 	 */
-	Expression(String expressionString, ArrayList<Token> initialTokens, ArrayList<Argument> argumentsList,
-			ArrayList<Function> functionsList, ArrayList<Constant> constantsList, boolean disableUlpRounding) {
+	Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
+			List<Function> functionsList, List<Constant> constantsList, boolean disableUlpRounding) {
 		this.expressionString = expressionString;
 		this.initialTokens = initialTokens;
 		this.argumentsList = argumentsList;
@@ -514,8 +516,8 @@ public class Expression {
 	 * @see        Function
 	 * @see        Constant
 	 */
-	Expression(String expressionString, ArrayList<Argument> argumentsList,
-			ArrayList<Function> functionsList, ArrayList<Constant> constantsList
+	Expression(String expressionString, List<Argument> argumentsList,
+			List<Function> functionsList, List<Constant> constantsList
 			,boolean internal) {
 		this.expressionString = new String(expressionString);
 		expressionInternalVarsInit();
@@ -931,7 +933,7 @@ public class Expression {
 	 *
 	 * @see        Constant
 	 */
-	public void addConstants( ArrayList<Constant> constantsList) {
+	public void addConstants( List<Constant> constantsList) {
 		this.constantsList.addAll( constantsList );
 		for (Constant c : constantsList)
 			c.addRelatedExpression(this);
@@ -1544,10 +1546,10 @@ public class Expression {
 	 *
 	 * @return     tokens list representing requested subexpression.
 	 */
-	private ArrayList<Token> createInitialTokens(int startPos,
+	private List<Token> createInitialTokens(int startPos,
 			int endPos,
-			ArrayList<Token> tokensList) {
-		ArrayList<Token> tokens = new ArrayList<Token>();
+			List<Token> tokensList) {
+		List<Token> tokens = new ArrayList<Token>();
 		Token t;
 		for (int p = startPos; p<= endPos; p++) {
 			t = tokensList.get(p).clone();
@@ -1601,15 +1603,15 @@ public class Expression {
 	 *
 	 * @see        FunctionParameter
 	 */
-	private ArrayList<FunctionParameter> getFunctionParameters(int pos, ArrayList<Token> tokensList) {
-		ArrayList<FunctionParameter> functionParameters = new ArrayList<FunctionParameter>();
+	private List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList) {
+		List<FunctionParameter> functionParameters = new ArrayList<FunctionParameter>();
 		int cPos = pos+2;
 		int tokenLevel = tokensList.get(pos+1).tokenLevel;
 		int pPos = cPos;
 		boolean comma;
 		boolean paren;
 		boolean end = false;
-		ArrayList<Token> paramTkones = new ArrayList<Token>();
+		List<Token> paramTkones = new ArrayList<Token>();
 		String paramStr = "";
 		do {
 			Token t = tokensList.get(cPos);
@@ -3358,8 +3360,8 @@ public class Expression {
 	 *
 	 * @return     List of function parameters.
 	 */
-	private ArrayList<Double> getNumbers(int pos) {
-		ArrayList<Double> numbers = new ArrayList<Double>();
+	private List<Double> getNumbers(int pos) {
+		List<Double> numbers = new ArrayList<Double>();
 		int pn = pos;
 		int lastIndex = tokensList.size() - 1;
 		boolean isNumber;
@@ -3532,7 +3534,7 @@ public class Expression {
 		 * Example: If(1=1, 2, sin(3) ) - here sin(3) does not
 		 * require to be calculated.
 		 */
-		ArrayList<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
 		FunctionParameter ifParam = ifParams.get(0);
 		Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS);
 		if (verboseMode == true)
@@ -3549,7 +3551,7 @@ public class Expression {
 		 * Get condition string
 		 * 1st parameter
 		 */
-		ArrayList<FunctionParameter> iffParams = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> iffParams = getFunctionParameters(pos, tokensList);
 		FunctionParameter iffParam = iffParams.get(0);
 		int parametersNumber = iffParams.size();
 		int trueParamNumber;
@@ -3741,7 +3743,7 @@ public class Expression {
 	 * @param      tokenId             missing token id
 	 * @param      tokenTypeId         missing token type id
 	 */
-	private void updateMissingTokens(ArrayList<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
+	private void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
 		for (Token t : tokens)
 			if ( (t.tokenTypeId == ConstantValue.NaN) && (t.tokenStr.equals(keyWord))) {
 				t.keyWord = keyWord;
@@ -3943,7 +3945,7 @@ public class Expression {
 	 * @param      derivativeType      the type of derivative (LEFT, RIGHT, ...)
 	 */
 	private void DERIVATIVE(int pos, int derivativeType) {
-		ArrayList<FunctionParameter> derParams = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> derParams = getFunctionParameters(pos, tokensList);
 		/*
 		 * Default epsilon
 		 */
@@ -4007,7 +4009,7 @@ public class Expression {
 		 * Default max number of steps
 		 */
 		final int DEF_MAX_STEPS		= 20;
-		ArrayList<FunctionParameter> derParams = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> derParams = getFunctionParameters(pos, tokensList);
 		/*
 		 * Get internal function strinng
 		 * 1st - parameter
@@ -4074,7 +4076,7 @@ public class Expression {
 		 * Default max number of steps
 		 */
 		final int DEF_MAX_STEPS		= 20;
-		ArrayList<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
 		/*
 		 * Get internal function strinng
 		 * 1th - parameter
@@ -4120,7 +4122,7 @@ public class Expression {
 		 * Default max number of steps
 		 */
 		final int DEF_MAX_STEPS		= 100;
-		ArrayList<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
 		/*
 		 * Get internal function strinng
 		 * 1th - parameter
@@ -4158,7 +4160,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void FORWARD_DIFFERENCE(int pos) {
-		ArrayList<FunctionParameter> params = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> params = getFunctionParameters(pos, tokensList);
 		FunctionParameter funParam = params.get(0);
 		FunctionParameter xParam = params.get(1);
 		ArgumentParameter x = getParamArgument(xParam.paramStr);
@@ -4182,7 +4184,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void BACKWARD_DIFFERENCE(int pos) {
-		ArrayList<FunctionParameter> params = getFunctionParameters(pos, tokensList);
+		List<FunctionParameter> params = getFunctionParameters(pos, tokensList);
 		FunctionParameter funParam = params.get(0);
 		FunctionParameter xParam = params.get(1);
 		ArgumentParameter x = getParamArgument(xParam.paramStr);
@@ -4207,7 +4209,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void MIN_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.min( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4217,7 +4219,7 @@ public class Expression {
 	 * @param pos token index (position)
 	 */
 	private void MAX_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.max( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4227,7 +4229,7 @@ public class Expression {
 	 * @param pos token index (position)
 	 */
 	private void SUM_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.sum( mXparser.arrayList2double(numbers) ), numbers.size(), true);
 	}
 	/**
@@ -4237,7 +4239,7 @@ public class Expression {
 	 * @param pos token index (position)
 	 */
 	private void PROD_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.prod( mXparser.arrayList2double(numbers) ), numbers.size(), true);
 	}
 	/**
@@ -4247,7 +4249,7 @@ public class Expression {
 	 * @param pos token index (position)
 	 */
 	private void AVG_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, Statistics.avg( mXparser.arrayList2double(numbers) ), numbers.size(), true);
 	}
 	/**
@@ -4257,7 +4259,7 @@ public class Expression {
 	 * @param pos token index (position)
 	 */
 	private void VAR_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, Statistics.var( mXparser.arrayList2double(numbers) ), numbers.size(), true);
 	}
 	/**
@@ -4267,7 +4269,7 @@ public class Expression {
 	 * @param pos token index (position)
 	 */
 	private void STD_VARIADIC(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, Statistics.std( mXparser.arrayList2double(numbers) ), numbers.size(), true);
 	}
 	/**
@@ -4276,7 +4278,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void CONTINUED_FRACTION(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, MathFunctions.continuedFraction( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4285,7 +4287,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void CONTINUED_POLYNOMIAL(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, MathFunctions.continuedPolynomial( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4294,7 +4296,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void GCD(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.gcd( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4303,7 +4305,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void LCM(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.lcm( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4312,7 +4314,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void RND_LIST(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		int n = numbers.size();
 		int i = ProbabilityDistributions.rndIndex(n, ProbabilityDistributions.randomGenerator);
 		variadicSetDecreaseRemove(pos, numbers.get(i), numbers.size() );
@@ -4323,7 +4325,7 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void COALESCE(int pos) {
-		ArrayList<Double> numbers = getNumbers(pos);
+		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, MathFunctions.coalesce( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
@@ -4591,7 +4593,7 @@ public class Expression {
 				 */
 				if (t.tokenTypeId == CalculusOperator.TYPE_ID) {
 					int paramsNumber = getParametersNumber(tokenIndex);
-					ArrayList<FunctionParameter> funParams = null;
+					List<FunctionParameter> funParams = null;
 					if (paramsNumber > 0)
 						funParams = getFunctionParameters(tokenIndex, initialTokens);
 					if ( (t.tokenId == CalculusOperator.DER_ID) || (t.tokenId == CalculusOperator.DER_LEFT_ID) || (t.tokenId == CalculusOperator.DER_RIGHT_ID) )  {
@@ -4841,7 +4843,7 @@ public class Expression {
 		int tokenIndex;
 		int pos;
 		int p;
-		ArrayList<Integer> commas = null;
+		List<Integer> commas = null;
 		/* While exist token which needs to bee evaluated */
 		do {
 			tokensNumber = tokensList.size();
@@ -5949,6 +5951,7 @@ public class Expression {
 							wordString = tm.newToken;
 							if (tm.newTokenDescription != null)
 								wordDescription = tm.newTokenDescription;
+							wordSyntax = wordSyntax.replace(tm.currentToken, tm.newToken);
 						}
 				}
 			}
@@ -6440,14 +6443,14 @@ public class Expression {
 	 * @return Copy of initial tokens.
 	 *
 	 * @see Token
-	 * @see mXparser#consolePrintTokens(ArrayList)
+	 * @see mXparser#consolePrintTokens(List)
 	 */
-	public ArrayList<Token> getCopyOfInitialTokens() {
+	public List<Token> getCopyOfInitialTokens() {
 		final String FUNCTION = "function";
 		final String ARGUMENT = "argument";
 		final String ERROR    = "error";
 		tokenizeExpressionString();
-		ArrayList<Token> tokensListCopy = new ArrayList<Token>();
+		List<Token> tokensListCopy = new ArrayList<Token>();
 		Token token;
 		for (int i = 0; i < initialTokens.size(); i++) {
 			token =  initialTokens.get(i);
@@ -6472,7 +6475,7 @@ public class Expression {
 	 *
 	 * @see Function
 	 */
-	ArrayList<Token> getInitialTokens() {
+	List<Token> getInitialTokens() {
 		return initialTokens;
 	}
 	/*
@@ -6605,7 +6608,7 @@ public class Expression {
 	/*
 	 * show tokens
 	 */
-	static final void showTokens(ArrayList<Token> tokensList) {
+	static final void showTokens(List<Token> tokensList) {
 		String maxStr = "TokenTypeId";
 		mXparser.consolePrintln(" --------------------");
 		mXparser.consolePrintln("| Expression tokens: |");

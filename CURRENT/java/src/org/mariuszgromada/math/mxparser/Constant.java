@@ -53,6 +53,8 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 /**
  * Constant class provides ability to declare constants.
@@ -121,7 +123,7 @@ public class Constant extends PrimitiveElement {
 	/**
 	 * Dependent expression list
 	 */
-	private ArrayList<Expression> relatedExpressionsList;
+	private List<Expression> relatedExpressionsList;
 	/**
 	 * Status of the expression syntax
 	 *

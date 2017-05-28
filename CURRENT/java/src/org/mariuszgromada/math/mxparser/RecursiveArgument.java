@@ -53,6 +53,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 /**
  * RecursiveArgument class enables to declare the argument
@@ -114,7 +115,7 @@ public class RecursiveArgument extends Argument {
 	/**
 	 * Base values
 	 */
-	private ArrayList<Double> baseValues;
+	private List<Double> baseValues;
 	/**
 	 * To avoid never ending loops
 	 */

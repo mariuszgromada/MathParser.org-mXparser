@@ -52,10 +52,11 @@
  */
 package org.mariuszgromada.math.mxparser;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 
 import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
+import org.mariuszgromada.math.mxparser.parsertokens.KeyWord;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
 
 /*=================================================
@@ -68,11 +69,11 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  * Package level class for handling function parameters.
  */
 class FunctionParameter {
-	ArrayList<Token> tokens;
+	List<Token> tokens;
 	String paramStr;
 	int fromIndex;
 	int toIndex;
-	FunctionParameter(ArrayList<Token> tokens,
+	FunctionParameter(List<Token> tokens,
 			String paramStr,
 			int fromIndex,
 			int toIndex ) {
@@ -99,7 +100,7 @@ class IterativeOperatorParameters {
 	double to;
 	double delta;
 	boolean withDelta;
-	IterativeOperatorParameters(ArrayList<FunctionParameter> functionParameters) {
+	IterativeOperatorParameters(List<FunctionParameter> functionParameters) {
 		/*
 		 * Get index string
 		 * 1st parameter
@@ -146,44 +147,6 @@ class ArgumentParameter {
 		initialValue = Double.NaN;
 		initialType = ConstantValue.NaN;
 		presence = Expression.NOT_FOUND;
-	}
-}
-/**
-* Base class prepresenting key words knwon by the parsere
-*/
-class KeyWord {
-	String wordString;
-	int	wordId;
-	int wordTypeId;
-	String description;
-	String syntax;
-	String since;
-	public KeyWord() {
-		wordString = "";
-		wordId = ConstantValue.NaN;
-		wordTypeId = ConstantValue.NaN;
-		description = "";
-		syntax = "";
-		since = "";
-	}
-	/**
-	 * Constructor - creates key words form wordString wordId
-	 * wordTypId syntax since
-	 *
-	 * @param wordString   the word string (refers to below interfaces)
-	 * @param wordId       the word identifier (refers to below interfaces)
-	 * @param wordTypeId   the word type (refers to below interfaces)
-	 * @param description  the word description
-	 * @param syntax       the word syntax
-	 * @param since        the word version since
-	 */
-	KeyWord(String wordString, String description, int wordId, String syntax, String since, int wordTypeId) {
-		this.wordString = wordString;
-		this.wordId = wordId;
-		this.wordTypeId = wordTypeId;
-		this.description = description;
-		this.syntax = syntax;
-		this.since = since;
 	}
 }
 /**
@@ -275,7 +238,7 @@ class HeadEqBody {
 	String headStr;
 	String bodyStr;
 	int eqPos;
-	ArrayList<Token> headTokens;
+	List<Token> headTokens;
 	boolean definitionError;
 	HeadEqBody(String definitionString) {
 		char c;

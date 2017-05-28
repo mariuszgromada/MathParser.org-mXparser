@@ -52,7 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser.regressiontesting;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
@@ -273,7 +273,7 @@ public class RegTestExpressionAPI {
 		/*
 		 * 10.
 		 * void addArguments(Argument... arguments)
-		 * void addArguments( ArrayList<Argument> argumentsList)
+		 * void addArguments( List<Argument> argumentsList)
 		 * defineArguments(String... argumentsNames)
 		 * defineArgument(String argumentName, double argumentValue)
 		 */
@@ -403,7 +403,7 @@ public class RegTestExpressionAPI {
 		/*
 		 * 14.
 		 * void addConstants(Constant... constants)
-		 * void addConstants( ArrayList<Constant> constantsList)
+		 * void addConstants( List<Constant> constantsList)
 		 * void defineConstant(String constantName, double constantValue)
 		 */
 		testId++;
@@ -503,7 +503,7 @@ public class RegTestExpressionAPI {
 		/*
 		 * 17.
 		 * void addFunctions(Function... functions)
-		 * void addFunctions( ArrayList<Function> functionsList)
+		 * void addFunctions( List<Function> functionsList)
 		 * void defineFunction(String functionName, String  functionExpressionString,...
 		 */
 		testId++;
@@ -618,7 +618,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		e = new Expression("1+(2+3)-sin(10)");
-		ArrayList<Token> tokens = e.getCopyOfInitialTokens();
+		List<Token> tokens = e.getCopyOfInitialTokens();
 		mXparser.consolePrintTokens(tokens);
 		if (
 				(tokens.get(0).tokenStr.equals("1")) &&
@@ -857,6 +857,7 @@ public class RegTestExpressionAPI {
 		mXparser.modifyBuiltinToken("sin", "TG", "NEW TG");
 		mXparser.modifyBuiltinToken("cos", "COS", "NEW COS");
 		mXparser.modifyBuiltinToken("cos", "COS1", "NEW COS1");
+		String help = mXparser.getHelp("COS");
 		String[][] tokensToModify1 = mXparser.getBuiltinTokensToModify();
 		mXparser.unmodifyBuiltinTokens("", u, "SIN", "tg");
 		String[][] tokensToModify2 = mXparser.getBuiltinTokensToModify();
@@ -877,7 +878,8 @@ public class RegTestExpressionAPI {
 				( tokensToModify1[2][2].equals("NEW COS") ) &&
 				( tokensToModify2[0][0].equals("cos") ) &&
 				( tokensToModify2[0][1].equals("COS") ) &&
-				( tokensToModify2[0][2].equals("NEW COS") )
+				( tokensToModify2[0][2].equals("NEW COS") ) &&
+				( help.contains("COS(x)") )
 				) test[testId] = true;
 		/*
 		 * 32. Recursion counter
