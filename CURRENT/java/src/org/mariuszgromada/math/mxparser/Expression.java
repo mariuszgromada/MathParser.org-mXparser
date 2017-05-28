@@ -6630,24 +6630,24 @@ public class Expression {
 			type = "";
 			kw = keyWord.wordString;
 			switch (keyWord.wordTypeId) {
-			case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-			case ParserSymbol.NUMBER_TYPE_ID: type = "number"; kw = "_number_"; break;
-			case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
-			case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
-			case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
-			case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
-			case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
-			case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
-			case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
-			case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
-			case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
-			case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
-			case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-			case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
-			case Function.TYPE_ID: type = Function.TYPE_DESC; break;
-			case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
-			case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
-			case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
+				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
+				case ParserSymbol.NUMBER_TYPE_ID: type = "number"; kw = "_number_"; break;
+				case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
+				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
+				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
+				case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
+				case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
+				case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
+				case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
+				case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
+				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
+				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
+				case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
+				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
+				case Function.TYPE_ID: type = Function.TYPE_DESC; break;
+				case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
+				case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
+				case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
 			}
 			line = getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + ". " +
 			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ","<" + type + ">") 
@@ -6657,6 +6657,57 @@ public class Expression {
 			}
 		}
 		return helpStr;
+	}
+	/**
+	 * Returns list of key words known to the parser
+	 * 
+	 * @return      List of keywords known to the parser.
+	 * 
+	 * @see KeyWord
+	 * @see KeyWord#wordTypeId
+	 * @see Expression#getHelp()
+	 */
+	public List<KeyWord> getKeyWords() {
+		return getKeyWords("");
+	}
+	/**
+	 * Returns list of key words known to the parser
+	 * 
+	 * @param query Give any string to filter list of key words against this string.
+	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
+	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+	 *              to narrow the result.
+	 *              
+	 * @return      List of keywords known to the parser filter against query string.
+	 * 
+	 * @see KeyWord
+	 * @see KeyWord#wordTypeId
+	 * @see Expression#getHelp(String)
+	 */
+	public List<KeyWord> getKeyWords(String query) {
+		keyWordsList = new ArrayList<KeyWord>();
+		List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
+		addParserKeyWords();
+		validateParserKeyWords();
+		if (parserKeyWordsOnly == false) {
+			addArgumentsKeyWords();
+			addFunctionsKeyWords();
+			addConstantsKeyWords();
+		}
+		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
+		String line;
+		for (KeyWord kw : keyWordsList){
+			line = 	"str=" + kw.wordString + " " +
+					"desc=" + kw.description + " " +
+					"syn=" + kw.syntax + " " + 
+					"sin=" + kw.since + " " +
+					"wid=" + kw.wordId + " " +
+					"tid=" + kw.wordTypeId
+					;
+			if ( (line.toLowerCase().indexOf(query.toLowerCase()) >= 0) )
+				kwyWordsToReturn.add(kw);
+		}
+		return kwyWordsToReturn;
 	}
 	/*
 	 * shows tokens

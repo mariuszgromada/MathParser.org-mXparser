@@ -119,7 +119,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Empty expression for general help purposes.
 		 */
-		private static Expression mXparserHelp = new Expression();
+		private static Expression mXparserExp = new Expression();
 		/**
 		 * Double floating-point precision arithmetic causes
 		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
@@ -612,6 +612,36 @@ namespace org.mariuszgromada.math.mxparser {
 			return overrideBuiltinTokens;
 		}
 		/**
+		 * Returns token type description.
+		 * 
+		 * @param tokenTypeId Token type id
+		 * @return String representing token type description.
+		 */
+		public static String getTokenTypeDescription(int tokenTypeId) {
+			String type = "";
+			switch (tokenTypeId) {
+				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
+				case ParserSymbol.NUMBER_TYPE_ID: type = "number"; break;
+				case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
+				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
+				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
+				case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
+				case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
+				case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
+				case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
+				case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
+				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
+				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
+				case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
+				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
+				case Function.TYPE_ID: type = Function.TYPE_DESC; break;
+				case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
+				case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
+				case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
+			}
+			return type;
+		}
+		/**
 		 * Converts integer number to hex string (plain text)
 		 *
 		 * @param number   Integer number
@@ -813,7 +843,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return String with all general help content
 		 */
 		public static String getHelp() {
-			return mXparserHelp.getHelp();
+			return mXparserExp.getHelp();
 		}
 		/**
 		 * General mXparser expression help - in-line key word searching
@@ -822,7 +852,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * lines containing given keyword
 		 */
 		public static String getHelp(String word) {
-			return mXparserHelp.getHelp(word);
+			return mXparserExp.getHelp(word);
 		}
 		/**
 		 * Prints all help content.
@@ -836,6 +866,35 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintHelp(String word) {
 			consoleWriteLine(getHelp(word));
+		}
+		/**
+		 * Returns list of key words known to the parser
+		 * 
+		 * @return      List of keywords known to the parser.
+		 * 
+		 * @see KeyWord
+		 * @see KeyWord#wordTypeId
+		 * @see mXparser#getHelp()
+		 */
+		public static List<KeyWord> getKeyWords() {
+			return mXparserExp.getKeyWords();
+		}
+		/**
+		 * Returns list of key words known to the parser
+		 * 
+		 * @param query Give any string to filter list of key words against this string.
+		 *              User more precise syntax: str=tokenString, desc=tokenDescription,
+		 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+		 *              to narrow the result.
+		 *              
+		 * @return      List of keywords known to the parser filter against query string.
+		 * 
+		 * @see KeyWord
+		 * @see KeyWord#wordTypeId
+		 * @see mXparser#getHelp(String)
+		 */
+		public static List<KeyWord> getKeyWords(String query) {
+			return mXparserExp.getKeyWords(query);
 		}
 		/**
 		 * Function used to introduce some compatibility

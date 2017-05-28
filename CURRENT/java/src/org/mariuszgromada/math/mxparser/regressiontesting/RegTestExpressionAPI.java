@@ -58,13 +58,9 @@ import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
+import org.mariuszgromada.math.mxparser.RecursiveArgument;
 import org.mariuszgromada.math.mxparser.mXparser;
-import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
-import org.mariuszgromada.math.mxparser.parsertokens.Function1Arg;
-import org.mariuszgromada.math.mxparser.parsertokens.Operator;
-import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
-import org.mariuszgromada.math.mxparser.parsertokens.Token;
-
+import org.mariuszgromada.math.mxparser.parsertokens.*;
 
 /**
  * RegTestExpressionAPI - regression tests for the expression API
@@ -904,6 +900,41 @@ public class RegTestExpressionAPI {
 		mXparser.setNotToOverrideBuiltinTokens();
 		boolean over4 = mXparser.checkIfsetToOverrideBuiltinTokens();
 		if ( (over1 == true) && (over2 == false) && (over3 == true) && (over4 == false) )
+			test[testId] = true;
+		/*
+		 * 34. mXparser.getKeyWords
+		 */
+		testId++;
+		List<KeyWord> keyWords = mXparser.getKeyWords("sin ");
+		if (	(keyWords.size() == 4) &&
+				(keyWords.get(0).wordString.equals("sin")) &&
+				(keyWords.get(1).wordString.equals("asin")) &&
+				(keyWords.get(2).wordString.equals("arsin")) &&
+				(keyWords.get(3).wordString.equals("arcsin"))
+				)
+			test[testId] = true;
+		/*
+		 * 34. mXparser.getTokenType
+		 */
+		testId++;
+		if (	(mXparser.getTokenTypeDescription(BinaryRelation.TYPE_ID).equals(BinaryRelation.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(BitwiseOperator.TYPE_ID).equals(BitwiseOperator.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(BooleanOperator.TYPE_ID).equals(BooleanOperator.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(CalculusOperator.TYPE_ID).equals(CalculusOperator.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(ConstantValue.TYPE_ID).equals(ConstantValue.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Function1Arg.TYPE_ID).equals(Function1Arg.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Function2Arg.TYPE_ID).equals(Function2Arg.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Function3Arg.TYPE_ID).equals(Function3Arg.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(FunctionVariadic.TYPE_ID).equals(FunctionVariadic.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Operator.TYPE_ID).equals(Operator.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(ParserSymbol.TYPE_ID).equals(ParserSymbol.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(RandomVariable.TYPE_ID).equals(RandomVariable.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Unit.TYPE_ID).equals(Unit.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Argument.TYPE_ID).equals(Argument.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(Constant.TYPE_ID).equals(Constant.TYPE_DESC)) &&
+				(mXparser.getTokenTypeDescription(RecursiveArgument.TYPE_ID_RECURSIVE).equals(RecursiveArgument.TYPE_DESC_RECURSIVE)) &&
+				(mXparser.getTokenTypeDescription(Function.TYPE_ID).equals(Function.TYPE_DESC))
+				)
 			test[testId] = true;
 		/* ============================================= */
         long end =  System.currentTimeMillis();

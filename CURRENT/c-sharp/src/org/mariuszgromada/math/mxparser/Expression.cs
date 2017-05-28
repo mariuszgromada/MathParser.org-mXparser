@@ -6645,6 +6645,57 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return helpStr;
 		}
+		/**
+		 * Returns list of key words known to the parser
+		 * 
+		 * @return      List of keywords known to the parser.
+		 * 
+		 * @see KeyWord
+		 * @see KeyWord#wordTypeId
+		 * @see Expression#getHelp()
+		 */
+		public List<KeyWord> getKeyWords() {
+			return getKeyWords("");
+		}
+		/**
+		 * Returns list of key words known to the parser
+		 * 
+		 * @param query Give any string to filter list of key words against this string.
+		 *              User more precise syntax: str=tokenString, desc=tokenDescription,
+		 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+		 *              to narrow the result.
+		 *              
+		 * @return      List of keywords known to the parser filter against query string.
+		 * 
+		 * @see KeyWord
+		 * @see KeyWord#wordTypeId
+		 * @see Expression#getHelp(String)
+		 */
+		public List<KeyWord> getKeyWords(String query) {
+			keyWordsList = new List<KeyWord>();
+			List<KeyWord> kwyWordsToReturn = new List<KeyWord>();
+			addParserKeyWords();
+			validateParserKeyWords();
+			if (parserKeyWordsOnly == false) {
+				addArgumentsKeyWords();
+				addFunctionsKeyWords();
+				addConstantsKeyWords();
+			}
+			keyWordsList.Sort(new KwTypeComparator());
+			String line;
+			foreach (KeyWord kw in keyWordsList) {
+				line = 	"str=" + kw.wordString + " " +
+						"desc=" + kw.description + " " +
+						"syn=" + kw.syntax + " " + 
+						"sin=" + kw.since + " " +
+						"wid=" + kw.wordId + " " +
+						"tid=" + kw.wordTypeId
+						;
+				if ( (line.ToLower().IndexOf(query.ToLower()) >= 0) )
+					kwyWordsToReturn.Add(kw);
+			}
+			return kwyWordsToReturn;
+		}
 		/*
 		 * shows tokens
 		 */

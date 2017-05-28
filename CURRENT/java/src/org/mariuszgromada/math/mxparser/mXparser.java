@@ -60,7 +60,21 @@ import java.util.regex.Pattern;
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
 import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
 import org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions;
+import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
+import org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator;
+import org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator;
+import org.mariuszgromada.math.mxparser.parsertokens.CalculusOperator;
+import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
+import org.mariuszgromada.math.mxparser.parsertokens.Function1Arg;
+import org.mariuszgromada.math.mxparser.parsertokens.Function2Arg;
+import org.mariuszgromada.math.mxparser.parsertokens.Function3Arg;
+import org.mariuszgromada.math.mxparser.parsertokens.FunctionVariadic;
+import org.mariuszgromada.math.mxparser.parsertokens.KeyWord;
+import org.mariuszgromada.math.mxparser.parsertokens.Operator;
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
+import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
+import org.mariuszgromada.math.mxparser.parsertokens.Unit;
 /**
  * mXparser class provides usefull methods when parsing, calculating or
  * parameters transforming.
@@ -608,6 +622,36 @@ public final class mXparser {
 		return overrideBuiltinTokens;
 	}
 	/**
+	 * Returns token type description.
+	 * 
+	 * @param tokenTypeId Token type id
+	 * @return String representing token type description.
+	 */
+	public static final String getTokenTypeDescription(int tokenTypeId) {
+		String type = "";
+		switch (tokenTypeId) {
+			case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
+			case ParserSymbol.NUMBER_TYPE_ID: type = "number"; break;
+			case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
+			case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
+			case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
+			case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
+			case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
+			case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
+			case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
+			case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
+			case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
+			case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
+			case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
+			case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
+			case Function.TYPE_ID: type = Function.TYPE_DESC; break;
+			case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
+			case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
+			case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
+		}
+		return type;
+	}
+	/**
 	 * Converts integer number to hex string (plain text)
 	 *
 	 * @param number   Integer number
@@ -811,6 +855,35 @@ public final class mXparser {
 	 */
 	public static final void consolePrintHelp(String word) {
 		System.out.println(getHelp(word));
+	}
+	/**
+	 * Returns list of key words known to the parser
+	 * 
+	 * @return      List of keywords known to the parser.
+	 * 
+	 * @see KeyWord
+	 * @see KeyWord#wordTypeId
+	 * @see mXparser#getHelp()
+	 */
+	public static final List<KeyWord> getKeyWords() {
+		return mXparserExp.getKeyWords();
+	}
+	/**
+	 * Returns list of key words known to the parser
+	 * 
+	 * @param query Give any string to filter list of key words against this string.
+	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
+	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+	 *              to narrow the result.
+	 *              
+	 * @return      List of keywords known to the parser filter against query string.
+	 * 
+	 * @see KeyWord
+	 * @see KeyWord#wordTypeId
+	 * @see mXparser#getHelp(String)
+	 */
+	public static final List<KeyWord> getKeyWords(String query) {
+		return mXparserExp.getKeyWords(query);
 	}
 	/**
 	 * Function used to introduce some compatibility

@@ -141,8 +141,8 @@ public class Argument extends PrimitiveElement {
 	 * Argument type id for the definition of key words
 	 * known by the parser.
 	 */
-	static final int TYPE_ID		= 101;
-	static final String TYPE_DESC	= "User defined argument";
+	public static final int TYPE_ID		= 101;
+	public static final String TYPE_DESC	= "User defined argument";
 	/**
 	 * Description of the argument.
 	 */
