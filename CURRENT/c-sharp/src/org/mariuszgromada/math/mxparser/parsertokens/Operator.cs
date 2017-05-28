@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        4.1.0    2017-05-13
+ * @(#)Operator.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -89,16 +89,18 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int POWER_ID				= 5;
 		public const int FACT_ID				= 6;
 		public const int MOD_ID					= 7;
-		/*
+        public const int PERC_ID                = 8;
+        /*
 		 * Operator - tokens key words.
 		 */
-		public const String PLUS_STR 			= "+";
+        public const String PLUS_STR 			= "+";
 		public const String MINUS_STR 			= "-";
 		public const String MULTIPLY_STR 		= "*";
 		public const String DIVIDE_STR 			= "/";
 		public const String POWER_STR 			= "^";
 		public const String FACT_STR 			= "!";
 		public const String MOD_STR				= "#";
+        public const String PERC_STR			= "%";
 		/*
 		 * Operator - syntax.
 		 */
@@ -109,6 +111,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String POWER_SYN 			= "a^b";
 		public const String FACT_SYN 			= "n!";
 		public const String MOD_SYN				= "a # b";
+        public const String PERC_SYN			= "n%";
 		/*
 		 * Operator - tokens description.
 		 */
@@ -119,6 +122,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String POWER_DESC 			= "Exponentiation";
 		public const String FACT_DESC			= "Factorial";
 		public const String MOD_DESC			= "Modulo function";
+        public const String PERC_DESC			= "Percentage";
 		/*
 		 * Operator - since.
 		 */
@@ -129,5 +133,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String POWER_SINCE 		= mXparser.NAMEv10;
 		public const String FACT_SINCE			= mXparser.NAMEv10;
 		public const String MOD_SINCE			= mXparser.NAMEv10;
+        public const String PERC_SINCE			= mXparser.NAMEv41;
 	}
 }

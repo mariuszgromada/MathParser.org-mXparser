@@ -3274,6 +3274,17 @@ public class Expression {
 		tokensList.remove(pos-1);
 	}
 	/**
+	 * Percentage
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void PERC(int pos) {
+		double a = getTokenValue(pos-1);
+		setToNumber(pos, a * Units.PERC);
+		tokensList.remove(pos-1);
+	}
+	/**
 	 * Negation
 	 * Sets tokens to number token
 	 *
@@ -4819,6 +4830,7 @@ public class Expression {
 		int powerNum;
 		int factPos;
 		int modPos;
+		int percPos;
 		int negPos;
 		int bolPos;
 		int eqPos;
@@ -4870,6 +4882,7 @@ public class Expression {
 			powerPos = -1;
 			factPos = -1;
 			modPos = -1;
+			percPos = -1;
 			powerNum = 0;
 			negPos = -1;
 			bolPos = -1;
@@ -5026,6 +5039,9 @@ public class Expression {
 							if ( (token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNUmber)) {
 								factPos = pos;
 							} else
+							if ( (token.tokenId == Operator.PERC_ID) && (percPos < 0) && (leftIsNUmber)) {
+								percPos = pos;
+							} else
 							if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
 								modPos = pos;
 							} else
@@ -5137,6 +5153,9 @@ public class Expression {
 			} else
 			if (factPos >= 0) {
 				FACT(factPos);
+			} else
+			if (percPos >= 0) {
+				PERC(percPos);
 			} else
 			if (modPos >= 0) {
 				MODULO(modPos);
@@ -5418,6 +5437,7 @@ public class Expression {
 		addKeyWord(Operator.POWER_STR, Operator.POWER_DESC, Operator.POWER_ID, Operator.POWER_SYN, Operator.POWER_SINCE, Operator.TYPE_ID);
 		addKeyWord(Operator.FACT_STR, Operator.FACT_DESC, Operator.FACT_ID, Operator.FACT_SYN, Operator.FACT_SINCE, Operator.TYPE_ID);
 		addKeyWord(Operator.MOD_STR, Operator.MOD_DESC, Operator.MOD_ID, Operator.MOD_SYN, Operator.MOD_SINCE, Operator.TYPE_ID);
+		addKeyWord(Operator.PERC_STR, Operator.PERC_DESC, Operator.PERC_ID, Operator.PERC_SYN, Operator.PERC_SINCE, Operator.TYPE_ID);
 		/*
 		 * Boolean operators key words
 		 */
@@ -6063,20 +6083,20 @@ public class Expression {
 			/*
 			 * Number has to start with digit
 			 */
-			c = newExpressionString.charAt(pos);
-			if (	(c == '+') ||
-					(c == '-') ||
-					(c == '0') ||
-					(c == '1') ||
-					(c == '2') ||
-					(c == '3') ||
-					(c == '4') ||
-					(c == '5') ||
-					(c == '6') ||
-					(c == '7') ||
-					(c == '8') ||
-					(c == '9')	) {
-				for (int i=pos; i<newExpressionString.length(); i++) {
+			firstChar = newExpressionString.charAt(pos);
+			if (	(firstChar == '+') ||
+					(firstChar == '-') ||
+					(firstChar == '0') ||
+					(firstChar == '1') ||
+					(firstChar == '2') ||
+					(firstChar == '3') ||
+					(firstChar == '4') ||
+					(firstChar == '5') ||
+					(firstChar == '6') ||
+					(firstChar == '7') ||
+					(firstChar == '8') ||
+					(firstChar == '9')	) {
+				for (int i = pos; i < newExpressionString.length(); i++) {
 					/*
 					 * Escaping if encountering char that can not
 					 * be included in number
@@ -6192,7 +6212,7 @@ public class Expression {
 				if ( (firstChar == '-') || (firstChar == '+') ) {
 					if (initialTokens.size() > 0) {
 						Token lastToken = initialTokens.get(initialTokens.size()-1);
-						if (	((lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID)) ||
+						if (	((lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID) && (lastToken.tokenId != Operator.PERC_ID)) ||
 								(lastToken.tokenTypeId == BinaryRelation.TYPE_ID) ||
 								(lastToken.tokenTypeId == BooleanOperator.TYPE_ID) ||
 								(lastToken.tokenTypeId == BitwiseOperator.TYPE_ID) ||

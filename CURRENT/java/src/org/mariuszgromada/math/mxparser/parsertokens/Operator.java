@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        4.1.0    2017-05-13
+ * @(#)Operator.java        4.1.0    2017-05-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -88,6 +88,7 @@ public final class Operator {
 	public static final int POWER_ID 				= 5;
 	public static final int FACT_ID					= 6;
 	public static final int MOD_ID					= 7;
+	public static final int PERC_ID					= 8;
 	/*
 	 * Operator - tokens key words.
 	 */
@@ -98,6 +99,7 @@ public final class Operator {
 	public static final String POWER_STR 			= "^";
 	public static final String FACT_STR 			= "!";
 	public static final String MOD_STR				= "#";
+	public static final String PERC_STR				= "%";
 	/*
 	 * Operator - syntax.
 	 */
@@ -108,6 +110,7 @@ public final class Operator {
 	public static final String POWER_SYN 			= "a^b";
 	public static final String FACT_SYN 			= "n!";
 	public static final String MOD_SYN				= "a # b";
+	public static final String PERC_SYN				= "n%";
 	/*
 	 * Operator - tokens description.
 	 */
@@ -118,6 +121,7 @@ public final class Operator {
 	public static final String POWER_DESC 			= "Exponentiation";
 	public static final String FACT_DESC			= "Factorial";
 	public static final String MOD_DESC				= "Modulo function";
+	public static final String PERC_DESC			= "Percentage";
 	/*
 	 * Operator - since.
 	 */
@@ -128,4 +132,5 @@ public final class Operator {
 	public static final String POWER_SINCE 			= mXparser.NAMEv10;
 	public static final String FACT_SINCE			= mXparser.NAMEv10;
 	public static final String MOD_SINCE			= mXparser.NAMEv10;
+	public static final String PERC_SINCE			= mXparser.NAMEv41;
 }

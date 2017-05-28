@@ -37,65 +37,67 @@ public interface SyntaxCheckerConstants {
   /** RegularExpression Id. */
   int FACTORIAL = 17;
   /** RegularExpression Id. */
-  int COMMA = 18;
+  int PERCENTAGE = 18;
   /** RegularExpression Id. */
-  int SEMICOLON = 19;
+  int COMMA = 19;
   /** RegularExpression Id. */
-  int EQ = 20;
+  int SEMICOLON = 20;
   /** RegularExpression Id. */
-  int UNIT = 21;
+  int EQ = 21;
   /** RegularExpression Id. */
-  int NEQ = 22;
+  int UNIT = 22;
   /** RegularExpression Id. */
-  int LT = 23;
+  int NEQ = 23;
   /** RegularExpression Id. */
-  int LEQ = 24;
+  int LT = 24;
   /** RegularExpression Id. */
-  int GT = 25;
+  int LEQ = 25;
   /** RegularExpression Id. */
-  int GEQ = 26;
+  int GT = 26;
   /** RegularExpression Id. */
-  int OR = 27;
+  int GEQ = 27;
   /** RegularExpression Id. */
-  int AND = 28;
+  int OR = 28;
   /** RegularExpression Id. */
-  int NOT = 29;
+  int AND = 29;
   /** RegularExpression Id. */
-  int BITNOT = 30;
+  int NOT = 30;
   /** RegularExpression Id. */
-  int IMP = 31;
+  int BITNOT = 31;
   /** RegularExpression Id. */
-  int CIMP = 32;
+  int IMP = 32;
   /** RegularExpression Id. */
-  int NIMP = 33;
+  int CIMP = 33;
   /** RegularExpression Id. */
-  int CNIMP = 34;
+  int NIMP = 34;
   /** RegularExpression Id. */
-  int NAND = 35;
+  int CNIMP = 35;
   /** RegularExpression Id. */
-  int EQV = 36;
+  int NAND = 36;
   /** RegularExpression Id. */
-  int NOR = 37;
+  int EQV = 37;
   /** RegularExpression Id. */
-  int BITWISE = 38;
+  int NOR = 38;
   /** RegularExpression Id. */
-  int XOR = 39;
+  int BITWISE = 39;
   /** RegularExpression Id. */
-  int CHAR = 40;
+  int XOR = 40;
   /** RegularExpression Id. */
-  int REAL = 41;
+  int CHAR = 41;
   /** RegularExpression Id. */
-  int NUMBER = 42;
+  int REAL = 42;
   /** RegularExpression Id. */
-  int NUMBER_CONSTANT = 43;
+  int NUMBER = 43;
   /** RegularExpression Id. */
-  int IDENTIFIER = 44;
+  int NUMBER_CONSTANT = 44;
   /** RegularExpression Id. */
-  int FUNCTION = 45;
+  int IDENTIFIER = 45;
   /** RegularExpression Id. */
-  int INVALID_TOKEN = 48;
+  int FUNCTION = 46;
   /** RegularExpression Id. */
-  int UNEXPECTED_CHAR = 49;
+  int INVALID_TOKEN = 49;
+  /** RegularExpression Id. */
+  int UNEXPECTED_CHAR = 50;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -120,6 +122,7 @@ public interface SyntaxCheckerConstants {
     "\"^\"",
     "\"#\"",
     "\"!\"",
+    "\"%\"",
     "\",\"",
     "\";\"",
     "<EQ>",

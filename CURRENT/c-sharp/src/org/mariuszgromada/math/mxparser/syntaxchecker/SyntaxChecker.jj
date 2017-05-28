@@ -97,6 +97,7 @@ TOKEN : /* TOKENS */
 | 	< POWER:		"^"																			>
 | 	< MODULO:		"#"																			>
 | 	< FACTORIAL:	"!"																			>
+| 	< PERCENTAGE:	"%"																			>
 | 	< COMMA:		","																			>
 | 	< SEMICOLON:	";"																			>
 | 	< EQ:			( "=" | "==" )																>
@@ -202,7 +203,7 @@ void binaryExpression():{ }
  */
 void unaryRigthExpression():{}
 {
-	unaryLeftExpression() ( <FACTORIAL> )?
+	unaryLeftExpression() ( <FACTORIAL> | <PERCENTAGE> )?
 }
 
 /*

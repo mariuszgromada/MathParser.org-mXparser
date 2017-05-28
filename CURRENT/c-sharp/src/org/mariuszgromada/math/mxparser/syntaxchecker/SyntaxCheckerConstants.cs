@@ -19,36 +19,37 @@ public class SyntaxCheckerConstants {
   public const int POWER = 15;
   public const int MODULO = 16;
   public const int FACTORIAL = 17;
-  public const int COMMA = 18;
-  public const int SEMICOLON = 19;
-  public const int EQ = 20;
-  public const int UNIT = 21;
-  public const int NEQ = 22;
-  public const int LT = 23;
-  public const int LEQ = 24;
-  public const int GT = 25;
-  public const int GEQ = 26;
-  public const int OR = 27;
-  public const int AND = 28;
-  public const int NOT = 29;
-  public const int BITNOT = 30;
-  public const int IMP = 31;
-  public const int CIMP = 32;
-  public const int NIMP = 33;
-  public const int CNIMP = 34;
-  public const int NAND = 35;
-  public const int EQV = 36;
-  public const int NOR = 37;
-  public const int BITWISE = 38;
-  public const int XOR = 39;
-  public const int CHAR = 40;
-  public const int REAL = 41;
-  public const int NUMBER = 42;
-  public const int NUMBER_CONSTANT = 43;
-  public const int IDENTIFIER = 44;
-  public const int FUNCTION = 45;
-  public const int INVALID_TOKEN = 48;
-  public const int UNEXPECTED_CHAR = 49;
+  public const int PERCENTAGE = 18;
+  public const int COMMA = 19;
+  public const int SEMICOLON = 20;
+  public const int EQ = 21;
+  public const int UNIT = 22;
+  public const int NEQ = 23;
+  public const int LT = 24;
+  public const int LEQ = 25;
+  public const int GT = 26;
+  public const int GEQ = 27;
+  public const int OR = 28;
+  public const int AND = 29;
+  public const int NOT = 30;
+  public const int BITNOT = 31;
+  public const int IMP = 32;
+  public const int CIMP = 33;
+  public const int NIMP = 34;
+  public const int CNIMP = 35;
+  public const int NAND = 36;
+  public const int EQV = 37;
+  public const int NOR = 38;
+  public const int BITWISE = 39;
+  public const int XOR = 40;
+  public const int CHAR = 41;
+  public const int REAL = 42;
+  public const int NUMBER = 43;
+  public const int NUMBER_CONSTANT = 44;
+  public const int IDENTIFIER = 45;
+  public const int FUNCTION = 46;
+  public const int INVALID_TOKEN = 49;
+  public const int UNEXPECTED_CHAR = 50;
 
   public const int DEFAULT = 0;
 
@@ -71,6 +72,7 @@ public class SyntaxCheckerConstants {
     "\"^\"",
     "\"#\"",
     "\"!\"",
+    "\"%\"",
     "\",\"",
     "\";\"",
     "<EQ>",
