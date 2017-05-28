@@ -1,5 +1,4 @@
-     567 text files.                                           516 unique files.                                   993 files ignored.
-
+     567 text files.     516 unique files.     993 files ignored.
 github.com/AlDanial/cloc v 1.72  T=4.00 s (88.8 files/s, 44233.5 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
