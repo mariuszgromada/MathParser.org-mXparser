@@ -431,4 +431,3 @@ public final class Function1Arg {
 	public static final String ULP_SINCE				= mXparser.NAMEv30;
 	public static final String ISNAN_SINCE				= mXparser.NAMEv41;
 }
-

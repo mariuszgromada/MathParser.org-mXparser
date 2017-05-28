@@ -173,7 +173,7 @@ public final class ConstantValue {
 	/* boolean values */
 	public static final int TRUE_ID								= 301;
 	public static final int FALSE_ID							= 302;
-	/* other values */	
+	/* other values */
 	public static final int NAN_ID								= 999;
 	public static final int NaN									= -1;
 	/*
@@ -270,7 +270,7 @@ public final class ConstantValue {
 	/* boolean values */
 	public static final String TRUE_STR							= "[true]";
 	public static final String FALSE_STR						= "[false]";
-	/* other values */	
+	/* other values */
 	public static final String NAN_STR							= "[NaN]";
 	/*
 	 * ConstantValue - syntax.
@@ -462,7 +462,7 @@ public final class ConstantValue {
 	/* boolean values */
 	public static final String TRUE_DESC						= "Boolean True represented as double, [true] = 1";
 	public static final String FALSE_DESC						= "Boolean False represented as double, [false] = 0";
-	/* other values */	
+	/* other values */
 	public static final String NAN_DESC							= "Not-a-Number";
 
 	/*

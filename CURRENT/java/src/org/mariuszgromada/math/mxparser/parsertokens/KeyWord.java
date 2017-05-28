@@ -55,7 +55,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
 
 /**
  * Class representing key words knowon to the parser
- * 
+ *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
  *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>

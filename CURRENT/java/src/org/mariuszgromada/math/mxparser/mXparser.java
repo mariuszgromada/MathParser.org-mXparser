@@ -145,12 +145,12 @@ public final class mXparser {
 	/**
 	 * Internal limit for counter to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples
-	 * 
+	 *
 	 * Argument x = new Argument("x = 2*y");
-	 * Argument y = new Argument("y = 2*x"); 
+	 * Argument y = new Argument("y = 2*x");
 	 * x.addDefinitions(y);
 	 * y.addDefinitions(x);
-	 * 
+	 *
 	 * Function f = new Function("f(x) = 2*g(x)");
 	 * Function g = new Function("g(x) = 2*f(x)");
 	 * f.addDefinitions(g);
@@ -428,23 +428,23 @@ public final class mXparser {
 	 */
 	public static final boolean checkIfUlpRounding() {
 		return ulpRounding;
-	}	
+	}
 	/**
 	 * Internal limit to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples.
-	 * 
+	 *
 	 * Argument x = new Argument("x = 2*y");
-	 * Argument y = new Argument("y = 2*x"); 
+	 * Argument y = new Argument("y = 2*x");
 	 * x.addDefinitions(y);
 	 * y.addDefinitions(x);
-	 * 
+	 *
 	 * Function f = new Function("f(x) = 2*g(x)");
 	 * Function g = new Function("g(x) = 2*f(x)");
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
-	 * 
+	 *
 	 * Currently does not affect properly defined recursive mode.
-	 * 
+	 *
 	 * @param maxAllowedRecursionDepth
 	 */
 	public static final void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
@@ -453,17 +453,17 @@ public final class mXparser {
 	/**
 	 * Internal limit to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples.
-	 * 
+	 *
 	 * Argument x = new Argument("x = 2*y");
-	 * Argument y = new Argument("y = 2*x"); 
+	 * Argument y = new Argument("y = 2*x");
 	 * x.addDefinitions(y);
 	 * y.addDefinitions(x);
-	 * 
+	 *
 	 * Function f = new Function("f(x) = 2*g(x)");
 	 * Function g = new Function("g(x) = 2*f(x)");
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
-	 * 
+	 *
 	 * Currently does not affect properly defined recursive mode.
 	 */
 	public static final int getMaxAllowedRecursionDepth() {
@@ -473,7 +473,7 @@ public final class mXparser {
 	 * Removes built-in tokens form the list of tokens recognized by the parsers.
 	 * Procedure affects only tokens classified to built-in functions, built-in
 	 * constants, built-in units, built-in random variables.
-	 * 
+	 *
 	 * @param tokens  List of tokens to remove.
 	 */
 	public static final void removeBuiltinTokens(String... tokens) {
@@ -485,14 +485,14 @@ public final class mXparser {
 						tokensToRemove.add(token);
 	}
 	/**
-	 * Un-marks tokens previously marked to be removed. 
+	 * Un-marks tokens previously marked to be removed.
 	 * @param tokens List of tokens to un-mark.
 	 */
 	public static final void unremoveBuiltinTokens(String... tokens) {
 		if (tokens == null) return;
 		if (tokens.length == 0) return;
 		if (tokensToRemove.size() == 0) return;
-		for (String token : tokens) 
+		for (String token : tokens)
 			if (token != null)
 				tokensToRemove.remove(token);
 	}
@@ -585,7 +585,7 @@ public final class mXparser {
 	/**
 	 * Return details on tokens marked to be modified.
 	 * @return String[i][0] - current token, String[i][1] - new token,
-	 *                        String[i][2] - new token description.  
+	 *                        String[i][2] - new token description.
 	 */
 	public static final String[][] getBuiltinTokensToModify() {
 		int tokensNum = tokensToModify.size();
@@ -614,7 +614,7 @@ public final class mXparser {
 	}
 	/**
 	 * Checks whether mXparser is set to override built-in tokens.
-	 * 
+	 *
 	 * @return True if mXparser is set to override built-in tokens by
 	 *         user defined tokens, otherwise false.
 	 */
@@ -623,7 +623,7 @@ public final class mXparser {
 	}
 	/**
 	 * Returns token type description.
-	 * 
+	 *
 	 * @param tokenTypeId Token type id
 	 * @return String representing token type description.
 	 */
@@ -858,9 +858,9 @@ public final class mXparser {
 	}
 	/**
 	 * Returns list of key words known to the parser
-	 * 
+	 *
 	 * @return      List of keywords known to the parser.
-	 * 
+	 *
 	 * @see KeyWord
 	 * @see KeyWord#wordTypeId
 	 * @see mXparser#getHelp()
@@ -870,14 +870,14 @@ public final class mXparser {
 	}
 	/**
 	 * Returns list of key words known to the parser
-	 * 
+	 *
 	 * @param query Give any string to filter list of key words against this string.
 	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 	 *              to narrow the result.
-	 *              
+	 *
 	 * @return      List of keywords known to the parser filter against query string.
-	 * 
+	 *
 	 * @see KeyWord
 	 * @see KeyWord#wordTypeId
 	 * @see mXparser#getHelp(String)
@@ -900,7 +900,7 @@ public final class mXparser {
     /**
      * Prints tokens to the console.
      * @param tokens   Tokens list.
-     * 
+     *
      * @see Expression#getCopyOfInitialTokens()
      * @see Token
      */

@@ -188,10 +188,10 @@ public final class Unit {
 	public static final int DEGREE_ARC_ID			= 1002;
 	public static final int MINUTE_ARC_ID			= 1003;
 	public static final int SECOND_ARC_ID			= 1004;
-	
+
 	/*
 	 * Unit - tokens key words.
-	 */	
+	 */
 	/* Ratio, Fraction */
 	public static final String PERC_STR					= "[%]";
 	public static final String PROMIL_STR				= "[%%]";

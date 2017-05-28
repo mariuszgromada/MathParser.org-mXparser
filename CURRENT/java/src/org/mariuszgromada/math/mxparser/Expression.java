@@ -263,12 +263,12 @@ public class Expression {
 	/**
 	 * Internal counter to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples
-	 * 
+	 *
 	 * Argument x = new Argument("x = 2*y");
-	 * Argument y = new Argument("y = 2*x"); 
+	 * Argument y = new Argument("y = 2*x");
 	 * x.addDefinitions(y);
 	 * y.addDefinitions(x);
-	 * 
+	 *
 	 * Function f = new Function("f(x) = 2*g(x)");
 	 * Function g = new Function("g(x) = 2*f(x)");
 	 * f.addDefinitions(g);
@@ -288,14 +288,14 @@ public class Expression {
 	 * It show whether to build again tokens list
 	 * if clone - build again
 	 * if not clone - build only at the beginning
-	 * 
+	 *
 	 * Indicator helps to solve the problem with
 	 * above definitions
-	 * 
+	 *
 	 * Function f = new Function("f(x) = 2*g(x)");
 	 * Function g = new Function("g(x) = 2*f(x)");
 	 * f.addDefinitions(g);
-	 * g.addDefinitions(f); 
+	 * g.addDefinitions(f);
 	 */
 	private boolean internalClone;
 	/*=================================================
@@ -1721,9 +1721,9 @@ public class Expression {
 		/*
 		 * Handling possible recursive calls that can change
 		 * the structure of the tokens list, i.e.
-		 * 
+		 *
 		 * Argument x = new Argument("x = 2*y");
-		 * Argument y = new Argument("y = 2*x"); 
+		 * Argument y = new Argument("y = 2*x");
 		 * x.addDefinitions(y);
 		 * y.addDefinitions(x);
 		 * x.getArgumentValue();
@@ -1763,7 +1763,7 @@ public class Expression {
 		/*
 		 * Handling possible recursive calls that can change
 		 * the structure of the tokens list, i.e.
-		 * 
+		 *
 		 * Function f = new Function("f(x) = 2*g(x)");
 		 * Function g = new Function("g(x) = 2*f(x)");
 		 * f.addDefinitions(g);
@@ -4455,9 +4455,9 @@ public class Expression {
 		if (functionWithBodyExt) {
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			recursionCallPending = false;
-			expressionWasModified = false;			
+			expressionWasModified = false;
 			errorMessage = errorMessage + level + "function with extended body - assuming no errors.\n";
-			return NO_SYNTAX_ERRORS;			
+			return NO_SYNTAX_ERRORS;
 		}
 		recursionCallPending = true;
 		errorMessage = level +"checking ...\n";
@@ -4755,15 +4755,15 @@ public class Expression {
 			 * created in they way shown in below examples
 			 *
 			 * Argument x = new Argument("x = 2*y");
-			 * Argument y = new Argument("y = 2*x"); 
+			 * Argument y = new Argument("y = 2*x");
 			 * x.addDefinitions(y);
 			 * y.addDefinitions(x);
-			 * 
+			 *
 			 * Function f = new Function("f(x) = 2*g(x)");
 			 * Function g = new Function("g(x) = 2*f(x)");
 			 * f.addDefinitions(g);
 			 * g.addDefinitions(f);
-			 * 
+			 *
 			 */
 			recursionCallsCounter = 0;
 			return Double.NaN;
@@ -4772,8 +4772,8 @@ public class Expression {
 		 * Building initial tokens only if this is first recursion call
 		 * or we have expression clone, helps to solve problem with
 		 * definitions similar to the below example
-		 * 
-		 * 
+		 *
+		 *
 		 * Function f = new Function("f(x) = 2*g(x)");
 		 * Function g = new Function("g(x) = 2*f(x)");
 		 * f.addDefinitions(g);
@@ -4793,15 +4793,15 @@ public class Expression {
 		 * created in they way shown in below examples
 		 *
 		 * Argument x = new Argument("x = 2*y");
-		 * Argument y = new Argument("y = 2*x"); 
+		 * Argument y = new Argument("y = 2*x");
 		 * x.addDefinitions(y);
 		 * y.addDefinitions(x);
-		 * 
+		 *
 		 * Function f = new Function("f(x) = 2*g(x)");
 		 * Function g = new Function("g(x) = 2*f(x)");
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
-		 * 
+		 *
 		 */
 		if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
 			recursionCallsCounter = 0;
@@ -4963,9 +4963,9 @@ public class Expression {
 				 * in the tokensList need to replaced one after another in
 				 * separate loops as tokensList might change in some other
 				 * call done in possible recursive call.
-				 * 
+				 *
 				 * Argument x = new Argument("x = 2*y");
-				 * Argument y = new Argument("y = 2*x"); 
+				 * Argument y = new Argument("y = 2*x");
 				 * x.addDefinitions(y);
 				 * y.addDefinitions(x);
 				 */
@@ -5011,7 +5011,7 @@ public class Expression {
 						}
 						if (pos+1 < tokensNumber) {
 							tokenR = tokensList.get(pos+1);
-							if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNUmber = true;						
+							if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNUmber = true;
 						}
 						if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 							recArgPos = pos;
@@ -5777,7 +5777,7 @@ public class Expression {
 			addKeyWord(BitwiseOperator.RIGHT_SHIFT_STR, BitwiseOperator.RIGHT_SHIFT_DESC, BitwiseOperator.RIGHT_SHIFT_ID, BitwiseOperator.RIGHT_SHIFT_SYN, BitwiseOperator.RIGHT_SHIFT_SINCE, BitwiseOperator.TYPE_ID);
 			/*
 			 * Units
-			 */			
+			 */
 			addKeyWord(Unit.PERC_STR, Unit.PERC_DESC, Unit.PERC_ID, Unit.PERC_SYN, Unit.PERC_SINCE, Unit.TYPE_ID);
 			addKeyWord(Unit.PROMIL_STR, Unit.PROMIL_DESC, Unit.PROMIL_ID, Unit.PROMIL_SYN, Unit.PROMIL_SINCE, Unit.TYPE_ID);
 			/* Metric prefixes */
@@ -5811,7 +5811,7 @@ public class Expression {
 			addKeyWord(Unit.ATTO_STR, Unit.ATTO_DESC, Unit.ATTO_ID, Unit.ATTO_SYN, Unit.ATTO_SINCE, Unit.TYPE_ID);
 			addKeyWord(Unit.ZEPTO_STR, Unit.ZEPTO_DESC, Unit.ZEPTO_ID, Unit.ZEPTO_SYN, Unit.ZEPTO_SINCE, Unit.TYPE_ID);
 			addKeyWord(Unit.YOCTO_STR, Unit.YOCTO_DESC, Unit.YOCTO_ID, Unit.YOCTO_SYN, Unit.YOCTO_SINCE, Unit.TYPE_ID);
-			/* Units of length / distance */			
+			/* Units of length / distance */
 			addKeyWord(Unit.METRE_STR, Unit.METRE_DESC, Unit.METRE_ID, Unit.METRE_SYN, Unit.METRE_SINCE, Unit.TYPE_ID);
 			addKeyWord(Unit.KILOMETRE_STR, Unit.KILOMETRE_DESC, Unit.KILOMETRE_ID, Unit.KILOMETRE_SYN, Unit.KILOMETRE_SINCE, Unit.TYPE_ID);
 			addKeyWord(Unit.CENTIMETRE_STR, Unit.CENTIMETRE_DESC, Unit.CENTIMETRE_ID, Unit.CENTIMETRE_SYN, Unit.CENTIMETRE_SINCE, Unit.TYPE_ID);
@@ -6326,7 +6326,7 @@ public class Expression {
 								 * Checking preceding character
 								 */
 								if (pos > 0) {
-									precedingChar = newExpressionString.charAt(pos-1);									
+									precedingChar = newExpressionString.charAt(pos-1);
 									if (	( precedingChar != ',' ) &&
 											( precedingChar != ';' ) &&
 											( precedingChar != '|' ) &&
@@ -6344,7 +6344,7 @@ public class Expression {
 											( precedingChar != '~' ) &&
 											( precedingChar != '^' ) &&
 											( precedingChar != '#' ) &&
-											( precedingChar != '%' ) &&									
+											( precedingChar != '%' ) &&
 											( precedingChar != '@' ) &&
 											( precedingChar != '!' ) ) matchStatus = NOT_FOUND;
 								}
@@ -6370,8 +6370,8 @@ public class Expression {
 											( followingChar != '~' ) &&
 											( followingChar != '^' ) &&
 											( followingChar != '#' ) &&
-											( followingChar != '%' ) &&	
-											( followingChar != '@' ) &&	
+											( followingChar != '%' ) &&
+											( followingChar != '@' ) &&
 											( followingChar != '!' ) ) matchStatus = NOT_FOUND;
 								}
 							}
@@ -6615,10 +6615,10 @@ public class Expression {
 			addConstantsKeyWords();
 		}
 		helpStr = helpStr + getLeftSpaces("12345","#") + "  " +
-		getRightSpaces("01234567890123456789", "key word") + getRightSpaces("                        ","type") 
+		getRightSpaces("01234567890123456789", "key word") + getRightSpaces("                        ","type")
 		+ getRightSpaces("0123456789012345678901234567890123456789012345", "syntax") + getRightSpaces("012345", "since") +  "description" + "\n";
 		helpStr = helpStr + getLeftSpaces("12345","-") + "  " +
-		getRightSpaces("01234567890123456789", "--------") + getRightSpaces("                        ","----") 
+		getRightSpaces("01234567890123456789", "--------") + getRightSpaces("                        ","----")
 		+ getRightSpaces("0123456789012345678901234567890123456789012345", "------") + getRightSpaces("012345", "-----") +  "-----------" + "\n";
 
 		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
@@ -6650,7 +6650,7 @@ public class Expression {
 				case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
 			}
 			line = getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + ". " +
-			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ","<" + type + ">") 
+			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ","<" + type + ">")
 			+ getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + getRightSpaces("012345", keyWord.since) +  keyWord.description + "\n";
 			if ( (line.toLowerCase().indexOf(word.toLowerCase()) >= 0) ){
 				helpStr = helpStr + line;
@@ -6660,9 +6660,9 @@ public class Expression {
 	}
 	/**
 	 * Returns list of key words known to the parser
-	 * 
+	 *
 	 * @return      List of keywords known to the parser.
-	 * 
+	 *
 	 * @see KeyWord
 	 * @see KeyWord#wordTypeId
 	 * @see Expression#getHelp()
@@ -6672,14 +6672,14 @@ public class Expression {
 	}
 	/**
 	 * Returns list of key words known to the parser
-	 * 
+	 *
 	 * @param query Give any string to filter list of key words against this string.
 	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 	 *              to narrow the result.
-	 *              
+	 *
 	 * @return      List of keywords known to the parser filter against query string.
-	 * 
+	 *
 	 * @see KeyWord
 	 * @see KeyWord#wordTypeId
 	 * @see Expression#getHelp(String)
@@ -6696,10 +6696,10 @@ public class Expression {
 		}
 		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
 		String line;
-		for (KeyWord kw : keyWordsList){
+		for (KeyWord kw : keyWordsList) {
 			line = 	"str=" + kw.wordString + " " +
 					"desc=" + kw.description + " " +
-					"syn=" + kw.syntax + " " + 
+					"syn=" + kw.syntax + " " +
 					"sin=" + kw.since + " " +
 					"wid=" + kw.wordId + " " +
 					"tid=" + kw.wordTypeId
@@ -6745,7 +6745,7 @@ public class Expression {
 								" | " + tokenIdStr +
 								" | " + tokenTypeIdStr +
 								" | " + tokenLevelStr +
-								" | " + tokenValueStr + 
+								" | " + tokenValueStr +
 								" | " + tokenLooksLikeStr + " |");
 		}
 		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");

@@ -629,7 +629,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(9).tokenStr.equals("(")) &&
 				(tokens.get(10).tokenStr.equals("10")) &&
 				(tokens.get(11).tokenStr.equals(")")) &&
-				
+
 				(tokens.get(0).tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
 				(tokens.get(1).tokenTypeId == Operator.TYPE_ID) &&
 				(tokens.get(2).tokenTypeId == ParserSymbol.TYPE_ID) &&
@@ -642,7 +642,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(9).tokenTypeId == ParserSymbol.TYPE_ID) &&
 				(tokens.get(10).tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) &&
 				(tokens.get(11).tokenTypeId == ParserSymbol.TYPE_ID) &&
-				
+
 				(tokens.get(0).tokenLevel == 0) &&
 				(tokens.get(1).tokenLevel == 0) &&
 				(tokens.get(2).tokenLevel == 1) &&
@@ -685,7 +685,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(17).tokenStr.equals("pie")) &&
 				(tokens.get(18).tokenStr.equals("+")) &&
 				(tokens.get(19).tokenStr.equals("e")) &&
-				
+
 				(tokens.get(0).tokenTypeId == Token.NOT_MATCHED) &&
 				(tokens.get(1).tokenTypeId == Operator.TYPE_ID) &&
 				(tokens.get(2).tokenTypeId == Token.NOT_MATCHED) &&
@@ -706,7 +706,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(17).tokenTypeId == Token.NOT_MATCHED) &&
 				(tokens.get(18).tokenTypeId == Operator.TYPE_ID) &&
 				(tokens.get(19).tokenTypeId == ConstantValue.TYPE_ID) &&
-				
+
 				(tokens.get(0).tokenLevel == 0) &&
 				(tokens.get(1).tokenLevel == 0) &&
 				(tokens.get(2).tokenLevel == 0) &&
@@ -728,7 +728,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(18).tokenLevel == 0) &&
 				(tokens.get(19).tokenLevel == 0)
 
-		) test[testId] = true;		
+		) test[testId] = true;
 		/*
 		 * 23. Function Extension - calculate()
 		 */
@@ -748,7 +748,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		ff = new Function("ff", new FunExt());
-		if ( 
+		if (
 				(ff.getParametersNumber() == 2) &&
 				(ff.getFunctionBodyType() == Function.BODY_EXTENDED) &&
 				(ff.checkSyntax() == Function.NO_SYNTAX_ERRORS)
@@ -789,7 +789,7 @@ public class RegTestExpressionAPI {
 				(tokens.get(17).tokenStr.equals(")")) &&
 				(tokens.get(18).tokenStr.equals(")")) &&
 				(tokens.get(19).tokenStr.equals(")")) &&
-				
+
 				(tokens.get(0).looksLike.equals("error")) &&
 				(tokens.get(2).looksLike.equals("error")) &&
 				(tokens.get(6).looksLike.equals("function")) &&

@@ -629,7 +629,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Gets user defined function parameter name
-		 * 
+		 *
 		 * @param parameterIndex  Parameter index between 0 and n-1
 		 * @return If parameter exists returns parameters name, otherwise empty string is returned.
 		 */

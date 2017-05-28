@@ -7456,7 +7456,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.setToOverrideBuiltinTokens();
 				Function sin = new Function("sin(x,y) = 2*x + y");
 				Argument ee = new Argument("e = 5");
-				Constant pi = new Constant("pi = 2");			
+				Constant pi = new Constant("pi = 2");
 				expStr = "sin(e,pi)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr, sin, ee, pi);

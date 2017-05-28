@@ -7007,7 +7007,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
-			if 
+			if
 				( 	( MathFunctions.abs(-MathConstants.PI - value) <= 0.000001 ) ||
 					( MathFunctions.abs(0 - value) <= 0.000001 )	)
 				testResult = true;
@@ -7465,7 +7465,7 @@ public class RegTestExpression {
 			mXparser.setToOverrideBuiltinTokens();
 			Function sin = new Function("sin(x,y) = 2*x + y");
 			Argument ee = new Argument("e = 5");
-			Constant pi = new Constant("pi = 2");			
+			Constant pi = new Constant("pi = 2");
 			expStr = "sin(e,pi)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr, sin, ee, pi);

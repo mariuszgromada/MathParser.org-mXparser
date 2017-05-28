@@ -87,7 +87,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Kiloparsec
 	 */
-	public static final double KILOPARSEC = Units.KILO * PARSEC;	
+	public static final double KILOPARSEC = Units.KILO * PARSEC;
 	/**
 	 * Earth equatorial radius
 	 */
@@ -115,7 +115,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Moon mass
 	 */
-	public static final double MOON_MASS = 0.012300037 * EARTH_MASS;	
+	public static final double MOON_MASS = 0.012300037 * EARTH_MASS;
 	/**
 	 * Moon semi-major axis
 	 */
@@ -127,7 +127,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Solar mass
 	 */
-	public static final double SOLAR_MASS = 332946.0487 * EARTH_MASS;	
+	public static final double SOLAR_MASS = 332946.0487 * EARTH_MASS;
 	/**
 	 * Mercury radius
 	 */
@@ -135,7 +135,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Mercury mass
 	 */
-	public static final double MERCURY_MASS = 0.0553 * EARTH_MASS;	
+	public static final double MERCURY_MASS = 0.0553 * EARTH_MASS;
 	/**
 	 * Mercury semi-major axis
 	 */
@@ -147,7 +147,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Venus mass
 	 */
-	public static final double VENUS_MASS = 0.815 * EARTH_MASS;	
+	public static final double VENUS_MASS = 0.815 * EARTH_MASS;
 	/**
 	 * Venus semi-major axis
 	 */
@@ -159,7 +159,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Mars mass
 	 */
-	public static final double MARS_MASS = 0.107 * EARTH_MASS;	
+	public static final double MARS_MASS = 0.107 * EARTH_MASS;
 	/**
 	 * Mars semi-major axis
 	 */
@@ -171,7 +171,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Jupiter mass
 	 */
-	public static final double JUPITER_MASS = 317.8 * EARTH_MASS;	
+	public static final double JUPITER_MASS = 317.8 * EARTH_MASS;
 	/**
 	 * Jupiter semi-major axis
 	 */
@@ -183,7 +183,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Saturn mass
 	 */
-	public static final double SATURN_MASS = 95.159 * EARTH_MASS;	
+	public static final double SATURN_MASS = 95.159 * EARTH_MASS;
 	/**
 	 * Saturn semi-major axis
 	 */
@@ -195,7 +195,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Uranus mass
 	 */
-	public static final double URANUS_MASS = 14.536 * EARTH_MASS;	
+	public static final double URANUS_MASS = 14.536 * EARTH_MASS;
 	/**
 	 * Uranus semi-major axis
 	 */
@@ -207,7 +207,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Neptune mass
 	 */
-	public static final double NEPTUNE_MASS = 17.147 * EARTH_MASS;	
+	public static final double NEPTUNE_MASS = 17.147 * EARTH_MASS;
 	/**
 	 * Neptune semi-major axis
 	 */

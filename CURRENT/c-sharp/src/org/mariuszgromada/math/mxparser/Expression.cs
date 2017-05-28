@@ -240,12 +240,12 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Internal counter to avoid infinite loops while calculating
 		 * expression defined in the way shown by below examples
-		 * 
+		 *
 		 * Argument x = new Argument("x = 2*y");
-		 * Argument y = new Argument("y = 2*x"); 
+		 * Argument y = new Argument("y = 2*x");
 		 * x.addDefinitions(y);
 		 * y.addDefinitions(x);
-		 * 
+		 *
 		 * Function f = new Function("f(x) = 2*g(x)");
 		 * Function g = new Function("g(x) = 2*f(x)");
 		 * f.addDefinitions(g);
@@ -265,14 +265,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * It show whether to build again tokens list
 		 * if clone - build again
 		 * if not clone - build only at the beginning
-		 * 
+		 *
 		 * Indicator helps to solve the problem with
 		 * above definitions
-		 * 
+		 *
 		 * Function f = new Function("f(x) = 2*g(x)");
 		 * Function g = new Function("g(x) = 2*f(x)");
 		 * f.addDefinitions(g);
-		 * g.addDefinitions(f); 
+		 * g.addDefinitions(f);
 		 */
 		private bool internalClone;
 		/*=================================================
@@ -1681,9 +1681,9 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Handling possible recursive calls that can change
 			 * the structure of the tokens list, i.e.
-			 * 
+			 *
 			 * Argument x = new Argument("x = 2*y");
-			 * Argument y = new Argument("y = 2*x"); 
+			 * Argument y = new Argument("y = 2*x");
 			 * x.addDefinitions(y);
 			 * y.addDefinitions(x);
 			 * x.getArgumentValue();
@@ -1723,7 +1723,7 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Handling possible recursive calls that can change
 			 * the structure of the tokens list, i.e.
-			 * 
+			 *
 			 * Function f = new Function("f(x) = 2*g(x)");
 			 * Function g = new Function("g(x) = 2*f(x)");
 			 * f.addDefinitions(g);
@@ -4730,15 +4730,15 @@ namespace org.mariuszgromada.math.mxparser {
 				 * created in they way shown in below examples
 				 *
 				 * Argument x = new Argument("x = 2*y");
-				 * Argument y = new Argument("y = 2*x"); 
+				 * Argument y = new Argument("y = 2*x");
 				 * x.addDefinitions(y);
 				 * y.addDefinitions(x);
-				 * 
+				 *
 				 * Function f = new Function("f(x) = 2*g(x)");
 				 * Function g = new Function("g(x) = 2*f(x)");
 				 * f.addDefinitions(g);
 				 * g.addDefinitions(f);
-				 * 
+				 *
 				 */
 				recursionCallsCounter = 0;
 				return Double.NaN;
@@ -4747,8 +4747,8 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Building initial tokens only if this is first recursion call
 			 * or we have expression clone, helps to solve problem with
 			 * definitions similar to the below example
-			 * 
-			 * 
+			 *
+			 *
 			 * Function f = new Function("f(x) = 2*g(x)");
 			 * Function g = new Function("g(x) = 2*f(x)");
 			 * f.addDefinitions(g);
@@ -4768,15 +4768,15 @@ namespace org.mariuszgromada.math.mxparser {
 			 * created in they way shown in below examples
 			 *
 			 * Argument x = new Argument("x = 2*y");
-			 * Argument y = new Argument("y = 2*x"); 
+			 * Argument y = new Argument("y = 2*x");
 			 * x.addDefinitions(y);
 			 * y.addDefinitions(x);
-			 * 
+			 *
 			 * Function f = new Function("f(x) = 2*g(x)");
 			 * Function g = new Function("g(x) = 2*f(x)");
 			 * f.addDefinitions(g);
 			 * g.addDefinitions(f);
-			 * 
+			 *
 			 */
 			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
 				recursionCallsCounter = 0;
@@ -4940,9 +4940,9 @@ namespace org.mariuszgromada.math.mxparser {
 					 * in the tokensList need to replaced one after another in
 					 * separate loops as tokensList might change in some other
 					 * call done in possible recursive call.
-					 * 
+					 *
 					 * Argument x = new Argument("x = 2*y");
-					 * Argument y = new Argument("y = 2*x"); 
+					 * Argument y = new Argument("y = 2*x");
 					 * x.addDefinitions(y);
 					 * y.addDefinitions(x);
 					 */
@@ -6647,9 +6647,9 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Returns list of key words known to the parser
-		 * 
+		 *
 		 * @return      List of keywords known to the parser.
-		 * 
+		 *
 		 * @see KeyWord
 		 * @see KeyWord#wordTypeId
 		 * @see Expression#getHelp()
@@ -6659,14 +6659,14 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Returns list of key words known to the parser
-		 * 
+		 *
 		 * @param query Give any string to filter list of key words against this string.
 		 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 		 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 		 *              to narrow the result.
-		 *              
+		 *
 		 * @return      List of keywords known to the parser filter against query string.
-		 * 
+		 *
 		 * @see KeyWord
 		 * @see KeyWord#wordTypeId
 		 * @see Expression#getHelp(String)
@@ -6686,7 +6686,7 @@ namespace org.mariuszgromada.math.mxparser {
 			foreach (KeyWord kw in keyWordsList) {
 				line = 	"str=" + kw.wordString + " " +
 						"desc=" + kw.description + " " +
-						"syn=" + kw.syntax + " " + 
+						"syn=" + kw.syntax + " " +
 						"sin=" + kw.since + " " +
 						"wid=" + kw.wordId + " " +
 						"tid=" + kw.wordTypeId

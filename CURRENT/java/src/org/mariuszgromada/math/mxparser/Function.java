@@ -120,20 +120,20 @@ public class Function extends PrimitiveElement {
 	public static final String TYPE_DESC	= "User defined function";
 	/**
 	 * Function with body based on the expression string.
-	 * 
+	 *
 	 * @see Function#getFunctionBodyType()
 	 */
 	public static final int BODY_RUNTIME = 1;
 	/**
 	 * Function with body based on the extended code.
-	 * 
+	 *
 	 * @see FunctionExtension
 	 * @see Function#getFunctionBodyType()
 	 */
 	public static final int BODY_EXTENDED = 2;
 	/**
 	 * Function body type.
-	 * 
+	 *
 	 * @see Function#BODY_RUNTIME
 	 * @see Function#BODY_EXTENDED
 	 * @see Function#getFunctionBodyType()
@@ -157,7 +157,7 @@ public class Function extends PrimitiveElement {
 	private int parametersNumber;
 	/**
 	 * Function extension (body based in code)
-	 * 
+	 *
 	 * @see FunctionExtension
 	 * @see Function#Function(String, FunctionExtension)
 	 */
@@ -274,7 +274,7 @@ public class Function extends PrimitiveElement {
 	 * Constructor for function definition based on
 	 * your own source code - this is via implementation
 	 * of FunctionExtension interface.
-	 * 
+	 *
 	 * @param functionName       Function name
 	 * @param functionExtension  Your own source code
 	 */
@@ -368,7 +368,7 @@ public class Function extends PrimitiveElement {
 	}
 	/**
 	 * Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
-	 * @return Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED} 
+	 * @return Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
 	 */
 	public int getFunctionBodyType() {
 		return functionBodyType;
@@ -427,7 +427,7 @@ public class Function extends PrimitiveElement {
 					setArgumentValue(p, params[p]);
 			} else {
 				for (int p = 0; p < params.length; p++)
-					functionExtension.setParameterValue(p, params[p]);				
+					functionExtension.setParameterValue(p, params[p]);
 			}
 			return calculate();
 		}
@@ -450,7 +450,7 @@ public class Function extends PrimitiveElement {
 					setArgumentValue(p, arguments[p].getArgumentValue());
 			} else {
 				for (int p = 0; p < arguments.length; p++)
-					functionExtension.setParameterValue(p, arguments[p].getArgumentValue());				
+					functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
 			}
 			return  calculate();
 		}
@@ -482,7 +482,7 @@ public class Function extends PrimitiveElement {
 	 * @see PrimitiveElement
 	 */
 	public void removeDefinitions(PrimitiveElement... elements) {
-		if (functionBodyType == Function.BODY_RUNTIME)		
+		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.removeDefinitions(elements);
 	}
 	/*=================================================
@@ -494,7 +494,7 @@ public class Function extends PrimitiveElement {
 	 */
 	private int countRecursiveArguments() {
 		int numOfRecursiveArguments = 0;
-		if (functionBodyType == Function.BODY_RUNTIME)		
+		if (functionBodyType == Function.BODY_RUNTIME)
 			for (Argument argument : functionExpression.argumentsList)
 				if (argument.getArgumentType() == Argument.RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
 		return numOfRecursiveArguments;
@@ -623,7 +623,7 @@ public class Function extends PrimitiveElement {
 	}
 	/**
 	 * Gets user defined function parameter name
-	 * 
+	 *
 	 * @param parameterIndex  Parameter index between 0 and n-1
 	 * @return If parameter exists returns parameters name, otherwise empty string is returned.
 	 */

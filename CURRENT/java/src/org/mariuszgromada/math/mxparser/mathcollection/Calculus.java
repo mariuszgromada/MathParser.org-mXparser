@@ -388,7 +388,7 @@ public final class Calculus {
 	}
 	/**
 	 * Brent solver (Brent root finder)
-	 * 
+	 *
 	 * @param f  Function given in the Expression form
 	 * @param x  Argument
 	 * @param a  Left limit
@@ -408,7 +408,7 @@ public final class Calculus {
 		if (b < a) {
 			tmp = a;
 			a = b;
-			b = tmp;			
+			b = tmp;
 		}
 		fa = mXparser.getFunctionValue(f, x, a);
 		fb = mXparser.getFunctionValue(f, x, b);
@@ -419,7 +419,7 @@ public final class Calculus {
 		if (MathFunctions.abs(fb) <= eps) return b;
 		if (b == a) return Double.NaN;
 		/*
-		 * If root not bracketed the perform random search 
+		 * If root not bracketed the perform random search
 		 */
 		if (fa * fb > 0) {
 			boolean rndflag = false;
@@ -430,7 +430,7 @@ public final class Calculus {
 				if (bp < ap) {
 					tmp = ap;
 					ap = bp;
-					bp = tmp;			
+					bp = tmp;
 				}
 				fa = mXparser.getFunctionValue(f, x, ap);
 				fb = mXparser.getFunctionValue(f, x, bp);

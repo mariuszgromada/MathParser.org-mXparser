@@ -87,7 +87,7 @@ public final class PhysicalConstants {
 	/**
 	 * Planck constant
 	 */
-	public static final double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;	
+	public static final double PLANCK_CONSTANT = 6.626070040E-34 * Units.METRE2 * Units.KILOGRAM / Units.SECOND;
 	/**
 	 * Reduced Planck constant
 	 */
@@ -95,13 +95,13 @@ public final class PhysicalConstants {
 	/**
 	 * Planck length
 	 */
-	public static final double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;	
+	public static final double PLANCK_LENGTH = 1.616229E-35 * Units.METRE;
 	/**
 	 * Planck mass
 	 */
-	public static final double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;	
+	public static final double PLANCK_MASS = 2.176470E-8 * Units.KILOGRAM;
 	/**
 	 * Planck time
 	 */
-	public static final double PLANCK_TIME = 5.39116E-44 * Units.SECOND;	
+	public static final double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
 }

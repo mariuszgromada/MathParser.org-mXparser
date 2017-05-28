@@ -164,7 +164,7 @@ public final class Units {
 	 * Yocto
 	 */
 	public static final double YOCTO = 1.0E-24;
-		
+
 	/* ===========================================
 	 * Units of length / distance
 	 * ===========================================
@@ -205,7 +205,7 @@ public final class Units {
 	 * Nautical mile
 	 */
 	public static final double NAUTICAL_MILE = 1.852 * KILOMETRE;
-	
+
 	/* ===========================================
 	 * Units of area
 	 * ===========================================
@@ -238,7 +238,7 @@ public final class Units {
 	 * Acre
 	 */
 	public static final double ACRE = (66.0 * FEET) * (660.0 * FEET);
-	
+
 	/* ===========================================
 	 * Units of volume
 	 * ===========================================
@@ -316,7 +316,7 @@ public final class Units {
 	/**
 	 * Kilogram
 	 */
-	public static final double KILOGRAM = 1.0;	
+	public static final double KILOGRAM = 1.0;
 	/**
 	 * Gram
 	 */
@@ -324,11 +324,11 @@ public final class Units {
 	/**
 	 * Milligram
 	 */
-	public static final double MILLIGRAM = MILLI * GRAM;	
+	public static final double MILLIGRAM = MILLI * GRAM;
 	/**
 	 * Decagram
 	 */
-	public static final double DECAGRAM = DECA * GRAM;	
+	public static final double DECAGRAM = DECA * GRAM;
 	/**
 	 * Tonne
 	 */
@@ -418,7 +418,7 @@ public final class Units {
 	 * Yottabyte
 	 */
 	public static final double YOTTABYTE = 1024.0 * ZETTABYTE;
-	
+
 	/* ===========================================
 	 * Units of energy
 	 * ===========================================
@@ -447,7 +447,7 @@ public final class Units {
 	 * Tera Electrono-Volt
 	 */
 	public static final double TERA_ELECTRONO_VOLT = TERA * ELECTRONO_VOLT;
-	
+
 	/* ===========================================
 	 * Units of speed
 	 * ===========================================
@@ -468,7 +468,7 @@ public final class Units {
 	 * Knot
 	 */
 	public static final double KNOT = 0.514444444 * METRE / SECOND;
-	
+
 	/* ===========================================
 	 * Units of acceleration
 	 * ===========================================

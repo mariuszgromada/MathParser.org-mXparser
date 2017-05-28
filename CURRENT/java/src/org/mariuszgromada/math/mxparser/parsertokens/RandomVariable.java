@@ -254,4 +254,3 @@ public final class RandomVariable {
 	public static final String NAT1_9_SINCE					= mXparser.NAMEv30;
 	public static final String NOR_SINCE					= mXparser.NAMEv30;
 }
-

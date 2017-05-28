@@ -271,7 +271,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const String TRUE_STR						= "[true]";
 		public const String FALSE_STR						= "[false]";
-		/* other values */	
+		/* other values */
 		public const String NAN_STR							= "[NaN]";
 		/*
 		 * ConstantValue - syntax.
@@ -463,7 +463,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const String TRUE_DESC						= "Boolean True represented as double, [true] = 1";
 		public const String FALSE_DESC						= "Boolean False represented as double, [false] = 0";
-		/* other values */	
+		/* other values */
 		public const String NAN_DESC						= "Not-a-Number";
 
 		/*

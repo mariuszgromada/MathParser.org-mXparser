@@ -54,7 +54,7 @@ package org.mariuszgromada.math.mxparser;
 
 /**
  * FunctionExtension provides interface for function algorithm definition.
- * In this case algorithm definition is based on source code using 
+ * In this case algorithm definition is based on source code using
  * JAVA (for JAVA / Android) or .NET. If implemented Function Extension
  * object can be further used while Function object
  * construction, which means it can extend mXparser math collection.
@@ -85,27 +85,27 @@ package org.mariuszgromada.math.mxparser;
 public interface FunctionExtension {
 	/**
 	 * Gets parameters number.
-	 * 
+	 *
 	 * @return Returns parameters number.
 	 */
 	public int getParametersNumber();
 	/**
 	 * Sets value of function parameter
-	 * 
+	 *
 	 * @param parameterIndex    - parameter index (from 0 to n-1)
 	 * @param parameterValue    - parameter value
 	 */
 	public void setParameterValue(int parameterIndex, double parameterValue);
 	/**
 	 * Gets parameter name
-	 * 
+	 *
 	 * @param parameterIndex    - parameter index (from 0 to n-1)
 	 * @return Returns parameter name
 	 */
 	public String getParameterName(int parameterIndex);
 	/**
 	 * Actual algorithm implementation.
-	 * 
+	 *
 	 * @param parameters Function parameters.
 	 * @return Function Extension value.
 	 */
@@ -113,9 +113,9 @@ public interface FunctionExtension {
 	/**
 	 * Cloning in case of usage in Expression
 	 * with recursive statements.
-	 * 
+	 *
 	 * @return Returns FunctionExtension object that was cloned.
-	 * 
+	 *
 	 * @see Expression#getRecursiveMode()
 	 */
 	public FunctionExtension clone();
