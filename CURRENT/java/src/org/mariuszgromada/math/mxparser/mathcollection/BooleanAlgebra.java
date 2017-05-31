@@ -1,9 +1,9 @@
 /*
- * @(#)BooleanAlgebra.java        3.0.0    2016-05-07
+ * @(#)BooleanAlgebra.java        4.1.0    2017-05-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class BooleanAlgebra {
 	/**
@@ -214,10 +214,19 @@ public final class BooleanAlgebra {
 	public static final int double2IntBoolean(double a) {
 		if ( Double.isNaN(a) )
 			return NULL;
-		else if ( a != 0 )
-			return TRUE;
-		else
-			return FALSE;
+		if ( BinaryRelations.epsilonComparison ) {
+			/* Epsilon comparison mode */
+			if ( MathFunctions.abs(a) > BinaryRelations.epsilon )
+				return TRUE;
+			else
+				return FALSE;
+		} else {
+			/* Exact comparison mode */
+			if ( a != 0 )
+				return TRUE;
+			else
+				return FALSE;
+		}
 	}
 	/**
 	 * Boolean AND
@@ -383,5 +392,68 @@ public final class BooleanAlgebra {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return CNIMP_TRUTH_TABLE[A][B];
+	}
+	/**
+	 * Boolean AND variadic
+	 *
+	 * @param values   List of values
+	 * @return   Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
+	 *           otherwise returns BooleanAlgebra.FALSE
+	 */
+	public static final double andVariadic(double[] values) {
+		if (values == null) return Double.NaN;
+		if (values.length == 0) return Double.NaN;
+		int cntTrue = 0;
+		int bv;
+		for (double v : values) {
+			bv = double2IntBoolean(v);
+			if (bv == FALSE) return FALSE;
+			if (bv == TRUE) cntTrue++;
+		}
+		if (cntTrue == values.length) return TRUE;
+		else return Double.NaN;
+	}
+	/**
+	 * Boolean OR variadic
+	 *
+	 * @param values   List of values
+	 * @return   Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
+	 *           otherwise returns BooleanAlgebra.FALSE
+	 */
+	public static final double orVariadic(double[] values) {
+		if (values == null) return Double.NaN;
+		if (values.length == 0) return Double.NaN;
+		int cntFalse = 0;
+		int bv;
+		for (double v : values) {
+			bv = double2IntBoolean(v);
+			if (bv == TRUE) return TRUE;
+			if (bv == FALSE) cntFalse++;
+		}
+		if (cntFalse == values.length) return FALSE;
+		else return Double.NaN;
+	}
+	/**
+	 * Boolean XOR variadic
+	 *
+	 * @param values   List of values
+	 * @return   Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
+	 *           otherwise returns BooleanAlgebra.FALSE
+	 */
+	public static final double xorVariadic(double[] values) {
+		if (values == null) return Double.NaN;
+		if (values.length == 0) return Double.NaN;
+		int cntTrue = 0;
+		int bv;
+		for (double v : values) {
+			bv = double2IntBoolean(v);
+			if (bv == TRUE) {
+				cntTrue++;
+				if (cntTrue > 1) return FALSE;
+			}
+			if (bv == NULL) return Double.NaN;
+		}
+		if (cntTrue == 1) return TRUE;
+		else return FALSE;
 	}
 }

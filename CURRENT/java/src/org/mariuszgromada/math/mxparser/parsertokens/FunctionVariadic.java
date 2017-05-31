@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.java        4.1.0    2017-05-13
+ * @(#)FunctionVariadic.java        4.1.0    2017-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -95,6 +95,12 @@ public final class FunctionVariadic {
 	public static final int STD_ID						= 12;
 	public static final int RND_LIST_ID					= 13;
 	public static final int COALESCE_ID					= 14;
+	public static final int OR_ID						= 15;
+	public static final int AND_ID						= 16;
+	public static final int XOR_ID						= 17;
+	public static final int ARGMIN_ID					= 18;
+	public static final int ARGMAX_ID					= 19;
+	public static final int MEDIAN_ID					= 20;
 	/*
 	 * FunctionVariadic - tokens key words.
 	 */
@@ -112,6 +118,12 @@ public final class FunctionVariadic {
 	public static final String STD_STR					= "std";
 	public static final String RND_LIST_STR				= "rList";
 	public static final String COALESCE_STR				= "coalesce";
+	public static final String OR_STR					= "or";
+	public static final String AND_STR					= "and";
+	public static final String XOR_STR					= "xor";
+	public static final String ARGMIN_STR				= "argmin";
+	public static final String ARGMAX_STR				= "argmax";
+	public static final String MEDIAN_STR				= "med";
 	/*
 	 * FunctionVariadic - syntax.
 	 */
@@ -129,6 +141,12 @@ public final class FunctionVariadic {
 	public static final String STD_SYN					= "std(a1, ..., an)";
 	public static final String RND_LIST_SYN				= "rList(a1, ..., an)";
 	public static final String COALESCE_SYN				= "coalesce(a1, ..., an)";
+	public static final String OR_SYN					= "or(a1, ..., an)";
+	public static final String AND_SYN					= "and(a1, ..., an)";
+	public static final String XOR_SYN					= "xor(a1, ..., an)";
+	public static final String ARGMIN_SYN				= "argmin(a1, ..., an)";
+	public static final String ARGMAX_SYN				= "argmax(a1, ..., an)";
+	public static final String MEDIAN_SYN				= "med(a1, ..., an)";
 	/*
 	 * FunctionVariadic - tokens description.
 	 */
@@ -146,6 +164,12 @@ public final class FunctionVariadic {
 	public static final String STD_DESC					= "Bias-corrected sample standard deviation";
 	public static final String RND_LIST_DESC			= "Random number from given list of numbers";
 	public static final String COALESCE_DESC			= "Returns the first non-NaN value";
+	public static final String OR_DESC					= "Logical disjunction (OR) - variadic";
+	public static final String AND_DESC					= "Logical conjunction (AND) - variadic";
+	public static final String XOR_DESC					= "Exclusive or (XOR) - variadic";
+	public static final String ARGMIN_DESC				= "Arguments / indices of the minima";
+	public static final String ARGMAX_DESC				= "Arguments / indices of the maxima";
+	public static final String MEDIAN_DESC				= "The sample median";
 	/*
 	 * FunctionVariadic - since.
 	 */
@@ -163,5 +187,11 @@ public final class FunctionVariadic {
 	public static final String STD_SINCE				= mXparser.NAMEv24;
 	public static final String RND_LIST_SINCE			= mXparser.NAMEv30;
 	public static final String COALESCE_SINCE			= mXparser.NAMEv41;
+	public static final String OR_SINCE					= mXparser.NAMEv41;
+	public static final String AND_SINCE				= mXparser.NAMEv41;
+	public static final String XOR_SINCE				= mXparser.NAMEv41;
+	public static final String ARGMIN_SINCE				= mXparser.NAMEv41;
+	public static final String ARGMAX_SINCE				= mXparser.NAMEv41;
+	public static final String MEDIAN_SINCE				= mXparser.NAMEv41;
 }
 
