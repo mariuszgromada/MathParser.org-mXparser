@@ -85,7 +85,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * COmparison mode indicator
 		 */
-		static bool epsilonComparison = true;
+		internal static bool epsilonComparison = true;
 		/**
 		 * Sets comparison mode to EXACT.
 		 */

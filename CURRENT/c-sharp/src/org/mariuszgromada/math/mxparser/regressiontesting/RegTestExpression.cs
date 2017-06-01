@@ -7467,6 +7467,366 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setNotToOverrideBuiltinTokens();
 				break;
+			case 662:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [false] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 663:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 664:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [NaN] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 665:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [false], 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 666:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [false], [NaN] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 667:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [false], 0, 0, 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 668:
+				mXparser.setEpsilonComparison();
+				expStr = "or( [false], 0, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 1 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 669:
+				mXparser.setEpsilonComparison();
+				expStr = "or( 1, 0, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 670:
+				mXparser.setEpsilonComparison();
+				expStr = "or( 0, 1, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 671:
+				mXparser.setEpsilonComparison();
+				expStr = "or( 1, 2, 3, 4, [true], -10, -0.5, 2, 0.01 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 672:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [false] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 673:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 674:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [NaN] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 675:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [false], 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 676:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [false], [NaN] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 677:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [false], 0, 0, 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 678:
+				mXparser.setEpsilonComparison();
+				expStr = "and( [false], 0, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 1 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 679:
+				mXparser.setEpsilonComparison();
+				expStr = "and( 1, 0, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 680:
+				mXparser.setEpsilonComparison();
+				expStr = "and( 0, 1, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 681:
+				mXparser.setEpsilonComparison();
+				expStr = "and( 1, 2, 3, 4, [true], -10, -0.5, 2, 0.01 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 682:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [false] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 683:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 684:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [NaN] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 685:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [false], 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 686:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [false], [NaN] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 687:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [false], 0, 0, 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 688:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( [false], 0, [NaN], 0, 0, [false], 0, 0, 0, 0, 0, 1 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Double.NaN;
+				if ( Double.IsNaN(value) )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 689:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( 1, 0, [false], 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.TRUE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 690:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( 0, 1, 1, 0, 0, [false], 0, 0, 0, 0, 0, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
+			case 691:
+				mXparser.setEpsilonComparison();
+				expStr = "xor( 1, 2, 3, 4, [true], -10, -0.5, 2, 0.01 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = BooleanAlgebra.FALSE;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setNotToOverrideBuiltinTokens();
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -7482,7 +7842,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 661;
+			int numberOfTests = 691;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

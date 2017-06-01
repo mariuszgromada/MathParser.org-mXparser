@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.cs        4.1.0    2017-05-13
+ * @(#)FunctionVariadic.cs        4.1.0    2017-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -96,6 +96,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int STD_ID						= 12;
 		public const int RND_LIST_ID				= 13;
 		public const int COALESCE_ID				= 14;
+		public const int OR_ID						= 15;
+		public const int AND_ID						= 16;
+		public const int XOR_ID						= 17;
+		public const int ARGMIN_ID					= 18;
+		public const int ARGMAX_ID					= 19;
+		public const int MEDIAN_ID					= 20;
 		/*
 		 * BooleanOperator - tokens key words.
 		 */
@@ -113,6 +119,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_STR					= "std";
 		public const String RND_LIST_STR			= "rList";
 		public const String COALESCE_STR			= "coalesce";
+		public const String OR_STR					= "or";
+		public const String AND_STR					= "and";
+		public const String XOR_STR					= "xor";
+		public const String ARGMIN_STR				= "argmin";
+		public const String ARGMAX_STR				= "argmax";
+		public const String MEDIAN_STR				= "med";
 		/*
 		 * FunctionVariadic - syntax.
 		 */
@@ -130,6 +142,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_SYN					= "std(a1, ..., an)";
 		public const String RND_LIST_SYN			= "rList(a1, ..., an)";
 		public const String COALESCE_SYN			= "coalesce(a1, ..., an)";
+		public const String OR_SYN					= "or(a1, ..., an)";
+		public const String AND_SYN					= "and(a1, ..., an)";
+		public const String XOR_SYN					= "xor(a1, ..., an)";
+		public const String ARGMIN_SYN				= "argmin(a1, ..., an)";
+		public const String ARGMAX_SYN				= "argmax(a1, ..., an)";
+		public const String MEDIAN_SYN				= "med(a1, ..., an)";
 		/*
 		 * FunctionVariadic - tokens description.
 		 */
@@ -147,6 +165,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_DESC				= "Bias-corrected sample standard deviation";
 		public const String RND_LIST_DESC			= "Random number from given list of numbers";
 		public const String COALESCE_DESC			= "Returns the first non-NaN value";
+		public const String OR_DESC					= "Logical disjunction (OR) - variadic";
+		public const String AND_DESC				= "Logical conjunction (AND) - variadic";
+		public const String XOR_DESC				= "Exclusive or (XOR) - variadic";
+		public const String ARGMIN_DESC				= "Arguments / indices of the minima";
+		public const String ARGMAX_DESC				= "Arguments / indices of the maxima";
+		public const String MEDIAN_DESC				= "The sample median";
 		/*
 		 * FunctionVariadic - since.
 		 */
@@ -164,5 +188,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_SINCE				= mXparser.NAMEv24;
 		public const String RND_LIST_SINCE			= mXparser.NAMEv30;
 		public const String COALESCE_SINCE			= mXparser.NAMEv41;
+		public const String OR_SINCE				= mXparser.NAMEv41;
+		public const String AND_SINCE				= mXparser.NAMEv41;
+		public const String XOR_SINCE				= mXparser.NAMEv41;
+		public const String ARGMIN_SINCE			= mXparser.NAMEv41;
+		public const String ARGMAX_SINCE			= mXparser.NAMEv41;
+		public const String MEDIAN_SINCE			= mXparser.NAMEv41;
 	}
 }

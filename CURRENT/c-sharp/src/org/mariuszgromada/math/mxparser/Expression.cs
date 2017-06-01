@@ -4307,6 +4307,33 @@ namespace org.mariuszgromada.math.mxparser {
 			variadicSetDecreaseRemove(pos, MathFunctions.coalesce(mXparser.arrayList2double(numbers)), numbers.Count);
 		}
 		/**
+		 * OR_VARIADIC
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void OR_VARIADIC(int pos) {
+			List<Double> numbers = getNumbers(pos);
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.orVariadic( mXparser.arrayList2double(numbers) ), numbers.Count );
+		}
+		/**
+		 * AND_VARIADIC
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void AND_VARIADIC(int pos) {
+			List<Double> numbers = getNumbers(pos);
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.andVariadic( mXparser.arrayList2double(numbers) ), numbers.Count );
+		}
+		/**
+		 * XOR_VARIADIC
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void XOR_VARIADIC(int pos) {
+			List<Double> numbers = getNumbers(pos);
+			variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadic( mXparser.arrayList2double(numbers) ), numbers.Count );
+		}
+		/**
 		 * Parser symbols
 		 * Removes comma
 		 *
@@ -5347,6 +5374,9 @@ namespace org.mariuszgromada.math.mxparser {
 			case FunctionVariadic.LCM_ID: LCM(pos); break;
 			case FunctionVariadic.RND_LIST_ID: RND_LIST(pos); break;
 			case FunctionVariadic.COALESCE_ID: COALESCE(pos); break;
+			case FunctionVariadic.OR_ID: OR_VARIADIC(pos); break;
+			case FunctionVariadic.AND_ID: AND_VARIADIC(pos); break;
+			case FunctionVariadic.XOR_ID: XOR_VARIADIC(pos); break;
 			}
 		}
 		/**
@@ -5603,6 +5633,12 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(FunctionVariadic.STD_STR, FunctionVariadic.STD_DESC, FunctionVariadic.STD_ID, FunctionVariadic.STD_SYN, FunctionVariadic.STD_SINCE, FunctionVariadic.TYPE_ID);
 				addKeyWord(FunctionVariadic.RND_LIST_STR, FunctionVariadic.RND_LIST_DESC, FunctionVariadic.RND_LIST_ID, FunctionVariadic.RND_LIST_SYN, FunctionVariadic.RND_LIST_SINCE, FunctionVariadic.TYPE_ID);
 				addKeyWord(FunctionVariadic.COALESCE_STR, FunctionVariadic.COALESCE_DESC, FunctionVariadic.COALESCE_ID, FunctionVariadic.COALESCE_SYN, FunctionVariadic.COALESCE_SINCE, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.OR_STR, FunctionVariadic.OR_DESC, FunctionVariadic.OR_ID, FunctionVariadic.OR_SYN, FunctionVariadic.OR_SINCE, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.AND_STR, FunctionVariadic.AND_DESC, FunctionVariadic.AND_ID, FunctionVariadic.AND_SYN, FunctionVariadic.AND_SINCE, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.XOR_STR, FunctionVariadic.XOR_DESC, FunctionVariadic.XOR_ID, FunctionVariadic.XOR_SYN, FunctionVariadic.XOR_SINCE, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.ARGMIN_STR, FunctionVariadic.ARGMIN_DESC, FunctionVariadic.ARGMIN_ID, FunctionVariadic.ARGMIN_SYN, FunctionVariadic.ARGMIN_SINCE, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.ARGMAX_STR, FunctionVariadic.ARGMAX_DESC, FunctionVariadic.ARGMAX_ID, FunctionVariadic.ARGMAX_SYN, FunctionVariadic.ARGMAX_SINCE, FunctionVariadic.TYPE_ID);
+				addKeyWord(FunctionVariadic.MEDIAN_STR, FunctionVariadic.MEDIAN_DESC, FunctionVariadic.MEDIAN_ID, FunctionVariadic.MEDIAN_SYN, FunctionVariadic.MEDIAN_SINCE, FunctionVariadic.TYPE_ID);
 				/*
 				 * Calculus key words
 				 */
