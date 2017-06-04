@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.0    2017-05-28
+ * @(#)mXparser.java        4.1.0    2017-06-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -53,11 +53,13 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
+import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
 import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
 import org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions;
 import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
@@ -907,6 +909,378 @@ public final class mXparser {
     public static final void consolePrintTokens(List<Token> tokens) {
     	Expression.showTokens(tokens);
     }
+    /**
+     * Return regular expression representing number literal
+     * string in given numeral system with base between 1 and 36.
+     *
+     * @param base    Base of numeral system, base between 1 and 36
+     * @return        Regular expression string if base between 1 and 36,
+     *                otherwise empty string "" is returned.
+     */
+	private static final String getRegExpForNumeralSystem(int base) {
+		switch (base) {
+			case 1: return ParserSymbol.BASE1_REG_EXP;
+			case 2: return ParserSymbol.BASE2_REG_EXP;
+			case 3: return ParserSymbol.BASE3_REG_EXP;
+			case 4: return ParserSymbol.BASE4_REG_EXP;
+			case 5: return ParserSymbol.BASE5_REG_EXP;
+			case 6: return ParserSymbol.BASE6_REG_EXP;
+			case 7: return ParserSymbol.BASE7_REG_EXP;
+			case 8: return ParserSymbol.BASE8_REG_EXP;
+			case 9: return ParserSymbol.BASE9_REG_EXP;
+			case 10: return ParserSymbol.BASE10_REG_EXP;
+			case 11: return ParserSymbol.BASE11_REG_EXP;
+			case 12: return ParserSymbol.BASE12_REG_EXP;
+			case 13: return ParserSymbol.BASE13_REG_EXP;
+			case 14: return ParserSymbol.BASE14_REG_EXP;
+			case 15: return ParserSymbol.BASE15_REG_EXP;
+			case 16: return ParserSymbol.BASE16_REG_EXP;
+			case 17: return ParserSymbol.BASE17_REG_EXP;
+			case 18: return ParserSymbol.BASE18_REG_EXP;
+			case 19: return ParserSymbol.BASE19_REG_EXP;
+			case 20: return ParserSymbol.BASE20_REG_EXP;
+			case 21: return ParserSymbol.BASE21_REG_EXP;
+			case 22: return ParserSymbol.BASE22_REG_EXP;
+			case 23: return ParserSymbol.BASE23_REG_EXP;
+			case 24: return ParserSymbol.BASE24_REG_EXP;
+			case 25: return ParserSymbol.BASE25_REG_EXP;
+			case 26: return ParserSymbol.BASE26_REG_EXP;
+			case 27: return ParserSymbol.BASE27_REG_EXP;
+			case 28: return ParserSymbol.BASE28_REG_EXP;
+			case 29: return ParserSymbol.BASE29_REG_EXP;
+			case 30: return ParserSymbol.BASE30_REG_EXP;
+			case 31: return ParserSymbol.BASE31_REG_EXP;
+			case 32: return ParserSymbol.BASE32_REG_EXP;
+			case 33: return ParserSymbol.BASE33_REG_EXP;
+			case 34: return ParserSymbol.BASE34_REG_EXP;
+			case 35: return ParserSymbol.BASE35_REG_EXP;
+			case 36: return ParserSymbol.BASE36_REG_EXP;
+		}
+		/* reg exp that does not match anything */
+		return "\\b\\B";
+	}
+	/**
+	 * Digit index based on digit character for numeral systems with
+	 * base between 1 and 36.
+	 *
+	 * @param digitChar   Digit character (lower or upper case) representing digit in numeral
+	 *                    systems with base between 1 and 36. Digits:
+	 *                    0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
+	 *                    9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
+	 *                    17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
+	 *                    25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
+	 *                    33:X, 34:Y, 35:Z
+	 * @return            Returns digit index if digit char was recognized,
+	 *                    otherwise returns -1.
+	 */
+	public static final int digitIndex(char digitChar) {
+		switch (digitChar) {
+			case '0': return 0;
+			case '1': return 1;
+			case '2': return 2;
+			case '3': return 3;
+			case '4': return 4;
+			case '5': return 5;
+			case '6': return 6;
+			case '7': return 7;
+			case '8': return 8;
+			case '9': return 9;
+			case 'A': return 10;
+			case 'B': return 11;
+			case 'C': return 12;
+			case 'D': return 13;
+			case 'E': return 14;
+			case 'F': return 15;
+			case 'G': return 16;
+			case 'H': return 17;
+			case 'I': return 18;
+			case 'J': return 19;
+			case 'K': return 20;
+			case 'L': return 21;
+			case 'M': return 22;
+			case 'N': return 23;
+			case 'O': return 24;
+			case 'P': return 25;
+			case 'Q': return 26;
+			case 'R': return 27;
+			case 'S': return 28;
+			case 'T': return 29;
+			case 'U': return 30;
+			case 'V': return 31;
+			case 'W': return 32;
+			case 'X': return 33;
+			case 'Y': return 34;
+			case 'Z': return 35;
+			case 'a': return 10;
+			case 'b': return 11;
+			case 'c': return 12;
+			case 'd': return 13;
+			case 'e': return 14;
+			case 'f': return 15;
+			case 'g': return 16;
+			case 'h': return 17;
+			case 'i': return 18;
+			case 'j': return 19;
+			case 'k': return 20;
+			case 'l': return 21;
+			case 'm': return 22;
+			case 'n': return 23;
+			case 'o': return 24;
+			case 'p': return 25;
+			case 'q': return 26;
+			case 'r': return 27;
+			case 's': return 28;
+			case 't': return 29;
+			case 'u': return 30;
+			case 'v': return 31;
+			case 'w': return 32;
+			case 'x': return 33;
+			case 'y': return 34;
+			case 'z': return 35;
+		}
+		return -1;
+	}
+	/**
+	 * Character representing digit for numeral systems with base
+	 * between 1 and 36.
+	 *
+	 * @param digitIndex   Digit index between 0 and 35
+	 * @return             Digit character representing digit
+	 *                     for numeral systems with base between 1 and 36.
+	 *                     Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
+	 *                     8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F,
+	 *                     16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N,
+	 *                     24:O, 25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V,
+	 *                     32:W, 33:X, 34:Y, 35:Z. If digit index is put of range
+	 *                     '?' is returned.
+	 */
+	public static final char digitChar(int digitIndex) {
+		switch (digitIndex) {
+			case  0: return '0';
+			case  1: return '1';
+			case  2: return '2';
+			case  3: return '3';
+			case  4: return '4';
+			case  5: return '5';
+			case  6: return '6';
+			case  7: return '7';
+			case  8: return '8';
+			case  9: return '9';
+			case 10: return 'A';
+			case 11: return 'B';
+			case 12: return 'C';
+			case 13: return 'D';
+			case 14: return 'E';
+			case 15: return 'F';
+			case 16: return 'G';
+			case 17: return 'H';
+			case 18: return 'I';
+			case 19: return 'J';
+			case 20: return 'K';
+			case 21: return 'L';
+			case 22: return 'M';
+			case 23: return 'N';
+			case 24: return 'O';
+			case 25: return 'P';
+			case 26: return 'Q';
+			case 27: return 'R';
+			case 28: return 'S';
+			case 29: return 'T';
+			case 30: return 'U';
+			case 31: return 'V';
+			case 32: return 'W';
+			case 33: return 'X';
+			case 34: return 'Y';
+			case 35: return 'Z';
+		}
+		return '?';
+	}
+	/**
+	 * Recognition of numeral system base in which number literal represents
+	 * number.
+	 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
+	 * 16 for b16.123acdf or h.123acdf.
+	 *
+	 * @param numberLiteral Number literal string.
+	 *
+	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+	 *
+	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 *
+	 * @return  If number literal fits numeral system definition then numeral
+	 *          system base is returned (base between 1 and 36), otherwise
+	 *          -1 is returned.
+	 */
+	public static final int getNumeralSystemBase(String numberLiteral) {
+		for (int b = 0; b <= 36; b++)
+			if (mXparser.regexMatch(numberLiteral, getRegExpForNumeralSystem(b)))
+				return b;
+		return -1;
+	}
+	/**
+	 * Other base (base between 1 and 36) number literal conversion to decimal number.
+	 *
+	 * @param numberLiteral    Number literal in given numeral system with base between
+	 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
+	 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
+	 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
+	 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 * @param base             Numeral system base, between 1 and 36
+	 * @return                 Decimal number after conversion. If conversion was not
+	 *                         possible the Double.NaN is returned.
+	 */
+	public static final double convOthBase2Decimal(String numberLiteral, int base) {
+		if (numberLiteral == null) return Double.NaN;
+		numberLiteral = numberLiteral.trim();
+		if (numberLiteral.length() == 0) {
+			if (base == 1) return 0;
+			else return Double.NaN;
+		}
+		if (base < 1) return Double.NaN;
+		if (base > 36) return Double.NaN;
+		char signChar = numberLiteral.charAt(0);
+		double sign = 1.0;
+		if (signChar == '-') {
+			sign = -1.0;
+			numberLiteral = numberLiteral.substring(1);
+		} else if (signChar == '+') {
+			sign = 1.0;
+			numberLiteral = numberLiteral.substring(1);
+		}
+		int length = numberLiteral.length();
+		double decValue = 0;
+		int digit;
+		for (int i = 0; i < length; i++ ) {
+			digit = digitIndex( numberLiteral.charAt(i) );
+			if ( ( (digit >= 0) && (digit < base) ) || ( (base == 1) && (digit == 1) ) ) decValue = base * decValue + digit;
+			else return Double.NaN;
+		}
+		return sign * decValue;
+	}
+	/**
+	 * Other base (base between 1 and 36) number literal conversion to decimal number.
+	 * Base specification included in number literal.
+	 *
+	 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
+	 * 16 for b16.123acdf or h.123acdf.
+	 *
+	 * @param numberLiteral Number literal string.
+	 *
+	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+	 *
+	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 *
+	 * @return     Decimal number after conversion. If conversion was not
+	 *             possible the Double.NaN is returned.
+	 */
+	public static final double convOthBase2Decimal(String numberLiteral) {
+		if (numberLiteral == null) return Double.NaN;
+		numberLiteral = numberLiteral.trim();
+		int numberLiteralStrLenght = numberLiteral.length();
+		if (numberLiteralStrLenght < 2) return Double.NaN;
+		int base = getNumeralSystemBase(numberLiteral);
+		if (base == -1) return Double.NaN;
+		/* find dot position */
+		int dotPos = numberLiteral.indexOf('.');
+		if (dotPos == 0) return Double.NaN;
+		char signChar = numberLiteral.charAt(0);
+		double sign = 1.0;
+		if (signChar == '-') sign = -1;
+		String finalLiteral = "";
+		if (numberLiteralStrLenght > dotPos+1) finalLiteral = numberLiteral.substring(dotPos+1);
+		return sign * convOthBase2Decimal(finalLiteral, base);
+	}
+	/**
+	 * Decimal number to other numeral system conversion with base
+	 * between 1 and 36.
+	 *
+	 * @param decimal    Decimal number
+	 * @param base       Numeral system base between 1 and 36
+	 * @return           Number literal representing decimal number in
+	 *                   given numeral numeral system. Digits
+	 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
+	 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
+	 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
+	 *                   25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
+	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
+	 *                   the "NaN" string is returned.
+	 */
+	public static final String convDecimal2OthBase(double decimal, int base) {
+		if (Double.isNaN(decimal)) return "NaN";
+		if (base < 1) return "NaN";
+		if (base > 36) return "NaN";
+		if (decimal == 0.0) {
+			if (base > 1) return "0";
+			else return "";
+		}
+		double intPart = MathFunctions.floor( MathFunctions.abs(decimal) );
+		double sign = MathFunctions.sgn(decimal);
+		String signChar = "";
+		if (sign < 0) signChar = "-";
+		if (intPart < base) return signChar + digitChar( (int)intPart );
+		String numberLiteral = "";
+		double quotient = intPart;
+		int reminder;
+		if (base > 1)
+			while (quotient >= 1.0) {
+				reminder = (int)(quotient % base);
+				quotient = MathFunctions.floor(quotient / base);
+				numberLiteral = digitChar(reminder) + numberLiteral;
+			}
+		else {
+			char[] repeat = new char[(int)intPart];
+			Arrays.fill(repeat, '1');
+			numberLiteral = (new String(repeat));
+		}
+		return signChar + numberLiteral;
+	}
+	/**
+	 * Decimal number to other numeral system conversion with base
+	 * between 1 and 36.
+	 *
+	 * @param decimal    Decimal number
+	 * @param base       Numeral system base between 1 and 36
+	 * @param format     If 1 then always bxx. is used, i.e. b1. or b16.
+	 *                   If 2 then for binary b. is used, for octal o. is used,
+	 *                   for hexadecimal h. is used, otherwise bxx. is used
+	 *                   where xx is the numeral system base specification.
+	 *
+	 * @return           Number literal representing decimal number in
+	 *                   given numeral numeral system.
+	 *
+	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+	 *
+	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 *
+	 * If conversion was not possible the "NaN" string is returned.
+	 */
+	public static final String convDecimal2OthBase(double decimal, int base, int format) {
+		if (Double.isNaN(decimal)) return "NaN";
+		if (base < 1) return "NaN";
+		if (base > 36) return "NaN";
+		String prefix = "";
+		if ( (format == 1) || (format == 2) ) prefix = "b" + base + ".";
+		if (format == 2) {
+			if (base == 2) prefix = "b.";
+			if (base == 8) prefix = "o.";
+			if (base == 16) prefix = "h.";
+		}
+		String sign = "";
+		if (decimal < 0) sign = "-";
+		return sign + prefix + convDecimal2OthBase( MathFunctions.abs(decimal), base );
+	}
 	/**
 	 * License info.
 	 */
@@ -960,7 +1334,7 @@ public final class mXparser {
 	 *
 	 * @return     license info as string
 	 */
-	public static String getLicense() {
+	public static final String getLicense() {
 		return LICENSE;
 	}
 	/**
@@ -968,7 +1342,7 @@ public final class mXparser {
 	 *
 	 * @param n Number of milliseconds
 	 */
-	public static void wait (int n){
+	public static final void wait (int n){
         long t0,t1;
         t0=System.currentTimeMillis();
         do{

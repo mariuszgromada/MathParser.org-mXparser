@@ -7837,6 +7837,486 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setNotToOverrideBuiltinTokens();
 			break;
+		case 692:
+			mXparser.setEpsilonComparison();
+			expStr = "-b1.+0+b1.-2*B1.";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 693:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b1.111+3)-B1.111+3";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 694:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b2.101+5)-B2.00101+5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 695:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b3.121+16)-B3.00121+16";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 696:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b4.123+27)-B4.00123+27";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 697:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b5.341+96)-B5.00341+96";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 698:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b6.352+140)-B6.00352+140";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 699:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b7.256+139)-B7.00256+139";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 700:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b8.376+254)-B8.00376+254";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 701:
+			mXparser.setEpsilonComparison();
+			expStr = "(-o.376+254)-O.00376+254";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 702:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b.101+5)-B.00101+5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 703:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b9.821+667)-B9.00821+667";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 704:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b10.394+394)-B10.00394+394";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 705:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b11.3A7+480)-B11.003a7+480";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 706:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b12.A5B+1511)-B12.00a5b+1511";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 707:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b13.ACB+1857)-B13.00acb+1857";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 708:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b14.2AD+545)-B14.002ad+545";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 709:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b15.BE4+2689)-B15.00be4+2689";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 710:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b16.FA2+4002)-B16.00fa2+4002";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 711:
+			mXparser.setEpsilonComparison();
+			expStr = "(-h.FA2+4002)-H.00fa2+4002";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 712:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b17.AG6+3168)-B17.00ag6+3168";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 713:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b18.FGH+5165)-B18.00fgh+5165";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 714:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b19.2I3+1067)-B19.002i3+1067";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 715:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b20.9CJ+3859)-B20.009cj+3859";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 716:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b21.K5F+8940)-B21.00k5f+8940";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 717:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b22.FL5+7727)-B22.00fl5+7727";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 718:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b23.1AM+781)-B23.001am+781";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 719:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b24.5ND+3445)-B24.005nd+3445";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 720:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b25.5ND5C+2320762)-B25.005nd5c+2320762";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 721:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b26.3KPB5+1739639)-B26.003kpb5+1739639";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 722:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b27.IQH67+10090258)-B27.00iqh67+10090258";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 723:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b28.RKHB2+17048390)-B28.00rkhb2+17048390";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 724:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b29.8BIFS+5942128)-B29.008bifs+5942128";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 725:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b30.2TGJB+2417981)-B30.002tgjb+2417981";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 726:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b31.6PUC0+6315103)-B31.006puc0+6315103";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 727:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b32.C0PV0+12609504)-B32.00c0pv0+12609504";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 728:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b33.V000W+36763583)-B33.00v000w+36763583";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 729:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b34.NP2XW+31721794)-B34.00np2xw+31721794";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 730:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b35.120Y0+1587565)-B35.00120y0+1587565";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 731:
+			mXparser.setEpsilonComparison();
+			expStr = "(-b36.ZZZZZ+60466175)-B36.00zzzzz+60466175";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -7851,7 +8331,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 691;
+		int numberOfTests = 731;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

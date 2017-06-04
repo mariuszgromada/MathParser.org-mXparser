@@ -15,89 +15,239 @@ public interface SyntaxCheckerConstants {
   /** RegularExpression Id. */
   int DIGIT = 6;
   /** RegularExpression Id. */
-  int LETTERS = 7;
+  int DIGIT_B1 = 7;
   /** RegularExpression Id. */
-  int INTEGER = 8;
+  int DIGIT_B2 = 8;
   /** RegularExpression Id. */
-  int LEFT_PAR = 9;
+  int DIGIT_B3 = 9;
   /** RegularExpression Id. */
-  int RIGHT_PAR = 10;
+  int DIGIT_B4 = 10;
   /** RegularExpression Id. */
-  int PLUS = 11;
+  int DIGIT_B5 = 11;
   /** RegularExpression Id. */
-  int MINUS = 12;
+  int DIGIT_B6 = 12;
   /** RegularExpression Id. */
-  int MULTIPLY = 13;
+  int DIGIT_B7 = 13;
   /** RegularExpression Id. */
-  int DIV = 14;
+  int DIGIT_B8 = 14;
   /** RegularExpression Id. */
-  int POWER = 15;
+  int DIGIT_B9 = 15;
   /** RegularExpression Id. */
-  int MODULO = 16;
+  int DIGIT_B10 = 16;
   /** RegularExpression Id. */
-  int FACTORIAL = 17;
+  int DIGIT_B11 = 17;
   /** RegularExpression Id. */
-  int PERCENTAGE = 18;
+  int DIGIT_B12 = 18;
   /** RegularExpression Id. */
-  int COMMA = 19;
+  int DIGIT_B13 = 19;
   /** RegularExpression Id. */
-  int SEMICOLON = 20;
+  int DIGIT_B14 = 20;
   /** RegularExpression Id. */
-  int EQ = 21;
+  int DIGIT_B15 = 21;
   /** RegularExpression Id. */
-  int UNIT = 22;
+  int DIGIT_B16 = 22;
   /** RegularExpression Id. */
-  int NEQ = 23;
+  int DIGIT_B17 = 23;
   /** RegularExpression Id. */
-  int LT = 24;
+  int DIGIT_B18 = 24;
   /** RegularExpression Id. */
-  int LEQ = 25;
+  int DIGIT_B19 = 25;
   /** RegularExpression Id. */
-  int GT = 26;
+  int DIGIT_B20 = 26;
   /** RegularExpression Id. */
-  int GEQ = 27;
+  int DIGIT_B21 = 27;
   /** RegularExpression Id. */
-  int OR = 28;
+  int DIGIT_B22 = 28;
   /** RegularExpression Id. */
-  int AND = 29;
+  int DIGIT_B23 = 29;
   /** RegularExpression Id. */
-  int NOT = 30;
+  int DIGIT_B24 = 30;
   /** RegularExpression Id. */
-  int BITNOT = 31;
+  int DIGIT_B25 = 31;
   /** RegularExpression Id. */
-  int IMP = 32;
+  int DIGIT_B26 = 32;
   /** RegularExpression Id. */
-  int CIMP = 33;
+  int DIGIT_B27 = 33;
   /** RegularExpression Id. */
-  int NIMP = 34;
+  int DIGIT_B28 = 34;
   /** RegularExpression Id. */
-  int CNIMP = 35;
+  int DIGIT_B29 = 35;
   /** RegularExpression Id. */
-  int NAND = 36;
+  int DIGIT_B30 = 36;
   /** RegularExpression Id. */
-  int EQV = 37;
+  int DIGIT_B31 = 37;
   /** RegularExpression Id. */
-  int NOR = 38;
+  int DIGIT_B32 = 38;
   /** RegularExpression Id. */
-  int BITWISE = 39;
+  int DIGIT_B33 = 39;
   /** RegularExpression Id. */
-  int XOR = 40;
+  int DIGIT_B34 = 40;
   /** RegularExpression Id. */
-  int CHAR = 41;
+  int DIGIT_B35 = 41;
   /** RegularExpression Id. */
-  int REAL = 42;
+  int DIGIT_B36 = 42;
   /** RegularExpression Id. */
-  int NUMBER = 43;
+  int LETTERS = 43;
   /** RegularExpression Id. */
-  int NUMBER_CONSTANT = 44;
+  int INTEGER = 44;
   /** RegularExpression Id. */
-  int IDENTIFIER = 45;
+  int LEFT_PAR = 45;
   /** RegularExpression Id. */
-  int FUNCTION = 46;
+  int RIGHT_PAR = 46;
   /** RegularExpression Id. */
-  int INVALID_TOKEN = 49;
+  int PLUS = 47;
   /** RegularExpression Id. */
-  int UNEXPECTED_CHAR = 50;
+  int MINUS = 48;
+  /** RegularExpression Id. */
+  int MULTIPLY = 49;
+  /** RegularExpression Id. */
+  int DIV = 50;
+  /** RegularExpression Id. */
+  int POWER = 51;
+  /** RegularExpression Id. */
+  int MODULO = 52;
+  /** RegularExpression Id. */
+  int FACTORIAL = 53;
+  /** RegularExpression Id. */
+  int PERCENTAGE = 54;
+  /** RegularExpression Id. */
+  int COMMA = 55;
+  /** RegularExpression Id. */
+  int SEMICOLON = 56;
+  /** RegularExpression Id. */
+  int EQ = 57;
+  /** RegularExpression Id. */
+  int UNIT = 58;
+  /** RegularExpression Id. */
+  int NEQ = 59;
+  /** RegularExpression Id. */
+  int LT = 60;
+  /** RegularExpression Id. */
+  int LEQ = 61;
+  /** RegularExpression Id. */
+  int GT = 62;
+  /** RegularExpression Id. */
+  int GEQ = 63;
+  /** RegularExpression Id. */
+  int OR = 64;
+  /** RegularExpression Id. */
+  int AND = 65;
+  /** RegularExpression Id. */
+  int NOT = 66;
+  /** RegularExpression Id. */
+  int BITNOT = 67;
+  /** RegularExpression Id. */
+  int IMP = 68;
+  /** RegularExpression Id. */
+  int CIMP = 69;
+  /** RegularExpression Id. */
+  int NIMP = 70;
+  /** RegularExpression Id. */
+  int CNIMP = 71;
+  /** RegularExpression Id. */
+  int NAND = 72;
+  /** RegularExpression Id. */
+  int EQV = 73;
+  /** RegularExpression Id. */
+  int NOR = 74;
+  /** RegularExpression Id. */
+  int BITWISE = 75;
+  /** RegularExpression Id. */
+  int XOR = 76;
+  /** RegularExpression Id. */
+  int CHAR = 77;
+  /** RegularExpression Id. */
+  int DEC_FRACT = 78;
+  /** RegularExpression Id. */
+  int DEC_FRACT_OR_INT = 79;
+  /** RegularExpression Id. */
+  int DECIMAL = 80;
+  /** RegularExpression Id. */
+  int BASE1 = 81;
+  /** RegularExpression Id. */
+  int BASE2 = 82;
+  /** RegularExpression Id. */
+  int BASE3 = 83;
+  /** RegularExpression Id. */
+  int BASE4 = 84;
+  /** RegularExpression Id. */
+  int BASE5 = 85;
+  /** RegularExpression Id. */
+  int BASE6 = 86;
+  /** RegularExpression Id. */
+  int BASE7 = 87;
+  /** RegularExpression Id. */
+  int BASE8 = 88;
+  /** RegularExpression Id. */
+  int BASE9 = 89;
+  /** RegularExpression Id. */
+  int BASE10 = 90;
+  /** RegularExpression Id. */
+  int BASE11 = 91;
+  /** RegularExpression Id. */
+  int BASE12 = 92;
+  /** RegularExpression Id. */
+  int BASE13 = 93;
+  /** RegularExpression Id. */
+  int BASE14 = 94;
+  /** RegularExpression Id. */
+  int BASE15 = 95;
+  /** RegularExpression Id. */
+  int BASE16 = 96;
+  /** RegularExpression Id. */
+  int BASE17 = 97;
+  /** RegularExpression Id. */
+  int BASE18 = 98;
+  /** RegularExpression Id. */
+  int BASE19 = 99;
+  /** RegularExpression Id. */
+  int BASE20 = 100;
+  /** RegularExpression Id. */
+  int BASE21 = 101;
+  /** RegularExpression Id. */
+  int BASE22 = 102;
+  /** RegularExpression Id. */
+  int BASE23 = 103;
+  /** RegularExpression Id. */
+  int BASE24 = 104;
+  /** RegularExpression Id. */
+  int BASE25 = 105;
+  /** RegularExpression Id. */
+  int BASE26 = 106;
+  /** RegularExpression Id. */
+  int BASE27 = 107;
+  /** RegularExpression Id. */
+  int BASE28 = 108;
+  /** RegularExpression Id. */
+  int BASE29 = 109;
+  /** RegularExpression Id. */
+  int BASE30 = 110;
+  /** RegularExpression Id. */
+  int BASE31 = 111;
+  /** RegularExpression Id. */
+  int BASE32 = 112;
+  /** RegularExpression Id. */
+  int BASE33 = 113;
+  /** RegularExpression Id. */
+  int BASE34 = 114;
+  /** RegularExpression Id. */
+  int BASE35 = 115;
+  /** RegularExpression Id. */
+  int BASE36 = 116;
+  /** RegularExpression Id. */
+  int BINARY = 117;
+  /** RegularExpression Id. */
+  int OCTAL = 118;
+  /** RegularExpression Id. */
+  int HEXADECIMAL = 119;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 120;
+  /** RegularExpression Id. */
+  int FUNCTION = 121;
+  /** RegularExpression Id. */
+  int INVALID_TOKEN = 124;
+  /** RegularExpression Id. */
+  int UNEXPECTED_CHAR = 125;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -111,6 +261,42 @@ public interface SyntaxCheckerConstants {
     "\"\\r\"",
     "<LETTER>",
     "<DIGIT>",
+    "\"1\"",
+    "<DIGIT_B2>",
+    "<DIGIT_B3>",
+    "<DIGIT_B4>",
+    "<DIGIT_B5>",
+    "<DIGIT_B6>",
+    "<DIGIT_B7>",
+    "<DIGIT_B8>",
+    "<DIGIT_B9>",
+    "<DIGIT_B10>",
+    "<DIGIT_B11>",
+    "<DIGIT_B12>",
+    "<DIGIT_B13>",
+    "<DIGIT_B14>",
+    "<DIGIT_B15>",
+    "<DIGIT_B16>",
+    "<DIGIT_B17>",
+    "<DIGIT_B18>",
+    "<DIGIT_B19>",
+    "<DIGIT_B20>",
+    "<DIGIT_B21>",
+    "<DIGIT_B22>",
+    "<DIGIT_B23>",
+    "<DIGIT_B24>",
+    "<DIGIT_B25>",
+    "<DIGIT_B26>",
+    "<DIGIT_B27>",
+    "<DIGIT_B28>",
+    "<DIGIT_B29>",
+    "<DIGIT_B30>",
+    "<DIGIT_B31>",
+    "<DIGIT_B32>",
+    "<DIGIT_B33>",
+    "<DIGIT_B34>",
+    "<DIGIT_B35>",
+    "<DIGIT_B36>",
     "<LETTERS>",
     "<INTEGER>",
     "\"(\"",
@@ -146,9 +332,48 @@ public interface SyntaxCheckerConstants {
     "<BITWISE>",
     "\"(+)\"",
     "<CHAR>",
-    "<REAL>",
-    "<NUMBER>",
-    "<NUMBER_CONSTANT>",
+    "<DEC_FRACT>",
+    "<DEC_FRACT_OR_INT>",
+    "<DECIMAL>",
+    "<BASE1>",
+    "<BASE2>",
+    "<BASE3>",
+    "<BASE4>",
+    "<BASE5>",
+    "<BASE6>",
+    "<BASE7>",
+    "<BASE8>",
+    "<BASE9>",
+    "<BASE10>",
+    "<BASE11>",
+    "<BASE12>",
+    "<BASE13>",
+    "<BASE14>",
+    "<BASE15>",
+    "<BASE16>",
+    "<BASE17>",
+    "<BASE18>",
+    "<BASE19>",
+    "<BASE20>",
+    "<BASE21>",
+    "<BASE22>",
+    "<BASE23>",
+    "<BASE24>",
+    "<BASE25>",
+    "<BASE26>",
+    "<BASE27>",
+    "<BASE28>",
+    "<BASE29>",
+    "<BASE30>",
+    "<BASE31>",
+    "<BASE32>",
+    "<BASE33>",
+    "<BASE34>",
+    "<BASE35>",
+    "<BASE36>",
+    "<BINARY>",
+    "<OCTAL>",
+    "<HEXADECIMAL>",
     "<IDENTIFIER>",
     "<FUNCTION>",
     "\"[\"",

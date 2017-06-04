@@ -73,6 +73,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  * @version        4.1.0
  */
 public class KeyWord {
+	public static final int NO_DEFINITION = ConstantValue.NaN;
 	public String wordString;
 	public int	wordId;
 	public int wordTypeId;
@@ -81,8 +82,8 @@ public class KeyWord {
 	public String since;
 	public KeyWord() {
 		wordString = "";
-		wordId = ConstantValue.NaN;
-		wordTypeId = ConstantValue.NaN;
+		wordId = NO_DEFINITION;
+		wordTypeId = NO_DEFINITION;
 		description = "";
 		syntax = "";
 		since = "";

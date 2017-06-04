@@ -75,7 +75,7 @@ public class Token {
 	/**
 	 * Indicator that token was not matched
 	 */
-	public static final int NOT_MATCHED = ConstantValue.NaN;
+	public static final int NOT_MATCHED = KeyWord.NO_DEFINITION;
 	/**
 	 * String token
 	 */

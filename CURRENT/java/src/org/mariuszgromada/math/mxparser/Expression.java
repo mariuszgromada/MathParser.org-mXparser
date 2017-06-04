@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.1.0    2017-05-28
+ * @(#)Expression.java        4.1.0    2017-06-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5938,7 +5938,7 @@ public class Expression {
 		addKeyWord(ParserSymbol.RIGHT_PARENTHESES_STR, ParserSymbol.RIGHT_PARENTHESES_DESC, ParserSymbol.RIGHT_PARENTHESES_ID, ParserSymbol.RIGHT_PARENTHESES_SYN, ParserSymbol.RIGHT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID);
 		addKeyWord(ParserSymbol.COMMA_STR, ParserSymbol.COMMA_DESC, ParserSymbol.COMMA_ID, ParserSymbol.COMMA_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID);
 		addKeyWord(ParserSymbol.SEMI_STR, ParserSymbol.SEMI_DESC, ParserSymbol.COMMA_ID, ParserSymbol.SEMI_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID);
-		addKeyWord(ParserSymbol.NUMBER_REG_EXP, ParserSymbol.NUMBER_REG_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID);
+		addKeyWord(ParserSymbol.DECIMAL_REG_EXP, ParserSymbol.NUMBER_REG_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID);
 	}
 	/**
 	 * Adds arguments key words to the keywords list
@@ -6051,6 +6051,82 @@ public class Expression {
 		keyWordsList.add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 	}
 	/**
+	 * Checks whether unknown token represents number literal
+	 * provided in different numeral base system, where
+	 * base is between 1 and 36.
+	 *
+	 * @param token   The not know to the parser
+	 */
+	private void checkOtherNumberBases(Token token) {
+		int dotPos = 0;
+		int tokenStrLength = token.tokenStr.length();
+		/* find dot position */
+		if (tokenStrLength >= 2) {
+			if ( token.tokenStr.charAt(1) == '.' )
+				dotPos = 1;
+		}
+		if ( (dotPos == 0) && (tokenStrLength >= 3) ) {
+			if ( token.tokenStr.charAt(2) == '.' )
+				dotPos = 2;
+		}
+		if ( (dotPos == 0) && (tokenStrLength >= 4) ) {
+			if ( token.tokenStr.charAt(3) == '.' )
+				dotPos = 3;
+		}
+		if (dotPos == 0) return;
+		/* check if there is base indicator */
+		String baseInd = token.tokenStr.substring(0, dotPos).toLowerCase();
+		String numberLiteral = "";
+		if (tokenStrLength > dotPos+1) numberLiteral = token.tokenStr.substring(dotPos+1);
+		int base = 0;
+		/* evaluate numeral system base */
+		if ( baseInd.equals("b") ) base = 2;
+		else if ( baseInd.equals("o") ) base = 8;
+		else if ( baseInd.equals("h") ) base = 16;
+		else if ( baseInd.equals("b1") ) base = 1;
+		else if ( baseInd.equals("b2") ) base = 2;
+		else if ( baseInd.equals("b3") ) base = 3;
+		else if ( baseInd.equals("b4") ) base = 4;
+		else if ( baseInd.equals("b5") ) base = 5;
+		else if ( baseInd.equals("b6") ) base = 6;
+		else if ( baseInd.equals("b7") ) base = 7;
+		else if ( baseInd.equals("b8") ) base = 8;
+		else if ( baseInd.equals("b9") ) base = 9;
+		else if ( baseInd.equals("b10") ) base = 10;
+		else if ( baseInd.equals("b11") ) base = 11;
+		else if ( baseInd.equals("b12") ) base = 12;
+		else if ( baseInd.equals("b13") ) base = 13;
+		else if ( baseInd.equals("b14") ) base = 14;
+		else if ( baseInd.equals("b15") ) base = 15;
+		else if ( baseInd.equals("b16") ) base = 16;
+		else if ( baseInd.equals("b17") ) base = 17;
+		else if ( baseInd.equals("b18") ) base = 18;
+		else if ( baseInd.equals("b19") ) base = 19;
+		else if ( baseInd.equals("b20") ) base = 20;
+		else if ( baseInd.equals("b21") ) base = 21;
+		else if ( baseInd.equals("b22") ) base = 22;
+		else if ( baseInd.equals("b23") ) base = 23;
+		else if ( baseInd.equals("b24") ) base = 24;
+		else if ( baseInd.equals("b25") ) base = 25;
+		else if ( baseInd.equals("b26") ) base = 26;
+		else if ( baseInd.equals("b27") ) base = 27;
+		else if ( baseInd.equals("b28") ) base = 28;
+		else if ( baseInd.equals("b29") ) base = 29;
+		else if ( baseInd.equals("b30") ) base = 30;
+		else if ( baseInd.equals("b31") ) base = 31;
+		else if ( baseInd.equals("b32") ) base = 32;
+		else if ( baseInd.equals("b33") ) base = 33;
+		else if ( baseInd.equals("b34") ) base = 34;
+		else if ( baseInd.equals("b35") ) base = 35;
+		else if ( baseInd.equals("b36") ) base = 36;
+		/* if base was found, perform conversion */
+		if ( (base > 0) && (base <= 36) ) {
+			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+			token.tokenId = ParserSymbol.NUMBER_ID;
+			token.tokenValue = mXparser.convOthBase2Decimal(numberLiteral, base);
+		}
+	}
+	/**
 	 * Adds expression token
 	 * Method is called by the tokenExpressionString()
 	 * while parsing string expression
@@ -6063,15 +6139,16 @@ public class Expression {
 		initialTokens.add(token);
 		token.tokenStr = tokenStr;
 		token.keyWord = keyWord.wordString;
-		token.tokenId = keyWord.wordId;
 		token.tokenTypeId = keyWord.wordTypeId;
+		token.tokenId = keyWord.wordId;
 		if (token.tokenTypeId == Argument.TYPE_ID)
 			token.tokenValue = argumentsList.get(token.tokenId).argumentValue;
-		else
-			if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+		else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 				token.tokenValue = Double.valueOf(token.tokenStr);
 				token.keyWord = ParserSymbol.NUMBER_STR;
-			}
+		} else if (token.tokenTypeId == Token.NOT_MATCHED) {
+			checkOtherNumberBases(token);
+		}
 	}
 	/**
 	 * Tokenizing expression string
@@ -6197,7 +6274,7 @@ public class Expression {
 					 * Checking if substring represents number
 					 */
 					String str = newExpressionString.substring(pos, i+1);
-					if ( mXparser.regexMatch(str, ParserSymbol.NUMBER_REG_EXP) )
+					if ( mXparser.regexMatch(str, ParserSymbol.DECIMAL_REG_EXP) )
 						numEnd = i;
 				}
 			}
