@@ -187,7 +187,7 @@ public final class ParserSymbol {
 	public static final String RIGHT_PARENTHESES_SYN		= "( ... )";
 	public static final String COMMA_SYN					= "(a1, ... ,an)";
 	public static final String SEMI_SYN						= "(a1; ... ;an)";
-	public static final String NUMBER_SYN					= "1, -2, 001, +001.2e-10, ...";
+	public static final String NUMBER_SYN					= "1, -2, 001, +001.2e-10, b1.111, b2.1001, b3.12021, b16.af12, ...";
 	/*
 	 * ParserSymbol - tokens description.
 	 */
@@ -197,9 +197,6 @@ public final class ParserSymbol {
 	public static final String SEMI_DESC					= "Semicolon (function parameters)";
 	public static final String NUMBER_DESC					= "Decimal number";
 	public static final String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
-	public static final String HEXADECIMAL_DESC				= "Regullar expression for hexadecimal numbers";
-	public static final String OCTAL_DESC					= "Regullar expression for octal numbers";
-	public static final String BINARY_DESC					= "Regullar expression for binary numbers";
 	/*
 	 * ParserSymbol - since.
 	 */
@@ -208,7 +205,4 @@ public final class ParserSymbol {
 	public static final String COMMA_SINCE					= mXparser.NAMEv10;
 	public static final String SEMI_SINCE					= mXparser.NAMEv10;
 	public static final String NUMBER_SINCE					= mXparser.NAMEv10;
-	public static final String HEXADECIMAL_SINCE			= mXparser.NAMEv41;
-	public static final String OCTAL_SINCE					= mXparser.NAMEv41;
-	public static final String BINARY_SINCE					= mXparser.NAMEv41;
 }

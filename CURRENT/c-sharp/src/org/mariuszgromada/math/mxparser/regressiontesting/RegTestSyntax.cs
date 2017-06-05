@@ -80,7 +80,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	{
 		private static Expression[] exp;
 		private static bool runTest(int testId) {
-			mXparser.consolePrintln("[" + testId + "] ----------------------------------------------");
+			mXparser.consolePrint("[" + testId + "] ");
 			bool testResult = false;
 			bool syn;
 			bool reg;
@@ -1490,6 +1490,886 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
+			case 119:
+				expStr = "h.1234567890aBcDeF + H.001234567890aBcDeF";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 120:
+				expStr = "o.12345670 + O.0012345670";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 121:
+				expStr = "b.101010 + B.000101010";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 122:
+				expStr = "h.1234567890aBcDeFu + y.001234567890aBcDeF";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 123:
+				expStr = "o.123456708 + O.00123456709";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 124:
+				expStr = "b.2101010 + B.0001010103";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 125:
+				expStr = "b1. + B1.111";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 126:
+				expStr = "b1.111 + B1.1101";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 127:
+				expStr = "b2.01 + B2.0101";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 128:
+				expStr = "b2.012 + B2.0101";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 129:
+				expStr = "b3.012 + B3.0012";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 130:
+				expStr = "b3.012 + B3.00123";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 131:
+				expStr = "b4.0123 + B4.00123";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 132:
+				expStr = "b4.01234 + B4.00123";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 133:
+				expStr = "b5.01234 + B5.001234";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 134:
+				expStr = "b5.012345 + B5.001234";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 135:
+				expStr = "b6.012345 + B6.0012345";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 136:
+				expStr = "b6.012345 + B6.00123456";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 137:
+				expStr = "b7.0123456 + B7.00123456";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 138:
+				expStr = "b7.0123456 + B7.001234568";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 139:
+				expStr = "b8.01234567 + B8.001234567";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 140:
+				expStr = "b8.01234567 + B8.0012345679";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 141:
+				expStr = "b9.012345678 + B9.0012345678";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 142:
+				expStr = "b9.0123456789 + B9.0012345678";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 143:
+				expStr = "b10.0123456789 + B10.00123456789";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 144:
+				expStr = "b10.0123456789 + B10.00123456789a";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 145:
+				expStr = "b11.0123456789a + B11.00123456789A";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 146:
+				expStr = "b11.0123456789a + B11.00123456789Ab";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 147:
+				expStr = "b12.0123456789ab + B12.00123456789AB";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 148:
+				expStr = "b12.0123456789abC + B12.00123456789AB";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 149:
+				expStr = "b13.0123456789abc + B13.00123456789ABC";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 150:
+				expStr = "b13.0123456789abc + B13.00123456789ABCd";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 151:
+				expStr = "b14.0123456789abcd + B14.00123456789ABCD";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 152:
+				expStr = "b14.0123456789abcdE + B14.00123456789ABCD";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 153:
+				expStr = "b15.0123456789abcde + B15.00123456789ABCDE";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 154:
+				expStr = "b15.0123456789abcde + B15.00123456789ABCDEf";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 155:
+				expStr = "b16.0123456789abcdef + B16.00123456789ABCDEF";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 156:
+				expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 157:
+				expStr = "b16.0123456789abcdef + B16.00123456789ABCDEF";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 158:
+				expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 159:
+				expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFG";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 160:
+				expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFGh";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 161:
+				expStr = "b18.0123456789abcdefgh + B18.00123456789ABCDEFGH";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 162:
+				expStr = "b18.0123456789abcdefghI + B18.00123456789ABCDEFGH";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 163:
+				expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGI";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 164:
+				expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGIj";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 165:
+				expStr = "b20.0123456789abcdefghij + B20.00123456789ABCDEFGIJ";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 166:
+				expStr = "b20.0123456789abcdefghijK + B20.00123456789ABCDEFGIJ";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 167:
+				expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJK";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 168:
+				expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJKl";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 169:
+				expStr = "b22.0123456789abcdefghijkl + B22.00123456789ABCDEFGIJKL";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 170:
+				expStr = "b22.0123456789abcdefghijklM + B22.00123456789ABCDEFGIJKL";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 171:
+				expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLM";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 172:
+				expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLMn";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 173:
+				expStr = "b24.0123456789abcdefghijklmn + B24.00123456789ABCDEFGIJKLMN";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 174:
+				expStr = "b24.0123456789abcdefghijklmnO + B24.00123456789ABCDEFGIJKLMN";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 175:
+				expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNO";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 176:
+				expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNOp";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 177:
+				expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOP";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 178:
+				expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOPq";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 179:
+				expStr = "b27.0123456789abcdefghijklmnopq + B27.00123456789ABCDEFGIJKLMNOPQ";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 180:
+				expStr = "b27.0123456789abcdefghijklmnopqR + B27.00123456789ABCDEFGIJKLMNOPQ";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 181:
+				expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQR";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 182:
+				expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQRs";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 183:
+				expStr = "b29.0123456789abcdefghijklmnopqrs + B29.00123456789ABCDEFGIJKLMNOPQRS";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 184:
+				expStr = "b29.0123456789abcdefghijklmnopqrsT + B29.00123456789ABCDEFGIJKLMNOPQRS";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 185:
+				expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRST";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 186:
+				expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRSTu";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 187:
+				expStr = "b31.0123456789abcdefghijklmnopqrstu + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 188:
+				expStr = "b31.0123456789abcdefghijklmnopqrstuV + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 189:
+				expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUV";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 190:
+				expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUVw";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 191:
+				expStr = "b33.0123456789abcdefghijklmnopqrstuvw + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 192:
+				expStr = "b33.0123456789abcdefghijklmnopqrstuvwX + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 193:
+				expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWX";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 194:
+				expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWXy";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 195:
+				expStr = "b35.0123456789abcdefghijklmnopqrstuvwxy + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 196:
+				expStr = "b35.0123456789abcdefghijklmnopqrstuvwxyZ + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 197:
+				expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyz + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = true;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 198:
+				expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyz¹ + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				reg = false;
+				syn = e.checkSyntax();
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -1501,7 +2381,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * Runs syntax checking regression test.
 		 */
 		public static int Start() {
-			int numberOfTests = 118;
+			int numberOfTests = 198;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
@@ -1515,10 +2395,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					nOk++;
 				else
 					nError++;
-				mXparser.consolePrintln("\n");
-				mXparser.consolePrintln(exp[testId].getErrorMessage());
 				mXparser.consolePrintln(", time: " + exp[testId].getComputingTime() + " s.");
-				mXparser.consolePrintln("---------------------------------------------- [" + testId + "]");
 			}
 			long end =  mXparser.currentTimeMillis();
 			mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");

@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        4.0.0    2017-03-19
+ * @(#)Token.java        4.1.0    2017-06-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.1.0
  */
 public class Token {
 	/**

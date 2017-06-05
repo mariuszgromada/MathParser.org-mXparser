@@ -23,10 +23,49 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case UNIT:
     case NOT:
     case BITNOT:
-    case NUMBER_CONSTANT:
+    case DECIMAL:
+    case BASE1:
+    case BASE2:
+    case BASE3:
+    case BASE4:
+    case BASE5:
+    case BASE6:
+    case BASE7:
+    case BASE8:
+    case BASE9:
+    case BASE10:
+    case BASE11:
+    case BASE12:
+    case BASE13:
+    case BASE14:
+    case BASE15:
+    case BASE16:
+    case BASE17:
+    case BASE18:
+    case BASE19:
+    case BASE20:
+    case BASE21:
+    case BASE22:
+    case BASE23:
+    case BASE24:
+    case BASE25:
+    case BASE26:
+    case BASE27:
+    case BASE28:
+    case BASE29:
+    case BASE30:
+    case BASE31:
+    case BASE32:
+    case BASE33:
+    case BASE34:
+    case BASE35:
+    case BASE36:
+    case BINARY:
+    case OCTAL:
+    case HEXADECIMAL:
     case IDENTIFIER:
     case FUNCTION:
-    case 47:
+    case 122:
       expression();
       jj_consume_token(0);
       break;
@@ -39,7 +78,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif      
+		#endif        
     }
   }
 
@@ -87,7 +126,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         goto label_1;
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif          
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case PLUS:
@@ -188,7 +227,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif          
       }
     }
     label_1: ;
@@ -216,7 +255,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif          
       }
       break;
     default:
@@ -246,7 +285,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif          
       }
       break;
     default:
@@ -277,7 +316,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif          
       }
       break;
     default:
@@ -286,21 +325,166 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       
     }
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
-    case NUMBER_CONSTANT:
-      jj_consume_token(NUMBER_CONSTANT);
-      break;
-    case UNIT:
-    case IDENTIFIER:
-    case FUNCTION:
-    case 47:
+    case DECIMAL:
+    case BASE1:
+    case BASE2:
+    case BASE3:
+    case BASE4:
+    case BASE5:
+    case BASE6:
+    case BASE7:
+    case BASE8:
+    case BASE9:
+    case BASE10:
+    case BASE11:
+    case BASE12:
+    case BASE13:
+    case BASE14:
+    case BASE15:
+    case BASE16:
+    case BASE17:
+    case BASE18:
+    case BASE19:
+    case BASE20:
+    case BASE21:
+    case BASE22:
+    case BASE23:
+    case BASE24:
+    case BASE25:
+    case BASE26:
+    case BASE27:
+    case BASE28:
+    case BASE29:
+    case BASE30:
+    case BASE31:
+    case BASE32:
+    case BASE33:
+    case BASE34:
+    case BASE35:
+    case BASE36:
+    case BINARY:
+    case OCTAL:
+    case HEXADECIMAL:
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
-      case UNIT:
-      case IDENTIFIER:
-      case 47:
-        identifierGr();
+      case DECIMAL:
+        jj_consume_token(DECIMAL);
         break;
-      case FUNCTION:
-        jj_consume_token(FUNCTION);
+      case HEXADECIMAL:
+        jj_consume_token(HEXADECIMAL);
+        break;
+      case OCTAL:
+        jj_consume_token(OCTAL);
+        break;
+      case BINARY:
+        jj_consume_token(BINARY);
+        break;
+      case BASE1:
+        jj_consume_token(BASE1);
+        break;
+      case BASE2:
+        jj_consume_token(BASE2);
+        break;
+      case BASE3:
+        jj_consume_token(BASE3);
+        break;
+      case BASE4:
+        jj_consume_token(BASE4);
+        break;
+      case BASE5:
+        jj_consume_token(BASE5);
+        break;
+      case BASE6:
+        jj_consume_token(BASE6);
+        break;
+      case BASE7:
+        jj_consume_token(BASE7);
+        break;
+      case BASE8:
+        jj_consume_token(BASE8);
+        break;
+      case BASE9:
+        jj_consume_token(BASE9);
+        break;
+      case BASE10:
+        jj_consume_token(BASE10);
+        break;
+      case BASE11:
+        jj_consume_token(BASE11);
+        break;
+      case BASE12:
+        jj_consume_token(BASE12);
+        break;
+      case BASE13:
+        jj_consume_token(BASE13);
+        break;
+      case BASE14:
+        jj_consume_token(BASE14);
+        break;
+      case BASE15:
+        jj_consume_token(BASE15);
+        break;
+      case BASE16:
+        jj_consume_token(BASE16);
+        break;
+      case BASE17:
+        jj_consume_token(BASE17);
+        break;
+      case BASE18:
+        jj_consume_token(BASE18);
+        break;
+      case BASE19:
+        jj_consume_token(BASE19);
+        break;
+      case BASE20:
+        jj_consume_token(BASE20);
+        break;
+      case BASE21:
+        jj_consume_token(BASE21);
+        break;
+      case BASE22:
+        jj_consume_token(BASE22);
+        break;
+      case BASE23:
+        jj_consume_token(BASE23);
+        break;
+      case BASE24:
+        jj_consume_token(BASE24);
+        break;
+      case BASE25:
+        jj_consume_token(BASE25);
+        break;
+      case BASE26:
+        jj_consume_token(BASE26);
+        break;
+      case BASE27:
+        jj_consume_token(BASE27);
+        break;
+      case BASE28:
+        jj_consume_token(BASE28);
+        break;
+      case BASE29:
+        jj_consume_token(BASE29);
+        break;
+      case BASE30:
+        jj_consume_token(BASE30);
+        break;
+      case BASE31:
+        jj_consume_token(BASE31);
+        break;
+      case BASE32:
+        jj_consume_token(BASE32);
+        break;
+      case BASE33:
+        jj_consume_token(BASE33);
+        break;
+      case BASE34:
+        jj_consume_token(BASE34);
+        break;
+      case BASE35:
+        jj_consume_token(BASE35);
+        break;
+      case BASE36:
+        jj_consume_token(BASE36);
         break;
       default:
         jj_la1[9] = jj_gen;
@@ -308,7 +492,29 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif          
+      }
+      break;
+    case UNIT:
+    case IDENTIFIER:
+    case FUNCTION:
+    case 122:
+      switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+      case UNIT:
+      case IDENTIFIER:
+      case 122:
+        identifierGr();
+        break;
+      case FUNCTION:
+        jj_consume_token(FUNCTION);
+        break;
+      default:
+        jj_la1[10] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
+			break;
+		#endif          
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case LEFT_PAR:
@@ -317,7 +523,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_consume_token(RIGHT_PAR);
         break;
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[11] = jj_gen;
         ;break;
         
       }
@@ -328,12 +534,12 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_consume_token(RIGHT_PAR);
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif        
     }
   }
 
@@ -348,10 +554,49 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case UNIT:
     case NOT:
     case BITNOT:
-    case NUMBER_CONSTANT:
+    case DECIMAL:
+    case BASE1:
+    case BASE2:
+    case BASE3:
+    case BASE4:
+    case BASE5:
+    case BASE6:
+    case BASE7:
+    case BASE8:
+    case BASE9:
+    case BASE10:
+    case BASE11:
+    case BASE12:
+    case BASE13:
+    case BASE14:
+    case BASE15:
+    case BASE16:
+    case BASE17:
+    case BASE18:
+    case BASE19:
+    case BASE20:
+    case BASE21:
+    case BASE22:
+    case BASE23:
+    case BASE24:
+    case BASE25:
+    case BASE26:
+    case BASE27:
+    case BASE28:
+    case BASE29:
+    case BASE30:
+    case BASE31:
+    case BASE32:
+    case BASE33:
+    case BASE34:
+    case BASE35:
+    case BASE36:
+    case BINARY:
+    case OCTAL:
+    case HEXADECIMAL:
     case IDENTIFIER:
     case FUNCTION:
-    case 47:
+    case 122:
       expression();
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
@@ -360,11 +605,11 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           ;
           break;
         default:
-          jj_la1[12] = jj_gen;
+          jj_la1[13] = jj_gen;
           goto label_2;
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif            
         }
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case COMMA:
@@ -374,12 +619,12 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           jj_consume_token(SEMICOLON);
           break;
         default:
-          jj_la1[13] = jj_gen;
+          jj_la1[14] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif            
         }
         expression();
       }
@@ -387,7 +632,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[15] = jj_gen;
       ;break;
       
     }
@@ -404,8 +649,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case UNIT:
       jj_consume_token(UNIT);
       break;
-    case 47:
-      jj_consume_token(47);
+    case 122:
+      jj_consume_token(122);
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case CHAR:
@@ -429,15 +674,15 @@ public class SyntaxChecker : SyntaxCheckerConstants {
             case OR:
             case AND:
             case NOT:
-            case NUMBER_CONSTANT:
+            case DECIMAL:
               ;
               break;
             default:
-              jj_la1[15] = jj_gen;
+              jj_la1[16] = jj_gen;
               goto label_4;
 			#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 				break;
-			#endif
+			#endif                
             }
             switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
             case NOT:
@@ -482,28 +727,28 @@ public class SyntaxChecker : SyntaxCheckerConstants {
             case LT:
               jj_consume_token(LT);
               break;
-            case NUMBER_CONSTANT:
-              jj_consume_token(NUMBER_CONSTANT);
+            case DECIMAL:
+              jj_consume_token(DECIMAL);
               break;
             default:
-              jj_la1[16] = jj_gen;
+              jj_la1[17] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
 			#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 				break;
-			#endif
+			#endif                
             }
           }
           label_4: ;
           
           break;
         default:
-          jj_la1[17] = jj_gen;
+          jj_la1[18] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif            
         }
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case CHAR:
@@ -511,24 +756,24 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           ;
           break;
         default:
-          jj_la1[18] = jj_gen;
+          jj_la1[19] = jj_gen;
           goto label_3;
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif            
         }
       }
       label_3: ;
       
-      jj_consume_token(48);
+      jj_consume_token(123);
       break;
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[20] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
 		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
 			break;
-		#endif
+		#endif        
     }
   }
 
@@ -537,18 +782,28 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   public Token token, jj_nt;
   private long jj_ntk;
   private long jj_gen;
-  private long[] jj_la1 = new long[20];
+  private long[] jj_la1 = new long[21];
   static private long[] jj_la1_0;
   static private long[] jj_la1_1;
+  static private long[] jj_la1_2;
+  static private long[] jj_la1_3;
   static SyntaxChecker(){
       jj_la1_init_0();
       jj_la1_init_1();
+      jj_la1_init_2();
+      jj_la1_init_3();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new long[] {0xc0401a01,0x3fa1f800,0x3fa1f800,0x60000,0x60000,0xc0000000,0xc0000000,0x1800,0x1800,0x400000,0x200,0x400200,0x180000,0x180000,0xc0401a00,0x7509fe00,0x7509fe00,0x0,0x0,0x400000,};
+      jj_la1_0 = new long[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new long[] {0xf000,0x1ff,0x1ff,0x0,0x0,0x0,0x0,0x0,0x0,0xe000,0x0,0xf000,0x0,0x0,0xf000,0x1000,0x1000,0x2200,0x2200,0xa000,};
+      jj_la1_1 = new long[] {0x401a000,0xfa1f8000,0xfa1f8000,0x600000,0x600000,0x0,0x0,0x18000,0x18000,0x0,0x4000000,0x2000,0x4002000,0x1800000,0x1800000,0x401a000,0x509fe000,0x509fe000,0x0,0x0,0x4000000,};
+   }
+   private static void jj_la1_init_2() {
+      jj_la1_2 = new long[] {0xffff000c,0x1ff3,0x1ff3,0x0,0x0,0xc,0xc,0x0,0x0,0xffff0000,0x0,0x0,0xffff0000,0x0,0x0,0xffff000c,0x10007,0x10007,0x2000,0x2000,0x0,};
+   }
+   private static void jj_la1_init_3() {
+      jj_la1_3 = new long[] {0x7ffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xffffff,0x7000000,0x0,0x7ffffff,0x0,0x0,0x7ffffff,0x0,0x0,0x1000000,0x1000000,0x5000000,};
    }
 
   public SyntaxChecker(System.IO.Stream stream) {
@@ -557,7 +812,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 21; i++) jj_la1[i] = -1;
   }
 
   public void ReInit(System.IO.Stream stream) {
@@ -566,7 +821,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 21; i++) jj_la1[i] = -1;
   }
 
   public SyntaxChecker(System.IO.TextReader stream) {
@@ -575,7 +830,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 21; i++) jj_la1[i] = -1;
   }
 
   public void ReInit(System.IO.TextReader stream) {
@@ -584,7 +839,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 21; i++) jj_la1[i] = -1;
   }
 
   public SyntaxChecker(SyntaxCheckerTokenManager tm) {
@@ -592,7 +847,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 21; i++) jj_la1[i] = -1;
   }
 
   public void ReInit(SyntaxCheckerTokenManager tm) {
@@ -600,7 +855,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 20; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 21; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind){
@@ -647,15 +902,15 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   public ParseException generateParseException() {
     jj_expentries.Clear();
-    bool[] la1tokens = new bool[51];
-    for (int i = 0; i < 51; i++) {
+    bool[] la1tokens = new bool[126];
+    for (int i = 0; i < 126; i++) {
       la1tokens[i] = false;
     }
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 21; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -664,10 +919,16 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           if ((jj_la1_1[i] & (1<<j)) != 0) {
             la1tokens[32+j] = true;
           }
+          if ((jj_la1_2[i] & (1<<j)) != 0) {
+            la1tokens[64+j] = true;
+          }
+          if ((jj_la1_3[i] & (1<<j)) != 0) {
+            la1tokens[96+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 51; i++) {
+    for (int i = 0; i < 126; i++) {
       if (la1tokens[i]) {
         jj_expentry = new long[1];
         jj_expentry[0] = i;

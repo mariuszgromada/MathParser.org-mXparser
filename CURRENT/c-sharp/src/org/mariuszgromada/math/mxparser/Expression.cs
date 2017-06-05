@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.1.0    2017-05-14
+ * @(#)Expression.cs        4.1.0    2017-06-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5924,7 +5924,7 @@ namespace org.mariuszgromada.math.mxparser {
 			addKeyWord(ParserSymbol.RIGHT_PARENTHESES_STR, ParserSymbol.RIGHT_PARENTHESES_DESC, ParserSymbol.RIGHT_PARENTHESES_ID, ParserSymbol.RIGHT_PARENTHESES_SYN, ParserSymbol.RIGHT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID);
 			addKeyWord(ParserSymbol.COMMA_STR, ParserSymbol.COMMA_DESC, ParserSymbol.COMMA_ID, ParserSymbol.COMMA_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID);
 			addKeyWord(ParserSymbol.SEMI_STR, ParserSymbol.SEMI_DESC, ParserSymbol.COMMA_ID, ParserSymbol.SEMI_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID);
-			addKeyWord(ParserSymbol.NUMBER_REG_EXP, ParserSymbol.NUMBER_REG_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID);
+			addKeyWord(ParserSymbol.DECIMAL_REG_EXP, ParserSymbol.NUMBER_REG_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID);
 		}
 		/**
 		 * Adds arguments key words to the keywords list
@@ -6037,6 +6037,82 @@ namespace org.mariuszgromada.math.mxparser {
 			keyWordsList.Add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 		}
 		/**
+		 * Checks whether unknown token represents number literal
+		 * provided in different numeral base system, where
+		 * base is between 1 and 36.
+		 *
+		 * @param token   The not know to the parser
+		 */
+		private void checkOtherNumberBases(Token token) {
+			int dotPos = 0;
+			int tokenStrLength = token.tokenStr.Length;
+			/* find dot position */
+			if (tokenStrLength >= 2) {
+				if (token.tokenStr[1] == '.')
+					dotPos = 1;
+			}
+			if ((dotPos == 0) && (tokenStrLength >= 3)) {
+				if (token.tokenStr[2] == '.')
+					dotPos = 2;
+			}
+			if ((dotPos == 0) && (tokenStrLength >= 4)) {
+				if (token.tokenStr[3] == '.')
+					dotPos = 3;
+			}
+			if (dotPos == 0) return;
+			/* check if there is base indicator */
+			String baseInd = token.tokenStr.Substring(0, dotPos).ToLower();
+			String numberLiteral = "";
+			if (tokenStrLength > dotPos + 1) numberLiteral = token.tokenStr.Substring(dotPos + 1);
+			int numeralSystemBase = 0;
+			/* evaluate numeral system base */
+			if (baseInd.Equals("b")) numeralSystemBase = 2;
+			else if (baseInd.Equals("o")) numeralSystemBase = 8;
+			else if (baseInd.Equals("h")) numeralSystemBase = 16;
+			else if (baseInd.Equals("b1")) numeralSystemBase = 1;
+			else if (baseInd.Equals("b2")) numeralSystemBase = 2;
+			else if (baseInd.Equals("b3")) numeralSystemBase = 3;
+			else if (baseInd.Equals("b4")) numeralSystemBase = 4;
+			else if (baseInd.Equals("b5")) numeralSystemBase = 5;
+			else if (baseInd.Equals("b6")) numeralSystemBase = 6;
+			else if (baseInd.Equals("b7")) numeralSystemBase = 7;
+			else if (baseInd.Equals("b8")) numeralSystemBase = 8;
+			else if (baseInd.Equals("b9")) numeralSystemBase = 9;
+			else if (baseInd.Equals("b10")) numeralSystemBase = 10;
+			else if (baseInd.Equals("b11")) numeralSystemBase = 11;
+			else if (baseInd.Equals("b12")) numeralSystemBase = 12;
+			else if (baseInd.Equals("b13")) numeralSystemBase = 13;
+			else if (baseInd.Equals("b14")) numeralSystemBase = 14;
+			else if (baseInd.Equals("b15")) numeralSystemBase = 15;
+			else if (baseInd.Equals("b16")) numeralSystemBase = 16;
+			else if (baseInd.Equals("b17")) numeralSystemBase = 17;
+			else if (baseInd.Equals("b18")) numeralSystemBase = 18;
+			else if (baseInd.Equals("b19")) numeralSystemBase = 19;
+			else if (baseInd.Equals("b20")) numeralSystemBase = 20;
+			else if (baseInd.Equals("b21")) numeralSystemBase = 21;
+			else if (baseInd.Equals("b22")) numeralSystemBase = 22;
+			else if (baseInd.Equals("b23")) numeralSystemBase = 23;
+			else if (baseInd.Equals("b24")) numeralSystemBase = 24;
+			else if (baseInd.Equals("b25")) numeralSystemBase = 25;
+			else if (baseInd.Equals("b26")) numeralSystemBase = 26;
+			else if (baseInd.Equals("b27")) numeralSystemBase = 27;
+			else if (baseInd.Equals("b28")) numeralSystemBase = 28;
+			else if (baseInd.Equals("b29")) numeralSystemBase = 29;
+			else if (baseInd.Equals("b30")) numeralSystemBase = 30;
+			else if (baseInd.Equals("b31")) numeralSystemBase = 31;
+			else if (baseInd.Equals("b32")) numeralSystemBase = 32;
+			else if (baseInd.Equals("b33")) numeralSystemBase = 33;
+			else if (baseInd.Equals("b34")) numeralSystemBase = 34;
+			else if (baseInd.Equals("b35")) numeralSystemBase = 35;
+			else if (baseInd.Equals("b36")) numeralSystemBase = 36;
+			/* if base was found, perform conversion */
+			if ((numeralSystemBase > 0) && (numeralSystemBase <= 36)) {
+				token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+				token.tokenId = ParserSymbol.NUMBER_ID;
+				token.tokenValue = mXparser.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+			}
+		}
+		/**
 		 * Adds expression token
 		 * Method is called by the tokenExpressionString()
 		 * while parsing string expression
@@ -6053,11 +6129,12 @@ namespace org.mariuszgromada.math.mxparser {
 			token.tokenTypeId = keyWord.wordTypeId;
 			if (token.tokenTypeId == Argument.TYPE_ID)
 				token.tokenValue = argumentsList[token.tokenId].argumentValue;
-			else
-				if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+			else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					token.tokenValue = Double.Parse(token.tokenStr, NumberStyles.Float, CultureInfo.InvariantCulture);
 					token.keyWord = ParserSymbol.NUMBER_STR;
-				}
+			} else if (token.tokenTypeId == Token.NOT_MATCHED) {
+				checkOtherNumberBases(token);
+			}
 		}
 		/**
 		 * Tokenizing expressiong string

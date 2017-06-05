@@ -2403,10 +2403,7 @@ public class RegTestSyntax {
 				nOk++;
 			else
 				nError++;
-			//mXparser.consolePrintln("\n");
-			//mXparser.consolePrintln(exp[testId].getErrorMessage());
 			mXparser.consolePrintln(", time: " + exp[testId].getComputingTime() + " s.");
-			//mXparser.consolePrintln("---------------------------------------------- [" + testId + "]");
 		}
         long end =  System.currentTimeMillis();
 		mXparser.consolePrintln("OK : " + nOk + ", ERRORs: " + nError + ", total time: " + (end-start)/1000.0 + " s.");

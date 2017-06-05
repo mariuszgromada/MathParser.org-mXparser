@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.cs        4.1.0    2017-05-28
+ * @(#)KeyWord.cs        4.1.0    2017-06-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
      */
     [CLSCompliant(true)]
     public class KeyWord {
-        public String wordString;
+		public const int NO_DEFINITION = ConstantValue.NaN;
+		public String wordString;
         public int wordId;
         public int wordTypeId;
         public String description;
@@ -82,8 +83,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
         public String since;
         public KeyWord() {
             wordString = "";
-            wordId = ConstantValue.NaN;
-            wordTypeId = ConstantValue.NaN;
+            wordId = NO_DEFINITION;
+            wordTypeId = NO_DEFINITION;
             description = "";
             syntax = "";
             since = "";

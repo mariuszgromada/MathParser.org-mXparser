@@ -986,9 +986,9 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimal = -10000; decimal < 10000; decimal++)
-			for (int base = 1; base <= 36; base ++)
-				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimal, base), base ) != decimal) {
+		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++)
+				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimalNumber, numeralSystemBase), numeralSystemBase ) != decimalNumber) {
 					test[testId] = false;
 					break;
 				}
@@ -1027,9 +1027,9 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimal = -10000; decimal < 10000; decimal++)
-			for (int base = 1; base <= 36; base ++)
-				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimal, base, 1) ) != decimal) {
+		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++)
+				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimalNumber, numeralSystemBase, 1) ) != decimalNumber) {
 					test[testId] = false;
 					break;
 				}
@@ -1038,9 +1038,9 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimal = -10000; decimal < 10000; decimal++)
-			for (int base = 1; base <= 36; base ++)
-				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimal, base, 2) ) != decimal) {
+		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++)
+				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimalNumber, numeralSystemBase, 2) ) != decimalNumber) {
 					test[testId] = false;
 					break;
 				}
@@ -1049,9 +1049,9 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimal = -10000; decimal < 10000; decimal++)
-			for (int base = 1; base <= 36; base ++)
-				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimal, base, 0), base ) != decimal) {
+		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++)
+				if ( mXparser.convOthBase2Decimal( mXparser.convDecimal2OthBase(decimalNumber, numeralSystemBase, 0), numeralSystemBase ) != decimalNumber) {
 					test[testId] = false;
 					break;
 				}

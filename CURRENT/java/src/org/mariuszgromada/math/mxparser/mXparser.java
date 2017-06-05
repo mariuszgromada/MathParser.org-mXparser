@@ -913,12 +913,12 @@ public final class mXparser {
      * Return regular expression representing number literal
      * string in given numeral system with base between 1 and 36.
      *
-     * @param base    Base of numeral system, base between 1 and 36
+     * @param numeralSystemBase    Base of numeral system, base between 1 and 36
      * @return        Regular expression string if base between 1 and 36,
      *                otherwise empty string "" is returned.
      */
-	private static final String getRegExpForNumeralSystem(int base) {
-		switch (base) {
+	private static final String getRegExpForNumeralSystem(int numeralSystemBase) {
+		switch (numeralSystemBase) {
 			case 1: return ParserSymbol.BASE1_REG_EXP;
 			case 2: return ParserSymbol.BASE2_REG_EXP;
 			case 3: return ParserSymbol.BASE3_REG_EXP;
@@ -1129,19 +1129,19 @@ public final class mXparser {
 	 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
 	 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
 	 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
-	 * @param base             Numeral system base, between 1 and 36
+	 * @param numeralSystemBase             Numeral system base, between 1 and 36
 	 * @return                 Decimal number after conversion. If conversion was not
 	 *                         possible the Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(String numberLiteral, int base) {
+	public static final double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
 		if (numberLiteral == null) return Double.NaN;
 		numberLiteral = numberLiteral.trim();
 		if (numberLiteral.length() == 0) {
-			if (base == 1) return 0;
+			if (numeralSystemBase == 1) return 0;
 			else return Double.NaN;
 		}
-		if (base < 1) return Double.NaN;
-		if (base > 36) return Double.NaN;
+		if (numeralSystemBase < 1) return Double.NaN;
+		if (numeralSystemBase > 36) return Double.NaN;
 		char signChar = numberLiteral.charAt(0);
 		double sign = 1.0;
 		if (signChar == '-') {
@@ -1156,7 +1156,7 @@ public final class mXparser {
 		int digit;
 		for (int i = 0; i < length; i++ ) {
 			digit = digitIndex( numberLiteral.charAt(i) );
-			if ( ( (digit >= 0) && (digit < base) ) || ( (base == 1) && (digit == 1) ) ) decValue = base * decValue + digit;
+			if ( ( (digit >= 0) && (digit < numeralSystemBase) ) || ( (numeralSystemBase == 1) && (digit == 1) ) ) decValue = numeralSystemBase * decValue + digit;
 			else return Double.NaN;
 		}
 		return sign * decValue;
@@ -1186,8 +1186,8 @@ public final class mXparser {
 		numberLiteral = numberLiteral.trim();
 		int numberLiteralStrLenght = numberLiteral.length();
 		if (numberLiteralStrLenght < 2) return Double.NaN;
-		int base = getNumeralSystemBase(numberLiteral);
-		if (base == -1) return Double.NaN;
+		int numeralSystemBase = getNumeralSystemBase(numberLiteral);
+		if (numeralSystemBase == -1) return Double.NaN;
 		/* find dot position */
 		int dotPos = numberLiteral.indexOf('.');
 		if (dotPos == 0) return Double.NaN;
@@ -1196,14 +1196,14 @@ public final class mXparser {
 		if (signChar == '-') sign = -1;
 		String finalLiteral = "";
 		if (numberLiteralStrLenght > dotPos+1) finalLiteral = numberLiteral.substring(dotPos+1);
-		return sign * convOthBase2Decimal(finalLiteral, base);
+		return sign * convOthBase2Decimal(finalLiteral, numeralSystemBase);
 	}
 	/**
 	 * Decimal number to other numeral system conversion with base
 	 * between 1 and 36.
 	 *
-	 * @param decimal    Decimal number
-	 * @param base       Numeral system base between 1 and 36
+	 * @param decimalNumber    Decimal number
+	 * @param numeralSystemBase       Numeral system base between 1 and 36
 	 * @return           Number literal representing decimal number in
 	 *                   given numeral numeral system. Digits
 	 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
@@ -1213,26 +1213,26 @@ public final class mXparser {
 	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
 	 *                   the "NaN" string is returned.
 	 */
-	public static final String convDecimal2OthBase(double decimal, int base) {
-		if (Double.isNaN(decimal)) return "NaN";
-		if (base < 1) return "NaN";
-		if (base > 36) return "NaN";
-		if (decimal == 0.0) {
-			if (base > 1) return "0";
+	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
+		if (Double.isNaN(decimalNumber)) return "NaN";
+		if (numeralSystemBase < 1) return "NaN";
+		if (numeralSystemBase > 36) return "NaN";
+		if (decimalNumber == 0.0) {
+			if (numeralSystemBase > 1) return "0";
 			else return "";
 		}
-		double intPart = MathFunctions.floor( MathFunctions.abs(decimal) );
-		double sign = MathFunctions.sgn(decimal);
+		double intPart = MathFunctions.floor( MathFunctions.abs(decimalNumber) );
+		double sign = MathFunctions.sgn(decimalNumber);
 		String signChar = "";
 		if (sign < 0) signChar = "-";
-		if (intPart < base) return signChar + digitChar( (int)intPart );
+		if (intPart < numeralSystemBase) return signChar + digitChar( (int)intPart );
 		String numberLiteral = "";
 		double quotient = intPart;
 		int reminder;
-		if (base > 1)
+		if (numeralSystemBase > 1)
 			while (quotient >= 1.0) {
-				reminder = (int)(quotient % base);
-				quotient = MathFunctions.floor(quotient / base);
+				reminder = (int)(quotient % numeralSystemBase);
+				quotient = MathFunctions.floor(quotient / numeralSystemBase);
 				numberLiteral = digitChar(reminder) + numberLiteral;
 			}
 		else {
@@ -1246,8 +1246,8 @@ public final class mXparser {
 	 * Decimal number to other numeral system conversion with base
 	 * between 1 and 36.
 	 *
-	 * @param decimal    Decimal number
-	 * @param base       Numeral system base between 1 and 36
+	 * @param decimalNumber    Decimal number
+	 * @param numeralSystemBase       Numeral system base between 1 and 36
 	 * @param format     If 1 then always bxx. is used, i.e. b1. or b16.
 	 *                   If 2 then for binary b. is used, for octal o. is used,
 	 *                   for hexadecimal h. is used, otherwise bxx. is used
@@ -1266,20 +1266,20 @@ public final class mXparser {
 	 *
 	 * If conversion was not possible the "NaN" string is returned.
 	 */
-	public static final String convDecimal2OthBase(double decimal, int base, int format) {
-		if (Double.isNaN(decimal)) return "NaN";
-		if (base < 1) return "NaN";
-		if (base > 36) return "NaN";
+	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
+		if (Double.isNaN(decimalNumber)) return "NaN";
+		if (numeralSystemBase < 1) return "NaN";
+		if (numeralSystemBase > 36) return "NaN";
 		String prefix = "";
-		if ( (format == 1) || (format == 2) ) prefix = "b" + base + ".";
+		if ( (format == 1) || (format == 2) ) prefix = "b" + numeralSystemBase + ".";
 		if (format == 2) {
-			if (base == 2) prefix = "b.";
-			if (base == 8) prefix = "o.";
-			if (base == 16) prefix = "h.";
+			if (numeralSystemBase == 2) prefix = "b.";
+			if (numeralSystemBase == 8) prefix = "o.";
+			if (numeralSystemBase == 16) prefix = "h.";
 		}
 		String sign = "";
-		if (decimal < 0) sign = "-";
-		return sign + prefix + convDecimal2OthBase( MathFunctions.abs(decimal), base );
+		if (decimalNumber < 0) sign = "-";
+		return sign + prefix + convDecimal2OthBase( MathFunctions.abs(decimalNumber), numeralSystemBase );
 	}
 	/**
 	 * License info.

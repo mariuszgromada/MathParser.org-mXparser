@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxChecker.jj        4.1.0    2017-05-10
+ * @(#)SyntaxChecker.jj        4.1.0    2017-06-04
  *
  * SyntaxChecker.jj - mXparser grammar specification for CSJavaCC
  *
@@ -86,6 +86,42 @@ TOKEN : /* TOKENS */
 {
 	< #LETTER:		["_","a"-"z","A"-"Z"]														>
 | 	< #DIGIT:		["0"-"9"]																	>
+| 	< #DIGIT_B1:	"1"																			>
+| 	< #DIGIT_B2:	["0","1"]																	>
+| 	< #DIGIT_B3:	["0"-"2"]																	>
+| 	< #DIGIT_B4:	["0"-"3"]																	>
+| 	< #DIGIT_B5:	["0"-"4"]																	>
+| 	< #DIGIT_B6:	["0"-"5"]																	>
+| 	< #DIGIT_B7:	["0"-"6"]																	>
+| 	< #DIGIT_B8:	["0"-"7"]																	>
+| 	< #DIGIT_B9:	["0"-"8"]																	>
+| 	< #DIGIT_B10:	["0"-"9"]																	>
+| 	< #DIGIT_B11:	["0"-"9","a","A"]															>
+| 	< #DIGIT_B12:	["0"-"9","a"-"b","A"-"B"]													>
+| 	< #DIGIT_B13:	["0"-"9","a"-"c","A"-"C"]													>
+| 	< #DIGIT_B14:	["0"-"9","a"-"d","A"-"D"]													>
+| 	< #DIGIT_B15:	["0"-"9","a"-"e","A"-"E"]													>
+| 	< #DIGIT_B16:	["0"-"9","a"-"f","A"-"F"]													>
+| 	< #DIGIT_B17:	["0"-"9","a"-"g","A"-"G"]													>
+| 	< #DIGIT_B18:	["0"-"9","a"-"h","A"-"H"]													>
+| 	< #DIGIT_B19:	["0"-"9","a"-"i","A"-"I"]													>
+| 	< #DIGIT_B20:	["0"-"9","a"-"j","A"-"J"]													>
+| 	< #DIGIT_B21:	["0"-"9","a"-"k","A"-"K"]													>
+| 	< #DIGIT_B22:	["0"-"9","a"-"l","A"-"L"]													>
+| 	< #DIGIT_B23:	["0"-"9","a"-"m","A"-"M"]													>
+| 	< #DIGIT_B24:	["0"-"9","a"-"n","A"-"N"]													>
+| 	< #DIGIT_B25:	["0"-"9","a"-"o","A"-"O"]													>
+| 	< #DIGIT_B26:	["0"-"9","a"-"p","A"-"P"]													>
+| 	< #DIGIT_B27:	["0"-"9","a"-"q","A"-"Q"]													>
+| 	< #DIGIT_B28:	["0"-"9","a"-"r","A"-"R"]													>
+| 	< #DIGIT_B29:	["0"-"9","a"-"s","A"-"S"]													>
+| 	< #DIGIT_B30:	["0"-"9","a"-"t","A"-"T"]													>
+| 	< #DIGIT_B31:	["0"-"9","a"-"u","A"-"U"]													>
+| 	< #DIGIT_B32:	["0"-"9","a"-"v","A"-"V"]													>
+| 	< #DIGIT_B33:	["0"-"9","a"-"w","A"-"W"]													>
+| 	< #DIGIT_B34:	["0"-"9","a"-"x","A"-"X"]													>
+| 	< #DIGIT_B35:	["0"-"9","a"-"y","A"-"Y"]													>
+| 	< #DIGIT_B36:	["0"-"9","a"-"z","A"-"Z"]													>
 | 	< #LETTERS:		<LETTER>(<LETTER>)*															>
 |  	< #INTEGER:		<DIGIT>(<DIGIT>)*															>
 | 	< LEFT_PAR:		"("																			>
@@ -129,9 +165,48 @@ TOKEN : /* TOKENS */
  */
 TOKEN :
 {
-	< #REAL:			<INTEGER> "." <INTEGER>													>
-|	< #NUMBER:			( <REAL> | <INTEGER> )													>
-|	< NUMBER_CONSTANT:	<NUMBER> ( ( "E" | "e" ) ( "+" | "-" )? <INTEGER> )?					>
+	< #DEC_FRACT:			<INTEGER> "." <INTEGER>												>
+|	< #DEC_FRACT_OR_INT:	( <DEC_FRACT> | <INTEGER> )											>
+|	< DECIMAL:				<DEC_FRACT_OR_INT> ( ( "E" | "e" ) ( "+" | "-" )? <INTEGER> )?		>
+|	< BASE1:				( "b1" | "B1" ) "." (<DIGIT_B1>)*									>
+|	< BASE2:				( "b2" | "B2" ) "." <DIGIT_B2>(<DIGIT_B2>)*							>
+|	< BASE3:				( "b3" | "B3" ) "." <DIGIT_B3>(<DIGIT_B3>)*							>
+|	< BASE4:				( "b4" | "B4" ) "." <DIGIT_B4>(<DIGIT_B4>)*							>
+|	< BASE5:				( "b5" | "B5" ) "." <DIGIT_B5>(<DIGIT_B5>)*							>
+|	< BASE6:				( "b6" | "B6" ) "." <DIGIT_B6>(<DIGIT_B6>)*							>
+|	< BASE7:				( "b7" | "B7" ) "." <DIGIT_B7>(<DIGIT_B7>)*							>
+|	< BASE8:				( "b8" | "B8" ) "." <DIGIT_B8>(<DIGIT_B8>)*							>
+|	< BASE9:				( "b9" | "B9" ) "." <DIGIT_B9>(<DIGIT_B9>)*							>
+|	< BASE10:				( "b10" | "B10" ) "." <DIGIT_B10>(<DIGIT_B10>)*						>
+|	< BASE11:				( "b11" | "B11" ) "." <DIGIT_B11>(<DIGIT_B11>)*						>
+|	< BASE12:				( "b12" | "B12" ) "." <DIGIT_B12>(<DIGIT_B12>)*						>
+|	< BASE13:				( "b13" | "B13" ) "." <DIGIT_B13>(<DIGIT_B13>)*						>
+|	< BASE14:				( "b14" | "B14" ) "." <DIGIT_B14>(<DIGIT_B14>)*						>
+|	< BASE15:				( "b15" | "B15" ) "." <DIGIT_B15>(<DIGIT_B15>)*						>
+|	< BASE16:				( "b16" | "B16" ) "." <DIGIT_B16>(<DIGIT_B16>)*						>
+|	< BASE17:				( "b17" | "B17" ) "." <DIGIT_B17>(<DIGIT_B17>)*						>
+|	< BASE18:				( "b18" | "B18" ) "." <DIGIT_B18>(<DIGIT_B18>)*						>
+|	< BASE19:				( "b19" | "B19" ) "." <DIGIT_B19>(<DIGIT_B19>)*						>
+|	< BASE20:				( "b20" | "B20" ) "." <DIGIT_B20>(<DIGIT_B20>)*						>
+|	< BASE21:				( "b21" | "B21" ) "." <DIGIT_B21>(<DIGIT_B21>)*						>
+|	< BASE22:				( "b22" | "B22" ) "." <DIGIT_B22>(<DIGIT_B22>)*						>
+|	< BASE23:				( "b23" | "B23" ) "." <DIGIT_B23>(<DIGIT_B23>)*						>
+|	< BASE24:				( "b24" | "B24" ) "." <DIGIT_B24>(<DIGIT_B24>)*						>
+|	< BASE25:				( "b25" | "B25" ) "." <DIGIT_B25>(<DIGIT_B25>)*						>
+|	< BASE26:				( "b26" | "B26" ) "." <DIGIT_B26>(<DIGIT_B26>)*						>
+|	< BASE27:				( "b27" | "B27" ) "." <DIGIT_B27>(<DIGIT_B27>)*						>
+|	< BASE28:				( "b28" | "B28" ) "." <DIGIT_B28>(<DIGIT_B28>)*						>
+|	< BASE29:				( "b29" | "B29" ) "." <DIGIT_B29>(<DIGIT_B29>)*						>
+|	< BASE30:				( "b30" | "B30" ) "." <DIGIT_B30>(<DIGIT_B30>)*						>
+|	< BASE31:				( "b31" | "B31" ) "." <DIGIT_B31>(<DIGIT_B31>)*						>
+|	< BASE32:				( "b32" | "B32" ) "." <DIGIT_B32>(<DIGIT_B32>)*						>
+|	< BASE33:				( "b33" | "B33" ) "." <DIGIT_B33>(<DIGIT_B33>)*						>
+|	< BASE34:				( "b34" | "B34" ) "." <DIGIT_B34>(<DIGIT_B34>)*						>
+|	< BASE35:				( "b35" | "B35" ) "." <DIGIT_B35>(<DIGIT_B35>)*						>
+|	< BASE36:				( "b36" | "B36" ) "." <DIGIT_B36>(<DIGIT_B36>)*						>
+|	< BINARY:				( "b" | "B" ) "." <DIGIT_B2>(<DIGIT_B2>)*							>
+|	< OCTAL:				( "o" | "O" ) "." <DIGIT_B8>(<DIGIT_B8>)*							>
+|	< HEXADECIMAL:			( "h" | "H" ) "." <DIGIT_B16>(<DIGIT_B16>)*							>
 }
 
 /*
@@ -219,7 +294,7 @@ void unaryLeftExpression():{}
  */
 void itemExpression():{}
 {
-    ( <PLUS> | <MINUS> )? ( <NUMBER_CONSTANT> | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> )
+    ( <PLUS> | <MINUS> )? ( ( <DECIMAL> | <HEXADECIMAL> | <OCTAL> | <BINARY> | <BASE1> | <BASE2> | <BASE3> | <BASE4> | <BASE5> | <BASE6> | <BASE7> | <BASE8> | <BASE9> | <BASE10> | <BASE11> | <BASE12> | <BASE13> | <BASE14> | <BASE15> | <BASE16> | <BASE17> | <BASE18> | <BASE19> | <BASE20> | <BASE21> | <BASE22> | <BASE23> | <BASE24> | <BASE25> | <BASE26> | <BASE27> | <BASE28> | <BASE29> | <BASE30> | <BASE31> | <BASE32> | <BASE33> | <BASE34> | <BASE35> | <BASE36> ) | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> )
 }
 
 /*
@@ -235,7 +310,7 @@ void argumentList():{}
  */
 void identifier():{}
 {
-	( <IDENTIFIER> | <UNIT> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <NUMBER_CONSTANT> )* )+ "]" )
+	( <IDENTIFIER> | <UNIT> | "[" ( <CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <DECIMAL> )* )+ "]" )
 }
 
 /*

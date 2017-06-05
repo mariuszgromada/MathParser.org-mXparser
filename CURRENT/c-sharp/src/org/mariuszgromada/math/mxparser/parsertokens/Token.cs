@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cs        4.0.0    2016-03-26
+ * @(#)Token.cs        4.1.0    2016-06-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -77,7 +77,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/**
 		 * Indicator that token was not matched
 		 */
-		public const int NOT_MATCHED = ConstantValue.NaN;
+		public const int NOT_MATCHED = KeyWord.NO_DEFINITION;
 		/**
 		 * String token
 		 */
