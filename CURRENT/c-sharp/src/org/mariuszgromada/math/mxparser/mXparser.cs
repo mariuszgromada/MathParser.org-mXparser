@@ -1246,14 +1246,10 @@ namespace org.mariuszgromada.math.mxparser {
 					numberLiteral = digitChar(reminder) + numberLiteral;
 				}
 			else {
-				#if NET20 || NET30
 					char[] repeat = new char[(int)intPart];
 						for (int i = 0; i < (int)intPart; i++)
 							repeat[i] = '1';
 					numberLiteral = new String(repeat);
-				#else
-					numberLiteral = System.Linq.Enumerable.Repeat('1', (int)intPart).ToString();
-				#endif
 			}
 			return signChar + numberLiteral;
 		}
