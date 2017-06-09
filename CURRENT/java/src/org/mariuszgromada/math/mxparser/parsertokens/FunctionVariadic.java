@@ -101,6 +101,8 @@ public final class FunctionVariadic {
 	public static final int ARGMIN_ID					= 18;
 	public static final int ARGMAX_ID					= 19;
 	public static final int MEDIAN_ID					= 20;
+	public static final int MODE_ID						= 21;
+	public static final int BASE_ID						= 22;
 	/*
 	 * FunctionVariadic - tokens key words.
 	 */
@@ -124,6 +126,8 @@ public final class FunctionVariadic {
 	public static final String ARGMIN_STR				= "argmin";
 	public static final String ARGMAX_STR				= "argmax";
 	public static final String MEDIAN_STR				= "med";
+	public static final String MODE_STR					= "mode";
+	public static final String BASE_STR					= "base";
 	/*
 	 * FunctionVariadic - syntax.
 	 */
@@ -147,6 +151,8 @@ public final class FunctionVariadic {
 	public static final String ARGMIN_SYN				= "argmin(a1, ..., an)";
 	public static final String ARGMAX_SYN				= "argmax(a1, ..., an)";
 	public static final String MEDIAN_SYN				= "med(a1, ..., an)";
+	public static final String MODE_SYN					= "mode(a1, ..., an)";
+	public static final String BASE_SYN					= "base(b, d1, ..., dn)";
 	/*
 	 * FunctionVariadic - tokens description.
 	 */
@@ -170,6 +176,8 @@ public final class FunctionVariadic {
 	public static final String ARGMIN_DESC				= "Arguments / indices of the minima";
 	public static final String ARGMAX_DESC				= "Arguments / indices of the maxima";
 	public static final String MEDIAN_DESC				= "The sample median";
+	public static final String MODE_DESC				= "Mode - the value that appears most often";
+	public static final String BASE_DESC				= "Returns number in given numeral system base represented by list of digits";
 	/*
 	 * FunctionVariadic - since.
 	 */
@@ -193,5 +201,7 @@ public final class FunctionVariadic {
 	public static final String ARGMIN_SINCE				= mXparser.NAMEv41;
 	public static final String ARGMAX_SINCE				= mXparser.NAMEv41;
 	public static final String MEDIAN_SINCE				= mXparser.NAMEv41;
+	public static final String MODE_SINCE				= mXparser.NAMEv41;
+	public static final String BASE_SINCE				= mXparser.NAMEv41;
 }
 

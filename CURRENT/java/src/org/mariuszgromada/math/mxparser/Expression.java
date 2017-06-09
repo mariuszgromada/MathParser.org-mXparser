@@ -4367,6 +4367,15 @@ public class Expression {
 		variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadic( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
+	 * BASE_VARIADIC
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void BASE_VARIADIC(int pos) {
+		List<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2Decimal( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
 	 * Parser symbols
 	 * Removes comma
 	 *
@@ -5391,6 +5400,7 @@ public class Expression {
 		case FunctionVariadic.OR_ID: OR_VARIADIC(pos); break;
 		case FunctionVariadic.AND_ID: AND_VARIADIC(pos); break;
 		case FunctionVariadic.XOR_ID: XOR_VARIADIC(pos); break;
+		case FunctionVariadic.BASE_ID: BASE_VARIADIC(pos); break;
 		}
 	}
 	/**
@@ -5653,6 +5663,8 @@ public class Expression {
 			addKeyWord(FunctionVariadic.ARGMIN_STR, FunctionVariadic.ARGMIN_DESC, FunctionVariadic.ARGMIN_ID, FunctionVariadic.ARGMIN_SYN, FunctionVariadic.ARGMIN_SINCE, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.ARGMAX_STR, FunctionVariadic.ARGMAX_DESC, FunctionVariadic.ARGMAX_ID, FunctionVariadic.ARGMAX_SYN, FunctionVariadic.ARGMAX_SINCE, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.MEDIAN_STR, FunctionVariadic.MEDIAN_DESC, FunctionVariadic.MEDIAN_ID, FunctionVariadic.MEDIAN_SYN, FunctionVariadic.MEDIAN_SINCE, FunctionVariadic.TYPE_ID);
+			addKeyWord(FunctionVariadic.MODE_STR, FunctionVariadic.MODE_DESC, FunctionVariadic.MODE_ID, FunctionVariadic.MODE_SYN, FunctionVariadic.MODE_SINCE, FunctionVariadic.TYPE_ID);
+			addKeyWord(FunctionVariadic.BASE_STR, FunctionVariadic.BASE_DESC, FunctionVariadic.BASE_ID, FunctionVariadic.BASE_SYN, FunctionVariadic.BASE_SINCE, FunctionVariadic.TYPE_ID);
 			/*
 			 * Calculus key words
 			 */
@@ -6123,7 +6135,7 @@ public class Expression {
 		if ( (numeralSystemBase > 0) && (numeralSystemBase <= 36) ) {
 			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 			token.tokenId = ParserSymbol.NUMBER_ID;
-			token.tokenValue = mXparser.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+			token.tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
 		}
 	}
 	/**

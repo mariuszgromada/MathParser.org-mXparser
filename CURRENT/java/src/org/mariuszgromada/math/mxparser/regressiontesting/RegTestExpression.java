@@ -8317,6 +8317,150 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setNotToOverrideBuiltinTokens();
 			break;
+		case 732:
+			mXparser.setEpsilonComparison();
+			expStr = "base(1)-0";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 733:
+			mXparser.setEpsilonComparison();
+			expStr = "base(1,1)-1";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 734:
+			mXparser.setEpsilonComparison();
+			expStr = "base(1,1,1,1,1,1,1,1,1,1,1)-10";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 735:
+			mXparser.setEpsilonComparison();
+			expStr = "base(2,0,0,1)-1";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 736:
+			mXparser.setEpsilonComparison();
+			expStr = "base(2,1,0,1)-5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 737:
+			mXparser.setEpsilonComparison();
+			expStr = "base(10,1,2,3,4,5,6,7,8,9,0)-1234567890";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 738:
+			mXparser.setEpsilonComparison();
+			expStr = "base(35,b35.0,b35.0,b35.1,b35.2,b35.0,b35.y,b35.0)-B35.00120y0";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 739:
+			mXparser.setEpsilonComparison();
+			expStr = "isNaN( base(-1,0,1,2) ) - [true]";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 740:
+			mXparser.setEpsilonComparison();
+			expStr = "isNaN( base(1,0,1) ) - [true]";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 741:
+			mXparser.setEpsilonComparison();
+			expStr = "isNaN( base(2) ) - [true]";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 742:
+			mXparser.setEpsilonComparison();
+			expStr = "isNaN( base(2,2,1) ) - [true]";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 743:
+			mXparser.setEpsilonComparison();
+			expStr = "isNaN( base(2,-1,1) ) - [true]";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -8331,7 +8475,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 731;
+		int numberOfTests = 743;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

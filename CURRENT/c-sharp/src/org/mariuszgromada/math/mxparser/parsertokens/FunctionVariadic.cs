@@ -102,6 +102,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int ARGMIN_ID					= 18;
 		public const int ARGMAX_ID					= 19;
 		public const int MEDIAN_ID					= 20;
+		public const int MODE_ID					= 21;
+		public const int BASE_ID					= 22;
 		/*
 		 * BooleanOperator - tokens key words.
 		 */
@@ -125,6 +127,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARGMIN_STR				= "argmin";
 		public const String ARGMAX_STR				= "argmax";
 		public const String MEDIAN_STR				= "med";
+		public const String MODE_STR				= "mode";
+		public const String BASE_STR				= "base";
 		/*
 		 * FunctionVariadic - syntax.
 		 */
@@ -148,6 +152,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARGMIN_SYN				= "argmin(a1, ..., an)";
 		public const String ARGMAX_SYN				= "argmax(a1, ..., an)";
 		public const String MEDIAN_SYN				= "med(a1, ..., an)";
+		public const String MODE_SYN				= "mode(a1, ..., an)";
+		public const String BASE_SYN				= "base(b, d1, ..., dn)";
 		/*
 		 * FunctionVariadic - tokens description.
 		 */
@@ -171,6 +177,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARGMIN_DESC				= "Arguments / indices of the minima";
 		public const String ARGMAX_DESC				= "Arguments / indices of the maxima";
 		public const String MEDIAN_DESC				= "The sample median";
+		public const String MODE_DESC				= "Mode - the value that appears most often";
+		public const String BASE_DESC				= "Returns number in given numeral system base represented by list of digits";
 		/*
 		 * FunctionVariadic - since.
 		 */
@@ -194,5 +202,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARGMIN_SINCE			= mXparser.NAMEv41;
 		public const String ARGMAX_SINCE			= mXparser.NAMEv41;
 		public const String MEDIAN_SINCE			= mXparser.NAMEv41;
+		public const String MODE_SINCE				= mXparser.NAMEv41;
+		public const String BASE_SINCE				= mXparser.NAMEv41;
 	}
 }
