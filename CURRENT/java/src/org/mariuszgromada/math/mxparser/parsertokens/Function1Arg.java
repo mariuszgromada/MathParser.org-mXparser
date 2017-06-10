@@ -132,6 +132,7 @@ public final class Function1Arg {
 	public static final int GAUSS_ERFC_INV_ID			= 50;
 	public static final int ULP_ID						= 51;
 	public static final int ISNAN_ID					= 52;
+	public static final int NDIG10_ID					= 53;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -227,6 +228,7 @@ public final class Function1Arg {
 	public static final String GAUSS_ERFC_INV_STR		= "erfcInv";
 	public static final String ULP_STR					= "ulp";
 	public static final String ISNAN_STR				= "isNaN";
+	public static final String NDIG10_STR				= "ndig10";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -322,6 +324,7 @@ public final class Function1Arg {
 	public static final String GAUSS_ERFC_INV_SYN		= GAUSS_ERFC_INV_STR + "(x)";
 	public static final String ULP_SYN					= ULP_STR + "(x)";
 	public static final String ISNAN_SYN				= ISNAN_STR + "(x)";
+	public static final String NDIG10_SYN				= NDIG10_STR + "(x)";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -376,6 +379,7 @@ public final class Function1Arg {
 	public static final String GAUSS_ERFC_INV_DESC		= "Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
 	public static final String ULP_DESC					= "Unit in The Last Place - ulp(0.1)";
 	public static final String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
+	public static final String NDIG10_DESC				= "Number of digits in numeral system with base 10";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -430,4 +434,5 @@ public final class Function1Arg {
 	public static final String GAUSS_ERFC_INV_SINCE		= mXparser.NAMEv30;
 	public static final String ULP_SINCE				= mXparser.NAMEv30;
 	public static final String ISNAN_SINCE				= mXparser.NAMEv41;
+	public static final String NDIG10_SINCE				= mXparser.NAMEv41;
 }

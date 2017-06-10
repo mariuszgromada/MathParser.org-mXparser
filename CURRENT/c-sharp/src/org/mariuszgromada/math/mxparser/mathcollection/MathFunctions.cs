@@ -258,14 +258,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return bernoulliNumber( (int)Math.Round(m), (int)Math.Round(n) );
 		}
 		/**
-		 * Striling numbers of the first kind
+		 * Stirling numbers of the first kind
 		 *
 		 * @param      n                   the n function parameter
 		 * @param      k                   the k function parameter
 		 *
-		 * @return     Striling numbers of the first kind
+		 * @return     Stirling numbers of the first kind
 		 */
-		public static double Srirling1Number(int n, int k) {
+		public static double Stirling1Number(int n, int k) {
 			if (k > n)
 				return 0;
 			if (n == 0)
@@ -278,31 +278,31 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return 1;
 				else
 					return 0;
-			return (n-1) * Srirling1Number(n-1, k) + Srirling1Number(n-1, k-1);
+			return (n-1) * Stirling1Number(n-1, k) + Stirling1Number(n-1, k-1);
 		}
 		/**
-		 * Striling numbers of the first kind
+		 * Stirling numbers of the first kind
 		 *
 		 * @param      n                   the n function parameter
 		 * @param      k                   the k function parameter
 		 *
-		 * @return     if n, k <> Doube.NaN returns Srirling1Number( (int)Math.round(n), (int)Math.round(k) ),
+		 * @return     if n, k <> Doube.NaN returns Stirling1Number( (int)Math.round(n), (int)Math.round(k) ),
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double Srirling1Number(double n, double k) {
+		public static double Stirling1Number(double n, double k) {
 			if (Double.IsNaN(n) || Double.IsNaN(k))
 				return Double.NaN;
-			return Srirling1Number( (int)Math.Round(n), (int)Math.Round(k) );
+			return Stirling1Number( (int)Math.Round(n), (int)Math.Round(k) );
 		}
 		/**
-		 * Striling numbers of the second kind
+		 * Stirling numbers of the second kind
 		 *
 		 * @param      n                   the n function parameter
 		 * @param      k                   the k function parameter
 		 *
-		 * @return     Striling numbers of the second kind
+		 * @return     Stirling numbers of the second kind
 		 */
-		public static double Srirling2Number(int n, int k) {
+		public static double Stirling2Number(int n, int k) {
 			if (k > n)
 				return 0;
 			if (n == 0)
@@ -315,21 +315,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return 1;
 				else
 					return 0;
-			return k * Srirling2Number(n-1, k) + Srirling2Number(n-1, k-1);
+			return k * Stirling2Number(n-1, k) + Stirling2Number(n-1, k-1);
 		}
 		/**
-		 * Striling numbers of the second kind
+		 * Stirling numbers of the second kind
 		 *
 		 * @param      n                   the n function parameter
 		 * @param      k                   the k function parameter
 		 *
-		 * @return     if n, k <> Doube.NaN returns Srirling2Number( (int)Math.round(n), (int)Math.round(k) ),
+		 * @return     if n, k <> Doube.NaN returns Stirling2Number( (int)Math.round(n), (int)Math.round(k) ),
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double Srirling2Number(double n, double k) {
+		public static double Stirling2Number(double n, double k) {
 			if (Double.IsNaN(n) || Double.IsNaN(k))
 				return Double.NaN;
-			return Srirling2Number( (int)Math.Round(n), (int)Math.Round(k) );
+			return Stirling2Number( (int)Math.Round(n), (int)Math.Round(k) );
 		}
 		/**
 		 * Worpitzky numbers

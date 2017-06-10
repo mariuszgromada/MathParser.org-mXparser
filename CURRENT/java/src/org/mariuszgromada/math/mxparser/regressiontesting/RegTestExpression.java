@@ -7475,7 +7475,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 662:
 			mXparser.setEpsilonComparison();
@@ -7499,7 +7498,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 664:
 			mXparser.setEpsilonComparison();
@@ -7511,7 +7509,6 @@ public class RegTestExpression {
 			if ( Double.isNaN(value) )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 665:
 			mXparser.setEpsilonComparison();
@@ -7523,7 +7520,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 666:
 			mXparser.setEpsilonComparison();
@@ -7535,7 +7531,6 @@ public class RegTestExpression {
 			if ( Double.isNaN(value) )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 667:
 			mXparser.setEpsilonComparison();
@@ -7547,7 +7542,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 668:
 			mXparser.setEpsilonComparison();
@@ -7559,7 +7553,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 669:
 			mXparser.setEpsilonComparison();
@@ -7571,7 +7564,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 670:
 			mXparser.setEpsilonComparison();
@@ -7583,7 +7575,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 671:
 			mXparser.setEpsilonComparison();
@@ -7595,7 +7586,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 672:
 			mXparser.setEpsilonComparison();
@@ -7607,7 +7597,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 673:
 			mXparser.setEpsilonComparison();
@@ -7619,7 +7608,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 674:
 			mXparser.setEpsilonComparison();
@@ -7631,7 +7619,6 @@ public class RegTestExpression {
 			if ( Double.isNaN(value) )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 675:
 			mXparser.setEpsilonComparison();
@@ -7643,7 +7630,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 676:
 			mXparser.setEpsilonComparison();
@@ -7655,7 +7641,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 677:
 			mXparser.setEpsilonComparison();
@@ -7667,7 +7652,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 678:
 			mXparser.setEpsilonComparison();
@@ -7679,7 +7663,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 679:
 			mXparser.setEpsilonComparison();
@@ -7691,7 +7674,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 680:
 			mXparser.setEpsilonComparison();
@@ -7703,7 +7685,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 681:
 			mXparser.setEpsilonComparison();
@@ -7715,7 +7696,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 682:
 			mXparser.setEpsilonComparison();
@@ -7727,7 +7707,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 683:
 			mXparser.setEpsilonComparison();
@@ -7739,7 +7718,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 684:
 			mXparser.setEpsilonComparison();
@@ -7751,7 +7729,6 @@ public class RegTestExpression {
 			if ( Double.isNaN(value) )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 685:
 			mXparser.setEpsilonComparison();
@@ -7763,7 +7740,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 686:
 			mXparser.setEpsilonComparison();
@@ -7775,7 +7751,6 @@ public class RegTestExpression {
 			if ( Double.isNaN(value) )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 687:
 			mXparser.setEpsilonComparison();
@@ -7787,7 +7762,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 688:
 			mXparser.setEpsilonComparison();
@@ -7799,7 +7773,6 @@ public class RegTestExpression {
 			if ( Double.isNaN(value) )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 689:
 			mXparser.setEpsilonComparison();
@@ -7811,7 +7784,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 690:
 			mXparser.setEpsilonComparison();
@@ -7823,7 +7795,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 691:
 			mXparser.setEpsilonComparison();
@@ -7835,7 +7806,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 692:
 			mXparser.setEpsilonComparison();
@@ -7847,7 +7817,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 693:
 			mXparser.setEpsilonComparison();
@@ -7859,7 +7828,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 694:
 			mXparser.setEpsilonComparison();
@@ -7871,7 +7839,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 695:
 			mXparser.setEpsilonComparison();
@@ -7883,7 +7850,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 696:
 			mXparser.setEpsilonComparison();
@@ -7895,7 +7861,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 697:
 			mXparser.setEpsilonComparison();
@@ -7907,7 +7872,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 698:
 			mXparser.setEpsilonComparison();
@@ -7919,7 +7883,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 699:
 			mXparser.setEpsilonComparison();
@@ -7931,7 +7894,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 700:
 			mXparser.setEpsilonComparison();
@@ -7943,7 +7905,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 701:
 			mXparser.setEpsilonComparison();
@@ -7955,7 +7916,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 702:
 			mXparser.setEpsilonComparison();
@@ -7967,7 +7927,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 703:
 			mXparser.setEpsilonComparison();
@@ -7979,7 +7938,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 704:
 			mXparser.setEpsilonComparison();
@@ -7991,7 +7949,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 705:
 			mXparser.setEpsilonComparison();
@@ -8003,7 +7960,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 706:
 			mXparser.setEpsilonComparison();
@@ -8015,7 +7971,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 707:
 			mXparser.setEpsilonComparison();
@@ -8027,7 +7982,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 708:
 			mXparser.setEpsilonComparison();
@@ -8039,7 +7993,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 709:
 			mXparser.setEpsilonComparison();
@@ -8051,7 +8004,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 710:
 			mXparser.setEpsilonComparison();
@@ -8063,7 +8015,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 711:
 			mXparser.setEpsilonComparison();
@@ -8075,7 +8026,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 712:
 			mXparser.setEpsilonComparison();
@@ -8087,7 +8037,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 713:
 			mXparser.setEpsilonComparison();
@@ -8099,7 +8048,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 714:
 			mXparser.setEpsilonComparison();
@@ -8111,7 +8059,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 715:
 			mXparser.setEpsilonComparison();
@@ -8123,7 +8070,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 716:
 			mXparser.setEpsilonComparison();
@@ -8135,7 +8081,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 717:
 			mXparser.setEpsilonComparison();
@@ -8147,7 +8092,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 718:
 			mXparser.setEpsilonComparison();
@@ -8159,7 +8103,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 719:
 			mXparser.setEpsilonComparison();
@@ -8171,7 +8114,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 720:
 			mXparser.setEpsilonComparison();
@@ -8183,7 +8125,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 721:
 			mXparser.setEpsilonComparison();
@@ -8195,7 +8136,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 722:
 			mXparser.setEpsilonComparison();
@@ -8207,7 +8147,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 723:
 			mXparser.setEpsilonComparison();
@@ -8219,7 +8158,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 724:
 			mXparser.setEpsilonComparison();
@@ -8231,7 +8169,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 725:
 			mXparser.setEpsilonComparison();
@@ -8243,7 +8180,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 726:
 			mXparser.setEpsilonComparison();
@@ -8255,7 +8191,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 727:
 			mXparser.setEpsilonComparison();
@@ -8267,7 +8202,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 728:
 			mXparser.setEpsilonComparison();
@@ -8279,7 +8213,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 729:
 			mXparser.setEpsilonComparison();
@@ -8291,7 +8224,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 730:
 			mXparser.setEpsilonComparison();
@@ -8303,7 +8235,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 731:
 			mXparser.setEpsilonComparison();
@@ -8315,7 +8246,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 732:
 			mXparser.setEpsilonComparison();
@@ -8327,7 +8257,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 733:
 			mXparser.setEpsilonComparison();
@@ -8339,7 +8268,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 734:
 			mXparser.setEpsilonComparison();
@@ -8351,7 +8279,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 735:
 			mXparser.setEpsilonComparison();
@@ -8363,7 +8290,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 736:
 			mXparser.setEpsilonComparison();
@@ -8375,7 +8301,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 737:
 			mXparser.setEpsilonComparison();
@@ -8387,7 +8312,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 738:
 			mXparser.setEpsilonComparison();
@@ -8399,7 +8323,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 739:
 			mXparser.setEpsilonComparison();
@@ -8411,7 +8334,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 740:
 			mXparser.setEpsilonComparison();
@@ -8423,7 +8345,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 741:
 			mXparser.setEpsilonComparison();
@@ -8435,7 +8356,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 742:
 			mXparser.setEpsilonComparison();
@@ -8447,7 +8367,6 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
 			break;
 		case 743:
 			mXparser.setEpsilonComparison();
@@ -8459,7 +8378,72 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
-			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 744:
+			mXparser.setEpsilonComparison();
+			expStr = "( ndig10(-10)-2 ) + ( ndig10(1234)-4 ) + ( ndig10(0)-1 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 745:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(i, -1000000, 1000000, ndig10(i) - floor( log10( abs(i) ) ) - 1, 3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 746:
+			mXparser.setEpsilonComparison();
+			expStr = "isNaN( ndig10( [NaN] ) ) - [true]";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 747:
+			mXparser.setEpsilonComparison();
+			expStr = "sum( i, -1000000, 1000000, ndig10(i) - ndig(i, 10) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 748:
+			mXparser.setEpsilonComparison();
+			expStr = "(ndig(5, 2) - 3) + (ndig(-5, 2) - 3) + (ndig( b35.124abcdefg,  35) - 10) + (ndig(0, 1) - 0) + (ndig(123, 1) - 123)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 749:
+			mXparser.setEpsilonComparison();
+			expStr = "( isNaN( ndig( [NaN], 10) ) - [true] ) + ( isNaN( ndig( 100, [NaN]) ) - [true] ) + ( isNaN( ndig( 10, -10) ) - [true] ) + ( isNaN( ndig( 10, 0) ) - [true] )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
 		}
 		if (testResult == true)
@@ -8475,7 +8459,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 743;
+		int numberOfTests = 749;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

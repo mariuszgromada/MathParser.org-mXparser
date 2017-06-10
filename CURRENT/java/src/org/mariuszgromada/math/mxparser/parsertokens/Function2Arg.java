@@ -96,6 +96,7 @@ public final class Function2Arg {
 	public static final int RND_UNIFORM_DISCR_ID				= 13;
 	public static final int ROUND_ID							= 14;
 	public static final int RND_NORMAL_ID						= 15;
+	public static final int NDIG_ID								= 16;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -114,6 +115,7 @@ public final class Function2Arg {
 	public static final String RND_UNIFORM_DISCR_STR  			= "rUnid";
 	public static final String ROUND_STR						= "round";
 	public static final String RND_NORMAL_STR					= "rNor";
+	public static final String NDIG_STR							= "ndig";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -132,6 +134,7 @@ public final class Function2Arg {
 	public static final String RND_UNIFORM_DISCR_SYN  			= "rUnid(a, b)";
 	public static final String ROUND_SYN						= "round(x, n)";
 	public static final String RND_NORMAL_SYN					= "rNor(mean, stdv)";
+	public static final String NDIG_SYN							= "ndig(number, base)";
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -150,6 +153,7 @@ public final class Function2Arg {
 	public static final String RND_UNIFORM_DISCR_DESC  			= "Random variable - Uniform discrete distribution U{a,b}, usage example: 2*rUnid(2,100)";
 	public static final String ROUND_DESC						= "Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7";
 	public static final String RND_NORMAL_DESC					= "Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
+	public static final String NDIG_DESC						= "Number of digits representing the number in numeral system with given base";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -168,5 +172,6 @@ public final class Function2Arg {
 	public static final String RND_UNIFORM_DISCR_SINCE  		= mXparser.NAMEv30;
 	public static final String ROUND_SINCE						= mXparser.NAMEv30;
 	public static final String RND_NORMAL_SINCE					= mXparser.NAMEv30;
+	public static final String NDIG_SINCE						= mXparser.NAMEv41;
 }
 

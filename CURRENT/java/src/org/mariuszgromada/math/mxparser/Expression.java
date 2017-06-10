@@ -3354,6 +3354,16 @@ public class Expression {
 			f1SetDecreaseRemove(pos, BooleanAlgebra.FALSE);
 	}
 	/**
+	 * Number of digits in base 10
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void NDIG10(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, NumberTheory.numberOfDigits(x) );
+	}
+	/**
 	 * Logarithm
 	 * Sets tokens to number token
 	 *
@@ -3429,7 +3439,7 @@ public class Expression {
 	private void STIRLING1_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.Srirling1Number(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.Stirling1Number(n, k) );
 	}
 	/**
 	 * Stirling number of the second kind.
@@ -3439,7 +3449,7 @@ public class Expression {
 	private void STIRLING2_NUMBER(int pos) {
 		double n = getTokenValue(pos+1);
 		double k = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.Srirling2Number(n, k) );
+		f2SetDecreaseRemove(pos, MathFunctions.Stirling2Number(n, k) );
 	}
 	/**
 	 * Worpitzky number.
@@ -3530,6 +3540,16 @@ public class Expression {
 		double mean = getTokenValue(pos+1);
 		double stddev = getTokenValue(pos+2);
 		f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormal(mean, stddev, ProbabilityDistributions.randomGenerator) );
+	}
+	/**
+	 * Number of digits in given numeral system
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void NDIG(int pos) {
+		double number = getTokenValue(pos+1);
+		double numeralSystemBase = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, NumberTheory.numberOfDigits(number, numeralSystemBase) );
 	}
 	/**
 	 * IF function
@@ -5333,6 +5353,7 @@ public class Expression {
 		case Function1Arg.GAUSS_ERFC_INV_ID: GAUSS_ERFC_INV(pos); break;
 		case Function1Arg.ULP_ID: ULP(pos); break;
 		case Function1Arg.ISNAN_ID: ISNAN(pos); break;
+		case Function1Arg.NDIG10_ID: NDIG10(pos); break;
 		}
 	}
 	/**
@@ -5356,6 +5377,7 @@ public class Expression {
 		case Function2Arg.RND_UNIFORM_DISCR_ID: RND_VAR_UNIFORM_DISCR(pos); break;
 		case Function2Arg.ROUND_ID: ROUND(pos); break;
 		case Function2Arg.RND_NORMAL_ID: RND_NORMAL(pos); break;
+		case Function2Arg.NDIG_ID: NDIG(pos); break;
 		}
 	}
 	/**
@@ -5608,6 +5630,7 @@ public class Expression {
 			addKeyWord(Function1Arg.GAUSS_ERFC_INV_STR, Function1Arg.GAUSS_ERFC_INV_DESC, Function1Arg.GAUSS_ERFC_INV_ID, Function1Arg.GAUSS_ERFC_INV_SYN, Function1Arg.GAUSS_ERFC_INV_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ULP_STR, Function1Arg.ULP_DESC, Function1Arg.ULP_ID, Function1Arg.ULP_SYN, Function1Arg.ULP_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ISNAN_STR, Function1Arg.ISNAN_DESC, Function1Arg.ISNAN_ID, Function1Arg.ISNAN_SYN, Function1Arg.ISNAN_SINCE, Function1Arg.TYPE_ID);
+			addKeyWord(Function1Arg.NDIG10_STR, Function1Arg.NDIG10_DESC, Function1Arg.NDIG10_ID, Function1Arg.NDIG10_SYN, Function1Arg.NDIG10_SINCE, Function1Arg.TYPE_ID);
 			/*
 			 * 2 args functions key words
 			 */
@@ -5626,6 +5649,7 @@ public class Expression {
 			addKeyWord(Function2Arg.RND_UNIFORM_DISCR_STR, Function2Arg.RND_UNIFORM_DISCR_DESC, Function2Arg.RND_UNIFORM_DISCR_ID, Function2Arg.RND_UNIFORM_DISCR_SYN, Function2Arg.RND_UNIFORM_DISCR_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.ROUND_STR, Function2Arg.ROUND_DESC, Function2Arg.ROUND_ID, Function2Arg.ROUND_SYN, Function2Arg.ROUND_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.RND_NORMAL_STR, Function2Arg.RND_NORMAL_DESC, Function2Arg.RND_NORMAL_ID, Function2Arg.RND_NORMAL_SYN, Function2Arg.RND_NORMAL_SINCE, Function2Arg.TYPE_ID);
+			addKeyWord(Function2Arg.NDIG_STR, Function2Arg.NDIG_DESC, Function2Arg.NDIG_ID, Function2Arg.NDIG_SYN, Function2Arg.NDIG_SINCE, Function2Arg.TYPE_ID);
 			/*
 			 * 3 args functions key words
 			 */
