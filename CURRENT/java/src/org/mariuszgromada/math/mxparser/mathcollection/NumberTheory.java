@@ -1421,4 +1421,94 @@ public final class NumberTheory {
 		}
 		return digitsNum;
 	}
+	/**
+	 * Digit at position - numeral system with given base
+	 *
+	 * @param number              The number
+	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+	 * @param numeralSystemBase   Base of numeral system - above 0
+	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
+	 */
+	public static final int digitAtPosition(long number, int position, int numeralSystemBase) {
+		if (numeralSystemBase < 1) return -1;
+		if (number < 0) number = -number;
+		int digitsNum = (int)numberOfDigits(number, numeralSystemBase);
+		if (position <= -digitsNum) {
+			if (numeralSystemBase > 1) return 0;
+			else return -1;
+		}
+		if (position > digitsNum) return -1;
+		if (numeralSystemBase == 1) return 1;
+		int[] digits = new int[digitsNum];
+		long quotient = number;
+		int digit;
+		int digitIndex = digitsNum;
+		while (quotient >= 1) {
+			digit = (int)quotient % numeralSystemBase;
+			quotient = quotient / numeralSystemBase;
+			digitIndex--;
+			digits[digitIndex] = digit;
+		}
+		if (position >= 1) return digits[position-1];
+		else return digits[digitsNum+position-1];
+	}
+	/**
+	 * Digit at position - numeral system with base 10
+	 *
+	 * @param number              The number
+	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
+	 */
+	public static final int digitAtPosition(long number, int position) {
+		return digitAtPosition(number, position, 10);
+	}
+	/**
+	 * Digit at position - numeral system with given base
+	 *
+	 * @param number              The number
+	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+	 * @param numeralSystemBase   Base of numeral system - above 0
+	 * @return                    Return digit at given position. If digit finding was not possible then Double.NaN is returned.
+	 */
+	public static final double digitAtPosition(double number, double position, double numeralSystemBase) {
+		if (Double.isNaN(number)) return Double.NaN;
+		if (Double.isNaN(position)) return Double.NaN;
+		if (Double.isNaN(numeralSystemBase)) return Double.NaN;
+		if (Double.isInfinite(number)) return Double.NaN;
+		if (Double.isInfinite(position)) return Double.NaN;
+		if (Double.isInfinite(numeralSystemBase)) return Double.NaN;
+		if (numeralSystemBase < 1.0) return Double.NaN;
+		if (number < 0) number = -number;
+		number = MathFunctions.floor(number);
+		numeralSystemBase = MathFunctions.floor(numeralSystemBase);
+		int digitsNum = (int)numberOfDigits(number, numeralSystemBase);
+		if (position <= -digitsNum) {
+			if (numeralSystemBase > 1.0) return 0;
+			else return Double.NaN;
+		}
+		if (position > digitsNum) return Double.NaN;
+		if (numeralSystemBase == 1.0) return 1.0;
+		double[] digits = new double[digitsNum];
+		double quotient = number;
+		double digit;
+		int digitIndex = digitsNum;
+		while (quotient >= 1.0) {
+			digit = MathFunctions.floor(quotient % numeralSystemBase);
+			quotient = MathFunctions.floor(quotient / numeralSystemBase);
+			digitIndex--;
+			digits[digitIndex] = digit;
+		}
+		if (position >= 1) return digits[(int)(position-1)];
+		else return digits[(int)(digitsNum+position-1)];
+	}
+	/**
+	 * Digit at position - numeral system with base 10
+	 *
+	 * @param number              The number
+	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
+	 * @return                    Return digit at given position. If digit finding was not possible then Double.NaN is returned.
+	 */
+	public static final double digitAtPosition(double number, double position) {
+		return digitAtPosition(number, position, 10.0);
+	}
 }

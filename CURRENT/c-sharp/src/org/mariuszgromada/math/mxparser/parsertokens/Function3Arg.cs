@@ -94,6 +94,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int PDF_NORMAL_ID					= 10;
 		public const int CDF_NORMAL_ID					= 11;
 		public const int QNT_NORMAL_ID					= 12;
+		public const int DIGIT_ID						= 13;
 		/*
 		 * 3-args Function - tokens key words.
 		 */
@@ -108,6 +109,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PDF_NORMAL_STR				= "pNor";
 		public const String CDF_NORMAL_STR				= "cNor";
 		public const String QNT_NORMAL_STR				= "qNor";
+		public const String DIGIT_STR					= "dig";
 		/*
 		 * 3-args Function - syntax.
 		 */
@@ -122,6 +124,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PDF_NORMAL_SYN				= "pNor(x, mean, stdv)";
 		public const String CDF_NORMAL_SYN				= "cNor(x, mean, stdv)";
 		public const String QNT_NORMAL_SYN				= "qNor(q, mean, stdv)";
+		public const String DIGIT_SYN					= "dig(num, pos, base)";
 		/*
 		 * 3-args Function - tokens description.
 		 */
@@ -136,6 +139,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PDF_NORMAL_DESC				= "Probability distribution function - Normal distribution N(m,s)";
 		public const String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
 		public const String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function)";
+		public const String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
 		/*
 		 * 3-args Function - since.
 		 */
@@ -150,5 +154,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PDF_NORMAL_SINCE			= mXparser.NAMEv30;
 		public const String CDF_NORMAL_SINCE			= mXparser.NAMEv30;
 		public const String QNT_NORMAL_SINCE			= mXparser.NAMEv30;
+		public const String DIGIT_SINCE					= mXparser.NAMEv41;
 	}
 }

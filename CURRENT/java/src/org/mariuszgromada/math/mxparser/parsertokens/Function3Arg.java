@@ -93,6 +93,7 @@ public final class Function3Arg {
 	public static final int PDF_NORMAL_ID					= 10;
 	public static final int CDF_NORMAL_ID					= 11;
 	public static final int QNT_NORMAL_ID					= 12;
+	public static final int DIGIT_ID						= 13;
 	/*
 	 * 3-args Function - tokens key words.
 	 */
@@ -107,6 +108,7 @@ public final class Function3Arg {
 	public static final String PDF_NORMAL_STR				= "pNor";
 	public static final String CDF_NORMAL_STR				= "cNor";
 	public static final String QNT_NORMAL_STR				= "qNor";
+	public static final String DIGIT_STR					= "dig";
 	/*
 	 * 3-args Function - syntax.
 	 */
@@ -121,6 +123,7 @@ public final class Function3Arg {
 	public static final String PDF_NORMAL_SYN				= "pNor(x, mean, stdv)";
 	public static final String CDF_NORMAL_SYN				= "cNor(x, mean, stdv)";
 	public static final String QNT_NORMAL_SYN				= "qNor(q, mean, stdv)";
+	public static final String DIGIT_SYN					= "dig(num, pos, base)";
 	/*
 	 * 3-args Function - tokens description.
 	 */
@@ -135,6 +138,7 @@ public final class Function3Arg {
 	public static final String PDF_NORMAL_DESC				= "Probability distribution function - Normal distribution N(m,s)";
 	public static final String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
 	public static final String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function)";
+	public static final String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
 	/*
 	 * 3-args Function - since.
 	 */
@@ -149,5 +153,5 @@ public final class Function3Arg {
 	public static final String PDF_NORMAL_SINCE				= mXparser.NAMEv30;
 	public static final String CDF_NORMAL_SINCE				= mXparser.NAMEv30;
 	public static final String QNT_NORMAL_SINCE				= mXparser.NAMEv30;
+	public static final String DIGIT_SINCE					= mXparser.NAMEv41;
 }
-

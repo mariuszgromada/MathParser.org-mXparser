@@ -3552,6 +3552,16 @@ public class Expression {
 		f2SetDecreaseRemove(pos, NumberTheory.numberOfDigits(number, numeralSystemBase) );
 	}
 	/**
+	 * Digit at position - base 10 numeral system
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void DIGIT10(int pos) {
+		double number = getTokenValue(pos+1);
+		double position = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position) );
+	}
+	/**
 	 * IF function
 	 *
 	 * @param      pos                 the token position
@@ -3763,6 +3773,17 @@ public class Expression {
 		double mean = getTokenValue(pos+2);
 		double stddev = getTokenValue(pos+3);
 		f3SetDecreaseRemove(pos, ProbabilityDistributions.qntNormal(q, mean, stddev) );
+	}
+	/**
+	 * Digit at position - numeral system with given base
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void DIGIT(int pos) {
+		double number = getTokenValue(pos+1);
+		double position = getTokenValue(pos+2);
+		double numeralSystemBase = getTokenValue(pos+3);
+		f3SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position, numeralSystemBase) );
 	}
 	/**
 	 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
@@ -5378,6 +5399,7 @@ public class Expression {
 		case Function2Arg.ROUND_ID: ROUND(pos); break;
 		case Function2Arg.RND_NORMAL_ID: RND_NORMAL(pos); break;
 		case Function2Arg.NDIG_ID: NDIG(pos); break;
+		case Function2Arg.DIGIT10_ID: DIGIT10(pos); break;
 		}
 	}
 	/**
@@ -5397,6 +5419,7 @@ public class Expression {
 		case Function3Arg.PDF_NORMAL_ID: PDF_NORMAL(pos); break;
 		case Function3Arg.CDF_NORMAL_ID: CDF_NORMAL(pos); break;
 		case Function3Arg.QNT_NORMAL_ID: QNT_NORMAL(pos); break;
+		case Function3Arg.DIGIT_ID: DIGIT(pos); break;
 		}
 	}
 	/**
@@ -5650,6 +5673,7 @@ public class Expression {
 			addKeyWord(Function2Arg.ROUND_STR, Function2Arg.ROUND_DESC, Function2Arg.ROUND_ID, Function2Arg.ROUND_SYN, Function2Arg.ROUND_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.RND_NORMAL_STR, Function2Arg.RND_NORMAL_DESC, Function2Arg.RND_NORMAL_ID, Function2Arg.RND_NORMAL_SYN, Function2Arg.RND_NORMAL_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.NDIG_STR, Function2Arg.NDIG_DESC, Function2Arg.NDIG_ID, Function2Arg.NDIG_SYN, Function2Arg.NDIG_SINCE, Function2Arg.TYPE_ID);
+			addKeyWord(Function2Arg.DIGIT10_STR, Function2Arg.DIGIT10_DESC, Function2Arg.DIGIT10_ID, Function2Arg.DIGIT10_SYN, Function2Arg.DIGIT10_SINCE, Function2Arg.TYPE_ID);
 			/*
 			 * 3 args functions key words
 			 */
@@ -5664,6 +5688,7 @@ public class Expression {
 			addKeyWord(Function3Arg.PDF_NORMAL_STR, Function3Arg.PDF_NORMAL_DESC, Function3Arg.PDF_NORMAL_ID, Function3Arg.PDF_NORMAL_SYN, Function3Arg.PDF_NORMAL_SINCE, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.CDF_NORMAL_STR, Function3Arg.CDF_NORMAL_DESC, Function3Arg.CDF_NORMAL_ID, Function3Arg.CDF_NORMAL_SYN, Function3Arg.CDF_NORMAL_SINCE, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.QNT_NORMAL_STR, Function3Arg.QNT_NORMAL_DESC, Function3Arg.QNT_NORMAL_ID, Function3Arg.QNT_NORMAL_SYN, Function3Arg.QNT_NORMAL_SINCE, Function3Arg.TYPE_ID);
+			addKeyWord(Function3Arg.DIGIT_STR, Function3Arg.DIGIT_DESC, Function3Arg.DIGIT_ID, Function3Arg.DIGIT_SYN, Function3Arg.DIGIT_SINCE, Function3Arg.TYPE_ID);
 			/*
 			 * Variadic functions as key words
 			 */

@@ -97,6 +97,7 @@ public final class Function2Arg {
 	public static final int ROUND_ID							= 14;
 	public static final int RND_NORMAL_ID						= 15;
 	public static final int NDIG_ID								= 16;
+	public static final int DIGIT10_ID							= 17;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -116,6 +117,7 @@ public final class Function2Arg {
 	public static final String ROUND_STR						= "round";
 	public static final String RND_NORMAL_STR					= "rNor";
 	public static final String NDIG_STR							= "ndig";
+	public static final String DIGIT10_STR						= "dig10";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -135,6 +137,7 @@ public final class Function2Arg {
 	public static final String ROUND_SYN						= "round(x, n)";
 	public static final String RND_NORMAL_SYN					= "rNor(mean, stdv)";
 	public static final String NDIG_SYN							= "ndig(number, base)";
+	public static final String DIGIT10_SYN						= "dig10(num, pos)";
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -154,6 +157,7 @@ public final class Function2Arg {
 	public static final String ROUND_DESC						= "Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7";
 	public static final String RND_NORMAL_DESC					= "Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
 	public static final String NDIG_DESC						= "Number of digits representing the number in numeral system with given base";
+	public static final String DIGIT10_DESC						= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -173,5 +177,6 @@ public final class Function2Arg {
 	public static final String ROUND_SINCE						= mXparser.NAMEv30;
 	public static final String RND_NORMAL_SINCE					= mXparser.NAMEv30;
 	public static final String NDIG_SINCE						= mXparser.NAMEv41;
+	public static final String DIGIT10_SINCE					= mXparser.NAMEv41;
 }
 
