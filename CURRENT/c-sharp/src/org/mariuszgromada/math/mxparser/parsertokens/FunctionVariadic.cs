@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.cs        4.1.0    2017-05-29
+ * @(#)FunctionVariadic.cs        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -104,6 +104,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int MEDIAN_ID					= 20;
 		public const int MODE_ID					= 21;
 		public const int BASE_ID					= 22;
+		public const int NDIST_ID					= 23;
 		/*
 		 * BooleanOperator - tokens key words.
 		 */
@@ -129,6 +130,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String MEDIAN_STR				= "med";
 		public const String MODE_STR				= "mode";
 		public const String BASE_STR				= "base";
+		public const String NDIST_STR				= "ndist";
 		/*
 		 * FunctionVariadic - syntax.
 		 */
@@ -154,6 +156,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String MEDIAN_SYN				= "med(a1, ..., an)";
 		public const String MODE_SYN				= "mode(a1, ..., an)";
 		public const String BASE_SYN				= "base(b, d1, ..., dn)";
+		public const String NDIST_SYN				= "ndist(v1, ..., vn)";
 		/*
 		 * FunctionVariadic - tokens description.
 		 */
@@ -179,6 +182,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String MEDIAN_DESC				= "The sample median";
 		public const String MODE_DESC				= "Mode - the value that appears most often";
 		public const String BASE_DESC				= "Returns number in given numeral system base represented by list of digits";
+		public const String NDIST_DESC				= "Number of distinct values";
 		/*
 		 * FunctionVariadic - since.
 		 */
@@ -204,5 +208,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String MEDIAN_SINCE			= mXparser.NAMEv41;
 		public const String MODE_SINCE				= mXparser.NAMEv41;
 		public const String BASE_SINCE				= mXparser.NAMEv41;
+		public const String NDIST_SINCE				= mXparser.NAMEv41;
 	}
 }

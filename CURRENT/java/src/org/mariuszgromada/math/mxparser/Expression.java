@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.1.0    2017-06-04
+ * @(#)Expression.java        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -4408,6 +4408,42 @@ public class Expression {
 		variadicSetDecreaseRemove(pos, BooleanAlgebra.xorVariadic( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
+	 * ARGMIN_VARIADIC
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void ARGMIN_VARIADIC(int pos) {
+		List<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory.argmin( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * ARGMAX_VARIADIC
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void ARGMAX_VARIADIC(int pos) {
+		List<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory.argmax( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * MEDIAN_VARIADIC
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void MEDIAN_VARIADIC(int pos) {
+		List<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, Statistics.median( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * MODE_VARIADIC
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void MODE_VARIADIC(int pos) {
+		List<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, Statistics.mode( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
 	 * BASE_VARIADIC
 	 *
 	 * @param      pos                 the token position
@@ -4415,6 +4451,15 @@ public class Expression {
 	private void BASE_VARIADIC(int pos) {
 		List<Double> numbers = getNumbers(pos);
 		variadicSetDecreaseRemove(pos, NumberTheory.convOthBase2Decimal( mXparser.arrayList2double(numbers) ), numbers.size() );
+	}
+	/**
+	 * NDIST_VARIADIC
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void NDIST_VARIADIC(int pos) {
+		List<Double> numbers = getNumbers(pos);
+		variadicSetDecreaseRemove(pos, NumberTheory.numberOfDistValues( mXparser.arrayList2double(numbers) ), numbers.size() );
 	}
 	/**
 	 * Parser symbols
@@ -5445,7 +5490,12 @@ public class Expression {
 		case FunctionVariadic.OR_ID: OR_VARIADIC(pos); break;
 		case FunctionVariadic.AND_ID: AND_VARIADIC(pos); break;
 		case FunctionVariadic.XOR_ID: XOR_VARIADIC(pos); break;
+		case FunctionVariadic.ARGMIN_ID: ARGMIN_VARIADIC(pos); break;
+		case FunctionVariadic.ARGMAX_ID: ARGMAX_VARIADIC(pos); break;
+		case FunctionVariadic.MEDIAN_ID: MEDIAN_VARIADIC(pos); break;
+		case FunctionVariadic.MODE_ID: MODE_VARIADIC(pos); break;
 		case FunctionVariadic.BASE_ID: BASE_VARIADIC(pos); break;
+		case FunctionVariadic.NDIST_ID: NDIST_VARIADIC(pos); break;
 		}
 	}
 	/**
@@ -5714,6 +5764,7 @@ public class Expression {
 			addKeyWord(FunctionVariadic.MEDIAN_STR, FunctionVariadic.MEDIAN_DESC, FunctionVariadic.MEDIAN_ID, FunctionVariadic.MEDIAN_SYN, FunctionVariadic.MEDIAN_SINCE, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.MODE_STR, FunctionVariadic.MODE_DESC, FunctionVariadic.MODE_ID, FunctionVariadic.MODE_SYN, FunctionVariadic.MODE_SINCE, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.BASE_STR, FunctionVariadic.BASE_DESC, FunctionVariadic.BASE_ID, FunctionVariadic.BASE_SYN, FunctionVariadic.BASE_SINCE, FunctionVariadic.TYPE_ID);
+			addKeyWord(FunctionVariadic.NDIST_STR, FunctionVariadic.NDIST_DESC, FunctionVariadic.NDIST_ID, FunctionVariadic.NDIST_SYN, FunctionVariadic.NDIST_SINCE, FunctionVariadic.TYPE_ID);
 			/*
 			 * Calculus key words
 			 */

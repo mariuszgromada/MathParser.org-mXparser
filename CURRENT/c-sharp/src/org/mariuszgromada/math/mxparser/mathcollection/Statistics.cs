@@ -1,9 +1,9 @@
 /*
- * @(#)Statistics.cs        3.0.0    2016-05-07
+ * @(#)Statistics.cs        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.1.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Statistics {
@@ -159,6 +159,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             otherwise returns Double.NaN.
 		 */
 		public static double avg(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			double sum = 0;
@@ -180,6 +181,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             otherwise returns Double.NaN.
 		 */
 		public static double var(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) {
 				if (Double.IsNaN(numbers[0])) return Double.NaN;
@@ -204,12 +206,49 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             otherwise returns Double.NaN.
 		 */
 		public static double std(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) {
 				if (Double.IsNaN(numbers[0])) return Double.NaN;
 				return 0;
 			}
 			return MathFunctions.sqrt(var(numbers));
+		}
+		/**
+		 * Sample median
+		 * @param numbers   List of number
+		 * @return          Sample median, if table was empty or null then Double.NaN is returned.
+		 */
+		public static double median(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			if (numbers.Length == 2) return (numbers[0] + numbers[1]) / 2.0;
+			foreach (double v in numbers)
+				if (Double.IsNaN(v)) return Double.NaN;
+			NumberTheory.sortAsc(numbers);
+			if ((numbers.Length % 2) == 1) {
+				int i = (numbers.Length - 1) / 2;
+				return numbers[i];
+			}
+			else {
+				int i = (numbers.Length / 2) - 1;
+				return (numbers[i] + numbers[i + 1]) / 2.0;
+			}
+		}
+		/**
+		 * Sample mode
+		 * @param numbers   List of number
+		 * @return          Sample median, if table was empty or null then Double.NaN is returned.
+		 */
+		public static double mode(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			foreach (double v in numbers)
+				if (Double.IsNaN(v)) return Double.NaN;
+			double[,] dist = NumberTheory.getDistValues(numbers, true);
+			return dist[0, 0];
 		}
 	}
 }

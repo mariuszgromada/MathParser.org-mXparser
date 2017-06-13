@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        4.1.0    2017-06-09
+ * @(#)NumberTheory.java        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -102,6 +102,8 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static final double min(double... numbers) {
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return Double.NaN;
 		double min = Double.POSITIVE_INFINITY;
 		for (double number : numbers) {
 			if (Double.isNaN(number))
@@ -110,6 +112,30 @@ public final class NumberTheory {
 				min = number;
 		}
 		return min;
+	}
+	/**
+	 * Arg-Min function.
+	 *
+	 * @param      numbers             the a function parameter
+	 *
+	 * @return     Returns the index of the first smallest number,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double argmin(double... numbers) {
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return Double.NaN;
+		double min = Double.POSITIVE_INFINITY;
+		double minIndex = -1;
+		for (int i = 0; i < numbers.length; i++) {
+			double number = numbers[i];
+			if (Double.isNaN(number))
+				return Double.NaN;
+			if (BinaryRelations.lt(number, min) == BooleanAlgebra.TRUE) {
+				min = number;
+				minIndex = i;
+			}
+		}
+		return minIndex + 1;
 	}
 	/**
 	 * Maximum function.
@@ -134,6 +160,8 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static final double max(double... numbers) {
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return Double.NaN;
 		double max = Double.NEGATIVE_INFINITY;
 		for (double number : numbers) {
 			if (Double.isNaN(number))
@@ -144,13 +172,246 @@ public final class NumberTheory {
 		return max;
 	}
 	/**
+	 * Arg-Max function.
+	 *
+	 * @param      numbers             the a function parameter
+	 *
+	 * @return     Returns the index of the first biggest number,
+	 *             otherwise returns Double.NaN.
+	 */
+	public static final double argmax(double... numbers) {
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return Double.NaN;
+		double max = Double.NEGATIVE_INFINITY;
+		double maxIndex = -1;
+		for (int i = 0; i < numbers.length; i++) {
+			double number = numbers[i];
+			if (Double.isNaN(number))
+				return Double.NaN;
+			if (BinaryRelations.gt(number, max) == BooleanAlgebra.TRUE) {
+				max = number;
+				maxIndex = i;
+			}
+		}
+		return maxIndex + 1;
+	}
+	/**
+	 * Sorting array - ascending - quick sort algorithm.
+	 * @param array         Array to be sorted
+	 * @param initOrder     Array to be swapped together with sorted array
+	 * @param leftIndex     Starting left index.
+	 * @param rightIndex    Starting right index.
+	 * @return              Initial ordering swapped according to sorting order.
+	 */
+	private static final void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
+		int i = leftIndex;
+		int j = rightIndex;
+		double x = array[(leftIndex+rightIndex)/2];
+		double w;
+		int v;
+		do {
+
+			while ( BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE ) i++;
+			while ( BinaryRelations.gt(array[j], x) == BooleanAlgebra.TRUE ) j--;
+			if (i <= j) {
+				w = array[i];
+				array[i] = array[j];
+				array[j] = w;
+				v = initOrder[i];
+				initOrder[i] = initOrder[j];
+				initOrder[j] = v;
+				i++;
+				j--;
+			}
+		} while (i <= j);
+		if (leftIndex < j) sortAsc(array, initOrder, leftIndex, j);
+		if (i < rightIndex) sortAsc(array, initOrder, i, rightIndex);
+	}
+	/**
+	 * Array sort - ascending - quick sort algorithm.
+	 * @param array  Array to be sorted
+	 * @return       Sorts array and additionally returns
+	 *               initial ordering swapped according to sorting order.
+	 */
+	public static final int[] sortAsc(double[] array) {
+		if (array == null) return null;
+		int[] initOrder = new int[array.length];
+		for (int i = 0; i < array.length; i++)
+			initOrder[i] = i;
+		if (array.length < 2) return initOrder;
+		sortAsc(array, initOrder, 0, array.length-1);
+		return initOrder;
+	}
+	/**
+	 * Returns list of distinct values found in a given array.
+	 * @param array The array
+	 * @param returnOrderByDescFreqAndAscOrigPos Indicator whether to apply final ordering based
+	 *                                           on descending value frequency and ascending initial position.
+	 * @return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
+	 *                                        2 - minimal value position in original array
+	 */
+	public static final double[][] getDistValues(double[] array, boolean returnOrderByDescFreqAndAscOrigPos) {
+		if (array == null) return null;
+		/*
+		 * double[n][3] is returned
+		 * double[i][value]         - unique value
+		 * double[i][count]         - number of appearance in data
+		 * double[i][initPosFirst]  - initial first position in data
+		 */
+		final int value = 0;
+		final int count = 1;
+		final int initPosFirst = 2;
+		double[][] distVal = new double[array.length][3];
+		if (array.length == 0) return distVal;
+		if (array.length == 1) {
+			distVal[0][value] = array[0];
+			distVal[0][count] = 1;
+			distVal[0][initPosFirst] = 0;
+			return distVal;
+		}
+		/*
+		 * Sort ascending by value
+		 */
+		int[] initPos = sortAsc(array);
+		/*
+		 * Building unique values list
+		 */
+		double unqValue = array[0];
+		int unqValCnt = 1;
+		int unqValMinPos = initPos[0];
+		/*
+		 * This will be the number of found unique values
+		 */
+		int unqCnt = 0;
+		/*
+		 * Iterating from the second element
+		 * First element is considered above
+		 */
+		for (int i = 1; i < array.length; i++) {
+			/* if the same value */
+			if ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE ) {
+				/*
+				 * - increase counter
+				 * - check if found smaller original position
+				 */
+				unqValCnt++;
+				if (initPos[i] < unqValMinPos)
+					unqValMinPos = initPos[i];
+			}
+			if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
+				/* if new value found and not end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				distVal[unqCnt][value] = unqValue;
+				distVal[unqCnt][count] = unqValCnt;
+				distVal[unqCnt][initPosFirst] = unqValMinPos;
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+				/*
+				 * Initiate new value to be further iterated
+				 */
+				unqValue = array[i];
+				unqValCnt = 1;
+				unqValMinPos = initPos[i];
+			} else if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i == array.length-1) ) {
+				/* if new value found and end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				distVal[unqCnt][value] = unqValue;
+				distVal[unqCnt][count] = unqValCnt;
+				distVal[unqCnt][initPosFirst] = unqValMinPos;
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+				/*
+				 * Store last value
+				 */
+				distVal[unqCnt][value] = array[i];
+				distVal[unqCnt][count] = 1;
+				distVal[unqCnt][initPosFirst] = initPos[i];
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+			} else if (i == array.length-1) {
+				/* if no new vale and end of the list */
+				/*
+				 * Store analyzed value
+				 */
+				distVal[unqCnt][value] = unqValue;
+				distVal[unqCnt][count] = unqValCnt;
+				distVal[unqCnt][initPosFirst] = unqValMinPos;
+				/*
+				 * Increase unique values counter
+				 */
+				unqCnt++;
+			}
+		}
+		double[][] distValFinal = new double[unqCnt][3];
+		double maxBase = 0;
+		for (int i = 0; i < unqCnt; i++) {
+			distValFinal[i][value] = distVal[i][value];
+			distValFinal[i][count] = distVal[i][count];
+			distValFinal[i][initPosFirst] = distVal[i][initPosFirst];
+			if ( distVal[i][count] > maxBase) maxBase = distVal[i][count];
+			if ( distVal[i][initPosFirst] > maxBase) maxBase = distVal[i][initPosFirst];
+		}
+		if (returnOrderByDescFreqAndAscOrigPos == false) return distValFinal;
+		/*
+		 * This will be numeral system with base maxBase
+		 * so we need to increment with 1 to have digits interpretation
+		 * for 0 ... maxBase - 1
+		 */
+		maxBase++;
+		/*
+		 * Making ordering key
+		 * - greater count lower ordering key value at first component
+		 * - lower position lower ordering key value at second component
+		 */
+		double[] key = new double[unqCnt];
+		for (int i = 0; i < unqCnt; i++)
+			key[i] = (maxBase - distVal[i][count] - 1) * maxBase + distVal[i][initPosFirst];
+		/*
+		 * Sorting descending
+		 */
+		int[] keyInitOrder = sortAsc(key);
+		/*
+		 * Getting final ordering
+		 */
+		for (int i = 0; i < unqCnt; i++) {
+			distValFinal[i][value] = distVal[ keyInitOrder[i] ][value];
+			distValFinal[i][count] = distVal[ keyInitOrder[i] ][count];
+			distValFinal[i][initPosFirst] = distVal[ keyInitOrder[i] ][initPosFirst];
+		}
+		return distValFinal;
+	}
+	/**
+	 * Returns number of unique values found the list of numbers
+	 * @param numbers    The list of numbers
+	 * @return           Number of unique values. If list is null or any Double.NaN
+	 *                   is found then Double.NaN is returned.
+	 */
+	public static final double numberOfDistValues(double... numbers) {
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return 0;
+		for (double v : numbers)
+			if (Double.isNaN(v)) return Double.NaN;
+		if (numbers.length == 1) return 1;
+		return getDistValues(numbers, false).length;
+	}
+	/**
 	 * Greatest common divisor (GCD)
 	 *
 	 * @param      a                   the a function parameter
 	 * @param      b                   the b function parameter
 	 * @return     GCD(a,b)
 	 */
-	public static final double gcd(int a, int b) {
+	public static final long gcd(long a, long b) {
 		a = Math.abs(a);
 		b = Math.abs(b);
 		if (a == 0)
@@ -174,7 +435,16 @@ public final class NumberTheory {
 	public static final double gcd(double a, double b) {
 		if ( Double.isNaN(a) || Double.isNaN(a) )
 			return Double.NaN;
-		return gcd( (int)Math.round(a),(int)Math.round(b) );
+		a = MathFunctions.floor( MathFunctions.abs(a) );
+		b = MathFunctions.floor( MathFunctions.abs(b) );
+		if (a == 0.0)
+			return b;
+		while (b != 0.0)
+			if (a > b)
+				a = MathFunctions.floor(a - b);
+			else
+				b = MathFunctions.floor(b - a);
+		return a;
 	}
 	/**
 	 * Greatest common divisor (GCD)
@@ -183,13 +453,16 @@ public final class NumberTheory {
 	 *
 	 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
 	 */
-	public static final double gcd(int... numbers) {
+	public static final long gcd(long... numbers) {
+		if (numbers == null) return -1;
+		if (numbers.length == 0) return -1;
 		if (numbers.length == 1)
-			return numbers[0];
+			if (numbers[0] >= 0) return numbers[0];
+			else return -numbers[0];
 		if (numbers.length == 2)
 			return gcd( numbers[0], numbers[1] );
 		for (int i = 1; i < numbers.length; i++)
-			numbers[i] = (int)gcd( numbers[i-1], numbers[i] );
+			numbers[i] = gcd( numbers[i-1], numbers[i] );
 		return numbers[numbers.length-1];
 	}
 	/**
@@ -202,14 +475,15 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static final double gcd(double... numbers) {
-		int[] intNumbers = new int[numbers.length];
-		for(int i = 0; i < numbers.length; i++) {
-			double n = numbers[i];
-			if ( Double.isNaN(n) )
-				return Double.NaN;
-			intNumbers[i] = (int)Math.round(n);
-		}
-		return gcd(intNumbers);
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1)
+			return MathFunctions.floor( MathFunctions.abs( numbers[0] ) );
+		if (numbers.length == 2)
+			return gcd( numbers[0], numbers[1] );
+		for (int i = 1; i < numbers.length; i++)
+			numbers[i] = gcd( numbers[i-1], numbers[i] );
+		return numbers[numbers.length-1];
 	}
 	/**
 	 * Latest common multiply (LCM)
@@ -219,10 +493,12 @@ public final class NumberTheory {
 	 *
 	 * @return     LCM(a,b)
 	 */
-	public static final double lcm(int a, int b) {
+	public static final long lcm(long a, long b) {
+		a = Math.abs(a);
+		b = Math.abs(b);
 		if ( (a == 0) || (b == 0) )
 			return 0;
-		return Math.abs(a*b) / gcd(a, b);
+		return (a * b) / gcd(a, b);
 	}
 	/**
 	 * Latest common multiply (LCM)
@@ -236,7 +512,9 @@ public final class NumberTheory {
 	public static final double lcm(double a, double b) {
 		if ( Double.isNaN(a) || Double.isNaN(a) )
 			return Double.NaN;
-		return lcm( (int)Math.round(a), (int)Math.round(b) );
+		a = MathFunctions.floor( MathFunctions.abs(a) );
+		b = MathFunctions.floor( MathFunctions.abs(b) );
+		return (a*b) / gcd(a, b);
 	}
 	/**
 	 * Latest common multiply (LCM)
@@ -245,13 +523,16 @@ public final class NumberTheory {
 	 *
 	 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
 	 */
-	public static final double lcm(int... numbers) {
+	public static final long lcm(long... numbers) {
+		if (numbers == null) return -1;
+		if (numbers.length == 0) return -1;
 		if (numbers.length == 1)
-			return numbers[0];
+			if (numbers[0] >= 0) return numbers[0];
+			else return -numbers[0];
 		if (numbers.length == 2)
 			return lcm( numbers[0], numbers[1] );
 		for (int i = 1; i < numbers.length; i++)
-			numbers[i] = (int)lcm( numbers[i-1], numbers[i] );
+			numbers[i] = lcm( numbers[i-1], numbers[i] );
 		return numbers[numbers.length-1];
 	}
 	/**
@@ -264,16 +545,15 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static final double lcm(double... numbers) {
-		int[] intNumbers = new int[numbers.length];
-		for(int i = 0; i < numbers.length; i++) {
-			double n = numbers[i];
-			if ( Double.isNaN(n) )
-				return Double.NaN;
-			intNumbers[i] = (int)Math.round(n);
-			if (intNumbers[i] == 0)
-				return 0;
-		}
-		return lcm(intNumbers);
+		if (numbers == null) return Double.NaN;
+		if (numbers.length == 0) return Double.NaN;
+		if (numbers.length == 1)
+			MathFunctions.floor( MathFunctions.abs( numbers[0] ) );
+		if (numbers.length == 2)
+			return lcm( numbers[0], numbers[1] );
+		for (int i = 1; i < numbers.length; i++)
+			numbers[i] = lcm( numbers[i-1], numbers[i] );
+		return numbers[numbers.length-1];
 	}
 	/**
 	 * Adding numbers.
@@ -285,6 +565,7 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static final double sum(double... numbers) {
+		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
 		double sum = 0;
@@ -305,6 +586,7 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static final double prod(double... numbers) {
+		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
 		double prod = 1;

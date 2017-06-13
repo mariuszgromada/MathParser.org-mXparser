@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.1.0    2017-04-18
+ * @(#)MathFunctions.java        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -553,6 +553,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             value, otherwise returns Double.NaN.
 		 */
 		public static double continuedFraction(params double[] sequence) {
+			if (sequence == null) return Double.NaN;
+			if (sequence.Length == 0) return Double.NaN;
 			double cf = 0;
 			double a;
 			if (sequence.Length == 1)
@@ -576,12 +578,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Private function calculating continued polynomial
 		 * recursively.
 		 *
-		 * @param      n         the polunomial order
+		 * @param      n         the polynomial order
 		 * @param      x         the x values
 		 *
 		 * @return     continued polynomial value
 		 */
 		private static double continuedPolynomial(int n, double[] x) {
+			if (x == null) return Double.NaN;
+			if (x.Length == 0) return Double.NaN;
 			if (n == 0)
 				return 1;
 			if (n == 1)
@@ -598,6 +602,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             Double.NaN.
 		 */
 		public static double continuedPolynomial(params double[] x) {
+			if (x == null) return Double.NaN;
+			if (x.Length == 0) return Double.NaN;
 			foreach (double d in x)
 				if (Double.IsNaN(d))
 					return Double.NaN;

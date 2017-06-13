@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.1.0    2017-04-18
+ * @(#)MathFunctions.java        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -554,6 +554,8 @@ public final class MathFunctions {
 	 *             value, otherwise returns Double.NaN.
 	 */
 	public static final double continuedFraction(double... sequence) {
+		if (sequence == null) return Double.NaN;
+		if (sequence.length == 0) return Double.NaN;
 		double cf = 0;
 		double a;
 		if (sequence.length == 1)
@@ -577,12 +579,14 @@ public final class MathFunctions {
 	 * Private function calculating continued polynomial
 	 * recursively.
 	 *
-	 * @param      n         the polunomial order
+	 * @param      n         the polynomial order
 	 * @param      x         the x values
 	 *
 	 * @return     continued polynomial value
 	 */
 	private static final double continuedPolynomial(int n, double[] x) {
+		if (x == null) return Double.NaN;
+		if (x.length == 0) return Double.NaN;
 		if (n == 0)
 			return 1;
 		if (n == 1)
@@ -599,6 +603,8 @@ public final class MathFunctions {
 	 *             Double.NaN.
 	 */
 	public static final double continuedPolynomial(double... x) {
+		if (x == null) return Double.NaN;
+		if (x.length == 0) return Double.NaN;
 		for (double d : x)
 			if (Double.isNaN(d))
 				return Double.NaN;

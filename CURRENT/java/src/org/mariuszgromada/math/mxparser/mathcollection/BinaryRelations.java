@@ -1,9 +1,9 @@
 /*
- * @(#)BinaryRelations.java        3.0.0    2016-05-07
+ * @(#)BinaryRelations.java        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.1.0
  */
 public final class BinaryRelations {
 	/**
@@ -154,10 +154,11 @@ public final class BinaryRelations {
 	public static final double eq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
-		double result = 0;
+		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
+		double result = BooleanAlgebra.FALSE;
 		if (epsilonComparison) {
-			if ( MathFunctions.abs(a-b) <= eps ) result = 1;
-		} else if ( a == b ) result = 1;
+			if ( MathFunctions.abs(a-b) <= eps ) result = BooleanAlgebra.TRUE;
+		} else if ( a == b ) result = BooleanAlgebra.TRUE;
 		return result;
 	}
 	/**
@@ -173,10 +174,11 @@ public final class BinaryRelations {
 	public static final double neq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
-		double result = 0;
+		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
+		double result = BooleanAlgebra.FALSE;
 		if (epsilonComparison) {
-			if ( MathFunctions.abs(a-b) > eps ) result = 1;
-		} else if ( a != b ) result = 1;
+			if ( MathFunctions.abs(a-b) > eps ) result = BooleanAlgebra.TRUE;
+		} else if ( a != b ) result = BooleanAlgebra.TRUE;
 		return result;
 	}
 	/**
@@ -192,10 +194,11 @@ public final class BinaryRelations {
 	public static final double lt(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
-		double result = 0;
+		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
+		double result = BooleanAlgebra.FALSE;
 		if (epsilonComparison) {
-			if ( a < b - eps ) result = 1;
-		} else if ( a < b ) result = 1;
+			if ( a < b - eps ) result = BooleanAlgebra.TRUE;
+		} else if ( a < b ) result = BooleanAlgebra.TRUE;
 		return result;
 	}
 	/**
@@ -211,10 +214,11 @@ public final class BinaryRelations {
 	public static final double gt(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
-		double result = 0;
+		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
+		double result = BooleanAlgebra.FALSE;
 		if (epsilonComparison) {
-			if ( a > b + eps ) result = 1;
-		} else if ( a > b ) result = 1;
+			if ( a > b + eps ) result = BooleanAlgebra.TRUE;
+		} else if ( a > b ) result = BooleanAlgebra.TRUE;
 		return result;
 	}
 	/**
@@ -230,10 +234,11 @@ public final class BinaryRelations {
 	public static final double leq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
-		double result = 0;
+		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
+		double result = BooleanAlgebra.FALSE;
 		if (epsilonComparison) {
-			if ( a <= b + eps ) result = 1;
-		} else if ( a <= b ) result = 1;
+			if ( a <= b + eps ) result = BooleanAlgebra.TRUE;
+		} else if ( a <= b ) result = BooleanAlgebra.TRUE;
 		return result;
 	}
 	/**
@@ -249,10 +254,11 @@ public final class BinaryRelations {
 	public static final double geq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
-		double result = 0;
+		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
+		double result = BooleanAlgebra.FALSE;
 		if (epsilonComparison) {
-			if ( a >= b - eps ) result = 1;
-		} else if ( a >= b ) result = 1;
+			if ( a >= b - eps ) result = BooleanAlgebra.TRUE;
+		} else if ( a >= b ) result = BooleanAlgebra.TRUE;
 		return result;
 	}
 }

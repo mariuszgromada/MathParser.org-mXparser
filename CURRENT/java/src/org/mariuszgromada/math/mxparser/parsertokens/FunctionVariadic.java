@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.java        4.1.0    2017-05-29
+ * @(#)FunctionVariadic.java        4.1.0    2017-06-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -103,6 +103,7 @@ public final class FunctionVariadic {
 	public static final int MEDIAN_ID					= 20;
 	public static final int MODE_ID						= 21;
 	public static final int BASE_ID						= 22;
+	public static final int NDIST_ID					= 23;
 	/*
 	 * FunctionVariadic - tokens key words.
 	 */
@@ -128,6 +129,7 @@ public final class FunctionVariadic {
 	public static final String MEDIAN_STR				= "med";
 	public static final String MODE_STR					= "mode";
 	public static final String BASE_STR					= "base";
+	public static final String NDIST_STR				= "ndist";
 	/*
 	 * FunctionVariadic - syntax.
 	 */
@@ -153,6 +155,7 @@ public final class FunctionVariadic {
 	public static final String MEDIAN_SYN				= "med(a1, ..., an)";
 	public static final String MODE_SYN					= "mode(a1, ..., an)";
 	public static final String BASE_SYN					= "base(b, d1, ..., dn)";
+	public static final String NDIST_SYN				= "ndist(v1, ..., vn)";
 	/*
 	 * FunctionVariadic - tokens description.
 	 */
@@ -178,6 +181,7 @@ public final class FunctionVariadic {
 	public static final String MEDIAN_DESC				= "The sample median";
 	public static final String MODE_DESC				= "Mode - the value that appears most often";
 	public static final String BASE_DESC				= "Returns number in given numeral system base represented by list of digits";
+	public static final String NDIST_DESC				= "Number of distinct values";
 	/*
 	 * FunctionVariadic - since.
 	 */
@@ -203,5 +207,6 @@ public final class FunctionVariadic {
 	public static final String MEDIAN_SINCE				= mXparser.NAMEv41;
 	public static final String MODE_SINCE				= mXparser.NAMEv41;
 	public static final String BASE_SINCE				= mXparser.NAMEv41;
+	public static final String NDIST_SINCE				= mXparser.NAMEv41;
 }
 
