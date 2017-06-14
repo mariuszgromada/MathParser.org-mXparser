@@ -743,7 +743,26 @@ public final class MathFunctions {
 	public static final double power(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
-		return Math.pow(a, b);
+		if (a >= 0)
+			return Math.pow(a, b);
+		else if (abs(b) >= 1)
+			return Math.pow(a, b);
+		else if (b == 0)
+			return Math.pow(a, b);
+		else {
+			double ndob = 1.0 / abs(b);
+			double nint = Math.round(ndob);
+			if ( MathFunctions.abs(ndob-nint) <= BinaryRelations.getEpsilon() ) {
+				long n = (long)nint;
+				if (n % 2 == 1)
+					if (b > 0)
+						return -Math.pow( abs(a), 1.0 / ndob);
+					else
+						return -Math.pow( abs(a), -1.0 / ndob);
+				else
+					return Double.NaN;
+			} else return Double.NaN;
+		}
 	}
 	/**
 	 * Modulo operator a % b

@@ -742,7 +742,27 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double power(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
-			return Math.Pow(a, b);
+			if (a >= 0)
+				return Math.Pow(a, b);
+			else if (abs(b) >= 1)
+				return Math.Pow(a, b);
+			else if (b == 0)
+				return Math.Pow(a, b);
+			else {
+				double ndob = 1.0 / abs(b);
+				double nint = Math.Round(ndob);
+				if (MathFunctions.abs(ndob - nint) <= BinaryRelations.getEpsilon()) {
+					long n = (long)nint;
+					if (n % 2 == 1)
+						if (b > 0)
+							return -Math.Pow(abs(a), 1.0 / ndob);
+						else
+							return -Math.Pow(abs(a), -1.0 / ndob);
+					else
+						return Double.NaN;
+				}
+				else return Double.NaN;
+			}
 		}
 		/**
 		 * Modulo operator a % b

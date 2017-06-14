@@ -5346,7 +5346,11 @@ namespace org.mariuszgromada.math.mxparser {
 			long endTime = mXparser.currentTimeMillis();
 			computingTime = (endTime - startTime) / 1000.0;
 			recursionCallsCounter = 0;
-			return tokensList[0].tokenValue;
+			double result = tokensList[0].tokenValue;
+			double resultint = Math.Round(result);
+			if (MathFunctions.abs(result - resultint) <= BinaryRelations.getEpsilon())
+				result = resultint;
+			return result;
 		}
 		/**
 		 * Calculates unary function

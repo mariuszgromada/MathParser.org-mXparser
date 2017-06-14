@@ -5360,7 +5360,11 @@ public class Expression {
 		long endTime = System.currentTimeMillis();
 		computingTime = (endTime - startTime)/1000.0;
 		recursionCallsCounter = 0;
-		return tokensList.get(0).tokenValue;
+		double result = tokensList.get(0).tokenValue;
+		double resultint = Math.round(result);
+		if ( MathFunctions.abs(result-resultint) <= BinaryRelations.getEpsilon() )
+			result = resultint;
+		return result;
 	}
 	/**
 	 * Calculates unary function
