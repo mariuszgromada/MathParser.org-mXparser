@@ -134,6 +134,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int ULP_ID						= 51;
 		public const int ISNAN_ID					= 52;
 		public const int NDIG10_ID					= 53;
+		public const int NFACT_ID					= 54;
 		/*
 		 * UnaryFunction - tokens key words.
 		 */
@@ -230,6 +231,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ULP_STR					= "ulp";
 		public const String ISNAN_STR				= "isNaN";
 		public const String NDIG10_STR				= "ndig10";
+		public const String NFACT_STR				= "nfact";
 		/*
 		 * UnaryFunction - syntax.
 		 */
@@ -326,6 +328,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ULP_SYN					= ULP_STR + "(x)";
 		public const String ISNAN_SYN				= ISNAN_STR + "(x)";
 		public const String NDIG10_SYN				= NDIG10_STR + "(x)";
+		public const String NFACT_SYN				= NFACT_STR + "(x)";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -381,6 +384,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ULP_DESC				= "Unit in The Last Place - ulp(0.1)";
 		public const String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
 		public const String NDIG10_DESC				= "Number of digits in numeral system with base 10";
+		public const String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -435,6 +439,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String GAUSS_ERFC_INV_SINCE	= mXparser.NAMEv30;
 		public const String ULP_SINCE				= mXparser.NAMEv30;
 		public const String ISNAN_SINCE				= mXparser.NAMEv41;
-		public const String NDIG10_SINCE				= mXparser.NAMEv41;
+		public const String NDIG10_SINCE			= mXparser.NAMEv41;
+		public const String NFACT_SINCE				= mXparser.NAMEv41;
 	}
 }

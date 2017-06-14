@@ -765,6 +765,34 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 		}
 		/**
+		 * Nth order root of a number
+		 *
+		 * @param n   Root order
+		 * @param x   Number
+		 * @return    Returns root of a number. If calculation is not possible Double.NaN is returned.
+		 */
+		public static double root(double n, double x) {
+			if (Double.IsNaN(n) || Double.IsNaN(n)) return Double.NaN;
+			if (Double.IsInfinity(n) || Double.IsInfinity(n)) return Double.NaN;
+			if (n < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if (abs(n) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
+				if (abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
+				else if (abs(x - 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 1;
+				else return Double.NaN;
+			}
+			long nint = (long)floor(n);
+			if (nint == 1) return x;
+			if (nint == 2) return sqrt(x);
+			if (nint % 2 == 1) {
+				if (x >= 0) return Math.Pow(x, 1.0 / nint);
+				else return -Math.Pow(abs(x), 1.0 / nint);
+			}
+			else {
+				if (x >= 0) return Math.Pow(x, 1.0 / nint);
+				else return Double.NaN;
+			}
+		}
+		/**
 		 * Modulo operator a % b
 		 *
 		 * @param      a                   the a function parameter

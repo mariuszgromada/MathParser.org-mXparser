@@ -99,6 +99,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int RND_NORMAL_ID						= 15;
 		public const int NDIG_ID							= 16;
 		public const int DIGIT10_ID							= 17;
+		public const int FACTVAL_ID							= 18;
+		public const int FACTEXP_ID							= 19;
+		public const int ROOT_ID							= 20;
 		/*
 		 * BinaryFunction - tokens key words.
 		 */
@@ -119,6 +122,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RND_NORMAL_STR					= "rNor";
 		public const String NDIG_STR						= "ndig";
 		public const String DIGIT10_STR						= "dig10";
+		public const String FACTVAL_STR						= "factval";
+		public const String FACTEXP_STR						= "factexp";
+		public const String ROOT_STR						= "root";
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -139,6 +145,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RND_NORMAL_SYN					= "rNor(mean, stdv)";
 		public const String NDIG_SYN						= "ndig(number, base)";
 		public const String DIGIT10_SYN						= "dig10(num, pos)";
+		public const String FACTVAL_SYN						= "factval(number, factorid)";
+		public const String FACTEXP_SYN						= "factexp(number, factorid)";
+		public const String ROOT_SYN						= "root(rootorder, number)";
 		/*
 		 * BinaryFunction - tokens description.
 		 */
@@ -159,6 +168,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RND_NORMAL_DESC					= "Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
 		public const String NDIG_DESC						= "Number of digits representing the number in numeral system with given base";
 		public const String DIGIT10_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system";
+		public const String FACTVAL_DESC					= "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value";
+		public const String FACTEXP_DESC					= "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value";
+		public const String ROOT_DESC						= "N-th order root of a number";
 		/*
 		 * BinaryFunction - since.
 		 */
@@ -179,5 +191,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RND_NORMAL_SINCE				= mXparser.NAMEv30;
 		public const String NDIG_SINCE						= mXparser.NAMEv41;
 		public const String DIGIT10_SINCE					= mXparser.NAMEv41;
+		public const String FACTVAL_SINCE					= mXparser.NAMEv41;
+		public const String FACTEXP_SINCE					= mXparser.NAMEv41;
+		public const String ROOT_SINCE						= mXparser.NAMEv41;
 	}
 }

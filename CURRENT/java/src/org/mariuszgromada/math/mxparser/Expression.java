@@ -3364,6 +3364,16 @@ public class Expression {
 		f1SetDecreaseRemove(pos, NumberTheory.numberOfDigits(x) );
 	}
 	/**
+	 * Number of prime factors - distinct
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void NFACT(int pos) {
+		double n = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, NumberTheory.numberOfPrimeFactors(n) );
+	}
+	/**
 	 * Logarithm
 	 * Sets tokens to number token
 	 *
@@ -3560,6 +3570,36 @@ public class Expression {
 		double number = getTokenValue(pos+1);
 		double position = getTokenValue(pos+2);
 		f2SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position) );
+	}
+	/**
+	 * Prime factor value
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void FACTVAL(int pos) {
+		double number = getTokenValue(pos+1);
+		double id = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, NumberTheory.primeFactorValue(number, id) );
+	}
+	/**
+	 * Prime factor value exponent
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void FACTEXP(int pos) {
+		double number = getTokenValue(pos+1);
+		double id = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, NumberTheory.primeFactorExponent(number, id) );
+	}
+	/**
+	 * Nth order root
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void ROOT(int pos) {
+		double n = getTokenValue(pos+1);
+		double x = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, MathFunctions.root(n, x) );
 	}
 	/**
 	 * IF function
@@ -5424,6 +5464,7 @@ public class Expression {
 		case Function1Arg.ULP_ID: ULP(pos); break;
 		case Function1Arg.ISNAN_ID: ISNAN(pos); break;
 		case Function1Arg.NDIG10_ID: NDIG10(pos); break;
+		case Function1Arg.NFACT_ID: NFACT(pos); break;
 		}
 	}
 	/**
@@ -5449,6 +5490,9 @@ public class Expression {
 		case Function2Arg.RND_NORMAL_ID: RND_NORMAL(pos); break;
 		case Function2Arg.NDIG_ID: NDIG(pos); break;
 		case Function2Arg.DIGIT10_ID: DIGIT10(pos); break;
+		case Function2Arg.FACTVAL_ID: FACTVAL(pos); break;
+		case Function2Arg.FACTEXP_ID: FACTEXP(pos); break;
+		case Function2Arg.ROOT_ID: ROOT(pos); break;
 		}
 	}
 	/**
@@ -5708,6 +5752,7 @@ public class Expression {
 			addKeyWord(Function1Arg.ULP_STR, Function1Arg.ULP_DESC, Function1Arg.ULP_ID, Function1Arg.ULP_SYN, Function1Arg.ULP_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ISNAN_STR, Function1Arg.ISNAN_DESC, Function1Arg.ISNAN_ID, Function1Arg.ISNAN_SYN, Function1Arg.ISNAN_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.NDIG10_STR, Function1Arg.NDIG10_DESC, Function1Arg.NDIG10_ID, Function1Arg.NDIG10_SYN, Function1Arg.NDIG10_SINCE, Function1Arg.TYPE_ID);
+			addKeyWord(Function1Arg.NFACT_STR, Function1Arg.NFACT_DESC, Function1Arg.NFACT_ID, Function1Arg.NFACT_SYN, Function1Arg.NFACT_SINCE, Function1Arg.TYPE_ID);
 			/*
 			 * 2 args functions key words
 			 */
@@ -5728,6 +5773,9 @@ public class Expression {
 			addKeyWord(Function2Arg.RND_NORMAL_STR, Function2Arg.RND_NORMAL_DESC, Function2Arg.RND_NORMAL_ID, Function2Arg.RND_NORMAL_SYN, Function2Arg.RND_NORMAL_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.NDIG_STR, Function2Arg.NDIG_DESC, Function2Arg.NDIG_ID, Function2Arg.NDIG_SYN, Function2Arg.NDIG_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.DIGIT10_STR, Function2Arg.DIGIT10_DESC, Function2Arg.DIGIT10_ID, Function2Arg.DIGIT10_SYN, Function2Arg.DIGIT10_SINCE, Function2Arg.TYPE_ID);
+			addKeyWord(Function2Arg.FACTVAL_STR, Function2Arg.FACTVAL_DESC, Function2Arg.FACTVAL_ID, Function2Arg.FACTVAL_SYN, Function2Arg.FACTVAL_SINCE, Function2Arg.TYPE_ID);
+			addKeyWord(Function2Arg.FACTEXP_STR, Function2Arg.FACTEXP_DESC, Function2Arg.FACTEXP_ID, Function2Arg.FACTEXP_SYN, Function2Arg.FACTEXP_SINCE, Function2Arg.TYPE_ID);
+			addKeyWord(Function2Arg.ROOT_STR, Function2Arg.ROOT_DESC, Function2Arg.ROOT_ID, Function2Arg.ROOT_SYN, Function2Arg.ROOT_SINCE, Function2Arg.TYPE_ID);
 			/*
 			 * 3 args functions key words
 			 */

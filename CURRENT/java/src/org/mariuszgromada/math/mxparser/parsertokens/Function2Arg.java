@@ -98,6 +98,9 @@ public final class Function2Arg {
 	public static final int RND_NORMAL_ID						= 15;
 	public static final int NDIG_ID								= 16;
 	public static final int DIGIT10_ID							= 17;
+	public static final int FACTVAL_ID							= 18;
+	public static final int FACTEXP_ID							= 19;
+	public static final int ROOT_ID								= 20;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -118,6 +121,9 @@ public final class Function2Arg {
 	public static final String RND_NORMAL_STR					= "rNor";
 	public static final String NDIG_STR							= "ndig";
 	public static final String DIGIT10_STR						= "dig10";
+	public static final String FACTVAL_STR						= "factval";
+	public static final String FACTEXP_STR						= "factexp";
+	public static final String ROOT_STR						= "root";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -138,6 +144,9 @@ public final class Function2Arg {
 	public static final String RND_NORMAL_SYN					= "rNor(mean, stdv)";
 	public static final String NDIG_SYN							= "ndig(number, base)";
 	public static final String DIGIT10_SYN						= "dig10(num, pos)";
+	public static final String FACTVAL_SYN						= "factval(number, factorid)";
+	public static final String FACTEXP_SYN						= "factexp(number, factorid)";
+	public static final String ROOT_SYN							= "root(rootorder, number)";
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -158,6 +167,9 @@ public final class Function2Arg {
 	public static final String RND_NORMAL_DESC					= "Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
 	public static final String NDIG_DESC						= "Number of digits representing the number in numeral system with given base";
 	public static final String DIGIT10_DESC						= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system";
+	public static final String FACTVAL_DESC						= "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value";
+	public static final String FACTEXP_DESC						= "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value";
+	public static final String ROOT_DESC						= "N-th order root of a number";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -178,5 +190,8 @@ public final class Function2Arg {
 	public static final String RND_NORMAL_SINCE					= mXparser.NAMEv30;
 	public static final String NDIG_SINCE						= mXparser.NAMEv41;
 	public static final String DIGIT10_SINCE					= mXparser.NAMEv41;
+	public static final String FACTVAL_SINCE					= mXparser.NAMEv41;
+	public static final String FACTEXP_SINCE					= mXparser.NAMEv41;
+	public static final String ROOT_SINCE						= mXparser.NAMEv41;
 }
 

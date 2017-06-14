@@ -52,7 +52,9 @@
  */
 package org.mariuszgromada.math.mxparser.mathcollection;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
@@ -1792,5 +1794,148 @@ public final class NumberTheory {
 	 */
 	public static final double digitAtPosition(double number, double position) {
 		return digitAtPosition(number, position, 10.0);
+	}
+	/**
+	 * Prime decomposition (prime factorization)
+	 *
+	 * @param number     Number to be decomposed
+	 * @return           List of prime factors (non-distinct)
+	 */
+	public static final long[] primeFactors(long number) {
+		long[] longZeroArray = new long[0];
+		long[] factors;
+		if (number == 0) return longZeroArray;
+		if (number < 0) number = -number;
+		if (number == 1) {
+			factors = new long[1];
+			factors[0] = 1;
+			return factors;
+		}
+		if (mXparser.primesCache != null)
+			if (mXparser.primesCache.getCacheStatus() == PrimesCache.CACHING_FINISHED)
+				if (number <= Integer.MAX_VALUE)
+					if ( mXparser.primesCache.primeTest((int)number) == PrimesCache.IS_PRIME ) {
+						factors = new long[1];
+						factors[0] = number;
+						return factors;
+					}
+		long n = number;
+		List<Long> factorsList = new ArrayList<Long>();
+		for (long i = 2; i <= n / i; i++) {
+			while (n % i == 0) {
+				factorsList.add(i);
+				n /= i;
+			}
+		}
+		if (n > 1) factorsList.add(n);
+		int nfact = factorsList.size();
+		factors = new long[nfact];
+		for (int i = 0; i < nfact; i++)
+			factors[i] = factorsList.get(i);
+        return factors;
+	}
+	/**
+	 * Prime decomposition (prime factorization)
+	 *
+	 * @param number     Number to be decomposed
+	 * @return           List of prime factors (non-distinct)
+	 */
+	public static final double[] primeFactors(double number) {
+		double[] doubleZeroArray = new double[0];
+		double[] factors;
+		if (Double.isNaN(number)) return doubleZeroArray;
+		if (Double.isInfinite(number)) return doubleZeroArray;
+		number = MathFunctions.floor( MathFunctions.abs(number) );
+		if (number == 0.0) return doubleZeroArray;
+		if (number == 1.0) {
+			factors = new double[1];
+			factors[0] = 1.0;
+			return factors;
+		}
+		if (mXparser.primesCache != null)
+			if (mXparser.primesCache.getCacheStatus() == PrimesCache.CACHING_FINISHED)
+				if (number <= Integer.MAX_VALUE)
+					if ( mXparser.primesCache.primeTest((int)number) == PrimesCache.IS_PRIME ) {
+						factors = new double[1];
+						factors[0] = number;
+						return factors;
+					}
+		double n = number;
+		List<Double> factorsList = new ArrayList<Double>();
+		for (double i = 2.0; i <= MathFunctions.floor(n / i); MathFunctions.floor(i++)) {
+			while (n % i == 0) {
+				factorsList.add(i);
+				n = MathFunctions.floor(n / i);
+			}
+		}
+		if (n > 1.0) factorsList.add(n);
+		int nfact = factorsList.size();
+		factors = new double[nfact];
+		for (int i = 0; i < nfact; i++)
+			factors[i] = factorsList.get(i);
+        return factors;
+	}
+	/**
+	 * Prime decomposition (prime factorization) - returns number of distinct prime factors
+	 *
+	 * @param number     Number to be decomposed
+	 * @return           Number of distinct prime factors
+	 */
+	public static final double numberOfPrimeFactors(double number) {
+		if (Double.isNaN(number)) return Double.NaN;
+		double[] factors = primeFactors(number);
+		if (factors.length <= 1) return factors.length;
+		double[][] factorsDist = NumberTheory.getDistValues(factors, false);
+		return factorsDist.length;
+	}
+	/**
+	 * Prime decomposition (prime factorization) - returns prime factor value
+	 *
+	 * @param number     Number to be decomposed
+	 * @param id         Factor id
+	 * @return           Factor value if factor id between 1 and numberOfPrimeFactors, otherwise 1 is returned.
+	 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
+	 *                   is returned.
+	 */
+	public static final double primeFactorValue(double number, double id) {
+		if (Double.isNaN(number)) return Double.NaN;
+		if (Double.isNaN(id)) return Double.NaN;
+		if (Double.isInfinite(number)) return Double.NaN;
+		if (Double.isInfinite(id)) return Double.NaN;
+		number = MathFunctions.floor( MathFunctions.abs(number) );
+		if (number == 0.0) return Double.NaN;
+		if (id < 1) return 1;
+		id = MathFunctions.floor(id);
+		if (id > Integer.MAX_VALUE) return 1;
+		double[] factors = primeFactors(number);
+		double[][] factorsDist = NumberTheory.getDistValues(factors, false);
+		int nfact = factorsDist.length;
+		if (id > nfact) return 1;
+		return factorsDist[(int)(id-1)][0];
+	}
+	/**
+	 * Prime decomposition (prime factorization) - returns prime factor exponent
+	 *
+	 * @param number     Number to be decomposed
+	 * @param id         Factor id
+	 * @return           Factor exponent if factor id between 1 and numberOfPrimeFactors, otherwise 0 is returned.
+	 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
+	 *                   is returned.
+	 */
+	public static final double primeFactorExponent(double number, double id) {
+		if (Double.isNaN(number)) return Double.NaN;
+		if (Double.isNaN(id)) return Double.NaN;
+		if (Double.isInfinite(number)) return Double.NaN;
+		if (Double.isInfinite(id)) return Double.NaN;
+		number = MathFunctions.floor( MathFunctions.abs(number) );
+		if (number == 0.0) return Double.NaN;
+		if (id < 1) return 0;
+		id = MathFunctions.floor(id);
+		if (id > Integer.MAX_VALUE) return 0;
+		double[] factors = primeFactors(number);
+		double[][] factorsDist = NumberTheory.getDistValues(factors, false);
+		int nfact = factorsDist.length;
+		if (id > nfact) return 0;
+		return factorsDist[(int)(id-1)][1];
 	}
 }
