@@ -1,4 +1,6 @@
-![mXparser icon](http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-java-csharp.jpg)
+![mXparser icon](http://mathparser.org/wp-content/uploads/2017/06/mxparser-logo-owl.gif)
+
+# mXparser - new logo
 
 ![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
 
