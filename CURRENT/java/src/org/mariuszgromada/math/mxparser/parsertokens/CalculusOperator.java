@@ -1,5 +1,5 @@
 /*
- * @(#)CalculusOperator.java        4.1.0    2017-05-13
+ * @(#)CalculusOperator.java        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -120,9 +120,9 @@ public final class CalculusOperator {
 	public static final String SUM_SYN					= "sum( i, from, to, expr , <by> )";
 	public static final String PROD_SYN					= "prod( i, from, to, expr , <by> )";
 	public static final String INT_SYN					= "int( expr, arg, from, to )";
-	public static final String DER_SYN					= "der( expr, arg )";
-	public static final String DER_LEFT_SYN				= "der-( expr, arg )";
-	public static final String DER_RIGHT_SYN			= "der+( expr, arg )";
+	public static final String DER_SYN					= "der( expr, arg, <point> )";
+	public static final String DER_LEFT_SYN				= "der-( expr, arg, <point> )";
+	public static final String DER_RIGHT_SYN			= "der+( expr, arg, <point> )";
 	public static final String DERN_SYN					= "dern( expr, n, arg )";
 	public static final String FORW_DIFF_SYN			= "diff( expr, arg, <delta> )";
 	public static final String BACKW_DIFF_SYN			= "difb( expr, arg, <delta> )";

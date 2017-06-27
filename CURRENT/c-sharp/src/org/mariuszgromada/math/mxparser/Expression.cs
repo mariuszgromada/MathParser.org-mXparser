@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.1.0    2017-06-13
+ * @(#)Expression.cs        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -4003,15 +4003,21 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      derivativeType      the type of derivative (LEFT, RIGHT, ...)
 		 */
 		private void DERIVATIVE(int pos, int derivativeType) {
+			/*
+			 * 2 params - der( f(x), x )
+			 * 3 params - der( f(x), x, x0 )
+			 * 4 params - der( f(x), x, eps, maxsteps )
+			 * 5 params - der( f(x), x, x0, eps, maxsteps )
+			 */
 			List<FunctionParameter> derParams = getFunctionParameters(pos, tokensList);
 			/*
 			 * Default epsilon
 			 */
-			const double DEF_EPS		= 1E-8;
+			const double DEF_EPS = 1E-8;
 			/*
 			 * Default max number of steps
 			 */
-			const int DEF_MAX_STEPS		= 20;
+			const int DEF_MAX_STEPS = 20;
 			/*
 			 * Get internal function strinng
 			 * 1th - parameter
@@ -4024,19 +4030,48 @@ namespace org.mariuszgromada.math.mxparser {
 			FunctionParameter xParam = derParams[1];
 			ArgumentParameter x = getParamArgument(xParam.paramStr);
 			if (x.presence == Argument.NOT_FOUND) {
-				updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
-				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
+				updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 			}
 			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
-			double x0 = x.argument.getArgumentValue();
+			double x0 = Double.NaN;
+			/*
+			 * der( f(x), x )
+			 * der( f(x), x, eps, maxsteps )
+			 */
+			if ((derParams.Count == 2) || (derParams.Count == 4))
+				x0 = x.argument.getArgumentValue();
+			/*
+			 * der( f(x), x, x0 )
+			 * der( f(x), x, x0, eps, maxsteps )
+			 */
+			if ((derParams.Count == 3) || (derParams.Count == 5)) {
+				FunctionParameter x0Param = derParams[2];
+				if (x.presence == Argument.NOT_FOUND)
+					updateMissingTokens(x0Param.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+				Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
+				x0 = x0Expr.calculate();
+			}
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
-			if (derParams.Count == 4) {
-				FunctionParameter epsParam = derParams[2];
-				FunctionParameter maxStepsParam = derParams[3];
+			/*
+			 * der( f(x), x, eps, maxsteps )
+			 * der( f(x), x, x0, eps, maxsteps )
+			 */
+			if ((derParams.Count == 4) || (derParams.Count == 5)) {
+				FunctionParameter epsParam;
+				FunctionParameter maxStepsParam;
+				if (derParams.Count == 4) {
+					epsParam = derParams[2];
+					maxStepsParam = derParams[3];
+				}
+				else {
+					epsParam = derParams[3];
+					maxStepsParam = derParams[4];
+				}
 				if (x.presence == Argument.NOT_FOUND) {
-					updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
-					updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
+					updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
+					updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 				}
 				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
 				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING);
@@ -4046,10 +4081,12 @@ namespace org.mariuszgromada.math.mxparser {
 			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
 				double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, general);
-			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
+			}
+			else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
 				double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, left);
-			} else {
+			}
+			else {
 				double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, right);
 			}
@@ -4661,7 +4698,7 @@ namespace org.mariuszgromada.math.mxparser {
 					/*
 					 * Check syntax for "NOT RECOGNIZED" token
 					 */
-					if (t.tokenTypeId == ConstantValue.NaN) {
+					if (t.tokenTypeId == Token.NOT_MATCHED) {
 						bool calculusToken = false;
 						foreach (SyntaxStackElement e in syntaxStack)
 							if ( e.tokenStr.Equals(t.tokenStr) )
@@ -4744,15 +4781,32 @@ namespace org.mariuszgromada.math.mxparser {
 						List<FunctionParameter> funParams = null;
 						if (paramsNumber > 0)
 							funParams = getFunctionParameters(tokenIndex, initialTokens);
-						if ( (t.tokenId == CalculusOperator.DER_ID) || (t.tokenId == CalculusOperator.DER_LEFT_ID) || (t.tokenId == CalculusOperator.DER_RIGHT_ID) )  {
-							if ( (paramsNumber !=2) && (paramsNumber != 4) ) {
+						if ((t.tokenId == CalculusOperator.DER_ID) || (t.tokenId == CalculusOperator.DER_LEFT_ID) || (t.tokenId == CalculusOperator.DER_RIGHT_ID)) {
+							if ((paramsNumber < 2) || (paramsNumber > 5)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> expecting 2 or 4 calculus arguments.\n";
-							} else {
-								FunctionParameter argParam = funParams[1];
-								if ( checkIfKnownArgument(argParam) == false) {
-									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
+								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> expecting 2 or 3 or 4 or 5 calculus parameters.\n";
+							}
+							else {
+								if ((paramsNumber == 2) || (paramsNumber == 4)) {
+									FunctionParameter argParam = funParams[1];
+									if (checkIfKnownArgument(argParam) == false) {
+										syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+										errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
+									}
+								}
+								else {
+									FunctionParameter argParam = funParams[1];
+									stackElement = new SyntaxStackElement(argParam.paramStr, t.tokenLevel + 1);
+									syntaxStack.Push(stackElement);
+									int errors = checkCalculusParameter(stackElement.tokenStr);
+									if (errors > 0) {
+										syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+										errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> Found duplicated key words for calculus parameter " + "(" + stackElement.tokenStr + ", " + errors + ").\n";
+									}
+									if (!checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam)) {
+										syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+										errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> One token (argument or unknown) was expected.\n";
+									}
 								}
 							}
 						}

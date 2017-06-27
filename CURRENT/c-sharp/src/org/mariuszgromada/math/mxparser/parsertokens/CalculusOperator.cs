@@ -1,5 +1,5 @@
 /*
- * @(#)CalculusOperator.cs        4.1.0    2017-05-13
+ * @(#)CalculusOperator.cs        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -121,9 +121,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SUM_SYN					= "sum( i, from, to, expr , <by> )";
 		public const String PROD_SYN				= "prod( i, from, to, expr , <by> )";
 		public const String INT_SYN					= "int( expr, arg, from, to )";
-		public const String DER_SYN					= "der( expr, arg )";
-		public const String DER_LEFT_SYN			= "der-( expr, arg )";
-		public const String DER_RIGHT_SYN			= "der+( expr, arg )";
+		public const String DER_SYN					= "der( expr, arg, <point> )";
+		public const String DER_LEFT_SYN			= "der-( expr, arg, <point> )";
+		public const String DER_RIGHT_SYN			= "der+( expr, arg, <point> )";
 		public const String DERN_SYN				= "dern( expr, n, arg )";
 		public const String FORW_DIFF_SYN			= "diff( expr, arg, <delta> )";
 		public const String BACKW_DIFF_SYN			= "difb( expr, arg, <delta> )";

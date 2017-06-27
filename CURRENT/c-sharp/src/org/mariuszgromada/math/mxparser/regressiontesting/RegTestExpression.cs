@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        4.1.0    2017-06-13
+ * @(#)RegTestExpression.cs        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -9229,6 +9229,68 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
 				break;
+			case 818:
+				mXparser.setEpsilonComparison();
+				expStr = "der( sin(x), x, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 819:
+				mXparser.setEpsilonComparison();
+				expStr = "der+( sin(x), x, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 820:
+				mXparser.setEpsilonComparison();
+				expStr = "der-( sin(x), x, 0 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 821:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = pi");
+				expStr = "der( sin(x), x, x )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = -1;
+				if ( MathFunctions.abs(reg - value) <= 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 822:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = pi");
+				expStr = "der( sin(x), x, 2*x )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 0.00001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -9244,7 +9306,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 817;
+			int numberOfTests = 822;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

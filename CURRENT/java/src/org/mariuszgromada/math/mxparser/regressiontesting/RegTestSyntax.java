@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.1.0    2017-05-28
+ * @(#)RegTestSyntax.java        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2374,7 +2374,96 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
-
+		case 199:
+			x = new Argument("x = pi");
+			expStr = "der( sin(x), x )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, x);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 200:
+			x = new Argument("x = pi");
+			expStr = "der( sin(x), x, 0.01, 100 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, x);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 201:
+			expStr = "der( sin(x), x , pi )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 202:
+			expStr = "der( sin(x), x , pi )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, x);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 203:
+			expStr = "der( sin(x), x , pi, 0.01, 100 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 204:
+			expStr = "der( sin(x), x , pi, 0.01, 100 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, x);
+			exp[testId] = e;
+			reg = true;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 205:
+			expStr = "der( sin(x), x )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 206:
+			expStr = "der( sin(x), x, 0.1, 100 )";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			reg = false;
+			syn = e.checkSyntax();
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2388,8 +2477,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 198
-				;
+		int numberOfTests = 206;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
