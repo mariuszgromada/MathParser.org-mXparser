@@ -9291,6 +9291,84 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
 				break;
+			case 823:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 2");
+				expStr = "pi-arcsec(x)-arcsec(-x)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 824:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 3");
+				expStr = "arccsc(-x)+arccsc(x)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 825:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 5");
+				expStr = "der( arcsec(x), x ) - 1 / ( x^2 * sqrt(1 - 1 / x^2) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 826:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 6");
+				expStr = "der( arcsec(x), x ) - 1 / ( abs(x) * sqrt(x^2 - 1) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 827:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 7");
+				expStr = "der( arccsc(x), x ) + 1 / ( x^2 * sqrt(1 - 1 / x^2) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 828:
+				mXparser.setEpsilonComparison();
+				x = new Argument("x = 8");
+				expStr = "der( arccsc(x), x ) + 1 / ( abs(x) * sqrt(x^2 - 1) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -9306,7 +9384,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 822;
+			int numberOfTests = 828;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

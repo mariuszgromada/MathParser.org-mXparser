@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.1.0    2017-06-13
+ * @(#)MathFunctions.java        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -962,6 +962,28 @@ public final class MathFunctions {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.atan(1/a);
+	}
+	/**
+	 * Arcus secant - inverse trigonometric secant function
+	 *
+	 * @param      a                   the a function parameter
+	 * @return     Inverse trigonometric secant function
+	 */
+	public static final double asec(double a) {
+		if (Double.isNaN(a))
+			return Double.NaN;
+		return Math.acos(1/a);
+	}
+	/**
+	 * Arcus cosecant - inverse trigonometric cosecant function
+	 *
+	 * @param      a                   the a function parameter
+	 * @return     Inverse trigonometric cosecant function
+	 */
+	public static final double acosec(double a) {
+		if (Double.isNaN(a))
+			return Double.NaN;
+		return Math.asin(1/a);
 	}
 	/**
 	 * Natural logarithm

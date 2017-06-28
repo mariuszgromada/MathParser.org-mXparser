@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.1.0    2017-06-13
+ * @(#)MathFunctions.java        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -963,6 +963,28 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(a))
 				return Double.NaN;
 			return Math.Atan(1/a);
+		}
+		/**
+		 * Arcus secant - inverse trigonometric secant function
+		 *
+		 * @param      a                   the a function parameter
+		 * @return     Inverse trigonometric secant function
+		 */
+		public static double asec(double a) {
+			if (Double.IsNaN(a))
+				return Double.NaN;
+			return Math.Acos(1 / a);
+		}
+		/**
+		 * Arcus cosecant - inverse trigonometric cosecant function
+		 *
+		 * @param      a                   the a function parameter
+		 * @return     Inverse trigonometric cosecant function
+		 */
+		public static double acosec(double a) {
+			if (Double.IsNaN(a))
+				return Double.NaN;
+			return Math.Asin(1 / a);
 		}
 		/**
 		 * Natural logarithm

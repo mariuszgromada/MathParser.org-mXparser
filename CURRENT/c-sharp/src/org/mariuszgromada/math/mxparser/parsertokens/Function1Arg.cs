@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        4.1.0    2017-05-14
+ * @(#)Function1Arg.cs        4.1.0    2017-06-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -135,6 +135,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int ISNAN_ID					= 52;
 		public const int NDIG10_ID					= 53;
 		public const int NFACT_ID					= 54;
+		public const int ARCSEC_ID					= 55;
+		public const int ARCCSC_ID					= 56;
 		/*
 		 * UnaryFunction - tokens key words.
 		 */
@@ -232,6 +234,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ISNAN_STR				= "isNaN";
 		public const String NDIG10_STR				= "ndig10";
 		public const String NFACT_STR				= "nfact";
+		public const String ARCSEC_STR				= "arcsec";
+		public const String ARCCSC_STR				= "arccsc";
 		/*
 		 * UnaryFunction - syntax.
 		 */
@@ -329,6 +333,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ISNAN_SYN				= ISNAN_STR + "(x)";
 		public const String NDIG10_SYN				= NDIG10_STR + "(x)";
 		public const String NFACT_SYN				= NFACT_STR + "(x)";
+		public const String ARCSEC_SYN				= ARCSEC_STR + "(x)";
+		public const String ARCCSC_SYN				= ARCCSC_STR + "(x)";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -385,6 +391,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
 		public const String NDIG10_DESC				= "Number of digits in numeral system with base 10";
 		public const String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
+		public const String ARCSEC_DESC				= "Inverse trigonometric secant";
+		public const String ARCCSC_DESC				= "Inverse trigonometric cosecant";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -441,5 +449,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ISNAN_SINCE				= mXparser.NAMEv41;
 		public const String NDIG10_SINCE			= mXparser.NAMEv41;
 		public const String NFACT_SINCE				= mXparser.NAMEv41;
+		public const String ARCSEC_SINCE			= mXparser.NAMEv41;
+		public const String ARCCSC_SINCE			= mXparser.NAMEv41;
 	}
 }

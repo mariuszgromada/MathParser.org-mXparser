@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        4.1.0    2017-05-14
+ * @(#)Function1Arg.java        4.1.0    2017-06-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -134,6 +134,8 @@ public final class Function1Arg {
 	public static final int ISNAN_ID					= 52;
 	public static final int NDIG10_ID					= 53;
 	public static final int NFACT_ID					= 54;
+	public static final int ARCSEC_ID					= 55;
+	public static final int ARCCSC_ID					= 56;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -231,6 +233,8 @@ public final class Function1Arg {
 	public static final String ISNAN_STR				= "isNaN";
 	public static final String NDIG10_STR				= "ndig10";
 	public static final String NFACT_STR				= "nfact";
+	public static final String ARCSEC_STR				= "arcsec";
+	public static final String ARCCSC_STR				= "arccsc";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -328,6 +332,8 @@ public final class Function1Arg {
 	public static final String ISNAN_SYN				= ISNAN_STR + "(x)";
 	public static final String NDIG10_SYN				= NDIG10_STR + "(x)";
 	public static final String NFACT_SYN				= NFACT_STR + "(x)";
+	public static final String ARCSEC_SYN				= ARCSEC_STR + "(x)";
+	public static final String ARCCSC_SYN				= ARCCSC_STR + "(x)";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -384,6 +390,8 @@ public final class Function1Arg {
 	public static final String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
 	public static final String NDIG10_DESC				= "Number of digits in numeral system with base 10";
 	public static final String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
+	public static final String ARCSEC_DESC				= "Inverse trigonometric secant";
+	public static final String ARCCSC_DESC				= "Inverse trigonometric cosecant";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -440,4 +448,6 @@ public final class Function1Arg {
 	public static final String ISNAN_SINCE				= mXparser.NAMEv41;
 	public static final String NDIG10_SINCE				= mXparser.NAMEv41;
 	public static final String NFACT_SINCE				= mXparser.NAMEv41;
+	public static final String ARCSEC_SINCE				= mXparser.NAMEv41;
+	public static final String ARCCSC_SINCE				= mXparser.NAMEv41;
 }
