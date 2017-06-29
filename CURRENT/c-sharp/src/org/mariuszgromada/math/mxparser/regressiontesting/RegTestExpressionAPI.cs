@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.1.0    2017-05-28
+ * @(#)RegTestExpressionAPI.cs        4.1.0    2017-06-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1885,7 +1885,30 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					(Double.IsNaN(potNaN5))
 					)
 				test[testId] = true;
-
+			/*
+			 * 49. missing user defined arguments
+			 */
+			testId++;
+			e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
+			String[] misArgs = e.getMissingUserDefinedArguments();
+			if (
+					(misArgs[0].Equals("x")) &&
+					(misArgs[1].Equals("y")) &&
+					(misArgs[2].Equals("z")) &&
+					(misArgs.Length == 3)
+					)
+				test[testId] = true;
+			/*
+			 * 50. missing user defined functions
+			 */
+			testId++;
+			e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
+			String[] misFun = e.getMissingUserDefinedFunctions();
+			if (
+					(misFun[0].Equals("f")) &&
+					(misFun.Length == 1)
+					)
+				test[testId] = true;
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

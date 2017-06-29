@@ -214,8 +214,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 */
 		public int Compare(KeyWord kw1, KeyWord kw2) {
-			int t1 = kw1.wordTypeId * 1000 + kw1.wordId;
-			int t2 = kw2.wordTypeId * 1000 + kw2.wordId;
+			int t1 = kw1.wordTypeId * 1000000 + kw1.wordId * 1000 + kw1.wordString.Length;
+			int t2 = kw2.wordTypeId * 1000000 + kw2.wordId * 1000 + kw2.wordString.Length;
 			return t1 - t2;
 		}
 	}

@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.1.0    2017-05-28
+ * @(#)RegTestExpressionAPI.java        4.1.0    2017-06-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1887,6 +1887,30 @@ public class RegTestExpressionAPI {
 				( Double.isNaN(potNaN3) ) &&
 				( Double.isNaN(potNaN4) ) &&
 				( Double.isNaN(potNaN5) )
+				)
+			test[testId] = true;
+		/*
+		 * 49. missing user defined arguments
+		 */
+		testId++;
+		e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
+		String[] misArgs = e.getMissingUserDefinedArguments();
+		if (
+				( misArgs[0].equals("x") ) &&
+				( misArgs[1].equals("y") ) &&
+				( misArgs[2].equals("z") ) &&
+				( misArgs.length == 3 )
+				)
+			test[testId] = true;
+		/*
+		 * 50. missing user defined functions
+		 */
+		testId++;
+		e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
+		String[] misFun = e.getMissingUserDefinedFunctions();
+		if (
+				( misFun[0].equals("f") ) &&
+				( misFun.length == 1 )
 				)
 			test[testId] = true;
 		/* ============================================= */

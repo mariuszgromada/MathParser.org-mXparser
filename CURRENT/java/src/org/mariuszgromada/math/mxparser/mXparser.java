@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.0    2017-06-04
+ * @(#)mXparser.java        4.1.0    2017-06-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -58,6 +58,7 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
+import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
 import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
 import org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions;
 import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
@@ -730,6 +731,111 @@ public final class mXparser {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
 	/**
+	 * Other base (base between 1 and 36) number literal conversion to decimal number.
+	 *
+	 * @param numberLiteral    Number literal in given numeral system with base between
+	 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
+	 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
+	 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
+	 *                         28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 * @param numeralSystemBase             Numeral system base, between 1 and 36
+	 * @return                 Decimal number after conversion. If conversion was not
+	 *                         possible the Double.NaN is returned.
+	 */
+	public static final double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
+		return NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+	}
+	/**
+	 * Other base (base between 1 and 36) number literal conversion to decimal number.
+	 * Base specification included in number literal.
+	 *
+	 * Examples: 2 for b2.1001 or b.1001, 1 for b1.111, 23 for b23.123afg
+	 * 16 for b16.123acdf or h.123acdf.
+	 *
+	 * @param numberLiteral Number literal string.
+	 *
+	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+	 *
+	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 *
+	 * @return     Decimal number after conversion. If conversion was not
+	 *             possible the Double.NaN is returned.
+	 */
+	public static final double convOthBase2Decimal(String numberLiteral) {
+		return NumberTheory.convOthBase2Decimal(numberLiteral);
+	}
+	/**
+	 * Other base to decimal conversion.
+	 *
+	 * @param numeralSystemBase   Numeral system base has to be above 0.
+	 * @param digits              List of digits
+	 * @return                    Number after conversion. If conversion is not possible then
+	 *                            Double.NaN is returned.
+	 */
+	public static final double convOthBase2Decimal(int numeralSystemBase, int... digits) {
+		return NumberTheory.convOthBase2Decimal(numeralSystemBase, digits);
+	}
+	/**
+	 * Other base to decimal conversion.
+	 *
+	 * @param numeralSystemBase   Numeral system base has to be above 0.
+	 * @param digits              List of digits
+	 * @return                    Number after conversion. If conversion is not possible then
+	 *                            Double.NaN is returned.
+	 */
+	public static final double convOthBase2Decimal(double numeralSystemBase, double... digits) {
+		return NumberTheory.convOthBase2Decimal(numeralSystemBase, digits);
+	}
+	/**
+	 * Decimal number to other numeral system conversion with base
+	 * between 1 and 36.
+	 *
+	 * @param decimalNumber    Decimal number
+	 * @param numeralSystemBase       Numeral system base between 1 and 36
+	 * @return           Number literal representing decimal number in
+	 *                   given numeral numeral system. Digits
+	 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
+	 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
+	 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
+	 *                   25:P, 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W,
+	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
+	 *                   the "NaN" string is returned.
+	 */
+	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
+		return NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase);
+	}
+	/**
+	 * Decimal number to other numeral system conversion with base
+	 * between 1 and 36.
+	 *
+	 * @param decimalNumber    Decimal number
+	 * @param numeralSystemBase       Numeral system base between 1 and 36
+	 * @param format     If 1 then always bxx. is used, i.e. b1. or b16.
+	 *                   If 2 then for binary b. is used, for octal o. is used,
+	 *                   for hexadecimal h. is used, otherwise bxx. is used
+	 *                   where xx is the numeral system base specification.
+	 *
+	 * @return           Number literal representing decimal number in
+	 *                   given numeral numeral system.
+	 *
+	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
+	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
+	 * b27. b28. b29. b30. b31. b32. b33. b34. b35. b36.
+	 *
+	 * Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:A, 11:B, 12:C,
+	 * 13:D, 14:E, 15:F, 16:G, 17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P,
+	 * 26:Q, 27:R, 28:S, 29:T, 30:U, 31:V, 32:W, 33:X, 34:Y, 35:Z
+	 *
+	 * If conversion was not possible the "NaN" string is returned.
+	 */
+	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
+		return NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, format);
+	}
+	/**
 	 * Prints object.toString to the Console + new line
 	 *
 	 * @param o    Object to print
@@ -743,6 +849,19 @@ public final class mXparser {
 		CONSOLE_ROW_NUMBER++;
 		System.out.print(CONSOLE_PREFIX);
 		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
+	}
+	/**
+	 * Prints array of strings
+	 *
+	 * @param stringArray  array of strinfs
+	 */
+	public static final void consolePrintln(String[] stringArray) {
+		if (stringArray == null) {
+			consolePrintln("null");
+			return;
+		}
+		for (String s : stringArray)
+			consolePrintln(s);
 	}
 	/**
 	 * Prints new line to the Console, no new line

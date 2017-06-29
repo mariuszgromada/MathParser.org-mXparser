@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.1.0    2017-06-28
+ * @(#)Expression.cs        4.1.0    2017-06-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -6836,6 +6836,9 @@ namespace org.mariuszgromada.math.mxparser {
 				tokensList.Add(token.clone());
 			}
 		}
+		private const String FUNCTION = "function";
+		private const String ARGUMENT = "argument";
+		private const String ERROR = "error";
 		/**
 		 * Tokenizes expression string and returns tokens list,
 		 * including: string, type, level.
@@ -6846,9 +6849,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#consolePrintTokens(ArrayList)
 		 */
 		public List<Token> getCopyOfInitialTokens() {
-			const String FUNCTION = "function";
-			const String ARGUMENT = "argument";
-			const String ERROR = "error";
 			tokenizeExpressionString();
 			List<Token> tokensListCopy = new List<Token>();
 			Token token;
@@ -6869,6 +6869,48 @@ namespace org.mariuszgromada.math.mxparser {
 				tokensListCopy.Add(token.clone());
 			}
 			return tokensListCopy;
+		}
+		/**
+		 * Returns missing user defined arguments names, i.e.
+		 * sin(x) + cos(y) where x and y are not defined
+		 * function will return x and y.
+		 *
+		 * @return Array of missing user defined arguments names
+		 * - distinct strings.
+		 */
+		public String[] getMissingUserDefinedArguments() {
+			List<Token> tokens = getCopyOfInitialTokens();
+			List<String> missingArguments = new List<String>();
+			foreach (Token t in tokens)
+				if ( t.looksLike.Equals(ARGUMENT) )
+					if ( !missingArguments.Contains(t.tokenStr) )
+						missingArguments.Add(t.tokenStr);
+			int n = missingArguments.Count;
+			String[] missArgs = new String[n];
+			for (int i = 0; i < n; i++)
+				missArgs[i] = missingArguments[i];
+			return missArgs;
+		}
+		/**
+		 * Returns missing user defined functions names, i.e.
+		 * sin(x) + fun(x,y) where fun is not defined
+		 * function will return fun.
+		 *
+		 * @return Array of missing user defined functions names
+		 * - distinct strings.
+		 */
+		public String[] getMissingUserDefinedFunctions() {
+			List<Token> tokens = getCopyOfInitialTokens();
+			List<String> missingFunctions = new List<String>();
+			foreach (Token t in tokens)
+				if ( t.looksLike.Equals(FUNCTION) )
+					if ( !missingFunctions.Contains(t.tokenStr) )
+						missingFunctions.Add(t.tokenStr);
+			int n = missingFunctions.Count;
+			String[] missFun = new String[n];
+			for (int i = 0; i < n; i++)
+				missFun[i] = missingFunctions[i];
+			return missFun;
 		}
 		/**
 		 * Gets initial tokens and returns copied list

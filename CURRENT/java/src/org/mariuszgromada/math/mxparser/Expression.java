@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.1.0    2017-06-28
+ * @(#)Expression.java        4.1.0    2017-06-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -6844,6 +6844,9 @@ public class Expression {
 			tokensList.add(token.clone());
 		}
 	}
+	private final String FUNCTION = "function";
+	private final String ARGUMENT = "argument";
+	private final String ERROR    = "error";
 	/**
 	 * Tokenizes expression string and returns tokens list,
 	 * including: string, type, level.
@@ -6854,9 +6857,6 @@ public class Expression {
 	 * @see mXparser#consolePrintTokens(List)
 	 */
 	public List<Token> getCopyOfInitialTokens() {
-		final String FUNCTION = "function";
-		final String ARGUMENT = "argument";
-		final String ERROR    = "error";
 		tokenizeExpressionString();
 		List<Token> tokensListCopy = new ArrayList<Token>();
 		Token token;
@@ -6877,6 +6877,48 @@ public class Expression {
 			tokensListCopy.add(token.clone());
 		}
 		return tokensListCopy;
+	}
+	/**
+	 * Returns missing user defined arguments names, i.e.
+	 * sin(x) + cos(y) where x and y are not defined
+	 * function will return x and y.
+	 *
+	 * @return Array of missing user defined arguments names
+	 * - distinct strings.
+	 */
+	public String[] getMissingUserDefinedArguments() {
+		List<Token> tokens = getCopyOfInitialTokens();
+		List<String> missingArguments = new ArrayList<String>();
+		for (Token t : tokens)
+			if ( t.looksLike.equals(ARGUMENT) )
+				if ( !missingArguments.contains(t.tokenStr) )
+					missingArguments.add(t.tokenStr);
+		int n = missingArguments.size();
+		String[] missArgs = new String[n];
+		for (int i = 0; i < n; i++)
+			missArgs[i] = missingArguments.get(i);
+		return missArgs;
+	}
+	/**
+	 * Returns missing user defined functions names, i.e.
+	 * sin(x) + fun(x,y) where fun is not defined
+	 * function will return fun.
+	 *
+	 * @return Array of missing user defined functions names
+	 * - distinct strings.
+	 */
+	public String[] getMissingUserDefinedFunctions() {
+		List<Token> tokens = getCopyOfInitialTokens();
+		List<String> missingFunctions = new ArrayList<String>();
+		for (Token t : tokens)
+			if ( t.looksLike.equals(FUNCTION) )
+				if ( !missingFunctions.contains(t.tokenStr) )
+					missingFunctions.add(t.tokenStr);
+		int n = missingFunctions.size();
+		String[] missFun = new String[n];
+		for (int i = 0; i < n; i++)
+			missFun[i] = missingFunctions.get(i);
+		return missFun;
 	}
 	/**
 	 * Gets initial tokens and returns copied list
