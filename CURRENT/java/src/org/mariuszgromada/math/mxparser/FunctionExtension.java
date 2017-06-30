@@ -106,7 +106,6 @@ public interface FunctionExtension {
 	/**
 	 * Actual algorithm implementation.
 	 *
-	 * @param parameters Function parameters.
 	 * @return Function Extension value.
 	 */
 	public double calculate();

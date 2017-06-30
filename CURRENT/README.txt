@@ -1,9 +1,102 @@
 			mXparser - Math Parser Java Android C# .NET (CLS) Library
-		 A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
+	  A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
                        *** Donation through PayPal ***
   *** If you found the software useful donation is something you might consider :-) ***
                     *** http://mathparser.org/donate/ ***
+
+v.4.1.0 (2017-06-30): Aeries
+
+	* Various numeral systems
+	
+		- Binary numbers literals
+		- Octal numbers literals
+		- Hexadecimal numbers literals
+		- Number literals with base between 1 and 36
+		- base(b, digit1, ..., digitn) function to generate numbers in any given base
+		
+	* Leading zeros support
+	
+		- 0001
+		- 0001.12e10
+		- ...
+		
+	* Working with digits
+	
+		- ndig(number, targetBase) function - number of digits - specified numeral system base
+		- ndig10(number) function - number of digits - base 10
+		- dig(number, targetBase, position) - digit at position - specified numeral system base
+		- dig10(number, position) - digit at position - base 10
+
+	* Prime factorization
+
+		- nfact(number) - number of prime factors	
+		- factval(number, factorId) - factor value	
+		- factexp(number, factorId) - factor exponent
+		
+	* Not-a-Number
+	
+		- [NaN] symbol
+		- isNaN(x) function
+		- coalesce(a1,...,an) function - first non-NaN value
+
+	* Statistics
+
+		- med(a1, a2, ..., an) - sample median
+		- mode(a1, a2, ..., an) - sample mode
+
+	* Boolean logic
+
+		- [true] symbol
+		- [false] symbol
+		- or(a1,...an) - variadic or
+		- and(a1,...an) - variadic and
+		- xor(a1,...an) - variadic xor
+		
+	* Other functions
+	
+		- root(order, number) - root + support for negative numbers and odd-order
+		- arcsec(x) - inverse trigonometric secant
+		- arccsc(x) - inverse trigonometric cosecant
+		- ndist(v1, v2, ... vn) - number of distinct values
+		- argmin(v1, v2, ... vn) - index of minimum
+		- argmax(v1, v2, ... vn) - index of maximum
+		
+	* New operator
+	
+		- % support (i.e. 2%, x%)
+		
+	* Calculus
+	
+		- der( f(x), x, x0 ) - alternative syntax for derivative (no need to define x as argument)
+		
+	* Built-in tokens
+	
+		- Option to override built-in tokens
+		- Possibility to remove built-in tokens
+		- Possibility to change built-in token
+		- Key words: syntax + since
+		- Get key words list
+
+	* Working with expression tokens
+		
+		- Get missing user defined arguments
+		- Get missing user defined functions
+
+	* Bugs fixed
+
+		- Dependent arguments and StackOverflowError #35 (introduction of recursion calls counter)
+		- FunctionExtension.calculate #32
+
+	* New regression tests - current tests coverage:
+	
+		- 829 expression related tests
+		- 207 syntax related tests
+		- 51 api related tests
+		- 20 performance tests
+		
+	https://github.com/mariuszgromada/MathParser.org-mXparser/milestone/1
+
 
 v.4.0.0.2 (2017-04-17): Port to various .NET frameworks
 					  - .NET Core

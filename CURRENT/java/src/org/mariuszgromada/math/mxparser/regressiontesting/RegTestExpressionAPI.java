@@ -999,7 +999,7 @@ public class RegTestExpressionAPI {
 		testId++;
 		char dc_1 = NumberTheory.digitChar(-1);
 		char dc37 = NumberTheory.digitChar(37);
-		int di = NumberTheory.digitIndex('ą');
+		int di = NumberTheory.digitIndex(' ');
 		double dec1 = NumberTheory.convOthBase2Decimal("", 1);
 		double decNaN1 = NumberTheory.convOthBase2Decimal("1101", 0);
 		double decNaN2 = NumberTheory.convOthBase2Decimal("1101", 37);

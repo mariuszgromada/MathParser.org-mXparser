@@ -446,7 +446,7 @@ public final class mXparser {
 	 *
 	 * Currently does not affect properly defined recursive mode.
 	 *
-	 * @param maxAllowedRecursionDepth
+	 * @param maxAllowedRecursionDepth  Maximum number of allowed recursion calls
 	 */
 	public static final void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 		MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
@@ -466,6 +466,8 @@ public final class mXparser {
 	 * g.addDefinitions(f);
 	 *
 	 * Currently does not affect properly defined recursive mode.
+	 *
+	 * @return Max allowed recursion calls
 	 */
 	public static final int getMaxAllowedRecursionDepth() {
 		return MAX_RECURSION_CALLS;
@@ -517,7 +519,7 @@ public final class mXparser {
 	/**
 	 * Method to change definition of built-in token - more precisely
 	 * using this method allows to modify token string recognized by the parser
-	 * (i.e. sin(x) -> sinus(x)).
+	 * (i.e. sin(x) to sinus(x)).
 	 * Procedure affects only tokens classified to built-in functions, built-in
 	 * constants, built-in units, built-in random variables.
 	 * @param currentToken     Current token name
@@ -539,7 +541,7 @@ public final class mXparser {
 	/**
 	 * Method to change definition of built-in token - more precisely
 	 * using this method allows to modify token string recognized by the parser
-	 * (i.e. sin(x) -> sinus(x)).
+	 * (i.e. sin(x) to sinus(x)).
 	 * Procedure affects only tokens classified to built-in functions, built-in
 	 * constants, built-in units, built-in random variables.
 	 * @param currentToken          Current token name
