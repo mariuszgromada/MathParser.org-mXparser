@@ -1,4 +1,4 @@
-![mXparser icon](http://mathparser.org/wp-content/uploads/2017/06/mxparser-logo-owl.gif)
+![mXparser icon](http://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png)
 
 # mXparser - new logo
 
