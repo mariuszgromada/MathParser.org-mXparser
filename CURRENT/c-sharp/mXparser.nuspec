@@ -8,13 +8,13 @@
     <owners>Mariusz Gromada</owners>
     <licenseUrl>http://mathparser.org/mxparser-license/</licenseUrl>
     <projectUrl>http://mathparser.org/</projectUrl>
-    <iconUrl>http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-Tutorial.jpg</iconUrl>
+    <iconUrl>http://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ ***</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>!!! Added ports to: .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS !!! Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.</releaseNotes>
+    <releaseNotes>v.4.1.0 Aeries - Major update: Various numeral systems + Working with digits (number of digits, digit at position), Leading zeros, Prime factorization, Not-a-Number support, Variadic or + and + xor, Other nice functions (argmin, argmax, root, mode, median, coalesce), Percentage '%' as operator, Alternative syntax for derivative, Built-in tokens manipulation, Interacting with expression tokens.</releaseNotes>
     <copyright>Copyright 2017 - Mariusz Gromada - MathParser.org</copyright>
-    <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS</tags>
+    <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
   </metadata>
   <files>
 
