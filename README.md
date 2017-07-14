@@ -562,6 +562,10 @@
 | [MRB] |Constant Value|MRB constant|2*[MRB]|1.0|
 | [li2] |Constant Value|li(2) - logarithmic integral function at x=2|[li2]*3|2.3|
 | [EG] |Constant Value|Gompertz constant|2*[EG]|2.3|
+| [true] | Constant Value | Boolean True represented as double, [true] = 1 | [true] | 4.1 |
+| [false] | Constant Value | Boolean False represented as double, [false] = 0 | [false] | 4.1 |
+| [NaN] | Constant Value | Not-a-Number | [NaN] | 4.1 |
+
 
 ## Physical Constant
 |Key word|Category|Description|Example|Since|
