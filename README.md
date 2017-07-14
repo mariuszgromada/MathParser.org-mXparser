@@ -229,17 +229,23 @@
 |---|---|---|---|---|
 |Number|Decimal Number|Decimal number|1, 1.5, -2.3|1.0|
 |Number|Decimal Number|Decimal number - scientific notation|1.2e10, -2.4e-10, 2.3E+10|4.0|
+|Number|Binary Number|Binary number - number literal| b.10101, B.10101, b2.10010|4.1|
+|Number|Octal Number|Octal number - number literal| o.1027, O.1027, b8.1027|4.1|
+|Number|Hexadecimal Number|Hexadecimal number - number literal| h.12fE, H.12fE, b16.12fE|4.1|
+|Number|Unary Number|Unary number - number literal| b1.111 , B1.111|4.1|
+|Number|Base 1-36|Base 1-36 number - number literal| bN.xxxx , BN.xxxx|4.1|
 
 ## Operators
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| + |Operator|Addition|a + b|1.0|
-| - |Operator|Subtraction|a - b|1.0|
-| * |Operator|Multiplication|a * b|1.0|
-| / |Operator|Division|a / b|1.0|
-| ^ |Operator|Exponentiation|a ^ b|1.0|
-| ! |Operator|Factorial|n!|1.0|
-| # |Operator|Modulo function|a # b|1.0|
+| + | Operator | Addition | a + b | 1.0 |
+| - | Operator | Subtraction | a - b | 1.0 |
+| * | Operator | Multiplication | a * b | 1.0 |
+| / | Operator | Division | a / b | 1.0 |
+| ^ | Operator | Exponentiation | a^b | 1.0 |
+| ! | Operator | Factorial | n! | 1.0 |
+| # | Operator | Modulo function | a # b | 1.0 |
+| % | Operator | Percentage | n% | 4.1 |
 
 ## Boolean Operators
 |Key word|Category|Description|Example|Since|
@@ -290,166 +296,189 @@
 ## Unary Functions
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| sin |Unary Function|Trigonometric sine function|sin(x)|1.0|
-| cos |Unary Function|Trigonometric cosine function|cos(x)|1.0|
-| tan |Unary Function|Trigonometric tangent function|tan(x)|1.0|
-| tg |Unary Function|Trigonometric tangent function|tg(x)|1.0|
-| ctan |Unary Function|Trigonometric cotangent function|ctan(x)|1.0|
-| ctg |Unary Function|Trigonometric cotangent function|ctg(x)|1.0|
-| cot |Unary Function|Trigonometric cotangent function|cot(x)|1.0|
-| sec |Unary Function|Trigonometric secant function|sec(x)|1.0|
-| cosec |Unary Function|Trigonometric cosecant function|cosec(x)|1.0|
-| csc |Unary Function|Trigonometric cosecant function|csc(x)|1.0|
-| asin |Unary Function|Inverse trigonometric sine function|asin(x)|1.0|
-| arsin |Unary Function|Inverse trigonometric sine function|arsin(x)|1.0|
-| arcsin |Unary Function|Inverse trigonometric sine function|arcsin(x)|1.0|
-| acos |Unary Function|Inverse trigonometric cosine function|acos(x)|1.0|
-| arcos |Unary Function|Inverse trigonometric cosine function|arcos(x)|1.0|
-| arccos |Unary Function|Inverse trigonometric cosine function|arccos(x)|1.0|
-| atan |Unary Function|Inverse trigonometric tangent function|atan(x)|1.0|
-| arctan |Unary Function|Inverse trigonometric tangent function|arctan(x)|1.0|
-| atg |Unary Function|Inverse trigonometric tangent function|atg(x)|1.0|
-| arctg |Unary Function|Inverse trigonometric tangent function|arctg(x)|1.0|
-| actan |Unary Function|Inverse trigonometric cotangent function|actan(x)|1.0|
-| arcctan |Unary Function|Inverse trigonometric cotangent function|arcctan(x)|1.0|
-| actg |Unary Function|Inverse trigonometric cotangent function|actg(x)|1.0|
-| arcctg |Unary Function|Inverse trigonometric cotangent function|arcctg(x)|1.0|
-| acot |Unary Function|Inverse trigonometric cotangent function|acot(x)|1.0|
-| arccot |Unary Function|Inverse trigonometric cotangent function|arccot(x)|1.0|
-| ln |Unary Function|Natural logarithm function (base e)|ln(x)|1.0|
-| log2 |Unary Function|Binary logarithm function (base 2)|log2(x)|1.0|
-| log10 |Unary Function|Common logarithm function (base 10)|log10(x)|1.0|
-| rad |Unary Function|Degrees to radians function|rad(x)|1.0|
-| exp |Unary Function|Exponential function|exp(x)|1.0|
-| sqrt |Unary Function|Squre root function|sqrt(x)|1.0|
-| sinh |Unary Function|Hyperbolic sine function|sinh(x)|1.0|
-| cosh |Unary Function|Hyperbolic cosine function|cosh(x)|1.0|
-| tanh |Unary Function|Hyperbolic tangent function|tanh(x)|1.0|
-| tgh |Unary Function|Hyperbolic tangent function|tgh(x)|1.0|
-| ctanh |Unary Function|Hyperbolic cotangent function|ctanh(x)|1.0|
-| coth |Unary Function|Hyperbolic cotangent function|coth(x)|1.0|
-| ctgh |Unary Function|Hyperbolic cotangent function|ctgh(x)|1.0|
-| sech |Unary Function|Hyperbolic secant function|sech(x)|1.0|
-| csch |Unary Function|Hyperbolic cosecant function|csch(x)|1.0|
-| cosech |Unary Function|Hyperbolic cosecant function|cosech(x)|1.0|
-| deg |Unary Function|Radians to degrees function|deg(x)|1.0|
-| abs |Unary Function|Absolut value function|abs(x)|1.0|
-| sgn |Unary Function|Signum function|sgn(x)|1.0|
-| floor |Unary Function|Floor function|floor(x)|1.0|
-| ceil |Unary Function|Ceiling function|ceil(x)|1.0|
-| not |Unary Function|Negation function|not(x)|1.0|
-| asinh |Unary Function|Inverse hyperbolic sine function|asinh(x)|1.0|
-| arsinh |Unary Function|Inverse hyperbolic sine function|arsinh(x)|1.0|
-| arcsinh |Unary Function|Inverse hyperbolic sine function|arcsinh(x)|1.0|
-| acosh |Unary Function|Inverse hyperbolic cosine function|acosh(x)|1.0|
-| arcosh |Unary Function|Inverse hyperbolic cosine function|arcosh(x)|1.0|
-| arccosh |Unary Function|Inverse hyperbolic cosine function|arccosh(x)|1.0|
-| atanh |Unary Function|Inverse hyperbolic tangent function|atanh(x)|1.0|
-| arctanh |Unary Function|Inverse hyperbolic tangent function|arctanh(x)|1.0|
-| atgh |Unary Function|Inverse hyperbolic tangent function|atgh(x)|1.0|
-| arctgh |Unary Function|Inverse hyperbolic tangent function|arctgh(x)|1.0|
-| actanh |Unary Function|Inverse hyperbolic cotangent function|actanh(x)|1.0|
-| arcctanh |Unary Function|Inverse hyperbolic cotangent function|arcctanh(x)|1.0|
-| acoth |Unary Function|Inverse hyperbolic cotangent function|acoth(x)|1.0|
-| arcoth |Unary Function|Inverse hyperbolic cotangent function|arcoth(x)|1.0|
-| arccoth |Unary Function|Inverse hyperbolic cotangent function|arccoth(x)|1.0|
-| actgh |Unary Function|Inverse hyperbolic cotangent function|actgh(x)|1.0|
-| arcctgh |Unary Function|Inverse hyperbolic cotangent function|arcctgh(x)|1.0|
-| asech |Unary Function|Inverse hyperbolic secant function|asech(x)|1.0|
-| arsech |Unary Function|Inverse hyperbolic secant function|arsech(x)|1.0|
-| arcsech |Unary Function|Inverse hyperbolic secant function|arcsech(x)|1.0|
-| acsch |Unary Function|Inverse hyperbolic cosecant function|acsch(x)|1.0|
-| arcsch |Unary Function|Inverse hyperbolic cosecant function|arcsch(x)|1.0|
-| arccsch |Unary Function|Inverse hyperbolic cosecant function|arccsch(x)|1.0|
-| acosech |Unary Function|Inverse hyperbolic cosecant function|acosech(x)|1.0|
-| arcosech |Unary Function|Inverse hyperbolic cosecant function|arcosech(x)|1.0|
-| arccosech |Unary Function|Inverse hyperbolic cosecant function|arccosech(x)|1.0|
-| sinc |Unary Function|Sinc function (normalized)|sinc(x)|1.0|
-| Sa |Unary Function|Sinc function (normalized)|Sa(x)|1.0|
-| Sinc |Unary Function|Sinc function (unnormalized)|Sinc(x)|1.0|
-| Bell |Unary Function|Bell number|Bell(x)|1.0|
-| Luc |Unary Function|Lucas number|Luc(n)|1.0|
-| Fib |Unary Function|Fibonacci number|Fib(n)|1.0|
-| harm |Unary Function|Harmonic number|harm(n)|1.0|
-| ispr |Unary Function|Prime number test (is number a prime?)|ispr(n)|2.3|
-| Pi |Unary Function|Prime-counting function - Pi(n)|Pi(n)|2.3|
-| Ei |Unary Function|Exponential integral function (non-elementary special function) - usage example: Ei(x)|Ei(x)|2.3|
-| li |Unary Function|Logarithmic integral function (non-elementary special function) - usage example: li(x)|li(x)|2.3|
-| Li |Unary Function|Offset logarithmic integral function (non-elementary special function) - usage example: Li(x)|Li(x)|2.3|
-| erf |Unary Function|Gauss error function (non-elementary special function) - usage example: 2 + erf(x)|erf(x)|3.0|
-| erfc |Unary Function|Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)|erfc(x)|3.0|
-| erfInv |Unary Function|Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)|erfInv(x)|3.0|
-| erfcInv |Unary Function|Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)|erfcInv(x)|3.0|
-| ulp |Unary Function|Unit in The Last Place - ulp(0.1)|ulp(x)|3.0|
+| sin | Unary Function | Trigonometric sine function | sin(x) | 1.0 |
+| cos | Unary Function | Trigonometric cosine function | cos(x) | 1.0 |
+| tg | Unary Function | Trigonometric tangent function | tg(x) | 1.0 |
+| tan | Unary Function | Trigonometric tangent function | tan(x) | 1.0 |
+| ctg | Unary Function | Trigonometric cotangent function | ctg(x) | 1.0 |
+| cot | Unary Function | Trigonometric cotangent function | cot(x) | 1.0 |
+| ctan | Unary Function | Trigonometric cotangent function | ctan(x) | 1.0 |
+| sec | Unary Function | Trigonometric secant function | sec(x) | 1.0 |
+| csc | Unary Function | Trigonometric cosecant function | csc(x) | 1.0 |
+| cosec | Unary Function | Trigonometric cosecant function | cosec(x) | 1.0 |
+| asin | Unary Function | Inverse trigonometric sine function | asin(x) | 1.0 |
+| arsin | Unary Function | Inverse trigonometric sine function | arsin(x) | 1.0 |
+| arcsin | Unary Function | Inverse trigonometric sine function | arcsin(x) | 1.0 |
+| acos | Unary Function | Inverse trigonometric cosine function | acos(x) | 1.0 |
+| arcos | Unary Function | Inverse trigonometric cosine function | arcos(x) | 1.0 |
+| arccos | Unary Function | Inverse trigonometric cosine function | arccos(x) | 1.0 |
+| atg | Unary Function | Inverse trigonometric tangent function | atg(x) | 1.0 |
+| atan | Unary Function | Inverse trigonometric tangent function | atan(x) | 1.0 |
+| arctg | Unary Function | Inverse trigonometric tangent function | arctg(x) | 1.0 |
+| arctan | Unary Function | Inverse trigonometric tangent function | arctan(x) | 1.0 |
+| actg | Unary Function | Inverse trigonometric cotangent function | actg(x) | 1.0 |
+| acot | Unary Function | Inverse trigonometric cotangent function | acot(x) | 1.0 |
+| actan | Unary Function | Inverse trigonometric cotangent function | actan(x) | 1.0 |
+| arcctg | Unary Function | Inverse trigonometric cotangent function | arcctg(x) | 1.0 |
+| arccot | Unary Function | Inverse trigonometric cotangent function | arccot(x) | 1.0 |
+| arcctan | Unary Function | Inverse trigonometric cotangent function | arcctan(x) | 1.0 |
+| ln | Unary Function | Natural logarithm function (base e) | ln(x) | 1.0 |
+| log2 | Unary Function | Binary logarithm function (base 2) | log2(x) | 1.0 |
+| log10 | Unary Function | Common logarithm function (base 10) | log10(x) | 1.0 |
+| rad | Unary Function | Degrees to radians function | rad(x) | 1.0 |
+| exp | Unary Function | Exponential function | exp(x) | 1.0 |
+| sqrt | Unary Function | Squre root function | sqrt(x) | 1.0 |
+| sinh | Unary Function | Hyperbolic sine function | sinh(x) | 1.0 |
+| cosh | Unary Function | Hyperbolic cosine function | cosh(x) | 1.0 |
+| tgh | Unary Function | Hyperbolic tangent function | tgh(x) | 1.0 |
+| tanh | Unary Function | Hyperbolic tangent function | tanh(x) | 1.0 |
+| coth | Unary Function | Hyperbolic cotangent function | coth(x) | 1.0 |
+| ctgh | Unary Function | Hyperbolic cotangent function | ctgh(x) | 1.0 |
+| ctanh | Unary Function | Hyperbolic cotangent function | ctanh(x) | 1.0 |
+| sech | Unary Function | Hyperbolic secant function | sech(x) | 1.0 |
+| csch | Unary Function | Hyperbolic cosecant function | csch(x) | 1.0 |
+| cosech | Unary Function | Hyperbolic cosecant function | cosech(x) | 1.0 |
+| deg | Unary Function | Radians to degrees function | deg(x) | 1.0 |
+| abs | Unary Function | Absolut value function | abs(x) | 1.0 |
+| sgn | Unary Function | Signum function | sgn(x) | 1.0 |
+| floor | Unary Function | Floor function | floor(x) | 1.0 |
+| ceil | Unary Function | Ceiling function | ceil(x) | 1.0 |
+| not | Unary Function | Negation function | not(x) | 1.0 |
+| asinh | Unary Function | Inverse hyperbolic sine function | asinh(x) | 1.0 |
+| arsinh | Unary Function | Inverse hyperbolic sine function | arsinh(x) | 1.0 |
+| arcsinh | Unary Function | Inverse hyperbolic sine function | arcsinh(x) | 1.0 |
+| acosh | Unary Function | Inverse hyperbolic cosine function | acosh(x) | 1.0 |
+| arcosh | Unary Function | Inverse hyperbolic cosine function | arcosh(x) | 1.0 |
+| arccosh | Unary Function | Inverse hyperbolic cosine function | arccosh(x) | 1.0 |
+| atgh | Unary Function | Inverse hyperbolic tangent function | atgh(x) | 1.0 |
+| atanh | Unary Function | Inverse hyperbolic tangent function | atanh(x) | 1.0 |
+| arctgh | Unary Function | Inverse hyperbolic tangent function | arctgh(x) | 1.0 |
+| arctanh | Unary Function | Inverse hyperbolic tangent function | arctanh(x) | 1.0 |
+| acoth | Unary Function | Inverse hyperbolic cotangent function | acoth(x) | 1.0 |
+| actgh | Unary Function | Inverse hyperbolic cotangent function | actgh(x) | 1.0 |
+| actanh | Unary Function | Inverse hyperbolic cotangent function | actanh(x) | 1.0 |
+| arcoth | Unary Function | Inverse hyperbolic cotangent function | arcoth(x) | 1.0 |
+| arccoth | Unary Function | Inverse hyperbolic cotangent function | arccoth(x) | 1.0 |
+| arcctgh | Unary Function | Inverse hyperbolic cotangent function | arcctgh(x) | 1.0 |
+| arcctanh | Unary Function | Inverse hyperbolic cotangent function | arcctanh(x) | 1.0 |
+| asech | Unary Function | Inverse hyperbolic secant function | asech(x) | 1.0 |
+| arsech | Unary Function | Inverse hyperbolic secant function | arsech(x) | 1.0 |
+| arcsech | Unary Function | Inverse hyperbolic secant function | arcsech(x) | 1.0 |
+| acsch | Unary Function | Inverse hyperbolic cosecant function | acsch(x) | 1.0 |
+| arcsch | Unary Function | Inverse hyperbolic cosecant function | arcsch(x) | 1.0 |
+| arccsch | Unary Function | Inverse hyperbolic cosecant function | arccsch(x) | 1.0 |
+| acosech | Unary Function | Inverse hyperbolic cosecant function | acosech(x) | 1.0 |
+| arcosech | Unary Function | Inverse hyperbolic cosecant function | arcosech(x) | 1.0 |
+| arccosech | Unary Function | Inverse hyperbolic cosecant function | arccosech(x) | 1.0 |
+| Sa | Unary Function | Sinc function (normalized) | Sa(x) | 1.0 |
+| sinc | Unary Function | Sinc function (normalized) | sinc(x) | 1.0 |
+| Sinc | Unary Function | Sinc function (unnormalized) | Sinc(x) | 1.0 |
+| Bell | Unary Function | Bell number | Bell(n) | 1.0 |
+| Luc | Unary Function | Lucas number | Luc(n) | 1.0 |
+| Fib | Unary Function | Fibonacci number | Fib(n) | 1.0 |
+| harm | Unary Function | Harmonic number | harm(n) | 1.0 |
+| ispr | Unary Function | Prime number test (is number a prime?) | ispr(n) | 2.3 |
+| Pi | Unary Function | Prime-counting function - Pi(x) | Pi(n) | 2.3 |
+| Ei | Unary Function | Exponential integral function (non-elementary special function) - usage example: Ei(x) | Ei(x) | 2.3 |
+| li | Unary Function | Logarithmic integral function (non-elementary special function) - usage example: li(x) | li(x) | 2.3 |
+| Li | Unary Function | Offset logarithmic integral function (non-elementary special function) - usage example: Li(x) | Li(x) | 2.3 |
+| erf | Unary Function | Gauss error function (non-elementary special function) - usage example: 2 + erf(x) | erf(x) | 3.0 |
+| erfc | Unary Function | Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x) | erfc(x) | 3.0 |
+| erfInv | Unary Function | Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x) | erfInv(x) | 3.0 |
+| erfcInv | Unary Function | Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x) | erfcInv(x) | 3.0 |
+| ulp | Unary Function | Unit in The Last Place - ulp(0.1) | ulp(x) | 3.0 |
+| isNaN | Unary Function | Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x) | isNaN(x) | 4.1 |
+| ndig10 | Unary Function | Number of digits in numeral system with base 10 | ndig10(x) | 4.1 |
+| nfact | Unary Function | Prime decomposition - number of distinct prime factors | nfact(x) | 4.1 |
+| arcsec | Unary Function | Inverse trigonometric secant | arcsec(x) | 4.1 |
+| arccsc | Unary Function | Inverse trigonometric cosecant | arccsc(x) | 4.1 |
+
 
 ## Binary Functions
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| log |Binary Function|Logarithm function|log(a,b)|1.0|
-| mod |Binary Function|Modulo function|mod(a,b)|1.0|
-| C |Binary Function|Binomial coefficient function|C(n,k)|1.0|
-| Bern |Binary Function|Bernoulli numbers|Bern(n,k)|1.0|
-| Stirl1 |Binary Function|Stirling numbers of the first kind|Stirl1(n,k)|1.0|
-| Stirl2 |Binary Function|Stirling numbers of the second kind|Stirl2(n,k)|1.0|
-| Worp |Binary Function|Worpitzky number|Worp(n,k)|1.0|
-| Euler |Binary Function|Euler number|Euler(n,k)|1.0|
-| KDelta |Binary Function|Kronecker delta|KDelta(i,j)|1.0|
-| EulerPol |Binary Function|EulerPol|EulerPol(m,x)|1.0|
-| Harm |Binary Function|Harmonic number|Harm(x,n)|1.0|
-| rUni |Binary Function|Random variable - Uniform continuous distribution U(a,b), usage example: 2\*rUni(2,10)|rUni(a,b)|3.0|
-| rUnid |Binary Function|Random variable - Uniform discrete distribution U{a,b}, usage example: 2\*rUnid(2,100)|rUnid(a,b)|3.0|
-| round |Binary Function|Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7|round(x,n)|3.0|
-| rNor |Binary Function|Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3\*rNor(0,1)|rNor(m,s)|3.0|
+| log | Binary Function | Logarithm function | log(a, b) | 1.0 |
+| mod | Binary Function | Modulo function | mod(a, b) | 1.0 |
+| C | Binary Function | Binomial coefficient function | C(n, k) | 1.0 |
+| Bern | Binary Function | Bernoulli numbers | Bern(m, n) | 1.0 |
+| Stirl1 | Binary Function | Stirling numbers of the first kind | Stirl1(n, k) | 1.0 |
+| Stirl2 | Binary Function | Stirling numbers of the second kind | Stirl2(n, k) | 1.0 |
+| Worp | Binary Function | Worpitzky number | Worp(n, k) | 1.0 |
+| Euler | Binary Function | Euler number | Euler(n, k) | 1.0 |
+| KDelta | Binary Function | Kronecker delta | KDelta(i, j) | 1.0 |
+| EulerPol | Binary Function | EulerPol | EulerPol | 1.0 |
+| Harm | Binary Function | Harmonic number | Harm(x, n) | 1.0 |
+| rUni | Binary Function | Random variable - Uniform continuous distribution U(a,b), usage example: 2*rUni(2,10) | rUni(a, b) | 3.0 |
+| rUnid | Binary Function | Random variable - Uniform discrete distribution U{a,b}, usage example: 2*rUnid(2,100) | rUnid(a, b) | 3.0 |
+| round | Binary Function | Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7 | round(x, n) | 3.0 |
+| rNor | Binary Function | Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1) | rNor(mean, stdv) | 3.0 |
+| ndig | Binary Function | Number of digits representing the number in numeral system with given base | ndig(number, base) | 4.1 |
+| dig10 | Binary Function | Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system | dig10(num, pos) | 4.1 |
+| factval | Binary Function | Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value | factval(number, factorid) | 4.1 |
+| factexp | Binary Function | Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value | factexp(number, factorid) | 4.1 |
+| root | Binary Function | N-th order root of a number | root(rootorder, number) | 4.1 |
 
 ## 3-args Functions
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| if |3-args Function|If function ( if(con, if_true, if_false) )|if(a=1, 2, 0)|1.0|
-| chi |3-args Function|Characteristic function for x in (a,b) - chi(x, a, b)|chi(x, a, b)|1.0|
-| CHi |3-args Function|Characteristic function for x in [a,b] - CHi(x, a, b)|CHi(x, a, b)|1.0|
-| Chi |3-args Function|Characteristic function for x in [a,b) - Chi(x, a, b)|Chi(x, a, b)|1.0|
-| cHi |3-args Function|Characteristic function for x in (a,b] - cHi(x, a, b)|cHi(x, a, b)|1.0|
-| pUni |3-args Function|Probability distribution function - Uniform continuous distribution U(a,b), usage example: 2 * pUni(x, 2, 10)|pUni(x, a, b)|3.0|
-| cUni |3-args Function|Cumulative distribution function - Uniform continuous distribution U(a,b), usage example: 2 * cUni(x, 2, 10)|cUni(x, a, b)|3.0|
-| qUni |3-args Function|Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b), usage example: 2 * qUni(q, 2, 10)|qUni(q, a, b)|3.0|
-| pNor |3-args Function|Probability distribution function - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * pNor(x, 1, 2)|pNor(x, a, b)|3.0|
-| cNor |3-args Function|Cumulative distribution function - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * cNor(x, 1, 2)|cNor(x, a, b)|3.0|
-| qNor |3-args Function|Quantile function (inverse cumulative distribution function) - Normal distribution N(m,s) m - mean, s - stddev, usage example: 2 * qNor(q, 1, 2)|qNor(q, a, b)|3.0|
+| if | 3-args Function | If function | if( cond, expr-if-true, expr-if-false ) | 1.0 |
+| chi | 3-args Function | Characteristic function for x in (a,b) | chi(x, a, b) | 1.0 |
+| CHi | 3-args Function | Characteristic function for x in [a,b] | CHi(x, a, b) | 1.0 |
+| Chi | 3-args Function | Characteristic function for x in [a,b) | Chi(x, a, b) | 1.0 |
+| cHi | 3-args Function | Characteristic function for x in (a,b] | cHi(x, a, b) | 1.0 |
+| pUni | 3-args Function | Probability distribution function - Uniform continuous distribution U(a,b) | pUni(x, a, b) | 3.0 |
+| cUni | 3-args Function | Cumulative distribution function - Uniform continuous distribution U(a,b) | cUni(x, a, b) | 3.0 |
+| qUni | 3-args Function | Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b) | qUni(q, a, b) | 3.0 |
+| pNor | 3-args Function | Probability distribution function - Normal distribution N(m,s) | pNor(x, mean, stdv) | 3.0 |
+| cNor | 3-args Function | Cumulative distribution function - Normal distribution N(m,s) | cNor(x, mean, stdv) | 3.0 |
+| qNor | 3-args Function | Quantile function (inverse cumulative distribution function) | qNor(q, mean, stdv) | 3.0 |
+| dig | 3-args Function | Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base | dig(num, pos, base) | 4.1 |
 
 ## Variadic Functions
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| iff |Variadic Function|If function ( iff(con_1, if_true_1_exp, ..., con_n, if_true_n_exp) )|iff(x=1, 1; x=2, 2; x=3, 3)|1.0|
-| min |Variadic Function|Minimum function: min(a,b,c,...)|min(2,3,1)|1.0|
-| max |Variadic Function|Maximum function: max(a,b,c,...)|max(2,3,1)|1.0|
-| ConFrac |Variadic Function|Continued fraction: ConFrac(a,b,c,...)|ConFrac(5,1,2,4)|1.0|
-| ConPol |Variadic Function|Continued polynomial: ConPol(a,b,c,...)|ConPol(5,1,2,4)|1.0|
-| gcd |Variadic Function|Greatest common divisor: gcd(a,b,c,...)|gcd(5,1,2,4)|1.0|
-| lcm |Variadic Function|Least common multiple: lcm(a,b,c,...)|lcm(5,1,2,4)|1.0|
-| add |Variadic Function|Summation operator add(a1,a2,a3,...,an)|add(5,1,2,4)|2.4|
-| multi |Variadic Function|Multiplication multi(a1,a2,a3,...,an)|multi(5,1,2,4)|2.4|
-| mean |Variadic Function|Mean / average value mean(a1,a2,a3,...,an)|mean(5,1,2,4)|2.4|
-| var |Variadic Function|Bias-corrected sample variance var(a1,a2,a3,...,an)|var(5,1,2,4)|2.4|
-| std |Variadic Function|Bias-corrected sample standard deviation std(a1,a2,a3,...,an)|std(5,1,2,4)|2.4|
-| rList |Variadic Function|Random number from given list of numbers rList(a1,a2,a3,...,an)|rList(5,1,2,4)|3.0|
+| iff | Variadic Function | If function | iff( cond-1, expr-1; ... ; cond-n, expr-n ) | 1.0 |
+| min | Variadic Function | Minimum function | min(a1, ..., an) | 1.0 |
+| max | Variadic Function | Maximum function | max(a1, ..., an) | 1.0 |
+| ConFrac | Variadic Function | Continued fraction | ConFrac(a1, ..., an) | 1.0 |
+| ConPol | Variadic Function | Continued polynomial | ConPol(a1, ..., an) | 1.0 |
+| gcd | Variadic Function | Greatest common divisor | gcd(a1, ..., an) | 1.0 |
+| lcm | Variadic Function | Least common multiple | lcm(a1, ..., an) | 1.0 |
+| add | Variadic Function | Summation operator | add(a1, ..., an) | 2.4 |
+| multi | Variadic Function | Multiplication | multi(a1, ..., an) | 2.4 |
+| mean | Variadic Function | Mean / average value | mean(a1, ..., an) | 2.4 |
+| var | Variadic Function | Bias-corrected sample variance | var(a1, ..., an) | 2.4 |
+| std | Variadic Function | Bias-corrected sample standard deviation | std(a1, ..., an) | 2.4 |
+| rList | Variadic Function | Random number from given list of numbers | rList(a1, ..., an) | 3.0 |
+| coalesce | Variadic Function | Returns the first non-NaN value | coalesce(a1, ..., an) | 4.1 |
+| or | Variadic Function | Logical disjunction (OR) - variadic | or(a1, ..., an) | 4.1 |
+| and | Variadic Function | Logical conjunction (AND) - variadic | and(a1, ..., an) | 4.1 |
+| xor | Variadic Function | Exclusive or (XOR) - variadic | xor(a1, ..., an) | 4.1 |
+| argmin | Variadic Function | Arguments / indices of the minima | argmin(a1, ..., an) | 4.1 |
+| argmax | Variadic Function | Arguments / indices of the maxima | argmax(a1, ..., an) | 4.1 |
+| med | Variadic Function | The sample median | med(a1, ..., an) | 4.1 |
+| mode | Variadic Function | Mode - the value that appears most often | mode(a1, ..., an) | 4.1 |
+| base | Variadic Function | Returns number in given numeral system base represented by list of digits | base(b, d1, ..., dn) | 4.1 |
+| ndist | Variadic Function | Number of distinct values | ndist(v1, ..., vn) | 4.1 |
 
 ## Calculus Operators / Iterated Operators
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| sum |Calculus Operator|Summation operator (SIGMA) sum(i, from, to, f(i,...) \<,BY\>)|sum(i, 1, 10, i^2), sum(i, 1, 10, i^2, 0.5)|1.0|
-| prod |Calculus Operator|Product operator (PI) prod(i, from, to, f(i,...) \<,BY\>)|prod(i, 1, 10, i^2), prod(i, 1, 10, i^2, 0.5)|1.0|
-| int |Calculus Operator|Definite integral operator ( int(f(x,...), x, a, b) )|inf(sin(x), x, 0, pi)|1.0|
-| der |Calculus Operator|Derivative operator ( der(f(x,...), x) )|der(sin(x), x)|1.0|
-| der- |Calculus Operator|Left derivative operator ( der-(f(x,...), x) )|der+(sin(x), x)|1.0|
-| der+ |Calculus Operator|Right derivative operator ( der+(f(x,...), x) )|der-(sin(x), x)|1.0|
-| dern |Calculus Operator|N-th derivative operator ( dern(f(x,...), x) )|dern(x^2, 2, x)|1.0|
-| diff |Calculus Operator|Forward difference operator diff(f(x,...), x \<,h\>)|diff(sin(x), x), diff(f(x), x, 0.1)|1.0|
-| difb |Calculus Operator|Backward difference operator difb(f(x,...), x \<,h\>)|difb(sin(x), x), difb(f(x), x, 0.1)|1.0|
-| avg |Calculus Operator|Average operator avg(i, from, to, f(i,...) \<,BY\>)|avg(i, 1, 10, i^2), avg(i, 1, 10, i^2, 0.2)|2.4|
-| vari |Calculus Operator|Bias-corrected sample variance operator vari(i, from, to, f(i,...) \<,BY\>)|vari(i, 1, 10, i^2), vari(i, 1, 10, i^2, 0.5)|2.4|
-| stdi |Calculus Operator|Bias-corrected sample standard deviation operator stdi(i, from, to, f(i,...) \<,BY\>)|stdi(i, 1, 10, i^2), stdi(i, 1, 10, i^2, 0.01)|2.4|
-| mini |Calculus Operator|Minimum value mini(i, from, to, f(i,...) \<,BY\>)|mini(i, 1, 10, i^2), mini(i, 1, 10, i^2, 0.3)|2.4|
-| maxi |Calculus Operator|Maximum value maxi(i, from, to, f(i,...) \<,BY\>)|maxi(i, 1, 10, i^2), maxi(i, 1, 10, i^2, 0.4)|2.4|
+| sum | Calculus Operator | Summation operator - SIGMA | sum( i, from, to, expr , <by> ) | 1.0 |
+| prod | Calculus Operator | Product operator - PI | prod( i, from, to, expr , <by> ) | 1.0 |
+| int | Calculus Operator | Definite integral operator | int( expr, arg, from, to ) | 1.0 |
+| der | Calculus Operator | Derivative operator | der( expr, arg, <point> ) | 1.0 |
+| der- | Calculus Operator | Left derivative operator | der-( expr, arg, <point> ) | 1.0 |
+| der+ | Calculus Operator | Right derivative operator | der+( expr, arg, <point> ) | 1.0 |
+| dern | Calculus Operator | n-th derivative operator | dern( expr, n, arg ) | 1.0 |
+| diff | Calculus Operator | Forward difference operator | diff( expr, arg, <delta> ) | 1.0 |
+| difb | Calculus Operator | Backward difference operator | difb( expr, arg, <delta> ) | 1.0 |
+| avg | Calculus Operator | Average operator | avg( i, from, to, expr , <by> ) | 2.4 |
+| vari | Calculus Operator | Bias-corrected sample variance operator | vari( i, from, to, expr , <by> ) | 2.4 |
+| stdi | Calculus Operator | Bias-corrected sample standard deviation operator | stdi( i, from, to, expr , <by> ) | 2.4 |
+| mini | Calculus Operator | Minimum value | mini( i, from, to, expr , <by> ) | 2.4 |
+| maxi | Calculus Operator | Maximum value | maxi( i, from, to, expr , <by> ) | 2.4 |
+| solve | Calculus Operator | f(x) = 0 equation solving, function root finding | solve( expr, a, b ) | 4.0 |
 
 ## Random Variables
 |Key word|Category|Description|Example|Since|
