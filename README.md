@@ -1,7 +1,5 @@
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png)
 
-# mXparser - new logo
-
 ![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
 
 # mXparser - optional donation
