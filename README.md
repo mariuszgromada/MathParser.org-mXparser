@@ -6,9 +6,7 @@
 
 # mXparser - optional donation
 
-### If you found the software useful donation is something you might consider :-)
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
+[![paypall-donation](http://mathparser.org/wp-content/uploads/2017/07/paypall-donation.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
 # mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android and C# .NET.
 
