@@ -2,9 +2,17 @@
 	  A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
                        *** Donation through PayPal ***
-  *** If you found the software useful donation is something you might consider :-) ***
+     *** Did you find the software useful? Please consider donation :-) ***
+	 Developing and maintaining MathParser.org-mXparser takes a lot of time,
+	 mainly my free time. I hope it saved some of your time. If yes, then
+	                       buy me a cup coffee :-)
                     *** http://mathparser.org/donate/ ***
 
+v.4.1.1 (2017-07-28): Aeries - checkSyntax() bug fixing
+
+	* Fixed: checkSyntax() returns true "already checked no errors" #75
+	https://github.com/mariuszgromada/MathParser.org-mXparser/issues/75
+					
 v.4.1.0 (2017-06-30): Aeries
 
 	* Various numeral systems

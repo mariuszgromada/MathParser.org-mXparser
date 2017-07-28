@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ ***</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>v.4.1.0 Aeries - Major update: Various numeral systems + Working with digits (number of digits, digit at position), Leading zeros, Prime factorization, Not-a-Number support, Variadic or + and + xor, Other nice functions (argmin, argmax, root, mode, median, coalesce), Percentage '%' as operator, Alternative syntax for derivative, Built-in tokens manipulation, Interacting with expression tokens.</releaseNotes>
+    <releaseNotes>v.4.1.1 Fixed: checkSyntax() returns true "already checked no errors" #75. v.4.1.0 Aeries - Major update: Various numeral systems + Working with digits (number of digits, digit at position), Leading zeros, Prime factorization, Not-a-Number support, Variadic or + and + xor, Other nice functions (argmin, argmax, root, mode, median, coalesce), Percentage '%' as operator, Alternative syntax for derivative, Built-in tokens manipulation, Interacting with expression tokens.</releaseNotes>
     <copyright>Copyright 2017 - Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
   </metadata>

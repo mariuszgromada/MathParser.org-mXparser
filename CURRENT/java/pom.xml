@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mariuszgromada.math</groupId>
 	<artifactId>MathParser.org-mXparser</artifactId>
-	<version>4.1.0</version>
+	<version>4.1.1</version>
 	<packaging>jar</packaging>
 	<name>MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</name>
 	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
