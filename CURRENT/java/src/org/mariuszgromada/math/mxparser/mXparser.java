@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.0    2017-06-29
+ * @(#)mXparser.java        4.1.1   2017-07-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -94,7 +94,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.1.1
  *
  * @see RecursiveArgument
  * @see Expression
@@ -105,7 +105,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "4.1.0";
+	static final String VERSION = "4.1.1";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -171,6 +171,10 @@ public final class mXparser {
 	 * built-in tokens.
 	 */
 	static boolean overrideBuiltinTokens = false;
+	/**
+	 * Options changeset
+	 */
+	static int optionsChangesetNumber = 0;
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -486,6 +490,7 @@ public final class mXparser {
 				if (token.length() > 0)
 					if (!tokensToRemove.contains(token))
 						tokensToRemove.add(token);
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Un-marks tokens previously marked to be removed.
@@ -498,12 +503,14 @@ public final class mXparser {
 		for (String token : tokens)
 			if (token != null)
 				tokensToRemove.remove(token);
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Un-marks all tokens previously marked to be removed.
 	 */
 	public static final void unremoveAllBuiltinTokens() {
 		tokensToRemove.clear();
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Returns current list of tokens marked to be removed.
@@ -537,6 +544,7 @@ public final class mXparser {
 		tma.newToken = newToken;
 		tma.newTokenDescription = null;
 		tokensToModify.add(tma);
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Method to change definition of built-in token - more precisely
@@ -560,6 +568,7 @@ public final class mXparser {
 		tma.newToken = newToken;
 		tma.newTokenDescription = newTokenDescription;
 		tokensToModify.add(tma);
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Un-marks tokens previously marked to be modified.
@@ -578,12 +587,14 @@ public final class mXparser {
 				}
 		for (TokenModification tm : toRemove)
 			tokensToModify.remove(tm);
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Un-marks all tokens previously marked to be modified.
 	 */
 	public static final void unmodifyAllBuiltinTokens() {
 		tokensToModify.clear();
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Return details on tokens marked to be modified.
@@ -607,6 +618,7 @@ public final class mXparser {
 	 */
 	public static final void setToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = true;
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Sets mXparser not to override built-in tokens
@@ -614,6 +626,7 @@ public final class mXparser {
 	 */
 	public static final void setNotToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = false;
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Checks whether mXparser is set to override built-in tokens.

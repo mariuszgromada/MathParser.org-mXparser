@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.1.0    2017-06-28
+ * @(#)RegTestSyntax.java        4.1.1   2017-07-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -77,7 +77,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.1.1
  *
  * @see Expression
  */
@@ -2464,6 +2464,198 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 207:
+			expStr = "sin(pi)+cos(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unremoveAllBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 208:
+			expStr = "sin(pi)+cos(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unremoveAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.removeBuiltinTokens("sin", "cos");
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			mXparser.unremoveAllBuiltinTokens();
+			break;
+		case 209:
+			expStr = "sin(pi)+cos(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unremoveAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.removeBuiltinTokens("sin", "cos");
+			syn = e.checkSyntax();
+			mXparser.unremoveBuiltinTokens("cos");
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			mXparser.unremoveAllBuiltinTokens();
+			break;
+		case 210:
+			expStr = "sin(pi)+cos(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unremoveAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.removeBuiltinTokens("sin", "cos");
+			syn = e.checkSyntax();
+			mXparser.unremoveBuiltinTokens("cos");
+			syn = e.checkSyntax();
+			mXparser.unremoveAllBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 211:
+			expStr = "sine(pi)+cosine(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unmodifyAllBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 212:
+			expStr = "sine(pi)+cosine(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unmodifyAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("sin", "sine");
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			mXparser.unmodifyAllBuiltinTokens();
+			break;
+		case 213:
+			expStr = "sine(pi)+cosine(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unmodifyAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("sin", "sine");
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("cos", "cosine", "My new cosine token");
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			mXparser.unmodifyAllBuiltinTokens();
+			break;
+		case 214:
+			expStr = "sine(pi)+cosine(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unmodifyAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("sin", "sine");
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("cos", "cosine", "My new cosine token");
+			syn = e.checkSyntax();
+			mXparser.unmodifyBuiltinTokens("sin");
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			mXparser.unmodifyAllBuiltinTokens();
+			break;
+		case 215:
+			expStr = "sine(pi)+cosine(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			mXparser.unmodifyAllBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("sin", "sine");
+			syn = e.checkSyntax();
+			mXparser.modifyBuiltinToken("cos", "cosine", "My new cosine token");
+			syn = e.checkSyntax();
+			mXparser.unmodifyAllBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 216:
+			expStr = "sin(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			sin = new Function("sin(x) = 2*x");
+			pi = new Constant("pi = 1");
+			e = new Expression(expStr, sin, pi);
+			exp[testId] = e;
+			mXparser.setNotToOverrideBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 217:
+			expStr = "sin(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			sin = new Function("sin(x) = 2*x");
+			pi = new Constant("pi = 1");
+			e = new Expression(expStr, sin, pi);
+			exp[testId] = e;
+			mXparser.setNotToOverrideBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.setToOverrideBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			mXparser.setNotToOverrideBuiltinTokens();
+			break;
+		case 218:
+			expStr = "sin(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			sin = new Function("sin(x) = 2*x");
+			pi = new Constant("pi = 1");
+			e = new Expression(expStr, sin, pi);
+			exp[testId] = e;
+			mXparser.setNotToOverrideBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.setToOverrideBuiltinTokens();
+			syn = e.checkSyntax();
+			mXparser.setNotToOverrideBuiltinTokens();
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2477,7 +2669,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 206;
+		int numberOfTests = 218;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

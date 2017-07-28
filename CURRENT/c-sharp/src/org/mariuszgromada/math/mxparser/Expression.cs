@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.1.0    2017-06-29
+ * @(#)Expression.cs        4.1.1   2017-07-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -90,7 +90,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.1.1
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -275,6 +275,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * g.addDefinitions(f);
 		 */
 		private bool internalClone;
+		/**
+		 * mXparser options changeset
+		 * used in checkSyntax() method
+		 */
+		private int optionsChangesetNumber = -1;
 		/*=================================================
 		 *
 		 * Related expressions handling
@@ -4637,11 +4642,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 *             otherwise returns false.
 		 */
 		private bool checkSyntax(String level, bool functionWithBodyExt) {
-			if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) ) {
+			if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) && (optionsChangesetNumber == mXparser.optionsChangesetNumber) ) {
 				errorMessage = level + "already checked - no errors!\n";
 				recursionCallPending = false;
 				return NO_SYNTAX_ERRORS;
 			}
+			optionsChangesetNumber = mXparser.optionsChangesetNumber;
 			if (functionWithBodyExt) {
 				syntaxStatus = NO_SYNTAX_ERRORS;
 				recursionCallPending = false;

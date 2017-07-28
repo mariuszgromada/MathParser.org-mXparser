@@ -17,10 +17,14 @@ namespace mxparser.runtests {
 			mXparser.consolePrintln(MathFunctions.ulpDecimalDigitsBefore(6.28318530717959));
 			mXparser.consolePrintln(MathFunctions.round(6.28318530717959, 13));
 			*/
+			/*
 			Function f = new Function("f(x,y,z) = 2*x + y + z");
 			f.setDescription("adfdsfsd dfsdf");
 			Expression e = new Expression("2+3", f);
 			Console.WriteLine(e.getHelp());
+			*/
+			Expression e = new Expression("1!^1");
+			mXparser.consolePrintln(e.calculate());
 		}
 	}
 }

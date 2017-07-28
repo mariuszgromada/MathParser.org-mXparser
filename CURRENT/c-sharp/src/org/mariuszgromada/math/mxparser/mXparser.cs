@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.1.0    2017-06-29
+ * @(#)mXparser.cs        4.1.1   2017-07-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.1.1
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -90,7 +90,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		internal const String VERSION = "4.1.0";
+		internal const String VERSION = "4.1.1";
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -156,6 +156,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * built-in tokens.
 		 */
 		internal static bool overrideBuiltinTokens = false;
+		/**
+		 * Options changeset
+		 */
+		internal static int optionsChangesetNumber = 0;
 		/**
 		 * Initialization of prime numbers cache.
 		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -473,6 +477,7 @@ namespace org.mariuszgromada.math.mxparser {
 					if (token.Length > 0)
 						if (!tokensToRemove.Contains(token))
 							tokensToRemove.Add(token);
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Un-marks tokens previously marked to be removed.
@@ -485,12 +490,14 @@ namespace org.mariuszgromada.math.mxparser {
 			foreach (String token in tokens)
 				if (token != null)
 					tokensToRemove.Remove(token);
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Un-marks all tokens previously marked to be removed.
 		 */
 		public static void unremoveAllBuiltinTokens() {
 			tokensToRemove.Clear();
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Returns current list of tokens marked to be removed.
@@ -524,6 +531,7 @@ namespace org.mariuszgromada.math.mxparser {
 			tma.newToken = newToken;
 			tma.newTokenDescription = null;
 			tokensToModify.Add(tma);
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Method to change definition of built-in token - more precisely
@@ -547,6 +555,7 @@ namespace org.mariuszgromada.math.mxparser {
 			tma.newToken = newToken;
 			tma.newTokenDescription = newTokenDescription;
 			tokensToModify.Add(tma);
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Un-marks tokens previously marked to be modified.
@@ -565,12 +574,14 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 			foreach (TokenModification tm in toRemove)
 				tokensToModify.Remove(tm);
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Un-marks all tokens previously marked to be modified.
 		 */
 		public static void unmodifyAllBuiltinTokens() {
 			tokensToModify.Clear();
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Return details on tokens marked to be modified.
@@ -594,6 +605,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void setToOverrideBuiltinTokens() {
 			overrideBuiltinTokens = true;
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Sets mXparser not to override built-in tokens
@@ -601,6 +613,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void setNotToOverrideBuiltinTokens() {
 			overrideBuiltinTokens = false;
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Checks whether mXparser is set to override built-in tokens.
