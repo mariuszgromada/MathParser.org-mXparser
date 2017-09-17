@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        4.1.0    2017-06-28
+ * @(#)Function1Arg.cs        4.2.0    2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function1Arg {
@@ -137,6 +137,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int NFACT_ID					= 54;
 		public const int ARCSEC_ID					= 55;
 		public const int ARCCSC_ID					= 56;
+		public const int GAMMA_ID					= 57;
 		/*
 		 * UnaryFunction - tokens key words.
 		 */
@@ -236,6 +237,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NFACT_STR				= "nfact";
 		public const String ARCSEC_STR				= "arcsec";
 		public const String ARCCSC_STR				= "arccsc";
+		public const String GAMMA_STR				= "Gamma";
 		/*
 		 * UnaryFunction - syntax.
 		 */
@@ -335,6 +337,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NFACT_SYN				= NFACT_STR + "(x)";
 		public const String ARCSEC_SYN				= ARCSEC_STR + "(x)";
 		public const String ARCCSC_SYN				= ARCCSC_STR + "(x)";
+		public const String GAMMA_SYN				= GAMMA_STR + "(x)";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -393,6 +396,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
 		public const String ARCSEC_DESC				= "Inverse trigonometric secant";
 		public const String ARCCSC_DESC				= "Inverse trigonometric cosecant";
+		public const String GAMMA_DESC				= "Gamma special function";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -451,5 +455,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NFACT_SINCE				= mXparser.NAMEv41;
 		public const String ARCSEC_SINCE			= mXparser.NAMEv41;
 		public const String ARCCSC_SINCE			= mXparser.NAMEv41;
+		public const String GAMMA_SINCE				= mXparser.NAMEv42;
 	}
 }

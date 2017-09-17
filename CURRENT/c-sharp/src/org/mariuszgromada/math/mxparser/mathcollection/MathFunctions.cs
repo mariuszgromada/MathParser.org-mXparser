@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.1.0    2017-06-28
+ * @(#)MathFunctions.java        4.2.0    2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -751,7 +751,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else {
 				double ndob = 1.0 / abs(b);
 				double nint = Math.Round(ndob);
-				if (MathFunctions.abs(ndob - nint) <= BinaryRelations.getEpsilon()) {
+				if (MathFunctions.abs(ndob - nint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
 					long n = (long)nint;
 					if (n % 2 == 1)
 						if (b > 0)

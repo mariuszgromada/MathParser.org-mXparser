@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        4.1.0    2017-06-29
+ * @(#)Function1Arg.java        4.2.0    2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.2.0
  */
 public final class Function1Arg {
 	/*
@@ -136,6 +136,7 @@ public final class Function1Arg {
 	public static final int NFACT_ID					= 54;
 	public static final int ARCSEC_ID					= 55;
 	public static final int ARCCSC_ID					= 56;
+	public static final int GAMMA_ID					= 57;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -235,6 +236,7 @@ public final class Function1Arg {
 	public static final String NFACT_STR				= "nfact";
 	public static final String ARCSEC_STR				= "arcsec";
 	public static final String ARCCSC_STR				= "arccsc";
+	public static final String GAMMA_STR				= "Gamma";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -334,6 +336,7 @@ public final class Function1Arg {
 	public static final String NFACT_SYN				= NFACT_STR + "(x)";
 	public static final String ARCSEC_SYN				= ARCSEC_STR + "(x)";
 	public static final String ARCCSC_SYN				= ARCCSC_STR + "(x)";
+	public static final String GAMMA_SYN				= GAMMA_STR + "(x)";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -392,6 +395,7 @@ public final class Function1Arg {
 	public static final String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
 	public static final String ARCSEC_DESC				= "Inverse trigonometric secant";
 	public static final String ARCCSC_DESC				= "Inverse trigonometric cosecant";
+	public static final String GAMMA_DESC				= "Gamma special function";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -450,4 +454,5 @@ public final class Function1Arg {
 	public static final String NFACT_SINCE				= mXparser.NAMEv41;
 	public static final String ARCSEC_SINCE				= mXparser.NAMEv41;
 	public static final String ARCCSC_SINCE				= mXparser.NAMEv41;
+	public static final String GAMMA_SINCE				= mXparser.NAMEv42;
 }

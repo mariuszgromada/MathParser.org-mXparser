@@ -1,5 +1,5 @@
 /*
- * @(#)Coefficients.cs        3.0.0    2016-05-07
+ * @(#)Coefficients.cs        4.2.0    2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -72,7 +72,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.2.0
 	 */
 	internal sealed class Coefficients {
 		/*
@@ -324,5 +324,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			5.614329680810343111535e18, 1.493630213112993142255e19,
 			3.975442747903744836007e19, 1.058563689713169096306e20
 		};
+		/**
+		 * Coefficients for Lanchos Gamma function approximation
+		 */
+		internal static double[] lanchosGamma = { 0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7 };
 	}
 }

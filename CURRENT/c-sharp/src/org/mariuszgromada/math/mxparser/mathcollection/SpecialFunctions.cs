@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.cs        3.0.0    2016-05-07
+ * @(#)SpecialFunctions.cs        4.2.0    2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class SpecialFunctions {
@@ -400,6 +400,38 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			}
 			return s * result;
+		}
+		/**
+		 * Gamma function implementation based on
+		 * Lanchos approximation algorithm
+		 *
+		 * @param x    Function parameter
+		 * @return     Gamma function value, special cases:
+		 *             Double.NaN for 0 and negative integers,
+		 *             factorial(n-1) form positive integers
+		 */
+		public static double lanchosGamma(double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			double xabs = MathFunctions.abs(x);
+			double xint = Math.Round(xabs);
+			if (x > BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
+				if (MathFunctions.abs(xabs - xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+					return MathFunctions.factorial(xint - 1);
+			}
+			else if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
+				if (MathFunctions.abs(xabs - xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+					return Double.NaN;
+			}
+			else return Double.NaN;
+			if (x < 0.5) return MathConstants.PI / (MathFunctions.sin(MathConstants.PI * x) * lanchosGamma(1 - x));
+			int g = 7;
+			x -= 1;
+			double a = Coefficients.lanchosGamma[0];
+			double t = x + g + 0.5;
+			for (int i = 1; i < Coefficients.lanchosGamma.Length; i++) {
+				a += Coefficients.lanchosGamma[i] / (x + i);
+			}
+			return MathFunctions.sqrt(2 * MathConstants.PI) * MathFunctions.power(t, x + 0.5) * MathFunctions.exp(-t) * a;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.1.1   2017-07-28
+ * @(#)mXparser.java        4.2.0   2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -94,7 +94,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.1
+ * @version        4.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -105,7 +105,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "4.1.1";
+	static final String VERSION = "4.2.0";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -1120,4 +1120,5 @@ public final class mXparser {
 	public static final String NAMEv30 = "3.0";
 	public static final String NAMEv40 = "4.0";
 	public static final String NAMEv41 = "4.1";
+	public static final String NAMEv42 = "4.2";
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.1.1   2017-07-28
+ * @(#)Expression.java        4.2.0   2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -114,7 +114,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.1
+ * @version        4.2.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -3399,6 +3399,16 @@ public class Expression {
 		f1SetDecreaseRemove(pos, MathFunctions.acosec(x) );
 	}
 	/**
+	 * Gamma special function
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void GAMMA(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, SpecialFunctions.lanchosGamma(x) );
+	}
+	/**
 	 * Logarithm
 	 * Sets tokens to number token
 	 *
@@ -5135,34 +5145,15 @@ public class Expression {
 			bitwisePos = -1;
 			bitwiseComplPos = -1;
 			tokensNumber = tokensList.size();
-			/* calculus operations ... */
+			/* calculus or if or iff operations ... */
 			p = -1;
 			do {
 				p++;
 				token = tokensList.get(p);
-				if (token.tokenTypeId == CalculusOperator.TYPE_ID)
-					calculusPos = p;
-			} while ( (p < tokensNumber-1 ) && (calculusPos < 0) );
-			/* if operations ... */
-			if (calculusPos < 0) {
-				p = -1;
-				do {
-					p++;
-					token = tokensList.get(p);
-					if ( (token.tokenTypeId == Function3Arg.TYPE_ID) && (token.tokenId == Function3Arg.IF_CONDITION_ID) )
-						ifPos = p;
-				} while ( (p < tokensNumber-1 ) && (ifPos < 0) );
-			}
-			/* iff operations ... */
-			if ( (calculusPos < 0) && (ifPos < 0) ) {
-				p = -1;
-				do {
-					p++;
-					token = tokensList.get(p);
-					if ( (token.tokenTypeId == FunctionVariadic.TYPE_ID) && (token.tokenId == FunctionVariadic.IFF_ID) )
-						iffPos = p;
-				} while ( (p < tokensNumber-1 ) && (iffPos < 0 ) );
-			}
+				if (token.tokenTypeId == CalculusOperator.TYPE_ID) calculusPos = p;
+				else if ( (token.tokenTypeId == Function3Arg.TYPE_ID) && (token.tokenId == Function3Arg.IF_CONDITION_ID) ) ifPos = p;
+				else if ( (token.tokenTypeId == FunctionVariadic.TYPE_ID) && (token.tokenId == FunctionVariadic.IFF_ID) ) iffPos = p;
+			} while ( (p < tokensNumber-1 ) && (calculusPos < 0) && (ifPos < 0) && (iffPos < 0) );
 			if ( (calculusPos < 0) && (ifPos < 0) && (iffPos < 0) ){
 				/* Find start index of the tokens with the highest level */
 				for (tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
@@ -5542,6 +5533,7 @@ public class Expression {
 		case Function1Arg.NFACT_ID: NFACT(pos); break;
 		case Function1Arg.ARCSEC_ID: ARCSEC(pos); break;
 		case Function1Arg.ARCCSC_ID: ARCCSC(pos); break;
+		case Function1Arg.GAMMA_ID: GAMMA(pos); break;
 		}
 	}
 	/**
@@ -5832,6 +5824,7 @@ public class Expression {
 			addKeyWord(Function1Arg.NFACT_STR, Function1Arg.NFACT_DESC, Function1Arg.NFACT_ID, Function1Arg.NFACT_SYN, Function1Arg.NFACT_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ARCSEC_STR, Function1Arg.ARCSEC_DESC, Function1Arg.ARCSEC_ID, Function1Arg.ARCSEC_SYN, Function1Arg.ARCSEC_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ARCCSC_STR, Function1Arg.ARCCSC_DESC, Function1Arg.ARCCSC_ID, Function1Arg.ARCCSC_SYN, Function1Arg.ARCCSC_SINCE, Function1Arg.TYPE_ID);
+			addKeyWord(Function1Arg.GAMMA_STR, Function1Arg.GAMMA_DESC, Function1Arg.GAMMA_ID, Function1Arg.GAMMA_SYN, Function1Arg.GAMMA_SINCE, Function1Arg.TYPE_ID);
 			/*
 			 * 2 args functions key words
 			 */

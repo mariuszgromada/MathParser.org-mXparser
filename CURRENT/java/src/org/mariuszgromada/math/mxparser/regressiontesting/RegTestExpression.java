@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.1.0    2017-06-28
+ * @(#)RegTestExpression.java        4.2.0    2017-09-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -79,7 +79,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.2.0
  *
  * @see Expression
  */
@@ -9379,6 +9379,258 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
 			break;
+		case 829:
+			mXparser.setEpsilonComparison();
+			Function Ackermann = new Function("Ackermann(m,n) = iff( m = 0, n+1; (m>0) & (n=0), Ackermann(m-1,1); (m>0) & (n>0), Ackermann(m-1, Ackermann(m,n-1)) )");
+			expStr = "Ackermann(3,4)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, Ackermann);
+			value = exp[testId].calculate();
+			reg = 125;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 830:
+			mXparser.setEpsilonComparison();
+			Function Tetration = new Function("Tetration(x,n) = if(n > 1, x^Tetration(x,n-1), x)");
+			expStr = "Tetration(sqrt(2),80)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, Tetration);
+			value = exp[testId].calculate();
+			reg = 2;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 831:
+			mXparser.setEpsilonComparison();
+			x = new Argument("x = 3.5");
+			expStr = "Gamma(x+1)-x*Gamma(x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 832:
+			mXparser.setEpsilonComparison();
+			x = new Argument("x = -3.5");
+			expStr = "Gamma(x+1)-x*Gamma(x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 833:
+			mXparser.setEpsilonComparison();
+			x = new Argument("x = 1.7");
+			expStr = "Gamma(x)*Gamma(x+1/2) - ( sqrt(pi) / 2^(2*x-1) ) * Gamma(2*x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 834:
+			mXparser.setEpsilonComparison();
+			x = new Argument("x = 0.7");
+			expStr = "Gamma(x)*Gamma(1-x) - pi / sin(pi * x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 835:
+			mXparser.setEpsilonComparison();
+			x = new Argument("x = 0.7");
+			expStr = "Gamma(x+1/2)*Gamma(1/2-x) - pi / cos(pi * x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 836:
+			mXparser.setEpsilonComparison();
+			x = new Argument("x = 0.7");
+			expStr = "Gamma(x+1/2)*Gamma(1/2-x) - pi / cos(pi * x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 837:
+			mXparser.setEpsilonComparison();
+			expStr = "Gamma(-3/2) - 4/3 *sqrt(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 838:
+			mXparser.setEpsilonComparison();
+			expStr = "Gamma(-1/2) + 2 *sqrt(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 839:
+			mXparser.setEpsilonComparison();
+			expStr = "Gamma(1/2) - sqrt(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 840:
+			mXparser.setEpsilonComparison();
+			expStr = "Gamma(3/2) - sqrt(pi)/2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 841:
+			mXparser.setEpsilonComparison();
+			expStr = "Gamma(5/2) - 3/4 * sqrt(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 842:
+			mXparser.setEpsilonComparison();
+			expStr = "Gamma(7/2) - 15/8 * sqrt(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 843:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(n, 1, 10, Gamma(n) - (n-1)! )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 844:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(n, -100, 0, isNaN( Gamma(n) ) ) - 101";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 845:
+			mXparser.setEpsilonComparison();
+			Argument x0 = new Argument("x0 = 1.3");
+			expStr = "der( Gamma(x), x, x0 ) - ( -[gam] + sum(n, 0, 10000000, 1/(n+1) - 1/(n+x0) ) ) * Gamma(x0)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x0);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 846:
+			mXparser.setEpsilonComparison();
+			Function V = new Function("V(R,n) = if( n > 1, int( V( R/2, n-1 ), x, -R, R ), 1 )");
+			expStr = "V(1,1) + V(1,2)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, V);
+			value = exp[testId].calculate();
+			reg = 3;
+			if ( MathFunctions.abs(reg - value) <= 0.0000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 847:
+			mXparser.setEpsilonComparison();
+			Function uniSum = new Function("uniSum(n, x) = if( x >= 1, n, uniSum(n+1, x + rUni(0,1) ) )");
+			expStr = "avg( i, 1, 100000, uniSum(0,0) ) - e";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, uniSum);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.01 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 848:
+			mXparser.setEpsilonComparison();
+			Argument n = new Argument("n = 100000");
+			expStr = "sqrt( 6 / (sum( i, 1, n, if( gcd( [Nat], [Nat] ) = 1, 1, 0) ) / n) ) - pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, n);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.01 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -9393,7 +9645,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 828;
+		int numberOfTests = 848;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
