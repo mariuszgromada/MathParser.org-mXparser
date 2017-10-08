@@ -55,6 +55,8 @@ package org.mariuszgromada.math.mxparser.mathcollection;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.mariuszgromada.math.mxparser.mXparser;
+
 /**
  * MathFunctions - the most popular math functions. Many of function implemented by this class
  * could be found in java Math package (in fact functions from MathFunctions typically calls
@@ -832,6 +834,8 @@ public final class MathFunctions {
 	public static final double sin(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
+		if (mXparser.checkIfDegreesMode())
+			a = a * Units.DEGREE_ARC;
 		return Math.sin(a);
 	}
 	/**
@@ -845,6 +849,8 @@ public final class MathFunctions {
 	public static final double cos(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
+		if (mXparser.checkIfDegreesMode())
+			a = a * Units.DEGREE_ARC;
 		return Math.cos(a);
 	}
 	/**
@@ -858,6 +864,8 @@ public final class MathFunctions {
 	public static final double tan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
+		if (mXparser.checkIfDegreesMode())
+			a = a * Units.DEGREE_ARC;
 		return Math.tan(a);
 	}
 	/**
@@ -871,6 +879,8 @@ public final class MathFunctions {
 	public static final double ctan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
+		if (mXparser.checkIfDegreesMode())
+			a = a * Units.DEGREE_ARC;
 		double result = Double.NaN;
 		double tg = Math.tan(a);
 		if (tg != 0)
@@ -888,6 +898,8 @@ public final class MathFunctions {
 	public static final double sec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
+		if (mXparser.checkIfDegreesMode())
+			a = a * Units.DEGREE_ARC;
 		double result = Double.NaN;
 		double cos = Math.cos(a);
 		if (cos != 0)
@@ -905,6 +917,8 @@ public final class MathFunctions {
 	public static final double cosec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
+		if (mXparser.checkIfDegreesMode())
+			a = a * Units.DEGREE_ARC;
 		double result = Double.NaN;
 		double sin = Math.sin(a);
 		if (sin != 0)
@@ -922,7 +936,11 @@ public final class MathFunctions {
 	public static final double asin(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.asin(a);
+		double r =  Math.asin(a);
+		if (mXparser.checkIfDegreesMode())
+			return r / Units.DEGREE_ARC;
+		else
+			return r;
 	}
 	/**
 	 * Arcus cosine - inverse trigonometric cosine function
@@ -935,7 +953,11 @@ public final class MathFunctions {
 	public static final double acos(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.acos(a);
+		double r = Math.acos(a);
+		if (mXparser.checkIfDegreesMode())
+			return r / Units.DEGREE_ARC;
+		else
+			return r;
 	}
 	/**
 	 * Arcus tangent - inverse trigonometric tangent function
@@ -948,7 +970,11 @@ public final class MathFunctions {
 	public static final double atan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.atan(a);
+		double r = Math.atan(a);
+		if (mXparser.checkIfDegreesMode())
+			return r / Units.DEGREE_ARC;
+		else
+			return r;
 	}
 	/**
 	 * Arcus cotangent - inverse trigonometric cotangent function
@@ -961,7 +987,11 @@ public final class MathFunctions {
 	public static final double actan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.atan(1/a);
+		double r = Math.atan(1/a);
+		if (mXparser.checkIfDegreesMode())
+			return r / Units.DEGREE_ARC;
+		else
+			return r;
 	}
 	/**
 	 * Arcus secant - inverse trigonometric secant function
@@ -972,7 +1002,11 @@ public final class MathFunctions {
 	public static final double asec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.acos(1/a);
+		double r = Math.acos(1/a);
+		if (mXparser.checkIfDegreesMode())
+			return r / Units.DEGREE_ARC;
+		else
+			return r;
 	}
 	/**
 	 * Arcus cosecant - inverse trigonometric cosecant function
@@ -983,7 +1017,11 @@ public final class MathFunctions {
 	public static final double acosec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		return Math.asin(1/a);
+		double r = Math.asin(1/a);
+		if (mXparser.checkIfDegreesMode())
+			return r / Units.DEGREE_ARC;
+		else
+			return r;
 	}
 	/**
 	 * Natural logarithm
@@ -1323,6 +1361,8 @@ public final class MathFunctions {
 		double result = Double.NaN;
 		if (x != 0)
 			result = Math.sin(x) / (x);
+		else
+			result =  1.0;
 		return result;
 	}
 	/**
@@ -1338,7 +1378,12 @@ public final class MathFunctions {
 			return Double.NaN;
 		double result = Double.NaN;
 		if (a != 0)
-			result = Math.sin(a) / (a);
+			if (mXparser.checkIfDegreesMode())
+				result = Math.sin(a * Units.DEGREE_ARC) / (a);
+			else
+				result = Math.sin(a) / (a);
+		else
+			result =  1.0;
 		return result;
 	}
 	/**

@@ -64,10 +64,7 @@ private int jjStartNfaWithStates_0(int pos, int kind, int state)
    jjmatchedKind = kind;
    jjmatchedPos = pos;
    try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException e) {
-		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-			mXparser.doNothing(e);
-		#endif
+   catch(System.IO.IOException) {
 		return pos + 1;
 	}
    return jjMoveNfa_0(state, pos + 1);
@@ -123,10 +120,7 @@ private int jjMoveStringLiteralDfa0_0()
 private int jjMoveStringLiteralDfa1_0(ulong active0, ulong active1)
 {
    try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException e) {
-		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-			mXparser.doNothing(e);
-		#endif
+   catch(System.IO.IOException) {
       jjStopStringLiteralDfa_0(0, active0, active1);
       return 1;
    }
@@ -158,10 +152,7 @@ private int jjMoveStringLiteralDfa2_0(ulong old0, ulong active0, ulong old1, ulo
    if (((active0 &= old0) | (active1 &= old1)) == 0L)
       return jjStartNfa_0(0, old0, old1); 
    try { curChar = input_stream.readChar(); }
-   catch(System.IO.IOException e) {
-		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-			mXparser.doNothing(e);
-		#endif
+   catch(System.IO.IOException) {
       jjStopStringLiteralDfa_0(1, 0L, active1);
       return 2;
    }
@@ -222,16 +213,10 @@ private void jjCheckNAddStates(int start)
 }
 private int jjMoveNfa_0(int startState, int curPos)
 {
-	#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-		int[] nextStates;
-	#endif
    int startsAt = 0;
    jjnewStateCnt = 239;
    int i = 1;
    jjstateSet[0] = startState;
-   #if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-	int j;
-   #endif
    int kind = 0x7fffffff;
    for (;;)
    {
@@ -240,9 +225,6 @@ private int jjMoveNfa_0(int startState, int curPos)
       if (curChar < 64)
       {
          ulong l = 1UL << curChar;
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			MatchLoop:
-		#endif
 		do
          {
             switch(jjstateSet[--i])
@@ -1215,9 +1197,6 @@ private int jjMoveNfa_0(int startState, int curPos)
       else if (curChar < 128)
       {
          ulong l = 1UL << (curChar & 0x3F);
-		 #if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			MatchLoop:
-		 #endif
 		 do
          {
             switch(jjstateSet[--i])
@@ -1615,10 +1594,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       {
          int i2 = (curChar & 0xff) >> 6;
          ulong l2 = 1UL << (curChar & 0x3F);
-		 #if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			MatchLoop:
-		 #endif
-		 do
+		do
          {
             switch(jjstateSet[--i])
             {
@@ -1636,10 +1612,7 @@ private int jjMoveNfa_0(int startState, int curPos)
       if ((i = jjnewStateCnt) == (startsAt = 239 - (jjnewStateCnt = startsAt)))
          return curPos;
       try { curChar = input_stream.readChar(); }
-      catch(System.IO.IOException e) {
-			#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-				mXparser.doNothing(e);
-			#endif
+      catch(System.IO.IOException) {
 			return curPos;
 	  }
    }
@@ -1743,21 +1716,14 @@ int jjmatchedKind;
 
 public Token getNextToken() 
 {
-#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-  int kind;
-  Token specialToken = null;
-#endif
   Token matchedToken;
   int curPos = 0;
 
   EOFLoop :
   for (;;){
-   try{     
+   try {     
       curChar = input_stream.BeginToken();
-   }catch(System.IO.IOException e){
-		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-			mXparser.doNothing(e);
-		#endif
+   }catch(System.IO.IOException){
       jjmatchedKind = 0;
       matchedToken = jjFillToken();
       return matchedToken;
@@ -1767,10 +1733,7 @@ public Token getNextToken()
       while (curChar <= 32 && (0x100002600L & (1L << curChar)) != 0L)
          curChar = input_stream.BeginToken();
    }
-   catch (System.IO.IOException e1) {
-		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-			mXparser.doNothing(e1);
-		#endif
+   catch (System.IO.IOException) {
 		goto EOFLoop;
 	}
    jjmatchedKind = 0x7fffffff;
@@ -1797,10 +1760,7 @@ public Token getNextToken()
    String error_after = null;
    bool EOFSeen = false;
    try { input_stream.readChar(); input_stream.backup(1); }
-   catch (System.IO.IOException e1) {
-		#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-			mXparser.doNothing(e1);
-		#endif
+   catch (System.IO.IOException) {
       EOFSeen = true;
       error_after = curPos <= 1 ? "" : input_stream.GetImage();
       if (curChar == '\n' || curChar == '\r') {

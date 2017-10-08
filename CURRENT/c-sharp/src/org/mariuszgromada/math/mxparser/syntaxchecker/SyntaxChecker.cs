@@ -76,9 +76,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1[0] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif        
     }
   }
 
@@ -124,9 +121,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       default:
         jj_la1[1] = jj_gen;
         goto label_1;
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case PLUS:
@@ -225,9 +219,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
     }
     label_1: ;
@@ -253,9 +244,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[3] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
       break;
     default:
@@ -283,9 +271,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[5] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
       break;
     default:
@@ -314,9 +299,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[7] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
       break;
     default:
@@ -490,9 +472,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
       break;
     case UNIT:
@@ -512,9 +491,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif          
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case LEFT_PAR:
@@ -537,9 +513,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif        
     }
   }
 
@@ -607,9 +580,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         default:
           jj_la1[13] = jj_gen;
           goto label_2;
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif            
         }
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case COMMA:
@@ -622,9 +592,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           jj_la1[14] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif            
         }
         expression();
       }
@@ -680,9 +647,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
             default:
               jj_la1[16] = jj_gen;
               goto label_4;
-			#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-				break;
-			#endif                
             }
             switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
             case NOT:
@@ -734,9 +698,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
               jj_la1[17] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
-			#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-				break;
-			#endif                
             }
           }
           label_4: ;
@@ -746,9 +707,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           jj_la1[18] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif            
         }
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case CHAR:
@@ -758,9 +716,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         default:
           jj_la1[19] = jj_gen;
           goto label_3;
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif            
         }
       }
       label_3: ;
@@ -771,9 +726,6 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1[20] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
-		#if !PCL && !CORE && !NETSTANDARD && !ANDROID && !IOS
-			break;
-		#endif        
     }
   }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.2.0   2017-09-18
+ * @(#)mXparser.cs        4.2.0   2017-10-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -151,6 +151,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * List of built-in tokens to modify
 		 */
 		internal static List<TokenModification> tokensToModify = new List<TokenModification>();
+		/**
+		 * Indicator whether mXparser operates in radians / degrees mode
+		 * true - degrees mode
+		 * false - radians mode
+		 *
+		 * Default false (radians mode)
+		 */
+		internal static bool degreesMode = false;
 		/**
 		 * Indicator whether user defined tokens should override
 		 * built-in tokens.
@@ -462,6 +470,38 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static int getMaxAllowedRecursionDepth() {
 			return MAX_RECURSION_CALLS;
+		}
+		/**
+		 * Set mXparser to operate in radians mode for
+		 * trigonometric functions
+		 */
+		public static void setRadiansMode() {
+			degreesMode = false;
+		}
+		/**
+		 * Set mXparser to operate in degrees mode for
+		 * trigonometric functions
+		 */
+		public static void setDegreesMode() {
+			degreesMode = true;
+		}
+		/**
+		 * Checks whether mXparser operates in radians mode for
+		 * trigonometric functions.
+		 *
+		 * @return true - if radians mode, false - otherwise
+		 */
+		public static bool checkIfRadiansMode() {
+			return !degreesMode;
+		}
+		/**
+		 * Checks whether mXparser operates in degrees mode for
+		 * trigonometric functions.
+		 *
+		 * @return true - if degrees mode, false - otherwise
+		 */
+		public static bool checkIfDegreesMode() {
+			return degreesMode;
 		}
 		/**
 		 * Removes built-in tokens form the list of tokens recognized by the parsers.

@@ -1913,6 +1913,26 @@ public class RegTestExpressionAPI {
 				( misFun.length == 1 )
 				)
 			test[testId] = true;
+		/*
+		 * 51. Default radian / degrees mode
+		 */
+		testId++;
+		if ( (mXparser.checkIfRadiansMode() == true) && (mXparser.checkIfDegreesMode() == false) )
+			test[testId] = true;
+		/*
+		 * 52. Set to degrees mode
+		 */
+		testId++;
+		mXparser.setDegreesMode();
+		if ( (mXparser.checkIfRadiansMode() == false) && (mXparser.checkIfDegreesMode() == true) )
+			test[testId] = true;
+		/*
+		 * 53. Set to degrees mode
+		 */
+		testId++;
+		mXparser.setRadiansMode();
+		if ( (mXparser.checkIfRadiansMode() == true) && (mXparser.checkIfDegreesMode() == false) )
+			test[testId] = true;
 		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;

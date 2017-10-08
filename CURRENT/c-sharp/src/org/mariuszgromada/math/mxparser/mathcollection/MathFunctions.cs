@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0    2017-09-18
+ * @(#)MathFunctions.java        4.2.0    2017-10-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -833,6 +833,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double sin(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
+			if (mXparser.checkIfDegreesMode())
+				a = a * Units.DEGREE_ARC;
 			return Math.Sin(a);
 		}
 		/**
@@ -846,6 +848,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double cos(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
+			if (mXparser.checkIfDegreesMode())
+				a = a * Units.DEGREE_ARC;
 			return Math.Cos(a);
 		}
 		/**
@@ -859,6 +863,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double tan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
+			if (mXparser.checkIfDegreesMode())
+				a = a * Units.DEGREE_ARC;
 			return Math.Tan(a);
 		}
 		/**
@@ -872,6 +878,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double ctan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
+			if (mXparser.checkIfDegreesMode())
+				a = a * Units.DEGREE_ARC;
 			double result = Double.NaN;
 			double tg = Math.Tan(a);
 			if (tg != 0)
@@ -889,6 +897,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double sec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
+			if (mXparser.checkIfDegreesMode())
+				a = a * Units.DEGREE_ARC;
 			double result = Double.NaN;
 			double cos = Math.Cos(a);
 			if (cos != 0)
@@ -906,6 +916,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double cosec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
+			if (mXparser.checkIfDegreesMode())
+				a = a * Units.DEGREE_ARC;
 			double result = Double.NaN;
 			double sin = Math.Sin(a);
 			if (sin != 0)
@@ -923,7 +935,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double asin(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Asin(a);
+			double r =  Math.Asin(a);
+			if (mXparser.checkIfDegreesMode())
+				return r / Units.DEGREE_ARC;
+			else
+				return r;
 		}
 		/**
 		 * Arcus cosine - inverse trigonometric cosine function
@@ -936,7 +952,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double acos(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Acos(a);
+			double r = Math.Acos(a);
+			if (mXparser.checkIfDegreesMode())
+				return r / Units.DEGREE_ARC;
+			else
+				return r;
 		}
 		/**
 		 * Arcus tangent - inverse trigonometric tangent function
@@ -949,7 +969,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double atan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Atan(a);
+			double r = Math.Atan(a);
+			if (mXparser.checkIfDegreesMode())
+				return r / Units.DEGREE_ARC;
+			else
+				return r;
 		}
 		/**
 		 * Arcus cotangent - inverse trigonometric cotangent function
@@ -962,7 +986,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double actan(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Atan(1/a);
+			double r = Math.Atan(1/a);
+			if (mXparser.checkIfDegreesMode())
+				return r / Units.DEGREE_ARC;
+			else
+				return r;
 		}
 		/**
 		 * Arcus secant - inverse trigonometric secant function
@@ -973,7 +1001,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double asec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Acos(1 / a);
+			double r = Math.Acos(1 / a);
+			if (mXparser.checkIfDegreesMode())
+				return r / Units.DEGREE_ARC;
+			else
+				return r;
 		}
 		/**
 		 * Arcus cosecant - inverse trigonometric cosecant function
@@ -984,7 +1016,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double acosec(double a) {
 			if (Double.IsNaN(a))
 				return Double.NaN;
-			return Math.Asin(1 / a);
+			double r = Math.Asin(1 / a);
+			if (mXparser.checkIfDegreesMode())
+				return r / Units.DEGREE_ARC;
+			else
+				return r;
 		}
 		/**
 		 * Natural logarithm
@@ -1339,7 +1375,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			double result = Double.NaN;
 			if (a != 0)
-				result = Math.Sin(a) / (a);
+				if (mXparser.checkIfDegreesMode())
+					result = Math.Sin(a * Units.DEGREE_ARC) / (a);
+				else
+					result = Math.Sin(a) / (a);
+			else
+				result = 1.0;
 			return result;
 		}
 		/**
@@ -1375,10 +1416,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				Decimal bd = Convert.ToDecimal(value);
 				bd = Math.Round(bd, places, MidpointRounding.AwayFromZero);
 				return Convert.ToDouble(bd);
-			} catch (Exception e) {
-				#if PCL || CORE || NETSTANDARD || ANDROID || IOS
-					mXparser.doNothing(e);
-				#endif
+			} catch (Exception) {
 				return value;
 			}
 		}

@@ -1,5 +1,8 @@
 ﻿using org.mariuszgromada.math.mxparser;
+
 using System;
+using System.IO;
+using System.Text;
 
 namespace phelipemartins.caseinsensitivity {
 	class CaseInsensitivityTest {
@@ -94,37 +97,43 @@ namespace phelipemartins.caseinsensitivity {
 			/*
 			 * Arguments definition
 			 */
-			Argument Volume = new Argument("Volume = 5");
-			Argument Mass = new Argument("Mass = 10");
+			//Argument Volume = new Argument("Volume = 5");
+			//Argument Mass = new Argument("Mass = 10");
 			/*
 			 * Expression creation
 			 */
 			/* Case 1 */
-			Expression e1 = new Expression("Mass / Volume", Volume, Mass);
-			addCaseInsensitiveArguments(e1, Volume, Mass);
-			mXparser.consolePrintln("Case 1: " + e1.getExpressionString() + " = " + e1.calculate());
+			//Expression e1 = new Expression("Mass / Volume", Volume, Mass);
+			//addCaseInsensitiveArguments(e1, Volume, Mass);
+			//mXparser.consolePrintln("Case 1: " + e1.getExpressionString() + " = " + e1.calculate());
 			/* Case 2 */
-			Expression e2 = new Expression("mAsS / volUME", Volume, Mass);
-			addCaseInsensitiveArguments(e2, Volume, Mass);
-			mXparser.consolePrintln("Case 2: " + e2.getExpressionString() + " = " + e2.calculate());
+			//Expression e2 = new Expression("mAsS / volUME", Volume, Mass);
+			//addCaseInsensitiveArguments(e2, Volume, Mass);
+			//mXparser.consolePrintln("Case 2: " + e2.getExpressionString() + " = " + e2.calculate());
 			/* Case 3 */
-			Mass.setArgumentValue(30);
-			Volume.setArgumentValue(10);
-			mXparser.consolePrintln("Case 3: " + e2.getExpressionString() + " = " + e2.calculate());
+			//Mass.setArgumentValue(30);
+			//Volume.setArgumentValue(10);
+			//mXparser.consolePrintln("Case 3: " + e2.getExpressionString() + " = " + e2.calculate());
 			/* Case 4 */
-			Function Dens = new Function("Dens(m, v) = m / v");
-			Expression e3 = new Expression("Dens(mAsS, volUME)", Volume, Mass, Dens);
-			addCaseInsensitiveArguments(e3, Volume, Mass);
-			mXparser.consolePrintln("Case 4: " + e3.getExpressionString() + " = " + e3.calculate());
+			//Function Dens = new Function("Dens(m, v) = m / v");
+			//Expression e3 = new Expression("Dens(mAsS, volUME)", Volume, Mass, Dens);
+			//addCaseInsensitiveArguments(e3, Volume, Mass);
+			//mXparser.consolePrintln("Case 4: " + e3.getExpressionString() + " = " + e3.calculate());
 			/* Case 4 */
-			Expression e4 = new Expression("deNs(mAsS, volUME)", Volume, Mass, Dens);
-			addCaseInsensitiveArguments(e4, Volume, Mass);
-			addCaseInsensitiveFunctions(e4, Dens);
-			mXparser.consolePrintln("Case 5: " + e4.getExpressionString() + " = " + e4.calculate());
-			mXparser.consolePrintln();
-			mXparser.consolePrintln("========================= >>>>>>>>> Verbose mode while calculate()");
-			e4.setVerboseMode();
-			e4.calculate();
+			//Expression e4 = new Expression("deNs(mAsS, volUME)", Volume, Mass, Dens);
+			//addCaseInsensitiveArguments(e4, Volume, Mass);
+			//addCaseInsensitiveFunctions(e4, Dens);
+			//mXparser.consolePrintln("Case 5: " + e4.getExpressionString() + " = " + e4.calculate());
+			//mXparser.consolePrintln();
+			//mXparser.consolePrintln("========================= >>>>>>>>> Verbose mode while calculate()");
+			//e4.setVerboseMode();
+			//e4.calculate();
+			//Function f = new Function("f(x) = x^2");
+			//Argument x = new Argument("x = 10");
+			//Expression e = new Expression("f(x)", f, x);
+			//mXparser.consolePrintln(e.calculate());
+			org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker syn = new org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes("2")));
+			syn.checkSyntax();
 		}
 	}
 }

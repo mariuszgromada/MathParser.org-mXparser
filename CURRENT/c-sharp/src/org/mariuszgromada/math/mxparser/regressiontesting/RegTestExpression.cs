@@ -9621,6 +9621,312 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
 				break;
+			case 849:
+				mXparser.setEpsilonComparison();
+				expStr = "root( 3, 7 + sqrt(50) ) + root( 3, 7 - sqrt(50) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 0.000000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 850:
+				mXparser.setEpsilonComparison();
+				expStr = "root( 3, 7 + root(2,50) ) + root( 3, 7 - root(2,50) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 0.000000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 851:
+				mXparser.setEpsilonComparison();
+				expStr = "(7 + sqrt(50))^(1/3) + (7 - sqrt(50))^(1/3)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 0.000000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 852:
+				mXparser.setEpsilonComparison();
+				expStr = "(7 + 50^(1/2))^(1/3) + (7 - 50^(1/2))^(1/3)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 0.000000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 853:
+				mXparser.setEpsilonComparison();
+				Function Nrec = new Function("Nrec(a, s, k) = if( s >= a, k, Nrec( a, s + [Uni], k+1 ) )");
+				Argument N1 = new Argument("N1 = Nrec(1,0,0)", Nrec);
+				Argument N2 = new Argument("N2 = Nrec(2,0,0)", Nrec);
+				Argument N3 = new Argument("N3 = Nrec(3,0,0)", Nrec);
+				Argument N4 = new Argument("N4 = Nrec(4,0,0)", Nrec);
+				Argument N5 = new Argument("N5 = Nrec(5,0,0)", Nrec);
+				Argument EN1 = new Argument("EN1 = avg( i, 1, 100000, N1 )", N1);
+				Argument EN2 = new Argument("EN2 = avg( i, 1, 100000, N2 )", N2);
+				Argument EN3 = new Argument("EN3 = avg( i, 1, 100000, N3 )", N3);
+				Argument EN4 = new Argument("EN4 = avg( i, 1, 100000, N4 )", N4);
+				Argument EN5 = new Argument("EN5 = avg( i, 1, 100000, N5 )", N5);
+				expStr = "(EN1 - e) + (EN2 - (e^2 - e)) + (EN3 - (e^3 - 2*e^2 + e/2)) + (EN4 - (e^4 - 3*e^3 + 2*e^2 - e/6)) + (EN5 - (e^5 - 4*e^4 + 9/2 * e^3 - 4/3 * e^2 + e/24))";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, EN1, EN2, EN3, EN4, EN5);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.1 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 854:
+				mXparser.setEpsilonComparison();
+				expStr = "stdi(i, 1, 100000, X)";
+				f = new Function("f(x) = pNor(x,2,4)");
+				Function RejectSampling = new Function("RejectSampling(a,b,M,x) = if( rUni(0,M) <= f(x), x, RejectSampling(a,b,M, rUni(a,b) ) )", f);
+				Argument X = new Argument("X = RejectSampling( -22, 26, pNor(2,2,4) , rUni(-22, 26) )", RejectSampling);
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, X);
+				value = exp[testId].calculate();
+				reg = 4;
+				if ( MathFunctions.abs(reg - value) <= 0.05 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 855:
+				mXparser.setEpsilonComparison();
+				expStr = "sum(x, -3, 3, pNor(x, 0, 1) - f(x, 30), 0.1)";
+				f = new Function("f(x,n) = if( (x*sqrt(n/12)+n/2) >= 0 , ( 1 / (n-1)! ) * sum(k, 0, floor((x*sqrt(n/12)+n/2)), (-1)^k * C(n,k) * (x*sqrt(n/12)+n/2-k)^(n-1) )*sqrt(n/12) ; 0)");
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.01 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 856:
+				mXparser.setEpsilonComparison();
+				expStr = "sum(x, -20, 20, sin(x)/x - prod(k,1, 10000 , 1 - (x/(k*pi))^2 ) , 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.01 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 857:
+				mXparser.setEpsilonComparison();
+				f = new Function("f(x,a,n) = (sqrt(pi)/2) * sum(k, 0, n, ( a^(1/2 - k) / ( Gamma(3/2 - k) * k! ) ) * (x-a)^k   )");
+				expStr = "sum(x, 1, 3, sqrt(x) - f(x,2,50) , 0.001)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setDefaultEpsilon();
+				break;
+			case 858:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "sin(90)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 859:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "asin(-1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = -90;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 860:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "cos(90)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 861:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "acos(0)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 90;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 862:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "tan(-45)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = -1;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 863:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "atan(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 45;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 864:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "ctan(45)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 865:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "actan(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 45;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 866:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "sec(60)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 867:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "arcsec(2)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 60;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 868:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "csc(30)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 869:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "arccsc(2)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 30;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
+			case 870:
+				mXparser.setEpsilonComparison();
+				mXparser.setDegreesMode();
+				expStr = "Sinc(90)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1.0 / 90.0;
+				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setRadiansMode();
+				mXparser.setDefaultEpsilon();
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -9636,7 +9942,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 848;
+			int numberOfTests = 870;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

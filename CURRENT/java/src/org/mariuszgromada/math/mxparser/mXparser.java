@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.2.0   2017-09-18
+ * @(#)mXparser.java        4.2.0   2017-10-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -166,6 +166,14 @@ public final class mXparser {
 	 * List of built-in tokens to modify
 	 */
 	static final List<TokenModification> tokensToModify = new ArrayList<TokenModification>();
+	/**
+	 * Indicator whether mXparser operates in radians / degrees mode
+	 * true - degrees mode
+	 * false - radians mode
+	 *
+	 * Default false (radians mode)
+	 */
+	static boolean degreesMode = false;
 	/**
 	 * Indicator whether user defined tokens should override
 	 * built-in tokens.
@@ -475,6 +483,38 @@ public final class mXparser {
 	 */
 	public static final int getMaxAllowedRecursionDepth() {
 		return MAX_RECURSION_CALLS;
+	}
+	/**
+	 * Set mXparser to operate in radians mode for
+	 * trigonometric functions
+	 */
+	public static final void setRadiansMode() {
+		degreesMode = false;
+	}
+	/**
+	 * Set mXparser to operate in degrees mode for
+	 * trigonometric functions
+	 */
+	public static final void setDegreesMode() {
+		degreesMode = true;
+	}
+	/**
+	 * Checks whether mXparser operates in radians mode for
+	 * trigonometric functions.
+	 *
+	 * @return true - if radians mode, false - otherwise
+	 */
+	public static final boolean checkIfRadiansMode() {
+		return !degreesMode;
+	}
+	/**
+	 * Checks whether mXparser operates in degrees mode for
+	 * trigonometric functions.
+	 *
+	 * @return true - if degrees mode, false - otherwise
+	 */
+	public static final boolean checkIfDegreesMode() {
+		return degreesMode;
 	}
 	/**
 	 * Removes built-in tokens form the list of tokens recognized by the parsers.

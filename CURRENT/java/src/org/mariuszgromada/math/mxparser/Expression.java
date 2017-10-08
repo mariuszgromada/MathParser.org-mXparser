@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2017-09-18
+ * @(#)Expression.java        4.2.0   2017-10-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3059,7 +3059,7 @@ public class Expression {
 		f1SetDecreaseRemove(pos, MathFunctions.csch(a) );
 	}
 	/**
-	 * Converts radius to degrees
+	 * Converts radians to degrees
 	 * Sets tokens to number token
 	 *
 	 * @param      pos                 the token position
