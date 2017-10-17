@@ -63,9 +63,10 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case BINARY:
     case OCTAL:
     case HEXADECIMAL:
+    case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 122:
+    case 124:
       expression();
       jj_consume_token(0);
       break;
@@ -222,7 +223,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       }
     }
     label_1: ;
-    
+
   }
 
 /*
@@ -249,7 +250,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     default:
       jj_la1[4] = jj_gen;
       ;break;
-      
+
     }
   }
 
@@ -276,7 +277,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     default:
       jj_la1[6] = jj_gen;
       ;break;
-      
+
     }
     itemExpression();
   }
@@ -304,7 +305,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     default:
       jj_la1[8] = jj_gen;
       ;break;
-      
+
     }
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
     case DECIMAL:
@@ -347,6 +348,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case BINARY:
     case OCTAL:
     case HEXADECIMAL:
+    case FRACTION:
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case DECIMAL:
         jj_consume_token(DECIMAL);
@@ -468,6 +470,9 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       case BASE36:
         jj_consume_token(BASE36);
         break;
+      case FRACTION:
+        jj_consume_token(FRACTION);
+        break;
       default:
         jj_la1[9] = jj_gen;
         jj_consume_token(-1);
@@ -477,12 +482,12 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case UNIT:
     case IDENTIFIER:
     case FUNCTION:
-    case 122:
+    case 124:
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case UNIT:
       case IDENTIFIER:
-      case 122:
-        identifierGr();
+      case 124:
+        grIdentifier();
         break;
       case FUNCTION:
         jj_consume_token(FUNCTION);
@@ -501,7 +506,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       default:
         jj_la1[11] = jj_gen;
         ;break;
-        
+
       }
       break;
     case LEFT_PAR:
@@ -567,9 +572,10 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case BINARY:
     case OCTAL:
     case HEXADECIMAL:
+    case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 122:
+    case 124:
       expression();
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
@@ -596,19 +602,19 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         expression();
       }
       label_2: ;
-      
+
       break;
     default:
       jj_la1[15] = jj_gen;
       ;break;
-      
+
     }
   }
 
 /*
  * Grammar for identifiers
  */
-  public void identifierGr() {
+  public void grIdentifier() {
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
     case IDENTIFIER:
       jj_consume_token(IDENTIFIER);
@@ -616,8 +622,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case UNIT:
       jj_consume_token(UNIT);
       break;
-    case 122:
-      jj_consume_token(122);
+    case 124:
+      jj_consume_token(124);
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case CHAR:
@@ -701,7 +707,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
             }
           }
           label_4: ;
-          
+
           break;
         default:
           jj_la1[18] = jj_gen;
@@ -719,8 +725,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         }
       }
       label_3: ;
-      
-      jj_consume_token(123);
+
+      jj_consume_token(125);
       break;
     default:
       jj_la1[20] = jj_gen;
@@ -749,13 +755,13 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1_0 = new long[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new long[] {0x401a000,0xfa1f8000,0xfa1f8000,0x600000,0x600000,0x0,0x0,0x18000,0x18000,0x0,0x4000000,0x2000,0x4002000,0x1800000,0x1800000,0x401a000,0x509fe000,0x509fe000,0x0,0x0,0x4000000,};
+      jj_la1_1 = new long[] {0x8034000,0xf43f0000,0xf43f0000,0xc00000,0xc00000,0x0,0x0,0x30000,0x30000,0x0,0x8000000,0x4000,0x8004000,0x3000000,0x3000000,0x8034000,0xa13fc000,0xa13fc000,0x0,0x0,0x8000000,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new long[] {0xffff000c,0x1ff3,0x1ff3,0x0,0x0,0xc,0xc,0x0,0x0,0xffff0000,0x0,0x0,0xffff0000,0x0,0x0,0xffff000c,0x10007,0x10007,0x2000,0x2000,0x0,};
+      jj_la1_2 = new long[] {0xfffe0018,0x3fe7,0x3fe7,0x0,0x0,0x18,0x18,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0018,0x2000e,0x2000e,0x4000,0x4000,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new long[] {0x7ffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xffffff,0x7000000,0x0,0x7ffffff,0x0,0x0,0x7ffffff,0x0,0x0,0x1000000,0x1000000,0x5000000,};
+      jj_la1_3 = new long[] {0x1fffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3ffffff,0x1c000000,0x0,0x1fffffff,0x0,0x0,0x1fffffff,0x0,0x0,0x4000000,0x4000000,0x14000000,};
    }
 
   public SyntaxChecker(System.IO.Stream stream) {
@@ -854,8 +860,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   public ParseException generateParseException() {
     jj_expentries.Clear();
-    bool[] la1tokens = new bool[126];
-    for (int i = 0; i < 126; i++) {
+    bool[] la1tokens = new bool[128];
+    for (int i = 0; i < 128; i++) {
       la1tokens[i] = false;
     }
     if (jj_kind >= 0) {
@@ -880,7 +886,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         }
       }
     }
-    for (int i = 0; i < 126; i++) {
+    for (int i = 0; i < 128; i++) {
       if (la1tokens[i]) {
         jj_expentry = new long[1];
         jj_expentry[0] = i;

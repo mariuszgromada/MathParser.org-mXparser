@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.cs        4.1.0    2017-05-14
+ * @(#)ParserSymbol.cs        4.2.0    2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ParserSymbol {
@@ -157,6 +157,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String BASE34_REG_EXP				= "[+-]?[bB]34\\." + DIGIT_B34 + "(" + DIGIT_B34 + ")*";
 		public const String BASE35_REG_EXP				= "[+-]?[bB]35\\." + DIGIT_B35 + "(" + DIGIT_B35 + ")*";
 		public const String BASE36_REG_EXP				= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
+		public const String FRACTION					= "(" + INTEGER + "_)?" + INTEGER + "_" + INTEGER;
 		public const String nameOnlyTokenRegExp			= "([a-zA-Z_])+([a-zA-Z0-9_])*";
 		public const String nameTokenRegExp				= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
 		public const String paramsTokenRegeExp			= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";

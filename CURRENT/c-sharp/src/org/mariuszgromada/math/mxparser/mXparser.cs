@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.2.0   2017-10-08
+ * @(#)mXparser.cs        4.2.0   2017-10-17
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -504,6 +504,24 @@ namespace org.mariuszgromada.math.mxparser {
 			return degreesMode;
 		}
 		/**
+		 * Sets initial search size for the toFraction method
+		 *
+		 * @param n initial search size, has to be non-zero positive.
+		 * @see NumberTheory#toFraction(double)
+		 */
+		public static void setToFractionInitSearchSize(long n) {
+			NumberTheory.setToFractionInitSearchSize(n);
+		}
+		/**
+		 * Gets initial search size used by the toFraction method
+		 *
+		 * @return initial search size used by the toFraction method
+		 * @see NumberTheory#toFraction(double)
+		 */
+		public static long getToFractionInitSearchSize() {
+			return NumberTheory.getToFractionInitSearchSize();
+		}
+		/**
 		 * Removes built-in tokens form the list of tokens recognized by the parsers.
 		 * Procedure affects only tokens classified to built-in functions, built-in
 		 * constants, built-in units, built-in random variables.
@@ -876,6 +894,69 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
 			return NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, format);
+		}
+		/**
+		 * Converts double value to its fraction representation.
+		 *
+		 * @param value Value to be converted
+		 *
+		 * @return Array representing fraction. Sign at index 0,
+		 * numerator at index 1, denominator at index 2.
+		 * If conversion is not possible then Double.NaN is
+		 * assigned to all the fields.
+		 */
+		public static double[] toFraction(double value) {
+			return NumberTheory.toFraction(value);
+		}
+		/**
+		 * Converts double value to its mixed fraction representation.
+		 *
+		 * @param value Value to be converted
+		 *
+		 * @return Array representing fraction.
+		 * Sign at index 0, whole number at index 1,
+		 * numerator at index 2, denominator at index 3.
+		 * If conversion is not possible then Double.NaN is
+		 * assigned to both numerator and denominator.
+		 */
+		public static double[] toMixedFraction(double value) {
+			return NumberTheory.toMixedFraction(value);
+		}
+		/**
+		 * Converts array representing fraction to fraction string representation.
+		 *
+		 * @param fraction    Array representing fraction (including mix fractions)
+		 * @return  String representation of fraction.
+		 *
+		 * @see NumberTheory#toFraction(double)
+		 * @see NumberTheory#toMixedFraction(double)
+		 */
+		public static String fractionToString(double[] fraction) {
+			return NumberTheory.fractionToString(fraction);
+		}
+		/**
+		 * Converts number to its fraction string representation.
+		 *
+		 * @param value   Given number
+		 * @return  String representation of fraction.
+		 *
+		 * @see NumberTheory#toFraction(double)
+		 * @see NumberTheory#fractionToString(double[])
+		 */
+		public static String toFractionString(double value) {
+			return NumberTheory.toFractionString(value);
+		}
+		/**
+		 * Converts number to its mixed fraction string representation.
+		 *
+		 * @param value   Given number
+		 * @return  String representation of fraction.
+		 *
+		 * @see NumberTheory#toMixedFraction(double)
+		 * @see NumberTheory#fractionToString(double[])
+		 */
+		public static String toMixedFractionString(double value) {
+			return NumberTheory.toMixedFractionString(value);
 		}
 		public static void doNothing(Object o) {
 		}

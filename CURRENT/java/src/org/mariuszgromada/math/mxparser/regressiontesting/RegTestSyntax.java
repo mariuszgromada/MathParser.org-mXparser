@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.1.1   2017-07-28
+ * @(#)RegTestSyntax.java        4.2.0   2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -77,7 +77,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.1
+ * @version        4.2.0
  *
  * @see Expression
  */
@@ -2656,6 +2656,105 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 219:
+			expStr = "10*(350.0/5) + 60.0 + + (180/3)*5";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 220:
+			expStr = "10*(350.0/5) + 60.0 + - (180/3)*5";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 221:
+			expStr = "10*(350.0/5) + 60.0 -  + (180/3)*5";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 222:
+			expStr = "10*(350.0/5) + 60.0 -   - (180/3)*5";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 223:
+			expStr = "10*2_3_5";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 224:
+			expStr = "10*(-2_3_5)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 225:
+			expStr = "-2_3_5+5_2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 226:
+			expStr = "sin(-2_3_5+5_2*b5.12)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 227:
+			expStr = "sin(101_102_103+2653_123*b5.12)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2669,7 +2768,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 218;
+		int numberOfTests = 227;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

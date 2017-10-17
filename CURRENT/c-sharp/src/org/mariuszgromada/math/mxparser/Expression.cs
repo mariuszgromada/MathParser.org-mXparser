@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.2.0   2017-10-08
+ * @(#)Expression.cs        4.2.0   2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1562,7 +1562,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Returns list of the functions parameters.
 		 *
 		 * @param      pos                 the function position
-		 * @param      tokensList          the tokens list
+		 * @param      tokensList          the tokens checkSYnt
 		 *
 		 * @return     the list of function parameters
 		 *
@@ -4576,6 +4576,11 @@ namespace org.mariuszgromada.math.mxparser {
 		public bool checkLexSyntax() {
 			bool syntax = NO_SYNTAX_ERRORS;
 			recursionCallsCounter = 0;
+			if (expressionString.Length == 0) {
+	    		syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+				errorMessage = "Empty expression string\n";
+				return syntax;
+			}
 			#if PCL || NETSTANDARD
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
@@ -4668,6 +4673,13 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallPending = true;
 			errorMessage = level +"checking ...\n";
 			bool syntax = NO_SYNTAX_ERRORS;
+			if (expressionString.Length == 0) {
+	    		syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+				errorMessage = errorMessage + level + "Empty expression string\n";
+				syntaxStatus = syntax;
+				recursionCallPending = false;
+				return syntax;
+			}
 			#if PCL || NETSTANDARD
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
@@ -6282,7 +6294,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * provided in different numeral base system, where
 		 * base is between 1 and 36.
 		 *
-		 * @param token   The not know to the parser
+		 * @param token   The token not know to the parser
 		 */
 		private void checkOtherNumberBases(Token token) {
 			int dotPos = 0;
@@ -6354,6 +6366,50 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		/**
+		 * Checks whether unknown token represents fraction
+		 * provided as fraction or mixed fraction
+		 *
+		 * @param token   The token not know to the parser
+		 */
+		private void checkFraction(Token token) {
+			int tokenStrLength = token.tokenStr.Length;
+			if (tokenStrLength < 3) return;
+			if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return;
+			int underscore1stPos = token.tokenStr.IndexOf('_');
+			int underscore2ndPos = token.tokenStr.IndexOf('_', underscore1stPos + 1);
+			bool mixedFraction = false;
+			if (underscore2ndPos > 0)
+				mixedFraction = true;
+			double fractionValue;
+			if (mixedFraction) {
+				String wholeStr = token.tokenStr.Substring(0, underscore1stPos);
+				String numeratorStr = token.tokenStr.Substring(underscore1stPos + 1, underscore2ndPos - underscore1stPos - 1);
+				String denominatorStr = token.tokenStr.Substring(underscore2ndPos + 1);
+				double whole = Double.Parse(wholeStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+				double numerator = Double.Parse(numeratorStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+				double denominator = Double.Parse(denominatorStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+				if (denominator == 0)
+					fractionValue = Double.NaN;
+				else {
+					fractionValue = whole + numerator / denominator;
+				}
+			}
+			else {
+				String numeratorStr = token.tokenStr.Substring(0, underscore1stPos);
+				String denominatorStr = token.tokenStr.Substring(underscore1stPos + 1);
+				double numerator = Double.Parse(numeratorStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+				double denominator = Double.Parse(denominatorStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+				if (denominator == 0)
+					fractionValue = Double.NaN;
+				else {
+					fractionValue = numerator / denominator;
+				}
+			}
+			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+			token.tokenId = ParserSymbol.NUMBER_ID;
+			token.tokenValue = fractionValue;
+		}
+		/**
 		 * Adds expression token
 		 * Method is called by the tokenExpressionString()
 		 * while parsing string expression
@@ -6375,6 +6431,8 @@ namespace org.mariuszgromada.math.mxparser {
 					token.keyWord = ParserSymbol.NUMBER_STR;
 			} else if (token.tokenTypeId == Token.NOT_MATCHED) {
 				checkOtherNumberBases(token);
+				if (token.tokenTypeId == Token.NOT_MATCHED)
+					checkFraction(token);
 			}
 		}
 		/**

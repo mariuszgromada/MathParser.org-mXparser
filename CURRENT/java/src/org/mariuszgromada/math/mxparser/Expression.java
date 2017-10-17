@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2017-10-08
+ * @(#)Expression.java        4.2.0   2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -4606,6 +4606,11 @@ public class Expression {
 	public boolean checkLexSyntax() {
 		boolean syntax = NO_SYNTAX_ERRORS;
 		recursionCallsCounter = 0;
+		if (expressionString.length() == 0) {
+	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = "Empty expression string\n";
+			return syntax;
+		}
 		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionString.getBytes()));
 	    try {
 	        syn.checkSyntax();
@@ -4694,6 +4699,13 @@ public class Expression {
 		recursionCallPending = true;
 		errorMessage = level +"checking ...\n";
 		boolean syntax = NO_SYNTAX_ERRORS;
+		if (expressionString.length() == 0) {
+	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = errorMessage + level + "Empty expression string\n";
+			syntaxStatus = syntax;
+			recursionCallPending = false;
+			return syntax;
+		}
 		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionString.getBytes()));
 	    try {
 	        syn.checkSyntax();
@@ -6291,7 +6303,7 @@ public class Expression {
 	 * provided in different numeral base system, where
 	 * base is between 1 and 36.
 	 *
-	 * @param token   The not know to the parser
+	 * @param token   The token not know to the parser
 	 */
 	private void checkOtherNumberBases(Token token) {
 		int dotPos = 0;
@@ -6363,6 +6375,49 @@ public class Expression {
 		}
 	}
 	/**
+	 * Checks whether unknown token represents fraction
+	 * provided as fraction or mixed fraction
+	 *
+	 * @param token   The token not know to the parser
+	 */
+	private void checkFraction(Token token) {
+		int tokenStrLength = token.tokenStr.length();
+		if (tokenStrLength < 3) return;
+		if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return;
+		int underscore1stPos = token.tokenStr.indexOf('_');
+		int underscore2ndPos = token.tokenStr.indexOf('_', underscore1stPos + 1);
+		boolean mixedFraction = false;
+		if (underscore2ndPos > 0)
+			mixedFraction = true;
+		double fractionValue;
+		if (mixedFraction) {
+			String wholeStr = token.tokenStr.substring(0, underscore1stPos);
+			String numeratorStr = token.tokenStr.substring(underscore1stPos + 1, underscore2ndPos);
+			String denominatorStr = token.tokenStr.substring(underscore2ndPos + 1);
+			double whole = Double.parseDouble(wholeStr);
+			double numerator = Double.parseDouble(numeratorStr);
+			double denominator = Double.parseDouble(denominatorStr);
+			if (denominator == 0)
+				fractionValue = Double.NaN;
+			else {
+				fractionValue = whole + numerator / denominator;
+			}
+		} else {
+			String numeratorStr = token.tokenStr.substring(0, underscore1stPos);
+			String denominatorStr = token.tokenStr.substring(underscore1stPos + 1);
+			double numerator = Double.parseDouble(numeratorStr);
+			double denominator = Double.parseDouble(denominatorStr);
+			if (denominator == 0)
+				fractionValue = Double.NaN;
+			else {
+				fractionValue = numerator / denominator;
+			}
+		}
+		token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+		token.tokenId = ParserSymbol.NUMBER_ID;
+		token.tokenValue = fractionValue;
+	}
+	/**
 	 * Adds expression token
 	 * Method is called by the tokenExpressionString()
 	 * while parsing string expression
@@ -6384,6 +6439,8 @@ public class Expression {
 				token.keyWord = ParserSymbol.NUMBER_STR;
 		} else if (token.tokenTypeId == Token.NOT_MATCHED) {
 			checkOtherNumberBases(token);
+			if (token.tokenTypeId == Token.NOT_MATCHED)
+				checkFraction(token);
 		}
 	}
 	/**

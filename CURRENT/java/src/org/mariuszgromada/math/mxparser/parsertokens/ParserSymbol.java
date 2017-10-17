@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        4.1.0    2017-05-14
+ * @(#)ParserSymbol.java        4.2.0    2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.2.0
  */
 public final class ParserSymbol {
 	/*
@@ -153,6 +153,7 @@ public final class ParserSymbol {
 	public static final String BASE34_REG_EXP			= "[+-]?[bB]34\\." + DIGIT_B34 + "(" + DIGIT_B34 + ")*";
 	public static final String BASE35_REG_EXP			= "[+-]?[bB]35\\." + DIGIT_B35 + "(" + DIGIT_B35 + ")*";
 	public static final String BASE36_REG_EXP			= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
+	public static final String FRACTION					= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
 	public static final String nameOnlyTokenRegExp		= "([a-zA-Z_])+([a-zA-Z0-9_])*";
 	public static final String nameTokenRegExp			= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
 	public static final String paramsTokenRegeExp		= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";

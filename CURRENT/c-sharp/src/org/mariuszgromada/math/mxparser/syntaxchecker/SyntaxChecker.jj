@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxChecker.jj        4.1.0    2017-06-04
+ * @(#)SyntaxChecker.jj        4.2.0    2017-10-16
  *
  * SyntaxChecker.jj - mXparser grammar specification for CSJavaCC
  *
@@ -84,7 +84,8 @@ SKIP :
 
 TOKEN : /* TOKENS */
 {
-	< #LETTER:		["_","a"-"z","A"-"Z"]														>
+	< #WHITESPACE:  ( " " | "\t" | "\n" | "\r" )												>
+|	< #LETTER:		["_","a"-"z","A"-"Z"]														>
 | 	< #DIGIT:		["0"-"9"]																	>
 | 	< #DIGIT_B1:	"1"																			>
 | 	< #DIGIT_B2:	["0","1"]																	>
@@ -207,6 +208,7 @@ TOKEN :
 |	< BINARY:				( "b" | "B" ) "." <DIGIT_B2>(<DIGIT_B2>)*							>
 |	< OCTAL:				( "o" | "O" ) "." <DIGIT_B8>(<DIGIT_B8>)*							>
 |	< HEXADECIMAL:			( "h" | "H" ) "." <DIGIT_B16>(<DIGIT_B16>)*							>
+|	< FRACTION:				( <INTEGER> "_" )? <INTEGER> "_" <INTEGER>							>
 }
 
 /*
@@ -294,7 +296,7 @@ void unaryLeftExpression():{}
  */
 void itemExpression():{}
 {
-    ( <PLUS> | <MINUS> )? ( ( <DECIMAL> | <HEXADECIMAL> | <OCTAL> | <BINARY> | <BASE1> | <BASE2> | <BASE3> | <BASE4> | <BASE5> | <BASE6> | <BASE7> | <BASE8> | <BASE9> | <BASE10> | <BASE11> | <BASE12> | <BASE13> | <BASE14> | <BASE15> | <BASE16> | <BASE17> | <BASE18> | <BASE19> | <BASE20> | <BASE21> | <BASE22> | <BASE23> | <BASE24> | <BASE25> | <BASE26> | <BASE27> | <BASE28> | <BASE29> | <BASE30> | <BASE31> | <BASE32> | <BASE33> | <BASE34> | <BASE35> | <BASE36> ) | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> )
+    ( <PLUS> | <MINUS> )? ( ( <DECIMAL> | <HEXADECIMAL> | <OCTAL> | <BINARY> | <BASE1> | <BASE2> | <BASE3> | <BASE4> | <BASE5> | <BASE6> | <BASE7> | <BASE8> | <BASE9> | <BASE10> | <BASE11> | <BASE12> | <BASE13> | <BASE14> | <BASE15> | <BASE16> | <BASE17> | <BASE18> | <BASE19> | <BASE20> | <BASE21> | <BASE22> | <BASE23> | <BASE24> | <BASE25> | <BASE26> | <BASE27> | <BASE28> | <BASE29> | <BASE30> | <BASE31> | <BASE32> | <BASE33> | <BASE34> | <BASE35> | <BASE36> | <FRACTION> ) | ( identifier() | <FUNCTION> ) ( <LEFT_PAR> argumentList() <RIGHT_PAR> )? | <LEFT_PAR> expression() <RIGHT_PAR> )
 }
 
 /*
@@ -318,6 +320,6 @@ void identifier():{}
  */
 < * > TOKEN : 
 {
-	< INVALID_TOKEN: ( "++" | "--" | "+-" | "-+" ) >  
+	< INVALID_TOKEN: ( "+" (<WHITESPACE>)* "+" | "-" (<WHITESPACE>)* "-" | "+" (<WHITESPACE>)* "-" | "-" (<WHITESPACE>)* "+" ) >  
 |	< UNEXPECTED_CHAR: ~[] > 
 }

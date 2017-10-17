@@ -58,9 +58,10 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case BINARY:
     case OCTAL:
     case HEXADECIMAL:
+    case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 122:{
+    case 124:{
       expression();
       jj_consume_token(0);
       break;
@@ -372,7 +373,8 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case BASE36:
     case BINARY:
     case OCTAL:
-    case HEXADECIMAL:{
+    case HEXADECIMAL:
+    case FRACTION:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case DECIMAL:{
         jj_consume_token(DECIMAL);
@@ -534,6 +536,10 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
         jj_consume_token(BASE36);
         break;
         }
+      case FRACTION:{
+        jj_consume_token(FRACTION);
+        break;
+        }
       default:
         jj_la1[9] = jj_gen;
         jj_consume_token(-1);
@@ -544,11 +550,11 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case UNIT:
     case IDENTIFIER:
     case FUNCTION:
-    case 122:{
+    case 124:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case UNIT:
       case IDENTIFIER:
-      case 122:{
+      case 124:{
         identifier();
         break;
         }
@@ -638,9 +644,10 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case BINARY:
     case OCTAL:
     case HEXADECIMAL:
+    case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 122:{
+    case 124:{
       expression();
       label_2:
       while (true) {
@@ -691,8 +698,8 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
       jj_consume_token(UNIT);
       break;
       }
-    case 122:{
-      jj_consume_token(122);
+    case 124:{
+      jj_consume_token(124);
       label_3:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -812,7 +819,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
           break label_3;
         }
       }
-      jj_consume_token(123);
+      jj_consume_token(125);
       break;
       }
     default:
@@ -846,13 +853,13 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
       jj_la1_0 = new int[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x401a000,0xfa1f8000,0xfa1f8000,0x600000,0x600000,0x0,0x0,0x18000,0x18000,0x0,0x4000000,0x2000,0x4002000,0x1800000,0x1800000,0x401a000,0x509fe000,0x509fe000,0x0,0x0,0x4000000,};
+      jj_la1_1 = new int[] {0x8034000,0xf43f0000,0xf43f0000,0xc00000,0xc00000,0x0,0x0,0x30000,0x30000,0x0,0x8000000,0x4000,0x8004000,0x3000000,0x3000000,0x8034000,0xa13fc000,0xa13fc000,0x0,0x0,0x8000000,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0xffff000c,0x1ff3,0x1ff3,0x0,0x0,0xc,0xc,0x0,0x0,0xffff0000,0x0,0x0,0xffff0000,0x0,0x0,0xffff000c,0x10007,0x10007,0x2000,0x2000,0x0,};
+      jj_la1_2 = new int[] {0xfffe0018,0x3fe7,0x3fe7,0x0,0x0,0x18,0x18,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0018,0x2000e,0x2000e,0x4000,0x4000,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new int[] {0x7ffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xffffff,0x7000000,0x0,0x7ffffff,0x0,0x0,0x7ffffff,0x0,0x0,0x1000000,0x1000000,0x5000000,};
+      jj_la1_3 = new int[] {0x1fffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3ffffff,0x1c000000,0x0,0x1fffffff,0x0,0x0,0x1fffffff,0x0,0x0,0x4000000,0x4000000,0x14000000,};
    }
 
   /** Constructor with InputStream. */
@@ -969,7 +976,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[126];
+    boolean[] la1tokens = new boolean[128];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -992,7 +999,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
         }
       }
     }
-    for (int i = 0; i < 126; i++) {
+    for (int i = 0; i < 128; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

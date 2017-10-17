@@ -1,6 +1,7 @@
 ﻿using org.mariuszgromada.math.mxparser;
-
+using org.mariuszgromada.math.mxparser.mathcollection;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -132,8 +133,11 @@ namespace phelipemartins.caseinsensitivity {
 			//Argument x = new Argument("x = 10");
 			//Expression e = new Expression("f(x)", f, x);
 			//mXparser.consolePrintln(e.calculate());
-			org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker syn = new org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes("2")));
-			syn.checkSyntax();
+			Expression e = new Expression("2_3_4");
+			e.checkSyntax();
+			mXparser.consolePrintln(e.getErrorMessage());
+			mXparser.consolePrintln(String.Format("{0:0}", 1e250));
+			mXparser.consolePrintln(NumberTheory.toMixedFractionString(20.0+263.0/353.0));
 		}
 	}
 }

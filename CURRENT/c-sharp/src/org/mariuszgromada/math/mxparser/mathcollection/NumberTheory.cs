@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        4.1.0    2017-06-13
+ * @(#)NumberTheory.cs        4.2.0   2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -72,10 +72,33 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
+		/**
+		 * Initial search size 1 ... n for the toFraction method
+		 * @see NumberTheory#toFraction(double)
+		 */
+		private static long TO_FRACTION_INIT_SEARCH_SIZE = 10000;
+		/**
+		 * Sets initial search size for the toFraction method
+		 *
+		 * @param n initial search size, has to be non-zero positive.
+		 * @see NumberTheory#toFraction(double)
+		 */
+		public static void setToFractionInitSearchSize(long n) {
+			if (n >= 0) TO_FRACTION_INIT_SEARCH_SIZE = n;
+		}
+		/**
+		 * Gets initial search size used by the toFraction method
+		 *
+		 * @return initial search size used by the toFraction method
+		 * @see NumberTheory#toFraction(double)
+		 */
+		public static long getToFractionInitSearchSize() {
+			return TO_FRACTION_INIT_SEARCH_SIZE;
+		}
 		/**
 		 * Minimum function.
 		 *
@@ -411,15 +434,30 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     GCD(a,b)
 		 */
 		public static long gcd(long a, long b) {
-			a = Math.Abs(a);
-			b = Math.Abs(b);
-			if (a == 0)
-				return b;
-			while (b != 0)
-				if (a > b)
-					a -= b;
-				else
-					b -= a;
+			if (a < 0) a = -a;
+			if (b < 0) b = -b;
+			if ((a == 0) && (b != 0)) return b;
+			if ((a != 0) && (b == 0)) return a;
+			if (a == 0) return -1;
+			if (b == 0) return -1;
+			if (a == b) return a;
+			long quotient;
+			while (b != 0) {
+				if (a > b) {
+					quotient = a / b - 1;
+					if (quotient > 0)
+						a -= b * quotient;
+					else
+						a -= b;
+				}
+				else {
+					quotient = b / a - 1;
+					if (quotient > 0)
+						b -= a * quotient;
+					else
+						b -= a;
+				}
+			}
 			return a;
 		}
 		/**
@@ -434,15 +472,32 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double gcd(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(a))
 				return Double.NaN;
+			if (a < 0) a = -a;
+			if (b < 0) b = -b;
 			a = MathFunctions.floor(MathFunctions.abs(a));
 			b = MathFunctions.floor(MathFunctions.abs(b));
-			if (a == 0.0)
-				return b;
-			while (b != 0.0)
-				if (a > b)
-					a = MathFunctions.floor(a - b);
-				else
-					b = MathFunctions.floor(b - a);
+			if ((a == 0) && (b != 0)) return b;
+			if ((a != 0) && (b == 0)) return a;
+			if (a == 0) return Double.NaN;
+			if (b == 0) return Double.NaN;
+			if (a == b) return a;
+			double quotient;
+			while (b != 0.0) {
+				if (a > b) {
+					quotient = Math.Floor(a / b) - 1;
+					if (quotient > 0)
+						a = Math.Floor(a - b * quotient);
+					else
+						a = Math.Floor(a - b);
+				}
+				else {
+					quotient = Math.Floor(b / a) - 1;
+					if (quotient > 0)
+						b = Math.Floor(b - a * quotient);
+					else
+						b = Math.Floor(b - a);
+				}
+			}
 			return a;
 		}
 		/**
@@ -1937,6 +1992,267 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			int nfact = factorsDist.GetLength(0);
 			if (id > nfact) return 0;
 			return factorsDist[(int)(id - 1), 1];
+		}
+		/**
+		 * Creates array representing fraction (sign, numerator and denominator).
+		 *
+		 * @param sign        Sign of the number represented by fraction
+		 * @param numerator   Numerator from the fraction
+		 * @param denominator Denominator from the fraction
+		 *
+		 * @return Returns array containing sign, numerator and denominator.
+		 * Sign at index 0, numerator at index 1, denominator at index 2.
+		 */
+		private static double[] fractionToDoubleArray(double sign, double numerator, double denominator) {
+			double[] fraction = new double[3];
+			fraction[0] = sign;
+			fraction[1] = numerator;
+			fraction[2] = denominator;
+			return fraction;
+		}
+		/**
+		 * Creates array representing mixed fraction (sign, whole number, numerator and denominator).
+		 *
+		 * @param sign        Sign of the number represented by fraction
+		 * @param whole       Whole number
+		 * @param numerator   Numerator from the fraction
+		 * @param denominator Denominator from the fraction
+		 *
+		 * @return Returns array containing whole number, numerator and denominator.
+		 * Sign at index 0, whole number at index 1, numerator at index 2, denominator at index 3.
+		 */
+		private static double[] mixedFractionToDoubleArray(double sign, double whole, double numerator, double denominator) {
+			double[] mixedFraction = new double[4];
+			mixedFraction[0] = sign;
+			mixedFraction[1] = whole;
+			mixedFraction[2] = numerator;
+			mixedFraction[3] = denominator;
+			return mixedFraction;
+		}
+		/**
+		 * Converts double value to its fraction representation.
+		 *
+		 * @param value Value to be converted
+		 *
+		 * @return Array representing fraction. Sign at index 0,
+		 * numerator at index 1, denominator at index 2.
+		 * If conversion is not possible then Double.NaN is
+		 * assigned to all the fields.
+		 */
+		public static double[] toFraction(double value) {
+			if (Double.IsNaN(value)) return fractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN);
+			if (Double.IsInfinity(value)) return fractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN);
+			if (value == 0) return fractionToDoubleArray(0, 0, 1);
+			double sign = 1;
+			if (value < 0) {
+				value = -value;
+				sign = -1;
+			}
+			double valueRound0 = MathFunctions.roundHalfUp(value, 0);
+			double valueInt = Math.Floor(value);
+			double valueIntNumOfDigits = NumberTheory.numberOfDigits(valueInt);
+			double multiplier = 1;
+			for (int place = 1; place < valueIntNumOfDigits; place++)
+				multiplier = Math.Floor(multiplier * 10);
+			double ERROR = BinaryRelations.DEFAULT_COMPARISON_EPSILON * multiplier * 10;
+			/*
+			 * If already integer
+			 */
+			if (value >= 1) {
+				if (Math.Abs(value - valueRound0) <= ERROR)
+					return fractionToDoubleArray(sign, valueInt, 1);
+			}
+			int ulpPosition = MathFunctions.ulpDecimalDigitsBefore(value);
+			/*
+			 * If ulp position shows no place for decimals
+			 */
+			if (ulpPosition <= 0) return
+				   fractionToDoubleArray(sign, valueInt, 1);
+			/*
+			 * Initial search
+			 */
+			double numerator;
+			double denominator;
+			double gcd;
+			double valueDecimal = value - valueInt;
+			double n = 0;
+			double quotient;
+			double quotientRound0;
+			while (n <= TO_FRACTION_INIT_SEARCH_SIZE) {
+				n++;
+				quotient = n / valueDecimal;
+				quotientRound0 = MathFunctions.roundHalfUp(quotient, 0);
+				if (Math.Abs(quotient - quotientRound0) <= ERROR) {
+					numerator = n;
+					denominator = quotientRound0;
+					gcd = NumberTheory.gcd(numerator, denominator);
+					numerator = Math.Floor(numerator / gcd);
+					denominator = Math.Floor(denominator / gcd);
+					return fractionToDoubleArray(sign, Math.Floor(valueInt * denominator + numerator), denominator);
+				}
+			}
+			/*
+			 * Second step based o GCD if initial search was not successful
+			 */
+			double valueRound = MathFunctions.roundHalfUp(value, ulpPosition);
+			multiplier = 1;
+			for (int place = 1; place < ulpPosition; place++)
+				multiplier = Math.Floor(multiplier * 10);
+			double initNumerator = Math.Floor(valueRound * multiplier);
+			double initDenominator = multiplier;
+			gcd = NumberTheory.gcd(initNumerator, initDenominator);
+			numerator = Math.Floor(initNumerator / gcd);
+			denominator = Math.Floor(initDenominator / gcd);
+			double finalQuotient;
+			double a, b;
+			if (denominator > numerator) {
+				a = denominator;
+				b = numerator;
+			}
+			else {
+				a = numerator;
+				b = denominator;
+			}
+			finalQuotient = a / b;
+			int finalQuotientUlpPos = MathFunctions.ulpDecimalDigitsBefore(finalQuotient);
+			if (finalQuotientUlpPos > 0)
+				finalQuotient = MathFunctions.roundHalfUp(finalQuotient, finalQuotientUlpPos - 1);
+			double finalQuotientFloor = Math.Floor(finalQuotient);
+			if (Math.Abs(finalQuotient - finalQuotientFloor) <= ERROR) {
+				numerator = Math.Floor(numerator / b);
+				denominator = Math.Floor(denominator / b);
+			}
+			return fractionToDoubleArray(sign, numerator, denominator);
+		}
+		/**
+		 * Converts double value to its mixed fraction representation.
+		 *
+		 * @param value Value to be converted
+		 *
+		 * @return Array representing fraction.
+		 * Sign at index 0, whole number at index 1,
+		 * numerator at index 2, denominator at index 3.
+		 * If conversion is not possible then Double.NaN is
+		 * assigned to both numerator and denominator.
+		 */
+		public static double[] toMixedFraction(double value) {
+			double[] fraction = toFraction(value);
+			double sign = fraction[0];
+			double numerator = fraction[1];
+			double denominator = fraction[2];
+			if (Double.IsNaN(numerator))
+				return mixedFractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+			if (Double.IsNaN(denominator))
+				return mixedFractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+			if (numerator < denominator)
+				return mixedFractionToDoubleArray(sign, 0, numerator, denominator);
+			double whole = Math.Floor(numerator / denominator);
+			numerator = Math.Floor(numerator - whole * denominator);
+			return mixedFractionToDoubleArray(sign, whole, numerator, denominator);
+		}
+		/**
+		 * Converts array representing fraction to fraction string representation.
+		 *
+		 * @param fraction    Array representing fraction (including mix fractions)
+		 * @return  String representation of fraction.
+		 *
+		 * @see NumberTheory#toFraction(double)
+		 * @see NumberTheory#toMixedFraction(double)
+		 */
+		public static String fractionToString(double[] fraction) {
+			bool mixedFraction = false;
+			if ((fraction.Length != 3) && (fraction.Length != 4))
+				return ConstantValue.NAN_STR;
+			int signIdx = 0;
+			int wholeIdx = 1;
+			int numeratorIdx;
+			int denominatorIdx;
+			if (fraction.Length == 4) {
+				mixedFraction = true;
+				numeratorIdx = 2;
+				denominatorIdx = 3;
+			}
+			else {
+				numeratorIdx = 1;
+				denominatorIdx = 2;
+			}
+			if (Double.IsNaN(fraction[0])) return ConstantValue.NAN_STR;
+			if (Double.IsNaN(fraction[1])) return ConstantValue.NAN_STR;
+			if (Double.IsNaN(fraction[2])) return ConstantValue.NAN_STR;
+			if (mixedFraction)
+				if (Double.IsNaN(fraction[3])) return ConstantValue.NAN_STR;
+			double sign = fraction[signIdx];
+			double numerator = fraction[numeratorIdx];
+			double denominator = fraction[denominatorIdx];
+			String numeratorStr = String.Format("{0:0}", numerator);
+			String denominatorStr = String.Format("{0:0}", denominator);
+			if (mixedFraction == false) {
+				if (numerator == 0) return "0";
+				if (denominator == 1) {
+					if (sign >= 0)
+						return numeratorStr;
+					else
+						return "-" + numeratorStr;
+				}
+				else {
+					if (sign >= 0)
+						return numeratorStr + "/" + denominatorStr;
+					else
+						return "-" + numeratorStr + "/" + denominatorStr;
+				}
+			}
+			else {
+				double whole = fraction[wholeIdx];
+				String wholeStr = String.Format("{0:0}", whole);
+				if (numerator == 0) {
+					if (whole == 0)
+						return "0";
+					else {
+						if (sign >= 0)
+							return wholeStr;
+						else
+							return "-" + wholeStr;
+					}
+				}
+				else {
+					if (whole == 0) {
+						if (sign >= 0)
+							return numeratorStr + "/" + denominatorStr;
+						else
+							return "-" + numeratorStr + "/" + denominatorStr;
+					}
+					else {
+						if (sign >= 0)
+							return wholeStr + "+" + numeratorStr + "/" + denominatorStr;
+						else
+							return "-" + wholeStr + "-" + numeratorStr + "/" + denominatorStr;
+					}
+				}
+			}
+		}
+		/**
+		 * Converts number to its fraction string representation.
+		 *
+		 * @param value   Given number
+		 * @return  String representation of fraction.
+		 *
+		 * @see NumberTheory#toFraction(double)
+		 * @see NumberTheory#fractionToString(double[])
+		 */
+		public static String toFractionString(double value) {
+			return fractionToString(toFraction(value));
+		}
+		/**
+		 * Converts number to its mixed fraction string representation.
+		 *
+		 * @param value   Given number
+		 * @return  String representation of fraction.
+		 *
+		 * @see NumberTheory#toMixedFraction(double)
+		 * @see NumberTheory#fractionToString(double[])
+		 */
+		public static String toMixedFractionString(double value) {
+			return fractionToString(toMixedFraction(value));
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.1.0    2017-06-29
+ * @(#)RegTestExpressionAPI.cs        4.2.0   2017-10-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 *
 	 * @see Expression
 	 */
@@ -1929,6 +1929,240 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			mXparser.setRadiansMode();
 			if ( (mXparser.checkIfRadiansMode() == true) && (mXparser.checkIfDegreesMode() == false) )
 				test[testId] = true;
+			/*
+			 * 54. roundHalfUp
+			 */
+			testId++;
+			if (
+					( MathFunctions.roundHalfUp( 0.0, 0 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 0.0, 1 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 0.0, 2 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 0.0, 100 ) == 0.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( 0.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( 1.0, 0 ) == 1.0) &&
+					( MathFunctions.roundHalfUp( 1.0, 1 ) == 1.0) &&
+					( MathFunctions.roundHalfUp( 1.0, 2 ) == 1.0) &&
+					( MathFunctions.roundHalfUp( 1.0, 100 ) == 1.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( 1.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( 9856.0, 0 ) == 9856.0) &&
+					( MathFunctions.roundHalfUp( 9856.0, 1 ) == 9856.0) &&
+					( MathFunctions.roundHalfUp( 9856.0, 2 ) == 9856.0) &&
+					( MathFunctions.roundHalfUp( 9856.0, 100 ) == 9856.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( 9856.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( 9.856E303, 0 ) == 9.856E303) &&
+					( MathFunctions.roundHalfUp( 9.856E303, 1 ) == 9.856E303) &&
+					( MathFunctions.roundHalfUp( 9.856E303, 2 ) == 9.856E303) &&
+					( MathFunctions.roundHalfUp( 9.856E303, 100 ) == 9.856E303) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( 9.856E303, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( -1.0, 0 ) == -1.0) &&
+					( MathFunctions.roundHalfUp( -1.0, 1 ) == -1.0) &&
+					( MathFunctions.roundHalfUp( -1.0, 2 ) == -1.0) &&
+					( MathFunctions.roundHalfUp( -1.0, 100 ) == -1.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( -1.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( -9856.0, 0 ) == -9856.0) &&
+					( MathFunctions.roundHalfUp( -9856.0, 1 ) == -9856.0) &&
+					( MathFunctions.roundHalfUp( -9856.0, 2 ) == -9856.0) &&
+					( MathFunctions.roundHalfUp( -9856.0, 100 ) == -9856.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( -9856.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( -9.856E303, 0 ) == -9.856E303) &&
+					( MathFunctions.roundHalfUp( -9.856E303, 1 ) == -9.856E303) &&
+					( MathFunctions.roundHalfUp( -9.856E303, 2 ) == -9.856E303) &&
+					( MathFunctions.roundHalfUp( -9.856E303, 100 ) == -9.856E303) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( -9.856E303, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 5 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 6 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 100 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 500 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 4 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 3 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 2 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 1 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( 1.0E-5, 0 ) == 0.0) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 5 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 6 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 100 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 500 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 4 ) == -0.0) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 3 ) == -0.0) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 2 ) == -0.0) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 1 ) == -0.0) &&
+					( MathFunctions.roundHalfUp( -1.0E-5, 0 ) == -0.0) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 14 ) == 10.000000000123) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 13 ) == 10.000000000123) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 12 ) == 10.000000000123) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 11 ) == 10.00000000012) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 10 ) == 10.0000000001) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 9 ) == 10.0) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 3 ) == 10.0) &&
+					( MathFunctions.roundHalfUp( 10.000000000123, 0 ) == 10.0) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 14 ) == -10.000000000123) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 13 ) == -10.000000000123) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 12 ) == -10.000000000123) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 11 ) == -10.00000000012) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 10 ) == -10.0000000001) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 9 ) == -10.0) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 3 ) == -10.0) &&
+					( MathFunctions.roundHalfUp( -10.000000000123, 0 ) == -10.0) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 200 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 14 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 13 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 12 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 11 ) == 100.44444444445) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 10 ) == 100.4444444444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 9 ) == 100.444444444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 8 ) == 100.44444444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 7 ) == 100.4444444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 6 ) == 100.444444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 5 ) == 100.44444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 4 ) == 100.4444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 3 ) == 100.444) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 2 ) == 100.44) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 1 ) == 100.4) &&
+					( MathFunctions.roundHalfUp( 100.444444444445, 0 ) == 100.0) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 200 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 14 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 13 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 12 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 11 ) == -100.44444444445) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 10 ) == -100.4444444444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 9 ) == -100.444444444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 8 ) == -100.44444444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 7 ) == -100.4444444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 6 ) == -100.444444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 5 ) == -100.44444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 4 ) == -100.4444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 3 ) == -100.444) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 2 ) == -100.44) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 1 ) == -100.4) &&
+					( MathFunctions.roundHalfUp( -100.444444444445, 0 ) == -100.0) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 100 ) == 1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 8 ) == 1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 7 ) == 1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 6 ) == 1.234567890765432E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 5 ) == 1.23456789076543E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 4 ) == 1.2345678907654E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 3 ) == 1.234567890765E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 2 ) == 1.23456789077E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 1 ) == 1.2345678908E9) &&
+					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 0 ) == 1.234567891E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 100 ) == -1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 8 ) == -1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 7 ) == -1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 6 ) == -1.234567890765432E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 5 ) == -1.23456789076543E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 4 ) == -1.2345678907654E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 3 ) == -1.234567890765E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 2 ) == -1.23456789077E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 1 ) == -1.2345678908E9) &&
+					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 0 ) == -1.234567891E9) &&
+					( MathFunctions.roundHalfUp( 5.9999999999, 11 ) == 5.9999999999) &&
+					( MathFunctions.roundHalfUp( 5.9999999999, 10 ) == 5.9999999999) &&
+					( MathFunctions.roundHalfUp( 5.9999999999, 9 ) == 6.0) &&
+					( MathFunctions.roundHalfUp( 5.9999999999, 3 ) == 6.0) &&
+					( MathFunctions.roundHalfUp( 5.9999999999, 0 ) == 6.0) &&
+					( MathFunctions.roundHalfUp( -5.9999999999, 11 ) == -5.9999999999) &&
+					( MathFunctions.roundHalfUp( -5.9999999999, 10 ) == -5.9999999999) &&
+					( MathFunctions.roundHalfUp( -5.9999999999, 9 ) == -6.0) &&
+					( MathFunctions.roundHalfUp( -5.9999999999, 3 ) == -6.0) &&
+					( MathFunctions.roundHalfUp( -5.9999999999, 0 ) == -6.0) &&
+					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 307 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 10 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 1 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 0 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 307 ) == -1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 10 ) == -1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 1 ) == -1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 0 ) == -1.2300000000000001E305) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp( Double.NaN, 0 ) ) ) &&
+					( Double.IsPositiveInfinity(MathFunctions.roundHalfUp( Double.PositiveInfinity, 100 ))) &&
+					( Double.IsNegativeInfinity(MathFunctions.roundHalfUp( Double.NegativeInfinity, 100 )))
+				) test[testId] = true;
+			/*
+			 * 55. To Mixed fraction
+			 */
+			testId++;
+			if (
+					(NumberTheory.toMixedFractionString(0.0).Equals("0")) &&
+					(NumberTheory.toMixedFractionString(1.0).Equals("1")) &&
+					(NumberTheory.toMixedFractionString(2.0).Equals("2")) &&
+					(NumberTheory.toMixedFractionString(1234567890.0).Equals("1234567890")) &&
+					(NumberTheory.toMixedFractionString(-1.0).Equals("-1")) &&
+					(NumberTheory.toMixedFractionString(-2.0).Equals("-2")) &&
+					(NumberTheory.toMixedFractionString(-1234567890.0).Equals("-1234567890")) &&
+					(NumberTheory.toMixedFractionString(1.0/2.0).Equals("1/2")) &&
+					(NumberTheory.toMixedFractionString(-1.0/2.0).Equals("-1/2")) &&
+					(NumberTheory.toMixedFractionString(2.0/3.0).Equals("2/3")) &&
+					(NumberTheory.toMixedFractionString(-2.0/3.0).Equals("-2/3")) &&
+					(NumberTheory.toMixedFractionString(263.0/326.0).Equals("263/326")) &&
+					(NumberTheory.toMixedFractionString(-263.0/326.0).Equals("-263/326")) &&
+					(NumberTheory.toMixedFractionString(2.0+5.0/6.0).Equals("2+5/6")) &&
+					(NumberTheory.toMixedFractionString(-2.0-5.0/6.0).Equals("-2-5/6")) &&
+					(NumberTheory.toMixedFractionString(2+263.0/326.0).Equals("2+263/326")) &&
+					(NumberTheory.toMixedFractionString(-2-263.0/326.0).Equals("-2-263/326")) &&
+					(NumberTheory.toMixedFractionString(20+263.0/326.0).Equals("20+263/326")) &&
+					(NumberTheory.toMixedFractionString(-20-263.0/326.0).Equals("-20-263/326")) &&
+					(NumberTheory.toMixedFractionString(200+263.0/326.0).Equals("200+263/326")) &&
+					(NumberTheory.toMixedFractionString(-200-263.0/326.0).Equals("-200-263/326")) &&
+					(NumberTheory.toMixedFractionString(2000+263.0/326.0).Equals("2000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-2000-263.0/326.0).Equals("-2000-263/326")) &&
+					(NumberTheory.toMixedFractionString(20000+263.0/326.0).Equals("20000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-20000-263.0/326.0).Equals("-20000-263/326")) &&
+					(NumberTheory.toMixedFractionString(200000+263.0/326.0).Equals("200000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-200000-263.0/326.0).Equals("-200000-263/326")) &&
+					(NumberTheory.toMixedFractionString(2000000+263.0/326.0).Equals("2000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-2000000-263.0/326.0).Equals("-2000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(20000000+263.0/326.0).Equals("20000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-20000000-263.0/326.0).Equals("-20000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(200000000+263.0/326.0).Equals("200000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-200000000-263.0/326.0).Equals("-200000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(2000000000+263.0/326.0).Equals("2000000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-2000000000-263.0/326.0).Equals("-2000000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(20000000000.0+263.0/326.0).Equals("20000000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(-20000000000.0-263.0/326.0).Equals("-20000000000-263/326"))
+					) test[testId] = true;
+			/*
+			 * 56. To fraction
+			 */
+			testId++;
+			if (
+					(NumberTheory.toFractionString(0.0).Equals("0")) &&
+					(NumberTheory.toFractionString(1.0).Equals("1")) &&
+					(NumberTheory.toFractionString(2.0).Equals("2")) &&
+					(NumberTheory.toFractionString(1234567890.0).Equals("1234567890")) &&
+					(NumberTheory.toFractionString(-1.0).Equals("-1")) &&
+					(NumberTheory.toFractionString(-2.0).Equals("-2")) &&
+					(NumberTheory.toFractionString(-1234567890.0).Equals("-1234567890")) &&
+					(NumberTheory.toFractionString(1.0/2.0).Equals("1/2")) &&
+					(NumberTheory.toFractionString(-1.0/2.0).Equals("-1/2")) &&
+					(NumberTheory.toFractionString(2.0/3.0).Equals("2/3")) &&
+					(NumberTheory.toFractionString(-2.0/3.0).Equals("-2/3")) &&
+					(NumberTheory.toFractionString(263.0/326.0).Equals("263/326")) &&
+					(NumberTheory.toFractionString(-263.0/326.0).Equals("-263/326")) &&
+					(NumberTheory.toFractionString(17.0/6.0).Equals("17/6")) &&
+					(NumberTheory.toFractionString(-17.0/6.0).Equals("-17/6")) &&
+					(NumberTheory.toFractionString(915.0/326.0).Equals("915/326")) &&
+					(NumberTheory.toFractionString(-915.0/326.0).Equals("-915/326")) &&
+					(NumberTheory.toFractionString(6783.0/326.0).Equals("6783/326")) &&
+					(NumberTheory.toFractionString(-6783.0/326.0).Equals("-6783/326")) &&
+					(NumberTheory.toFractionString(65463.0/326.0).Equals("65463/326")) &&
+					(NumberTheory.toFractionString(-65463.0/326.0).Equals("-65463/326")) &&
+					(NumberTheory.toFractionString(652263.0/326.0).Equals("652263/326")) &&
+					(NumberTheory.toFractionString(-652263.0/326.0).Equals("-652263/326")) &&
+					(NumberTheory.toFractionString(6520263.0/326.0).Equals("6520263/326")) &&
+					(NumberTheory.toFractionString(-6520263.0/326.0).Equals("-6520263/326")) &&
+					(NumberTheory.toFractionString(65200263.0/326.0).Equals("65200263/326")) &&
+					(NumberTheory.toFractionString(-65200263.0/326.0).Equals("-65200263/326")) &&
+					(NumberTheory.toFractionString(652000263.0/326.0).Equals("652000263/326")) &&
+					(NumberTheory.toFractionString(-652000263.0/326.0).Equals("-652000263/326")) &&
+					(NumberTheory.toFractionString(6520000263.0/326.0).Equals("6520000263/326")) &&
+					(NumberTheory.toFractionString(-6520000263.0/326.0).Equals("-6520000263/326")) &&
+					(NumberTheory.toFractionString(65200000263.0/326.0).Equals("65200000263/326")) &&
+					(NumberTheory.toFractionString(-65200000263.0/326.0).Equals("-65200000263/326")) &&
+					(NumberTheory.toFractionString(652000000263.0/326.0).Equals("652000000263/326")) &&
+					(NumberTheory.toFractionString(-652000000263.0/326.0).Equals("-652000000263/326")) &&
+					(NumberTheory.toFractionString(6520000000263.0/326.0).Equals("6520000000263/326")) &&
+					(NumberTheory.toFractionString(-6520000000263.0/326.0).Equals("-6520000000263/326"))
+					) test[testId] = true;
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

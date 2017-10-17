@@ -36,6 +36,9 @@
     <AssemblyOriginatorKeyFile>..\..\..\..\..\pfx-keys\mariuszgromada.org.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;CORE</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs" Link="src\org\mariuszgromada\math\mxparser\Argument.cs" />
