@@ -101,7 +101,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * AND truth table
 		 */
-		public static double[,] AND_TRUTH_TABLE = {
+		public static readonly double[,] AND_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, F, F} ,
 			/* T */	{ F, T, N} ,
@@ -110,7 +110,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * NAND truth table
 		 */
-		public static double[,] NAND_TRUTH_TABLE = {
+		public static readonly double[,] NAND_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, T, T} ,
 			/* T */	{ T, F, N} ,
@@ -119,7 +119,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * OR truth table
 		 */
-		public static double[,] OR_TRUTH_TABLE = {
+		public static readonly double[,] OR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, T, N} ,
 			/* T */	{ T, T, T} ,
@@ -128,7 +128,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * NOR truth table
 		 */
-		public static double[,] NOR_TRUTH_TABLE = {
+		public static readonly double[,] NOR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ F, F, F} ,
@@ -137,7 +137,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * XOR truth table
 		 */
-		public static double[,] XOR_TRUTH_TABLE = {
+		public static readonly double[,] XOR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, T, N} ,
 			/* T */	{ T, F, N} ,
@@ -146,7 +146,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * XNOR truth table
 		 */
-		public static double[,] XNOR_TRUTH_TABLE = {
+		public static readonly double[,] XNOR_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ F, T, N} ,
@@ -155,7 +155,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * IMP truth table
 		 */
-		public static double[,] IMP_TRUTH_TABLE = {
+		public static readonly double[,] IMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, T, T} ,
 			/* T */	{ F, T, N} ,
@@ -164,7 +164,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * CIMP truth table
 		 */
-		public static double[,] CIMP_TRUTH_TABLE = {
+		public static readonly double[,] CIMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ T, T, T} ,
@@ -173,7 +173,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * EQV truth table
 		 */
-		public static double[,] EQV_TRUTH_TABLE = {
+		public static readonly double[,] EQV_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ T, F, N} ,
 			/* T */	{ F, T, N} ,
@@ -182,7 +182,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * NIMP truth table
 		 */
-		public static double[,] NIMP_TRUTH_TABLE = {
+		public static readonly double[,] NIMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, F, F} ,
 			/* T */	{ T, F, N} ,
@@ -191,7 +191,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * CNIMP truth table
 		 */
-		public static double[,] CNIMP_TRUTH_TABLE = {
+		public static readonly double[,] CNIMP_TRUTH_TABLE = {
 			/*		  F  T  N
 			/* F */	{ F, T, N} ,
 			/* T */	{ F, F, F} ,
@@ -200,7 +200,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * NOT truth table
 		 */
-		public static double[] NOT_TRUTH_TABLE = {
+		public static readonly double[] NOT_TRUTH_TABLE = {
 				   /* F  T  N	*/
 					  T, F, N
 		};

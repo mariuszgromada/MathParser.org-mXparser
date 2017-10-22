@@ -257,11 +257,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Tetration left convergence limit
 		 */
-		public static double EXP_MINUS_E = Math.Pow(E, -E);
+		public static readonly double EXP_MINUS_E = Math.Pow(E, -E);
 		/**
 		 * Tetration right convergence limit
 		 */
-		public static double EXP_1_OVER_E = Math.Pow(E, 1.0 / E);
+		public static readonly double EXP_1_OVER_E = Math.Pow(E, 1.0 / E);
 		/**
 		 * 1 over e
 		 */

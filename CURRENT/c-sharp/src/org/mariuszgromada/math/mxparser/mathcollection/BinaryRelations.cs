@@ -77,7 +77,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Default epsilon for comparison
 		 */
-		public static double DEFAULT_COMPARISON_EPSILON = 0.00000000000001;
+		public static readonly double DEFAULT_COMPARISON_EPSILON = 0.00000000000001;
 		/**
 		 * Epsilon for comparison
 		 */

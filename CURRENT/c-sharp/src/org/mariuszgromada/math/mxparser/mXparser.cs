@@ -119,7 +119,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Empty expression for general help purposes.
 		 */
-		private static Expression mXparserExp = new Expression();
+		private static readonly Expression mXparserExp = new Expression();
 		/**
 		 * Double floating-point precision arithmetic causes
 		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3

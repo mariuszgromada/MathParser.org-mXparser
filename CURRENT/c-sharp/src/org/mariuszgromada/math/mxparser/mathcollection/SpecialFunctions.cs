@@ -99,8 +99,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Constants for Exponential integral function Ei(x) calculation
 		 */
-		private static double EI_DBL_EPSILON = MathFunctions.ulp(1.0);
-		private static double EI_EPSILON = 10.0 * EI_DBL_EPSILON;
+		private static readonly double EI_DBL_EPSILON = MathFunctions.ulp(1.0);
+		private static readonly double EI_EPSILON = 10.0 * EI_DBL_EPSILON;
 		/**
 		 * Supporting function
 		 * while Exponential integral function Ei(x) calculation
