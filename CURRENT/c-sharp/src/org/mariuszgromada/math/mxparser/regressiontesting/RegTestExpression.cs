@@ -10313,7 +10313,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 903:
 				mXparser.setEpsilonComparison();
-				expStr = "sum( x, e^(-e), e^(1/e), W0( -ln(x) ) / (-ln(x) ) - solve(y - x^y, y, 1/e, e) , 0.001 )";
+				expStr = "sum( x, e^(-e), e^(1/e), LambW0( -ln(x) ) / (-ln(x) ) - solve(y - x^y, y, 1/e, e) , 0.001 )";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10325,7 +10325,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 904:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, -1/e + 0.1, 100, der( 0.5 * ( 1 + W0(x) )^2 , x, x) - W0(x)/x, 0.01)";
+				expStr = "sum(x, -1/e + 0.1, 100, der( 0.5 * ( 1 + LambW0(x) )^2 , x, x) - LambW0(x)/x, 0.01)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10337,7 +10337,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 905:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, -1/e, 100, e^W0(x) - x / W0(x), 0.01)";
+				expStr = "sum(x, -1/e, 100, e^LambW0(x) - x / LambW0(x), 0.01)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10349,7 +10349,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 906:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, -1/e, -0.01, e^W1(x) - x / W1(x), 0.01)";
+				expStr = "sum(x, -1/e, -0.01, e^LambW1(x) - x / LambW1(x), 0.01)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10361,7 +10361,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 907:
 				mXparser.setEpsilonComparison();
-				expStr = "int( W0(x), x, 0, e) - e + 1";
+				expStr = "int( LambW0(x), x, 0, e) - e + 1";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10373,7 +10373,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 908:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, -0.3, 0.3, W0(x) - sum(n, 1, 100, ( ( (-n)^(n-1) ) / n! ) * x^n ) , 0.001)";
+				expStr = "sum(x, -0.3, 0.3, LambW0(x) - sum(n, 1, 100, ( ( (-n)^(n-1) ) / n! ) * x^n ) , 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10385,7 +10385,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 909:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, 0, 200, W0(x * e^x) - x, 0.001)";
+				expStr = "sum(x, 0, 200, LambW0(x * e^x) - x, 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10397,7 +10397,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 910:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, -1, 0, W0(x * e^x) - x, 0.001)";
+				expStr = "sum(x, -1, 0, LambW0(x * e^x) - x, 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10409,7 +10409,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 911:
 				mXparser.setEpsilonComparison();
-				expStr = "avg(x, -10, -1, abs(x - W1(x * e^x))/abs(x), 0.001)";
+				expStr = "avg(x, -10, -1, abs(x - LambW1(x * e^x))/abs(x), 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10421,7 +10421,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 912:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, 0.01, 200, ln( W0(x) ) - ln(x) + W0(x), 0.001)";
+				expStr = "sum(x, 0.01, 200, ln( LambW0(x) ) - ln(x) + LambW0(x), 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10434,7 +10434,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 913:
 				mXparser.setEpsilonComparison();
 				n = new Argument("n = 4");
-				expStr = "sum(x, 0.01, 200, W0( (n*x^n) / W0(x)^(n-1) ) - n*W0(x), 0.001)";
+				expStr = "sum(x, 0.01, 200, LambW0( (n*x^n) / LambW0(x)^(n-1) ) - n*LambW0(x), 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr, n);
 				value = exp[testId].calculate();
@@ -10448,7 +10448,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.setEpsilonComparison();
 				x = new Argument("x = rUni(0,100)");
 				y = new Argument("y = rUni(0,100)");
-				expStr = "W0(x) + W0(y) - W0( x*y*( 1/W0(x) + 1/W0(y) ) )";
+				expStr = "LambW0(x) + LambW0(y) - LambW0( x*y*( 1/LambW0(x) + 1/LambW0(y) ) )";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr, x, y);
 				value = exp[testId].calculate();
@@ -10460,7 +10460,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 915:
 				mXparser.setEpsilonComparison();
-				expStr = "int( W0(2 * cot(x)^2) * sec(x)^2, x, 0.001182, pi-0.008 ) - 4*sqrt(pi)";
+				expStr = "int( LambW0(2 * cot(x)^2) * sec(x)^2, x, 0.001182, pi-0.008 ) - 4*sqrt(pi)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10472,7 +10472,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 916:
 				mXparser.setEpsilonComparison();
-				expStr = "int( W0( 1/x^2  ), x, 0.0000000804, 300 )/sqrt(2*pi)-1";
+				expStr = "int( LambW0( 1/x^2  ), x, 0.0000000804, 300 )/sqrt(2*pi)-1";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10484,7 +10484,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 917:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, 1/e, e, W0(-ln(x)/x) + ln(x), 0.001)";
+				expStr = "sum(x, 1/e, e, LambW0(-ln(x)/x) + ln(x), 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10496,7 +10496,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 918:
 				mXparser.setEpsilonComparison();
-				expStr = "( W0(-1/e) + 1 ) + ( W0(0) - 0 ) + ( W0(1) - [Om] ) + ( W0(1) + ln( W0(1) )  ) + ( W0(e) - 1 ) + ( W0(-ln(sqrt(2))) + 2*ln(sqrt(2)) )";
+				expStr = "( LambW0(-1/e) + 1 ) + ( LambW0(0) - 0 ) + ( LambW0(1) - [Om] ) + ( LambW0(1) + ln( LambW0(1) )  ) + ( LambW0(e) - 1 ) + ( LambW0(-ln(sqrt(2))) + 2*ln(sqrt(2)) )";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10508,7 +10508,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 919:
 				mXparser.setEpsilonComparison();
-				expStr = "W1(-1/e) + 1";
+				expStr = "LambW1(-1/e) + 1";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10520,7 +10520,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 920:
 				mXparser.setEpsilonComparison();
-				expStr = "der( W0(x), x, 0) - 1";
+				expStr = "der( LambW0(x), x, 0) - 1";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10532,7 +10532,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 921:
 				mXparser.setEpsilonComparison();
-				expStr = "int( W0(x)/( x*sqrt(x) ), x, 0.01 , 240000) - 2*sqrt(2*pi)";
+				expStr = "int( LambW0(x)/( x*sqrt(x) ), x, 0.01 , 240000) - 2*sqrt(2*pi)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10544,7 +10544,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 922:
 				mXparser.setEpsilonComparison();
-				expStr = "sum(x, 0.001, 6, x^x - ( e^W0( ln(x^x) ) )^( e^W0( ln(x^x) ) ), 0.001)";
+				expStr = "sum(x, 0.001, 6, x^x - ( e^LambW0( ln(x^x) ) )^( e^LambW0( ln(x^x) ) ), 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
@@ -10556,7 +10556,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 923:
 				mXparser.setEpsilonComparison();
-				expStr = "( isNaN( W0(-10) ) - [true] ) + ( isNaN( W1(-10) ) - [true] ) + ( isNaN( W1(10) ) - [true] )";
+				expStr = "( isNaN( LambW0(-10) ) - [true] ) + ( isNaN( LambW1(-10) ) - [true] ) + ( isNaN( LambW1(10) ) - [true] )";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();

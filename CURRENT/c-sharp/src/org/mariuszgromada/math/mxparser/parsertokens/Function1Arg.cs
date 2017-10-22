@@ -240,8 +240,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARCSEC_STR				= "arcsec";
 		public const String ARCCSC_STR				= "arccsc";
 		public const String GAMMA_STR				= "Gamma";
-		public const String LAMBERT_W0_STR			= "W0";
-		public const String LAMBERT_W1_STR			= "W1";
+		public const String LAMBERT_W0_STR			= "LambW0";
+		public const String LAMBERT_W1_STR			= "LambW1";
 		/*
 		 * UnaryFunction - syntax.
 		 */

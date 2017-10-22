@@ -239,8 +239,8 @@ public final class Function1Arg {
 	public static final String ARCSEC_STR				= "arcsec";
 	public static final String ARCCSC_STR				= "arccsc";
 	public static final String GAMMA_STR				= "Gamma";
-	public static final String LAMBERT_W0_STR			= "W0";
-	public static final String LAMBERT_W1_STR			= "W1";
+	public static final String LAMBERT_W0_STR			= "LambW0";
+	public static final String LAMBERT_W1_STR			= "LambW1";
 	/*
 	 * UnaryFunction - syntax.
 	 */
