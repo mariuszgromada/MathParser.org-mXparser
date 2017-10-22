@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        4.2.0    2017-09-18
+ * @(#)Function1Arg.cs        4.2.0    2017-10-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -138,6 +138,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int ARCSEC_ID					= 55;
 		public const int ARCCSC_ID					= 56;
 		public const int GAMMA_ID					= 57;
+		public const int LAMBERT_W0_ID				= 58;
+		public const int LAMBERT_W1_ID				= 59;
 		/*
 		 * UnaryFunction - tokens key words.
 		 */
@@ -238,6 +240,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARCSEC_STR				= "arcsec";
 		public const String ARCCSC_STR				= "arccsc";
 		public const String GAMMA_STR				= "Gamma";
+		public const String LAMBERT_W0_STR			= "W0";
+		public const String LAMBERT_W1_STR			= "W1";
 		/*
 		 * UnaryFunction - syntax.
 		 */
@@ -338,6 +342,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARCSEC_SYN				= ARCSEC_STR + "(x)";
 		public const String ARCCSC_SYN				= ARCCSC_STR + "(x)";
 		public const String GAMMA_SYN				= GAMMA_STR + "(x)";
+		public const String LAMBERT_W0_SYN			= LAMBERT_W0_STR + "(x)";
+		public const String LAMBERT_W1_SYN			= LAMBERT_W1_STR + "(x)";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -397,6 +403,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARCSEC_DESC				= "Inverse trigonometric secant";
 		public const String ARCCSC_DESC				= "Inverse trigonometric cosecant";
 		public const String GAMMA_DESC				= "Gamma special function";
+		public const String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
+		public const String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -456,5 +464,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String ARCSEC_SINCE			= mXparser.NAMEv41;
 		public const String ARCCSC_SINCE			= mXparser.NAMEv41;
 		public const String GAMMA_SINCE				= mXparser.NAMEv42;
+		public const String LAMBERT_W0_SINCE		= mXparser.NAMEv42;
+		public const String LAMBERT_W1_SINCE		= mXparser.NAMEv42;
 	}
 }

@@ -1,9 +1,9 @@
 /*
- * @(#)Coefficients.java        4.2.0    2017-09-18
+ * @(#)Coefficients.java        4.2.0    2017-10-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -329,4 +329,8 @@ final class Coefficients {
 	 * Coefficients for Lanchos Gamma function approximation
 	 */
 	static final double[] lanchosGamma = {0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7};
+	/**
+	 * Coefficients for Lambert W function, series for q near zero
+	 */
+	static final double[] lambertWqNearZero = {-1.0, 2.331643981597124203363536062168, -1.812187885639363490240191647568, 1.936631114492359755363277457668, -2.353551201881614516821543561516, 3.066858901050631912893148922704, -4.175335600258177138854984177460, 5.858023729874774148815053846119, -8.401032217523977370984161688514, 12.250753501314460424, -18.100697012472442755, 27.029044799010561650};
 }

@@ -66,7 +66,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 124:
+    case 125:
       expression();
       jj_consume_token(0);
       break;
@@ -77,6 +77,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1[0] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
+
     }
   }
 
@@ -99,6 +100,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       case MULTIPLY:
       case DIV:
       case POWER:
+      case TETRATION:
       case MODULO:
       case EQ:
       case NEQ:
@@ -122,6 +124,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       default:
         jj_la1[1] = jj_gen;
         goto label_1;
+
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case PLUS:
@@ -146,6 +149,10 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         break;
       case POWER:
         jj_consume_token(POWER);
+        unaryRigthExpression();
+        break;
+      case TETRATION:
+        jj_consume_token(TETRATION);
         unaryRigthExpression();
         break;
       case EQ:
@@ -220,6 +227,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
+
       }
     }
     label_1: ;
@@ -245,6 +253,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[3] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
+
       }
       break;
     default:
@@ -272,6 +281,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[5] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
+
       }
       break;
     default:
@@ -300,6 +310,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[7] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
+
       }
       break;
     default:
@@ -477,16 +488,17 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
+
       }
       break;
     case UNIT:
     case IDENTIFIER:
     case FUNCTION:
-    case 124:
+    case 125:
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case UNIT:
       case IDENTIFIER:
-      case 124:
+      case 125:
         grIdentifier();
         break;
       case FUNCTION:
@@ -496,6 +508,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
+
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case LEFT_PAR:
@@ -518,6 +531,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
+
     }
   }
 
@@ -575,7 +589,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 124:
+    case 125:
       expression();
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
@@ -586,6 +600,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         default:
           jj_la1[13] = jj_gen;
           goto label_2;
+
         }
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case COMMA:
@@ -598,6 +613,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           jj_la1[14] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
+
         }
         expression();
       }
@@ -622,8 +638,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case UNIT:
       jj_consume_token(UNIT);
       break;
-    case 124:
-      jj_consume_token(124);
+    case 125:
+      jj_consume_token(125);
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case CHAR:
@@ -653,6 +669,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
             default:
               jj_la1[16] = jj_gen;
               goto label_4;
+
             }
             switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
             case NOT:
@@ -704,6 +721,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
               jj_la1[17] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
+
             }
           }
           label_4: ;
@@ -713,6 +731,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           jj_la1[18] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
+
         }
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case CHAR:
@@ -722,16 +741,18 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         default:
           jj_la1[19] = jj_gen;
           goto label_3;
+
         }
       }
       label_3: ;
 
-      jj_consume_token(125);
+      jj_consume_token(126);
       break;
     default:
       jj_la1[20] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
+
     }
   }
 
@@ -745,23 +766,28 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   static private long[] jj_la1_1;
   static private long[] jj_la1_2;
   static private long[] jj_la1_3;
+  static private long[] jj_la1_4;
   static SyntaxChecker(){
       jj_la1_init_0();
       jj_la1_init_1();
       jj_la1_init_2();
       jj_la1_init_3();
+      jj_la1_init_4();
    }
    private static void jj_la1_init_0() {
       jj_la1_0 = new long[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new long[] {0x8034000,0xf43f0000,0xf43f0000,0xc00000,0xc00000,0x0,0x0,0x30000,0x30000,0x0,0x8000000,0x4000,0x8004000,0x3000000,0x3000000,0x8034000,0xa13fc000,0xa13fc000,0x0,0x0,0x8000000,};
+      jj_la1_1 = new long[] {0x10034000,0xe87f0000,0xe87f0000,0x1800000,0x1800000,0x0,0x0,0x30000,0x30000,0x0,0x10000000,0x4000,0x10004000,0x6000000,0x6000000,0x10034000,0x425fc000,0x425fc000,0x0,0x0,0x10000000,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new long[] {0xfffe0018,0x3fe7,0x3fe7,0x0,0x0,0x18,0x18,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0018,0x2000e,0x2000e,0x4000,0x4000,0x0,};
+      jj_la1_2 = new long[] {0xfffc0030,0x7fcf,0x7fcf,0x0,0x0,0x30,0x30,0x0,0x0,0xfffc0000,0x0,0x0,0xfffc0000,0x0,0x0,0xfffc0030,0x4001d,0x4001d,0x8000,0x8000,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new long[] {0x1fffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3ffffff,0x1c000000,0x0,0x1fffffff,0x0,0x0,0x1fffffff,0x0,0x0,0x4000000,0x4000000,0x14000000,};
+      jj_la1_3 = new long[] {0x3fffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7ffffff,0x38000000,0x0,0x3fffffff,0x0,0x0,0x3fffffff,0x0,0x0,0x8000000,0x8000000,0x28000000,};
+   }
+   private static void jj_la1_init_4() {
+      jj_la1_4 = new long[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   public SyntaxChecker(System.IO.Stream stream) {
@@ -860,8 +886,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   public ParseException generateParseException() {
     jj_expentries.Clear();
-    bool[] la1tokens = new bool[128];
-    for (int i = 0; i < 128; i++) {
+    bool[] la1tokens = new bool[129];
+    for (int i = 0; i < 129; i++) {
       la1tokens[i] = false;
     }
     if (jj_kind >= 0) {
@@ -883,10 +909,13 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           if ((jj_la1_3[i] & (1<<j)) != 0) {
             la1tokens[96+j] = true;
           }
+          if ((jj_la1_4[i] & (1<<j)) != 0) {
+            la1tokens[128+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 128; i++) {
+    for (int i = 0; i < 129; i++) {
       if (la1tokens[i]) {
         jj_expentry = new long[1];
         jj_expentry[0] = i;

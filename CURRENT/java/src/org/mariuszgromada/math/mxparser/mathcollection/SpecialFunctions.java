@@ -1,9 +1,9 @@
 /*
- * @(#)SpecialFunctions.java        4.2.0    2017-09-18
+ * @(#)SpecialFunctions.java        4.2.0    2017-10-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -432,5 +432,103 @@ public final class SpecialFunctions {
 			a += Coefficients.lanchosGamma[i] / (x+i);
 		}
 		return MathFunctions.sqrt(2*MathConstants.PI) * MathFunctions.power(t, x+0.5) * MathFunctions.exp(-t) * a;
+	}
+	/*
+	 * halleyIteration epsilon
+	 */
+	private static final double GSL_DBL_EPSILON = 2.2204460492503131e-16;
+	/**
+	 * Halley iteration used in Lambert-W approximation
+	 * @param x         Point at which Halley iteration will be calculated
+	 * @param wInitial  Starting point
+	 * @param maxIter   Maximum number of iteration
+	 * @return          Halley iteration value if succesfull, otherwise Double.NaN
+	 */
+	private static final double halleyIteration(double x, double wInitial, int maxIter) {
+		double w = wInitial;
+		for (int i = 0; i < maxIter; i++) {
+			double tol;
+			double e = Math.exp(w);
+			double p = w + 1.0;
+			double t = w * e - x;
+			if (w > 0) t = (t / p) / e;
+			else t /= e * p - 0.5 * (p + 1.0) * t / p;
+		    w -= t;
+		    tol = GSL_DBL_EPSILON * Math.max(Math.abs(w), 1.0 / (Math.abs(p) * e));
+		    if (Math.abs(t) < tol) return w;
+		}
+		return Double.NaN;
+	}
+	/**
+	 * Private method used in Lambert-W approximation - near zero
+	 * @param r
+	 * @return Ner zero approximation
+	 */
+	private static final double seriesEval(double r) {
+		double t8 = Coefficients.lambertWqNearZero[8] + r * (Coefficients.lambertWqNearZero[9] + r * (Coefficients.lambertWqNearZero[10] + r * Coefficients.lambertWqNearZero[11]));
+		double t5 = Coefficients.lambertWqNearZero[5] + r * (Coefficients.lambertWqNearZero[6] + r * (Coefficients.lambertWqNearZero[7] + r * t8));
+		double t1 = Coefficients.lambertWqNearZero[1] + r * (Coefficients.lambertWqNearZero[2] + r * (Coefficients.lambertWqNearZero[3] + r * (Coefficients.lambertWqNearZero[4] + r * t5)));
+		return Coefficients.lambertWqNearZero[0] + r * t1;
+	}
+	/**
+	 * W0 - Principal branch of Lambert-W function
+	 * @param x
+	 * @return Approximation of principal branch of Lambert-W function
+	 */
+	private static final double lambertW0(double x) {
+		if (Math.abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
+		if (Math.abs(x + MathConstants.EXP_MINUS_1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -1;
+		if (Math.abs(x - 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return MathConstants.OMEGA;
+		if (Math.abs(x - MathConstants.E) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 1;
+		if (Math.abs(x + MathConstants.LN_SQRT2) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -2 * MathConstants.LN_SQRT2;
+		if (x < -MathConstants.EXP_MINUS_1) return Double.NaN;
+		double q = x + MathConstants.EXP_MINUS_1;
+		if (q < 1.0e-03) return seriesEval(Math.sqrt(q));
+		final int MAX_ITER = 100;
+		double w;
+		if (x < 1) {
+			final double p = Math.sqrt(2.0 * MathConstants.E * q);
+			w = -1.0 + p * (1.0 + p * (-1.0 / 3.0 + p * 11.0 / 72.0));
+		}
+		else {
+			w = Math.log(x);
+			if (x > 3.0) w -= Math.log(w);
+		}
+		return halleyIteration(x, w, MAX_ITER);
+	}
+	/**
+	 * Minus 1 branch of Lambert-W function
+	 * Analytical approximations for real values of the Lambert W-function - D.A. Barry
+	 * Mathematics and Computers in Simulation 53 (2000) 95–103
+	 * @param x
+	 * @return Approxmiation of minus 1 branch of Lambert-W function
+	 */
+	private static final double lambertW1(double x) {
+		if (x >= -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+		if (x < -MathConstants.EXP_MINUS_1) return Double.NaN;
+		if (Math.abs(x + MathConstants.EXP_MINUS_1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -1;
+		/*
+		 * Analytical approximations for real values of the Lambert W-function - D.A. Barry
+		 * Mathematics and Computers in Simulation 53 (2000) 95–103
+		 */
+		double M1 = 0.3361;
+		double M2 = -0.0042;
+		double M3 = -0.0201;
+		double s = -1 - MathFunctions.ln(-x);
+		return -1.0 - s - (2.0/M1) * ( 1.0 - 1.0 / ( 1.0 + ( (M1 * Math.sqrt(s/2.0)) / (1.0 + M2 * s * Math.exp(M3 * Math.sqrt(s)) ) ) ) );
+	}
+	/**
+	 * Real-valued Lambert-W function approximation.
+	 * @param x      Point at which function will be approximated
+	 * @param branch Branch id, 0 for principal branch, -1 for the other branch
+	 * @return       Principal branch for x greater or equal than -1/e, otherwise Double.NaN.
+	 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double.NaN.
+	 */
+	public static final double lambertW(double x, double branch) {
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(branch)) return Double.NaN;
+		if (Math.abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0(x);
+		if (Math.abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
+		return Double.NaN;
 	}
 }

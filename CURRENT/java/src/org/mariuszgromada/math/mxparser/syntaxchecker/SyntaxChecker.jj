@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxChecker.jj        4.2.0    2017-10-16
+ * @(#)SyntaxChecker.jj        4.2.0    2017-10-19
  *
  * SyntaxChecker.jj - mXparser grammar specification for JavaCC
  *
@@ -129,6 +129,7 @@ TOKEN : /* TOKENS */
 | 	< MULTIPLY:		"*"																			>
 | 	< DIV:			"/"																			>
 | 	< POWER:		"^"																			>
+| 	< TETRATION:	"^^"																		>
 | 	< MODULO:		"#"																			>
 | 	< FACTORIAL:	"!"																			>
 | 	< PERCENTAGE:	"%"																			>
@@ -252,6 +253,7 @@ void binaryExpression():{ }
 							|	<DIV>		unaryRigthExpression()
 							|	<MODULO>	unaryRigthExpression()
 							|	<POWER>		unaryRigthExpression()
+							|	<TETRATION>	unaryRigthExpression()
 							|	<EQ>		unaryRigthExpression()
   							|	<NEQ>		unaryRigthExpression()
   							|	<GT>		unaryRigthExpression()

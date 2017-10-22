@@ -61,7 +61,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 124:{
+    case 125:{
       expression();
       jj_consume_token(0);
       break;
@@ -97,6 +97,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
       case MULTIPLY:
       case DIV:
       case POWER:
+      case TETRATION:
       case MODULO:
       case EQ:
       case NEQ:
@@ -150,6 +151,11 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
         }
       case POWER:{
         jj_consume_token(POWER);
+        unaryRigthExpression();
+        break;
+        }
+      case TETRATION:{
+        jj_consume_token(TETRATION);
         unaryRigthExpression();
         break;
         }
@@ -550,11 +556,11 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case UNIT:
     case IDENTIFIER:
     case FUNCTION:
-    case 124:{
+    case 125:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case UNIT:
       case IDENTIFIER:
-      case 124:{
+      case 125:{
         identifier();
         break;
         }
@@ -647,7 +653,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
     case FRACTION:
     case IDENTIFIER:
     case FUNCTION:
-    case 124:{
+    case 125:{
       expression();
       label_2:
       while (true) {
@@ -698,8 +704,8 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
       jj_consume_token(UNIT);
       break;
       }
-    case 124:{
-      jj_consume_token(124);
+    case 125:{
+      jj_consume_token(125);
       label_3:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -819,7 +825,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
           break label_3;
         }
       }
-      jj_consume_token(125);
+      jj_consume_token(126);
       break;
       }
     default:
@@ -843,23 +849,28 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
   static private int[] jj_la1_3;
+  static private int[] jj_la1_4;
   static {
       jj_la1_init_0();
       jj_la1_init_1();
       jj_la1_init_2();
       jj_la1_init_3();
+      jj_la1_init_4();
    }
    private static void jj_la1_init_0() {
       jj_la1_0 = new int[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x8034000,0xf43f0000,0xf43f0000,0xc00000,0xc00000,0x0,0x0,0x30000,0x30000,0x0,0x8000000,0x4000,0x8004000,0x3000000,0x3000000,0x8034000,0xa13fc000,0xa13fc000,0x0,0x0,0x8000000,};
+      jj_la1_1 = new int[] {0x10034000,0xe87f0000,0xe87f0000,0x1800000,0x1800000,0x0,0x0,0x30000,0x30000,0x0,0x10000000,0x4000,0x10004000,0x6000000,0x6000000,0x10034000,0x425fc000,0x425fc000,0x0,0x0,0x10000000,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0xfffe0018,0x3fe7,0x3fe7,0x0,0x0,0x18,0x18,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0000,0x0,0x0,0xfffe0018,0x2000e,0x2000e,0x4000,0x4000,0x0,};
+      jj_la1_2 = new int[] {0xfffc0030,0x7fcf,0x7fcf,0x0,0x0,0x30,0x30,0x0,0x0,0xfffc0000,0x0,0x0,0xfffc0000,0x0,0x0,0xfffc0030,0x4001d,0x4001d,0x8000,0x8000,0x0,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new int[] {0x1fffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3ffffff,0x1c000000,0x0,0x1fffffff,0x0,0x0,0x1fffffff,0x0,0x0,0x4000000,0x4000000,0x14000000,};
+      jj_la1_3 = new int[] {0x3fffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7ffffff,0x38000000,0x0,0x3fffffff,0x0,0x0,0x3fffffff,0x0,0x0,0x8000000,0x8000000,0x28000000,};
+   }
+   private static void jj_la1_init_4() {
+      jj_la1_4 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -976,7 +987,7 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[128];
+    boolean[] la1tokens = new boolean[129];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -996,10 +1007,13 @@ public final class SyntaxChecker implements SyntaxCheckerConstants {
           if ((jj_la1_3[i] & (1<<j)) != 0) {
             la1tokens[96+j] = true;
           }
+          if ((jj_la1_4[i] & (1<<j)) != 0) {
+            la1tokens[128+j] = true;
+          }
         }
       }
     }
-    for (int i = 0; i < 128; i++) {
+    for (int i = 0; i < 129; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

@@ -123,7 +123,7 @@ public final class Function2Arg {
 	public static final String DIGIT10_STR						= "dig10";
 	public static final String FACTVAL_STR						= "factval";
 	public static final String FACTEXP_STR						= "factexp";
-	public static final String ROOT_STR						= "root";
+	public static final String ROOT_STR							= "root";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -194,4 +194,3 @@ public final class Function2Arg {
 	public static final String FACTEXP_SINCE					= mXparser.NAMEv41;
 	public static final String ROOT_SINCE						= mXparser.NAMEv41;
 }
-

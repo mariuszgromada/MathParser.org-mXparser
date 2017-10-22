@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2017-10-16
+ * @(#)Expression.java        4.2.0   2017-10-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2524,6 +2524,16 @@ public class Expression {
 		return tokensList.get(tokenIndex).tokenValue;
 	}
 	/**
+	 * Tetration handling.
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void TETRATION(int pos) {
+		double a = getTokenValue(pos-1);
+		double n = getTokenValue(pos+1);
+		opSetDecreaseRemove(pos, MathFunctions.tetration(a, n), true);
+	}
+	/**
 	 * Power handling.
 	 *
 	 * @param      pos                 the token position
@@ -3407,6 +3417,26 @@ public class Expression {
 	private void GAMMA(int pos) {
 		double x = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, SpecialFunctions.lanchosGamma(x) );
+	}
+	/**
+	 * Lambert-W special function, principal branch 0
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void LAMBERT_W0(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, 0) );
+	}
+	/**
+	 * Lambert-W special function, branch = -1
+	 * Sets tokens to number token
+	 *
+	 * @param      pos                 the token position
+	 */
+	private void LAMBERT_W1(int pos) {
+		double x = getTokenValue(pos+1);
+		f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, -1) );
 	}
 	/**
 	 * Logarithm
@@ -5086,6 +5116,7 @@ public class Expression {
 		int multiplyPos;
 		int dividePos;
 		int powerPos;
+		int tetrationPos;
 		int powerNum;
 		int factPos;
 		int modPos;
@@ -5139,6 +5170,7 @@ public class Expression {
 			multiplyPos = -1;
 			dividePos = -1;
 			powerPos = -1;
+			tetrationPos = -1;
 			factPos = -1;
 			modPos = -1;
 			percPos = -1;
@@ -5239,19 +5271,19 @@ public class Expression {
 					/* if no calculus operations were found
 					 * check for other tokens
 					 */
-					boolean leftIsNUmber;
-					boolean rigthIsNUmber;
+					boolean leftIsNumber;
+					boolean rigthIsNumber;
 					for (pos = lPos; pos <= rPos; pos++) {
-						leftIsNUmber = false;
-						rigthIsNUmber = false;
+						leftIsNumber = false;
+						rigthIsNumber = false;
 						token = tokensList.get(pos);
 						if (pos-1 >= 0) {
 							tokenL = tokensList.get(pos-1);
-							if (tokenL.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) leftIsNUmber = true;
+							if (tokenL.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) leftIsNumber = true;
 						}
 						if (pos+1 < tokensNumber) {
 							tokenR = tokensList.get(pos+1);
-							if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNUmber = true;
+							if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNumber = true;
 						}
 						if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
 							recArgPos = pos;
@@ -5272,61 +5304,64 @@ public class Expression {
 							userFunPos = pos;
 						else
 						if (token.tokenTypeId == Operator.TYPE_ID) {
-							if ( (token.tokenId == Operator.POWER_ID) && (leftIsNUmber && rigthIsNUmber) ) {
+							if ( (token.tokenId == Operator.POWER_ID) && (leftIsNumber && rigthIsNumber) ) {
 								powerPos = pos;
 								powerNum++;
 							} else
-							if ( (token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNUmber)) {
+							if ( (token.tokenId == Operator.TETRATION_ID) && (leftIsNumber && rigthIsNumber) ) {
+								tetrationPos = pos;
+							} else
+							if ( (token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNumber)) {
 								factPos = pos;
 							} else
-							if ( (token.tokenId == Operator.PERC_ID) && (percPos < 0) && (leftIsNUmber)) {
+							if ( (token.tokenId == Operator.PERC_ID) && (percPos < 0) && (leftIsNumber)) {
 								percPos = pos;
 							} else
-							if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
+							if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNumber && rigthIsNumber)) {
 								modPos = pos;
 							} else
-							if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0) && (leftIsNumber && rigthIsNumber))
 								plusPos = pos;
 							else
-							if ( (token.tokenId == Operator.MINUS_ID)  && (minusPos < 0) && (rigthIsNUmber))
+							if ( (token.tokenId == Operator.MINUS_ID)  && (minusPos < 0) && (rigthIsNumber))
 								minusPos = pos;
 							else
-							if ( (token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0) && (leftIsNumber && rigthIsNumber))
 								multiplyPos = pos;
 							else
-							if ( (token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNumber && rigthIsNumber))
 								dividePos = pos;
 						} else
-						if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNUmber)) {
+						if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNumber)) {
 							negPos = pos;
 						} else
-						if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) && (leftIsNUmber && rigthIsNUmber)) {
+						if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) && (leftIsNumber && rigthIsNumber)) {
 							bolPos = pos;
 						} else
 						if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
-							if ( (token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNumber && rigthIsNumber))
 								eqPos = pos;
 							else
-							if ( (token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0) && (leftIsNumber && rigthIsNumber))
 								neqPos = pos;
 							else
-							if ( (token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0) && (leftIsNumber && rigthIsNumber))
 								ltPos = pos;
 							else
-							if ( (token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0) && (leftIsNumber && rigthIsNumber))
 								gtPos = pos;
 							else
-							if ( (token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0) && (leftIsNumber && rigthIsNumber))
 								leqPos = pos;
 							else
-							if ( (token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ( (token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNumber && rigthIsNumber))
 								geqPos = pos;
 						} else
 						if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
-							if ((token.tokenId == BitwiseOperator.COMPL_ID) && (bitwiseComplPos < 0) && (rigthIsNUmber))
+							if ((token.tokenId == BitwiseOperator.COMPL_ID) && (bitwiseComplPos < 0) && (rigthIsNumber))
 								bitwiseComplPos = pos;
 							else
-							if ((bitwisePos < 0) && (leftIsNUmber && rigthIsNUmber))
+							if ((bitwisePos < 0) && (leftIsNumber && rigthIsNumber))
 								bitwisePos = pos;
 						} else
 						if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
@@ -5388,6 +5423,9 @@ public class Expression {
 				USER_FUNCTION(userFunPos);
 			} else
 			/* ... powering  ... */
+			if (tetrationPos >= 0) {
+				TETRATION(tetrationPos);
+			} else
 			if (powerPos >= 0) {
 				POWER(powerPos);
 			} else
@@ -5546,6 +5584,8 @@ public class Expression {
 		case Function1Arg.ARCSEC_ID: ARCSEC(pos); break;
 		case Function1Arg.ARCCSC_ID: ARCCSC(pos); break;
 		case Function1Arg.GAMMA_ID: GAMMA(pos); break;
+		case Function1Arg.LAMBERT_W0_ID: LAMBERT_W0(pos); break;
+		case Function1Arg.LAMBERT_W1_ID: LAMBERT_W1(pos); break;
 		}
 	}
 	/**
@@ -5688,7 +5728,7 @@ public class Expression {
 	 *=================================================
 	 */
 	/**
-	 * Creates parseres key words list
+	 * Creates parser key words list
 	 */
 	private void addParserKeyWords() {
 		/*
@@ -5702,6 +5742,7 @@ public class Expression {
 		addKeyWord(Operator.FACT_STR, Operator.FACT_DESC, Operator.FACT_ID, Operator.FACT_SYN, Operator.FACT_SINCE, Operator.TYPE_ID);
 		addKeyWord(Operator.MOD_STR, Operator.MOD_DESC, Operator.MOD_ID, Operator.MOD_SYN, Operator.MOD_SINCE, Operator.TYPE_ID);
 		addKeyWord(Operator.PERC_STR, Operator.PERC_DESC, Operator.PERC_ID, Operator.PERC_SYN, Operator.PERC_SINCE, Operator.TYPE_ID);
+		addKeyWord(Operator.TETRATION_STR, Operator.TETRATION_DESC, Operator.TETRATION_ID, Operator.TETRATION_SYN, Operator.TETRATION_SINCE, Operator.TYPE_ID);
 		/*
 		 * Boolean operators key words
 		 */
@@ -5837,6 +5878,8 @@ public class Expression {
 			addKeyWord(Function1Arg.ARCSEC_STR, Function1Arg.ARCSEC_DESC, Function1Arg.ARCSEC_ID, Function1Arg.ARCSEC_SYN, Function1Arg.ARCSEC_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.ARCCSC_STR, Function1Arg.ARCCSC_DESC, Function1Arg.ARCCSC_ID, Function1Arg.ARCCSC_SYN, Function1Arg.ARCCSC_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.GAMMA_STR, Function1Arg.GAMMA_DESC, Function1Arg.GAMMA_ID, Function1Arg.GAMMA_SYN, Function1Arg.GAMMA_SINCE, Function1Arg.TYPE_ID);
+			addKeyWord(Function1Arg.LAMBERT_W0_STR, Function1Arg.LAMBERT_W0_DESC, Function1Arg.LAMBERT_W0_ID, Function1Arg.LAMBERT_W0_SYN, Function1Arg.LAMBERT_W0_SINCE, Function1Arg.TYPE_ID);
+			addKeyWord(Function1Arg.LAMBERT_W1_STR, Function1Arg.LAMBERT_W1_DESC, Function1Arg.LAMBERT_W1_ID, Function1Arg.LAMBERT_W1_SYN, Function1Arg.LAMBERT_W1_SINCE, Function1Arg.TYPE_ID);
 			/*
 			 * 2 args functions key words
 			 */

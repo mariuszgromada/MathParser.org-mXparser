@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        4.2.0    2017-09-18
+ * @(#)Function1Arg.java        4.2.0    2017-10-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -137,6 +137,8 @@ public final class Function1Arg {
 	public static final int ARCSEC_ID					= 55;
 	public static final int ARCCSC_ID					= 56;
 	public static final int GAMMA_ID					= 57;
+	public static final int LAMBERT_W0_ID				= 58;
+	public static final int LAMBERT_W1_ID				= 59;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -237,6 +239,8 @@ public final class Function1Arg {
 	public static final String ARCSEC_STR				= "arcsec";
 	public static final String ARCCSC_STR				= "arccsc";
 	public static final String GAMMA_STR				= "Gamma";
+	public static final String LAMBERT_W0_STR			= "W0";
+	public static final String LAMBERT_W1_STR			= "W1";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -337,6 +341,8 @@ public final class Function1Arg {
 	public static final String ARCSEC_SYN				= ARCSEC_STR + "(x)";
 	public static final String ARCCSC_SYN				= ARCCSC_STR + "(x)";
 	public static final String GAMMA_SYN				= GAMMA_STR + "(x)";
+	public static final String LAMBERT_W0_SYN			= LAMBERT_W0_STR + "(x)";
+	public static final String LAMBERT_W1_SYN			= LAMBERT_W1_STR + "(x)";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -396,6 +402,8 @@ public final class Function1Arg {
 	public static final String ARCSEC_DESC				= "Inverse trigonometric secant";
 	public static final String ARCCSC_DESC				= "Inverse trigonometric cosecant";
 	public static final String GAMMA_DESC				= "Gamma special function";
+	public static final String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
+	public static final String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -455,4 +463,6 @@ public final class Function1Arg {
 	public static final String ARCSEC_SINCE				= mXparser.NAMEv41;
 	public static final String ARCCSC_SINCE				= mXparser.NAMEv41;
 	public static final String GAMMA_SINCE				= mXparser.NAMEv42;
+	public static final String LAMBERT_W0_SINCE			= mXparser.NAMEv42;
+	public static final String LAMBERT_W1_SINCE			= mXparser.NAMEv42;
 }

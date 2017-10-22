@@ -133,11 +133,12 @@ namespace phelipemartins.caseinsensitivity {
 			//Argument x = new Argument("x = 10");
 			//Expression e = new Expression("f(x)", f, x);
 			//mXparser.consolePrintln(e.calculate());
-			Expression e = new Expression("2_3_4");
+			Expression e = new Expression("(e^(1/e))^^10000000 - e");
 			e.checkSyntax();
+			mXparser.consolePrintln(e.calculate());
 			mXparser.consolePrintln(e.getErrorMessage());
-			mXparser.consolePrintln(String.Format("{0:0}", 1e250));
-			mXparser.consolePrintln(NumberTheory.toMixedFractionString(20.0+263.0/353.0));
+			//mXparser.consolePrintln(String.Format("{0:0}", 1e250));
+			//mXparser.consolePrintln(NumberTheory.toMixedFractionString(20.0+263.0/353.0));
 		}
 	}
 }

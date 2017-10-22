@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        4.1.0    2017-05-28
+ * @(#)Operator.java        4.2.0    2017-10-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Operator {
@@ -90,10 +90,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int FACT_ID				= 6;
 		public const int MOD_ID					= 7;
         public const int PERC_ID                = 8;
-        /*
+		public const int TETRATION_ID			= 9;
+		/*
 		 * Operator - tokens key words.
 		 */
-        public const String PLUS_STR 			= "+";
+		public const String PLUS_STR 			= "+";
 		public const String MINUS_STR 			= "-";
 		public const String MULTIPLY_STR 		= "*";
 		public const String DIVIDE_STR 			= "/";
@@ -101,6 +102,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACT_STR 			= "!";
 		public const String MOD_STR				= "#";
         public const String PERC_STR			= "%";
+		public const String TETRATION_STR		= "^^";
 		/*
 		 * Operator - syntax.
 		 */
@@ -112,6 +114,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACT_SYN 			= "n!";
 		public const String MOD_SYN				= "a # b";
         public const String PERC_SYN			= "n%";
+		public const String TETRATION_SYN		= "a^^n";
 		/*
 		 * Operator - tokens description.
 		 */
@@ -123,6 +126,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACT_DESC			= "Factorial";
 		public const String MOD_DESC			= "Modulo function";
         public const String PERC_DESC			= "Percentage";
+		public const String TETRATION_DESC		= "Tetration (hyper-4, power tower, exponential tower)";
 		/*
 		 * Operator - since.
 		 */
@@ -134,5 +138,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACT_SINCE			= mXparser.NAMEv10;
 		public const String MOD_SINCE			= mXparser.NAMEv10;
         public const String PERC_SINCE			= mXparser.NAMEv41;
+		public const String TETRATION_SINCE		= mXparser.NAMEv42;
 	}
 }

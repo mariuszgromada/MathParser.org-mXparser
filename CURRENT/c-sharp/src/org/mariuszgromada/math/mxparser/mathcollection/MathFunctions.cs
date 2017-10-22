@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2017-10-16
+ * @(#)MathFunctions.java        4.2.0   2017-10-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -791,6 +791,47 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (x >= 0) return Math.Pow(x, 1.0 / nint);
 				else return Double.NaN;
 			}
+		}
+		/**
+		 * Tetration, exponential power, power series
+		 *
+		 * @param a   base
+		 * @param n   exponent
+		 * @return    Tetration result.
+		 */
+		public static double tetration(double a, double n) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(n)) return Double.NaN;
+			if (Double.IsPositiveInfinity(n)) {
+				if (abs(a - MathConstants.EXP_MINUS_E) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+					return MathConstants.EXP_MINUS_1;
+				if (abs(a - MathConstants.EXP_1_OVER_E) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+					return MathConstants.E;
+				if ((a > MathConstants.EXP_MINUS_E) && (a < MathConstants.EXP_1_OVER_E))
+					return SpecialFunctions.lambertW(-MathFunctions.ln(a), 0) / (-MathFunctions.ln(a));
+				if (a > MathConstants.EXP_1_OVER_E) return Double.PositiveInfinity;
+				if (a < MathConstants.EXP_MINUS_E) return Double.NaN;
+			}
+			if (n < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if (abs(n) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
+				if (abs(a) > BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+					return 1;
+				else
+					return Double.NaN;
+			}
+			n = floor(n);
+			if (n == 0) {
+				if (abs(a) > BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+					return 1;
+				else
+					return Double.NaN;
+			}
+			if (abs(a) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
+			if (n == 1) return a;
+			double r = a;
+			for (double i = 2; i <= n; i++)
+				r = Math.Pow(a, r);
+			return r;
 		}
 		/**
 		 * Modulo operator a % b

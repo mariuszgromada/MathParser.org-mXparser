@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.2.0   2017-10-16
+ * @(#)RegTestSyntax.java        4.2.0   2017-10-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2755,6 +2755,28 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 228:
+			expStr = "2^^3+2^3+2^2^^2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 229:
+			expStr = "pi^^sin(pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2768,7 +2790,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 227;
+		int numberOfTests = 229;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

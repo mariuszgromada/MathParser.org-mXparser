@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        4.1.0    2017-05-28
+ * @(#)Operator.java        4.2.0    2017-10-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.2.0
  */
 public final class Operator {
 	/*
@@ -89,6 +89,7 @@ public final class Operator {
 	public static final int FACT_ID					= 6;
 	public static final int MOD_ID					= 7;
 	public static final int PERC_ID					= 8;
+	public static final int TETRATION_ID			= 9;
 	/*
 	 * Operator - tokens key words.
 	 */
@@ -100,6 +101,7 @@ public final class Operator {
 	public static final String FACT_STR 			= "!";
 	public static final String MOD_STR				= "#";
 	public static final String PERC_STR				= "%";
+	public static final String TETRATION_STR		= "^^";
 	/*
 	 * Operator - syntax.
 	 */
@@ -111,6 +113,7 @@ public final class Operator {
 	public static final String FACT_SYN 			= "n!";
 	public static final String MOD_SYN				= "a # b";
 	public static final String PERC_SYN				= "n%";
+	public static final String TETRATION_SYN		= "a^^n";
 	/*
 	 * Operator - tokens description.
 	 */
@@ -122,6 +125,7 @@ public final class Operator {
 	public static final String FACT_DESC			= "Factorial";
 	public static final String MOD_DESC				= "Modulo function";
 	public static final String PERC_DESC			= "Percentage";
+	public static final String TETRATION_DESC		= "Tetration (hyper-4, power tower, exponential tower)";
 	/*
 	 * Operator - since.
 	 */
@@ -133,4 +137,5 @@ public final class Operator {
 	public static final String FACT_SINCE			= mXparser.NAMEv10;
 	public static final String MOD_SINCE			= mXparser.NAMEv10;
 	public static final String PERC_SINCE			= mXparser.NAMEv41;
+	public static final String TETRATION_SINCE		= mXparser.NAMEv42;
 }

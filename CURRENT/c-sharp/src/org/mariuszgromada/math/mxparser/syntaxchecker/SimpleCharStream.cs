@@ -99,7 +99,11 @@ public class SimpleCharStream{
      try {
         if (stream_closed || (i = inputStream.Read(buffer, maxNextCharInd, available - maxNextCharInd)) <= 0){
            stream_closed = true;
-           inputStream.Close();
+			#if PCL || CORE || NETSTANDARD
+				inputStream.Dispose();
+			#else
+				inputStream.Close();
+			#endif
            throw new System.IO.IOException();
         }else
            maxNextCharInd += i;
@@ -176,7 +180,7 @@ public class SimpleCharStream{
   }
 
   /**
-   * @deprecated 
+   * @deprecated
    * @see #getEndColumn
    */
 
@@ -185,7 +189,7 @@ public class SimpleCharStream{
   }
 
   /**
-   * @deprecated 
+   * @deprecated
    * @see #getEndLine
    */
 
@@ -326,7 +330,7 @@ public class SimpleCharStream{
         bufcolumn[j] = newCol + columnDiff;
         columnDiff = nextColDiff;
         i++;
-     } 
+     }
 
      if (i < len){
         bufline[j] = newLine++;
