@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.2.0   2017-10-21
+ * @(#)Expression.cs        4.2.0   2017-11-01
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5508,9 +5508,11 @@ namespace org.mariuszgromada.math.mxparser {
 			computingTime = (endTime - startTime) / 1000.0;
 			recursionCallsCounter = 0;
 			double result = tokensList[0].tokenValue;
-			double resultint = Math.Round(result);
-			if (MathFunctions.abs(result - resultint) <= BinaryRelations.getEpsilon())
-				result = resultint;
+			if (mXparser.ulpRounding) {
+				double resultint = Math.Round(result);
+				if ( Math.Abs(result-resultint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
+					result = resultint;
+			}
 			return result;
 		}
 		/**

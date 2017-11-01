@@ -471,6 +471,7 @@ public class PerformanceTests {
 	 * @return Number of tests that were not performed.
 	 */
 	public static int start(int threadsNum) {
+		mXparser.disableUlpRounding();
 		if (threadsNum <= 0) threadsNum = mXparser.getThreadsNumber();
 		tests = new PerformanceTestResult[100];
 		int testId = -1;

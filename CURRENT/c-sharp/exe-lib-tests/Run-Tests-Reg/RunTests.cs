@@ -5,7 +5,7 @@ using System;
 namespace mxparser.runtests {
 	class RunTestsReg {
 		static void Main(string[] args) {
-			RunTest.Start("reg");
+			RunTest.Start("perf");
 			mXparser.consolePrintln(".NET CLR version:" + Environment.Version);
             mXparser.consolePrintln(".NET version:" + System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(int).Assembly.Location).ProductVersion);
 			#if PCL

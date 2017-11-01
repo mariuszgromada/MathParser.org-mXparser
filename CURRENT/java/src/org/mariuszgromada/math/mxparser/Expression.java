@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2017-10-21
+ * @(#)Expression.java        4.2.0   2017-11-01
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -5517,9 +5517,11 @@ public class Expression {
 		computingTime = (endTime - startTime)/1000.0;
 		recursionCallsCounter = 0;
 		double result = tokensList.get(0).tokenValue;
-		double resultint = Math.round(result);
-		if ( MathFunctions.abs(result-resultint) <= BinaryRelations.getEpsilon() )
-			result = resultint;
+		if (mXparser.ulpRounding) {
+			double resultint = Math.round(result);
+			if ( Math.abs(result-resultint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
+				result = resultint;
+		}
 		return result;
 	}
 	/**
