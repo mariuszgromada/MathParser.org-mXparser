@@ -135,6 +135,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
          */
         public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
         /**
+         * Elementary charge
+         */
+        public const double ELEMENTARY_CHARGE = 1.6021766208E-19*Units.COULOMB;
+
+        /**
          * Electron rest mass
          */
         public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
@@ -142,5 +147,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
          * Electron equivalent rest mass
          */
         public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+        /**
+         * Vacuum permittivity
+         */
+        public const double VACUUM_PERMITTIVITY = 8.854187817E-12 * Units.AMPERE * Units.AMPERE * Units.SECOND * Units.SECOND * Units.SECOND * Units.SECOND / (Units.METRE3 * Units.KILOGRAM);
+        /**
+         * Vacuum permeability
+         */
+        public const double VACUUM_PERMEABILITY = 4.0E-7 * Math.PI * Units.KILOGRAM * Units.METRE / (Units.SECOND * Units.SECOND * Units.AMPERE * Units.AMPERE);
     }
 }
