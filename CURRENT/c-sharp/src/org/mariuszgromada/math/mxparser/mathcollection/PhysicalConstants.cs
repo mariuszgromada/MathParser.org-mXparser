@@ -106,5 +106,41 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Planck time
 		 */
 		public const double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
-	}
+        /**
+		 * Avagadro's constant
+		 */
+        public const double N_A = 6.022140857E23 / Units.MOLE;
+        /**
+		 * Gas constant
+		 */
+        public const double R = 8.3144598 * Units.JOULE / (Units.KELVIN * Units.MOLE);
+        /**
+         * Boltzmann constant
+         */
+        public const double BOLTZMANN_CONSTANT = R / N_A;
+        /**
+         * Neutron rest mass
+         */
+        public const double NEUTRON_REST_MASS = 1.674927471E-27 * Units.KILOGRAM;
+        /**
+         * Neutron equivalent rest mass
+         */
+        public const double NEUTRON_EQUIVALENT_REST_MASS = 939.5654133 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+        /**
+         * Proton rest mass
+         */
+        public const double PROTON_REST_MASS = 1.672621898E-27 * Units.KILOGRAM;
+        /**
+         * Proton equivalent rest mass
+         */
+        public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+        /**
+         * Electron rest mass
+         */
+        public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
+        /**
+         * Electron equivalent rest mass
+         */
+        public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+    }
 }

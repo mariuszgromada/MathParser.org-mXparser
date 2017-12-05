@@ -531,5 +531,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 			return Double.NaN;
 		}
+
+
 	}
 }
