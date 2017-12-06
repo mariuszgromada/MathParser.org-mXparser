@@ -17,3 +17,4 @@ ipch/
 *.nupkg
 *.csproj.user
 DTAR_*_DTAR/
+/CURRENT/c-sharp/UpgradeLog.htm
