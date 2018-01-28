@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2017-10-22
+ * @(#)MathFunctions.java        4.2.0   2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -1490,6 +1490,17 @@ public final class MathFunctions {
  		return Math.floor(sign * valueFloor) / multiplier;
  	}
  	/**
+ 	 * Returns integer part of a doube value.
+ 	 * @param x
+ 	 * @return For non- negative x returns Math.floor(x),
+ 	 *         otherwise returns -Math.floor(-x)
+ 	 */
+ 	public static final double integerPart(double x) {
+ 		if (x > 0) return Math.floor(x);
+ 		else if (x < 0) return -Math.floor(-x);
+ 		else return 0;
+ 	}
+ 	/**
  	 * For very small number returns the position of
  	 * first significant digit, ie 0.1 = 1, 0.01 = 2
  	 *
@@ -1858,5 +1869,38 @@ public final class MathFunctions {
 		for (double v : values)
 			if (!Double.isNaN(v)) return v;
 		return Double.NaN;
+	}
+	/**
+	 * Check whether double value is almost integer.
+	 * @param x
+	 * @return True if double value is almost integer, otherwise false.
+	 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
+	 *
+	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
+	 */
+	public static final boolean isInteger(double x) {
+		if (Double.isNaN(x)) return false;
+		if (x == Double.POSITIVE_INFINITY) return false;
+		if (x == Double.NEGATIVE_INFINITY) return false;
+		if (x < 0) x = -x;
+		double round = Math.round(x);
+		if (Math.abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
+		else return false;
+	}
+	/**
+	 * Check whether two double values are almost equal.
+	 * @param a
+	 * @param b
+	 * @return True if double values are almost equal, otherwise false.
+	 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
+	 *
+	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
+	 */
+	public static final boolean almostEqual(double a, double b) {
+		if (Double.isNaN(a)) return false;
+		if (Double.isNaN(b)) return false;
+		if (a == b) return true;
+		if (Math.abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
+		return false;
 	}
 }

@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2017-10-22
+ * @(#)MathFunctions.java        4.2.0   2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -1491,6 +1491,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(valueMultiplied - valueFloor) >= 0.5) valueFloor = Math.Floor(valueFloor + 1);
 			return Math.Floor(sign * valueFloor) / multiplier;
 		}
+ 		/**
+ 		 * Returns integer part of a doube value.
+ 		 * @param x
+ 		 * @return For non- negative x returns Math.floor(x),
+ 		 *         otherwise returns -Math.floor(-x)
+ 		 */
+ 		public static double integerPart(double x) {
+ 			if (x > 0) return Math.Floor(x);
+ 			else if (x < 0) return -Math.Floor(-x);
+ 			else return 0;
+ 		}
 		/**
  		 * For very small number returns the position of
  		 * first significant digit, ie 0.1 = 1, 0.01 = 2
@@ -1862,6 +1873,39 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			foreach (double v in values)
 				if (!Double.IsNaN(v)) return v;
 			return Double.NaN;
+		}
+		/**
+		 * Check whether double value is almost integer.
+		 * @param x
+		 * @return True if double value is almost integer, otherwise false.
+		 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
+		 *
+		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
+		 */
+		public static bool isInteger(double x) {
+			if (Double.IsNaN(x)) return false;
+			if (Double.IsPositiveInfinity(x)) return false;
+			if (Double.IsNegativeInfinity(x)) return false;
+			if (x < 0) x = -x;
+			double round = Math.Round(x);
+			if (Math.Abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
+			else return false;
+		}
+		/**
+		 * Check whether two double values are almost equal.
+		 * @param a
+		 * @param b
+		 * @return True if double values are almost equal, otherwise false.
+		 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
+		 *
+		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
+		 */
+		public static bool almostEqual(double a, double b) {
+			if (Double.IsNaN(a)) return false;
+			if (Double.IsNaN(b)) return false;
+			if (a == b) return true;
+			if (Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
+			return false;
 		}
 	}
 }

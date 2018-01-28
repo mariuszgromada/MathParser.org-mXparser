@@ -1,9 +1,9 @@
 /*
- * @(#)Function1Arg.java        4.2.0    2017-10-21
+ * @(#)Function1Arg.java        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -139,6 +139,9 @@ public final class Function1Arg {
 	public static final int GAMMA_ID					= 57;
 	public static final int LAMBERT_W0_ID				= 58;
 	public static final int LAMBERT_W1_ID				= 59;
+	public static final int SGN_GAMMA_ID				= 60;
+	public static final int LOG_GAMMA_ID				= 61;
+	public static final int DI_GAMMA_ID					= 62;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -241,6 +244,9 @@ public final class Function1Arg {
 	public static final String GAMMA_STR				= "Gamma";
 	public static final String LAMBERT_W0_STR			= "LambW0";
 	public static final String LAMBERT_W1_STR			= "LambW1";
+	public static final String SGN_GAMMA_STR			= "sgnGamma";
+	public static final String LOG_GAMMA_STR			= "logGamma";
+	public static final String DI_GAMMA_STR				= "diGamma";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -343,6 +349,9 @@ public final class Function1Arg {
 	public static final String GAMMA_SYN				= GAMMA_STR + "(x)";
 	public static final String LAMBERT_W0_SYN			= LAMBERT_W0_STR + "(x)";
 	public static final String LAMBERT_W1_SYN			= LAMBERT_W1_STR + "(x)";
+	public static final String SGN_GAMMA_SYN			= SGN_GAMMA_STR + "(x)";
+	public static final String LOG_GAMMA_SYN			= LOG_GAMMA_STR + "(x)";
+	public static final String DI_GAMMA_SYN				= DI_GAMMA_STR + "(x)";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -404,6 +413,9 @@ public final class Function1Arg {
 	public static final String GAMMA_DESC				= "Gamma special function";
 	public static final String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
 	public static final String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
+	public static final String SGN_GAMMA_DESC			= "Signum of Gamma special function";
+	public static final String LOG_GAMMA_DESC			= "Log Gamma special function";
+	public static final String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -465,4 +477,7 @@ public final class Function1Arg {
 	public static final String GAMMA_SINCE				= mXparser.NAMEv42;
 	public static final String LAMBERT_W0_SINCE			= mXparser.NAMEv42;
 	public static final String LAMBERT_W1_SINCE			= mXparser.NAMEv42;
+	public static final String SGN_GAMMA_SINCE			= mXparser.NAMEv42;
+	public static final String LOG_GAMMA_SINCE			= mXparser.NAMEv42;
+	public static final String DI_GAMMA_SINCE			= mXparser.NAMEv42;
 }

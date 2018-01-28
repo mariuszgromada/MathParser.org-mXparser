@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpression.java        4.2.0   2017-10-22
+ * @(#)RegTestExpression.java        4.2.0   2017-10-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -5022,7 +5022,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
-	}
+		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
 		else
@@ -9570,7 +9570,7 @@ public class RegTestExpression {
 			break;
 		case 844:
 			mXparser.setEpsilonComparison();
-			expStr = "sum(n, -100, 0, isNaN( Gamma(n) ) ) - 101";
+			expStr = "sum(n, -100, 0, isNaN( Gamma(n) ) )";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
@@ -10589,6 +10589,435 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
 			break;
+		case 925:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(x, 1, 10, sgnGamma(x)) + sum(x, 0.5, 9.5, sgnGamma(x)) - 20";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 926:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(x, -99, 0, isNaN( sgnGamma(x) ) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 927:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(x, -98.5, -0.5, sgnGamma(x), 2) + 50 + sum(x, -99.5, -1.5, sgnGamma(x), 2) - 50";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 928:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(x, 0.5, 50, logGamma(x) - ( -[gam]*x - ln(x) + sum(k, 1, 10000+x^3, x/k - ln(1 + x/k) ) ), 0.5)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 929:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(x, -99, 0, isNaN( logGamma(x) ) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 0.0000000001 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 930:
+			mXparser.setEpsilonComparison();
+			expStr = "sum(s, -50.5, -50.5, sum(x, 0.5, 50.5, GammaL(s,x) + GammaU(s,x) - Gamma(s) ) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setDefaultEpsilon();
+			break;
+		case 931:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 0.1, 1, 0.001}], 16] = 2114.212208108448
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 1, Gamma(x), 0.001) - 2114.212208108448 ) / 2114.212208108448";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 932:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 1.1, 2, 0.001}], 16] = 826.2989620272716
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 1.1, 2, Gamma(x), 0.001) - 826.2989620272716 ) / 826.2989620272716";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 933:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 2.1, 3, 0.001}], 16] = 1284.551346724549
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 2.1, 3, Gamma(x), 0.001) - 1284.551346724549 ) / 1284.551346724549";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 934:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 3.1, 4, 0.001}], 16] = 3338.776475304076
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 3.1, 4, Gamma(x), 0.001) - 3338.776475304076 ) / 3338.776475304076";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 935:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 4.1, 5, 0.001}], 16] = 12102.99996568467
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 4.1, 5, Gamma(x), 0.001) - 12102.99996568467 ) / 12102.99996568467";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 936:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 5.1, 6, 0.001}], 16] = 56192.71972868672
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 5.1, 6, Gamma(x), 0.001) - 56192.71972868672 ) / 56192.71972868672";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 937:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 6.1, 7, 0.001}], 16] = 317850.3398689155
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 6.1, 7, Gamma(x), 0.001) - 317850.3398689155 ) / 317850.3398689155";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 938:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 7.1, 8, 0.001}], 16] = 2119192.458453365
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 7.1, 8, Gamma(x), 0.001) - 2119192.458453365 ) / 2119192.458453365";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 939:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 8.1, 9, 0.001}], 16] = 1.626741828826147E7
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 8.1, 9, Gamma(x), 0.001) - 1.626741828826147E7 ) / 1.626741828826147E7";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 940:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 9.1, 10, 0.001}], 16] = 1.412638999378844E8
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 9.1, 10, Gamma(x), 0.001) - 1.412638999378844E8 ) / 1.412638999378844E8";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 941:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 10.1, 20, 0.1}], 16] = 4.758039372588876E17
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 10.1, 20, Gamma(x), 0.1) - 4.758039372588876E17 ) / 4.758039372588876E17";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 942:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 20.1, 100, 0.1}], 16] = 2.532008062312612E156
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 20.1, 100, Gamma(x), 0.1) - 2.532008062312612E156 ) / 2.532008062312612E156";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 943:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -0.9, -0.1, 0.001}], 16] = -4033.861662372823
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -0.9, -0.1, Gamma(x), 0.001) - (-4033.861662372823) ) / (-4033.861662372823)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 944:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -1.9, -1.1, 0.001}], 16] = 2779.242455572773
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -1.9, -1.1, Gamma(x), 0.001) - 2779.242455572773 ) / 2779.242455572773";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 945:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -2.9, -2.1, 0.001}], 16] = -1146.484828532192
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -2.9, -2.1, Gamma(x), 0.001) - (-1146.484828532192) ) / (-1146.484828532192)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 946:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -3.9, -3.1, 0.001}], 16] = 336.6702016774144
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -3.9, -3.1, Gamma(x), 0.001) - 336.6702016774144 ) / 336.6702016774144";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 947:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, 0.1, 1, 0.001}], 16] = -76.66832811614711
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -4.9, -4.1, Gamma(x), 0.001) - (-76.66832811614711) ) / (-76.66832811614711)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 948:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -5.9, -5.1, 0.001}], 16] = 14.25043511683485
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -5.9, -5.1, Gamma(x), 0.001) - 14.25043511683485 ) / 14.25043511683485";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 949:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -6.9, -6.1, 0.001}], 16] = -2.236810549400713
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -6.9, -6.1, Gamma(x), 0.001) - (-2.236810549400713) ) / (-2.236810549400713)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 950:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -7.9, -7.1, 0.001}], 16] = 0.3037861166613209
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -7.9, -7.1, Gamma(x), 0.001) - 0.3037861166613209 ) / 0.3037861166613209";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 951:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -8.9, -8.1, 0.001}], 16] = -0.03635359758623678
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -8.9, -8.1, Gamma(x), 0.001) - (-0.03635359758623678) ) / (-0.03635359758623678)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 952:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -9.9, -9.1, 0.001}], 16] = 0.003887845100640342
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -9.9, -9.1, Gamma(x), 0.001) - 0.003887845100640342 ) / 0.003887845100640342";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 953:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[Gamma[x], {x, -30.95, -10.05, 0.1}], 16] = -8.376548071082549E-6
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -30.95, -10.05, Gamma(x), 0.1) - (-8.376548071082549E-6) ) / (-8.376548071082549E-6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 954:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -90.95, 100.05, abs(ln(abs(Gamma(x))) - logGamma(x)), 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -10596,14 +11025,1611 @@ public class RegTestExpression {
 			mXparser.consolePrint("ERROR");
 		return testResult;
 	}
-
+	private static boolean runTest3(int testId) {
+		mXparser.consolePrint("[" + testId + "] ");
+		boolean testResult = false;
+		double value = 0;
+		double reg = 0;
+		String expStr = "";
+		switch (testId) {
+		case 955:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 0.1, 1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 6870.775811214982
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 0.1, 1, GammaU(s, x), 0.001), 0.1) - 6870.775811214982 ) / 6870.775811214982";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 956:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 1.1, 2, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 9785.880306439629
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 1.1, 2, GammaU(s, x), 0.001), 0.1) - 9785.880306439629 ) / 9785.880306439629";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 957:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 2.1, 3, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 21205.70354995280
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 2.1, 3, GammaU(s, x), 0.001), 0.1) - 21205.70354995280 ) / 21205.70354995280";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 958:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 3.1, 4, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 62496.08447233523
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 3.1, 4, GammaU(s, x), 0.001), 0.1) - 62496.08447233523 ) / 62496.08447233523";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 959:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 4.1, 5, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 237127.0905587526
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 4.1, 5, GammaU(s, x), 0.001), 0.1) - 237127.0905587526 ) / 237127.0905587526";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 960:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 5.1, 6, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 12659.04924160019
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 5.1, 6, GammaU(s, x), 0.1), 0.1) - 12659.04924160019 ) / 12659.04924160019";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 961:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 6.1, 7, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 72192.46327984912
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 6.1, 7, GammaU(s, x), 0.1), 0.1) - 72192.46327984912 ) / 72192.46327984912";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-8 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 962:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 7.1, 8, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 483608.0262675140
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 7.1, 8, GammaU(s, x), 0.1), 0.1) - 483608.0262675140 ) / 483608.0262675140";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-5 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 963:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -0.9, -0.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 8224.880733100714
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -0.9, -0.1, GammaU(s, x), 0.001), 0.1) - 8224.880733100714 ) / 8224.880733100714";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 964:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -1.9, -1.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 23629.12458493255
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -1.9, -1.1, GammaU(s, x), 0.001), 0.1) - 23629.12458493255 ) / 23629.12458493255";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 965:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -2.9, -2.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 117364.35585450924
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -2.9, -2.1, GammaU(s, x), 0.001), 0.1) - 117364.35585450924 ) / 117364.35585450924";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 966:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -3.9, -3.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 771195.4772567508
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -3.9, -3.1, GammaU(s, x), 0.001), 0.1) - 771195.4772567508 ) / 771195.4772567508";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 967:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -4.9, -4.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 5800247.185711337
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -4.9, -4.1, GammaU(s, x), 0.001), 0.1) - 5800247.185711337 ) / 5800247.185711337";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 968:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -5.9, -5.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4.685905102859140E7
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -5.9, -5.1, GammaU(s, x), 0.001), 0.1) - 4.685905102859140E7 ) / 4.685905102859140E7";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 969:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -6.9, -6.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 3.949477860591464E8
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -6.9, -6.1, GammaU(s, x), 0.001), 0.1) - 3.949477860591464E8 ) / 3.949477860591464E8";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 970:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, -7.9, -7.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 3.421898375421077E9
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -7.9, -7.1, GammaU(s, x), 0.001), 0.1) - 3.421898375421077E9 ) / 3.421898375421077E9";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 971:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 0.1, 1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 35413.46835095401
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 0.1, 1, GammaL(s, x), 0.001), 0.1) - 35413.46835095401 ) / 35413.46835095401";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 972:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 1.1, 2, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 6740.098934105806
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 1.1, 2, GammaL(s, x), 0.001), 0.1) - 6740.098934105806 ) / 6740.098934105806";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 973:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 2.1, 3, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4485.323384538212
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 2.1, 3, GammaL(s, x), 0.001), 0.1) - 4485.323384538212 ) / 4485.323384538212";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 974:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 3.1, 4, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4279.445033746266
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 3.1, 4, GammaL(s, x), 0.001), 0.1) - 4279.445033746266 ) / 4279.445033746266";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 975:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 4.1, 5, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4932.908754940856
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 4.1, 5, GammaL(s, x), 0.001), 0.1) - 4932.908754940856 ) / 4932.908754940856";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 976:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 5.1, 6, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 71.00936681198708
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 5.1, 6, GammaL(s, x), 0.1), 0.1) - 71.00936681198708 ) / 71.00936681198708";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 977:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 6.1, 7, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 99.53718099344381
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 6.1, 7, GammaL(s, x), 0.1), 0.1) - 99.53718099344381 ) / 99.53718099344381";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 978:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 7.1, 8, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 147.6273237932475
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 7.1, 8, GammaL(s, x), 0.1), 0.1) - 147.6273237932475 ) / 147.6273237932475";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 979:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -0.9, -0.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -88902.11398055719
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -0.9, -0.1, GammaL(s, x), 0.001), 0.1) - (-88902.11398055719) ) / (-88902.11398055719)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 980:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -1.9, -1.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 31955.72452652288
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -1.9, -1.1, GammaL(s, x), 0.001), 0.1) - 31955.72452652288 ) / 31955.72452652288";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 981:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -2.9, -2.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -140294.05242515303
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -2.9, -2.1, GammaL(s, x), 0.001), 0.1) - (-140294.05242515303) ) / (-140294.05242515303)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 982:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -3.9, -3.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -764462.0732232045
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -3.9, -3.1, GammaL(s, x), 0.001), 0.1) - (-764462.0732232045) ) / (-764462.0732232045)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 983:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -4.9, -4.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -5.801780552273669E6
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -4.9, -4.1, GammaL(s, x), 0.001), 0.1) - (-5.801780552273669E6) ) / (-5.801780552273669E6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 984:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -5.9, -5.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -4.685876601988902E7
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -5.9, -5.1, GammaL(s, x), 0.001), 0.1) - (-4.685876601988902E7) ) / (-4.685876601988902E7)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 985:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -6.9, -6.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -3.949478307953569E8
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -6.9, -6.1, GammaL(s, x), 0.001), 0.1) - (-3.949478307953569E8) ) / (-3.949478307953569E8)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 986:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, -7.9, -7.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -3.421898369345358E9
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -7.9, -7.1, GammaL(s, x), 0.001), 0.1) - (-3.421898369345358E9) ) / (-3.421898369345358E9)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 987:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -2.95, 2.95, GammaU(0,x) - ( -Ei(-x) ), 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-16 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 988:
+			mXparser.disableUlpRounding();
+			expStr = "sum(s, -2.95, 2.95, GammaL(s,0), 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-16 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 989:
+			mXparser.disableUlpRounding();
+			expStr = "sum(s, -2.95, 2.95, GammaU(s,0) - Gamma(s), 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-16 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 990:
+			mXparser.disableUlpRounding();
+			expStr = "sum(s, 1, 5, sum(x, 0.5, 3.5, GammaU(s, x) - ((s-1)!) * e^(-x) * sum(k, 0, s-1, x^k / k! ) , 0.01) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 991:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -5, 5, GammaU(1,x) - e^(-x), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 992:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -5, 5, GammaL(1,x) - ( 1 - e^(-x) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 993:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.1, 8, GammaU(0.5, x) - sqrt(pi) * erfc( sqrt(x) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 994:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.1, 8, GammaL(0.5, x) - sqrt(pi) * erf( sqrt(x) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 995:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 0.1, 1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4128.619249122392
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 0.1, 1, GammaRegU(s, x), 0.001), 0.1) - 4128.619249122392 ) / 4128.619249122392";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 996:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 1.1, 2, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 10648.33231753313
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 1.1, 2, GammaRegU(s, x), 0.001), 0.1) - 10648.33231753313 ) / 10648.33231753313";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 997:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 2.1, 3, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 14732.67120032403
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 2.1, 3, GammaRegU(s, x), 0.001), 0.1) - 14732.67120032403 ) / 14732.67120032403";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 998:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 3.1, 4, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 16769.95611832584
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 3.1, 4, GammaRegU(s, x), 0.001), 0.1) - 16769.95611832584 ) / 16769.95611832584";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 999:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 4.1, 5, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 17609.29585783721
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 4.1, 5, GammaRegU(s, x), 0.001), 0.1) - 17609.29585783721 ) / 17609.29585783721";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1000:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 5.1, 6, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 198.6732618854221
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 5.1, 6, GammaRegU(s, x), 0.1), 0.1) - 198.6732618854221 ) / 198.6732618854221";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1001:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 6.1, 7, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 199.6608252491266
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 6.1, 7, GammaRegU(s, x), 0.1), 0.1) - 199.6608252491266 ) / 199.6608252491266";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-8 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1002:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 7.1, 8, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 199.9222940005033
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 7.1, 8, GammaRegU(s, x), 0.1), 0.1) - 199.9222940005033 ) / 199.9222940005033";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-6 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1003:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -0.9, -0.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -1776.380588210588
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -0.9, -0.1, GammaRegU(s, x), 0.001), 0.1) - (-1776.380588210588) ) / (-1776.380588210588)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1004:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -1.9, -1.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 7890.923829786565
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -1.9, -1.1, GammaRegU(s, x), 0.001), 0.1) - 7890.923829786565 ) / 7890.923829786565";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1005:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -2.9, -2.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -102249.9066253191
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -2.9, -2.1, GammaRegU(s, x), 0.001), 0.1) - (-102249.9066253191) ) / (-102249.9066253191)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1006:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -3.9, -3.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 2.440576583013389E6
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -3.9, -3.1, GammaRegU(s, x), 0.001), 0.1) - 2.440576583013389E6 ) / 2.440576583013389E6";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1007:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -4.9, -4.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -8.522034351730967E7
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -4.9, -4.1, GammaRegU(s, x), 0.001), 0.1) - (-8.522034351730967E7) ) / (-8.522034351730967E7)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1008:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -5.9, -5.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 3.889240488572830E9
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -5.9, -5.1, GammaRegU(s, x), 0.001), 0.1) - 3.889240488572830E9 ) / 3.889240488572830E9";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1009:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -6.9, -6.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -2.181166295073751E11
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -6.9, -6.1, GammaRegU(s, x), 0.001), 0.1) - (-2.181166295073751E11) ) / (-2.181166295073751E11)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1010:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -7.9, -7.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 1.447213822212101E13
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -7.9, -7.1, GammaRegU(s, x), 0.001), 0.1) - 1.447213822212101E13 ) / 1.447213822212101E13";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1011:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 0.1, 1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 13891.38075087760
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 0.1, 1, GammaRegL(s, x), 0.001), 0.1) - 13891.38075087760 ) / 13891.38075087760";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1012:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 1.1, 2, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 7371.667682466868
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 1.1, 2, GammaRegL(s, x), 0.001), 0.1) - 7371.667682466868 ) / 7371.667682466868";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1013:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 2.1, 3, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 3287.328799675970
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 2.1, 3, GammaRegL(s, x), 0.001), 0.1) - 3287.328799675970 ) / 3287.328799675970";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1014:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 3.1, 4, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 1250.043881674157
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 3.1, 4, GammaRegL(s, x), 0.001), 0.1) - 1250.043881674157 ) / 1250.043881674157";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1015:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 4.1, 5, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 410.7041421627869
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 4.1, 5, GammaRegL(s, x), 0.001), 0.1) - 410.7041421627869 ) / 410.7041421627869";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1016:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 5.1, 6, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 1.326738114577891
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 5.1, 6, GammaRegL(s, x), 0.1), 0.1) - 1.326738114577891 ) / 1.326738114577891";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1017:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 6.1, 7, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 0.3391747508734272
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 6.1, 7, GammaRegL(s, x), 0.1), 0.1) - 0.3391747508734272 ) / 0.3391747508734272";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1018:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, 7.1, 8, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 0.07770599949669701
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, 7.1, 8, GammaRegL(s, x), 0.1), 0.1) - 0.07770599949669701 ) / 0.07770599949669701";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1019:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -0.9, -0.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 17796.38058821059
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -0.9, -0.1, GammaRegL(s, x), 0.001), 0.1) - 17796.38058821059 ) / 17796.38058821059";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1020:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -1.9, -1.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 8129.076170213447
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -1.9, -1.1, GammaRegL(s, x), 0.001), 0.1) - 8129.076170213447 ) / 8129.076170213447";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1021:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -2.9, -2.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 118269.9066253191
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -2.9, -2.1, GammaRegL(s, x), 0.001), 0.1) - 118269.9066253191 ) / 118269.9066253191";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1022:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -3.9, -3.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -2.424556583013388E6
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -3.9, -3.1, GammaRegL(s, x), 0.001), 0.1) - (-2.424556583013388E6) ) / (-2.424556583013388E6)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1023:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -4.9, -4.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 8.523636351730967E7
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -4.9, -4.1, GammaRegL(s, x), 0.001), 0.1) - 8.523636351730967E7 ) / 8.523636351730967E7";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1024:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -5.9, -5.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -3.889224468572830E9
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -5.9, -5.1, GammaRegL(s, x), 0.001), 0.1) - (-3.889224468572830E9) ) / (-3.889224468572830E9)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1025:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -6.9, -6.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 2.181166455273751E11
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -6.9, -6.1, GammaRegL(s, x), 0.001), 0.1) - 2.181166455273751E11 ) / 2.181166455273751E11";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1026:
+			/* Wolfram Language (Raspberry Pi Pilot Release)
+			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -7.9, -7.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -1.447213820610101E13
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.1, 2, sum(s, -7.9, -7.1, GammaRegL(s, x), 0.001), 0.1) - (-1.447213820610101E13) ) / (-1.447213820610101E13)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1027:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -2.95, 2.95, GammaRegU(0,x) - ( -Ei(-x) )/[gam], 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1028:
+			mXparser.disableUlpRounding();
+			expStr = "sum(s, -2.95, 2.95, GammaRegL(s,0), 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1029:
+			mXparser.disableUlpRounding();
+			expStr = "sum(s, -2.95, 2.95, GammaRegU(s,0) - 1, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1030:
+			mXparser.disableUlpRounding();
+			expStr = "sum(s, 1, 5, sum(x, 0.5, 3.5, GammaRegU(s, x) - ((s-1)!) * e^(-x) * sum(k, 0, s-1, x^k / k! ) / Gamma(s) , 0.01) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1031:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -5, 5, GammaRegU(1,x) - e^(-x), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1032:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, -5, 5, GammaRegL(1,x) - ( 1 - e^(-x) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-11 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1033:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.1, 8, GammaRegU(0.5, x) - erfc( sqrt(x) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1034:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.1, 8, GammaRegL(0.5, x) - erf( sqrt(x) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1035:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 0.01, 0.5, 0.001}], 16] = -4079.209360654330
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.01, 0.5, diGamma(x), 0.001) - (-4079.209360654330) ) / (-4079.209360654330)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-15 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1036:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 0.5, 1, 0.001}], 16] = -573.6355799257133
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 0.5, 1, diGamma(x), 0.001) - (-573.6355799257133) ) / (-573.6355799257133)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1037:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 1, 2, 0.001}], 16] = -0.07729899822650133
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 1, 2, diGamma(x), 0.001) - (-0.07729899822650133) ) / (-0.07729899822650133)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-9 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1038:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 2, 3, 0.001}], 16] = 693.8199440617115
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 2, 3, diGamma(x), 0.001) - 693.8199440617115 ) / 693.8199440617115";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1039:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 3, 4, 0.001}], 16] = 1099.701730410615
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 3, 4, diGamma(x), 0.001) - 1099.701730410615 ) / 1099.701730410615";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1040:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 4, 5, 0.001}], 16] = 1387.675473579989
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 4, 5, diGamma(x), 0.001) - 1387.675473579989 ) / 1387.675473579989";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1041:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 5, 6, 0.001}], 16] = 1611.044026769199
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 5, 6, diGamma(x), 0.001) - 1611.044026769199 ) / 1611.044026769199";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1042:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 6, 7, 0.001}], 16] = 1793.548917915007
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 6, 7, diGamma(x), 0.001) - 1793.548917915007 ) / 1793.548917915007";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1043:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 7, 8, 0.001}], 16] = 1947.854360261161
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 7, 8, diGamma(x), 0.001) - 1947.854360261161 ) / 1947.854360261161";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1044:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 8, 9, 0.001}], 16] = 2081.519681855709
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 8, 9, diGamma(x), 0.001) - 2081.519681855709 ) / 2081.519681855709";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1045:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 9, 10, 0.001}], 16] = 2199.420773340920
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 9, 10, diGamma(x), 0.001) - 2199.420773340920 ) / 2199.420773340920";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1046:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 10, 100, 0.01}], 16] = 34636.66366690680
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 10, 100, diGamma(x), 0.01) - 34636.66366690680 ) / 34636.66366690680";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1047:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, 100, 1000, 0.1}], 16] = 55466.61581150640
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, 100, 1000, diGamma(x), 0.1) - 55466.61581150640 ) / 55466.61581150640";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1048:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -0.99, -0.01, 0.001}], 16] = 1.422412463589325
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -0.99, -0.01, diGamma(x), 0.001) - 1.422412463589325 ) / 1.422412463589325";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1049:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -1.99, -1.01, 0.001}], 16] = 680.3530867812680
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -1.99, -1.01, diGamma(x), 0.001) - 680.3530867812680 ) / 680.3530867812680";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1050:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -2.99, -2.01, 0.001}], 16] = 1077.907743717255
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -2.99, -2.01, diGamma(x), 0.001) - 1077.907743717255 ) / 1077.907743717255";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1051:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -3.99, -3.01, 0.001}], 16] = 1360.050326061623
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -3.99, -3.01, diGamma(x), 0.001) - 1360.050326061623 ) / 1360.050326061623";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1052:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -4.99, -4.01, 0.001}], 16] = 1578.919885022366
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -4.99, -4.01, diGamma(x), 0.001) - 1578.919885022366 ) / 1578.919885022366";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1053:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -5.99, -5.01, 0.001}], 16] = 1757.758655903731
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -5.99, -5.01, diGamma(x), 0.001) - 1757.758655903731 ) / 1757.758655903731";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1054:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -6.99, -6.01, 0.001}], 16] = 1908.969189637675
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -6.99, -6.01, diGamma(x), 0.001) - 1908.969189637675 ) / 1908.969189637675";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1055:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -7.99, -7.01, 0.001}], 16] = 2039.956153658795
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -7.99, -7.01, diGamma(x), 0.001) - 2039.956153658795 ) / 2039.956153658795";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1056:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -8.99, -8.01, 0.001}], 16] = 2155.496280654945
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -8.99, -8.01, diGamma(x), 0.001) - 2155.496280654945 ) / 2155.496280654945";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1057:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -9.99, -9.01, 0.001}], 16] = 2258.851345832401
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -9.99, -9.01, diGamma(x), 0.001) - 2258.851345832401 ) / 2258.851345832401";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1058:
+			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+			 * SetPrecision[Sum[PolyGamma[x], {x, -10.99, -10.01, 0.001}], 16] = 2352.347967017835
+			 */
+			mXparser.disableUlpRounding();
+			expStr = "( sum(x, -10.99, -10.01, diGamma(x), 0.001) - 2352.347967017835 ) / 2352.347967017835";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-10 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1059:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x0, 0.1, 2, diGamma(x0) - der( Gamma(x), x, x0) / Gamma(x0), 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-7 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1060:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.01, 0.99, diGamma(1-x)-diGamma(x) - pi * cot(pi*x), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1061:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.01, 0.99, diGamma(x+1)-diGamma(x) - 1/x, 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1062:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.01, 0.99, diGamma(x+1) - ( -[gam] + sum(k, 1, 10000, 1/k - 1/(x+k) ) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-2 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1063:
+			mXparser.disableUlpRounding();
+			expStr = "sum(x, 0.01, 0.99, sum(N, 1, 10, diGamma(x+N) - diGamma(x) - sum(k, 0, N-1, 1/(x+k)) ), 0.01)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1064:
+			mXparser.disableUlpRounding();
+			expStr = "sum(m, 2, 20, sum(r, 1, m-1, diGamma(r/m) - ( -[gam] - ln(2*m) - (pi/2)*cot( r * pi/m ) + 2 * sum(n, 1, floor( (m-1)/2 ), cos(2*pi*n*r / m) * ln( sin(pi*n / m) ) ) ) ) )";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		}
+		if (testResult == true)
+			mXparser.consolePrint("OK");
+		else
+			mXparser.consolePrint("ERROR");
+		return testResult;
+	}
 	/**
 	 * Runs main regression tests in the field of calculation.
 	 *
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 924;
+		int numberOfTests = 1064;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
@@ -10616,8 +12642,10 @@ public class RegTestExpression {
 			mXparser.enableUlpRounding();
 			if (testId < 443)
 				test = runTest1(testId);
-			else
+			else if (testId < 955)
 				test = runTest2(testId);
+			else
+				test = runTest3(testId);
 			tests[testId] = test;
 			if (test == true)
 				nOk++;

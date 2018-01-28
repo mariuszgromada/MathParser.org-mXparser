@@ -1,9 +1,9 @@
 /*
- * @(#)Expression.cs        4.2.0   2017-11-01
+ * @(#)Expression.cs        4.2.0   2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -3382,7 +3382,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void GAMMA(int pos) {
 			double x = getTokenValue(pos + 1);
-			f1SetDecreaseRemove(pos, SpecialFunctions.lanchosGamma(x));
+			f1SetDecreaseRemove(pos, SpecialFunctions.gamma(x));
 		}
 		/**
 		 * Lambert-W special function, principal branch 0
@@ -3403,6 +3403,36 @@ namespace org.mariuszgromada.math.mxparser {
 		private void LAMBERT_W1(int pos) {
 			double x = getTokenValue(pos + 1);
 			f1SetDecreaseRemove(pos, SpecialFunctions.lambertW(x, -1));
+		}
+		/**
+		 * Signum of Gamma special function
+		 * Sets tokens to number token
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void SGN_GAMMA(int pos) {
+			double x = getTokenValue(pos+1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.sgnGamma(x) );
+		}
+		/**
+		 * Log Gamma special function
+		 * Sets tokens to number token
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void LOG_GAMMA(int pos) {
+			double x = getTokenValue(pos+1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.logGamma(x) );
+		}
+		/**
+		 * Digamma special function
+		 * Sets tokens to number token
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void DI_GAMMA(int pos) {
+			double x = getTokenValue(pos+1);
+			f1SetDecreaseRemove(pos, SpecialFunctions.diGamma(x) );
 		}
 		/**
 		 * Logarithm
@@ -3631,6 +3661,46 @@ namespace org.mariuszgromada.math.mxparser {
 			double n = getTokenValue(pos + 1);
 			double x = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, MathFunctions.root(n, x));
+		}
+		/**
+		 * Lower incomplete special Gamma function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void INC_GAMMA_LOWER(int pos) {
+			double s = getTokenValue(pos+1);
+			double x = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaLower(s, x) );
+		}
+		/**
+		 * Upper incomplete special Gamma function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void INC_GAMMA_UPPER(int pos) {
+			double s = getTokenValue(pos+1);
+			double x = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, SpecialFunctions.incompleteGammaUpper(s, x) );
+		}
+		/**
+		 * Lower regularized special Gamma function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void REG_GAMMA_LOWER(int pos) {
+			double s = getTokenValue(pos+1);
+			double x = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaLowerP(s, x) );
+		}
+		/**
+		 * Lower regularized special Gamma function
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void REG_GAMMA_UPPER(int pos) {
+			double s = getTokenValue(pos+1);
+			double x = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, SpecialFunctions.regularizedGammaUpperQ(s, x) );
 		}
 		/**
 		 * IF function
@@ -5579,6 +5649,9 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function1Arg.GAMMA_ID: GAMMA(pos); break;
 			case Function1Arg.LAMBERT_W0_ID: LAMBERT_W0(pos); break;
 			case Function1Arg.LAMBERT_W1_ID: LAMBERT_W1(pos); break;
+			case Function1Arg.SGN_GAMMA_ID: SGN_GAMMA(pos); break;
+			case Function1Arg.LOG_GAMMA_ID: LOG_GAMMA(pos); break;
+			case Function1Arg.DI_GAMMA_ID: DI_GAMMA(pos); break;
 			}
 		}
 		/**
@@ -5607,6 +5680,10 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function2Arg.FACTVAL_ID: FACTVAL(pos); break;
 			case Function2Arg.FACTEXP_ID: FACTEXP(pos); break;
 			case Function2Arg.ROOT_ID: ROOT(pos); break;
+			case Function2Arg.INC_GAMMA_LOWER_ID: INC_GAMMA_LOWER(pos); break;
+			case Function2Arg.INC_GAMMA_UPPER_ID: INC_GAMMA_UPPER(pos); break;
+			case Function2Arg.REG_GAMMA_LOWER_ID: REG_GAMMA_LOWER(pos); break;
+			case Function2Arg.REG_GAMMA_UPPER_ID: REG_GAMMA_UPPER(pos); break;
 			}
 		}
 		/**
@@ -5873,6 +5950,9 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function1Arg.GAMMA_STR, Function1Arg.GAMMA_DESC, Function1Arg.GAMMA_ID, Function1Arg.GAMMA_SYN, Function1Arg.GAMMA_SINCE, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.LAMBERT_W0_STR, Function1Arg.LAMBERT_W0_DESC, Function1Arg.LAMBERT_W0_ID, Function1Arg.LAMBERT_W0_SYN, Function1Arg.LAMBERT_W0_SINCE, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.LAMBERT_W1_STR, Function1Arg.LAMBERT_W1_DESC, Function1Arg.LAMBERT_W1_ID, Function1Arg.LAMBERT_W1_SYN, Function1Arg.LAMBERT_W1_SINCE, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.SGN_GAMMA_STR, Function1Arg.SGN_GAMMA_DESC, Function1Arg.SGN_GAMMA_ID, Function1Arg.SGN_GAMMA_SYN, Function1Arg.SGN_GAMMA_SINCE, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.LOG_GAMMA_STR, Function1Arg.LOG_GAMMA_DESC, Function1Arg.LOG_GAMMA_ID, Function1Arg.LOG_GAMMA_SYN, Function1Arg.LOG_GAMMA_SINCE, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.DI_GAMMA_STR, Function1Arg.DI_GAMMA_DESC, Function1Arg.DI_GAMMA_ID, Function1Arg.DI_GAMMA_SYN, Function1Arg.DI_GAMMA_SINCE, Function1Arg.TYPE_ID);
 				/*
 				 * 2 args functions key words
 				 */
@@ -5896,6 +5976,12 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function2Arg.FACTVAL_STR, Function2Arg.FACTVAL_DESC, Function2Arg.FACTVAL_ID, Function2Arg.FACTVAL_SYN, Function2Arg.FACTVAL_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.FACTEXP_STR, Function2Arg.FACTEXP_DESC, Function2Arg.FACTEXP_ID, Function2Arg.FACTEXP_SYN, Function2Arg.FACTEXP_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.ROOT_STR, Function2Arg.ROOT_DESC, Function2Arg.ROOT_ID, Function2Arg.ROOT_SYN, Function2Arg.ROOT_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.INC_GAMMA_LOWER_STR, Function2Arg.INC_GAMMA_LOWER_DESC, Function2Arg.INC_GAMMA_LOWER_ID, Function2Arg.INC_GAMMA_LOWER_SYN, Function2Arg.INC_GAMMA_LOWER_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.INC_GAMMA_UPPER_STR, Function2Arg.INC_GAMMA_UPPER_DESC, Function2Arg.INC_GAMMA_UPPER_ID, Function2Arg.INC_GAMMA_UPPER_SYN, Function2Arg.INC_GAMMA_UPPER_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.REG_GAMMA_LOWER_STR, Function2Arg.REG_GAMMA_LOWER_DESC, Function2Arg.REG_GAMMA_LOWER_ID, Function2Arg.REG_GAMMA_LOWER_SYN, Function2Arg.REG_GAMMA_LOWER_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.REG_GAMMA_UPPER_STR, Function2Arg.REG_GAMMA_UPPER_DESC, Function2Arg.REG_GAMMA_UPPER_ID, Function2Arg.REG_GAMMA_UPPER_SYN, Function2Arg.REG_GAMMA_UPPER_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.REG_GAMMA_LOWER_P_STR, Function2Arg.REG_GAMMA_LOWER_DESC, Function2Arg.REG_GAMMA_LOWER_ID, Function2Arg.REG_GAMMA_LOWER_P_SYN, Function2Arg.REG_GAMMA_LOWER_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.REG_GAMMA_UPPER_Q_STR, Function2Arg.REG_GAMMA_UPPER_DESC, Function2Arg.REG_GAMMA_UPPER_ID, Function2Arg.REG_GAMMA_UPPER_Q_SYN, Function2Arg.REG_GAMMA_UPPER_SINCE, Function2Arg.TYPE_ID);
 				/*
 				 * 3 args functions key words
 				 */

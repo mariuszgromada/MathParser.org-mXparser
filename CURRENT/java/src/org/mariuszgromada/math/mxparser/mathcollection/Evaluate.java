@@ -1,9 +1,9 @@
 /*
- * @(#)Evaluate.java        3.0.0    2016-05-07
+ * @(#)Evaluate.java        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -74,7 +74,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.2.0
  */
 public final class Evaluate {
 	/**
@@ -96,5 +96,31 @@ public final class Evaluate {
 			sum += coefficients[i];
 		}
         return sum;
+	}
+	/**
+	 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double).
+	 * @param x
+	 * @param coef
+	 * @param n
+	 * @return Polynomial value
+	 */
+	public static final double p1evl(double x, double[] coef, int n) {
+		double ans;
+		ans = x + coef[0];
+		for(int i=1; i<n; i++) { ans = ans*x+coef[i]; }
+		return ans;
+	}
+	/**
+	 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double).
+	 * @param x
+	 * @param coef
+	 * @param n
+	 * @return Polynomial value
+	 */
+	public static final double polevl(double x, double[] coef, int n) {
+		double ans;
+		ans = coef[0];
+		for(int i=1; i<=n; i++) ans = ans*x+coef[i];
+		return ans;
 	}
 }

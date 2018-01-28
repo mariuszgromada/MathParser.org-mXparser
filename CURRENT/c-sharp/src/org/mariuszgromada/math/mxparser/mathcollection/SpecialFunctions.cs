@@ -1,9 +1,9 @@
 /*
- * @(#)SpecialFunctions.cs        4.2.0    2017-10-21
+ * @(#)SpecialFunctions.cs        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -401,36 +401,373 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return s * result;
 		}
 		/**
+		 * Gamma function for the integers
+		 * @param n Integer number
+		 * @return  Returns Gamma function for the integers.
+		 */
+		private static double gammaInt(long n) {
+			if (n == 0) return MathConstants.EULER_MASCHERONI;
+			if (n == 1) return 1;
+			if (n == 2) return 1;
+			if (n == 3) return 1.0*2.0;
+			if (n == 4) return 1.0*2.0*3.0;
+			if (n == 5) return 1.0*2.0*3.0*4.0;
+			if (n == 6) return 1.0*2.0*3.0*4.0*5.0;
+			if (n == 7) return 1.0*2.0*3.0*4.0*5.0*6.0;
+			if (n == 8) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0;
+			if (n == 9) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0;
+			if (n == 10) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0*9.0;
+			if (n >= 11) return MathFunctions.factorial(n-1);
+			//if (n == -1) return MathConstants.EULER_MASCHERONI - 1;
+			if (n <= -1) {
+				long r = -n;
+				double factr = MathFunctions.factorial(r);
+				double sign = -1;
+				if (r % 2 == 0) sign = 1;
+				return sign / (r * factr) - (1.0 / r) * gammaInt(n + 1);
+			}
+			return Double.NaN;
+		}
+		/**
+		 * Real valued Gamma function
+		 *
+		 * @param x
+		 * @return  Returns gamma function value.
+		 */
+		public static double gamma(double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsPositiveInfinity(x)) return Double.PositiveInfinity;
+			if (Double.IsNegativeInfinity(x)) return Double.NaN;
+			double xabs = MathFunctions.abs(x);
+			double xint = Math.Round(xabs);
+			if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
+				long n = (long)xint;
+				if (x < 0) n = -n;
+				return gammaInt(n);
+			}
+			return lanchosGamma(x);
+		}
+		/**
 		 * Gamma function implementation based on
 		 * Lanchos approximation algorithm
 		 *
 		 * @param x    Function parameter
-		 * @return     Gamma function value, special cases:
-		 *             Double.NaN for 0 and negative integers,
-		 *             factorial(n-1) form positive integers
+		 * @return     Gamma function value (Lanchos approx).
 		 */
 		public static double lanchosGamma(double x) {
 			if (Double.IsNaN(x)) return Double.NaN;
+
 			double xabs = MathFunctions.abs(x);
 			double xint = Math.Round(xabs);
 			if (x > BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
-				if (MathFunctions.abs(xabs - xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
-					return MathFunctions.factorial(xint - 1);
-			}
-			else if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
-				if (MathFunctions.abs(xabs - xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
+				if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
+					return MathFunctions.factorial(xint-1);
+			} else if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
+				if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
 					return Double.NaN;
-			}
-			else return Double.NaN;
-			if (x < 0.5) return MathConstants.PI / (MathFunctions.sin(MathConstants.PI * x) * lanchosGamma(1 - x));
+			} else return Double.NaN;
+			if(x < 0.5) return MathConstants.PI / (MathFunctions.sin(MathConstants.PI * x) * lanchosGamma(1-x));
 			int g = 7;
 			x -= 1;
 			double a = Coefficients.lanchosGamma[0];
-			double t = x + g + 0.5;
-			for (int i = 1; i < Coefficients.lanchosGamma.Length; i++) {
-				a += Coefficients.lanchosGamma[i] / (x + i);
+			double t = x+g+0.5;
+			for(int i = 1; i < Coefficients.lanchosGamma.Length; i++){
+				a += Coefficients.lanchosGamma[i] / (x+i);
 			}
-			return MathFunctions.sqrt(2 * MathConstants.PI) * MathFunctions.power(t, x + 0.5) * MathFunctions.exp(-t) * a;
+			return MathFunctions.sqrt(2*MathConstants.PI) * MathFunctions.power(t, x+0.5) * MathFunctions.exp(-t) * a;
+		}
+		/**
+		 * Real valued log gamma function.
+		 * @param x
+		 * @return  Returns log value from gamma function.
+		 */
+		public static double logGamma(double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsPositiveInfinity(x)) return Double.PositiveInfinity;
+			if (Double.IsNegativeInfinity(x)) return Double.NaN;
+			if (MathFunctions.isInteger(x)) {
+				if (x >= 0)
+					return MathFunctions.ln( Math.Abs( gammaInt( (long)(Math.Round(x) ) ) ) );
+				else
+					return MathFunctions.ln( Math.Abs( gammaInt( -(long)(Math.Round(-x) ) ) ) );
+			}
+			double p, q, w, z;
+			if (x < -34.0) {
+				q = -x;
+				w = logGamma(q);
+				p = Math.Floor(q);
+				if (p == q) return Double.NaN;
+				z = q - p;
+				if (z > 0.5) {
+					p += 1.0;
+					z = p - q;
+				}
+				z = q * Math.Sin( Math.PI * z );
+				if (z == 0.0) return Double.NaN;
+				z = MathConstants.LNPI - Math.Log(z) - w;
+				return z;
+			}
+			if (x < 13.0) {
+				z = 1.0;
+				while (x >= 3.0) {
+					x -= 1.0;
+					z *= x;
+				}
+				while (x < 2.0) {
+					if( x == 0.0 ) return Double.NaN;
+					z /= x;
+					x += 1.0;
+				}
+				if (z < 0.0) z = -z;
+				if (x == 2.0) return Math.Log(z);
+				x -= 2.0;
+				p = x * Evaluate.polevl( x, Coefficients.logGammaB, 5 ) / Evaluate.p1evl( x, Coefficients.logGammaC, 6);
+				return Math.Log(z) + p;
+			}
+			if (x > 2.556348e305) return Double.NaN;
+			q = (x - 0.5) * Math.Log(x) - x + 0.91893853320467274178;
+			if (x > 1.0e8) return q;
+			p = 1.0/(x*x);
+			if (x >= 1000.0)
+				q += (( 7.9365079365079365079365e-4 * p - 2.7777777777777777777778e-3 ) * p + 0.0833333333333333333333 ) / x;
+			else
+				q += Evaluate.polevl( p, Coefficients.logGammaA, 4 ) / x;
+			return q;
+		}
+		/**
+		 * Signum from the real valued gamma function.
+		 * @param x
+		 * @return  Returns signum of the gamma(x)
+		 */
+		public static double sgnGamma(double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsPositiveInfinity(x)) return 1;
+			if (Double.IsNegativeInfinity(x)) return Double.NaN;
+			if (x > 0) return 1;
+			if (MathFunctions.isInteger(x)) return MathFunctions.sgn( gammaInt( -(long)(Math.Round(-x) ) ) );
+			x = -x;
+			double fx = Math.Floor(x);
+			double div2remainder = Math.Floor(fx % 2);
+			if (div2remainder == 0) return -1;
+			else return 1;
+		}
+		/**
+		 * Regularized lower gamma function 'P'
+		 * @param s
+		 * @param x
+		 * @return Value of the regularized lower gamma function 'P'.
+		 */
+		public static double regularizedGammaLowerP(double s, double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(s)) return Double.NaN;
+			if (MathFunctions.almostEqual(x, 0)) return 0;
+			if (MathFunctions.almostEqual(s, 0))
+				return 1 + SpecialFunctions.exponentialIntegralEi(-x) / MathConstants.EULER_MASCHERONI;
+
+			if (MathFunctions.almostEqual(s, 1))
+				return 1 - Math.Exp(-x);
+
+			if (x < 0) return Double.NaN;
+
+			if (s < 0)
+				return regularizedGammaLowerP(s + 1, x) + ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gamma(s) );
+
+			const double epsilon = 0.000000000000001;
+			const double bigNumber = 4503599627370496.0;
+			const double bigNumberInverse = 2.22044604925031308085e-16;
+
+			double ax = (s * Math.Log(x)) - x - logGamma(s);
+			if (ax < -709.78271289338399) {
+				return 1;
+			}
+
+			if (x <= 1 || x <= s) {
+				double r2 = s;
+				double c2 = 1;
+				double ans2 = 1;
+				do {
+					r2 = r2 + 1;
+					c2 = c2 * x / r2;
+					ans2 += c2;
+				} while ((c2 / ans2) > epsilon);
+				return Math.Exp(ax) * ans2 / s;
+			}
+
+			int c = 0;
+			double y = 1 - s;
+			double z = x + y + 1;
+
+			double p3 = 1;
+			double q3 = x;
+			double p2 = x + 1;
+			double q2 = z * x;
+			double ans = p2 / q2;
+
+			double error;
+
+			do {
+        		c++;
+        		y += 1;
+        		z += 2;
+        		double yc = y * c;
+
+        		double p = (p2 * z) - (p3 * yc);
+        		double q = (q2 * z) - (q3 * yc);
+
+        		if (q != 0) {
+        			double nextans = p / q;
+        			error = Math.Abs((ans - nextans) / nextans);
+        			ans = nextans;
+        		} else {
+        			// zero div, skip
+        			error = 1;
+        		}
+
+        		// shift
+        		p3 = p2;
+        		p2 = p;
+        		q3 = q2;
+        		q2 = q;
+
+        		// normalize fraction when the numerator becomes large
+        		if (Math.Abs(p) > bigNumber) {
+        			p3 *= bigNumberInverse;
+        			p2 *= bigNumberInverse;
+        			q3 *= bigNumberInverse;
+        			q2 *= bigNumberInverse;
+        		}
+			} while (error > epsilon);
+
+			return 1 - (Math.Exp(ax) * ans);
+  		}
+		/**
+		 * Incomplete lower gamma function
+		 * @param s
+		 * @param x
+		 * @return Value of the incomplete lower gamma function.
+		 */
+		public static double incompleteGammaLower(double s, double x) {
+			return gamma(s) * regularizedGammaLowerP(s, x);
+		}
+		/**
+		 * Regularized upper gamma function 'Q'
+		 * @param s
+		 * @param x
+		 * @return Value of the regularized upper gamma function 'Q'.
+		 */
+		public static double regularizedGammaUpperQ(double s, double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(s)) return Double.NaN;
+			if (MathFunctions.almostEqual(x, 0)) return 1;
+
+			if (MathFunctions.almostEqual(s, 0))
+				return -SpecialFunctions.exponentialIntegralEi(-x) / MathConstants.EULER_MASCHERONI;
+
+			if (MathFunctions.almostEqual(s, 1))
+				return Math.Exp(-x);
+
+			if (x < 0) return Double.NaN;
+
+			if (s < 0)
+				return regularizedGammaUpperQ(s + 1, x) - ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gamma(s) );
+
+			double ax = s * Math.Log(x) - x - logGamma(s);
+			if (ax < -709.78271289338399) {
+        		return 0;
+			}
+			double t;
+			const double igammaepsilon = 0.000000000000001;
+			const double igammabignumber = 4503599627370496.0;
+			const double igammabignumberinv = 2.22044604925031308085 * 0.0000000000000001;
+
+			ax = Math.Exp(ax);
+			double y = 1 - s;
+			double z = x + y + 1;
+			double c = 0;
+			double pkm2 = 1;
+			double qkm2 = x;
+			double pkm1 = x + 1;
+			double qkm1 = z * x;
+			double ans = pkm1 / qkm1;
+			do {
+        		c = c + 1;
+        		y = y + 1;
+        		z = z + 2;
+        		double yc = y * c;
+        		double pk = pkm1 * z - pkm2 * yc;
+        		double qk = qkm1 * z - qkm2 * yc;
+        		if (qk != 0) {
+        			double r = pk / qk;
+        			t = Math.Abs((ans - r) / r);
+        			ans = r;
+        		} else {
+        			t = 1;
+        		}
+
+        		pkm2 = pkm1;
+        		pkm1 = pk;
+        		qkm2 = qkm1;
+        		qkm1 = qk;
+
+        		if (Math.Abs(pk) > igammabignumber) {
+        			pkm2 = pkm2 * igammabignumberinv;
+        			pkm1 = pkm1 * igammabignumberinv;
+        			qkm2 = qkm2 * igammabignumberinv;
+        			qkm1 = qkm1 * igammabignumberinv;
+        		}
+			} while (t > igammaepsilon);
+			return ans * ax;
+		}
+		/**
+		 * Incomplete upper gamma function
+		 * @param s
+		 * @param x
+		 * @return Value of the incomplete upper gamma function.
+		 */
+		public static double incompleteGammaUpper(double s, double x) {
+			return gamma(s) * regularizedGammaUpperQ(s, x);
+		}
+		/**
+		 * Digamma function as the logarithmic derivative of the Gamma special function
+		 * @param x
+		 * @return Approximated value of the digamma function.
+		 */
+		public static double diGamma(double x) {
+			const double c = 12.0;
+			const double d1 = -0.57721566490153286;
+			const double d2 = 1.6449340668482264365;
+			const double s = 1e-6;
+			const double s3 = 1.0/12.0;
+			const double s4 = 1.0/120.0;
+			const double s5 = 1.0/252.0;
+			const double s6 = 1.0/240.0;
+			const double s7 = 1.0/132.0;
+
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNegativeInfinity(x)) return Double.NaN;
+			if (x <= 0)
+				if (MathFunctions.isInteger(x))
+					return Double.NaN;
+
+			// Use inversion formula for negative numbers.
+			if (x < 0) return diGamma(1.0 - x) + (MathConstants.PI/Math.Tan(-Math.PI*x));
+
+			if (x <= s) return d1 - (1/x) + (d2*x);
+
+			double result = 0;
+			while (x < c) {
+				result -= 1/x;
+				x++;
+			}
+
+			if (x >= c) {
+				double r = 1/x;
+				result += Math.Log(x) - (0.5*r);
+				r *= r;
+				result -= r*(s3 - (r*(s4 - (r*(s5 - (r*(s6 - (r*s7))))))));
+			}
+
+			return result;
 		}
 		/*
 		 * halleyIteration epsilon

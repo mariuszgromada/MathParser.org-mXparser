@@ -1,9 +1,9 @@
 /*
- * @(#)MathConstants.cs        4.2.0    2017-10-21
+ * @(#)MathConstants.cs        4.2.0    2018-10-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -251,9 +251,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public const double SQRT2 = 1.4142135623730950488016887242096980785696718753769d;
 		/**
+		 * Square root of pi
+		 */
+		public const double SQRTPi = 1.772453850905516027298167483341145182797549456122387128213d;
+		/**
 		 * Square root of 2*pi
 		 */
 		public const double SQRT2Pi = 2.5066282746310005024157652848110452530069867406099d;
+		/**
+		 * Natural logarithm of pi
+		 */
+		public static readonly double LNPI = MathFunctions.ln(PI);
 		/**
 		 * Tetration left convergence limit
 		 */

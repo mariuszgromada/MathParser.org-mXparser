@@ -1,9 +1,9 @@
 /*
- * @(#)Function2Arg.cs        4.1.0    2017-05-13
+ * @(#)Function2Arg.cs        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function2Arg {
@@ -102,6 +102,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int FACTVAL_ID							= 18;
 		public const int FACTEXP_ID							= 19;
 		public const int ROOT_ID							= 20;
+		public const int INC_GAMMA_LOWER_ID					= 21;
+		public const int INC_GAMMA_UPPER_ID					= 22;
+		public const int REG_GAMMA_LOWER_ID					= 23;
+		public const int REG_GAMMA_UPPER_ID					= 24;
 		/*
 		 * BinaryFunction - tokens key words.
 		 */
@@ -125,6 +129,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACTVAL_STR						= "factval";
 		public const String FACTEXP_STR						= "factexp";
 		public const String ROOT_STR						= "root";
+		public const String INC_GAMMA_LOWER_STR				= "GammaL";
+		public const String INC_GAMMA_UPPER_STR				= "GammaU";
+		public const String REG_GAMMA_LOWER_STR				= "GammaRegL";
+		public const String REG_GAMMA_UPPER_STR				= "GammaRegU";
+		public const String REG_GAMMA_LOWER_P_STR			= "GammaP";
+		public const String REG_GAMMA_UPPER_Q_STR			= "GammaQ";
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -148,6 +158,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACTVAL_SYN						= "factval(number, factorid)";
 		public const String FACTEXP_SYN						= "factexp(number, factorid)";
 		public const String ROOT_SYN						= "root(rootorder, number)";
+		public const String INC_GAMMA_LOWER_SYN				= INC_GAMMA_LOWER_STR + "(s,x)";
+		public const String INC_GAMMA_UPPER_SYN				= INC_GAMMA_UPPER_STR + "(s,x)";
+		public const String REG_GAMMA_LOWER_SYN				= REG_GAMMA_LOWER_STR + "(s,x)";
+		public const String REG_GAMMA_UPPER_SYN				= REG_GAMMA_UPPER_STR + "(s,x)";
+		public const String REG_GAMMA_LOWER_P_SYN			= REG_GAMMA_LOWER_P_STR + "(s,x)";
+		public const String REG_GAMMA_UPPER_Q_SYN			= REG_GAMMA_UPPER_Q_STR + "(s,x)";
 		/*
 		 * BinaryFunction - tokens description.
 		 */
@@ -171,6 +187,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACTVAL_DESC					= "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value";
 		public const String FACTEXP_DESC					= "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value";
 		public const String ROOT_DESC						= "N-th order root of a number";
+		public const String INC_GAMMA_LOWER_DESC			= "Lower incomplete gamma special function";
+		public const String INC_GAMMA_UPPER_DESC			= "Upper incomplete Gamma special function";
+		public const String REG_GAMMA_LOWER_DESC			= "Lower regularized P gamma special function";
+		public const String REG_GAMMA_UPPER_DESC			= "Upper regularized Q Gamma special function";
 		/*
 		 * BinaryFunction - since.
 		 */
@@ -194,5 +214,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String FACTVAL_SINCE					= mXparser.NAMEv41;
 		public const String FACTEXP_SINCE					= mXparser.NAMEv41;
 		public const String ROOT_SINCE						= mXparser.NAMEv41;
+		public const String INC_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
+		public const String INC_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
+		public const String REG_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
+		public const String REG_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
 	}
 }

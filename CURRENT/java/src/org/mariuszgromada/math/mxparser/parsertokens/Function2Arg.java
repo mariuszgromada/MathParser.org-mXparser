@@ -1,9 +1,9 @@
 /*
- * @(#)Function2Arg.java        4.1.0    2017-05-13
+ * @(#)Function2Arg.java        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.2.0
  */
 public final class Function2Arg {
 	/*
@@ -101,6 +101,10 @@ public final class Function2Arg {
 	public static final int FACTVAL_ID							= 18;
 	public static final int FACTEXP_ID							= 19;
 	public static final int ROOT_ID								= 20;
+	public static final int INC_GAMMA_LOWER_ID					= 21;
+	public static final int INC_GAMMA_UPPER_ID					= 22;
+	public static final int REG_GAMMA_LOWER_ID					= 23;
+	public static final int REG_GAMMA_UPPER_ID					= 24;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -124,6 +128,12 @@ public final class Function2Arg {
 	public static final String FACTVAL_STR						= "factval";
 	public static final String FACTEXP_STR						= "factexp";
 	public static final String ROOT_STR							= "root";
+	public static final String INC_GAMMA_LOWER_STR				= "GammaL";
+	public static final String INC_GAMMA_UPPER_STR				= "GammaU";
+	public static final String REG_GAMMA_LOWER_STR				= "GammaRegL";
+	public static final String REG_GAMMA_UPPER_STR				= "GammaRegU";
+	public static final String REG_GAMMA_LOWER_P_STR			= "GammaP";
+	public static final String REG_GAMMA_UPPER_Q_STR			= "GammaQ";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -147,6 +157,12 @@ public final class Function2Arg {
 	public static final String FACTVAL_SYN						= "factval(number, factorid)";
 	public static final String FACTEXP_SYN						= "factexp(number, factorid)";
 	public static final String ROOT_SYN							= "root(rootorder, number)";
+	public static final String INC_GAMMA_LOWER_SYN				= INC_GAMMA_LOWER_STR + "(s,x)";
+	public static final String INC_GAMMA_UPPER_SYN				= INC_GAMMA_UPPER_STR + "(s,x)";
+	public static final String REG_GAMMA_LOWER_SYN				= REG_GAMMA_LOWER_STR + "(s,x)";
+	public static final String REG_GAMMA_UPPER_SYN				= REG_GAMMA_UPPER_STR + "(s,x)";
+	public static final String REG_GAMMA_LOWER_P_SYN			= REG_GAMMA_LOWER_P_STR + "(s,x)";
+	public static final String REG_GAMMA_UPPER_Q_SYN			= REG_GAMMA_UPPER_Q_STR + "(s,x)";
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -170,6 +186,10 @@ public final class Function2Arg {
 	public static final String FACTVAL_DESC						= "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value";
 	public static final String FACTEXP_DESC						= "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value";
 	public static final String ROOT_DESC						= "N-th order root of a number";
+	public static final String INC_GAMMA_LOWER_DESC				= "Lower incomplete gamma special function";
+	public static final String INC_GAMMA_UPPER_DESC				= "Upper incomplete Gamma special function";
+	public static final String REG_GAMMA_LOWER_DESC				= "Lower regularized P gamma special function";
+	public static final String REG_GAMMA_UPPER_DESC				= "Upper regularized Q Gamma special function";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -193,4 +213,8 @@ public final class Function2Arg {
 	public static final String FACTVAL_SINCE					= mXparser.NAMEv41;
 	public static final String FACTEXP_SINCE					= mXparser.NAMEv41;
 	public static final String ROOT_SINCE						= mXparser.NAMEv41;
+	public static final String INC_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
+	public static final String INC_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
+	public static final String REG_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
+	public static final String REG_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
 }
