@@ -1,9 +1,9 @@
 /*
- * @(#)BitwiseOperator.cs        4.1.0    2017-05-13
+ * @(#)BitwiseOperator.cs        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BitwiseOperator {
@@ -100,7 +100,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * BitwiseOperator - syntax.
 		 */
-		public const String COMPL_SYN			= "a @~ b";
+		public const String COMPL_SYN			= "@~a";
 		public const String AND_SYN				= "a @& b";
 		public const String XOR_SYN				= "a @^ b";
 		public const String OR_SYN				= "a @| b";
