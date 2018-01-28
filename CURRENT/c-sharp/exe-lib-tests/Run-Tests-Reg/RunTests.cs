@@ -11,10 +11,6 @@ namespace mxparser.runtests {
 			#if PCL
                 Console.WriteLine(mXparser.getConsoleOutput());
             #endif
-            for( var i = 0.0; i < 25; i+=0.1)
-            {
-                Console.WriteLine($@"{i}, {org.mariuszgromada.math.mxparser.mathcollection.SpecialFunctions.BesselJ(i, 0)}");
-            }
         }
     }
 }

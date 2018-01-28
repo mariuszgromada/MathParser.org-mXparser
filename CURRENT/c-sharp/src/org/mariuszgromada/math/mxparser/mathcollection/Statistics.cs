@@ -1,9 +1,9 @@
 /*
- * @(#)Statistics.cs        4.1.0    2017-06-13
+ * @(#)Statistics.cs        4.2.0   2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Statistics {
@@ -93,20 +93,26 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			double sum = 0;
 			int n = 0;
-			if ((to >= from) && (delta > 0)) {
-				for (double i = from; i < to; i += delta) {
+			if ( (to >= from) && (delta > 0) ) {
+				double i;
+				for (i = from; i < to; i+=delta) {
 					sum += mXparser.getFunctionValue(f, index, i);
 					n++;
 				}
-				sum += mXparser.getFunctionValue(f, index, to);
-				n++;
-			} else if ((to <= from) && (delta < 0)) {
-				for (double i = from; i > to; i += delta) {
+				if ( delta - (i - to) > 0.5 * delta) {
+					sum += mXparser.getFunctionValue(f, index, to);
+					n++;
+				}
+			} else if ( (to <= from) && (delta < 0) ) {
+				double i;
+				for (i = from; i > to; i+=delta) {
 					sum += mXparser.getFunctionValue(f, index, i);
 					n++;
 				}
-				sum += mXparser.getFunctionValue(f, index, to);
-				n++;
+				if ( -delta - (to - i) > -0.5 * delta) {
+					sum += mXparser.getFunctionValue(f, index, to);
+					n++;
+				}
 			} else if (from == to)
 				return mXparser.getFunctionValue(f, index, from);
 			return sum / n;

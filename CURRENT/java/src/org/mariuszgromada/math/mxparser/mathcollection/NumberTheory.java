@@ -1,9 +1,9 @@
 /*
- * @(#)NumberTheory.java        4.2.0   2017-10-16
+ * @(#)NumberTheory.java        4.2.0   2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -786,7 +786,8 @@ public final class NumberTheory {
 			double i;
 			for (i = from; i > to; i+=delta)
 				result += mXparser.getFunctionValue(f, index, i);
-			if ( delta - (to - i) > 0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
+			if ( -delta - (to - i) > -0.5 * delta)
+				result += mXparser.getFunctionValue(f, index, to);
 		} else if (from == to)
 			result += mXparser.getFunctionValue(f, index, from);
 		return result;
@@ -818,7 +819,7 @@ public final class NumberTheory {
 			double i;
 			for (i = from; i > to; i+=delta)
 				result *= mXparser.getFunctionValue(f, index, i);
-			if ( delta - (to - i) > 0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
+			if ( -delta - (to - i) > -0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
 		} else if (from == to)
 			result *= mXparser.getFunctionValue(f, index, from);
 		return result;

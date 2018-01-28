@@ -111,7 +111,7 @@ public final class Statistics {
 				sum += mXparser.getFunctionValue(f, index, i);
 				n++;
 			}
-			if ( delta - (to - i) > 0.5 * delta) {
+			if ( -delta - (to - i) > -0.5 * delta) {
 				sum += mXparser.getFunctionValue(f, index, to);
 				n++;
 			}

@@ -12606,12 +12606,111 @@ public class RegTestExpression {
 			break;
 		case 1064:
 			mXparser.disableUlpRounding();
-			expStr = "sum(m, 2, 20, sum(r, 1, m-1, diGamma(r/m) - ( -[gam] - ln(2*m) - (pi/2)*cot( r * pi/m ) + 2 * sum(n, 1, floor( (m-1)/2 ), cos(2*pi*n*r / m) * ln( sin(pi*n / m) ) ) ) ) )";
+			expStr = "sum(m, 3, 20, sum(r, 1, m-1, diGamma(r/m) - ( -[gam] - ln(2*m) - (pi/2)*cot( r * pi/m ) + 2 * sum(n, 1, floor( (m-1)/2 ), cos(2*pi*n*r / m) * ln( sin(pi*n / m) ) ) ) ) )";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
 			reg = 0;
 			if ( MathFunctions.abs(reg - value) <= 1e-12 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1065:
+			expStr = "sum(n, 1, 10, 1) - 10";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1066:
+			expStr = "sum(n, 10, 1, 1) - 10";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1067:
+			expStr = "sum(n, 10, 10, 1) - 1";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1068:
+			expStr = "prod(n, 1, 10, 2) - 2^10";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1069:
+			expStr = "prod(n, 10, 1, 2) - 2^10";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1070:
+			expStr = "prod(n, 10, 10, 2) - 2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1071:
+			expStr = "avg(n, 1, 10, n) - 5.5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1072:
+			expStr = "avg(n, 10, 1, n) - 5.5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1073:
+			expStr = "avg(n, 10, 10, 1) - 1";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
@@ -12629,7 +12728,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 1064;
+		int numberOfTests = 1073;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
