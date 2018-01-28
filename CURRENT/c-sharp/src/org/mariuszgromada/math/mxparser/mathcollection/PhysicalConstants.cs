@@ -1,9 +1,9 @@
 /*
- * @(#)PhysicalConstants.cs        4.0.0    2017-03-12
+ * @(#)PhysicalConstants.cs        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class PhysicalConstants {
@@ -106,54 +106,54 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Planck time
 		 */
 		public const double PLANCK_TIME = 5.39116E-44 * Units.SECOND;
-        /**
+		/**
 		 * Avagadro's constant
 		 */
-        public const double N_A = 6.022140857E23 / Units.MOLE;
-        /**
+		public const double N_A = 6.022140857E23 / Units.MOLE;
+		/**
 		 * Gas constant
 		 */
-        public const double R = 8.3144598 * Units.JOULE / (Units.KELVIN * Units.MOLE);
-        /**
-         * Boltzmann constant
-         */
-        public const double BOLTZMANN_CONSTANT = R / N_A;
-        /**
-         * Neutron rest mass
-         */
-        public const double NEUTRON_REST_MASS = 1.674927471E-27 * Units.KILOGRAM;
-        /**
-         * Neutron equivalent rest mass
-         */
-        public const double NEUTRON_EQUIVALENT_REST_MASS = 939.5654133 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-        /**
-         * Proton rest mass
-         */
-        public const double PROTON_REST_MASS = 1.672621898E-27 * Units.KILOGRAM;
-        /**
-         * Proton equivalent rest mass
-         */
-        public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-        /**
-         * Elementary charge
-         */
-        public const double ELEMENTARY_CHARGE = 1.6021766208E-19*Units.COULOMB;
+		public const double R = 8.3144598 * Units.JOULE / (Units.KELVIN * Units.MOLE);
+		/**
+		 * Boltzmann constant
+		 */
+		public const double BOLTZMANN_CONSTANT = R / N_A;
+		/**
+		 * Neutron rest mass
+		 */
+		public const double NEUTRON_REST_MASS = 1.674927471E-27 * Units.KILOGRAM;
+		/**
+		 * Neutron equivalent rest mass
+		 */
+		public const double NEUTRON_EQUIVALENT_REST_MASS = 939.5654133 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+		/**
+		 * Proton rest mass
+		 */
+		public const double PROTON_REST_MASS = 1.672621898E-27 * Units.KILOGRAM;
+		/**
+		 * Proton equivalent rest mass
+		 */
+		public const double PROTON_EQUIVALENT_REST_MASS = 938.2720813 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+		/**
+		 * Elementary charge
+		 */
+		public const double ELEMENTARY_CHARGE = 1.6021766208E-19*Units.COULOMB;
 
-        /**
-         * Electron rest mass
-         */
-        public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
-        /**
-         * Electron equivalent rest mass
-         */
-        public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
-        /**
-         * Vacuum permittivity
-         */
-        public const double VACUUM_PERMITTIVITY = 8.854187817E-12 * Units.AMPERE * Units.AMPERE * Units.SECOND * Units.SECOND * Units.SECOND * Units.SECOND / (Units.METRE3 * Units.KILOGRAM);
-        /**
-         * Vacuum permeability
-         */
-        public const double VACUUM_PERMEABILITY = 4.0E-7 * Math.PI * Units.KILOGRAM * Units.METRE / (Units.SECOND * Units.SECOND * Units.AMPERE * Units.AMPERE);
-    }
+		/**
+		 * Electron rest mass
+		 */
+		public const double ELECTRON_REST_MASS = 9.10938356E-31 * Units.KILOGRAM;
+		/**
+		 * Electron equivalent rest mass
+		 */
+		public const double ELECTRON_EQUIVALENT_REST_MASS = 0.5109989461 * Units.MEGA_ELECTRONO_VOLT / (LIGHT_SPEED * LIGHT_SPEED);
+		/**
+		 * Vacuum permittivity
+		 */
+		public const double VACUUM_PERMITTIVITY = 8.854187817E-12 * Units.AMPERE * Units.AMPERE * Units.SECOND * Units.SECOND * Units.SECOND * Units.SECOND / (Units.METRE3 * Units.KILOGRAM);
+		/**
+		 * Vacuum permeability
+		 */
+		public const double VACUUM_PERMEABILITY = 4.0E-7 * Math.PI * Units.KILOGRAM * Units.METRE / (Units.SECOND * Units.SECOND * Units.AMPERE * Units.AMPERE);
+	}
 }

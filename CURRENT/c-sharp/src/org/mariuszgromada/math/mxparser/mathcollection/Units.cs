@@ -1,5 +1,5 @@
 /*
- * @(#)Units.cs        4.0.0    2017-03-12
+ * @(#)Units.cs        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Units {
@@ -344,53 +344,53 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public const double POUND = 0.45359237 * KILOGRAM;
 
-        /* ===========================================
-         * Units of Amount
-         * ===========================================
-         */
-        public const double MOLE = 1.0;
+		/* ===========================================
+		 * Units of Amount
+		 * ===========================================
+		 */
+		public const double MOLE = 1.0;
 
-        /* ===========================================
-         * Units of Charge
-         * ===========================================
-         */
-        /**
-         * Coulomb
-         */
-        public const double COULOMB = 1.0;
+		/* ===========================================
+		 * Units of Charge
+		 * ===========================================
+		 */
+		/**
+		 * Coulomb
+		 */
+		public const double COULOMB = 1.0;
 
-        /**
-         * Ampere
-         */
-        public const double AMPERE = COULOMB / SECOND;
+		/**
+		 * Ampere
+		 */
+		public const double AMPERE = COULOMB / SECOND;
 
         /* ===========================================
          * Units of Temperature
          * ===========================================
          */
-        /**
-         * Kelvin
-         */
-        public const double KELVIN = 1.0;
+		/**
+		 * Kelvin
+		 */
+		public const double KELVIN = 1.0;
 
-        /**
-         * Celcius
-         */
-        public const double CELCIUS = 1.0;
+		/**
+		 * Celcius
+		 */
+		public const double CELCIUS = 1.0;
 
-        /**
-         * Farenheight
-         */
-        public const double FARENHEIGHT = 1.8;
+		/**
+		 * Farenheight
+		 */
+		public const double FARENHEIGHT = 1.8;
 
-        /* ===========================================
+		/* ===========================================
 		 * Units of information
 		 * ===========================================
 		 */
-        /**
+		/**
 		 * Bit
 		 */
-        public const double BIT = 1.0;
+		public const double BIT = 1.0;
 		/**
 		 * Kilobit
 		 */

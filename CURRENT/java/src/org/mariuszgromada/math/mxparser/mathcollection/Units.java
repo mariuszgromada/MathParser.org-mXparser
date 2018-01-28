@@ -1,9 +1,9 @@
 /*
- * @(#)Units.java        4.0.0    2017-03-12
+ * @(#)Units.java        4.2.0    2018-01-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -69,7 +69,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.2.0
  */
 public final class Units {
 	/* ===========================================
@@ -341,6 +341,45 @@ public final class Units {
 	 * Pound
 	 */
 	public static final double POUND = 0.45359237 * KILOGRAM;
+
+	/* ===========================================
+	 * Units of Amount
+	 * ===========================================
+	 */
+	public static final double MOLE = 1.0;
+
+	/* ===========================================
+	 * Units of Charge
+	 * ===========================================
+	 */
+	/**
+	 * Coulomb
+	 */
+	public static final double COULOMB = 1.0;
+
+	/**
+	 * Ampere
+	 */
+	public static final double AMPERE = COULOMB / SECOND;
+
+	/* ===========================================
+	 * Units of Temperature
+	 * ===========================================
+	 */
+	/**
+	 * Kelvin
+	 */
+	public static final double KELVIN = 1.0;
+
+	/**
+	 * Celcius
+	 */
+	public static final double CELCIUS = 1.0;
+
+	/**
+	 * Farenheight
+	 */
+	public static final double FARENHEIGHT = 1.8;
 
 	/* ===========================================
 	 * Units of information

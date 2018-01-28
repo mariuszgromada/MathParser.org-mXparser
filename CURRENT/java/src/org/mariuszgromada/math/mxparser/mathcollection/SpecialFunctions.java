@@ -870,4 +870,41 @@ public final class SpecialFunctions {
 		if (Math.abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 		return Double.NaN;
 	}
+	private static final int BESSEL_BOUND = 10;
+	public static final double BesselJ( double x, double alpha, int sumbound) {
+		// return Enumerable.Range(0, sumbound).Sum(t => BesselJCoeff(t, alpha) * BesselJTerm(t, alpha, x));
+		// Since this doesn't like my LINQ method for some reason...
+		double sum = 0.0;
+		for(int i = 0; i < sumbound; i++) {
+			sum += BesselJCoeff(i, alpha) * BesselJTerm(i, alpha, x);
+		}
+		return sum;
+	}
+	private static final double BesselJCoeff(int m, double alpha) {
+		return Math.pow(-1, m) / (MathFunctions.factorial(m) * SpecialFunctions.lanchosGamma(m + alpha + 1));
+	}
+	private static final double  BesselJTerm(int m, double alpha, double x) {
+		return Math.pow(x / 2.0, 2 * m + alpha);
+	}
+	public static final double BesselJ(double x, int n, int sumbound) {
+		return BesselJ(x, n, sumbound);
+	}
+	public static final double BesselJ(double x, int n) {
+		if( n < 0) return Math.pow(-1.0, n) * BesselJ(x, Math.abs(n), BESSEL_BOUND);
+		return BesselJ(x, n, BESSEL_BOUND);
+	}
+	public static final double BesselJ(double x, double alpha) {
+		final double epsilon = 1e-15;
+		if( alpha == 0.5) {
+			return Math.sqrt(2.0 / (Math.PI * x)) * MathFunctions.sin(x);
+		}
+		if( alpha == -0.5) {
+			return Math.sqrt(2.0 / (Math.PI * x)) * MathFunctions.cos(x);
+		}
+		if( Math.abs(alpha % 1) <= (epsilon * 100)) {
+			return BesselJ(x, alpha);
+		} else {
+			return BesselJ(x, alpha, BESSEL_BOUND);
+		}
+	}
 }
