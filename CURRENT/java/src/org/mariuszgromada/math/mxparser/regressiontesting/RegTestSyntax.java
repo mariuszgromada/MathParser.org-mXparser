@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestSyntax.java        4.2.0   2017-10-22
+ * @(#)RegTestSyntax.java        4.2.0   2018-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -2777,6 +2777,28 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 230:
+			expStr = "f(x) = (3 + 5*x";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			exp[testId] = new Expression("");
+			syn = f.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 231:
+			expStr = "f(x) = (3 + 5*x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			f = new Function(expStr);
+			exp[testId] = new Expression("");
+			syn = f.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2790,7 +2812,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 229;
+		int numberOfTests = 231;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

@@ -1,9 +1,9 @@
 /*
- * @(#)Function.cs        4.1.0    2017-05-14
+ * @(#)Function.cs        4.2.0    2018-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -91,7 +91,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -389,7 +389,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public bool checkSyntax() {
 			bool syntaxStatus = Function.NO_SYNTAX_ERRORS;
 			if (functionBodyType == BODY_RUNTIME)
-				functionExpression.checkSyntax();
+				syntaxStatus = functionExpression.checkSyntax();
 			checkRecursiveMode();
 			return syntaxStatus;
 		}
