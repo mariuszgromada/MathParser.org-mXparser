@@ -10996,6 +10996,7 @@ public class RegTestExpression {
 			 * SetPrecision[Sum[Gamma[x], {x, -30.95, -10.05, 0.1}], 16] = -8.376548071082549E-6
 			 */
 			mXparser.disableUlpRounding();
+			mXparser.disableAlmostIntRounding();
 			expStr = "( sum(x, -30.95, -10.05, Gamma(x), 0.1) - (-8.376548071082549E-6) ) / (-8.376548071082549E-6)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -11004,6 +11005,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 1e-12 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
 			mXparser.enableUlpRounding();
 			break;
 		case 954:
@@ -12909,6 +12911,60 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			break;
+		case 1090:
+			mXparser.disableUlpRounding();
+			mXparser.disableAlmostIntRounding();
+			expStr = "1 + 1e-14";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1 + 1e-14;
+			if ( MathFunctions.abs(reg - value) <= 1e-50 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1091:
+			mXparser.disableUlpRounding();
+			mXparser.disableAlmostIntRounding();
+			expStr = "-1 - 1e-14";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -1 - 1e-14;
+			if ( MathFunctions.abs(reg - value) <= 1e-50 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1092:
+			mXparser.disableUlpRounding();
+			mXparser.enableAlmostIntRounding();
+			expStr = "1 + 1e-14";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 1e-50 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
+		case 1093:
+			mXparser.disableUlpRounding();
+			mXparser.enableAlmostIntRounding();
+			expStr = "-1 - 1e-14";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -1;
+			if ( MathFunctions.abs(reg - value) <= 1e-50 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableUlpRounding();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -12922,7 +12978,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 1089;
+		int numberOfTests = 1093;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

@@ -5645,9 +5645,9 @@ public class Expression {
 		computingTime = (endTime - startTime)/1000.0;
 		recursionCallsCounter = 0;
 		double result = tokensList.get(0).tokenValue;
-		if (mXparser.ulpRounding) {
+		if (mXparser.almostIntRounding) {
 			double resultint = Math.round(result);
-			if ( Math.abs(result-resultint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
+			if ( Math.abs(result-resultint) <= BinaryRelations.getEpsilon() )
 				result = resultint;
 		}
 		return result;

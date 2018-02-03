@@ -1,9 +1,9 @@
 /*
- * @(#)mXparser.java        4.2.0   2017-10-15
+ * @(#)mXparser.java        4.2.0   2018-02-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -143,6 +143,13 @@ public final class mXparser {
 	 * type of errors.
 	 */
 	static boolean ulpRounding = true;
+	/**
+	 * Indicator marking whether to round final result
+	 * to precise integer when result is very close
+	 * to integer, solves problems like
+	 * sin(pi) = 0
+	 */
+	static boolean almostIntRounding = true;
 	/**
 	 * Internal limit for counter to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples
@@ -441,6 +448,47 @@ public final class mXparser {
 	 */
 	public static final boolean checkIfUlpRounding() {
 		return ulpRounding;
+	}
+	/**
+	 * Enables almost integer rounding option causing
+	 * rounding final calculation result to precise integer
+	 * if and only if result is very close to integer.
+	 * Very close condition depends on epsilon.
+	 *
+	 * @see mXparser#setEpsilon(double)
+	 * @see mXparser#getEpsilon()
+	 * @see Expression#calculate()
+	 */
+	public static final void enableAlmostIntRounding() {
+		almostIntRounding = true;
+	}
+	/**
+	 * Disables almost integer rounding option causing
+	 * rounding final calculation result to precise integer
+	 * if and only if result is very close to integer.
+	 * Very close condition depends on epsilon.
+	 *
+	 * @see mXparser#setEpsilon(double)
+	 * @see mXparser#getEpsilon()
+	 * @see Expression#calculate()
+	 */
+	public static final void disableAlmostIntRounding() {
+		almostIntRounding = false;
+	}
+	/**
+	 * Returns state of almost integer rounding option causing
+	 * rounding final calculation result to precise integer
+	 * if and only if result is very close to integer.
+	 * Very close condition depends on epsilon.
+	 *
+	 * @return true if option enabled, false otherwise
+	 *
+	 * @see mXparser#setEpsilon(double)
+	 * @see mXparser#getEpsilon()
+	 * @see Expression#calculate()
+	 */
+	public static final boolean checkIfAlmostIntRounding() {
+		return almostIntRounding;
 	}
 	/**
 	 * Internal limit to avoid infinite loops while calculating

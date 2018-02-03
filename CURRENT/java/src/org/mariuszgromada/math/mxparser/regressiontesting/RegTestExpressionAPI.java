@@ -2193,6 +2193,17 @@ public class RegTestExpressionAPI {
 				(g.calculate(1,2,3,4) == 10) &&
 				(g.calculate(1,2,3,4,5) == 15)
 			) test[testId] = true;
+		/*
+		 * 59. Almost int rounding disable / enable
+		 */
+		testId++;
+		boolean u1 = mXparser.checkIfAlmostIntRounding();
+		mXparser.disableAlmostIntRounding();
+		boolean u2 = mXparser.checkIfAlmostIntRounding();
+		mXparser.enableAlmostIntRounding();
+		boolean u3 = mXparser.checkIfAlmostIntRounding();
+		if ( (u1 == true) && (u2 == false) && (u3 == true))
+			test[testId] = true;
 		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;

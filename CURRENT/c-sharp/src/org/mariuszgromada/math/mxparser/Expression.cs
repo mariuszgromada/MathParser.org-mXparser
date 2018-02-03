@@ -5636,9 +5636,9 @@ namespace org.mariuszgromada.math.mxparser {
 			computingTime = (endTime - startTime) / 1000.0;
 			recursionCallsCounter = 0;
 			double result = tokensList[0].tokenValue;
-			if (mXparser.ulpRounding) {
+			if (mXparser.almostIntRounding) {
 				double resultint = Math.Round(result);
-				if ( Math.Abs(result-resultint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
+				if ( Math.Abs(result-resultint) <= BinaryRelations.getEpsilon() )
 					result = resultint;
 			}
 			return result;
