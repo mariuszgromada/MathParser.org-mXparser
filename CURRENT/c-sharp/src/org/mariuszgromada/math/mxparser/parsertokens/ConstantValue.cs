@@ -1,9 +1,9 @@
 /*
- * @(#)ConstantValue.cs        4.1.0    2017-05-13
+ * @(#)ConstantValue.cs        4.2.0    2018-01-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ConstantValue {
@@ -174,6 +174,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const int TRUE_ID							= 301;
 		public const int FALSE_ID							= 302;
+		/* automatic values */
+		public const int NPAR_ID							= 303;
 		/* other values */
 		public const int NAN_ID								= 999;
 		public const int NaN								= -1;
@@ -271,6 +273,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const String TRUE_STR						= "[true]";
 		public const String FALSE_STR						= "[false]";
+		/* automatic values */
+		public const String NPAR_STR						= "[npar]";
 		/* other values */
 		public const String NAN_STR							= "[NaN]";
 		/*
@@ -367,6 +371,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const String TRUE_SYN						= TRUE_STR;
 		public const String FALSE_SYN						= FALSE_STR;
+		/* automatic values */
+		public const String NPAR_SYN						= NPAR_STR;
 		/* other values */
 		public const String NAN_SYN							= NAN_STR;
 		/*
@@ -463,6 +469,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const String TRUE_DESC						= "Boolean True represented as double, [true] = 1";
 		public const String FALSE_DESC						= "Boolean False represented as double, [false] = 0";
+		/* automatic values */
+		public const String NPAR_DESC						= "Automatically generated constant for user defined functions, returns number of given function parameters";
 		/* other values */
 		public const String NAN_DESC						= "Not-a-Number";
 
@@ -560,6 +568,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/* boolean values */
 		public const String TRUE_SINCE						= mXparser.NAMEv41;
 		public const String FALSE_SINCE						= mXparser.NAMEv41;
+		/* automatic values */
+		public const String NPAR_SINCE						= mXparser.NAMEv42;
 		/* other values */
 		public const String NAN_SINCE						= mXparser.NAMEv41;
 	}

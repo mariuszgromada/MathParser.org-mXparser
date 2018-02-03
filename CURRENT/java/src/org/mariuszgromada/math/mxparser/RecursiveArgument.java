@@ -1,9 +1,9 @@
 /*
- * @(#)RecursiveArgument.java        3.0.0    2016-05-07
+ * @(#)RecursiveArgument.java        4.2.0    2018-02-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -273,7 +273,9 @@ public class RecursiveArgument extends Argument {
 						,super.argumentExpression.argumentsList
 						,super.argumentExpression.functionsList
 						,super.argumentExpression.constantsList
-						,Expression.INTERNAL);
+						,Expression.INTERNAL
+						,super.argumentExpression.UDFExpression
+						,super.argumentExpression.UDFVariadicParamsAtRunTime);
 				newExp.setDescription(super.getArgumentName());
 				if (super.getVerboseMode() == true)
 					newExp.setVerboseMode();

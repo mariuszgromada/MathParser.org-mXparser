@@ -1,9 +1,9 @@
 /*
- * @(#)ParserSymbol.java        4.2.0    2017-10-16
+ * @(#)ParserSymbol.java        4.2.0    2018-01-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,90 +76,91 @@ public final class ParserSymbol {
 	/*
 	 * ParserSymbol - reg exp patterns.
 	 */
-	public static final String DIGIT					= "[0-9]";
-	public static final String DIGIT_B1					= "1";
-	public static final String DIGIT_B2					= "[01]";
-	public static final String DIGIT_B3					= "[0-2]";
-	public static final String DIGIT_B4					= "[0-3]";
-	public static final String DIGIT_B5					= "[0-4]";
-	public static final String DIGIT_B6					= "[0-5]";
-	public static final String DIGIT_B7					= "[0-6]";
-	public static final String DIGIT_B8					= "[0-7]";
-	public static final String DIGIT_B9					= "[0-8]";
-	public static final String DIGIT_B10				= "[0-9]";
-	public static final String DIGIT_B11				= "[0-9aA]";
-	public static final String DIGIT_B12				= "[0-9a-bA-B]";
-	public static final String DIGIT_B13				= "[0-9a-cA-C]";
-	public static final String DIGIT_B14				= "[0-9a-dA-D]";
-	public static final String DIGIT_B15				= "[0-9a-eA-E]";
-	public static final String DIGIT_B16				= "[0-9a-fA-F]";
-	public static final String DIGIT_B17				= "[0-9a-gA-G]";
-	public static final String DIGIT_B18				= "[0-9a-hA-H]";
-	public static final String DIGIT_B19				= "[0-9a-iA-I]";
-	public static final String DIGIT_B20				= "[0-9a-jA-J]";
-	public static final String DIGIT_B21				= "[0-9a-kA-K]";
-	public static final String DIGIT_B22				= "[0-9a-lA-L]";
-	public static final String DIGIT_B23				= "[0-9a-mA-M]";
-	public static final String DIGIT_B24				= "[0-9a-nA-N]";
-	public static final String DIGIT_B25				= "[0-9a-oA-O]";
-	public static final String DIGIT_B26				= "[0-9a-pA-P]";
-	public static final String DIGIT_B27				= "[0-9a-qA-Q]";
-	public static final String DIGIT_B28				= "[0-9a-rA-R]";
-	public static final String DIGIT_B29				= "[0-9a-sA-S]";
-	public static final String DIGIT_B30				= "[0-9a-tA-T]";
-	public static final String DIGIT_B31				= "[0-9a-uA-U]";
-	public static final String DIGIT_B32				= "[0-9a-vA-V]";
-	public static final String DIGIT_B33				= "[0-9a-wA-W]";
-	public static final String DIGIT_B34				= "[0-9a-xA-X]";
-	public static final String DIGIT_B35				= "[0-9a-yA-Y]";
-	public static final String DIGIT_B36				= "[0-9a-zA-Z]";
-	public static final String INTEGER					= DIGIT + "(" + DIGIT + ")*";
-	public static final String DEC_FRACT				= INTEGER + "\\." + INTEGER;
-	public static final String DEC_FRACT_OR_INT			= "(" + DEC_FRACT + "|" + INTEGER + ")";
-	public static final String DECIMAL_REG_EXP			= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
-	public static final String BASE1_REG_EXP			= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
-	public static final String BASE2_REG_EXP			= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
-	public static final String BASE3_REG_EXP			= "[+-]?[bB]3\\." + DIGIT_B3 + "(" + DIGIT_B3 + ")*";
-	public static final String BASE4_REG_EXP			= "[+-]?[bB]4\\." + DIGIT_B4 + "(" + DIGIT_B4 + ")*";
-	public static final String BASE5_REG_EXP			= "[+-]?[bB]5\\." + DIGIT_B5 + "(" + DIGIT_B5 + ")*";
-	public static final String BASE6_REG_EXP			= "[+-]?[bB]6\\." + DIGIT_B6 + "(" + DIGIT_B6 + ")*";
-	public static final String BASE7_REG_EXP			= "[+-]?[bB]7\\." + DIGIT_B7 + "(" + DIGIT_B7 + ")*";
-	public static final String BASE8_REG_EXP			= "[+-]?([bB]8|[oO])\\." + DIGIT_B8 + "(" + DIGIT_B8 + ")*";
-	public static final String BASE9_REG_EXP			= "[+-]?[bB]9\\." + DIGIT_B9 + "(" + DIGIT_B9 + ")*";
-	public static final String BASE10_REG_EXP			= "[+-]?[bB]10\\." + DIGIT_B10 + "(" + DIGIT_B10 + ")*";
-	public static final String BASE11_REG_EXP			= "[+-]?[bB]11\\." + DIGIT_B11 + "(" + DIGIT_B11 + ")*";
-	public static final String BASE12_REG_EXP			= "[+-]?[bB]12\\." + DIGIT_B12 + "(" + DIGIT_B12 + ")*";
-	public static final String BASE13_REG_EXP			= "[+-]?[bB]13\\." + DIGIT_B13 + "(" + DIGIT_B13 + ")*";
-	public static final String BASE14_REG_EXP			= "[+-]?[bB]14\\." + DIGIT_B14 + "(" + DIGIT_B14 + ")*";
-	public static final String BASE15_REG_EXP			= "[+-]?[bB]15\\." + DIGIT_B15 + "(" + DIGIT_B15 + ")*";
-	public static final String BASE16_REG_EXP			= "[+-]?([bB]16|[hH])\\." + DIGIT_B16 + "(" + DIGIT_B16 + ")*";
-	public static final String BASE17_REG_EXP			= "[+-]?[bB]17\\." + DIGIT_B17 + "(" + DIGIT_B17 + ")*";
-	public static final String BASE18_REG_EXP			= "[+-]?[bB]18\\." + DIGIT_B18 + "(" + DIGIT_B18 + ")*";
-	public static final String BASE19_REG_EXP			= "[+-]?[bB]19\\." + DIGIT_B19 + "(" + DIGIT_B19 + ")*";
-	public static final String BASE20_REG_EXP			= "[+-]?[bB]20\\." + DIGIT_B20 + "(" + DIGIT_B20 + ")*";
-	public static final String BASE21_REG_EXP			= "[+-]?[bB]21\\." + DIGIT_B21 + "(" + DIGIT_B21 + ")*";
-	public static final String BASE22_REG_EXP			= "[+-]?[bB]22\\." + DIGIT_B22 + "(" + DIGIT_B22 + ")*";
-	public static final String BASE23_REG_EXP			= "[+-]?[bB]23\\." + DIGIT_B23 + "(" + DIGIT_B23 + ")*";
-	public static final String BASE24_REG_EXP			= "[+-]?[bB]24\\." + DIGIT_B24 + "(" + DIGIT_B24 + ")*";
-	public static final String BASE25_REG_EXP			= "[+-]?[bB]25\\." + DIGIT_B25 + "(" + DIGIT_B25 + ")*";
-	public static final String BASE26_REG_EXP			= "[+-]?[bB]26\\." + DIGIT_B26 + "(" + DIGIT_B26 + ")*";
-	public static final String BASE27_REG_EXP			= "[+-]?[bB]27\\." + DIGIT_B27 + "(" + DIGIT_B27 + ")*";
-	public static final String BASE28_REG_EXP			= "[+-]?[bB]28\\." + DIGIT_B28 + "(" + DIGIT_B28 + ")*";
-	public static final String BASE29_REG_EXP			= "[+-]?[bB]29\\." + DIGIT_B29 + "(" + DIGIT_B29 + ")*";
-	public static final String BASE30_REG_EXP			= "[+-]?[bB]30\\." + DIGIT_B30 + "(" + DIGIT_B30 + ")*";
-	public static final String BASE31_REG_EXP			= "[+-]?[bB]31\\." + DIGIT_B31 + "(" + DIGIT_B31 + ")*";
-	public static final String BASE32_REG_EXP			= "[+-]?[bB]32\\." + DIGIT_B32 + "(" + DIGIT_B32 + ")*";
-	public static final String BASE33_REG_EXP			= "[+-]?[bB]33\\." + DIGIT_B33 + "(" + DIGIT_B33 + ")*";
-	public static final String BASE34_REG_EXP			= "[+-]?[bB]34\\." + DIGIT_B34 + "(" + DIGIT_B34 + ")*";
-	public static final String BASE35_REG_EXP			= "[+-]?[bB]35\\." + DIGIT_B35 + "(" + DIGIT_B35 + ")*";
-	public static final String BASE36_REG_EXP			= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
-	public static final String FRACTION					= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
-	public static final String nameOnlyTokenRegExp		= "([a-zA-Z_])+([a-zA-Z0-9_])*";
-	public static final String nameTokenRegExp			= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
-	public static final String paramsTokenRegeExp		= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
-	public static final String constArgDefStrRegExp		= nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
-	public static final String functionDefStrRegExp		= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
-	public static final String function1ArgDefStrRegExp = nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String DIGIT							= "[0-9]";
+	public static final String DIGIT_B1							= "1";
+	public static final String DIGIT_B2							= "[01]";
+	public static final String DIGIT_B3							= "[0-2]";
+	public static final String DIGIT_B4							= "[0-3]";
+	public static final String DIGIT_B5							= "[0-4]";
+	public static final String DIGIT_B6							= "[0-5]";
+	public static final String DIGIT_B7							= "[0-6]";
+	public static final String DIGIT_B8							= "[0-7]";
+	public static final String DIGIT_B9							= "[0-8]";
+	public static final String DIGIT_B10						= "[0-9]";
+	public static final String DIGIT_B11						= "[0-9aA]";
+	public static final String DIGIT_B12						= "[0-9a-bA-B]";
+	public static final String DIGIT_B13						= "[0-9a-cA-C]";
+	public static final String DIGIT_B14						= "[0-9a-dA-D]";
+	public static final String DIGIT_B15						= "[0-9a-eA-E]";
+	public static final String DIGIT_B16						= "[0-9a-fA-F]";
+	public static final String DIGIT_B17						= "[0-9a-gA-G]";
+	public static final String DIGIT_B18						= "[0-9a-hA-H]";
+	public static final String DIGIT_B19						= "[0-9a-iA-I]";
+	public static final String DIGIT_B20						= "[0-9a-jA-J]";
+	public static final String DIGIT_B21						= "[0-9a-kA-K]";
+	public static final String DIGIT_B22						= "[0-9a-lA-L]";
+	public static final String DIGIT_B23						= "[0-9a-mA-M]";
+	public static final String DIGIT_B24						= "[0-9a-nA-N]";
+	public static final String DIGIT_B25						= "[0-9a-oA-O]";
+	public static final String DIGIT_B26						= "[0-9a-pA-P]";
+	public static final String DIGIT_B27						= "[0-9a-qA-Q]";
+	public static final String DIGIT_B28						= "[0-9a-rA-R]";
+	public static final String DIGIT_B29						= "[0-9a-sA-S]";
+	public static final String DIGIT_B30						= "[0-9a-tA-T]";
+	public static final String DIGIT_B31						= "[0-9a-uA-U]";
+	public static final String DIGIT_B32						= "[0-9a-vA-V]";
+	public static final String DIGIT_B33						= "[0-9a-wA-W]";
+	public static final String DIGIT_B34						= "[0-9a-xA-X]";
+	public static final String DIGIT_B35						= "[0-9a-yA-Y]";
+	public static final String DIGIT_B36						= "[0-9a-zA-Z]";
+	public static final String INTEGER							= DIGIT + "(" + DIGIT + ")*";
+	public static final String DEC_FRACT						= INTEGER + "\\." + INTEGER;
+	public static final String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
+	public static final String DECIMAL_REG_EXP					= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
+	public static final String BASE1_REG_EXP					= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
+	public static final String BASE2_REG_EXP					= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
+	public static final String BASE3_REG_EXP					= "[+-]?[bB]3\\." + DIGIT_B3 + "(" + DIGIT_B3 + ")*";
+	public static final String BASE4_REG_EXP					= "[+-]?[bB]4\\." + DIGIT_B4 + "(" + DIGIT_B4 + ")*";
+	public static final String BASE5_REG_EXP					= "[+-]?[bB]5\\." + DIGIT_B5 + "(" + DIGIT_B5 + ")*";
+	public static final String BASE6_REG_EXP					= "[+-]?[bB]6\\." + DIGIT_B6 + "(" + DIGIT_B6 + ")*";
+	public static final String BASE7_REG_EXP					= "[+-]?[bB]7\\." + DIGIT_B7 + "(" + DIGIT_B7 + ")*";
+	public static final String BASE8_REG_EXP					= "[+-]?([bB]8|[oO])\\." + DIGIT_B8 + "(" + DIGIT_B8 + ")*";
+	public static final String BASE9_REG_EXP					= "[+-]?[bB]9\\." + DIGIT_B9 + "(" + DIGIT_B9 + ")*";
+	public static final String BASE10_REG_EXP					= "[+-]?[bB]10\\." + DIGIT_B10 + "(" + DIGIT_B10 + ")*";
+	public static final String BASE11_REG_EXP					= "[+-]?[bB]11\\." + DIGIT_B11 + "(" + DIGIT_B11 + ")*";
+	public static final String BASE12_REG_EXP					= "[+-]?[bB]12\\." + DIGIT_B12 + "(" + DIGIT_B12 + ")*";
+	public static final String BASE13_REG_EXP					= "[+-]?[bB]13\\." + DIGIT_B13 + "(" + DIGIT_B13 + ")*";
+	public static final String BASE14_REG_EXP					= "[+-]?[bB]14\\." + DIGIT_B14 + "(" + DIGIT_B14 + ")*";
+	public static final String BASE15_REG_EXP					= "[+-]?[bB]15\\." + DIGIT_B15 + "(" + DIGIT_B15 + ")*";
+	public static final String BASE16_REG_EXP					= "[+-]?([bB]16|[hH])\\." + DIGIT_B16 + "(" + DIGIT_B16 + ")*";
+	public static final String BASE17_REG_EXP					= "[+-]?[bB]17\\." + DIGIT_B17 + "(" + DIGIT_B17 + ")*";
+	public static final String BASE18_REG_EXP					= "[+-]?[bB]18\\." + DIGIT_B18 + "(" + DIGIT_B18 + ")*";
+	public static final String BASE19_REG_EXP					= "[+-]?[bB]19\\." + DIGIT_B19 + "(" + DIGIT_B19 + ")*";
+	public static final String BASE20_REG_EXP					= "[+-]?[bB]20\\." + DIGIT_B20 + "(" + DIGIT_B20 + ")*";
+	public static final String BASE21_REG_EXP					= "[+-]?[bB]21\\." + DIGIT_B21 + "(" + DIGIT_B21 + ")*";
+	public static final String BASE22_REG_EXP					= "[+-]?[bB]22\\." + DIGIT_B22 + "(" + DIGIT_B22 + ")*";
+	public static final String BASE23_REG_EXP					= "[+-]?[bB]23\\." + DIGIT_B23 + "(" + DIGIT_B23 + ")*";
+	public static final String BASE24_REG_EXP					= "[+-]?[bB]24\\." + DIGIT_B24 + "(" + DIGIT_B24 + ")*";
+	public static final String BASE25_REG_EXP					= "[+-]?[bB]25\\." + DIGIT_B25 + "(" + DIGIT_B25 + ")*";
+	public static final String BASE26_REG_EXP					= "[+-]?[bB]26\\." + DIGIT_B26 + "(" + DIGIT_B26 + ")*";
+	public static final String BASE27_REG_EXP					= "[+-]?[bB]27\\." + DIGIT_B27 + "(" + DIGIT_B27 + ")*";
+	public static final String BASE28_REG_EXP					= "[+-]?[bB]28\\." + DIGIT_B28 + "(" + DIGIT_B28 + ")*";
+	public static final String BASE29_REG_EXP					= "[+-]?[bB]29\\." + DIGIT_B29 + "(" + DIGIT_B29 + ")*";
+	public static final String BASE30_REG_EXP					= "[+-]?[bB]30\\." + DIGIT_B30 + "(" + DIGIT_B30 + ")*";
+	public static final String BASE31_REG_EXP					= "[+-]?[bB]31\\." + DIGIT_B31 + "(" + DIGIT_B31 + ")*";
+	public static final String BASE32_REG_EXP					= "[+-]?[bB]32\\." + DIGIT_B32 + "(" + DIGIT_B32 + ")*";
+	public static final String BASE33_REG_EXP					= "[+-]?[bB]33\\." + DIGIT_B33 + "(" + DIGIT_B33 + ")*";
+	public static final String BASE34_REG_EXP					= "[+-]?[bB]34\\." + DIGIT_B34 + "(" + DIGIT_B34 + ")*";
+	public static final String BASE35_REG_EXP					= "[+-]?[bB]35\\." + DIGIT_B35 + "(" + DIGIT_B35 + ")*";
+	public static final String BASE36_REG_EXP					= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
+	public static final String FRACTION							= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
+	public static final String nameOnlyTokenRegExp				= "([a-zA-Z_])+([a-zA-Z0-9_])*";
+	public static final String nameTokenRegExp					= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
+	public static final String paramsTokenRegeExp				= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
+	public static final String constArgDefStrRegExp				= nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String function1ArgDefStrRegExp 		= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 	/*
 	 * ParserSymbol - token type id.
 	 */

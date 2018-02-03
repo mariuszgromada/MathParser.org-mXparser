@@ -62,6 +62,9 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtension.cs">
       <Link>src\org\mariuszgromada\math\mxparser\FunctionExtension.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs">
       <Link>src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs</Link>
     </Compile>

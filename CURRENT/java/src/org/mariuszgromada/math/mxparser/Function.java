@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        4.2.0    2018-01-29
+ * @(#)Function.java        4.2.0    2018-01-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,7 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
@@ -152,6 +153,10 @@ public class Function extends PrimitiveElement {
 	 */
 	private String description;
 	/**
+	 * Indicates whether UDF is variadic
+	 */
+	boolean isVariadic;
+	/**
 	 * The number of function parameters
 	 */
 	private int parametersNumber;
@@ -159,9 +164,18 @@ public class Function extends PrimitiveElement {
 	 * Function extension (body based in code)
 	 *
 	 * @see FunctionExtension
+	 * @see FunctionExtensionVariadic
 	 * @see Function#Function(String, FunctionExtension)
 	 */
 	private FunctionExtension functionExtension;
+	/**
+	 * Function extension variadic (body based in code)
+	 *
+	 * @see FunctionExtension
+	 * @see FunctionExtensionVariadic
+	 * @see Function#Function(String, FunctionExtension)
+	 */
+	private FunctionExtensionVariadic functionExtensionVariadic;
 	/*=================================================
 	 *
 	 * Constructors
@@ -186,6 +200,8 @@ public class Function extends PrimitiveElement {
 			this.functionName = functionName;
 			functionExpression = new Expression(functionExpressionString, elements);
 			functionExpression.setDescription(functionName);
+			functionExpression.UDFExpression = true;
+			isVariadic = false;
 			parametersNumber = 0;
 			description = "";
 			functionBodyType = BODY_RUNTIME;
@@ -216,6 +232,8 @@ public class Function extends PrimitiveElement {
 			this.functionName = functionName;
 			functionExpression = new Expression(functionExpressionString);
 			functionExpression.setDescription(functionName);
+			functionExpression.UDFExpression = true;
+			isVariadic = false;
 			for (String argName : argumentsNames)
 				functionExpression.addArguments(new Argument(argName));
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
@@ -251,6 +269,8 @@ public class Function extends PrimitiveElement {
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
 			functionExpression.setDescription(headEqBody.headStr);
+			functionExpression.UDFExpression = true;
+			isVariadic = false;
 			if (headEqBody.headTokens.size() > 1) {
 				Token t;
 				for (int i = 1; i < headEqBody.headTokens.size(); i++) {
@@ -260,6 +280,17 @@ public class Function extends PrimitiveElement {
 				}
 			}
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			description = "";
+			functionBodyType = BODY_RUNTIME;
+			addFunctions(this);
+		} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
+			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			this.functionName = headEqBody.headTokens.get(0).tokenStr;
+			functionExpression = new Expression(headEqBody.bodyStr, elements);
+			functionExpression.setDescription(headEqBody.headStr);
+			functionExpression.UDFExpression = true;
+			isVariadic = true;
+			parametersNumber = -1;
 			description = "";
 			functionBodyType = BODY_RUNTIME;
 			addFunctions(this);
@@ -283,9 +314,35 @@ public class Function extends PrimitiveElement {
 		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
 			functionExpression = new Expression("{body-ext}");
+			isVariadic = false;
 			parametersNumber = functionExtension.getParametersNumber();
 			description = "";
 			this.functionExtension = functionExtension;
+			functionBodyType = BODY_EXTENDED;
+		} else {
+			parametersNumber = 0;
+			description = "";
+			functionExpression = new Expression("");
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+		}
+	}
+	/**
+	 * Constructor for function definition based on
+	 * your own source code - this is via implementation
+	 * of FunctionExtensionVariadic interface.
+	 *
+	 * @param functionName       Function name
+	 * @param functionExtensionVariadic  Your own source code
+	 */
+	public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) {
+		super(Function.TYPE_ID);
+		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
+			this.functionName = functionName;
+			functionExpression = new Expression("{body-ext-var}");
+			isVariadic = true;
+			parametersNumber = -1;
+			description = "";
+			this.functionExtensionVariadic = functionExtensionVariadic;
 			functionBodyType = BODY_EXTENDED;
 		} else {
 			parametersNumber = 0;
@@ -307,8 +364,11 @@ public class Function extends PrimitiveElement {
 		parametersNumber = function.parametersNumber;
 		functionExpression = function.functionExpression.clone();
 		functionBodyType = function.functionBodyType;
-		if (functionBodyType == BODY_EXTENDED)
-			functionExtension = function.functionExtension.clone();
+		isVariadic = function.isVariadic;
+		if (functionBodyType == BODY_EXTENDED) {
+			if (function.functionExtension != null) functionExtension = function.functionExtension.clone();
+			if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
+		}
 	}
 	/**
 	 * Sets function description.
@@ -321,7 +381,7 @@ public class Function extends PrimitiveElement {
 	/**
 	 * Gets function description
 	 *
-	 * @return     Function description as string.
+	 * @return     Function description as string
 	 */
 	public String getDescription() {
 		return description;
@@ -361,10 +421,11 @@ public class Function extends PrimitiveElement {
 	 * @param      argumentValue   the argument value
 	 */
 	public void setArgumentValue(int argumentIndex, double argumentValue) {
-		if (functionBodyType == BODY_RUNTIME)
-			functionExpression.argumentsList.get(argumentIndex).argumentValue = argumentValue;
-		else
-			functionExtension.setParameterValue(argumentIndex, argumentValue);
+		if (isVariadic == false)
+			if (functionBodyType == BODY_RUNTIME)
+				functionExpression.argumentsList.get(argumentIndex).argumentValue = argumentValue;
+			else if (isVariadic == false)
+				functionExtension.setParameterValue(argumentIndex, argumentValue);
 	}
 	/**
 	 * Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
@@ -382,7 +443,7 @@ public class Function extends PrimitiveElement {
 	 */
 	public boolean checkSyntax() {
 		boolean syntaxStatus = Function.NO_SYNTAX_ERRORS;
-		if (functionBodyType == BODY_RUNTIME)
+		if (functionBodyType != BODY_EXTENDED)
 			syntaxStatus = functionExpression.checkSyntax();
 		checkRecursiveMode();
 		return syntaxStatus;
@@ -411,28 +472,50 @@ public class Function extends PrimitiveElement {
 		if (functionBodyType == BODY_RUNTIME)
 			return functionExpression.calculate();
 		else
-			return functionExtension.calculate();
+			if (isVariadic == false)
+				return functionExtension.calculate();
+			else {
+				List<Double> paramsList = functionExpression.UDFVariadicParamsAtRunTime;
+				if (paramsList != null) {
+					int n = paramsList.size();
+					double[] parameters = new double[n];
+					for (int i = 0; i < n; i++)
+						parameters[i] = paramsList.get(i);
+					return functionExtensionVariadic.calculate(parameters);
+				} else return Double.NaN;
+			}
 	}
 	/**
 	 * Calculates function value
 	 *
-	 * @param      params              the function parameters values (as doubles)
+	 * @param      parameters              the function parameters values (as doubles)
 	 *
 	 * @return     function value as double.
 	 */
-	public double calculate(double... params) {
-		if (params.length == this.getParametersNumber()) {
+	public double calculate(double... parameters) {
+		if (parameters.length > 0) {
+			functionExpression.UDFVariadicParamsAtRunTime = new ArrayList<Double>();
+			for (double x : parameters)
+				functionExpression.UDFVariadicParamsAtRunTime.add(x);
+		} else return Double.NaN;
+		if (isVariadic) {
+			if (functionBodyType == BODY_RUNTIME)
+				return functionExpression.calculate();
+			else
+				return functionExtensionVariadic.calculate(parameters);
+		} else if (parameters.length == this.getParametersNumber()) {
 			if (functionBodyType == BODY_RUNTIME) {
-				for (int p = 0; p < params.length; p++)
-					setArgumentValue(p, params[p]);
+				for (int p = 0; p < parameters.length; p++)
+					setArgumentValue(p, parameters[p]);
+				return functionExpression.calculate();
 			} else {
-				for (int p = 0; p < params.length; p++)
-					functionExtension.setParameterValue(p, params[p]);
+				for (int p = 0; p < parameters.length; p++)
+					functionExtension.setParameterValue(p, parameters[p]);
+				return functionExtension.calculate();
 			}
-			return calculate();
 		}
 		else {
-			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + params.length + ")!");
+			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + parameters.length + ")!");
 			return Double.NaN;
 		}
 	}
@@ -444,15 +527,32 @@ public class Function extends PrimitiveElement {
 	 * @return     function value as double
 	 */
 	public double calculate(Argument... arguments) {
-		if (arguments.length == this.getParametersNumber()) {
+		double[] parameters;
+		if (arguments.length > 0) {
+			functionExpression.UDFVariadicParamsAtRunTime = new ArrayList<Double>();
+			parameters = new double[arguments.length];
+			double x;
+			for (int i = 0; i < arguments.length; i++) {
+				x = arguments[i].getArgumentValue();
+				functionExpression.UDFVariadicParamsAtRunTime.add(x);
+				parameters[i] = x;
+			}
+		} else return Double.NaN;
+		if (isVariadic) {
+			if (functionBodyType == BODY_RUNTIME)
+				return functionExpression.calculate();
+			else
+				return functionExtensionVariadic.calculate(parameters);
+		} else if (arguments.length == this.getParametersNumber()) {
 			if (functionBodyType == BODY_RUNTIME) {
 				for (int p = 0; p < arguments.length; p++)
 					setArgumentValue(p, arguments[p].getArgumentValue());
+				return functionExpression.calculate();
 			} else {
 				for (int p = 0; p < arguments.length; p++)
 					functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
+				return functionExtension.calculate();
 			}
-			return  calculate();
 		}
 		else {
 			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + arguments.length + ")!");
@@ -607,7 +707,14 @@ public class Function extends PrimitiveElement {
 	 * @see        RecursiveArgument
 	 */
 	public int getParametersNumber() {
-		return parametersNumber;
+		if (isVariadic == false)
+			return parametersNumber;
+		else {
+			if (functionExpression.UDFVariadicParamsAtRunTime != null)
+				return functionExpression.UDFVariadicParamsAtRunTime.size();
+			else
+				return -1;
+		}
 	}
 	/**
 	 * Set parameters number.

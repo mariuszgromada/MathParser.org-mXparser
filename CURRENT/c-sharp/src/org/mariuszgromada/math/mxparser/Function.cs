@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        4.2.0    2018-01-29
+ * @(#)Function.cs        4.2.0    2018-01-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -153,6 +153,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private String description;
 		/**
+		 * Indicates whether UDF is variadic
+		 */
+		internal bool isVariadic;
+		/**
 		 * The number of function parameters
 		 */
 		private int parametersNumber;
@@ -160,9 +164,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Function extension (body based in code)
 		 *
 		 * @see FunctionExtension
+		 * @see FunctionExtensionVariadic
 		 * @see Function#Function(String, FunctionExtension)
 		 */
 		private FunctionExtension functionExtension;
+		/**
+		 * Function extension variadic (body based in code)
+		 *
+		 * @see FunctionExtension
+		 * @see FunctionExtensionVariadic
+		 * @see Function#Function(String, FunctionExtension)
+		 */
+		private FunctionExtensionVariadic functionExtensionVariadic;
 		/*=================================================
 		 *
 		 * Constructors
@@ -187,6 +200,8 @@ namespace org.mariuszgromada.math.mxparser {
 				this.functionName = functionName;
 				functionExpression = new Expression(functionExpressionString, elements);
 				functionExpression.setDescription(functionName);
+				functionExpression.UDFExpression = true;
+				isVariadic = false;
 				parametersNumber = 0;
 				description = "";
 				functionBodyType = BODY_RUNTIME;
@@ -218,6 +233,8 @@ namespace org.mariuszgromada.math.mxparser {
 				this.functionName = functionName;
 				functionExpression = new Expression(functionExpressionString);
 				functionExpression.setDescription(functionName);
+				functionExpression.UDFExpression = true;
+				isVariadic = false;
 				foreach (String argName in argumentsNames)
 					functionExpression.addArguments(new Argument(argName));
 				parametersNumber = argumentsNames.Length - countRecursiveArguments();
@@ -254,8 +271,9 @@ namespace org.mariuszgromada.math.mxparser {
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
-				if (headEqBody.headTokens.Count > 1)
-				{
+				functionExpression.UDFExpression = true;
+				isVariadic = false;
+				if (headEqBody.headTokens.Count > 1) {
 					Token t;
 					for (int i = 1; i < headEqBody.headTokens.Count; i++)
 					{
@@ -268,8 +286,18 @@ namespace org.mariuszgromada.math.mxparser {
 				description = "";
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
-			}
-			else {
+			} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
+				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				this.functionName = headEqBody.headTokens[0].tokenStr;
+				functionExpression = new Expression(headEqBody.bodyStr, elements);
+				functionExpression.setDescription(headEqBody.headStr);
+				functionExpression.UDFExpression = true;
+				isVariadic = true;
+				parametersNumber = -1;
+				description = "";
+				functionBodyType = BODY_RUNTIME;
+				addFunctions(this);
+			} else {
 				functionExpression = new Expression();
 				functionExpression.setDescription(functionDefinitionString);
 				String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
@@ -288,9 +316,34 @@ namespace org.mariuszgromada.math.mxparser {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
 				functionExpression = new Expression("{body-ext}");
+				isVariadic = false;
 				parametersNumber = functionExtension.getParametersNumber();
 				description = "";
 				this.functionExtension = functionExtension;
+				functionBodyType = BODY_EXTENDED;
+			} else {
+				parametersNumber = 0;
+				description = "";
+				functionExpression = new Expression("");
+				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+			}
+		}
+		/**
+		 * Constructor for function definition based on
+		 * your own source code - this is via implementation
+		 * of FunctionExtensionVariadic interface.
+		 *
+		 * @param functionName       Function name
+		 * @param functionExtensionVariadic  Your own source code
+		 */
+		public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) : base(Function.TYPE_ID) {
+			if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
+				this.functionName = functionName;
+				functionExpression = new Expression("{body-ext-var}");
+				isVariadic = true;
+				parametersNumber = -1;
+				description = "";
+				this.functionExtensionVariadic = functionExtensionVariadic;
 				functionBodyType = BODY_EXTENDED;
 			} else {
 				parametersNumber = 0;
@@ -305,15 +358,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      function            the function, which is going
 		 *                                 to be cloned.
 		 */
-		private Function(Function function) : base(Function.TYPE_ID)
-		{
+		private Function(Function function) : base(Function.TYPE_ID) {
 			functionName = function.functionName;
 			description = function.description;
 			parametersNumber = function.parametersNumber;
 			functionExpression = function.functionExpression.clone();
 			functionBodyType = function.functionBodyType;
-			if (functionBodyType == BODY_EXTENDED)
-				functionExtension = function.functionExtension.clone();
+			isVariadic = function.isVariadic;
+			if (functionBodyType == BODY_EXTENDED) {
+				if (function.functionExtension != null) functionExtension = function.functionExtension.clone();
+				if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
+		}
 		}
 		/**
 		 * Sets function description.
@@ -326,7 +381,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Gets function description
 		 *
-		 * @return     Function description as string.
+		 * @return     Function description as string
 		 */
 		public String getDescription() {
 			return description;
@@ -367,10 +422,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argumentValue   the argument value
 		 */
 		public void setArgumentValue(int argumentIndex, double argumentValue) {
-			if (functionBodyType == BODY_RUNTIME)
-				functionExpression.argumentsList[argumentIndex].argumentValue = argumentValue;
-			else
-				functionExtension.setParameterValue(argumentIndex, argumentValue);
+			if (isVariadic == false)
+				if (functionBodyType == BODY_RUNTIME)
+					functionExpression.argumentsList[argumentIndex].argumentValue = argumentValue;
+				else if (isVariadic == false)
+					functionExtension.setParameterValue(argumentIndex, argumentValue);
 		}
 		/**
 		 * Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
@@ -388,7 +444,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public bool checkSyntax() {
 			bool syntaxStatus = Function.NO_SYNTAX_ERRORS;
-			if (functionBodyType == BODY_RUNTIME)
+			if (functionBodyType != BODY_EXTENDED)
 				syntaxStatus = functionExpression.checkSyntax();
 			checkRecursiveMode();
 			return syntaxStatus;
@@ -417,7 +473,18 @@ namespace org.mariuszgromada.math.mxparser {
 			if (functionBodyType == BODY_RUNTIME)
 				return functionExpression.calculate();
 			else
-				return functionExtension.calculate();
+				if (isVariadic == false)
+					return functionExtension.calculate();
+				else {
+					List<Double> paramsList = functionExpression.UDFVariadicParamsAtRunTime;
+					if (paramsList != null) {
+						int n = paramsList.Count;
+						double[] parameters = new double[n];
+						for (int i = 0; i < n; i++)
+							parameters[i] = paramsList[i];
+						return functionExtensionVariadic.calculate(parameters);
+					} else return Double.NaN;
+				}
 		}
 		/**
 		 * Calculates function value
@@ -427,15 +494,26 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     function value as double.
 		 */
 		public double calculate(params double[] parameters) {
-			if (parameters.Length == this.getParametersNumber()) {
+			if (parameters.Length > 0) {
+				functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
+				foreach (double x in parameters)
+					functionExpression.UDFVariadicParamsAtRunTime.Add(x);
+			} else return Double.NaN;
+			if (isVariadic) {
+				if (functionBodyType == BODY_RUNTIME)
+					return functionExpression.calculate();
+				else
+					return functionExtensionVariadic.calculate(parameters);
+			} else if (parameters.Length == this.getParametersNumber()) {
 				if (functionBodyType == BODY_RUNTIME) {
 					for (int p = 0; p < parameters.Length; p++)
-					setArgumentValue(p, parameters[p]);
+						setArgumentValue(p, parameters[p]);
+					return functionExpression.calculate();
 				} else {
 					for (int p = 0; p < parameters.Length; p++)
-					functionExtension.setParameterValue(p, parameters[p]);
+						functionExtension.setParameterValue(p, parameters[p]);
+					return functionExtension.calculate();
 				}
-				return  calculate();
 			}
 			else {
 				this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + parameters.Length + ")!");
@@ -450,15 +528,32 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     function value as double
 		 */
 		public double calculate(params Argument[] arguments) {
-			if (arguments.Length == this.getParametersNumber()) {
+			double[] parameters;
+			if (arguments.Length > 0) {
+				functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
+				parameters = new double[arguments.Length];
+				double x;
+				for (int i = 0; i < arguments.Length; i++) {
+					x = arguments[i].getArgumentValue();
+					functionExpression.UDFVariadicParamsAtRunTime.Add(x);
+					parameters[i] = x;
+				}
+			} else return Double.NaN;
+			if (isVariadic) {
+				if (functionBodyType == BODY_RUNTIME)
+					return functionExpression.calculate();
+				else
+					return functionExtensionVariadic.calculate(parameters);
+			} else if (arguments.Length == this.getParametersNumber()) {
 				if (functionBodyType == BODY_RUNTIME) {
 					for (int p = 0; p < arguments.Length; p++)
 						setArgumentValue(p, arguments[p].getArgumentValue());
+					return functionExpression.calculate();
 				} else {
 					for (int p = 0; p < arguments.Length; p++)
 						functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
+					return functionExtension.calculate();
 				}
-				return  calculate();
 			}
 			else {
 				this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + arguments.Length + ")!");
@@ -613,7 +708,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getParametersNumber() {
-			return parametersNumber;
+			if (isVariadic == false)
+				return parametersNumber;
+			else {
+				if (functionExpression.UDFVariadicParamsAtRunTime != null)
+					return functionExpression.UDFVariadicParamsAtRunTime.Count;
+				else
+					return -1;
+			}
 		}
 		/**
 		 * Set parameters number.

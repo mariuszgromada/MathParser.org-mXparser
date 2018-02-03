@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        4.2.0    2018-01-28
+ * @(#)Function1Arg.java        4.2.0    2018-01-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -142,6 +142,7 @@ public final class Function1Arg {
 	public static final int SGN_GAMMA_ID				= 60;
 	public static final int LOG_GAMMA_ID				= 61;
 	public static final int DI_GAMMA_ID					= 62;
+	public static final int PARAM_ID					= 63;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -247,6 +248,7 @@ public final class Function1Arg {
 	public static final String SGN_GAMMA_STR			= "sgnGamma";
 	public static final String LOG_GAMMA_STR			= "logGamma";
 	public static final String DI_GAMMA_STR				= "diGamma";
+	public static final String PARAM_STR				= "par";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -352,6 +354,7 @@ public final class Function1Arg {
 	public static final String SGN_GAMMA_SYN			= SGN_GAMMA_STR + "(x)";
 	public static final String LOG_GAMMA_SYN			= LOG_GAMMA_STR + "(x)";
 	public static final String DI_GAMMA_SYN				= DI_GAMMA_STR + "(x)";
+	public static final String PARAM_SYN				= PARAM_STR + "(i)";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -416,6 +419,7 @@ public final class Function1Arg {
 	public static final String SGN_GAMMA_DESC			= "Signum of Gamma special function";
 	public static final String LOG_GAMMA_DESC			= "Log Gamma special function";
 	public static final String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function";
+	public static final String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -480,4 +484,5 @@ public final class Function1Arg {
 	public static final String SGN_GAMMA_SINCE			= mXparser.NAMEv42;
 	public static final String LOG_GAMMA_SINCE			= mXparser.NAMEv42;
 	public static final String DI_GAMMA_SINCE			= mXparser.NAMEv42;
+	public static final String PARAM_SINCE				= mXparser.NAMEv42;
 }

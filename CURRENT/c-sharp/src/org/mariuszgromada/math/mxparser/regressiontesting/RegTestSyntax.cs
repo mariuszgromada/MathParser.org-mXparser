@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.cs        4.2.0   2018-01-29
+ * @(#)RegTestSyntax.cs        4.2.0   2018-02-02
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2795,6 +2795,87 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
+			case 232:
+				expStr = "[npar]";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				syn = e.checkSyntax();
+				reg = false;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 233:
+				expStr = "par(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr);
+				exp[testId] = e;
+				syn = e.checkSyntax();
+				reg = false;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 234:
+				expStr = "f(x) = [npar] + par(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				f = new Function(expStr);
+				exp[testId] = new Expression("");
+				syn = f.checkSyntax();
+				reg = true;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 235:
+				expStr = "f(...) = [npar] + par(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				f = new Function(expStr);
+				exp[testId] = new Expression("");
+				syn = f.checkSyntax();
+				reg = true;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 236:
+				expStr = "f(... = [npar] + par(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				f = new Function(expStr);
+				exp[testId] = new Expression("");
+				syn = f.checkSyntax();
+				reg = false;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 237:
+				expStr = "{fun-ext-var}";
+				mXparser.consolePrint(expStr + " ...... ");
+				FunExtVar fx = new FunExtVar();
+				f = new Function("f", fx);
+				exp[testId] = new Expression("");
+				syn = f.checkSyntax();
+				reg = true;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
+			case 238:
+				FunExtVar gx = new FunExtVar();
+				f = new Function("f(...) = sum(i, 1, [npar], par(i) )");
+				Function g = new Function("g", gx);
+				expStr = "f(1) + f(1,2) + f(1,2,3) + g(1) + g(1,2) + g(1,2,3)";
+				mXparser.consolePrint(expStr + " ...... ");
+				e = new Expression(expStr, f, g);
+				exp[testId] = e;
+				syn = e.checkSyntax();
+				reg = true;
+				if (syn == reg)
+					testResult = true;
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -2806,7 +2887,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * Runs syntax checking regression test.
 		 */
 		public static int Start() {
-			int numberOfTests = 231;
+			int numberOfTests = 238;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
@@ -2872,6 +2953,24 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		}
 		public FunctionExtension clone() {
 			return new FunExt(x, y);
+		}
+	}
+	/**
+	 * Example of implementation
+	 * FunctionExtensionVariadic interface
+	 * @see FunctionExtensionVariadic
+	 */
+	internal class FunExtVar : FunctionExtensionVariadic {
+		public double calculate(params double[] parameters) {
+			if (parameters == null) return Double.NaN;
+			if (parameters.Length == 0) return Double.NaN;
+			double result = 0;
+			foreach (double x in parameters)
+				result+=x;
+			return result;
+		}
+		public FunctionExtensionVariadic clone() {
+			return new FunExtVar();
 		}
 	}
 }

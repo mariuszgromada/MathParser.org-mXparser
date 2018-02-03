@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        4.2.0    2018-01-28
+ * @(#)Function1Arg.cs        4.2.0    2018-01-30
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -143,6 +143,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int SGN_GAMMA_ID				= 60;
 		public const int LOG_GAMMA_ID				= 61;
 		public const int DI_GAMMA_ID				= 62;
+		public const int PARAM_ID					= 63;
 		/*
 		 * UnaryFunction - tokens key words.
 		 */
@@ -248,6 +249,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SGN_GAMMA_STR			= "sgnGamma";
 		public const String LOG_GAMMA_STR			= "logGamma";
 		public const String DI_GAMMA_STR			= "diGamma";
+		public const String PARAM_STR				= "par";
 		/*
 		 * UnaryFunction - syntax.
 		 */
@@ -353,6 +355,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SGN_GAMMA_SYN			= SGN_GAMMA_STR + "(x)";
 		public const String LOG_GAMMA_SYN			= LOG_GAMMA_STR + "(x)";
 		public const String DI_GAMMA_SYN			= DI_GAMMA_STR + "(x)";
+		public const String PARAM_SYN				= PARAM_STR + "(i)";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -417,6 +420,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SGN_GAMMA_DESC			= "Signum of Gamma special function";
 		public const String LOG_GAMMA_DESC			= "Log Gamma special function";
 		public const String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function";
+		public const String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -481,5 +485,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String SGN_GAMMA_SINCE			= mXparser.NAMEv42;
 		public const String LOG_GAMMA_SINCE			= mXparser.NAMEv42;
 		public const String DI_GAMMA_SINCE			= mXparser.NAMEv42;
+		public const String PARAM_SINCE				= mXparser.NAMEv42;
 	}
 }

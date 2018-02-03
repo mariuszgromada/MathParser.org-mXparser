@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.2.0   2017-10-16
+ * @(#)RegTestExpressionAPI.java        4.2.0   2018-02-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -2168,6 +2168,31 @@ public class RegTestExpressionAPI {
 				(NumberTheory.toFractionString(6520000000263.0/326.0).equals("6520000000263/326")) &&
 				(NumberTheory.toFractionString(-6520000000263.0/326.0).equals("-6520000000263/326"))
 				) test[testId] = true;
+		/*
+		 * 57. Variadic user function
+		 */
+		testId++;
+		Function f = new Function("f(...) = sum( i, 1, [npar], par(i) )");
+		if (
+				(f.calculate(1) == 1) &&
+				(f.calculate(1,2) == 3) &&
+				(f.calculate(1,2,3) == 6) &&
+				(f.calculate(1,2,3,4) == 10) &&
+				(f.calculate(1,2,3,4,5) == 15)
+			) test[testId] = true;
+		/*
+		 * 58. Variadic user function with extension
+		 */
+		testId++;
+		FunExtVar gx = new FunExtVar();
+		Function g = new Function("g", gx);
+		if (
+				(g.calculate(1) == 1) &&
+				(g.calculate(1,2) == 3) &&
+				(g.calculate(1,2,3) == 6) &&
+				(g.calculate(1,2,3,4) == 10) &&
+				(g.calculate(1,2,3,4,5) == 15)
+			) test[testId] = true;
 		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;

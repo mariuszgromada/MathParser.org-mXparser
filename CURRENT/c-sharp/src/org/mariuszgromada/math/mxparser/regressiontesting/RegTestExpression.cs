@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        4.2.0   2017-10-28
+ * @(#)RegTestExpression.cs        4.2.0   2018-02-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -11019,6 +11019,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			bool testResult = false;
 			double value = 0;
 			double reg = 0;
+			Function f;
 			String expStr = "";
 			switch (testId) {
 			case 955:
@@ -12704,6 +12705,199 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
 				break;
+			case 1074:
+				f = new Function("f(x) = par(0) + par(1) + par(-1) + [npar]");
+				expStr = "f(1) - (1 + 1 + 1 + 1) + f(2) - (1 + 2 + 2 + 1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1075:
+				f = new Function("f(x, y) = par(0) + par(1) + par(2) + par(-1) + par(-2) + [npar]");
+				expStr = "f(1, 2) - (2 + 1 + 2 + 2 + 1 + 2) + f(-2,-1) - (2 + (-2) + (-1) + (-1) + (-2) + 2)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1076:
+				f = new Function("f(x1, x2, x3, x4, x5) = prod(i, 1, [npar], par(i) )");
+				expStr = "f(1,2,3,4,5) - 5!";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1077:
+				f = new Function("f(x1, x2, x3, x4, x5) = prod(i, 1, [npar], par(-i) )");
+				expStr = "f(1,2,3,4,5) - 5!";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1078:
+				f = new Function("f(x1, x2, x3, x4, x5) = prod(i, -1, -[npar], par(i) )");
+				expStr = "f(1,2,3,4,5) - 5!";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1079:
+				f = new Function("f(...) = maxi(i, 1, [npar], par(i) )");
+				expStr = "( f(1) - 1 ) + ( f(-1) + 1 ) + ( f(1,2,3,4,5) - 5 ) + ( f(1,2,6,10,4,5) - 10 ) + ( f(20, 1,2,3,4,5) - 20 )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1080:
+				f = new Function("f(...) = sum(i, 1, par(0), sum(k, 1, [npar], par(i) + par(k)) )");
+				expStr = "(f(1)-2)+(f(1,2)-12)+(f(1,2,3)-36)+(f(1,2,3,4)-80)+(f(1,2,3,4,5)-150)+(f(1,2,3,4,5,6)-252)+(f(1,2,3,4,5,6,7)-392)+(f(1,2,3,4,5,6,7,8)-576)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1081:
+				f = new Function("f(...) = iff( [npar]>5, f(par(1),par(2),par(3),par(4),par(5)); [npar]=5, par(5)*f(par(1),par(2),par(3),par(4)); [npar]=4, par(4)*f(par(1),par(2),par(3)); [npar]=3, par(3)*f(par(1),par(2)); [npar]=2, par(2)*f(par(1)); [npar]=1, par(1) )");
+				expStr = "f(1,2,3,4,5) - 1*2*3*4*5 + f(1,2,3,4,5,6) - 1*2*3*4*5 + f(1,2,3) - 1*2*3 + f(5,4,3,2,1) - 5*4*3*2*1";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1082:
+				f = new Function("sumv(...) = sum( i, 1, [npar], par(i) )");
+				expStr = "( sumv(1) - add(1) ) + ( sumv(1,2) - add(1,2) ) + ( sumv(1,2,3) - add(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1083:
+				f = new Function("multiv(...) = prod( i, 1, [npar], par(i) )");
+				expStr = "( multiv(1) - multi(1) ) + ( multiv(1,2) - multi(1,2) ) + ( multiv(1,2,3) - multi(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1084:
+				f = new Function("meanv(...) = avg( i, 1, [npar], par(i) )");
+				expStr = "( meanv(1) - mean(1) ) + ( meanv(1,2) - mean(1,2) ) + ( meanv(1,2,3) - mean(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1085:
+				f = new Function("varv(...) = vari( i, 1, [npar], par(i) )");
+				expStr = "( varv(1) - var(1) ) + ( varv(1,2) - var(1,2) ) + ( varv(1,2,3) - var(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1086:
+				f = new Function("stdv(...) = stdi( i, 1, [npar], par(i) )");
+				expStr = "( stdv(1) - std(1) ) + ( stdv(1,2) - std(1,2) ) + ( stdv(1,2,3) - std(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1087:
+				f = new Function("minv(...) = mini( i, 1, [npar], par(i) )");
+				expStr = "( minv(1) - min(1) ) + ( minv(1,2) - min(1,2) ) + ( minv(1,2,3) - min(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1088:
+				f = new Function("maxv(...) = maxi( i, 1, [npar], par(i) )");
+				expStr = "( maxv(1) - max(1) ) + ( maxv(1,2) - max(1,2) ) + ( maxv(1,2,3) - max(1,2,3) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
+			case 1089:
+				FunExtVar fx = new FunExtVar();
+				f = new Function("fx", fx);
+				expStr = "( fx(1) - add(1) ) + ( fx(1,2) - add(1,2) ) + ( fx(1,2,3) - add(1,2,3) ) + ( fx(1,2,3,4) - add(1,2,3,4) ) +  ( fx(1,2,3,4,5) - add(1,2,3,4,5) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, f);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -12718,7 +12912,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 1073;
+			int numberOfTests = 1089;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
