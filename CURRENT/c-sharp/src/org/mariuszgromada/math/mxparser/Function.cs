@@ -194,8 +194,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Expression
 		 */
 		public Function(String functionName
-						,String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID)
-		{
+						,String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
 				functionExpression = new Expression(functionExpressionString, elements);
@@ -227,8 +226,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Function(String functionName
 						,String  functionExpressionString
-						,params String[] argumentsNames ) : base(Function.TYPE_ID)
-		{
+						,params String[] argumentsNames ) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
 				functionExpression = new Expression(functionExpressionString);
@@ -263,8 +261,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 *
 		 */
-		public Function(String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID)
-		{
+		public Function(String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			parametersNumber = 0;
 			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
@@ -275,8 +272,7 @@ namespace org.mariuszgromada.math.mxparser {
 				isVariadic = false;
 				if (headEqBody.headTokens.Count > 1) {
 					Token t;
-					for (int i = 1; i < headEqBody.headTokens.Count; i++)
-					{
+					for (int i = 1; i < headEqBody.headTokens.Count; i++) {
 						t = headEqBody.headTokens[i];
 						if (t.tokenTypeId != ParserSymbol.TYPE_ID)
 							functionExpression.addArguments(new Argument(t.tokenStr));
