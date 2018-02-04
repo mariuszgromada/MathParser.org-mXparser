@@ -12954,6 +12954,26 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
 				break;
+			case 1094:
+				expStr = "sum(n, -10, 10, sum(k, 0, abs(n), C(n,k) ) ) - sum(n, -10, 10, sum(k, 0, abs(n), nCk(n,k) ) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-50 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1095:
+				expStr = "sum(n, -10, 10, sum(k, 0, abs(n), nPk(n,k) ) ) - sum(n, -10, 10, sum(k, 0, abs(n), nCk(n,k) * k! ) )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-50 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -12968,7 +12988,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 1093;
+			int numberOfTests = 1095;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

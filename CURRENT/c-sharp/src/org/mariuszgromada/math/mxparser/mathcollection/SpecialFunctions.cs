@@ -868,29 +868,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return Double.NaN;
 		}
 		private static int BESSEL_BOUND = 10;
-		public static double BesselJ( double x, double alpha, int sumbound) {
+		public static double besselJ( double x, double alpha, int sumbound) {
 			// return Enumerable.Range(0, sumbound).Sum(t => BesselJCoeff(t, alpha) * BesselJTerm(t, alpha, x));
 			// Since this doesn't like my LINQ method for some reason...
 			var sum = 0.0;
 			for( var i = 0; i < sumbound; i++) {
-				sum += BesselJCoeff(i, alpha) * BesselJTerm(i, alpha, x);
+				sum += besselJCoeff(i, alpha) * besselJTerm(i, alpha, x);
 			}
 			return sum;
 		}
-		private static double BesselJCoeff(int m, double alpha) {
+		private static double besselJCoeff(int m, double alpha) {
 			return Math.Pow(-1, m) / (MathFunctions.factorial(m) * SpecialFunctions.lanchosGamma(m + alpha + 1));
 		}
-		private static double BesselJTerm(int m, double alpha, double x) {
+		private static double besselJTerm(int m, double alpha, double x) {
 			return Math.Pow(x / 2.0, 2 * m + alpha);
 		}
-		public static double BesselJ(double x, int n, int sumbound) {
-			return BesselJ(x, Convert.ToDouble(n), sumbound);
+		public static double besselJ(double x, int n, int sumbound) {
+			return besselJ(x, Convert.ToDouble(n), sumbound);
 		}
-		public static double BesselJ(double x, int n) {
-			if( n < 0) return Math.Pow(-1.0, n) * BesselJ(x, Math.Abs(n), BESSEL_BOUND);
-			return BesselJ(x, n, BESSEL_BOUND);
+		public static double besselJ(double x, int n) {
+			if( n < 0) return Math.Pow(-1.0, n) * besselJ(x, Math.Abs(n), BESSEL_BOUND);
+			return besselJ(x, n, BESSEL_BOUND);
 		}
-		public static double BesselJ(double x, double alpha) {
+		public static double besselJ(double x, double alpha) {
 			if( alpha == 0.5) {
 				return Math.Sqrt(2.0 / (Math.PI * x)) * MathFunctions.sin(x);
 			}
@@ -898,9 +898,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Math.Sqrt(2.0 / (Math.PI * x)) * MathFunctions.cos(x);
 			}
 			if( Math.Abs(alpha % 1) <= (Double.Epsilon*100)) {
-				return BesselJ(x, Convert.ToInt32(alpha));
+				return besselJ(x, Convert.ToInt32(alpha));
 			} else {
-				return BesselJ(x, alpha, BESSEL_BOUND);
+				return besselJ(x, alpha, BESSEL_BOUND);
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.cs        4.2.0    2018-01-28
+ * @(#)Function2Arg.cs        4.2.0    2018-02-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -106,12 +106,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int INC_GAMMA_UPPER_ID					= 22;
 		public const int REG_GAMMA_LOWER_ID					= 23;
 		public const int REG_GAMMA_UPPER_ID					= 24;
+		public const int PERMUTATIONS_ID					= 25;
 		/*
 		 * BinaryFunction - tokens key words.
 		 */
 		public const String LOG_STR 						= "log";
 		public const String MOD_STR 						= "mod";
 		public const String BINOM_COEFF_STR					= "C";
+		public const String BINOM_COEFF_NCK_STR				= "nCk";
 		public const String BERNOULLI_NUMBER_STR			= "Bern";
 		public const String STIRLING1_NUMBER_STR			= "Stirl1";
 		public const String STIRLING2_NUMBER_STR			= "Stirl2";
@@ -135,6 +137,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String REG_GAMMA_UPPER_STR				= "GammaRegU";
 		public const String REG_GAMMA_LOWER_P_STR			= "GammaP";
 		public const String REG_GAMMA_UPPER_Q_STR			= "GammaQ";
+		public const String PERMUTATIONS_STR				= "nPk";
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -164,12 +167,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String REG_GAMMA_UPPER_SYN				= REG_GAMMA_UPPER_STR + "(s,x)";
 		public const String REG_GAMMA_LOWER_P_SYN			= REG_GAMMA_LOWER_P_STR + "(s,x)";
 		public const String REG_GAMMA_UPPER_Q_SYN			= REG_GAMMA_UPPER_Q_STR + "(s,x)";
+		public const String BINOM_COEFF_NCK_SYN				= BINOM_COEFF_NCK_STR + "(n,k)";
+		public const String PERMUTATIONS_SYN				= PERMUTATIONS_STR + "(n,k)";
 		/*
 		 * BinaryFunction - tokens description.
 		 */
 		public const String LOG_DESC 						= "Logarithm function";
 		public const String MOD_DESC						= "Modulo function";
-		public const String BINOM_COEFF_DESC				= "Binomial coefficient function";
+		public const String BINOM_COEFF_DESC				= "Binomial coefficient function, number of k-combinations that can be drawn from n-elements set";
 		public const String BERNOULLI_NUMBER_DESC			= "Bernoulli numbers";
 		public const String STIRLING1_NUMBER_DESC			= "Stirling numbers of the first kind";
 		public const String STIRLING2_NUMBER_DESC			= "Stirling numbers of the second kind";
@@ -191,12 +196,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String INC_GAMMA_UPPER_DESC			= "Upper incomplete Gamma special function";
 		public const String REG_GAMMA_LOWER_DESC			= "Lower regularized P gamma special function";
 		public const String REG_GAMMA_UPPER_DESC			= "Upper regularized Q Gamma special function";
+		public const String PERMUTATIONS_DESC				= "Number of k-permutations that can be drawn from n-elements set";
 		/*
 		 * BinaryFunction - since.
 		 */
 		public const String LOG_SINCE 						= mXparser.NAMEv10;
 		public const String MOD_SINCE						= mXparser.NAMEv10;
 		public const String BINOM_COEFF_SINCE				= mXparser.NAMEv10;
+		public const String BINOM_COEFF_NCK_SINCE			= mXparser.NAMEv42;
 		public const String BERNOULLI_NUMBER_SINCE			= mXparser.NAMEv10;
 		public const String STIRLING1_NUMBER_SINCE			= mXparser.NAMEv10;
 		public const String STIRLING2_NUMBER_SINCE			= mXparser.NAMEv10;
@@ -218,5 +225,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String INC_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
 		public const String REG_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
 		public const String REG_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
+		public const String PERMUTATIONS_SINCE				= mXparser.NAMEv42;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2018-01-28
+ * @(#)MathFunctions.java        4.2.0   2018-02-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -194,19 +194,19 @@ public final class MathFunctions {
 	 * @return     Generalized binomial coefficient, if
 	 *             n = Double.NaN or k &lt; 0 returns Double.NaN.
 	 */
-	public static final double binomCoeff(double n, int k) {
+	public static final double binomCoeff(double n, long k) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		double result = Double.NaN;
 		if ( k >= 0 ){
 			double numerator = 1;
 			if (k > 0 )
-				for (int i = 0; i <= k-1; i++)
+				for (long i = 0; i <= k-1; i++)
 					numerator*=(n-i);
 			double denominator = 1;
 			if ( k > 1 )
-			for (int i = 1; i <= k; i++)
-				denominator *= i;
+				for (long i = 1; i <= k; i++)
+					denominator *= i;
 			result = numerator / denominator;
 		}
 		return result;
@@ -223,7 +223,45 @@ public final class MathFunctions {
 	public static final double binomCoeff(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
-		return binomCoeff(n, (int)Math.round(k) );
+		return binomCoeff(n, (long)Math.round(k) );
+	}
+	/**
+	 * Generalized coefficient returning number of k permutations
+	 * that can be drawn for n elements set.
+	 *
+	 * @param      n                   the n function parameter
+	 * @param      k                   the k function parameter
+	 *
+	 * @return   For k greater than 0 return number of permutations, otherwise
+	 *           returns Double.NaN
+	 */
+	public static final double numberOfPermutations(double n, long k) {
+		if (Double.isNaN(n))
+			return Double.NaN;
+		double result = Double.NaN;
+		if ( k >= 0 ){
+			double numerator = 1;
+			if (k > 0 )
+				for (long i = 0; i <= k-1; i++)
+					numerator*=(n-i);
+			result = numerator;
+		}
+		return result;
+	}
+	/**
+	 * Generalized coefficient returning number of k permutations
+	 * that can be drawn for n elements set.
+	 *
+	 * @param      n                   the n function parameter
+	 * @param      k                   the k function parameter
+	 *
+	 * @return   For k greater than 0 return number of permutations, otherwise
+	 *           returns Double.NaN
+	 */
+	public static final double numberOfPermutations(double n, double k) {
+		if (Double.isNaN(n) || Double.isNaN(k))
+			return Double.NaN;
+		return numberOfPermutations(n, (long)Math.round(k) );
 	}
 	/**
 	 * Bernoulli numbers

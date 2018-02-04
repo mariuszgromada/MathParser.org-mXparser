@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.2.0   2018-01-30
+ * @(#)Expression.cs        4.2.0   2018-02-04
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3539,9 +3539,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void BINOM_COEFF(int pos) {
-			double a = getTokenValue(pos+1);
-			double b = getTokenValue(pos+2);
-			f2SetDecreaseRemove(pos, MathFunctions.binomCoeff(a,b) );
+			double n = getTokenValue(pos+1);
+			double k = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, MathFunctions.binomCoeff(n,k) );
+		}
+		/**
+		 * Number of permutations
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void PERMUTATIONS(int pos) {
+			double n = getTokenValue(pos+1);
+			double k = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutations(n, k) );
 		}
 		/**
 		 * Bernoulli Number
@@ -5743,6 +5753,7 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function2Arg.INC_GAMMA_UPPER_ID: INC_GAMMA_UPPER(pos); break;
 			case Function2Arg.REG_GAMMA_LOWER_ID: REG_GAMMA_LOWER(pos); break;
 			case Function2Arg.REG_GAMMA_UPPER_ID: REG_GAMMA_UPPER(pos); break;
+			case Function2Arg.PERMUTATIONS_ID: PERMUTATIONS(pos); break;
 			}
 		}
 		/**
@@ -6027,6 +6038,7 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function2Arg.LOG_STR, Function2Arg.LOG_DESC, Function2Arg.LOG_ID, Function2Arg.LOG_SYN, Function2Arg.LOG_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.MOD_STR, Function2Arg.MOD_DESC, Function2Arg.MOD_ID, Function2Arg.MOD_SYN, Function2Arg.MOD_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.BINOM_COEFF_STR, Function2Arg.BINOM_COEFF_DESC, Function2Arg.BINOM_COEFF_ID, Function2Arg.BINOM_COEFF_SYN, Function2Arg.BINOM_COEFF_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.BINOM_COEFF_NCK_STR, Function2Arg.BINOM_COEFF_DESC, Function2Arg.BINOM_COEFF_ID, Function2Arg.BINOM_COEFF_NCK_SYN, Function2Arg.BINOM_COEFF_NCK_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.BERNOULLI_NUMBER_STR, Function2Arg.BERNOULLI_NUMBER_DESC, Function2Arg.BERNOULLI_NUMBER_ID, Function2Arg.BERNOULLI_NUMBER_SYN, Function2Arg.BERNOULLI_NUMBER_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.STIRLING1_NUMBER_STR, Function2Arg.STIRLING1_NUMBER_DESC, Function2Arg.STIRLING1_NUMBER_ID, Function2Arg.STIRLING1_NUMBER_SYN, Function2Arg.STIRLING1_NUMBER_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.STIRLING2_NUMBER_STR, Function2Arg.STIRLING2_NUMBER_DESC, Function2Arg.STIRLING2_NUMBER_ID, Function2Arg.STIRLING2_NUMBER_SYN, Function2Arg.STIRLING2_NUMBER_SINCE, Function2Arg.TYPE_ID);
@@ -6050,6 +6062,7 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function2Arg.REG_GAMMA_UPPER_STR, Function2Arg.REG_GAMMA_UPPER_DESC, Function2Arg.REG_GAMMA_UPPER_ID, Function2Arg.REG_GAMMA_UPPER_SYN, Function2Arg.REG_GAMMA_UPPER_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.REG_GAMMA_LOWER_P_STR, Function2Arg.REG_GAMMA_LOWER_DESC, Function2Arg.REG_GAMMA_LOWER_ID, Function2Arg.REG_GAMMA_LOWER_P_SYN, Function2Arg.REG_GAMMA_LOWER_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.REG_GAMMA_UPPER_Q_STR, Function2Arg.REG_GAMMA_UPPER_DESC, Function2Arg.REG_GAMMA_UPPER_ID, Function2Arg.REG_GAMMA_UPPER_Q_SYN, Function2Arg.REG_GAMMA_UPPER_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.PERMUTATIONS_STR, Function2Arg.PERMUTATIONS_DESC, Function2Arg.PERMUTATIONS_ID, Function2Arg.PERMUTATIONS_SYN, Function2Arg.PERMUTATIONS_SINCE, Function2Arg.TYPE_ID);
 				/*
 				 * 3 args functions key words
 				 */
