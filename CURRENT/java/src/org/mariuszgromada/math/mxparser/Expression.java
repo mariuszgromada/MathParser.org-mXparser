@@ -53,6 +53,8 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -2550,6 +2552,15 @@ public class Expression {
 	private double getTokenValue(int tokenIndex) {
 		return tokensList.get(tokenIndex).tokenValue;
 	}
+	
+	/**
+	 * Gets token value and returns as String
+	 * @param tokenIndex	the token index
+	 * @return	the token value as String
+	 */
+	private String getTokenValueAsString (int tokenIndex) {
+		return tokensList.get(tokenIndex).tokenStr;
+	}
 	/**
 	 * Tetration handling.
 	 *
@@ -2576,9 +2587,36 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void MODULO(int pos) {
-		double a = getTokenValue(pos-1);
-		double b = getTokenValue(pos+1);
-		opSetDecreaseRemove(pos, MathFunctions.mod(a, b) );
+		String a = getTokenValueAsString(pos-1);
+		String b = getTokenValueAsString(pos+1);
+
+		if (isInteger(a) && isInteger(b)) {
+			BigInteger bigA = new BigInteger(a);
+			BigInteger bigB = new BigInteger(b);
+			opSetDecreaseRemove(pos, bigA.mod(bigB).doubleValue());
+
+		} else {
+			BigDecimal doubleA = new BigDecimal(a);
+			BigDecimal doubleB = new BigDecimal(b);
+			opSetDecreaseRemove(pos, doubleA.remainder(doubleB).doubleValue());
+		}
+	}
+	
+	/**
+	 * Check if the param is an Integer.
+	 * @param s	the value to be checked
+	 * @return	true if it's an Integer
+	 */
+	private boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch(NumberFormatException e) {
+			return false;
+		} catch(NullPointerException e) {
+			return false;
+		}
+		// only got here if we didn't return false
+		return true;
 	}
 	/**
 	 * Division handling.
@@ -3563,9 +3601,19 @@ public class Expression {
 	 * @param      pos                 the token position
 	 */
 	private void MOD(int pos) {
-		double a = getTokenValue(pos+1);
-		double b = getTokenValue(pos+2);
-		f2SetDecreaseRemove(pos, MathFunctions.mod(a, b) );
+		String a = getTokenValueAsString(pos+1);
+		String b = getTokenValueAsString(pos+2);
+
+		if (isInteger(a) && isInteger(b)) {
+			BigInteger bigA = new BigInteger(a);
+			BigInteger bigB = new BigInteger(b);
+			f2SetDecreaseRemove(pos, bigA.mod(bigB).doubleValue());
+
+		} else {
+			BigDecimal doubleA = new BigDecimal(a);
+			BigDecimal doubleB = new BigDecimal(b);
+			f2SetDecreaseRemove(pos, doubleA.remainder(doubleB).doubleValue());
+		}
 	}
 	/**
 	 * Binomial Coefficient
