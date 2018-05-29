@@ -1,9 +1,9 @@
 /*
- * @(#)Function3Arg.cs        4.1.0    2017-05-13
+ * @(#)Function3Arg.cs        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function3Arg {
@@ -95,6 +95,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int CDF_NORMAL_ID					= 11;
 		public const int QNT_NORMAL_ID					= 12;
 		public const int DIGIT_ID						= 13;
+		public const int INC_BETA_ID					= 14;
+		public const int REG_BETA_ID					= 15;
 		/*
 		 * 3-args Function - tokens key words.
 		 */
@@ -110,6 +112,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_NORMAL_STR				= "cNor";
 		public const String QNT_NORMAL_STR				= "qNor";
 		public const String DIGIT_STR					= "dig";
+		public const String INC_BETA_STR				= "BetaInc";
+		public const String REG_BETA_STR				= "BetaReg";
+		public const String REG_BETA_I_STR				= "BetaI";
 		/*
 		 * 3-args Function - syntax.
 		 */
@@ -125,6 +130,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_NORMAL_SYN				= "cNor(x, mean, stdv)";
 		public const String QNT_NORMAL_SYN				= "qNor(q, mean, stdv)";
 		public const String DIGIT_SYN					= "dig(num, pos, base)";
+		public const String INC_BETA_SYN				= INC_BETA_STR + "(x,a,b)";
+		public const String REG_BETA_SYN				= REG_BETA_STR + "(x,a,b)";
+		public const String REG_BETA_I_SYN				= REG_BETA_I_STR + "(x,a,b)";
 		/*
 		 * 3-args Function - tokens description.
 		 */
@@ -140,6 +148,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
 		public const String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function)";
 		public const String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
+		public const String INC_BETA_DESC				= "The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind";
+		public const String REG_BETA_DESC				= "The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind";
 		/*
 		 * 3-args Function - since.
 		 */
@@ -155,5 +165,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String CDF_NORMAL_SINCE			= mXparser.NAMEv30;
 		public const String QNT_NORMAL_SINCE			= mXparser.NAMEv30;
 		public const String DIGIT_SINCE					= mXparser.NAMEv41;
+		public const String INC_BETA_SINCE				= mXparser.NAMEv42;
+		public const String REG_BETA_SINCE				= mXparser.NAMEv42;
+		public const String REG_BETA_I_SINCE			= mXparser.NAMEv42;
 	}
 }

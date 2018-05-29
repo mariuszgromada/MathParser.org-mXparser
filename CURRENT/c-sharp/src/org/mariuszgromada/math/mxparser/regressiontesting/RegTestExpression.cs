@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        4.2.0   2018-02-03
+ * @(#)RegTestExpression.cs        4.2.0   2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -79,16 +79,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	[CLSCompliant(true)]
 	public class RegTestExpression {
 		private static Expression[] exp;
-		private static bool runTest1(int testId) {
+		private static bool runTest_00000_00100(int testId) {
 			mXparser.consolePrint("[" + testId + "] ");
 			bool testResult = false;
-			bool syn1;
 			double value = 0;
 			double reg = 0;
 			double sum = 0;
 			String expStr = "";
-			Argument x, y, d, n, i, k, m, s, r, t;
-			Function f, g, h;
+			Argument x, y, d, n, i, k, m, s, r;
 			switch (testId) {
 			case 0:
 				expStr = "";
@@ -1183,6 +1181,23 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00101_00200(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			bool syn1;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Argument x, y, n, k, m, t;
+			Function f, g, h;
+			switch (testId) {
 			case 101:
 				f = new Function("mg", "sin(x)+cos(y)", "x", "y");
 				x = new Argument("x", 3);
@@ -2326,6 +2341,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00201_00300(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Argument x, n, k, m;
+			Function f;
+			switch (testId) {
 			case 201:
 				expStr = "arccoth(sqrt(5)) - ln([phi])";
 				mXparser.consolePrint(expStr + " ...... ");
@@ -3487,6 +3518,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00301_00400(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Argument x;
+			switch (testId) {
 			case 301:
 				mXparser.initPrimesCache(97);
 				expStr = "Pi(1000)";
@@ -4523,6 +4569,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00401_00500(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Argument x, y;
+			switch (testId) {
 			case 401:
 				expStr = "mini(i, 1, 1000000, pUni( rUni(-10, 10), -1, 3) )";
 				mXparser.consolePrint(expStr + " ...... ");
@@ -5011,21 +5072,6 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
-			}
-			if (testResult == true)
-				mXparser.consolePrint("OK");
-			else
-				mXparser.consolePrint("ERROR");
-			return testResult;
-		}
-		private static bool runTest2(int testId) {
-			mXparser.consolePrint("[" + testId + "] ");
-			bool testResult = false;
-			double value = 0;
-			double reg = 0;
-			String expStr = "";
-			Function ff;
-			switch (testId) {
 			case 443:
 				mXparser.disableUlpRounding();
 				mXparser.setExactComparison();
@@ -5667,6 +5713,20 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00501_00600(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			switch (testId) {
 			case 501:
 				mXparser.setExactComparison();
 				expStr = "3 = 3";
@@ -6770,6 +6830,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00601_00700(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Function ff;
+			switch (testId) {
 			case 601:
 				mXparser.setEpsilonComparison();
 				expStr = "[Venus-D] / ( 108208000*[km] )-1";
@@ -7896,6 +7971,20 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00701_00800(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			switch (testId) {
 			case 701:
 				mXparser.setEpsilonComparison();
 				expStr = "(-o.376+254)-O.00376+254";
@@ -9025,6 +9114,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00801_00900(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Argument x;
+			Function f;
+			switch (testId) {
 			case 801:
 				mXparser.setEpsilonComparison();
 				expStr = "( nfact(5632) - 2 ) + ( factval(5632, 1) - 2 ) + ( factval(5632, 2) - 11 ) + ( factexp(5632, 1) - 9 ) + ( factexp(5632, 2) - 1 )";
@@ -10287,6 +10392,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_00901_01000(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Argument x, y, n;
+			switch (testId) {
 			case 901:
 				mXparser.setEpsilonComparison();
 				expStr = "0^^1234";
@@ -11009,21 +11129,6 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
 				break;
-			}
-			if (testResult == true)
-				mXparser.consolePrint("OK");
-			else
-				mXparser.consolePrint("ERROR");
-			return testResult;
-		}
-		private static bool runTest3(int testId) {
-			mXparser.consolePrint("[" + testId + "] ");
-			bool testResult = false;
-			double value = 0;
-			double reg = 0;
-			Function f;
-			String expStr = "";
-			switch (testId) {
 			case 955:
 				/* Wolfram Language (Raspberry Pi Pilot Release)
 				 * SetPrecision[Sum[ Sum[Gamma[s, x], {s, 0.1, 1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 6870.775811214982
@@ -11690,6 +11795,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
 				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_01001_01100(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			Function f;
+			switch (testId) {
 			case 1001:
 				/* Wolfram Language (Raspberry Pi Pilot Release)
 				 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, 6.1, 7, 0.1}], {x, 0.1, 2, 0.1} ], 16] = 199.6608252491266
@@ -12974,6 +13094,656 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 1096:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 0.1, 1, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 156045.8382688423
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 0.1, 1, Beta(x,y), 0.01) , 0.01) - 156045.8382688423 ) / 156045.8382688423";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1097:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 1, 2, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 32015.62331640863
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 1, 2, Beta(x,y), 0.01) , 0.01) - 32015.62331640863 ) / 32015.62331640863";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1098:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 2, 3, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 20432.57249276379
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 2, 3, Beta(x,y), 0.01) , 0.01) - 20432.57249276379 ) / 20432.57249276379";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1099:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 3, 4, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 16648.09228879020
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 3, 4, Beta(x,y), 0.01) , 0.01) - 16648.09228879020 ) / 16648.09228879020";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1100:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 4, 5, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 14709.95317941022
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 4, 5, Beta(x,y), 0.01) , 0.01) - 14709.95317941022 ) / 14709.95317941022";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			}
+			if (testResult == true)
+				mXparser.consolePrint("OK");
+			else
+				mXparser.consolePrint("ERROR");
+			return testResult;
+		}
+		private static bool runTest_01101_01200(int testId) {
+			mXparser.consolePrint("[" + testId + "] ");
+			bool testResult = false;
+			double value = 0;
+			double reg = 0;
+			String expStr = "";
+			switch (testId) {
+			case 1101:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 5, 6, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 13491.02099096915
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 5, 6, Beta(x,y), 0.01) , 0.01) - 13491.02099096915 ) / 13491.02099096915";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1102:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 6, 7, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 12632.76303747905
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 6, 7, Beta(x,y), 0.01) , 0.01) - 12632.76303747905 ) / 12632.76303747905";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1103:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 7, 8, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 11984.64820297520
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 7, 8, Beta(x,y), 0.01) , 0.01) - 11984.64820297520 ) / 11984.64820297520";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1104:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 8, 9, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 11471.56326266911
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 8, 9, Beta(x,y), 0.01) , 0.01) - 11471.56326266911 ) / 11471.56326266911";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1105:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 9, 10, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 11051.38593753202
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 9, 10, Beta(x,y), 0.01) , 0.01) - 11051.38593753202 ) / 11051.38593753202";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1106:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 10, 100, 0.1}], {y, 10, 100, 0.1} ], 16] = 0.0002504318934669270
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 10, 100, sum(x, 10, 100, Beta(x,y), 0.1) , 0.1) - 0.0002504318934669270 ) / 0.0002504318934669270";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1107:
+				expStr = "( isNaN( Beta(-1, 10 ) ) - [true] ) + ( isNaN( Beta(10, -1 ) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1108:
+				expStr = "( isNaN( Beta(0, 10 ) ) - [true] ) + ( isNaN( Beta(10, 0 ) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1109:
+				expStr = "( isNaN( Beta([NaN], 10 ) ) - [true] ) + ( isNaN( Beta(10, [NaN] ) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1110:
+				expStr = "sum(x, 1, 10,  sum(y, 1, 10, der( Beta(x, y), x, x) - Beta(x,y) * ( diGamma(x) - diGamma(x+y) ) , 0.1), 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-4 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1111:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[ Log[ Beta[x, y] ], {x, 0.1, 10, 0.1}], {y, 0.1, 10, 0.1} ], 16] = -52463.38489346371
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 0.1, 10, sum(x, 0.1, 10, logBeta(x,y), 0.1) , 0.1) - (-52463.38489346371) ) / (-52463.38489346371)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1112:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[ Log[ Beta[x, y] ], {x, 10, 30, 0.1}], {y, 10, 30, 0.1} ], 16] = -1.092606400417545E6
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 10, 30, sum(x, 10, 30, logBeta(x,y), 0.1) , 0.1) - (-1.092606400417545E6) ) / (-1.092606400417545E6)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1113:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[ Log[ Beta[x, y] ], {x, 30, 60, 0.1}], {y, 30, 60, 0.1} ], 16] = -5.631010749308205E6
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 30, 60, sum(x, 30, 60, logBeta(x,y), 0.1) , 0.1) - (-5.631010749308205E6) ) / (-5.631010749308205E6)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1114:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[Sum[ Sum[ Log[ Beta[x, y] ], {x, 60, 100, 0.1}], {y, 60, 100, 0.1} ], 16] = -1.784485348348011E7
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(y, 60, 100, sum(x, 60, 100, logBeta(x,y), 0.1) , 0.1) - (-1.784485348348011E7) ) / (-1.784485348348011E7)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1115:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 0.1, 1, 0.01} ], {b, 0.1, 1, 0.01} ], 16] = 196515.9203818563
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 0.1, 1, sum(a, 0.1, 1, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 196515.9203818563 ) / 196515.9203818563";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1116:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 1, 2, 0.01} ], {b, 1, 2, 0.01} ], 16] = 24722.41740481695
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 1, 2, sum(a, 1, 2, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 24722.41740481695 ) / 24722.41740481695";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1117:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 2, 3, 0.01} ], {b, 2, 3, 0.01} ], 16] = 4464.859252111892
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 2, 3, sum(a, 2, 3, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 4464.859252111892 ) / 4464.859252111892";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1118:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 3, 4, 0.01} ], {b, 3, 4, 0.01} ], 16] = 918.5527313884891
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 3, 4, sum(a, 3, 4, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 918.5527313884891 ) / 918.5527313884891";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1119:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 4, 5, 0.01} ], {b, 4, 5, 0.01} ], 16] = 199.6846597371872
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 4, 5, sum(a, 4, 5, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 199.6846597371872 ) / 199.6846597371872";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1120:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 5, 6, 0.01} ], {b, 5, 6, 0.01} ], 16] = 44.76264323950131
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 5, 6, sum(a, 5, 6, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 44.76264323950131 ) / 44.76264323950131";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1121:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 6, 7, 0.01} ], {b, 6, 7, 0.01} ], 16] = 10.23292155881704
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 6, 7, sum(a, 6, 7, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 10.23292155881704 ) / 10.23292155881704";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1122:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 7, 8, 0.01} ], {b, 7, 8, 0.01} ], 16] = 2.371353239618641
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 7, 8, sum(a, 7, 8, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 2.371353239618641 ) / 2.371353239618641";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1123:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 8, 9, 0.01} ], {b, 8, 9, 0.01} ], 16] = 0.5550610613543622
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 8, 9, sum(a, 8, 9, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 0.5550610613543622 ) / 0.5550610613543622";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1124:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 9, 10, 0.01} ], {b, 9, 10, 0.01} ], 16] = 0.1309235541230968
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 9, 10, sum(a, 9, 10, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 0.1309235541230968 ) / 0.1309235541230968";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1125:
+				/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
+				 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 10, 80, 0.25} ], {b, 10, 80, 0.25} ], 16] = 0.0.0002449250611436628
+				 */
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( sum(b, 10, 80, sum(a, 10, 80, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.25) , 0.25) - 0.0002449250611436628 ) / 0.0002449250611436628";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1126:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 1, 10, sum(a, 1, 10, sum(x, 0.1, 0.9, der( BetaInc(x, a, b), x, x ) - ( (1-x)^(b-1) ) * ( x^(a-1) ) ,0.1) , 0.1) , 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-4 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1127:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 0.1, 10, sum(a, 0.1, 10, BetaInc(1, a, b) - Beta(a,b) , 0.1) , 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1128:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 0.1, 10, sum(a, 0.1, 10, BetaInc(0, a, b) , 0.1) , 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1129:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( isNaN( BetaInc(-1,1,1) ) - [true] ) + ( isNaN( BetaInc(2,1,1) ) - [true] ) + ( isNaN( BetaInc( [NaN] ,1,1) ) - [true] ) + ( isNaN( BetaInc(0.5, [NaN], 1) ) - [true] ) + ( isNaN( BetaInc(0.5, 1 , [NaN]) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1130:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( isNaN( BetaInc(0.5,-1,1) ) - [true] ) + ( isNaN( BetaInc(0.5,1,-1) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1131:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 0.1, 10, sum(a, 0.1, 10, BetaI(1, a, b) - 1 , 0.1) , 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1132:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 0.1, 10, sum(a, 0.1, 10, BetaI(0, a, b) , 0.1) , 0.1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1133:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( isNaN( BetaI(-1,1,1) ) - [true] ) + ( isNaN( BetaI(2,1,1) ) - [true] ) + ( isNaN( BetaI( [NaN] ,1,1) ) - [true] ) + ( isNaN( BetaI(0.5, [NaN], 1) ) - [true] ) + ( isNaN( BetaI(0.5, 1 , [NaN]) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1134:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "( isNaN( BetaI(0.5,-1,1) ) - [true] ) + ( isNaN( BetaI(0.5,1,-1) ) - [true] )";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1135:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 0.1, 80, sum(a, 0.1, 80, sum(x, 0, 1, BetaI(x, a, b) * Beta(a,b) - BetaInc(x,a,b) ,0.1) , 0.25) , 0.25)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
+			case 1136:
+				mXparser.disableAlmostIntRounding();
+				mXparser.disableUlpRounding();
+				expStr = "sum(b, 0.1, 80, sum(a, 0.1, 80, sum(x, 0, 1, BetaI(x, a, b) - BetaReg(x,a,b) ,0.1) , 0.25) , 0.25)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.enableUlpRounding();
+				mXparser.enableAlmostIntRounding();
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -12999,12 +13769,19 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.setEpsilonComparison();
 				mXparser.setDefaultEpsilon();
 				mXparser.enableUlpRounding();
-				if (testId < 443)
-					test = runTest1(testId);
-				else if (testId < 955)
-					test = runTest2(testId);
-				else
-					test = runTest3(testId);
+				if (testId <= 100) test = runTest_00000_00100(testId);
+				else if (testId <=   200) test = runTest_00101_00200(testId);
+				else if (testId <=   300) test = runTest_00201_00300(testId);
+				else if (testId <=   400) test = runTest_00301_00400(testId);
+				else if (testId <=   500) test = runTest_00401_00500(testId);
+				else if (testId <=   600) test = runTest_00501_00600(testId);
+				else if (testId <=   700) test = runTest_00601_00700(testId);
+				else if (testId <=   800) test = runTest_00701_00800(testId);
+				else if (testId <=   900) test = runTest_00801_00900(testId);
+				else if (testId <=  1000) test = runTest_00901_01000(testId);
+				else if (testId <=  1100) test = runTest_01001_01100(testId);
+				else if (testId <=  1200) test = runTest_01101_01200(testId);
+				else test = false;
 				tests[testId] = test;
 				if (test == true)
 					nOk++;

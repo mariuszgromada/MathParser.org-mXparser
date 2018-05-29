@@ -1,5 +1,5 @@
-/*
- * @(#)Function1Arg.cs        4.2.0    2018-01-30
+﻿/*
+ * @(#)Function1Arg.cs        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -414,12 +414,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
 		public const String ARCSEC_DESC				= "Inverse trigonometric secant";
 		public const String ARCCSC_DESC				= "Inverse trigonometric cosecant";
-		public const String GAMMA_DESC				= "Gamma special function";
+		public const String GAMMA_DESC				= "Gamma special function Γ(s)";
 		public const String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
 		public const String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
-		public const String SGN_GAMMA_DESC			= "Signum of Gamma special function";
-		public const String LOG_GAMMA_DESC			= "Log Gamma special function";
-		public const String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function";
+		public const String SGN_GAMMA_DESC			= "Signum of Gamma special function, Γ(s)";
+		public const String LOG_GAMMA_DESC			= "Log Gamma special function, lnΓ(s)";
+		public const String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)";
 		public const String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
 		/*
 		 * UnaryFunction - tokens description.

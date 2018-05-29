@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.java        4.2.0    2018-01-28
+ * @(#)SpecialFunctions.java        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -421,7 +421,6 @@ public final class SpecialFunctions {
 		if (n == 9) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0;
 		if (n == 10) return 1.0*2.0*3.0*4.0*5.0*6.0*7.0*8.0*9.0;
 		if (n >= 11) return MathFunctions.factorial(n-1);
-		//if (n == -1) return MathConstants.EULER_MASCHERONI - 1;
 		if (n <= -1) {
 			long r = -n;
 			double factr = MathFunctions.factorial(r);
@@ -499,14 +498,14 @@ public final class SpecialFunctions {
 			q = -x;
 			w = logGamma(q);
 			p = Math.floor(q);
-			if (p == q) return Double.NaN;
+			if (Math.abs(p-q) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 			z = q - p;
 			if (z > 0.5) {
 				p += 1.0;
 				z = p - q;
 			}
 			z = q * Math.sin( Math.PI * z );
-			if (z == 0.0) return Double.NaN;
+			if (Math.abs(z) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 			z = MathConstants.LNPI - Math.log(z) - w;
 			return z;
 		}
@@ -517,7 +516,7 @@ public final class SpecialFunctions {
 				z *= x;
 			}
 			while (x < 2.0) {
-				if( x == 0.0 ) return Double.NaN;
+				if( Math.abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) return Double.NaN;
 				z /= x;
 				x += 1.0;
 			}
@@ -772,6 +771,205 @@ public final class SpecialFunctions {
 
 		return result;
 	}
+	private static final int doubleWidth = 53;
+	private static final double doublePrecision = Math.pow(2, -doubleWidth);
+
+	/**
+	 * Log Beta special function
+	 * @param x
+	 * @param y
+	 * @return  Return logBeta special function (for positive x and positive y)
+	 */
+	public static double logBeta(double x, double y) {
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(y)) return Double.NaN;
+		if ( (x <= 0) || (y <= 0) ) return Double.NaN;
+
+		double lgx = logGamma(x);
+		if (Double.isNaN(lgx)) lgx = Math.log( Math.abs( gamma(x) ) );
+
+		double lgy = logGamma(y);
+		if (Double.isNaN(lgy)) lgy = Math.log( Math.abs( gamma(y) ) );
+
+		double lgxy = logGamma(x+y);
+		if (Double.isNaN(lgy)) lgxy = Math.log( Math.abs( gamma(x+y) ) );
+
+		if ( (!Double.isNaN(lgx)) && (!Double.isNaN(lgy)) && (!Double.isNaN(lgxy)) )
+			return (lgx + lgy - lgxy);
+		else return Double.NaN;
+	}
+	/**
+	 * Beta special function
+	 * @param x
+	 * @param y
+	 * @return  Return Beta special function (for positive x and positive y)
+	 */
+	public static double beta(double x, double y) {
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(y)) return Double.NaN;
+		if ( (x <= 0) || (y <= 0) ) return Double.NaN;
+		if ( (x > 99) || (y > 99) ) return Math.exp(logBeta(x, y));
+		return gamma(x)*gamma(y) / gamma(x+y);
+	}
+	/**
+	 * Log Incomplete Beta special function
+	 * @param x
+	 * @param y
+	 * @return  Return incomplete Beta special function
+	 * for positive a and positive b and x between 0 and 1
+	 *
+	 */
+	public static double incompleteBeta(double a, double b, double x) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		if (Double.isNaN(x)) return Double.NaN;
+		if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+		if (x > 1+BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+		if ( (a <= 0) || (b <= 0) ) return Double.NaN;
+		if (MathFunctions.almostEqual(x, 0)) return 0;
+		if (MathFunctions.almostEqual(x, 1)) return beta(a, b);
+		boolean aEq0 = MathFunctions.almostEqual(a, 0);
+		boolean bEq0 = MathFunctions.almostEqual(b, 0);
+		boolean aIsInt = MathFunctions.isInteger(a);
+		boolean bIsInt = MathFunctions.isInteger(b);
+		long aInt = 0, bInt = 0;
+		if (aIsInt) aInt = (long)MathFunctions.integerPart(a);
+		if (bIsInt) bInt = (long)MathFunctions.integerPart(b);
+
+		long n;
+		if (aEq0 && bEq0) return Math.log( x / (1-x) );
+		if (aEq0 && bIsInt) {
+			n = bInt;
+			if (n >= 1) {
+				if (n == 1) return Math.log(x);
+				if (n == 2) return Math.log(x) + x;
+				double v = Math.log(x);
+				for (long i = 1; i <= n-1; i++)
+					v -= MathFunctions.binomCoeff(n-1, i) * Math.pow(-1, i) * ( Math.pow(x, i) / i );
+				return v;
+			}
+			if (n <= -1) {
+				if (n == -1) return Math.log( x / (1-x) ) + 1/(1-x) - 1;
+				if (n == -2) return Math.log( x / (1-x) ) - 1/x - 1/(2*x*x);
+				double v = -Math.log(x / (1-x));
+				for (long i = 1; i <= -n-1; i++)
+					v -= Math.pow(x, -i) / i;
+				return v;
+			}
+		}
+		if (aIsInt && bEq0) {
+			n = aInt;
+			if (n >= 1) {
+				if (n == 1) return -Math.log(1-x);
+				if (n == 2) return -Math.log(1-x) - x;
+				double v = -Math.log(1-x);
+				for (long i = 1; i <= n-1; i++)
+					v -= Math.pow(x, i) / i;
+				return v;
+			}
+			if (n <= -1) {
+				if (n == -1) return Math.log( x / (1-x) ) - 1/x;
+				double v = -Math.log(x / (1-x));
+				for (long i = 1; i <= -n; i++)
+					v += Math.pow(1-x, -i) / i;
+				for (long i = 1; i <= -n; i++)
+					v -= Math.pow( MathFunctions.factorial(i-1) , 2) / i;
+				return v;
+			}
+		}
+		if(aIsInt) {
+			n = aInt;
+			if (MathFunctions.almostEqual(b, 1)) {
+				if (n <= -1) return -( 1/(-n) ) * Math.pow(x, n);
+			}
+		}
+		return regularizedBeta(a, b, x)*beta(a, b);
+	}
+	/**
+	 * Regularized incomplete Beta special function
+	 * @param x
+	 * @param y
+	 * @return  Return incomplete Beta special function
+	 * for positive a and positive b and x between 0 and 1
+	 */
+	public static double regularizedBeta(double a, double b, double x) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		if (Double.isNaN(x)) return Double.NaN;
+		if ( (a <= 0) || (b <= 0) ) return Double.NaN;
+		if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+		if (x > 1+BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+		if (MathFunctions.almostEqual(x, 0)) return 0;
+		if (MathFunctions.almostEqual(x, 1)) return 1;
+
+		double bt = (x == 0.0 || x == 1.0)
+			? 0.0
+			: Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + (a*Math.log(x)) + (b*Math.log(1.0 - x)));
+
+		boolean symmetryTransformation = x >= (a + 1.0)/(a + b + 2.0);
+
+		/* Continued fraction representation */
+		double eps = doublePrecision;
+		double fpmin = Math.nextUp(0.0)/eps;
+
+		if (symmetryTransformation) {
+			x = 1.0 - x;
+			double swap = a;
+			a = b;
+			b = swap;
+		}
+
+		double qab = a + b;
+		double qap = a + 1.0;
+		double qam = a - 1.0;
+		double c = 1.0;
+		double d = 1.0 - (qab*x/qap);
+
+		if (Math.abs(d) < fpmin) {
+			d = fpmin;
+		}
+
+		d = 1.0/d;
+		double h = d;
+
+		for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2) {
+			double aa = m*(b - m)*x/((qam + m2)*(a + m2));
+			d = 1.0 + (aa*d);
+
+			if (Math.abs(d) < fpmin) {
+				d = fpmin;
+			}
+
+			c = 1.0 + (aa/c);
+			if (Math.abs(c) < fpmin) {
+				c = fpmin;
+			}
+
+			d = 1.0/d;
+			h *= d*c;
+			aa = -(a + m)*(qab + m)*x/((a + m2)*(qap + m2));
+			d = 1.0 + (aa*d);
+
+			if (Math.abs(d) < fpmin) {
+				d = fpmin;
+			}
+
+			c = 1.0 + (aa/c);
+
+			if (Math.abs(c) < fpmin) {
+				c = fpmin;
+			}
+
+			d = 1.0/d;
+			double del = d*c;
+			h *= del;
+
+			if (Math.abs(del - 1.0) <= eps) {
+				return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+			}
+		}
+		return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+	}
 	/*
 	 * halleyIteration epsilon
 	 */
@@ -869,42 +1067,5 @@ public final class SpecialFunctions {
 		if (Math.abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0(x);
 		if (Math.abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 		return Double.NaN;
-	}
-	private static final int BESSEL_BOUND = 10;
-	public static final double besselJ(double x, double alpha, int sumbound) {
-		// return Enumerable.Range(0, sumbound).Sum(t => BesselJCoeff(t, alpha) * BesselJTerm(t, alpha, x));
-		// Since this doesn't like my LINQ method for some reason...
-		double sum = 0.0;
-		for(int i = 0; i < sumbound; i++) {
-			sum += besselJCoeff(i, alpha) * besselJTerm(i, alpha, x);
-		}
-		return sum;
-	}
-	private static final double besselJCoeff(int m, double alpha) {
-		return Math.pow(-1, m) / (MathFunctions.factorial(m) * SpecialFunctions.lanchosGamma(m + alpha + 1));
-	}
-	private static final double  besselJTerm(int m, double alpha, double x) {
-		return Math.pow(x / 2.0, 2 * m + alpha);
-	}
-	public static final double besselJ(double x, int n, int sumbound) {
-		return besselJ(x, n, sumbound);
-	}
-	public static final double besselJ(double x, int n) {
-		if( n < 0) return Math.pow(-1.0, n) * besselJ(x, Math.abs(n), BESSEL_BOUND);
-		return besselJ(x, n, BESSEL_BOUND);
-	}
-	public static final double besselJ(double x, double alpha) {
-		final double epsilon = 1e-15;
-		if( alpha == 0.5) {
-			return Math.sqrt(2.0 / (Math.PI * x)) * MathFunctions.sin(x);
-		}
-		if( alpha == -0.5) {
-			return Math.sqrt(2.0 / (Math.PI * x)) * MathFunctions.cos(x);
-		}
-		if( Math.abs(alpha % 1) <= (epsilon * 100)) {
-			return besselJ(x, alpha);
-		} else {
-			return besselJ(x, alpha, BESSEL_BOUND);
-		}
 	}
 }

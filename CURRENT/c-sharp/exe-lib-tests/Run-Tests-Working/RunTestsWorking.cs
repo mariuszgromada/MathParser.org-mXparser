@@ -1,144 +1,103 @@
 ﻿using org.mariuszgromada.math.mxparser;
-using org.mariuszgromada.math.mxparser.mathcollection;
 using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
+
 
 namespace phelipemartins.caseinsensitivity {
-	class CaseInsensitivityTest {
-		static void addCaseInsensitiveArguments(Expression e, params Argument[] definedArguments) {
-			/*
-			 * If no need to add any definition
-			 */
-			if (e.checkSyntax() == true) return;
-			/*
-			 * First checking the grammar
-			 */
-			if (e.checkLexSyntax() != true) return;
-			/*
-			 * Extracting names of not defined user arguments
-			 * i.e. if Volume is defined, and user puts VOLUME
-			 * in expression string then VOLUME is returned as
-			 * not defined user argument
-			 */
-			String[] notDefArgsNames = e.getMissingUserDefinedArguments();
-			/*
-			 * Checking if defined arguments are on the list
-			 * of not defined arguments - check is perfomed
-			 * to lower case
-			 */
-			foreach (String notDefArgName in notDefArgsNames) {
-				foreach (Argument defArg in definedArguments) {
-					if (notDefArgName.ToLower().Equals(defArg.getArgumentName().ToLower())) {
-						/*
-						 * We are creating new dependet argument, new argument will always
-						 * point to the defined argument
-						 * it means that there is now need to set the value of dependet argument
-						 */
-						Argument caseInsensitiveArgument = new Argument(notDefArgName, defArg.getArgumentName(), defArg);
-						/*
-						 * New argument is added to the expression definition
-						 */
-						e.addDefinitions(caseInsensitiveArgument);
-					}
-				}
-			}
+	class FunctionDeclarationPerfTests {
+		static Function fs = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
+		public double FromStatic(params double[] parameters)
+		{
+			return fs.calculate(parameters);
 		}
-		static void addCaseInsensitiveFunctions(Expression e, params Function[] definedFunctions) {
-			/*
-			 * If no need to add any definition
-			 */
-			if (e.checkSyntax() == true) return;
-			/*
-			 * First checking the grammar
-			 */
-			if (e.checkLexSyntax() != true) return;
-			/*
-			 * Extracting names of not defined user functions
-			 * i.e. if HighestVolume is defined, and user puts HIGHESTVOLUME
-			 * in expression string then HIGHESTVOLUME is returned as
-			 * not defined user argument
-			 */
-			String[] notDefFunNames = e.getMissingUserDefinedFunctions();
-			/*
-			 * Checking if defined functions are on the list
-			 * of not defined functions - check is perfomed
-			 * to lower case
-			 */
-			foreach (String notDefFunName in notDefFunNames) {
-				foreach (Function defFun in definedFunctions) {
-					if (notDefFunName.ToLower().Equals(defFun.getFunctionName().ToLower())) {
-						/*
-						 * We are creating new function, new function will always
-						 * point to the defined function, newFun(x1, x2, ..., xn) = defFun(x1, x2, ..., xn)
-						 */
-						String funExp = defFun.getFunctionName() + "(";
-						int nArgs = defFun.getParametersNumber();
-						String[] funParamsNames = new String[nArgs];
-						for (int i = 0; i < nArgs; i++) {
-							if ((i > 0) && (nArgs > 1))
-								funExp = funExp + ",";
-							String paramName = defFun.getParameterName(i);
-							funExp = funExp + paramName;
-							funParamsNames[i] = paramName;
+		public static double TestAlwaysNew(int n)
+		{
+			double r = 0;
+			double start = mXparser.currentTimeMillis();
+			for (int x1 = 1; x1 <= n; x1++)
+			{
+				for (int x2 = 1; x2 <= n; x2++)
+					for (int x3 = 1; x3 <= n; x3++)
+						for (int x4 = 1; x4 <= n; x4++)
+						{
+							Function f = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
+							r += f.calculate(x1, x2, x3, x4);
 						}
-						funExp = funExp + ")";
-						Function caseInsensitiveFunction = new Function(notDefFunName, funExp, funParamsNames);
-						caseInsensitiveFunction.addDefinitions(defFun);
-						/*
-						 * New function is added to the expression definition
-						 */
-						e.addDefinitions(caseInsensitiveFunction);
+			}
+			double end = mXparser.currentTimeMillis();
+			Console.WriteLine("--> always new calc result: " + r);
+			return  end - start;
+		}
+		public static double FromPrecomplied(int n)
+		{
+			double r = 0;
+			Function f = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
+			double start = mXparser.currentTimeMillis();
+			for (int x1 = 1; x1 <= n; x1++)
+			{
+				for (int x2 = 1; x2 <= n; x2++)
+					for (int x3 = 1; x3 <= n; x3++)
+						for (int x4 = 1; x4 <= n; x4++)
+						{
+							r += f.calculate(x1, x2, x3, x4);
+						}
+			}
+			double end = mXparser.currentTimeMillis();
+			Console.WriteLine("--> pre-compiled calc result: " + r);
+			return  end - start;
+		}
+		public static double FromPrecompliedOtherConstr(int n)
+		{
+			double r = 0;
+			Function f = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
+			Argument ax1 = f.getArgument("x1");
+			Argument ax2 = f.getArgument("x2");
+			Argument ax3 = f.getArgument("x3");
+			Argument ax4 = f.getArgument("x4");
+			double start = mXparser.currentTimeMillis();
+			for (int x1 = 1; x1 <= n; x1++)
+			{
+				ax1.setArgumentValue(x1);
+				for (int x2 = 1; x2 <= n; x2++)
+				{
+					ax2.setArgumentValue(x2);
+					for (int x3 = 1; x3 <= n; x3++)
+					{
+						ax3.setArgumentValue(x3);
+						for (int x4 = 1; x4 <= n; x4++)
+						{
+							ax4.setArgumentValue(x4);
+							r += f.calculate();
+						}
 					}
 				}
 			}
+			double end = mXparser.currentTimeMillis();
+			Console.WriteLine("--> pre-compiled other constr calc result: " + r);
+			return  end - start;
+		}
+		public static void PrintResult(String name, int n, double time)
+		{
+			int niter = n * n * n * n;
+			Console.WriteLine(name + " : " + time + " ms " + (n*n*n*n) + " iterations " + (int)((1000.0 / time) * niter) + "/s");
 		}
 		static void Main(string[] args) {
-			/*
-			 * Arguments definition
-			 */
-			//Argument Volume = new Argument("Volume = 5");
-			//Argument Mass = new Argument("Mass = 10");
-			/*
-			 * Expression creation
-			 */
-			/* Case 1 */
-			//Expression e1 = new Expression("Mass / Volume", Volume, Mass);
-			//addCaseInsensitiveArguments(e1, Volume, Mass);
-			//mXparser.consolePrintln("Case 1: " + e1.getExpressionString() + " = " + e1.calculate());
-			/* Case 2 */
-			//Expression e2 = new Expression("mAsS / volUME", Volume, Mass);
-			//addCaseInsensitiveArguments(e2, Volume, Mass);
-			//mXparser.consolePrintln("Case 2: " + e2.getExpressionString() + " = " + e2.calculate());
-			/* Case 3 */
-			//Mass.setArgumentValue(30);
-			//Volume.setArgumentValue(10);
-			//mXparser.consolePrintln("Case 3: " + e2.getExpressionString() + " = " + e2.calculate());
-			/* Case 4 */
-			//Function Dens = new Function("Dens(m, v) = m / v");
-			//Expression e3 = new Expression("Dens(mAsS, volUME)", Volume, Mass, Dens);
-			//addCaseInsensitiveArguments(e3, Volume, Mass);
-			//mXparser.consolePrintln("Case 4: " + e3.getExpressionString() + " = " + e3.calculate());
-			/* Case 4 */
-			//Expression e4 = new Expression("deNs(mAsS, volUME)", Volume, Mass, Dens);
-			//addCaseInsensitiveArguments(e4, Volume, Mass);
-			//addCaseInsensitiveFunctions(e4, Dens);
-			//mXparser.consolePrintln("Case 5: " + e4.getExpressionString() + " = " + e4.calculate());
-			//mXparser.consolePrintln();
-			//mXparser.consolePrintln("========================= >>>>>>>>> Verbose mode while calculate()");
-			//e4.setVerboseMode();
-			//e4.calculate();
-			//Function f = new Function("f(x) = x^2");
-			//Argument x = new Argument("x = 10");
-			//Expression e = new Expression("f(x)", f, x);
-			//mXparser.consolePrintln(e.calculate());
-			Expression e = new Expression("(e^(1/e))^^10000000 - e");
-			e.checkSyntax();
-			mXparser.consolePrintln(e.calculate());
-			mXparser.consolePrintln(e.getErrorMessage());
-			//mXparser.consolePrintln(String.Format("{0:0}", 1e250));
-			//mXparser.consolePrintln(NumberTheory.toMixedFractionString(20.0+263.0/353.0));
+			int n = 20;
+			double timeFromPrecomplied = FromPrecomplied(n);
+			timeFromPrecomplied = FromPrecomplied(n);
+			timeFromPrecomplied = FromPrecomplied(n);
+			timeFromPrecomplied = FromPrecomplied(n);
+			timeFromPrecomplied = FromPrecomplied(n);
+			timeFromPrecomplied = FromPrecomplied(n);
+			double timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
+			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
+			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
+			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
+			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
+			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
+			//double timeAlwaysNew = TestAlwaysNew(n);
+			PrintResult("Pre-compiled ", n, timeFromPrecomplied);
+			PrintResult("Pre-compiled other constr ", n, timeFromPrecompliedOtherCOnstr);
+			//PrintResult("Always new   ", n, timeAlwaysNew);
 		}
 	}
 }

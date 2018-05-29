@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2018-02-04
+ * @(#)Expression.java        4.2.0   2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3588,6 +3588,24 @@ public class Expression {
 		f2SetDecreaseRemove(pos, MathFunctions.numberOfPermutations(n, k) );
 	}
 	/**
+	 * Beta special function
+	 * @param      pos                 the token position
+	 */
+	private void BETA(int pos) {
+		double x = getTokenValue(pos+1);
+		double y = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, SpecialFunctions.beta(x, y) );
+	}
+	/**
+	 * Log beta special function
+	 * @param      pos                 the token position
+	 */
+	private void LOG_BETA(int pos) {
+		double x = getTokenValue(pos+1);
+		double y = getTokenValue(pos+2);
+		f2SetDecreaseRemove(pos, SpecialFunctions.logBeta(x, y) );
+	}
+	/**
 	 * Bernoulli Number
 	 *
 	 * @param      pos                 the token position
@@ -4020,6 +4038,26 @@ public class Expression {
 		double position = getTokenValue(pos+2);
 		double numeralSystemBase = getTokenValue(pos+3);
 		f3SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position, numeralSystemBase) );
+	}
+	/**
+	 * Incomplete beta special function
+	 * @param      pos                 the token position
+	 */
+	private void INC_BETA(int pos) {
+		double x = getTokenValue(pos+1);
+		double a = getTokenValue(pos+2);
+		double b = getTokenValue(pos+3);
+		f3SetDecreaseRemove(pos, SpecialFunctions.incompleteBeta(a, b, x) );
+	}
+	/**
+	 * Regularized incomplete beta special function
+	 * @param      pos                 the token position
+	 */
+	private void REG_BETA(int pos) {
+		double x = getTokenValue(pos+1);
+		double a = getTokenValue(pos+2);
+		double b = getTokenValue(pos+3);
+		f3SetDecreaseRemove(pos, SpecialFunctions.regularizedBeta(a, b, x) );
 	}
 	/**
 	 * Updating missing tokens (i.e. indexes i sum operator). Used when creating
@@ -5763,6 +5801,8 @@ public class Expression {
 		case Function2Arg.REG_GAMMA_LOWER_ID: REG_GAMMA_LOWER(pos); break;
 		case Function2Arg.REG_GAMMA_UPPER_ID: REG_GAMMA_UPPER(pos); break;
 		case Function2Arg.PERMUTATIONS_ID: PERMUTATIONS(pos); break;
+		case Function2Arg.BETA_ID: BETA(pos); break;
+		case Function2Arg.LOG_BETA_ID: LOG_BETA(pos); break;
 		}
 	}
 	/**
@@ -5783,6 +5823,8 @@ public class Expression {
 		case Function3Arg.CDF_NORMAL_ID: CDF_NORMAL(pos); break;
 		case Function3Arg.QNT_NORMAL_ID: QNT_NORMAL(pos); break;
 		case Function3Arg.DIGIT_ID: DIGIT(pos); break;
+		case Function3Arg.INC_BETA_ID: INC_BETA(pos); break;
+		case Function3Arg.REG_BETA_ID: REG_BETA(pos); break;
 		}
 	}
 	/**
@@ -6072,7 +6114,9 @@ public class Expression {
 			addKeyWord(Function2Arg.REG_GAMMA_LOWER_P_STR, Function2Arg.REG_GAMMA_LOWER_DESC, Function2Arg.REG_GAMMA_LOWER_ID, Function2Arg.REG_GAMMA_LOWER_P_SYN, Function2Arg.REG_GAMMA_LOWER_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.REG_GAMMA_UPPER_Q_STR, Function2Arg.REG_GAMMA_UPPER_DESC, Function2Arg.REG_GAMMA_UPPER_ID, Function2Arg.REG_GAMMA_UPPER_Q_SYN, Function2Arg.REG_GAMMA_UPPER_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.PERMUTATIONS_STR, Function2Arg.PERMUTATIONS_DESC, Function2Arg.PERMUTATIONS_ID, Function2Arg.PERMUTATIONS_SYN, Function2Arg.PERMUTATIONS_SINCE, Function2Arg.TYPE_ID);
-			/*
+			addKeyWord(Function2Arg.BETA_STR, Function2Arg.BETA_DESC, Function2Arg.BETA_ID, Function2Arg.BETA_SYN, Function2Arg.BETA_SINCE, Function2Arg.TYPE_ID);
+			addKeyWord(Function2Arg.LOG_BETA_STR, Function2Arg.LOG_BETA_DESC, Function2Arg.LOG_BETA_ID, Function2Arg.LOG_BETA_SYN, Function2Arg.LOG_BETA_SINCE, Function2Arg.TYPE_ID);
+						/*
 			 * 3 args functions key words
 			 */
 			addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.IF_SYN, Function3Arg.IF_SINCE, Function3Arg.TYPE_ID);
@@ -6087,6 +6131,9 @@ public class Expression {
 			addKeyWord(Function3Arg.CDF_NORMAL_STR, Function3Arg.CDF_NORMAL_DESC, Function3Arg.CDF_NORMAL_ID, Function3Arg.CDF_NORMAL_SYN, Function3Arg.CDF_NORMAL_SINCE, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.QNT_NORMAL_STR, Function3Arg.QNT_NORMAL_DESC, Function3Arg.QNT_NORMAL_ID, Function3Arg.QNT_NORMAL_SYN, Function3Arg.QNT_NORMAL_SINCE, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.DIGIT_STR, Function3Arg.DIGIT_DESC, Function3Arg.DIGIT_ID, Function3Arg.DIGIT_SYN, Function3Arg.DIGIT_SINCE, Function3Arg.TYPE_ID);
+			addKeyWord(Function3Arg.INC_BETA_STR, Function3Arg.INC_BETA_DESC, Function3Arg.INC_BETA_ID, Function3Arg.INC_BETA_SYN, Function3Arg.INC_BETA_SINCE, Function3Arg.TYPE_ID);
+			addKeyWord(Function3Arg.REG_BETA_STR, Function3Arg.REG_BETA_DESC, Function3Arg.REG_BETA_ID, Function3Arg.REG_BETA_SYN, Function3Arg.REG_BETA_SINCE, Function3Arg.TYPE_ID);
+			addKeyWord(Function3Arg.REG_BETA_I_STR, Function3Arg.REG_BETA_DESC, Function3Arg.REG_BETA_ID, Function3Arg.REG_BETA_I_SYN, Function3Arg.REG_BETA_I_SINCE, Function3Arg.TYPE_ID);
 			/*
 			 * Variadic functions as key words
 			 */

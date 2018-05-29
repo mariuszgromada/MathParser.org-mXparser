@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.cs        4.2.0    2018-01-28
+ * @(#)SpecialFunctions.cs        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -496,14 +496,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				q = -x;
 				w = logGamma(q);
 				p = Math.Floor(q);
-				if (p == q) return Double.NaN;
+				if (Math.Abs(p-q) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 				z = q - p;
 				if (z > 0.5) {
 					p += 1.0;
 					z = p - q;
 				}
 				z = q * Math.Sin( Math.PI * z );
-				if (z == 0.0) return Double.NaN;
+				if (Math.Abs(z) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 				z = MathConstants.LNPI - Math.Log(z) - w;
 				return z;
 			}
@@ -514,7 +514,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					z *= x;
 				}
 				while (x < 2.0) {
-					if( x == 0.0 ) return Double.NaN;
+					if ( Math.Abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) return Double.NaN;
 					z /= x;
 					x += 1.0;
 				}
@@ -769,6 +769,222 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			return result;
 		}
+		private const int doubleWidth = 53;
+		private static readonly double doublePrecision = Math.Pow(2, -doubleWidth);
+
+		/**
+		 * Log Beta special function
+		 * @param x
+		 * @param y
+		 * @return  Return logBeta special function (for positive x and positive y)
+		 */
+		public static double logBeta(double x, double y) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(y)) return Double.NaN;
+			if ( (x <= 0) || (y <= 0) ) return Double.NaN;
+
+			double lgx = logGamma(x);
+			if (Double.IsNaN(lgx)) lgx = Math.Log( Math.Abs( gamma(x) ) );
+
+			double lgy = logGamma(y);
+			if (Double.IsNaN(lgy)) lgy = Math.Log( Math.Abs( gamma(y) ) );
+
+			double lgxy = logGamma(x+y);
+			if (Double.IsNaN(lgy)) lgxy = Math.Log( Math.Abs( gamma(x+y) ) );
+
+			if ( (!Double.IsNaN(lgx)) && (!Double.IsNaN(lgy)) && (!Double.IsNaN(lgxy)) )
+				return (lgx + lgy - lgxy);
+			else return Double.NaN;
+		}
+		/**
+		 * Beta special function
+		 * @param x
+		 * @param y
+		 * @return  Return Beta special function (for positive x and positive y)
+		 */
+		public static double beta(double x, double y) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(y)) return Double.NaN;
+			if ( (x <= 0) || (y <= 0) ) return Double.NaN;
+			if ( (x > 99) || (y > 99) ) return Math.Exp(logBeta(x, y));
+			return gamma(x)*gamma(y) / gamma(x+y);
+		}
+		/**
+		 * Log Incomplete Beta special function
+		 * @param x
+		 * @param y
+		 * @return  Return incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 *
+		 */
+		public static double incompleteBeta(double a, double b, double x) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if (x > 1+BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if ( (a <= 0) || (b <= 0) ) return Double.NaN;
+			if (MathFunctions.almostEqual(x, 0)) return 0;
+			if (MathFunctions.almostEqual(x, 1)) return beta(a, b);
+			bool aEq0 = MathFunctions.almostEqual(a, 0);
+			bool bEq0 = MathFunctions.almostEqual(b, 0);
+			bool aIsInt = MathFunctions.isInteger(a);
+			bool bIsInt = MathFunctions.isInteger(b);
+			long aInt = 0, bInt = 0;
+			if (aIsInt) aInt = (long)MathFunctions.integerPart(a);
+			if (bIsInt) bInt = (long)MathFunctions.integerPart(b);
+
+			long n;
+			if (aEq0 && bEq0) return Math.Log( x / (1-x) );
+			if (aEq0 && bIsInt) {
+				n = bInt;
+				if (n >= 1) {
+					if (n == 1) return Math.Log(x);
+					if (n == 2) return Math.Log(x) + x;
+					double v = Math.Log(x);
+					for (long i = 1; i <= n-1; i++)
+						v -= MathFunctions.binomCoeff(n-1, i) * Math.Pow(-1, i) * ( Math.Pow(x, i) / i );
+					return v;
+				}
+				if (n <= -1) {
+					if (n == -1) return Math.Log( x / (1-x) ) + 1/(1-x) - 1;
+					if (n == -2) return Math.Log( x / (1-x) ) - 1/x - 1/(2*x*x);
+					double v = -Math.Log(x / (1-x));
+					for (long i = 1; i <= -n-1; i++)
+						v -= Math.Pow(x, -i) / i;
+					return v;
+				}
+			}
+			if (aIsInt && bEq0) {
+				n = aInt;
+				if (n >= 1) {
+					if (n == 1) return -Math.Log(1-x);
+					if (n == 2) return -Math.Log(1-x) - x;
+					double v = -Math.Log(1-x);
+					for (long i = 1; i <= n-1; i++)
+						v -= Math.Pow(x, i) / i;
+					return v;
+				}
+				if (n <= -1) {
+					if (n == -1) return Math.Log( x / (1-x) ) - 1/x;
+					double v = -Math.Log(x / (1-x));
+					for (long i = 1; i <= -n; i++)
+						v += Math.Pow(1-x, -i) / i;
+					for (long i = 1; i <= -n; i++)
+						v -= Math.Pow( MathFunctions.factorial(i-1) , 2) / i;
+					return v;
+				}
+			}
+			if(aIsInt) {
+				n = aInt;
+				if (MathFunctions.almostEqual(b, 1)) {
+					if (n <= -1) return -( 1/(-n) ) * Math.Pow(x, n);
+				}
+			}
+			return regularizedBeta(a, b, x)*beta(a, b);
+		}
+		private static double nextUp(double d) {
+			// Check for special values
+			if (double.IsPositiveInfinity(d) || double.IsNegativeInfinity(d)) return d;
+			if (double.IsNaN(d)) return d;
+			ulong bits = (ulong)BitConverter.DoubleToInt64Bits(d);
+			// Mask out the mantissa bits
+			bits &= 0xfff0000000000000L;
+			// Reduce exponent by 52 bits, so subtract 52 from the mantissa.
+			// First check if number is great enough.
+			ulong testWithoutSign = bits & 0x7ff0000000000000L;
+			if (testWithoutSign > 0x0350000000000000L)
+				bits -= 0x0350000000000000L;
+			else
+				bits = 0x0000000000000001L;
+			return BitConverter.Int64BitsToDouble((long)bits);
+		}
+		/**
+		 * Regularized incomplete Beta special function
+		 * @param x
+		 * @param y
+		 * @return  Return incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 */
+		public static double regularizedBeta(double a, double b, double x) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (Double.IsNaN(x)) return Double.NaN;
+			if ( (a <= 0) || (b <= 0) ) return Double.NaN;
+			if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if (x > 1+BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if (MathFunctions.almostEqual(x, 0)) return 0;
+			if (MathFunctions.almostEqual(x, 1)) return 1;
+
+			double bt = (x == 0.0 || x == 1.0)
+				? 0.0
+				: Math.Exp(logGamma(a + b) - logGamma(a) - logGamma(b) + (a*Math.Log(x)) + (b*Math.Log(1.0 - x)));
+
+			bool symmetryTransformation = x >= (a + 1.0)/(a + b + 2.0);
+
+			/* Continued fraction representation */
+			double eps = doublePrecision;
+			double fpmin =
+				nextUp(0.0)/eps;
+
+			if (symmetryTransformation) {
+				x = 1.0 - x;
+				double swap = a;
+				a = b;
+				b = swap;
+			}
+
+			double qab = a + b;
+			double qap = a + 1.0;
+			double qam = a - 1.0;
+			double c = 1.0;
+			double d = 1.0 - (qab*x/qap);
+
+			if (Math.Abs(d) < fpmin) {
+				d = fpmin;
+			}
+
+			d = 1.0/d;
+			double h = d;
+
+			for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2) {
+				double aa = m*(b - m)*x/((qam + m2)*(a + m2));
+				d = 1.0 + (aa*d);
+
+				if (Math.Abs(d) < fpmin) {
+					d = fpmin;
+				}
+
+				c = 1.0 + (aa/c);
+				if (Math.Abs(c) < fpmin) {
+					c = fpmin;
+				}
+
+				d = 1.0/d;
+				h *= d*c;
+				aa = -(a + m)*(qab + m)*x/((a + m2)*(qap + m2));
+				d = 1.0 + (aa*d);
+
+				if (Math.Abs(d) < fpmin) {
+					d = fpmin;
+				}
+
+				c = 1.0 + (aa/c);
+
+				if (Math.Abs(c) < fpmin) {
+					c = fpmin;
+				}
+
+				d = 1.0/d;
+				double del = d*c;
+				h *= del;
+
+				if (Math.Abs(del - 1.0) <= eps) {
+					return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+				}
+			}
+			return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+		}
 		/*
 		 * halleyIteration epsilon
 		 */
@@ -866,42 +1082,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0(x);
 			if (Math.Abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 			return Double.NaN;
-		}
-		private static int BESSEL_BOUND = 10;
-		public static double besselJ( double x, double alpha, int sumbound) {
-			// return Enumerable.Range(0, sumbound).Sum(t => BesselJCoeff(t, alpha) * BesselJTerm(t, alpha, x));
-			// Since this doesn't like my LINQ method for some reason...
-			var sum = 0.0;
-			for( var i = 0; i < sumbound; i++) {
-				sum += besselJCoeff(i, alpha) * besselJTerm(i, alpha, x);
-			}
-			return sum;
-		}
-		private static double besselJCoeff(int m, double alpha) {
-			return Math.Pow(-1, m) / (MathFunctions.factorial(m) * SpecialFunctions.lanchosGamma(m + alpha + 1));
-		}
-		private static double besselJTerm(int m, double alpha, double x) {
-			return Math.Pow(x / 2.0, 2 * m + alpha);
-		}
-		public static double besselJ(double x, int n, int sumbound) {
-			return besselJ(x, Convert.ToDouble(n), sumbound);
-		}
-		public static double besselJ(double x, int n) {
-			if( n < 0) return Math.Pow(-1.0, n) * besselJ(x, Math.Abs(n), BESSEL_BOUND);
-			return besselJ(x, n, BESSEL_BOUND);
-		}
-		public static double besselJ(double x, double alpha) {
-			if( alpha == 0.5) {
-				return Math.Sqrt(2.0 / (Math.PI * x)) * MathFunctions.sin(x);
-			}
-			if( alpha == -0.5) {
-				return Math.Sqrt(2.0 / (Math.PI * x)) * MathFunctions.cos(x);
-			}
-			if( Math.Abs(alpha % 1) <= (Double.Epsilon*100)) {
-				return besselJ(x, Convert.ToInt32(alpha));
-			} else {
-				return besselJ(x, alpha, BESSEL_BOUND);
-			}
 		}
 	}
 }

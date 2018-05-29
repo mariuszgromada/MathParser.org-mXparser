@@ -1,9 +1,9 @@
 /*
- * @(#)Function3Arg.java        4.1.0    2017-05-13
+ * @(#)Function3Arg.java        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.2.0
  */
 public final class Function3Arg {
 	/*
@@ -94,6 +94,8 @@ public final class Function3Arg {
 	public static final int CDF_NORMAL_ID					= 11;
 	public static final int QNT_NORMAL_ID					= 12;
 	public static final int DIGIT_ID						= 13;
+	public static final int INC_BETA_ID						= 14;
+	public static final int REG_BETA_ID						= 15;
 	/*
 	 * 3-args Function - tokens key words.
 	 */
@@ -109,6 +111,9 @@ public final class Function3Arg {
 	public static final String CDF_NORMAL_STR				= "cNor";
 	public static final String QNT_NORMAL_STR				= "qNor";
 	public static final String DIGIT_STR					= "dig";
+	public static final String INC_BETA_STR					= "BetaInc";
+	public static final String REG_BETA_STR					= "BetaReg";
+	public static final String REG_BETA_I_STR				= "BetaI";
 	/*
 	 * 3-args Function - syntax.
 	 */
@@ -124,6 +129,9 @@ public final class Function3Arg {
 	public static final String CDF_NORMAL_SYN				= "cNor(x, mean, stdv)";
 	public static final String QNT_NORMAL_SYN				= "qNor(q, mean, stdv)";
 	public static final String DIGIT_SYN					= "dig(num, pos, base)";
+	public static final String INC_BETA_SYN					= INC_BETA_STR + "(x,a,b)";
+	public static final String REG_BETA_SYN					= REG_BETA_STR + "(x,a,b)";
+	public static final String REG_BETA_I_SYN				= REG_BETA_I_STR + "(x,a,b)";
 	/*
 	 * 3-args Function - tokens description.
 	 */
@@ -139,6 +147,8 @@ public final class Function3Arg {
 	public static final String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
 	public static final String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function)";
 	public static final String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
+	public static final String INC_BETA_DESC				= "The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind";
+	public static final String REG_BETA_DESC				= "The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind";
 	/*
 	 * 3-args Function - since.
 	 */
@@ -154,4 +164,7 @@ public final class Function3Arg {
 	public static final String CDF_NORMAL_SINCE				= mXparser.NAMEv30;
 	public static final String QNT_NORMAL_SINCE				= mXparser.NAMEv30;
 	public static final String DIGIT_SINCE					= mXparser.NAMEv41;
+	public static final String INC_BETA_SINCE				= mXparser.NAMEv42;
+	public static final String REG_BETA_SINCE				= mXparser.NAMEv42;
+	public static final String REG_BETA_I_SINCE				= mXparser.NAMEv42;
 }

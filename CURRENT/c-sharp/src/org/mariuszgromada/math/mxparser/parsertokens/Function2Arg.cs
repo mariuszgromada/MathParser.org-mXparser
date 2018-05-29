@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.cs        4.2.0    2018-02-04
+ * @(#)Function2Arg.cs        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -107,6 +107,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int REG_GAMMA_LOWER_ID					= 23;
 		public const int REG_GAMMA_UPPER_ID					= 24;
 		public const int PERMUTATIONS_ID					= 25;
+		public const int BETA_ID							= 26;
+		public const int LOG_BETA_ID						= 27;
 		/*
 		 * BinaryFunction - tokens key words.
 		 */
@@ -138,6 +140,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String REG_GAMMA_LOWER_P_STR			= "GammaP";
 		public const String REG_GAMMA_UPPER_Q_STR			= "GammaQ";
 		public const String PERMUTATIONS_STR				= "nPk";
+		public const String BETA_STR						= "Beta";
+		public const String LOG_BETA_STR					= "logBeta";
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -169,6 +173,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String REG_GAMMA_UPPER_Q_SYN			= REG_GAMMA_UPPER_Q_STR + "(s,x)";
 		public const String BINOM_COEFF_NCK_SYN				= BINOM_COEFF_NCK_STR + "(n,k)";
 		public const String PERMUTATIONS_SYN				= PERMUTATIONS_STR + "(n,k)";
+		public const String BETA_SYN						= BETA_STR + "(x,y)";
+		public const String LOG_BETA_SYN					= LOG_BETA_STR + "(x,y)";
 		/*
 		 * BinaryFunction - tokens description.
 		 */
@@ -197,6 +203,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String REG_GAMMA_LOWER_DESC			= "Lower regularized P gamma special function";
 		public const String REG_GAMMA_UPPER_DESC			= "Upper regularized Q Gamma special function";
 		public const String PERMUTATIONS_DESC				= "Number of k-permutations that can be drawn from n-elements set";
+		public const String BETA_DESC						= "The Beta special function B(x,y), also called the Euler integral of the first kind";
+		public const String LOG_BETA_DESC					= "The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)";
 		/*
 		 * BinaryFunction - since.
 		 */
@@ -226,5 +234,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String REG_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
 		public const String REG_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
 		public const String PERMUTATIONS_SINCE				= mXparser.NAMEv42;
+		public const String BETA_SINCE						= mXparser.NAMEv42;
+		public const String LOG_BETA_SINCE					= mXparser.NAMEv42;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.java        4.2.0    2018-02-04
+ * @(#)Function2Arg.java        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -106,6 +106,8 @@ public final class Function2Arg {
 	public static final int REG_GAMMA_LOWER_ID					= 23;
 	public static final int REG_GAMMA_UPPER_ID					= 24;
 	public static final int PERMUTATIONS_ID						= 25;
+	public static final int BETA_ID								= 26;
+	public static final int LOG_BETA_ID							= 27;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -137,6 +139,8 @@ public final class Function2Arg {
 	public static final String REG_GAMMA_LOWER_P_STR			= "GammaP";
 	public static final String REG_GAMMA_UPPER_Q_STR			= "GammaQ";
 	public static final String PERMUTATIONS_STR					= "nPk";
+	public static final String BETA_STR							= "Beta";
+	public static final String LOG_BETA_STR						= "logBeta";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -168,6 +172,8 @@ public final class Function2Arg {
 	public static final String REG_GAMMA_UPPER_Q_SYN			= REG_GAMMA_UPPER_Q_STR + "(s,x)";
 	public static final String BINOM_COEFF_NCK_SYN				= BINOM_COEFF_NCK_STR + "(n,k)";
 	public static final String PERMUTATIONS_SYN					= PERMUTATIONS_STR + "(n,k)";
+	public static final String BETA_SYN							= BETA_STR + "(x,y)";
+	public static final String LOG_BETA_SYN						= LOG_BETA_STR + "(x,y)";
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -191,11 +197,13 @@ public final class Function2Arg {
 	public static final String FACTVAL_DESC						= "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value";
 	public static final String FACTEXP_DESC						= "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value";
 	public static final String ROOT_DESC						= "N-th order root of a number";
-	public static final String INC_GAMMA_LOWER_DESC				= "Lower incomplete gamma special function";
-	public static final String INC_GAMMA_UPPER_DESC				= "Upper incomplete Gamma special function";
-	public static final String REG_GAMMA_LOWER_DESC				= "Lower regularized P gamma special function";
-	public static final String REG_GAMMA_UPPER_DESC				= "Upper regularized Q Gamma special function";
+	public static final String INC_GAMMA_LOWER_DESC				= "Lower incomplete gamma special function, γ(s,x)";
+	public static final String INC_GAMMA_UPPER_DESC				= "Upper incomplete Gamma special function, Γ(s,x)";
+	public static final String REG_GAMMA_LOWER_DESC				= "Lower regularized P gamma special function, P(s,x)";
+	public static final String REG_GAMMA_UPPER_DESC				= "Upper regularized Q Gamma special function, Q(s,x)";
 	public static final String PERMUTATIONS_DESC				= "Number of k-permutations that can be drawn from n-elements set";
+	public static final String BETA_DESC						= "The Beta special function B(x,y), also called the Euler integral of the first kind";
+	public static final String LOG_BETA_DESC					= "The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -225,4 +233,6 @@ public final class Function2Arg {
 	public static final String REG_GAMMA_LOWER_SINCE			= mXparser.NAMEv42;
 	public static final String REG_GAMMA_UPPER_SINCE			= mXparser.NAMEv42;
 	public static final String PERMUTATIONS_SINCE				= mXparser.NAMEv42;
+	public static final String BETA_SINCE						= mXparser.NAMEv42;
+	public static final String LOG_BETA_SINCE					= mXparser.NAMEv42;
 }

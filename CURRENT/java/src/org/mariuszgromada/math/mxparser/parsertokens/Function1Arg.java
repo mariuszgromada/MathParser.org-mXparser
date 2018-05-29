@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        4.2.0    2018-01-30
+ * @(#)Function1Arg.java        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -413,12 +413,12 @@ public final class Function1Arg {
 	public static final String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
 	public static final String ARCSEC_DESC				= "Inverse trigonometric secant";
 	public static final String ARCCSC_DESC				= "Inverse trigonometric cosecant";
-	public static final String GAMMA_DESC				= "Gamma special function";
+	public static final String GAMMA_DESC				= "Gamma special function Γ(s)";
 	public static final String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
 	public static final String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
-	public static final String SGN_GAMMA_DESC			= "Signum of Gamma special function";
-	public static final String LOG_GAMMA_DESC			= "Log Gamma special function";
-	public static final String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function";
+	public static final String SGN_GAMMA_DESC			= "Signum of Gamma special function, Γ(s)";
+	public static final String LOG_GAMMA_DESC			= "Log Gamma special function, lnΓ(s)";
+	public static final String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)";
 	public static final String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
 	/*
 	 * UnaryFunction - tokens description.
