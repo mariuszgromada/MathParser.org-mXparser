@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.2.0   2018-05-29
+ * @(#)Expression.cs        4.2.0   2018-06-17
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -6754,6 +6754,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * words list and tokens list
 			 */
 			initialTokens = new List<Token>();
+			if (newExpressionString.Length == 0) return;
 			int lastPos = 0; /* position of the key word previously added*/
 			int pos = 0; /* current position */
 			String tokenStr = "";
@@ -7167,8 +7168,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#consolePrintTokens(ArrayList)
 		 */
 		public List<Token> getCopyOfInitialTokens() {
-			tokenizeExpressionString();
 			List<Token> tokensListCopy = new List<Token>();
+			if (expressionString.Length == 0) return tokensListCopy;
+			tokenizeExpressionString();
+			if (initialTokens.Count == 0) return tokensListCopy;
 			Token token;
 			for (int i = 0; i < initialTokens.Count; i++) {
 				token = initialTokens[i];

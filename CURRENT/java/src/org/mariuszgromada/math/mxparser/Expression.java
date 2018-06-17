@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2018-05-29
+ * @(#)Expression.java        4.2.0   2018-06-17
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -6762,6 +6762,7 @@ public class Expression {
 		 * words list and tokens list
 		 */
 		initialTokens = new ArrayList<Token>();
+		if (newExpressionString.length() == 0) return;
 		int lastPos = 0; /* position of the key word previously added*/
 		int pos = 0; /* current position */
 		String tokenStr = "";
@@ -7174,8 +7175,10 @@ public class Expression {
 	 * @see mXparser#consolePrintTokens(List)
 	 */
 	public List<Token> getCopyOfInitialTokens() {
-		tokenizeExpressionString();
 		List<Token> tokensListCopy = new ArrayList<Token>();
+		if (expressionString.length() == 0) return tokensListCopy;
+		tokenizeExpressionString();
+		if (initialTokens.size() == 0) return tokensListCopy;
 		Token token;
 		for (int i = 0; i < initialTokens.size(); i++) {
 			token =  initialTokens.get(i);

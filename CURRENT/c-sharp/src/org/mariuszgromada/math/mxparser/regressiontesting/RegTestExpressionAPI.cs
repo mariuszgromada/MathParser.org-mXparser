@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.2.0   2018-02-03
+ * @(#)RegTestExpressionAPI.cs        4.2.0   2018-06-17
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2198,6 +2198,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			mXparser.enableAlmostIntRounding();
 			bool u3 = mXparser.checkIfAlmostIntRounding();
 			if ((u1 == true) && (u2 == false) && (u3 == true))
+				test[testId] = true;
+			/*
+			 * 60. StringIndexOutOfBoundsException asking for tokens of empty expression #135
+			 */
+			testId++;
+			e = new Expression("");
+			tokens = e.getCopyOfInitialTokens();
+			if (tokens.Count == 0)
 				test[testId] = true;
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
