@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        4.2.0    2018-01-30
+ * @(#)ParserSymbol.java        4.2.0    2018-07-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -172,8 +172,10 @@ public final class ParserSymbol {
 	public static final int LEFT_PARENTHESES_ID 			= 1;
 	public static final int RIGHT_PARENTHESES_ID			= 2;
 	public static final int COMMA_ID						= 3;
+	public static final int BLANK_ID						= 4;
 	public static final int NUMBER_ID						= 1;
 	public static final int NUMBER_TYPE_ID					= 0;
+
 	/*
 	 * ParserSymbol - tokens key words.
 	 */
@@ -181,6 +183,7 @@ public final class ParserSymbol {
 	public static final String RIGHT_PARENTHESES_STR		= ")";
 	public static final String COMMA_STR					= ",";
 	public static final String SEMI_STR						= ";";
+	public static final String BLANK_STR					= " ";
 	public static final String NUMBER_STR					= "_num_";
 	/*
 	 * ParserSymbol - syntax.
@@ -189,6 +192,7 @@ public final class ParserSymbol {
 	public static final String RIGHT_PARENTHESES_SYN		= "( ... )";
 	public static final String COMMA_SYN					= "(a1, ... ,an)";
 	public static final String SEMI_SYN						= "(a1; ... ;an)";
+	public static final String BLANK_SYN					= " ";
 	public static final String NUMBER_SYN					= "1, -2, 001, +001.2e-10, b1.111, b2.1001, b3.12021, b16.af12, ...";
 	/*
 	 * ParserSymbol - tokens description.
@@ -197,6 +201,7 @@ public final class ParserSymbol {
 	public static final String RIGHT_PARENTHESES_DESC		= "Right parentheses";
 	public static final String COMMA_DESC					= "Comma (function parameters)";
 	public static final String SEMI_DESC					= "Semicolon (function parameters)";
+	public static final String BLANK_DESC					= "Blank (whitespace) character";
 	public static final String NUMBER_DESC					= "Decimal number";
 	public static final String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
 	/*
@@ -206,5 +211,6 @@ public final class ParserSymbol {
 	public static final String RIGHT_PARENTHESES_SINCE		= mXparser.NAMEv10;
 	public static final String COMMA_SINCE					= mXparser.NAMEv10;
 	public static final String SEMI_SINCE					= mXparser.NAMEv10;
+	public static final String BLANK_SINCE					= mXparser.NAMEv42;
 	public static final String NUMBER_SINCE					= mXparser.NAMEv10;
 }

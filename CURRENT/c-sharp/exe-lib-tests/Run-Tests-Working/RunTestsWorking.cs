@@ -81,6 +81,7 @@ namespace phelipemartins.caseinsensitivity {
 			Console.WriteLine(name + " : " + time + " ms " + (n*n*n*n) + " iterations " + (int)((1000.0 / time) * niter) + "/s");
 		}
 		static void Main(string[] args) {
+			/*
 			int n = 20;
 			double timeFromPrecomplied = FromPrecomplied(n);
 			timeFromPrecomplied = FromPrecomplied(n);
@@ -94,10 +95,13 @@ namespace phelipemartins.caseinsensitivity {
 			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
 			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
 			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			//double timeAlwaysNew = TestAlwaysNew(n);
 			PrintResult("Pre-compiled ", n, timeFromPrecomplied);
 			PrintResult("Pre-compiled other constr ", n, timeFromPrecompliedOtherCOnstr);
-			//PrintResult("Always new   ", n, timeAlwaysNew);
+			*/
+			Argument x = new Argument("x = 2");
+			Function f = new Function("f", "sin(x)", "x");
+			Expression e = new Expression("   der( int(f(t), t, 0, x), x) -  f(x   )   ", f, x);
+			mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
 		}
 	}
 }

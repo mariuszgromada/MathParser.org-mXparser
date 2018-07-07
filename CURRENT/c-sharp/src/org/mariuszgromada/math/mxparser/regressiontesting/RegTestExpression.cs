@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        4.2.0   2018-05-29
+ * @(#)RegTestExpression.cs        4.2.0   2018-07-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -13744,6 +13744,54 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.enableUlpRounding();
 				mXparser.enableAlmostIntRounding();
 				break;
+			case 1137:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "5! = 120";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1138:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "5! == 120";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1139:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "5!=5";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1140:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "5 != 5";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -13758,7 +13806,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 1095;
+			int numberOfTests = 1140;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

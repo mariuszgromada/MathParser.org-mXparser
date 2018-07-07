@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.2.0   2018-06-17
+ * @(#)Expression.cs        4.2.0   2018-07-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -6439,6 +6439,7 @@ namespace org.mariuszgromada.math.mxparser {
 			addKeyWord(ParserSymbol.COMMA_STR, ParserSymbol.COMMA_DESC, ParserSymbol.COMMA_ID, ParserSymbol.COMMA_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID);
 			addKeyWord(ParserSymbol.SEMI_STR, ParserSymbol.SEMI_DESC, ParserSymbol.COMMA_ID, ParserSymbol.SEMI_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID);
 			addKeyWord(ParserSymbol.DECIMAL_REG_EXP, ParserSymbol.NUMBER_REG_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID);
+			addKeyWord(ParserSymbol.BLANK_STR, ParserSymbol.BLANK_DESC, ParserSymbol.BLANK_ID, ParserSymbol.BLANK_SYN, ParserSymbol.BLANK_SINCE, ParserSymbol.TYPE_ID);
 		}
 		/**
 		 * Adds arguments key words to the keywords list
@@ -6739,21 +6740,32 @@ namespace org.mariuszgromada.math.mxparser {
 						minusKwId = kwId;
 				}
 			}
+			initialTokens = new List<Token>();
+			int expLen = expressionString.Length;
+			if (expLen == 0) return;
 			/*
 			 * Clearing expression string from spaces
 			 */
 			String newExpressionString = "";
 			char c;
-			if (expressionString.Length > 0) {
-				for (int i = 0; i < expressionString.Length; i++) {
-					c = expressionString[i];
-					if ( (c != ' ') && (c != '\n') && (c != '\r') && (c != '\t') ) newExpressionString = newExpressionString + c;
+			int blankCnt = 0;
+			int newExpLen = 0;
+			for (int i = 0; i < expLen; i++) {
+				c = expressionString[i];
+				if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') ) {
+					blankCnt++;
+				} else if (blankCnt > 0) {
+					if (newExpLen > 0) newExpressionString = newExpressionString + " ";
+					blankCnt = 0;
+				}
+				if (blankCnt == 0) {
+					newExpressionString = newExpressionString + c;
+					newExpLen++;
 				}
 			}
 			/*
 			 * words list and tokens list
 			 */
-			initialTokens = new List<Token>();
 			if (newExpressionString.Length == 0) return;
 			int lastPos = 0; /* position of the key word previously added*/
 			int pos = 0; /* current position */
@@ -6833,6 +6845,7 @@ namespace org.mariuszgromada.math.mxparser {
 					if (pos > 0) {
 						precedingChar = newExpressionString[pos-1];
 						if (
+								( precedingChar != ' ' ) &&
 								( precedingChar != ',' ) &&
 								( precedingChar != ';' ) &&
 								( precedingChar != '|' ) &&
@@ -6859,6 +6872,7 @@ namespace org.mariuszgromada.math.mxparser {
 					if (numEnd < newExpressionString.Length - 1) {
 						followingChar = newExpressionString[numEnd + 1];
 						if (
+								(followingChar != ' ') &&
 								(followingChar != ',') &&
 								(followingChar != ';') &&
 								(followingChar != '|') &&
@@ -6988,7 +7002,9 @@ namespace org.mariuszgromada.math.mxparser {
 									 */
 									if (pos > 0) {
 										precedingChar = newExpressionString[pos - 1];
-										if (	(precedingChar != ',') &&
+										if (
+												(precedingChar != ' ') &&
+												(precedingChar != ',') &&
 												(precedingChar != ';') &&
 												(precedingChar != '|') &&
 												(precedingChar != '&') &&
@@ -7014,7 +7030,9 @@ namespace org.mariuszgromada.math.mxparser {
 									 */
 									if ((matchStatus == FOUND) && (pos + kwStr.Length < newExpressionString.Length)) {
 										followingChar = newExpressionString[pos + kwStr.Length];
-										if (	(followingChar != ',') &&
+										if (
+												(followingChar != ' ') &&
+												(followingChar != ',') &&
 												(followingChar != ';') &&
 												(followingChar != '|') &&
 												(followingChar != '&') &&
@@ -7060,7 +7078,8 @@ namespace org.mariuszgromada.math.mxparser {
 						 * key word to the tokens list
 						 */
 						tokenStr = newExpressionString.Substring(pos, kwStr.Length);
-						addToken(tokenStr, kw);
+						if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) )
+							addToken(tokenStr, kw);
 						/*
 						 * Remember position where las adeed word ends + 1
 						 */

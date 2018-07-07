@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.cs        4.2.0    2018-01-30
+ * @(#)ParserSymbol.cs        4.2.0    2018-07-07
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -176,6 +176,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int LEFT_PARENTHESES_ID				= 1;
 		public const int RIGHT_PARENTHESES_ID				= 2;
 		public const int COMMA_ID							= 3;
+		public const int BLANK_ID							= 4;
 		public const int NUMBER_ID							= 1;
 		public const int NUMBER_TYPE_ID						= 0;
 		/**
@@ -185,6 +186,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RIGHT_PARENTHESES_STR			= ")";
 		public const String COMMA_STR						= ",";
 		public const String SEMI_STR						= ";";
+		public const String BLANK_STR						= " ";
 		public const String NUMBER_STR						= "_num_";
 		/*
 		 * ParserSymbol - syntax.
@@ -193,6 +195,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RIGHT_PARENTHESES_SYN		= "( ... )";
 		public const String COMMA_SYN					= "(a1, ... ,an)";
 		public const String SEMI_SYN					= "(a1; ... ;an)";
+		public const String BLANK_SYN					= " ";
 		public const String NUMBER_SYN					= "1, -2, 001, +001.2e-10, ...";
 		/*
 		 * ParserSymbol - tokens description.
@@ -201,6 +204,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RIGHT_PARENTHESES_DESC		= "Right parentheses";
 		public const String COMMA_DESC					= "Comma (function parameters)";
 		public const String SEMI_DESC					= "Semicolon (function parameters)";
+		public const String BLANK_DESC					= "Blank (whitespace) character";
 		public const String NUMBER_DESC					= "Decimal number";
 		public const String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
 		/*
@@ -210,6 +214,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String RIGHT_PARENTHESES_SINCE		= mXparser.NAMEv10;
 		public const String COMMA_SINCE					= mXparser.NAMEv10;
 		public const String SEMI_SINCE					= mXparser.NAMEv10;
+		public const String BLANK_SINCE					= mXparser.NAMEv42;
 		public const String NUMBER_SINCE				= mXparser.NAMEv10;
 	}
 }
