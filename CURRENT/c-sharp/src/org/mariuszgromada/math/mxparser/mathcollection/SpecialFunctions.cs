@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.cs        4.2.0    2018-05-29
+ * @(#)SpecialFunctions.cs        4.2.0    2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -431,7 +431,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Real valued Gamma function
 		 *
-		 * @param x
+		 * @param x   Argument value
 		 * @return  Returns gamma function value.
 		 */
 		public static double gamma(double x) {
@@ -478,7 +478,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Real valued log gamma function.
-		 * @param x
+		 * @param x   Argument value
 		 * @return  Returns log value from gamma function.
 		 */
 		public static double logGamma(double x) {
@@ -536,7 +536,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Signum from the real valued gamma function.
-		 * @param x
+		 * @param x   Argument value
 		 * @return  Returns signum of the gamma(x)
 		 */
 		public static double sgnGamma(double x) {
@@ -553,8 +553,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Regularized lower gamma function 'P'
-		 * @param s
-		 * @param x
+		 * @param s   Argument value
+		 * @param x   Argument value
 		 * @return Value of the regularized lower gamma function 'P'.
 		 */
 		public static double regularizedGammaLowerP(double s, double x) {
@@ -642,8 +642,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
   		}
 		/**
 		 * Incomplete lower gamma function
-		 * @param s
-		 * @param x
+		 * @param s   Argument value
+		 * @param x   Argument value
 		 * @return Value of the incomplete lower gamma function.
 		 */
 		public static double incompleteGammaLower(double s, double x) {
@@ -651,8 +651,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Regularized upper gamma function 'Q'
-		 * @param s
-		 * @param x
+		 * @param s   Argument value
+		 * @param x   Argument value
 		 * @return Value of the regularized upper gamma function 'Q'.
 		 */
 		public static double regularizedGammaUpperQ(double s, double x) {
@@ -720,8 +720,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Incomplete upper gamma function
-		 * @param s
-		 * @param x
+		 * @param s   Argument value
+		 * @param x   Argument value
 		 * @return Value of the incomplete upper gamma function.
 		 */
 		public static double incompleteGammaUpper(double s, double x) {
@@ -729,7 +729,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Digamma function as the logarithmic derivative of the Gamma special function
-		 * @param x
+		 * @param x   Argument value
 		 * @return Approximated value of the digamma function.
 		 */
 		public static double diGamma(double x) {
@@ -774,8 +774,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 		/**
 		 * Log Beta special function
-		 * @param x
-		 * @param y
+		 * @param x   Argument value
+		 * @param y   Argument value
 		 * @return  Return logBeta special function (for positive x and positive y)
 		 */
 		public static double logBeta(double x, double y) {
@@ -798,8 +798,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Beta special function
-		 * @param x
-		 * @param y
+		 * @param x   Argument value
+		 * @param y   Argument value
 		 * @return  Return Beta special function (for positive x and positive y)
 		 */
 		public static double beta(double x, double y) {
@@ -811,8 +811,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Log Incomplete Beta special function
-		 * @param x
-		 * @param y
+		 * @param a   Argument value
+		 * @param b   Argument value
+		 * @param x   Argument value
 		 * @return  Return incomplete Beta special function
 		 * for positive a and positive b and x between 0 and 1
 		 *
@@ -901,8 +902,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Regularized incomplete Beta special function
-		 * @param x
-		 * @param y
+		 * @param a   Argument value
+		 * @param b   Argument value
+		 * @param x   Argument value
 		 * @return  Return incomplete Beta special function
 		 * for positive a and positive b and x between 0 and 1
 		 */

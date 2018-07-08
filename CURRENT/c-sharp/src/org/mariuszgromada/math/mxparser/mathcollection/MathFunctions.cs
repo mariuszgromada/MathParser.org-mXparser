@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2018-02-04
+ * @(#)MathFunctions.java        4.2.0   2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1531,7 +1531,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
  		/**
  		 * Returns integer part of a doube value.
- 		 * @param x
+ 		 * @param x   Number
  		 * @return For non- negative x returns Math.floor(x),
  		 *         otherwise returns -Math.floor(-x)
  		 */
@@ -1931,8 +1931,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Check whether two double values are almost equal.
-		 * @param a
-		 * @param b
+		 * @param a   First number
+		 * @param b   Second number
 		 * @return True if double values are almost equal, otherwise false.
 		 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
 		 *

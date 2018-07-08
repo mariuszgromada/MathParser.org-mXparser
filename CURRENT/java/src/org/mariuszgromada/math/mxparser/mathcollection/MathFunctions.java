@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2018-02-04
+ * @(#)MathFunctions.java        4.2.0   2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -1528,8 +1528,8 @@ public final class MathFunctions {
  		return Math.floor(sign * valueFloor) / multiplier;
  	}
  	/**
- 	 * Returns integer part of a doube value.
- 	 * @param x
+ 	 * Returns integer part of a double value.
+ 	 * @param x  Number
  	 * @return For non- negative x returns Math.floor(x),
  	 *         otherwise returns -Math.floor(-x)
  	 */
@@ -1910,7 +1910,7 @@ public final class MathFunctions {
 	}
 	/**
 	 * Check whether double value is almost integer.
-	 * @param x
+	 * @param x   Number
 	 * @return True if double value is almost integer, otherwise false.
 	 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
 	 *
@@ -1927,8 +1927,8 @@ public final class MathFunctions {
 	}
 	/**
 	 * Check whether two double values are almost equal.
-	 * @param a
-	 * @param b
+	 * @param a   First number
+	 * @param b   Second number
 	 * @return True if double values are almost equal, otherwise false.
 	 *         {@link BinaryRelations#DEFAULT_COMPARISON_EPSILON}
 	 *

@@ -1,5 +1,5 @@
 /*
- * @(#)Evaluate.java        4.2.0    2018-01-28
+ * @(#)Evaluate.java        4.2.0    2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -98,10 +98,10 @@ public final class Evaluate {
         return sum;
 	}
 	/**
-	 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double).
-	 * @param x
-	 * @param coef
-	 * @param n
+	 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
+	 * @param x      Argument value
+	 * @param coef   List of polynomial coefficients
+	 * @param n      Polynomial degree
 	 * @return Polynomial value
 	 */
 	public static final double p1evl(double x, double[] coef, int n) {
@@ -111,10 +111,10 @@ public final class Evaluate {
 		return ans;
 	}
 	/**
-	 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double).
-	 * @param x
-	 * @param coef
-	 * @param n
+	 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
+	 * @param x      Argument value
+	 * @param coef   List of polynomial coefficients
+	 * @param n      Polynomial degree
 	 * @return Polynomial value
 	 */
 	public static final double polevl(double x, double[] coef, int n) {

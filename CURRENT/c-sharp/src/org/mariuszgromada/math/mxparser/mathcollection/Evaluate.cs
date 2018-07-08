@@ -1,5 +1,5 @@
 /*
- * @(#)Evaluate.cs        4.2.0    2018-01-28
+ * @(#)Evaluate.cs        4.2.0    2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -100,10 +100,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return sum;
 		}
 		/**
-		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double).
-		 * @param x
-		 * @param coef
-		 * @param n
+		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
+		 * @param x      Argument value
+		 * @param coef   List of polynomial coefficients
+		 * @param n      Polynomial degree
 		 * @return Polynomial value
 		 */
 		public static double p1evl(double x, double[] coef, int n) {
@@ -113,10 +113,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return ans;
 		}
 		/**
-		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double).
-		 * @param x
-		 * @param coef
-		 * @param n
+		 * Polynomial evaluation for the {@link SpecialFunctions#logGamma(double)}
+		 * @param x      Argument value
+		 * @param coef   List of polynomial coefficients
+		 * @param n      Polynomial degree
 		 * @return Polynomial value
 		 */
 		public static double polevl(double x, double[] coef, int n) {

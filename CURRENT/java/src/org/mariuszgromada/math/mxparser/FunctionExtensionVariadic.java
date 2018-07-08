@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtensionVariadic.java        4.2.0    2018-02-01
+ * @(#)FunctionExtensionVariadic.java        4.2.0    2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -91,6 +91,7 @@ package org.mariuszgromada.math.mxparser;
 public interface FunctionExtensionVariadic {
 	/**
 	 * Actual algorithm implementation.
+	 * @param parameters Variadic list of parameters
 	 *
 	 * @return Function Extension value.
 	 */

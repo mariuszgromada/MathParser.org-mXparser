@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.java        4.2.0    2018-05-29
+ * @(#)SpecialFunctions.java        4.2.0    2018-07-08
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -433,7 +433,7 @@ public final class SpecialFunctions {
 	/**
 	 * Real valued Gamma function
 	 *
-	 * @param x
+	 * @param x   Argument value
 	 * @return  Returns gamma function value.
 	 */
 	public static final double gamma(double x) {
@@ -480,7 +480,7 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Real valued log gamma function.
-	 * @param x
+	 * @param x  Argument value
 	 * @return  Returns log value from gamma function.
 	 */
 	public static double logGamma(double x) {
@@ -538,7 +538,7 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Signum from the real valued gamma function.
-	 * @param x
+	 * @param x Argument value
 	 * @return  Returns signum of the gamma(x)
 	 */
 	public static final double sgnGamma(double x) {
@@ -555,8 +555,8 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Regularized lower gamma function 'P'
-	 * @param s
-	 * @param x
+	 * @param s  Argument value
+	 * @param x  Argument value
 	 * @return Value of the regularized lower gamma function 'P'.
 	 */
 	public static final double regularizedGammaLowerP(double s, double x) {
@@ -644,8 +644,8 @@ public final class SpecialFunctions {
   	}
 	/**
 	 * Incomplete lower gamma function
-	 * @param s
-	 * @param x
+	 * @param s   Argument value
+	 * @param x   Argument value
 	 * @return Value of the incomplete lower gamma function.
 	 */
 	public static final double incompleteGammaLower(double s, double x) {
@@ -653,8 +653,8 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Regularized upper gamma function 'Q'
-	 * @param s
-	 * @param x
+	 * @param s  Argument value
+	 * @param x  Argument value
 	 * @return Value of the regularized upper gamma function 'Q'.
 	 */
 	public static final double regularizedGammaUpperQ(double s, double x) {
@@ -722,8 +722,8 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Incomplete upper gamma function
-	 * @param s
-	 * @param x
+	 * @param s   Argument value
+	 * @param x   Argument value
 	 * @return Value of the incomplete upper gamma function.
 	 */
 	public static final double incompleteGammaUpper(double s, double x) {
@@ -731,7 +731,7 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Digamma function as the logarithmic derivative of the Gamma special function
-	 * @param x
+	 * @param x   Argument value
 	 * @return Approximated value of the digamma function.
 	 */
 	public static final double diGamma(double x) {
@@ -776,8 +776,8 @@ public final class SpecialFunctions {
 
 	/**
 	 * Log Beta special function
-	 * @param x
-	 * @param y
+	 * @param x   Argument value
+	 * @param y   Argument value
 	 * @return  Return logBeta special function (for positive x and positive y)
 	 */
 	public static double logBeta(double x, double y) {
@@ -800,8 +800,8 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Beta special function
-	 * @param x
-	 * @param y
+	 * @param x   Argument value
+	 * @param y   Argument value
 	 * @return  Return Beta special function (for positive x and positive y)
 	 */
 	public static double beta(double x, double y) {
@@ -813,8 +813,9 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Log Incomplete Beta special function
-	 * @param x
-	 * @param y
+	 * @param a   Argument value
+	 * @param b   Argument value
+	 * @param x   Argument value
 	 * @return  Return incomplete Beta special function
 	 * for positive a and positive b and x between 0 and 1
 	 *
@@ -887,8 +888,9 @@ public final class SpecialFunctions {
 	}
 	/**
 	 * Regularized incomplete Beta special function
-	 * @param x
-	 * @param y
+	 * @param a   Argument value
+	 * @param b   Argument value
+	 * @param x   Argument value
 	 * @return  Return incomplete Beta special function
 	 * for positive a and positive b and x between 0 and 1
 	 */
