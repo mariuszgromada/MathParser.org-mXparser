@@ -5,7 +5,7 @@
     <AssemblyName>MathParser.org-mXparser.Stand10</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>4.0.0</Version>
+    <Version>4.2.0</Version>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
@@ -16,9 +16,9 @@
     <PackageIconUrl>http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-Tutorial.jpg</PackageIconUrl>
     <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>!!! Added port to .NET Standard +.NET Core + PCL !!! Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.</PackageReleaseNotes>
-    <AssemblyVersion>4.0.0.2</AssemblyVersion>
-    <FileVersion>4.0.0.2</FileVersion>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
   <PropertyGroup>

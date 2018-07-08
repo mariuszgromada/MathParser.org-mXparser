@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
-    <AssemblyName>MathParser.org-mXparser.Core10</AssemblyName>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>MathParser.org-mXparser.Core20</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <FileVersion>4.0.0.2</FileVersion>
+    <FileVersion>4.0.0.0</FileVersion>
     <Version>4.2.0</Version>
     <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
@@ -39,7 +39,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;CORE</DefineConstants>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs" Link="src\org\mariuszgromada\math\mxparser\Argument.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Constant.cs" Link="src\org\mariuszgromada\math\mxparser\Constant.cs" />

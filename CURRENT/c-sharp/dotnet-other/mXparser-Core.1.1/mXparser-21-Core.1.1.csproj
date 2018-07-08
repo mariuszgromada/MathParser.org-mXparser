@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>MathParser.org-mXparser.Core11</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
-    <AssemblyVersion>4.0.0.2</AssemblyVersion>
-    <FileVersion>4.0.0.2</FileVersion>
-    <Version>4.0.0</Version>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <Version>4.2.0</Version>
     <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
@@ -19,7 +19,7 @@
     <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
-    <PackageReleaseNotes>!!! Added port to .NET Standard +.NET Core + PCL !!! Major update: Bitwise Operators, Numbers in scientific notation, Units, Physical and Astronomical Constants, Equations solving via finding function root, Better tokens handling, Function Extensions - possibility of using your own implementation, ugs fixed.</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
