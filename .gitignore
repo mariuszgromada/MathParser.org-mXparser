@@ -3,6 +3,7 @@ bin/
 *.project
 CURRENT/java/target/
 CURRENT/java/.settings/
+CURRENT/c-sharp/packages/
 .vs/
 bin/
 obj/
