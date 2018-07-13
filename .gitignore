@@ -1,4 +1,6 @@
 bin/
+CURRENT/java/.classpath
+CURRENT/java/.project
 *.classpath
 *.project
 CURRENT/java/target/
