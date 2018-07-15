@@ -8,6 +8,99 @@
 	                       buy me a cup coffee :-)
                     *** http://mathparser.org/donate/ ***
 
+
+v.4.2.0 (2018-07-15): Aquaria - Major release
+
+	* Broader types of decimal number literals
+
+		- No leading zero, i.e.: .2, .312, -.21
+
+	* Fraction as number literals
+	
+		- 1_2 is recognized as 1/2
+		- 2_3_4 is recognized as 2 + 3/4
+		- 17_5 is recognized as 17/5
+		- Just use Expression e = new Expression("2_3_2 + 1_2")
+
+	* Double to fraction conversion
+
+		- mXparser.toFraction(double value) - double[]
+		- mXparser.toMixedFraction(double value) - double[]
+		- mXparser.fractionToString(double[] fraction) - String
+		- mXparser.toFractionString(double value) - String
+		- mXparser.toMixedFractionString(double value) - String
+
+	* Disable / enable almost int rounding
+
+		- mXparser.enableAlmostIntRounding()
+		- mXparser.disableAlmostIntRounding()
+		- mXparser.checkIfAlmostIntRounding()
+		- mXparser.getEpsilon()
+		- mXparser.setEpsilon()
+		
+	* Variadic user defined functions
+
+		- Function f = new Function("f(...) = sum(i, 1, [npar], par(i)^2 )");
+		- [npar] - number of available parameters
+		- par(i) - parameter value
+		- body extended is supported
+
+	* New special functions
+
+		- Gamma(x) - Gamma special function Γ(s)
+		- LambW0(x) - Lambert-W special function, principal branch 0, also called the omega function or product logarithm
+		- LambW1(x) - Lambert-W special function, branch -1, also called the omega function or product logarithm
+		- sgnGamma(x) - Signum of Gamma special function, Γ(s)
+		- logGamma(x) - Log Gamma special function, lnΓ(s)
+		- diGamma(x) - Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)
+		- GammaL(s,x) - Lower incomplete gamma special function, γ(s,x)
+		- GammaU(s,x) - Upper incomplete Gamma special function, Γ(s,x)
+		- GammaP(s,x), GammaRegL(s,x) - Lower regularized P gamma special function, P(s,x)
+		- GammaQ(s,x), GammaRegU(s,x) - Upper regularized Q Gamma special function, Q(s,x)
+		- Beta(x,y) - The Beta special function B(x,y), also called the Euler integral of the first kind
+		- logBeta(x,y) - The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)
+		- BetaInc(x,a,b) - The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind
+		- BetaI(x,a,b), BetaReg(x,a,b) - The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind
+		
+	* Degrees / Radians mode for trigonometrix
+
+		- mXparser.setDegreesMode()
+		- mXparser.setRadiansMode()
+		- mXparser.checkIfDegreesMode()
+		- mXparser.checkIfRadiansMode()	
+
+	* New operator - Tetration
+
+		- a^^n is recognized as a^a^a...^a - n times		
+
+	* Bugs fixed
+
+		- Argument.checkSyntax() https://github.com/mariuszgromada/MathParser.org-mXparser/issues/145
+		- Endless loop with factorial https://github.com/mariuszgromada/MathParser.org-mXparser/issues/136
+		- StringIndexOutOfBoundsException asking for tokens of empty expression https://github.com/mariuszgromada/MathParser.org-mXparser/issues/135
+		- Function.checkSyntax() always returns true https://github.com/mariuszgromada/MathParser.org-mXparser/issues/111
+		- Syntax for unary complement https://github.com/mariuszgromada/MathParser.org-mXparser/issues/114
+		- Iterative operators descending sequence https://github.com/mariuszgromada/MathParser.org-mXparser/issues/119
+		- checkSyntax() bug https://github.com/mariuszgromada/MathParser.org-mXparser/issues/80
+		- Very very very long processing time of gcd https://github.com/mariuszgromada/MathParser.org-mXparser/issues/91
+		- Priorities of "if", "iff" and other calculus operations https://github.com/mariuszgromada/MathParser.org-mXparser/issues/82
+
+	* Other framework support (binaries)
+
+		- .NET Core: 2.0, 2.1
+		- .NET Standard: 2.0
+		- .NET Framework: 4.7, 4.7.2
+		- JAVA: 1.9, 1.10
+
+	* New regression tests - current tests coverage:
+	
+		- 1155 expression related tests
+		- 245 syntax related tests
+		- 65 API related tests
+		- 20 performance tests
+		
+https://github.com/mariuszgromada/MathParser.org-mXparser/milestone/2
+
 v.4.1.1 (2017-07-28): Aeries - checkSyntax() bug fixing
 
 	* Fixed: checkSyntax() returns true "already checked no errors" #75
