@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>MathParser.org-mXparser.Stand20</AssemblyName>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>MathParser.org-mXparser.Core21</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
-    <PackageId>MathParser.org-mXparser</PackageId>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
     <Version>4.2.0</Version>
+    <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
@@ -16,10 +18,16 @@
     <PackageIconUrl>http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-Tutorial.jpg</PackageIconUrl>
     <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>v.4.2 Aquaria: Special functions, Fractions, Decimals without leading zero, Variadic user defined functions, Scientific notation, Degrees / radians mode for trigonometric, Tetration operator, Few bugs fixed</PackageReleaseNotes>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <FileVersion>4.2.0.0</FileVersion>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
+    <PackageReleaseNotes>v.4.2 Aquaria: Special functions, Fractions, Decimals without leading zero, Variadic user defined functions, Scientific notation, Degrees / radians mode for trigonometric, Tetration operator, Few bugs fixed</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NETCOREAPP1_1;CORE</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -27,14 +35,11 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\..\..\pfx-keys\mariuszgromada.org.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE;NETSTANDARD1_0;NETSTANDARD</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CORE</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs" Link="src\org\mariuszgromada\math\mxparser\Argument.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Constant.cs" Link="src\org\mariuszgromada\math\mxparser\Constant.cs" />
@@ -90,10 +95,12 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" Link="src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs" Link="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
   </ItemGroup>
+
   <ItemGroup>
     <Folder Include="src\org\mariuszgromada\math\mxparser\mathcollection\" />
     <Folder Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\" />
     <Folder Include="src\org\mariuszgromada\math\mxparser\regressiontesting\" />
     <Folder Include="src\org\mariuszgromada\math\mxparser\parsertokens\" />
   </ItemGroup>
+
 </Project>

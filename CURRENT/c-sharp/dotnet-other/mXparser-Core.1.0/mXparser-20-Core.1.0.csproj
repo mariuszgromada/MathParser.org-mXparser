@@ -5,21 +5,21 @@
     <AssemblyName>MathParser.org-mXparser.Core10</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <FileVersion>4.0.0.2</FileVersion>
+    <FileVersion>4.0.0.0</FileVersion>
     <Version>4.2.0</Version>
     <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
     <Description>A flexible mathematical expressions parser for JAVA and C# .NET</Description>
-    <Copyright>Copyright © Mariusz Gromada 2017</Copyright>
+    <Copyright>Copyright © Mariusz Gromada 2018</Copyright>
     <PackageLicenseUrl>http://mathparser.org/mxparser-license/</PackageLicenseUrl>
     <PackageProjectUrl>http://mathparser.org/</PackageProjectUrl>
     <PackageIconUrl>http://mathparser.org/wp-content/uploads/2016/01/MathParser-org-mXparser-logo-Tutorial.jpg</PackageIconUrl>
     <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>v.4.2 Aquaria: Special functions, Fractions, Decimals without leading zero, Variadic user defined functions, Scientific notation, Degrees / radians mode for trigonometric, Tetration operator, Few bugs fixed</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

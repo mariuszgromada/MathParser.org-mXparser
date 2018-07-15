@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mariusz Gromada, MathParser.org")]
 [assembly: AssemblyProduct("mXparser")]
-[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2017")]
+[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2018")]
 [assembly: AssemblyTrademark("mXparser")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible

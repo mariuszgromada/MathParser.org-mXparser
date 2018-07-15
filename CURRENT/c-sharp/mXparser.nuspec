@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.1.1</version>
+    <version>4.2.0</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -12,8 +12,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ ***</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>v.4.1.1 Fixed: checkSyntax() returns true "already checked no errors" #75. v.4.1.0 Aeries - Major update: Various numeral systems + Working with digits (number of digits, digit at position), Leading zeros, Prime factorization, Not-a-Number support, Variadic or + and + xor, Other nice functions (argmin, argmax, root, mode, median, coalesce), Percentage '%' as operator, Alternative syntax for derivative, Built-in tokens manipulation, Interacting with expression tokens.</releaseNotes>
-    <copyright>Copyright 2017 - Mariusz Gromada - MathParser.org</copyright>
+    <releaseNotes>v.4.2 Aquaria: Special functions, Fractions, Decimals without leading zero, Variadic user defined functions, Scientific notation, Degrees / radians mode for trigonometric, Tetration operator, Few bugs fixed.</releaseNotes>
+    <copyright>Copyright 2018 - Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
   </metadata>
   <files>
@@ -31,6 +31,7 @@
     <file src="dotnet-other\mXparser-dot.net.4.6.1\bin\Release\*.dll" target="lib\net461" />
     <file src="dotnet-other\mXparser-dot.net.4.6.2\bin\Release\*.dll" target="lib\net462" />
     <file src="dotnet-other\mXparser-dot.net.4.7\bin\Release\*.dll" target="lib\net47" />
+    <file src="dotnet-other\mXparser-dot.net.4.7.2\bin\Release\*.dll" target="lib\net472" />
 
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\monotouch10" />
@@ -42,11 +43,17 @@
     <file src="dotnet-other\mXparser-Core.1.0\bin\Release\netcoreapp1.0\*.json" target="lib\netcoreapp10" />
     <file src="dotnet-other\mXparser-Core.1.1\bin\Release\netcoreapp1.1\*.dll" target="lib\netcoreapp11" />
     <file src="dotnet-other\mXparser-Core.1.1\bin\Release\netcoreapp1.1\*.json" target="lib\netcoreapp11" />
+    <file src="dotnet-other\mXparser-Core.2.0\bin\Release\netcoreapp2.0\*.dll" target="lib\netcoreapp20" />
+    <file src="dotnet-other\mXparser-Core.2.0\bin\Release\netcoreapp2.0\*.json" target="lib\netcoreapp20" />
+    <file src="dotnet-other\mXparser-Core.2.1\bin\Release\netcoreapp2.1\*.dll" target="lib\netcoreapp21" />
+    <file src="dotnet-other\mXparser-Core.2.1\bin\Release\netcoreapp2.1\*.json" target="lib\netcoreapp21" />
 
     <file src="dotnet-other\mXparser-dot.stand.1.0\bin\Release\netstandard1.0\*.dll" target="lib\netstandard10" />
     <file src="dotnet-other\mXparser-dot.stand.1.0\bin\Release\netstandard1.0\*.json" target="lib\netstandard10" />
     <file src="dotnet-other\mXparser-dot.stand.1.6\bin\Release\netstandard1.6\*.dll" target="lib\netstandard16" />
     <file src="dotnet-other\mXparser-dot.stand.1.6\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
+    <file src="dotnet-other\mXparser-dot.stand.2.0\bin\Release\netstandard2.0\*.dll" target="lib\netstandard20" />
+    <file src="dotnet-other\mXparser-dot.stand.2.0\bin\Release\netstandard2.0\*.json" target="lib\netstandard20" />
 
   </files>
 </package>
