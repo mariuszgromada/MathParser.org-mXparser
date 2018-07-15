@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2018-07-07
+ * @(#)Expression.java        4.2.0   2018-07-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -6799,11 +6799,12 @@ public class Expression {
 			 */
 			int numEnd = -1;
 			/*
-			 * Number has to start with digit
+			 * Number has to start with digit or dot
 			 */
 			firstChar = newExpressionString.charAt(pos);
 			if (	(firstChar == '+') ||
 					(firstChar == '-') ||
+					(firstChar == '.') ||
 					(firstChar == '0') ||
 					(firstChar == '1') ||
 					(firstChar == '2') ||

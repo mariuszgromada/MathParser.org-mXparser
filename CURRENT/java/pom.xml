@@ -81,6 +81,9 @@
 					<includes>
 						<include>RegressionTest.java</include>
 					</includes>
+					<excludes>
+						<exclude>WorkingTests.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>

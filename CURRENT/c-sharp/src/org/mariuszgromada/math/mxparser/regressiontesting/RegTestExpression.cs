@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        4.2.0   2018-07-07
+ * @(#)RegTestExpression.cs        4.2.0   2018-07-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -13792,6 +13792,174 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 1141:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = ".2-0.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1142:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "-.2+0.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1143:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "0.2-.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1144:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "-0.2+.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1145:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "4^.5";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1146:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "4^(-.5)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 0.5;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1147:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "2+0.2+.4";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2.6;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1148:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "2+.4+0.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2.6;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1149:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = ".4+2+0.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2.6;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1150:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "2+0.2-.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1151:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "2-.2+0.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1152:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "-.2+2+0.2";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 2;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1153:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "12+.2e-1";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 12.02;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1154:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "12+.2e+1";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 14;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -13806,7 +13974,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 1140;
+			int numberOfTests = 1154;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];

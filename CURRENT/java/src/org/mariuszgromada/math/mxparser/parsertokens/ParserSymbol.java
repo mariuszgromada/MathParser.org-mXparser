@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        4.2.0    2018-07-07
+ * @(#)ParserSymbol.java        4.2.0    2018-07-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -114,7 +114,7 @@ public final class ParserSymbol {
 	public static final String DIGIT_B35						= "[0-9a-yA-Y]";
 	public static final String DIGIT_B36						= "[0-9a-zA-Z]";
 	public static final String INTEGER							= DIGIT + "(" + DIGIT + ")*";
-	public static final String DEC_FRACT						= INTEGER + "\\." + INTEGER;
+	public static final String DEC_FRACT						= "(" + INTEGER + ")?" + "\\." + INTEGER;
 	public static final String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
 	public static final String DECIMAL_REG_EXP					= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
 	public static final String BASE1_REG_EXP					= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
@@ -193,7 +193,7 @@ public final class ParserSymbol {
 	public static final String COMMA_SYN					= "(a1, ... ,an)";
 	public static final String SEMI_SYN						= "(a1; ... ;an)";
 	public static final String BLANK_SYN					= " ";
-	public static final String NUMBER_SYN					= "1, -2, 001, +001.2e-10, b1.111, b2.1001, b3.12021, b16.af12, ...";
+	public static final String NUMBER_SYN					= "Integer (since v.1.0): 1, -2; Decimal (since v.1.0): 0.2, -0.3, 1.2; Leading zero (since v.4.1): 001, -002.1; Scientific notation (since v.4.2): 1.2e-10, 1.2e+10, 2.3e10; No leading zero (since v.4.2): .2, -.212; Fractions (since v.4.2): 1_2, 2_1_3, 14_3; Other systems (since v.4.1): b1.111, b2.1001, b3.12021, b16.af12, h.af1, b.1001, o.0127";
 	/*
 	 * ParserSymbol - tokens description.
 	 */

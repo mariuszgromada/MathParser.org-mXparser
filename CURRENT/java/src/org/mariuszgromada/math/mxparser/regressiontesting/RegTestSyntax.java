@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.2.0   2018-02-02
+ * @(#)RegTestSyntax.java        4.2.0   2018-07-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2881,6 +2881,72 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 239:
+			expStr = ".2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 240:
+			expStr = "+.2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 241:
+			expStr = "-.2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 242:
+			expStr = "-.2^.3";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 243:
+			expStr = ".2 ^ .3";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 244:
+			expStr = "-2 + 3 - .2 + 1.5 - .2^.3 + (2/.3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2894,7 +2960,7 @@ public class RegTestSyntax {
 	 * @return Number of errors.
 	 */
 	public static int start() {
-		int numberOfTests = 238;
+		int numberOfTests = 244;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];

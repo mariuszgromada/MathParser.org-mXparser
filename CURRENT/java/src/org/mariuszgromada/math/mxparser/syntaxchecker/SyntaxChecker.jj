@@ -1,11 +1,11 @@
 /*
- * @(#)SyntaxChecker.jj        4.2.0    2017-10-19
+ * @(#)SyntaxChecker.jj        4.2.0    2018-07-15
  *
  * SyntaxChecker.jj - mXparser grammar specification for JavaCC
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -164,7 +164,7 @@ TOKEN : /* TOKENS */
  */
 TOKEN :
 {
-	< #DEC_FRACT:			<INTEGER> "." <INTEGER>												>
+	< #DEC_FRACT:			( <INTEGER> )? "." <INTEGER>										>
 |	< #DEC_FRACT_OR_INT:	( <DEC_FRACT> | <INTEGER> )											>
 |	< DECIMAL:				<DEC_FRACT_OR_INT> ( ( "E" | "e" ) ( "+" | "-" )? <INTEGER> )?		>
 |	< BASE1:				( "b1" | "B1" ) "." (<DIGIT_B1>)*									>
