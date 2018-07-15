@@ -1,9 +1,9 @@
 /*
- * @(#)Argument.cs        4.0.0    2016-03-26
+ * @(#)Argument.cs        4.2.0    2018-07-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -101,7 +101,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.2.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -412,7 +412,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *            Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN
 		 */
 		public bool checkSyntax() {
-			return argumentExpression.checkSyntax();
+			if (argumentType == FREE_ARGUMENT)
+				return Argument.NO_SYNTAX_ERRORS;
+			else
+				return argumentExpression.checkSyntax();
 		}
 		/**
 		 * Returns error message after checking the syntax

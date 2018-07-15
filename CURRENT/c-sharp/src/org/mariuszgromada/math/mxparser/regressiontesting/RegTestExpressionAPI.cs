@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.2.0   2018-06-17
+ * @(#)RegTestExpressionAPI.cs        4.2.0   2018-07-15
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2206,6 +2206,35 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			e = new Expression("");
 			tokens = e.getCopyOfInitialTokens();
 			if (tokens.Count == 0)
+				test[testId] = true;
+			/*
+			 * 61. Argument check syntax #145
+			 */
+			testId++;
+			x = new Argument("AAAAA", 730000000);
+			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
+				test[testId] = true;
+			/*
+			 * 62. Argument check syntax #145
+			 */
+			testId++;
+			x = new Argument("AAAAA = 730000000");
+			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
+				test[testId] = true;
+			/*
+			 * 63. Argument check syntax #145
+			 */
+			testId++;
+			x = new Argument("AAAAA = y*730000000");
+			if (x.checkSyntax() == Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+				test[testId] = true;
+			/*
+			 * 64. Argument check syntax #145
+			 */
+			testId++;
+			y = new Argument("y", 2);
+			x = new Argument("AAAAA = y*730000000", y);
+			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
 				test[testId] = true;
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
