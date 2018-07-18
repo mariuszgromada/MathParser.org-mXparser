@@ -6,7 +6,7 @@
     <ProjectGuid>{026C3CC0-8398-4587-9FEE-A97A989A56FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>MathParser.org-mXparser.Net462</AssemblyName>
+    <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

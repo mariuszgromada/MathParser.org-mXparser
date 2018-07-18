@@ -1,9 +1,4 @@
 %ROOT_PATH%\jar-build-var-set.bat
-SET JAVAC="%JDK_HOME%\bin\javac"
-SET JAR="%JDK_HOME%\bin\jar"
-SET MANIFEST=%ROOT_PATH%\Manifest.txt
-SET SRC_ROOT_PATH=%ROOT_PATH%\src
-SET BIN_ROOT_PATH=D:\Cloud\OneDrive\OneDrive\GitHub\MathParser.org-mXparser-bin
 
 rmdir /S /Q %BIN_ROOT_PATH%\jdk.%JDK_VER%
 mkdir %BIN_ROOT_PATH%\jdk.%JDK_VER%

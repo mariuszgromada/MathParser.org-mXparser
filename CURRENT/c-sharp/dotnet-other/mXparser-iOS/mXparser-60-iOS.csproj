@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>mxparser</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>MathParser.org-mXparser.iOS</AssemblyName>
+    <AssemblyName>MathParser.org-mXparser</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.2.0</version>
+    <version>4.2.1</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>

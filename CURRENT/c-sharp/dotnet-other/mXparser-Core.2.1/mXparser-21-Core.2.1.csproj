@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>MathParser.org-mXparser.Core21</AssemblyName>
+    <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <AssemblyVersion>4.2.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
