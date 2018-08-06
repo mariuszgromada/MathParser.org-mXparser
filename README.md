@@ -236,6 +236,7 @@
 |Number|Hexadecimal Number|Hexadecimal number - number literal| h.12fE, H.12fE, b16.12fE|4.1|
 |Number|Unary Number|Unary number - number literal| b1.111 , B1.111|4.1|
 |Number|Base 1-36|Base 1-36 number - number literal| bN.xxxx , BN.xxxx|4.1|
+|Number|Fraction|Number literal as fraction| 1_2 , 2_3_4, 172_345, 345_172 |4.3|
 
 ## Operators
 |Key word|Category|Description|Example|Since|
@@ -248,6 +249,7 @@
 | ! | Operator | Factorial | n! | 1.0 |
 | # | Operator | Modulo function | a # b | 1.0 |
 | % | Operator | Percentage | n% | 4.1 |
+| ^^ | Operator | Tetration | a^^b | 4.3 |
 
 ## Boolean Operators
 |Key word|Category|Description|Example|Since|
@@ -271,6 +273,7 @@
 | </- |Boolean Operator|Converse nonimplication (CNIMP)|p </- q|1.0|
 | <-> |Boolean Operator|Logical biconditional (EQV)|p <-> q|1.0|
 | ~ |Boolean Operator|Negation|~p|1.0|
+
 
 ## Bitwise Operators
 |Key word|Category|Description|Example|Since|
@@ -371,7 +374,6 @@
 | arccsch | Unary Function | Inverse hyperbolic cosecant function | arccsch(x) | 1.0 |
 | acosech | Unary Function | Inverse hyperbolic cosecant function | acosech(x) | 1.0 |
 | arcosech | Unary Function | Inverse hyperbolic cosecant function | arcosech(x) | 1.0 |
-| arccosech | Unary Function | Inverse hyperbolic cosecant function | arccosech(x) | 1.0 |
 | Sa | Unary Function | Sinc function (normalized) | Sa(x) | 1.0 |
 | sinc | Unary Function | Sinc function (normalized) | sinc(x) | 1.0 |
 | Sinc | Unary Function | Sinc function (unnormalized) | Sinc(x) | 1.0 |
@@ -393,8 +395,12 @@
 | ndig10 | Unary Function | Number of digits in numeral system with base 10 | ndig10(x) | 4.1 |
 | nfact | Unary Function | Prime decomposition - number of distinct prime factors | nfact(x) | 4.1 |
 | arcsec | Unary Function | Inverse trigonometric secant | arcsec(x) | 4.1 |
-| arccsc | Unary Function | Inverse trigonometric cosecant | arccsc(x) | 4.1 |
-
+| Gamma | Unary Function |  Gamma special function Γ(s) | Gamma(x) | 4.3 |
+| LambW0(x) | Unary Function | Lambert-W special function, principal branch 0, also called the omega function or product logarithm | LambW0(x) | 4.3 |
+| LambW1(x) | Unary Function | Lambert-W special function, branch -1, also called the omega function or product logarithm | LambW1(x) | 4.3 |
+| sgnGamma | Unary Function | Signum of Gamma special function, Γ(x) | sgnGamma(x) | 4.3 |
+| logGamma | Unary Function | Log Gamma special function, lnΓ(x) | logGamma(x) | 4.3 |
+| diGamma | Unary Function | Digamma function as the logarithmic derivative of the Gamma special function, ψ(x) | diGamma(x) | 4.3 |
 
 ## Binary Functions
 |Key word|Category|Description|Example|Since|
@@ -419,6 +425,14 @@
 | factval | Binary Function | Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value | factval(number, factorid) | 4.1 |
 | factexp | Binary Function | Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value | factexp(number, factorid) | 4.1 |
 | root | Binary Function | N-th order root of a number | root(rootorder, number) | 4.1 |
+| GammaL | Binary Function | Lower incomplete gamma special function, γ(s,x) | GammaL(s,x) | 4.3 |
+| GammaU | Binary Function | Upper incomplete Gamma special function, Γ(s,x) | GammaU(s,x) | 4.3 |
+| GammaP | Binary Function | Lower regularized P gamma special function, P(s,x) | GammaP(s,x) | 4.3 |
+| GammaRegL | Binary Function | Lower regularized P gamma special function, P(s,x) | GammaRegL(s,x) | 4.3 |
+| GammaQ | Binary Function | Upper regularized Q Gamma special function, Q(s,x) | GammaQ(s,x) | 4.3 |
+| GammaRegU | Binary Function | Upper regularized Q Gamma special function, Q(s,x) | GammaRegU(s,x) | 4.3 |
+| Beta | Binary Function | The Beta special function B(x,y), also called the Euler integral of the first kind | Beta(x,y) | 4.3 |
+| logBeta | Binary Function | The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y) | logBeta(x,y) | 4.3 |
 
 ## 3-args Functions
 |Key word|Category|Description|Example|Since|
@@ -435,6 +449,9 @@
 | cNor | 3-args Function | Cumulative distribution function - Normal distribution N(m,s) | cNor(x, mean, stdv) | 3.0 |
 | qNor | 3-args Function | Quantile function (inverse cumulative distribution function) | qNor(q, mean, stdv) | 3.0 |
 | dig | 3-args Function | Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base | dig(num, pos, base) | 4.1 |
+| BetaInc | 3-args Function | The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind | BetaInc(x,a,b) | 4.3 |
+| BetaI | 3-args Function | The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind | BetaI(x,a,b) | 4.3 |
+| BetaReg | 3-args Function | The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind | BetaReg(x,a,b) | 4.3 |
 
 ## Variadic Functions
 |Key word|Category|Description|Example|Since|
