@@ -5707,6 +5707,7 @@ public class Expression {
 				showParsing(0,tokensList.size()-1);
 				printSystemInfo(" done\n", NO_EXP_STR);
 			}
+
 			if (tokensList.size() == tokensNumber)
 				emptyLoopCounter++;
 			else

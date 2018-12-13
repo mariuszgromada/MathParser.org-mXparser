@@ -329,8 +329,7 @@ public final class NumberTheory {
 				unqValCnt++;
 				if (initPos[i] < unqValMinPos)
 					unqValMinPos = initPos[i];
-			}
-			if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
+			} else if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
 				/* if new value found and not end of the list */
 				/*
 				 * Store analyzed value

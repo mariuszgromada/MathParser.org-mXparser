@@ -3,7 +3,7 @@
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -122,7 +122,7 @@ public class PrimesCache {
 	 */
 	boolean[] isPrime;
 	/**
-	 *
+	 * Internal flag marking that primes cache initialization was successful;
 	 */
 	boolean initSuccessful;
 	/**
@@ -186,7 +186,6 @@ public class PrimesCache {
 			maxNumInCache = 0;
 			numberOfPrimes = 0;
 		}
-
 	}
 	/**
 	 * Constructor - setting prime cache for a given range if integers

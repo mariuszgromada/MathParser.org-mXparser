@@ -676,10 +676,11 @@ public final class MathFunctions {
 		if (m >= 0) {
 			result = 0;
 			for (int n = 0; n <= m; n++) {
-				for (int k = 0; k <= n; k++)
+				for (int k = 0; k <= n; k++) {
 					result += Math.pow(-1, k) * binomCoeff(n, k) * Math.pow(x+k, m);
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 				result /= Math.pow(2, n);
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 		}
 		return result;
@@ -1540,7 +1541,7 @@ public final class MathFunctions {
  		return Math.floor(sign * valueFloor) / multiplier;
  	}
 	/**
-	 * Double half up rounding
+	 * Double down rounding
 	 *
 	 * @param value    double value to be rounded
 	 * @param places   decimal places
