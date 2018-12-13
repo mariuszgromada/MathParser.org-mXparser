@@ -1,4 +1,9 @@
-%ROOT_PATH%\jar-build-var-set.bat
+SET MXPARSER_VER=MathParser.org-mXparser-v.4.3.0
+SET JAVAC="%JDK_HOME%\bin\javac"
+SET JAR="%JDK_HOME%\bin\jar"
+SET MANIFEST=%ROOT_PATH%\Manifest.txt
+SET SRC_ROOT_PATH=%ROOT_PATH%\src
+SET BIN_ROOT_PATH=%MXPARSER_ROOT_PATH%\MathParser.org-mXparser-bin
 
 rmdir /S /Q %BIN_ROOT_PATH%\jdk.%JDK_VER%
 mkdir %BIN_ROOT_PATH%\jdk.%JDK_VER%

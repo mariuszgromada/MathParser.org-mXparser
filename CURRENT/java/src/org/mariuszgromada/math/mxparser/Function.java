@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        4.2.0    2018-01-30
+ * @(#)Function.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -92,7 +92,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -368,6 +368,59 @@ public class Function extends PrimitiveElement {
 		if (functionBodyType == BODY_EXTENDED) {
 			if (function.functionExtension != null) functionExtension = function.functionExtension.clone();
 			if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
+		}
+	}
+	/**
+	 * Constructor for function definition in natural math language,
+	 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
+	 * is enough to define function "f" with parameters "x and y"
+	 * and function body "sin(x) + cos(x)".
+	 *
+	 * @param functionDefinitionString      Function definition in the form
+	 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
+	 * @param elements                      Optional elements list (variadic - comma separated)
+	 *                                      of types: Argument, Constant, Function
+	 *
+	 * @see    PrimitiveElement
+	 *
+	 */
+	public void setFunction(String functionDefinitionString, PrimitiveElement... elements) {
+		parametersNumber = 0;
+		if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
+			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			this.functionName = headEqBody.headTokens.get(0).tokenStr;
+			functionExpression = new Expression(headEqBody.bodyStr, elements);
+			functionExpression.setDescription(headEqBody.headStr);
+			functionExpression.UDFExpression = true;
+			isVariadic = false;
+			if (headEqBody.headTokens.size() > 1) {
+				Token t;
+				for (int i = 1; i < headEqBody.headTokens.size(); i++) {
+					t = headEqBody.headTokens.get(i);
+					if (t.tokenTypeId != ParserSymbol.TYPE_ID)
+						functionExpression.addArguments(new Argument(t.tokenStr));
+				}
+			}
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			description = "";
+			functionBodyType = BODY_RUNTIME;
+			addFunctions(this);
+		} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
+			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			this.functionName = headEqBody.headTokens.get(0).tokenStr;
+			functionExpression = new Expression(headEqBody.bodyStr, elements);
+			functionExpression.setDescription(headEqBody.headStr);
+			functionExpression.UDFExpression = true;
+			isVariadic = true;
+			parametersNumber = -1;
+			description = "";
+			functionBodyType = BODY_RUNTIME;
+			addFunctions(this);
+		} else {
+			functionExpression = new Expression();
+			functionExpression.setDescription(functionDefinitionString);
+			String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
+			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
 		}
 	}
 	/**

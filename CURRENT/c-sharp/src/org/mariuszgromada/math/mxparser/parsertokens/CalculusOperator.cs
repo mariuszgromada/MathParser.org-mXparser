@@ -1,9 +1,9 @@
 /*
- * @(#)CalculusOperator.cs        4.1.0    2017-06-28
+ * @(#)CalculusOperator.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class CalculusOperator {
@@ -132,7 +132,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String STD_SYN					= "stdi( i, from, to, expr , <by> )";
 		public const String MIN_SYN					= "mini( i, from, to, expr , <by> )";
 		public const String MAX_SYN					= "maxi( i, from, to, expr , <by> )";
-		public const String SOLVE_SYN				= "solve( expr, a, b )";
+		public const String SOLVE_SYN				= "solve( expr, arg, from, to )";
 		/*
 		 * CalculusOperator - tokens description.
 		 */

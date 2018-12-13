@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.2.0   2018-07-15
+ * @(#)Expression.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -114,7 +114,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -4984,12 +4984,13 @@ public class Expression {
 					Function fun = getFunction(t.tokenId);
 					fun.checkRecursiveMode();
 					int npar = getParametersNumber(tokenIndex);
+					int fpar = fun.getParametersNumber();
 					if (npar == 0) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting at least one argument.\n";
-					} else if ( (fun.isVariadic == false) && ( fun.getParametersNumber() != npar ) ) {
+					} else if ( (fun.isVariadic == false) && ( fpar != npar ) ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + npar + " arguments.\n";
+						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + fpar + " arguments.\n";
 					} else
 						if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
 							boolean syntaxRec;
@@ -5215,6 +5216,9 @@ public class Expression {
 		if ( (expressionWasModified == true) || (syntaxStatus != NO_SYNTAX_ERRORS) )
 				syntaxStatus = checkSyntax();
 		if ( syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+			errorMessage =  errorMessage + "Problem with expression syntax\n";
+			if (verboseMode == true)
+				printSystemInfo("syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN, returning Double.NaN\n", NO_EXP_STR);
 			/*
 			 * Recursive counter to avoid infinite loops in expressions
 			 * created in they way shown in below examples
@@ -5250,6 +5254,9 @@ public class Expression {
 		 * if nothing to calculate return Double.NaN
 		 */
 		if (tokensList.size() == 0) {
+			errorMessage =  errorMessage + "Empty expression\n";
+			if (verboseMode == true)
+				printSystemInfo("tokensList.size() == 0, returning Double.NaN\n", NO_EXP_STR);
 			recursionCallsCounter = 0;
 			return Double.NaN;
 		}
@@ -5269,6 +5276,12 @@ public class Expression {
 		 *
 		 */
 		if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
+			errorMessage =  errorMessage + "recursionCallsCounter >= MAX_RECURSION_CALLS\n";
+			if (verboseMode == true) {
+				printSystemInfo("recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS, returning Double.NaN\n", NO_EXP_STR);
+				printSystemInfo("recursionCallsCounter = " +  recursionCallsCounter + "\n", NO_EXP_STR);
+				printSystemInfo("mXparser.MAX_RECURSION_CALLS = " +  mXparser.MAX_RECURSION_CALLS + "\n", NO_EXP_STR);
+			}
 			recursionCallsCounter = 0;
 			this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Maximum recursion calls reached.\n";
 			return Double.NaN;
@@ -5322,8 +5335,16 @@ public class Expression {
 		int pos;
 		int p;
 		List<Integer> commas = null;
+		int emptyLoopCounter = 0;
+
 		/* While exist token which needs to bee evaluated */
+		if (verboseMode == true)
+			printSystemInfo("Starting calculation loop\n", WITH_EXP_STR);
 		do {
+			if (mXparser.isCurrentCalculationCancelled()) {
+				errorMessage = errorMessage + "\n" + "Cancel request - finishing";
+				return Double.NaN;
+			}
 			tokensNumber = tokensList.size();
 			maxPartLevel = -1;
 			lPos = -1;
@@ -5364,7 +5385,6 @@ public class Expression {
 			rParPos = -1;
 			bitwisePos = -1;
 			bitwiseComplPos = -1;
-			tokensNumber = tokensList.size();
 			/* calculus or if or iff operations ... */
 			p = -1;
 			do {
@@ -5405,6 +5425,10 @@ public class Expression {
 						USER_CONSTANT(tokenIndex);
 					else if (token.tokenTypeId == RandomVariable.TYPE_ID)
 						RANDOM_VARIABLE(tokenIndex);
+				}
+				if (lPos < 0) {
+					errorMessage = errorMessage + "\n" + "Internal error / strange token level - finishing";
+					return Double.NaN;
 				}
 				/*
 				 * If dependent argument was found then dependent arguments
@@ -5496,7 +5520,7 @@ public class Expression {
 							if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNumber && rigthIsNumber)) {
 								modPos = pos;
 							} else
-							if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0) && (leftIsNumber && rigthIsNumber))
+							if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0) && (rigthIsNumber))
 								plusPos = pos;
 							else
 							if ( (token.tokenId == Operator.MINUS_ID)  && (minusPos < 0) && (rigthIsNumber))
@@ -5682,6 +5706,15 @@ public class Expression {
 			if (verboseMode == true) {
 				showParsing(0,tokensList.size()-1);
 				printSystemInfo(" done\n", NO_EXP_STR);
+			}
+			if (tokensList.size() == tokensNumber)
+				emptyLoopCounter++;
+			else
+				emptyLoopCounter = 0;
+
+			if (emptyLoopCounter > 10) {
+				errorMessage = errorMessage + "\n" + "Internal error, do not know what to do with the token, probably mXparser bug, please report - finishing";
+				return Double.NaN;
 			}
 		} while (tokensList.size() > 1);
 		if (verboseMode == true) {

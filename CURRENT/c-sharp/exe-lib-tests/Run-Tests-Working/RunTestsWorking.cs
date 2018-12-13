@@ -1,107 +1,87 @@
 ﻿using org.mariuszgromada.math.mxparser;
 using System;
+using System.Collections.Generic;
 
+namespace SignalsExample
+{
 
-namespace phelipemartins.caseinsensitivity {
-	class FunctionDeclarationPerfTests {
-		static Function fs = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
-		public double FromStatic(params double[] parameters)
+	public class SignalFunction : FunctionExtension
+	{
+		private List<double> signals; /* this is a store for the signals */
+		private int index; /* this is a function parameter */
+
+		public SignalFunction()
 		{
-			return fs.calculate(parameters);
+			signals = new List<double>();
 		}
-		public static double TestAlwaysNew(int n)
+
+		public void addSignal(double v)
 		{
-			double r = 0;
-			double start = mXparser.currentTimeMillis();
-			for (int x1 = 1; x1 <= n; x1++)
+			signals.Add(v);
+		}
+
+		public double calculate()
+		{
+			if (index <= 0)
 			{
-				for (int x2 = 1; x2 <= n; x2++)
-					for (int x3 = 1; x3 <= n; x3++)
-						for (int x4 = 1; x4 <= n; x4++)
-						{
-							Function f = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
-							r += f.calculate(x1, x2, x3, x4);
-						}
-			}
-			double end = mXparser.currentTimeMillis();
-			Console.WriteLine("--> always new calc result: " + r);
-			return  end - start;
+				int i = signals.Count - (-index + 1);
+				if ( (i >= 0) && (i < signals.Count))
+					return signals[i];
+				else
+					return Double.NaN;
+			} else return Double.NaN;
 		}
-		public static double FromPrecomplied(int n)
+
+		public FunctionExtension clone()
 		{
-			double r = 0;
-			Function f = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
-			double start = mXparser.currentTimeMillis();
-			for (int x1 = 1; x1 <= n; x1++)
-			{
-				for (int x2 = 1; x2 <= n; x2++)
-					for (int x3 = 1; x3 <= n; x3++)
-						for (int x4 = 1; x4 <= n; x4++)
-						{
-							r += f.calculate(x1, x2, x3, x4);
-						}
-			}
-			double end = mXparser.currentTimeMillis();
-			Console.WriteLine("--> pre-compiled calc result: " + r);
-			return  end - start;
+			SignalFunction sf = new SignalFunction();
+
+			foreach (double v in signals)
+				sf.addSignal(v);
+
+			sf.index = this.index;
+
+			return sf;
 		}
-		public static double FromPrecompliedOtherConstr(int n)
+
+		public string getParameterName(int parameterIndex)
 		{
-			double r = 0;
-			Function f = new Function("f(x1,x2,x3,x4)=sin(x1)+cos(x2)+x3^2+x4");
-			Argument ax1 = f.getArgument("x1");
-			Argument ax2 = f.getArgument("x2");
-			Argument ax3 = f.getArgument("x3");
-			Argument ax4 = f.getArgument("x4");
-			double start = mXparser.currentTimeMillis();
-			for (int x1 = 1; x1 <= n; x1++)
-			{
-				ax1.setArgumentValue(x1);
-				for (int x2 = 1; x2 <= n; x2++)
-				{
-					ax2.setArgumentValue(x2);
-					for (int x3 = 1; x3 <= n; x3++)
-					{
-						ax3.setArgumentValue(x3);
-						for (int x4 = 1; x4 <= n; x4++)
-						{
-							ax4.setArgumentValue(x4);
-							r += f.calculate();
-						}
-					}
-				}
-			}
-			double end = mXparser.currentTimeMillis();
-			Console.WriteLine("--> pre-compiled other constr calc result: " + r);
-			return  end - start;
+			if (parameterIndex == 0) return "index";
+			return "";
 		}
-		public static void PrintResult(String name, int n, double time)
+
+		public int getParametersNumber()
 		{
-			int niter = n * n * n * n;
-			Console.WriteLine(name + " : " + time + " ms " + (n*n*n*n) + " iterations " + (int)((1000.0 / time) * niter) + "/s");
+			return 1; /* only one param - index*/
 		}
-		static void Main(string[] args) {
-			/*
-			int n = 20;
-			double timeFromPrecomplied = FromPrecomplied(n);
-			timeFromPrecomplied = FromPrecomplied(n);
-			timeFromPrecomplied = FromPrecomplied(n);
-			timeFromPrecomplied = FromPrecomplied(n);
-			timeFromPrecomplied = FromPrecomplied(n);
-			timeFromPrecomplied = FromPrecomplied(n);
-			double timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			timeFromPrecompliedOtherCOnstr = FromPrecompliedOtherConstr(n);
-			PrintResult("Pre-compiled ", n, timeFromPrecomplied);
-			PrintResult("Pre-compiled other constr ", n, timeFromPrecompliedOtherCOnstr);
-			*/
-			Argument x = new Argument("x = 2");
-			Function f = new Function("f", "sin(x)", "x");
-			Expression e = new Expression("   der( int(f(t), t, 0, x), x) -  f(x   )   ", f, x);
-			mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+
+		public void setParameterValue(int parameterIndex, double parameterValue)
+		{
+			if (parameterIndex == 0) index = (int)parameterValue;
 		}
 	}
+
+	class SignalsExample {
+		static void Main(string[] args) {
+			SignalFunction sf = new SignalFunction();
+			Function v = new Function("v", sf);
+			Expression e = new Expression("v(0) + v(-1) + v(-2)", v);
+			sf.addSignal(1);
+			sf.addSignal(2);
+			sf.addSignal(3);
+			mXparser.consolePrintln(e.calculate());
+			sf.addSignal(4);
+			mXparser.consolePrintln(e.calculate());
+			sf.addSignal(5);
+			mXparser.consolePrintln(e.calculate());
+			/* now last n signals average */
+			Function f = new Function("f(n) = sum(i, 0, n-1, v(-i) ) / n", v);
+			mXparser.consolePrintln(f.calculate(1));
+			mXparser.consolePrintln(f.calculate(2));
+			mXparser.consolePrintln(f.calculate(3));
+			mXparser.consolePrintln(f.calculate(4));
+			mXparser.consolePrintln(f.calculate(5));
+		}
+	}
+
 }

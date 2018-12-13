@@ -1,5 +1,5 @@
 /*
- * @(#)Statistics.cs        4.2.0   2018-01-28
+ * @(#)Statistics.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Statistics {
@@ -96,20 +96,24 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ( (to >= from) && (delta > 0) ) {
 				double i;
 				for (i = from; i < to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					sum += mXparser.getFunctionValue(f, index, i);
 					n++;
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					sum += mXparser.getFunctionValue(f, index, to);
 					n++;
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				double i;
 				for (i = from; i > to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					sum += mXparser.getFunctionValue(f, index, i);
 					n++;
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					sum += mXparser.getFunctionValue(f, index, to);
 					n++;
 				}
@@ -170,6 +174,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (numbers.Length == 1) return numbers[0];
 			double sum = 0;
 			foreach (double xi in numbers) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				if (Double.IsNaN(xi))
 					return Double.NaN;
 				sum += xi;
@@ -196,6 +201,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double m = avg(numbers);
 			double sum = 0;
 			foreach (double xi in numbers) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				if (Double.IsNaN(xi))
 					return Double.NaN;
 				sum += (xi - m) * (xi - m);
@@ -230,8 +236,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			if (numbers.Length == 2) return (numbers[0] + numbers[1]) / 2.0;
-			foreach (double v in numbers)
+			foreach (double v in numbers) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				if (Double.IsNaN(v)) return Double.NaN;
+			}
 			NumberTheory.sortAsc(numbers);
 			if ((numbers.Length % 2) == 1) {
 				int i = (numbers.Length - 1) / 2;
@@ -251,8 +259,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
-			foreach (double v in numbers)
+			foreach (double v in numbers) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				if (Double.IsNaN(v)) return Double.NaN;
+			}
 			double[,] dist = NumberTheory.getDistValues(numbers, true);
 			return dist[0, 0];
 		}

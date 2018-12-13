@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.2.0   2018-07-15
+ * @(#)RegTestExpression.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -80,7 +80,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  *
  * @see Expression
  */
@@ -13971,6 +13971,90 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 1155:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "+ 5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 5;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1156:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "- 5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -5;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1157:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "+sqrt(1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1158:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "-sqrt(1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -1;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1159:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "sin(+(1.2))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.sin(1.2);
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1160:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "+(1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1161:
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableUlpRounding();
+			expStr = "-(1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -1;
+			if ( MathFunctions.abs(reg - value) <= 1e-14 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -13984,7 +14068,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		int numberOfTests = 1154;
+		int numberOfTests = 1161;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
@@ -13992,6 +14076,7 @@ public class RegTestExpression {
 		boolean test;
         long start =  System.currentTimeMillis();
 		for (int testId = 0; testId <= numberOfTests; testId++) {
+			if (mXparser.isCurrentCalculationCancelled()) return -1;
 			mXparser.setEpsilonComparison();
 			mXparser.setDefaultEpsilon();
 			mXparser.enableUlpRounding();
@@ -14025,6 +14110,7 @@ public class RegTestExpression {
 				mXparser.consolePrintln(exp[testId].getErrorMessage());
 			}
 		}
+		mXparser.resetCancelCurrentCalculationFlag();
 		return nError;
 	}
 	/**
@@ -14034,5 +14120,6 @@ public class RegTestExpression {
 	 */
 	public static void main(String[] args) {
 		start();
+		mXparser.resetCancelCurrentCalculationFlag();
 	}
 }

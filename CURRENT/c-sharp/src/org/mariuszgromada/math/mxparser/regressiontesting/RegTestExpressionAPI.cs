@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.2.0   2018-07-15
+ * @(#)RegTestExpressionAPI.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 *
 	 * @see Expression
 	 */
@@ -984,11 +984,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testId++;
 			test[testId] = true;
 			for (int decimalNumber = -1000; decimalNumber < 1000; decimalNumber++)
-				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++)
+				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
+					if (mXparser.isCurrentCalculationCancelled()) return -1;
 					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase), numeralSystemBase) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
+				}
 			/*
 			 * 38. mXparser.convert2Decimal and other - special cases
 			 */
@@ -1025,33 +1027,39 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testId++;
 			test[testId] = true;
 			for (int decimalNumber = -1000; decimalNumber < 1000; decimalNumber++)
-				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++)
+				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
+					if (mXparser.isCurrentCalculationCancelled()) return -1;
 					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 1)) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
+				}
 			/*
 			 * 40. mXparser.convert2Decimal - loop
 			 */
 			testId++;
 			test[testId] = true;
 			for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
-				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++)
+				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
+					if (mXparser.isCurrentCalculationCancelled()) return -1;
 					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 2)) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
+				}
 			/*
 			 * 41. mXparser.convert2Decimal - loop
 			 */
 			testId++;
 			test[testId] = true;
 			for (int decimalNumber = -1000; decimalNumber < 1000; decimalNumber++)
-				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++)
+				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
+					if (mXparser.isCurrentCalculationCancelled()) return -1;
 					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 0), numeralSystemBase) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
+				}
 			/*
 			 * 42. mXparser.get base
 			 */
@@ -2254,6 +2262,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				if (!test[i])
 					mXparser.consolePrintln("ERROR: " + testId);
 			}
+			mXparser.resetCancelCurrentCalculationFlag();
 			return nError;
 		}
 		/**
@@ -2261,6 +2270,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 */
 		public static void Main(string[] args) {
 			Start();
+			mXparser.resetCancelCurrentCalculationFlag();
 		}
 	}
 }

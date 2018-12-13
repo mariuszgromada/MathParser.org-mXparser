@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2018-07-08
+ * @(#)MathFunctions.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -74,7 +74,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -98,6 +98,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						bellTriangle[r, k+1] = bellTriangle[r-1, k] + bellTriangle[r, k];
 					if (r < n)
 						bellTriangle[r+1, 0] = bellTriangle[r, r];
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				}
 				result = bellTriangle[n, n];
 			} else if (n >= 0)
@@ -274,10 +275,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ( (m >= 0) && (n >= 0) ) {
 				result = 0;
 				for (int k = 0; k <= m; k++)
-					for (int v = 0; v <= k; v++)
+					for (int v = 0; v <= k; v++) {
 						result += Math.Pow(-1, v) * binomCoeff(k, v)
-							* ( Math.Pow(n + v, m) / (k + 1) )
+							* (Math.Pow(n + v, m) / (k + 1))
 							;
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					}
 			}
 			return result;
 		}
@@ -353,6 +356,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return 1;
 				else
 					return 0;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			return k * Stirling2Number(n-1, k) + Stirling2Number(n-1, k-1);
 		}
 		/**
@@ -382,8 +386,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double result = Double.NaN;
 			if ( (n >= 0) && (k >= 0) && (k <= n) ){
 				result = 0;
-				for (int v = 0; v <= k; v++)
-					result += Math.Pow(-1, v+k) * Math.Pow(v+1, n) * binomCoeff(k, v);
+				for (int v = 0; v <= k; v++) {
+					result += Math.Pow(-1, v + k) * Math.Pow(v + 1, n) * binomCoeff(k, v);
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			}
 			return result;
 		}
@@ -505,6 +511,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return 0;
 			if (n == 1)
 				return 1;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			return fibonacciNumber(n-1) + fibonacciNumber(n-2);
 		}
 		/**
@@ -535,6 +542,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return 2;
 			if (n == 1)
 				return 1;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			return lucasNumber(n-1) + lucasNumber(n-2);
 		}
 		/**
@@ -609,6 +617,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						return Double.NaN;
 					cf = a + 1.0 / cf;
 				}
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return cf;
 		}
@@ -628,6 +637,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return 1;
 			if (n == 1)
 				return x[0];
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			return x[n-1] * continuedPolynomial(n-1, x) + continuedPolynomial(n-2, x);
 		}
 		/**
@@ -663,8 +673,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (m >= 0) {
 				result = 0;
 				for (int n = 0; n <= m; n++) {
-					for (int k = 0; k <= n; k++)
-						result += Math.Pow(-1, k) * binomCoeff(n, k) * Math.Pow(x+k, m);
+					for (int k = 0; k <= n; k++) {
+						result += Math.Pow(-1, k) * binomCoeff(n, k) * Math.Pow(x + k, m);
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					}
 					result /= Math.Pow(2, n);
 				}
 			}
@@ -1490,6 +1502,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double round(double value, int places) {
 			if (Double.IsNaN(value)) return Double.NaN;
+			if (Double.IsInfinity(value)) return value;
 			if (places < 0) return Double.NaN;
 			try {
 				Decimal bd = Convert.ToDecimal(value);
@@ -1528,6 +1541,58 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double valueFloor = Math.Floor(valueMultiplied);
 			if (Math.Abs(valueMultiplied - valueFloor) >= 0.5) valueFloor = Math.Floor(valueFloor + 1);
 			return Math.Floor(sign * valueFloor) / multiplier;
+		}
+		/**
+		 * Double down rounding
+		 *
+		 * @param value    double value to be rounded
+		 * @param places   decimal places
+		 * @return         Rounded value
+		 */
+ 		public static double roundDown(double value, int places) {
+ 			if (Double.IsNaN(value)) return Double.NaN;
+			if (places < 0) return Double.NaN;
+ 			if (value == Double.NegativeInfinity) return Double.NegativeInfinity;
+ 			if (value == Double.PositiveInfinity) return Double.PositiveInfinity;
+ 			if (value == 0) return 0;
+ 			double sign = 1;
+ 			double origValue = value;
+ 			if (value < 0) {
+ 				sign = -1;
+ 				value = -value;
+ 			}
+ 			int ulpPosition = MathFunctions.ulpDecimalDigitsBefore(value);
+ 			if (ulpPosition <= 0) return sign * Math.Floor(value);
+ 			if (places > ulpPosition) return origValue;
+ 			double multiplier = 1;
+ 			for (int place = 0; place < places; place++)
+ 				multiplier = Math.Floor(multiplier * 10);
+ 			double valueMultiplied = value * multiplier;
+ 			double valueFloor = Math.Floor(valueMultiplied);
+ 			return Math.Floor(sign * valueFloor) / multiplier;
+ 		}
+ 		/**
+ 		 * Unit in the last place rounding, see
+ 		 * 0.1 + 0.1 + 0.1 vs roundUlp(0.1 + 0.1 + 0.1)
+ 		 *
+ 		 * @param number   Double number that is to be rounded
+ 		 *
+ 		 * @return    Double number with rounded ulp
+ 		 *
+ 		 * @see MathFunctions#decimalDigitsBefore(double)
+ 		 * @see MathFunctions#ulp(double)
+ 		 */
+		public static double roundUlp(double number) {
+			if ( (Double.IsNaN(number) ) || (Double.IsInfinity(number)) || (number == 0) )
+				return number;
+			else {
+				int precision = MathFunctions.ulpDecimalDigitsBefore(number);
+				if (precision >= 1)
+					return MathFunctions.round(number, precision-5);
+				else if (precision == 0)
+					return MathFunctions.round(number, 0);
+				else return number;
+			}
 		}
  		/**
  		 * Returns integer part of a doube value.

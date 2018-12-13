@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        4.2.0   2018-01-28
+ * @(#)NumberTheory.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -79,7 +79,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  */
 public final class NumberTheory {
 	/**
@@ -136,6 +136,7 @@ public final class NumberTheory {
 				return Double.NaN;
 			if (number < min)
 				min = number;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return min;
 	}
@@ -160,6 +161,7 @@ public final class NumberTheory {
 				min = number;
 				minIndex = i;
 			}
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return minIndex + 1;
 	}
@@ -194,6 +196,7 @@ public final class NumberTheory {
 				return Double.NaN;
 			if (number > max)
 				max = number;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return max;
 	}
@@ -218,6 +221,7 @@ public final class NumberTheory {
 				max = number;
 				maxIndex = i;
 			}
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return maxIndex + 1;
 	}
@@ -249,6 +253,7 @@ public final class NumberTheory {
 				i++;
 				j--;
 			}
+			if (mXparser.isCurrentCalculationCancelled()) return;
 		} while (i <= j);
 		if (leftIndex < j) sortAsc(array, initOrder, leftIndex, j);
 		if (i < rightIndex) sortAsc(array, initOrder, i, rightIndex);
@@ -314,6 +319,7 @@ public final class NumberTheory {
 		 * First element is considered above
 		 */
 		for (int i = 1; i < array.length; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			/* if the same value */
 			if ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE ) {
 				/*
@@ -381,6 +387,7 @@ public final class NumberTheory {
 		double[][] distValFinal = new double[unqCnt][3];
 		double maxBase = 0;
 		for (int i = 0; i < unqCnt; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			distValFinal[i][value] = distVal[i][value];
 			distValFinal[i][count] = distVal[i][count];
 			distValFinal[i][initPosFirst] = distVal[i][initPosFirst];
@@ -400,8 +407,10 @@ public final class NumberTheory {
 		 * - lower position lower ordering key value at second component
 		 */
 		double[] key = new double[unqCnt];
-		for (int i = 0; i < unqCnt; i++)
+		for (int i = 0; i < unqCnt; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			key[i] = (maxBase - distVal[i][count] - 1) * maxBase + distVal[i][initPosFirst];
+		}
 		/*
 		 * Sorting descending
 		 */
@@ -410,6 +419,7 @@ public final class NumberTheory {
 		 * Getting final ordering
 		 */
 		for (int i = 0; i < unqCnt; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			distValFinal[i][value] = distVal[ keyInitOrder[i] ][value];
 			distValFinal[i][count] = distVal[ keyInitOrder[i] ][count];
 			distValFinal[i][initPosFirst] = distVal[ keyInitOrder[i] ][initPosFirst];
@@ -447,6 +457,7 @@ public final class NumberTheory {
 		if (a == b) return a;
 		long quotient;
 		while (b != 0) {
+			if (mXparser.isCurrentCalculationCancelled()) return (long)Double.NaN;
 			if (a > b) {
 				quotient = a / b - 1;
 				if (quotient > 0)
@@ -486,6 +497,7 @@ public final class NumberTheory {
 		if (a == b) return a;
 		double quotient;
 		while (b != 0.0) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			if (a > b) {
 				quotient = Math.floor(a / b) - 1;
 				if (quotient > 0)
@@ -517,8 +529,11 @@ public final class NumberTheory {
 			else return -numbers[0];
 		if (numbers.length == 2)
 			return gcd( numbers[0], numbers[1] );
-		for (int i = 1; i < numbers.length; i++)
+		for (int i = 1; i < numbers.length; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) return (long)Double.NaN;
 			numbers[i] = gcd( numbers[i-1], numbers[i] );
+		}
+
 		return numbers[numbers.length-1];
 	}
 	/**
@@ -537,8 +552,10 @@ public final class NumberTheory {
 			return MathFunctions.floor( MathFunctions.abs( numbers[0] ) );
 		if (numbers.length == 2)
 			return gcd( numbers[0], numbers[1] );
-		for (int i = 1; i < numbers.length; i++)
+		for (int i = 1; i < numbers.length; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			numbers[i] = gcd( numbers[i-1], numbers[i] );
+		}
 		return numbers[numbers.length-1];
 	}
 	/**
@@ -587,8 +604,10 @@ public final class NumberTheory {
 			else return -numbers[0];
 		if (numbers.length == 2)
 			return lcm( numbers[0], numbers[1] );
-		for (int i = 1; i < numbers.length; i++)
+		for (int i = 1; i < numbers.length; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) return (long)Double.NaN;
 			numbers[i] = lcm( numbers[i-1], numbers[i] );
+		}
 		return numbers[numbers.length-1];
 	}
 	/**
@@ -607,8 +626,10 @@ public final class NumberTheory {
 			MathFunctions.floor( MathFunctions.abs( numbers[0] ) );
 		if (numbers.length == 2)
 			return lcm( numbers[0], numbers[1] );
-		for (int i = 1; i < numbers.length; i++)
+		for (int i = 1; i < numbers.length; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			numbers[i] = lcm( numbers[i-1], numbers[i] );
+		}
 		return numbers[numbers.length-1];
 	}
 	/**
@@ -629,6 +650,7 @@ public final class NumberTheory {
 			if ( Double.isNaN(xi) )
 				return Double.NaN;
 			sum+=xi;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return sum;
 	}
@@ -650,6 +672,7 @@ public final class NumberTheory {
 			if ( Double.isNaN(xi) )
 				return Double.NaN;
 			prod*=xi;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return prod;
 	}
@@ -704,6 +727,7 @@ public final class NumberTheory {
 						for (i = 3; i <= topCache; i+=2) {
 							if (mXparser.primesCache.isPrime[(int)i] == true)
 								if (n % i == 0) return false;
+							if (mXparser.isCurrentCalculationCancelled()) return false;
 						}
 						/*
 						 * If no prime divisor of n in primes cache
@@ -717,8 +741,10 @@ public final class NumberTheory {
 		 * still left and is below sqrt(n) agains being
 		 * divisor of n
 		 */
-		for (long i = primesCacheOddEnd; i <= top; i+=2)
+		for (long i = primesCacheOddEnd; i <= top; i+=2) {
 			if (n % i == 0) return false;
+			if (mXparser.isCurrentCalculationCancelled()) return false;
+		}
 		return true;
 	}
 	/**
@@ -747,9 +773,11 @@ public final class NumberTheory {
 		if (n <= 1) return 0;
 		if (n == 2) return 1;
 		long numberOfPrimes = 1;
-		for (long i = 3; i <= n; i++)
+		for (long i = 3; i <= n; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) return (long)Double.NaN;
 			if( primeTest(i) == true)
 				numberOfPrimes++;
+		}
 		return numberOfPrimes;
 	}
 	/**
@@ -779,13 +807,17 @@ public final class NumberTheory {
 			return Double.NaN;
 		if ( (to >= from) && (delta > 0) ) {
 			double i;
-			for (i = from; i < to; i+=delta)
+			for (i = from; i < to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				result += mXparser.getFunctionValue(f, index, i);
+			}
 			if ( delta - (i - to) > 0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
 		} else if ( (to <= from) && (delta < 0) ) {
 			double i;
-			for (i = from; i > to; i+=delta)
+			for (i = from; i > to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				result += mXparser.getFunctionValue(f, index, i);
+			}
 			if ( -delta - (to - i) > -0.5 * delta)
 				result += mXparser.getFunctionValue(f, index, to);
 		} else if (from == to)
@@ -812,13 +844,17 @@ public final class NumberTheory {
 		double result = 1;
 		if ( (to >= from) && (delta > 0) ) {
 			double i;
-			for (i = from; i < to; i+=delta)
+			for (i = from; i < to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				result *= mXparser.getFunctionValue(f, index, i);
+			}
 			if ( delta - (i - to) > 0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
 		} else if ( (to <= from) && (delta < 0) ) {
 			double i;
-			for (i = from; i > to; i+=delta)
+			for (i = from; i > to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				result *= mXparser.getFunctionValue(f, index, i);
+			}
 			if ( -delta - (to - i) > -0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
 		} else if (from == to)
 			result *= mXparser.getFunctionValue(f, index, from);
@@ -845,6 +881,7 @@ public final class NumberTheory {
 		double v;
 		if ( (to >= from) && (delta > 0) ) {
 			for (double i = from; i < to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				v = mXparser.getFunctionValue(f, index, i);
 				if (v < min) min = v;
 			}
@@ -852,6 +889,7 @@ public final class NumberTheory {
 			if (v < min) min = v;
 		} else if ( (to <= from) && (delta < 0) ) {
 			for (double i = from; i > to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				v = mXparser.getFunctionValue(f, index, i);
 				if (v < min) min = v;
 			}
@@ -882,6 +920,7 @@ public final class NumberTheory {
 		double v;
 		if ( (to >= from) && (delta > 0) ) {
 			for (double i = from; i < to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				v = mXparser.getFunctionValue(f, index, i);
 				if (v > max) max = v;
 			}
@@ -889,6 +928,7 @@ public final class NumberTheory {
 			if (v > max) max = v;
 		} else if ( (to <= from) && (delta < 0) ) {
 			for (double i = from; i > to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				v = mXparser.getFunctionValue(f, index, i);
 				if (v > max) max = v;
 			}
@@ -1144,6 +1184,7 @@ public final class NumberTheory {
 		double decValue = 0;
 		int digit;
 		for (int i = 0; i < length; i++ ) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			digit = digitIndex( numberLiteral.charAt(i) );
 			if (numeralSystemBase > 1) {
 				if ( (digit >= 0) && (digit < numeralSystemBase) ) decValue = numeralSystemBase * decValue + digit;
@@ -1726,6 +1767,7 @@ public final class NumberTheory {
 		long quotient = number;
 		long digitsNum = 0;
 		while (quotient >= 1) {
+			if (mXparser.isCurrentCalculationCancelled()) return (long)Double.NaN;
 			quotient = quotient / numeralSystemBase;
 			digitsNum++;
 		}
@@ -1755,6 +1797,7 @@ public final class NumberTheory {
 		double quotient = number;
 		double digitsNum = 0;
 		while (quotient >= 1.0) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			quotient = MathFunctions.floor(quotient / numeralSystemBase);
 			digitsNum++;
 		}
@@ -1783,6 +1826,7 @@ public final class NumberTheory {
 		int digit;
 		int digitIndex = digitsNum;
 		while (quotient >= 1) {
+			if (mXparser.isCurrentCalculationCancelled()) return (int)Double.NaN;
 			digit = (int)quotient % numeralSystemBase;
 			quotient = quotient / numeralSystemBase;
 			digitIndex--;
@@ -1832,6 +1876,7 @@ public final class NumberTheory {
 		double digit;
 		int digitIndex = digitsNum;
 		while (quotient >= 1.0) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			digit = MathFunctions.floor(quotient % numeralSystemBase);
 			quotient = MathFunctions.floor(quotient / numeralSystemBase);
 			digitIndex--;
@@ -2052,9 +2097,9 @@ public final class NumberTheory {
 		double valueInt = Math.floor(value);
 		double valueIntNumOfDigits = NumberTheory.numberOfDigits(valueInt);
  		double multiplier = 1;
- 		for (int place = 1; place < valueIntNumOfDigits; place++)
+ 		for (int place = 1; place < valueIntNumOfDigits-1; place++)
  			multiplier = Math.floor(multiplier * 10);
-		final double ERROR = BinaryRelations.DEFAULT_COMPARISON_EPSILON * multiplier * 10;
+		final double ERROR = BinaryRelations.DEFAULT_COMPARISON_EPSILON * multiplier;
 		/*
 		 * If already integer
 		 */
@@ -2075,14 +2120,17 @@ public final class NumberTheory {
  		double denominator;
  		double gcd;
 		double valueDecimal = value - valueInt;
+		double fracDecimal;
 		double n = 0;
 		double quotient;
 		double quotientRound0;
 		while (n <= TO_FRACTION_INIT_SEARCH_SIZE) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			n++;
 			quotient = n / valueDecimal;
 			quotientRound0 = MathFunctions.roundHalfUp(quotient, 0);
-			if ( Math.abs(quotient - quotientRound0) <= ERROR) {
+			fracDecimal = n / quotientRound0;
+			if ( ( Math.abs(quotient - quotientRound0) <= ERROR) || ( Math.abs(fracDecimal - valueDecimal) <= ERROR) ) {
 				numerator = n;
 				denominator = quotientRound0;
 				gcd = NumberTheory.gcd(numerator, denominator);

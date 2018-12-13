@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.java        4.2.0    2018-07-15
+ * @(#)Argument.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -101,7 +101,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -209,6 +209,64 @@ public class Argument extends PrimitiveElement {
 				argumentExpression = bodyExpr;
 				addDefinitions(elements);
 				argumentType = DEPENDENT_ARGUMENT;
+			}
+		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
+			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+			argumentName = headEqBody.headTokens.get(0).tokenStr;
+			argumentExpression = new Expression(headEqBody.bodyStr, elements);
+			argumentExpression.setDescription(headEqBody.headStr);
+			argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentType = DEPENDENT_ARGUMENT;
+			n = new Argument(headEqBody.headTokens.get(2).tokenStr);
+		} else {
+			argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentType = FREE_ARGUMENT;
+			argumentExpression = new Expression();
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: 'x', 'x=5', 'x=5+3/2', 'x=2*y').");
+		}
+		setSilentMode();
+		description = "";
+	}
+	/**
+	 * Default constructor - creates argument based on the argument definition string.
+	 *
+	 * @param      argumentDefinitionString        Argument definition string, i.e.:
+	 *                                             <ul>
+	 *                                                <li>'x' - only argument name
+	 *                                                <li>'x=5' - argument name and argument value
+	 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
+	 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
+	 *                                             </ul>
+	 *
+	 * @param      forceDependent   If true parser will try to create dependent argument
+	 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
+	 */
+	public Argument(String argumentDefinitionString, boolean forceDependent, PrimitiveElement...elements) {
+		super(Argument.TYPE_ID);
+		if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp) ) {
+			argumentName = argumentDefinitionString;
+			argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentType = FREE_ARGUMENT;
+			argumentExpression = new Expression(elements);
+		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
+			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+			argumentName = headEqBody.headTokens.get(0).tokenStr;
+			Expression bodyExpr = new Expression(headEqBody.bodyStr);
+			if (forceDependent == true) {
+				argumentExpression = bodyExpr;
+				addDefinitions(elements);
+				argumentType = DEPENDENT_ARGUMENT;
+			} else {
+				double bodyValue = bodyExpr.calculate();
+				if ( (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS) && (bodyValue != Double.NaN) ) {
+					argumentExpression = new Expression();
+					argumentValue = bodyValue;
+					argumentType = FREE_ARGUMENT;
+				} else {
+					argumentExpression = bodyExpr;
+					addDefinitions(elements);
+					argumentType = DEPENDENT_ARGUMENT;
+				}
 			}
 		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
@@ -387,11 +445,16 @@ public class Argument extends PrimitiveElement {
 		return argumentType;
 	}
 	/**
-	 * Sets argument value
+	 * Sets argument value, if DEPENDENT_ARGUMENT then argument type
+	 * is set to FREE_ARGUMENT
 	 *
 	 * @param  argumentValue       the value of argument
 	 */
 	public void setArgumentValue(double argumentValue) {
+		if (argumentType == DEPENDENT_ARGUMENT) {
+			argumentType = FREE_ARGUMENT;
+			argumentExpression.setExpressionString("");
+		}
 		this.argumentValue = argumentValue;
 	}
 	/*=================================================

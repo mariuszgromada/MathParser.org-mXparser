@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.cs        4.2.0   2018-07-15
+ * @(#)RegTestSyntax.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -71,7 +71,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 *
 	 * @see Expression
 	 */
@@ -2961,6 +2961,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			bool test;
 			long start =  mXparser.currentTimeMillis();
 			for (int testId = 0; testId <= numberOfTests; testId++) {
+				if (mXparser.isCurrentCalculationCancelled()) return -1;
 				test = runTest(testId);
 				tests[testId] = test;
 				if (test == true)
@@ -2975,6 +2976,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				if (!tests[testId])
 					mXparser.consolePrintln("ERROR: " + testId);
 			}
+			mXparser.resetCancelCurrentCalculationFlag();
 			return nError;
 		}
 		/**
@@ -2984,6 +2986,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 */
 		public static void Main(string[] args) {
 			Start();
+			mXparser.resetCancelCurrentCalculationFlag();
 		}
 	}
 	/**

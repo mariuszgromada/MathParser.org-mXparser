@@ -1,5 +1,5 @@
 /*
- * @(#)BooleanAlgebra.java        4.1.0    2017-05-30
+ * @(#)BooleanAlgebra.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -52,6 +52,8 @@
  */
 package org.mariuszgromada.math.mxparser.mathcollection;
 
+import org.mariuszgromada.math.mxparser.mXparser;
+
 /**
  * BooleanAlgebra - class for boolean operators.
  *
@@ -69,7 +71,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.3.0
  */
 public final class BooleanAlgebra {
 	/**
@@ -409,6 +411,7 @@ public final class BooleanAlgebra {
 			bv = double2IntBoolean(v);
 			if (bv == FALSE) return FALSE;
 			if (bv == TRUE) cntTrue++;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		if (cntTrue == values.length) return TRUE;
 		else return Double.NaN;
@@ -429,6 +432,7 @@ public final class BooleanAlgebra {
 			bv = double2IntBoolean(v);
 			if (bv == TRUE) return TRUE;
 			if (bv == FALSE) cntFalse++;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		if (cntFalse == values.length) return FALSE;
 		else return Double.NaN;
@@ -452,6 +456,7 @@ public final class BooleanAlgebra {
 				if (cntTrue > 1) return FALSE;
 			}
 			if (bv == NULL) return Double.NaN;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		if (cntTrue == 1) return TRUE;
 		else return FALSE;

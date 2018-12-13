@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        4.2.0   2018-01-28
+ * @(#)NumberTheory.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -72,7 +72,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
@@ -130,6 +130,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return Double.NaN;
 				if (number < min)
 					min = number;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return min;
 		}
@@ -154,6 +155,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					min = number;
 					minIndex = i;
 				}
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return minIndex + 1;
 		}
@@ -188,6 +190,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return Double.NaN;
 				if (number > max)
 					max = number;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return max;
 		}
@@ -212,6 +215,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					max = number;
 					maxIndex = i;
 				}
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return maxIndex + 1;
 		}
@@ -243,6 +247,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					i++;
 					j--;
 				}
+				if (mXparser.isCurrentCalculationCancelled()) break;
 			} while (i <= j);
 			if (leftIndex < j) sortAsc(array, initOrder, leftIndex, j);
 			if (i < rightIndex) sortAsc(array, initOrder, i, rightIndex);
@@ -308,6 +313,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			 * First element is considered above
 			 */
 			for (int i = 1; i < array.Length; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				/* if the same value */
 				if (BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE) {
 					/*
@@ -336,8 +342,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					unqValue = array[i];
 					unqValCnt = 1;
 					unqValMinPos = initPos[i];
-				}
-				else if ((BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE) && (i == array.Length - 1)) {
+				} else if ((BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE) && (i == array.Length - 1)) {
 					/* if new value found and end of the list */
 					/*
 					 * Store analyzed value
@@ -377,6 +382,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double[,] distValFinal = new double[unqCnt, 3];
 			double maxBase = 0;
 			for (int i = 0; i < unqCnt; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				distValFinal[i, value] = distVal[i, value];
 				distValFinal[i, count] = distVal[i, count];
 				distValFinal[i, initPosFirst] = distVal[i, initPosFirst];
@@ -406,6 +412,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			 * Getting final ordering
 			 */
 			for (int i = 0; i < unqCnt; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				distValFinal[i, value] = distVal[keyInitOrder[i], value];
 				distValFinal[i, count] = distVal[keyInitOrder[i], count];
 				distValFinal[i, initPosFirst] = distVal[keyInitOrder[i], initPosFirst];
@@ -442,7 +449,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (b == 0) return -1;
 			if (a == b) return a;
 			long quotient;
+			double NAN = Double.NaN;
 			while (b != 0) {
+				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
 				if (a > b) {
 					quotient = a / b - 1;
 					if (quotient > 0)
@@ -483,6 +492,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (a == b) return a;
 			double quotient;
 			while (b != 0.0) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				if (a > b) {
 					quotient = Math.Floor(a / b) - 1;
 					if (quotient > 0)
@@ -515,8 +525,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else return -numbers[0];
 			if (numbers.Length == 2)
 				return gcd(numbers[0], numbers[1]);
-			for (int i = 1; i < numbers.Length; i++)
+			double NAN = Double.NaN;
+			for (int i = 1; i < numbers.Length; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
 				numbers[i] = gcd(numbers[i - 1], numbers[i]);
+			}
 			return numbers[numbers.Length - 1];
 		}
 		/**
@@ -535,8 +548,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return MathFunctions.floor(MathFunctions.abs(numbers[0]));
 			if (numbers.Length == 2)
 				return gcd(numbers[0], numbers[1]);
-			for (int i = 1; i < numbers.Length; i++)
+			for (int i = 1; i < numbers.Length; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				numbers[i] = gcd(numbers[i - 1], numbers[i]);
+			}
 			return numbers[numbers.Length - 1];
 		}
 		/**
@@ -585,8 +600,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else return -numbers[0];
 			if (numbers.Length == 2)
 				return lcm(numbers[0], numbers[1]);
-			for (int i = 1; i < numbers.Length; i++)
+			double NAN = Double.NaN;
+			for (int i = 1; i < numbers.Length; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
 				numbers[i] = lcm(numbers[i - 1], numbers[i]);
+			}
 			return numbers[numbers.Length - 1];
 		}
 		/**
@@ -605,8 +623,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				MathFunctions.floor(MathFunctions.abs(numbers[0]));
 			if (numbers.Length == 2)
 				return lcm(numbers[0], numbers[1]);
-			for (int i = 1; i < numbers.Length; i++)
+			for (int i = 1; i < numbers.Length; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				numbers[i] = lcm(numbers[i - 1], numbers[i]);
+			}
 			return numbers[numbers.Length - 1];
 		}
 		/**
@@ -627,6 +647,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (Double.IsNaN(xi))
 					return Double.NaN;
 				sum += xi;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return sum;
 		}
@@ -648,6 +669,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (Double.IsNaN(xi))
 					return Double.NaN;
 				prod *= xi;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return prod;
 		}
@@ -701,6 +723,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						for (i = 3; i <= topCache; i += 2) {
 							if (mXparser.primesCache.isPrime[(int)i] == true)
 								if (n % i == 0) return false;
+							if (mXparser.isCurrentCalculationCancelled()) return false;
 						}
 						/*
 						 * If no prime divisor of n in primes cache
@@ -714,8 +737,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			 * still left and is below sqrt(n) agains being
 			 * divisor of n
 			 */
-			for (long i = primesCacheOddEnd; i <= top; i += 2)
+			for (long i = primesCacheOddEnd; i <= top; i += 2) {
 				if (n % i == 0) return false;
+				if (mXparser.isCurrentCalculationCancelled()) return false;
+			}
 			return true;
 		}
 		/**
@@ -744,9 +769,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n <= 1) return 0;
 			if (n == 2) return 1;
 			long numberOfPrimes = 1;
-			for (long i = 3; i <= n; i++)
+			double NAN = Double.NaN;
+			for (long i = 3; i <= n; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
 				if (primeTest(i) == true)
 					numberOfPrimes++;
+			}
 			return numberOfPrimes;
 		}
 		/**
@@ -776,13 +804,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				return Double.NaN;
 			if ((to >= from) && (delta > 0)) {
 				double i;
-				for (i = from; i < to; i += delta)
+				for (i = from; i < to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					result += mXparser.getFunctionValue(f, index, i);
+				}
 				if (delta - (i - to) > 0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
 			} else if ((to <= from) && (delta < 0)) {
 				double i;
-				for (i = from; i > to; i += delta)
+				for (i = from; i > to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					result += mXparser.getFunctionValue(f, index, i);
+				}
 				if (-delta - (to - i) > -0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
 			} else if (from == to)
 				result += mXparser.getFunctionValue(f, index, from);
@@ -808,13 +840,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double result = 1;
 			if ((to >= from) && (delta > 0)) {
 				double i;
-				for (i = from; i < to; i += delta)
+				for (i = from; i < to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					result *= mXparser.getFunctionValue(f, index, i);
+				}
 				if (delta - (i - to) > 0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
 			} else if ((to <= from) && (delta < 0)) {
 				double i;
-				for (i = from; i > to; i += delta)
+				for (i = from; i > to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					result *= mXparser.getFunctionValue(f, index, i);
+				}
 				if (-delta - (to - i) > -0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
 			} else if (from == to)
 				result *= mXparser.getFunctionValue(f, index, from);
@@ -841,6 +877,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double v;
 			if ((to >= from) && (delta > 0)) {
 				for (double i = from; i < to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					v = mXparser.getFunctionValue(f, index, i);
 					if (v < min) min = v;
 				}
@@ -848,6 +885,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (v < min) min = v;
 			} else if ((to <= from) && (delta < 0)) {
 				for (double i = from; i > to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					v = mXparser.getFunctionValue(f, index, i);
 					if (v < min) min = v;
 				}
@@ -878,6 +916,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double v;
 			if ((to >= from) && (delta > 0)) {
 				for (double i = from; i < to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					v = mXparser.getFunctionValue(f, index, i);
 					if (v > max) max = v;
 				}
@@ -885,6 +924,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (v > max) max = v;
 			} else if ((to <= from) && (delta < 0)) {
 				for (double i = from; i > to; i += delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					v = mXparser.getFunctionValue(f, index, i);
 					if (v > max) max = v;
 				}
@@ -1141,6 +1181,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double decValue = 0;
 			int digit;
 			for (int i = 0; i < length; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				digit = digitIndex(numberLiteral[i]);
 				if (numeralSystemBase > 1) {
 					if ((digit >= 0) && (digit < numeralSystemBase)) decValue = numeralSystemBase * decValue + digit;
@@ -1725,7 +1766,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (number < numeralSystemBase) return 1;
 			long quotient = number;
 			long digitsNum = 0;
+			double NAN = Double.NaN;
 			while (quotient >= 1) {
+				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
 				quotient = quotient / numeralSystemBase;
 				digitsNum++;
 			}
@@ -1755,6 +1798,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double quotient = number;
 			double digitsNum = 0;
 			while (quotient >= 1.0) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				quotient = MathFunctions.floor(quotient / numeralSystemBase);
 				digitsNum++;
 			}
@@ -1782,7 +1826,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			long quotient = number;
 			int digit;
 			int digitIndex = digitsNum;
+			double NAN = Double.NaN;
 			while (quotient >= 1) {
+				if (mXparser.isCurrentCalculationCancelled()) return (int)NAN;
 				digit = (int)quotient % numeralSystemBase;
 				quotient = quotient / numeralSystemBase;
 				digitIndex--;
@@ -1832,6 +1878,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double digit;
 			int digitIndex = digitsNum;
 			while (quotient >= 1.0) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				digit = MathFunctions.floor(quotient % numeralSystemBase);
 				quotient = MathFunctions.floor(quotient / numeralSystemBase);
 				digitIndex--;
@@ -2052,9 +2099,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double valueInt = Math.Floor(value);
 			double valueIntNumOfDigits = NumberTheory.numberOfDigits(valueInt);
 			double multiplier = 1;
-			for (int place = 1; place < valueIntNumOfDigits; place++)
+			for (int place = 1; place < valueIntNumOfDigits-1; place++)
 				multiplier = Math.Floor(multiplier * 10);
-			double ERROR = BinaryRelations.DEFAULT_COMPARISON_EPSILON * multiplier * 10;
+			double ERROR = BinaryRelations.DEFAULT_COMPARISON_EPSILON * multiplier;
 			/*
 			 * If already integer
 			 */
@@ -2075,14 +2122,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double denominator;
 			double gcd;
 			double valueDecimal = value - valueInt;
+			double fracDecimal;
 			double n = 0;
 			double quotient;
 			double quotientRound0;
 			while (n <= TO_FRACTION_INIT_SEARCH_SIZE) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				n++;
 				quotient = n / valueDecimal;
 				quotientRound0 = MathFunctions.roundHalfUp(quotient, 0);
-				if (Math.Abs(quotient - quotientRound0) <= ERROR) {
+				fracDecimal = n / quotientRound0;
+				if ( ( Math.Abs(quotient - quotientRound0) <= ERROR) || ( Math.Abs(fracDecimal - valueDecimal) <= ERROR) ) {
 					numerator = n;
 					denominator = quotientRound0;
 					gcd = NumberTheory.gcd(numerator, denominator);

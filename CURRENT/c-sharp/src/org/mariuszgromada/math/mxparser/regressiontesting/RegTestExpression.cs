@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.cs        4.2.0   2018-07-15
+ * @(#)RegTestExpression.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -72,7 +72,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 *
 	 * @see Expression
 	 */
@@ -13960,6 +13960,90 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 1155:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "+ 5";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 5;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1156:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "- 5";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = -5;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1157:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "+sqrt(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1158:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "-sqrt(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = -1;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1159:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "sin(+(1.2))";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = Math.Sin(1.2);
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1160:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "+(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1161:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "-(1)";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = -1;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -13974,7 +14058,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			int numberOfTests = 1154;
+			int numberOfTests = 1161;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
@@ -13982,6 +14066,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			bool test;
 			long start =  mXparser.currentTimeMillis();
 			for (int testId = 0; testId <= numberOfTests; testId++) {
+				if (mXparser.isCurrentCalculationCancelled()) return -1;
 				mXparser.setEpsilonComparison();
 				mXparser.setDefaultEpsilon();
 				mXparser.enableUlpRounding();
@@ -14014,6 +14099,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					mXparser.consolePrintln("ERROR: " + testId);
 			}
 			mXparser.consolePrintln("RegExpr V2 - finished");
+			mXparser.resetCancelCurrentCalculationFlag();
 			return nError;
 		}
 		/**
@@ -14023,6 +14109,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 */
 		public static void Main(string[] args) {
 			Start();
+			mXparser.resetCancelCurrentCalculationFlag();
 		}
 	}
 }

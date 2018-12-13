@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.2.0   2018-02-03
+ * @(#)mXparser.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -94,7 +94,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -105,7 +105,9 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	static final String VERSION = "4.2.0";
+	public static final String VERSION = "4.3.0";
+	public static final String VERSION_CODE_NAME = "Caprica";
+	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -118,14 +120,14 @@ public final class mXparser {
 	 * @see mXparser.#consolePrintln(Object)
 	 * @see mXparser.#consolePrint(Object)
 	 */
-	private static String CONSOLE_OUTPUT = "";
-	private static String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
-	private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
-	private static int CONSOLE_ROW_NUMBER = 1;
+	private static volatile String CONSOLE_OUTPUT = "";
+	private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+	private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
+	private static volatile int CONSOLE_ROW_NUMBER = 1;
 	/**
 	 * Prime numbers cache
 	 */
-	public static PrimesCache primesCache;
+	public volatile static PrimesCache primesCache;
 	public static final int PRIMES_CACHE_NOT_INITIALIZED = -1;
 	/**
 	 * Threads number settings
@@ -134,7 +136,7 @@ public final class mXparser {
 	/**
 	 * Empty expression for general help purposes.
 	 */
-	static final Expression mXparserExp = new Expression();
+	static volatile Expression mXparserExp = new Expression();
 	/**
 	 * Double floating-point precision arithmetic causes
 	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
@@ -142,14 +144,14 @@ public final class mXparser {
 	 * mXparser provides intelligent ULP rounding to avoid this
 	 * type of errors.
 	 */
-	static boolean ulpRounding = true;
+	static volatile boolean ulpRounding = true;
 	/**
 	 * Indicator marking whether to round final result
 	 * to precise integer when result is very close
 	 * to integer, solves problems like
 	 * sin(pi) = 0
 	 */
-	static boolean almostIntRounding = true;
+	static volatile boolean almostIntRounding = true;
 	/**
 	 * Internal limit for counter to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples
@@ -164,15 +166,15 @@ public final class mXparser {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 */
-	static int MAX_RECURSION_CALLS = 200;
+	static volatile int MAX_RECURSION_CALLS = 200;
 	/**
 	 * List of built-in tokens to remove.
 	 */
-	static final List<String> tokensToRemove = new ArrayList<String>();
+	static volatile List<String> tokensToRemove = new ArrayList<String>();
 	/**
 	 * List of built-in tokens to modify
 	 */
-	static final List<TokenModification> tokensToModify = new ArrayList<TokenModification>();
+	static volatile List<TokenModification> tokensToModify = new ArrayList<TokenModification>();
 	/**
 	 * Indicator whether mXparser operates in radians / degrees mode
 	 * true - degrees mode
@@ -180,16 +182,20 @@ public final class mXparser {
 	 *
 	 * Default false (radians mode)
 	 */
-	static boolean degreesMode = false;
+	static volatile boolean degreesMode = false;
 	/**
 	 * Indicator whether user defined tokens should override
 	 * built-in tokens.
 	 */
-	static boolean overrideBuiltinTokens = false;
+	static volatile boolean overrideBuiltinTokens = false;
 	/**
 	 * Options changeset
 	 */
-	static int optionsChangesetNumber = 0;
+	static volatile int optionsChangesetNumber = 0;
+	/**
+	 * Indicator whether to call cancel current calculation
+	 */
+	private static volatile boolean cancelCurrentCalculationFlag = false;
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -216,6 +222,19 @@ public final class mXparser {
 		mXparser.primesCache = primesCache;
 	}
 	/**
+	 * Returns true in case when primes cache initialization was successful,
+	 * otherwise returns false.
+	 *
+	 * @return Returns true in case when primes cache initialization was successful,
+	 * otherwise returns false.
+	 */
+	public static final boolean isInitPrimesCacheSuccessful() {
+		if (primesCache == null) return false;
+		synchronized (primesCache) {
+			return primesCache.isInitSuccessful();
+		}
+	}
+	/**
 	 * Sets {@link mXparser#primesCache} to null
 	 */
 	public static void setNoPrimesCache() {
@@ -227,9 +246,11 @@ public final class mXparser {
 	 * primes cache, otherwise {@link mXparser#PRIMES_CACHE_NOT_INITIALIZED}
 	 */
 	public static final int getMaxNumInPrimesCache() {
-		if ( primesCache != null )
-			return primesCache.getMaxNumInCache();
-		else
+		if ( primesCache != null ) {
+			synchronized (primesCache) {
+				return primesCache.getMaxNumInCache();
+			}
+		} else
 			return PRIMES_CACHE_NOT_INITIALIZED;
 	}
 	/**
@@ -591,12 +612,14 @@ public final class mXparser {
 	 */
 	public static final void removeBuiltinTokens(String... tokens) {
 		if (tokens == null) return;
-		for (String token : tokens)
-			if (token != null)
-				if (token.length() > 0)
-					if (!tokensToRemove.contains(token))
-						tokensToRemove.add(token);
-		optionsChangesetNumber++;
+		synchronized (tokensToRemove) {
+			for (String token : tokens)
+				if (token != null)
+					if (token.length() > 0)
+						if (!tokensToRemove.contains(token))
+							tokensToRemove.add(token);
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Un-marks tokens previously marked to be removed.
@@ -606,28 +629,34 @@ public final class mXparser {
 		if (tokens == null) return;
 		if (tokens.length == 0) return;
 		if (tokensToRemove.size() == 0) return;
-		for (String token : tokens)
-			if (token != null)
-				tokensToRemove.remove(token);
-		optionsChangesetNumber++;
+		synchronized (tokensToRemove) {
+			for (String token : tokens)
+				if (token != null)
+					tokensToRemove.remove(token);
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Un-marks all tokens previously marked to be removed.
 	 */
 	public static final void unremoveAllBuiltinTokens() {
-		tokensToRemove.clear();
-		optionsChangesetNumber++;
+		synchronized (tokensToRemove) {
+			tokensToRemove.clear();
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Returns current list of tokens marked to be removed.
 	 * @return Current list of tokens marked to be removed
 	 */
 	public static final String[] getBuiltinTokensToRemove() {
-		int tokensNum = tokensToRemove.size();
-		String[] tokensToRemoveArray = new String[tokensNum];
-		for (int i = 0; i < tokensNum; i++)
-			tokensToRemoveArray[i] = tokensToRemove.get(i);
-		return tokensToRemoveArray;
+		synchronized (tokensToRemove) {
+			int tokensNum = tokensToRemove.size();
+			String[] tokensToRemoveArray = new String[tokensNum];
+			for (int i = 0; i < tokensNum; i++)
+				tokensToRemoveArray[i] = tokensToRemove.get(i);
+			return tokensToRemoveArray;
+		}
 	}
 	/**
 	 * Method to change definition of built-in token - more precisely
@@ -643,14 +672,16 @@ public final class mXparser {
 		if (currentToken.length() == 0) return;
 		if (newToken == null) return;
 		if (newToken.length() == 0) return;
-		for (TokenModification tm : tokensToModify)
-			if (tm.currentToken.equals(currentToken)) return;
-		TokenModification tma = new TokenModification();
-		tma.currentToken = currentToken;
-		tma.newToken = newToken;
-		tma.newTokenDescription = null;
-		tokensToModify.add(tma);
-		optionsChangesetNumber++;
+		synchronized (tokensToModify) {
+			for (TokenModification tm : tokensToModify)
+				if (tm.currentToken.equals(currentToken)) return;
+			TokenModification tma = new TokenModification();
+			tma.currentToken = currentToken;
+			tma.newToken = newToken;
+			tma.newTokenDescription = null;
+			tokensToModify.add(tma);
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Method to change definition of built-in token - more precisely
@@ -667,14 +698,16 @@ public final class mXparser {
 		if (currentToken.length() == 0) return;
 		if (newToken == null) return;
 		if (newToken.length() == 0) return;
-		for (TokenModification tm : tokensToModify)
-			if (tm.currentToken.equals(currentToken)) return;
-		TokenModification tma = new TokenModification();
-		tma.currentToken = currentToken;
-		tma.newToken = newToken;
-		tma.newTokenDescription = newTokenDescription;
-		tokensToModify.add(tma);
-		optionsChangesetNumber++;
+		synchronized (tokensToModify) {
+			for (TokenModification tm : tokensToModify)
+				if (tm.currentToken.equals(currentToken)) return;
+			TokenModification tma = new TokenModification();
+			tma.currentToken = currentToken;
+			tma.newToken = newToken;
+			tma.newTokenDescription = newTokenDescription;
+			tokensToModify.add(tma);
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Un-marks tokens previously marked to be modified.
@@ -684,23 +717,27 @@ public final class mXparser {
 		if (currentOrNewTokens == null) return;
 		if (currentOrNewTokens.length == 0) return;
 		if (tokensToModify.size() == 0) return;
-		List<TokenModification> toRemove = new ArrayList<TokenModification>();
-		for (String token : currentOrNewTokens)
-			if (token != null)
-				if (token.length() > 0) {
-					for (TokenModification tm : tokensToModify)
-						if ( (token.equals(tm.currentToken)) || (token.equals(tm.newToken)) ) toRemove.add(tm);
-				}
-		for (TokenModification tm : toRemove)
-			tokensToModify.remove(tm);
-		optionsChangesetNumber++;
+		synchronized (tokensToModify) {
+			List<TokenModification> toRemove = new ArrayList<TokenModification>();
+			for (String token : currentOrNewTokens)
+				if (token != null)
+					if (token.length() > 0) {
+						for (TokenModification tm : tokensToModify)
+							if ( (token.equals(tm.currentToken)) || (token.equals(tm.newToken)) ) toRemove.add(tm);
+					}
+			for (TokenModification tm : toRemove)
+				tokensToModify.remove(tm);
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Un-marks all tokens previously marked to be modified.
 	 */
 	public static final void unmodifyAllBuiltinTokens() {
-		tokensToModify.clear();
-		optionsChangesetNumber++;
+		synchronized (tokensToModify) {
+			tokensToModify.clear();
+			optionsChangesetNumber++;
+		}
 	}
 	/**
 	 * Return details on tokens marked to be modified.
@@ -708,21 +745,23 @@ public final class mXparser {
 	 *                        String[i][2] - new token description.
 	 */
 	public static final String[][] getBuiltinTokensToModify() {
-		int tokensNum = tokensToModify.size();
-		String[][] tokensToModifyArray = new String[tokensNum][3];
-		for (int i = 0; i < tokensNum; i++) {
-			TokenModification tm = tokensToModify.get(i);
-			tokensToModifyArray[i][0] = tm.currentToken;
-			tokensToModifyArray[i][1] = tm.newToken;
-			tokensToModifyArray[i][2] = tm.newTokenDescription;
+		synchronized (tokensToModify) {
+			int tokensNum = tokensToModify.size();
+			String[][] tokensToModifyArray = new String[tokensNum][3];
+			for (int i = 0; i < tokensNum; i++) {
+				TokenModification tm = tokensToModify.get(i);
+				tokensToModifyArray[i][0] = tm.currentToken;
+				tokensToModifyArray[i][1] = tm.newToken;
+				tokensToModifyArray[i][2] = tm.newTokenDescription;
+			}
+			return tokensToModifyArray;
 		}
-		return tokensToModifyArray;
 	}
 	/**
 	 * Sets mXparser to override built-in tokens
 	 * by user defined tokens.
 	 */
-	public static final void setToOverrideBuiltinTokens() {
+	public static final synchronized void setToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = true;
 		optionsChangesetNumber++;
 	}
@@ -730,7 +769,7 @@ public final class mXparser {
 	 * Sets mXparser not to override built-in tokens
 	 * by user defined tokens.
 	 */
-	public static final void setNotToOverrideBuiltinTokens() {
+	public static final synchronized void setNotToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = false;
 		optionsChangesetNumber++;
 	}
@@ -753,7 +792,7 @@ public final class mXparser {
 		String type = "";
 		switch (tokenTypeId) {
 			case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-			case ParserSymbol.NUMBER_TYPE_ID: type = "number"; break;
+			case ParserSymbol.NUMBER_TYPE_ID: type = "Number"; break;
 			case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
 			case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
 			case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
@@ -1025,14 +1064,16 @@ public final class mXparser {
 	 * @param o    Object to print
 	 */
 	public static final void consolePrintln(Object o) {
-		if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+		synchronized (CONSOLE_OUTPUT) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+				System.out.print(CONSOLE_PREFIX);
+				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			}
+			System.out.println(o);
+			CONSOLE_ROW_NUMBER++;
 			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
-		System.out.println(o);
-		CONSOLE_ROW_NUMBER++;
-		System.out.print(CONSOLE_PREFIX);
-		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 	}
 	/**
 	 * Prints array of strings
@@ -1052,14 +1093,16 @@ public final class mXparser {
 	 *
 	 */
 	public static final void consolePrintln() {
-		if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+		synchronized (CONSOLE_OUTPUT) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+				System.out.print(CONSOLE_PREFIX);
+				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			}
+			System.out.println();
+			CONSOLE_ROW_NUMBER++;
 			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
-		System.out.println();
-		CONSOLE_ROW_NUMBER++;
-		System.out.print(CONSOLE_PREFIX);
-		CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 	}
 	/**
 	 * Prints object.toString to the Console
@@ -1067,12 +1110,14 @@ public final class mXparser {
 	 * @param o    Object to print
 	 */
 	public static final void consolePrint(Object o) {
-		if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
-			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_PREFIX;
+		synchronized (CONSOLE_OUTPUT) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+				System.out.print(CONSOLE_PREFIX);
+				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			}
+			System.out.print(o);
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 		}
-		System.out.print(o);
-		CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 	}
 	/**
 	 * Resets console output string, console output
@@ -1084,20 +1129,26 @@ public final class mXparser {
 	 * @see mXparser#resetConsoleOutput()
 	 */
 	public static final void resetConsoleOutput() {
-		CONSOLE_OUTPUT = "";
-		CONSOLE_ROW_NUMBER = 1;
+		synchronized (CONSOLE_OUTPUT) {
+			CONSOLE_OUTPUT = "";
+			CONSOLE_ROW_NUMBER = 1;
+		}
 	}
 	/**
 	 * Sets default console prefix.
 	 */
 	public static void setDefaultConsolePrefix() {
-		CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+		synchronized (CONSOLE_PREFIX) {
+			CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+		}
 	}
 	/**
 	 * Sets default console output string prefix.
 	 */
 	public static void setDefaultConsoleOutputPrefix() {
-		CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
+		synchronized (CONSOLE_OUTPUT_PREFIX) {
+			CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
+		}
 	}
 	/**
 	 * Sets console prefix.
@@ -1105,7 +1156,9 @@ public final class mXparser {
 	 * @param consolePrefix String containing console prefix definition.
 	 */
 	public static void setConsolePrefix(String consolePrefix) {
-		CONSOLE_PREFIX = consolePrefix;
+		synchronized (CONSOLE_PREFIX) {
+			CONSOLE_PREFIX = consolePrefix;
+		}
 	}
 	/**
 	 * Sets console output string prefix.
@@ -1113,7 +1166,9 @@ public final class mXparser {
 	 * @param consoleOutputPrefix String containing console output prefix definition.
 	 */
 	public static void setConsoleOutputPrefix(String consoleOutputPrefix) {
-		CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
+		synchronized (CONSOLE_OUTPUT_PREFIX) {
+			CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
+		}
 	}
 	/**
 	 * Returns console output string, console output string
@@ -1135,7 +1190,9 @@ public final class mXparser {
 	 * @return String with all general help content
 	 */
 	public static final String getHelp() {
-		return mXparserExp.getHelp();
+		synchronized (mXparserExp) {
+			return mXparserExp.getHelp();
+		}
 	}
 	/**
 	 * General mXparser expression help - in-line key word searching
@@ -1144,7 +1201,9 @@ public final class mXparser {
 	 * lines containing given keyword
 	 */
 	public static final String getHelp(String word) {
-		return mXparserExp.getHelp(word);
+		synchronized (mXparserExp) {
+			return mXparserExp.getHelp(word);
+		}
 	}
 	/**
 	 * Prints all help content.
@@ -1169,7 +1228,9 @@ public final class mXparser {
 	 * @see mXparser#getHelp()
 	 */
 	public static final List<KeyWord> getKeyWords() {
-		return mXparserExp.getKeyWords();
+		synchronized (mXparserExp) {
+			return mXparserExp.getKeyWords();
+		}
 	}
 	/**
 	 * Returns list of key words known to the parser
@@ -1186,7 +1247,9 @@ public final class mXparser {
 	 * @see mXparser#getHelp(String)
 	 */
 	public static final List<KeyWord> getKeyWords(String query) {
-		return mXparserExp.getKeyWords(query);
+		synchronized (mXparserExp) {
+			return mXparserExp.getKeyWords(query);
+		}
 	}
 	/**
 	 * Function used to introduce some compatibility
@@ -1219,7 +1282,7 @@ public final class mXparser {
 		"\n" +
 		"You may use this software under the condition of Simplified BSD License:\n" +
 		"\n" +
-		"Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.\n" +
+		"Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.\n" +
 		"\n" +
 		"Redistribution and use in source and binary forms, with or without modification, are\n" +
 		"permitted provided that the following conditions are met:\n" +
@@ -1279,6 +1342,31 @@ public final class mXparser {
         }
         while (t1-t0<n);
 	}
+	/**
+	 * Method give a signal to other methods to cancel current calculation. This is a flag,
+	 * remember to reset this flag after process is cancelled and you are going to start
+	 * new calculation process.
+	 */
+	public static final void cancelCurrentCalculation() {
+		cancelCurrentCalculationFlag = true;
+	}
+	/**
+	 * Resets a flag giving signal to the engine to cancel current calculation.
+	 *
+	 *  @see {@link #cancelCurrentCalculation()}
+	 */
+	public static final void resetCancelCurrentCalculationFlag() {
+		cancelCurrentCalculationFlag = false;
+	}
+	/**
+	 * Check whether a flag to cancel current calculation process is set.
+	 *
+	 * @see {@link #cancelCurrentCalculation()}
+	 * @see {@link #resetCancelCurrentCalculationFlag()}
+	 */
+	public static final boolean isCurrentCalculationCancelled() {
+		return cancelCurrentCalculationFlag;
+	}
 	/*
 	 * mXparser version names
 	 */
@@ -1290,4 +1378,5 @@ public final class mXparser {
 	public static final String NAMEv40 = "4.0";
 	public static final String NAMEv41 = "4.1";
 	public static final String NAMEv42 = "4.2";
+	public static final String NAMEv43 = "4.3";
 }

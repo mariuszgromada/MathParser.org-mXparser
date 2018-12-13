@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.2.0   2018-07-08
+ * @(#)MathFunctions.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  */
 public final class MathFunctions {
 	/**
@@ -101,6 +101,7 @@ public final class MathFunctions {
 					bellTriangle[r][k+1] = bellTriangle[r-1][k] + bellTriangle[r][k];
 				if (r < n)
 					bellTriangle[r+1][0] = bellTriangle[r][r];
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			result = bellTriangle[n][n];
 		} else if (n >= 0)
@@ -277,10 +278,12 @@ public final class MathFunctions {
 		if ( (m >= 0) && (n >= 0) ) {
 			result = 0;
 			for (int k = 0; k <= m; k++)
-				for (int v = 0; v <= k; v++)
+				for (int v = 0; v <= k; v++) {
 					result += Math.pow(-1, v) * binomCoeff(k, v)
 						* ( Math.pow(n + v, m) / (k + 1) )
 						;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 		}
 		return result;
 	}
@@ -356,6 +359,7 @@ public final class MathFunctions {
 				return 1;
 			else
 				return 0;
+		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		return k * Stirling2Number(n-1, k) + Stirling2Number(n-1, k-1);
 	}
 	/**
@@ -385,8 +389,10 @@ public final class MathFunctions {
 		double result = Double.NaN;
 		if ( (n >= 0) && (k >= 0) && (k <= n) ){
 			result = 0;
-			for (int v = 0; v <= k; v++)
+			for (int v = 0; v <= k; v++) {
 				result += Math.pow(-1, v+k) * Math.pow(v+1, n) * binomCoeff(k, v);
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 		}
 		return result;
 	}
@@ -508,6 +514,7 @@ public final class MathFunctions {
 			return 0;
 		if (n == 1)
 			return 1;
+		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		return fibonacciNumber(n-1) + fibonacciNumber(n-2);
 	}
 	/**
@@ -538,6 +545,7 @@ public final class MathFunctions {
 			return 2;
 		if (n == 1)
 			return 1;
+		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		return lucasNumber(n-1) + lucasNumber(n-2);
 	}
 	/**
@@ -612,6 +620,7 @@ public final class MathFunctions {
 					return Double.NaN;
 				cf = a + 1.0 / cf;
 			}
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return cf;
 	}
@@ -631,6 +640,7 @@ public final class MathFunctions {
 			return 1;
 		if (n == 1)
 			return x[0];
+		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		return x[n-1] * continuedPolynomial(n-1, x) + continuedPolynomial(n-2, x);
 	}
 	/**
@@ -669,6 +679,7 @@ public final class MathFunctions {
 				for (int k = 0; k <= n; k++)
 					result += Math.pow(-1, k) * binomCoeff(n, k) * Math.pow(x+k, m);
 				result /= Math.pow(2, n);
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 		}
 		return result;
@@ -1492,6 +1503,7 @@ public final class MathFunctions {
 	 */
  	public static final double round(double value, int places) {
 		if (Double.isNaN(value)) return Double.NaN;
+		if (Double.isInfinite(value)) return value;
 		if (places < 0) return Double.NaN;
 	    BigDecimal bd = new BigDecimal(Double.toString(value));
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
@@ -1527,6 +1539,58 @@ public final class MathFunctions {
  		if (Math.abs(valueMultiplied - valueFloor) >= 0.5) valueFloor = Math.floor(valueFloor + 1);
  		return Math.floor(sign * valueFloor) / multiplier;
  	}
+	/**
+	 * Double half up rounding
+	 *
+	 * @param value    double value to be rounded
+	 * @param places   decimal places
+	 * @return         Rounded value
+	 */
+ 	public static final double roundDown(double value, int places) {
+ 		if (Double.isNaN(value)) return Double.NaN;
+		if (places < 0) return Double.NaN;
+ 		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
+ 		if (value == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
+ 		if (value == 0) return 0;
+ 		double sign = 1;
+ 		double origValue = value;
+ 		if (value < 0) {
+ 			sign = -1;
+ 			value = -value;
+ 		}
+ 		int ulpPosition = MathFunctions.ulpDecimalDigitsBefore(value);
+ 		if (ulpPosition <= 0) return sign * Math.floor(value);
+ 		if (places > ulpPosition) return origValue;
+ 		double multiplier = 1;
+ 		for (int place = 0; place < places; place++)
+ 			multiplier = Math.floor(multiplier * 10);
+ 		double valueMultiplied = value * multiplier;
+ 		double valueFloor = Math.floor(valueMultiplied);
+ 		return Math.floor(sign * valueFloor) / multiplier;
+ 	}
+ 	/**
+ 	 * Unit in the last place rounding, see
+ 	 * 0.1 + 0.1 + 0.1 vs roundUlp(0.1 + 0.1 + 0.1)
+ 	 *
+ 	 * @param number   Double number that is to be rounded
+ 	 *
+ 	 * @return    Double number with rounded ulp
+ 	 *
+ 	 * @see MathFunctions#decimalDigitsBefore(double)
+ 	 * @see MathFunctions#ulp(double)
+ 	 */
+	public static final double roundUlp(double number) {
+		if ( (Double.isNaN(number) ) || (Double.isInfinite(number)) || (number == 0) )
+			return number;
+		else {
+			int precision = MathFunctions.ulpDecimalDigitsBefore(number);
+			if (precision >= 1)
+				return MathFunctions.round(number, precision-5);
+			else if (precision == 0)
+				return MathFunctions.round(number, 0);
+			else return number;
+		}
+	}
  	/**
  	 * Returns integer part of a double value.
  	 * @param x  Number

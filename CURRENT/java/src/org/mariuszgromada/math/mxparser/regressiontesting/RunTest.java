@@ -1,5 +1,5 @@
 /*
- * @(#)RunTest.java        3.0.0    2016-05-07
+ * @(#)RunTest.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.3.0
  */
 public class RunTest {
 	/**
@@ -143,6 +143,7 @@ public class RunTest {
 					mXparser.consolePrintln();
 				}
 			}
+		mXparser.resetCancelCurrentCalculationFlag();
 		return nError;
 	}
 	/**
@@ -159,5 +160,6 @@ public class RunTest {
 	 */
 	public static void main(String[] args) {
 		start(args);
+		mXparser.resetCancelCurrentCalculationFlag();
 	}
 }

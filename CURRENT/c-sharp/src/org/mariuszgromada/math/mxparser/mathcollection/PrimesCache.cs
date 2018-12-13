@@ -1,9 +1,9 @@
 /*
- * @(#)PrimesCache.cs        3.0.0    2016-05-07
+ * @(#)PrimesCache.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -71,7 +71,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public class PrimesCache {
@@ -119,34 +119,53 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Caching process status
 		 */
 		internal bool cacheStatus;
-		/*
+		/**
 		 * Integers table to store number and indicate
 		 * whether they are prime or not
 		 */
 		internal bool[] isPrime;
 		/**
+		 * Internal flag marking that primes cache initialization was successful;
+		 */
+		bool initSuccessful;
+		/**
 		 * Eratosthenes Sieve implementation
 		 */
 		private void EratosthenesSieve() {
-			isPrime = new bool[maxNumInCache + 1];
-			numberOfPrimes = 0;
 			long startTime = mXparser.currentTimeMillis();
-			/*
-			 * Initially assume all integers are primes
-			 */
-			isPrime[0] = false;
-			isPrime[1] = false;
-			for (int i = 2; i <= maxNumInCache; i++)
-				isPrime[i] = true;
-			/*
-			 * Sieve of Eratosthenes - marking non-primes
-			 */
-			for (int i = 2; i * i <= maxNumInCache; i++)
-				if (isPrime[i] == true)
-					for (int j = i; i * j <= maxNumInCache; j++)
-						isPrime[i * j] = false;
-			long endTime = mXparser.currentTimeMillis();
-			computingTime = (endTime - startTime) / 1000.0;
+			try {
+				int size = maxNumInCache+1;
+				if (size <= 0) {
+					numberOfPrimes = 0;
+					maxNumInCache = 0;
+					initSuccessful = false;
+					long endTime = mXparser.currentTimeMillis();
+					computingTime = (endTime - startTime)/1000.0;
+					return;
+				}
+				isPrime = new bool[size];
+				numberOfPrimes = 0;
+				/*
+				 * Initially assume all integers are primes
+				 */
+				isPrime[0] = false;
+				isPrime[1] = false;
+				for (int i = 2; i <= maxNumInCache; i++)
+					isPrime[i] = true;
+				/*
+				 * Sieve of Eratosthenes - marking non-primes
+				 */
+				for (int i = 2; i*i <= maxNumInCache; i++)
+					if (isPrime[i] == true)
+						for (int j = i; i*j <= maxNumInCache; j++)
+							isPrime[i*j] = false;
+				initSuccessful = true;
+			} catch (OutOfMemoryException e) {
+				initSuccessful = false;
+			} finally {
+				long endTime = mXparser.currentTimeMillis();
+				computingTime = (endTime - startTime)/1000.0;
+			}
 		}
 		/**
 		 * Counting found primes
@@ -159,11 +178,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Default constructor - setting prime cache for a default range if integers
 		 */
 		public PrimesCache() {
+			initSuccessful = false;
 			cacheStatus = CACHE_EMPTY;
 			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
 			EratosthenesSieve();
-			countPrimes();
-			cacheStatus = CACHING_FINISHED;
+			if (initSuccessful) {
+				countPrimes();
+				cacheStatus = CACHING_FINISHED;
+			} else {
+				maxNumInCache = 0;
+				numberOfPrimes = 0;
+			}
 		}
 		/**
 		 * Constructor - setting prime cache for a given range if integers
@@ -174,11 +199,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				this.maxNumInCache = maxNumInCache;
 			else
 				this.maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
+			initSuccessful = false;
 			cacheStatus = CACHE_EMPTY;
 			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
 			EratosthenesSieve();
-			countPrimes();
-			cacheStatus = CACHING_FINISHED;
+			if (initSuccessful) {
+				countPrimes();
+				cacheStatus = CACHING_FINISHED;
+			} else {
+				maxNumInCache = 0;
+				numberOfPrimes = 0;
+			}
 		}
 		/**
 		 * Returns computing time of Eratosthenes Sieve
@@ -214,13 +245,24 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return PrimesCache.IS_PRIME or PrimesCache.IS_NOT_PRIME or PrimesCache.NOT_IN_CACHE
 		 */
 		public int primeTest(int n) {
-			if ((n <= maxNumInCache) && (cacheStatus = CACHING_FINISHED))
-				if (isPrime[n] == true)
+			if (n <= 1) return IS_NOT_PRIME;
+			if ( (n <= maxNumInCache) && (cacheStatus = CACHING_FINISHED) )
+				if ( isPrime[n] == true)
 					return IS_PRIME;
 				else
 					return IS_NOT_PRIME;
 			else
 				return NOT_IN_CACHE;
+		}
+		/**
+		 * Returns true in case when primes cache initialization was successful,
+		 * otherwise returns false.
+		 *
+		 * @return Returns true in case when primes cache initialization was successful,
+		 * otherwise returns false.
+		 */
+		public bool isInitSuccessful() {
+			return initSuccessful;
 		}
 		/**
 		 * Gets underlying primes cache boolean table

@@ -1,9 +1,9 @@
 /*
- * @(#)PerformanceTests.cs       4.2.0    2017-11-01
+ * @(#)PerformanceTests.cs       4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -71,7 +71,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 *
 	 * @see Expression
 	 */
@@ -625,8 +625,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal TestSimpleCalcThread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Expression e = new Expression(test.exprStr);
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				e.calculate();
+			}
 		}
 	}
 	/**
@@ -642,6 +644,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 			Argument x = new Argument("x");
 			Expression e = new Expression(test.exprStr, x);
 			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				x.setArgumentValue(i);
 				e.calculate();
 			}
@@ -662,6 +665,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 			Function f = new Function("f(x,y)=3*x+4*y");
 			Expression e = new Expression(test.exprStr, f, x, y);
 			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				x.setArgumentValue(i);
 				y.setArgumentValue(i);
 				e.calculate();
@@ -677,8 +681,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test013Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Constant c = new Constant("c", 5);
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				c = new Constant("c", 5);
+			}
 			c.getConstantValue();
 		}
 	}
@@ -691,8 +697,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test014Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Constant c = new Constant("c", 5);
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				c = new Constant("c=5");
+			}
 			c.getConstantValue();
 		}
 	}
@@ -705,8 +713,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test015Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Argument x = new Argument("x", 2);
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				x = new Argument("x", 5);
+			}
 			x.getArgumentValue();
 		}
 	}
@@ -719,8 +729,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test016Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Argument x = new Argument("x", 2);
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				x = new Argument("x=5");
+			}
 			x.getArgumentValue();
 		}
 	}
@@ -733,8 +745,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test017Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Function f = new Function("f", "x", "x");
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				f = new Function("f", "x+y", "x", "y");
+			}
 			f.calculate(1);
 		}
 	}
@@ -747,8 +761,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test018Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Function f = new Function("f", "x", "x");
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				f = new Function("f(x,y)=x+y");
+			}
 			f.calculate(1, 2);
 		}
 	}
@@ -761,8 +777,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal Test019Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
 			Expression e = new Expression("");
-			for (int i = 0; i <= base.iterNum; i++)
+			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				e = new Expression("sin(2+(3*4)^2)/10");
+			}
 			e.calculate();
 		}
 	}
@@ -779,6 +797,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Expression e = new Expression("");
 			for (int i = 0; i <= base.iterNum; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) break;
 				e.setExpressionString("sin(2+(3*4)^2)/10");
 				e.checkSyntax();
 			}

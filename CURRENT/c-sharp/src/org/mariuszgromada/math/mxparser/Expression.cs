@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.2.0   2018-07-15
+ * @(#)Expression.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -90,7 +90,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -4962,12 +4962,13 @@ namespace org.mariuszgromada.math.mxparser {
 						Function fun = getFunction(t.tokenId);
 						fun.checkRecursiveMode();
 						int npar = getParametersNumber(tokenIndex);
+						int fpar = fun.getParametersNumber();
 						if (npar == 0) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting at least one argument.\n";
-						} else if ( (fun.isVariadic == false) && ( fun.getParametersNumber() != npar ) ) {
+						} else if ( (fun.isVariadic == false) && ( fpar != npar ) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + npar + " arguments.\n";
+							errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + fpar + " arguments.\n";
 						} else
 							if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
 								bool syntaxRec;
@@ -5195,6 +5196,9 @@ namespace org.mariuszgromada.math.mxparser {
 			if ((expressionWasModified == true) || (syntaxStatus != NO_SYNTAX_ERRORS))
 				syntaxStatus = checkSyntax();
 			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+				errorMessage =  errorMessage + "Problem with expression syntax\n";
+				if (verboseMode == true)
+					printSystemInfo("syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN, returning Double.NaN\n", NO_EXP_STR);
 				/*
 				 * Recursive counter to avoid infinite loops in expressions
 				 * created in they way shown in below examples
@@ -5230,6 +5234,9 @@ namespace org.mariuszgromada.math.mxparser {
 			 * if nothing to calculate return Double.NaN
 			 */
 			if (tokensList.Count == 0) {
+				errorMessage =  errorMessage + "Empty expression\n";
+				if (verboseMode == true)
+					printSystemInfo("tokensList.size() == 0, returning Double.NaN\n", NO_EXP_STR);
 				recursionCallsCounter = 0;
 				return Double.NaN;
 			}
@@ -5249,6 +5256,12 @@ namespace org.mariuszgromada.math.mxparser {
 			 *
 			 */
 			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
+				errorMessage =  errorMessage + "recursionCallsCounter >= MAX_RECURSION_CALLS\n";
+				if (verboseMode == true) {
+					printSystemInfo("recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS, returning Double.NaN\n", NO_EXP_STR);
+					printSystemInfo("recursionCallsCounter = " +  recursionCallsCounter + "\n", NO_EXP_STR);
+					printSystemInfo("mXparser.MAX_RECURSION_CALLS = " +  mXparser.MAX_RECURSION_CALLS + "\n", NO_EXP_STR);
+				}
 				recursionCallsCounter = 0;
 				this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Maximum recursion calls reached.\n";
 				return Double.NaN;
@@ -5302,10 +5315,15 @@ namespace org.mariuszgromada.math.mxparser {
 			int pos;
 			int p;
 			List<int> commas = null;
+			int emptyLoopCounter = 0;
 			/* While exist token which needs to bee evaluated */
+			if (verboseMode == true)
+				printSystemInfo("Starting calculation loop\n", WITH_EXP_STR);
 			do {
-				//wait(1);
-				//showTokens();
+				if (mXparser.isCurrentCalculationCancelled()) {
+					errorMessage = errorMessage + "\n" + "Cancel request - finishing";
+					return Double.NaN;
+				}
 				tokensNumber = tokensList.Count;
 				maxPartLevel = -1;
 				lPos = -1;
@@ -5346,7 +5364,6 @@ namespace org.mariuszgromada.math.mxparser {
 				rParPos = -1;
 				bitwisePos = -1;
 				bitwiseComplPos = -1;
-				tokensNumber = tokensList.Count;
 				/* calculus or if or iff operations ... */
 				p = -1;
 				do {
@@ -5387,6 +5404,10 @@ namespace org.mariuszgromada.math.mxparser {
 							USER_CONSTANT(tokenIndex);
 						else if (token.tokenTypeId == RandomVariable.TYPE_ID)
 							RANDOM_VARIABLE(tokenIndex);
+					}
+					if (lPos < 0) {
+						errorMessage = errorMessage + "\n" + "Internal error / strange token level - finishing";
+						return Double.NaN;
 					}
 					/*
 					 * If dependent argument was found then dependent arguments
@@ -5479,7 +5500,7 @@ namespace org.mariuszgromada.math.mxparser {
 								if ((token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNumber && rigthIsNumber)) {
 									modPos = pos;
 								} else
-								if ((token.tokenId == Operator.PLUS_ID) && (plusPos < 0) && (leftIsNumber && rigthIsNumber))
+								if ((token.tokenId == Operator.PLUS_ID) && (plusPos < 0) && (rigthIsNumber))
 									plusPos = pos;
 								else
 								if ((token.tokenId == Operator.MINUS_ID) && (minusPos < 0) && (rigthIsNumber))
@@ -5672,7 +5693,17 @@ namespace org.mariuszgromada.math.mxparser {
 					showParsing(0, tokensList.Count - 1);
 					printSystemInfo(" done\n", NO_EXP_STR);
 				}
-				//wait(1);
+
+				if (tokensList.Count == tokensNumber)
+					emptyLoopCounter++;
+				else
+					emptyLoopCounter = 0;
+
+				if (emptyLoopCounter > 10) {
+					errorMessage = errorMessage + "\n" + "Internal error, do not know what to do with the token, probably mXparser bug, please report - finishing";
+					return Double.NaN;
+				}
+
 			} while (tokensList.Count > 1);
 			if (verboseMode == true) {
 				//printSystemInfo("\n", WITH_EXP_STR);

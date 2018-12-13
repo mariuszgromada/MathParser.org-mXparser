@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.java        4.0.0    2016-03-26
+ * @(#)Calculus.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -73,7 +73,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.3.0
  */
 public final class Calculus {
 	/**
@@ -112,6 +112,7 @@ public final class Calculus {
 			t = a + 0.5*h;
 			intFprev = intF;
 			for (j = 1; j <= n; j++) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				s += 2 * mXparser.getFunctionValue(f, x, t);
 				t += h;
 			}
@@ -119,6 +120,7 @@ public final class Calculus {
 			intF = s*h*0.5;
 			if (Math.abs(intF - intFprev) <= eps)
 				return intF;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return intF;
 	}
@@ -167,6 +169,7 @@ public final class Calculus {
 				derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
 			error = Math.abs(derF - derFprev);
 			step++;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		} while ( (step < maxSteps) && ( (error > eps) || Double.isNaN(derF) ));
 		return derF;
 	}
@@ -215,6 +218,7 @@ public final class Calculus {
 			derF = derF / Math.pow(dx, n);
 			error = Math.abs(derF - derFprev);
 			step++;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		} while ( (step < maxSteps) && ( (error > eps) || Double.isNaN(derF) ));
 		return derF;
 	}
@@ -442,6 +446,7 @@ public final class Calculus {
 					b = bp;
 					break;
 				}
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			if (rndflag == false) return Double.NaN;
 		}
@@ -493,6 +498,7 @@ public final class Calculus {
 				fb = tmp;
 			}
 			iter++;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return MathFunctions.round(b, MathFunctions.decimalDigitsBefore(eps)-1);
 	}

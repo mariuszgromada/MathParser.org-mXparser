@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.2.0   2018-02-03
+ * @(#)mXparser.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -90,7 +90,9 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		internal const String VERSION = "4.2.0";
+		public const String VERSION = "4.3.0";
+		public const String VERSION_CODE_NAME = "Caprica";
+		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -103,14 +105,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser.#consolePrintln(Object)
 		 * @see mXparser.#consolePrint(Object)
 		 */
-		private static String CONSOLE_OUTPUT = "";
-		private static String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
-		private static String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
-		private static int CONSOLE_ROW_NUMBER = 1;
+		private static volatile String CONSOLE_OUTPUT = "";
+		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+		private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
+		private static volatile int CONSOLE_ROW_NUMBER = 1;
 		/**
 		 * Prime numbers cache
 		 */
-		public static PrimesCache primesCache;
+		public static volatile PrimesCache primesCache;
 		public const int PRIMES_CACHE_NOT_INITIALIZED = -1;
 		/**
 		 * Threads number settings
@@ -119,7 +121,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Empty expression for general help purposes.
 		 */
-		private static readonly Expression mXparserExp = new Expression();
+		internal static volatile Expression mXparserExp = new Expression();
 		/**
 		 * Double floating-point precision arithmetic causes
 		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
@@ -127,14 +129,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * mXparser provides intelligent ULP rounding to avoid this
 		 * type of errors.
 		 */
-		internal static bool ulpRounding = true;
+		internal volatile static bool ulpRounding = true;
 		/**
 		 * Indicator marking whether to round final result
 		 * to precise integer when result is very close
 		 * to integer, solves problems like
 		 * sin(pi) = 0
 		 */
-		internal static bool almostIntRounding = true;
+		internal volatile static bool almostIntRounding = true;
 		/**
 		 * Internal limit for counter to avoid infinite loops while calculating
 		 * expression defined in the way shown by below examples
@@ -149,15 +151,15 @@ namespace org.mariuszgromada.math.mxparser {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 */
-		internal static int MAX_RECURSION_CALLS = 200;
+		internal volatile static int MAX_RECURSION_CALLS = 200;
 		/**
 		 * List of built-in tokens to remove.
 		 */
-		internal static List<String> tokensToRemove = new List<String>();
+		internal volatile static List<String> tokensToRemove = new List<String>();
 		/**
 		 * List of built-in tokens to modify
 		 */
-		internal static List<TokenModification> tokensToModify = new List<TokenModification>();
+		internal volatile static List<TokenModification> tokensToModify = new List<TokenModification>();
 		/**
 		 * Indicator whether mXparser operates in radians / degrees mode
 		 * true - degrees mode
@@ -165,16 +167,20 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * Default false (radians mode)
 		 */
-		internal static bool degreesMode = false;
+		internal volatile static bool degreesMode = false;
 		/**
 		 * Indicator whether user defined tokens should override
 		 * built-in tokens.
 		 */
-		internal static bool overrideBuiltinTokens = false;
+		internal volatile static bool overrideBuiltinTokens = false;
 		/**
 		 * Options changeset
 		 */
-		internal static int optionsChangesetNumber = 0;
+		internal volatile static int optionsChangesetNumber = 0;
+		/**
+		 * Indicator whether to call cancel current calculation
+		 */
+		private static volatile bool cancelCurrentCalculationFlag = false;
 		/**
 		 * Initialization of prime numbers cache.
 		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -182,6 +188,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void initPrimesCache() {
 			primesCache = new PrimesCache();
+		}
+		/**
+		 * Returns true in case when primes cache initialization was successful,
+		 * otherwise returns false.
+		 *
+		 * @return Returns true in case when primes cache initialization was successful,
+		 * otherwise returns false.
+		 */
+		public static bool isInitPrimesCacheSuccessful() {
+			if (primesCache == null) return false;
+			lock (primesCache) {
+				return primesCache.isInitSuccessful();
+			}
 		}
 		/**
 		 * Initialization of prime numbers cache.
@@ -212,9 +231,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * primes cache, otherwise {@link mXparser#PRIMES_CACHE_NOT_INITIALIZED}
 		 */
 		public static int getMaxNumInPrimesCache() {
-			if (primesCache != null)
-				return primesCache.getMaxNumInCache();
-			else
+			if (primesCache != null) {
+				lock (primesCache) {
+					return primesCache.getMaxNumInCache();
+				}
+			} else
 				return PRIMES_CACHE_NOT_INITIALIZED;
 		}
 		/**
@@ -228,7 +249,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Sets default threads number
 		 * @param threadsNumber  Thread number.
 		 */
-		public static  void setDefaultThreadsNumber() {
+		public static void setDefaultThreadsNumber() {
 			THREADS_NUMBER = Environment.ProcessorCount;
 		}
 		/**
@@ -578,12 +599,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void removeBuiltinTokens(params String[] tokens) {
 			if (tokens == null) return;
-			foreach (String token in tokens)
-				if (token != null)
-					if (token.Length > 0)
-						if (!tokensToRemove.Contains(token))
-							tokensToRemove.Add(token);
-			optionsChangesetNumber++;
+			lock (tokensToRemove) {
+				foreach (String token in tokens)
+					if (token != null)
+						if (token.Length > 0)
+							if (!tokensToRemove.Contains(token))
+								tokensToRemove.Add(token);
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Un-marks tokens previously marked to be removed.
@@ -593,28 +616,34 @@ namespace org.mariuszgromada.math.mxparser {
 			if (tokens == null) return;
 			if (tokens.Length == 0) return;
 			if (tokensToRemove.Count == 0) return;
-			foreach (String token in tokens)
-				if (token != null)
-					tokensToRemove.Remove(token);
-			optionsChangesetNumber++;
+			lock (tokensToRemove) {
+				foreach (String token in tokens)
+					if (token != null)
+						tokensToRemove.Remove(token);
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Un-marks all tokens previously marked to be removed.
 		 */
 		public static void unremoveAllBuiltinTokens() {
-			tokensToRemove.Clear();
-			optionsChangesetNumber++;
+			lock (tokensToRemove) {
+				tokensToRemove.Clear();
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Returns current list of tokens marked to be removed.
 		 * @return Current list of tokens marked to be removed
 		 */
 		public static String[] getBuiltinTokensToRemove() {
-			int tokensNum = tokensToRemove.Count;
-			String[] tokensToRemoveArray = new String[tokensNum];
-			for (int i = 0; i < tokensNum; i++)
-				tokensToRemoveArray[i] = tokensToRemove[i];
-			return tokensToRemoveArray;
+			lock (tokensToRemove) {
+				int tokensNum = tokensToRemove.Count;
+				String[] tokensToRemoveArray = new String[tokensNum];
+				for (int i = 0; i < tokensNum; i++)
+					tokensToRemoveArray[i] = tokensToRemove[i];
+				return tokensToRemoveArray;
+			}
 		}
 		/**
 		 * Method to change definition of built-in token - more precisely
@@ -630,14 +659,16 @@ namespace org.mariuszgromada.math.mxparser {
 			if (currentToken.Length == 0) return;
 			if (newToken == null) return;
 			if (newToken.Length == 0) return;
-			foreach (TokenModification tm in tokensToModify)
-				if (tm.currentToken.Equals(currentToken)) return;
-			TokenModification tma = new TokenModification();
-			tma.currentToken = currentToken;
-			tma.newToken = newToken;
-			tma.newTokenDescription = null;
-			tokensToModify.Add(tma);
-			optionsChangesetNumber++;
+			lock (tokensToModify) {
+				foreach (TokenModification tm in tokensToModify)
+					if (tm.currentToken.Equals(currentToken)) return;
+				TokenModification tma = new TokenModification();
+				tma.currentToken = currentToken;
+				tma.newToken = newToken;
+				tma.newTokenDescription = null;
+				tokensToModify.Add(tma);
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Method to change definition of built-in token - more precisely
@@ -654,14 +685,16 @@ namespace org.mariuszgromada.math.mxparser {
 			if (currentToken.Length == 0) return;
 			if (newToken == null) return;
 			if (newToken.Length == 0) return;
-			foreach (TokenModification tm in tokensToModify)
-				if (tm.currentToken.Equals(currentToken)) return;
-			TokenModification tma = new TokenModification();
-			tma.currentToken = currentToken;
-			tma.newToken = newToken;
-			tma.newTokenDescription = newTokenDescription;
-			tokensToModify.Add(tma);
-			optionsChangesetNumber++;
+			lock (tokensToModify) {
+				foreach (TokenModification tm in tokensToModify)
+					if (tm.currentToken.Equals(currentToken)) return;
+				TokenModification tma = new TokenModification();
+				tma.currentToken = currentToken;
+				tma.newToken = newToken;
+				tma.newTokenDescription = newTokenDescription;
+				tokensToModify.Add(tma);
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Un-marks tokens previously marked to be modified.
@@ -671,23 +704,27 @@ namespace org.mariuszgromada.math.mxparser {
 			if (currentOrNewTokens == null) return;
 			if (currentOrNewTokens.Length == 0) return;
 			if (tokensToModify.Count == 0) return;
-			List<TokenModification> toRemove = new List<TokenModification>();
-			foreach (String token in currentOrNewTokens)
-				if (token != null)
-					if (token.Length > 0) {
-						foreach (TokenModification tm in tokensToModify)
-							if ((token.Equals(tm.currentToken)) || (token.Equals(tm.newToken))) toRemove.Add(tm);
-					}
-			foreach (TokenModification tm in toRemove)
-				tokensToModify.Remove(tm);
-			optionsChangesetNumber++;
+			lock (tokensToModify) {
+				List<TokenModification> toRemove = new List<TokenModification>();
+				foreach (String token in currentOrNewTokens)
+					if (token != null)
+						if (token.Length > 0) {
+							foreach (TokenModification tm in tokensToModify)
+								if ((token.Equals(tm.currentToken)) || (token.Equals(tm.newToken))) toRemove.Add(tm);
+						}
+				foreach (TokenModification tm in toRemove)
+					tokensToModify.Remove(tm);
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Un-marks all tokens previously marked to be modified.
 		 */
 		public static void unmodifyAllBuiltinTokens() {
-			tokensToModify.Clear();
-			optionsChangesetNumber++;
+			lock (tokensToModify) {
+				tokensToModify.Clear();
+				optionsChangesetNumber++;
+			}
 		}
 		/**
 		 * Return details on tokens marked to be modified.
@@ -695,15 +732,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                        String[i][2] - new token description.
 		 */
 		public static String[,] getBuiltinTokensToModify() {
-			int tokensNum = tokensToModify.Count;
-			String[,] tokensToModifyArray = new String[tokensNum, 3];
-			for (int i = 0; i < tokensNum; i++) {
-				TokenModification tm = tokensToModify[i];
-				tokensToModifyArray[i, 0] = tm.currentToken;
-				tokensToModifyArray[i, 1] = tm.newToken;
-				tokensToModifyArray[i, 2] = tm.newTokenDescription;
+			lock (tokensToModify) {
+				int tokensNum = tokensToModify.Count;
+				String[,] tokensToModifyArray = new String[tokensNum, 3];
+				for (int i = 0; i < tokensNum; i++) {
+					TokenModification tm = tokensToModify[i];
+					tokensToModifyArray[i, 0] = tm.currentToken;
+					tokensToModifyArray[i, 1] = tm.newToken;
+					tokensToModifyArray[i, 2] = tm.newTokenDescription;
+				}
+				return tokensToModifyArray;
 			}
-			return tokensToModifyArray;
 		}
 		/**
 		 * Sets mXparser to override built-in tokens
@@ -740,7 +779,7 @@ namespace org.mariuszgromada.math.mxparser {
 			String type = "";
 			switch (tokenTypeId) {
 				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-				case ParserSymbol.NUMBER_TYPE_ID: type = "number"; break;
+				case ParserSymbol.NUMBER_TYPE_ID: type = "Number"; break;
 				case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
 				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
 				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
@@ -1035,14 +1074,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param o    Object to print
 		 */
 		public static void consolePrintln(Object o) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+			lock (CONSOLE_OUTPUT) {
+				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+					consoleWrite(CONSOLE_PREFIX);
+					CONSOLE_OUTPUT = CONSOLE_PREFIX;
+				}
+				consoleWriteLine(o);
+				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+				CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 			}
-			consoleWriteLine(o);
-			CONSOLE_ROW_NUMBER++;
-			consoleWrite(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
 		/**
 		 * Prints array of strings
@@ -1062,14 +1103,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 */
 		public static void consolePrintln() {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+			lock (CONSOLE_OUTPUT) {
+				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+					consoleWrite(CONSOLE_PREFIX);
+					CONSOLE_OUTPUT = CONSOLE_PREFIX;
+				}
+				consoleWriteLine();
+				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+				CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 			}
-			consoleWriteLine();
-			CONSOLE_ROW_NUMBER++;
-			consoleWrite(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
 		}
 		/**
 		 * Prints object.toString to the Console, no new line
@@ -1077,12 +1120,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param o    Object to print
 		 */
 		public static void consolePrint(Object o) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
-				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_PREFIX;
+			lock (CONSOLE_OUTPUT) {
+				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+					consoleWrite(CONSOLE_PREFIX);
+					CONSOLE_OUTPUT = CONSOLE_PREFIX;
+				}
+				consoleWrite(o);
+				CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 			}
-			consoleWrite(o);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 		}
 		/**
 		 * Resets console output string, console output
@@ -1094,34 +1139,44 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#resetConsoleOutput()
 		 */
 		public static void resetConsoleOutput() {
-			CONSOLE_OUTPUT = "";
-			CONSOLE_ROW_NUMBER = 1;
+			lock (CONSOLE_OUTPUT) {
+				CONSOLE_OUTPUT = "";
+				CONSOLE_ROW_NUMBER = 1;
+			}
 		}
 		/**
 		 * Sets default console prefix.
 		 */
 		public static void setDefaultConsolePrefix() {
-			CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+			lock (CONSOLE_PREFIX) {
+				CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+			}
 		}
 		/**
 		 * Sets default console output string prefix.
 		 */
 		public static void setDefaultConsoleOutputPrefix() {
-			CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
+			lock (CONSOLE_OUTPUT_PREFIX) {
+				CONSOLE_OUTPUT_PREFIX = "[mXparser-v." + VERSION + "] ";
+			}
 		}
 		/**
 		 * Sets console prefix.
 		 * @param consolePrefix String containing console prefix definition.
 		 */
 		public static void setConsolePrefix(String consolePrefix) {
-			CONSOLE_PREFIX = consolePrefix;
+			lock (CONSOLE_PREFIX) {
+				CONSOLE_PREFIX = consolePrefix;
+			}
 		}
 		/**
 		 * Sets console output string prefix.
 		 * @param consoleOutputPrefix String containing console output prefix definition.
 		 */
 		public static void setConsoleOutputPrefix(String consoleOutputPrefix) {
-			CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
+			lock (CONSOLE_OUTPUT_PREFIX) {
+				CONSOLE_OUTPUT_PREFIX = consoleOutputPrefix;
+			}
 		}
 		/**
 		 * Returns console output string, console output string
@@ -1143,7 +1198,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return String with all general help content
 		 */
 		public static String getHelp() {
-			return mXparserExp.getHelp();
+			lock (mXparserExp) {
+				return mXparserExp.getHelp();
+			}
 		}
 		/**
 		 * General mXparser expression help - in-line key word searching
@@ -1152,7 +1209,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * lines containing given keyword
 		 */
 		public static String getHelp(String word) {
-			return mXparserExp.getHelp(word);
+			lock (mXparserExp) {
+				return mXparserExp.getHelp(word);
+			}
 		}
 		/**
 		 * Prints all help content.
@@ -1177,7 +1236,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#getHelp()
 		 */
 		public static List<KeyWord> getKeyWords() {
-			return mXparserExp.getKeyWords();
+			lock (mXparserExp) {
+				return mXparserExp.getKeyWords();
+			}
 		}
 		/**
 		 * Returns list of key words known to the parser
@@ -1194,7 +1255,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#getHelp(String)
 		 */
 		public static List<KeyWord> getKeyWords(String query) {
-			return mXparserExp.getKeyWords(query);
+			lock (mXparserExp) {
+				return mXparserExp.getKeyWords(query);
+			}
 		}
 		/**
 		 * Function used to introduce some compatibility
@@ -1228,7 +1291,7 @@ namespace org.mariuszgromada.math.mxparser {
 			"\n" +
 			"You may use this software under the condition of Simplified BSD License:\n" +
 			"\n" +
-			"Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.\n" +
+			"Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.\n" +
 			"\n" +
 			"Redistribution and use in source and binary forms, with or without modification, are\n" +
 			"permitted provided that the following conditions are met:\n" +
@@ -1287,6 +1350,31 @@ namespace org.mariuszgromada.math.mxparser {
 				t1 = DateTime.Now.Millisecond;
 			} while (t1 - t0 < n);
 		}
+		/**
+		 * Method give a signal to other methods to cancel current calculation. This is a flag,
+		 * remember to reset this flag after process is cancelled and you are going to start
+		 * new calculation process. 
+		 */
+		public static void cancelCurrentCalculation() {
+			cancelCurrentCalculationFlag = true;
+		}
+		/**
+		 * Resets a flag giving signal to the engine to cancel current calculation.
+		 * 
+		 *  @see {@link #cancelCurrentCalculation()}
+		 */
+		public static void resetCancelCurrentCalculationFlag() {
+			cancelCurrentCalculationFlag = false;
+		}
+		/**
+		 * Check whether a flag to cancel current calculation process is set.
+		 * 
+		 * @see {@link #cancelCurrentCalculation()}
+		 * @see {@link #resetCancelCurrentCalculationFlag()}
+		 */
+		public static bool isCurrentCalculationCancelled() {
+			return cancelCurrentCalculationFlag;
+		}
 		/*
 		 * mXparser version names
 		 */
@@ -1298,5 +1386,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv40 = "4.0";
 		public const String NAMEv41 = "4.1";
 		public const String NAMEv42 = "4.2";
+		public const String NAMEv43 = "4.3";
 	}
 }

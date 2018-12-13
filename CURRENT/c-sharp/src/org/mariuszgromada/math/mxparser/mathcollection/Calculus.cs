@@ -1,9 +1,9 @@
 /*
- * @(#)Calculus.cs        4.0.0    2016-03-26
+ * @(#)Calculus.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -70,7 +70,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Calculus {
@@ -110,6 +110,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				t = a + 0.5*h;
 				intFprev = intF;
 				for (j = 1; j <= n; j++) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					s += 2 * mXparser.getFunctionValue(f, x, t);
 					t += h;
 				}
@@ -117,6 +118,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				intF = s*h*0.5;
 				if (Math.Abs(intF - intFprev) <= eps)
 					return intF;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return intF;
 		}
@@ -165,6 +167,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
 				error = Math.Abs(derF - derFprev);
 				step++;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));
 			return derF;
 		}
@@ -213,6 +216,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				derF = derF / Math.Pow(dx, n);
 				error = Math.Abs(derF - derFprev);
 				step++;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));
 			return derF;
 		}
@@ -438,6 +442,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						b = bp;
 						break;
 					}
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				}
 				if (rndflag == false) return Double.NaN;
 			}
@@ -489,6 +494,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					fb = tmp;
 				}
 				iter++;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return MathFunctions.round(b, MathFunctions.decimalDigitsBefore(eps) - 1);
 		}

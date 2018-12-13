@@ -1,5 +1,5 @@
 /*
- * @(#)CalculusOperator.java        4.1.0    2017-06-28
+ * @(#)CalculusOperator.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -70,7 +70,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.3.0
  */
 public final class CalculusOperator {
 	/*
@@ -131,7 +131,7 @@ public final class CalculusOperator {
 	public static final String STD_SYN					= "stdi( i, from, to, expr , <by> )";
 	public static final String MIN_SYN					= "mini( i, from, to, expr , <by> )";
 	public static final String MAX_SYN					= "maxi( i, from, to, expr , <by> )";
-	public static final String SOLVE_SYN				= "solve( expr, a, b )";
+	public static final String SOLVE_SYN				= "solve( expr, arg, from, to )";
 	/*
 	 * CalculusOperator - tokens description.
 	 */

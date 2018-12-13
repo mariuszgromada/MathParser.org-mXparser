@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.cs        4.2.0    2018-07-08
+ * @(#)SpecialFunctions.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -73,7 +73,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class SpecialFunctions {
@@ -116,6 +116,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			int j = 1;
 			a = 1.0;
 			while (Math.Abs(Ap1 * B0 - A0 * Bp1) > EI_EPSILON * Math.Abs(A0 * Bp1)) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				if (Math.Abs(Bp1) > 1.0) {
 					Am1 = A0 / Bp1;
 					A0 = Ap1 / Bp1;
@@ -150,6 +151,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (x == 0.0)
 				return -Double.MaxValue;
 			while (Math.Abs(Sn - Sm1) > EI_EPSILON * Math.Abs(Sm1)) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				Sm1 = Sn;
 				y += 1.0;
 				xn *= (-x);
@@ -176,6 +178,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double factorial = 1.0;
 			double dxj = 1.0;
 			while (Math.Abs(term) > EI_EPSILON * Math.Abs(Sn)) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				j++;
 				factorial *= j;
 				xxj *= xx;
@@ -606,6 +609,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double error;
 
 			do {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
         		c++;
         		y += 1;
         		z += 2;
@@ -690,6 +694,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double qkm1 = z * x;
 			double ans = pkm1 / qkm1;
 			do {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
         		c = c + 1;
         		y = y + 1;
         		z = z + 2;
@@ -756,6 +761,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			double result = 0;
 			while (x < c) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				result -= 1/x;
 				x++;
 			}
@@ -950,6 +956,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double h = d;
 
 			for (int m = 1, m2 = 2; m <= 50000; m++, m2 += 2) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				double aa = m*(b - m)*x/((qam + m2)*(a + m2));
 				d = 1.0 + (aa*d);
 
@@ -1001,6 +1008,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static double halleyIteration(double x, double wInitial, int maxIter) {
 			double w = wInitial;
 			for (int i = 0; i < maxIter; i++) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				double tol;
 				double e = Math.Exp(w);
 				double p = w + 1.0;

@@ -1,9 +1,9 @@
 /*
- * @(#)Constant.java        4.0.0    2016-03-26
+ * @(#)Constant.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -84,7 +84,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.0.0
+ * @version        4.3.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -228,6 +228,13 @@ public class Constant extends PrimitiveElement {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
 		}
+	}
+	/**
+	 * Sets constant value
+	 * @param value   constant value
+	 */
+	public void setConstantValue(double constantValue) {
+		this.constantValue = constantValue;
 	}
 	/**
 	 * Gets constant value.

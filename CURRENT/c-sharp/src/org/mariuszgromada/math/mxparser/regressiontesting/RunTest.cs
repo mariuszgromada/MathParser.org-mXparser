@@ -1,9 +1,9 @@
 /*
- * @(#)RunTest.cs        3.0.0    2016-05-07
+ * @(#)RunTest.cs        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2016 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -77,7 +77,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
 	 *
-	 * @version        3.0.0
+	 * @version        4.30.0
 	 */
 	public class RunTest {
 		/**
@@ -142,6 +142,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 						mXparser.consolePrintln();
 					}
 				}
+			mXparser.resetCancelCurrentCalculationFlag();
 			return nError;
 		}
 		/**
@@ -158,6 +159,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 */
 		public static void Main(string[] args) {
 			Start(args);
+			mXparser.resetCancelCurrentCalculationFlag();
 		}
 	}
 }

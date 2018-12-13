@@ -1,5 +1,5 @@
 /*
- * @(#)Statistics.java        4.1.0    2017-06-13
+ * @(#)Statistics.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -73,7 +73,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.1.0
+ * @version        4.3.0
  */
 public final class Statistics {
 	/**
@@ -98,20 +98,24 @@ public final class Statistics {
 		if ( (to >= from) && (delta > 0) ) {
 			double i;
 			for (i = from; i < to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				sum += mXparser.getFunctionValue(f, index, i);
 				n++;
 			}
 			if ( delta - (i - to) > 0.5 * delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				sum += mXparser.getFunctionValue(f, index, to);
 				n++;
 			}
 		} else if ( (to <= from) && (delta < 0) ) {
 			double i;
 			for (i = from; i > to; i+=delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				sum += mXparser.getFunctionValue(f, index, i);
 				n++;
 			}
 			if ( -delta - (to - i) > -0.5 * delta) {
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				sum += mXparser.getFunctionValue(f, index, to);
 				n++;
 			}
@@ -172,6 +176,7 @@ public final class Statistics {
 		if (numbers.length == 1) return numbers[0];
 		double sum = 0;
 		for (double xi : numbers) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			if ( Double.isNaN(xi) )
 				return Double.NaN;
 			sum+=xi;
@@ -197,6 +202,7 @@ public final class Statistics {
 		double m = avg(numbers);
 		double sum = 0;
 		for (double xi : numbers) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			if ( Double.isNaN(xi) )
 				return Double.NaN;
 			sum+=(xi-m)*(xi-m);
@@ -231,8 +237,10 @@ public final class Statistics {
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
 		if (numbers.length == 2) return (numbers[0] + numbers[1]) / 2.0;
-		for (double v : numbers)
+		for (double v : numbers) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			if (Double.isNaN(v)) return Double.NaN;
+		}
 		NumberTheory.sortAsc(numbers);
 		if ((numbers.length % 2) == 1) {
 			int i = (numbers.length-1) / 2;
@@ -251,8 +259,10 @@ public final class Statistics {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
-		for (double v : numbers)
+		for (double v : numbers) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			if (Double.isNaN(v)) return Double.NaN;
+		}
 		double[][] dist = NumberTheory.getDistValues(numbers, true);
 		return dist[0][0];
 	}

@@ -1,5 +1,5 @@
 /*
- * @(#)PerformanceTests.java       4.2.0    2017-11-01
+ * @(#)PerformanceTests.java       4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -75,7 +75,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.0
  *
  * @see Expression
  */
@@ -497,6 +497,7 @@ public class PerformanceTests {
 		tests[++testId] = new PerformanceTestResult(threadsNum); test018(tests[testId], testId);
 		tests[++testId] = new PerformanceTestResult(threadsNum); test019(tests[testId], testId);
 		tests[++testId] = new PerformanceTestResult(threadsNum); test020(tests[testId], testId);
+		mXparser.resetCancelCurrentCalculationFlag();
 		return lastTestId - testId;
 	}
 	/**
@@ -535,6 +536,7 @@ public class PerformanceTests {
 	 * @return Number of tests that were not performed.
 	 */
 	public static int start() {
+		mXparser.resetCancelCurrentCalculationFlag();
 		return start(mXparser.getThreadsNumber());
 	}
 	/**
@@ -549,6 +551,7 @@ public class PerformanceTests {
 			if (threadsNumber > 0) start(threadsNumber);
 			else start();
 		} else start();
+		mXparser.resetCancelCurrentCalculationFlag();
 	}
 }
 /**
@@ -622,8 +625,10 @@ class TestSimpleCalcThread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Expression e = new Expression(test.exprStr);
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			e.calculate();
+		}
 	}
 }
 /**
@@ -640,6 +645,7 @@ class Test011Thread extends TestThread {
 		Argument x = new Argument("x");
 		Expression e = new Expression(test.exprStr, x);
 		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			x.setArgumentValue(i);
 			e.calculate();
 		}
@@ -661,6 +667,7 @@ class Test012Thread extends TestThread {
 		Function f = new Function("f(x,y)=3*x+4*y");
 		Expression e = new Expression(test.exprStr, f, x, y);
 		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			x.setArgumentValue(i);
 			y.setArgumentValue(i);
 			e.calculate();
@@ -677,8 +684,10 @@ class Test013Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Constant c = new Constant("c", 5);
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			c = new Constant("c", 5);
+		}
 		c.getConstantValue();
 	}
 }
@@ -692,8 +701,10 @@ class Test014Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Constant c = new Constant("c", 5);
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			c = new Constant("c=5");
+		}
 		c.getConstantValue();
 	}
 }
@@ -707,8 +718,10 @@ class Test015Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Argument x = new Argument("x", 2);
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			x = new Argument("x", 5);
+		}
 		x.getArgumentValue();
 	}
 }
@@ -722,8 +735,10 @@ class Test016Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Argument x = new Argument("x", 2);
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			x = new Argument("x=5");
+		}
 		x.getArgumentValue();
 	}
 }
@@ -737,8 +752,10 @@ class Test017Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Function f = new Function("f", "x", "x");
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			f = new Function("f", "x+y", "x", "y");
+		}
 		f.calculate(1);
 	}
 }
@@ -752,8 +769,10 @@ class Test018Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Function f = new Function("f", "x", "x");
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			f = new Function("f(x,y)=x+y");
+		}
 		f.calculate(1, 2);
 	}
 }
@@ -767,8 +786,10 @@ class Test019Thread extends TestThread {
 	@Override
 	protected void testScenario() {
 		Expression e = new Expression("");
-		for (int i = 0; i <= super.iterNum; i++)
+		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			e = new Expression("sin(2+(3*4)^2)/10");
+		}
 		e.calculate();
 	}
 }
@@ -786,6 +807,7 @@ class Test020Thread extends TestThread {
 	protected void testScenario() {
 		Expression e = new Expression("");
 		for (int i = 0; i <= super.iterNum; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) break;
 			e.setExpressionString("sin(2+(3*4)^2)/10");
 			e.checkSyntax();
 		}

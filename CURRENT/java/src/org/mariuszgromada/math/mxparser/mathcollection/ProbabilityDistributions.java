@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.java        3.0.0    2016-05-07
+ * @(#)ProbabilityDistributions.java        4.3.0   2018-12-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -58,6 +58,8 @@ package org.mariuszgromada.math.mxparser.mathcollection;
 
 import java.util.Random;
 
+import org.mariuszgromada.math.mxparser.mXparser;
+
 /**
  * ProbabilityDistributions - random number generators, PDF - Probability Distribution Functions,
  * CDF - Cumulative Distribution Functions, QNT - Quantile Functions (Inverse Cumulative Distribution
@@ -77,7 +79,7 @@ import java.util.Random;
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
  *
- * @version        3.0.0
+ * @version        4.3.0
  */
 public final class ProbabilityDistributions {
 	/**
@@ -292,6 +294,7 @@ public final class ProbabilityDistributions {
 		double r, fac;
 		boolean polarTransform;
 		do {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			a = rnd.nextDouble();
 			b = rnd.nextDouble();
 			v1 = 2.0*a - 1.0;
