@@ -1,3 +1,15 @@
+# Scalar Scientific Calculator, Charts & Scripts - my new project
+
+[![Scalar-Lite](http://mathparser.org/wp-content/uploads/2018/12/Grafika-promocyjna-w-skali-1024x500.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
+
+### Scalar - Free version
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+
+### Scalar Pro - Full paid version
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+
+# MathParser.org-mXparser
+
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png)
 
 ![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
