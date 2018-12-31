@@ -2,6 +2,8 @@
 
 [![Scalar-Lite](http://mathparser.org/wp-content/uploads/2018/12/Grafika-promocyjna-w-skali-1024x500.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
 
+[![Scalar-Lite](http://mathparser.org/wp-content/uploads/2018/12/youtube-link.png)](https://youtu.be/HUlEUaioogQ)
+
 ### Scalar - Free version
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
