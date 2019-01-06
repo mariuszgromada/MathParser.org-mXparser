@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."

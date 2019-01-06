@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -78,15 +81,19 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+ *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
  * @version        4.3.0
  */
 public final class NumberTheory {
+	public static final long DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE = 10000;
 	/**
 	 * Initial search size 1 ... n for the toFraction method
 	 * @see NumberTheory#toFraction(double)
 	 */
-	private static long TO_FRACTION_INIT_SEARCH_SIZE = 10000;
+	private static long TO_FRACTION_INIT_SEARCH_SIZE = DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE;
 	/**
 	 * Sets initial search size for the toFraction method
 	 *
@@ -329,7 +336,8 @@ public final class NumberTheory {
 				unqValCnt++;
 				if (initPos[i] < unqValMinPos)
 					unqValMinPos = initPos[i];
-			} else if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
+			}
+			if ( ( BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.FALSE ) && (i < array.length-1) ) {
 				/* if new value found and not end of the list */
 				/*
 				 * Store analyzed value

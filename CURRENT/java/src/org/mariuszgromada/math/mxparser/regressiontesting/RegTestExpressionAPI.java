@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -80,6 +83,9 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
  *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+ *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
  * @version        4.3.0
  *
@@ -88,10 +94,11 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
 public class RegTestExpressionAPI {
 	/**
 	 * Runs API regression tests.
-	 *
+	 * @param fractionIterations
 	 * @return Number of tests with error result.
 	 */
-	public static int start() {
+	public static int start(int fractionIterations) {
+		mXparser.setDefaultOptions();
         long start =  System.currentTimeMillis();
 		boolean syn1, syn2, syn3, syn4, syn5, syn6, syn7, syn8, b1, b2, b3;
 		String s1, s2;
@@ -988,7 +995,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+		for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++) {
 				if (mXparser.isCurrentCalculationCancelled()) return -1;
 				if ( NumberTheory.convOthBase2Decimal( NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase), numeralSystemBase ) != decimalNumber) {
@@ -1031,7 +1038,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+		for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++) {
 				if (mXparser.isCurrentCalculationCancelled()) return -1;
 				if ( NumberTheory.convOthBase2Decimal( NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 1) ) != decimalNumber) {
@@ -1044,7 +1051,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+		for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++) {
 				if (mXparser.isCurrentCalculationCancelled()) return -1;
 				if ( NumberTheory.convOthBase2Decimal( NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 2) ) != decimalNumber) {
@@ -1057,7 +1064,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		test[testId] = true;
-		for (int decimalNumber = -10000; decimalNumber < 10000; decimalNumber++)
+		for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 			for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase ++) {
 				if (mXparser.isCurrentCalculationCancelled()) return -1;
 				if ( NumberTheory.convOthBase2Decimal( NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 0), numeralSystemBase ) != decimalNumber) {
@@ -2269,6 +2276,13 @@ public class RegTestExpressionAPI {
 		}
 		mXparser.resetCancelCurrentCalculationFlag();
 		return nError;
+	}
+	/**
+	 * Runs main regression tests in the field of calculation.
+	 * @return Number of tests with error result.
+	 */
+	public static int start() {
+		return start(10000);
 	}
 	/**
 	 * Runs API regression tests.

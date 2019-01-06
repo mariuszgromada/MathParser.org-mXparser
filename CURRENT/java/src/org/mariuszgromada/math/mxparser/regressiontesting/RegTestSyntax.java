@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -77,6 +80,9 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+ *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
  * @version        4.3.0
  *
@@ -2956,11 +2962,12 @@ public class RegTestSyntax {
 	}
 	/**
 	 * Runs syntax checking regression test.
-	 *
+	 * @param numOfTests Number of tests to be executed
 	 * @return Number of errors.
 	 */
-	public static int start() {
-		int numberOfTests = 244;
+	public static int start(int numOfTests) {
+		mXparser.setDefaultOptions();
+		int numberOfTests = numOfTests;
 		int nOk = 0;
 		int nError = 0;
 		exp = new Expression[numberOfTests+1];
@@ -2985,6 +2992,13 @@ public class RegTestSyntax {
 		}
 		mXparser.resetCancelCurrentCalculationFlag();
 		return nError;
+	}
+	/**
+	 * Runs main regression tests in the field of calculation.
+	 * @return Number of tests with error result.
+	 */
+	public static int start() {
+		return start(244);
 	}
 	/**
 	 * Runs syntax checking regression test.

@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -93,6 +96,9 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+ *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
  * @version        4.3.0
  *
@@ -152,6 +158,7 @@ public final class mXparser {
 	 * sin(pi) = 0
 	 */
 	static volatile boolean almostIntRounding = true;
+	static final int DEFAULT_MAX_RECURSION_CALLS = 200;
 	/**
 	 * Internal limit for counter to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples
@@ -166,7 +173,7 @@ public final class mXparser {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 */
-	static volatile int MAX_RECURSION_CALLS = 200;
+	static volatile int MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
 	/**
 	 * List of built-in tokens to remove.
 	 */
@@ -781,6 +788,23 @@ public final class mXparser {
 	 */
 	public static final boolean checkIfsetToOverrideBuiltinTokens() {
 		return overrideBuiltinTokens;
+	}
+	/**
+	 * Sets default mXparser options
+	 *
+	 */
+	public static final synchronized void setDefaultOptions() {
+		enableUlpRounding();
+		enableAlmostIntRounding();
+		setMaxAllowedRecursionDepth(DEFAULT_MAX_RECURSION_CALLS);
+		setNotToOverrideBuiltinTokens();
+		unmodifyAllBuiltinTokens();
+		setRadiansMode();
+		resetCancelCurrentCalculationFlag();
+		setDefaultEpsilon();
+		setEpsilonComparison();
+		setToFractionInitSearchSize(NumberTheory.DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE);
+		optionsChangesetNumber++;
 	}
 	/**
 	 * Returns token type description.

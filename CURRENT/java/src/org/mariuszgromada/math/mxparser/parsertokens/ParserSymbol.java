@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -69,6 +72,9 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
  *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
  *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+ *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
  * @version        4.2.0
  */
@@ -117,6 +123,7 @@ public final class ParserSymbol {
 	public static final String DEC_FRACT						= "(" + INTEGER + ")?" + "\\." + INTEGER;
 	public static final String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
 	public static final String DECIMAL_REG_EXP					= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
+	public static final String DECIMAL_SCIENTIFIC_REG_EXP		= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")";
 	public static final String BASE1_REG_EXP					= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
 	public static final String BASE2_REG_EXP					= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
 	public static final String BASE3_REG_EXP					= "[+-]?[bB]3\\." + DIGIT_B3 + "(" + DIGIT_B3 + ")*";
