@@ -3,7 +3,7 @@
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -46,6 +46,9 @@
  *     http://sourceforge.net/projects/janetsudoku
  *     http://bitbucket.org/mariuszgromada/janet-sudoku
  *     http://github.com/mariuszgromada/MathParser.org-mXparser
+ *     http://scalarmath.org/
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
+ *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
  *
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
@@ -77,6 +80,9 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
 	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
 	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
+	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
 	 * @version        4.3.0
 	 *
@@ -1353,14 +1359,14 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Method give a signal to other methods to cancel current calculation. This is a flag,
 		 * remember to reset this flag after process is cancelled and you are going to start
-		 * new calculation process. 
+		 * new calculation process.
 		 */
 		public static void cancelCurrentCalculation() {
 			cancelCurrentCalculationFlag = true;
 		}
 		/**
 		 * Resets a flag giving signal to the engine to cancel current calculation.
-		 * 
+		 *
 		 *  @see {@link #cancelCurrentCalculation()}
 		 */
 		public static void resetCancelCurrentCalculationFlag() {
@@ -1368,7 +1374,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Check whether a flag to cancel current calculation process is set.
-		 * 
+		 *
 		 * @see {@link #cancelCurrentCalculation()}
 		 * @see {@link #resetCancelCurrentCalculationFlag()}
 		 */
