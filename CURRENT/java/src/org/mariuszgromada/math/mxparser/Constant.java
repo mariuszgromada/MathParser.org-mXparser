@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        4.3.0   2018-12-12
+ * @(#)Constant.java        4.3.0    2019-01-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -153,7 +153,7 @@ public class Constant extends PrimitiveElement {
 					,double constantValue) {
 		super(Constant.TYPE_ID);
 		relatedExpressionsList = new ArrayList<Expression>();
-		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp) ) {
+		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			description = "";
@@ -161,7 +161,7 @@ public class Constant extends PrimitiveElement {
 			errorMessage = NO_SYNTAX_ERROR_MSG;
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
+			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameOnlyTokenOptBracketsRegExp;;
 		}
 	}
 	/**
@@ -177,7 +177,7 @@ public class Constant extends PrimitiveElement {
 			,String description) {
 		super(Constant.TYPE_ID);
 		relatedExpressionsList = new ArrayList<Expression>();
-		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp) ) {
+		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			this.description = description;
@@ -185,7 +185,7 @@ public class Constant extends PrimitiveElement {
 			errorMessage = NO_SYNTAX_ERROR_MSG;
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
+			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameOnlyTokenOptBracketsRegExp;;
 		}
 	}
 	/**
@@ -203,14 +203,14 @@ public class Constant extends PrimitiveElement {
 		description = "";
 		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 		relatedExpressionsList = new ArrayList<Expression>();
-		if ( mXparser.regexMatch(constantDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
+		if ( mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
 			constantName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
 			constantValue = bodyExpression.calculate();
 			syntaxStatus = bodyExpression.getSyntaxStatus();
 			errorMessage = bodyExpression.getErrorMessage();
-		} else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constArgDefStrRegExp;
+		} else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constUnitgDefStrRegExp;
 	}
 	/**
 	 * Gets constant name
@@ -227,12 +227,12 @@ public class Constant extends PrimitiveElement {
 	 * @param      constantName        the constant name
 	 */
 	public void setConstantName(String constantName) {
-		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp) ) {
+		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
 			this.constantName = constantName;
 			setExpressionModifiedFlags();
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameTokenRegExp;;
+			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameOnlyTokenOptBracketsRegExp;;
 		}
 	}
 	/**

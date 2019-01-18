@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.cs        4.2.0    2018-07-15
+ * @(#)ParserSymbol.cs        4.3.0    2019-01-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ParserSymbol {
@@ -127,6 +127,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String DEC_FRACT							= "(" + INTEGER + ")?" + "\\." + INTEGER;
 		public const String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
 		public const String DECIMAL_REG_EXP						= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
+		public const String DECIMAL_SCIENTIFIC_REG_EXP			= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")";
 		public const String BASE1_REG_EXP						= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
 		public const String BASE2_REG_EXP						= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
 		public const String BASE3_REG_EXP						= "[+-]?[bB]3\\." + DIGIT_B3 + "(" + DIGIT_B3 + ")*";
@@ -165,9 +166,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String BASE36_REG_EXP						= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
 		public const String FRACTION							= "(" + INTEGER + "_)?" + INTEGER + "_" + INTEGER;
 		public const String nameOnlyTokenRegExp					= "([a-zA-Z_])+([a-zA-Z0-9_])*";
+		public const String nameOnlyTokenOptBracketsRegExp		= "(" +  nameOnlyTokenRegExp + "|" + "\\[" + nameOnlyTokenRegExp + "\\]" + ")";
 		public const String nameTokenRegExp						= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
+		public const String nameTokenOptBracketsRegExp			= "(\\s)*" + nameOnlyTokenOptBracketsRegExp + "(\\s)*";
 		public const String paramsTokenRegeExp					= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
 		public const String constArgDefStrRegExp				= nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
+		public const String constUnitgDefStrRegExp				= nameTokenOptBracketsRegExp + "=" + "(\\s)*(.)+(\\s)*";
 		public const String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 		public const String function1ArgDefStrRegExp			= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 		public const String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";

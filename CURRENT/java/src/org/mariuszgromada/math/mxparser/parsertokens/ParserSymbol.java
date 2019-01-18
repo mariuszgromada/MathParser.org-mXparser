@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        4.2.0    2018-07-15
+ * @(#)ParserSymbol.java        4.3.0    2019-01-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -162,9 +162,12 @@ public final class ParserSymbol {
 	public static final String BASE36_REG_EXP					= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
 	public static final String FRACTION							= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
 	public static final String nameOnlyTokenRegExp				= "([a-zA-Z_])+([a-zA-Z0-9_])*";
+	public static final String nameOnlyTokenOptBracketsRegExp	= "(" +  nameOnlyTokenRegExp + "|" + "\\[" + nameOnlyTokenRegExp + "\\]" + ")";
 	public static final String nameTokenRegExp					= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
+	public static final String nameTokenOptBracketsRegExp		= "(\\s)*" + nameOnlyTokenOptBracketsRegExp + "(\\s)*";
 	public static final String paramsTokenRegeExp				= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";
 	public static final String constArgDefStrRegExp				= nameTokenRegExp + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String constUnitgDefStrRegExp			= nameTokenOptBracketsRegExp + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String function1ArgDefStrRegExp 		= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";

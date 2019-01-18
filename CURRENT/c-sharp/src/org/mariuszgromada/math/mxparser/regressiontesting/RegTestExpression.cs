@@ -14050,6 +14050,32 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 1162:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "2 * [xyz], [xyz] = 3";
+				Constant xyz = new Constant("[xyz] = 3");
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression("2 * [xyz]", xyz);
+				value = exp[testId].calculate();
+				reg = 6;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1163:
+				mXparser.enableAlmostIntRounding();
+				mXparser.enableUlpRounding();
+				expStr = "2 * [abc], [abc] = -3";
+				Constant abc = new Constant("[abc]", -3);
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression("2 * [abc]", abc);
+				value = exp[testId].calculate();
+				reg = -6;
+				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -14063,8 +14089,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @param args no parameters are being considered
 		 * @return Number of tests with error result.
 		 */
-		public static int Start() {
-			int numberOfTests = 1161;
+		public static int Start(int numOfTests) {
+			mXparser.setDefaultOptions();
+			int numberOfTests = numOfTests;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
@@ -14094,7 +14121,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					nOk++;
 				else
 					nError++;
-				if (!exp[testId].checkSyntax())
+				if (!exp[testId].checkSyntax() && testId > 0)
 					mXparser.consolePrintln(exp[testId].getErrorMessage());
 				mXparser.consolePrintln(", time: " + exp[testId].getComputingTime() + " s.");
 			}
@@ -14107,6 +14134,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			mXparser.consolePrintln("RegExpr V2 - finished");
 			mXparser.resetCancelCurrentCalculationFlag();
 			return nError;
+		}
+		/**
+		 * Runs main regression tests in the field of calculation.
+		 * @return Number of tests with error result.
+		 */
+		public static int Start() {
+			return Start(1163);
 		}
 		/**
 		 * Runs main regression tests in the field of calculation.

@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        4.3.0   2018-12-12
+ * @(#)Constant.cs        4.3.0    2019-01-18
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -151,7 +151,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Constant(String constantName, double constantValue) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
-			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				this.constantName = constantName;
 				this.constantValue = constantValue;
 				description = "";
@@ -172,7 +172,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Constant(String constantName, double constantValue, String description) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
-			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				this.constantName = constantName;
 				this.constantValue = constantValue;
 				this.description = description;
@@ -198,7 +198,7 @@ namespace org.mariuszgromada.math.mxparser {
 			description = "";
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			relatedExpressionsList = new List<Expression>();
-			if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constArgDefStrRegExp))
+			if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp))
 			{
 				HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
 				constantName = headEqBody.headTokens[0].tokenStr;
@@ -224,7 +224,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      constantName        the constant name
 		 */
 		public void setConstantName(String constantName) {
-			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				this.constantName = constantName;
 				setExpressionModifiedFlags();
 			}

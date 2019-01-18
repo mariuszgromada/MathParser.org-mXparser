@@ -82,11 +82,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
+		public static long DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE = 10000;
 		/**
 		 * Initial search size 1 ... n for the toFraction method
 		 * @see NumberTheory#toFraction(double)
 		 */
-		private static long TO_FRACTION_INIT_SEARCH_SIZE = 10000;
+		private static long TO_FRACTION_INIT_SEARCH_SIZE = DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE;
 		/**
 		 * Sets initial search size for the toFraction method
 		 *

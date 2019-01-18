@@ -143,6 +143,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * sin(pi) = 0
 		 */
 		internal volatile static bool almostIntRounding = true;
+		internal const int DEFAULT_MAX_RECURSION_CALLS = 200;
 		/**
 		 * Internal limit for counter to avoid infinite loops while calculating
 		 * expression defined in the way shown by below examples
@@ -157,7 +158,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 */
-		internal volatile static int MAX_RECURSION_CALLS = 200;
+		internal volatile static int MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
 		/**
 		 * List of built-in tokens to remove.
 		 */
@@ -774,6 +775,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static bool checkIfsetToOverrideBuiltinTokens() {
 			return overrideBuiltinTokens;
+		}
+		/**
+		 * Sets default mXparser options
+		 *
+		 */
+		public static void setDefaultOptions() {
+			enableUlpRounding();
+			enableAlmostIntRounding();
+			setMaxAllowedRecursionDepth(DEFAULT_MAX_RECURSION_CALLS);
+			setNotToOverrideBuiltinTokens();
+			unmodifyAllBuiltinTokens();
+			setRadiansMode();
+			resetCancelCurrentCalculationFlag();
+			setDefaultEpsilon();
+			setEpsilonComparison();
+			setToFractionInitSearchSize(NumberTheory.DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE);
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Returns token type description.

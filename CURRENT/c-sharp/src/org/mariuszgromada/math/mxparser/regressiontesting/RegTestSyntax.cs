@@ -2958,8 +2958,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		/**
 		 * Runs syntax checking regression test.
 		 */
-		public static int Start() {
-			int numberOfTests = 244;
+		public static int Start(int numOfTests) {
+			mXparser.setDefaultOptions();
+			int numberOfTests = numOfTests;
 			int nOk = 0;
 			int nError = 0;
 			exp = new Expression[numberOfTests+1];
@@ -2984,6 +2985,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			}
 			mXparser.resetCancelCurrentCalculationFlag();
 			return nError;
+		}
+		/**
+		 * Runs main regression tests in the field of calculation.
+		 * @return Number of tests with error result.
+		 */
+		public static int Start() {
+			return Start(244);
 		}
 		/**
 		 * Runs syntax checking regression test.
