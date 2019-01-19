@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mariuszgromada.math</groupId>
 	<artifactId>MathParser.org-mXparser</artifactId>
-	<version>4.2.0</version>
+	<version>4.3.0</version>
 	<packaging>jar</packaging>
 	<name>MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</name>
 	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
@@ -13,6 +13,30 @@
 			<email>mariuszgromada.org@gmail.com</email>
 			<organization>MathParser.org</organization>
 			<organizationUrl>http://mathparser.org/</organizationUrl>
+		</developer>
+		<developer>
+			<name>MathSpace.pl</name>
+			<email>mathspace.pl@gmail.com</email>
+			<organization>MathSpace.pl</organization>
+			<organizationUrl>http://mathspace.pl/</organizationUrl>
+		</developer>
+		<developer>
+			<name>ScalarMath.org</name>
+			<email>scalar.math@gmail.com</email>
+			<organization>ScalarMath.org</organization>
+			<organizationUrl>http://scalarmath.org/</organizationUrl>
+		</developer>
+		<developer>
+			<name>Scalar Scientific Function Calculator, Charts and Scripts</name>
+			<email>scalar.math@gmail.com</email>
+			<organization>Scalar Lite</organization>
+			<organizationUrl>https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite</organizationUrl>
+		</developer>
+		<developer>
+			<name>Scalar Pro Scientific Function Calculator, Charts and Scripts</name>
+			<email>scalar.math@gmail.com</email>
+			<organization>Scalar Pro</organization>
+			<organizationUrl>https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro</organizationUrl>
 		</developer>
 	</developers>
 	<properties>
@@ -76,7 +100,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.0</version>
+				<version>2.22.1</version>
 				<configuration>
 					<includes>
 						<include>RegressionTest.java</include>
@@ -123,7 +147,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.2.0</version>
+			<version>5.3.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -135,13 +159,13 @@
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-surefire-provider</artifactId>
-			<version>1.2.0</version>
+			<version>1.3.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.2.0</version>
+			<version>5.3.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

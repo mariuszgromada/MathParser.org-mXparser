@@ -237,7 +237,7 @@ public class Constant extends PrimitiveElement {
 	}
 	/**
 	 * Sets constant value
-	 * @param value   constant value
+	 * @param constantValue   constant value
 	 */
 	public void setConstantValue(double constantValue) {
 		this.constantValue = constantValue;

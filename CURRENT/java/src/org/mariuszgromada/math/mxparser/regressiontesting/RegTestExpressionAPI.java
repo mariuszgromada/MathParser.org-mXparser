@@ -94,7 +94,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
 public class RegTestExpressionAPI {
 	/**
 	 * Runs API regression tests.
-	 * @param fractionIterations
+	 * @param fractionIterations - number of iterations
 	 * @return Number of tests with error result.
 	 */
 	public static int start(int fractionIterations) {

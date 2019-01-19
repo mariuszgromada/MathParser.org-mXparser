@@ -1377,7 +1377,7 @@ public final class mXparser {
 	/**
 	 * Resets a flag giving signal to the engine to cancel current calculation.
 	 *
-	 *  @see {@link #cancelCurrentCalculation()}
+	 * {@link #cancelCurrentCalculation()}
 	 */
 	public static final void resetCancelCurrentCalculationFlag() {
 		cancelCurrentCalculationFlag = false;
@@ -1385,8 +1385,11 @@ public final class mXparser {
 	/**
 	 * Check whether a flag to cancel current calculation process is set.
 	 *
-	 * @see {@link #cancelCurrentCalculation()}
-	 * @see {@link #resetCancelCurrentCalculationFlag()}
+	 * {@link #cancelCurrentCalculation()}
+	 * {@link #resetCancelCurrentCalculationFlag()}
+	 *
+	 * @return true in case cancel calculation flag is active,
+	 *        otherwise false
 	 */
 	public static final boolean isCurrentCalculationCancelled() {
 		return cancelCurrentCalculationFlag;
