@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.3.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
@@ -19,7 +19,7 @@
     <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
-    <PackageReleaseNotes>v.4.2 Aquaria: Special functions, Fractions, Decimals without leading zero, Variadic user defined functions, Scientific notation, Degrees / radians mode for trigonometric, Tetration operator, Few bugs fixed</PackageReleaseNotes>
+    <PackageReleaseNotes>v.4.3 Caprica</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

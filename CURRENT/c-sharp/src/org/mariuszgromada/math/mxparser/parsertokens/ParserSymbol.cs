@@ -166,7 +166,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String BASE36_REG_EXP						= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
 		public const String FRACTION							= "(" + INTEGER + "_)?" + INTEGER + "_" + INTEGER;
 		public const String nameOnlyTokenRegExp					= "([a-zA-Z_])+([a-zA-Z0-9_])*";
-		public const String nameOnlyTokenOptBracketsRegExp		= "(" +  nameOnlyTokenRegExp + "|" + "\\[" + nameOnlyTokenRegExp + "\\]" + ")";
+		public const String unitOnlyTokenRegExp					= "\\[" + nameOnlyTokenRegExp + "\\]";
+		public const String nameOnlyTokenOptBracketsRegExp		= "(" +  nameOnlyTokenRegExp + "|" + unitOnlyTokenRegExp + ")";
 		public const String nameTokenRegExp						= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
 		public const String nameTokenOptBracketsRegExp			= "(\\s)*" + nameOnlyTokenOptBracketsRegExp + "(\\s)*";
 		public const String paramsTokenRegeExp					= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";

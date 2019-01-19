@@ -2250,6 +2250,18 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			x = new Argument("AAAAA = y*730000000", y);
 			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
 				test[testId] = true;
+			/*
+			 * 65. Argument check syntax #145
+			 */
+			testId++;
+			e = new Expression("f(2)-2 * [ww]+a+[qq1]");
+			String[] units = e.getMissingUserDefinedUnits();
+			String[] args = e.getMissingUserDefinedArguments();
+			String[] fun = e.getMissingUserDefinedFunctions();
+			if (units.Length == 2 && args.Length == 1 && fun.Length == 1)
+				if (units[0].Equals("[ww]") && units[1].Equals("[qq1]"))
+					if (args[0].Equals("a") && fun[0].Equals("f"))
+						test[testId] = true;
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

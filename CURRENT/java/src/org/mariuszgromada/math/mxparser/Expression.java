@@ -7224,6 +7224,7 @@ public class Expression {
 	}
 	private final String FUNCTION = "function";
 	private final String ARGUMENT = "argument";
+	private final String UNITCONST = "unit/const";
 	private final String ERROR    = "error";
 	/**
 	 * Tokenizes expression string and returns tokens list,
@@ -7243,7 +7244,9 @@ public class Expression {
 		for (int i = 0; i < initialTokens.size(); i++) {
 			token =  initialTokens.get(i);
 			if (token.tokenTypeId == Token.NOT_MATCHED) {
-				if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+				if (mXparser.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+					token.looksLike = UNITCONST;
+				} else if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
 					token.looksLike = ARGUMENT;
 					if (i < initialTokens.size()-1) {
 						Token tokenNext = initialTokens.get(i+1);
@@ -7278,6 +7281,27 @@ public class Expression {
 		for (int i = 0; i < n; i++)
 			missArgs[i] = missingArguments.get(i);
 		return missArgs;
+	}
+	/**
+	 * Returns missing user defined units names, i.e.
+	 * 2*[w] + [q] where [w] and [q] are not defined
+	 * function will return [w] and [q].
+	 *
+	 * @return Array of missing user defined units names
+	 * - distinct strings.
+	 */
+	public String[] getMissingUserDefinedUnits() {
+		List<Token> tokens = getCopyOfInitialTokens();
+		List<String> missingUnits = new ArrayList<String>();
+		for (Token t : tokens)
+			if ( t.looksLike.equals(UNITCONST) )
+				if ( !missingUnits.contains(t.tokenStr) )
+					missingUnits.add(t.tokenStr);
+		int n = missingUnits.size();
+		String[] missUnits = new String[n];
+		for (int i = 0; i < n; i++)
+			missUnits[i] = missingUnits.get(i);
+		return missUnits;
 	}
 	/**
 	 * Returns missing user defined functions names, i.e.

@@ -7214,6 +7214,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private const String FUNCTION = "function";
 		private const String ARGUMENT = "argument";
+		private const String UNITCONST = "unit/const";
 		private const String ERROR = "error";
 		/**
 		 * Tokenizes expression string and returns tokens list,
@@ -7233,7 +7234,9 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int i = 0; i < initialTokens.Count; i++) {
 				token = initialTokens[i];
 				if (token.tokenTypeId == Token.NOT_MATCHED) {
-					if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+					if (mXparser.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+						token.looksLike = UNITCONST;
+					} else if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
 						token.looksLike = ARGUMENT;
 						if (i < initialTokens.Count - 1) {
 							Token tokenNext = initialTokens[i + 1];
@@ -7268,6 +7271,27 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int i = 0; i < n; i++)
 				missArgs[i] = missingArguments[i];
 			return missArgs;
+		}
+		/**
+		 * Returns missing user defined units names, i.e.
+		 * 2*[w] + [q] where [w] and [q] are not defined
+		 * function will return [w] and [q].
+		 *
+		 * @return Array of missing user defined units names
+		 * - distinct strings.
+		 */
+		public String[] getMissingUserDefinedUnits() {
+			List<Token> tokens = getCopyOfInitialTokens();
+			List<String> missingUnits = new List<String>();
+			foreach (Token t in tokens)
+				if ( t.looksLike.Equals(UNITCONST) )
+					if ( !missingUnits.Contains(t.tokenStr) )
+						missingUnits.Add(t.tokenStr);
+			int n = missingUnits.Count;
+			String[] missUnits = new String[n];
+			for (int i = 0; i < n; i++)
+				missUnits[i] = missingUnits[i];
+			return missUnits;
 		}
 		/**
 		 * Returns missing user defined functions names, i.e.

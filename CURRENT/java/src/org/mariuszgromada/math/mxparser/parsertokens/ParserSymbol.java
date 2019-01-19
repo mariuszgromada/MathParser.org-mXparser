@@ -162,7 +162,8 @@ public final class ParserSymbol {
 	public static final String BASE36_REG_EXP					= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
 	public static final String FRACTION							= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
 	public static final String nameOnlyTokenRegExp				= "([a-zA-Z_])+([a-zA-Z0-9_])*";
-	public static final String nameOnlyTokenOptBracketsRegExp	= "(" +  nameOnlyTokenRegExp + "|" + "\\[" + nameOnlyTokenRegExp + "\\]" + ")";
+	public static final String unitOnlyTokenRegExp				= "\\[" + nameOnlyTokenRegExp + "\\]";
+	public static final String nameOnlyTokenOptBracketsRegExp	= "(" +  nameOnlyTokenRegExp + "|" + unitOnlyTokenRegExp + ")";
 	public static final String nameTokenRegExp					= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";
 	public static final String nameTokenOptBracketsRegExp		= "(\\s)*" + nameOnlyTokenOptBracketsRegExp + "(\\s)*";
 	public static final String paramsTokenRegeExp				= "(\\s)*\\(" + "(" + nameTokenRegExp + ",(\\s)*)*" + nameTokenRegExp + "\\)(\\s)*";

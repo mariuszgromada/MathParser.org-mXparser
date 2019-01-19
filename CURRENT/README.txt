@@ -7,7 +7,28 @@
 	 mainly my free time. I hope it saved some of your time. If yes, then
 	                       buy me a cup coffee :-)
                     *** http://mathparser.org/donate/ ***
+					
+           *** Scalar Scientific Calculator, Charts & Scripts ***					
+*** https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite ***
+*** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
+                        *** http://scalarmath.org/ ***
 
+v.4.3.0 (2019-01-19): Caprica - API improvement
+
+	* Cancel ongoing calculation
+		- mXparser.cancelCurrentCalculation()
+		- mXparser.resetCancelCurrentCalculationFlag();
+		
+	* Set default options
+		- mXparser.setDefaultOptions()
+		
+	* User defined constants / units
+		- constant name can be surrounded by square bracket, i.e. [const]
+		- Expression.getMissingUserDefinedUnits()
+		
+	* Bug fixing
+		- #153, #162 Endless Loop
+		- #164 PrimeCache out of memory - handling error / exception
 
 v.4.2.0 (2018-07-15): Aquaria - Major release
 
