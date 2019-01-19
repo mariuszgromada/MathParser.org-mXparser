@@ -166,7 +166,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						for (int j = i; i*j <= maxNumInCache; j++)
 							isPrime[i*j] = false;
 				initSuccessful = true;
-			} catch (OutOfMemoryException e) {
+			} catch (OutOfMemoryException) {
 				initSuccessful = false;
 			} finally {
 				long endTime = mXparser.currentTimeMillis();

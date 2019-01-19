@@ -118,7 +118,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Prime numbers cache
 		 */
-		public static volatile PrimesCache primesCache;
+		public static PrimesCache primesCache;
 		public const int PRIMES_CACHE_NOT_INITIALIZED = -1;
 		/**
 		 * Threads number settings
