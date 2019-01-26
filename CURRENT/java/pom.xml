@@ -2,10 +2,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mariuszgromada.math</groupId>
 	<artifactId>MathParser.org-mXparser</artifactId>
-	<version>4.3.0</version>
+	<version>4.3.1</version>
 	<packaging>jar</packaging>
 	<name>MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</name>
-	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI).</description>
+	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: http://scalarmath.org/ *** MathSpace.pl: http://mathspace.pl/ ***</description>
 	<url>http://mathparser.org/</url>
 	<developers>
 		<developer>

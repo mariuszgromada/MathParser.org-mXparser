@@ -5,7 +5,7 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>4.3.0</Version>
+    <Version>4.3.2</Version>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
@@ -17,8 +17,8 @@
     <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageReleaseNotes>v.4.3 Caprica</PackageReleaseNotes>
-    <AssemblyVersion>4.3.0.0</AssemblyVersion>
-    <FileVersion>4.3.0.0</FileVersion>
+    <AssemblyVersion>4.3.2.0</AssemblyVersion>
+    <FileVersion>4.3.2.0</FileVersion>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
   <PropertyGroup>
