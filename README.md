@@ -1,6 +1,6 @@
 # Scalar Scientific Calculator, Charts & Scripts - my new project
 
-[![Scalar-Lite](http://mathparser.org/wp-content/uploads/2018/12/Grafika-promocyjna-w-skali-1024x500.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
+[![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
 
 [![Scalar-Lite](http://mathparser.org/wp-content/uploads/2018/12/youtube-link.png)](https://youtu.be/HUlEUaioogQ)
 
