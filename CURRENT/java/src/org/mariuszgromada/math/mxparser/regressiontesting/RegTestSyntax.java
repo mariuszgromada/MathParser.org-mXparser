@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.3.0   2018-12-12
+ * @(#)RegTestSyntax.java        4.3.3   2019-01-27
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -84,7 +84,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.3.3
  *
  * @see Expression
  */
@@ -2953,6 +2953,20 @@ public class RegTestSyntax {
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
+		case 245:
+			Argument fun = new Argument("fun");
+			x = new Argument("x");
+			expStr = "fun(x)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr, fun, x);
+			exp[testId] = e;
+			boolean lex = e.checkLexSyntax();
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg && lex == true)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -2998,7 +3012,7 @@ public class RegTestSyntax {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(244);
+		return start(245);
 	}
 	/**
 	 * Runs syntax checking regression test.

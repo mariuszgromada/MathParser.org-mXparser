@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.3.0   2018-12-12
+ * @(#)Expression.java        4.3.3   2019-01-27
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -120,7 +120,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.3.3
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -4943,16 +4943,15 @@ public class Expression {
 				 */
 				if (t.tokenTypeId == Argument.TYPE_ID) {
 					Argument arg = getArgument(t.tokenId);
-					if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
-						if (getParametersNumber(tokenIndex) >= 0 ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
-						} else
-							if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
-								syntax = syntax && syntaxRec;
-								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
-							}
+					if (getParametersNumber(tokenIndex) >= 0 ) {
+						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+						errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
+					} else if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
+						if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
+							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
+							syntax = syntax && syntaxRec;
+							errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
+						}
 					}
 				}
 				/*
