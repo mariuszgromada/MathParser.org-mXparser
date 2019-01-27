@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
-    <AssemblyVersion>4.3.2.0</AssemblyVersion>
-    <FileVersion>4.3.2.0</FileVersion>
-    <Version>4.3.2</Version>
+    <AssemblyVersion>4.3.3.0</AssemblyVersion>
+    <FileVersion>4.3.3.0</FileVersion>
+    <Version>4.3.3</Version>
     <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>

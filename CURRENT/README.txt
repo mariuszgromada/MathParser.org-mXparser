@@ -13,6 +13,14 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** http://scalarmath.org/ ***
 
+v.4.3.3 (2019-01-27): Bug fix
+
+	* No Operator between Argumant and Parentheses #170 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/170
+												
+v.4.3.2 (2019-01-25): Nuget package fix
+
+	* Could not load file or assembly MathParser.org-mXparser #171 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/171
+
 v.4.3.0 (2019-01-19): Caprica - API improvement
 
 	* Cancel ongoing calculation
