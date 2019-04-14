@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mariusz Gromada")]
 [assembly: AssemblyProduct("mXparser")]
-[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2016")]
+[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2019")]
 [assembly: AssemblyTrademark("mXparser")]
 [assembly: AssemblyCulture("")]
 
