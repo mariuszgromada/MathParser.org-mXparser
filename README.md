@@ -2,12 +2,6 @@
 
 [![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
 
-### Scalar Pro - PROMOTION - until codes (stock) last
-
-[![Scalar-Promo](https://scalarmath.org/wp-content/uploads/2019/03/scalar-free-of-charge.png)](mailto:scalar.math@gmail.com?subject=Scalar%20Pro%20PROMO)
-
-All you need to do is write an e-mail to <a href="mailto:scalar.math@gmail.com?subject=Scalar%20Pro%20PROMO"><strong>scalar.math@gmail.com</strong></a>, and in response you will receive <strong>a promotional code that allows to install Scalar Pro for free. Note: the number of codes is limited, the codes are valid until the end of March, 2019 - after this time it will not be possible to use them.</strong>
-
 ### Scalar in action
 
 [![Scalar-Lite](http://mathparser.org/wp-content/uploads/2018/12/youtube-link.png)](https://youtu.be/HUlEUaioogQ)
