@@ -6,7 +6,7 @@ using System.IO;
 
 public class SyntaxCheckerTokenManager : SyntaxCheckerConstants
 {
-	#if PCL || NETSTANDARD
+	#if NETSTANDARD1_0
 		public System.IO.TextWriter debugStream = new System.IO.StreamWriter(new System.IO.MemoryStream());
 	#else
 		public System.IO.TextWriter debugStream = new System.IO.StreamWriter(System.Console.OpenStandardError());

@@ -1770,7 +1770,7 @@ namespace org.mariuszgromada.math.mxparser {
 			try {
 				value = function.calculate();
 			} catch(
-				#if PCL || CORE || NETSTANDARD
+				#if NETSTANDARD
 					Exception
 				#else
 					StackOverflowException
@@ -4786,7 +4786,7 @@ namespace org.mariuszgromada.math.mxparser {
 				errorMessage = "Empty expression string\n";
 				return syntax;
 			}
-			#if PCL || NETSTANDARD
+			#if NETSTANDARD1_0
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
@@ -4885,10 +4885,10 @@ namespace org.mariuszgromada.math.mxparser {
 				recursionCallPending = false;
 				return syntax;
 			}
-			#if PCL || NETSTANDARD
+			#if NETSTANDARD1_0
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
-				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
+				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
 			#endif
 			try {
 				syn.checkSyntax();
