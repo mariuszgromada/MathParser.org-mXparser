@@ -58,12 +58,12 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-    /// <summary>
+	/// <summary>
 	/// Constant class provides ability to declare constants.
 	/// Constants can be used in further processing by any expression,
 	/// dependent or recursive argument, function, etc...
 	/// </summary>
-    /// <remarks>
+	/// <remarks>
 	/// When creating a constant you should avoid names reserved as
 	/// parser keywords, in general words known in mathematical language
 	/// as function names, operators (for example:
@@ -72,7 +72,7 @@ namespace org.mariuszgromada.math.mxparser {
 	/// its name will be recognized by the parser as reserved key word.
 	/// It means that it could not be the same as any other key word known
 	/// by the parser for this particular expression.
-    /// <para/>
+	/// <para/>
 	/// Author: <b>Mariusz Gromada</b><br/>
 	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
 	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
@@ -91,7 +91,7 @@ namespace org.mariuszgromada.math.mxparser {
 	/// <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br/>
 	/// <para/>
 	/// Version: 4.3.0
-    /// </remarks>
+	/// </remarks>
 	/// <seealso cref="RecursiveArgument"/>
 	/// <seealso cref="Expression"/>
 	/// <seealso cref="Function"/>
@@ -117,11 +117,11 @@ namespace org.mariuszgromada.math.mxparser {
 		private List<Expression> relatedExpressionsList;
 		/// <summary>Status of the expression syntax</summary>
 		///
-        /// <remarks>
+		/// <remarks>
 		/// Please referet to the:
 		///    - <see cref="NO_SYNTAX_ERRORS"/>
 		///    - <see cref="SYNTAX_ERROR_OR_STATUS_UNKNOWN"/>
-        /// </remarks>
+		/// </remarks>
 		private bool syntaxStatus;
 		/// <summary>Message after checking the syntax</summary>
 		private String errorMessage;
@@ -144,11 +144,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Constructor - creates constant with a given name and given value.
 		/// Additionally description is being set.
 		/// </summary>
-        /// 
+		/// 
 		/// <param name="constantName">the constant name</param>
 		/// <param name="constantValue">the constant value</param>
 		/// <param name="description">the constant description</param>
@@ -167,21 +167,21 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Constructor for function definition in natural math language,
 		/// for instance providing on string "f(x,y) = sin(x) + cos(x)"
 		/// is enough to define function "f" with parameters "x and y"
 		/// and function body "sin(x) + cos(x)".
-        /// </summary>
+		/// </summary>
 		///
 		/// <param name="constantDefinitionString">
-        ///     Constant definition in the form 
-        ///     of one String, ie "c = 2" or "c = 2*sin(pi/3)"
-        /// </param>
+		///     Constant definition in the form 
+		///     of one String, ie "c = 2" or "c = 2*sin(pi/3)"
+		/// </param>
 		/// <param name="elements">
-        ///     Optional parameters (comma separated) such as <see cref="Argument">Arguments</see>,
-        ///     <see cref="Constant">Constants</see>, <see cref="Function">Functions</see>
-        /// </param>
+		///     Optional parameters (comma separated) such as <see cref="Argument">Arguments</see>,
+		///     <see cref="Constant">Constants</see>, <see cref="Function">Functions</see>
+		/// </param>
 		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
 			description = "";
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
@@ -205,10 +205,10 @@ namespace org.mariuszgromada.math.mxparser {
 			return constantName;
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Sets constant name. If constant is associated with any expression
 		/// then this operation will set modified flag to each related expression.
-        /// </summary>
+		/// </summary>
 		///
 		/// <param name="constantName">the constant name</param>
 		public void setConstantName(String constantName) {
@@ -223,7 +223,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 
 		/// <summary>Sets constant value</summary>
-        /// 
+		/// 
 		/// <param name="constantValue">constant value</param>
 		public void setConstantValue(double constantValue) {
 			this.constantValue = constantValue;
@@ -260,10 +260,10 @@ namespace org.mariuszgromada.math.mxparser {
 		/// <summary>Gets syntax status of the expression.</summary>
 		///
 		/// <returns>
-        ///     <see cref="NO_SYNTAX_ERRORS"/> if there are no syntax errors,
+		///     <see cref="NO_SYNTAX_ERRORS"/> if there are no syntax errors,
 		///     <see cref="SYNTAX_ERROR_OR_STATUS_UNKNOWN"/> when syntax error was found or
 		///     syntax status is unknown
-        /// </returns>
+		/// </returns>
 		public bool getSyntaxStatus() {
 			return this.syntaxStatus;
 		}
