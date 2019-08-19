@@ -22,3 +22,4 @@ ipch/
 *.csproj.user
 DTAR_*_DTAR/
 /CURRENT/c-sharp/UpgradeLog.htm
+/CURRENT/c-sharp/.idea
