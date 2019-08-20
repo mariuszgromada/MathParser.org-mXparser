@@ -58,83 +58,81 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * RecursiveArgument class enables to declare the argument
-	 * (variable) which is defined in a recursive way. Such an argument
-	 * can be used in further processing in expressions, functions and dependent
-	 * or recursive arguments.<br>
-	 *
-	 * For example:
-	 * <ul>
-	 * <li>'fib(n) = fin(n-1)+fib(n-2), fib(0) = 0, fib(1) = 1'
-	 * <li>'factorial(n) = n*factorial(n-1), factorial(0) = 1'
-	 * </ul>
-	 * <p>
-	 * When creating an argument you should avoid:
-	 * <ul>
-	 * <li>names reserved as parser keywords, in general words known in mathematical language
-	 * as function names, operators (for example:
-	 * sin, cos, +, -, etc...). Please be informed that after associating
-	 * the argument with the expression, function or dependent/recursive argument
-	 * its name will be recognized by the parser as reserved key word.
-	 * It means that it could not be the same as any other key word known
-	 * by the parser for this particular expression.
-	 * <li>defining statements with increasing index: 'a(n) = a(n+1) + ... ', otherwise
-	 * you will get Double.NaN
-	 * <li>if recursion is not properly defined you will get Double.NaN in the result.
-	 * This is due to the recursion counter inside of the recursive argument. Calculating
-	 * n-th element requires no more than n recursion steps (usually less than n).
-	 * <li>For negative 'n' you will get Double.NaN.
-	 *
-	 * </ul>
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
-	 *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
-	 *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
-	 *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
-	 *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
-	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
-	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
-	 *
-	 * @version        4.2.0
-	 *
-	 * @see Argument
-	 * @see Expression
-	 * @see Function
-	 * @see Constant
-	 */
+	/// <summary>
+	/// RecursiveArgument class enables to declare the argument
+	/// (variable) which is defined in a recursive way. Such an argument
+	/// can be used in further processing in expressions, functions and dependent
+	/// or recursive arguments.
+	/// <para/>
+	/// For example:
+	/// <list type="bullet">
+	///     <item>'fib(n) = fin(n-1)+fib(n-2), fib(0) = 0, fib(1) = 1'</item>
+	///     <item>'factorial(n) = n*factorial(n-1), factorial(0) = 1'</item>
+	/// </list>
+	/// </summary>
+	/// <remarks>
+	/// When creating an argument you should avoid:
+	/// <list type="bullet">
+	///     <item>
+	///         names reserved as parser keywords, in general words known in mathematical language
+	///         as function names, operators (for example:
+	///         sin, cos, +, -, etc...). Please be informed that after associating
+	///         the argument with the expression, function or dependent/recursive argument
+	///         its name will be recognized by the parser as reserved key word.
+	///         It means that it could not be the same as any other key word known
+	///         by the parser for this particular expression.
+	///     </item>
+	///     <item>
+	///         defining statements with increasing index: 'a(n) = a(n+1) + ... ', otherwise
+	///         you will get <see cref="Double.NaN"/>
+	///     </item>
+	///     <item>
+	///         if recursion is not properly defined you will get <see cref="Double.NaN"/> in the result.
+	///         This is due to the recursion counter inside of the recursive argument. Calculating
+	///         n-th element requires no more than n recursion steps (usually less than n).
+	///     </item>
+	///     <item>For negative 'n' you will get <see cref="Double.NaN"/>.</item>
+	/// </list>
+	/// <para/>
+	/// Author: <b>Mariusz Gromada</b><br/>
+	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
+	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
+	/// <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br/>
+	/// <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br/>
+	/// <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br/>
+	/// <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br/>
+	/// <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br/>
+	/// <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br/>
+	/// <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br/>
+	/// <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br/>
+	/// <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br/>
+	/// <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br/>
+	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br/>
+	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br/>
+	/// <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a>
+	/// <para/>
+	/// Version: 4.2.0
+	/// </remarks>
+	/// 
+	/// <seealso cref="Argument"/>
+	/// <seealso cref="Expression"/>
+	/// <seealso cref="Function"/>
+	/// <seealso cref="Constant"/>
 	[CLSCompliant(true)]
 	public class RecursiveArgument : Argument {
-		/**
-		 * Type identifier for recursive arguments.
-		 */
+		/// <summary>Type identifier for recursive arguments.</summary>
 		public const int TYPE_ID_RECURSIVE			= 102;
 		public const String TYPE_DESC_RECURSIVE		= "User defined recursive argument";
-		/**
-		 * Base values
-		 */
+		/// <summary>Base values</summary>
 		private List<Double> baseValues;
-		/**
-		 * To avoid never ending loops
-		 */
+		/// <summary>To avoid never ending loops</summary>
 		private int recursiveCounter;
 		private int startingIndex;
-		/**
-		 * Constructor - creates recursive argument.
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      indexName                     index argument name
-		 */
+		/// <summary>Constructor - creates recursive argument.</summary>
+		///
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="recursiveExpressionString">the recursive expression string</param>
+		/// <param name="indexName">index argument name</param>
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName)
 			: base(argumentName, recursiveExpressionString)
 		{
@@ -148,18 +146,19 @@ namespace org.mariuszgromada.math.mxparser {
 				recursiveCounter = -1;
 			}
 		}
-		/**
-		 * Constructor - creates recursive argument.
-		 *
-		 * @param      argumentName                  the argument name
-		 * @param      recursiveExpressionString     the recursive expression string
-		 * @param      n                             the index argument
-		 * @param      elements                      Optional elements list (variadic - comma
-		 *                                           separated) of types: Argument, Constant, Function
-		 *
-		 * @see        PrimitiveElement
-		 * @see        Argument
-		 */
+		/// <summary>Constructor - creates recursive argument.</summary>
+		///
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="recursiveExpressionString">the recursive expression string</param>
+		/// <param name="n">the index argument</param>
+		/// <param name="elements">
+		///     Optional elements list (variadic - comma
+		///     separated) of types: <see cref="Argument"/>,
+		///     <see cref="Constant"/>, <see cref="Function"/>
+		/// </param>
+		/// 
+		/// <seealso cref="PrimitiveElement"/>
+		/// <seealso cref="Argument"/>
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements)
 			: base(argumentName, recursiveExpressionString)
 		{
@@ -174,25 +173,27 @@ namespace org.mariuszgromada.math.mxparser {
 				recursiveCounter = -1;
 			}
 		}
-		/**
-		 * Constructor - creates argument based on the argument definition string.
-		 *
-		 * @param      argumentDefinitionString        Argument definition string, i.e.:
-		 *                                             <ul>
-		 *                                                <li>'x' - only argument name
-		 *                                                <li>'x=5' - argument name and argument value
-		 *                                                <li>'x=2*5' - argument name and argument value given as simple expression
-		 *                                                <li>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')
-		 *                                                <li>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)
-		 *                                             </ul>
-		 *
-		 * @param      elements                       Optional elements list
-		 *                                            (variadic - comma separated) of types: Argument,
-		 *                                            Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 * @see    Argument
-		 */
+		/// <summary>Constructor - creates argument based on the argument definition string.</summary>
+		///
+		/// <param name="argumentDefinitionString">
+		///     Argument definition string, i.e.:
+		///     <list type="bullet">
+		///        <item>'x' - only argument name</item>
+		///        <item>'x=5' - argument name and argument value</item>
+		///        <item>'x=2*5' - argument name and argument value given as simple expression</item>
+		///        <item>'x=2*y' - argument name and argument expression (dependent argument 'x' on argument 'y')</item>
+		///        <item>'x(n)=x(n-1)+x(n-2)' - for recursive arguments)</item>
+		///     </list>
+		/// </param>
+		/// 
+		/// <param name="elements">
+		///     Optional elements list
+		///     (variadic - comma separated) of types: <see cref="Argument"/>,
+		///     <see cref="Constant"/>, <see cref="Function"/>
+		/// </param>
+		///
+		/// <seealso cref="PrimitiveElement"/>
+		/// <seealso cref="Argument"/>
 		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString)
 		{
 			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
@@ -209,12 +210,10 @@ namespace org.mariuszgromada.math.mxparser {
 				base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
 			}
 		}
-		/**
-		 * Adds base case
-		 *
-		 * @param      index               the base case index
-		 * @param      value               the base case value
-		 */
+		/// <summary>Adds base case</summary>
+		///
+		/// <param name="index">the base case index</param>
+		/// <param name="value">the base case value</param>
 		public void addBaseCase(int index, double value) {
 			int recSize = baseValues.Count;
 			if (index > recSize-1) {
@@ -227,21 +226,17 @@ namespace org.mariuszgromada.math.mxparser {
 			} else
 				baseValues[index] = value;
 		}
-		/**
-		 * Clears all based cases and stored calculated values
-		 */
+		/// <summary>Clears all based cases and stored calculated values</summary>
 		public void resetAllCases()
 		{
 			baseValues.Clear();
 			recursiveCounter = -1;
 		}
-		/**
-		 * Gets recursive argument value
-		 *
-		 * @param      index               the index
-		 *
-		 * @return     value as double
-		 */
+		/// <summary>Gets recursive argument value</summary>
+		///
+		/// <param name="index">the index</param>
+		///
+		/// <returns>value as double</returns>
 		public double getArgumentValue(double index) {
 			/*
 			 * Remember starting index
