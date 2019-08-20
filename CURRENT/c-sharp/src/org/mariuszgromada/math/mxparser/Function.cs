@@ -58,129 +58,102 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * Function class provides possibility to define user functions.
-	 * Functions can be used in further processing by any expression,
-	 * dependent or recursive argument, function, etc... For expamle:
-	 *
-	 * <ul>
-	 * <li>'f(x) = sin(x)'
-	 * <li>'g(x,y) = sin(x)+cos(y)'
-	 * <li>'h(x,y = f(x)+g(y,x)'
-	 * <li>in general 'f(x1,x2,...,xn)' where x1,...,xn are arguments
-	 * </ul>
-	 *
-	 * <p>
-	 * When creating a function you should avoid names reserved as
-	 * parser keywords, in general words known in mathematical language
-	 * as function names, operators (for example:
-	 * sin, cos, +, -, pi, e, etc...). Please be informed that after associating
-	 * the constant with the expression, function or dependent/recursive argument
-	 * its name will be recognized by the parser as reserved key word.
-	 * It means that it could not be the same as any other key word known
-	 * by the parser for this particular expression.
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
-	 *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
-	 *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
-	 *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
-	 *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
-	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
-	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
-	 *
-	 * @version        4.3.0
-	 *
-	 * @see RecursiveArgument
-	 * @see Expression
-	 * @see Argument
-	 * @see Constant
-	 * @see FunctionExtension
-	 *
-	 */
+	/// <summary>
+	/// Function class provides possibility to define user functions.
+	/// Functions can be used in further processing by any expression,
+	/// dependent or recursive argument, function, etc... For expamle:
+	///
+	/// <list type="bullet">
+	/// <item>'f(x) = sin(x)'</item>
+	/// <item>'g(x,y) = sin(x)+cos(y)'</item>
+	/// <item>'h(x,y = f(x)+g(y,x)'</item>
+	/// <item>in general 'f(x1,x2,...,xn)' where x1,...,xn are arguments</item>
+	/// </list>
+	/// </summary>
+	///
+	/// <remarks>
+	/// When creating a function you should avoid names reserved as
+	/// parser keywords, in general words known in mathematical language
+	/// as function names, operators (for example:
+	/// sin, cos, +, -, pi, e, etc...). Please be informed that after associating
+	/// the constant with the expression, function or dependent/recursive argument
+	/// its name will be recognized by the parser as reserved key word.
+	/// It means that it could not be the same as any other key word known
+	/// by the parser for this particular expression.
+	/// <para/>
+	/// Author: <br/>
+	/// <b>Mariusz Gromada</b><br/>
+	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
+	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
+	/// <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br/>
+	/// <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br/>
+	/// <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br/>
+	/// <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br/>
+	/// <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br/>
+	/// <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br/>
+	/// <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br/>
+	/// <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br/>
+	/// <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br/>
+	/// <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br/>
+	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br/>
+	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br/>
+	/// <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a>
+	/// <para/>
+	/// Version: 4.3.0
+	/// </remarks>
+	/// <seealso cref="RecursiveArgument"/>
+	/// <seealso cref="Expression"/>
+	/// <seealso cref="Argument"/>
+	/// <seealso cref="Constant"/>
+	/// <seealso cref="FunctionExtension"/>
+	///
 	[CLSCompliant(true)]
 	public class Function : PrimitiveElement {
-		/**
-		 * No syntax errors in the function.
-		 */
+		/// <summary>No syntax errors in the function.</summary>
 		public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
-		/**
-		 * Syntax error in the function or syntax status unknown.
-		 */
+		/// <summary>Syntax error in the function or syntax status unknown.</summary>
 		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		/**
-		 * When function was not found
-		 */
+		/// <summary>When function was not found</summary>
 		public const int NOT_FOUND = Expression.NOT_FOUND;
-		/**
-		 * Function type id identifier
-		 */
+		/// <summary>Function type id identifier</summary>
 		public const int TYPE_ID			= 103;
 		public const String TYPE_DESC		= "User defined function";
-		/**
-		 * Function with body based on the expression string.
-		 *
-		 * @see Function#getFunctionBodyType()
-		 */
+		/// <summary>Function with body based on the expression string.</summary>
+		///
+		/// <seealso cref="Function.getFunctionBodyType()"/>
 		public const int BODY_RUNTIME = 1;
-		/**
-		 * Function with body based on the extended code.
-		 *
-		 * @see FunctionExtension
-		 * @see Function#getFunctionBodyType()
-		 */
+		/// <summary>Function with body based on the extended code.</summary>
+		///
+		/// <seealso cref="FunctionExtension"/>
+		/// <seealso cref="Function.getFunctionBodyType()"/>
 		public const int BODY_EXTENDED = 2;
-		/**
-		 * Function body type.
-		 *
-		 * @see Function#BODY_RUNTIME
-		 * @see Function#BODY_EXTENDED
-		 * @see Function#getFunctionBodyType()
-		 */
+		/// <summary>Function body type.</summary>
+		///
+		/// <seealso cref="Function.BODY_RUNTIME"/>
+		/// <seealso cref="Function.BODY_EXTENDED"/>
+		/// <seealso cref="Function.getFunctionBodyType()"/>
 		private int functionBodyType;
-		/**
-		 * function expression
-		 */
+		/// <summary>function expression</summary>
 		internal Expression functionExpression;
-		/**
-		 * function name
-		 */
+		/// <summary>function name</summary>
 		private String functionName;
-		/**
-		 * function description
-		 */
+		/// <summary>function description</summary>
 		private String description;
-		/**
-		 * Indicates whether UDF is variadic
-		 */
+		/// <summary>Indicates whether UDF is variadic</summary>
 		internal bool isVariadic;
-		/**
-		 * The number of function parameters
-		 */
+		/// <summary>The number of function parameters</summary>
 		private int parametersNumber;
-		/**
-		 * Function extension (body based in code)
-		 *
-		 * @see FunctionExtension
-		 * @see FunctionExtensionVariadic
-		 * @see Function#Function(String, FunctionExtension)
-		 */
+		/// <summary>Function extension (body based in code)</summary>
+		///
+		/// <seealso cref="FunctionExtension"/>
+		/// <seealso cref="FunctionExtensionVariadic"/>
+		/// <seealso cref="Function.Function(String, FunctionExtension)"/>
 		private FunctionExtension functionExtension;
-		/**
-		 * Function extension variadic (body based in code)
-		 *
-		 * @see FunctionExtension
-		 * @see FunctionExtensionVariadic
-		 * @see Function#Function(String, FunctionExtension)
-		 */
+		/// <summary>Function extension variadic (body based in code)</summary>
+		///
+		/// <seealso cref="FunctionExtension"/>
+		/// <seealso cref="FunctionExtensionVariadic"/>
+		/// <seealso cref="Function.Function(String, FunctionExtension)"/>
 		private FunctionExtensionVariadic functionExtensionVariadic;
 		/*=================================================
 		 *
@@ -188,17 +161,21 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Constructor - creates function from function name
-		 * and function expression string.
-		 *
-		 * @param      functionName              the function name
-		 * @param      functionExpressionString  the function expression string
-		 * @param      elements                  Optional elements list (variadic - comma separated) of types: Argument, Constant, Function
-		 *
-		 * @see        PrimitiveElement
-		 * @see        Expression
-		 */
+		/// <summary>
+		/// Constructor - creates function from function name
+		/// and function expression string.
+		/// </summary>
+		///
+		/// <param name="functionName">the function name</param>
+		/// <param name="functionExpressionString">the function expression string</param>
+		/// <param name="elements">
+		///     Optional elements list (variadic - comma separated)
+		///     of types: <see cref="Argument"/>, <see cref="Constant"/>,
+		///     <see cref="Function"/>
+		/// </param>
+		///
+		/// <seealso cref="PrimitiveElement"/>
+		/// <seealso cref="Expression"/>
 		public Function(String functionName
 						,String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
@@ -219,17 +196,19 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 			}
 		}
-		/**
-		 * Constructor - creates function from function name,
-		 * function expression string and argument names.
-		 *
-		 * @param      functionName              the function name
-		 * @param      functionExpressionString  the function expression string
-		 * @param      argumentsNames            the arguments names (variadic parameters)
-		 *                                       comma separated list
-		 *
-		 * @see        Expression
-		 */
+		/// <summary>
+		/// Constructor - creates function from function name,
+		/// function expression string and argument names.
+		/// </summary>
+		///
+		/// <param name="functionName">the function name</param>
+		/// <param name="functionExpressionString">the function expression string</param>
+		/// <param name="argumentsNames">
+		///     the arguments names (variadic parameters)
+		///     comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Expression"/>
 		public Function(String functionName
 						,String  functionExpressionString
 						,params String[] argumentsNames ) : base(Function.TYPE_ID) {
@@ -253,20 +232,23 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 			}
 		}
-		/**
-		 * Constructor for function definition in natural math language,
-		 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-		 * is enough to define function "f" with parameters "x and y"
-		 * and function body "sin(x) + cos(x)".
-		 *
-		 * @param functionDefinitionString      Function definition in the form
-		 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
-		 * @param elements                      Optional elements list (variadic - comma separated)
-		 *                                      of types: Argument, Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 *
-		 */
+		/// <summary>
+		/// Constructor for function definition in natural math language,
+		/// for instance providing on string "f(x,y) = sin(x) + cos(x)"
+		/// is enough to define function "f" with parameters "x and y"
+		/// and function body "sin(x) + cos(x)".
+		/// </summary>
+		/// <param name="functionDefinitionString">
+		///     Function definition in the form
+		///     of one String, ie "f(x,y) = sin(x) + cos(x)"
+		/// </param>
+		/// <param name="elements">
+		///     Optional elements list (variadic - comma separated)
+		///     of types: <see cref="Argument"/>, <see cref="Constant"/>,
+		///     <see cref="Function"/>
+		/// </param>
+		/// 
+		/// <seealso cref="PrimitiveElement"/>
 		public Function(String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			parametersNumber = 0;
 			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
@@ -306,14 +288,14 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
 			}
 		}
-		/**
-		 * Constructor for function definition based on
-		 * your own source code - this is via implementation
-		 * of FunctionExtension interface.
-		 *
-		 * @param functionName       Function name
-		 * @param functionExtension  Your own source code
-		 */
+		/// <summary>
+		/// Constructor for function definition based on
+		/// your own source code - this is via implementation
+		/// of <see cref="FunctionExtension"/> interface.
+		/// </summary>
+		///
+		/// <param name="functionName">Function name</param>
+		/// <param name="functionExtension">Your own source code</param>
 		public Function(String functionName, FunctionExtension functionExtension) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
@@ -330,14 +312,14 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 			}
 		}
-		/**
-		 * Constructor for function definition based on
-		 * your own source code - this is via implementation
-		 * of FunctionExtensionVariadic interface.
-		 *
-		 * @param functionName       Function name
-		 * @param functionExtensionVariadic  Your own source code
-		 */
+		/// <summary>
+		/// Constructor for function definition based on
+		/// your own source code - this is via implementation
+		/// of <see cref="FunctionExtensionVariadic"/> interface.
+		/// </summary>
+		///
+		/// <param name="functionName">Function name</param>
+		/// <param name="functionExtension">Your own source code</param>
 		public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) : base(Function.TYPE_ID) {
 			if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 				this.functionName = functionName;
@@ -354,12 +336,12 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 			}
 		}
-		/**
-		 * Private constructor used for function cloning.
-		 *
-		 * @param      function            the function, which is going
-		 *                                 to be cloned.
-		 */
+		/// <summary>Private constructor used for function cloning.</summary>
+		///
+		/// <param name="function">
+		///     the function, which is going
+		///     to be cloned.
+		/// </param>
 		private Function(Function function) : base(Function.TYPE_ID) {
 			functionName = function.functionName;
 			description = function.description;
@@ -372,20 +354,25 @@ namespace org.mariuszgromada.math.mxparser {
 				if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
 			}
 		}
-		/**
-		 * Constructor for function definition in natural math language,
-		 * for instance providing on string "f(x,y) = sin(x) + cos(x)"
-		 * is enough to define function "f" with parameters "x and y"
-		 * and function body "sin(x) + cos(x)".
-		 *
-		 * @param functionDefinitionString      Function definition in the form
-		 *                                      of one String, ie "f(x,y) = sin(x) + cos(x)"
-		 * @param elements                      Optional elements list (variadic - comma separated)
-		 *                                      of types: Argument, Constant, Function
-		 *
-		 * @see    PrimitiveElement
-		 *
-		 */
+		/// <summary>
+		/// Constructor for function definition in natural math language,
+		/// for instance providing on string "f(x,y) = sin(x) + cos(x)"
+		/// is enough to define function "f" with parameters "x and y"
+		/// and function body "sin(x) + cos(x)".
+		/// </summary>
+		///
+		/// <param name="functionDefinitionString">
+		///     Function definition in the form
+		///     of one String, ie "f(x,y) = sin(x) + cos(x)"
+		/// </param>
+		/// <param name="elements">
+		///     Optional elements list (variadic - comma separated)
+		///     of types: <see cref="Argument"/>, <see cref="Constant"/>,
+		///     <see cref="Function"/>
+		/// </param>
+		/// 
+		/// <seealso cref="PrimitiveElement"/>
+		///
 		public void setFunction(String functionDefinitionString, params PrimitiveElement[] elements) {
 			parametersNumber = 0;
 			if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
@@ -425,43 +412,33 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
 			}
 		}
-		/**
-		 * Sets function description.
-		 *
-		 * @param      description         the function description
-		 */
+		/// <summary>Sets function description.</summary>
+		///
+		/// <param name="description">the function description</param>
 		public void setDescription(String description) {
 			this.description = description;
 		}
-		/**
-		 * Gets function description
-		 *
-		 * @return     Function description as string
-		 */
+		/// <summary>Gets function description</summary>
+		///
+		/// <returns>Function description as string</returns>
 		public String getDescription() {
 			return description;
 		}
-		/**
-		 * Gets function name.
-		 *
-		 * @return     Function name as string.
-		 */
+		/// <summary>Gets function name.</summary>
+		///
+		/// <returns>Function name as string.</returns>
 		public String getFunctionName() {
 			return functionName;
 		}
-		/**
-		 * Gets function expression string
-		 *
-		 * @return     Function expression as string.
-		 */
+		/// <summary>Gets function expression string</summary>
+		///
+		/// <returns>Function expression as string.</returns>
 		public String getFunctionExpressionString() {
 			return functionExpression.getExpressionString();
 		}
-		/**
-		 * Sets function name.
-		 *
-		 * @param      functionName        the function name
-		 */
+		/// <summary>Sets function name.</summary>
+		///
+		/// <param name="functionName">the function name</param>
 		public void setFunctionName(String functionName) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
@@ -469,13 +446,13 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
 		}
-		/**
-		 * Sets value of function argument (function parameter).
-		 *
-		 * @param      argumentIndex   the argument index (in accordance to
-		 *                             arguments declaration sequence)
-		 * @param      argumentValue   the argument value
-		 */
+		/// <summary>Sets value of function argument (function parameter).</summary>
+		///
+		/// <param name="argumentIndex">
+		///     the argument index (in accordance to
+		///     arguments declaration sequence)
+		/// </param>
+		/// <param name="argumentValue">the argument value</param>
 		public void setArgumentValue(int argumentIndex, double argumentValue) {
 			if (isVariadic == false)
 				if (functionBodyType == BODY_RUNTIME)
@@ -483,20 +460,18 @@ namespace org.mariuszgromada.math.mxparser {
 				else if (isVariadic == false)
 					functionExtension.setParameterValue(argumentIndex, argumentValue);
 		}
-		/**
-		 * Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
-		 * @return Returns function body type: {@link Function#BODY_RUNTIME} {@link Function#BODY_EXTENDED}
-		 */
+		/// <summary>Returns function body type: <see cref="Function.BODY_RUNTIME"/> <see cref="Function.BODY_EXTENDED"/></summary>
+		/// 
+		/// <returns>Returns function body type: <see cref="Function.BODY_RUNTIME"/> <see cref="Function.BODY_EXTENDED"/></returns>
 		public int getFunctionBodyType() {
 			return functionBodyType;
 		}
-		/**
-		 * Checks function syntax
-		 *
-		 * @return     syntax status: Function.NO_SYNTAX_ERRORS,
-		 *                            Function.SYNTAX_ERROR_OR_STATUS_UNKNOWN
-		 *
-		 */
+		/// <summary>Checks function syntax</summary>
+		///
+		/// <returns>
+		///     syntax status: <see cref="Function.NO_SYNTAX_ERRORS"/>,
+		///     <see cref="Function.SYNTAX_ERROR_OR_STATUS_UNKNOWN"/>
+		/// </returns>
 		public bool checkSyntax() {
 			bool syntaxStatus = Function.NO_SYNTAX_ERRORS;
 			if (functionBodyType != BODY_EXTENDED)
@@ -504,26 +479,20 @@ namespace org.mariuszgromada.math.mxparser {
 			checkRecursiveMode();
 			return syntaxStatus;
 		}
-		/**
-		 * Returns error message after checking the syntax.
-		 *
-		 * @return     Error message as string.
-		 */
+		/// <summary>Returns error message after checking the syntax.</summary>
+		///
+		/// <returns>Error message as string.</returns>
 		public String getErrorMessage() {
 			return functionExpression.getErrorMessage();
 		}
-		/**
-		 * clone method
-		 */
+		/// <summary>clone method</summary>
 		internal Function clone() {
 			Function newFunction = new Function(this);
 			return newFunction;
 		}
-		/**
-		 * Calculates function value
-		 *
-		 * @return     Function value as double.
-		 */
+		/// <summary>Calculates function value</summary>
+		///
+		/// <returns>Function value as double.</returns>
 		public double calculate() {
 			if (functionBodyType == BODY_RUNTIME)
 				return functionExpression.calculate();
@@ -541,13 +510,11 @@ namespace org.mariuszgromada.math.mxparser {
 					} else return Double.NaN;
 				}
 		}
-		/**
-		 * Calculates function value
-		 *
-		 * @param      params              the function parameters values (as doubles)
-		 *
-		 * @return     function value as double.
-		 */
+		/// <summary>Calculates function value</summary>
+		///
+		/// <param name="parameters">the function parameters values (as doubles)</param>
+		///
+		/// <returns>function value as double.</returns>
 		public double calculate(params double[] parameters) {
 			if (parameters.Length > 0) {
 				functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
@@ -575,13 +542,14 @@ namespace org.mariuszgromada.math.mxparser {
 				return Double.NaN;
 			}
 		}
-		/**
-		 * Calculates function value
-		 *
-		 * @param      arguments   function parameters (as Arguments)
-		 *
-		 * @return     function value as double
-		 */
+		/// <summary>Calculates function value</summary>
+		///
+		/// <param name="arguments">
+		///     ]function parameters (as 
+		///     <see cref="Argument">Arguments</see>)
+		/// </param>
+		///
+		/// <returns>function value as double</returns>
 		public double calculate(params Argument[] arguments) {
 			double[] parameters;
 			if (arguments.Length > 0) {
@@ -615,28 +583,36 @@ namespace org.mariuszgromada.math.mxparser {
 				return Double.NaN;
 			}
 		}
-		/**
-		 * Adds user defined elements (such as: Arguments, Constants, Functions)
-		 * to the function expressions.
-		 *
-		 * @param elements Elements list (variadic), where Argument, Constant, Function
-		 *                 extend the same class PrimitiveElement
-		 *
-		 * @see PrimitiveElement
-		 */
+		/// <summary>
+		/// Adds user defined elements (such as: <see cref="Argument">Arguments</see>, 
+		/// <see cref="Constant">Constants</see>, <see cref="Function">Functions</see>)
+		/// to the function expressions.
+		/// </summary>
+		///
+		/// <param name="elements">
+		///     Elements list (variadic), where <see cref="Argument"/>,
+		///     <see cref="Constant"/>, <see cref="Function"/>
+		///     extend the same class <see cref="PrimitiveElement"/>
+		/// </param>
+		///
+		/// <seealso cref="PrimitiveElement"/>
 		public void addDefinitions(params PrimitiveElement[] elements) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addDefinitions(elements);
 		}
-		/**
-		 * Removes user defined elements (such as: Arguments, Constants, Functions)
-		 * from the function expressions.
-		 *
-		 * @param elements Elements list (variadic), where Argument, Constant, Function
-		 *                 extend the same class PrimitiveElement
-		 *
-		 * @see PrimitiveElement
-		 */
+		/// <summary>
+		/// Removes user defined elements (such as: <see cref="Argument">Arguments</see>,
+		/// <see cref="Constant">Constants</see>, <see cref="Function">Functions</see>)
+		/// from the function expressions.
+		/// </summary>
+		///
+		/// <param name="elements">
+		///     Elements list (variadic), where <see cref="Argument"/>,
+		///     <see cref="Constant"/>, <see cref="Function"/>
+		///     extend the same class <see cref="PrimitiveElement"/>
+		/// </param>
+		///
+		/// <seealso cref="PrimitiveElement"/>
 		public void removeDefinitions(params PrimitiveElement[] elements) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeDefinitions(elements);
@@ -655,113 +631,113 @@ namespace org.mariuszgromada.math.mxparser {
 					if (argument.getArgumentType() == Argument.RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
 			return numOfRecursiveArguments;
 		}
-		/**
-		 * Adds arguments (variadic) to the function expression definition.
-		 *
-		 * @param      arguments           the arguments list
-		 *                                 (comma separated list)
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Adds arguments (variadic) to the function expression definition.</summary>
+		///
+		/// <param name="arguments">
+		///     the arguments list
+		///     (comma separated list)
+		/// </param>
+		/// 
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public void addArguments(params Argument[] arguments) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				functionExpression.addArguments(arguments);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			}
 		}
-		/**
-		 * Enables to define the arguments (associated with
-		 * the function expression) based on the given arguments names.
-		 *
-		 * @param      argumentsNames      the arguments names (variadic)
-		 *                                 comma separated list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>
+		/// Enables to define the arguments (associated with
+		/// the function expression) based on the given arguments names.
+		/// </summary>
+		///
+		/// <param name="argumentsNames">
+		///     the arguments names (variadic)
+		///     comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public void defineArguments(params String[] argumentsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				functionExpression.defineArguments(argumentsNames);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			}
 		}
-		/**
-		 * Enables to define the argument (associated with the function expression)
-		 * based on the argument name and the argument value.
-		 *
-		 * @param      argumentName        the argument name
-		 * @param      argumentValue       the the argument value
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>
+		/// Enables to define the argument (associated with the function expression)
+		/// based on the argument name and the argument value.
+		/// </summary>
+		/// 
+		/// <param name="argumentName">the argument name</param>
+		/// <param name="argumentValue">the the argument value</param>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public void defineArgument(String argumentName, double argumentValue) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				functionExpression.defineArgument(argumentName, argumentValue);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			}
 		}
-		/**
-		 * Gets argument index from the function expression.
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     The argument index if the argument name was found,
-		 *             otherwise returns Argument.NOT_FOUND
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument index from the function expression.</summary>
+		///
+		/// <param name="argumentName">the argument name</param>
+		///
+		/// <returns>
+		///     The argument index if the argument name was found,
+		///     otherwise returns <see cref="Argument.NOT_FOUND"/>
+		/// </returns>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public int getArgumentIndex(String argumentName) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getArgumentIndex(argumentName);
 			else
 				return -1;
 		}
-		/**
-		 * Gets argument from the function expression.
-		 *
-		 *
-		 * @param      argumentName        the argument name
-		 *
-		 * @return     The argument if the argument name was found,
-		 *             otherwise returns null.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument from the function expression</summary>
+		///
+		/// <param name="argumentName">the argument name</param>
+		///
+		/// <returns>
+		///     The argument if the argument name was found,
+		///     otherwise returns null.
+		/// </returns>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public Argument getArgument(String argumentName) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getArgument(argumentName);
 			else
 				return null;
 		}
-		/**
-		 * Gets argument from the function expression.
-		 *
-		 * @param      argumentIndex       the argument index
-		 *
-		 * @return     Argument if the argument index is between 0 and
-		 *             the last available argument index (getArgumentsNumber()-1),
-		 *             otherwise returns null.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets argument from the function expression.</summary>
+		///
+		/// <param name="argumentIndex">the argument index</param>
+		///
+		/// <returns>
+		///     Argument if the argument index is between 0 and
+		///     the last available argument index (<see cref="getArgumentsNumber()"/>-1),
+		///     otherwise returns null.
+		/// </returns>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public Argument getArgument(int argumentIndex) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getArgument(argumentIndex);
 			else
 				return null;
 		}
-		/**
-		 * Gets number of parameters associated with the function expression.
-		 *
-		 * @return     The number of function parameters (int >= 0)
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets number of parameters associated with the function expression.</summary>
+		///
+		/// <returns>The number of function parameters (int &gt;= 0)</returns>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public int getParametersNumber() {
 			if (isVariadic == false)
 				return parametersNumber;
@@ -772,24 +748,23 @@ namespace org.mariuszgromada.math.mxparser {
 					return -1;
 			}
 		}
-		/**
-		 * Set parameters number.
-		 *
-		 * @param      parametersNumber    the number of function parameters (default = number of arguments
-		 *                                 (less number might be specified).
-		 */
+		/// <summary>Set parameters number.</summary>
+		///
+		/// <param name="parametersNumber">
+		///     the number of function parameters (default = number of arguments
+		///     (less number might be specified).
+		/// </param>
 		public void setParametersNumber(int parametersNumber) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				this.parametersNumber = parametersNumber;
 				functionExpression.setExpressionModifiedFlag();
 			}
 		}
-		/**
-		 * Gets user defined function parameter name
-		 *
-		 * @param parameterIndex  Parameter index between 0 and n-1
-		 * @return If parameter exists returns parameters name, otherwise empty string is returned.
-		 */
+		/// <summary>Gets user defined function parameter name</summary>
+		///
+		/// <param name="parameterIndex">Parameter index between 0 and n-1</param>
+		/// 
+		/// <returns>If parameter exists returns parameters name, otherwise empty string is returned.</returns>
 		public String getParameterName(int parameterIndex) {
 			if (parameterIndex < 0) return "";
 			if (parameterIndex >= parametersNumber) return "";
@@ -797,59 +772,58 @@ namespace org.mariuszgromada.math.mxparser {
 			if (functionBodyType == BODY_EXTENDED) return this.functionExtension.getParameterName(parameterIndex);
 			return "";
 		}
-		/**
-		 * Gets number of arguments associated with the function expression.
-		 *
-		 * @return     The number of arguments (int >= 0)
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Gets number of arguments associated with the function expression.</summary>
+		///
+		/// <returns>The number of arguments (int &gt;= 0)</returns>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public int getArgumentsNumber() {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getArgumentsNumber();
 			else
 				return 0;
 		}
-		/**
-		 * Removes first occurrences of the arguments
-		 * associated with the function expression.
-		 *
-		 * @param      argumentsNames      the arguments names
-		 *                                 (variadic parameters) comma separated
-		 *                                 list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>
+		/// Removes first occurrences of the arguments
+		/// associated with the function expression.
+		/// </summary>
+		///
+		/// <param name="argumentsNames">
+		///     the arguments names
+		///     (variadic parameters) comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public void removeArguments(params String[] argumentsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				functionExpression.removeArguments(argumentsNames);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			}
 		}
-		/**
-		 * Removes first occurrences of the arguments
-		 * associated with the function expression.
-		 *
-		 * @param      arguments           the arguments (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>
+		/// Removes first occurrences of the arguments
+		/// associated with the function expression.
+		/// </summary>
+		///
+		/// <param name="arguments">
+		///     the arguments (variadic parameters)
+		///     comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public void removeArguments(params Argument[] arguments) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				functionExpression.removeArguments(arguments);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			}
 		}
-		/**
-		 * Removes all arguments associated with the function expression.
-		 *
-		 * @see        Argument
-		 * @see        RecursiveArgument
-		 */
+		/// <summary>Removes all arguments associated with the function expression.</summary>
+		///
+		/// <seealso cref="Argument"/>
+		/// <seealso cref="RecursiveArgument"/>
 		public void removeAllArguments() {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				functionExpression.removeAllArguments();
@@ -863,127 +837,129 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds constants (variadic parameters) to the function expression definition.
-		 *
-		 * @param      constants           the constants
-		 *                                 (comma separated list)
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Adds constants (variadic parameters) to the function expression definition.</summary>
+		///
+		/// <param name="constants">
+		///     the constants
+		///     (comma separated list)
+		/// </param>
+		///
+		/// <seealso cref="Constant"/>
 		public void addConstants(params Constant[] constants) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addConstants(constants);
 		}
-		/**
-		 * Enables to define the constant (associated with
-		 * the function expression) based on the constant name and
-		 * constant value.
-		 *
-		 * @param      constantName        the constant name
-		 * @param      constantValue       the constant value
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>
+		/// Enables to define the constant (associated with
+		/// the function expression) based on the constant name and
+		/// constant value.
+		/// </summary>
+		///
+		/// <param name="constantName">the constant name</param>
+		/// <param name="constantValue">the constant value</param>
+		///
+		/// <seealso cref="Constant"/>
 		public void defineConstant(String constantName, double constantValue) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.defineConstant(constantName, constantValue);
 		}
-		/**
-		 * Gets constant index associated with the function expression.
-		 *
-		 * @param      constantName        the constant name
-		 *
-		 * @return     Constant index if constant name was found,
-		 *             otherwise return Constant.NOT_FOUND.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant index associated with the function expression.</summary>
+		///
+		/// <param name="constantName">the constant name</param>
+		///
+		/// <returns>
+		///     Constant index if constant name was found,
+		///     otherwise return <see cref="Constant.NOT_FOUND"/>.
+		/// </returns>
+		///
+		/// <seealso cref="Constant"/>
 		public int getConstantIndex(String constantName) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getConstantIndex(constantName);
 			else
 				return -1;
 		}
-		/**
-		 * Gets constant associated with the function expression.
-		 *
-		 * @param      constantName        the constant name
-		 *
-		 * @return     Constant if constant name was found,
-		 *             otherwise return null.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant associated with the function expression.</summary>
+		///
+		/// <param name="constantName">the constant name</param>
+		///
+		/// <returns>
+		///     Constant if constant name was found,
+		///     otherwise return null.
+		/// </returns>
+		///
+		/// <seealso cref="Constant"/>
 		public Constant getConstant(String constantName) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getConstant(constantName);
 			else
 				return null;
 		}
-		/**
-		 * Gets constant associated with the function expression.
-		 *
-		 * @param      constantIndex       the constant index
-		 *
-		 * @return     Constant if the constantIndex is between
-		 *             0 and the last available constant index
-		 *             (getConstantsNumber() - 1),
-		 *             otherwise it returns null.
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets constant associated with the function expression.</summary>
+		///
+		/// <param name="constantIndex">the constant index</param>
+		///
+		/// <returns>
+		///     Constant if the constantIndex is between
+		///     0 and the last available constant index
+		///     (<see cref="getConstantsNumber()"/> - 1),
+		///     otherwise it returns null.
+		/// </returns>
+		///
+		/// <seealso cref="Constant"/>
 		public Constant getConstant(int constantIndex) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getConstant(constantIndex);
 			else
 				return null;
 		}
-		/**
-		 * Gets number of constants associated with the function expression.
-		 *
-		 * @return     number of constants (int >= 0)
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>Gets number of constants associated with the function expression.</summary>
+		///
+		/// <returns>number of constants (int &gt;= 0)</returns>
+		///
+		/// <seealso cref="Constant"/>
 		public int getConstantsNumber() {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getConstantsNumber();
 			else
 				return 0;
 		}
-		/**
-		 * Removes first occurrences of the constants
-		 * associated with the function expression.
-		 *
-		 * @param      constantsNames      the constants names (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>
+		/// Removes first occurrences of the constants
+		/// associated with the function expression.
+		/// </summary>
+		///
+		/// <param name="constantsNames">
+		///     the constants names (variadic parameters)
+		///     comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Constant"/>
 		public void removeConstants(params String[] constantsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeConstants(constantsNames);
 		}
-		/**
-		 * Removes first occurrences of the constants
-		 * associated with the function expression
-		 *
-		 * @param      constants           the constants (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>
+		/// Removes first occurrences of the constants
+		/// associated with the function expression
+		/// </summary>
+		///
+		/// <param name="constants">
+		///     the constants (variadic parameters)
+		///     comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Constant"/>
 		public void removeConstants(params Constant[] constants) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeConstants(constants);
 		}
-		/**
-		 * Removes all constants
-		 * associated with the function expression
-		 *
-		 * @see        Constant
-		 */
+		/// <summary>
+		/// Removes all constants
+		/// associated with the function expression
+		/// </summary>
+		///
+		/// <seealso cref="Constant"/>
 		public void removeAllConstants() {
 			functionExpression.removeAllConstants();
 		}
@@ -994,130 +970,134 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
-		/**
-		 * Adds functions (variadic parameters) to the function expression definition.
-		 *
-		 * @param      functions           the functions
-		 *                                 (variadic parameters) comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Adds functions (variadic parameters) to the function expression definition.</summary>
+		///
+		/// <param name="functions">
+		///     the functions
+		///     (variadic parameters) comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Function"/>
 		public void addFunctions(params Function[] functions) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addFunctions(functions);
 		}
-		/**
-		 * Enables to define the function (associated with
-		 * the function expression) based on the function name,
-		 * function expression string and arguments names (variadic parameters).
-		 *
-		 * @param      functionName                  the function name
-		 * @param      functionExpressionString      the expression string
-		 * @param      argumentsNames                the function arguments names
-		 *                                           (variadic parameters)
-		 *                                           comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>
+		/// Enables to define the function (associated with
+		/// the function expression) based on the function name,
+		/// function expression string and arguments names (variadic parameters).
+		/// </summary>
+		///
+		/// <param name="functionName">the function name</param>
+		/// <param name="functionExpressionString">the expression string</param>
+		/// <param name="argumentsNames">
+		///     the function arguments names
+		///     (variadic parameters)
+		///     comma separated list
+		/// </param>
+		/// 
+		/// <seealso cref="Function"/>
 		public void defineFunction(String functionName, String  functionExpressionString,
 				params String[] argumentsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 		}
-		/**
-		 * Gets index of function associated with the function expression.
-		 *
-		 * @param      functionName        the function name
-		 *
-		 * @return     Function index if function name was found,
-		 *             otherwise returns Function.NOT_FOUND
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets index of function associated with the function expression.</summary>
+		///
+		/// <param name="functionName">the function name</param>
+		///
+		/// <returns>
+		///     Function index if function name was found,
+		///     otherwise returns <see cref="Function.NOT_FOUND"/>
+		/// </returns>
+		///
+		/// <seealso cref="Function"/>
 		public int getFunctionIndex(String functionName) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getFunctionIndex(functionName);
 			else
 				return -1;
 		}
-		/**
-		 * Gets function associated with the function expression.
-		 *
-		 * @param      functionName        the function name
-		 *
-		 * @return     Function if function name was found,
-		 *             otherwise returns null.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets function associated with the function expression.</summary>
+		///
+		/// <param name="functionName">the function name</param>
+		///
+		/// <returns>
+		///     Function if function name was found,
+		///     otherwise returns null.
+		/// </returns>
+		///
+		/// <seealso cref="Function"/>
 		public Function getFunction(String functionName) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getFunction(functionName);
 			else
 				return null;
 		}
-		/**
-		 * Gets function associated with the function expression.
-		 *
-		 * @param      functionIndex the function index
-		 *
-		 * @return     Function if function index is between 0 and
-		 *             the last available function index (getFunctionsNumber()-1),
-		 *             otherwise returns null.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets function associated with the function expression.</summary>
+		///
+		/// <param name="functionIndex">the function index</param>
+		///
+		/// <returns>
+		///     Function if function index is between 0 and
+		///     the last available function index (<see cref="getFunctionsNumber()"/>-1),
+		///     otherwise returns null.
+		/// </returns>
+		///
+		/// <seealso cref="Function"/>
 		public Function getFunction(int functionIndex) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getFunction(functionIndex);
 			else
 				return null;
 		}
-		/**
-		 * Gets number of functions associated with the function expression.
-		 *
-		 * @return     number of functions (int >= 0)
-		 *
-		 * @see        Function
-		 */
+		/// <summary>Gets number of functions associated with the function expression.</summary>
+		///
+		/// <returns>number of functions (int &gt;= 0)</returns>
+		///
+		/// <seealso cref="Function"/>
 		public int getFunctionsNumber() {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				return functionExpression.getFunctionsNumber();
 			else
 				return 0;
 		}
-		/**
-		 * Removes first occurrences of the functions
-		 * associated with the function expression.
-		 *
-		 * @param      functionsNames      the functions names (variadic parameters)
-		 *                                 comma separated list
-		 *
-		 * @see        Function
-		 */
+		/// <summary>
+		/// Removes first occurrences of the functions
+		/// associated with the function expression.
+		/// </summary>
+		///
+		/// <param name="functionsNames">
+		///     the functions names (variadic parameters)
+		///     comma separated list
+		/// </param>
+		///
+		/// <seealso cref="Function"/>
 		public void removeFunctions(params String[] functionsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeFunctions(functionsNames);
 		}
-		/**
-		 * Removes first occurrences of the functions
-		 * associated with the function expression.
-		 *
-		 * @param      functions           the functions (variadic parameters)
-		 *                                 comma separated list.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>
+		/// Removes first occurrences of the functions
+		/// associated with the function expression.
+		/// </summary>
+		///
+		/// <param name="functions">
+		///     the functions (variadic parameters)
+		///     comma separated list.
+		/// </param>
+		///
+		/// <seealso cref="Function"/>
 		public void removeFunctions(params Function[] functions) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeFunctions(functions);
 		}
-		/**
-		 * Removes all functions
-		 * associated with the function expression.
-		 *
-		 * @see        Function
-		 */
+		/// <summary>
+		/// Removes all functions
+		/// associated with the function expression.
+		/// </summary>
+		///
+		/// <seealso cref="Function"/>
 		public void removeAllFunctions() {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeAllFunctions();
@@ -1125,31 +1105,27 @@ namespace org.mariuszgromada.math.mxparser {
 		/*
 		 * ---------------------------------------------
 		 */
-		/**
-		 * Enables verbose function mode
-		 */
+		/// <summary>Enables verbose function mode</summary>
 		public void setVerboseMode() {
 			functionExpression.setVerboseMode();
 		}
-		/**
-		 * Disables function verbose mode (sets default silent mode)
-		 */
+		/// Disables function verbose mode (sets default silent mode)
 		public void setSilentMode() {
 			functionExpression.setSilentMode();
 		}
-		/**
-		 * Returns verbose mode status
-		 *
-		 * @return     true if verbose mode is on,
-		 *             otherwise returns false
-		 */
+		/// <summary>Returns verbose mode status</summary>
+		///
+		/// <returns>
+		///     true if verbose mode is on,
+		///     otherwise returns false
+		/// </returns>
 		public bool getVerboseMode() {
 			return functionExpression.getVerboseMode();
 		}
-		/**
-		 * Checks whether function name appears in function body
-		 * if yes the recursive mode is being set
-		 */
+		/// <summary>
+		/// Checks whether function name appears in function body
+		/// if yes the recursive mode is being set
+		/// </summary>
 		internal void checkRecursiveMode() {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
@@ -1162,45 +1138,37 @@ namespace org.mariuszgromada.math.mxparser {
 						}
 			}
 		}
-		/**
-		 * Gets recursive mode status
-		 *
-		 * @return     true if recursive mode is enabled,
-		 *             otherwise returns false
-		 *
-		 */
+		/// <summary>Gets recursive mode status</summary>
+		///
+		/// <returns>
+		///     true if recursive mode is enabled,
+		///     otherwise returns false
+		/// </returns>
+		///
 		public bool getRecursiveMode() {
 			return functionExpression.getRecursiveMode();
 		}
-		/**
-		 * Gets computing time
-		 *
-		 * @return     computing time in seconds.
-		 */
+		/// <summary>Gets computing time</summary>
+		///
+		/// <returns>computing time in seconds.</returns>
 		public double getComputingTime() {
 			return functionExpression.getComputingTime();
 		}
-		/**
-		 * Adds related expression.
-		 *
-		 * @param      expression          the related expression
-		 */
+		/// <summary>Adds related expression.</summary>
+		///
+		/// <param name="expression">the related expression</param>
 		internal void addRelatedExpression(Expression expression) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addRelatedExpression(expression);
 		}
-		/**
-		 * Removes related expression.
-		 *
-		 * @param      expression          the related expression
-		 */
+		/// <summary>Removes related expression.</summary>
+		///
+		/// <param name="expression">the related expression</param>
 		internal void removeRelatedExpression(Expression expression) {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeRelatedExpression(expression);
 		}
-		/**
-		 * Set expression modified flags in the related expressions.
-		 */
+		/// <summary>Set expression modified flags in the related expressions.</summary>
 		internal void setExpressionModifiedFlags() {
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.setExpressionModifiedFlag();
