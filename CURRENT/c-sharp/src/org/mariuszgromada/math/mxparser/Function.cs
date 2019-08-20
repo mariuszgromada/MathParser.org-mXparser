@@ -81,8 +81,7 @@ namespace org.mariuszgromada.math.mxparser {
 	/// It means that it could not be the same as any other key word known
 	/// by the parser for this particular expression.
 	/// <para/>
-	/// Author: <br/>
-	/// <b>Mariusz Gromada</b><br/>
+	/// Author: <b>Mariusz Gromada</b><br/>
 	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
 	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
 	/// <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br/>

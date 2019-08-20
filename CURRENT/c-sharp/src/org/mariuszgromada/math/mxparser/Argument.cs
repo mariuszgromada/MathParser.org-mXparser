@@ -92,8 +92,7 @@ namespace org.mariuszgromada.math.mxparser {
 	/// by the parser for this particular expression. Parser is case sensitive.
 	///
 	/// <para/>
-	/// Authors:<br/>
-	/// <b>Mariusz Gromada</b><br/>
+	/// Author: <b>Mariusz Gromada</b><br/>
 	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
 	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
 	/// <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br/>
@@ -108,7 +107,9 @@ namespace org.mariuszgromada.math.mxparser {
 	/// <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br/>
 	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br/>
 	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br/>
-	/// <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br/>
+	/// <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a>
+	/// <para/>
+	/// Version: 4.3.0
 	/// </remarks>
 	[CLSCompliant(true)]
 	public class Argument : PrimitiveElement {

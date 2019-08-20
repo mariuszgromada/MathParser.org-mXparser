@@ -81,8 +81,7 @@ namespace org.mariuszgromada.math.mxparser {
 	/// <remarks>
 	/// Class provides easy way to define multivariate arithmetic expression.
 	/// <para/>
-	/// Authors: <br/>
-	/// <b>Mariusz Gromada</b><br/>
+	/// Author: <b>Mariusz Gromada</b><br/>
 	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
 	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
 	/// <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br/>
