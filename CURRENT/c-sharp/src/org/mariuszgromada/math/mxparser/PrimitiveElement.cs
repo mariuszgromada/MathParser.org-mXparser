@@ -56,69 +56,66 @@
 using System;
 
 namespace org.mariuszgromada.math.mxparser {
-	/**
-	 * Class used for connecting all basic elements such as: Argument, Constant,
-	 * Function. Class not used by the end user.
-	 *
-	 *
-	 * @author         <b>Mariusz Gromada</b><br>
-	 *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
-	 *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
-	 *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
-	 *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
-	 *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
-	 *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
-	 *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
-	 *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
-	 *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
-	 *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
-	 *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
-	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
-	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
-	 *
-	 * @version        3.0.0
-	 *
-	 * @see            Argument
-	 * @see            Constant
-	 * @see            Function
-	 * @see            RecursiveArgument
-	 * @see            Expression#addDefinitions(PrimitiveElement...)
-	 * @see            Expression#removeDefinitions(PrimitiveElement...)
-	 */
+	/// <summary>
+	/// Class used for connecting all basic elements such as: <see cref="Argument"/>, <see cref="Constant"/>,
+	/// <see cref="Function"/>. Class not used by the end user.
+	/// </summary>
+	///
+	/// <remarks>
+	/// Author: <b>Mariusz Gromada</b><br/>
+	/// <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br/>
+	/// <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br/>
+	/// <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br/>
+	/// <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br/>
+	/// <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br/>
+	/// <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br/>
+	/// <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br/>
+	/// <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br/>
+	/// <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br/>
+	/// <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br/>
+	/// <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br/>
+	/// <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br/>
+	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br/>
+	/// <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br/>
+	/// <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a>
+	/// <para/>
+	/// Version: 3.0.0
+	/// </remarks>
+	///
+	/// <seealso cref="Argument"/>
+	/// <seealso cref="Constant"/>
+	/// <seealso cref="Function"/>
+	/// <seealso cref="RecursiveArgument"/>
+	/// <seealso cref="Expression.addDefinitions(PrimitiveElement[])"/>
+	/// <seealso cref="Expression.removeDefinitions(PrimitiveElement[])"/>
 	[CLSCompliant(true)]
 	public class PrimitiveElement {
-		/**
-		 * Element type id
-		 *
-		 * @see     Argument.TYPE_ID
-		 * @see     Constant.TYPE_ID
-		 * @see     Function.TYPE_ID
-		 */
+		/// <summary>Element type id</summary>
+		///
+		/// <seealso cref="Argument.TYPE_ID"/>
+		/// <seealso cref="Constant.TYPE_ID"/>
+		/// <seealso cref="Function.TYPE_ID"/>
 		private int myTypeId;
-		/**
-		 * Default constructor setting element type id
-		 *
-		 * @param typeId     Element type id
-		 *
-		 * @see     Argument.TYPE_ID
-		 * @see     Constant.TYPE_ID
-		 * @see     Function.TYPE_ID
-		 */
+		/// <summary>Default constructor setting element type id</summary>
+		///
+		/// <param name="typeId">Element type id</param>
+		///
+		/// <seealso cref="Argument.TYPE_ID"/>
+		/// <seealso cref="Constant.TYPE_ID"/>
+		/// <seealso cref="Function.TYPE_ID"/>
 		public PrimitiveElement(int typeId) {
 			myTypeId = typeId;
 		}
-		/**
-		 * Returns element type id
-		 *
-		 * @return  Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID
-		 *
-		 * @see     Argument.TYPE_ID
-		 * @see     Constant.TYPE_ID
-		 * @see     Function.TYPE_ID
-		 *
-		 */
+		/// <summary>Returns element type id</summary>
+		///
+		/// <returns>
+		///     Element type id as int <see cref="Function.TYPE_ID"/>,
+		///     <see cref="Argument.TYPE_ID"/>, <see cref="Function.TYPE_ID"/>
+		/// </returns>
+		///
+		/// <seealso cref="Argument.TYPE_ID"/>
+		/// <seealso cref="Constant.TYPE_ID"/>
+		/// <seealso cref="Function.TYPE_ID"/>
 		public int getMyTypeId() {
 			return myTypeId;
 		}
