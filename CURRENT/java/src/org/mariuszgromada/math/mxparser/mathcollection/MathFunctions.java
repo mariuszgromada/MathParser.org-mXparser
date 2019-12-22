@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.3.0   2018-12-12
+ * @(#)MathFunctions.java        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -84,7 +84,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.3.4
  */
 public final class MathFunctions {
 	/**
@@ -933,6 +933,9 @@ public final class MathFunctions {
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
 			a = a * Units.DEGREE_ARC;
+		SpecialValueTrigonometric sv = SpecialValueTrigonometric.getSpecialValueTrigonometric(a);
+		if (sv != null)
+			return sv.sin;
 		return Math.sin(a);
 	}
 	/**
@@ -948,6 +951,9 @@ public final class MathFunctions {
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
 			a = a * Units.DEGREE_ARC;
+		SpecialValueTrigonometric sv = SpecialValueTrigonometric.getSpecialValueTrigonometric(a);
+		if (sv != null)
+			return sv.cos;
 		return Math.cos(a);
 	}
 	/**
@@ -963,6 +969,9 @@ public final class MathFunctions {
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
 			a = a * Units.DEGREE_ARC;
+		SpecialValueTrigonometric sv = SpecialValueTrigonometric.getSpecialValueTrigonometric(a);
+		if (sv != null)
+			return sv.tan;
 		return Math.tan(a);
 	}
 	/**
@@ -978,6 +987,9 @@ public final class MathFunctions {
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
 			a = a * Units.DEGREE_ARC;
+		SpecialValueTrigonometric sv = SpecialValueTrigonometric.getSpecialValueTrigonometric(a);
+		if (sv != null)
+			return sv.ctan;
 		double result = Double.NaN;
 		double tg = Math.tan(a);
 		if (tg != 0)
@@ -997,6 +1009,9 @@ public final class MathFunctions {
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
 			a = a * Units.DEGREE_ARC;
+		SpecialValueTrigonometric sv = SpecialValueTrigonometric.getSpecialValueTrigonometric(a);
+		if (sv != null)
+			return sv.sec;
 		double result = Double.NaN;
 		double cos = Math.cos(a);
 		if (cos != 0)
@@ -1016,11 +1031,24 @@ public final class MathFunctions {
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
 			a = a * Units.DEGREE_ARC;
+		SpecialValueTrigonometric sv = SpecialValueTrigonometric.getSpecialValueTrigonometric(a);
+		if (sv != null)
+			return sv.csc;
 		double result = Double.NaN;
 		double sin = Math.sin(a);
 		if (sin != 0)
 			result = 1.0 / sin;
 		return result;
+	}
+	/**
+	 * If double is almost integer returns the closes integer, otherwise original value
+	 * @param val   Parameter
+	 * @return      f double is almost integer returns the closest integer, otherwise original value
+	 */
+	private static final double intIfAlmostIntOtherwiseOrig(double val) {
+		double valint = Math.round(val);
+		if ( Math.abs(val-valint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) return valint;
+		return val;
 	}
 	/**
 	 * Arcus sine - inverse trigonometric sine function
@@ -1033,11 +1061,14 @@ public final class MathFunctions {
 	public static final double asin(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		double r =  Math.asin(a);
-		if (mXparser.checkIfDegreesMode())
-			return r / Units.DEGREE_ARC;
-		else
-			return r;
+		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAsin(a);
+		double r;
+		if (sv != null) r = sv.fv;
+		else r = Math.asin(a);
+		if (mXparser.checkIfDegreesMode()) {
+			if (sv != null) return sv.fvdeg;
+			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+		} else return r;
 	}
 	/**
 	 * Arcus cosine - inverse trigonometric cosine function
@@ -1050,11 +1081,14 @@ public final class MathFunctions {
 	public static final double acos(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		double r = Math.acos(a);
-		if (mXparser.checkIfDegreesMode())
-			return r / Units.DEGREE_ARC;
-		else
-			return r;
+		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAcos(a);
+		double r;
+		if (sv != null) r = sv.fv;
+		else r = Math.acos(a);
+		if (mXparser.checkIfDegreesMode()) {
+			if (sv != null) return sv.fvdeg;
+			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+		} else return r;
 	}
 	/**
 	 * Arcus tangent - inverse trigonometric tangent function
@@ -1067,11 +1101,15 @@ public final class MathFunctions {
 	public static final double atan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		double r = Math.atan(a);
-		if (mXparser.checkIfDegreesMode())
-			return r / Units.DEGREE_ARC;
-		else
-			return r;
+		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAtan(a);
+		double r;
+		if (sv != null) r = sv.fv;
+		else r = Math.atan(a);
+		if (mXparser.checkIfDegreesMode()) {
+			if (sv != null) return sv.fvdeg;
+			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+		}
+		else return r;
 	}
 	/**
 	 * Arcus cotangent - inverse trigonometric cotangent function
@@ -1084,11 +1122,19 @@ public final class MathFunctions {
 	public static final double actan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		double r = Math.atan(1/a);
-		if (mXparser.checkIfDegreesMode())
-			return r / Units.DEGREE_ARC;
-		else
-			return r;
+		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueActan(a);
+		double r;
+		if (sv != null) r = sv.fv;
+		else {
+			if (a > 0) r = Math.atan(1/a);
+			else if (a < 0) r = Math.atan(1/a) + MathConstants.PI;
+			else r = Double.NaN;
+		}
+		if (mXparser.checkIfDegreesMode()) {
+			if (sv != null) return sv.fvdeg;
+			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+		}
+		else return r;
 	}
 	/**
 	 * Arcus secant - inverse trigonometric secant function
@@ -1099,11 +1145,15 @@ public final class MathFunctions {
 	public static final double asec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		double r = Math.acos(1/a);
-		if (mXparser.checkIfDegreesMode())
-			return r / Units.DEGREE_ARC;
-		else
-			return r;
+		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAsec(a);
+		double r;
+		if (sv != null) r = sv.fv;
+		else r = Math.acos(1/a);
+		if (mXparser.checkIfDegreesMode()) {
+			if (sv != null) return sv.fvdeg;
+			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+		}
+		else return r;
 	}
 	/**
 	 * Arcus cosecant - inverse trigonometric cosecant function
@@ -1114,11 +1164,15 @@ public final class MathFunctions {
 	public static final double acosec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
-		double r = Math.asin(1/a);
-		if (mXparser.checkIfDegreesMode())
-			return r / Units.DEGREE_ARC;
-		else
-			return r;
+		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAcsc(a);
+		double r;
+		if (sv != null) r = sv.fv;
+		else r = Math.asin(1/a);
+		if (mXparser.checkIfDegreesMode()) {
+			if (sv != null) return sv.fvdeg;
+			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+		}
+		else return r;
 	}
 	/**
 	 * Natural logarithm

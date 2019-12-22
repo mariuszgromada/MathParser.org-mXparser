@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.3.0   2018-12-12
+ * @(#)RegTestExpressionAPI.cs        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -80,7 +80,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        4.3.4
 	 *
 	 * @see Expression
 	 */
@@ -2262,6 +2262,212 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				if (units[0].Equals("[ww]") && units[1].Equals("[qq1]"))
 					if (args[0].Equals("a") && fun[0].Equals("f"))
 						test[testId] = true;
+			/*
+			 * 66. Trigonometric functions special values - compared to Math
+			 */
+			testId++;
+			test[testId] = true;
+			foreach (SpecialValueTrigonometric sv in SpecialValueTrigonometric.valuesListTrig) {
+				if (Math.Abs(sv.sin - Math.Sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (Math.Abs(sv.cos - Math.Cos(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.tan))
+					if (Math.Abs(sv.tan - Math.Tan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.ctan))
+					if (Math.Abs(sv.ctan - 1.0/Math.Tan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.sec))
+					if (Math.Abs(sv.sec - 1.0/Math.Cos(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.csc))
+					if (Math.Abs(sv.csc - 1.0/Math.Sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 67. Inverse trigonometric functions special values - compared to Math
+			 */
+			testId++;
+			test[testId] = true;
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAsin) {
+				if (!Double.IsNaN(sv.fv))
+					if (Math.Abs(sv.fv - Math.Asin(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAcos) {
+				if (!Double.IsNaN(sv.fv))
+					if (Math.Abs(sv.fv - Math.Acos(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAtan) {
+				if (!Double.IsNaN(sv.fv))
+					if (Math.Abs(sv.fv - Math.Atan(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListActan) {
+				if (!Double.IsNaN(sv.fv)) {
+					double actan = Double.NaN;
+					if (sv.x > 0) actan = Math.Atan(1.0/sv.x);
+					else if (sv.x < 0) actan = Math.Atan(1.0/sv.x) + MathConstants.PI;
+					if (Math.Abs(sv.fv - actan) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				}
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAsec) {
+				if (!Double.IsNaN(sv.fv)) {
+					double asec = Math.Acos(1.0/sv.x);
+					if (Math.Abs(sv.fv - asec) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				}
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAcsc) {
+				if (!Double.IsNaN(sv.fv)) {
+					double acsc = Math.Asin(1.0/sv.x);
+					if (Math.Abs(sv.fv - acsc) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				}
+			}
+			/*
+			 * 68. Trigonometric functions special values - compared to MathFunctions
+			 */
+			testId++;
+			test[testId] = true;
+			foreach (SpecialValueTrigonometric sv in SpecialValueTrigonometric.valuesListTrig) {
+				if (Math.Abs(sv.sin - MathFunctions.sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (Math.Abs(sv.cos - MathFunctions.cos(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.tan))
+					if (Math.Abs(sv.tan - MathFunctions.tan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.ctan))
+					if (Math.Abs(sv.ctan - MathFunctions.ctan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.sec))
+					if (Math.Abs(sv.sec - MathFunctions.sec(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				if (!Double.IsNaN(sv.csc))
+					if (Math.Abs(sv.csc - MathFunctions.cosec(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 69. Inverse trigonometric functions special values - compared to MathFunctions
+			 */
+			testId++;
+			test[testId] = true;
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAsin) {
+				if (!Double.IsNaN(sv.fv))
+					if (Math.Abs(sv.fv - MathFunctions.asin(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAcos) {
+				if (!Double.IsNaN(sv.fv))
+					if (Math.Abs(sv.fv - MathFunctions.acos(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAtan) {
+				if (!Double.IsNaN(sv.fv))
+					if (Math.Abs(sv.fv - MathFunctions.atan(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListActan) {
+				if (!Double.IsNaN(sv.fv)) {
+					double actan = Double.NaN;
+					actan = MathFunctions.actan(sv.x);
+					if (Math.Abs(sv.fv - actan) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				}
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAsec) {
+				if (!Double.IsNaN(sv.fv)) {
+					double asec = MathFunctions.asec(sv.x);
+					if (Math.Abs(sv.fv - asec) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				}
+			}
+			foreach (SpecialValue sv in SpecialValueTrigonometric.valuesListAcsc) {
+				if (!Double.IsNaN(sv.fv)) {
+					double acsc = MathFunctions.acosec(sv.x);
+					if (Math.Abs(sv.fv - acsc) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+				}
+			}
+			/*
+			 * 70. Sine test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -6; a <= 6; a+=0.1) {
+				if (Math.Abs(Math.Sin(a) - MathFunctions.sin(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 71. Cosine test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -6; a <= 6; a+=0.1) {
+				if (Math.Abs(Math.Cos(a) - MathFunctions.cos(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 72. Tangent test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -6; a <= 6; a+=0.1) {
+				if (Math.Abs(Math.Tan(a) - MathFunctions.tan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 73. Cotangent test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -6; a <= 6; a+=0.1) {
+				if (Math.Abs(1.0/Math.Tan(a) - MathFunctions.ctan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 74. Secant test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -6; a <= 6; a+=0.1) {
+				if (Math.Abs(1.0/Math.Cos(a) - MathFunctions.sec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 75. Cosecant test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -6; a <= 6; a+=0.1) {
+				if (Math.Abs(1.0/Math.Sin(a) - MathFunctions.cosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 76. Inverse sine test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -0.9; a <= 0.9; a+=0.1) {
+				if (Math.Abs(Math.Asin(a) - MathFunctions.asin(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 77. Inverse cosine test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -0.9; a <= 0.9; a+=0.1) {
+				if (Math.Abs(Math.Acos(a) - MathFunctions.acos(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 78. Inverse tangent test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -5; a <= 5; a+=0.1) {
+				if (Math.Abs(Math.Atan(a) - MathFunctions.atan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 79. Inverse ctangent test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -5; a <= 5; a+=0.1) {
+				double atan = Double.NaN;
+				if (a > 0) atan = Math.Atan(1/a);
+				else if (a < 0) atan = Math.Atan(1/a) + MathConstants.PI;
+				if (Math.Abs(atan - MathFunctions.actan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 80. Inverse secant test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -5.05; a <= 5.05; a+=0.1) {
+				if (Math.Abs(Math.Acos(1/a) - MathFunctions.asec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+			/*
+			 * 81. Inverse cosecant test
+			 */
+			testId++;
+			test[testId] = true;
+			for (double a = -5.05; a <= 5.05; a+=0.1) {
+				if (Math.Abs(Math.Asin(1/a) - MathFunctions.acosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

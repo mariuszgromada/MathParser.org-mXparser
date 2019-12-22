@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.3.0   2018-12-12
+ * @(#)RegTestExpression.java        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -65,6 +65,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra;
 import org.mariuszgromada.math.mxparser.mathcollection.MathConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
 import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
+import org.mariuszgromada.math.mxparser.mathcollection.SpecialValueTrigonometric;
 
 /**
  * RegTestExpression - regression tests for the expression calculation
@@ -86,12 +87,13 @@ import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.3.4
  *
  * @see Expression
  */
 public class RegTestExpression {
 	private static Expression[] exp;
+	private static final double PI = MathConstants.PI;
 	private static boolean runTest_00000_00100(int testId) {
 		mXparser.consolePrint("[" + testId + "] ");
 		boolean testResult = false;
@@ -14087,6 +14089,538 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 1164:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sin(0) + sin(2*pi) + sin(-2*pi) + sin(4*pi) + sin(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.sin(0) + Math.sin(2.0 * PI) + Math.sin(-2.0 * PI) + Math.sin(4.0 * PI) + Math.sin(-4.0 * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1165:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "cos(0) + cos(2*pi) + cos(-2*pi) + cos(4*pi) + cos(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.cos(0) + Math.cos(2.0 * PI) + Math.cos(-2.0 * PI) + Math.cos(4.0 * PI) + Math.cos(-4.0 * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1166:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "tan(0) + tan(2*pi) + tan(-2*pi) + tan(4*pi) + tan(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.tan(0) + Math.tan(2.0 * PI) + Math.tan(-2.0 * PI) + Math.tan(4.0 * PI) + Math.tan(-4.0 * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1167:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sec(0) + sec(2*pi) + sec(-2*pi) + sec(4*pi) + sec(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1.0/Math.cos(0) + 1.0/Math.cos(2.0 * PI) + 1.0/Math.cos(-2.0 * PI) + 1.0/Math.cos(4.0 * PI) + 1.0/Math.cos(-4.0 * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1168:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sin(0) + sin(2*pi) + sin(-2*pi) + sin(4*pi) + sin(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.SIN_0 + SpecialValueTrigonometric.SIN_0 + SpecialValueTrigonometric.SIN_0 + SpecialValueTrigonometric.SIN_0 + SpecialValueTrigonometric.SIN_0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1169:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "cos(0) + cos(2*pi) + cos(-2*pi) + cos(4*pi) + cos(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.COS_0 + SpecialValueTrigonometric.COS_0 + SpecialValueTrigonometric.COS_0 + SpecialValueTrigonometric.COS_0 + SpecialValueTrigonometric.COS_0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1170:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "tan(0) + tan(2*pi) + tan(-2*pi) + tan(4*pi) + tan(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.TAN_0 + SpecialValueTrigonometric.TAN_0 + SpecialValueTrigonometric.TAN_0 + SpecialValueTrigonometric.TAN_0 + SpecialValueTrigonometric.TAN_0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1171:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sec(0) + sec(2*pi) + sec(-2*pi) + sec(4*pi) + sec(-4*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.SEC_0 + SpecialValueTrigonometric.SEC_0 + SpecialValueTrigonometric.SEC_0 + SpecialValueTrigonometric.SEC_0 + SpecialValueTrigonometric.SEC_0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1172:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "isNaN(ctan(0)) + isNaN(ctan(2*pi)) + isNaN(ctan(-2*pi)) + isNaN(ctan(4*pi)) + isNaN(ctan(-4*pi))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = BooleanAlgebra.T + BooleanAlgebra.T + BooleanAlgebra.T + BooleanAlgebra.T + BooleanAlgebra.T;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1173:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "isNaN(csc(0)) + isNaN(csc(2*pi)) + isNaN(csc(-2*pi)) + isNaN(csc(4*pi)) + isNaN(csc(-4*pi))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = BooleanAlgebra.T + BooleanAlgebra.T + BooleanAlgebra.T + BooleanAlgebra.T + BooleanAlgebra.T;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1174:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sin((1/6)*pi) + sin((13/6)*pi) + sin((-11/6)*pi) + sin((25/6)*pi) + sin((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.sin((1.0/6.0)*PI) + Math.sin((13.0/6.0) * PI) + Math.sin((-11.0/6.0) * PI) + Math.sin((25.0/6.0) * PI) + Math.sin((-23.0/6) * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1175:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "cos((1/6)*pi) + cos((13/6)*pi) + cos((-11/6)*pi) + cos((25/6)*pi) + cos((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.cos((1.0/6.0)*PI) + Math.cos((13.0/6.0) * PI) + Math.cos((-11.0/6.0) * PI) + Math.cos((25.0/6.0) * PI) + Math.cos((-23.0/6) * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1176:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "tan((1/6)*pi) + tan((13/6)*pi) + tan((-11/6)*pi) + tan((25/6)*pi) + tan((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = Math.tan((1.0/6.0)*PI) + Math.tan((13.0/6.0) * PI) + Math.tan((-11.0/6.0) * PI) + Math.tan((25.0/6.0) * PI) + Math.tan((-23.0/6) * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1177:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "ctan((1/6)*pi) + ctan((13/6)*pi) + ctan((-11/6)*pi) + ctan((25/6)*pi) + ctan((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1.0/Math.tan((1.0/6.0)*PI) + 1.0/Math.tan((13.0/6.0) * PI) + 1.0/Math.tan((-11.0/6.0) * PI) + 1.0/Math.tan((25.0/6.0) * PI) + 1.0/Math.tan((-23.0/6) * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1178:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sec((1/6)*pi) + sec((13/6)*pi) + sec((-11/6)*pi) + sec((25/6)*pi) + sec((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1.0/Math.cos((1.0/6.0) * PI) + 1.0/Math.cos((13.0/6.0) * PI) + 1.0/Math.cos((-11.0/6.0) * PI) + 1.0/Math.cos((25.0/6.0) * PI) + 1.0/Math.cos((-23.0/6) * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1179:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "csc((1/6)*pi) + csc((13/6)*pi) + csc((-11/6)*pi) + csc((25/6)*pi) + csc((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1.0/Math.sin((1.0/6.0) * PI) + 1.0/Math.sin((13.0/6.0) * PI) + 1.0/Math.sin((-11.0/6.0) * PI) + 1.0/Math.sin((25.0/6.0) * PI) + 1.0/Math.sin((-23.0/6) * PI);
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1180:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sin((1/6)*pi) + sin((13/6)*pi) + sin((-11/6)*pi) + sin((25/6)*pi) + sin((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.SIN_30 + SpecialValueTrigonometric.SIN_30 + SpecialValueTrigonometric.SIN_30 + SpecialValueTrigonometric.SIN_30 + SpecialValueTrigonometric.SIN_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1181:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "cos((1/6)*pi) + cos((13/6)*pi) + cos((-11/6)*pi) + cos((25/6)*pi) + cos((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.COS_30 + SpecialValueTrigonometric.COS_30 + SpecialValueTrigonometric.COS_30 + SpecialValueTrigonometric.COS_30 + SpecialValueTrigonometric.COS_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1182:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "tan((1/6)*pi) + tan((13/6)*pi) + tan((-11/6)*pi) + tan((25/6)*pi) + tan((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.TAN_30 + SpecialValueTrigonometric.TAN_30 + SpecialValueTrigonometric.TAN_30 + SpecialValueTrigonometric.TAN_30 + SpecialValueTrigonometric.TAN_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1183:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "ctan((1/6)*pi) + ctan((13/6)*pi) + ctan((-11/6)*pi) + ctan((25/6)*pi) + ctan((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.CTAN_30 + SpecialValueTrigonometric.CTAN_30 + SpecialValueTrigonometric.CTAN_30 + SpecialValueTrigonometric.CTAN_30 + SpecialValueTrigonometric.CTAN_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1184:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sec((1/6)*pi) + sec((13/6)*pi) + sec((-11/6)*pi) + sec((25/6)*pi) + sec((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.SEC_30 + SpecialValueTrigonometric.SEC_30 + SpecialValueTrigonometric.SEC_30 + SpecialValueTrigonometric.SEC_30 + SpecialValueTrigonometric.SEC_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1185:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "csc((1/6)*pi) + csc((13/6)*pi) + csc((-11/6)*pi) + csc((25/6)*pi) + csc((-23/6)*pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.CSC_30 + SpecialValueTrigonometric.CSC_30 + SpecialValueTrigonometric.CSC_30 + SpecialValueTrigonometric.CSC_30 + SpecialValueTrigonometric.CSC_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1186:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sin(asin(sin(asin(sin(asin(sin((1/6)*pi)))))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.SIN_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1187:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "cos(acos(cos(acos(cos(acos(cos((1/6)*pi)))))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.COS_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1188:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "tan(atan(tan(atan(tan(atan(tan((1/6)*pi)))))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.TAN_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1189:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "ctan(actan(ctan(actan(ctan(actan(ctan((1/6)*pi)))))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.CTAN_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1190:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "sec(arcsec(sec(arcsec(sec(arcsec(sec((1/6)*pi)))))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.SEC_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1191:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setRadiansMode();
+			expStr = "csc(arccsc(csc(arccsc(csc(arccsc(csc((1/6)*pi)))))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = SpecialValueTrigonometric.CSC_30;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			break;
+		case 1192:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "asin(sin(asin(sin(30))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 30.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1193:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "acos(cos(acos(cos(30))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 30.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1194:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "atan(tan(atan(tan(30))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 30.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1195:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "actan(ctan(actan(ctan(30))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 30.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1196:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "arcsec(sec(arcsec(sec(30))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 30.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1197:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "arccsc(csc(arccsc(csc(30))))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 30.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1198:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.setDegreesMode();
+			expStr = "asin(sin(31)) + acos(cos(32)) + atan(tan(33)) + actan(ctan(34)) + arcsec(sec(35)) + arccsc(csc(36))";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 31.0 + 32.0 + 33.0 + 34.0 + 35.0 + 36.0;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -14151,7 +14685,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(1163);
+		return start(1198);
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

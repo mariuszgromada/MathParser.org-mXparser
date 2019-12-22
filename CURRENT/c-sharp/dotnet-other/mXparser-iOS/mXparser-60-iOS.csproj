@@ -101,6 +101,12 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs">
       <Link>src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs">
       <Link>src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs</Link>
     </Compile>

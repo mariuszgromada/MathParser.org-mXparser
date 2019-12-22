@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.3.3   2019-01-27
+ * @(#)Expression.java        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -120,14 +120,19 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.3
+ * @version        4.3.4
  *
  * @see            Argument
  * @see            RecursiveArgument
  * @see            Constant
  * @see            Function
  */
-public class Expression {
+public class Expression extends PrimitiveElement {
+	/**
+	 * Expression type id
+	 */
+	public static final int TYPE_ID		= 100;
+	public static final String TYPE_DESC	= "User defined expression";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -459,6 +464,7 @@ public class Expression {
 	 * @see    PrimitiveElement
 	 */
 	public Expression(PrimitiveElement...elements) {
+		super(Expression.TYPE_ID);
 		expressionString = "";
 		expressionInit();
 		setExpressionModifiedFlag();
@@ -474,6 +480,7 @@ public class Expression {
 	 *
 	 */
 	public Expression(String expressionString, PrimitiveElement...elements) {
+		super(Expression.TYPE_ID);
 		expressionInit();
 		this.expressionString = new String(expressionString);
 		setExpressionModifiedFlag();
@@ -486,6 +493,7 @@ public class Expression {
 	 *                            constants, arguments will not be recognized.
 	 */
 	Expression(String expressionString, boolean parserKeyWordsOnly) {
+		super(Expression.TYPE_ID);
 		expressionInit();
 		this.expressionString = new String(expressionString);
 		setExpressionModifiedFlag();
@@ -506,6 +514,7 @@ public class Expression {
 	Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
 			List<Function> functionsList, List<Constant> constantsList, boolean disableUlpRounding,
 			boolean UDFExpression, List<Double> UDFVariadicParamsAtRunTime) {
+		super(Expression.TYPE_ID);
 		this.expressionString = expressionString;
 		this.initialTokens = initialTokens;
 		this.argumentsList = argumentsList;
@@ -548,6 +557,7 @@ public class Expression {
 	Expression(String expressionString, List<Argument> argumentsList,
 			List<Function> functionsList, List<Constant> constantsList
 			,boolean internal, boolean UDFExpression, List<Double> UDFVariadicParamsAtRunTime) {
+		super(Expression.TYPE_ID);
 		this.expressionString = new String(expressionString);
 		expressionInternalVarsInit();
 		setSilentMode();
@@ -566,6 +576,7 @@ public class Expression {
 	 * @param      expression          the base expression
 	 */
 	private Expression(Expression expression) {
+		super(Expression.TYPE_ID);
 		expressionString = new String(expression.expressionString);
 		description = new String(expression.description);
 		argumentsList = expression.argumentsList;
@@ -694,8 +705,8 @@ public class Expression {
 	 */
 	public void addDefinitions(PrimitiveElement... elements) {
 		for (PrimitiveElement e : elements) {
-			int elementTypeId = e.getMyTypeId();
 			if (e != null) {
+				int elementTypeId = e.getMyTypeId();
 				if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
 				else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
 				else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
@@ -714,8 +725,8 @@ public class Expression {
 	 */
 	public void removeDefinitions(PrimitiveElement... elements) {
 		for (PrimitiveElement e : elements) {
-			int elementTypeId = e.getMyTypeId();
 			if (e != null) {
+				int elementTypeId = e.getMyTypeId();
 				if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
 				else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
 				else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
@@ -6744,6 +6755,32 @@ public class Expression {
 				checkFraction(token);
 		}
 	}
+
+	private boolean isNotSpecialChar(char precedingChar) {
+		if (
+				( precedingChar != ' ' ) &&
+				( precedingChar != ',' ) &&
+				( precedingChar != ';' ) &&
+				( precedingChar != '|' ) &&
+				( precedingChar != '&' ) &&
+				( precedingChar != '+' ) &&
+				( precedingChar != '-' ) &&
+				( precedingChar != '*' ) &&
+				( precedingChar != '\\' ) &&
+				( precedingChar != '/' ) &&
+				( precedingChar != '(' ) &&
+				( precedingChar != ')' ) &&
+				( precedingChar != '=' ) &&
+				( precedingChar != '>' ) &&
+				( precedingChar != '<' ) &&
+				( precedingChar != '~' ) &&
+				( precedingChar != '^' ) &&
+				( precedingChar != '#' ) &&
+				( precedingChar != '%' ) &&
+				( precedingChar != '@' ) &&
+				( precedingChar != '!' )	) return true;
+		else return false;
+	}
 	/**
 	 * Tokenizing expression string
 	 */
@@ -6795,6 +6832,7 @@ public class Expression {
 		 */
 		String newExpressionString = "";
 		char c;
+		char clag1 = 'a';
 		int blankCnt = 0;
 		int newExpLen = 0;
 		for (int i = 0; i < expLen; i++) {
@@ -6802,10 +6840,13 @@ public class Expression {
 			if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') ) {
 				blankCnt++;
 			} else if (blankCnt > 0) {
-				if (newExpLen > 0) newExpressionString = newExpressionString + " ";
+				if (newExpLen > 0) {
+					/* if (isNotSpecialChar(clag1)) */ newExpressionString = newExpressionString + " ";
+				}
 				blankCnt = 0;
 			}
 			if (blankCnt == 0) {
+				clag1 = c;
 				newExpressionString = newExpressionString + c;
 				newExpLen++;
 			}

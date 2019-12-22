@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
-    <AssemblyVersion>4.3.3.0</AssemblyVersion>
+    <AssemblyVersion>4.3.4.0</AssemblyVersion>
     <FileVersion>4.3.3.0</FileVersion>
-    <Version>4.3.3</Version>
+    <Version>4.3.4</Version>
     <PackageId>MathParser.org-mXparser</PackageId>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
@@ -60,6 +60,8 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" Link="src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" />

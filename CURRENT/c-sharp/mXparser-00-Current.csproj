@@ -94,6 +94,8 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs" />	
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" />

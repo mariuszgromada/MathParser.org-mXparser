@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.3.0   2018-12-12
+ * @(#)RegTestExpressionAPI.java        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -63,8 +63,12 @@ import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
 import org.mariuszgromada.math.mxparser.RecursiveArgument;
 import org.mariuszgromada.math.mxparser.mXparser;
+import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
+import org.mariuszgromada.math.mxparser.mathcollection.MathConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.MathFunctions;
 import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
+import org.mariuszgromada.math.mxparser.mathcollection.SpecialValue;
+import org.mariuszgromada.math.mxparser.mathcollection.SpecialValueTrigonometric;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
 
 /**
@@ -87,7 +91,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.3.4
  *
  * @see Expression
  */
@@ -2268,6 +2272,212 @@ public class RegTestExpressionAPI {
 			if (units[0].equals("[ww]") && units[1].equals("[qq1]"))
 				if (args[0].equals("a") && fun[0].equals("f"))
 					test[testId] = true;
+		/*
+		 * 66. Trigonometric functions special values - compared to Math
+		 */
+		testId++;
+		test[testId] = true;
+		for (SpecialValueTrigonometric sv : SpecialValueTrigonometric.valuesListTrig) {
+			if (Math.abs(sv.sin - Math.sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (Math.abs(sv.cos - Math.cos(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.tan))
+				if (Math.abs(sv.tan - Math.tan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.ctan))
+				if (Math.abs(sv.ctan - 1.0/Math.tan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.sec))
+				if (Math.abs(sv.sec - 1.0/Math.cos(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.csc))
+				if (Math.abs(sv.csc - 1.0/Math.sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 67. Inverse trigonometric functions special values - compared to Math
+		 */
+		testId++;
+		test[testId] = true;
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAsin) {
+			if (!Double.isNaN(sv.fv))
+				if (Math.abs(sv.fv - Math.asin(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAcos) {
+			if (!Double.isNaN(sv.fv))
+				if (Math.abs(sv.fv - Math.acos(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAtan) {
+			if (!Double.isNaN(sv.fv))
+				if (Math.abs(sv.fv - Math.atan(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListActan) {
+			if (!Double.isNaN(sv.fv)) {
+				double actan = Double.NaN;
+				if (sv.x > 0) actan = Math.atan(1.0/sv.x);
+				else if (sv.x < 0) actan = Math.atan(1.0/sv.x) + MathConstants.PI;
+				if (Math.abs(sv.fv - actan) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAsec) {
+			if (!Double.isNaN(sv.fv)) {
+				double asec = Math.acos(1.0/sv.x);
+				if (Math.abs(sv.fv - asec) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAcsc) {
+			if (!Double.isNaN(sv.fv)) {
+				double acsc = Math.asin(1.0/sv.x);
+				if (Math.abs(sv.fv - acsc) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+		}
+		/*
+		 * 68. Trigonometric functions special values - compared to MathFunctions
+		 */
+		testId++;
+		test[testId] = true;
+		for (SpecialValueTrigonometric sv : SpecialValueTrigonometric.valuesListTrig) {
+			if (Math.abs(sv.sin - MathFunctions.sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (Math.abs(sv.cos - MathFunctions.cos(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.tan))
+				if (Math.abs(sv.tan - MathFunctions.tan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.ctan))
+				if (Math.abs(sv.ctan - MathFunctions.ctan(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.sec))
+				if (Math.abs(sv.sec - MathFunctions.sec(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			if (!Double.isNaN(sv.csc))
+				if (Math.abs(sv.csc - MathFunctions.cosec(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 69. Inverse trigonometric functions special values - compared to MathFunctions
+		 */
+		testId++;
+		test[testId] = true;
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAsin) {
+			if (!Double.isNaN(sv.fv))
+				if (Math.abs(sv.fv - MathFunctions.asin(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAcos) {
+			if (!Double.isNaN(sv.fv))
+				if (Math.abs(sv.fv - MathFunctions.acos(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAtan) {
+			if (!Double.isNaN(sv.fv))
+				if (Math.abs(sv.fv - MathFunctions.atan(sv.x)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListActan) {
+			if (!Double.isNaN(sv.fv)) {
+				double actan = Double.NaN;
+				actan = MathFunctions.actan(sv.x);
+				if (Math.abs(sv.fv - actan) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAsec) {
+			if (!Double.isNaN(sv.fv)) {
+				double asec = MathFunctions.asec(sv.x);
+				if (Math.abs(sv.fv - asec) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+		}
+		for (SpecialValue sv : SpecialValueTrigonometric.valuesListAcsc) {
+			if (!Double.isNaN(sv.fv)) {
+				double acsc = MathFunctions.acosec(sv.x);
+				if (Math.abs(sv.fv - acsc) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+			}
+		}
+		/*
+		 * 70. Sine test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -6; a <= 6; a+=0.1) {
+			if (Math.abs(Math.sin(a) - MathFunctions.sin(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 71. Cosine test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -6; a <= 6; a+=0.1) {
+			if (Math.abs(Math.cos(a) - MathFunctions.cos(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 72. Tangent test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -6; a <= 6; a+=0.1) {
+			if (Math.abs(Math.tan(a) - MathFunctions.tan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 73. Cotangent test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -6; a <= 6; a+=0.1) {
+			if (Math.abs(1.0/Math.tan(a) - MathFunctions.ctan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 74. Secant test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -6; a <= 6; a+=0.1) {
+			if (Math.abs(1.0/Math.cos(a) - MathFunctions.sec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 75. Cosecant test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -6; a <= 6; a+=0.1) {
+			if (Math.abs(1.0/Math.sin(a) - MathFunctions.cosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 76. Inverse sine test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -0.9; a <= 0.9; a+=0.1) {
+			if (Math.abs(Math.asin(a) - MathFunctions.asin(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 77. Inverse cosine test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -0.9; a <= 0.9; a+=0.1) {
+			if (Math.abs(Math.acos(a) - MathFunctions.acos(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 78. Inverse tangent test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -5; a <= 5; a+=0.1) {
+			if (Math.abs(Math.atan(a) - MathFunctions.atan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 79. Inverse ctangent test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -5; a <= 5; a+=0.1) {
+			double atan = Double.NaN;
+			if (a > 0) atan = Math.atan(1/a);
+			else if (a < 0) atan = Math.atan(1/a) + MathConstants.PI;
+			if (Math.abs(atan - MathFunctions.actan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 80. Inverse secant test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -5.05; a <= 5.05; a+=0.1) {
+			if (Math.abs(Math.acos(1/a) - MathFunctions.asec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
+		/*
+		 * 81. Inverse cosecant test
+		 */
+		testId++;
+		test[testId] = true;
+		for (double a = -5.05; a <= 5.05; a+=0.1) {
+			if (Math.abs(Math.asin(1/a) - MathFunctions.acosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
+		}
 		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;

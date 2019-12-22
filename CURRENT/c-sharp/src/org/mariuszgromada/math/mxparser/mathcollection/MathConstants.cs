@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.cs        4.2.0    2018-10-28
+ * @(#)MathConstants.cs        4.3.4    2019-12-2
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        4.3.4
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathConstants {
@@ -84,6 +84,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Pi, Archimedes' constant or Ludolph's number
 		 */
 		public const double PI = 3.14159265358979323846264338327950288;
+		/**
+		 * Pi/2
+		 */
+		public static readonly double PIBY2 = PI / 2.0;
 		/**
 		 * Napier's constant, or Euler's number, base of Natural logarithm
 		 */
@@ -255,7 +259,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Square root of 2
 		 */
-		public const double SQRT2 = 1.4142135623730950488016887242096980785696718753769d;
+		public static readonly double SQRT2 = Math.Sqrt(2.0);
 		/**
 		 * Square root of pi
 		 */
@@ -283,7 +287,27 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Natural logarithm of sqrt(2)
 		 */
-		public static double LN_SQRT2 = MathFunctions.ln(SQRT2);
+		public static readonly double LN_SQRT2 = MathFunctions.ln(SQRT2);
+		/**
+		 * SQRT2BY2
+		 */
+		public static readonly double SQRT2BY2 = SQRT2 / 2.0;
+		/**
+		 * SQRT3
+		 */
+		public static readonly double SQRT3 = Math.Sqrt(3.0);
+		/**
+		 * SQRT3BY2
+		 */
+		public static readonly double SQRT3BY2 = SQRT3 / 2.0;
+		/**
+		 * D2BYSQRT3
+		 */
+		public static readonly double D2BYSQRT3 = 2.0 / SQRT3;
+		/**
+		 * SQRT3BY3
+		 */
+		public static readonly double SQRT3BY3 = SQRT3 / 3.0;
 		/**
 		 * Not-a-Number
 		 */

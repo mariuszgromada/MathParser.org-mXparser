@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.3.3   2019-01-27
+ * @(#)Expression.cs        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -96,7 +96,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.3
+	 * @version        4.3.4
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -104,7 +104,12 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see            Function
 	 */
 	[CLSCompliant(true)]
-	public class Expression {
+	public class Expression : PrimitiveElement {
+		/**
+		 * Expression type id
+		 */
+		public const int TYPE_ID		= 100;
+		public const String TYPE_DESC	= "User defined expression";
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -434,7 +439,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see    PrimitiveElement
 		 */
-		public Expression(params PrimitiveElement[] elements) {
+		public Expression(params PrimitiveElement[] elements) : base(Expression.TYPE_ID) {
 			expressionString = "";
 			expressionInit();
 			setExpressionModifiedFlag();
@@ -449,7 +454,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 *
 		 */
-		public Expression(String expressionString, params PrimitiveElement[] elements) {
+		public Expression(String expressionString, params PrimitiveElement[] elements) : base(Expression.TYPE_ID) {
 			expressionInit();
 			this.expressionString = "" + expressionString;
 			setExpressionModifiedFlag();
@@ -461,7 +466,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param parserKeyWordsOnly  if true then all keywords such as functions,
 		 *                            constants, arguments will not be recognized.
 		 */
-		internal Expression(String expressionString, bool parserKeyWordsOnly) {
+		internal Expression(String expressionString, bool parserKeyWordsOnly) : base(Expression.TYPE_ID) {
 			expressionInit();
 			this.expressionString = "" + expressionString;
 			setExpressionModifiedFlag();
@@ -481,7 +486,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
 				List<Function> functionsList, List<Constant> constantsList, bool disableUlpRounding,
-				bool UDFExpression, List<Double> UDFVariadicParamsAtRunTime) {
+				bool UDFExpression, List<Double> UDFVariadicParamsAtRunTime) : base(Expression.TYPE_ID) {
 			this.expressionString = "" + expressionString;
 			this.initialTokens = initialTokens;
 			this.argumentsList = argumentsList;
@@ -523,7 +528,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal Expression(String expressionString, List<Argument> argumentsList,
 				List<Function> functionsList, List<Constant> constantsList
-				,bool i, bool UDFExpression, List<Double> UDFVariadicParamsAtRunTime) {
+				,bool i, bool UDFExpression, List<Double> UDFVariadicParamsAtRunTime) : base(Expression.TYPE_ID) {
 			this.expressionString = "" + expressionString;
 			expressionInternalVarsInit();
 			setSilentMode();
@@ -541,7 +546,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param      expression          the base expression
 		 */
-		private Expression(Expression expression) {
+		private Expression(Expression expression) : base(Expression.TYPE_ID) {
 			expressionString = "" + expression.expressionString;
 			description = "" + expression.description;
 			argumentsList = expression.argumentsList;
@@ -667,8 +672,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void addDefinitions(params PrimitiveElement[] elements) {
 			foreach (PrimitiveElement e in elements) {
-				int elementTypeId = e.getMyTypeId();
 				if (e != null) {
+					int elementTypeId = e.getMyTypeId();
 					if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
 					else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
 					else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
@@ -687,8 +692,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void removeDefinitions(params PrimitiveElement[] elements) {
 			foreach (PrimitiveElement e in elements) {
-				int elementTypeId = e.getMyTypeId();
 				if (e != null) {
+					int elementTypeId = e.getMyTypeId();
 					if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
 					else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
 					else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
@@ -6733,6 +6738,32 @@ namespace org.mariuszgromada.math.mxparser {
 					checkFraction(token);
 			}
 		}
+
+		private bool isNotSpecialChar(char precedingChar) {
+			if (
+					( precedingChar != ' ' ) &&
+					( precedingChar != ',' ) &&
+					( precedingChar != ';' ) &&
+					( precedingChar != '|' ) &&
+					( precedingChar != '&' ) &&
+					( precedingChar != '+' ) &&
+					( precedingChar != '-' ) &&
+					( precedingChar != '*' ) &&
+					( precedingChar != '\\' ) &&
+					( precedingChar != '/' ) &&
+					( precedingChar != '(' ) &&
+					( precedingChar != ')' ) &&
+					( precedingChar != '=' ) &&
+					( precedingChar != '>' ) &&
+					( precedingChar != '<' ) &&
+					( precedingChar != '~' ) &&
+					( precedingChar != '^' ) &&
+					( precedingChar != '#' ) &&
+					( precedingChar != '%' ) &&
+					( precedingChar != '@' ) &&
+					( precedingChar != '!' )	) return true;
+			else return false;
+		}
 		/**
 		 * Tokenizing expressiong string
 		 */
@@ -6784,6 +6815,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			String newExpressionString = "";
 			char c;
+			char clag1 = 'a';
 			int blankCnt = 0;
 			int newExpLen = 0;
 			for (int i = 0; i < expLen; i++) {
@@ -6791,10 +6823,13 @@ namespace org.mariuszgromada.math.mxparser {
 				if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') ) {
 					blankCnt++;
 				} else if (blankCnt > 0) {
-					if (newExpLen > 0) newExpressionString = newExpressionString + " ";
+					if (newExpLen > 0) {
+						/* if (isNotSpecialChar(clag1)) */ newExpressionString = newExpressionString + " ";
+					}
 					blankCnt = 0;
 				}
 				if (blankCnt == 0) {
+					clag1 = c;
 					newExpressionString = newExpressionString + c;
 					newExpLen++;
 				}

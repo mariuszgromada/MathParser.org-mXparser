@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.3.0   2018-12-12
+ * @(#)mXparser.cs        4.3.4   2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -84,7 +84,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        4.3.4
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -96,7 +96,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const String VERSION = "4.3.0";
+		public const String VERSION = "4.3.4";
 		public const String VERSION_CODE_NAME = "Caprica";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 		/**

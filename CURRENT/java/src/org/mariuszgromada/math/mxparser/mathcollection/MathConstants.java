@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.java        4.2.0    2018-01-28
+ * @(#)MathConstants.java        4.3.4    2019-12-22
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -75,13 +75,17 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.2.0
+ * @version        4.3.4
  */
 public final class MathConstants {
 	/**
 	 * Pi, Archimedes' constant or Ludolph's number
 	 */
 	public static final double PI = 3.14159265358979323846264338327950288;
+	/**
+	 * Pi/2
+	 */
+	public static final double PIBY2 = PI / 2.0;
 	/**
 	 * Napier's constant, or Euler's number, base of Natural logarithm
 	 */
@@ -253,7 +257,7 @@ public final class MathConstants {
 	/**
 	 * Square root of 2
 	 */
-	public static final double SQRT2 = 1.4142135623730950488016887242096980785696718753769d;
+	public static final double SQRT2 = Math.sqrt(2.0);
 	/**
 	 * Square root of pi
 	 */
@@ -282,6 +286,26 @@ public final class MathConstants {
 	 * Natural logarithm of sqrt(2)
 	 */
 	public static final double LN_SQRT2 = MathFunctions.ln(SQRT2);
+	/**
+	 * SQRT2BY2
+	 */
+	public static final double SQRT2BY2 = SQRT2/2.0;
+	/**
+	 * SQRT3
+	 */
+	public static final double SQRT3 = Math.sqrt(3.0);
+	/**
+	 * SQRT3BY2
+	 */
+	public static final double SQRT3BY2 = SQRT3/2.0;
+	/**
+	 * D2BYSQRT3
+	 */
+	public static final double D2BYSQRT3 = 2.0/SQRT3;
+	/**
+	 * SQRT3BY3
+	 */
+	public static final double SQRT3BY3 = SQRT3/3.0;
 	/**
 	 * Not-a-Number
 	 */
