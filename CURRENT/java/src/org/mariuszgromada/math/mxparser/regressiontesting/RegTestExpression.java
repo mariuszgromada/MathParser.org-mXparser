@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.3.4   2019-12-22
+ * @(#)RegTestExpression.java        4.3.4   2019-12-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -93,6 +93,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.SpecialValueTrigonometric
  */
 public class RegTestExpression {
 	private static Expression[] exp;
+	private static boolean tmp;
 	private static final double PI = MathConstants.PI;
 	private static boolean runTest_00000_00100(int testId) {
 		mXparser.consolePrint("[" + testId + "] ");
@@ -1375,6 +1376,8 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
 		case 113:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			f = new Function("f", "sin(x)", "x");
 			g = new Function("g", "cos(x)", "x");
 			h = new Function("h", "int(f(t),t,0,x)", "x");
@@ -1391,6 +1394,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(value - reg) <= 0.000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 114:
 			f = new Function("f", "ln(x)", "x");
@@ -3309,6 +3313,8 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
 		case 281:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "abs( sin(0.5)-s(0.5))+abs( cos(0.7)-c(0.7) )";
 			Constant aa = new Constant("a", 0.00001);
 			Function ss = new Function("s", "if( abs(x) < a, x, 2*s(x/2)*c(x/2) )", "x");
@@ -3325,6 +3331,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) < 0.00001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 282:
 			expStr = "f1(1,2)-f2(1,2)";
@@ -5093,6 +5100,8 @@ public class RegTestExpression {
 			break;
 		case 443:
 			mXparser.disableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.setExactComparison();
 			expStr = "0.1+0.1+0.1 <> 0.3";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -5102,9 +5111,12 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.0000000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 444:
 			mXparser.disableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.setEpsilonComparison();;
 			expStr = "0.1+0.1+0.1 = 0.3";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -5114,9 +5126,12 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.0000000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 445:
 			mXparser.enableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.setExactComparison();
 			expStr = "0.1+0.1+0.1 = 0.3";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -5126,6 +5141,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.0000000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 446:
 			mXparser.setEpsilon(0.5);
@@ -8490,6 +8506,8 @@ public class RegTestExpression {
 			break;
 		case 745:
 			mXparser.setEpsilonComparison();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(i, -1000000, 1000000, ndig10(i) - floor( log10( abs(i) ) ) - 1, 3)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -8498,6 +8516,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 746:
 			mXparser.setEpsilonComparison();
@@ -8512,6 +8531,8 @@ public class RegTestExpression {
 			break;
 		case 747:
 			mXparser.setEpsilonComparison();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum( i, -1000000, 1000000, ndig10(i) - ndig(i, 10) )";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -8520,6 +8541,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 748:
 			mXparser.setEpsilonComparison();
@@ -9259,6 +9281,8 @@ public class RegTestExpression {
 			break;
 		case 810:
 			mXparser.setEpsilonComparison();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(n, -100000, 100000,  sgn(n)*prod( id, -10, nfact(n) + 10, factval(n, id)^factexp(n, id) ) - n , 3 )";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -9268,6 +9292,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 811:
 			mXparser.setEpsilonComparison();
@@ -9694,6 +9719,8 @@ public class RegTestExpression {
 			mXparser.setDefaultEpsilon();
 			break;
 		case 845:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.setEpsilonComparison();
 			Argument x0 = new Argument("x0 = 1.3");
 			expStr = "der( Gamma(x), x, x0 ) - ( -[gam] + sum(n, 0, 10000000, 1/(n+1) - 1/(n+x0) ) ) * Gamma(x0)";
@@ -9705,6 +9732,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 846:
 			mXparser.setEpsilonComparison();
@@ -9795,6 +9823,8 @@ public class RegTestExpression {
 			break;
 		case 853:
 			mXparser.setEpsilonComparison();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			Function Nrec = new Function("Nrec(a, s, k) = if( s >= a, k, Nrec( a, s + [Uni], k+1 ) )");
 			Argument N1 = new Argument("N1 = Nrec(1,0,0)", Nrec);
 			Argument N2 = new Argument("N2 = Nrec(2,0,0)", Nrec);
@@ -9815,6 +9845,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 854:
 			mXparser.setEpsilonComparison();
@@ -9846,7 +9877,9 @@ public class RegTestExpression {
 			break;
 		case 856:
 			mXparser.setEpsilonComparison();
-			expStr = "sum(x, -20, 20, sin(x)/x - prod(k,1, 10000 , 1 - (x/(k*pi))^2 ) , 0.1)";
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
+			expStr = "sum(x, -20.05, 20.05, sin(x)/x - prod(k,1, 10000 , 1 - (x/(k*pi))^2 ) , 0.1)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
 			value = exp[testId].calculate();
@@ -9855,6 +9888,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 857:
 			mXparser.setEpsilonComparison();
@@ -10671,6 +10705,8 @@ public class RegTestExpression {
 			break;
 		case 921:
 			mXparser.setEpsilonComparison();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "int( LambW0(x)/( x*sqrt(x) ), x, 0.01 , 240000) - 2*sqrt(2*pi)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -10680,6 +10716,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 922:
 			mXparser.setEpsilonComparison();
@@ -10755,6 +10792,8 @@ public class RegTestExpression {
 			break;
 		case 928:
 			mXparser.setEpsilonComparison();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(x, 0.5, 50, logGamma(x) - ( -[gam]*x - ln(x) + sum(k, 1, 10000+x^3, x/k - ln(1 + x/k) ) ), 0.5)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -10764,6 +10803,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.setDefaultEpsilon();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 929:
 			mXparser.setEpsilonComparison();
@@ -12689,6 +12729,8 @@ public class RegTestExpression {
 			break;
 		case 1060:
 			mXparser.disableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(x, 0.01, 0.99, diGamma(1-x)-diGamma(x) - pi * cot(pi*x), 0.01)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -12697,6 +12739,7 @@ public class RegTestExpression {
 			if ( MathFunctions.abs(reg - value) <= 1e-13 )
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.setCanonicalRounding(tmp);
 			mXparser.enableUlpRounding();
 			break;
 		case 1061:
@@ -12713,6 +12756,8 @@ public class RegTestExpression {
 			break;
 		case 1062:
 			mXparser.disableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(x, 0.01, 0.99, diGamma(x+1) - ( -[gam] + sum(k, 1, 10000, 1/k - 1/(x+k) ) ), 0.01)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -12722,6 +12767,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1063:
 			mXparser.disableUlpRounding();
@@ -13612,6 +13658,8 @@ public class RegTestExpression {
 		case 1126:
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(b, 1, 10, sum(a, 1, 10, sum(x, 0.1, 0.9, der( BetaInc(x, a, b), x, x ) - ( (1-x)^(b-1) ) * ( x^(a-1) ) ,0.1) , 0.1) , 0.1)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -13622,6 +13670,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1127:
 			mXparser.disableAlmostIntRounding();
@@ -13738,6 +13787,8 @@ public class RegTestExpression {
 		case 1135:
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			expStr = "sum(b, 0.1, 80, sum(a, 0.1, 80, sum(x, 0, 1, BetaI(x, a, b) * Beta(a,b) - BetaInc(x,a,b) ,0.1) , 0.25) , 0.25)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -13748,10 +13799,12 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1136:
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			expStr = "sum(b, 0.1, 80, sum(a, 0.1, 80, sum(x, 0, 1, BetaI(x, a, b) - BetaReg(x,a,b) ,0.1) , 0.25) , 0.25)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);
@@ -13762,6 +13815,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1137:
 			mXparser.enableAlmostIntRounding();
@@ -14345,6 +14399,8 @@ public class RegTestExpression {
 			mXparser.enableAlmostIntRounding();
 			break;
 		case 1181:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			mXparser.setRadiansMode();
@@ -14358,8 +14414,11 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableAlmostIntRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1182:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			mXparser.setRadiansMode();
@@ -14373,8 +14432,11 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableAlmostIntRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1183:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			mXparser.setRadiansMode();
@@ -14388,8 +14450,11 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableAlmostIntRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1184:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			mXparser.setRadiansMode();
@@ -14403,6 +14468,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableAlmostIntRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1185:
 			mXparser.disableAlmostIntRounding();
@@ -14621,6 +14687,132 @@ public class RegTestExpression {
 			mXparser.enableAlmostIntRounding();
 			mXparser.setRadiansMode();
 			break;
+		case 1199:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "0.1 + 0.1 + 0.1";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0.3;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1200:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "2.5 - 2.3";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0.2;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		}
+		if (testResult == true)
+			mXparser.consolePrint("OK");
+		else
+			mXparser.consolePrint("ERROR");
+		return testResult;
+	}
+	private static boolean runTest_01201_01300(int testId) {
+		mXparser.consolePrint("[" + testId + "] ");
+		boolean testResult = false;
+		double value = 0;
+		double reg = 0;
+		String expStr = "";
+		switch (testId) {
+		case 1201:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "2.53 + 2.0";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 4.53;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1202:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "2.53 * 2.675";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 6.76775;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1203:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "-2.53 * 2.675";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -6.76775;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1204:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "5.55 / 5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1.11;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1205:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "-5.55 / 5";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -1.11;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
 		}
 		if (testResult == true)
 			mXparser.consolePrint("OK");
@@ -14659,6 +14851,7 @@ public class RegTestExpression {
 			else if (testId <=  1000) test = runTest_00901_01000(testId);
 			else if (testId <=  1100) test = runTest_01001_01100(testId);
 			else if (testId <=  1200) test = runTest_01101_01200(testId);
+			else if (testId <=  1300) test = runTest_01201_01300(testId);
 			else test = false;
 			tests[testId] = test;
 			if (test == true)
@@ -14685,7 +14878,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(1198);
+		return start(1205);
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

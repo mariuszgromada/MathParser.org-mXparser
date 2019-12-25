@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.3.4   2019-12-21
+ * @(#)mXparser.java        4.3.4   2019-12-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -145,12 +145,20 @@ public final class mXparser {
 	static volatile Expression mXparserExp = new Expression();
 	/**
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
 	 *
-	 * mXparser provides intelligent ULP rounding to avoid this
-	 * type of errors.
+	 * mXparser provides intelligent ULP rounding to avoid some
+	 * type of this errors.
 	 */
 	static volatile boolean ulpRounding = true;
+	/**
+	 * Double floating-point precision arithmetic causes
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
+	 *
+	 * mXparser provides intelligent canonical rounding to avoid majority
+	 * of this errors.
+	 *
+	 */
+	static volatile boolean canonicalRounding = true;
 	/**
 	 * Indicator marking whether to round final result
 	 * to precise integer when result is very close
@@ -434,6 +442,7 @@ public final class mXparser {
 		return BinaryRelations.checkIfExactMode();
 	}
 	/**
+	 * Enables ULP rounding.
 	 * Double floating-point precision arithmetic causes
 	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
 	 * additionally doubles are having a lot of advantages
@@ -448,6 +457,7 @@ public final class mXparser {
 		ulpRounding = true;
 	}
 	/**
+	 * Disables ULP rounding.
 	 * Double floating-point precision arithmetic causes
 	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
 	 * additionally doubles are having a lot of advantages
@@ -460,6 +470,23 @@ public final class mXparser {
 	 */
 	public static final void disableUlpRounding() {
 		ulpRounding = false;
+	}
+	/**
+	 * Enables / disables ULP rounding.
+	 * Double floating-point precision arithmetic causes
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * additionally doubles are having a lot of advantages
+	 * providing flexible number representation regardless of
+	 * number size. mXparser is fully based on double numbers
+	 * and that is why is providing intelligent ULP rounding
+	 * to minimize misleading results. By default this option is
+	 * enabled resulting in automatic rounding only in some cases.
+	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+	 *
+	 * @param ulpRoundingState    True to enable, false to disable
+	 */
+	public static final void setUlpRounding(boolean ulpRoundingState) {
+		ulpRounding = ulpRoundingState;
 	}
 	/**
 	 * Double floating-point precision arithmetic causes
@@ -476,6 +503,69 @@ public final class mXparser {
 	 */
 	public static final boolean checkIfUlpRounding() {
 		return ulpRounding;
+	}
+	/**
+	 * Enables canonical rounding.
+	 * Double floating-point precision arithmetic causes
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * additionally doubles are having a lot of advantages
+	 * providing flexible number representation regardless of
+	 * number size. mXparser is fully based on double numbers
+	 * and that is why is providing intelligent canonical rounding
+	 * to minimize misleading results. By default this option is
+	 * enabled resulting in automatic rounding only in some cases.
+	 * Using this mode 2.5 - 2.2 = 0.3
+	 */
+	public static final void enableCanonicalRounding() {
+		canonicalRounding = true;
+	}
+	/**
+	 * Disables canonical rounding.
+	 * Double floating-point precision arithmetic causes
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * additionally doubles are having a lot of advantages
+	 * providing flexible number representation regardless of
+	 * number size. mXparser is fully based on double numbers
+	 * and that is why is providing intelligent canonical rounding
+	 * to minimize misleading results. By default this option is
+	 * enabled resulting in automatic rounding only in some cases.
+	 * Using this mode 2.5 - 2.2 = 0.3
+	 */
+	public static final void disableCanonicalRounding() {
+		canonicalRounding = false;
+	}
+	/**
+	 * Enables / disables canonical rounding.
+	 * Double floating-point precision arithmetic causes
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * additionally doubles are having a lot of advantages
+	 * providing flexible number representation regardless of
+	 * number size. mXparser is fully based on double numbers
+	 * and that is why is providing intelligent ULP rounding
+	 * to minimize misleading results. By default this option is
+	 * enabled resulting in automatic rounding only in some cases.
+	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+	 *
+	 * @param canonicalRoundingState    True to enable, false to disable
+	 */
+	public static final void setCanonicalRounding(boolean canonicalRoundingState) {
+		canonicalRounding = canonicalRoundingState;
+	}
+	/**
+	 * Double floating-point precision arithmetic causes
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * additionally doubles are having a lot of advantages
+	 * providing flexible number representation regardless of
+	 * number size. mXparser is fully based on double numbers
+	 * and that is why is providing intelligent canonical rounding
+	 * to minimize misleading results. By default this option is
+	 * enabled resulting in automatic rounding only in some cases.
+	 * Using this mode 2.5 - 2.2 = 0.3
+	 *
+	 * @return True if Canonical rounding is enabled, otherwise false.
+	 */
+	public static final boolean checkIfCanonicalRounding() {
+		return canonicalRounding;
 	}
 	/**
 	 * Enables almost integer rounding option causing
@@ -502,6 +592,17 @@ public final class mXparser {
 	 */
 	public static final void disableAlmostIntRounding() {
 		almostIntRounding = false;
+	}
+	/**
+	 * Enables / disables almost integer rounding option causing
+	 * rounding final calculation result to precise integer
+	 * if and only if result is very close to integer.
+	 * Very close condition depends on epsilon.
+	 *
+	 * @param almostIntRoundingState    True to enable, false to disable
+	 */
+	public static final void setAlmostIntRounding(boolean almostIntRoundingState) {
+		almostIntRounding = almostIntRoundingState;
 	}
 	/**
 	 * Returns state of almost integer rounding option causing

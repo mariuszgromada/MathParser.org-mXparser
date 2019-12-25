@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -95,7 +95,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs" />
-    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs" />	
+    <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Miscellaneous.cs" />
@@ -148,7 +148,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.3.4   2019-12-22
+ * @(#)Expression.java        4.3.4   2019-12-24
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -244,9 +244,9 @@ public class Expression extends PrimitiveElement {
 	 * Internal parameter for calculus expressions
 	 * to avoid decrease in accuracy.
 	 */
-	boolean disableUlpRounding;
-	static final boolean DISABLE_ULP_ROUNDING = true;
-	static final boolean KEEP_ULP_ROUNDING_SETTINGS = false;
+	boolean disableRounding;
+	static final boolean DISABLE_ROUNDING = true;
+	static final boolean KEEP_ROUNDING_SETTINGS = false;
 	/**
 	 * Status of the expression syntax
 	 *
@@ -428,7 +428,7 @@ public class Expression extends PrimitiveElement {
 		recursionCallsCounter = 0;
 		internalClone = false;
 		parserKeyWordsOnly = false;
-		disableUlpRounding = KEEP_ULP_ROUNDING_SETTINGS;
+		disableRounding = KEEP_ROUNDING_SETTINGS;
 	}
 	/**
 	 * Common elements while expression initializing
@@ -532,7 +532,7 @@ public class Expression extends PrimitiveElement {
 		parserKeyWordsOnly = false;
 		this.UDFExpression = UDFExpression;
 		this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
-		this.disableUlpRounding = disableUlpRounding;
+		this.disableRounding = disableUlpRounding;
 		setSilentMode();
 		disableRecursiveMode();
 	}
@@ -593,7 +593,7 @@ public class Expression extends PrimitiveElement {
 		recursionCallPending = expression.recursionCallPending;
 		recursionCallsCounter = expression.recursionCallsCounter;
 		parserKeyWordsOnly = expression.parserKeyWordsOnly;
-		disableUlpRounding = expression.disableUlpRounding;
+		disableRounding = expression.disableRounding;
 		UDFExpression = expression.UDFExpression;
 		UDFVariadicParamsAtRunTime = expression.UDFVariadicParamsAtRunTime;
 		internalClone = true;
@@ -1308,7 +1308,7 @@ public class Expression extends PrimitiveElement {
 	 */
 	private void setToNumber(int pos, double number, boolean ulpRound) {
 		Token token = tokensList.get(pos);
-		if ( (mXparser.ulpRounding) && (disableUlpRounding == false) ){
+		if ( (mXparser.ulpRounding) && (disableRounding == false) ){
 			if (ulpRound) {
 				if ( (Double.isNaN(number) ) || (Double.isInfinite(number)) )
 					token.tokenValue = number;
@@ -2605,7 +2605,12 @@ public class Expression extends PrimitiveElement {
 	private void DIVIDE(int pos) {
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
-		opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
+		if (disableRounding) {
+			double result = Double.NaN;
+			if (b != 0) result = a / b;
+			opSetDecreaseRemove(pos, result, true);
+		}
+		else opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
 	}
 	/**
 	 * Multiplication handling.
@@ -2615,7 +2620,8 @@ public class Expression extends PrimitiveElement {
 	private void MULTIPLY(int pos) {
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
-		opSetDecreaseRemove(pos, a * b, true);
+		if (disableRounding) opSetDecreaseRemove(pos, a * b, true);
+		else opSetDecreaseRemove(pos, MathFunctions.multiply(a, b), true);
 	}
 	/**
 	 * Addition handling.
@@ -2627,7 +2633,8 @@ public class Expression extends PrimitiveElement {
 		if (pos>0) {
 			Token a = tokensList.get(pos-1);
 			if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-				opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
+				if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
+				else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
 			else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 				setToNumber(pos,b.tokenValue);
 				tokensList.remove(pos+1);
@@ -2649,7 +2656,8 @@ public class Expression extends PrimitiveElement {
 		if (pos>0) {
 			Token a = tokensList.get(pos-1);
 			if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-				opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
+				if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
+				else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
 			else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 				setToNumber(pos,-b.tokenValue);
 				tokensList.remove(pos+1);
@@ -3848,7 +3856,7 @@ public class Expression extends PrimitiveElement {
 		 */
 		List<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
 		FunctionParameter ifParam = ifParams.get(0);
-		Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 		if (verboseMode == true)
 			ifExp.setVerboseMode();
 		ifSetRemove(pos, ifExp.calculate());
@@ -3873,7 +3881,7 @@ public class Expression extends PrimitiveElement {
 		double iffValue = 0;
 		boolean iffCon = true;
 		do {
-			iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+			iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode == true)
 				iffExp.setVerboseMode();
 			iffCon = true;
@@ -4122,9 +4130,9 @@ public class Expression extends PrimitiveElement {
 		 *    expressions will use the same arguments list
 		 *    as used in the main expression (this.argumentsList)
 		 */
-		iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
-		iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
-		iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+		iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+		iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		iterParams.deltaExp = null;
 		if (verboseMode == true) {
 			iterParams.fromExp.setVerboseMode();
@@ -4139,7 +4147,7 @@ public class Expression extends PrimitiveElement {
 		iterParams.delta = 1.0;
 		if (iterParams.to < iterParams.from) iterParams.delta = -1.0;
 		if (iterParams.withDelta == true) {
-			iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (index.presence == Argument.NOT_FOUND) {
 				updateMissingTokens(iterParams.deltaParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
 			}
@@ -4318,7 +4326,7 @@ public class Expression extends PrimitiveElement {
 			updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 		}
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double x0 = Double.NaN;
 		/*
 		 * der( f(x), x )
@@ -4334,7 +4342,7 @@ public class Expression extends PrimitiveElement {
 			FunctionParameter x0Param = derParams.get(2);
 			if (x.presence == Argument.NOT_FOUND)
 				updateMissingTokens(x0Param.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
-			Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			x0 = x0Expr.calculate();
 		}
 		double eps = DEF_EPS;
@@ -4357,8 +4365,8 @@ public class Expression extends PrimitiveElement {
 				updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			eps = epsExpr.calculate();
 			maxSteps = (int)Math.round(maxStepsExp.calculate());
 		}
@@ -4408,8 +4416,8 @@ public class Expression extends PrimitiveElement {
 			updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 		}
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double n = nExp.calculate();
 		double x0 = x.argument.getArgumentValue();
 		double eps = DEF_EPS;
@@ -4421,8 +4429,8 @@ public class Expression extends PrimitiveElement {
 				updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			eps = epsExpr.calculate();
 			maxSteps = (int)Math.round(maxStepsExp.calculate());
 		}
@@ -4477,9 +4485,9 @@ public class Expression extends PrimitiveElement {
 			updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 		}
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
 		calcSetDecreaseRemove(pos, Calculus.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
@@ -4523,9 +4531,9 @@ public class Expression extends PrimitiveElement {
 			updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 		}
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
 		calcSetDecreaseRemove(pos, Calculus.solveBrent(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
@@ -4541,13 +4549,13 @@ public class Expression extends PrimitiveElement {
 		FunctionParameter funParam = params.get(0);
 		FunctionParameter xParam = params.get(1);
 		ArgumentParameter x = getParamArgument(xParam.paramStr);
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		if (verboseMode == true)
 			funExp.setVerboseMode();
 		double h = 1;
 		if (params.size() == 3) {
 			FunctionParameter hParam = params.get(2);
-			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode == true)
 				hExp.setVerboseMode();
 			h = hExp.calculate();
@@ -4565,13 +4573,13 @@ public class Expression extends PrimitiveElement {
 		FunctionParameter funParam = params.get(0);
 		FunctionParameter xParam = params.get(1);
 		ArgumentParameter x = getParamArgument(xParam.paramStr);
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		if (verboseMode == true)
 			funExp.setVerboseMode();
 		double h = 1;
 		if (params.size() == 3) {
 			FunctionParameter hParam = params.get(2);
-			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode == true)
 				hExp.setVerboseMode();
 			h = hExp.calculate();

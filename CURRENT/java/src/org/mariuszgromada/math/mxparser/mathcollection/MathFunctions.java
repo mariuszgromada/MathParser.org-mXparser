@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.3.4   2019-12-22
+ * @(#)MathFunctions.java        4.3.4   2019-12-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -56,6 +56,7 @@
 package org.mariuszgromada.math.mxparser.mathcollection;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 import org.mariuszgromada.math.mxparser.mXparser;
@@ -87,6 +88,79 @@ import org.mariuszgromada.math.mxparser.mXparser;
  * @version        4.3.4
  */
 public final class MathFunctions {
+	/**
+	 * Addition a + b applying canonical rounding if canonical
+	 * rounding is enabled
+	 *
+	 * @param a  The a parameter
+	 * @param b  The b parameter
+	 * @return   The result of addition
+	 */
+	public static final double plus(double a, double b) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		if (!mXparser.checkIfCanonicalRounding()) return a + b;
+		if (Double.isInfinite(a)) return a + b;
+		if (Double.isInfinite(b)) return a + b;
+		BigDecimal da = BigDecimal.valueOf(a);
+		BigDecimal db = BigDecimal.valueOf(b);
+		return da.add(db).doubleValue();
+	}
+	/**
+	 * Subtraction a - b applying canonical rounding if canonical
+	 * rounding is enabled
+	 *
+	 * @param a  The a parameter
+	 * @param b  The b parameter
+	 * @return   The result of subtraction
+	 */
+	public static final double minus(double a, double b) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		if (!mXparser.checkIfCanonicalRounding()) return a - b;
+		if (Double.isInfinite(a)) return a - b;
+		if (Double.isInfinite(b)) return a - b;
+		BigDecimal da = BigDecimal.valueOf(a);
+		BigDecimal db = BigDecimal.valueOf(b);
+		return da.subtract(db).doubleValue();
+	}
+	/**
+	 * Multiplication a * b applying canonical rounding if canonical
+	 * rounding is enabled
+	 *
+	 * @param a  The a parameter
+	 * @param b  The b parameter
+	 * @return   The result of multiplication
+	 */
+	public static final double multiply(double a, double b) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		if (!mXparser.checkIfCanonicalRounding()) return a * b;
+		if (Double.isInfinite(a)) return a * b;
+		if (Double.isInfinite(b)) return a * b;
+		BigDecimal da = BigDecimal.valueOf(a);
+		BigDecimal db = BigDecimal.valueOf(b);
+		return da.multiply(db).doubleValue();
+	}
+	/**
+	 * Division a / b applying canonical rounding if canonical
+	 * rounding is enabled
+	 *
+	 * @param a  The a parameter
+	 * @param b  The b parameter
+	 * @return   The result of division
+	 */
+	public static final double div(double a, double b) {
+		if (b == 0) return Double.NaN;
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		if (!mXparser.checkIfCanonicalRounding()) return a / b;
+		if (Double.isInfinite(a)) return a / b;
+		if (Double.isInfinite(b)) return a / b;
+		BigDecimal da = BigDecimal.valueOf(a);
+		BigDecimal db = BigDecimal.valueOf(b);
+		return da.divide(db, MathContext.DECIMAL128).doubleValue();
+	}
 	/**
 	 * Bell Numbers
 	 *
@@ -912,6 +986,7 @@ public final class MathFunctions {
 	 * @return     if a,b &lt;&gt; Double.NaN and b &lt;&gt; 0 returns a/b,
 	 *             otherwise return Double.NaN.
 	 */
+	/*
 	public static final double div(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
@@ -920,6 +995,7 @@ public final class MathFunctions {
 			result = a / b;
 		return result;
 	}
+	*/
 	/**
 	 * Sine trigonometric function
 	 *

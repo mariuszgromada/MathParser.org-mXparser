@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.3.4   2019-12-22
+ * @(#)MathFunctions.java        4.3.4   2019-12-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -54,6 +54,7 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
+using System.Globalization;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
@@ -84,6 +85,95 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
+		private static readonly double DECIMAL_MIN_VALUE = Decimal.ToDouble(Decimal.MinValue);
+		private static readonly double DECIMAL_MAX_VALUE = Decimal.ToDouble(Decimal.MaxValue);
+		private static bool isInDecimalRange(double a) {
+			if (a < DECIMAL_MIN_VALUE) return false;
+			if (a > DECIMAL_MAX_VALUE) return false;
+			if (Double.IsNaN(a)) return false;
+			if (Double.IsInfinity(a)) return false;
+			return true;
+ 		}
+		private static bool isInDecimalRange(double a, double b) {
+			if (a < DECIMAL_MIN_VALUE) return false;
+			if (a > DECIMAL_MAX_VALUE) return false;
+			if (b < DECIMAL_MIN_VALUE) return false;
+			if (b > DECIMAL_MAX_VALUE) return false;
+			if (Double.IsNaN(a)) return false;
+			if (Double.IsInfinity(a)) return false;
+			if (Double.IsNaN(b)) return false;
+			if (Double.IsInfinity(b)) return false;
+			return true;
+		}
+		public static double canonicalRound(double x) {
+			String sx = x.ToString(CultureInfo.InvariantCulture);
+			return Double.Parse(sx, NumberStyles.Float, CultureInfo.InvariantCulture);
+		}
+		/**
+		 * Addition a + b applying canonical rounding if canonical
+		 * rounding is enabled
+		 *
+		 * @param a  The a parameter
+		 * @param b  The b parameter
+		 * @return   The result of addition
+		 */
+		public static double plus(double a, double b) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (!mXparser.checkIfCanonicalRounding()) return a + b;
+			if (Double.IsInfinity(a)) return a + b;
+			if (Double.IsInfinity(b)) return a + b;
+			return canonicalRound(a + b);
+		}
+		/**
+		 * Subtraction a - b applying canonical rounding if canonical
+		 * rounding is enabled
+		 *
+		 * @param a  The a parameter
+		 * @param b  The b parameter
+		 * @return   The result of subtraction
+		 */
+		public static double minus(double a, double b) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (!mXparser.checkIfCanonicalRounding()) return a - b;
+			if (Double.IsInfinity(a)) return a - b;
+			if (Double.IsInfinity(b)) return a - b;
+			return canonicalRound(a - b);
+		}
+		/**
+		 * Multiplication a * b applying canonical rounding if canonical
+		 * rounding is enabled
+		 *
+		 * @param a  The a parameter
+		 * @param b  The b parameter
+		 * @return   The result of multiplication
+		 */
+		public static double multiply(double a, double b) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (!mXparser.checkIfCanonicalRounding()) return a * b;
+			if (Double.IsInfinity(a)) return a * b;
+			if (Double.IsInfinity(b)) return a * b;
+			return canonicalRound(a * b);
+		}
+		/**
+		 * Division a / b applying canonical rounding if canonical
+		 * rounding is enabled
+		 *
+		 * @param a  The a parameter
+		 * @param b  The b parameter
+		 * @return   The result of division
+		 */
+		public static double div(double a, double b) {
+			if (b == 0) return Double.NaN;
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (!mXparser.checkIfCanonicalRounding()) return a / b;
+			if (Double.IsInfinity(a)) return a / b;
+			if (Double.IsInfinity(b)) return a / b;
+			return canonicalRound(a / b);
+		}
 		/**
 		 * Bell Numbers
 		 *
@@ -911,6 +1001,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if a,b <> Double.NaN and b <> 0 returns a/b,
 		 *             otherwise return Double.NaN.
 		 */
+		 /*
 		public static double div(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
@@ -919,6 +1010,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				result = a / b;
 			return result;
 		}
+		*/
 		/**
 		 * Sine trigonometric function
 		 *

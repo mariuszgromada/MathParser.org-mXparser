@@ -86,7 +86,7 @@ public class SpecialValue {
 	/**
 	 * Epsilon is used to compare the x value with regards to some given small interval
 	 */
-	public static final double EPSILON = BinaryRelations.DEFAULT_COMPARISON_EPSILON;
+	public static final double EPSILON = 10 * BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 	/**
 	 * The x value from f(x)
 	 */

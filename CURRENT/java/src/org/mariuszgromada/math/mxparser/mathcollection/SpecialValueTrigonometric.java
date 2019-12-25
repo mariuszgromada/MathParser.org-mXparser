@@ -90,7 +90,7 @@ public class SpecialValueTrigonometric {
 	/**
 	 * Epsilon is used to compare the x value with regards to some given small interval
 	 */
-	public static final double EPSILON = BinaryRelations.DEFAULT_COMPARISON_EPSILON;
+	public static final double EPSILON = 10 * BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 	/* 0 DEGREES ------- */
 	public static final double SIN_0 = 0.0;
 	public static final double COS_0 = 1.0;

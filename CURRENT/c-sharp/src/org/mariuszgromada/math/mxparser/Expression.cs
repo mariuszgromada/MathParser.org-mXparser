@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.3.4   2019-12-22
+ * @(#)Expression.cs        4.3.4   2019-12-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -221,9 +221,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Internal parameter for calculus expressions
 		 * to avoid decrease in accuracy.
 		 */
-		internal bool disableUlpRounding;
-		internal const bool DISABLE_ULP_ROUNDING = true;
-		internal const bool KEEP_ULP_ROUNDING_SETTINGS = false;
+		internal bool disableRounding;
+		internal const bool DISABLE_ROUNDING = true;
+		internal const bool KEEP_ROUNDING_SETTINGS = false;
 		/**
 		 * Status of the expression syntax
 		 *
@@ -404,7 +404,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallsCounter = 0;
 			internalClone = false;
 			parserKeyWordsOnly = false;
-			disableUlpRounding = KEEP_ULP_ROUNDING_SETTINGS;
+			disableRounding = KEEP_ROUNDING_SETTINGS;
 		}
 		/**
 		 * Common elements while expression initializing
@@ -504,7 +504,7 @@ namespace org.mariuszgromada.math.mxparser {
 			parserKeyWordsOnly = false;
 			this.UDFExpression = UDFExpression;
 			this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
-			this.disableUlpRounding = disableUlpRounding;
+			this.disableRounding = disableUlpRounding;
 			setSilentMode();
 			disableRecursiveMode();
 		}
@@ -562,7 +562,7 @@ namespace org.mariuszgromada.math.mxparser {
 			errorMessage = "" + expression.errorMessage;
 			recursionCallPending = expression.recursionCallPending;
 			parserKeyWordsOnly = expression.parserKeyWordsOnly;
-			disableUlpRounding = expression.disableUlpRounding;
+			disableRounding = expression.disableRounding;
 			UDFExpression = expression.UDFExpression;
 			UDFVariadicParamsAtRunTime = expression.UDFVariadicParamsAtRunTime;
 			internalClone = true;
@@ -1262,7 +1262,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void setToNumber(int pos, double number, bool ulpRound) {
 			Token token = tokensList[pos];
-			if ((mXparser.ulpRounding) && (disableUlpRounding == false)) {
+			if ((mXparser.ulpRounding) && (disableRounding == false)) {
 				if (ulpRound) {
 					if ((Double.IsNaN(number)) || (Double.IsInfinity(number)))
 						token.tokenValue = number;
@@ -2565,7 +2565,12 @@ namespace org.mariuszgromada.math.mxparser {
 		private void DIVIDE(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
-			opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
+			if (disableRounding) {
+				double result = Double.NaN;
+				if (b != 0) result = a / b;
+				opSetDecreaseRemove(pos, result, true);
+			}
+			else opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
 		}
 		/**
 		 * Multiplication handling.
@@ -2575,7 +2580,8 @@ namespace org.mariuszgromada.math.mxparser {
 		private void MULTIPLY(int pos) {
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
-			opSetDecreaseRemove(pos, a * b, true);
+			if (disableRounding) opSetDecreaseRemove(pos, a * b, true);
+			else opSetDecreaseRemove(pos, MathFunctions.multiply(a, b), true);
 		}
 		/**
 		 * Addition handling.
@@ -2587,7 +2593,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (pos>0) {
 				Token a = tokensList[pos-1];
 				if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-					opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
+					if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
+					else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
 				else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					setToNumber(pos,b.tokenValue);
 					tokensList.RemoveAt(pos+1);
@@ -2609,7 +2616,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (pos>0) {
 				Token a = tokensList[pos-1];
 				if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-					opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
+					if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
+					else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
 				else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					setToNumber(pos,-b.tokenValue);
 					tokensList.RemoveAt(pos+1);
@@ -3808,7 +3816,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			List<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
 			FunctionParameter ifParam = ifParams[0];
-			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode == true)
 				ifExp.setVerboseMode();
 			ifSetRemove(pos, ifExp.calculate());
@@ -3833,7 +3841,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double iffValue = 0;
 			bool iffCon = true;
 			do {
-				iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+				iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 				if (verboseMode == true)
 					iffExp.setVerboseMode();
 				iffCon = true;
@@ -4082,9 +4090,9 @@ namespace org.mariuszgromada.math.mxparser {
 			 *    expressions will use the same arguments list
 			 *    as used in the main expression (this.argumentsList)
 			 */
-			iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
-			iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList, KEEP_ULP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
-			iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			iterParams.fromExp = new Expression(iterParams.fromParam.paramStr, iterParams.fromParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+			iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
+			iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			iterParams.deltaExp = null;
 			if (verboseMode == true) {
 				iterParams.fromExp.setVerboseMode();
@@ -4099,7 +4107,7 @@ namespace org.mariuszgromada.math.mxparser {
 			iterParams.delta = 1;
 			if (iterParams.to < iterParams.from) iterParams.delta = -1;
 			if (iterParams.withDelta == true) {
-				iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				if (index.presence == Argument.NOT_FOUND) {
 					updateMissingTokens(iterParams.deltaParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID);
 				}
@@ -4278,7 +4286,7 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(xParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double x0 = Double.NaN;
 			/*
 			 * der( f(x), x )
@@ -4294,7 +4302,7 @@ namespace org.mariuszgromada.math.mxparser {
 				FunctionParameter x0Param = derParams[2];
 				if (x.presence == Argument.NOT_FOUND)
 					updateMissingTokens(x0Param.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
-				Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression x0Expr = new Expression(x0Param.paramStr, x0Param.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				x0 = x0Expr.calculate();
 			}
 			double eps = DEF_EPS;
@@ -4318,8 +4326,8 @@ namespace org.mariuszgromada.math.mxparser {
 					updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 					updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 				}
-				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				eps = epsExpr.calculate();
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
@@ -4371,8 +4379,8 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double n = nExp.calculate();
 			double x0 = x.argument.getArgumentValue();
 			double eps = DEF_EPS;
@@ -4384,8 +4392,8 @@ namespace org.mariuszgromada.math.mxparser {
 					updateMissingTokens(epsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 					updateMissingTokens(maxStepsParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				}
-				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression epsExpr = new Expression(epsParam.paramStr, epsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression maxStepsExp = new Expression(maxStepsParam.paramStr, maxStepsParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				eps = epsExpr.calculate();
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
@@ -4441,9 +4449,9 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
 			calcSetDecreaseRemove(pos, Calculus.integralTrapezoid(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps) );
@@ -4487,9 +4495,9 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(aParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 				updateMissingTokens(bParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID);
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression aExp = new Expression(aParam.paramStr, aParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression bExp = new Expression(bParam.paramStr, bParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
 			calcSetDecreaseRemove(pos, Calculus.solveBrent(funExp, x.argument, aExp.calculate(), bExp.calculate(), eps, maxSteps));
@@ -4505,13 +4513,13 @@ namespace org.mariuszgromada.math.mxparser {
 			FunctionParameter funParam = parameters[0];
 			FunctionParameter xParam = parameters[1];
 			ArgumentParameter x = getParamArgument(xParam.paramStr);
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode == true)
 				funExp.setVerboseMode();
 			double h = 1;
 			if (parameters.Count == 3) {
 				FunctionParameter hParam = parameters[2];
-				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				if (verboseMode == true)
 					hExp.setVerboseMode();
 				h = hExp.calculate();
@@ -4529,13 +4537,13 @@ namespace org.mariuszgromada.math.mxparser {
 			FunctionParameter funParam = parameters[0];
 			FunctionParameter xParam = parameters[1];
 			ArgumentParameter x = getParamArgument(xParam.paramStr);
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode == true)
 				funExp.setVerboseMode();
 			double h = 1;
 			if (parameters.Count == 3) {
 				FunctionParameter hParam = parameters[2];
-				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ULP_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+				Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 				if (verboseMode == true)
 					hExp.setVerboseMode();
 				h = hExp.calculate();

@@ -1,12 +1,14 @@
 ﻿using org.mariuszgromada.math.mxparser.regressiontesting;
 using org.mariuszgromada.math.mxparser;
 using System;
+using System.Globalization;
+using org.mariuszgromada.math.mxparser.mathcollection;
 
 namespace mxparser.runtests {
 	class RunTestsReg {
 		static void Main(string[] args) {
-			RunTest.Start("api");
-			RunTest.Start("syn");
+			//RunTest.Start("api");
+			//RunTest.Start("syn");
 			RunTest.Start("reg");
 			/*
 			mXparser.disableUlpRounding();
@@ -18,6 +20,21 @@ namespace mxparser.runtests {
 
 			mXparser.consolePrintln(r1);
 			*/
+
+			//double a = 0.1;
+			//double b = 0.1;
+			//double c = 0.1;
+			//double r = a + b + c;
+			//Console.WriteLine(r - 0.3);
+			//double rr = MathFunctions.canonicalRound(r);
+			//Console.WriteLine(rr - 0.3);
+			//double pi1 = 4 * MathConstants.PI;
+			//double pi2 = MathFunctions.canonicalRound(pi1);
+			//Console.WriteLine(pi1);
+			//Console.WriteLine(pi2);
+			//Console.WriteLine(pi1-pi2);
+
+
 			mXparser.consolePrintln(".NET CLR version:" + Environment.Version);
             mXparser.consolePrintln(".NET version:" + System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(int).Assembly.Location).ProductVersion);
 			#if PCL

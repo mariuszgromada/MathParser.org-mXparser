@@ -123,11 +123,23 @@ namespace SignalsExample
 			//Expression e = new Expression("suml(1,2,3,4)", sumlist);
 			//Console.WriteLine(e.getExpressionString() + " = " + e.calculate());
 
+			/*
 			Expression e1 = new Expression("Pi(10000000)");
 			Console.WriteLine(e1.getExpressionString() + " = " + e1.calculate() + "   computing time = " + e1.getComputingTime() + "s");
 			Expression e2 = new Expression("if( 0 > 1, Pi(10000000), 1)");
 			Console.WriteLine(e2.getExpressionString() + " = " + e2.calculate() + "   computing time = " + e2.getComputingTime() + "s");
-
+			*/
+			double a = Double.NaN;
+			double b = 0.1;
+			double c = 0.1;
+			double r = a + b + c;
+			Console.WriteLine(r - 0.3);
+			Decimal da = new decimal(a);
+			Decimal db = new decimal(b);
+			Decimal dc = new decimal(c);
+			Decimal dr = da + db + dc;
+			double rr = Decimal.ToDouble(dr);
+			Console.WriteLine(rr - 0.3);
 		}
 	}
 
