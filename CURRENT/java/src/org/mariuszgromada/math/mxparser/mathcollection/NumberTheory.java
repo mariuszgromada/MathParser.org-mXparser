@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        4.3.0   2018-12-12
+ * @(#)NumberTheory.java        4.3.4   2019-12-31
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -55,6 +55,7 @@
  */
 package org.mariuszgromada.math.mxparser.mathcollection;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +86,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.3.4
  */
 public final class NumberTheory {
 	public static final long DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE = 10000;
@@ -652,14 +653,25 @@ public final class NumberTheory {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
-		double sum = 0;
-		for (double xi : numbers) {
-			if ( Double.isNaN(xi) )
-				return Double.NaN;
-			sum+=xi;
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		if (mXparser.checkIfCanonicalRounding()) {
+			BigDecimal dsum = BigDecimal.ZERO;
+			for (double xi : numbers) {
+				if ( Double.isNaN(xi) ) return Double.NaN;
+				if ( Double.isInfinite(xi)) return Double.NaN;
+				dsum = dsum.add(BigDecimal.valueOf(xi));
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
+			return dsum.doubleValue();
+		} else {
+			double sum = 0;
+			for (double xi : numbers) {
+				if ( Double.isNaN(xi) ) return Double.NaN;
+				if ( Double.isInfinite(xi)) return Double.NaN;
+				sum += xi;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
+			return sum;
 		}
-		return sum;
 	}
 	/**
 	 * Numbers multiplication.
@@ -674,14 +686,25 @@ public final class NumberTheory {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
-		double prod = 1;
-		for (double xi : numbers) {
-			if ( Double.isNaN(xi) )
-				return Double.NaN;
-			prod*=xi;
-			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		if (mXparser.checkIfCanonicalRounding()) {
+			BigDecimal dprod = BigDecimal.ONE;
+			for (double xi : numbers) {
+				if ( Double.isNaN(xi) ) return Double.NaN;
+				if ( Double.isInfinite(xi)) return Double.NaN;
+				dprod = dprod.multiply(BigDecimal.valueOf(xi));
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
+			return dprod.doubleValue();
+		} else {
+			double prod = 1;
+			for (double xi : numbers) {
+				if ( Double.isNaN(xi) ) return Double.NaN;
+				if ( Double.isInfinite(xi)) return Double.NaN;
+				prod *= xi;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
+			return prod;
 		}
-		return prod;
 	}
 
 	/**
@@ -809,27 +832,65 @@ public final class NumberTheory {
 	 * @return     summation operation (for empty summation operations returns 0).
 	 */
 	public static final double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
-		double result = 0;
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
-		if ( (to >= from) && (delta > 0) ) {
-			double i;
-			for (i = from; i < to; i+=delta) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				result += mXparser.getFunctionValue(f, index, i);
+		double fval;
+		double i;
+		if (mXparser.checkIfCanonicalRounding()) {
+			BigDecimal dresult = BigDecimal.ZERO;
+			if ( (to >= from) && (delta > 0) ) {
+				for (i = from; i < to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					dresult = dresult.add(BigDecimal.valueOf(fval));
+				}
+				if ( delta - (i - to) > 0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					dresult = dresult.add(BigDecimal.valueOf(fval));
+				}
+			} else if ( (to <= from) && (delta < 0) ) {
+				for (i = from; i > to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					dresult = dresult.add(BigDecimal.valueOf(fval));
+				}
+				if ( -delta - (to - i) > -0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					dresult = dresult.add(BigDecimal.valueOf(fval));
+				}
+			} else if (from == to) {
+				fval = mXparser.getFunctionValue(f, index, from);
+				dresult = dresult.add(BigDecimal.valueOf(fval));
 			}
-			if ( delta - (i - to) > 0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
-		} else if ( (to <= from) && (delta < 0) ) {
-			double i;
-			for (i = from; i > to; i+=delta) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				result += mXparser.getFunctionValue(f, index, i);
+			return dresult.doubleValue();
+		} else {
+			double result = 0;
+			if ( (to >= from) && (delta > 0) ) {
+				for (i = from; i < to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					result += fval;
+				}
+				if ( delta - (i - to) > 0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					result += fval;
+				}
+			} else if ( (to <= from) && (delta < 0) ) {
+				for (i = from; i > to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					result += fval;
+				}
+				if ( -delta - (to - i) > -0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					result += fval;
+				}
+			} else if (from == to) {
+				fval = mXparser.getFunctionValue(f, index, from);
+				result += fval;
 			}
-			if ( -delta - (to - i) > -0.5 * delta)
-				result += mXparser.getFunctionValue(f, index, to);
-		} else if (from == to)
-			result += mXparser.getFunctionValue(f, index, from);
-		return result;
+			return result;
+		}
 	}
 	/**
 	 * Product operator
@@ -848,24 +909,63 @@ public final class NumberTheory {
 	public static final double piProduct(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
-		double result = 1;
-		if ( (to >= from) && (delta > 0) ) {
-			double i;
-			for (i = from; i < to; i+=delta) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				result *= mXparser.getFunctionValue(f, index, i);
+		double fval;
+		double i;
+		if (mXparser.checkIfCanonicalRounding()) {
+			BigDecimal dresult = BigDecimal.ONE;
+			if ( (to >= from) && (delta > 0) ) {
+				for (i = from; i < to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+				}
+				if ( delta - (i - to) > 0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+				}
+			} else if ( (to <= from) && (delta < 0) ) {
+				for (i = from; i > to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+				}
+				if ( -delta - (to - i) > -0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					dresult = dresult.multiply(BigDecimal.valueOf(fval));
+				}
+			} else if (from == to) {
+				fval = mXparser.getFunctionValue(f, index, from);
+				dresult = dresult.multiply(BigDecimal.valueOf(fval));
 			}
-			if ( delta - (i - to) > 0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
-		} else if ( (to <= from) && (delta < 0) ) {
-			double i;
-			for (i = from; i > to; i+=delta) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				result *= mXparser.getFunctionValue(f, index, i);
+			return dresult.doubleValue();
+		} else {
+			double result = 1;
+			if ( (to >= from) && (delta > 0) ) {
+				for (i = from; i < to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					result *= fval;
+				}
+				if ( delta - (i - to) > 0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					result *= fval;
+				}
+			} else if ( (to <= from) && (delta < 0) ) {
+				for (i = from; i > to; i+=delta) {
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					fval = mXparser.getFunctionValue(f, index, i);
+					result *= fval;
+				}
+				if ( -delta - (to - i) > -0.5 * delta) {
+					fval = mXparser.getFunctionValue(f, index, to);
+					result *= fval;
+				}
+			} else if (from == to) {
+				fval = mXparser.getFunctionValue(f, index, from);
+				result *= fval;
 			}
-			if ( -delta - (to - i) > -0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
-		} else if (from == to)
-			result *= mXparser.getFunctionValue(f, index, from);
-		return result;
+			return result;
+		}
 	}
 	/**
 	 * Minimum value - iterative operator.

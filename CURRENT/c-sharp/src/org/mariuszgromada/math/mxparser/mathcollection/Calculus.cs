@@ -102,11 +102,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double integralTrapezoid(Expression f, Argument x, double a, double b,
 				double eps, int maxSteps) {
-			double h = 0.5*(b-a);
-			double s = mXparser.getFunctionValue(f, x, a)
-						+ mXparser.getFunctionValue(f, x, b)
-						+ 2 * mXparser.getFunctionValue(f, x, a + h);
-			double intF = s*h*0.5;
+			double h = 0.5 * (b-a);
+			double fa = mXparser.getFunctionValue(f, x, a);
+			double fb = mXparser.getFunctionValue(f, x, b);
+			double fah = mXparser.getFunctionValue(f, x, a + h);
+			double ft;
+			double s = fa + fb + 2 * fah;
+			double intF = s * h * 0.5;
 			double intFprev = 0;
 			double t = a;
 			int i, j;
@@ -117,11 +119,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				intFprev = intF;
 				for (j = 1; j <= n; j++) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					s += 2 * mXparser.getFunctionValue(f, x, t);
+					ft = mXparser.getFunctionValue(f, x, t);
+					s += 2 * ft;
 					t += h;
 				}
 				h *= 0.5;
-				intF = s*h*0.5;
+				intF = s * h * 0.5;
 				if (Math.Abs(intF - intFprev) <= eps)
 					return intF;
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;

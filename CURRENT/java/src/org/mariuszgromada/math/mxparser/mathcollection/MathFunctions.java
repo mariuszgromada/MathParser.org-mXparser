@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.3.4   2019-12-25
+ * @(#)MathFunctions.java        4.3.4   2019-12-31
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -864,6 +864,39 @@ public final class MathFunctions {
 		return result;
 	}
 	/**
+	 * Verifies whether provided number is almost integer
+	 *
+	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
+	 *
+	 * @param a  The number to be verified
+	 * @return   True if the number is almost integer according to the default epsilon,
+	 *           otherwise returns false.
+	 */
+	public static final boolean isAlmostInt(double a) {
+		double aint = Math.round(a);
+		if (abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
+		else return false;
+	}
+	/**
+	 * Applies the integer exponent to the base a
+	 *
+	 * @param a   The base
+	 * @param n   The integer exponent
+	 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
+	 */
+	private static final double powInt(double a, int n) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isInfinite(a)) Math.pow(a, n);
+		if (a == 0) return Math.pow(a, n);
+		if (mXparser.checkIfCanonicalRounding()) {
+			BigDecimal da = BigDecimal.valueOf(a);
+			if (n >= 0) return da.pow(n).doubleValue();
+			else return BigDecimal.ONE.divide(da, MathContext.DECIMAL128).pow(-n).doubleValue();
+		} else {
+			return Math.pow(a, n);
+		}
+	}
+	/**
 	 * Power function a^b
 	 *
 	 * @param      a                   the a function parameter
@@ -875,7 +908,14 @@ public final class MathFunctions {
 	public static final double power(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
-		if (a >= 0)
+		if (Double.isInfinite(a)) Math.pow(a, b);
+		if (Double.isInfinite(b)) Math.pow(a, b);
+		double babs = Math.abs(b);
+		double bint = Math.round(babs);
+		if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
+			if (b >= 0) return powInt(a, (int)bint);
+			else return powInt(a, -(int)bint);
+		} else if (a >= 0)
 			return Math.pow(a, b);
 		else if (abs(b) >= 1)
 			return Math.pow(a, b);

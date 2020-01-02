@@ -475,7 +475,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
 					return Double.NaN;
 			} else return Double.NaN;
-			if(x < 0.5) return MathConstants.PI / (MathFunctions.sin(MathConstants.PI * x) * lanchosGamma(1-x));
+			if(x < 0.5) return MathConstants.PI / (Math.Sin(MathConstants.PI * x) * lanchosGamma(1-x));
 			int g = 7;
 			x -= 1;
 			double a = Coefficients.lanchosGamma[0];
@@ -483,7 +483,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			for(int i = 1; i < Coefficients.lanchosGamma.Length; i++){
 				a += Coefficients.lanchosGamma[i] / (x+i);
 			}
-			return MathFunctions.sqrt(2*MathConstants.PI) * MathFunctions.power(t, x+0.5) * MathFunctions.exp(-t) * a;
+			return Math.Sqrt(2*MathConstants.PI) * Math.Pow(t, x+0.5) * Math.Exp(-t) * a;
 		}
 		/**
 		 * Real valued log gamma function.
@@ -496,9 +496,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNegativeInfinity(x)) return Double.NaN;
 			if (MathFunctions.isInteger(x)) {
 				if (x >= 0)
-					return MathFunctions.ln( Math.Abs( gammaInt( (long)(Math.Round(x) ) ) ) );
+					return Math.Log( Math.Abs( gammaInt( (long)(Math.Round(x) ) ) ) );
 				else
-					return MathFunctions.ln( Math.Abs( gammaInt( -(long)(Math.Round(-x) ) ) ) );
+					return Math.Log( Math.Abs( gammaInt( -(long)(Math.Round(-x) ) ) ) );
 			}
 			double p, q, w, z;
 			if (x < -34.0) {
@@ -1013,18 +1013,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		private static double halleyIteration(double x, double wInitial, int maxIter) {
 			double w = wInitial;
+			double tol = 1;
+			double t = 0, p, e;
 			for (int i = 0; i < maxIter; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				double tol;
-				double e = Math.Exp(w);
-				double p = w + 1.0;
-				double t = w * e - x;
+				if (mXparser.isCurrentCalculationCancelled())
+					return Double.NaN;
+				e = Math.Exp(w);
+				p = w + 1.0;
+				t = w * e - x;
 				if (w > 0) t = (t / p) / e;
 				else t /= e * p - 0.5 * (p + 1.0) * t / p;
 				w -= t;
 				tol = GSL_DBL_EPSILON * Math.Max(Math.Abs(w), 1.0 / (Math.Abs(p) * e));
 				if (Math.Abs(t) < tol) return w;
 			}
+			double perc = Math.Abs(t / tol);
+			if (perc >= 0.5 && perc <= 1.5) return w;
 			return Double.NaN;
 		}
 		/**
@@ -1082,7 +1086,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double M1 = 0.3361;
 			double M2 = -0.0042;
 			double M3 = -0.0201;
-			double s = -1 - MathFunctions.ln(-x);
+			double s = -1 - Math.Log(-x);
 			return -1.0 - s - (2.0 / M1) * (1.0 - 1.0 / (1.0 + ((M1 * Math.Sqrt(s / 2.0)) / (1.0 + M2 * s * Math.Exp(M3 * Math.Sqrt(s))))));
 		}
 		/**

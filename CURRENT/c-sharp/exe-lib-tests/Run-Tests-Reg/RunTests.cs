@@ -34,6 +34,38 @@ namespace mxparser.runtests {
 			//Console.WriteLine(pi2);
 			//Console.WriteLine(pi1-pi2);
 
+			//mXparser.disableCanonicalRounding();
+			//mXparser.disableCanonicalRounding();
+			//mXparser.disableCanonicalRounding();
+			//byte[] bx = { 202, 154, 153, 187, 57, 151, 248, 63 };
+			//double x = BitConverter.ToDouble(bx, 0);
+			//mXparser.consolePrintln("x = " + x + ", lambW0 = " + SpecialFunctions.lambertW(x, 0));
+			//Expression e = new Expression("int( LambW0(2 * cot(x)^2) * sec(x)^2, x, 0.2, pi-0.2 ) - 4*sqrt(pi)");
+			//byte[] bx = { 135, 239, 95, 142, 221, 119, 2, 64 };
+
+			//Argument x = new Argument("x");
+			//x.setArgumentValue(BitConverter.ToDouble(bx, 0));
+			//mXparser.consolePrintln(x.getArgumentValue() - 2.30852805357239);
+			//Expression et = new Expression("LambW0(1.65233918159948)");
+			//Console.WriteLine(et.calculate());
+			//mXparser.consolePrintln(mXparser.getFunctionValue(et, x, x.getArgumentValue()));
+			//Expression e = new Expression("int( LambW0(2 * cot(x)^2) * sec(x)^2, x, 0.001182, pi-0.008 ) - 4*sqrt(pi)");
+			//Console.WriteLine(e.calculate());
+			//Argument x = new Argument("x = 001182");
+			//Expression e = new Expression("LambW0(2 * cot(x)^2) * sec(x)^2", x);
+			/*
+			mXparser.enableCanonicalRounding();
+			Function f = new Function("f(x) = LambW0(2 * cot(x)^2) * sec(x)^2");
+			Function f1 = new Function("f1(x) = (2 * cot(x)^2)");
+			Function f2 = new Function("f1(x) = LambW0(2 * cot(x)^2)");
+
+			for (double x = 0.001182; x <= MathConstants.PI - 0.008; x += 0.000005)
+			{
+				double fv = f.calculate(x);
+				if (Double.IsNaN(fv) || Double.IsInfinity(fv))
+					Console.WriteLine(x + "\t" + fv + "\t" + f1.calculate(x) + "\t" + f2.calculate(x));
+			}
+			*/
 
 			mXparser.consolePrintln(".NET CLR version:" + Environment.Version);
             mXparser.consolePrintln(".NET version:" + System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(int).Assembly.Location).ProductVersion);

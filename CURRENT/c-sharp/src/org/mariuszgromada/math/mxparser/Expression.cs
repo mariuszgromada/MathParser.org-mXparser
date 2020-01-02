@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        4.3.4   2019-12-25
+ * @(#)Expression.cs        4.4.0   2020-01-02
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -96,7 +96,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.4
+	 * @version        4.4.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -6747,31 +6747,6 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 
-		private bool isNotSpecialChar(char precedingChar) {
-			if (
-					( precedingChar != ' ' ) &&
-					( precedingChar != ',' ) &&
-					( precedingChar != ';' ) &&
-					( precedingChar != '|' ) &&
-					( precedingChar != '&' ) &&
-					( precedingChar != '+' ) &&
-					( precedingChar != '-' ) &&
-					( precedingChar != '*' ) &&
-					( precedingChar != '\\' ) &&
-					( precedingChar != '/' ) &&
-					( precedingChar != '(' ) &&
-					( precedingChar != ')' ) &&
-					( precedingChar != '=' ) &&
-					( precedingChar != '>' ) &&
-					( precedingChar != '<' ) &&
-					( precedingChar != '~' ) &&
-					( precedingChar != '^' ) &&
-					( precedingChar != '#' ) &&
-					( precedingChar != '%' ) &&
-					( precedingChar != '@' ) &&
-					( precedingChar != '!' )	) return true;
-			else return false;
-		}
 		/**
 		 * Tokenizing expressiong string
 		 */
@@ -6823,7 +6798,6 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			String newExpressionString = "";
 			char c;
-			char clag1 = 'a';
 			int blankCnt = 0;
 			int newExpLen = 0;
 			for (int i = 0; i < expLen; i++) {
@@ -6837,7 +6811,6 @@ namespace org.mariuszgromada.math.mxparser {
 					blankCnt = 0;
 				}
 				if (blankCnt == 0) {
-					clag1 = c;
 					newExpressionString = newExpressionString + c;
 					newExpLen++;
 				}

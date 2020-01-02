@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        4.3.0   2018-12-12
+ * @(#)NumberTheory.cs        4.3.4   2019-12-31
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        4.3.4
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
@@ -650,11 +650,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			double sum = 0;
-			foreach (double xi in numbers) {
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				sum += xi;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.checkIfCanonicalRounding()) {
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					sum = MathFunctions.canonicalRound(sum + xi);
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
+			} else {
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					sum += xi;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			}
 			return sum;
 		}
@@ -672,11 +681,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			double prod = 1;
-			foreach (double xi in numbers) {
-				if (Double.IsNaN(xi))
-					return Double.NaN;
-				prod *= xi;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			if (mXparser.checkIfCanonicalRounding()) {
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					prod = MathFunctions.canonicalRound(prod * xi);
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
+			} else {
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					prod *= xi;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			}
 			return prod;
 		}
@@ -806,25 +824,62 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     summation operation (for empty summation operations returns 0).
 		 */
 		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
-			double result = 0;
-			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
 				return Double.NaN;
-			if ((to >= from) && (delta > 0)) {
-				double i;
-				for (i = from; i < to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					result += mXparser.getFunctionValue(f, index, i);
+			double fval;
+			double result = 0;
+			double i;
+			if (mXparser.checkIfCanonicalRounding()) {
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result = MathFunctions.canonicalRound(result + fval);
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result = MathFunctions.canonicalRound(result + fval);
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result = MathFunctions.canonicalRound(result + fval);
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result = MathFunctions.canonicalRound(result + fval);
+					}
+				} else if (from == to) {
+					fval = mXparser.getFunctionValue(f, index, from);
+					result = MathFunctions.canonicalRound(result + fval);
 				}
-				if (delta - (i - to) > 0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
-			} else if ((to <= from) && (delta < 0)) {
-				double i;
-				for (i = from; i > to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					result += mXparser.getFunctionValue(f, index, i);
+			} else {
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result += fval;
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result += fval;
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result += fval;
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result += fval;
+					}
+				} else if (from == to) {
+					fval = mXparser.getFunctionValue(f, index, from);
+					result += fval;
 				}
-				if (-delta - (to - i) > -0.5 * delta) result += mXparser.getFunctionValue(f, index, to);
-			} else if (from == to)
-				result += mXparser.getFunctionValue(f, index, from);
+			}
 			return result;
 		}
 		/**
@@ -845,22 +900,59 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
 			double result = 1;
-			if ((to >= from) && (delta > 0)) {
-				double i;
-				for (i = from; i < to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					result *= mXparser.getFunctionValue(f, index, i);
+			double fval;
+			double i;
+			if (mXparser.checkIfCanonicalRounding()) {
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result = MathFunctions.canonicalRound(result * fval);
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result = MathFunctions.canonicalRound(result * fval);
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result = MathFunctions.canonicalRound(result * fval);
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result = MathFunctions.canonicalRound(result * fval);
+					}
+				} else if (from == to) {
+					fval = mXparser.getFunctionValue(f, index, from);
+					result = MathFunctions.canonicalRound(result * fval);
 				}
-				if (delta - (i - to) > 0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
-			} else if ((to <= from) && (delta < 0)) {
-				double i;
-				for (i = from; i > to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					result *= mXparser.getFunctionValue(f, index, i);
+			} else {
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result *= fval;
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result *= fval;
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						result *= fval;
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						result *= fval;
+					}
+				} else if (from == to) {
+					fval = mXparser.getFunctionValue(f, index, from);
+					result *= fval;
 				}
-				if (-delta - (to - i) > -0.5 * delta) result *= mXparser.getFunctionValue(f, index, to);
-			} else if (from == to)
-				result *= mXparser.getFunctionValue(f, index, from);
+			}
 			return result;
 		}
 		/**

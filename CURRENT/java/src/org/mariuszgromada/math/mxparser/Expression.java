@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.3.4   2019-12-24
+ * @(#)Expression.java        4.4.0   2020-01-02
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -120,7 +120,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.4
+ * @version        4.4.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -6764,31 +6764,6 @@ public class Expression extends PrimitiveElement {
 		}
 	}
 
-	private boolean isNotSpecialChar(char precedingChar) {
-		if (
-				( precedingChar != ' ' ) &&
-				( precedingChar != ',' ) &&
-				( precedingChar != ';' ) &&
-				( precedingChar != '|' ) &&
-				( precedingChar != '&' ) &&
-				( precedingChar != '+' ) &&
-				( precedingChar != '-' ) &&
-				( precedingChar != '*' ) &&
-				( precedingChar != '\\' ) &&
-				( precedingChar != '/' ) &&
-				( precedingChar != '(' ) &&
-				( precedingChar != ')' ) &&
-				( precedingChar != '=' ) &&
-				( precedingChar != '>' ) &&
-				( precedingChar != '<' ) &&
-				( precedingChar != '~' ) &&
-				( precedingChar != '^' ) &&
-				( precedingChar != '#' ) &&
-				( precedingChar != '%' ) &&
-				( precedingChar != '@' ) &&
-				( precedingChar != '!' )	) return true;
-		else return false;
-	}
 	/**
 	 * Tokenizing expression string
 	 */
@@ -6840,7 +6815,6 @@ public class Expression extends PrimitiveElement {
 		 */
 		String newExpressionString = "";
 		char c;
-		char clag1 = 'a';
 		int blankCnt = 0;
 		int newExpLen = 0;
 		for (int i = 0; i < expLen; i++) {
@@ -6854,7 +6828,6 @@ public class Expression extends PrimitiveElement {
 				blankCnt = 0;
 			}
 			if (blankCnt == 0) {
-				clag1 = c;
 				newExpressionString = newExpressionString + c;
 				newExpLen++;
 			}

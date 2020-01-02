@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.3.4   2019-12-25
+ * @(#)RegTestExpression.java        4.3.4   2019-12-31
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -822,7 +822,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
 		case 69:
-			n = new Argument("n",50);
+			n = new Argument("n",45);
 			expStr = "n*2^(n-1) - sum(i,1,n,i*C(n,i))";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n);
@@ -10833,6 +10833,8 @@ public class RegTestExpression {
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[Gamma[x], {x, 0.1, 1, 0.001}], 16] = 2114.212208108448
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 0.1, 1, Gamma(x), 0.001) - 2114.212208108448 ) / 2114.212208108448";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -10843,11 +10845,14 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 932:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[Gamma[x], {x, 1.1, 2, 0.001}], 16] = 826.2989620272716
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 1.1, 2, Gamma(x), 0.001) - 826.2989620272716 ) / 826.2989620272716";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -10858,11 +10863,14 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 933:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[Gamma[x], {x, 2.1, 3, 0.001}], 16] = 1284.551346724549
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 2.1, 3, Gamma(x), 0.001) - 1284.551346724549 ) / 1284.551346724549";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -10873,6 +10881,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 934:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -11462,6 +11471,8 @@ public class RegTestExpression {
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 2.1, 3, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4485.323384538212
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 0.1, 2, sum(s, 2.1, 3, GammaL(s, x), 0.001), 0.1) - 4485.323384538212 ) / 4485.323384538212";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -11472,11 +11483,14 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 974:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[ Sum[Gamma[s, 0, x], {s, 3.1, 4, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 4279.445033746266
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 0.1, 2, sum(s, 3.1, 4, GammaL(s, x), 0.001), 0.1) - 4279.445033746266 ) / 4279.445033746266";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -11487,6 +11501,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 975:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -11933,6 +11948,8 @@ public class RegTestExpression {
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[ Sum[GammaRegularized[s, x], {s, -2.9, -2.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = -102249.9066253191
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 0.1, 2, sum(s, -2.9, -2.1, GammaRegU(s, x), 0.001), 0.1) - (-102249.9066253191) ) / (-102249.9066253191)";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -11943,6 +11960,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1006:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -12173,6 +12191,8 @@ public class RegTestExpression {
 			/* Wolfram Language (Raspberry Pi Pilot Release)
 			 * SetPrecision[Sum[ Sum[GammaRegularized[s, 0, x], {s, -2.9, -2.1, 0.001}], {x, 0.1, 2, 0.1} ], 16] = 118269.9066253191
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(x, 0.1, 2, sum(s, -2.9, -2.1, GammaRegL(s, x), 0.001), 0.1) - 118269.9066253191 ) / 118269.9066253191";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -12183,6 +12203,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1022:
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -12770,6 +12791,8 @@ public class RegTestExpression {
 			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1063:
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableUlpRounding();
 			expStr = "sum(x, 0.01, 0.99, sum(N, 1, 10, diGamma(x+N) - diGamma(x) - sum(k, 0, N-1, 1/(x+k)) ), 0.01)";
 			mXparser.consolePrint(expStr + " ...... ");
@@ -12780,6 +12803,7 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1064:
 			mXparser.disableUlpRounding();
@@ -13163,6 +13187,8 @@ public class RegTestExpression {
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 0.1, 1, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 156045.8382688423
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 0.1, 1, Beta(x,y), 0.01) , 0.01) - 156045.8382688423 ) / 156045.8382688423";
@@ -13175,11 +13201,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1097:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 1, 2, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 32015.62331640863
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 1, 2, Beta(x,y), 0.01) , 0.01) - 32015.62331640863 ) / 32015.62331640863";
@@ -13192,11 +13221,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1098:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 2, 3, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 20432.57249276379
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 2, 3, Beta(x,y), 0.01) , 0.01) - 20432.57249276379 ) / 20432.57249276379";
@@ -13209,11 +13241,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1099:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 3, 4, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 16648.09228879020
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 3, 4, Beta(x,y), 0.01) , 0.01) - 16648.09228879020 ) / 16648.09228879020";
@@ -13226,11 +13261,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1100:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 4, 5, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 14709.95317941022
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 4, 5, Beta(x,y), 0.01) , 0.01) - 14709.95317941022 ) / 14709.95317941022";
@@ -13243,6 +13281,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		}
 		if (testResult == true)
@@ -13262,6 +13301,8 @@ public class RegTestExpression {
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 5, 6, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 13491.02099096915
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 5, 6, Beta(x,y), 0.01) , 0.01) - 13491.02099096915 ) / 13491.02099096915";
@@ -13274,11 +13315,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1102:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 6, 7, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 12632.76303747905
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 6, 7, Beta(x,y), 0.01) , 0.01) - 12632.76303747905 ) / 12632.76303747905";
@@ -13291,11 +13335,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1103:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 7, 8, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 11984.64820297520
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 7, 8, Beta(x,y), 0.01) , 0.01) - 11984.64820297520 ) / 11984.64820297520";
@@ -13308,11 +13355,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1104:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 8, 9, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 11471.56326266911
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 8, 9, Beta(x,y), 0.01) , 0.01) - 11471.56326266911 ) / 11471.56326266911";
@@ -13325,11 +13375,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1105:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[Beta[x, y], {x, 9, 10, 0.01}], {y, 0.1, 10, 0.01} ], 16] = 11051.38593753202
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 0.1, 10, sum(x, 9, 10, Beta(x,y), 0.01) , 0.01) - 11051.38593753202 ) / 11051.38593753202";
@@ -13342,6 +13395,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1106:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -13421,6 +13475,8 @@ public class RegTestExpression {
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[ Log[ Beta[x, y] ], {x, 10, 30, 0.1}], {y, 10, 30, 0.1} ], 16] = -1.092606400417545E6
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 10, 30, sum(x, 10, 30, logBeta(x,y), 0.1) , 0.1) - (-1.092606400417545E6) ) / (-1.092606400417545E6)";
@@ -13433,6 +13489,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1113:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -13455,6 +13512,8 @@ public class RegTestExpression {
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[Sum[ Sum[ Log[ Beta[x, y] ], {x, 60, 100, 0.1}], {y, 60, 100, 0.1} ], 16] = -1.784485348348011E7
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(y, 60, 100, sum(x, 60, 100, logBeta(x,y), 0.1) , 0.1) - (-1.784485348348011E7) ) / (-1.784485348348011E7)";
@@ -13467,11 +13526,14 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1115:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 0.1, 1, 0.01} ], {b, 0.1, 1, 0.01} ], 16] = 196515.9203818563
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(b, 0.1, 1, sum(a, 0.1, 1, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.01) , 0.01) - 196515.9203818563 ) / 196515.9203818563";
@@ -13484,6 +13546,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1116:
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -13642,6 +13705,8 @@ public class RegTestExpression {
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
 			 * SetPrecision[  Sum[ Sum[ Sum[ Beta[x, a, b], {x, 0, 1, 0.1}], {a, 10, 80, 0.25} ], {b, 10, 80, 0.25} ], 16] = 0.0.0002449250611436628
 			 */
+			tmp = mXparser.checkIfCanonicalRounding();
+			mXparser.disableCanonicalRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
 			expStr = "( sum(b, 10, 80, sum(a, 10, 80, sum(x, 0, 1, BetaInc(x, a, b) ,0.1) , 0.25) , 0.25) - 0.0002449250611436628 ) / 0.0002449250611436628";
@@ -13654,6 +13719,7 @@ public class RegTestExpression {
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			mXparser.enableUlpRounding();
 			mXparser.enableAlmostIntRounding();
+			mXparser.setCanonicalRounding(tmp);
 			break;
 		case 1126:
 			mXparser.disableAlmostIntRounding();
@@ -14813,7 +14879,312 @@ public class RegTestExpression {
 			mXparser.enableAlmostIntRounding();
 			mXparser.setRadiansMode();
 			break;
+		case 1206:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "6.2^2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 38.44;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1207:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "-6.2^3";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -238.328;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1208:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "(1/6.2)^(-2)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 38.44;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1209:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "(1/6.2)^(-3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 238.328;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1210:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "(-1/6.2)^(-3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -238.328;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1211:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "sum(i, 1, 1000, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 100;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1212:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "sum(i, 1, 1000, -0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -100;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1213:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "sum(i, -1000, -1, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 100;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1214:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "sum(i, -1000, -1, -0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -100;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1215:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "prod(i, 1, 3, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0.001;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1216:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "prod(i, 1, 3, -0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -0.001;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1217:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "prod(i, -3, -1, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0.001;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1218:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "prod(i, -3, -1, -0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -0.001;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1219:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "prod(i, 1, 2, 6.2)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 38.44;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1220:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "prod(i, 1, 3, 6.2)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 238.328;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1221:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "add(0.1, 0.1, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0.3;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1222:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "add(-0.1, -0.1, -0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -0.3;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1223:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "multi(0.1, 0.1, 0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0.001;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
+		case 1224:
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableUlpRounding();
+			mXparser.enableCanonicalRounding();
+			expStr = "multi(-0.1, -0.1, -0.1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = -0.001;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			mXparser.enableAlmostIntRounding();
+			mXparser.enableAlmostIntRounding();
+			mXparser.setRadiansMode();
+			break;
 		}
+
 		if (testResult == true)
 			mXparser.consolePrint("OK");
 		else
@@ -14878,7 +15249,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(1205);
+		return start(1224);
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

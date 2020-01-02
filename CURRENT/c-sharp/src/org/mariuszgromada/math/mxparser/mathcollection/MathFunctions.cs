@@ -85,29 +85,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
-		private static readonly double DECIMAL_MIN_VALUE = Decimal.ToDouble(Decimal.MinValue);
-		private static readonly double DECIMAL_MAX_VALUE = Decimal.ToDouble(Decimal.MaxValue);
-		private static bool isInDecimalRange(double a) {
-			if (a < DECIMAL_MIN_VALUE) return false;
-			if (a > DECIMAL_MAX_VALUE) return false;
-			if (Double.IsNaN(a)) return false;
-			if (Double.IsInfinity(a)) return false;
-			return true;
- 		}
-		private static bool isInDecimalRange(double a, double b) {
-			if (a < DECIMAL_MIN_VALUE) return false;
-			if (a > DECIMAL_MAX_VALUE) return false;
-			if (b < DECIMAL_MIN_VALUE) return false;
-			if (b > DECIMAL_MAX_VALUE) return false;
-			if (Double.IsNaN(a)) return false;
-			if (Double.IsInfinity(a)) return false;
-			if (Double.IsNaN(b)) return false;
-			if (Double.IsInfinity(b)) return false;
-			return true;
-		}
+
 		public static double canonicalRound(double x) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsInfinity(x)) return x;
 			String sx = x.ToString(CultureInfo.InvariantCulture);
-			return Double.Parse(sx, NumberStyles.Float, CultureInfo.InvariantCulture);
+			double nx = Double.Parse(sx, NumberStyles.Float, CultureInfo.InvariantCulture);
+			if (Double.IsNaN(nx)) return x;
+			if (Double.IsInfinity(nx)) return x;
+			return nx;
 		}
 		/**
 		 * Addition a + b applying canonical rounding if canonical
@@ -877,18 +863,57 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			return result;
 		}
 		/**
+		 * Verifies whether provided number is almost integer
+		 *
+		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
+		 *
+		 * @param a  The number to be verified
+		 * @return   True if the number is almost integer according to the default epsilon,
+		 *           otherwise returns false.
+		 */
+		public static bool isAlmostInt(double a) {
+			double aint = Math.Round(a);
+			if (abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
+			else return false;
+		}
+		/**
+		 * Applies the integer exponent to the base a
+		 *
+		 * @param a   The base
+		 * @param n   The integer exponent
+		 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
+		 */
+		private static double powInt(double a, int n) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsInfinity(a)) Math.Pow(a, n);
+			if (a == 0) return Math.Pow(a, n);
+			if (mXparser.checkIfCanonicalRounding()) {
+				if (n >= 0) return canonicalRound( Math.Pow(a, n) );
+				else return canonicalRound(1.0 / canonicalRound(Math.Pow(a, -n)));
+			} else {
+				return Math.Pow(a, n);
+			}
+		}
+		/**
 		 * Power function a^b
 		 *
 		 * @param      a                   the a function parameter
 		 * @param      b                   the b function parameter
 		 *
-		 * @return     if a,b <> Double.NaN returns Math.pow(a, b),
+		 * @return     if a,b &lt;&gt; Double.NaN returns Math.pow(a, b),
 		 *             otherwise returns Double.NaN.
 		 */
 		public static double power(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
-			if (a >= 0)
+			if (Double.IsInfinity(a)) Math.Pow(a, b);
+			if (Double.IsInfinity(b)) Math.Pow(a, b);
+			double babs = Math.Abs(b);
+			double bint = Math.Round(babs);
+			if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
+				if (b >= 0) return powInt(a, (int)bint);
+				else return powInt(a, -(int)bint);
+			} else if (a >= 0)
 				return Math.Pow(a, b);
 			else if (abs(b) >= 1)
 				return Math.Pow(a, b);
@@ -897,17 +922,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else {
 				double ndob = 1.0 / abs(b);
 				double nint = Math.Round(ndob);
-				if (MathFunctions.abs(ndob - nint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
+				if ( MathFunctions.abs(ndob-nint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
 					long n = (long)nint;
 					if (n % 2 == 1)
 						if (b > 0)
-							return -Math.Pow(abs(a), 1.0 / ndob);
+							return -Math.Pow( abs(a), 1.0 / ndob);
 						else
-							return -Math.Pow(abs(a), -1.0 / ndob);
+							return -Math.Pow( abs(a), -1.0 / ndob);
 					else
 						return Double.NaN;
-				}
-				else return Double.NaN;
+				} else return Double.NaN;
 			}
 		}
 		/**

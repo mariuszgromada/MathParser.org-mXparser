@@ -218,10 +218,10 @@ public class RecursiveArgument extends Argument {
 			 * Expand base values array if necessary
 			 */
 			for (int i = recSize; i < index; i++)
-				baseValues.add( new Double(Double.NaN) );
-			baseValues.add( new Double(value) );
+				baseValues.add(Double.NaN);
+			baseValues.add(value);
 		} else
-			baseValues.set(index, new Double(value));
+			baseValues.set(index, value);
 	}
 	/**
 	 * Clears all based cases and stored calculated values
