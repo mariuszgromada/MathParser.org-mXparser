@@ -11,7 +11,18 @@ namespace mxparser.runtests {
 			RunTest.Start("reg");
 			//RunTest.Start("syn");
 			//RunTest.Start("api");
-
+			/*
+			double a = 0.1+0.1;
+			double b = 0.1;
+			double r1 = a + b;
+			double r2 = MathFunctions.canonicalRound(r1);
+			Console.WriteLine(r1);
+			Console.WriteLine(r2);
+			double d1 = r1 - b;
+			double d2 = r2 - b;
+			Console.WriteLine(d1);
+			Console.WriteLine(d2);
+			*/
 
 			//mXparser.disableUlpRounding();
 			//mXparser.disableCanonicalRounding();

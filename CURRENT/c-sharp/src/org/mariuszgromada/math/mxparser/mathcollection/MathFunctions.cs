@@ -163,7 +163,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (!mXparser.checkIfCanonicalRounding()) return a / b;
 			if (Double.IsInfinity(a)) return a / b;
 			if (Double.IsInfinity(b)) return a / b;
-			return canonicalRound(a / b);
+			double res = a / b;
+			double resRound = canonicalRound(res);
+			double resInv = res * b;
+			double resRoundInv = resRound * b;
+			String resInvStr = resInv.ToString(CultureInfo.InvariantCulture);
+			String resRoundInvStr = resRoundInv.ToString(CultureInfo.InvariantCulture);
+			if (resRoundInvStr.Length <= resInvStr.Length) return resRound;
+			else return res;
 		}
 		/**
 		 * Bell Numbers
