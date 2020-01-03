@@ -6786,6 +6786,29 @@ public class Expression extends PrimitiveElement {
 		}
 	}
 
+	private boolean isNotSpecialChar(char c) {
+		if (c == '+') return false;
+		if (c == '-') return false;
+		if (c == '+') return false;
+		if (c == '*') return false;
+		if (c == '/') return false;
+		if (c == '^') return false;
+		if (c == ',') return false;
+		if (c == ';') return false;
+		if (c == '(') return false;
+		if (c == ')') return false;
+		if (c == '|') return false;
+		if (c == '&') return false;
+		if (c == '=') return false;
+		if (c == '>') return false;
+		if (c == '<') return false;
+		if (c == '~') return false;
+		if (c == '\\') return false;
+		if (c == '#') return false;
+		if (c == '@') return false;
+		return true;
+	}
+
 	/**
 	 * Tokenizing expression string
 	 */
@@ -6837,6 +6860,7 @@ public class Expression extends PrimitiveElement {
 		 */
 		String newExpressionString = "";
 		char c;
+		char clag1 = 'a';
 		int blankCnt = 0;
 		int newExpLen = 0;
 		for (int i = 0; i < expLen; i++) {
@@ -6845,12 +6869,13 @@ public class Expression extends PrimitiveElement {
 				blankCnt++;
 			} else if (blankCnt > 0) {
 				if (newExpLen > 0) {
-					/* if (isNotSpecialChar(clag1)) */ newExpressionString = newExpressionString + " ";
+					if (isNotSpecialChar(clag1)) newExpressionString = newExpressionString + " ";
 				}
 				blankCnt = 0;
 			}
 			if (blankCnt == 0) {
 				newExpressionString = newExpressionString + c;
+				clag1 = c;
 				newExpLen++;
 			}
 		}

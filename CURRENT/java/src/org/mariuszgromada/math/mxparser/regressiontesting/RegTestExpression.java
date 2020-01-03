@@ -14794,6 +14794,7 @@ public class RegTestExpression {
 	}
 	private static boolean runTest_01201_01300(int testId) {
 		mXparser.consolePrint("[" + testId + "] ");
+		Argument x;
 		boolean testResult = false;
 		double value = 0;
 		double reg = 0;
@@ -15203,6 +15204,71 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 1227:
+			expStr = "1 | ~1 --> ~0 & 1";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 1;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1228:
+			x = new Argument("x = 20");
+			expStr = "x + 4 * - 2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 12;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1229:
+			x = new Argument("x = 20");
+			expStr = "x + 4* - 2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 12;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1230:
+			x = new Argument("x = 20");
+			expStr = "x + 4*- 2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 12;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1231:
+			x = new Argument("x = 20");
+			expStr = "x + 4*-2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 12;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1232:
+			x = new Argument("x = 20");
+			expStr = "x + 4  *    -      2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 12;
+			if ( MathFunctions.abs(reg - value) <= 1e-100 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
 		}
 
 		if (testResult == true)
@@ -15269,7 +15335,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(1226);
+		return start(1232);
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

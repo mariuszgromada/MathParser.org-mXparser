@@ -6767,6 +6767,30 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 
+		private bool isNotSpecialChar(char c)
+		{
+			if (c == '+') return false;
+			if (c == '-') return false;
+			if (c == '+') return false;
+			if (c == '*') return false;
+			if (c == '/') return false;
+			if (c == '^') return false;
+			if (c == ',') return false;
+			if (c == ';') return false;
+			if (c == '(') return false;
+			if (c == ')') return false;
+			if (c == '|') return false;
+			if (c == '&') return false;
+			if (c == '=') return false;
+			if (c == '>') return false;
+			if (c == '<') return false;
+			if (c == '~') return false;
+			if (c == '\\') return false;
+			if (c == '#') return false;
+			if (c == '@') return false;
+			return true;
+		}
+
 		/**
 		 * Tokenizing expressiong string
 		 */
@@ -6818,6 +6842,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			String newExpressionString = "";
 			char c;
+			char clag1 = 'a';
 			int blankCnt = 0;
 			int newExpLen = 0;
 			for (int i = 0; i < expLen; i++) {
@@ -6826,12 +6851,13 @@ namespace org.mariuszgromada.math.mxparser {
 					blankCnt++;
 				} else if (blankCnt > 0) {
 					if (newExpLen > 0) {
-						/* if (isNotSpecialChar(clag1)) */ newExpressionString = newExpressionString + " ";
+						if (isNotSpecialChar(clag1)) newExpressionString = newExpressionString + " ";
 					}
 					blankCnt = 0;
 				}
 				if (blankCnt == 0) {
 					newExpressionString = newExpressionString + c;
+					clag1 = c;
 					newExpLen++;
 				}
 			}

@@ -6,16 +6,18 @@ using org.mariuszgromada.math.mxparser.mathcollection;
 
 namespace mxparser.runtests {
 	class RunTestsReg {
+
 		static void Main(string[] args) {
-			//RunTest.Start("reg");
+			RunTest.Start("reg");
 			//RunTest.Start("syn");
 			//RunTest.Start("api");
-			Expression e = new Expression("1/(1/6.2)");
-			mXparser.disableUlpRounding();
-			mXparser.disableCanonicalRounding();
-			mXparser.consolePrintln(e.calculate());
-			mXparser.enableCanonicalRounding();
-			mXparser.consolePrintln(e.calculate());
+
+
+			//mXparser.disableUlpRounding();
+			//mXparser.disableCanonicalRounding();
+			//mXparser.consolePrintln(e.calculate());
+			//mXparser.enableCanonicalRounding();
+			//mXparser.consolePrintln(e.calculate());
 			/*
 			mXparser.disableUlpRounding();
 			mXparser.disableAlmostIntRounding();
