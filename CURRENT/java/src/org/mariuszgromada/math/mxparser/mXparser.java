@@ -1,9 +1,9 @@
 /*
- * @(#)mXparser.java        4.3.4   2019-12-25
+ * @(#)mXparser.java        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -100,7 +100,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.4
+ * @version        4.4.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -111,8 +111,8 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final String VERSION = "4.3.4";
-	public static final String VERSION_CODE_NAME = "Caprica";
+	public static final String VERSION = "4.4.0";
+	public static final String VERSION_CODE_NAME = "Gemoni";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
 	 * FOUND / NOT_FOUND
@@ -1507,4 +1507,5 @@ public final class mXparser {
 	public static final String NAMEv41 = "4.1";
 	public static final String NAMEv42 = "4.2";
 	public static final String NAMEv43 = "4.3";
+	public static final String NAMEv44 = "4.4";
 }

@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpression.cs        4.3.4   2019-12-31
+ * @(#)RegTestExpression.cs        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.4
+	 * @version        4.4.0
 	 *
 	 * @see Expression
 	 */
@@ -15172,6 +15172,26 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.enableAlmostIntRounding();
 				mXparser.setRadiansMode();
 				break;
+			case 1225:
+				expStr = "(0 & 1) | (1 & 1) | 1 & 0";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 1e-100 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
+			case 1226:
+				expStr = "1 | 0 & 0";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr);
+				value = exp[testId].calculate();
+				reg = 1;
+				if ( MathFunctions.abs(reg - value) <= 1e-100 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -15237,7 +15257,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			return Start(1205);
+			return Start(1226);
 		}
 		/**
 		 * Runs main regression tests in the field of calculation.

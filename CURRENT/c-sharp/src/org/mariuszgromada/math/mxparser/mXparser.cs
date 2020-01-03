@@ -1,9 +1,9 @@
 /*
- * @(#)mXparser.cs        4.3.4   2019-12-25
+ * @(#)mXparser.cs        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -84,7 +84,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.4
+	 * @version        4.4.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -96,8 +96,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const String VERSION = "4.3.4";
-		public const String VERSION_CODE_NAME = "Caprica";
+		public const String VERSION = "4.4.0";
+		public const String VERSION_CODE_NAME = "Gemoni";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 		/**
 		 * FOUND / NOT_FOUND
@@ -1512,5 +1512,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv41 = "4.1";
 		public const String NAMEv42 = "4.2";
 		public const String NAMEv43 = "4.3";
+		public const String NAMEv44 = "4.4";
 	}
 }

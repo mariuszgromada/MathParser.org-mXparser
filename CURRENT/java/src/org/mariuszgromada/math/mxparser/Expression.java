@@ -1,9 +1,9 @@
 /*
- * @(#)Expression.java        4.4.0   2020-01-02
+ * @(#)Expression.java        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -5335,6 +5335,9 @@ public class Expression extends PrimitiveElement {
 		int modPos;
 		int percPos;
 		int negPos;
+		int andGroupPos;
+		int orGroupPos;
+		int implGroupPos;
 		int bolPos;
 		int eqPos;
 		int neqPos;
@@ -5397,6 +5400,9 @@ public class Expression extends PrimitiveElement {
 			percPos = -1;
 			powerNum = 0;
 			negPos = -1;
+			andGroupPos = -1;
+			orGroupPos = -1;
+			implGroupPos = -1;
 			bolPos = -1;
 			eqPos = -1;
 			neqPos = -1;
@@ -5556,11 +5562,21 @@ public class Expression extends PrimitiveElement {
 							if ( (token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNumber && rigthIsNumber))
 								dividePos = pos;
 						} else
-						if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNumber)) {
-							negPos = pos;
-						} else
-						if ( (token.tokenTypeId == BooleanOperator.TYPE_ID) && (bolPos < 0) && (leftIsNumber && rigthIsNumber)) {
-							bolPos = pos;
+						if (token.tokenTypeId == BooleanOperator.TYPE_ID) {
+							if ( (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNumber) )
+								negPos = pos;
+							else
+							if (leftIsNumber && rigthIsNumber) {
+								if ( (token.tokenId == BooleanOperator.AND_ID || token.tokenId == BooleanOperator.NAND_ID) && (andGroupPos < 0) )
+									andGroupPos = pos;
+								else
+								if ( (token.tokenId == BooleanOperator.OR_ID || token.tokenId == BooleanOperator.NOR_ID || token.tokenId == BooleanOperator.XOR_ID) && (orGroupPos < 0) )
+									orGroupPos = pos;
+								else
+								if ( (token.tokenId == BooleanOperator.IMP_ID || token.tokenId == BooleanOperator.CIMP_ID || token.tokenId == BooleanOperator.NIMP_ID || token.tokenId == BooleanOperator.CNIMP_ID || token.tokenId == BooleanOperator.EQV_ID) && (implGroupPos < 0) )
+									implGroupPos = pos;
+								else if (bolPos < 0) bolPos = pos;
+							}
 						} else
 						if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
 							if ( (token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNumber && rigthIsNumber))
@@ -5717,6 +5733,12 @@ public class Expression extends PrimitiveElement {
 					COMMA( commas.get(i) );
 			} else
 			/* ... logical operators  ... */
+			if (andGroupPos >= 0) bolCalc(andGroupPos);
+			else
+			if (orGroupPos >= 0) bolCalc(orGroupPos);
+			else
+			if (implGroupPos >= 0) bolCalc(implGroupPos);
+			else
 			if (bolPos >= 0) bolCalc(bolPos);
 			else
 			/* ... bitwise operators  ... */

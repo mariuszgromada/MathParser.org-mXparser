@@ -95,6 +95,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(nx)) return x;
 			return nx;
 		}
+		public static double canonicalRound(decimal x) {
+			String sx = x.ToString(CultureInfo.InvariantCulture);
+			double nx = Double.Parse(sx, NumberStyles.Float, CultureInfo.InvariantCulture);
+			return nx;
+		}
 		/**
 		 * Addition a + b applying canonical rounding if canonical
 		 * rounding is enabled
