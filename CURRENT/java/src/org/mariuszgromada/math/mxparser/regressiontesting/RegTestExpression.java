@@ -15269,6 +15269,17 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 1233:
+			x = new Argument("x", new PiMultArgExt());
+			expStr = "x + x + x + x";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr, x);
+			value = exp[testId].calculate();
+			reg = 10 * MathConstants.PI;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
 		}
 
 		if (testResult == true)
@@ -15335,7 +15346,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(1232);
+		return start(1233);
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

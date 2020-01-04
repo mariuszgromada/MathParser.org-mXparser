@@ -4937,12 +4937,16 @@ namespace org.mariuszgromada.math.mxparser {
 						if (getParametersNumber(tokenIndex) >= 0 ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 							errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
-						} else if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
-							if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-								bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
-								syntax = syntax && syntaxRec;
-								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
+						} else if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME) {
+							if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
+								if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
+									bool syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
+									syntax = syntax && syntaxRec;
+									errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
+								}
 							}
+						} else {
+							errorMessage = errorMessage + level + tokenStr + "argument with extended body - assuming no errors.\n";
 						}
 					}
 					/*

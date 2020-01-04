@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestSyntax.java        4.3.3   2019-01-27
+ * @(#)RegTestSyntax.java        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -56,6 +56,7 @@
 package org.mariuszgromada.math.mxparser.regressiontesting;
 
 import org.mariuszgromada.math.mxparser.Argument;
+import org.mariuszgromada.math.mxparser.ArgumentExtension;
 import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.Function;
@@ -63,6 +64,7 @@ import org.mariuszgromada.math.mxparser.FunctionExtension;
 import org.mariuszgromada.math.mxparser.FunctionExtensionVariadic;
 import org.mariuszgromada.math.mxparser.RecursiveArgument;
 import org.mariuszgromada.math.mxparser.mXparser;
+import org.mariuszgromada.math.mxparser.mathcollection.MathConstants;
 
 /**
  * RegTestSyntax - regression tests for the expression syntax checking
@@ -84,7 +86,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.3
+ * @version        4.4.0
  *
  * @see Expression
  */
@@ -3075,5 +3077,20 @@ class FunExtVar implements FunctionExtensionVariadic {
 	}
 	public FunExtVar clone() {
 		return new FunExtVar();
+	}
+}
+/**
+ * Example of implementation
+ * ArgumentExtension interface
+ * @see ArgumentExtension
+ */
+class PiMultArgExt implements ArgumentExtension {
+	private int multiple = 0;
+	public double getArgumentValue() {
+		multiple++;
+		return  MathConstants.PI * multiple;
+	}
+	public PiMultArgExt clone() {
+		return new PiMultArgExt();
 	}
 }

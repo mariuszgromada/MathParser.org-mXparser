@@ -15258,6 +15258,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
+			case 1233:
+				x = new Argument("x", new PiMultArgExt());
+				expStr = "x + x + x + x";
+				mXparser.consolePrint(expStr + " ...... ");
+				exp[testId] = new Expression(expStr, x);
+				value = exp[testId].calculate();
+				reg = 10 * MathConstants.PI;
+				if ( MathFunctions.abs(reg - value) <= 1e-13 )
+					testResult = true;
+				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				break;
 			}
 			if (testResult == true)
 				mXparser.consolePrint("OK");
@@ -15323,7 +15334,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		 * @return Number of tests with error result.
 		 */
 		public static int Start() {
-			return Start(1232);
+			return Start(1233);
 		}
 		/**
 		 * Runs main regression tests in the field of calculation.

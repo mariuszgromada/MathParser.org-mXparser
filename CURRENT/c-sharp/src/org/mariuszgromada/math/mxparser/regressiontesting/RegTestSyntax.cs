@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestSyntax.cs        4.3.3   2019-01-27
+ * @(#)RegTestSyntax.cs        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -53,6 +53,7 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
+using org.mariuszgromada.math.mxparser.mathcollection;
 using System;
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting
@@ -77,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.3
+	 * @version        4.4.0
 	 *
 	 * @see Expression
 	 */
@@ -3068,6 +3069,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		}
 		public FunctionExtensionVariadic clone() {
 			return new FunExtVar();
+		}
+	}
+	/**
+	 * Example of implementation
+	 * ArgumentExtension interface
+	 * @see ArgumentExtension
+	 */
+	internal class PiMultArgExt : ArgumentExtension {
+		private int multiple = 0;
+		public double getArgumentValue() {
+			multiple++;
+			return  MathConstants.PI * multiple;
+		}
+		public ArgumentExtension clone() {
+			return new PiMultArgExt();
 		}
 	}
 }

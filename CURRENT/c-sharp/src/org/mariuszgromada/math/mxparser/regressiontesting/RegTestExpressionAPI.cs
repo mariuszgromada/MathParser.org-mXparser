@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.3.4   2019-12-22
+ * @(#)RegTestExpressionAPI.cs        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -80,7 +80,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.4
+	 * @version        4.4.0
 	 *
 	 * @see Expression
 	 */
@@ -2468,6 +2468,34 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			for (double a = -5.05; a <= 5.05; a+=0.1) {
 				if (Math.Abs(Math.Asin(1/a) - MathFunctions.acosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 			}
+			/*
+			 * 82. Argument extension test
+			 */
+			testId++;
+			test[testId] = true;
+			Argument pim = new Argument("pim", new PiMultArgExt());
+			if (pim.getArgumentBodyType() != Argument.BODY_EXTENDED) test[testId] = false;
+			/*
+			 * 83. Argument extension test
+			 */
+			testId++;
+			test[testId] = true;
+			pim = new Argument("pim", new PiMultArgExt());
+			if (pim.getArgumentBodyType() != Argument.BODY_EXTENDED) test[testId] = false;
+			pim.setArgumentValue(3.0);
+			if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
+			if (pim.getArgumentValue() != 3.0) test[testId] = false;
+			/*
+			 * 84. Argument extension test
+			 */
+			testId++;
+			test[testId] = true;
+			pim = new Argument("pim", new PiMultArgExt());
+			if (pim.getArgumentBodyType() != Argument.BODY_EXTENDED) test[testId] = false;
+			pim.setArgumentExpressionString("2+3");
+			if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
+			if (pim.getArgumentValue() != 5.0) test[testId] = false;
+
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
 			int nOk = 0;

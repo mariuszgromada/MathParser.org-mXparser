@@ -1,9 +1,9 @@
 /*
- * @(#)Argument.java        4.3.0   2018-12-12
+ * @(#)Argument.java        4.4.0   2020-01-03
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -107,7 +107,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        4.4.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -149,6 +149,34 @@ public class Argument extends PrimitiveElement {
 	 */
 	public static final int TYPE_ID		= 101;
 	public static final String TYPE_DESC	= "User defined argument";
+	/**
+	 * Argument with body based on the value or expression string.
+	 *
+	 * @see Argument#getArgumentBodyType()
+	 */
+	public static final int BODY_RUNTIME = 1;
+	/**
+	 * Argument with body based on the extended code.
+	 *
+	 * @see ArgumentExtension
+	 * @see Argument#getArgumentBodyType()
+	 */
+	public static final int BODY_EXTENDED = 2;
+	/**
+	 * Argument body type.
+	 *
+	 * @see Argument#BODY_RUNTIME
+	 * @see Argument#BODY_EXTENDED
+	 * @see Argument#getArgumentBodyType()
+	 */
+	private int argumentBodyType;
+	/**
+	 * Argument extension (body based in code)
+	 *
+	 * @see ArgumentExtension
+	 * @see Argument#Argument(String, ArgumentExtension)
+	 */
+	private ArgumentExtension argumentExtension;
 	/**
 	 * Description of the argument.
 	 */
@@ -230,6 +258,7 @@ public class Argument extends PrimitiveElement {
 			argumentExpression = new Expression();
 			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: 'x', 'x=5', 'x=5+3/2', 'x=2*y').");
 		}
+		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
 		description = "";
 	}
@@ -288,6 +317,7 @@ public class Argument extends PrimitiveElement {
 			argumentExpression = new Expression();
 			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: 'x', 'x=5', 'x=5+3/2', 'x=2*y').");
 		}
+		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
 		description = "";
 	}
@@ -307,6 +337,31 @@ public class Argument extends PrimitiveElement {
 		} else {
 			this.argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+		}
+		argumentBodyType = BODY_RUNTIME;
+		setSilentMode();
+		description = "";
+	}
+	/**
+	 * Constructor for argument definition based on
+	 * your own source code - this is via implementation
+	 * of ArgumentExtension interface.
+	 *
+	 * @param argumentName       Argument name
+	 * @param argumentExtension  Your own source code
+	 */
+	public Argument(String argumentName, ArgumentExtension argumentExtension) {
+		super(Argument.TYPE_ID);
+		argumentExpression = new Expression();
+		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
+			this.argumentName=new String(argumentName);
+			this.argumentExtension = argumentExtension;
+			argumentType = FREE_ARGUMENT;
+			argumentBodyType = BODY_EXTENDED;
+		} else {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
+			argumentBodyType = BODY_RUNTIME;
 		}
 		setSilentMode();
 		description = "";
@@ -336,6 +391,7 @@ public class Argument extends PrimitiveElement {
 			argumentExpression = new Expression();
 			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentName + "] " + "Invalid argument name, pattern not match: " + ParserSymbol.nameOnlyTokenRegExp);
 		}
+		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
 		description = "";
 	}
@@ -414,6 +470,7 @@ public class Argument extends PrimitiveElement {
 	 * Each expression / function / dependent argument associated
 	 * with this argument will be marked as modified
 	 * (requires new syntax checking).
+	 * If BODY_EXTENDED argument then BODY_RUNTIME is set.
 	 *
 	 * @param      argumentExpressionString      the argument expression string
 	 *
@@ -423,6 +480,7 @@ public class Argument extends PrimitiveElement {
 		argumentExpression.setExpressionString(argumentExpressionString);
 		if (argumentType == FREE_ARGUMENT)
 			argumentType = DEPENDENT_ARGUMENT;
+		argumentBodyType = BODY_RUNTIME;
 	}
 	/**
 	 * Gets argument name
@@ -452,7 +510,8 @@ public class Argument extends PrimitiveElement {
 	}
 	/**
 	 * Sets argument value, if DEPENDENT_ARGUMENT then argument type
-	 * is set to FREE_ARGUMENT
+	 * is set to FREE_ARGUMENT.
+	 * If BODY_EXTENDED argument the BODY_RUNTIME argument is set.
 	 *
 	 * @param  argumentValue       the value of argument
 	 */
@@ -461,6 +520,7 @@ public class Argument extends PrimitiveElement {
 			argumentType = FREE_ARGUMENT;
 			argumentExpression.setExpressionString("");
 		}
+		argumentBodyType = BODY_RUNTIME;
 		this.argumentValue = argumentValue;
 	}
 	/*=================================================
@@ -470,12 +530,20 @@ public class Argument extends PrimitiveElement {
 	 *=================================================
 	 */
 	/**
+	 * Returns argument body type: {@link Argument#BODY_RUNTIME} {@link Argument#BODY_EXTENDED}
+	 * @return Returns argument body type: {@link Argument#BODY_RUNTIME} {@link Argument#BODY_EXTENDED}
+	 */
+	public int getArgumentBodyType() {
+		return argumentBodyType;
+	}
+	/**
 	 * Checks argument syntax
 	 *
 	 * @return    syntax status: Argument.NO_SYNTAX_ERRORS,
 	 *            Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN
 	 */
 	public boolean checkSyntax() {
+		if (argumentBodyType == BODY_EXTENDED) return Argument.NO_SYNTAX_ERRORS;
 		if (argumentType == FREE_ARGUMENT)
 			return Argument.NO_SYNTAX_ERRORS;
 		else
@@ -497,6 +565,8 @@ public class Argument extends PrimitiveElement {
 	 *             based on the argument expression.
 	 */
 	public double getArgumentValue() {
+		if (argumentBodyType == BODY_EXTENDED)
+			return argumentExtension.getArgumentValue();
 		if (argumentType == FREE_ARGUMENT)
 			return argumentValue;
 		else
@@ -946,9 +1016,12 @@ public class Argument extends PrimitiveElement {
 		Argument newArg = new Argument(this.argumentName);
 		newArg.argumentExpression = this.argumentExpression;
 		newArg.argumentType = this.argumentType;
+		newArg.argumentBodyType = this.argumentBodyType;
 		newArg.argumentValue = this.argumentValue;
 		newArg.description = this.description;
 		newArg.n = this.n;
+		if (this.argumentExtension != null) newArg.argumentExtension = argumentExtension.clone();
+		else newArg.argumentExtension = null;
 		return newArg;
 	}
 }

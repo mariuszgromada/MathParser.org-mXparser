@@ -47,6 +47,7 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Function.cs" Link="src\org\mariuszgromada\math\mxparser\Function.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" Link="src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs" Link="src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs" Link="src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs" Link="src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs" />
