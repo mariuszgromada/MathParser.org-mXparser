@@ -9,7 +9,7 @@ namespace mxparser.runtests {
 
 		static void Main(string[] args) {
 			//RunTest.Start("syn");
-			RunTest.Start("api");
+			//RunTest.Start("api");
 			//RunTest.Start("reg");
 
 
@@ -75,6 +75,10 @@ namespace mxparser.runtests {
 			}
 			*/
 
+			Argument x = new Argument("x", new PiMultArgExt());
+			Expression e = new Expression("x + x - 3*pi", x);
+			mXparser.consolePrintln(e.calculate());
+
 			mXparser.consolePrintln(".NET CLR version:" + Environment.Version);
             mXparser.consolePrintln(".NET version:" + System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(int).Assembly.Location).ProductVersion);
 			#if PCL
@@ -82,4 +86,17 @@ namespace mxparser.runtests {
             #endif
         }
     }
+	internal class PiMultArgExt : ArgumentExtension
+	{
+		private int multiple = 0;
+		public double getArgumentValue()
+		{
+			multiple++;
+			return MathConstants.PI * multiple;
+		}
+		public ArgumentExtension clone()
+		{
+			return new PiMultArgExt();
+		}
+	}
 }

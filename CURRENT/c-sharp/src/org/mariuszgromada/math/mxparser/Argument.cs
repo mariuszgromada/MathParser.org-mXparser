@@ -358,7 +358,6 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentExpression = new Expression();
 			if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.argumentName = "" + argumentName;
-				this.argumentValue = argumentValue;
 				this.argumentExtension = argumentExtension;
 				argumentType = FREE_ARGUMENT;
 				argumentBodyType = BODY_EXTENDED;
