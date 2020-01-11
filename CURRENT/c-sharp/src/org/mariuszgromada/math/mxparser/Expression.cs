@@ -1775,7 +1775,7 @@ namespace org.mariuszgromada.math.mxparser {
 			try {
 				value = function.calculate();
 			} catch(
-				#if PCL || CORE || NETSTANDARD
+				#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETCOREAPP1_0 || NETCOREAPP1_1
 					Exception
 				#else
 					StackOverflowException
@@ -4799,7 +4799,7 @@ namespace org.mariuszgromada.math.mxparser {
 				errorMessage = "Empty expression string\n";
 				return syntax;
 			}
-			#if PCL || NETSTANDARD
+			#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
@@ -4898,7 +4898,7 @@ namespace org.mariuszgromada.math.mxparser {
 				recursionCallPending = false;
 				return syntax;
 			}
-			#if PCL || NETSTANDARD
+			#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			#else
 				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
@@ -5757,10 +5757,14 @@ namespace org.mariuszgromada.math.mxparser {
 			computingTime = (endTime - startTime) / 1000.0;
 			recursionCallsCounter = 0;
 			double result = tokensList[0].tokenValue;
-			if (mXparser.almostIntRounding) {
-				double resultint = Math.Round(result);
-				if ( Math.Abs(result-resultint) <= BinaryRelations.getEpsilon() )
-					result = resultint;
+			if (!disableRounding) {
+				if (mXparser.almostIntRounding) {
+					double resultint = Math.Round(result);
+					if ( Math.Abs(result-resultint) <= BinaryRelations.getEpsilon() )
+						return resultint;
+				}
+				if (mXparser.canonicalRounding)
+					return MathFunctions.canonicalRound(result);
 			}
 			return result;
 		}

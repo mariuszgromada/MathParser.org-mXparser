@@ -97,7 +97,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void createRunJoinThreads(PerformanceTestResult test, int classId) {
 			test.testInit();
 			TestThread[] runners = new TestThread[test.threadsNum];
-			#if !PCL && !CORE && !NETSTANDARD
+			#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6
 				Thread[] threads = new Thread[test.threadsNum];
 			#endif
 			for (int threadId = 0; threadId < test.threadsNum; threadId++) {
@@ -124,14 +124,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 				case 19: runners[threadId] = new Test019Thread(test); break;
 				case 20: runners[threadId] = new Test020Thread(test); break;
 				}
-				#if PCL || CORE || NETSTANDARD
+				#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETCOREAPP1_0 || NETCOREAPP1_1
 					runners[threadId].run();
 				#else
 					threads[threadId] = new Thread(runners[threadId].run);
 					threads[threadId].Start();
 				#endif
 			}
-			#if !PCL && !CORE && !NETSTANDARD
+			#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6 && NETCOREAPP1_0 && NETCOREAPP1_1
 				for (int threadId = 0; threadId < test.threadsNum; threadId++)
 					try {
 						threads[threadId].Join();

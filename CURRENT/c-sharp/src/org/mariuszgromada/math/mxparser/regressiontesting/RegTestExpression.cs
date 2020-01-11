@@ -87,6 +87,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		private static Expression[] exp;
 		private static bool tmp;
 		private static readonly double PI = MathConstants.PI;
+		private static double eps = 0;
 		private static bool runTest_00000_00100(int testId) {
 			mXparser.consolePrint("[" + testId + "] ");
 			bool testResult = false;
@@ -3623,6 +3624,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
 			case 308:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				expStr =	"abs( Ei(-1)  / (0.219383934395520274 * 10^0 ) ) + " +
 							"abs( Ei(-4)  / (0.377935240984890648 * 10^-2 ) ) + " +
 							"abs( Ei(-6)  / (0.360082452162658659 * 10^-3 ) ) + " +
@@ -3657,6 +3660,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				if ( MathFunctions.abs(reg - value) < 0.000000000001 )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 309:
 				expStr = "sum(x; -11; 11; [gam] + ln(abs(x)) + sum(k, 1, 50, x^k / (k*k!)) - Ei(x), 2)";
@@ -7012,6 +7016,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				break;
 			case 614:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.setEpsilonComparison();
 				expStr = "sin(pi+1.23e-10)+e^1.1e1";
 				mXparser.consolePrint(expStr + " ...... ");
@@ -7021,6 +7027,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				if (MathFunctions.abs(reg - value) <= 0.000000001)
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 615:
 				mXparser.setEpsilonComparison();
@@ -10497,16 +10504,19 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.setDefaultEpsilon();
 				break;
 			case 905:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.setEpsilonComparison();
 				expStr = "sum(x, -1/e, 100, e^LambW0(x) - x / LambW0(x), 0.01)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+				if ( MathFunctions.abs(reg - value) <= 0.0000000001 )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 906:
 				mXparser.setEpsilonComparison();
@@ -10533,6 +10543,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.setDefaultEpsilon();
 				break;
 			case 908:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.setEpsilonComparison();
 				expStr = "sum(x, -0.3, 0.3, LambW0(x) - sum(n, 1, 100, ( ( (-n)^(n-1) ) / n! ) * x^n ) , 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
@@ -10543,6 +10555,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 909:
 				mXparser.setEpsilonComparison();
@@ -10557,16 +10570,19 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.setDefaultEpsilon();
 				break;
 			case 910:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.setEpsilonComparison();
 				expStr = "sum(x, -1, 0, LambW0(x * e^x) - x, 0.001)";
 				mXparser.consolePrint(expStr + " ...... ");
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 0.0000000000001 )
+				if ( MathFunctions.abs(reg - value) <= 0.000000000001 )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.setDefaultEpsilon();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 911:
 				mXparser.setEpsilonComparison();
@@ -11435,7 +11451,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 1e-15 )
+#if NET20 || NET35
+				eps = 1e-13;
+#else
+				eps = 1e-15;
+#endif
+				if ( MathFunctions.abs(reg - value) <= eps )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
@@ -11591,7 +11612,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+#if NET20 || NET35
+				eps = 1e-13;
+#else
+				eps = 1e-14;
+#endif
+				if ( MathFunctions.abs(reg - value) <= eps )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
@@ -12155,7 +12181,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 1e-15 )
+#if NET20 || NET35
+				eps = 1e-13;
+#else
+				eps = 1e-15;
+#endif
+				if ( MathFunctions.abs(reg - value) <= eps )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
@@ -12374,7 +12405,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 1e-15 )
+#if NET20 || NET35
+				eps = 1e-13;
+#else
+				eps = 1e-15;
+#endif
+				if ( MathFunctions.abs(reg - value) <= eps )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
@@ -12539,7 +12575,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				exp[testId] = new Expression(expStr);
 				value = exp[testId].calculate();
 				reg = 0;
-				if ( MathFunctions.abs(reg - value) <= 1e-14 )
+#if NET20 || NET35
+				eps = 1e-12;
+#else
+				eps = 1e-14;
+#endif
+				if ( MathFunctions.abs(reg - value) <= eps )
 					testResult = true;
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableUlpRounding();
@@ -14556,6 +14597,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.enableAlmostIntRounding();
 				break;
 			case 1187:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.disableAlmostIntRounding();
 				mXparser.disableUlpRounding();
 				mXparser.setRadiansMode();
@@ -14569,8 +14612,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableAlmostIntRounding();
 				mXparser.enableAlmostIntRounding();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 1188:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.disableAlmostIntRounding();
 				mXparser.disableUlpRounding();
 				mXparser.setRadiansMode();
@@ -14584,8 +14630,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableAlmostIntRounding();
 				mXparser.enableAlmostIntRounding();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 1189:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.disableAlmostIntRounding();
 				mXparser.disableUlpRounding();
 				mXparser.setRadiansMode();
@@ -14599,8 +14648,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableAlmostIntRounding();
 				mXparser.enableAlmostIntRounding();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 1190:
+				tmp = mXparser.checkIfCanonicalRounding();
+				mXparser.disableCanonicalRounding();
 				mXparser.disableAlmostIntRounding();
 				mXparser.disableUlpRounding();
 				mXparser.setRadiansMode();
@@ -14614,6 +14666,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 				mXparser.enableAlmostIntRounding();
 				mXparser.enableAlmostIntRounding();
+				mXparser.setCanonicalRounding(tmp);
 				break;
 			case 1191:
 				mXparser.disableAlmostIntRounding();

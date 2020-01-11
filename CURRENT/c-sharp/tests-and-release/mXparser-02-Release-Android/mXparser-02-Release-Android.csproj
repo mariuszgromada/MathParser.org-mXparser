@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9ECB8076-4575-4C0A-B8EE-76A3C630B257}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>mxparser</RootNamespace>
+    <AssemblyName>MathParser.org-mXparser</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>..\..\..\mxparser_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\Argument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Constant.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\Constant.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Expression.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\Expression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Function.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\Function.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtension.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\FunctionExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\BinaryRelations.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\BooleanAlgebra.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Calculus.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\Calculus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Coefficients.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\Coefficients.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Evaluate.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\Evaluate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\MathConstants.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\MathConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\MathFunctions.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\MathFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\NumberTheory.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\NumberTheory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\PhysicalConstants.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\PhysicalConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\PrimesCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\ProbabilityDistributions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\SpecialFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\SpecialValueTrigonometric.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\Statistics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mathcollection\Units.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Miscellaneous.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\Miscellaneous.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mXparser.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\mXparser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\BinaryRelation.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\BinaryRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\BitwiseOperator.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\BitwiseOperator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\BooleanOperator.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\BooleanOperator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\CalculusOperator.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\CalculusOperator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\ConstantValue.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\ConstantValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Function1Arg.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Function1Arg.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Function2Arg.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Function2Arg.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Function3Arg.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Function3Arg.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\FunctionVariadic.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\FunctionVariadic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\KeyWord.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\KeyWord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Operator.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Operator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\ParserSymbol.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\ParserSymbol.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Unit.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Unit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpression.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpressionAPI.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpressionAPI.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestSyntax.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestSyntax.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RunTest.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RunTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\ParseException.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\ParseException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\SimpleCharStream.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\SimpleCharStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxChecker.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerConstants.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerTokenManager.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerTokenManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\Token.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\Token.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\Tutorial.cs</Link>
+    </Compile>
+    <Compile Include="Resources\Resource.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

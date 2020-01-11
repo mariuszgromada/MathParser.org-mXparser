@@ -645,6 +645,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
+		 /*
 		public static double sum(params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
@@ -667,6 +668,43 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return sum;
 		}
+		*/
+		public static double sum(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			double sum = 0;
+			if (mXparser.checkIfCanonicalRounding()) {
+				decimal dsum = Decimal.Zero;
+				decimal dxi = Decimal.Zero;
+				bool decimalStillInRange = true;
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					sum += xi;
+					if (decimalStillInRange) {
+						if (MathFunctions.isNotInDecimalRange(xi)) decimalStillInRange = false;
+						if (MathFunctions.isNotInDecimalRange(sum)) decimalStillInRange = false;
+						if (decimalStillInRange) {
+							dxi = (decimal)xi;
+							dsum = dsum + dxi;
+						}
+					}
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
+				if (decimalStillInRange) return (double)dsum;
+				else return sum;
+			} else {
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					sum += xi;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
+				return sum;
+			}
+		}
+
 		/**
 		 * Numbers multiplication.
 		 *
@@ -676,6 +714,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
+		/*
 		public static double prod(params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
@@ -689,6 +728,43 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				}
 			} else {
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					prod *= xi;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
+			}
+			return prod;
+		}
+		*/
+		public static double prod(params double[] numbers) {
+			if (numbers == null) return Double.NaN;
+			if (numbers.Length == 0) return Double.NaN;
+			if (numbers.Length == 1) return numbers[0];
+			double prod = 1;
+			if (mXparser.checkIfCanonicalRounding()) {
+				decimal dprod = Decimal.One;
+				decimal dxi = Decimal.One;
+				bool decimalStillInRange = true;
+				foreach (double xi in numbers) {
+					if ( Double.IsNaN(xi) ) return Double.NaN;
+					if ( Double.IsInfinity(xi)) return Double.NaN;
+					prod *= xi;
+					if (decimalStillInRange) {
+						if (MathFunctions.isNotInDecimalRange(xi)) decimalStillInRange = false;
+						if (MathFunctions.isNotInDecimalRange(prod)) decimalStillInRange = false;
+						if (decimalStillInRange) {
+							dxi = (decimal)xi;
+							dprod = dprod * dxi;
+						}
+					}
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
+				if (decimalStillInRange) return (double)dprod;
+				else return prod;
+			}
+			else {
 				foreach (double xi in numbers) {
 					if ( Double.IsNaN(xi) ) return Double.NaN;
 					if ( Double.IsInfinity(xi)) return Double.NaN;
@@ -812,6 +888,56 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double primeCount(double n) {
 			return primeCount((long)n);
 		}
+		class CanonicalResult {
+			internal const bool SUMMATION = true;
+			internal const bool MULTIPLICATION = false;
+			internal double fval;
+			double result;
+			decimal dfval;
+			decimal dresult;
+			bool decimalStillInRange;
+			internal CanonicalResult(bool summation) {
+				if (summation) {
+					fval = 0;
+					dfval = Decimal.Zero;
+					result = 0;
+					dresult = Decimal.Zero;
+					decimalStillInRange = true;
+				} else {
+					fval = 1;
+					dfval = Decimal.One;
+					result = 1;
+					dresult = Decimal.One;
+					decimalStillInRange = true;
+				}
+			}
+			internal void add() {
+				result += fval;
+				if (decimalStillInRange) {
+					if (MathFunctions.isNotInDecimalRange(fval)) decimalStillInRange = false;
+					if (MathFunctions.isNotInDecimalRange(result)) decimalStillInRange = false;
+					if (decimalStillInRange) {
+						dfval = (decimal)fval;
+						dresult = dresult + dfval;
+					}
+				}
+			}
+			internal void multiply() {
+				result *= fval;
+				if (decimalStillInRange) {
+					if (MathFunctions.isNotInDecimalRange(fval)) decimalStillInRange = false;
+					if (MathFunctions.isNotInDecimalRange(result)) decimalStillInRange = false;
+					if (decimalStillInRange) {
+						dfval = (decimal)fval;
+						dresult = dresult * dfval;
+					}
+				}
+			}
+			internal double getResult() {
+				if (decimalStillInRange) return (double)dresult;
+				else return result;
+			}
+		}
 		/**
 		 * Summation operator (SIGMA FROM i = a, to b,  f(i) by delta
 		 *
@@ -823,6 +949,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     summation operation (for empty summation operations returns 0).
 		 */
+		 /*
 		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
 			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
 				return Double.NaN;
@@ -882,6 +1009,78 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return result;
 		}
+		*/
+		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
+			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
+				return Double.NaN;
+			double i;
+			CanonicalResult opRes = new CanonicalResult(CanonicalResult.SUMMATION);
+			if (mXparser.checkIfCanonicalRounding()) {
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.add();
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.add();
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.add();
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.add();
+					}
+				} else if (from == to) {
+					opRes.fval = mXparser.getFunctionValue(f, index, from);
+					if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+					opRes.add();
+				}
+				return opRes.getResult();
+			} else {
+				double fval = 0;
+				double result = 0;
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result += fval;
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result += fval;
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result += fval;
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result += fval;
+					}
+				} else if (from == to) {
+					fval = mXparser.getFunctionValue(f, index, from);
+					if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+					result += fval;
+				}
+				return result;
+			}
+		}
 		/**
 		 * Product operator
 		 *
@@ -896,6 +1095,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
+		 /*
 		public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
@@ -955,6 +1155,80 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return result;
 		}
+		*/
+		public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
+			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
+				return Double.NaN;
+			double i;
+			CanonicalResult opRes = new CanonicalResult(CanonicalResult.MULTIPLICATION);
+			if (mXparser.checkIfCanonicalRounding()) {
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.multiply();
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.multiply();
+
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.multiply();
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+						opRes.multiply();
+					}
+				} else if (from == to) {
+					opRes.fval = mXparser.getFunctionValue(f, index, from);
+					if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
+					opRes.multiply();
+				}
+				return opRes.getResult();
+			} else {
+				double fval = 1;
+				double result = 1;
+				if ( (to >= from) && (delta > 0) ) {
+					for (i = from; i < to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result *= fval;
+					}
+					if ( delta - (i - to) > 0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result *= fval;
+					}
+				} else if ( (to <= from) && (delta < 0) ) {
+					for (i = from; i > to; i+=delta) {
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						fval = mXparser.getFunctionValue(f, index, i);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result *= fval;
+					}
+					if ( -delta - (to - i) > -0.5 * delta) {
+						fval = mXparser.getFunctionValue(f, index, to);
+						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+						result *= fval;
+					}
+				} else if (from == to) {
+					fval = mXparser.getFunctionValue(f, index, from);
+					if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
+					result *= fval;
+				}
+				return result;
+			}
+		}
+
 		/**
 		 * Minimum value - iterative operator.
 		 *

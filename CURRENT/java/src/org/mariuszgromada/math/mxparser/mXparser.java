@@ -149,7 +149,7 @@ public final class mXparser {
 	 * mXparser provides intelligent ULP rounding to avoid some
 	 * type of this errors.
 	 */
-	static volatile boolean ulpRounding = true;
+	static volatile boolean ulpRounding = false;
 	/**
 	 * Double floating-point precision arithmetic causes
 	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3

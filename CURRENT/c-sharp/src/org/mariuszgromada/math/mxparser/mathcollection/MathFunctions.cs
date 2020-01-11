@@ -85,7 +85,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
+		private static readonly double DECIMAL_MIN_VALUE = (double)Decimal.MinValue / 1e17;
+		private static readonly double DECIMAL_MAX_VALUE = (double)Decimal.MaxValue / 1e17;
 
+		internal static bool isNotInDecimalRange(double x) {
+			if (Double.IsNaN(x)) return true;
+			if (Double.IsInfinity(x)) return true;
+			if (x <= DECIMAL_MIN_VALUE || x >= DECIMAL_MAX_VALUE) return true;
+			return false;
+		}
 		public static double canonicalRound(double x) {
 			if (Double.IsNaN(x)) return Double.NaN;
 			if (Double.IsInfinity(x)) return x;
@@ -108,6 +116,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of addition
 		 */
+		 /*
 		public static double plus(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -115,6 +124,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(a)) return a + b;
 			if (Double.IsInfinity(b)) return a + b;
 			return canonicalRound(a + b);
+		}
+		*/
+		public static double plus(double a, double b) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			double r = a + b;
+			if (!mXparser.checkIfCanonicalRounding()) return r;
+			if (Double.IsInfinity(a)) return r;
+			if (Double.IsInfinity(b)) return r;
+			if (isNotInDecimalRange(a)) return r;
+			if (isNotInDecimalRange(b)) return r;
+			if (isNotInDecimalRange(r)) return r;
+			decimal da = (decimal) a;
+			decimal db = (decimal) b;
+			decimal dr = da + db;
+			return (double) dr;
 		}
 		/**
 		 * Subtraction a - b applying canonical rounding if canonical
@@ -124,6 +149,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of subtraction
 		 */
+		 /*
 		public static double minus(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -131,6 +157,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(a)) return a - b;
 			if (Double.IsInfinity(b)) return a - b;
 			return canonicalRound(a - b);
+		}
+		*/
+		public static double minus(double a, double b) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			double r = a - b;
+			if (!mXparser.checkIfCanonicalRounding()) return r;
+			if (Double.IsInfinity(a)) return r;
+			if (Double.IsInfinity(b)) return r;
+			if (isNotInDecimalRange(a)) return r;
+			if (isNotInDecimalRange(b)) return r;
+			if (isNotInDecimalRange(r)) return r;
+			decimal da = (decimal)a;
+			decimal db = (decimal)b;
+			decimal dr = da - db;
+			return (double)dr;
 		}
 		/**
 		 * Multiplication a * b applying canonical rounding if canonical
@@ -140,6 +182,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of multiplication
 		 */
+		 /*
 		public static double multiply(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -147,6 +190,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(a)) return a * b;
 			if (Double.IsInfinity(b)) return a * b;
 			return canonicalRound(a * b);
+		}
+		*/
+		public static double multiply(double a, double b) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			double r = a * b;
+			if (!mXparser.checkIfCanonicalRounding()) return r;
+			if (Double.IsInfinity(a)) return r;
+			if (Double.IsInfinity(b)) return r;
+			if (isNotInDecimalRange(a)) return r;
+			if (isNotInDecimalRange(b)) return r;
+			if (isNotInDecimalRange(r)) return r;
+			decimal da = (decimal)a;
+			decimal db = (decimal)b;
+			decimal dr = da * db;
+			return (double)dr;
 		}
 		/**
 		 * Division a / b applying canonical rounding if canonical
@@ -156,22 +215,44 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of division
 		 */
+		/*
+	   public static double div(double a, double b) {
+		   if (b == 0) return Double.NaN;
+		   if (Double.IsNaN(a)) return Double.NaN;
+		   if (Double.IsNaN(b)) return Double.NaN;
+		   if (!mXparser.checkIfCanonicalRounding()) return a / b;
+		   if (Double.IsInfinity(a)) return a / b;
+		   if (Double.IsInfinity(b)) return a / b;
+		   double res = a / b;
+		   double resRound = canonicalRound(res);
+		   double resInv = res * b;
+		   double resRoundInv = resRound * b;
+		   String resInvStr = resInv.ToString(CultureInfo.InvariantCulture);
+		   String resRoundInvStr = resRoundInv.ToString(CultureInfo.InvariantCulture);
+		   if (resRoundInvStr.Length <= resInvStr.Length) return resRound;
+		   else return res;
+	   }
+	   */
 		public static double div(double a, double b) {
 			if (b == 0) return Double.NaN;
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
-			if (!mXparser.checkIfCanonicalRounding()) return a / b;
-			if (Double.IsInfinity(a)) return a / b;
-			if (Double.IsInfinity(b)) return a / b;
-			double res = a / b;
-			double resRound = canonicalRound(res);
-			double resInv = res * b;
-			double resRoundInv = resRound * b;
-			String resInvStr = resInv.ToString(CultureInfo.InvariantCulture);
-			String resRoundInvStr = resRoundInv.ToString(CultureInfo.InvariantCulture);
-			if (resRoundInvStr.Length <= resInvStr.Length) return resRound;
-			else return res;
+			double r = a / b;
+			if (!mXparser.checkIfCanonicalRounding()) return r;
+			if (Double.IsInfinity(a)) return r;
+			if (Double.IsInfinity(b)) return r;
+			if (isNotInDecimalRange(a)) return r;
+			if (isNotInDecimalRange(b)) return r;
+			if (isNotInDecimalRange(r)) return r;
+			decimal da = (decimal)a;
+			decimal db = (decimal)b;
+			decimal dr = da / db;
+			double rErr = Math.Abs(a - r * b);
+			double drErr = Math.Abs((double)(da - dr * db));
+			if (rErr <= drErr) return r;
+			else return (double)dr;
 		}
+
 		/**
 		 * Bell Numbers
 		 *
@@ -888,6 +969,30 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
 			else return false;
 		}
+		private static double shorterResult(decimal dr, double r) {
+			if (Double.IsNaN(r)) return Double.NaN;
+			if (Double.IsInfinity(r)) return r;
+			double drd = (double)dr;
+			String drds = drd.ToString(CultureInfo.InvariantCulture);
+			String rs = r.ToString(CultureInfo.InvariantCulture);
+			double res;
+			String sres;
+			if (drds.Length < rs.Length) {
+				res = drd;
+				sres = drds;
+			} else {
+				res = r;
+				sres = rs;
+			}
+#if NETCOREAPP3_0 || NETCOREAPP3_1
+			double resround = MathFunctions.round(res, MathFunctions.ulpDecimalDigitsBefore(res));
+			String sresround = resround.ToString(CultureInfo.InvariantCulture);
+			if (sres.Length - sresround.Length >= 4) return resround;
+			else return res;
+#else
+			return res;
+#endif
+		}
 		/**
 		 * Applies the integer exponent to the base a
 		 *
@@ -895,6 +1000,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param n   The integer exponent
 		 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
 		 */
+		 /*
 		private static double powInt(double a, int n) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsInfinity(a)) Math.Pow(a, n);
@@ -904,6 +1010,87 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else return canonicalRound(1.0 / canonicalRound(Math.Pow(a, -n)));
 			} else {
 				return Math.Pow(a, n);
+			}
+		}
+		*/
+		private static double powInt(double a, int n) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			double r = Math.Pow(a, n);
+			if (Double.IsInfinity(a)) return r;
+			if (a == 0) return r;
+			if (n == 0) return 1;
+			if (n == 1) return a;
+			if (isNotInDecimalRange(a)) return r;
+			if (isNotInDecimalRange(r)) return r;
+			decimal dr = (decimal)r;
+			double apow = 1;
+			if (mXparser.checkIfCanonicalRounding()) {
+				decimal da = (decimal)a;
+				if (n == 2) {
+					r = a * a;
+					if (MathFunctions.isNotInDecimalRange(r)) return r;
+					dr = da * da;
+					return shorterResult(dr, r);
+				}
+				if (n == 3) {
+					r = a * a * a;
+					if (MathFunctions.isNotInDecimalRange(r)) return r;
+					dr = da * da * da;
+					return shorterResult(dr, r);
+				}
+				if (n == 4) {
+					r = a * a * a * a;
+					if (MathFunctions.isNotInDecimalRange(r)) return r;
+					dr = da * da * da * da;
+					return shorterResult(dr, r);
+				}
+				if (n == -1) {
+					r = 1 / a;
+					if (MathFunctions.isNotInDecimalRange(r)) return r;
+					dr = Decimal.One / da;
+					return shorterResult(dr, r);
+				}
+				if (n == -2) {
+					apow = a * a;
+					r = 1 / apow;
+					if (MathFunctions.isNotInDecimalRange(r) || MathFunctions.isNotInDecimalRange(apow)) return r;
+					dr = Decimal.One / (da * da);
+					return shorterResult(dr, r);
+				};
+				if (n == -3) {
+					apow = a * a * a;
+					r = 1 / apow;
+					if (MathFunctions.isNotInDecimalRange(r) || MathFunctions.isNotInDecimalRange(apow)) return r;
+					dr = Decimal.One / (da * da * da);
+					return shorterResult(dr, r);
+				}
+				if (n == -4) {
+					apow = a * a * a * a;
+					r = 1 / apow;
+					if (MathFunctions.isNotInDecimalRange(r) || MathFunctions.isNotInDecimalRange(apow)) return r;
+					dr = Decimal.One / (da * da * da * da);
+					return shorterResult(dr, r);
+				}
+				r = a * a * a * a;
+				bool decimalStillInRange = true;
+				if (MathFunctions.isNotInDecimalRange(r)) decimalStillInRange = false;
+				if (decimalStillInRange) dr = da * da * da * da;
+				int nabs = Math.Abs(n);
+				for (int i = 5; i <= nabs; i++) {
+					r = r * a;
+					if (MathFunctions.isNotInDecimalRange(r)) decimalStillInRange = false;
+					if (decimalStillInRange) dr = dr * da;
+				}
+				if (decimalStillInRange) {
+					if (n >= 0) return shorterResult(dr, r);
+					else return shorterResult(Decimal.One / dr, 1.0 / r);
+				}
+				else {
+					if (n >= 0) return r;
+					else return 1.0 / r;
+				}
+			} else {
+				return r;
 			}
 		}
 		/**

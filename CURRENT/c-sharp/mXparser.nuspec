@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
-<package >
+<package xmlns="http://schemas.microsoft.com/packaging/2016/06/nuspec.xsd">
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.3.3</version>
+    <version>4.4.0</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
     <licenseUrl>http://mathparser.org/mxparser-license/</licenseUrl>
-    <projectUrl>http://mathparser.org/</projectUrl>
-    <iconUrl>http://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png</iconUrl>
+    <projectUrl>https://mathparser.org/</projectUrl>
+    <iconUrl>https://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: http://scalarmath.org/ *** MathSpace.pl: http://mathspace.pl/ *** </description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>v.4.3 Caprica: API improvements (cancel ongoing calculation, user defined units)</releaseNotes>
-    <copyright>Copyright 2019 - Mariusz Gromada - MathParser.org</copyright>
+    <releaseNotes>v.4.4 Gemoni: API improvements: 1. Canonical rounding solving the problem of floating-point arithmetic artifact, 2. ArgumentExtension allowing user defined arguments implementation via source code</releaseNotes>
+    <copyright>Copyright 2010 - 2020, Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
+	<license type="file">LICENSE.txt</license>
   </metadata>
   <files>
 
@@ -31,6 +32,7 @@
     <file src="dotnet-other\mXparser-dot.net.4.6.2\bin\Release\*.dll" target="lib\net462" />
     <file src="dotnet-other\mXparser-dot.net.4.7\bin\Release\*.dll" target="lib\net47" />
     <file src="dotnet-other\mXparser-dot.net.4.7.2\bin\Release\*.dll" target="lib\net472" />
+    <file src="dotnet-other\mXparser-dot.net.4.8\bin\Release\*.dll" target="lib\net48" />
 
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
     <file src="dotnet-other\mXparser-PCL\bin\Release\*.dll" target="lib\monotouch10" />
@@ -50,6 +52,8 @@
     <file src="dotnet-other\mXparser-Core.2.2\bin\Release\netcoreapp2.2\*.json" target="lib\netcoreapp22" />
     <file src="dotnet-other\mXparser-Core.3.0\bin\Release\netcoreapp3.0\*.dll" target="lib\netcoreapp30" />
     <file src="dotnet-other\mXparser-Core.3.0\bin\Release\netcoreapp3.0\*.json" target="lib\netcoreapp30" />
+    <file src="dotnet-other\mXparser-Core.3.1\bin\Release\netcoreapp3.1\*.dll" target="lib\netcoreapp31" />
+    <file src="dotnet-other\mXparser-Core.3.1\bin\Release\netcoreapp3.1\*.json" target="lib\netcoreapp31" />
 
     <file src="dotnet-other\mXparser-dot.stand.1.0\bin\Release\netstandard1.0\*.dll" target="lib\netstandard10" />
     <file src="dotnet-other\mXparser-dot.stand.1.0\bin\Release\netstandard1.0\*.json" target="lib\netstandard10" />
@@ -57,6 +61,10 @@
     <file src="dotnet-other\mXparser-dot.stand.1.6\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
     <file src="dotnet-other\mXparser-dot.stand.2.0\bin\Release\netstandard2.0\*.dll" target="lib\netstandard20" />
     <file src="dotnet-other\mXparser-dot.stand.2.0\bin\Release\netstandard2.0\*.json" target="lib\netstandard20" />
+    <file src="dotnet-other\mXparser-dot.stand.2.1\bin\Release\netstandard2.1\*.dll" target="lib\netstandard21" />
+    <file src="dotnet-other\mXparser-dot.stand.2.1\bin\Release\netstandard2.1\*.json" target="lib\netstandard21" />
+	
+	<file src="..\..\LICENSE.txt" target="" />
 
   </files>
 </package>

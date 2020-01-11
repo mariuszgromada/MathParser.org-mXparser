@@ -99,6 +99,79 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String VERSION = "4.4.0";
 		public const String VERSION_CODE_NAME = "Gemoni";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
+#if NET20
+		public const String BUIT_FOR = ".NET 2.0";
+#elif NET35
+		public const String BUIT_FOR = ".NET 3.5";
+#elif NET40
+		public const String BUIT_FOR = ".NET 4.0";
+#elif NET45
+		public const String BUIT_FOR = ".NET 4.5";
+#elif NET451
+		public const String BUIT_FOR = ".NET 4.5.1";
+#elif NET452
+		public const String BUIT_FOR = ".NET 4.5.2";
+#elif NET46
+		public const String BUIT_FOR = ".NET 4.6";
+#elif NET461
+		public const String BUIT_FOR = ".NET 4.6.1";
+#elif NET462
+		public const String BUIT_FOR = ".NET 4.6.2";
+#elif NET47
+		public const String BUIT_FOR = ".NET 4.7";
+#elif NET471
+		public const String BUIT_FOR = ".NET 4.7.1";
+#elif NET472
+		public const String BUIT_FOR = ".NET 4.7.2";
+#elif NET48
+		public const String BUIT_FOR = ".NET 4.8";
+#elif NETSTANDARD1_0
+		public const String BUIT_FOR = ".NET Stand 1.0";
+#elif NETSTANDARD1_1
+		public const String BUIT_FOR = ".NET Stand 1.1";
+#elif NETSTANDARD1_2
+		public const String BUIT_FOR = ".NET Stand 1.2";
+#elif NETSTANDARD1_3
+		public const String BUIT_FOR = ".NET Stand 1.3";
+#elif NETSTANDARD1_4
+		public const String BUIT_FOR = ".NET Stand 1.4";
+#elif NETSTANDARD1_5
+		public const String BUIT_FOR = ".NET Stand 1.5";
+#elif NETSTANDARD1_6
+		public const String BUIT_FOR = ".NET Stand 1.6";
+#elif NETSTANDARD2_0
+		public const String BUIT_FOR = ".NET Stand 2.0";
+#elif NETSTANDARD2_1
+		public const String BUIT_FOR = ".NET Stand 2.1";
+#elif NETCOREAPP1_0
+		public const String BUIT_FOR = ".NET Core 1.0";
+#elif NETCOREAPP1_1
+		public const String BUIT_FOR = ".NET Core 1.1";
+#elif NETCOREAPP2_0
+		public const String BUIT_FOR = ".NET Core 2.0";
+#elif NETCOREAPP2_1
+		public const String BUIT_FOR = ".NET Core 2.1";
+#elif NETCOREAPP2_2
+		public const String BUIT_FOR = ".NET Core 2.2";
+#elif NETCOREAPP3_0
+		public const String BUIT_FOR = ".NET Core 3.0";
+#elif NETCOREAPP3_1
+		public const String BUIT_FOR = ".NET Core 3.1";
+#elif PCL
+		public const String BUIT_FOR = ".NET PCL";
+#elif IOS
+		public const String BUIT_FOR = "Xamarin.iOS";
+#elif ANDROID
+		public const String BUIT_FOR = "Xamarin.Android";
+#elif NETFRAMEWORK
+		public const String BUIT_FOR = ".NET Framework";
+#elif NETSTANDARD
+		public const String BUIT_FOR = ".NET Standard";
+#elif NETCOREAPP
+		public const String BUIT_FOR = ".NET Core";
+#else
+		public const String BUIT_FOR = ".NET";
+#endif
 		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -112,7 +185,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser.#consolePrint(Object)
 		 */
 		private static volatile String CONSOLE_OUTPUT = "";
-		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " built for " + BUIT_FOR + "] ";
 		private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static volatile int CONSOLE_ROW_NUMBER = 1;
 		/**
@@ -134,7 +207,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * mXparser provides intelligent ULP rounding to avoid some
 		 * type of this errors.
 		 */
-		internal volatile static bool ulpRounding = true;
+		internal volatile static bool ulpRounding = false;
 		/**
 		 * Double floating-point precision arithmetic causes
 		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
@@ -1173,25 +1246,25 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void doNothing(Object o) {
 		}
 		private static void consoleWriteLine(Object o) {
-			#if PCL || NETSTANDARD
+#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine(o);
-			#else
+#else
 				Console.WriteLine(o);
-			#endif
+#endif
 		}
 		private static void consoleWriteLine() {
-			#if PCL || NETSTANDARD
+#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine("");
-			#else
+#else
 				Console.WriteLine();
-			#endif
+#endif
 		}
 		private static void consoleWrite(Object o) {
-			#if PCL || NETSTANDARD
+#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine(o);
-			#else
+#else
 				Console.Write(o);
-			#endif
+#endif
 		}
 		/**
 		 * Prints object.toString to the Console + new line

@@ -888,6 +888,7 @@ public final class MathFunctions {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isInfinite(a)) Math.pow(a, n);
 		if (a == 0) return Math.pow(a, n);
+		if (n == 0) return 1;
 		if (mXparser.checkIfCanonicalRounding()) {
 			BigDecimal da = BigDecimal.valueOf(a);
 			if (n >= 0) return da.pow(n).doubleValue();

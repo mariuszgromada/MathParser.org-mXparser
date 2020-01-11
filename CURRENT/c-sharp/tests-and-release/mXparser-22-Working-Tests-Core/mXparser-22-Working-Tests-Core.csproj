@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>org.mariuszgromada.math.mxparser</RootNamespace>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\mXparser-01-Release-Net-Stand-Core\mXparser-01-Release-Net-Stand-Core.csproj" />
+  </ItemGroup>
+
+</Project>

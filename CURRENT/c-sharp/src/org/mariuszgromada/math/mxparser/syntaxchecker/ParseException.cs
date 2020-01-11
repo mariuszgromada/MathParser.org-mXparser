@@ -172,7 +172,9 @@ public class ParseException : System.Exception {
            default:
               if ((ch = str[i]) < 0x20 || ch > 0x7e) {
                  String s = "0000" + ((int)ch).ToString("x");
-                 retval.Append("\\u" + s.Substring(s.Length - 4, s.Length));
+                // PARSER MODIFIED
+                // ORIGINAL retval.Append("\\u" + s.Substring(s.Length - 4, s.Length));
+                 retval.Append("\\u" + s.Substring(s.Length - 4, s.Length - 4));
               } else {
                  retval.Append(ch);
               }
