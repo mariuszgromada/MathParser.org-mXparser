@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        4.3.4   2019-12-25
+ * @(#)MathFunctions.java        4.4.0   2020-01-11
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -81,7 +81,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.4
+	 * @version        4.4.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -116,16 +116,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of addition
 		 */
-		 /*
-		public static double plus(double a, double b) {
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (!mXparser.checkIfCanonicalRounding()) return a + b;
-			if (Double.IsInfinity(a)) return a + b;
-			if (Double.IsInfinity(b)) return a + b;
-			return canonicalRound(a + b);
-		}
-		*/
 		public static double plus(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -149,16 +139,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of subtraction
 		 */
-		 /*
-		public static double minus(double a, double b) {
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (!mXparser.checkIfCanonicalRounding()) return a - b;
-			if (Double.IsInfinity(a)) return a - b;
-			if (Double.IsInfinity(b)) return a - b;
-			return canonicalRound(a - b);
-		}
-		*/
 		public static double minus(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -182,16 +162,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of multiplication
 		 */
-		 /*
-		public static double multiply(double a, double b) {
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsNaN(b)) return Double.NaN;
-			if (!mXparser.checkIfCanonicalRounding()) return a * b;
-			if (Double.IsInfinity(a)) return a * b;
-			if (Double.IsInfinity(b)) return a * b;
-			return canonicalRound(a * b);
-		}
-		*/
 		public static double multiply(double a, double b) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
@@ -215,24 +185,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  The b parameter
 		 * @return   The result of division
 		 */
-		/*
-	   public static double div(double a, double b) {
-		   if (b == 0) return Double.NaN;
-		   if (Double.IsNaN(a)) return Double.NaN;
-		   if (Double.IsNaN(b)) return Double.NaN;
-		   if (!mXparser.checkIfCanonicalRounding()) return a / b;
-		   if (Double.IsInfinity(a)) return a / b;
-		   if (Double.IsInfinity(b)) return a / b;
-		   double res = a / b;
-		   double resRound = canonicalRound(res);
-		   double resInv = res * b;
-		   double resRoundInv = resRound * b;
-		   String resInvStr = resInv.ToString(CultureInfo.InvariantCulture);
-		   String resRoundInvStr = resRoundInv.ToString(CultureInfo.InvariantCulture);
-		   if (resRoundInvStr.Length <= resInvStr.Length) return resRound;
-		   else return res;
-	   }
-	   */
 		public static double div(double a, double b) {
 			if (b == 0) return Double.NaN;
 			if (Double.IsNaN(a)) return Double.NaN;
@@ -1000,19 +952,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param n   The integer exponent
 		 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
 		 */
-		 /*
-		private static double powInt(double a, int n) {
-			if (Double.IsNaN(a)) return Double.NaN;
-			if (Double.IsInfinity(a)) Math.Pow(a, n);
-			if (a == 0) return Math.Pow(a, n);
-			if (mXparser.checkIfCanonicalRounding()) {
-				if (n >= 0) return canonicalRound( Math.Pow(a, n) );
-				else return canonicalRound(1.0 / canonicalRound(Math.Pow(a, -n)));
-			} else {
-				return Math.Pow(a, n);
-			}
-		}
-		*/
 		private static double powInt(double a, int n) {
 			if (Double.IsNaN(a)) return Double.NaN;
 			double r = Math.Pow(a, n);

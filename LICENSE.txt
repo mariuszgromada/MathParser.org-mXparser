@@ -36,7 +36,7 @@ MathParser.org-mXparser:
 - https://mathparser.org
 - https://github.com/mariuszgromada/MathParser.org-mXparser
 
-Scalar - THe Most Advanced Scientific Calculator:
+Scalar - The Most Advanced Scientific Calculator:
 - https://scalarmath.org
 - https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
 - https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite

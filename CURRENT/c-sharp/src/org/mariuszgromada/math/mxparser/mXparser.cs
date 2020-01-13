@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.4.0   2020-01-03
+ * @(#)mXparser.cs        4.4.0   2020-01-11
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -185,7 +185,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser.#consolePrint(Object)
 		 */
 		private static volatile String CONSOLE_OUTPUT = "";
-		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " built for " + BUIT_FOR + "] ";
+		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " bin " + BUIT_FOR + "] ";
 		private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static volatile int CONSOLE_ROW_NUMBER = 1;
 		/**

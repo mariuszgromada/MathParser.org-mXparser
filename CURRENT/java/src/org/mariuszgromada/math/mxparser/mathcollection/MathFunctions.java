@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        4.3.4   2019-12-31
+ * @(#)MathFunctions.java        4.4.0   2020-01-11
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -85,7 +85,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.4
+ * @version        4.4.0
  */
 public final class MathFunctions {
 	/**
@@ -889,6 +889,7 @@ public final class MathFunctions {
 		if (Double.isInfinite(a)) Math.pow(a, n);
 		if (a == 0) return Math.pow(a, n);
 		if (n == 0) return 1;
+		if (n == 1) return a;
 		if (mXparser.checkIfCanonicalRounding()) {
 			BigDecimal da = BigDecimal.valueOf(a);
 			if (n >= 0) return da.pow(n).doubleValue();

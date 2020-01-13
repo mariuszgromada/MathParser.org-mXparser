@@ -1,9 +1,9 @@
 /*
- * @(#)NumberTheory.cs        4.3.4   2019-12-31
+ * @(#)NumberTheory.cs        4.4.0   2020-01-11
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.4
+	 * @version        4.4.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
@@ -645,30 +645,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		 /*
-		public static double sum(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			double sum = 0;
-			if (mXparser.checkIfCanonicalRounding()) {
-				foreach (double xi in numbers) {
-					if ( Double.IsNaN(xi) ) return Double.NaN;
-					if ( Double.IsInfinity(xi)) return Double.NaN;
-					sum = MathFunctions.canonicalRound(sum + xi);
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				}
-			} else {
-				foreach (double xi in numbers) {
-					if ( Double.IsNaN(xi) ) return Double.NaN;
-					if ( Double.IsInfinity(xi)) return Double.NaN;
-					sum += xi;
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				}
-			}
-			return sum;
-		}
-		*/
 		public static double sum(params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
@@ -714,30 +690,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		/*
-		public static double prod(params double[] numbers) {
-			if (numbers == null) return Double.NaN;
-			if (numbers.Length == 0) return Double.NaN;
-			if (numbers.Length == 1) return numbers[0];
-			double prod = 1;
-			if (mXparser.checkIfCanonicalRounding()) {
-				foreach (double xi in numbers) {
-					if ( Double.IsNaN(xi) ) return Double.NaN;
-					if ( Double.IsInfinity(xi)) return Double.NaN;
-					prod = MathFunctions.canonicalRound(prod * xi);
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				}
-			} else {
-				foreach (double xi in numbers) {
-					if ( Double.IsNaN(xi) ) return Double.NaN;
-					if ( Double.IsInfinity(xi)) return Double.NaN;
-					prod *= xi;
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				}
-			}
-			return prod;
-		}
-		*/
 		public static double prod(params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
@@ -949,67 +901,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     summation operation (for empty summation operations returns 0).
 		 */
-		 /*
-		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
-			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
-				return Double.NaN;
-			double fval;
-			double result = 0;
-			double i;
-			if (mXparser.checkIfCanonicalRounding()) {
-				if ( (to >= from) && (delta > 0) ) {
-					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result = MathFunctions.canonicalRound(result + fval);
-					}
-					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result = MathFunctions.canonicalRound(result + fval);
-					}
-				} else if ( (to <= from) && (delta < 0) ) {
-					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result = MathFunctions.canonicalRound(result + fval);
-					}
-					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result = MathFunctions.canonicalRound(result + fval);
-					}
-				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
-					result = MathFunctions.canonicalRound(result + fval);
-				}
-			} else {
-				if ( (to >= from) && (delta > 0) ) {
-					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result += fval;
-					}
-					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result += fval;
-					}
-				} else if ( (to <= from) && (delta < 0) ) {
-					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result += fval;
-					}
-					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result += fval;
-					}
-				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
-					result += fval;
-				}
-			}
-			return result;
-		}
-		*/
 		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
 			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
 				return Double.NaN;
@@ -1095,67 +986,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		 /*
-		public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
-			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
-				return Double.NaN;
-			double result = 1;
-			double fval;
-			double i;
-			if (mXparser.checkIfCanonicalRounding()) {
-				if ( (to >= from) && (delta > 0) ) {
-					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result = MathFunctions.canonicalRound(result * fval);
-					}
-					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result = MathFunctions.canonicalRound(result * fval);
-					}
-				} else if ( (to <= from) && (delta < 0) ) {
-					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result = MathFunctions.canonicalRound(result * fval);
-					}
-					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result = MathFunctions.canonicalRound(result * fval);
-					}
-				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
-					result = MathFunctions.canonicalRound(result * fval);
-				}
-			} else {
-				if ( (to >= from) && (delta > 0) ) {
-					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result *= fval;
-					}
-					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result *= fval;
-					}
-				} else if ( (to <= from) && (delta < 0) ) {
-					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
-						result *= fval;
-					}
-					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
-						result *= fval;
-					}
-				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
-					result *= fval;
-				}
-			}
-			return result;
-		}
-		*/
 		public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;

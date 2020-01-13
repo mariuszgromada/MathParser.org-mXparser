@@ -26,12 +26,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\..\..\pfx-keys\mariuszgromada.org.pfx</AssemblyOriginatorKeyFile>
-    <DelaySign>False</DelaySign>
+    <DelaySign>false</DelaySign>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>..\..\..\mxparser_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;RELEASE</DefineConstants>
