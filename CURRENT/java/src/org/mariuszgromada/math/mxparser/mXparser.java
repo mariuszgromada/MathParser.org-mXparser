@@ -115,6 +115,10 @@ public final class mXparser {
 	public static final String VERSION_CODE_NAME = "Gemoni";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
+	 * Framework used to compile mXparser
+	 */
+	public static final String BUIT_FOR = "JDK 1.8";
+	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
 	 */
@@ -127,7 +131,7 @@ public final class mXparser {
 	 * @see mXparser.#consolePrint(Object)
 	 */
 	private static volatile String CONSOLE_OUTPUT = "";
-	private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
+	private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " bin " + BUIT_FOR + "] ";
 	private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 	private static volatile int CONSOLE_ROW_NUMBER = 1;
 	/**
