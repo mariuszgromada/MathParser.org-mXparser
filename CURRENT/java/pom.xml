@@ -5,7 +5,7 @@
 	<version>4.4.0</version>
 	<packaging>jar</packaging>
 	<name>MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO CLS compliant</name>
-	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: http://scalarmath.org/ *** MathSpace.pl: http://mathspace.pl/ ***</description>
+	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you find the software useful donation is something you might consider: https://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: https://scalarmath.org/ *** MathSpace.pl: https://mathspace.pl/ ***</description>
 	<url>http://mathparser.org/</url>
 	<developers>
 		<developer>
@@ -27,13 +27,13 @@
 			<organizationUrl>http://scalarmath.org/</organizationUrl>
 		</developer>
 		<developer>
-			<name>Scalar Scientific Function Calculator, Charts and Scripts</name>
+			<name>Scalar - The Most Advanced Scientific Calculator</name>
 			<email>scalar.math@gmail.com</email>
 			<organization>Scalar Lite</organization>
 			<organizationUrl>https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite</organizationUrl>
 		</developer>
 		<developer>
-			<name>Scalar Pro Scientific Function Calculator, Charts and Scripts</name>
+			<name>Scalar Pro - The Most Advanced Scientific Calculator</name>
 			<email>scalar.math@gmail.com</email>
 			<organization>Scalar Pro</organization>
 			<organizationUrl>https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro</organizationUrl>
@@ -130,14 +130,14 @@
 	<licenses>
 		<license>
 			<name>Simplified BSD License</name>
-			<url>http://mathparser.org/mxparser-license/</url>
+			<url>https://mathparser.org/mxparser-license/</url>
 			<distribution>repo</distribution>
 			<comments>2-clause BSD license known also as FreeBSD License</comments>
 		</license>
 	</licenses>
 	<organization>
 		<name>MathParser.org</name>
-		<url>http://mathparser.org/</url>
+		<url>https://mathparser.org/</url>
 	</organization>
 	<issueManagement>
 		<system>GitHub</system>
@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.6.0-M1</version>
+			<version>5.3.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
