@@ -13,6 +13,75 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** http://scalarmath.org/ ***
 
+
+v.4.4.0 (2020-01-14): Gemoni - API improvement
+
+	 * Canonical rounding: Bye bye floating point arithmetic artifacts
+
+	ULP rounding is switched of as a default setting (can be enabled / disabled). As a default canonical rounding is switched on (can be disabled / enabled). New methods:
+
+		- mXparser.enableCanonicalRounding()
+		- mXparser.disableCanonicalRounding()
+		- mXparser.setCanonicalRounding(boolean)
+		- mXparser.checkIfCanonicalRounding
+
+		Example 1
+
+		    Expression e = new Expression("0.1 + 0.1 + 0.1");
+    		System.out.println("Pure Java             : 0.1 + 0.1 + 0.1 = " + (0.1 + 0.1 + 0.1));
+    		System.out.println("mXparser              : 0.1 + 0.1 + 0.1 = " + e.calculate());
+		    mXparser.disableCanonicalRounding();
+		    System.out.println("mXparser canonical off: 0.1 + 0.1 + 0.1 = " + e.calculate());
+		    ===========
+		    Pure Java             : 0.1 + 0.1 + 0.1 = 0.30000000000000004
+		    mXparser              : 0.1 + 0.1 + 0.1 = 0.3
+		    mXparser canonical off: 0.1 + 0.1 + 0.1 = 0.30000000000000004
+
+		Example 2
+
+		    Expression e = new Expression("(-1/6.2)^(-3)");
+		    System.out.println("Pure Java             : (-1/6.2)^(-3) = " + Math.pow(-1/6.2, -3));
+		    System.out.println("mXparser              : (-1/6.2)^(-3) = " + e.calculate());
+		    mXparser.disableCanonicalRounding();
+		    System.out.println("mXparser canonical off: (-1/6.2)^(-3) = " + e.calculate());
+			===========
+		    Pure Java             : (-1/6.2)^(-3) = -238.32800000000003
+		    mXparser              : (-1/6.2)^(-3) = -238.328
+		    mXparser canonical off: (-1/6.2)^(-3) = -238.32800000000003
+
+	 * Argument extension - analogy to Function Extension
+
+	Now you can define user arguments implementing your own algorithm in source code.
+
+		Example
+
+			class PiMultArgExt implements ArgumentExtension {
+		    	private int multiple = 0;
+		    	public double getArgumentValue() {
+				    multiple++;
+		    		return  MathConstants.PI * multiple;
+		    	}
+		    	public PiMultArgExt clone() {
+				    return new PiMultArgExt();
+		    	}
+		    }
+    
+		    Argument x = new Argument("x", new PiMultArgExt());
+		    Expression e = new Expression("x/pi", x);
+		    System.out.println("1st calc exec: " + e.calculate());
+		    System.out.println("2nd calc exec: " + e.calculate());
+		    System.out.println("3rd calc exec: " + e.calculate());
+		    ===========
+		    1st calc exec: 1.0
+		    2nd calc exec: 2.0
+		    3rd calc exec: 3.0
+
+	* Bugs fixed
+
+		- #168, #18 Exact special trigonometric values
+		- #192, #178 Logical operators precedence
+		- #172 "x + 4 * - 2"
+
 v.4.3.3 (2019-01-27): Bug fix
 
 	* No Operator between Argumant and Parentheses #170 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/170
