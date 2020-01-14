@@ -14,7 +14,7 @@
 
 # MathParser.org-mXparser
 
-![mXparser icon](http://mathparser.org/wp-content/uploads/2017/07/mxparser-logo.png)
+![mXparser icon](http://mathparser.org/wp-content/uploads/2020/01/mxparser-icon.png)
 
 ![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
 
@@ -37,13 +37,25 @@
 
 # Supported frameworks
 ![mXparser frameworks](http://mathparser.org/wp-content/uploads/2017/05/supported-frameworks.png)
-- JAVA: 1.5, 1.6, 1.7, 1.8
+- JAVA: 6+
 - Android - tested with mxparser compiled using jdk 1.7
-- .NET / MONO: 2.0, 3.0, 3.5, 4.0, 4.5, 4.6, 4.7 (CLS)
-- .NET Core
-- .NET Standard, .NET PCL
-- Xamarin.Android
-- Xamarin.iOS
+- .NET Framework (2+) / MONO CLS
+- .NET Core: 1+
+- .NET Standard: 1+
+- .NET PCL
+- Xamarin
+
+# Package installation
+
+## Nuget
+
+    PM> Install-Package MathParser.org-mXparser -Version 4.4.0
+
+## Maven
+
+    <groupId>org.mariuszgromada.math</groupId>
+    <artifactId>MathParser.org-mXparser</artifactId>
+    <version>4.4.0</version>
 
 ![03-mXparser-sum.gif](http://mathparser.org/wp-content/uploads/2017/05/03-mXparser-sum.gif)
 
