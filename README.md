@@ -49,7 +49,7 @@
 
 ## Nuget
 
-    PM> Install-Package MathParser.org-mXparser -Version 4.4.0
+    PM> Install-Package MathParser.org-mXparser -Version 4.4.1
 
 ## Maven
 
