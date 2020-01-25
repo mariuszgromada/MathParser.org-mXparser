@@ -1,9 +1,9 @@
 /*
- * @(#)PrimesCache.cs        4.3.0   2018-12-12
+ * @(#)PrimesCache.cs        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -77,7 +77,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        4.4.2
 	 */
 	[CLSCompliant(true)]
 	public class PrimesCache {
@@ -156,15 +156,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				 */
 				isPrime[0] = false;
 				isPrime[1] = false;
-				for (int i = 2; i <= maxNumInCache; i++)
+				for (int i = 2; i <= maxNumInCache; i++) {
 					isPrime[i] = true;
+					if (mXparser.isCurrentCalculationCancelled()) return;
+				}
 				/*
 				 * Sieve of Eratosthenes - marking non-primes
 				 */
-				for (int i = 2; i*i <= maxNumInCache; i++)
+				for (int i = 2; i*i <= maxNumInCache; i++) {
+					if (mXparser.isCurrentCalculationCancelled()) return;
 					if (isPrime[i] == true)
-						for (int j = i; i*j <= maxNumInCache; j++)
+						for (int j = i; i*j <= maxNumInCache; j++) {
 							isPrime[i*j] = false;
+							if (mXparser.isCurrentCalculationCancelled()) return;
+						}
+				}
 				initSuccessful = true;
 			} catch (OutOfMemoryException) {
 				initSuccessful = false;
@@ -177,8 +183,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Counting found primes
 		 */
 		private void countPrimes() {
-			for (int i = 0; i <= maxNumInCache; i++)
+			for (int i = 0; i <= maxNumInCache; i++) {
 				if (isPrime[i] == true) numberOfPrimes++;
+				if (mXparser.isCurrentCalculationCancelled()) return;
+			}
 		}
 		/**
 		 * Default constructor - setting prime cache for a default range if integers
@@ -202,7 +210,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public PrimesCache(int maxNumInCache) {
 			if (maxNumInCache > 2)
-				this.maxNumInCache = maxNumInCache;
+				this.maxNumInCache = Math.Min(maxNumInCache, int.MaxValue - 1);
 			else
 				this.maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
 			initSuccessful = false;

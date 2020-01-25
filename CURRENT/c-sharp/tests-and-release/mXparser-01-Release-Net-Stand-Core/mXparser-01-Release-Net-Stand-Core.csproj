@@ -5,9 +5,9 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>4.4.0</Version>
-    <AssemblyVersion>4.4.0.0</AssemblyVersion>
-    <FileVersion>4.4.0.0</FileVersion>
+    <Version>4.4.2</Version>
+    <AssemblyVersion>4.4.2.0</AssemblyVersion>
+    <FileVersion>4.4.2.0</FileVersion>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.4.0   2020-01-11
+ * @(#)MathFunctions.java        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -81,7 +81,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.4.0
+	 * @version        4.4.2
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -217,6 +217,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double result = Double.NaN;
 			if (n > 1) {
 				n -= 1;
+				if ((n + 1) * (n + 1) >= int.MaxValue) return Double.NaN;
 				long[,] bellTriangle = new long[n+1, n+1];
 				bellTriangle[0, 0] = 1;
 				bellTriangle[1, 0] = 1;
@@ -263,6 +264,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return 1;
 				else
 					return 0;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			return (k+1) * eulerNumber(n-1, k) + (n-k) * eulerNumber(n-1, k-1);
 		}
 		/**
@@ -292,8 +294,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (n < 2) f = 1;
 				else {
 					f = 1;
-					for (int i = 1; i <= n; i++)
+					for (int i = 1; i <= n; i++) {
 						f = f*i;
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					}
 				}
 			return f;
 		}
@@ -326,12 +330,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ( k >= 0 ){
 				double numerator = 1;
 				if (k > 0 )
-					for (long i = 0; i <= k-1; i++)
+					for (long i = 0; i <= k-1; i++) {
 						numerator*=(n-i);
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					}
 				double denominator = 1;
 				if ( k > 1 )
-					for (long i = 1; i <= k; i++)
+					for (long i = 1; i <= k; i++) {
 						denominator *= i;
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					}
 				result = numerator / denominator;
 			}
 			return result;
@@ -367,8 +375,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ( k >= 0 ){
 				double numerator = 1;
 				if (k > 0 )
-					for (long i = 0; i <= k-1; i++)
+					for (long i = 0; i <= k-1; i++) {
 						numerator*=(n-i);
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					}
 				result = numerator;
 			}
 			return result;
@@ -404,8 +414,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				for (int k = 0; k <= m; k++)
 					for (int v = 0; v <= k; v++) {
 						result += Math.Pow(-1, v) * binomCoeff(k, v)
-							* (Math.Pow(n + v, m) / (k + 1))
-							;
+							* (Math.Pow(n + v, m) / (k + 1));
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					}
 			}
@@ -446,6 +455,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return 1;
 				else
 					return 0;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			return (n-1) * Stirling1Number(n-1, k) + Stirling1Number(n-1, k-1);
 		}
 		/**
@@ -548,8 +558,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n == 1)
 				return 1;
 			double h = 1;
-			for (double k = 2.0; k <= n; k++)
+			for (double k = 2.0; k <= n; k++) {
 				h += 1.0 / k;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return h;
 		}
 		/**
@@ -582,8 +594,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (n == 1)
 				return x;
 			double h = 1;
-			for (double k = 2.0; k <= n; k++)
+			for (double k = 2.0; k <= n; k++) {
 				h += 1 / power(k, x);
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return h;
 		}
 		/**
@@ -779,9 +793,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double continuedPolynomial(params double[] x) {
 			if (x == null) return Double.NaN;
 			if (x.Length == 0) return Double.NaN;
-			foreach (double d in x)
+			foreach (double d in x) {
 				if (Double.IsNaN(d))
 					return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return continuedPolynomial(x.Length, x);
 		}
 		/**
@@ -1137,8 +1153,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (abs(a) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
 			if (n == 1) return a;
 			double r = a;
-			for (double i = 2; i <= n; i++)
+			for (double i = 2; i <= n; i++) {
 				r = Math.Pow(a, r);
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return r;
 		}
 		/**
@@ -1850,8 +1868,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (ulpPosition <= 0) return sign * Math.Floor(value);
 			if (places > ulpPosition) return origValue;
 			double multiplier = 1;
-			for (int place = 0; place < places; place++)
+			for (int place = 0; place < places; place++) {
 				multiplier = Math.Floor(multiplier * 10);
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			double valueMultiplied = value * multiplier;
 			double valueFloor = Math.Floor(valueMultiplied);
 			if (Math.Abs(valueMultiplied - valueFloor) >= 0.5) valueFloor = Math.Floor(valueFloor + 1);
@@ -1880,8 +1900,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
  			if (ulpPosition <= 0) return sign * Math.Floor(value);
  			if (places > ulpPosition) return origValue;
  			double multiplier = 1;
- 			for (int place = 0; place < places; place++)
+ 			for (int place = 0; place < places; place++) {
  				multiplier = Math.Floor(multiplier * 10);
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
  			double valueMultiplied = value * multiplier;
  			double valueFloor = Math.Floor(valueMultiplied);
  			return Math.Floor(sign * valueFloor) / multiplier;
@@ -2288,8 +2310,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double coalesce(double[] values) {
 			if (values == null) return Double.NaN;
 			if (values.Length == 0) return Double.NaN;
-			foreach (double v in values)
+			foreach (double v in values) {
 				if (!Double.IsNaN(v)) return v;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return Double.NaN;
 		}
 		/**

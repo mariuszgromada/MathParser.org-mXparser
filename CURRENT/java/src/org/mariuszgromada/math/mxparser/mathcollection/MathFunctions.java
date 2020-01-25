@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        4.4.0   2020-01-11
+ * @(#)MathFunctions.java        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -85,7 +85,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        4.4.2
  */
 public final class MathFunctions {
 	/**
@@ -173,6 +173,7 @@ public final class MathFunctions {
 		double result = Double.NaN;
 		if (n > 1) {
 			n -= 1;
+			if ( (n+1)*(n+1) >= Integer.MAX_VALUE ) return Double.NaN;
 			long[][] bellTriangle = new long[n+1][n+1];
 			bellTriangle[0][0] = 1;
 			bellTriangle[1][0] = 1;
@@ -219,6 +220,7 @@ public final class MathFunctions {
 				return 1;
 			else
 				return 0;
+		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		return (k+1) * eulerNumber(n-1, k) + (n-k) * eulerNumber(n-1, k-1);
 	}
 	/**
@@ -248,8 +250,10 @@ public final class MathFunctions {
 			if (n < 2) f = 1;
 			else {
 				f = 1;
-				for (int i = 1; i <= n; i++)
+				for (int i = 1; i <= n; i++) {
 					f = f*i;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			}
 		return f;
 	}
@@ -282,12 +286,16 @@ public final class MathFunctions {
 		if ( k >= 0 ){
 			double numerator = 1;
 			if (k > 0 )
-				for (long i = 0; i <= k-1; i++)
+				for (long i = 0; i <= k-1; i++) {
 					numerator*=(n-i);
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			double denominator = 1;
 			if ( k > 1 )
-				for (long i = 1; i <= k; i++)
+				for (long i = 1; i <= k; i++) {
 					denominator *= i;
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			result = numerator / denominator;
 		}
 		return result;
@@ -323,8 +331,10 @@ public final class MathFunctions {
 		if ( k >= 0 ){
 			double numerator = 1;
 			if (k > 0 )
-				for (long i = 0; i <= k-1; i++)
+				for (long i = 0; i <= k-1; i++) {
 					numerator*=(n-i);
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				}
 			result = numerator;
 		}
 		return result;
@@ -360,8 +370,7 @@ public final class MathFunctions {
 			for (int k = 0; k <= m; k++)
 				for (int v = 0; v <= k; v++) {
 					result += Math.pow(-1, v) * binomCoeff(k, v)
-						* ( Math.pow(n + v, m) / (k + 1) )
-						;
+						* ( Math.pow(n + v, m) / (k + 1) );
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				}
 		}
@@ -402,6 +411,7 @@ public final class MathFunctions {
 				return 1;
 			else
 				return 0;
+		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		return (n-1) * Stirling1Number(n-1, k) + Stirling1Number(n-1, k-1);
 	}
 	/**
@@ -504,8 +514,10 @@ public final class MathFunctions {
 		if (n == 1)
 			return 1;
 		double h = 1;
-		for (double k = 2.0; k <= n; k++)
+		for (double k = 2.0; k <= n; k++) {
 			h += 1.0 / k;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return h;
 	}
 	/**
@@ -538,8 +550,10 @@ public final class MathFunctions {
 		if (n == 1)
 			return x;
 		double h = 1;
-		for (double k = 2.0; k <= n; k++)
+		for (double k = 2.0; k <= n; k++) {
 			h += 1 / power(k, x);
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return h;
 	}
 	/**
@@ -735,9 +749,11 @@ public final class MathFunctions {
 	public static final double continuedPolynomial(double... x) {
 		if (x == null) return Double.NaN;
 		if (x.length == 0) return Double.NaN;
-		for (double d : x)
+		for (double d : x) {
 			if (Double.isNaN(d))
 				return Double.NaN;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return continuedPolynomial(x.length, x);
 	}
 	/**
@@ -1002,8 +1018,10 @@ public final class MathFunctions {
 		if (abs(a) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
 		if (n == 1) return a;
 		double r = a;
-		for (double i = 2; i <= n; i++)
+		for (double i = 2; i <= n; i++) {
 			r = Math.pow(a, r);
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return r;
 	}
 	/**
@@ -1711,8 +1729,10 @@ public final class MathFunctions {
  		if (ulpPosition <= 0) return sign * Math.floor(value);
  		if (places > ulpPosition) return origValue;
  		double multiplier = 1;
- 		for (int place = 0; place < places; place++)
+ 		for (int place = 0; place < places; place++) {
  			multiplier = Math.floor(multiplier * 10);
+ 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+ 		}
  		double valueMultiplied = value * multiplier;
  		double valueFloor = Math.floor(valueMultiplied);
  		if (Math.abs(valueMultiplied - valueFloor) >= 0.5) valueFloor = Math.floor(valueFloor + 1);
@@ -1741,8 +1761,10 @@ public final class MathFunctions {
  		if (ulpPosition <= 0) return sign * Math.floor(value);
  		if (places > ulpPosition) return origValue;
  		double multiplier = 1;
- 		for (int place = 0; place < places; place++)
+ 		for (int place = 0; place < places; place++) {
  			multiplier = Math.floor(multiplier * 10);
+ 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+ 		}
  		double valueMultiplied = value * multiplier;
  		double valueFloor = Math.floor(valueMultiplied);
  		return Math.floor(sign * valueFloor) / multiplier;
@@ -2147,8 +2169,10 @@ public final class MathFunctions {
 	public static final double coalesce(double[] values) {
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
-		for (double v : values)
+		for (double v : values) {
 			if (!Double.isNaN(v)) return v;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return Double.NaN;
 	}
 	/**

@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        4.4.0   2020-01-11
+ * @(#)NumberTheory.java        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -86,7 +86,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        4.4.2
  */
 public final class NumberTheory {
 	public static final long DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE = 10000;
@@ -249,8 +249,14 @@ public final class NumberTheory {
 		int v;
 		do {
 
-			while ( BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE ) i++;
-			while ( BinaryRelations.gt(array[j], x) == BooleanAlgebra.TRUE ) j--;
+			while ( BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE ) {
+				i++;
+				if (mXparser.isCurrentCalculationCancelled()) return;
+			}
+			while ( BinaryRelations.gt(array[j], x) == BooleanAlgebra.TRUE ) {
+				j--;
+				if (mXparser.isCurrentCalculationCancelled()) return;
+			}
 			if (i <= j) {
 				w = array[i];
 				array[i] = array[j];
@@ -263,6 +269,7 @@ public final class NumberTheory {
 			}
 			if (mXparser.isCurrentCalculationCancelled()) return;
 		} while (i <= j);
+		if (mXparser.isCurrentCalculationCancelled()) return;
 		if (leftIndex < j) sortAsc(array, initOrder, leftIndex, j);
 		if (i < rightIndex) sortAsc(array, initOrder, i, rightIndex);
 	}
@@ -275,8 +282,10 @@ public final class NumberTheory {
 	public static final int[] sortAsc(double[] array) {
 		if (array == null) return null;
 		int[] initOrder = new int[array.length];
-		for (int i = 0; i < array.length; i++)
+		for (int i = 0; i < array.length; i++) {
 			initOrder[i] = i;
+			if (mXparser.isCurrentCalculationCancelled()) return initOrder;
+		}
 		if (array.length < 2) return initOrder;
 		sortAsc(array, initOrder, 0, array.length-1);
 		return initOrder;
@@ -300,6 +309,7 @@ public final class NumberTheory {
 		final int value = 0;
 		final int count = 1;
 		final int initPosFirst = 2;
+		if (array.length *3 >= Integer.MAX_VALUE) return new double[0][3];
 		double[][] distVal = new double[array.length][3];
 		if (array.length == 0) return distVal;
 		if (array.length == 1) {
@@ -443,8 +453,10 @@ public final class NumberTheory {
 	public static final double numberOfDistValues(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return 0;
-		for (double v : numbers)
+		for (double v : numbers) {
 			if (Double.isNaN(v)) return Double.NaN;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		if (numbers.length == 1) return 1;
 		return getDistValues(numbers, false).length;
 	}
@@ -1387,6 +1399,7 @@ public final class NumberTheory {
 				if (digit == 1) decValue = numeralSystemBase * decValue + digit;
 				else return Double.NaN;
 			}
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return decValue;
 	}
@@ -1414,6 +1427,7 @@ public final class NumberTheory {
 			digit = digits[i];
 			if (Double.isNaN(digit)) return Double.NaN;
 			digitsInt[i] = (int)digit;
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		}
 		return convOthBase2Decimal(numeralSystemBaseInt, digitsInt);
 	}
@@ -1432,8 +1446,10 @@ public final class NumberTheory {
 		if (baseAndDigits.length == 0) return Double.NaN;
 		int numeralSystemBase = baseAndDigits[0];
 		int[] digits = new int[baseAndDigits.length-1];
-		for (int i = 1; i < baseAndDigits.length; i++)
+		for (int i = 1; i < baseAndDigits.length; i++) {
 			digits[i-1] = baseAndDigits[i];
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return convOthBase2Decimal(numeralSystemBase, digits);
 	}
 	/**
@@ -1451,8 +1467,10 @@ public final class NumberTheory {
 		if (baseAndDigits.length == 0) return Double.NaN;
 		double numeralSystemBase = baseAndDigits[0];
 		double[] digits = new double[baseAndDigits.length-1];
-		for (int i = 1; i < baseAndDigits.length; i++)
+		for (int i = 1; i < baseAndDigits.length; i++) {
 			digits[i-1] = baseAndDigits[i];
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+		}
 		return convOthBase2Decimal(numeralSystemBase, digits);
 	}
 	/**
@@ -1491,6 +1509,7 @@ public final class NumberTheory {
 				reminder = (int)(quotient % numeralSystemBase);
 				quotient = MathFunctions.floor(quotient / numeralSystemBase);
 				numberLiteral = digitChar(reminder) + numberLiteral;
+				if (mXparser.isCurrentCalculationCancelled()) return "NaN";
 			}
 		else {
 			char[] repeat = new char[(int)intPart];
@@ -2049,16 +2068,20 @@ public final class NumberTheory {
 		long n = number;
 		List<Long> factorsList = new ArrayList<Long>();
 		for (long i = 2; i <= n / i; i++) {
+			if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
 			while (n % i == 0) {
 				factorsList.add(i);
 				n /= i;
+				if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
 			}
 		}
 		if (n > 1) factorsList.add(n);
 		int nfact = factorsList.size();
 		factors = new long[nfact];
-		for (int i = 0; i < nfact; i++)
+		for (int i = 0; i < nfact; i++) {
 			factors[i] = factorsList.get(i);
+			if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
+		}
         return factors;
 	}
 	/**
@@ -2090,16 +2113,20 @@ public final class NumberTheory {
 		double n = number;
 		List<Double> factorsList = new ArrayList<Double>();
 		for (double i = 2.0; i <= MathFunctions.floor(n / i); MathFunctions.floor(i++)) {
+			if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
 			while (n % i == 0) {
 				factorsList.add(i);
 				n = MathFunctions.floor(n / i);
+				if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
 			}
 		}
 		if (n > 1.0) factorsList.add(n);
 		int nfact = factorsList.size();
 		factors = new double[nfact];
-		for (int i = 0; i < nfact; i++)
+		for (int i = 0; i < nfact; i++) {
 			factors[i] = factorsList.get(i);
+			if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
+		}
         return factors;
 	}
 	/**

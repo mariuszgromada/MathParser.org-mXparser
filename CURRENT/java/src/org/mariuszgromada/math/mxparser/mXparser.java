@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        4.4.0   2020-01-11
+ * @(#)mXparser.java        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -100,7 +100,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        4.4.2
  *
  * @see RecursiveArgument
  * @see Expression
@@ -111,7 +111,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final String VERSION = "4.4.0";
+	public static final String VERSION = "4.4.2";
 	public static final String VERSION_CODE_NAME = "Gemoni";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**

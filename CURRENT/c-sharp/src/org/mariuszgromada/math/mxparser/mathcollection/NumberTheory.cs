@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        4.4.0   2020-01-11
+ * @(#)NumberTheory.cs        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -78,7 +78,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.4.0
+	 * @version        4.4.2
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
@@ -242,8 +242,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			int v;
 			do {
 
-				while (BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE) i++;
-				while (BinaryRelations.gt(array[j], x) == BooleanAlgebra.TRUE) j--;
+				while (BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE) {
+					i++;
+					if (mXparser.isCurrentCalculationCancelled()) return;
+				}
+				while (BinaryRelations.gt(array[j], x) == BooleanAlgebra.TRUE) {
+					j--;
+					if (mXparser.isCurrentCalculationCancelled()) return;
+				}
 				if (i <= j) {
 					w = array[i];
 					array[i] = array[j];
@@ -268,8 +274,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static int[] sortAsc(double[] array) {
 			if (array == null) return null;
 			int[] initOrder = new int[array.Length];
-			for (int i = 0; i < array.Length; i++)
+			for (int i = 0; i < array.Length; i++) {
 				initOrder[i] = i;
+				if (mXparser.isCurrentCalculationCancelled()) return initOrder;
+			}
 			if (array.Length < 2) return initOrder;
 			sortAsc(array, initOrder, 0, array.Length - 1);
 			return initOrder;
@@ -293,6 +301,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			const int value = 0;
 			const int count = 1;
 			const int initPosFirst = 2;
+			if (array.Length * 3 >= int.MaxValue) return new double[0, 3];
 			double[,] distVal = new double[array.Length, 3];
 			if (array.Length == 0) return distVal;
 			if (array.Length == 1) {
@@ -435,8 +444,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double numberOfDistValues(params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return 0;
-			foreach (double v in numbers)
+			foreach (double v in numbers) {
 				if (Double.IsNaN(v)) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			if (numbers.Length == 1) return 1;
 			return getDistValues(numbers, false).GetLength(0);
 		}
@@ -1462,6 +1473,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					if (digit == 1) decValue = numeralSystemBase * decValue + digit;
 					else return Double.NaN;
 				}
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			}
 			return decValue;
 		}
@@ -1507,8 +1519,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (baseAndDigits.Length == 0) return Double.NaN;
 			int numeralSystemBase = baseAndDigits[0];
 			int[] digits = new int[baseAndDigits.Length - 1];
-			for (int i = 1; i < baseAndDigits.Length; i++)
+			for (int i = 1; i < baseAndDigits.Length; i++) {
 				digits[i - 1] = baseAndDigits[i];
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return convOthBase2Decimal(numeralSystemBase, digits);
 		}
 		/**
@@ -1526,8 +1540,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (baseAndDigits.Length == 0) return Double.NaN;
 			double numeralSystemBase = baseAndDigits[0];
 			double[] digits = new double[baseAndDigits.Length - 1];
-			for (int i = 1; i < baseAndDigits.Length; i++)
+			for (int i = 1; i < baseAndDigits.Length; i++) {
 				digits[i - 1] = baseAndDigits[i];
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			}
 			return convOthBase2Decimal(numeralSystemBase, digits);
 		}
 		/**
@@ -1566,6 +1582,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					reminder = (int)(quotient % numeralSystemBase);
 					quotient = MathFunctions.floor(quotient / numeralSystemBase);
 					numberLiteral = digitChar(reminder) + numberLiteral;
+					if (mXparser.isCurrentCalculationCancelled()) return "NaN";
 				}
 			else {
 				char[] repeat = new char[(int)intPart];
@@ -2130,13 +2147,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				while (n % i == 0) {
 					factorsList.Add(i);
 					n /= i;
+					if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
 				}
 			}
 			if (n > 1) factorsList.Add(n);
 			int nfact = factorsList.Count;
 			factors = new long[nfact];
-			for (int i = 0; i < nfact; i++)
+			for (int i = 0; i < nfact; i++) {
 				factors[i] = factorsList[i];
+				if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
+			}
 			return factors;
 		}
 		/**
@@ -2171,13 +2191,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				while (n % i == 0) {
 					factorsList.Add(i);
 					n = MathFunctions.floor(n / i);
+					if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
 				}
 			}
 			if (n > 1.0) factorsList.Add(n);
 			int nfact = factorsList.Count;
 			factors = new double[nfact];
-			for (int i = 0; i < nfact; i++)
+			for (int i = 0; i < nfact; i++) {
 				factors[i] = factorsList[i];
+				if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
+			}
 			return factors;
 		}
 		/**

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2016/06/nuspec.xsd">
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.4.0</version>
+    <version>4.4.2</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://mathparser.org/wp-content/uploads/2020/01/mxparser-icon.png</iconUrl>
 	<icon>images\icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you finnd the software useful donation is something you might consider: http://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: http://scalarmath.org/ *** MathSpace.pl: http://mathspace.pl/ *** </description>
+    <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you find the software useful donation is something you might consider: http://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: http://scalarmath.org/ *** MathSpace.pl: http://mathspace.pl/ *** </description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
     <releaseNotes>v.4.4 Gemoni: API improvements: 1. Canonical rounding solving the problem of floating-point arithmetic artifact, 2. ArgumentExtension allowing user defined arguments implementation via source code, 3. Binaries also covering new frameworks: .NET Core 3.1, .NET Standard 2.1, .NET Framework 4.8</releaseNotes>
     <copyright>Copyright 2010 - 2020, Mariusz Gromada - MathParser.org</copyright>

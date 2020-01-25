@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        4.4.0   2020-01-11
+ * @(#)mXparser.cs        4.4.2   2020-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -84,7 +84,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.4.0
+	 * @version        4.4.2
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -96,7 +96,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const String VERSION = "4.4.0";
+		public const String VERSION = "4.4.2";
 		public const String VERSION_CODE_NAME = "Gemoni";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET20
