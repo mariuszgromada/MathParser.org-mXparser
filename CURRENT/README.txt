@@ -13,6 +13,10 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** http://scalarmath.org/ ***
 
+v.4.4.2 (2020-01-25): Gemoni - bugs fixing
+
+	 * #200 System.OutOfMemoryException: Array dimensions exceeded supported range (https://github.com/mariuszgromada/MathParser.org-mXparser/issues/200)
+	 * #199 cancelCurrentCalculation does not stop for some expressions (https://github.com/mariuszgromada/MathParser.org-mXparser/issues/199)
 
 v.4.4.0 (2020-01-14): Gemoni - API improvement
 
