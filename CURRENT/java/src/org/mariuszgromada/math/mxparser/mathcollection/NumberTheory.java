@@ -2068,7 +2068,6 @@ public final class NumberTheory {
 		long n = number;
 		List<Long> factorsList = new ArrayList<Long>();
 		for (long i = 2; i <= n / i; i++) {
-			if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
 			while (n % i == 0) {
 				factorsList.add(i);
 				n /= i;
@@ -2113,7 +2112,6 @@ public final class NumberTheory {
 		double n = number;
 		List<Double> factorsList = new ArrayList<Double>();
 		for (double i = 2.0; i <= MathFunctions.floor(n / i); MathFunctions.floor(i++)) {
-			if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
 			while (n % i == 0) {
 				factorsList.add(i);
 				n = MathFunctions.floor(n / i);
