@@ -1,3 +1,14 @@
+# Package installation
+
+## Nuget
+
+    PM> Install-Package MathParser.org-mXparser -Version 4.4.2
+
+## Maven
+
+    <groupId>org.mariuszgromada.math</groupId>
+    <artifactId>MathParser.org-mXparser</artifactId>
+    <version>4.4.2</version>
 # Scalar Scientific Calculator, Charts & Scripts - my new project
 
 [![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
@@ -44,18 +55,6 @@
 - .NET Standard: 1+
 - .NET PCL
 - Xamarin
-
-# Package installation
-
-## Nuget
-
-    PM> Install-Package MathParser.org-mXparser -Version 4.4.1
-
-## Maven
-
-    <groupId>org.mariuszgromada.math</groupId>
-    <artifactId>MathParser.org-mXparser</artifactId>
-    <version>4.4.0</version>
 
 ![03-mXparser-sum.gif](http://mathparser.org/wp-content/uploads/2017/05/03-mXparser-sum.gif)
 
