@@ -183,7 +183,7 @@
     e.calculate();
 :+1:
 
-## mXparser is cool! But this is only the begging, we are just warming up!
+## mXparser is cool! But this is only the beginning, we are just warming up!
 
 #### You want to play with iterated operators...
 ![sum](http://mathparser.org/wp-content/uploads/2017/05/sum.png)
