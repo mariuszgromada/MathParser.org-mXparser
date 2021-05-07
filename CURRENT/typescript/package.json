@@ -1,0 +1,18 @@
+{
+  "name": "mxparserts",
+  "version": "1.0.0",
+  "description": "Typescript port of the Java mXparser Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bignumber.js": "^5.0.0",
+    "bignumber.js": "^9.0.1",
+    "j4ts": "^0.7.2",
+    "tsc": "^1.20150623.0",
+    "typescript": "^4.2.4"
+  }
+}
