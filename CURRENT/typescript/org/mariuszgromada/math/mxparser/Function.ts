@@ -29,6 +29,51 @@ import { FunctionExtension } from './FunctionExtension';
  */
 export class Function extends PrimitiveElement {
 
+    public static createWithFunctionDefinition(functionDefinition : string) : Function {
+        const newFunction : Function = new Function(null, null, null);
+        if (mXparserConstants.regexMatch(functionDefinition, ParserSymbol.functionDefStrRegExp_$LI$())) {
+            const headEqBody = new HeadEqBody(functionDefinition);
+            newFunction.functionName = headEqBody.headTokens.get(0).tokenStr;
+            newFunction.functionExpression = <any>new Expression(headEqBody.bodyStr, null);
+            newFunction.functionExpression.setDescription(headEqBody.headStr);
+            newFunction.functionExpression.UDFExpression = true;
+            newFunction.isVariadic = false;
+            if(headEqBody.headTokens.size() > 1) {
+                for(let i : number = 1; i < headEqBody.headTokens.size(); i++) {
+                    const token = headEqBody.headTokens.get(i);
+                    if(token.tokenTypeId !== ParserSymbol.TYPE_ID) {
+                        newFunction.functionExpression.addArguments(Argument.createArgumentWithName(token.tokenStr));
+                    }
+                }
+            }
+            newFunction.parametersNumber = newFunction.functionExpression.getArgumentsNumber()
+                - newFunction.countRecursiveArguments();
+            newFunction.setDescription("");
+            newFunction.functionBodyType = FunctionConstants.BODY_RUNTIME;
+            newFunction.addFunctions(newFunction);
+        }
+        else if (mXparserConstants.regexMatch(functionDefinition, ParserSymbol.functionVariadicDefStrRegExp_$LI$())) {
+            const headEqBody = new HeadEqBody(functionDefinition);
+            newFunction.functionName = headEqBody.headTokens.get(0).tokenStr;
+            newFunction.functionExpression = <any>new Expression(headEqBody.bodyStr, null);
+            newFunction.functionExpression.setDescription(headEqBody.headStr);
+            newFunction.functionExpression.UDFExpression = true;
+            newFunction.isVariadic = true;
+            newFunction.parametersNumber = -1;
+            newFunction.setDescription("");
+            newFunction.functionBodyType = FunctionConstants.BODY_RUNTIME;
+            newFunction.addFunctions(newFunction);
+        } 
+        else {
+            newFunction.functionExpression.setDescription(functionDefinition);
+			let errorMessage :string = ""; 
+            errorMessage = errorMessage + "\n [" + functionDefinition + "] " +
+                "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " +
+                ParserSymbol.functionDefStrRegExp;
+			newFunction.functionExpression.setSyntaxStatus(ExpressionConstants.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
+        }
+        return newFunction;
+    }
     /**
      * Function body type.
      * 
