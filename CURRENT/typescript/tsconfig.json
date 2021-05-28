@@ -3,6 +3,8 @@
     "target": "es2020",
     "module": "commonjs",
     "outDir": "out",
-    "sourceMap": true
+    "rootDir": "./org", 
+    "sourceMap": true,
+    "declaration": true
   }
 }

@@ -1,12 +1,17 @@
 {
-  "name": "mxparserts",
-  "version": "1.0.0",
+  "name": "mathparser.org-mxparser",
+  "version": "1.0.4",
   "description": "Typescript port of the Java mXparser Framework",
-  "main": "index.js",
+  "main": "out/Tutorial.js",
+  "bin": "out/Tutorial.js",
+  "types": "out/Tutorial.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Thilo Schaber",
+  "keywords": ["mxparser", "math-parser", "formula-parser"],
+  "repository": { "type": "git", "url": "git+https://github.com/mariuszgromada/MathParser.org-mXparser.git"},
+  "homepage": "http://mathparser.org/",
   "license": "ISC",
   "dependencies": {
     "@types/bignumber.js": "^5.0.0",
