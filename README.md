@@ -160,7 +160,7 @@
 ![arg-free](http://mathparser.org/wp-content/uploads/2017/05/arg-free.png)
 
     Argument x = new Argument("x = 5");
-    Expression e = new Expression("sin(x)");
+    Expression e = new Expression("sin(x)", x);
     e.calculate();
 :+1: 
 
