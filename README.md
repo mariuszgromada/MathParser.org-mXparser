@@ -19,7 +19,12 @@
 
 ### Scalar in action
 
-[![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2019/04/scalar-math.jpg)](https://youtu.be/HUlEUaioogQ)
+[![Scalar-In-Action](https://scalarmath.org/wp-content/uploads/2019/04/scalar-math.jpg)](https://youtu.be/HUlEUaioogQ)
+
+### Scalar user guide in PDF
+
+[![Scalar-Manual](https://scalarmath.org/wp-content/uploads/2021/11/scalar-app-user-manual-pdf-1.jpg)](https://1drv.ms/b/s!Ao17_WkDEd7L2vQv_Xdbt-o0J1wjxQ)
+
 
 ### Scalar - Free version
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
