@@ -1,9 +1,9 @@
 /*
- * @(#)mXparser.java        4.4.2   2020-01-25
+ * @(#)mXparser.java        5.0.0   2022-01-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -100,7 +100,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.2
+ * @version        5.0.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -111,8 +111,8 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final String VERSION = "4.4.2";
-	public static final String VERSION_CODE_NAME = "Gemoni";
+	public static final String VERSION = "5.0.0";
+	public static final String VERSION_CODE_NAME = "Leonis";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
 	 * Framework used to compile mXparser
@@ -127,8 +127,8 @@ public final class mXparser {
 	/**
 	 * Console output string  for below methods
 	 *
-	 * @see mXparser.#consolePrintln(Object)
-	 * @see mXparser.#consolePrint(Object)
+	 * @see #consolePrintln(Object)
+	 * @see #consolePrint(Object)
 	 */
 	private static volatile String CONSOLE_OUTPUT = "";
 	private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " bin " + BUIT_FOR + "] ";
@@ -1411,7 +1411,7 @@ public final class mXparser {
 		"\n" +
 		"You may use this software under the condition of Simplified BSD License:\n" +
 		"\n" +
-		"Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.\n" +
+		"Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.\n" +
 		"\n" +
 		"Redistribution and use in source and binary forms, with or without modification, are\n" +
 		"permitted provided that the following conditions are met:\n" +
@@ -1512,4 +1512,5 @@ public final class mXparser {
 	public static final String NAMEv42 = "4.2";
 	public static final String NAMEv43 = "4.3";
 	public static final String NAMEv44 = "4.4";
+	public static final String NAMEv50 = "5.0";
 }

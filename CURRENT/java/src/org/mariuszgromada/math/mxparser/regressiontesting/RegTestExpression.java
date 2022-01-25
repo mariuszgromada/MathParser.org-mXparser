@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestExpression.java        4.4.0   2020-01-11
+ * @(#)RegTestExpression.java        5.0.0   2022-01-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -87,7 +87,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.SpecialValueTrigonometric
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        5.0.0
  *
  * @see Expression
  */
@@ -15307,6 +15307,36 @@ public class RegTestExpression {
 				testResult = true;
 			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
 			break;
+		case 1234:
+			expStr = "2(3) - 2*(3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1235:
+			expStr = "(3)2 - (3)*2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
+		case 1236:
+			expStr = "2(3)2 - 2*(3)*2";
+			mXparser.consolePrint(expStr + " ...... ");
+			exp[testId] = new Expression(expStr);
+			value = exp[testId].calculate();
+			reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			mXparser.consolePrint(value + " reg ... " + reg + " --> ");
+			break;
 		}
 
 		if (testResult == true)
@@ -15373,7 +15403,7 @@ public class RegTestExpression {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(1233);
+		return start(1236);
 	}
 	/**
 	 * Runs main regression tests in the field of calculation.

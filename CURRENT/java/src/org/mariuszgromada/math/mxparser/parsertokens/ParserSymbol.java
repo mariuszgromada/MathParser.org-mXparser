@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        4.3.0    2019-01-18
+ * @(#)ParserSymbol.java        5.0.0    2022-01-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.2.0
+ * @version        5.0.0
  */
 public final class ParserSymbol {
 	/*
@@ -123,6 +123,7 @@ public final class ParserSymbol {
 	public static final String DEC_FRACT						= "(" + INTEGER + ")?" + "\\." + INTEGER;
 	public static final String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
 	public static final String DECIMAL_REG_EXP					= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
+	public static final String DEC_FRACT_REG_EXP				= "[+-]?" + DEC_FRACT + "([eE][+-]?" + INTEGER + ")?";
 	public static final String DECIMAL_SCIENTIFIC_REG_EXP		= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")";
 	public static final String BASE1_REG_EXP					= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
 	public static final String BASE2_REG_EXP					= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
@@ -160,6 +161,45 @@ public final class ParserSymbol {
 	public static final String BASE34_REG_EXP					= "[+-]?[bB]34\\." + DIGIT_B34 + "(" + DIGIT_B34 + ")*";
 	public static final String BASE35_REG_EXP					= "[+-]?[bB]35\\." + DIGIT_B35 + "(" + DIGIT_B35 + ")*";
 	public static final String BASE36_REG_EXP					= "[+-]?[bB]36\\." + DIGIT_B36 + "(" + DIGIT_B36 + ")*";
+	public static final String BASE_OTHER_REG_EXP				=
+			"("
+					+ BASE1_REG_EXP
+					+ "|" + BASE2_REG_EXP
+					+ "|" + BASE3_REG_EXP
+					+ "|" + BASE4_REG_EXP
+					+ "|" + BASE5_REG_EXP
+					+ "|" + BASE6_REG_EXP
+					+ "|" + BASE7_REG_EXP
+					+ "|" + BASE8_REG_EXP
+					+ "|" + BASE9_REG_EXP
+					+ "|" + BASE10_REG_EXP
+					+ "|" + BASE11_REG_EXP
+					+ "|" + BASE12_REG_EXP
+					+ "|" + BASE13_REG_EXP
+					+ "|" + BASE14_REG_EXP
+					+ "|" + BASE15_REG_EXP
+					+ "|" + BASE16_REG_EXP
+					+ "|" + BASE17_REG_EXP
+					+ "|" + BASE18_REG_EXP
+					+ "|" + BASE19_REG_EXP
+					+ "|" + BASE20_REG_EXP
+					+ "|" + BASE21_REG_EXP
+					+ "|" + BASE22_REG_EXP
+					+ "|" + BASE23_REG_EXP
+					+ "|" + BASE24_REG_EXP
+					+ "|" + BASE25_REG_EXP
+					+ "|" + BASE26_REG_EXP
+					+ "|" + BASE27_REG_EXP
+					+ "|" + BASE28_REG_EXP
+					+ "|" + BASE29_REG_EXP
+					+ "|" + BASE30_REG_EXP
+					+ "|" + BASE31_REG_EXP
+					+ "|" + BASE32_REG_EXP
+					+ "|" + BASE33_REG_EXP
+					+ "|" + BASE34_REG_EXP
+					+ "|" + BASE35_REG_EXP
+					+ "|" + BASE36_REG_EXP
+			+ ")";
 	public static final String FRACTION							= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
 	public static final String nameOnlyTokenRegExp				= "([a-zA-Z_])+([a-zA-Z0-9_])*";
 	public static final String unitOnlyTokenRegExp				= "\\[" + nameOnlyTokenRegExp + "\\]";
@@ -172,6 +212,11 @@ public final class ParserSymbol {
 	public static final String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String function1ArgDefStrRegExp 		= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String DEC_NAME_IMPL_MULT_REG_EXP 		= DECIMAL_REG_EXP + nameOnlyTokenOptBracketsRegExp;
+	public static final String NAME_DEC_IMPL_MULT_REG_EXP 		= nameOnlyTokenOptBracketsRegExp + DECIMAL_REG_EXP;
+	public static final String DEC_NAME_MANY_IMPL_MULT_REG_EXP	= "(" + DEC_NAME_IMPL_MULT_REG_EXP + ")*" + "(" + DECIMAL_REG_EXP + ")?";
+	public static final String NAME_DEC_MANY_IMPL_MULT_REG_EXP	= "(" + NAME_DEC_IMPL_MULT_REG_EXP + ")+" + "(" + nameOnlyTokenOptBracketsRegExp + ")?";
+
 	/*
 	 * ParserSymbol - token type id.
 	 */

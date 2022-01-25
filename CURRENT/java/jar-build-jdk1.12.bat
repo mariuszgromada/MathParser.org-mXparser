@@ -1,5 +1,0 @@
-SET ROOT_PATH=%MXPARSER_ROOT_PATH%\MathParser.org-mXparser\CURRENT\java
-SET JDK_VER=12
-SET JDK_HOME=C:\Program Files\Java\jdk12
-
-%ROOT_PATH%\jar-build.bat

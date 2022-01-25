@@ -1,5 +1,5 @@
 /*
- * @(#)RegTestSyntax.java        4.4.0   2020-01-03
+ * @(#)RegTestSyntax.java        5.0.0   2022-01-16
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -86,7 +86,7 @@ import org.mariuszgromada.math.mxparser.mathcollection.MathConstants;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        5.0.0
  *
  * @see Expression
  */
@@ -341,7 +341,7 @@ public class RegTestSyntax {
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
-			reg = false;
+			reg = true;
 			syn = e.checkSyntax();
 			if (syn == reg)
 				testResult = true;
@@ -363,7 +363,7 @@ public class RegTestSyntax {
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
-			reg = false;
+			reg = true;
 			syn = e.checkSyntax();
 			if (syn == reg)
 				testResult = true;
@@ -1507,6 +1507,7 @@ public class RegTestSyntax {
 			expStr = "h.1234567890aBcDeF + H.001234567890aBcDeF";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = true;
 			syn = e.checkSyntax();
@@ -1541,6 +1542,7 @@ public class RegTestSyntax {
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
 			exp[testId] = e;
+			e.disableImpliedMultiplicationMode();
 			reg = false;
 			syn = e.checkSyntax();
 			if (syn == reg)
@@ -1551,6 +1553,7 @@ public class RegTestSyntax {
 			expStr = "o.123456708 + O.00123456709";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1562,6 +1565,7 @@ public class RegTestSyntax {
 			expStr = "b.2101010 + B.0001010103";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1584,6 +1588,7 @@ public class RegTestSyntax {
 			expStr = "b1.111 + B1.1101";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1606,6 +1611,7 @@ public class RegTestSyntax {
 			expStr = "b2.012 + B2.0101";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1628,6 +1634,7 @@ public class RegTestSyntax {
 			expStr = "b3.012 + B3.00123";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1650,6 +1657,7 @@ public class RegTestSyntax {
 			expStr = "b4.01234 + B4.00123";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1672,6 +1680,7 @@ public class RegTestSyntax {
 			expStr = "b5.012345 + B5.001234";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1694,6 +1703,7 @@ public class RegTestSyntax {
 			expStr = "b6.012345 + B6.00123456";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1716,6 +1726,7 @@ public class RegTestSyntax {
 			expStr = "b7.0123456 + B7.001234568";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1738,6 +1749,7 @@ public class RegTestSyntax {
 			expStr = "b8.01234567 + B8.0012345679";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1760,6 +1772,7 @@ public class RegTestSyntax {
 			expStr = "b9.0123456789 + B9.0012345678";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1782,6 +1795,7 @@ public class RegTestSyntax {
 			expStr = "b10.0123456789 + B10.00123456789a";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1804,6 +1818,7 @@ public class RegTestSyntax {
 			expStr = "b11.0123456789a + B11.00123456789Ab";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1826,6 +1841,7 @@ public class RegTestSyntax {
 			expStr = "b12.0123456789abC + B12.00123456789AB";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1848,6 +1864,7 @@ public class RegTestSyntax {
 			expStr = "b13.0123456789abc + B13.00123456789ABCd";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1870,6 +1887,7 @@ public class RegTestSyntax {
 			expStr = "b14.0123456789abcdE + B14.00123456789ABCD";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1892,6 +1910,7 @@ public class RegTestSyntax {
 			expStr = "b15.0123456789abcde + B15.00123456789ABCDEf";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1914,6 +1933,7 @@ public class RegTestSyntax {
 			expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1936,6 +1956,7 @@ public class RegTestSyntax {
 			expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1958,6 +1979,7 @@ public class RegTestSyntax {
 			expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFGh";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -1980,6 +2002,7 @@ public class RegTestSyntax {
 			expStr = "b18.0123456789abcdefghI + B18.00123456789ABCDEFGH";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2002,6 +2025,7 @@ public class RegTestSyntax {
 			expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGIj";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2024,6 +2048,7 @@ public class RegTestSyntax {
 			expStr = "b20.0123456789abcdefghijK + B20.00123456789ABCDEFGIJ";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2046,6 +2071,7 @@ public class RegTestSyntax {
 			expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJKl";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2068,6 +2094,7 @@ public class RegTestSyntax {
 			expStr = "b22.0123456789abcdefghijklM + B22.00123456789ABCDEFGIJKL";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2090,6 +2117,7 @@ public class RegTestSyntax {
 			expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLMn";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2112,6 +2140,7 @@ public class RegTestSyntax {
 			expStr = "b24.0123456789abcdefghijklmnO + B24.00123456789ABCDEFGIJKLMN";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2134,6 +2163,7 @@ public class RegTestSyntax {
 			expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNOp";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2156,6 +2186,7 @@ public class RegTestSyntax {
 			expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOPq";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2178,6 +2209,7 @@ public class RegTestSyntax {
 			expStr = "b27.0123456789abcdefghijklmnopqR + B27.00123456789ABCDEFGIJKLMNOPQ";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2200,6 +2232,7 @@ public class RegTestSyntax {
 			expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQRs";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2222,6 +2255,7 @@ public class RegTestSyntax {
 			expStr = "b29.0123456789abcdefghijklmnopqrsT + B29.00123456789ABCDEFGIJKLMNOPQRS";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2244,6 +2278,7 @@ public class RegTestSyntax {
 			expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRSTu";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2266,6 +2301,7 @@ public class RegTestSyntax {
 			expStr = "b31.0123456789abcdefghijklmnopqrstuV + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2288,6 +2324,7 @@ public class RegTestSyntax {
 			expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUVw";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2310,6 +2347,7 @@ public class RegTestSyntax {
 			expStr = "b33.0123456789abcdefghijklmnopqrstuvwX + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2332,6 +2370,7 @@ public class RegTestSyntax {
 			expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWXy";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2354,6 +2393,7 @@ public class RegTestSyntax {
 			expStr = "b35.0123456789abcdefghijklmnopqrstuvwxyZ + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2376,6 +2416,7 @@ public class RegTestSyntax {
 			expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyzą + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
@@ -2964,8 +3005,198 @@ public class RegTestSyntax {
 			exp[testId] = e;
 			boolean lex = e.checkLexSyntax();
 			syn = e.checkSyntax();
-			reg = false;
+			reg = true;
 			if (syn == reg && lex == true)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 246:
+			expStr = "2(3)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 247:
+			expStr = "(3)2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 248:
+			expStr = "2(3)2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 249:
+			expStr = "2(3+4)2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 250:
+			expStr = "2(3+4)2(3)(3)2cos(pi)2sin(pi)2pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 251:
+			expStr = "-2(3+4)2(3)(3)-2cos(pi)+2sin(pi)2-pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 252:
+			expStr = "2(3+4)2 - 2*(3+4)*2";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 253:
+			expStr = "2e-2*e";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 254:
+			expStr = ".01e-0.01*e";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 255:
+			expStr = "e[h-]sin(.1pi)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 256:
+			expStr = "2[h-]2[h-]2[h-]";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 257:
+			expStr = "[h-](1)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 258:
+			expStr = "[h-](1,2)";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = false;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 259:
+			expStr = "2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 260:
+			expStr = "2.1a2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			e.addArguments(new Argument("a = 2"));
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 261:
+			expStr = "2.1a2.1e2(.3+0.4)[h-].01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			e.addArguments(new Argument("a = 2"));
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
+				testResult = true;
+			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
+			break;
+		case 262:
+			expStr = "2.1a[h-]2.1e2(.3+0.4)[h-].01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
+			mXparser.consolePrint(expStr + " ...... ");
+			e = new Expression(expStr);
+			e.addArguments(new Argument("a = 2"));
+			exp[testId] = e;
+			syn = e.checkSyntax();
+			reg = true;
+			if (syn == reg)
 				testResult = true;
 			mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 			break;
@@ -3014,7 +3245,7 @@ public class RegTestSyntax {
 	 * @return Number of tests with error result.
 	 */
 	public static int start() {
-		return start(245);
+		return start(262);
 	}
 	/**
 	 * Runs syntax checking regression test.

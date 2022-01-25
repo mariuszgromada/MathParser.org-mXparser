@@ -1,6 +1,11 @@
 bin/
+out/
+.idea/
+java-working-tests/
 CURRENT/java/.classpath
 CURRENT/java/.project
+CURRENT/java/.idea/
+CURRENT/cjava/
 *.classpath
 *.project
 CURRENT/java/target/

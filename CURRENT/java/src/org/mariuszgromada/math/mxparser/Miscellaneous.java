@@ -1,9 +1,9 @@
 /*
- * @(#)Miscellaneous.java        4.1.0    2017-05-28
+ * @(#)Miscellaneous.java        5.0.0    2022-01-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -257,6 +257,7 @@ class HeadEqBody {
 			headStr = definitionString.substring(0, eqPos);
 			bodyStr  = definitionString.substring(eqPos+1);
 			Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
+			headExpression.disableImpliedMultiplicationMode();
 			headTokens = headExpression.getCopyOfInitialTokens();
 		} else {
 			definitionError = true;
@@ -274,4 +275,16 @@ class TokenModification {
 	String currentToken;
 	String newToken;
 	String newTokenDescription;
+}
+
+class TokenPart {
+	static final int INTEGER = 1;
+	static final int DECIMAL = 2;
+	static final int FRACTION = 3;
+	static final int OTHER_NUMERAL_BASE = 4;
+	static final int KNOWN_KEYWORD = 5;
+	static final int UNKNOWN_NAME = 6;
+	String str;
+	int type;
+	KeyWord keyWord;
 }

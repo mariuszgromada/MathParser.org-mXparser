@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        4.4.0   2020-01-11
+ * @(#)Expression.java        5.0.0   2022-01-25
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -56,10 +56,9 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.io.ByteArrayInputStream;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.*;
 
+import jdk.nashorn.internal.parser.TokenType;
 import org.mariuszgromada.math.mxparser.mathcollection.AstronomicalConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
 import org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra;
@@ -120,7 +119,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        5.0.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -195,6 +194,15 @@ public class Expression extends PrimitiveElement {
 	 */
 	private List<Token> initialTokens;
 	/**
+	 * List of string tokens that should not be considered
+	 * while seeking for optional implied multiplication.
+	 *
+	 * Example: sum( x2y, 1, 10, 2*x2y)
+	 *
+	 * Here x2y should always stay as x2y
+	 */
+	private Set<String> neverParseForImpliedMultiplication;
+	/**
 	 * the initialTokens list keeps unchanged information about
 	 * found tokens.
 	 *
@@ -241,6 +249,10 @@ public class Expression extends PrimitiveElement {
 	 */
 	private boolean verboseMode;
 	/**
+	 * Implied multiplication mode
+	 */
+	private boolean impliedMultiplicationMode = true;
+	/**
 	 * Internal parameter for calculus expressions
 	 * to avoid decrease in accuracy.
 	 */
@@ -267,8 +279,8 @@ public class Expression extends PrimitiveElement {
 	 * or marking modified flags on the expressions
 	 * related to this expression.
 	 *
-	 * @see setExpressionModifiedFlag()
-	 * @see checkSyntax()
+	 * @see #setExpressionModifiedFlag()
+	 * @see #checkSyntax()
 	 */
 	private boolean recursionCallPending;
 	/**
@@ -428,6 +440,7 @@ public class Expression extends PrimitiveElement {
 		recursionCallsCounter = 0;
 		internalClone = false;
 		parserKeyWordsOnly = false;
+		impliedMultiplicationMode = true;
 		disableRounding = KEEP_ROUNDING_SETTINGS;
 	}
 	/**
@@ -530,6 +543,7 @@ public class Expression extends PrimitiveElement {
 		recursionCallsCounter = 0;
 		internalClone = false;
 		parserKeyWordsOnly = false;
+		impliedMultiplicationMode = true;
 		this.UDFExpression = UDFExpression;
 		this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
 		this.disableRounding = disableUlpRounding;
@@ -588,6 +602,7 @@ public class Expression extends PrimitiveElement {
 		expressionWasModified = expression.expressionWasModified;
 		recursiveMode = expression.recursiveMode;
 		verboseMode = expression.verboseMode;
+		impliedMultiplicationMode = expression.impliedMultiplicationMode;
 		syntaxStatus = expression.syntaxStatus;
 		errorMessage = new String(expression.errorMessage);
 		recursionCallPending = expression.recursionCallPending;
@@ -614,6 +629,17 @@ public class Expression extends PrimitiveElement {
 	 */
 	public String getExpressionString() {
 		return expressionString;
+	}
+	/**
+	 * Returns expression string
+	 *
+	 * @return Expression string definition.
+	 */
+	public String getCanonicalExpressionString() {
+		StringBuilder canonicalExpression = new StringBuilder(1000);
+		for (Token t : getCopyOfInitialTokens())
+			canonicalExpression.append(t.tokenStr);
+		return canonicalExpression.toString();
 	}
 	/**
 	 * Clears expression string
@@ -665,6 +691,28 @@ public class Expression extends PrimitiveElement {
 	public boolean getVerboseMode() {
 		return verboseMode;
 	}
+	/**
+	 * Sets implied multiplication
+	 */
+	public void setImpliedMultiplicationMode() {
+		impliedMultiplicationMode = true;
+	}
+	/**
+	 * Disables implied multiplication
+	 */
+	public void disableImpliedMultiplicationMode() {
+		impliedMultiplicationMode = false;
+	}
+	/**
+	 * Gets implied multiplication status
+	 *
+	 * @return     true if implied multiplication is enabled,
+	 *             otherwise returns false.
+	 */
+	public boolean getImpliedMultiplicationMode() {
+		return impliedMultiplicationMode;
+	}
+
 	/**
 	 * Sets recursive mode
 	 */
@@ -1498,7 +1546,7 @@ public class Expression extends PrimitiveElement {
 	 *
 	 * @param      pos                 the position on which token
 	 *                                 should be updated to the given number
-	 * @param      result              the number
+	 * @param      value              the number
 	 * @param      length              the special function range
 	 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
 	 *                                 intelligent ULP rounding is applied.
@@ -6645,6 +6693,111 @@ public class Expression extends PrimitiveElement {
 			}
 		keyWordsList.add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 	}
+
+
+	/**
+	 * Method used in case of implied multiplication, where x2x can be understood as x2*x
+	 *
+	 * sum( x2x, 1, 20, 2*x2x)
+	 *
+	 * x2x is not known and it will be prevented from split into x2*x
+	 *
+	 * @param token The token
+	 * @return Returns true in case calculus argument was found
+	 */
+	private boolean checkArgumentNameInCalculusOperator(Token token) {
+		if (neverParseForImpliedMultiplication.contains(token.tokenStr)) {
+			initialTokens.add(token);
+			return true;
+		}
+		int initialTokensSize = initialTokens.size();
+		if (initialTokensSize < 2) return false;
+		boolean argumentNameFound = false;
+		if (initialTokensSize >= 2) {
+			Token tokenMinus2 = initialTokens.get(initialTokensSize - 2);
+			if (tokenMinus2.tokenTypeId == CalculusOperator.TYPE_ID) {
+				switch (tokenMinus2.tokenId) {
+					case CalculusOperator.SUM_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.PROD_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.AVG_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.VAR_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.STD_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.MIN_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.MAX_ID:
+						argumentNameFound = true;
+						break;
+				}
+			}
+		}
+
+		if (initialTokensSize >= 4 && !argumentNameFound) {
+			Token tokenMinus4 = initialTokens.get(initialTokensSize - 4);
+			if (tokenMinus4.tokenTypeId == CalculusOperator.TYPE_ID) {
+				switch (tokenMinus4.tokenId) {
+					case CalculusOperator.INT_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.DER_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.DER_LEFT_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.DER_RIGHT_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.DERN_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.FORW_DIFF_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.BACKW_DIFF_ID:
+						argumentNameFound = true;
+						break;
+					case CalculusOperator.SOLVE_ID:
+						argumentNameFound = true;
+						break;
+				}
+			}
+		}
+
+		if (argumentNameFound) {
+			initialTokens.add(token);
+			neverParseForImpliedMultiplication.add(token.tokenStr);
+		}
+
+		return argumentNameFound;
+	}
+
+
+	/**
+	 * Check whether we have a case of '[abc]'
+	 *
+	 * @param token  The token
+	 * @return Returns true in case token is in a form of '[abc]'
+	 * otherwise returns false.
+	 */
+	private boolean checkSpecialConstantName(Token token) {
+		int tokenStrLenght = token.tokenStr.length();
+		if (tokenStrLenght < 2) return false;
+		if (token.tokenStr.charAt(0) != '[') return false;
+		if (token.tokenStr.charAt(tokenStrLenght-1) != ']') return false;
+		initialTokensAdd(token);
+		return true;
+	}
 	/**
 	 * Checks whether unknown token represents number literal
 	 * provided in different numeral base system, where
@@ -6652,7 +6805,7 @@ public class Expression extends PrimitiveElement {
 	 *
 	 * @param token   The token not know to the parser
 	 */
-	private void checkOtherNumberBases(Token token) {
+	private boolean checkOtherNumberBases(Token token) {
 		int dotPos = 0;
 		int tokenStrLength = token.tokenStr.length();
 		/* find dot position */
@@ -6668,7 +6821,7 @@ public class Expression extends PrimitiveElement {
 			if ( token.tokenStr.charAt(3) == '.' )
 				dotPos = 3;
 		}
-		if (dotPos == 0) return;
+		if (dotPos == 0) return false;
 		/* check if there is base indicator */
 		String baseInd = token.tokenStr.substring(0, dotPos).toLowerCase();
 		String numberLiteral = "";
@@ -6716,21 +6869,23 @@ public class Expression extends PrimitiveElement {
 		else if ( baseInd.equals("b36") ) numeralSystemBase = 36;
 		/* if base was found, perform conversion */
 		if ( (numeralSystemBase > 0) && (numeralSystemBase <= 36) ) {
+			double tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+			if (Double.isNaN(tokenValue))
+				return false;
 			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 			token.tokenId = ParserSymbol.NUMBER_ID;
-			token.tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+			token.tokenValue = tokenValue;
+			initialTokensAdd(token);
+			return true;
 		}
+		return false;
 	}
+
 	/**
-	 * Checks whether unknown token represents fraction
-	 * provided as fraction or mixed fraction
-	 *
-	 * @param token   The token not know to the parser
+	 * Adds fraction token to the tokens list
+	 * @param token The token
 	 */
-	private void checkFraction(Token token) {
-		int tokenStrLength = token.tokenStr.length();
-		if (tokenStrLength < 3) return;
-		if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return;
+	private void addFractionToken(Token token) {
 		int underscore1stPos = token.tokenStr.indexOf('_');
 		int underscore2ndPos = token.tokenStr.indexOf('_', underscore1stPos + 1);
 		boolean mixedFraction = false;
@@ -6744,9 +6899,9 @@ public class Expression extends PrimitiveElement {
 			double whole = Double.parseDouble(wholeStr);
 			double numerator = Double.parseDouble(numeratorStr);
 			double denominator = Double.parseDouble(denominatorStr);
-			if (denominator == 0)
+			if (denominator == 0) {
 				fractionValue = Double.NaN;
-			else {
+			} else {
 				fractionValue = whole + numerator / denominator;
 			}
 		} else {
@@ -6763,6 +6918,331 @@ public class Expression extends PrimitiveElement {
 		token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 		token.tokenId = ParserSymbol.NUMBER_ID;
 		token.tokenValue = fractionValue;
+		initialTokensAdd(token);
+	}
+	/**
+	 * Checks whether unknown token represents fraction
+	 * provided as fraction or mixed fraction
+	 *
+	 * @param token   The token not know to the parser
+	 */
+	private boolean checkFraction(Token token) {
+		if (token.tokenStr.length() < 3) return false;
+		if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
+		addFractionToken(token);
+		return true;
+	}
+
+	/**
+	 * Handles implied multiplication while adding single token to the tokens list
+	 * is checking preceding token
+	 * @param token The token
+	 */
+	private void initialTokensAdd(Token token) {
+		if (initialTokens.size() == 0) {
+			initialTokens.add(token);
+			return;
+		}
+		/* Start: Implied Multiplication related part*/
+		if (impliedMultiplicationMode) {
+			Token precedingToken = initialTokens.get(initialTokens.size() - 1);
+			if (token.isSpecialTokenName()) {
+				/* Special constant case [...]
+				 * Excluding: '([a]', ';[a]', ',[a]', '+[a]', ....
+				 */
+				if (!precedingToken.isLeftParenthesis() &&
+						!precedingToken.isBinaryOperator() &&
+						!precedingToken.isParameterSeparator() &&
+						!precedingToken.isUnaryLeftOperator()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+			} else if (precedingToken.isSpecialTokenName()) {
+				if (!token.isRightParenthesis() &&
+						!token.isBinaryOperator() &&
+						!token.isParameterSeparator() &&
+						!token.isUnaryRightOperator()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+			} else if (token.isLeftParenthesis()) {
+				// ')(' case
+				if (precedingToken.isRightParenthesis()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+				// '2(' case
+				if (precedingToken.isNumber()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+				// 'e(', 'pi(' cases
+				if (precedingToken.isIdentifier()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+			} else if (precedingToken.isRightParenthesis()) {
+				// ')2', ')h.1212', ')1_2_3' cases
+				if (token.isNumber()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+				// ')x', ')sin(x)', ')[sdf]' cases
+				if (!token.isParameterSeparator() &&
+						!token.isBinaryOperator() &&
+						!token.isUnaryRightOperator() &&
+						!token.isRightParenthesis()) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				}
+			}
+		}
+		/* End: Implied Multiplication related part*/
+		initialTokens.add(token);
+	}
+
+	/**
+	 * Assign found known keyword to the token
+	 *
+	 * @param token   The token
+	 * @param keyWord  The keyword
+	 */
+	private void assignKnownKeyword(Token token, KeyWord keyWord) {
+		token.tokenTypeId = keyWord.wordTypeId;
+		token.tokenId = keyWord.wordId;
+		if (token.tokenTypeId == Argument.TYPE_ID)
+			token.tokenValue = argumentsList.get(token.tokenId).argumentValue;
+	}
+
+	/**
+	 * Tries to find known keyword for a given token
+	 * via string matching
+	 *
+	 * @param tokenStr  Token string
+	 * @return known keyword if match found, otherwise not matched keyword
+	 */
+	private KeyWord tryFindKnownKeyword(String tokenStr) {
+		for (KeyWord kw : keyWordsList) {
+			if (kw.wordString.equals(tokenStr))
+				return kw;
+		}
+		return new KeyWord();
+	}
+
+	/**
+	 * Tries to find known keyword for a given token
+	 * via string matching
+	 *
+	 * @param token The token
+	 * @return  true if keyword matched, otherwise false
+	 */
+	private boolean tryAssignKnownKeyword(Token token) {
+		KeyWord keyWord = tryFindKnownKeyword(token.tokenStr);
+		if (keyWord.wordTypeId != KeyWord.NO_DEFINITION) {
+			assignKnownKeyword(token, keyWord);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Handles adding token part after single token split
+	 * in the proces of parsing implied multiplication.
+	 *
+	 * @param tokenPart  The token part to be added to the token list
+	 */
+	private void initialTokensAddTokenPart(TokenPart tokenPart) {
+		Token token = new Token();
+		token.tokenStr = tokenPart.str;
+		switch (tokenPart.type) {
+			case TokenPart.INTEGER:
+			case TokenPart.DECIMAL:
+				token.tokenValue = Double.valueOf(token.tokenStr);
+				token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+				token.tokenId = ParserSymbol.NUMBER_ID;
+				initialTokensAdd(token);
+				break;
+			case TokenPart.FRACTION:
+				addFractionToken(token);
+				break;
+			case TokenPart.OTHER_NUMERAL_BASE:
+				checkOtherNumberBases(token);
+				break;
+			case TokenPart.KNOWN_KEYWORD:
+				assignKnownKeyword(token, tokenPart.keyWord);
+				initialTokensAdd(token);
+				break;
+			case TokenPart.UNKNOWN_NAME:
+				initialTokensAdd(token);
+				break;
+		}
+	}
+
+	/**
+	 * Handles implied multiplication logic in case of a single
+	 * continuous string, e.g. no brackets
+	 *
+	 * @param token The token
+	 * @return  returns true in case there was a reason to parse, otherwise returns false
+	 */
+	private boolean checkNumberNameManyImpliedMultiplication(Token token) {
+		int tokenStrLength = token.tokenStr.length();
+		if (tokenStrLength < 2) return false;
+		char c;
+		boolean canStartDecimal, decimalFound;
+		boolean canStartOtherNumberBase, otherNumberBaseFound;
+		boolean canStartFraction, fractionFound;
+		boolean canStartKeyword, keywordFound;
+		boolean isDigit;
+		String substr = "";
+		KeyWord parserKeyword, kw;
+		int lPos = 0;
+		int rPos;
+		int lastConsumedPos = -1;
+		List<TokenPart> tokenParts = new ArrayList<>();
+		TokenPart tokenPart = null;
+
+		do {
+			canStartDecimal = false;
+			canStartOtherNumberBase = false;
+
+			c = token.tokenStr.charAt(lPos);
+			isDigit = is0To9Digit(c);
+
+			if (isDigit || c == '.' || c == '+' || c == '-')
+				canStartDecimal = true;
+
+			canStartFraction = isDigit;
+
+			if (c == 'b' || c == 'B' || c == 'o' || c == 'O' || c == 'h' || c == 'H')
+				canStartOtherNumberBase = true;
+
+			canStartKeyword = !canStartDecimal;
+
+			decimalFound = false;
+			otherNumberBaseFound = false;
+			fractionFound = false;
+			keywordFound = false;
+			parserKeyword = null;
+			for (rPos = tokenStrLength; rPos > lPos; rPos--) {
+				substr = token.tokenStr.substring(lPos, rPos);
+				//  Longest possible decimal checking
+				if (canStartDecimal) {
+					decimalFound = mXparser.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
+					if (decimalFound)
+						break;
+				}
+				//  Longest possible fraction checking
+				if (canStartFraction) {
+					fractionFound = mXparser.regexMatch(substr, ParserSymbol.FRACTION);
+					if (fractionFound)
+						break;
+				}
+				//  Longest possible other numeral base checking
+				if (canStartOtherNumberBase) {
+					otherNumberBaseFound = mXparser.regexMatch(substr, ParserSymbol.BASE_OTHER_REG_EXP);
+					if (otherNumberBaseFound)
+						break;
+				}
+				//  Longest possible keyword checking
+				if (canStartKeyword) {
+					kw = tryFindKnownKeyword(substr);
+					if (kw.wordTypeId != KeyWord.NO_DEFINITION) {
+						parserKeyword = kw;
+						keywordFound = true;
+						break;
+					} else if (neverParseForImpliedMultiplication.contains(substr)) {
+						keywordFound = true;
+						parserKeyword = new KeyWord();
+					}
+				}
+			}
+
+			if (decimalFound || fractionFound || otherNumberBaseFound || keywordFound) {
+				// Checking if not recognized token was present
+				if (lPos - lastConsumedPos > 1) {
+					tokenPart = new TokenPart();
+					tokenPart.str = token.tokenStr.substring(lastConsumedPos + 1, lPos);
+					tokenPart.type = TokenPart.UNKNOWN_NAME;
+					tokenParts.add(tokenPart);
+				}
+
+				tokenPart = new TokenPart();
+				tokenPart.str = substr;
+				if (decimalFound) {
+					if (mXparser.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
+					else tokenPart.type = TokenPart.DECIMAL;
+				}
+
+				if (fractionFound) tokenPart.type = TokenPart.FRACTION;
+				if (otherNumberBaseFound) tokenPart.type = TokenPart.OTHER_NUMERAL_BASE;
+				if (keywordFound) {
+					tokenPart.type = TokenPart.KNOWN_KEYWORD;
+					tokenPart.keyWord = parserKeyword;
+				}
+
+				tokenParts.add(tokenPart);
+
+				lastConsumedPos = rPos - 1;
+				lPos = rPos;
+			} else {
+				lPos++;
+			}
+
+		} while (lPos < tokenStrLength);
+
+		if (lPos - lastConsumedPos > 1) {
+			tokenPart = new TokenPart();
+			tokenPart.str = token.tokenStr.substring(lastConsumedPos + 1, lPos);
+			tokenPart.type = TokenPart.UNKNOWN_NAME;
+			tokenParts.add(tokenPart);
+		}
+
+		if (tokenParts.size() == 1)  {
+			initialTokensAddTokenPart(tokenParts.get(0));
+			return true;
+		}
+
+		TokenPart partAtPos = null;
+		TokenPart partAtPosPlus1 = null;
+
+		boolean foundNameFolloweByInteger;
+		do {
+			foundNameFolloweByInteger = false;
+			int namePos;
+			for (namePos = 0; namePos < tokenParts.size() - 1; namePos++) {
+				partAtPos = tokenParts.get(namePos);
+				partAtPosPlus1 = tokenParts.get(namePos+1);
+				if ( (partAtPos.type == TokenPart.KNOWN_KEYWORD || partAtPos.type == TokenPart.UNKNOWN_NAME)
+						&& partAtPosPlus1.type == TokenPart.INTEGER ) {
+					foundNameFolloweByInteger = true;
+					break;
+				}
+			}
+			if (foundNameFolloweByInteger) {
+				partAtPos.str = partAtPos.str + partAtPosPlus1.str;
+				tokenParts.remove(namePos+1);
+			}
+		} while (foundNameFolloweByInteger);
+
+		if (tokenParts.size() == 1)  {
+			initialTokensAddTokenPart(tokenParts.get(0));
+			return true;
+		}
+
+		for (int i = 0; i < tokenParts.size(); i++) {
+			if (i > 0) initialTokens.add(Token.makeMultiplyToken());
+			initialTokensAddTokenPart(tokenParts.get(i));
+		}
+
+		return true;
 	}
 	/**
 	 * Adds expression token
@@ -6774,27 +7254,30 @@ public class Expression extends PrimitiveElement {
 	 */
 	private void addToken(String tokenStr, KeyWord keyWord) {
 		Token token = new Token();
-		initialTokens.add(token);
 		token.tokenStr = tokenStr;
 		token.keyWord = keyWord.wordString;
 		token.tokenTypeId = keyWord.wordTypeId;
 		token.tokenId = keyWord.wordId;
-		if (token.tokenTypeId == Argument.TYPE_ID)
+		if (token.tokenTypeId != Token.NOT_MATCHED)
+			initialTokensAdd(token);
+		if (token.tokenTypeId == Argument.TYPE_ID) {
 			token.tokenValue = argumentsList.get(token.tokenId).argumentValue;
-		else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-				token.tokenValue = Double.valueOf(token.tokenStr);
-				token.keyWord = ParserSymbol.NUMBER_STR;
+		} else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+			token.tokenValue = Double.valueOf(token.tokenStr);
+			token.keyWord = ParserSymbol.NUMBER_STR;
 		} else if (token.tokenTypeId == Token.NOT_MATCHED) {
-			checkOtherNumberBases(token);
-			if (token.tokenTypeId == Token.NOT_MATCHED)
-				checkFraction(token);
+			boolean alternativeMatchFound = checkArgumentNameInCalculusOperator(token);
+			if (!alternativeMatchFound) alternativeMatchFound = checkSpecialConstantName(token);
+			if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
+			if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
+			if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token);
+			if (!alternativeMatchFound) initialTokensAdd(token);
 		}
 	}
 
-	private boolean isNotSpecialChar(char c) {
+	private static boolean isNotSpecialChar(char c) {
 		if (c == '+') return false;
 		if (c == '-') return false;
-		if (c == '+') return false;
 		if (c == '*') return false;
 		if (c == '/') return false;
 		if (c == '^') return false;
@@ -6811,7 +7294,62 @@ public class Expression extends PrimitiveElement {
 		if (c == '\\') return false;
 		if (c == '#') return false;
 		if (c == '@') return false;
+		if (c == ']') return false;
+		if (c == '[') return false;
 		return true;
+	}
+
+	private static boolean is0To9Digit(char c) {
+		if (	(c == '0') ||
+				(c == '1') ||
+				(c == '2') ||
+				(c == '3') ||
+				(c == '4') ||
+				(c == '5') ||
+				(c == '6') ||
+				(c == '7') ||
+				(c == '8') ||
+				(c == '9')  )
+			return true;
+		else
+			return false;
+	}
+
+	private static boolean canBeSeparatingChar(char c) {
+		if (
+				( c == ' ' ) ||
+				( c == ',' ) ||
+				( c == ';' ) ||
+				( c == '|' ) ||
+				( c == '&' ) ||
+				( c == '+' ) ||
+				( c == '-' ) ||
+				( c == '*' ) ||
+				( c == '\\' ) ||
+				( c == '/' ) ||
+				( c == '(' ) ||
+				( c == ')' ) ||
+				( c == '=' ) ||
+				( c == '>' ) ||
+				( c == '<' ) ||
+				( c == '~' ) ||
+				( c == '^' ) ||
+				( c == '#' ) ||
+				( c == '%' ) ||
+				( c == '@' ) ||
+				( c == '!' ) ||
+				( c == '[' ) ||
+				( c == ']' )	)
+			return true;
+		else
+			return false;
+	}
+
+	private static boolean isBlankChar(char c) {
+		if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') )
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -6829,7 +7367,7 @@ public class Expression extends PrimitiveElement {
 			addFunctionsKeyWords();
 			addConstantsKeyWords();
 		}
-		java.util.Collections.sort(keyWordsList, new DescKwLenComparator());
+		keyWordsList.sort(new DescKwLenComparator());
 		/*
 		 * Evaluate position after sorting for the following keywords types
 		 *    number
@@ -6858,19 +7396,22 @@ public class Expression extends PrimitiveElement {
 			}
 		}
 		initialTokens = new ArrayList<Token>();
+		neverParseForImpliedMultiplication = new HashSet<String>();
 		int expLen = expressionString.length();
 		if (expLen == 0) return;
 		/*
 		 * Clearing expression string from spaces
 		 */
 		String newExpressionString = "";
+		boolean specialConstFound = false;
+		String specialConstStr = "";
 		char c;
 		char clag1 = 'a';
 		int blankCnt = 0;
 		int newExpLen = 0;
 		for (int i = 0; i < expLen; i++) {
 			c = expressionString.charAt(i);
-			if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') ) {
+			if ( isBlankChar(c) ) {
 				blankCnt++;
 			} else if (blankCnt > 0) {
 				if (newExpLen > 0) {
@@ -6918,16 +7459,7 @@ public class Expression extends PrimitiveElement {
 			if (	(firstChar == '+') ||
 					(firstChar == '-') ||
 					(firstChar == '.') ||
-					(firstChar == '0') ||
-					(firstChar == '1') ||
-					(firstChar == '2') ||
-					(firstChar == '3') ||
-					(firstChar == '4') ||
-					(firstChar == '5') ||
-					(firstChar == '6') ||
-					(firstChar == '7') ||
-					(firstChar == '8') ||
-					(firstChar == '9')	) {
+					is0To9Digit(firstChar)	) {
 				for (int i = pos; i < newExpressionString.length(); i++) {
 					/*
 					 * Escaping if encountering char that can not
@@ -6937,16 +7469,7 @@ public class Expression extends PrimitiveElement {
 						c = newExpressionString.charAt(i);
 						if (	(c != '+') &&
 								(c != '-') &&
-								(c != '0') &&
-								(c != '1') &&
-								(c != '2') &&
-								(c != '3') &&
-								(c != '4') &&
-								(c != '5') &&
-								(c != '6') &&
-								(c != '7') &&
-								(c != '8') &&
-								(c != '9') &&
+								!is0To9Digit(c) &&
 								(c != '.') &&
 								(c != 'e') &&
 								(c != 'E') ) break;
@@ -6965,55 +7488,13 @@ public class Expression extends PrimitiveElement {
 			if (numEnd >= 0)
 				if (pos > 0) {
 					precedingChar = newExpressionString.charAt(pos-1);
-					if (
-							( precedingChar != ' ' ) &&
-							( precedingChar != ',' ) &&
-							( precedingChar != ';' ) &&
-							( precedingChar != '|' ) &&
-							( precedingChar != '&' ) &&
-							( precedingChar != '+' ) &&
-							( precedingChar != '-' ) &&
-							( precedingChar != '*' ) &&
-							( precedingChar != '\\' ) &&
-							( precedingChar != '/' ) &&
-							( precedingChar != '(' ) &&
-							( precedingChar != ')' ) &&
-							( precedingChar != '=' ) &&
-							( precedingChar != '>' ) &&
-							( precedingChar != '<' ) &&
-							( precedingChar != '~' ) &&
-							( precedingChar != '^' ) &&
-							( precedingChar != '#' ) &&
-							( precedingChar != '%' ) &&
-							( precedingChar != '@' ) &&
-							( precedingChar != '!' )	)
+					if ( !canBeSeparatingChar(precedingChar) )
 						numEnd = -1;
 				}
 			if (numEnd >= 0)
 				if (numEnd < newExpressionString.length()-1) {
 					followingChar = newExpressionString.charAt(numEnd+1);
-					if (
-							( followingChar != ' ' ) &&
-							( followingChar != ',' ) &&
-							( followingChar != ';' ) &&
-							( followingChar != '|' ) &&
-							( followingChar != '&' ) &&
-							( followingChar != '+' ) &&
-							( followingChar != '-' ) &&
-							( followingChar != '*' ) &&
-							( followingChar != '\\' ) &&
-							( followingChar != '/' ) &&
-							( followingChar != '(' ) &&
-							( followingChar != ')' ) &&
-							( followingChar != '=' ) &&
-							( followingChar != '>' ) &&
-							( followingChar != '<' ) &&
-							( followingChar != '~' ) &&
-							( followingChar != '^' ) &&
-							( followingChar != '#' ) &&
-							( followingChar != '%' ) &&
-							( followingChar != '@' ) &&
-							( followingChar != '!' )	)
+					if ( !canBeSeparatingChar(followingChar)	)
 						numEnd = -1;
 				}
 			if (numEnd >= 0) {
@@ -7062,10 +7543,12 @@ public class Expression extends PrimitiveElement {
 					/*
 					 * Add leading operator to the tokens list
 					 */
-					if (firstChar == '-')
+					if (firstChar == '-') {
 						addToken("-", keyWordsList.get(minusKwId));
-					if (firstChar == '+')
+					}
+					if (firstChar == '+') {
 						addToken("+", keyWordsList.get(plusKwId));
+					}
 					pos++;
 				}
 				/*
@@ -7090,6 +7573,7 @@ public class Expression extends PrimitiveElement {
 				 */
 				int kwId = -1;
 				matchStatus = NOT_FOUND;
+				firstChar = newExpressionString.charAt(pos);
 				do {
 					kwId++;
 					kw = keyWordsList.get(kwId);
@@ -7100,8 +7584,9 @@ public class Expression extends PrimitiveElement {
 							matchStatus = FOUND;
 						/*
 						 * If key word is known by the parser
+						 * and keyword is not a special keyword of the form [...]
 						 */
-						if (matchStatus == FOUND) {
+						if (matchStatus == FOUND && firstChar != '[') {
 							/*
 							 * If key word is in the form of identifier
 							 * then check preceding and following characters
@@ -7123,65 +7608,46 @@ public class Expression extends PrimitiveElement {
 								 */
 								if (pos > 0) {
 									precedingChar = newExpressionString.charAt(pos-1);
-									if (
-											( precedingChar != ' ' ) &&
-											( precedingChar != ',' ) &&
-											( precedingChar != ';' ) &&
-											( precedingChar != '|' ) &&
-											( precedingChar != '&' ) &&
-											( precedingChar != '+' ) &&
-											( precedingChar != '-' ) &&
-											( precedingChar != '*' ) &&
-											( precedingChar != '\\' ) &&
-											( precedingChar != '/' ) &&
-											( precedingChar != '(' ) &&
-											( precedingChar != ')' ) &&
-											( precedingChar != '=' ) &&
-											( precedingChar != '>' ) &&
-											( precedingChar != '<' ) &&
-											( precedingChar != '~' ) &&
-											( precedingChar != '^' ) &&
-											( precedingChar != '#' ) &&
-											( precedingChar != '%' ) &&
-											( precedingChar != '@' ) &&
-											( precedingChar != '!' ) ) matchStatus = NOT_FOUND;
+									if ( !canBeSeparatingChar(precedingChar) ) matchStatus = NOT_FOUND;
 								}
 								/*
 								 * Checking following character
 								 */
 								if ( (matchStatus == FOUND) && ( pos + kwStr.length() < newExpressionString.length() ) ) {
 									followingChar = newExpressionString.charAt(pos + kwStr.length());
-									if (
-											( followingChar != ' ' ) &&
-											( followingChar != ',' ) &&
-											( followingChar != ';' ) &&
-											( followingChar != '|' ) &&
-											( followingChar != '&' ) &&
-											( followingChar != '+' ) &&
-											( followingChar != '-' ) &&
-											( followingChar != '*' ) &&
-											( followingChar != '\\' ) &&
-											( followingChar != '/' ) &&
-											( followingChar != '(' ) &&
-											( followingChar != ')' ) &&
-											( followingChar != '=' ) &&
-											( followingChar != '>' ) &&
-											( followingChar != '<' ) &&
-											( followingChar != '~' ) &&
-											( followingChar != '^' ) &&
-											( followingChar != '#' ) &&
-											( followingChar != '%' ) &&
-											( followingChar != '@' ) &&
-											( followingChar != '!' ) ) matchStatus = NOT_FOUND;
+									if ( !canBeSeparatingChar(followingChar) ) matchStatus = NOT_FOUND;
 								}
 							}
 						}
 					}
 				} while ( (kwId < keyWordsList.size()-1) && (matchStatus == NOT_FOUND) );
+
+				/*
+				 * If keyword was unknown to the parser
+				 * but it might be a special constant key word in the for [...]
+				 */
+				specialConstFound = false;
+				if (matchStatus != FOUND) {
+					if (firstChar == '[') {
+						for (int i = pos+1; i < newExpressionString.length(); i++) {
+							/*
+							 * Escaping if encountering char ']'
+							 */
+							c = newExpressionString.charAt(i);
+							if	(c == ']')  {
+								specialConstFound = true;
+								specialConstStr = newExpressionString.substring(pos, i+1);
+								break;
+							}
+						}
+					}
+				}
+
+
 				/*
 				 * If key word known by the parser was found
 				 */
-				if (matchStatus == FOUND) {
+				if (matchStatus == FOUND || specialConstFound) {
 					/*
 					 * if preceding word was not known by the parser
 					 */
@@ -7195,20 +7661,26 @@ public class Expression extends PrimitiveElement {
 					}
 					matchStatusPrev = FOUND;
 					/*
-					 * Add current (known by the parser)
+					 * Add current (known by the parser or special constant)
 					 * key word to the tokens list
 					 */
-					tokenStr = newExpressionString.substring(pos, pos+kwStr.length());
-					if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) )
-						addToken(tokenStr, kw);
+					if (matchStatus == FOUND) {
+						tokenStr = newExpressionString.substring(pos, pos+kwStr.length());
+						if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) ) {
+							addToken(tokenStr, kw);
+						}
+					} else {
+						tokenStr = specialConstStr;
+						addToken(tokenStr, new KeyWord());
+					}
 					/*
 					 * Remember position where last added word ends + 1
 					 */
-					lastPos = pos+kwStr.length();
+					lastPos = pos+tokenStr.length();
 					/*
 					 * Change current position;
 					 */
-					pos = pos + kwStr.length();
+					pos = pos + tokenStr.length();
 				} else {
 					/*
 					 * Update preceding word indicator

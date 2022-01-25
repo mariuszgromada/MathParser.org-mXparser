@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpressionAPI.java        4.4.0   2020-01-03
+ * @(#)RegTestExpressionAPI.java        5.0.0   2022-01-23
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -91,7 +91,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.0
+ * @version        5.0.0
  *
  * @see Expression
  */
@@ -132,7 +132,7 @@ public class RegTestExpressionAPI {
 		Argument a6 = new Argument("a6",6);
 		Argument a7 = new Argument("a7",7);
 		//Argument a8 = new Argument("a8",8);
-		boolean[] test = new boolean[100];
+		boolean[] test = new boolean[200];
 		for (int i = 0; i < 100; i++)
 			test[i] = false;
 		Expression e;
@@ -675,6 +675,7 @@ public class RegTestExpressionAPI {
 		 */
 		testId++;
 		e = new Expression("token1+toke2n*sin(token3-t3^t5)^t45+pi-pie+e");
+		e.disableImpliedMultiplicationMode();
 		tokens = e.getCopyOfInitialTokens();
 		mXparser.consolePrintTokens(tokens);
 		if (
@@ -782,33 +783,36 @@ public class RegTestExpressionAPI {
 		tokens = e.getCopyOfInitialTokens();
 		mXparser.consolePrintTokens(tokens);
 		if (
-				(tokens.get(0).tokenStr.equals("1pi")) &&
-				(tokens.get(1).tokenStr.equals("+")) &&
-				(tokens.get(2).tokenStr.equals("2pi3")) &&
+				(tokens.get(0).tokenStr.equals("1")) &&
+				(tokens.get(1).tokenStr.equals("*")) &&
+				(tokens.get(2).tokenStr.equals("pi")) &&
 				(tokens.get(3).tokenStr.equals("+")) &&
-				(tokens.get(4).tokenStr.equals("(")) &&
-				(tokens.get(5).tokenStr.equals("(")) &&
-				(tokens.get(6).tokenStr.equals("_d1")) &&
-				(tokens.get(7).tokenStr.equals("(")) &&
-				(tokens.get(8).tokenStr.equals("a")) &&
-				(tokens.get(9).tokenStr.equals(")")) &&
-				(tokens.get(10).tokenStr.equals("+")) &&
+				(tokens.get(4).tokenStr.equals("2")) &&
+				(tokens.get(5).tokenStr.equals("*")) &&
+				(tokens.get(6).tokenStr.equals("pi3")) &&
+				(tokens.get(7).tokenStr.equals("+")) &&
+				(tokens.get(8).tokenStr.equals("(")) &&
+				(tokens.get(9).tokenStr.equals("(")) &&
+				(tokens.get(10).tokenStr.equals("_d1")) &&
 				(tokens.get(11).tokenStr.equals("(")) &&
-				(tokens.get(12).tokenStr.equals("_d")) &&
-				(tokens.get(13).tokenStr.equals("^")) &&
-				(tokens.get(14).tokenStr.equals("_g")) &&
-				(tokens.get(15).tokenStr.equals(")")) &&
-				(tokens.get(16).tokenStr.equals(")")) &&
-				(tokens.get(17).tokenStr.equals(")")) &&
-				(tokens.get(18).tokenStr.equals(")")) &&
+				(tokens.get(12).tokenStr.equals("a")) &&
+				(tokens.get(13).tokenStr.equals(")")) &&
+				(tokens.get(14).tokenStr.equals("+")) &&
+				(tokens.get(15).tokenStr.equals("(")) &&
+				(tokens.get(16).tokenStr.equals("_d")) &&
+				(tokens.get(17).tokenStr.equals("^")) &&
+				(tokens.get(18).tokenStr.equals("_g")) &&
 				(tokens.get(19).tokenStr.equals(")")) &&
+				(tokens.get(20).tokenStr.equals(")")) &&
+				(tokens.get(21).tokenStr.equals(")")) &&
+				(tokens.get(22).tokenStr.equals(")")) &&
+				(tokens.get(23).tokenStr.equals(")")) &&
 
-				(tokens.get(0).looksLike.equals("error")) &&
-				(tokens.get(2).looksLike.equals("error")) &&
-				(tokens.get(6).looksLike.equals("function")) &&
-				(tokens.get(8).looksLike.equals("argument")) &&
+
+				(tokens.get(10).looksLike.equals("function")) &&
 				(tokens.get(12).looksLike.equals("argument")) &&
-				(tokens.get(14).looksLike.equals("argument"))
+				(tokens.get(16).looksLike.equals("argument")) &&
+				(tokens.get(18).looksLike.equals("argument"))
 			) test[testId] = true;
 		/*
 		 * 28. Check Lex Syntax
@@ -2505,6 +2509,244 @@ public class RegTestExpressionAPI {
 		pim.setArgumentExpressionString("2+3");
 		if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
 		if (pim.getArgumentValue() != 5.0) test[testId] = false;
+		/*
+		 * 85. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = true;
+		e = new Expression("2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi");
+		if (!e.getCanonicalExpressionString().equals("2.1e2*(.3+0.4)*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi")) test[testId] = false;
+		/*
+		 * 86. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = true;
+		e = new Expression("2.1a2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi\n");
+		if (!e.getCanonicalExpressionString().equals("2.1*a*2.1e2*(.3+0.4)*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi")) test[testId] = false;
+		/*
+		 * 87. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2x","2*x");
+		/*
+		 * 88. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xy", "2*xy");
+		/*
+		 * 89. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xy", "2*x*y","x");
+		/*
+		 * 90. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyzsin(x)cos(x)2(3+4)6", "2*x*yz*sin(x)*cos(x)*2*(3+4)*6", "x");
+		/*
+		 * 91. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyz2","2*x*y*z2", "x", "y");
+		/*
+		 * 92. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyz2","2*x*y*z2","x", "y", "z");
+		/*
+		 * 93. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyz2.1", "2*x*y*z*2.1", "x", "y");
+		/*
+		 * 94. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyz2.1e", "2*x*y*z*2.1*e","x", "y");
+		/*
+		 * 95. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyz2.1e3", "2*x*y*z*2.1e3","x", "y");
+		/*
+		 * 96. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xyzh.1234", "2*x*y*z*h.1234","x", "y");
+		/*
+		 * 97. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2.1xyzh.1234", "2.1*x*y*z*h.1234","x", "y");
+		/*
+		 * 98. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("-2.1xyzh.1234", "-2.1*x*y*z*h.1234","x", "y");
+		/*
+		 * 99. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("1_2_3-2.1xyzh.1234", "1_2_3-2.1*x*y*z*h.1234","x", "y");
+		/*
+		 * 100. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("1_2_3xyzh.1234", "1_2_3*x*y*z*h.1234","x", "y");
+		/*
+		 * 101. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2_3xyzh.1234", "2_3*x*y*z*h.1234","x", "y");
+		/*
+		 * 102. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("b4.0123xyzh.1234", "b4.0123*x*y*z*h.1234","x", "y");
+		/*
+		 * 103. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
+		/*
+		 * 104. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("xy1_2_3zh.1234", "x*y*1_2_3*z*h.1234","x", "y");
+		/*
+		 * 105. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("xyh.1234z1_2_3", "x*y*h.1234*z*1_2_3","x", "y");
+		/*
+		 * 106. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("xyh.1234z1_2_3", "xy*h.1234*z*1_2_3");
+
+		/*
+		 * 107. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xx","2*xx");
+		/*
+		 * 108. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyy", "2*xxyy");
+		/*
+		 * 109. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyy", "2*xx*yy","xx");
+		/*
+		 * 110. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
+		/*
+		 * 111. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2", "xx", "yy");
+		/*
+		 * 112. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
+		/*
+		 * 113. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
+		/*
+		 * 114. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
+		/*
+		 * 115. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
+		/*
+		 * 116. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 117. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 118. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 119. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 120. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 121. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 122. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
+		/*
+		 * 123. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
+		/*
+		 * 124. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
+		/*
+		 * 125. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
+		/*
+		 * 126. Implied Multiplication & canonical expression string test
+		 */
+		testId++;
+		test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
+
+
+/*
+		testImpliedMultiplication("2xx","2*xx");
+		testImpliedMultiplication("2xxyy", "2*xxyy");
+		testImpliedMultiplication("2xxyy", "2*xx*yy","xx");
+		testImpliedMultiplication("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
+		testImpliedMultiplication("2xxyyz2","2*xx*yy*z2", "xx", "yy");
+		testImpliedMultiplication("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
+		testImpliedMultiplication("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
+		testImpliedMultiplication("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
+		testImpliedMultiplication("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
+		testImpliedMultiplication("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
+		testImpliedMultiplication("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
+		testImpliedMultiplication("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
+		testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
+*/
 
 		/* ============================================= */
         long end =  System.currentTimeMillis();
@@ -2542,5 +2784,13 @@ public class RegTestExpressionAPI {
 	public static void main(String[] args) {
 		start();
 		mXparser.resetCancelCurrentCalculationFlag();
+	}
+	public static boolean testImpliedMultiplication(String expStr, String expResStr, String... elements) {
+		Expression e = new Expression(expStr);
+		if (elements != null)
+			if (elements.length > 0)
+				for (String str : elements)
+					e.addArguments(new Argument(str, "0"));
+		return expResStr.equals(e.getCanonicalExpressionString());
 	}
 }
