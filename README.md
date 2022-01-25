@@ -9,13 +9,22 @@
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
     <version>4.4.2</version>
+
+## NPM
+
+    $ npm i mathparser.org-mxparser
 # Scalar Scientific Calculator, Charts & Scripts - my new project
 
 [![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
 
 ### Scalar in action
 
-[![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2019/04/scalar-math.jpg)](https://youtu.be/HUlEUaioogQ)
+[![Scalar-In-Action](https://scalarmath.org/wp-content/uploads/2019/04/scalar-math.jpg)](https://youtu.be/HUlEUaioogQ)
+
+### Scalar user guide in PDF
+
+[![Scalar-Manual](https://scalarmath.org/wp-content/uploads/2021/11/scalar-app-user-manual-pdf-1.jpg)](https://1drv.ms/b/s!Ao17_WkDEd7L2vQv_Xdbt-o0J1wjxQ)
+
 
 ### Scalar - Free version
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
@@ -33,7 +42,9 @@
 
 [![paypall-donation](http://mathparser.org/wp-content/uploads/2017/07/paypall-donation.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
-# mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android and C# .NET.
+# mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
+    ### 23.11.2021: first 1000000 downloads!
+    ### 15.10.2020: first 500000 downloads!
     ### 20.12.2019: first 250000 downloads!
     ### 01.01.2019: first 100000 downloads!
     ### 01.08.2018: first 60000 downloads!
@@ -44,10 +55,10 @@
     
 ![02-mXparser-sin.gif](http://mathparser.org/wp-content/uploads/2017/05/02-mXparser-sin.gif)
 
-**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA and C# .NET. 
+**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA, C# .NET, TypeScript and JavaScript. 
 
 # Supported frameworks
-![mXparser frameworks](http://mathparser.org/wp-content/uploads/2017/05/supported-frameworks.png)
+![mXparser frameworks](https://github.com/futurearchitec/tempresources/raw/main/supported-frameworks.png)
 - JAVA: 6+
 - Android - tested with mxparser compiled using jdk 1.7
 - .NET Framework (2+) / MONO CLS
@@ -55,6 +66,10 @@
 - .NET Standard: 1+
 - .NET PCL
 - Xamarin
+- TypeScript
+- JavaScript
+- Chrome, Firefox, MS Edge, Safari
+- nodeJS
 
 ![03-mXparser-sum.gif](http://mathparser.org/wp-content/uploads/2017/05/03-mXparser-sum.gif)
 
@@ -63,6 +78,9 @@
 
 # C# intro
 ![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
+
+# TypeScript intro
+![mXparser demo - TypeScript](https://github.com/futurearchitec/tempresources/raw/main/mxparser-demo-ts-r1.gif)
 # Tutorial
 
 ![mXparser tutorial](http://mathparser.org/wp-content/uploads/2017/05/mXparser-tutorial.png)
@@ -148,7 +166,7 @@
 ![arg-free](http://mathparser.org/wp-content/uploads/2017/05/arg-free.png)
 
     Argument x = new Argument("x = 5");
-    Expression e = new Expression("sin(x)");
+    Expression e = new Expression("sin(x)", x);
     e.calculate();
 :+1: 
 
@@ -182,7 +200,7 @@
     e.calculate();
 :+1:
 
-## mXparser is cool! But this is only the begging, we are just warming up!
+## mXparser is cool! But this is only the beginning, we are just warming up!
 
 #### You want to play with iterated operators...
 ![sum](http://mathparser.org/wp-content/uploads/2017/05/sum.png)
