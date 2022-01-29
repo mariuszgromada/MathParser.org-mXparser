@@ -1,9 +1,9 @@
 /*
- * @(#)Expression.cs        4.4.0   2020-01-11
+ * @(#)Expression.cs        5.0.0   2022-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -172,6 +172,15 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private List<Token> initialTokens;
 		/**
+		 * List of string tokens that should not be considered
+		 * while seeking for optional implied multiplication.
+		 *
+		 * Example: sum( x2y, 1, 10, 2*x2y)
+		 *
+		 * Here x2y should always stay as x2y
+		 */
+		private HashSet<String> neverParseForImpliedMultiplication;
+		/**
 		 * the initialTokens list keeps unchanged information about
 		 * found tokens.
 		 *
@@ -218,6 +227,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private bool verboseMode;
 		/**
+		 * Implied multiplication mode
+		 */
+		private bool impliedMultiplicationMode = true;
+		/**
 		 * Internal parameter for calculus expressions
 		 * to avoid decrease in accuracy.
 		 */
@@ -244,8 +257,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * or marking modified flags on the expressions
 		 * related to this expression.
 		 *
-		 * @see setExpressionModifiedFlag()
-		 * @see checkSyntax()
+		 * @see #setExpressionModifiedFlag()
+		 * @see #checkSyntax()
 		 */
 		private bool recursionCallPending;
 		/**
@@ -404,6 +417,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallsCounter = 0;
 			internalClone = false;
 			parserKeyWordsOnly = false;
+			impliedMultiplicationMode = true;
 			disableRounding = KEEP_ROUNDING_SETTINGS;
 		}
 		/**
@@ -502,6 +516,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallsCounter = 0;
 			internalClone = false;
 			parserKeyWordsOnly = false;
+			impliedMultiplicationMode = true;
 			this.UDFExpression = UDFExpression;
 			this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
 			this.disableRounding = disableUlpRounding;
@@ -558,6 +573,7 @@ namespace org.mariuszgromada.math.mxparser {
 			expressionWasModified = expression.expressionWasModified;
 			recursiveMode = expression.recursiveMode;
 			verboseMode = expression.verboseMode;
+			impliedMultiplicationMode = expression.impliedMultiplicationMode;
 			syntaxStatus = expression.syntaxStatus;
 			errorMessage = "" + expression.errorMessage;
 			recursionCallPending = expression.recursionCallPending;
@@ -575,92 +591,124 @@ namespace org.mariuszgromada.math.mxparser {
 		public void setExpressionString(String expressionString) {
 				this.expressionString = expressionString;
 				setExpressionModifiedFlag();
-			}
-			/**
-			 * Returns expression string
-			 */
-			public String getExpressionString() {
-				return expressionString;
-			}
-			/**
-			 * Clears expression string
-			 */
-			public void clearExpressionString() {
-				this.expressionString = "";
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Sets expression description.
-			 *
-			 * @param      description         the description string
-			 */
-			public void setDescription(String description) {
-				this.description = description;
-			}
-			/**
-			 * Gets expression description.
-			 *
-			 * @return     String description.
-			 */
-			public String getDescription() {
-				return description;
-			}
-			/**
-			 * Clears expression description
-			 */
-			public void clearDescription() {
-				this.description = "";
-			}
-			/**
-			 * Enables verbose mode.
-			 */
-			public void setVerboseMode() {
-				verboseMode = true;
-			}
-			/**
-			 * Disables verbose mode (default silent mode).
-			 */
-			public void setSilentMode() {
-				verboseMode = false;
-			}
-			/**
-			 * Returns verbose mode status.
-			 *
-			 * @return     true if verbose mode is on,
-			 *             otherwise returns false.
-			 */
-			public bool getVerboseMode() {
-				return verboseMode;
-			}
-			/**
-			 * Sets recursive mode
-			 */
-			internal void setRecursiveMode() {
-				recursiveMode = true;
-			}
-			/**
-			 * Disables recursive mode
-			 */
-			internal void disableRecursiveMode() {
-				recursiveMode = false;
-			}
-			/**
-			 * Gets recursive mode status
-			 *
-			 * @return     true if recursive mode is enabled,
-			 *             otherwise returns false.
-			 */
-			public bool getRecursiveMode() {
-				return recursiveMode;
-			}
-			/**
-			 * Gets computing time.
-			 *
-			 * @return     computing time in seconds.
-			 */
-			public double getComputingTime() {
-				return computingTime;
-			}
+		}
+		/**
+		 * Returns expression string
+		 */
+		public String getExpressionString() {
+			return expressionString;
+		}
+		/**
+		 * Returns expression string
+		 *
+		 * @return Expression string definition.
+		 */
+		public String getCanonicalExpressionString() {
+			StringBuilder canonicalExpression = new StringBuilder(1000);
+			foreach (Token t in getCopyOfInitialTokens())
+				canonicalExpression.Append(t.tokenStr);
+			return canonicalExpression.ToString();
+		}
+		/**
+		 * Clears expression string
+		 */
+		public void clearExpressionString() {
+			this.expressionString = "";
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Sets expression description.
+		 *
+		 * @param      description         the description string
+		 */
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		/**
+		 * Gets expression description.
+		 *
+		 * @return     String description.
+		 */
+		public String getDescription() {
+			return description;
+		}
+		/**
+		 * Clears expression description
+		 */
+		public void clearDescription() {
+			this.description = "";
+		}
+		/**
+		 * Enables verbose mode.
+		 */
+		public void setVerboseMode() {
+			verboseMode = true;
+		}
+		/**
+		 * Disables verbose mode (default silent mode).
+		 */
+		public void setSilentMode() {
+			verboseMode = false;
+		}
+		/**
+		 * Returns verbose mode status.
+		 *
+		 * @return     true if verbose mode is on,
+		 *             otherwise returns false.
+		 */
+		public bool getVerboseMode() {
+			return verboseMode;
+		}
+		/**
+		 * Sets implied multiplication
+		 */
+		public void setImpliedMultiplicationMode() {
+			impliedMultiplicationMode = true;
+		}
+		/**
+		 * Disables implied multiplication
+		 */
+		public void disableImpliedMultiplicationMode() {
+			impliedMultiplicationMode = false;
+		}
+		/**
+		 * Gets implied multiplication status
+		 *
+		 * @return     true if implied multiplication is enabled,
+		 *             otherwise returns false.
+		 */
+		public bool getImpliedMultiplicationMode() {
+			return impliedMultiplicationMode;
+		}
+		/**
+		 * Sets recursive mode
+		 */
+		internal void setRecursiveMode() {
+			recursiveMode = true;
+		}
+		/**
+		 * Disables recursive mode
+		 */
+		internal void disableRecursiveMode() {
+			recursiveMode = false;
+		}
+		/**
+		 * Gets recursive mode status
+		 *
+		 * @return     true if recursive mode is enabled,
+		 *             otherwise returns false.
+		 */
+		public bool getRecursiveMode() {
+			return recursiveMode;
+		}
+		/**
+		 * Gets computing time.
+		 *
+		 * @return     computing time in seconds.
+		 */
+		public double getComputingTime() {
+			return computingTime;
+		}
 		/**
 		 * Adds user defined elements (such as: Arguments, Constants, Functions)
 		 * to the expressions.
@@ -1451,7 +1499,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param      pos                 the position on which token
 		 *                                 should be updated to the given number
-		 * @param      result              the number
+		 * @param      value              the number
 		 * @param      length              the special function range
 		 * @param      ulpRound            If true, then if {@link mXparser#ulpRounding} = true
 		 *                                 intelligent ULP rounding is applied.
@@ -6629,13 +6677,114 @@ namespace org.mariuszgromada.math.mxparser {
 			keyWordsList.Add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 		}
 		/**
+		 * Method used in case of implied multiplication, where x2x can be understood as x2*x
+		 *
+		 * sum( x2x, 1, 20, 2*x2x)
+		 *
+		 * x2x is not known and it will be prevented from split into x2*x
+		 *
+		 * @param token The token
+		 * @return Returns true in case calculus argument was found
+		 */
+		private bool checkArgumentNameInCalculusOperator(Token token) {
+			if (neverParseForImpliedMultiplication.Contains(token.tokenStr)) {
+				initialTokens.Add(token);
+				return true;
+			}
+			int initialTokensSize = initialTokens.Count;
+			if (initialTokensSize < 2) return false;
+			bool argumentNameFound = false;
+			if (initialTokensSize >= 2) {
+				Token tokenMinus2 = initialTokens[initialTokensSize - 2];
+				if (tokenMinus2.tokenTypeId == CalculusOperator.TYPE_ID) {
+					switch (tokenMinus2.tokenId) {
+						case CalculusOperator.SUM_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.PROD_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.AVG_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.VAR_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.STD_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.MIN_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.MAX_ID:
+							argumentNameFound = true;
+							break;
+					}
+				}
+			}
+
+			if (initialTokensSize >= 4 && !argumentNameFound) {
+				Token tokenMinus4 = initialTokens[initialTokensSize - 4];
+				if (tokenMinus4.tokenTypeId == CalculusOperator.TYPE_ID) {
+					switch (tokenMinus4.tokenId) {
+						case CalculusOperator.INT_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.DER_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.DER_LEFT_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.DER_RIGHT_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.DERN_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.FORW_DIFF_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.BACKW_DIFF_ID:
+							argumentNameFound = true;
+							break;
+						case CalculusOperator.SOLVE_ID:
+							argumentNameFound = true;
+							break;
+					}
+				}
+			}
+
+			if (argumentNameFound) {
+				initialTokens.Add(token);
+				neverParseForImpliedMultiplication.Add(token.tokenStr);
+			}
+
+			return argumentNameFound;
+		}
+		/**
+		 * Check whether we have a case of '[abc]'
+		 *
+		 * @param token  The token
+		 * @return Returns true in case token is in a form of '[abc]'
+		 * otherwise returns false.
+		 */
+		private bool checkSpecialConstantName(Token token) {
+			int tokenStrLenght = token.tokenStr.Length;
+			if (tokenStrLenght < 2) return false;
+			if (token.tokenStr[0] != '[') return false;
+			if (token.tokenStr[tokenStrLenght - 1] != ']') return false;
+			initialTokensAdd(token);
+			return true;
+		}
+		/**
 		 * Checks whether unknown token represents number literal
 		 * provided in different numeral base system, where
 		 * base is between 1 and 36.
 		 *
 		 * @param token   The token not know to the parser
 		 */
-		private void checkOtherNumberBases(Token token) {
+		private bool checkOtherNumberBases(Token token) {
 			int dotPos = 0;
 			int tokenStrLength = token.tokenStr.Length;
 			/* find dot position */
@@ -6651,7 +6800,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (token.tokenStr[3] == '.')
 					dotPos = 3;
 			}
-			if (dotPos == 0) return;
+			if (dotPos == 0) return false;
 			/* check if there is base indicator */
 			String baseInd = token.tokenStr.Substring(0, dotPos).ToLower();
 			String numberLiteral = "";
@@ -6699,21 +6848,22 @@ namespace org.mariuszgromada.math.mxparser {
 			else if (baseInd.Equals("b36")) numeralSystemBase = 36;
 			/* if base was found, perform conversion */
 			if ((numeralSystemBase > 0) && (numeralSystemBase <= 36)) {
+				double tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+				if (Double.IsNaN(tokenValue))
+					return false;
 				token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 				token.tokenId = ParserSymbol.NUMBER_ID;
-				token.tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
+				token.tokenValue = tokenValue;
+				initialTokensAdd(token);
+				return true;
 			}
+			return false;
 		}
 		/**
-		 * Checks whether unknown token represents fraction
-		 * provided as fraction or mixed fraction
-		 *
-		 * @param token   The token not know to the parser
+		 * Adds fraction token to the tokens list
+		 * @param token The token
 		 */
-		private void checkFraction(Token token) {
-			int tokenStrLength = token.tokenStr.Length;
-			if (tokenStrLength < 3) return;
-			if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return;
+		private void addFractionToken(Token token) {
 			int underscore1stPos = token.tokenStr.IndexOf('_');
 			int underscore2ndPos = token.tokenStr.IndexOf('_', underscore1stPos + 1);
 			bool mixedFraction = false;
@@ -6747,7 +6897,333 @@ namespace org.mariuszgromada.math.mxparser {
 			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 			token.tokenId = ParserSymbol.NUMBER_ID;
 			token.tokenValue = fractionValue;
+			initialTokensAdd(token);
 		}
+		/**
+		 * Checks whether unknown token represents fraction
+		 * provided as fraction or mixed fraction
+		 *
+		 * @param token   The token not know to the parser
+		 */
+		private bool checkFraction(Token token) {
+			if (token.tokenStr.Length < 3) return false;
+			if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
+			addFractionToken(token);
+			return true;
+		}
+		/**
+		 * Handles implied multiplication while adding single token to the tokens list
+		 * is checking preceding token
+		 * @param token The token
+		 */
+		private void initialTokensAdd(Token token) {
+			if (initialTokens.Count == 0) {
+				initialTokens.Add(token);
+				return;
+			}
+			/* Start: Implied Multiplication related part*/
+			if (impliedMultiplicationMode) {
+				Token precedingToken = initialTokens[initialTokens.Count - 1];
+				if (token.isSpecialTokenName()) {
+					/* Special constant case [...]
+					 * Excluding: '([a]', ';[a]', ',[a]', '+[a]', ....
+					 */
+					if (!precedingToken.isLeftParenthesis() &&
+							!precedingToken.isBinaryOperator() &&
+							!precedingToken.isParameterSeparator() &&
+							!precedingToken.isUnaryLeftOperator()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+				}
+				else if (precedingToken.isSpecialTokenName()) {
+					if (!token.isRightParenthesis() &&
+							!token.isBinaryOperator() &&
+							!token.isParameterSeparator() &&
+							!token.isUnaryRightOperator()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+				}
+				else if (token.isLeftParenthesis()) {
+					// ')(' case
+					if (precedingToken.isRightParenthesis()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+					// '2(' case
+					if (precedingToken.isNumber()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+					// 'e(', 'pi(' cases
+					if (precedingToken.isIdentifier()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+				}
+				else if (precedingToken.isRightParenthesis()) {
+					// ')2', ')h.1212', ')1_2_3' cases
+					if (token.isNumber()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+					// ')x', ')sin(x)', ')[sdf]' cases
+					if (!token.isParameterSeparator() &&
+							!token.isBinaryOperator() &&
+							!token.isUnaryRightOperator() &&
+							!token.isRightParenthesis()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+				}
+			}
+			/* End: Implied Multiplication related part*/
+			initialTokens.Add(token);
+		}
+		/**
+		 * Assign found known keyword to the token
+		 *
+		 * @param token   The token
+		 * @param keyWord  The keyword
+		 */
+		private void assignKnownKeyword(Token token, KeyWord keyWord) {
+			token.tokenTypeId = keyWord.wordTypeId;
+			token.tokenId = keyWord.wordId;
+			if (token.tokenTypeId == Argument.TYPE_ID)
+				token.tokenValue = argumentsList[token.tokenId].argumentValue;
+		}
+		/**
+		 * Tries to find known keyword for a given token
+		 * via string matching
+		 *
+		 * @param tokenStr  Token string
+		 * @return known keyword if match found, otherwise not matched keyword
+		 */
+		private KeyWord tryFindKnownKeyword(String tokenStr) {
+			foreach (KeyWord kw in keyWordsList) {
+				if (kw.wordString.Equals(tokenStr))
+					return kw;
+			}
+			return new KeyWord();
+		}
+		/**
+		 * Tries to find known keyword for a given token
+		 * via string matching
+		 *
+		 * @param token The token
+		 * @return  true if keyword matched, otherwise false
+		 */
+		private bool tryAssignKnownKeyword(Token token) {
+			KeyWord keyWord = tryFindKnownKeyword(token.tokenStr);
+			if (keyWord.wordTypeId != KeyWord.NO_DEFINITION) {
+				assignKnownKeyword(token, keyWord);
+				return true;
+			}
+			return false;
+		}
+		/**
+		 * Handles adding token part after single token split
+		 * in the proces of parsing implied multiplication.
+		 *
+		 * @param tokenPart  The token part to be added to the token list
+		 */
+		private void initialTokensAddTokenPart(TokenPart tokenPart) {
+			Token token = new Token();
+			token.tokenStr = tokenPart.str;
+			switch (tokenPart.type) {
+				case TokenPart.INTEGER:
+				case TokenPart.DECIMAL:
+					token.tokenValue = Double.Parse(token.tokenStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+					token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+					token.tokenId = ParserSymbol.NUMBER_ID;
+					initialTokensAdd(token);
+					break;
+				case TokenPart.FRACTION:
+					addFractionToken(token);
+					break;
+				case TokenPart.OTHER_NUMERAL_BASE:
+					checkOtherNumberBases(token);
+					break;
+				case TokenPart.KNOWN_KEYWORD:
+					assignKnownKeyword(token, tokenPart.keyWord);
+					initialTokensAdd(token);
+					break;
+				case TokenPart.UNKNOWN_NAME:
+					initialTokensAdd(token);
+					break;
+			}
+		}
+		/**
+		 * Handles implied multiplication logic in case of a single
+		 * continuous string, e.g. no brackets
+		 *
+		 * @param token The token
+		 * @return  returns true in case there was a reason to parse, otherwise returns false
+		 */
+		private bool checkNumberNameManyImpliedMultiplication(Token token) {
+			int tokenStrLength = token.tokenStr.Length;
+			if (tokenStrLength < 2) return false;
+			char c;
+			bool canStartDecimal, decimalFound;
+			bool canStartOtherNumberBase, otherNumberBaseFound;
+			bool canStartFraction, fractionFound;
+			bool canStartKeyword, keywordFound;
+			bool isDigit;
+			String substr = "";
+			KeyWord parserKeyword, kw;
+			int lPos = 0;
+			int rPos;
+			int lastConsumedPos = -1;
+			List<TokenPart> tokenParts = new List<TokenPart>();
+			TokenPart tokenPart = null;
+
+			do {
+				canStartDecimal = false;
+				canStartOtherNumberBase = false;
+
+				c = token.tokenStr[lPos];
+				isDigit = is0To9Digit(c);
+
+				if (isDigit || c == '.' || c == '+' || c == '-')
+					canStartDecimal = true;
+
+				canStartFraction = isDigit;
+
+				if (c == 'b' || c == 'B' || c == 'o' || c == 'O' || c == 'h' || c == 'H')
+					canStartOtherNumberBase = true;
+
+				canStartKeyword = !canStartDecimal;
+
+				decimalFound = false;
+				otherNumberBaseFound = false;
+				fractionFound = false;
+				keywordFound = false;
+				parserKeyword = null;
+				for (rPos = tokenStrLength; rPos > lPos; rPos--) {
+					substr = token.tokenStr.Substring(lPos, rPos - lPos);
+					//  Longest possible decimal checking
+					if (canStartDecimal) {
+						decimalFound = mXparser.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
+						if (decimalFound)
+							break;
+					}
+					//  Longest possible fraction checking
+					if (canStartFraction) {
+						fractionFound = mXparser.regexMatch(substr, ParserSymbol.FRACTION);
+						if (fractionFound)
+							break;
+					}
+					//  Longest possible other numeral base checking
+					if (canStartOtherNumberBase) {
+						otherNumberBaseFound = mXparser.regexMatch(substr, ParserSymbol.BASE_OTHER_REG_EXP);
+						if (otherNumberBaseFound)
+							break;
+					}
+					//  Longest possible keyword checking
+					if (canStartKeyword) {
+						kw = tryFindKnownKeyword(substr);
+						if (kw.wordTypeId != KeyWord.NO_DEFINITION) {
+							parserKeyword = kw;
+							keywordFound = true;
+							break;
+						}
+						else if (neverParseForImpliedMultiplication.Contains(substr)) {
+							keywordFound = true;
+							parserKeyword = new KeyWord();
+						}
+					}
+				}
+
+				if (decimalFound || fractionFound || otherNumberBaseFound || keywordFound)
+				{
+					// Checking if not recognized token was present
+					if (lPos - lastConsumedPos > 1) {
+						tokenPart = new TokenPart();
+						tokenPart.str = token.tokenStr.Substring(lastConsumedPos + 1, lPos - (lastConsumedPos + 1) );
+						tokenPart.type = TokenPart.UNKNOWN_NAME;
+						tokenParts.Add(tokenPart);
+					}
+
+					tokenPart = new TokenPart();
+					tokenPart.str = substr;
+					if (decimalFound) {
+						if (mXparser.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
+						else tokenPart.type = TokenPart.DECIMAL;
+					}
+
+					if (fractionFound) tokenPart.type = TokenPart.FRACTION;
+					if (otherNumberBaseFound) tokenPart.type = TokenPart.OTHER_NUMERAL_BASE;
+					if (keywordFound) {
+						tokenPart.type = TokenPart.KNOWN_KEYWORD;
+						tokenPart.keyWord = parserKeyword;
+					}
+
+					tokenParts.Add(tokenPart);
+
+					lastConsumedPos = rPos - 1;
+					lPos = rPos;
+				}
+				else {
+					lPos++;
+				}
+
+			} while (lPos < tokenStrLength);
+
+			if (lPos - lastConsumedPos > 1) {
+				tokenPart = new TokenPart();
+				tokenPart.str = token.tokenStr.Substring(lastConsumedPos + 1, lPos - (lastConsumedPos + 1) );
+				tokenPart.type = TokenPart.UNKNOWN_NAME;
+				tokenParts.Add(tokenPart);
+			}
+
+			if (tokenParts.Count == 1) {
+				initialTokensAddTokenPart(tokenParts[0]);
+				return true;
+			}
+
+			TokenPart partAtPos = null;
+			TokenPart partAtPosPlus1 = null;
+
+			bool foundNameFolloweByInteger;
+			do {
+				foundNameFolloweByInteger = false;
+				int namePos;
+				for (namePos = 0; namePos < tokenParts.Count - 1; namePos++) {
+					partAtPos = tokenParts[namePos];
+					partAtPosPlus1 = tokenParts[namePos + 1];
+					if ((partAtPos.type == TokenPart.KNOWN_KEYWORD || partAtPos.type == TokenPart.UNKNOWN_NAME)
+							&& partAtPosPlus1.type == TokenPart.INTEGER) {
+						foundNameFolloweByInteger = true;
+						break;
+					}
+				}
+				if (foundNameFolloweByInteger) {
+					partAtPos.str = partAtPos.str + partAtPosPlus1.str;
+					tokenParts.RemoveAt(namePos + 1);
+				}
+			} while (foundNameFolloweByInteger);
+
+			if (tokenParts.Count == 1) {
+				initialTokensAddTokenPart(tokenParts[0]);
+				return true;
+			}
+
+			for (int i = 0; i < tokenParts.Count; i++) {
+				if (i > 0) initialTokens.Add(Token.makeMultiplyToken());
+				initialTokensAddTokenPart(tokenParts[i]);
+			}
+
+			return true;
+		}
+
 		/**
 		 * Adds expression token
 		 * Method is called by the tokenExpressionString()
@@ -6758,28 +7234,30 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void addToken(String tokenStr, KeyWord keyWord) {
 			Token token = new Token();
-			initialTokens.Add(token);
 			token.tokenStr = tokenStr;
 			token.keyWord = keyWord.wordString;
-			token.tokenId = keyWord.wordId;
 			token.tokenTypeId = keyWord.wordTypeId;
-			if (token.tokenTypeId == Argument.TYPE_ID)
+			token.tokenId = keyWord.wordId;
+			if (token.tokenTypeId != Token.NOT_MATCHED)
+				initialTokensAdd(token);
+			if (token.tokenTypeId == Argument.TYPE_ID) {
 				token.tokenValue = argumentsList[token.tokenId].argumentValue;
-			else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-					token.tokenValue = Double.Parse(token.tokenStr, NumberStyles.Float, CultureInfo.InvariantCulture);
-					token.keyWord = ParserSymbol.NUMBER_STR;
+			} else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+				token.tokenValue = Double.Parse(token.tokenStr, NumberStyles.Float, CultureInfo.InvariantCulture);
+				token.keyWord = ParserSymbol.NUMBER_STR;
 			} else if (token.tokenTypeId == Token.NOT_MATCHED) {
-				checkOtherNumberBases(token);
-				if (token.tokenTypeId == Token.NOT_MATCHED)
-					checkFraction(token);
+				bool alternativeMatchFound = checkArgumentNameInCalculusOperator(token);
+				if (!alternativeMatchFound) alternativeMatchFound = checkSpecialConstantName(token);
+				if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
+				if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
+				if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token);
+				if (!alternativeMatchFound) initialTokensAdd(token);
 			}
 		}
 
-		private bool isNotSpecialChar(char c)
-		{
+		private static bool isNotSpecialChar(char c) {
 			if (c == '+') return false;
 			if (c == '-') return false;
-			if (c == '+') return false;
 			if (c == '*') return false;
 			if (c == '/') return false;
 			if (c == '^') return false;
@@ -6796,7 +7274,61 @@ namespace org.mariuszgromada.math.mxparser {
 			if (c == '\\') return false;
 			if (c == '#') return false;
 			if (c == '@') return false;
+			if (c == ']') return false;
+			if (c == '[') return false;
 			return true;
+		}
+
+		private static bool is0To9Digit(char c) {
+			if ((c == '0') ||
+				(c == '1') ||
+				(c == '2') ||
+				(c == '3') ||
+				(c == '4') ||
+				(c == '5') ||
+				(c == '6') ||
+				(c == '7') ||
+				(c == '8') ||
+				(c == '9'))
+				return true;
+			else
+				return false;
+		}
+
+		private static bool canBeSeparatingChar(char c) {
+			if ((c == ' ') ||
+				(c == ',') ||
+				(c == ';') ||
+				(c == '|') ||
+				(c == '&') ||
+				(c == '+') ||
+				(c == '-') ||
+				(c == '*') ||
+				(c == '\\') ||
+				(c == '/') ||
+				(c == '(') ||
+				(c == ')') ||
+				(c == '=') ||
+				(c == '>') ||
+				(c == '<') ||
+				(c == '~') ||
+				(c == '^') ||
+				(c == '#') ||
+				(c == '%') ||
+				(c == '@') ||
+				(c == '!') ||
+				(c == '[') ||
+				(c == ']'))
+				return true;
+			else
+				return false;
+		}
+
+		private static bool isBlankChar(char c) {
+			if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f'))
+				return true;
+			else
+				return false;
 		}
 
 		/**
@@ -6843,19 +7375,22 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 			}
 			initialTokens = new List<Token>();
+			neverParseForImpliedMultiplication = new HashSet<String>();
 			int expLen = expressionString.Length;
 			if (expLen == 0) return;
 			/*
 			 * Clearing expression string from spaces
 			 */
 			String newExpressionString = "";
+			bool specialConstFound = false;
+			String specialConstStr = "";
 			char c;
 			char clag1 = 'a';
 			int blankCnt = 0;
 			int newExpLen = 0;
 			for (int i = 0; i < expLen; i++) {
 				c = expressionString[i];
-				if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') ) {
+				if ( isBlankChar(c) ) {
 					blankCnt++;
 				} else if (blankCnt > 0) {
 					if (newExpLen > 0) {
@@ -6904,16 +7439,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (	(firstChar == '+') ||
 						(firstChar == '-') ||
 						(firstChar == '.') ||
-						(firstChar == '0') ||
-						(firstChar == '1') ||
-						(firstChar == '2') ||
-						(firstChar == '3') ||
-						(firstChar == '4') ||
-						(firstChar == '5') ||
-						(firstChar == '6') ||
-						(firstChar == '7') ||
-						(firstChar == '8') ||
-						(firstChar == '9')	) {
+						is0To9Digit(firstChar)	) {
 					for (int i = pos; i < newExpressionString.Length; i++) {
 						/*
 						 * Escaping if encountering char that can not
@@ -6923,16 +7449,7 @@ namespace org.mariuszgromada.math.mxparser {
 							c = newExpressionString[i];
 							if (	(c != '+') &&
 									(c != '-') &&
-									(c != '0') &&
-									(c != '1') &&
-									(c != '2') &&
-									(c != '3') &&
-									(c != '4') &&
-									(c != '5') &&
-									(c != '6') &&
-									(c != '7') &&
-									(c != '8') &&
-									(c != '9') &&
+									!is0To9Digit(c) &&
 									(c != '.') &&
 									(c != 'e') &&
 									(c != 'E')	) break;
@@ -6951,55 +7468,13 @@ namespace org.mariuszgromada.math.mxparser {
 				if (numEnd >= 0)
 					if (pos > 0) {
 						precedingChar = newExpressionString[pos-1];
-						if (
-								( precedingChar != ' ' ) &&
-								( precedingChar != ',' ) &&
-								( precedingChar != ';' ) &&
-								( precedingChar != '|' ) &&
-								( precedingChar != '&' ) &&
-								( precedingChar != '+' ) &&
-								( precedingChar != '-' ) &&
-								( precedingChar != '*' ) &&
-								( precedingChar != '\\' ) &&
-								( precedingChar != '/' ) &&
-								( precedingChar != '(' ) &&
-								( precedingChar != ')' ) &&
-								( precedingChar != '=' ) &&
-								( precedingChar != '>' ) &&
-								( precedingChar != '<' ) &&
-								( precedingChar != '~' ) &&
-								( precedingChar != '^' ) &&
-								( precedingChar != '#' ) &&
-								( precedingChar != '%' ) &&
-								( precedingChar != '@' ) &&
-								( precedingChar != '!' )	)
+						if ( !canBeSeparatingChar(precedingChar) )
 							numEnd = -1;
 					}
 				if (numEnd >= 0)
 					if (numEnd < newExpressionString.Length - 1) {
 						followingChar = newExpressionString[numEnd + 1];
-						if (
-								(followingChar != ' ') &&
-								(followingChar != ',') &&
-								(followingChar != ';') &&
-								(followingChar != '|') &&
-								(followingChar != '&') &&
-								(followingChar != '+') &&
-								(followingChar != '-') &&
-								(followingChar != '*') &&
-								(followingChar != '\\') &&
-								(followingChar != '/') &&
-								(followingChar != '(') &&
-								(followingChar != ')') &&
-								(followingChar != '=') &&
-								(followingChar != '>') &&
-								(followingChar != '<') &&
-								(followingChar != '~') &&
-								(followingChar != '^') &&
-								(followingChar != '#') &&
-								(followingChar != '%') &&
-								(followingChar != '@') &&
-								(followingChar != '!'))
+						if ( !canBeSeparatingChar(followingChar) )
 							numEnd = -1;
 					}
 				if (numEnd >= 0) {
@@ -7048,10 +7523,12 @@ namespace org.mariuszgromada.math.mxparser {
 						/*
 						 * Add leading operator to the tokens list
 						 */
-						if (firstChar == '-')
+						if (firstChar == '-') {
 							addToken("-", keyWordsList[minusKwId] );
-						if (firstChar == '+')
+						}
+						if (firstChar == '+') {
 							addToken("+", keyWordsList[plusKwId] );
+						}
 						pos++;
 					}
 					/*
@@ -7076,6 +7553,7 @@ namespace org.mariuszgromada.math.mxparser {
 					 */
 					int kwId = -1;
 					matchStatus = NOT_FOUND;
+					firstChar = newExpressionString[pos];
 					do {
 						kwId++;
 						kw = keyWordsList[kwId];
@@ -7086,13 +7564,14 @@ namespace org.mariuszgromada.math.mxparser {
 								matchStatus = FOUND;
 							/*
 							 * If key word is known by the parser
+							 * and keyword is not a special keyword of the form [...]
 							 */
-							if (matchStatus == FOUND) {
+							if (matchStatus == FOUND && firstChar != '[') {
 								/*
 								 * If key word is in the form of identifier
 								 * then check preceding and following characters
 								 */
-								if ((kw.wordTypeId == Argument.TYPE_ID) ||
+								if (	(kw.wordTypeId == Argument.TYPE_ID) ||
 										(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
 										(kw.wordTypeId == Function1Arg.TYPE_ID) ||
 										(kw.wordTypeId == Function2Arg.TYPE_ID) ||
@@ -7109,65 +7588,45 @@ namespace org.mariuszgromada.math.mxparser {
 									 */
 									if (pos > 0) {
 										precedingChar = newExpressionString[pos - 1];
-										if (
-												(precedingChar != ' ') &&
-												(precedingChar != ',') &&
-												(precedingChar != ';') &&
-												(precedingChar != '|') &&
-												(precedingChar != '&') &&
-												(precedingChar != '+') &&
-												(precedingChar != '-') &&
-												(precedingChar != '*') &&
-												(precedingChar != '\\') &&
-												(precedingChar != '/') &&
-												(precedingChar != '(') &&
-												(precedingChar != ')') &&
-												(precedingChar != '=') &&
-												(precedingChar != '>') &&
-												(precedingChar != '<') &&
-												(precedingChar != '~') &&
-												(precedingChar != '^') &&
-												(precedingChar != '#') &&
-												(precedingChar != '%') &&
-												(precedingChar != '@') &&
-												(precedingChar != '!')) matchStatus = NOT_FOUND;
+										if ( !canBeSeparatingChar(precedingChar) ) matchStatus = NOT_FOUND;
 									}
 									/*
 									 * Checking following character
 									 */
 									if ((matchStatus == FOUND) && (pos + kwStr.Length < newExpressionString.Length)) {
 										followingChar = newExpressionString[pos + kwStr.Length];
-										if (
-												(followingChar != ' ') &&
-												(followingChar != ',') &&
-												(followingChar != ';') &&
-												(followingChar != '|') &&
-												(followingChar != '&') &&
-												(followingChar != '+') &&
-												(followingChar != '-') &&
-												(followingChar != '*') &&
-												(followingChar != '\\') &&
-												(followingChar != '/') &&
-												(followingChar != '(') &&
-												(followingChar != ')') &&
-												(followingChar != '=') &&
-												(followingChar != '>') &&
-												(followingChar != '<') &&
-												(followingChar != '~') &&
-												(followingChar != '^') &&
-												(followingChar != '#') &&
-												(followingChar != '%') &&
-												(followingChar != '@') &&
-												(followingChar != '!')) matchStatus = NOT_FOUND;
+										if ( !canBeSeparatingChar(followingChar) ) matchStatus = NOT_FOUND;
 									}
 								}
 							}
 						}
 					} while ( (kwId < keyWordsList.Count-1) && (matchStatus == NOT_FOUND) );
+
+					/*
+					 * If keyword was unknown to the parser
+					 * but it might be a special constant key word in the for [...]
+					 */
+					specialConstFound = false;
+					if (matchStatus != FOUND) {
+						if (firstChar == '[') {
+							for (int i = pos+1; i < newExpressionString.Length; i++) {
+								/*
+								 * Escaping if encountering char ']'
+								 */
+								c = newExpressionString[i];
+								if	(c == ']')  {
+									specialConstFound = true;
+									specialConstStr = newExpressionString.Substring(pos, i + 1 - pos );
+									break;
+								}
+							}
+						}
+					}
+
 					/*
 					 * If key word known by the parser was found
 					 */
-					if (matchStatus == FOUND) {
+					if (matchStatus == FOUND || specialConstFound)  {
 						/*
 						 * if preceding word was not known by the parser
 						 */
@@ -7181,20 +7640,26 @@ namespace org.mariuszgromada.math.mxparser {
 						}
 						matchStatusPrev = FOUND;
 						/*
-						 * Add current (known by the parser)
+						 * Add current (known by the parser or special constant)
 						 * key word to the tokens list
 						 */
-						tokenStr = newExpressionString.Substring(pos, kwStr.Length);
-						if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) )
-							addToken(tokenStr, kw);
+						if (matchStatus == FOUND) {
+							tokenStr = newExpressionString.Substring(pos, kwStr.Length);
+							if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) ) {
+								addToken(tokenStr, kw);
+							}
+						} else {
+							tokenStr = specialConstStr;
+							addToken(tokenStr, new KeyWord());
+						}
 						/*
 						 * Remember position where las adeed word ends + 1
 						 */
-						lastPos = pos+kwStr.Length;
+						lastPos = pos+ tokenStr.Length;
 						/*
 						 * Change current position;
 						 */
-						pos = pos + kwStr.Length;
+						pos = pos + tokenStr.Length;
 					} else {
 						/*
 						 * Update preceding word indicator

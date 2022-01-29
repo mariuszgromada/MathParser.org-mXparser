@@ -1,9 +1,9 @@
 /*
- * @(#)Token.cs        4.1.0    2016-06-04
+ * @(#)Token.cs        5.0.0    2022-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.0.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public class Token {
@@ -114,6 +114,139 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * the kind of token
 		 */
 		public String looksLike;
+		/**
+		 * Verification if the token is a left unary operator.
+		 *
+		 * @return true in case token is unary left operator,
+		 * otherwise returns false
+		 */
+		public bool isUnaryLeftOperator() {
+			if (tokenTypeId == BooleanOperator.TYPE_ID)
+			{
+				if (tokenId == BooleanOperator.NEG_ID) return true;
+			}
+			if (tokenTypeId == BitwiseOperator.TYPE_ID)
+			{
+				if (tokenId == BitwiseOperator.COMPL_ID) return true;
+			}
+			return false;
+		}
+		/**
+		 * Verification if the token is a right unary operator.
+		 *
+		 * @return true in case token is unary right operator,
+		 * otherwise returns false
+		 */
+		public bool isUnaryRightOperator() {
+			if (tokenTypeId == Operator.TYPE_ID)
+			{
+				if (tokenId == Operator.FACT_ID) return true;
+				if (tokenId == Operator.PERC_ID) return true;
+			}
+			return false;
+		}
+		/**
+		 * Verification if the token is a left parenthesis.
+		 *
+		 * @return true in case token is a left parenthesis,
+		 * otherwise returns false
+		 */
+		public bool isLeftParenthesis() {
+			if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.LEFT_PARENTHESES_ID)
+				return true;
+			else
+				return false;
+		}
+		/**
+		 * Verification if the token is a right parenthesis.
+		 *
+		 * @return true in case token is a right parenthesis,
+		 * otherwise returns false
+		 */
+		public bool isRightParenthesis() {
+			if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
+				return true;
+			else
+				return false;
+		}
+		/**
+		 * Verification if the token is an identifier.
+		 *
+		 * @return true in case token is an identifier,
+		 * otherwise returns false
+		 */
+		public bool isIdentifier() {
+			if (tokenTypeId == Constant.TYPE_ID ||
+					tokenTypeId == ConstantValue.TYPE_ID ||
+					tokenTypeId == Unit.TYPE_ID ||
+					tokenTypeId == Argument.TYPE_ID)
+				return true;
+			else
+				return false;
+		}
+		/**
+		 * Verification if the token is a binary operator.
+		 *
+		 * @return true in case token is a binary operator,
+		 * otherwise returns false
+		 */
+		public bool isBinaryOperator() {
+			if (isUnaryLeftOperator()) return false;
+			if (isUnaryRightOperator()) return false;
+			if (tokenTypeId == BinaryRelation.TYPE_ID) return true;
+			if (tokenTypeId == BitwiseOperator.TYPE_ID) return true;
+			if (tokenTypeId == BooleanOperator.TYPE_ID) return true;
+			if (tokenTypeId == Operator.TYPE_ID) return true;
+			return false;
+		}
+		/**
+		 * Verification if the token is a parameter separator.
+		 *
+		 * @return true in case token is a parameter separator,
+		 * otherwise returns false
+		 */
+		public bool isParameterSeparator() {
+			if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.COMMA_ID)
+				return true;
+			else
+				return false;
+		}
+		/**
+		 * Verification if the token is a number.
+		 *
+		 * @return true in case token is a number,
+		 * otherwise returns false
+		 */
+		public bool isNumber() {
+			if (tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && tokenId == ParserSymbol.NUMBER_ID)
+				return true;
+			else
+				return false;
+		}
+		/**
+		 * Verification if the token is represented by a special name in the form [...].
+		 *
+		 * @return true in case token is represented by a special name in the form [...],
+		 * otherwise returns false
+		 */
+		public bool isSpecialTokenName() {
+			if (tokenStr.Length == 0) return false;
+			if (tokenStr[0] == '[') return true;
+			else return false;
+		}
+		/**
+		 * Creates token representing multiplication operator.
+		 *
+		 * @return token representing multiplication operator.
+		 */
+		public static Token makeMultiplyToken() {
+			Token multiplyToken = new Token();
+			multiplyToken.tokenTypeId = Operator.TYPE_ID;
+			multiplyToken.tokenId = Operator.MULTIPLY_ID;
+			multiplyToken.tokenStr = Operator.MULTIPLY_STR;
+			return multiplyToken;
+		}
+
 		/**
 		 * Default constructor
 		 */

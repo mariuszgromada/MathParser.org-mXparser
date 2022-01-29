@@ -1,9 +1,9 @@
 /*
- * @(#)PerformanceTests.cs       4.3.0   2018-12-12
+ * @(#)PerformanceTests.cs       5.0.0   2022-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -77,12 +77,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        5.0.0
 	 *
 	 * @see Expression
 	 */
 	[CLSCompliant(true)]
 	public class PerformanceTests {
+		/**
+		 * Default number of iterations
+		 */
+		private const int BASE_ITER_NUM = 10000000;
 		/**
 		 * Performance test definition & result
 		 */
@@ -152,7 +156,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test000(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - addition. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2+3";
 			createRunJoinThreads(test, 0);
 		}
@@ -167,7 +171,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test001(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - multiplication. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2*3";
 			createRunJoinThreads(test, 1);
 		}
@@ -182,7 +186,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test002(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - division. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2/3";
 			createRunJoinThreads(test, 2);
 		}
@@ -197,7 +201,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test003(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - power. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2^3";
 			createRunJoinThreads(test, 3);
 		}
@@ -212,7 +216,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test004(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - sinus. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "sin(3)";
 			createRunJoinThreads(test, 4);
 		}
@@ -227,7 +231,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test005(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - 2 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2+3+4";
 			createRunJoinThreads(test, 5);
 		}
@@ -242,7 +246,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test006(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - 3 additions. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2+3+4+5";
 			createRunJoinThreads(test, 6);
 		}
@@ -257,7 +261,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test007(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - 3 additions + 1 parenthesis. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2+(3+4)+5";
 			createRunJoinThreads(test, 7);
 		}
@@ -272,7 +276,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test008(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "(2+3)+(4+5)";
 			createRunJoinThreads(test, 8);
 		}
@@ -287,7 +291,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test009(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - 3 additions + 2 brackets. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2+(3+(4+5))";
 			createRunJoinThreads(test, 9);
 		}
@@ -302,7 +306,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test010(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Combination of different operations. Expression created once. Iteration: repeatedly recalculated same expression.";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "sin(2+(3*4)^2)/10";
 			createRunJoinThreads(test, 10);
 		}
@@ -318,7 +322,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test011(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Simple calculations - addition with argument. Expression created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
-			test.iterNum = 20000000;
+			test.iterNum = BASE_ITER_NUM;
 			test.exprStr = "2+x";
 			createRunJoinThreads(test, 11);
 		}
@@ -334,7 +338,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test012(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "User defined function f(x,y)=3*x+4*y. Expression &Function created once, containing argument 'x'. Iteration: argument value is being modified (increased), then expression is recalculated";
-			test.iterNum = 2000000;
+			test.iterNum = BASE_ITER_NUM / 10;
 			test.exprStr = "3*f(x,y)-(2*x+3*y)";
 			createRunJoinThreads(test, 12);
 		}
@@ -348,7 +352,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test013(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating constants: Iteration: Constant c = new Constant(\"c\", 5)";
-			test.iterNum = 1000000;
+			test.iterNum = BASE_ITER_NUM / 20;
 			test.exprStr = "Constant c = new Constant(\"c\", 5)";
 			createRunJoinThreads(test, 13);
 		}
@@ -362,7 +366,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test014(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating constants: Iteration: Constant c = new Constant(\"c=5\")";
-			test.iterNum = 100000;
+			test.iterNum = BASE_ITER_NUM / 200;
 			test.exprStr = "Constant c = new Constant(\"c=5\")";
 			createRunJoinThreads(test, 14);
 		}
@@ -376,7 +380,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test015(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x\", 5)";
-			test.iterNum = 1000000;
+			test.iterNum = BASE_ITER_NUM / 20;
 			test.exprStr = "Argument x = new Argument(\"x\", 5)";
 			createRunJoinThreads(test, 15);
 		}
@@ -390,7 +394,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test016(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating arguments: Iteration: Argument x = new Argument(\"x=5\")";
-			test.iterNum = 100000;
+			test.iterNum = BASE_ITER_NUM / 200;
 			test.exprStr = "Argument x = new Argument(\"x=5\")";
 			createRunJoinThreads(test, 16);
 		}
@@ -404,7 +408,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test017(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating functions: Iteration: Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
-			test.iterNum = 1000000;
+			test.iterNum = BASE_ITER_NUM / 20;
 			test.exprStr = "Function f = new Function(\"f\", \"x+y\", \"x\", \"y\")";
 			createRunJoinThreads(test, 17);
 		}
@@ -418,7 +422,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test018(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating functions: Iteration: Function f = new Function(\"f(x,y)=x+y\")";
-			test.iterNum = 100000;
+			test.iterNum = BASE_ITER_NUM / 200;
 			test.exprStr = "Function f = new Function(\"f(x,y)=x+y\")";
 			createRunJoinThreads(test, 18);
 		}
@@ -432,7 +436,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test019(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating expressions: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
-			test.iterNum = 1000000;
+			test.iterNum = BASE_ITER_NUM / 20;
 			test.exprStr = "Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
 			createRunJoinThreads(test, 19);
 		}
@@ -447,7 +451,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void test020(PerformanceTestResult test, int testId) {
 			test.Id = testId;
 			test.description = "Creating expressions + checking syntax: Iteration: Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
-			test.iterNum = 100000;
+			test.iterNum = BASE_ITER_NUM / 100;
 			test.exprStr = "Expression e = new Expression(\"sin(2+(3*4)^2)/10\")";
 			createRunJoinThreads(test, 20);
 		}
@@ -483,6 +487,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 */
 		public static int Start(int threadsNum) {
 			mXparser.disableUlpRounding();
+			mXparser.disableAlmostIntRounding();
+			mXparser.disableCanonicalRounding();
 			if (threadsNum <= 0) threadsNum = mXparser.getThreadsNumber();
 			tests = new PerformanceTestResult[100];
 			int testId = -1;

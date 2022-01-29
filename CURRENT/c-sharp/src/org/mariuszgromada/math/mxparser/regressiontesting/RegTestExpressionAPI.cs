@@ -1,9 +1,9 @@
 /*
- * @(#)RegTestExpressionAPI.cs        4.4.0   2020-01-03
+ * @(#)RegTestExpressionAPI.cs        5.0.0   2022-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -80,7 +80,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.4.0
+	 * @version        5.0.0
 	 *
 	 * @see Expression
 	 */
@@ -121,7 +121,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			Argument a6 = new Argument("a6",6);
 			Argument a7 = new Argument("a7",7);
 			//Argument a8 = new Argument("a8",8);
-			bool[] test = new bool[100];
+			bool[] test = new bool[200];
 			for (int i = 0; i < 100; i++)
 				test[i] = false;
 			Expression e;
@@ -665,6 +665,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("token1+toke2n*sin(token3-t3^t5)^t45+pi-pie+e");
+			e.disableImpliedMultiplicationMode();
 			tokens = e.getCopyOfInitialTokens();
 			mXparser.consolePrintTokens(tokens);
 			if (
@@ -772,33 +773,36 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			tokens = e.getCopyOfInitialTokens();
 			mXparser.consolePrintTokens(tokens);
 			if (
-					(tokens[0].tokenStr.Equals("1pi")) &&
-					(tokens[1].tokenStr.Equals("+")) &&
-					(tokens[2].tokenStr.Equals("2pi3")) &&
+					(tokens[0].tokenStr.Equals("1")) &&
+					(tokens[1].tokenStr.Equals("*")) &&
+					(tokens[2].tokenStr.Equals("pi")) &&
 					(tokens[3].tokenStr.Equals("+")) &&
-					(tokens[4].tokenStr.Equals("(")) &&
-					(tokens[5].tokenStr.Equals("(")) &&
-					(tokens[6].tokenStr.Equals("_d1")) &&
-					(tokens[7].tokenStr.Equals("(")) &&
-					(tokens[8].tokenStr.Equals("a")) &&
-					(tokens[9].tokenStr.Equals(")")) &&
-					(tokens[10].tokenStr.Equals("+")) &&
+					(tokens[4].tokenStr.Equals("2")) &&
+					(tokens[5].tokenStr.Equals("*")) &&
+					(tokens[6].tokenStr.Equals("pi3")) &&
+					(tokens[7].tokenStr.Equals("+")) &&
+					(tokens[8].tokenStr.Equals("(")) &&
+					(tokens[9].tokenStr.Equals("(")) &&
+					(tokens[10].tokenStr.Equals("_d1")) &&
 					(tokens[11].tokenStr.Equals("(")) &&
-					(tokens[12].tokenStr.Equals("_d")) &&
-					(tokens[13].tokenStr.Equals("^")) &&
-					(tokens[14].tokenStr.Equals("_g")) &&
-					(tokens[15].tokenStr.Equals(")")) &&
-					(tokens[16].tokenStr.Equals(")")) &&
-					(tokens[17].tokenStr.Equals(")")) &&
-					(tokens[18].tokenStr.Equals(")")) &&
+					(tokens[12].tokenStr.Equals("a")) &&
+					(tokens[13].tokenStr.Equals(")")) &&
+					(tokens[14].tokenStr.Equals("+")) &&
+					(tokens[15].tokenStr.Equals("(")) &&
+					(tokens[16].tokenStr.Equals("_d")) &&
+					(tokens[17].tokenStr.Equals("^")) &&
+					(tokens[18].tokenStr.Equals("_g")) &&
 					(tokens[19].tokenStr.Equals(")")) &&
+					(tokens[20].tokenStr.Equals(")")) &&
+					(tokens[21].tokenStr.Equals(")")) &&
+					(tokens[22].tokenStr.Equals(")")) &&
+					(tokens[23].tokenStr.Equals(")")) &&
 
-					(tokens[0].looksLike.Equals("error")) &&
-					(tokens[2].looksLike.Equals("error")) &&
-					(tokens[6].looksLike.Equals("function")) &&
-					(tokens[8].looksLike.Equals("argument")) &&
+
+					(tokens[10].looksLike.Equals("function")) &&
 					(tokens[12].looksLike.Equals("argument")) &&
-					(tokens[14].looksLike.Equals("argument"))
+					(tokens[16].looksLike.Equals("argument")) &&
+					(tokens[18].looksLike.Equals("argument"))
 				) test[testId] = true;
 			/*
 			 * 28. Check Lex Syntax
@@ -2495,6 +2499,221 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			pim.setArgumentExpressionString("2+3");
 			if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
 			if (pim.getArgumentValue() != 5.0) test[testId] = false;
+			/*
+			 * 85. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = true;
+			e = new Expression("2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi");
+			if (!e.getCanonicalExpressionString().Equals("2.1e2*(.3+0.4)*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi")) test[testId] = false;
+			/*
+			 * 86. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = true;
+			e = new Expression("2.1a2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi\n");
+			if (!e.getCanonicalExpressionString().Equals("2.1*a*2.1e2*(.3+0.4)*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi")) test[testId] = false;
+			/*
+			 * 87. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2x","2*x");
+			/*
+			 * 88. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xy", "2*xy");
+			/*
+			 * 89. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xy", "2*x*y","x");
+			/*
+			 * 90. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyzsin(x)cos(x)2(3+4)6", "2*x*yz*sin(x)*cos(x)*2*(3+4)*6", "x");
+			/*
+			 * 91. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyz2","2*x*y*z2", "x", "y");
+			/*
+			 * 92. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyz2","2*x*y*z2","x", "y", "z");
+			/*
+			 * 93. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyz2.1", "2*x*y*z*2.1", "x", "y");
+			/*
+			 * 94. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyz2.1e", "2*x*y*z*2.1*e","x", "y");
+			/*
+			 * 95. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyz2.1e3", "2*x*y*z*2.1e3","x", "y");
+			/*
+			 * 96. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xyzh.1234", "2*x*y*z*h.1234","x", "y");
+			/*
+			 * 97. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2.1xyzh.1234", "2.1*x*y*z*h.1234","x", "y");
+			/*
+			 * 98. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("-2.1xyzh.1234", "-2.1*x*y*z*h.1234","x", "y");
+			/*
+			 * 99. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("1_2_3-2.1xyzh.1234", "1_2_3-2.1*x*y*z*h.1234","x", "y");
+			/*
+			 * 100. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("1_2_3xyzh.1234", "1_2_3*x*y*z*h.1234","x", "y");
+			/*
+			 * 101. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2_3xyzh.1234", "2_3*x*y*z*h.1234","x", "y");
+			/*
+			 * 102. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("b4.0123xyzh.1234", "b4.0123*x*y*z*h.1234","x", "y");
+			/*
+			 * 103. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
+			/*
+			 * 104. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("xy1_2_3zh.1234", "x*y*1_2_3*z*h.1234","x", "y");
+			/*
+			 * 105. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("xyh.1234z1_2_3", "x*y*h.1234*z*1_2_3","x", "y");
+			/*
+			 * 106. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("xyh.1234z1_2_3", "xy*h.1234*z*1_2_3");
+
+			/*
+			 * 107. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xx","2*xx");
+			/*
+			 * 108. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyy", "2*xxyy");
+			/*
+			 * 109. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyy", "2*xx*yy","xx");
+			/*
+			 * 110. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
+			/*
+			 * 111. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2", "xx", "yy");
+			/*
+			 * 112. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
+			/*
+			 * 113. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
+			/*
+			 * 114. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
+			/*
+			 * 115. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
+			/*
+			 * 116. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 117. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 118. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 119. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 120. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 121. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 122. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
+			/*
+			 * 123. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
+			/*
+			 * 124. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
+			/*
+			 * 125. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
+			/*
+			 * 126. Implied Multiplication & canonical expression string test
+			 */
+			testId++;
+			test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
 
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();
@@ -2530,6 +2749,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 		public static void Main(string[] args) {
 			Start();
 			mXparser.resetCancelCurrentCalculationFlag();
+		}
+		public static bool testImpliedMultiplication(String expStr, String expResStr, params String[] elements) {
+			Expression e = new Expression(expStr);
+			if (elements != null)
+				if (elements.Length > 0)
+					foreach (String str in elements)
+						e.addArguments(new Argument(str, "0"));
+			return expResStr.Equals(e.getCanonicalExpressionString());
 		}
 	}
 }

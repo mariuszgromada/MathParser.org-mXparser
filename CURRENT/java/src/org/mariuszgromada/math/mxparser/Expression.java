@@ -3,7 +3,7 @@
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -58,7 +58,6 @@ package org.mariuszgromada.math.mxparser;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 
-import jdk.nashorn.internal.parser.TokenType;
 import org.mariuszgromada.math.mxparser.mathcollection.AstronomicalConstants;
 import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
 import org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra;
@@ -712,7 +711,6 @@ public class Expression extends PrimitiveElement {
 	public boolean getImpliedMultiplicationMode() {
 		return impliedMultiplicationMode;
 	}
-
 	/**
 	 * Sets recursive mode
 	 */
@@ -6693,8 +6691,6 @@ public class Expression extends PrimitiveElement {
 			}
 		keyWordsList.add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 	}
-
-
 	/**
 	 * Method used in case of implied multiplication, where x2x can be understood as x2*x
 	 *
@@ -6781,8 +6777,6 @@ public class Expression extends PrimitiveElement {
 
 		return argumentNameFound;
 	}
-
-
 	/**
 	 * Check whether we have a case of '[abc]'
 	 *
@@ -6880,7 +6874,6 @@ public class Expression extends PrimitiveElement {
 		}
 		return false;
 	}
-
 	/**
 	 * Adds fraction token to the tokens list
 	 * @param token The token
@@ -6932,7 +6925,6 @@ public class Expression extends PrimitiveElement {
 		addFractionToken(token);
 		return true;
 	}
-
 	/**
 	 * Handles implied multiplication while adding single token to the tokens list
 	 * is checking preceding token
@@ -7007,7 +6999,6 @@ public class Expression extends PrimitiveElement {
 		/* End: Implied Multiplication related part*/
 		initialTokens.add(token);
 	}
-
 	/**
 	 * Assign found known keyword to the token
 	 *
@@ -7020,7 +7011,6 @@ public class Expression extends PrimitiveElement {
 		if (token.tokenTypeId == Argument.TYPE_ID)
 			token.tokenValue = argumentsList.get(token.tokenId).argumentValue;
 	}
-
 	/**
 	 * Tries to find known keyword for a given token
 	 * via string matching
@@ -7035,7 +7025,6 @@ public class Expression extends PrimitiveElement {
 		}
 		return new KeyWord();
 	}
-
 	/**
 	 * Tries to find known keyword for a given token
 	 * via string matching
@@ -7051,7 +7040,6 @@ public class Expression extends PrimitiveElement {
 		}
 		return false;
 	}
-
 	/**
 	 * Handles adding token part after single token split
 	 * in the proces of parsing implied multiplication.
@@ -7084,7 +7072,6 @@ public class Expression extends PrimitiveElement {
 				break;
 		}
 	}
-
 	/**
 	 * Handles implied multiplication logic in case of a single
 	 * continuous string, e.g. no brackets

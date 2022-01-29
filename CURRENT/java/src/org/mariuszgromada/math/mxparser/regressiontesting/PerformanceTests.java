@@ -87,7 +87,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  */
 public class PerformanceTests {
 	/**
-	 *
+	 * Default number of iterations
 	 */
 	private static int BASE_ITER_NUM = 10000000;
 	/**

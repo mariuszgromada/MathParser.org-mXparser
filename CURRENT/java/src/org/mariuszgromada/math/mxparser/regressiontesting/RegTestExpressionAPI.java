@@ -2725,29 +2725,6 @@ public class RegTestExpressionAPI {
 		testId++;
 		test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
 
-
-/*
-		testImpliedMultiplication("2xx","2*xx");
-		testImpliedMultiplication("2xxyy", "2*xxyy");
-		testImpliedMultiplication("2xxyy", "2*xx*yy","xx");
-		testImpliedMultiplication("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
-		testImpliedMultiplication("2xxyyz2","2*xx*yy*z2", "xx", "yy");
-		testImpliedMultiplication("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
-		testImpliedMultiplication("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
-		testImpliedMultiplication("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
-		testImpliedMultiplication("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
-		testImpliedMultiplication("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
-		testImpliedMultiplication("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
-		testImpliedMultiplication("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
-		testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
-*/
-
 		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;

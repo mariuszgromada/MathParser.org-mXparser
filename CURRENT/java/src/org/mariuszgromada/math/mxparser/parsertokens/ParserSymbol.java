@@ -123,7 +123,6 @@ public final class ParserSymbol {
 	public static final String DEC_FRACT						= "(" + INTEGER + ")?" + "\\." + INTEGER;
 	public static final String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
 	public static final String DECIMAL_REG_EXP					= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
-	public static final String DEC_FRACT_REG_EXP				= "[+-]?" + DEC_FRACT + "([eE][+-]?" + INTEGER + ")?";
 	public static final String DECIMAL_SCIENTIFIC_REG_EXP		= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")";
 	public static final String BASE1_REG_EXP					= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
 	public static final String BASE2_REG_EXP					= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
@@ -212,10 +211,6 @@ public final class ParserSymbol {
 	public static final String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String function1ArgDefStrRegExp 		= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
-	public static final String DEC_NAME_IMPL_MULT_REG_EXP 		= DECIMAL_REG_EXP + nameOnlyTokenOptBracketsRegExp;
-	public static final String NAME_DEC_IMPL_MULT_REG_EXP 		= nameOnlyTokenOptBracketsRegExp + DECIMAL_REG_EXP;
-	public static final String DEC_NAME_MANY_IMPL_MULT_REG_EXP	= "(" + DEC_NAME_IMPL_MULT_REG_EXP + ")*" + "(" + DECIMAL_REG_EXP + ")?";
-	public static final String NAME_DEC_MANY_IMPL_MULT_REG_EXP	= "(" + NAME_DEC_IMPL_MULT_REG_EXP + ")+" + "(" + nameOnlyTokenOptBracketsRegExp + ")?";
 
 	/*
 	 * ParserSymbol - token type id.

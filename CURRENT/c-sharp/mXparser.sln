@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-00-Current-Dev", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-05-Tests-Current-Dev", "tests-and-release\mXparser-05-Tests-Current-Dev\mXparser-05-Tests-Current-Dev.csproj", "{72431082-A9BF-4230-BA4C-B81F457863B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-06-Tests-Net20", "tests-and-release\mXparser-06-Tests-Net20\mXparser-06-Tests-Net20.csproj", "{F89E2362-4B8D-4474-818B-68898889DBB9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-07-Tests-Net35", "tests-and-release\mXparser-07-Tests-Net35\mXparser-07-Tests-Net35.csproj", "{54699F7A-5016-4CC4-9757-9620FA125FE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-08-Tests-Net45", "tests-and-release\mXparser-08-Tests-Net45\mXparser-08-Tests-Net45.csproj", "{4A8CBEB9-F329-45EE-94A9-A7C5150F389A}"
@@ -25,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-10-Tests-Stand16",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-11-Tests-Stand20", "tests-and-release\mXparser-11-Tests-Stand20\mXparser-11-Tests-Stand20.csproj", "{B5BE72AE-99A6-46DF-8BF6-40E321795843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mXparser-12-Tests-Core10", "tests-and-release\mXparser-12-Tests-Core10\mXparser-12-Tests-Core10.csproj", "{17222ABC-08A6-479D-AEA1-51237EC0C8C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mXparser-12-Tests-Core10", "tests-and-release\mXparser-12-Tests-Core10\mXparser-12-Tests-Core10.csproj", "{17222ABC-08A6-479D-AEA1-51237EC0C8C1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mXparser-13-Tests-Core20", "tests-and-release\mXparser-13-Tests-Core20\mXparser-13-Tests-Core20.csproj", "{F162985E-5381-4782-95AE-B685DD36F08D}"
 EndProject
@@ -75,14 +73,6 @@ Global
 		{72431082-A9BF-4230-BA4C-B81F457863B5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72431082-A9BF-4230-BA4C-B81F457863B5}.Release|x86.ActiveCfg = Release|Any CPU
 		{72431082-A9BF-4230-BA4C-B81F457863B5}.Release|x86.Build.0 = Release|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Debug|x86.Build.0 = Debug|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Release|x86.ActiveCfg = Release|Any CPU
-		{F89E2362-4B8D-4474-818B-68898889DBB9}.Release|x86.Build.0 = Release|Any CPU
 		{54699F7A-5016-4CC4-9757-9620FA125FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{54699F7A-5016-4CC4-9757-9620FA125FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54699F7A-5016-4CC4-9757-9620FA125FE4}.Debug|x86.ActiveCfg = Debug|Any CPU

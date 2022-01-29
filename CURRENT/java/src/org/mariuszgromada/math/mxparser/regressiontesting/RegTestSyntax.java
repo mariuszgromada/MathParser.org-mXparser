@@ -1507,7 +1507,6 @@ public class RegTestSyntax {
 			expStr = "h.1234567890aBcDeF + H.001234567890aBcDeF";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
-			e.disableImpliedMultiplicationMode();
 			exp[testId] = e;
 			reg = true;
 			syn = e.checkSyntax();
@@ -1541,8 +1540,8 @@ public class RegTestSyntax {
 			expStr = "h.1234567890aBcDeFu + y.001234567890aBcDeF";
 			mXparser.consolePrint(expStr + " ...... ");
 			e = new Expression(expStr);
-			exp[testId] = e;
 			e.disableImpliedMultiplicationMode();
+			exp[testId] = e;
 			reg = false;
 			syn = e.checkSyntax();
 			if (syn == reg)

@@ -277,6 +277,12 @@ class TokenModification {
 	String newTokenDescription;
 }
 
+/**
+ * Data structure used in tokenization
+ * searching for implied multiplication
+ * in case of a token i a form of one name
+ * for instance x2x2 = x2*x2
+ */
 class TokenPart {
 	static final int INTEGER = 1;
 	static final int DECIMAL = 2;

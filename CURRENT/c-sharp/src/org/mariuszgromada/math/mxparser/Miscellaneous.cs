@@ -1,9 +1,9 @@
 /*
- * @(#)Miscellaneous.cs        4.1.0    2017-05-28
+ * @(#)Miscellaneous.cs        5.0.0    2022-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -255,6 +255,7 @@ namespace org.mariuszgromada.math.mxparser {
 				headStr = definitionString.Substring(0, eqPos);
 				bodyStr = definitionString.Substring(eqPos + 1);
 				Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
+				headExpression.disableImpliedMultiplicationMode();
 				headTokens = headExpression.getCopyOfInitialTokens();
 			} else {
 				definitionError = true;
@@ -272,5 +273,24 @@ namespace org.mariuszgromada.math.mxparser {
 		internal String currentToken;
 		internal String newToken;
 		internal String newTokenDescription;
+	}
+
+	/**
+	 * Data structure used in tokenization
+	 * searching for implied multiplication
+	 * in case of a token i a form of one name
+	 * for instance x2x2 = x2*x2
+	 */
+	class TokenPart
+	{
+		internal const int INTEGER = 1;
+		internal const int DECIMAL = 2;
+		internal const int FRACTION = 3;
+		internal const int OTHER_NUMERAL_BASE = 4;
+		internal const int KNOWN_KEYWORD = 5;
+		internal const int UNKNOWN_NAME = 6;
+		internal String str;
+		internal int type;
+		internal KeyWord keyWord;
 	}
 }

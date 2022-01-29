@@ -1,9 +1,9 @@
 /*
- * @(#)mXparser.cs        4.4.2   2020-01-25
+ * @(#)mXparser.cs        5.0.0   2022-01-29
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -84,7 +84,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.4.2
+	 * @version        5.0.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -96,8 +96,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const String VERSION = "4.4.2";
-		public const String VERSION_CODE_NAME = "Gemoni";
+		public const String VERSION = "5.0.0";
+		public const String VERSION_CODE_NAME = "Leonis";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET20
 		public const String BUIT_FOR = ".NET 2.0";
@@ -181,8 +181,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Console output string  for below methods
 		 *
-		 * @see mXparser.#consolePrintln(Object)
-		 * @see mXparser.#consolePrint(Object)
+		 * @see #consolePrintln(Object)
+		 * @see #consolePrint(Object)
 		 */
 		private static volatile String CONSOLE_OUTPUT = "";
 		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " bin " + BUIT_FOR + "] ";
@@ -1489,7 +1489,7 @@ namespace org.mariuszgromada.math.mxparser {
 			"\n" +
 			"You may use this software under the condition of Simplified BSD License:\n" +
 			"\n" +
-			"Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.\n" +
+			"Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.\n" +
 			"\n" +
 			"Redistribution and use in source and binary forms, with or without modification, are\n" +
 			"permitted provided that the following conditions are met:\n" +
@@ -1586,5 +1586,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv42 = "4.2";
 		public const String NAMEv43 = "4.3";
 		public const String NAMEv44 = "4.4";
+		public const String NAMEv50 = "5.0";
 	}
 }
