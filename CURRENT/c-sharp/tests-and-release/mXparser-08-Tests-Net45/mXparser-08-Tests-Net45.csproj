@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>org.mariuszgromada.math.mxparser.regressiontesting</RootNamespace>
     <AssemblyName>mXparser-08-Tests-Net45</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -51,6 +51,9 @@
       <Project>{0eb53f5e-2047-40d1-a469-c77430f4e1de}</Project>
       <Name>mXparser-01-Release-Net-Stand-Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

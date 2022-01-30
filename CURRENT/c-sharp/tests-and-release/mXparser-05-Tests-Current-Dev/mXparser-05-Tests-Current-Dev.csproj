@@ -8,9 +8,10 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>org.mariuszgromada.math.mxparser.regressiontesting</RootNamespace>
     <AssemblyName>mXparser-05-Tests-Current-Dev</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,6 +51,9 @@
       <Project>{dab07121-1f1d-4d95-b837-539e2fe64bab}</Project>
       <Name>mXparser-00-Current-Dev</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

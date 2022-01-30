@@ -86,7 +86,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		/**
 		 * Default number of iterations
 		 */
-		private const int BASE_ITER_NUM = 10000000;
+		private const int BASE_ITER_NUM = 50000000;
 		/**
 		 * Performance test definition & result
 		 */

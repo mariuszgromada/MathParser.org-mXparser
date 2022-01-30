@@ -77,7 +77,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     default:
       jj_la1[0] = jj_gen;
       jj_consume_token(-1);
-      throw new ParseException();break;
+      throw new ParseException();
       
     }
   }

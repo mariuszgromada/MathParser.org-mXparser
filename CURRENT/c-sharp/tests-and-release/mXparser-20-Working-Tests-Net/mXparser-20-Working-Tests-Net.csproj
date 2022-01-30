@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>org.mariuszgromada.math.mxparser</RootNamespace>
     <AssemblyName>mXparser-20-Working-Tests-Net</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile>

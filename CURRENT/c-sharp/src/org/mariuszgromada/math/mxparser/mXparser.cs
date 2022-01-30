@@ -99,64 +99,82 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String VERSION = "5.0.0";
 		public const String VERSION_CODE_NAME = "Leonis";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
-#if NET20
-		public const String BUIT_FOR = ".NET 2.0";
-#elif NET35
-		public const String BUIT_FOR = ".NET 3.5";
-#elif NET40
-		public const String BUIT_FOR = ".NET 4.0";
-#elif NET45
-		public const String BUIT_FOR = ".NET 4.5";
-#elif NET451
-		public const String BUIT_FOR = ".NET 4.5.1";
-#elif NET452
-		public const String BUIT_FOR = ".NET 4.5.2";
-#elif NET46
-		public const String BUIT_FOR = ".NET 4.6";
-#elif NET461
-		public const String BUIT_FOR = ".NET 4.6.1";
-#elif NET462
-		public const String BUIT_FOR = ".NET 4.6.2";
-#elif NET47
-		public const String BUIT_FOR = ".NET 4.7";
-#elif NET471
-		public const String BUIT_FOR = ".NET 4.7.1";
+#if NET48
+		public const String BUIT_FOR = "NET48";
 #elif NET472
-		public const String BUIT_FOR = ".NET 4.7.2";
-#elif NET48
-		public const String BUIT_FOR = ".NET 4.8";
-#elif NETSTANDARD1_0
-		public const String BUIT_FOR = ".NET Stand 1.0";
-#elif NETSTANDARD1_1
-		public const String BUIT_FOR = ".NET Stand 1.1";
-#elif NETSTANDARD1_2
-		public const String BUIT_FOR = ".NET Stand 1.2";
-#elif NETSTANDARD1_3
-		public const String BUIT_FOR = ".NET Stand 1.3";
-#elif NETSTANDARD1_4
-		public const String BUIT_FOR = ".NET Stand 1.4";
-#elif NETSTANDARD1_5
-		public const String BUIT_FOR = ".NET Stand 1.5";
-#elif NETSTANDARD1_6
-		public const String BUIT_FOR = ".NET Stand 1.6";
-#elif NETSTANDARD2_0
-		public const String BUIT_FOR = ".NET Stand 2.0";
+		public const String BUIT_FOR = "NET472";
+#elif NET471
+		public const String BUIT_FOR = "NET471";
+#elif NET47
+		public const String BUIT_FOR = "NET47";
+#elif NET462
+		public const String BUIT_FOR = "NET462";
+#elif NET461
+		public const String BUIT_FOR = "NET461";
+#elif NET46
+		public const String BUIT_FOR = "NET46";
+#elif NET452
+		public const String BUIT_FOR = "NET452";
+#elif NET451
+		public const String BUIT_FOR = "NET451";
+#elif NET45
+		public const String BUIT_FOR = "NET45";
+#elif NET40
+		public const String BUIT_FOR = "NET40";
+#elif NET35
+		public const String BUIT_FOR = "NET35";
+#elif NET20
+		public const String BUIT_FOR = "NET20";
 #elif NETSTANDARD2_1
-		public const String BUIT_FOR = ".NET Stand 2.1";
-#elif NETCOREAPP1_0
-		public const String BUIT_FOR = ".NET Core 1.0";
-#elif NETCOREAPP1_1
-		public const String BUIT_FOR = ".NET Core 1.1";
-#elif NETCOREAPP2_0
-		public const String BUIT_FOR = ".NET Core 2.0";
-#elif NETCOREAPP2_1
-		public const String BUIT_FOR = ".NET Core 2.1";
-#elif NETCOREAPP2_2
-		public const String BUIT_FOR = ".NET Core 2.2";
-#elif NETCOREAPP3_0
-		public const String BUIT_FOR = ".NET Core 3.0";
+		public const String BUIT_FOR = "NETSTANDARD2_1";
+#elif NETSTANDARD2_0
+		public const String BUIT_FOR = "NETSTANDARD2_0";
+#elif NETSTANDARD1_6
+		public const String BUIT_FOR = "NETSTANDARD1_6";
+#elif NETSTANDARD1_5
+		public const String BUIT_FOR = "NETSTANDARD1_5";
+#elif NETSTANDARD1_4
+		public const String BUIT_FOR = "NETSTANDARD1_4";
+#elif NETSTANDARD1_3
+		public const String BUIT_FOR = "NETSTANDARD1_3";
+#elif NETSTANDARD1_2
+		public const String BUIT_FOR = "NETSTANDARD1_2";
+#elif NETSTANDARD1_1
+		public const String BUIT_FOR = "NETSTANDARD1_1";
+#elif NETSTANDARD1_0
+		public const String BUIT_FOR = "NETSTANDARD1_0";
+#elif NET6_0
+		public const String BUIT_FOR = "NET6_0";
+#elif NET6_0_ANDROID
+		public const String BUIT_FOR = "NET6_0_ANDROID";
+#elif NET6_0_IOS
+		public const String BUIT_FOR = "NET6_0_IOS";
+#elif NET6_0_MACOS
+		public const String BUIT_FOR = "NET6_0_MACOS";
+#elif NET6_0_MACCATALYST
+		public const String BUIT_FOR = "NET6_0_MACCATALYST";
+#elif NET6_0_TVOS
+		public const String BUIT_FOR = "NET6_0_TVOS";
+#elif NET6_0_WINDOWS
+		public const String BUIT_FOR = "NET6_0_WINDOWS";
+#elif NET5_0
+		public const String BUIT_FOR = "NET5_0";
 #elif NETCOREAPP3_1
-		public const String BUIT_FOR = ".NET Core 3.1";
+		public const String BUIT_FOR = "NETCOREAPP3_1";
+#elif NETCOREAPP3_0
+		public const String BUIT_FOR = "NETCOREAPP3_0";
+#elif NETCOREAPP2_2
+		public const String BUIT_FOR = "NETCOREAPP2_2";
+#elif NETCOREAPP2_1
+		public const String BUIT_FOR = "NETCOREAPP2_1";
+#elif NETCOREAPP2_0
+		public const String BUIT_FOR = "NETCOREAPP2_0";
+#elif NETCOREAPP1_1
+		public const String BUIT_FOR = "NETCOREAPP1_1";
+#elif NETCOREAPP1_0
+		public const String BUIT_FOR = "NETCOREAPP1_0";
+#elif NET
+		public const String BUIT_FOR = "NET";
 #elif PCL
 		public const String BUIT_FOR = ".NET PCL";
 #elif IOS

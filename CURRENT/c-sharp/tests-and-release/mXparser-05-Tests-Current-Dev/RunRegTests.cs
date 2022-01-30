@@ -6,7 +6,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		static void Main(string[] args) {
 			//RunTest.Start("syn");
 			//RunTest.Start("api");
-			//RunTest.Start("reg");
+			RunTest.Start("reg");
 #if !NETCOREAPP1_0
 			//mXparser.consolePrintln(".NET CLR version:" + Environment.Version);
             //mXparser.consolePrintln(".NET version:" + System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(int).Assembly.Location).ProductVersion);

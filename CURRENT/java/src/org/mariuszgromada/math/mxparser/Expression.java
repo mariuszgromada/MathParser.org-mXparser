@@ -694,13 +694,17 @@ public class Expression extends PrimitiveElement {
 	 * Sets implied multiplication
 	 */
 	public void setImpliedMultiplicationMode() {
+		if (impliedMultiplicationMode) return;
 		impliedMultiplicationMode = true;
+		setExpressionModifiedFlag();
 	}
 	/**
 	 * Disables implied multiplication
 	 */
 	public void disableImpliedMultiplicationMode() {
+		if (!impliedMultiplicationMode) return;
 		impliedMultiplicationMode = false;
+		setExpressionModifiedFlag();
 	}
 	/**
 	 * Gets implied multiplication status
