@@ -5,13 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Exe</OutputType>
-    <RootNamespace>org.mariuszgromada.math.mxparser.regressiontesting</RootNamespace>
-    <AssemblyName>mXparser-10-Tests-Stand16</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>org.mariuszgromada.math.mxparser</RootNamespace>
+    <AssemblyName>8-Working-Tests-Net</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-    <ProjectGuid>{232BEA43-61CC-45C7-8523-3755376189C8}</ProjectGuid>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <ProjectGuid>{E24E3065-E230-4803-B5E2-208EECFF7B2E}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,20 +36,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathParser.org-mXparser, Version=4.4.0.0, Culture=neutral, PublicKeyToken=0fbab7add73ed6e2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.6\MathParser.org-mXparser.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\mXparser-05-Tests-Current-Dev\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\mXparser-05-Tests-Current-Dev\RunRegTests.cs">
-      <Link>RunRegTests.cs</Link>
-    </Compile>
+    <Compile Include="WorkingTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\2-Release-Net-Stand-Core\2-Release-Net-Stand-Core.csproj">
+      <Project>{0eb53f5e-2047-40d1-a469-c77430f4e1de}</Project>
+      <Name>2-Release-Net-Stand-Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

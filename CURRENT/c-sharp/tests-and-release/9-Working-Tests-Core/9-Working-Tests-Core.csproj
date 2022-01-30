@@ -7,7 +7,7 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <ProjectReference Include="..\mXparser-01-Release-Net-Stand-Core\mXparser-01-Release-Net-Stand-Core.csproj" />
+    <ProjectReference Include="..\2-Release-Net-Stand-Core\2-Release-Net-Stand-Core.csproj" />
   </ItemGroup>
 
 </Project>

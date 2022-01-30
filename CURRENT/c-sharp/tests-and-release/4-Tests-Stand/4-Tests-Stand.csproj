@@ -6,12 +6,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Exe</OutputType>
     <RootNamespace>org.mariuszgromada.math.mxparser.regressiontesting</RootNamespace>
-    <AssemblyName>mXparser-10-Tests-Stand16</AssemblyName>
+    <AssemblyName>4-Tests-Stand</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-    <ProjectGuid>{232BEA43-61CC-45C7-8523-3755376189C8}</ProjectGuid>
+    <ProjectGuid>{FA74EF7A-D009-48D3-ACBF-235D93819A0C}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,16 +37,16 @@
   <ItemGroup>
     <Reference Include="MathParser.org-mXparser, Version=4.4.0.0, Culture=neutral, PublicKeyToken=0fbab7add73ed6e2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.6\MathParser.org-mXparser.dll</HintPath>
+      <HintPath>..\2-Release-Net-Stand-Core\bin\Release\netstandard1.0\MathParser.org-mXparser.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\mXparser-05-Tests-Current-Dev\Properties\AssemblyInfo.cs">
+    <Compile Include="..\5-Tests-Net\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\mXparser-05-Tests-Current-Dev\RunRegTests.cs">
+    <Compile Include="..\5-Tests-Net\RunRegTests.cs">
       <Link>RunRegTests.cs</Link>
     </Compile>
   </ItemGroup>

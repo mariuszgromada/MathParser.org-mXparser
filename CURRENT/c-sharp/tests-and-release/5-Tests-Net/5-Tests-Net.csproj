@@ -6,12 +6,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Exe</OutputType>
     <RootNamespace>org.mariuszgromada.math.mxparser.regressiontesting</RootNamespace>
-    <AssemblyName>mXparser-09-Tests-Stand10</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AssemblyName>5-Tests-Net</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-    <ProjectGuid>{FA74EF7A-D009-48D3-ACBF-235D93819A0C}</ProjectGuid>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <ProjectGuid>{54699F7A-5016-4CC4-9757-9620FA125FE4}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,20 +36,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathParser.org-mXparser, Version=4.4.0.0, Culture=neutral, PublicKeyToken=0fbab7add73ed6e2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.0\MathParser.org-mXparser.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\mXparser-05-Tests-Current-Dev\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
+    <Compile Include="\Properties\AssemblyInfo.cs">
     </Compile>
-    <Compile Include="..\mXparser-05-Tests-Current-Dev\RunRegTests.cs">
-      <Link>RunRegTests.cs</Link>
+    <Compile Include="RunRegTests.cs">
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\2-Release-Net-Stand-Core\2-Release-Net-Stand-Core.csproj">
+      <Project>{0eb53f5e-2047-40d1-a469-c77430f4e1de}</Project>
+      <Name>2-Release-Net-Stand-Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
