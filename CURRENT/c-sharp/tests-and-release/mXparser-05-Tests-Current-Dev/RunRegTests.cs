@@ -12,7 +12,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
             //mXparser.consolePrintln(".NET version:" + System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(int).Assembly.Location).ProductVersion);
 #endif
 			//if (mXparser.BUIT_FOR.Contains("Stand 1.0") || mXparser.BUIT_FOR.Contains("Stand 1.1") || mXparser.BUIT_FOR.Contains("Stand 1.2") || mXparser.BUIT_FOR.Contains("PCL"))
-			//	Console.WriteLine(mXparser.getConsoleOutput());
+			Console.WriteLine(mXparser.getConsoleOutput());
 		}
 	}
 }

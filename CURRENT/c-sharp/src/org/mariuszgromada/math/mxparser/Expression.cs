@@ -662,7 +662,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Sets implied multiplication
 		 */
-		public void setImpliedMultiplicationMode() {
+		public void enableImpliedMultiplicationMode() {
 			if (impliedMultiplicationMode) return;
 			impliedMultiplicationMode = true;
 			setExpressionModifiedFlag();

@@ -3,7 +3,7 @@
 package org.mariuszgromada.math.mxparser.syntaxchecker;
 
 /** Token Manager. */
-@SuppressWarnings("unused")public class SyntaxCheckerTokenManager implements SyntaxCheckerConstants {
+public class SyntaxCheckerTokenManager implements SyntaxCheckerConstants {
 
   /** Debug output. */
   public  java.io.PrintStream debugStream = System.out;
@@ -1639,15 +1639,6 @@ private int jjMoveNfa_0(int startState, int curPos)
       catch(java.io.IOException e) { return curPos; }
    }
 }
-static final int[] jjnextStates = {
-   236, 0, 237, 2, 238, 239, 240, 241, 43, 41, 44, 39, 38, 39, 40, 41, 
-   34, 33, 225, 227, 229, 230, 232, 234, 53, 54, 55, 57, 59, 48, 51, 61, 
-   64, 67, 70, 73, 76, 79, 82, 85, 197, 198, 199, 200, 201, 202, 203, 204, 
-   205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 
-   221, 222, 223, 61, 64, 67, 70, 73, 76, 79, 82, 85, 91, 95, 99, 103, 
-   107, 111, 115, 119, 123, 127, 131, 135, 139, 143, 147, 151, 155, 159, 163, 167, 
-   171, 175, 179, 183, 187, 191, 195, 3, 4, 33, 34, 35, 
-};
 
 /** Token literal values. */
 public static final String[] jjstrLiteralImages = {
@@ -1685,6 +1676,15 @@ protected Token jjFillToken()
 
    return t;
 }
+static final int[] jjnextStates = {
+   236, 0, 237, 2, 238, 239, 240, 241, 43, 41, 44, 39, 38, 39, 40, 41, 
+   34, 33, 225, 227, 229, 230, 232, 234, 53, 54, 55, 57, 59, 48, 51, 61, 
+   64, 67, 70, 73, 76, 79, 82, 85, 197, 198, 199, 200, 201, 202, 203, 204, 
+   205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 
+   221, 222, 223, 61, 64, 67, 70, 73, 76, 79, 82, 85, 91, 95, 99, 103, 
+   107, 111, 115, 119, 123, 127, 131, 135, 139, 143, 147, 151, 155, 159, 163, 167, 
+   171, 175, 179, 183, 187, 191, 195, 3, 4, 33, 34, 35, 
+};
 
 int curLexState = 0;
 int defaultLexState = 0;
@@ -1706,7 +1706,7 @@ public Token getNextToken()
    {
       curChar = input_stream.BeginToken();
    }
-   catch(java.io.IOException e)
+   catch(Exception e)
    {
       jjmatchedKind = 0;
       jjmatchedPos = -1;
@@ -1763,6 +1763,31 @@ public Token getNextToken()
   }
 }
 
+void SkipLexicalActions(Token matchedToken)
+{
+   switch(jjmatchedKind)
+   {
+      default :
+         break;
+   }
+}
+void MoreLexicalActions()
+{
+   jjimageLen += (lengthOfMatch = jjmatchedPos + 1);
+   switch(jjmatchedKind)
+   {
+      default :
+         break;
+   }
+}
+void TokenLexicalActions(Token matchedToken)
+{
+   switch(jjmatchedKind)
+   {
+      default :
+         break;
+   }
+}
 private void jjCheckNAdd(int state)
 {
    if (jjrounds[state] != jjround)
@@ -1806,9 +1831,14 @@ private void jjCheckNAddStates(int start, int end)
   }
 
   /** Reinitialise parser. */
+  
   public void ReInit(SimpleCharStream stream)
   {
-    jjmatchedPos = jjnewStateCnt = 0;
+
+
+    jjmatchedPos =
+    jjnewStateCnt =
+    0;
     curLexState = defaultLexState;
     input_stream = stream;
     ReInitRounds();
@@ -1824,6 +1854,7 @@ private void jjCheckNAddStates(int start, int end)
 
   /** Reinitialise parser. */
   public void ReInit(SimpleCharStream stream, int lexState)
+  
   {
     ReInit(stream);
     SwitchTo(lexState);
@@ -1838,9 +1869,20 @@ private void jjCheckNAddStates(int start, int end)
       curLexState = lexState;
   }
 
+
 /** Lexer state names. */
 public static final String[] lexStateNames = {
    "DEFAULT",
+};
+
+/** Lex State array. */
+public static final int[] jjnewLexState = {
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, 
 };
 static final long[] jjtoToken = {
    0xffff000000000001L, 0xffffffffffffffffL, 0x3L, 
@@ -1848,11 +1890,19 @@ static final long[] jjtoToken = {
 static final long[] jjtoSkip = {
    0x1eL, 0x0L, 0x0L, 
 };
+static final long[] jjtoSpecial = {
+   0x0L, 0x0L, 0x0L, 
+};
+static final long[] jjtoMore = {
+   0x0L, 0x0L, 0x0L, 
+};
     protected SimpleCharStream  input_stream;
 
     private final int[] jjrounds = new int[243];
     private final int[] jjstateSet = new int[2 * 243];
-
-    
-    protected char curChar;
+    private final StringBuilder jjimage = new StringBuilder();
+    private StringBuilder image = jjimage;
+    private int jjimageLen;
+    private int lengthOfMatch;
+    protected int curChar;
 }
