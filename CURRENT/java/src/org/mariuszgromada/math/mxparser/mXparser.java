@@ -1248,6 +1248,24 @@ public final class mXparser {
 			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 		}
 	}
+	public static final void consolePrintSettings(String prefix) {
+		mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
+		mXparser.consolePrintln(prefix + "checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
+		mXparser.consolePrintln(prefix + "checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
+		mXparser.consolePrintln(prefix + "checkIfRadiansMode = " + mXparser.checkIfRadiansMode());
+		mXparser.consolePrintln(prefix + "checkIfDegreesMode = " + mXparser.checkIfDegreesMode());
+		mXparser.consolePrintln(prefix + "checkIfExactMode = " + mXparser.checkIfExactMode());
+		mXparser.consolePrintln(prefix + "checkIfEpsilonMode = " + mXparser.checkIfEpsilonMode());
+		mXparser.consolePrintln(prefix + "getEpsilon = " + mXparser.getEpsilon());
+		mXparser.consolePrintln(prefix + "getMaxAllowedRecursionDepth = " + mXparser.getMaxAllowedRecursionDepth());
+		mXparser.consolePrintln(prefix + "getMaxNumInPrimesCache = " + mXparser.getMaxNumInPrimesCache());
+		mXparser.consolePrintln(prefix + "getToFractionInitSearchSize = " + mXparser.getToFractionInitSearchSize());
+		mXparser.consolePrintln(prefix + "checkIfsetToOverrideBuiltinTokens = " + mXparser.checkIfsetToOverrideBuiltinTokens());
+		mXparser.consolePrintln(prefix + "Java version = " + System.getProperty("java.version"));
+	}
+	public static final void consolePrintSettings() {
+		consolePrintSettings("");
+	}
 	/**
 	 * Resets console output string, console output
 	 * string is being built by consolePrintln(), consolePrint().

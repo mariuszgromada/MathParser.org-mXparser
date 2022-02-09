@@ -138,7 +138,8 @@ public class RegTestExpressionAPI {
 		Expression e;
 		int testId = -1;
 		/*
-		 * 0. public Expression()
+		 * 0.
+		 * Test = Expression(), getExpressionString()
 		 */
 		testId++;
 		e = new Expression();
@@ -149,6 +150,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 1.
+		 * Test = getExpressionString(), getArgumentsNumber()
 		 */
 		testId++;
 		e = new Expression("a1+c2", a1, a2, a3, a4, a5);
@@ -159,6 +161,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 2.
+		 * Test = getExpressionString(), getArgumentsNumber(), getFunctionsNumber()
 		 */
 		testId++;
 		e = new Expression("a1+c2", a1, f1, a2, f2, a3, a4, f3, a5, f4);
@@ -168,7 +171,8 @@ public class RegTestExpressionAPI {
 				&& e.getFunctionsNumber() == 4	)
 			test[testId] = true;
 		/*
-		 * 3
+		 * 3. getExpressionString(), getArgumentsNumber(), getFunctionsNumber()
+		 * Test = getExpressionString(), getArgumentsNumber(), getFunctionsNumber()
 		 */
 		testId++;
 		e = new Expression("a1+c2", a1, a2, c1, c2, a3, a4, c5, a5, f1, f2, f3, f4);
@@ -178,9 +182,11 @@ public class RegTestExpressionAPI {
 				&& e.getFunctionsNumber() == 4	)
 			test[testId] = true;
 		/*
-		 * 4. void setExpressionString(String expressionString), String getExpressionString(), void clearExpressionString()
+		 * 4.
+		 * Test = setExpressionString(), getExpressionString(), clearExpressionString()
 		 */
 		testId++;
+		e = new Expression("a1+c2", a1, a2, c1, c2, a3, a4, c5, a5, f1, f2, f3, f4);
 		syn1 = e.checkSyntax();
 		e.setExpressionString("c2+a1");
 		syn2 = e.getSyntaxStatus();
@@ -206,9 +212,11 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 5. void setDescription(String description), String getDescription(), void clearDescription()
+		 * 5.
+		 * Test = setDescription(), getDescription(), clearDescription()
 		 */
 		testId++;
+		e = new Expression("a1+c2", a1, a2, c1, c2, a3, a4, c5, a5, f1, f2, f3, f4);
 		e.setExpressionString("c1+a2");
 		syn1 = e.checkSyntax();
 		e.setDescription("opis");
@@ -223,9 +231,12 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 6. void setVerboseMode(), boolean getVerboseMode(), void setSilentMode()
+		 * 6.
+		 * Test = setVerboseMode(), getVerboseMode(), setSilentMode()
 		 */
 		testId++;
+		e = new Expression("a1+c2", a1, a2, c1, c2, a3, a4, c5, a5, f1, f2, f3, f4);
+		e.setExpressionString("c1+a2");
 		syn1 = e.checkSyntax();
 		b1 = e.getVerboseMode();
 		e.setVerboseMode();
@@ -242,7 +253,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 7.
-		 * public boolean getRecursiveMode()
+		 * Test = getRecursiveMode()
 		 */
 		Function fa = new Function("f(x,y)=sin(x)+cos(y)");
 		Function fb = new Function("f(x,y)=sin(x)+cos(y)+f(1,2)");
@@ -259,7 +270,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 8.
-		 * Expression(String expressionString)
+		 * Test = Expression(String expressionString)
 		 */
 		testId++;
 		e = new Expression("1+2");
@@ -270,7 +281,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 9.
-		 * Expression(String expressionString)
+		 * Test = Expression(String expressionString)
 		 */
 		testId++;
 		e = new Expression("1+2", a1, a2, a3);
@@ -281,10 +292,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 10.
-		 * void addArguments(Argument... arguments)
-		 * void addArguments( List<Argument> argumentsList)
-		 * defineArguments(String... argumentsNames)
-		 * defineArgument(String argumentName, double argumentValue)
+		 * Test = addArguments(Argument... arguments), addArguments( List<Argument> argumentsList), defineArguments(String... argumentsNames), defineArgument(String argumentName, double argumentValue)
 		 */
 		testId++;
 		e = new Expression("1+2");
@@ -316,12 +324,14 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 11.
-		 * int getArgumentIndex(String argumentName)
-		 * Argument getArgument(String argumentName)
-		 * Argument getArgument(int argumentIndex)
-		 * int getArgumentsNumber()
+		 * Test = int getArgumentIndex(String argumentName), Argument getArgument(String argumentName), getArgument(int argumentIndex), getArgumentsNumber()
 		 */
 		testId++;
+		e = new Expression("1+2");
+		e.addDefinitions(a6, a7);
+		e.addDefinitions(a1, a2, a3, a4, a5);
+		e.defineArguments("x1", "x2", "x3");
+		e.defineArgument("x", 1);
 		syn1 = e.checkSyntax();
 		i1 = e.getArgumentIndex("asdsa"); //-1
 		i2 = e.getArgumentIndex("x1"); //7
@@ -346,10 +356,14 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 12.
-		 * void setArgumentValue
-		 * double getArgumentValue
+		 * Test = setArgumentValue(), getArgumentValue()
 		 */
 		testId++;
+		e = new Expression("1+2");
+		e.addDefinitions(a6, a7);
+		e.addDefinitions(a1, a2, a3, a4, a5);
+		e.defineArguments("x1", "x2", "x3");
+		e.defineArgument("x", 1);
 		syn1 = e.checkSyntax();
 		d1 = e.getArgumentValue("a1");
 		syn2 = e.getSyntaxStatus();
@@ -373,11 +387,14 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 13.
-		 * void removeArguments(String... argumentsNames)
-		 * void removeArguments(Argument... arguments)
-		 * void removeAllArguments()
+		 * Test = removeArguments(String... argumentsNames), removeArguments(Argument... arguments), removeAllArguments()
 		 */
 		testId++;
+		e = new Expression("1+2");
+		e.addDefinitions(a6, a7);
+		e.addDefinitions(a1, a2, a3, a4, a5);
+		e.defineArguments("x1", "x2", "x3");
+		e.defineArgument("x", 1);
 		e.setExpressionString("1+2");
 		syn1 = e.checkSyntax();
 		n1 = e.getArgumentsNumber();
@@ -411,9 +428,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 14.
-		 * void addConstants(Constant... constants)
-		 * void addConstants( List<Constant> constantsList)
-		 * void defineConstant(String constantName, double constantValue)
+		 * Test = addConstants(Constant... constants), addConstants( List<Constant> constantsList), defineConstant(String constantName, double constantValue)
 		 */
 		testId++;
 		e = new Expression("1+2", new Constant("a=5"));
@@ -442,12 +457,12 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 15.
-		 * int getConstantIndex(String constantName)
-		 * Constant getConstant(String constantName)
-		 * Constant getConstant(int constantIndex)
-		 * int getConstantsNumber()
+		 * Test = getConstantIndex(String constantName), getConstant(String constantName), getConstant(int constantIndex), getConstantsNumber()
 		 */
 		testId++;
+		e = new Expression("1+2", new Constant("a=5"));
+		e.addDefinitions(c1, c2, c3);
+		e.defineConstant("cx1",1);
 		syn1 = e.checkSyntax();
 		i1 = e.getConstantIndex("asdsa"); //-1
 		i2 = e.getConstantIndex("c6"); //-1
@@ -472,11 +487,12 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 16.
-		 * void removeConstants(String... constantsNames)
-		 * void removeConstants(Constant... constants)
-		 * void removeAllConstants()
+		 * Test = removeConstants(String... constantsNames), removeConstants(Constant... constants), removeAllConstants()
 		 */
 		testId++;
+		e = new Expression("1+2", new Constant("a=5"));
+		e.addDefinitions(c1, c2, c3);
+		e.defineConstant("cx1",1);
 		e.defineConstant("cx2",1);
 		e.setExpressionString("1+2");
 		syn1 = e.checkSyntax();
@@ -511,9 +527,7 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 17.
-		 * void addFunctions(Function... functions)
-		 * void addFunctions( List<Function> functionsList)
-		 * void defineFunction(String functionName, String  functionExpressionString,...
+		 * Test = addFunctions(Function... functions), addFunctions( List<Function> functionsList), defineFunction(String functionName, String  functionExpressionString,...
 		 */
 		testId++;
 		e = new Expression("1+2");
@@ -541,12 +555,14 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 18.
-		 * int getFunctionIndex(String functionName)
-		 * Function getFunction(String functionName)
-		 * Function getFunction(int functionIndex)
-		 * int getFunctionsNumber()
+		 * Test = getFunctionIndex(String functionName), getFunction(String functionName), getFunction(int functionIndex), getFunctionsNumber()
 		 */
 		testId++;
+		e = new Expression("1+2");
+		e.addDefinitions(f6, f7);
+		e.addDefinitions(f1, f2, f3, f4, f6);
+		e.removeDefinitions(f6);
+		e.defineFunction("ff1", "1", "x");
 		syn1 = e.checkSyntax();
 		i1 = e.getFunctionIndex("asdsa"); //-1
 		i2 = e.getFunctionIndex("f7"); //0
@@ -571,11 +587,14 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 19.
-		 * void removeFunctions(String... functionsNames)
-		 * void removeFunctions(Function... functions)
-		 * void removeAllFunctions()
+		 * Test = removeFunctions(String... functionsNames), removeFunctions(Function... functions), removeAllFunctions()
 		 */
 		testId++;
+		e = new Expression("1+2");
+		e.addDefinitions(f6, f7);
+		e.addDefinitions(f1, f2, f3, f4, f6);
+		e.removeDefinitions(f6);
+		e.defineFunction("ff1", "1", "x");
 		e.setExpressionString("1+2");
 		syn1 = e.checkSyntax();
 		n1 = e.getFunctionsNumber();
@@ -609,12 +628,20 @@ public class RegTestExpressionAPI {
 			test[testId] = true;
 		/*
 		 * 20.
-		 * double calculate()
-		 * String getHelp()
-		 * String getHelp(String word)
-		 * String getLicense()
+		 * Test = double calculate(), getHelp(), getHelp(String word), getLicense()
 		 */
 		testId++;
+		e = new Expression("1+2");
+		e.addDefinitions(f6, f7);
+		e.addDefinitions(f1, f2, f3, f4, f6);
+		e.removeDefinitions(f6);
+		e.defineFunction("ff1", "1", "x");
+		e.setExpressionString("1+2");
+		e.removeFunctions("asfdf");
+		e.removeFunctions("f1","f2");
+		e.removeFunctions(f3);
+		e.removeFunctions(f6,f7);
+		e.removeAllFunctions();
 		syn1 = e.checkSyntax();
 		d1 = e.calculate();
 		syn2 = e.getSyntaxStatus();
@@ -623,7 +650,8 @@ public class RegTestExpressionAPI {
 				&& d1 == 3)
 			test[testId] = true;
 		/*
-		 * 21. Tokens
+		 * 21.
+		 * Test = getCopyOfInitialTokens()
 		 */
 		testId++;
 		e = new Expression("1+(2+3)-sin(10)");
@@ -671,7 +699,8 @@ public class RegTestExpressionAPI {
 
 		) test[testId] = true;
 		/*
-		 * 22. Invalid tokens
+		 * 22.
+		 * Test = Invalid tokens, getCopyOfInitialTokens()
 		 */
 		testId++;
 		e = new Expression("token1+toke2n*sin(token3-t3^t5)^t45+pi-pie+e");
@@ -744,13 +773,15 @@ public class RegTestExpressionAPI {
 
 		) test[testId] = true;
 		/*
-		 * 23. Function Extension - calculate()
+		 * 23.
+		 * Test = Function Extension - calculate()
 		 */
 		testId++;
 		Function ff = new Function("ff", new FunExt());
 		if (ff.calculate(2,3) == 6) test[testId] = true;
 		/*
-		 * 24. Function Extension - setArgumentValue - calculate
+		 * 24.
+		 * Test = FunctionExtension - setArgumentValue - calculate
 		 */
 		testId++;
 		ff = new Function("ff", new FunExt());
@@ -758,7 +789,8 @@ public class RegTestExpressionAPI {
 		ff.setArgumentValue(1, 4);
 		if (ff.calculate() == 12) test[testId] = true;
 		/*
-		 * 25. Function Extension - parameters
+		 * 25.
+		 * Test = FunctionExtension - parameters
 		 */
 		testId++;
 		ff = new Function("ff", new FunExt());
@@ -768,7 +800,8 @@ public class RegTestExpressionAPI {
 				(ff.checkSyntax() == Function.NO_SYNTAX_ERRORS)
 			) test[testId] = true;
 		/*
-		 * 26. Function Extension - calculate
+		 * 26.
+		 * Test = FunctionExtension - calculate
 		 */
 		testId++;
 		ff = new Function("ff", new FunExt());
@@ -776,7 +809,8 @@ public class RegTestExpressionAPI {
 		Argument y = new Argument("y = 6");
 		if (ff.calculate(x, y) == 30) test[testId] = true;
 		/*
-		 * 27. Invalid tokens looks like
+		 * 27.
+		 * Test = Invalid tokens looks like, getCopyOfInitialTokens()
 		 */
 		testId++;
 		e = new Expression("1pi+2pi3+((_d1(a)+(_d^_g)))))");
@@ -815,7 +849,8 @@ public class RegTestExpressionAPI {
 				(tokens.get(18).looksLike.equals("argument"))
 			) test[testId] = true;
 		/*
-		 * 28. Check Lex Syntax
+		 * 28.
+		 * Test = checkSyntax()
 		 */
 		testId++;
 		e = new Expression("1+2+3+(4+5)+a+b");
@@ -824,7 +859,8 @@ public class RegTestExpressionAPI {
 				(e.checkLexSyntax() == Expression.NO_SYNTAX_ERRORS)
 			) test[testId] = true;
 		/*
-		 * 29. Check Lex Syntax
+		 * 29.
+		 * Test = checkSyntax()
 		 */
 		testId++;
 		e = new Expression("1+2+3+(4+5)+a)+b");
@@ -833,7 +869,8 @@ public class RegTestExpressionAPI {
 				(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 			) test[testId] = true;
 		/*
-		 * 30. Tokens to remove
+		 * 30.
+		 * Test = Tokens to remove, removeBuiltinTokens(), unremoveBuiltinTokens(), getBuiltinTokensToRemove(),
 		 */
 		testId++;
 		String t = null;
@@ -855,7 +892,8 @@ public class RegTestExpressionAPI {
 				(tokensToRemove2.length == 0)
 			) test[testId] = true;
 		/*
-		 * 31. Tokens to modify
+		 * 31.
+		 * Test = Tokens to modify, modifyBuiltinToken(), getBuiltinTokensToModify(), getHelp()
 		 */
 		String u = null;
 		testId++;
@@ -895,7 +933,8 @@ public class RegTestExpressionAPI {
 				( help.contains("COS(x)") )
 				) test[testId] = true;
 		/*
-		 * 32. Recursion counter
+		 * 32.
+		 * Test = Recursion counter, setMaxAllowedRecursionDepth(), getMaxAllowedRecursionDepth()
 		 */
 		testId++;
 		mXparser.setMaxAllowedRecursionDepth(100);
@@ -905,7 +944,8 @@ public class RegTestExpressionAPI {
 		if ( (rc100 == 100) && (rc200 == 200) )
 			test[testId] = true;
 		/*
-		 * 33. Override built-in tokens
+		 * 33.
+		 * Test = Override built-in tokens, setToOverrideBuiltinTokens(), setNotToOverrideBuiltinTokens(), checkIfsetToOverrideBuiltinTokens()
 		 */
 		testId++;
 		mXparser.setToOverrideBuiltinTokens();
@@ -919,7 +959,8 @@ public class RegTestExpressionAPI {
 		if ( (over1 == true) && (over2 == false) && (over3 == true) && (over4 == false) )
 			test[testId] = true;
 		/*
-		 * 34. mXparser.getKeyWords
+		 * 34.
+		 * Test = getKeyWords()
 		 */
 		testId++;
 		List<KeyWord> keyWords = mXparser.getKeyWords("sin ");
@@ -931,7 +972,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 35. mXparser.getTokenType
+		 * 35.
+		 * Test = getTokenTypeDescription()
 		 */
 		testId++;
 		if (	(mXparser.getTokenTypeDescription(BinaryRelation.TYPE_ID).equals(BinaryRelation.TYPE_DESC)) &&
@@ -954,7 +996,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 36. mXparser.convert2Decimal
+		 * 36.
+		 * Test = convOthBase2Decimal()
 		 */
 		testId++;
 		if (
@@ -999,7 +1042,8 @@ public class RegTestExpressionAPI {
 				( NumberTheory.convOthBase2Decimal("00123456789AbCd",  14) == 65751519677857.0 )
 			) test[testId] = true;
 		/*
-		 * 37. mXparser.convert2Decimal - loop
+		 * 37.
+		 * Test = convOthBase2Decimal() - loop
 		 */
 		testId++;
 		test[testId] = true;
@@ -1012,7 +1056,8 @@ public class RegTestExpressionAPI {
 				}
 			}
 		/*
-		 * 38. mXparser.convert2Decimal and other - special cases
+		 * 38.
+		 * Test = convert2Decimal() and other - special cases
 		 */
 		testId++;
 		char dc_1 = NumberTheory.digitChar(-1);
@@ -1042,7 +1087,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 39. mXparser.convert2Decimal - loop
+		 * 39.
+		 * Test = convert2Decimal() - loop
 		 */
 		testId++;
 		test[testId] = true;
@@ -1055,7 +1101,8 @@ public class RegTestExpressionAPI {
 				}
 			}
 		/*
-		 * 40. mXparser.convert2Decimal - loop
+		 * 40.
+		 * Test = convert2Decimal() - loop
 		 */
 		testId++;
 		test[testId] = true;
@@ -1068,7 +1115,8 @@ public class RegTestExpressionAPI {
 				}
 			}
 		/*
-		 * 41. mXparser.convert2Decimal - loop
+		 * 41.
+		 * Test = convert2Decimal() - loop
 		 */
 		testId++;
 		test[testId] = true;
@@ -1081,7 +1129,8 @@ public class RegTestExpressionAPI {
 				}
 			}
 		/*
-		 * 42. mXparser.get base
+		 * 42.
+		 * Test = getNumeralSystemBase()
 		 */
 		testId++;
 		if (
@@ -1328,7 +1377,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 43. mXparser. conv oth base to decimal
+		 * 43.
+		 * Test = convOthBase2Decimal()
 		 */
 		testId++;
 		if (
@@ -1575,7 +1625,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 44. mXparser. conv decimal to oth base
+		 * 44.
+		 * Test = convDecimal2OthBase()
 		 */
 		testId++;
 		if (
@@ -1655,7 +1706,8 @@ public class RegTestExpressionAPI {
 				( NumberTheory.convDecimal2OthBase( -60466175, 36 ).equals( "-ZZZZZ" ) )				)
 			test[testId] = true;
 		/*
-		 * 45. mXparser. conv decimal to oth base - format 0
+		 * 45.
+		 * Test = convDecimal2OthBase() - format 0
 		 */
 		testId++;
 		if (
@@ -1735,7 +1787,8 @@ public class RegTestExpressionAPI {
 				( NumberTheory.convDecimal2OthBase( -60466175, 36, 0 ).equals( "-ZZZZZ" ) )				)
 			test[testId] = true;
 		/*
-		 * 46. mXparser. conv decimal to oth base - format 1
+		 * 46.
+		 * Test = convDecimal2OthBase() - format 1
 		 */
 		testId++;
 		if (
@@ -1816,7 +1869,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 47. mXparser. conv decimal to oth base - format 2
+		 * 47.
+		 * Test = convDecimal2OthBase() - format 2
 		 */
 		testId++;
 		if (
@@ -1897,7 +1951,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 48. mXparser. conv oth to decimal - special cases
+		 * 48.
+		 * Test = convOthBase2Decimal() - special cases
 		 */
 		testId++;
 		double potNaN1 = NumberTheory.convOthBase2Decimal((String)null);
@@ -1914,7 +1969,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 49. missing user defined arguments
+		 * 49.
+		 * Test = getMissingUserDefinedArguments()
 		 */
 		testId++;
 		e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
@@ -1927,7 +1983,8 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 50. missing user defined functions
+		 * 50.
+		 * Test = getMissingUserDefinedFunctions()
 		 */
 		testId++;
 		e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
@@ -1938,27 +1995,31 @@ public class RegTestExpressionAPI {
 				)
 			test[testId] = true;
 		/*
-		 * 51. Default radian / degrees mode
+		 * 51.
+		 * Test = Default radian / degrees mode
 		 */
 		testId++;
 		if ( (mXparser.checkIfRadiansMode() == true) && (mXparser.checkIfDegreesMode() == false) )
 			test[testId] = true;
 		/*
-		 * 52. Set to degrees mode
+		 * 52.
+		 * Test = Set to degrees mode
 		 */
 		testId++;
 		mXparser.setDegreesMode();
 		if ( (mXparser.checkIfRadiansMode() == false) && (mXparser.checkIfDegreesMode() == true) )
 			test[testId] = true;
 		/*
-		 * 53. Set to degrees mode
+		 * 53.
+		 * Test = Set to degrees mode
 		 */
 		testId++;
 		mXparser.setRadiansMode();
 		if ( (mXparser.checkIfRadiansMode() == true) && (mXparser.checkIfDegreesMode() == false) )
 			test[testId] = true;
 		/*
-		 * 54. roundHalfUp
+		 * 54.
+		 * Test = roundHalfUp
 		 */
 		testId++;
 		if (
@@ -2106,7 +2167,8 @@ public class RegTestExpressionAPI {
 				( MathFunctions.roundHalfUp( Double.NEGATIVE_INFINITY, 100 ) == Double.NEGATIVE_INFINITY )
 			) test[testId] = true;
 		/*
-		 * 55. To Mixed fraction
+		 * 55.
+		 * Test = To Mixed fraction
 		 */
 		testId++;
 		if (
@@ -2149,7 +2211,8 @@ public class RegTestExpressionAPI {
 				(NumberTheory.toMixedFractionString(-20000000000.0-263.0/326.0).equals("-20000000000-263/326"))
 				) test[testId] = true;
 		/*
-		 * 56. To fraction
+		 * 56.
+		 * Test = To fraction
 		 */
 		testId++;
 		if (
@@ -2192,7 +2255,8 @@ public class RegTestExpressionAPI {
 				(NumberTheory.toFractionString(-6520000000263.0/326.0).equals("-6520000000263/326"))
 				) test[testId] = true;
 		/*
-		 * 57. Variadic user function
+		 * 57.
+		 * Test = Variadic user function
 		 */
 		testId++;
 		Function f = new Function("f(...) = sum( i, 1, [npar], par(i) )");
@@ -2204,7 +2268,8 @@ public class RegTestExpressionAPI {
 				(f.calculate(1,2,3,4,5) == 15)
 			) test[testId] = true;
 		/*
-		 * 58. Variadic user function with extension
+		 * 58.
+		 * Test = Variadic user function with extension
 		 */
 		testId++;
 		FunExtVar gx = new FunExtVar();
@@ -2217,7 +2282,8 @@ public class RegTestExpressionAPI {
 				(g.calculate(1,2,3,4,5) == 15)
 			) test[testId] = true;
 		/*
-		 * 59. Almost int rounding disable / enable
+		 * 59.
+		 * Test = Almost int rounding disable / enable
 		 */
 		testId++;
 		boolean u1 = mXparser.checkIfAlmostIntRounding();
@@ -2228,7 +2294,8 @@ public class RegTestExpressionAPI {
 		if ( (u1 == true) && (u2 == false) && (u3 == true))
 			test[testId] = true;
 		/*
-		 * 60. StringIndexOutOfBoundsException asking for tokens of empty expression #135
+		 * 60.
+		 * Test = StringIndexOutOfBoundsException asking for tokens of empty expression #135
 		 */
 		testId++;
 		e = new Expression("");
@@ -2236,28 +2303,32 @@ public class RegTestExpressionAPI {
 		if (tokens.size() == 0)
 			test[testId] = true;
 		/*
-		 * 61. Argument check syntax #145
+		 * 61.
+		 * Test = Argument check syntax #145
 		 */
 		testId++;
 		x = new Argument("AAAAA", 730000000);
 		if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
 			test[testId] = true;
 		/*
-		 * 62. Argument check syntax #145
+		 * 62.
+		 * Test = Argument check syntax #145
 		 */
 		testId++;
 		x = new Argument("AAAAA = 730000000");
 		if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
 			test[testId] = true;
 		/*
-		 * 63. Argument check syntax #145
+		 * 63.
+		 * Test = Argument check syntax #145
 		 */
 		testId++;
 		x = new Argument("AAAAA = y*730000000");
 		if (x.checkSyntax() == Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 			test[testId] = true;
 		/*
-		 * 64. Argument check syntax #145
+		 * 64.
+		 * Test = Argument check syntax #145
 		 */
 		testId++;
 		y = new Argument("y", 2);
@@ -2265,7 +2336,8 @@ public class RegTestExpressionAPI {
 		if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
 			test[testId] = true;
 		/*
-		 * 65. Argument check syntax #145
+		 * 65.
+		 * Test = Argument check syntax #145
 		 */
 		testId++;
 		e = new Expression("f(2)-2 * [ww]+a+[qq1]");
@@ -2277,7 +2349,8 @@ public class RegTestExpressionAPI {
 				if (args[0].equals("a") && fun[0].equals("f"))
 					test[testId] = true;
 		/*
-		 * 66. Trigonometric functions special values - compared to Math
+		 * 66.
+		 * Test = Trigonometric functions special values - compared to Math
 		 */
 		testId++;
 		test[testId] = true;
@@ -2294,7 +2367,8 @@ public class RegTestExpressionAPI {
 				if (Math.abs(sv.csc - 1.0/Math.sin(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 67. Inverse trigonometric functions special values - compared to Math
+		 * 67.
+		 * Test = Inverse trigonometric functions special values - compared to Math
 		 */
 		testId++;
 		test[testId] = true;
@@ -2331,7 +2405,8 @@ public class RegTestExpressionAPI {
 			}
 		}
 		/*
-		 * 68. Trigonometric functions special values - compared to MathFunctions
+		 * 68.
+		 * Test = Trigonometric functions special values - compared to MathFunctions
 		 */
 		testId++;
 		test[testId] = true;
@@ -2348,7 +2423,8 @@ public class RegTestExpressionAPI {
 				if (Math.abs(sv.csc - MathFunctions.cosec(sv.xrad)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 69. Inverse trigonometric functions special values - compared to MathFunctions
+		 * 69.
+		 * Test = Inverse trigonometric functions special values - compared to MathFunctions
 		 */
 		testId++;
 		test[testId] = true;
@@ -2384,7 +2460,8 @@ public class RegTestExpressionAPI {
 			}
 		}
 		/*
-		 * 70. Sine test
+		 * 70.
+		 * Test = Sine test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2392,7 +2469,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.sin(a) - MathFunctions.sin(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 71. Cosine test
+		 * 71.
+		 * Test = Cosine test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2400,7 +2478,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.cos(a) - MathFunctions.cos(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 72. Tangent test
+		 * 72.
+		 * Test = Tangent test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2408,7 +2487,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.tan(a) - MathFunctions.tan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 73. Cotangent test
+		 * 73.
+		 * Test = Cotangent test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2416,7 +2496,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(1.0/Math.tan(a) - MathFunctions.ctan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 74. Secant test
+		 * 74.
+		 * Test = Secant test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2424,7 +2505,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(1.0/Math.cos(a) - MathFunctions.sec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 75. Cosecant test
+		 * 75.
+		 * Test = Cosecant test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2432,7 +2514,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(1.0/Math.sin(a) - MathFunctions.cosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 76. Inverse sine test
+		 * 76.
+		 * Test = Inverse sine test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2440,7 +2523,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.asin(a) - MathFunctions.asin(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 77. Inverse cosine test
+		 * 77.
+		 * Test = Inverse cosine test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2448,7 +2532,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.acos(a) - MathFunctions.acos(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 78. Inverse tangent test
+		 * 78.
+		 * Test = Inverse tangent test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2456,7 +2541,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.atan(a) - MathFunctions.atan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 79. Inverse ctangent test
+		 * 79.
+		 * Test = Inverse ctangent test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2467,7 +2553,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(atan - MathFunctions.actan(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 80. Inverse secant test
+		 * 80.
+		 * Test = Inverse secant test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2475,7 +2562,8 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.acos(1/a) - MathFunctions.asec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 81. Inverse cosecant test
+		 * 81.
+		 * Test = Inverse cosecant test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2483,14 +2571,16 @@ public class RegTestExpressionAPI {
 			if (Math.abs(Math.asin(1/a) - MathFunctions.acosec(a)) > BinaryRelations.DEFAULT_COMPARISON_EPSILON) test[testId] = false;
 		}
 		/*
-		 * 82. Argument extension test
+		 * 82.
+		 * Test = Argument extension test
 		 */
 		testId++;
 		test[testId] = true;
 		Argument pim = new Argument("pim", new PiMultArgExt());
 		if (pim.getArgumentBodyType() != Argument.BODY_EXTENDED) test[testId] = false;
 		/*
-		 * 83. Argument extension test
+		 * 83.
+		 * Test = Argument extension test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2500,7 +2590,8 @@ public class RegTestExpressionAPI {
 		if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
 		if (pim.getArgumentValue() != 3.0) test[testId] = false;
 		/*
-		 * 84. Argument extension test
+		 * 84.
+		 * Test = Argument extension test
 		 */
 		testId++;
 		test[testId] = true;
@@ -2510,221 +2601,262 @@ public class RegTestExpressionAPI {
 		if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
 		if (pim.getArgumentValue() != 5.0) test[testId] = false;
 		/*
-		 * 85. Implied Multiplication & canonical expression string test
+		 * 85.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = true;
 		e = new Expression("2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi");
 		if (!e.getCanonicalExpressionString().equals("2.1e2*(.3+0.4)*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi")) test[testId] = false;
 		/*
-		 * 86. Implied Multiplication & canonical expression string test
+		 * 86.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = true;
 		e = new Expression("2.1a2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi\n");
 		if (!e.getCanonicalExpressionString().equals("2.1*a*2.1e2*(.3+0.4)*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi")) test[testId] = false;
 		/*
-		 * 87. Implied Multiplication & canonical expression string test
+		 * 87.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2x","2*x");
 		/*
-		 * 88. Implied Multiplication & canonical expression string test
+		 * 88.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xy", "2*xy");
 		/*
-		 * 89. Implied Multiplication & canonical expression string test
+		 * 89.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xy", "2*x*y","x");
 		/*
-		 * 90. Implied Multiplication & canonical expression string test
+		 * 90.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyzsin(x)cos(x)2(3+4)6", "2*x*yz*sin(x)*cos(x)*2*(3+4)*6", "x");
 		/*
-		 * 91. Implied Multiplication & canonical expression string test
+		 * 91.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyz2","2*x*y*z2", "x", "y");
 		/*
-		 * 92. Implied Multiplication & canonical expression string test
+		 * 92.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyz2","2*x*y*z2","x", "y", "z");
 		/*
-		 * 93. Implied Multiplication & canonical expression string test
+		 * 93.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyz2.1", "2*x*y*z*2.1", "x", "y");
 		/*
-		 * 94. Implied Multiplication & canonical expression string test
+		 * 94.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyz2.1e", "2*x*y*z*2.1*e","x", "y");
 		/*
-		 * 95. Implied Multiplication & canonical expression string test
+		 * 95.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyz2.1e3", "2*x*y*z*2.1e3","x", "y");
 		/*
-		 * 96. Implied Multiplication & canonical expression string test
+		 * 96.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xyzh.1234", "2*x*y*z*h.1234","x", "y");
 		/*
-		 * 97. Implied Multiplication & canonical expression string test
+		 * 97.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2.1xyzh.1234", "2.1*x*y*z*h.1234","x", "y");
 		/*
-		 * 98. Implied Multiplication & canonical expression string test
+		 * 98.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("-2.1xyzh.1234", "-2.1*x*y*z*h.1234","x", "y");
 		/*
-		 * 99. Implied Multiplication & canonical expression string test
+		 * 99.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("1_2_3-2.1xyzh.1234", "1_2_3-2.1*x*y*z*h.1234","x", "y");
 		/*
-		 * 100. Implied Multiplication & canonical expression string test
+		 * 100.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("1_2_3xyzh.1234", "1_2_3*x*y*z*h.1234","x", "y");
 		/*
-		 * 101. Implied Multiplication & canonical expression string test
+		 * 101.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2_3xyzh.1234", "2_3*x*y*z*h.1234","x", "y");
 		/*
-		 * 102. Implied Multiplication & canonical expression string test
+		 * 102.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("b4.0123xyzh.1234", "b4.0123*x*y*z*h.1234","x", "y");
 		/*
-		 * 103. Implied Multiplication & canonical expression string test
+		 * 103.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
 		/*
-		 * 104. Implied Multiplication & canonical expression string test
+		 * 104.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("xy1_2_3zh.1234", "x*y*1_2_3*z*h.1234","x", "y");
 		/*
-		 * 105. Implied Multiplication & canonical expression string test
+		 * 105.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("xyh.1234z1_2_3", "x*y*h.1234*z*1_2_3","x", "y");
 		/*
-		 * 106. Implied Multiplication & canonical expression string test
+		 * 106.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("xyh.1234z1_2_3", "xy*h.1234*z*1_2_3");
 
 		/*
-		 * 107. Implied Multiplication & canonical expression string test
+		 * 107.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xx","2*xx");
 		/*
-		 * 108. Implied Multiplication & canonical expression string test
+		 * 108.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyy", "2*xxyy");
 		/*
-		 * 109. Implied Multiplication & canonical expression string test
+		 * 109.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyy", "2*xx*yy","xx");
 		/*
-		 * 110. Implied Multiplication & canonical expression string test
+		 * 110.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
 		/*
-		 * 111. Implied Multiplication & canonical expression string test
+		 * 111.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2", "xx", "yy");
 		/*
-		 * 112. Implied Multiplication & canonical expression string test
+		 * 112.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
 		/*
-		 * 113. Implied Multiplication & canonical expression string test
+		 * 113.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
 		/*
-		 * 114. Implied Multiplication & canonical expression string test
+		 * 114.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
 		/*
-		 * 115. Implied Multiplication & canonical expression string test
+		 * 115.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
 		/*
-		 * 116. Implied Multiplication & canonical expression string test
+		 * 116.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 117. Implied Multiplication & canonical expression string test
+		 * 117.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 118. Implied Multiplication & canonical expression string test
+		 * 118.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 119. Implied Multiplication & canonical expression string test
+		 * 119.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 120. Implied Multiplication & canonical expression string test
+		 * 120.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 121. Implied Multiplication & canonical expression string test
+		 * 121.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 122. Implied Multiplication & canonical expression string test
+		 * 122.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
 		/*
-		 * 123. Implied Multiplication & canonical expression string test
+		 * 123.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
 		/*
-		 * 124. Implied Multiplication & canonical expression string test
+		 * 124.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
 		/*
-		 * 125. Implied Multiplication & canonical expression string test
+		 * 125.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
 		/*
-		 * 126. Implied Multiplication & canonical expression string test
+		 * 126.
+		 * Test = Implied Multiplication & canonical expression string test
 		 */
 		testId++;
 		test[testId] = testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
-
 		/* ============================================= */
         long end =  System.currentTimeMillis();
 		int nOk = 0;

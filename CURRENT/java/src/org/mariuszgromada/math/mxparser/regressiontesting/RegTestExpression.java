@@ -1018,6 +1018,7 @@ public class RegTestExpression {
 			expStr = "C(n,k) - prod(i,1,k,(n-i+1)/i)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr,n,k);
+			mXparser.consolePrintSettings();
 			value = exp[testId].calculate();
 			reg = 0;
 			if (value == reg )
@@ -13885,7 +13886,7 @@ public class RegTestExpression {
 		case 1136:
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
-			mXparser.setCanonicalRounding(tmp);
+			tmp = mXparser.checkIfCanonicalRounding();
 			expStr = "sum(b, 0.1, 80, sum(a, 0.1, 80, sum(x, 0, 1, BetaI(x, a, b) - BetaReg(x,a,b) ,0.1) , 0.25) , 0.25)";
 			mXparser.consolePrint(expStr + " ...... ");
 			exp[testId] = new Expression(expStr);

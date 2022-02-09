@@ -7097,7 +7097,7 @@ public class Expression extends PrimitiveElement {
 		int lPos = 0;
 		int rPos;
 		int lastConsumedPos = -1;
-		List<TokenPart> tokenParts = new ArrayList<>();
+		List<TokenPart> tokenParts = new ArrayList<TokenPart>();
 		TokenPart tokenPart = null;
 
 		do {
