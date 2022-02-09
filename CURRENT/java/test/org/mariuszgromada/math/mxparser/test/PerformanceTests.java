@@ -1,5 +1,5 @@
 /*
- * @(#)PerformanceTests.java       5.0.0   2022-01-15
+ * @(#)PerformanceTests.java       5.0.0   2022-02-09
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -53,7 +53,7 @@
  *                              Asked if he believes in one God, a mathematician answered:
  *                              "Yes, up to isomorphism."
  */
-package org.mariuszgromada.math.mxparser.regressiontesting;
+package org.mariuszgromada.math.mxparser.test;
 
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
@@ -607,7 +607,6 @@ abstract class TestThread implements Runnable {
 	 * for a single test thread
 	 *
 	 * @param test         Test parameters
-	 * @param threadsNum   Number of threads
 	 */
 	TestThread(PerformanceTestResult test) {
 		this.test = test;
