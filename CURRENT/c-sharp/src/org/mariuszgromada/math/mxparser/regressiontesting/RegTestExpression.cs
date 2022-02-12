@@ -862,10 +862,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				value = exp[testId].calculate();
 				sum = 0;
 				for (double nn=1; nn<=5; nn++) {
-					reg=1;
+					double regr=1;
 					for (double ii=1; ii<=nn; ii++)
-						reg*=nn*ii;
-					sum+=reg;
+						regr*=nn*ii;
+					sum+=regr;
 				}
 				reg=sum;
 				if ( value == reg )
@@ -13899,7 +13899,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 1136:
 				mXparser.disableAlmostIntRounding();
 				mXparser.disableUlpRounding();
-				mXparser.setCanonicalRounding(tmp);
+				tmp = mXparser.checkIfCanonicalRounding();
 				mXparser.disableUlpRounding();
 				expStr = "sum(b, 0.1, 80, sum(a, 0.1, 80, sum(x, 0, 1, BetaI(x, a, b) - BetaReg(x,a,b) ,0.1) , 0.25) , 0.25)";
 				mXparser.consolePrint(expStr + " ...... ");

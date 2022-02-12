@@ -11,7 +11,6 @@ CURRENT/cjava/
 CURRENT/java/target/
 CURRENT/java/.settings/
 CURRENT/c-sharp/packages/
-*WorkingTests*
 .vs/
 bin/
 obj/
