@@ -79,7 +79,7 @@ import org.mariuszgromada.math.mxparser.*;
  */
 public final class SyntaxTest {
     @Test
-    public void testSyn0() {
+    public void testSyn0000() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "";
@@ -94,7 +94,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn1() {
+    public void testSyn0001() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "1++";
@@ -108,7 +108,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn2() {
+    public void testSyn0002() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "1+1-";
@@ -122,7 +122,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn3() {
+    public void testSyn0003() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "+-1";
@@ -136,7 +136,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn4() {
+    public void testSyn0004() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "1-(2))";
@@ -150,7 +150,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn5() {
+    public void testSyn0005() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "1id";
@@ -164,7 +164,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn6() {
+    public void testSyn0006() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "(1,2,3)";
@@ -178,7 +178,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn7() {
+    public void testSyn0007() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(1,2,3)";
@@ -192,7 +192,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn8() {
+    public void testSyn0008() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin";
@@ -206,7 +206,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn9() {
+    public void testSyn0009() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin()";
@@ -220,7 +220,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn10() {
+    public void testSyn0010() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "cos(1,2)";
@@ -234,7 +234,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn11() {
+    public void testSyn0011() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "log";
@@ -248,7 +248,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn12() {
+    public void testSyn0012() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "log()";
@@ -262,7 +262,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn13() {
+    public void testSyn0013() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "log(1)";
@@ -276,7 +276,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn14() {
+    public void testSyn0014() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "log(1,2,3)";
@@ -290,7 +290,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn15() {
+    public void testSyn0015() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "if";
@@ -304,7 +304,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn16() {
+    public void testSyn0016() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "if()";
@@ -318,7 +318,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn17() {
+    public void testSyn0017() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "if(1)";
@@ -332,7 +332,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn18() {
+    public void testSyn0018() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "if(1,2)";
@@ -346,7 +346,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn19() {
+    public void testSyn0019() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "if(1,2,3,4)";
@@ -360,7 +360,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn20() {
+    public void testSyn0020() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "pi()";
@@ -374,7 +374,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn21() {
+    public void testSyn0021() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "pi(1)";
@@ -388,7 +388,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn22() {
+    public void testSyn0022() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "[K*]()";
@@ -402,7 +402,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn23() {
+    public void testSyn0023() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "[K*](12)";
@@ -416,7 +416,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn24() {
+    public void testSyn0024() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "min";
@@ -430,7 +430,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn25() {
+    public void testSyn0025() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "min()";
@@ -444,7 +444,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn26() {
+    public void testSyn0026() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "max";
@@ -458,7 +458,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn27() {
+    public void testSyn0027() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "max()";
@@ -472,7 +472,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn28() {
+    public void testSyn0028() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "iff";
@@ -486,7 +486,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn29() {
+    public void testSyn0029() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "iff()";
@@ -500,7 +500,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn30() {
+    public void testSyn0030() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "iff(1)";
@@ -514,7 +514,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn31() {
+    public void testSyn0031() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "iff(1,2,3)";
@@ -528,7 +528,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn32() {
+    public void testSyn0032() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "iff(1,2,3,4,5)";
@@ -542,7 +542,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn33() {
+    public void testSyn0033() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum";
@@ -556,7 +556,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn34() {
+    public void testSyn0034() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum()";
@@ -570,7 +570,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn35() {
+    public void testSyn0035() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(1)";
@@ -584,7 +584,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn36() {
+    public void testSyn0036() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(1,2)";
@@ -598,7 +598,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn37() {
+    public void testSyn0037() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(1,2,3)";
@@ -612,7 +612,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn38() {
+    public void testSyn0038() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(1,2,3,4,5,6)";
@@ -626,7 +626,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn39() {
+    public void testSyn0039() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod()";
@@ -640,7 +640,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn40() {
+    public void testSyn0040() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(1)";
@@ -654,7 +654,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn41() {
+    public void testSyn0041() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(1,2)";
@@ -668,7 +668,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn42() {
+    public void testSyn0042() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(1,2,3)";
@@ -682,7 +682,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn43() {
+    public void testSyn0043() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(1,2,3,4,5,6)";
@@ -696,7 +696,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn44() {
+    public void testSyn0044() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(1,2,3,4)";
@@ -710,7 +710,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn45() {
+    public void testSyn0045() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(a*b,2,3,4)";
@@ -724,7 +724,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn46() {
+    public void testSyn0046() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sum(i,1,a,4)";
@@ -738,7 +738,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn47() {
+    public void testSyn0047() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(1,2,3,4)";
@@ -752,7 +752,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn48() {
+    public void testSyn0048() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(a*b,2,3,4)";
@@ -766,7 +766,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn49() {
+    public void testSyn0049() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "prod(i,1,a,4)";
@@ -780,7 +780,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn50() {
+    public void testSyn0050() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int";
@@ -794,7 +794,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn51() {
+    public void testSyn0051() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int()";
@@ -808,7 +808,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn52() {
+    public void testSyn0052() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int(1)";
@@ -822,7 +822,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn53() {
+    public void testSyn0053() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int(1,2)";
@@ -836,7 +836,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn54() {
+    public void testSyn0054() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int(1,2,3)";
@@ -850,7 +850,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn55() {
+    public void testSyn0055() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int(1,2,3,4,5)";
@@ -864,7 +864,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn56() {
+    public void testSyn0056() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         Argument x = new Argument("x", 5);
@@ -879,7 +879,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn57() {
+    public void testSyn0057() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "int(1,2,0,1)";
@@ -893,7 +893,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn58() {
+    public void testSyn0058() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der";
@@ -907,7 +907,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn59() {
+    public void testSyn0059() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der()";
@@ -921,7 +921,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn60() {
+    public void testSyn0060() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der(1)";
@@ -935,7 +935,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn61() {
+    public void testSyn0061() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der(1,2,3)";
@@ -949,7 +949,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn62() {
+    public void testSyn0062() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der(1,2,3,4,5)";
@@ -963,7 +963,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn63() {
+    public void testSyn0063() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der(1,2)";
@@ -977,7 +977,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn64() {
+    public void testSyn0064() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der+";
@@ -991,7 +991,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn65() {
+    public void testSyn0065() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der+()";
@@ -1005,7 +1005,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn66() {
+    public void testSyn0066() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der+(1)";
@@ -1019,7 +1019,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn67() {
+    public void testSyn0067() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der+(1,2,3)";
@@ -1033,7 +1033,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn68() {
+    public void testSyn0068() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der+(1,2,3,4,5)";
@@ -1047,7 +1047,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn69() {
+    public void testSyn0069() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der+(1,2)";
@@ -1061,7 +1061,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn70() {
+    public void testSyn0070() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der-";
@@ -1075,7 +1075,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn71() {
+    public void testSyn0071() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der-()";
@@ -1089,7 +1089,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn72() {
+    public void testSyn0072() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der-(1)";
@@ -1103,7 +1103,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn73() {
+    public void testSyn0073() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der-(1,2,3)";
@@ -1117,7 +1117,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn74() {
+    public void testSyn0074() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der-(1,2,3,4,5)";
@@ -1131,7 +1131,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn75() {
+    public void testSyn0075() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der-(1,2)";
@@ -1145,7 +1145,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn76() {
+    public void testSyn0076() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "diff";
@@ -1159,7 +1159,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn77() {
+    public void testSyn0077() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "diff()";
@@ -1173,7 +1173,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn78() {
+    public void testSyn0078() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "diff(1)";
@@ -1187,7 +1187,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn79() {
+    public void testSyn0079() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "diff(1,2,3,4)";
@@ -1201,7 +1201,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn80() {
+    public void testSyn0080() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "diff(1,2)";
@@ -1215,7 +1215,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn81() {
+    public void testSyn0081() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "difb";
@@ -1229,7 +1229,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn82() {
+    public void testSyn0082() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "difb()";
@@ -1243,7 +1243,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn83() {
+    public void testSyn0083() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "difb(1)";
@@ -1257,7 +1257,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn84() {
+    public void testSyn0084() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "difb(1,2,3,4)";
@@ -1271,7 +1271,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn85() {
+    public void testSyn0085() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "difb(1,2)";
@@ -1285,7 +1285,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn86() {
+    public void testSyn0086() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f()=x+y";
@@ -1301,7 +1301,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn87() {
+    public void testSyn0087() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(1,x,y)=x+y";
@@ -1317,7 +1317,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn88() {
+    public void testSyn0088() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(1)=x+y";
@@ -1333,7 +1333,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn89() {
+    public void testSyn0089() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(x,)=x+y";
@@ -1349,7 +1349,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn90() {
+    public void testSyn0090() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(x,  a, x, )=x+y";
@@ -1365,7 +1365,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn91() {
+    public void testSyn0091() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "  f   (x ,   y,    z   )  = x +  y  +z  ";
@@ -1384,7 +1384,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn92() {
+    public void testSyn0092() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x()=y+z";
@@ -1400,7 +1400,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn93() {
+    public void testSyn0093() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(1,a,b)=a+b";
@@ -1416,7 +1416,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn94() {
+    public void testSyn0094() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(1)=a+b";
@@ -1432,7 +1432,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn95() {
+    public void testSyn0095() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(a,)=a+b";
@@ -1448,7 +1448,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn96() {
+    public void testSyn0096() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(a, b, c,)=a+c";
@@ -1464,7 +1464,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn97() {
+    public void testSyn0097() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "  x (  a, b   , c  ) = a+b+c";
@@ -1484,7 +1484,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn98() {
+    public void testSyn0098() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x 5";
@@ -1500,7 +1500,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn99() {
+    public void testSyn0099() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "  x = 5 + 1 + 2";
@@ -1520,7 +1520,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn100() {
+    public void testSyn0100() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(n,m)=n*f(n-1)";
@@ -1536,7 +1536,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn101() {
+    public void testSyn0101() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "RecursiveArgument name    1fa";
@@ -1552,7 +1552,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn102() {
+    public void testSyn0102() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x()=y+z";
@@ -1568,7 +1568,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn103() {
+    public void testSyn0103() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(1,a,b)=a+b";
@@ -1584,7 +1584,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn104() {
+    public void testSyn0104() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(1)=a+b";
@@ -1600,7 +1600,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn105() {
+    public void testSyn0105() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(a,)=a+b";
@@ -1616,7 +1616,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn106() {
+    public void testSyn0106() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x(a, b, c,)=a+c";
@@ -1632,7 +1632,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn107() {
+    public void testSyn0107() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "  x = a+b+c";
@@ -1652,7 +1652,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn108() {
+    public void testSyn0108() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "x 5";
@@ -1668,7 +1668,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn109() {
+    public void testSyn0109() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "  x = 5 + 1 + 2";
@@ -1688,7 +1688,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn110() {
+    public void testSyn0110() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "Constant name    1fa";
@@ -1704,7 +1704,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn111() {
+    public void testSyn0111() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         Function ff = new Function("ff", new FunExt());
@@ -1719,7 +1719,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn112() {
+    public void testSyn0112() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         Function ff = new Function("ff", new FunExt());
@@ -1734,7 +1734,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn113() {
+    public void testSyn0113() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "solve(2*x - 4, x+y, -10, 10)";
@@ -1748,7 +1748,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn114() {
+    public void testSyn0114() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         mXparser.unremoveAllBuiltinTokens();
@@ -1765,7 +1765,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn115() {
+    public void testSyn0115() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         mXparser.unmodifyAllBuiltinTokens();
@@ -1782,7 +1782,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn116() {
+    public void testSyn0116() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         mXparser.unmodifyAllBuiltinTokens();
@@ -1799,7 +1799,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn117() {
+    public void testSyn0117() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         mXparser.setNotToOverrideBuiltinTokens();
@@ -1817,7 +1817,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn118() {
+    public void testSyn0118() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         mXparser.setToOverrideBuiltinTokens();
@@ -1835,7 +1835,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn119() {
+    public void testSyn0119() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "h.1234567890aBcDeF + H.001234567890aBcDeF";
@@ -1849,7 +1849,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn120() {
+    public void testSyn0120() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "o.12345670 + O.0012345670";
@@ -1863,7 +1863,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn121() {
+    public void testSyn0121() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b.101010 + B.000101010";
@@ -1877,7 +1877,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn122() {
+    public void testSyn0122() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "h.1234567890aBcDeFu + y.001234567890aBcDeF";
@@ -1892,7 +1892,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn123() {
+    public void testSyn0123() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "o.123456708 + O.00123456709";
@@ -1907,7 +1907,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn124() {
+    public void testSyn0124() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b.2101010 + B.0001010103";
@@ -1922,7 +1922,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn125() {
+    public void testSyn0125() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b1. + B1.111";
@@ -1936,7 +1936,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn126() {
+    public void testSyn0126() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b1.111 + B1.1101";
@@ -1951,7 +1951,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn127() {
+    public void testSyn0127() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b2.01 + B2.0101";
@@ -1965,7 +1965,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn128() {
+    public void testSyn0128() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b2.012 + B2.0101";
@@ -1980,7 +1980,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn129() {
+    public void testSyn0129() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b3.012 + B3.0012";
@@ -1994,7 +1994,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn130() {
+    public void testSyn0130() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b3.012 + B3.00123";
@@ -2009,7 +2009,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn131() {
+    public void testSyn0131() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b4.0123 + B4.00123";
@@ -2023,7 +2023,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn132() {
+    public void testSyn0132() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b4.01234 + B4.00123";
@@ -2038,7 +2038,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn133() {
+    public void testSyn0133() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b5.01234 + B5.001234";
@@ -2052,7 +2052,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn134() {
+    public void testSyn0134() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b5.012345 + B5.001234";
@@ -2067,7 +2067,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn135() {
+    public void testSyn0135() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b6.012345 + B6.0012345";
@@ -2081,7 +2081,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn136() {
+    public void testSyn0136() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b6.012345 + B6.00123456";
@@ -2096,7 +2096,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn137() {
+    public void testSyn0137() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b7.0123456 + B7.00123456";
@@ -2110,7 +2110,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn138() {
+    public void testSyn0138() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b7.0123456 + B7.001234568";
@@ -2125,7 +2125,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn139() {
+    public void testSyn0139() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b8.01234567 + B8.001234567";
@@ -2139,7 +2139,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn140() {
+    public void testSyn0140() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b8.01234567 + B8.0012345679";
@@ -2154,7 +2154,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn141() {
+    public void testSyn0141() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b9.012345678 + B9.0012345678";
@@ -2168,7 +2168,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn142() {
+    public void testSyn0142() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b9.0123456789 + B9.0012345678";
@@ -2183,7 +2183,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn143() {
+    public void testSyn0143() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b10.0123456789 + B10.00123456789";
@@ -2197,7 +2197,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn144() {
+    public void testSyn0144() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b10.0123456789 + B10.00123456789a";
@@ -2212,7 +2212,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn145() {
+    public void testSyn0145() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b11.0123456789a + B11.00123456789A";
@@ -2226,7 +2226,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn146() {
+    public void testSyn0146() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b11.0123456789a + B11.00123456789Ab";
@@ -2241,7 +2241,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn147() {
+    public void testSyn0147() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b12.0123456789ab + B12.00123456789AB";
@@ -2255,7 +2255,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn148() {
+    public void testSyn0148() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b12.0123456789abC + B12.00123456789AB";
@@ -2270,7 +2270,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn149() {
+    public void testSyn0149() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b13.0123456789abc + B13.00123456789ABC";
@@ -2284,7 +2284,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn150() {
+    public void testSyn0150() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b13.0123456789abc + B13.00123456789ABCd";
@@ -2299,7 +2299,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn151() {
+    public void testSyn0151() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b14.0123456789abcd + B14.00123456789ABCD";
@@ -2313,7 +2313,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn152() {
+    public void testSyn0152() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b14.0123456789abcdE + B14.00123456789ABCD";
@@ -2328,7 +2328,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn153() {
+    public void testSyn0153() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b15.0123456789abcde + B15.00123456789ABCDE";
@@ -2342,7 +2342,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn154() {
+    public void testSyn0154() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b15.0123456789abcde + B15.00123456789ABCDEf";
@@ -2357,7 +2357,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn155() {
+    public void testSyn0155() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b16.0123456789abcdef + B16.00123456789ABCDEF";
@@ -2371,7 +2371,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn156() {
+    public void testSyn0156() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
@@ -2386,7 +2386,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn157() {
+    public void testSyn0157() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b16.0123456789abcdef + B16.00123456789ABCDEF";
@@ -2400,7 +2400,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn158() {
+    public void testSyn0158() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
@@ -2415,7 +2415,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn159() {
+    public void testSyn0159() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFG";
@@ -2429,7 +2429,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn160() {
+    public void testSyn0160() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFGh";
@@ -2444,7 +2444,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn161() {
+    public void testSyn0161() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b18.0123456789abcdefgh + B18.00123456789ABCDEFGH";
@@ -2458,7 +2458,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn162() {
+    public void testSyn0162() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b18.0123456789abcdefghI + B18.00123456789ABCDEFGH";
@@ -2473,7 +2473,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn163() {
+    public void testSyn0163() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGI";
@@ -2487,7 +2487,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn164() {
+    public void testSyn0164() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGIj";
@@ -2502,7 +2502,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn165() {
+    public void testSyn0165() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b20.0123456789abcdefghij + B20.00123456789ABCDEFGIJ";
@@ -2516,7 +2516,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn166() {
+    public void testSyn0166() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b20.0123456789abcdefghijK + B20.00123456789ABCDEFGIJ";
@@ -2531,7 +2531,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn167() {
+    public void testSyn0167() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJK";
@@ -2545,7 +2545,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn168() {
+    public void testSyn0168() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJKl";
@@ -2560,7 +2560,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn169() {
+    public void testSyn0169() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b22.0123456789abcdefghijkl + B22.00123456789ABCDEFGIJKL";
@@ -2574,7 +2574,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn170() {
+    public void testSyn0170() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b22.0123456789abcdefghijklM + B22.00123456789ABCDEFGIJKL";
@@ -2589,7 +2589,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn171() {
+    public void testSyn0171() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLM";
@@ -2603,7 +2603,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn172() {
+    public void testSyn0172() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLMn";
@@ -2618,7 +2618,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn173() {
+    public void testSyn0173() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b24.0123456789abcdefghijklmn + B24.00123456789ABCDEFGIJKLMN";
@@ -2632,7 +2632,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn174() {
+    public void testSyn0174() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b24.0123456789abcdefghijklmnO + B24.00123456789ABCDEFGIJKLMN";
@@ -2647,7 +2647,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn175() {
+    public void testSyn0175() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNO";
@@ -2661,7 +2661,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn176() {
+    public void testSyn0176() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNOp";
@@ -2676,7 +2676,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn177() {
+    public void testSyn0177() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOP";
@@ -2690,7 +2690,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn178() {
+    public void testSyn0178() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOPq";
@@ -2705,7 +2705,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn179() {
+    public void testSyn0179() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b27.0123456789abcdefghijklmnopq + B27.00123456789ABCDEFGIJKLMNOPQ";
@@ -2719,7 +2719,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn180() {
+    public void testSyn0180() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b27.0123456789abcdefghijklmnopqR + B27.00123456789ABCDEFGIJKLMNOPQ";
@@ -2734,7 +2734,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn181() {
+    public void testSyn0181() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQR";
@@ -2748,7 +2748,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn182() {
+    public void testSyn0182() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQRs";
@@ -2763,7 +2763,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn183() {
+    public void testSyn0183() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b29.0123456789abcdefghijklmnopqrs + B29.00123456789ABCDEFGIJKLMNOPQRS";
@@ -2777,7 +2777,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn184() {
+    public void testSyn0184() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b29.0123456789abcdefghijklmnopqrsT + B29.00123456789ABCDEFGIJKLMNOPQRS";
@@ -2792,7 +2792,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn185() {
+    public void testSyn0185() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRST";
@@ -2806,7 +2806,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn186() {
+    public void testSyn0186() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRSTu";
@@ -2821,7 +2821,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn187() {
+    public void testSyn0187() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b31.0123456789abcdefghijklmnopqrstu + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
@@ -2835,7 +2835,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn188() {
+    public void testSyn0188() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b31.0123456789abcdefghijklmnopqrstuV + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
@@ -2850,7 +2850,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn189() {
+    public void testSyn0189() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUV";
@@ -2864,7 +2864,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn190() {
+    public void testSyn0190() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUVw";
@@ -2879,7 +2879,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn191() {
+    public void testSyn0191() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b33.0123456789abcdefghijklmnopqrstuvw + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
@@ -2893,7 +2893,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn192() {
+    public void testSyn0192() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b33.0123456789abcdefghijklmnopqrstuvwX + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
@@ -2908,7 +2908,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn193() {
+    public void testSyn0193() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWX";
@@ -2922,7 +2922,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn194() {
+    public void testSyn0194() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWXy";
@@ -2937,7 +2937,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn195() {
+    public void testSyn0195() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b35.0123456789abcdefghijklmnopqrstuvwxy + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
@@ -2951,7 +2951,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn196() {
+    public void testSyn0196() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b35.0123456789abcdefghijklmnopqrstuvwxyZ + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
@@ -2966,7 +2966,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn197() {
+    public void testSyn0197() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyz + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
@@ -2980,7 +2980,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn198() {
+    public void testSyn0198() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyzą + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
@@ -2995,7 +2995,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn199() {
+    public void testSyn0199() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         Argument x = new Argument("x = pi");
@@ -3010,7 +3010,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn200() {
+    public void testSyn0200() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         Argument x = new Argument("x = pi");
@@ -3025,7 +3025,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn201() {
+    public void testSyn0201() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der( sin(x), x , pi )";
@@ -3039,7 +3039,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn202() {
+    public void testSyn0202() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der( sin(x), x , pi )";
@@ -3054,7 +3054,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn203() {
+    public void testSyn0203() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der( sin(x), x , pi, 0.01, 100 )";
@@ -3068,7 +3068,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn204() {
+    public void testSyn0204() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der( sin(x), x , pi, 0.01, 100 )";
@@ -3083,7 +3083,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn205() {
+    public void testSyn0205() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der( sin(x), x )";
@@ -3097,7 +3097,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn206() {
+    public void testSyn0206() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "der( sin(x), x, 0.1, 100 )";
@@ -3111,7 +3111,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn207() {
+    public void testSyn0207() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)+cos(pi)";
@@ -3126,7 +3126,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn208() {
+    public void testSyn0208() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)+cos(pi)";
@@ -3144,7 +3144,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn209() {
+    public void testSyn0209() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)+cos(pi)";
@@ -3164,7 +3164,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn210() {
+    public void testSyn0210() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)+cos(pi)";
@@ -3185,7 +3185,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn211() {
+    public void testSyn0211() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sine(pi)+cosine(pi)";
@@ -3200,7 +3200,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn212() {
+    public void testSyn0212() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sine(pi)+cosine(pi)";
@@ -3218,7 +3218,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn213() {
+    public void testSyn0213() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sine(pi)+cosine(pi)";
@@ -3238,7 +3238,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn214() {
+    public void testSyn0214() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sine(pi)+cosine(pi)";
@@ -3260,7 +3260,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn215() {
+    public void testSyn0215() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sine(pi)+cosine(pi)";
@@ -3281,7 +3281,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn216() {
+    public void testSyn0216() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)";
@@ -3298,7 +3298,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn217() {
+    public void testSyn0217() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)";
@@ -3318,7 +3318,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn218() {
+    public void testSyn0218() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(pi)";
@@ -3339,7 +3339,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn219() {
+    public void testSyn0219() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 + + (180/3)*5";
@@ -3353,7 +3353,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn220() {
+    public void testSyn0220() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 + - (180/3)*5";
@@ -3367,7 +3367,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn221() {
+    public void testSyn0221() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 -  + (180/3)*5";
@@ -3381,7 +3381,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn222() {
+    public void testSyn0222() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 -   - (180/3)*5";
@@ -3395,7 +3395,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn223() {
+    public void testSyn0223() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "10*2_3_5";
@@ -3409,7 +3409,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn224() {
+    public void testSyn0224() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "10*(-2_3_5)";
@@ -3423,7 +3423,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn225() {
+    public void testSyn0225() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "-2_3_5+5_2";
@@ -3437,7 +3437,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn226() {
+    public void testSyn0226() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(-2_3_5+5_2*b5.12)";
@@ -3451,7 +3451,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn227() {
+    public void testSyn0227() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "sin(101_102_103+2653_123*b5.12)";
@@ -3465,7 +3465,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn228() {
+    public void testSyn0228() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2^^3+2^3+2^2^^2";
@@ -3479,7 +3479,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn229() {
+    public void testSyn0229() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "pi^^sin(pi)";
@@ -3493,7 +3493,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn230() {
+    public void testSyn0230() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(x) = (3 + 5*x";
@@ -3508,7 +3508,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn231() {
+    public void testSyn0231() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(x) = (3 + 5*x)";
@@ -3523,7 +3523,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn232() {
+    public void testSyn0232() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "[npar]";
@@ -3537,7 +3537,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn233() {
+    public void testSyn0233() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "par(1)";
@@ -3551,7 +3551,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn234() {
+    public void testSyn0234() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(x) = [npar] + par(1)";
@@ -3566,7 +3566,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn235() {
+    public void testSyn0235() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(...) = [npar] + par(1)";
@@ -3581,7 +3581,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn236() {
+    public void testSyn0236() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "f(... = [npar] + par(1)";
@@ -3596,7 +3596,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn237() {
+    public void testSyn0237() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "{fun-ext-var}";
@@ -3612,7 +3612,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn238() {
+    public void testSyn0238() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         FunExtVar gx = new FunExtVar();
@@ -3629,7 +3629,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn239() {
+    public void testSyn0239() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = ".2";
@@ -3643,7 +3643,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn240() {
+    public void testSyn0240() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "+.2";
@@ -3657,7 +3657,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn241() {
+    public void testSyn0241() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "-.2";
@@ -3671,7 +3671,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn242() {
+    public void testSyn0242() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "-.2^.3";
@@ -3685,7 +3685,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn243() {
+    public void testSyn0243() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = ".2 ^ .3";
@@ -3699,7 +3699,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn244() {
+    public void testSyn0244() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "-2 + 3 - .2 + 1.5 - .2^.3 + (2/.3)";
@@ -3713,7 +3713,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn245() {
+    public void testSyn0245() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         Argument fun = new Argument("fun");
@@ -3730,7 +3730,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn246() {
+    public void testSyn0246() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2(3)";
@@ -3744,7 +3744,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn247() {
+    public void testSyn0247() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "(3)2";
@@ -3758,7 +3758,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn248() {
+    public void testSyn0248() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2(3)2";
@@ -3772,7 +3772,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn249() {
+    public void testSyn0249() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2(3+4)2";
@@ -3786,7 +3786,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn250() {
+    public void testSyn0250() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2(3+4)2(3)(3)2cos(pi)2sin(pi)2pi";
@@ -3800,7 +3800,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn251() {
+    public void testSyn0251() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "-2(3+4)2(3)(3)-2cos(pi)+2sin(pi)2-pi";
@@ -3814,7 +3814,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn252() {
+    public void testSyn0252() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2(3+4)2 - 2*(3+4)*2";
@@ -3828,7 +3828,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn253() {
+    public void testSyn0253() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2e-2*e";
@@ -3842,7 +3842,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn254() {
+    public void testSyn0254() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = ".01e-0.01*e";
@@ -3856,7 +3856,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn255() {
+    public void testSyn0255() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "e[h-]sin(.1pi)";
@@ -3870,7 +3870,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn256() {
+    public void testSyn0256() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2[h-]2[h-]2[h-]";
@@ -3884,7 +3884,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn257() {
+    public void testSyn0257() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "[h-](1)";
@@ -3898,7 +3898,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn258() {
+    public void testSyn0258() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "[h-](1,2)";
@@ -3912,7 +3912,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn259() {
+    public void testSyn0259() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
@@ -3926,7 +3926,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn260() {
+    public void testSyn0260() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2.1a2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
@@ -3941,7 +3941,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn261() {
+    public void testSyn0261() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2.1a2.1e2(.3+0.4)[h-].01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
@@ -3956,7 +3956,7 @@ public final class SyntaxTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testSyn262() {
+    public void testSyn0262() {
         TestCommonTools.testSynSettingsInit();
         boolean testResult = false;
         String expStr = "2.1a[h-]2.1e2(.3+0.4)[h-].01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";

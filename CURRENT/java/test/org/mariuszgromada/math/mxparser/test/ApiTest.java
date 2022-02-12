@@ -83,7 +83,7 @@ import java.util.List;
  */
 public final class ApiTest {
     @Test
-    public void testApi0() {
+    public void testApi0000() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Expression(), getExpressionString()";
@@ -98,7 +98,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi1() {
+    public void testApi0001() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getExpressionString(), getArgumentsNumber()";
@@ -118,7 +118,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi2() {
+    public void testApi0002() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getExpressionString(), getArgumentsNumber(), getFunctionsNumber()";
@@ -142,7 +142,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi3() {
+    public void testApi0003() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getExpressionString(), getArgumentsNumber(), getFunctionsNumber()";
@@ -169,7 +169,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi4() {
+    public void testApi0004() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "setExpressionString(), getExpressionString(), clearExpressionString()";
@@ -215,7 +215,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi5() {
+    public void testApi0005() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "setDescription(), getDescription(), clearDescription()";
@@ -250,7 +250,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi6() {
+    public void testApi0006() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "setVerboseMode(), getVerboseMode(), setSilentMode()";
@@ -287,7 +287,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi7() {
+    public void testApi0007() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getRecursiveMode()";
@@ -308,7 +308,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi8() {
+    public void testApi0008() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Expression(String expressionString)";
@@ -323,7 +323,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi9() {
+    public void testApi0009() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Expression(String expressionString)";
@@ -341,7 +341,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi10() {
+    public void testApi0010() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "addArguments(Argument... arguments), addArguments( List<Argument> argumentsList), defineArguments(String... argumentsNames), defineArgument(String argumentName, double argumentValue)";
@@ -384,7 +384,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi11() {
+    public void testApi0011() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "int getArgumentIndex(String argumentName), Argument getArgument(String argumentName), getArgument(int argumentIndex), getArgumentsNumber()";
@@ -427,7 +427,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi12() {
+    public void testApi0012() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "setArgumentValue(), getArgumentValue()";
@@ -469,7 +469,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi13() {
+    public void testApi0013() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "removeArguments(String... argumentsNames), removeArguments(Argument... arguments), removeAllArguments()";
@@ -521,7 +521,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi14() {
+    public void testApi0014() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "addConstants(Constant... constants), addConstants( List<Constant> constantsList), defineConstant(String constantName, double constantValue)";
@@ -559,7 +559,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi15() {
+    public void testApi0015() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getConstantIndex(String constantName), getConstant(String constantName), getConstant(int constantIndex), getConstantsNumber()";
@@ -596,7 +596,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi16() {
+    public void testApi0016() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "removeConstants(String... constantsNames), removeConstants(Constant... constants), removeAllConstants()";
@@ -643,7 +643,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi17() {
+    public void testApi0017() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "addFunctions(Function... functions), addFunctions( List<Function> functionsList), defineFunction(String functionName, String  functionExpressionString,...";
@@ -681,7 +681,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi18() {
+    public void testApi0018() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getFunctionIndex(String functionName), getFunction(String functionName), getFunction(int functionIndex), getFunctionsNumber()";
@@ -723,7 +723,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi19() {
+    public void testApi0019() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "removeFunctions(String... functionsNames), removeFunctions(Function... functions), removeAllFunctions()";
@@ -774,7 +774,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi20() {
+    public void testApi0020() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "double calculate(), getHelp(), getHelp(String word), getLicense()";
@@ -807,7 +807,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi21() {
+    public void testApi0021() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getCopyOfInitialTokens()";
@@ -860,7 +860,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi22() {
+    public void testApi0022() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Invalid tokens, getCopyOfInitialTokens()";
@@ -938,7 +938,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi23() {
+    public void testApi0023() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Function Extension - calculate()";
@@ -949,7 +949,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi24() {
+    public void testApi0024() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "FunctionExtension - setArgumentValue - calculate";
@@ -962,7 +962,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi25() {
+    public void testApi0025() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "FunctionExtension - parameters";
@@ -977,7 +977,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi26() {
+    public void testApi0026() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "FunctionExtension - calculate";
@@ -990,7 +990,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi27() {
+    public void testApi0027() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Invalid tokens looks like, getCopyOfInitialTokens()";
@@ -1034,7 +1034,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi28() {
+    public void testApi0028() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "checkSyntax()";
@@ -1048,7 +1048,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi29() {
+    public void testApi0029() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "checkSyntax()";
@@ -1062,7 +1062,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi30() {
+    public void testApi0030() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Tokens to remove, removeBuiltinTokens(), unremoveBuiltinTokens(), getBuiltinTokensToRemove(),";
@@ -1089,7 +1089,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi31() {
+    public void testApi0031() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Tokens to modify, modifyBuiltinToken(), getBuiltinTokensToModify(), getHelp()";
@@ -1134,7 +1134,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi32() {
+    public void testApi0032() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Recursion counter, setMaxAllowedRecursionDepth(), getMaxAllowedRecursionDepth()";
@@ -1149,7 +1149,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi33() {
+    public void testApi0033() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Override built-in tokens, setToOverrideBuiltinTokens(), setNotToOverrideBuiltinTokens(), checkIfsetToOverrideBuiltinTokens()";
@@ -1168,7 +1168,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi34() {
+    public void testApi0034() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getKeyWords()";
@@ -1185,7 +1185,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi35() {
+    public void testApi0035() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getTokenTypeDescription()";
@@ -1213,7 +1213,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi36() {
+    public void testApi0036() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convOthBase2Decimal()";
@@ -1263,7 +1263,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi37() {
+    public void testApi0037() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convOthBase2Decimal() - loop";
@@ -1280,7 +1280,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi38() {
+    public void testApi0038() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convert2Decimal() and other - special cases";
@@ -1315,7 +1315,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi39() {
+    public void testApi0039() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convert2Decimal() - loop";
@@ -1332,7 +1332,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi40() {
+    public void testApi0040() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convert2Decimal() - loop";
@@ -1349,7 +1349,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi41() {
+    public void testApi0041() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convert2Decimal() - loop";
@@ -1366,7 +1366,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi42() {
+    public void testApi0042() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getNumeralSystemBase()";
@@ -1618,7 +1618,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi43() {
+    public void testApi0043() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convOthBase2Decimal()";
@@ -1870,7 +1870,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi44() {
+    public void testApi0044() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convDecimal2OthBase()";
@@ -1955,7 +1955,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi45() {
+    public void testApi0045() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convDecimal2OthBase() - format 0";
@@ -2040,7 +2040,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi46() {
+    public void testApi0046() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convDecimal2OthBase() - format 1";
@@ -2126,7 +2126,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi47() {
+    public void testApi0047() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convDecimal2OthBase() - format 2";
@@ -2212,7 +2212,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi48() {
+    public void testApi0048() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "convOthBase2Decimal() - special cases";
@@ -2234,7 +2234,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi49() {
+    public void testApi0049() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getMissingUserDefinedArguments()";
@@ -2252,7 +2252,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi50() {
+    public void testApi0050() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "getMissingUserDefinedFunctions()";
@@ -2268,7 +2268,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi51() {
+    public void testApi0051() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Default radian / degrees mode";
@@ -2279,7 +2279,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi52() {
+    public void testApi0052() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Set to degrees mode";
@@ -2291,7 +2291,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi53() {
+    public void testApi0053() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Set to degrees mode";
@@ -2303,7 +2303,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi54() {
+    public void testApi0054() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "roundHalfUp";
@@ -2456,7 +2456,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi55() {
+    public void testApi0055() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "To Mixed fraction";
@@ -2504,7 +2504,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi56() {
+    public void testApi0056() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "To fraction";
@@ -2552,7 +2552,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi57() {
+    public void testApi0057() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Variadic user function";
@@ -2569,7 +2569,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi58() {
+    public void testApi0058() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Variadic user function with extension";
@@ -2587,7 +2587,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi59() {
+    public void testApi0059() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Almost int rounding disable / enable";
@@ -2603,7 +2603,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi60() {
+    public void testApi0060() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "StringIndexOutOfBoundsException asking for tokens of empty expression #135";
@@ -2616,7 +2616,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi61() {
+    public void testApi0061() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument check syntax #145";
@@ -2628,7 +2628,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi62() {
+    public void testApi0062() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument check syntax #145";
@@ -2640,7 +2640,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi63() {
+    public void testApi0063() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument check syntax #145";
@@ -2652,7 +2652,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi64() {
+    public void testApi0064() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument check syntax #145";
@@ -2665,7 +2665,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi65() {
+    public void testApi0065() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument check syntax #145";
@@ -2682,7 +2682,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi66() {
+    public void testApi0066() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Trigonometric functions special values - compared to Math";
@@ -2704,7 +2704,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi67() {
+    public void testApi0067() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse trigonometric functions special values - compared to Math";
@@ -2746,7 +2746,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi68() {
+    public void testApi0068() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Trigonometric functions special values - compared to MathFunctions";
@@ -2768,7 +2768,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi69() {
+    public void testApi0069() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse trigonometric functions special values - compared to MathFunctions";
@@ -2809,7 +2809,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi70() {
+    public void testApi0070() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Sine test";
@@ -2822,7 +2822,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi71() {
+    public void testApi0071() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Cosine test";
@@ -2835,7 +2835,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi72() {
+    public void testApi0072() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Tangent test";
@@ -2848,7 +2848,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi73() {
+    public void testApi0073() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Cotangent test";
@@ -2861,7 +2861,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi74() {
+    public void testApi0074() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Secant test";
@@ -2874,7 +2874,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi75() {
+    public void testApi0075() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Cosecant test";
@@ -2887,7 +2887,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi76() {
+    public void testApi0076() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse sine test";
@@ -2900,7 +2900,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi77() {
+    public void testApi0077() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse cosine test";
@@ -2913,7 +2913,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi78() {
+    public void testApi0078() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse tangent test";
@@ -2926,7 +2926,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi79() {
+    public void testApi0079() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse ctangent test";
@@ -2942,7 +2942,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi80() {
+    public void testApi0080() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse secant test";
@@ -2955,7 +2955,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi81() {
+    public void testApi0081() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Inverse cosecant test";
@@ -2968,7 +2968,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi82() {
+    public void testApi0082() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument extension test";
@@ -2980,7 +2980,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi83() {
+    public void testApi0083() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument extension test";
@@ -2995,7 +2995,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi84() {
+    public void testApi0084() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Argument extension test";
@@ -3010,7 +3010,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi85() {
+    public void testApi0085() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3022,7 +3022,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi86() {
+    public void testApi0086() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3034,7 +3034,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi87() {
+    public void testApi0087() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3044,7 +3044,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi88() {
+    public void testApi0088() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3054,7 +3054,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi89() {
+    public void testApi0089() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3064,7 +3064,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi90() {
+    public void testApi0090() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3074,7 +3074,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi91() {
+    public void testApi0091() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3084,7 +3084,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi92() {
+    public void testApi0092() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3094,7 +3094,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi93() {
+    public void testApi0093() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3104,7 +3104,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi94() {
+    public void testApi0094() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3114,7 +3114,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi95() {
+    public void testApi0095() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3124,7 +3124,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi96() {
+    public void testApi0096() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3134,7 +3134,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi97() {
+    public void testApi0097() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3144,7 +3144,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi98() {
+    public void testApi0098() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3154,7 +3154,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi99() {
+    public void testApi0099() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3164,7 +3164,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi100() {
+    public void testApi0100() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3174,7 +3174,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi101() {
+    public void testApi0101() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3184,7 +3184,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi102() {
+    public void testApi0102() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3194,7 +3194,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi103() {
+    public void testApi0103() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3204,7 +3204,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi104() {
+    public void testApi0104() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3214,7 +3214,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi105() {
+    public void testApi0105() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3224,7 +3224,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi106() {
+    public void testApi0106() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3235,7 +3235,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi107() {
+    public void testApi0107() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3245,7 +3245,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi108() {
+    public void testApi0108() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3255,7 +3255,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi109() {
+    public void testApi0109() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3265,7 +3265,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi110() {
+    public void testApi0110() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3275,7 +3275,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi111() {
+    public void testApi0111() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3285,7 +3285,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi112() {
+    public void testApi0112() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3295,7 +3295,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi113() {
+    public void testApi0113() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3305,7 +3305,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi114() {
+    public void testApi0114() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3315,7 +3315,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi115() {
+    public void testApi0115() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3325,7 +3325,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi116() {
+    public void testApi0116() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3335,7 +3335,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi117() {
+    public void testApi0117() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3345,7 +3345,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi118() {
+    public void testApi0118() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3355,7 +3355,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi119() {
+    public void testApi0119() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3365,7 +3365,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi120() {
+    public void testApi0120() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3375,7 +3375,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi121() {
+    public void testApi0121() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3385,7 +3385,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi122() {
+    public void testApi0122() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3395,7 +3395,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi123() {
+    public void testApi0123() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3405,7 +3405,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi124() {
+    public void testApi0124() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3415,7 +3415,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi125() {
+    public void testApi0125() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3425,7 +3425,7 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
     }
     @Test
-    public void testApi126() {
+    public void testApi0126() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
