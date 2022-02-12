@@ -1,5 +1,5 @@
 /*
- * @(#)PerformanceTests.cs       5.0.0   2022-01-29
+ * @(#)PerformanceTest.cs       5.0.0   2022-02-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -55,8 +55,9 @@
  */
 using System;
 using System.Threading;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace org.mariuszgromada.math.mxparser.regressiontesting {
+namespace org.mariuszgromada.math.mxparser.test {
 	/**
 	 * PerformanceTests - mXparser performance tests
 	 *
@@ -81,12 +82,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	 *
 	 * @see Expression
 	 */
-	[CLSCompliant(true)]
+	[TestClass]
 	public class PerformanceTests {
 		/**
 		 * Default number of iterations
 		 */
-		private const int BASE_ITER_NUM = 50000000;
+		private const int BASE_ITER_NUM = 1000000;
 		/**
 		 * Performance test definition & result
 		 */
@@ -135,7 +136,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 					threads[threadId].Start();
 				#endif
 			}
-			#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6 && NETCOREAPP1_0 && NETCOREAPP1_1
+			#if !PCL && !NETSTANDARD1_0 && !NETSTANDARD1_1 && !NETSTANDARD1_2 && !NETSTANDARD1_3 && !NETSTANDARD1_4 && !NETSTANDARD1_5 && !NETSTANDARD1_6 && !NETCOREAPP1_0 && !NETCOREAPP1_1
 				for (int threadId = 0; threadId < test.threadsNum; threadId++)
 					try {
 						threads[threadId].Join();
@@ -485,12 +486,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 * @param  threadsNum   Number of threads
 		 * @return Number of tests that were not performed.
 		 */
-		public static int Start(int threadsNum) {
+		public static int startPerformanceTests(int threadsNum) {
 			mXparser.disableUlpRounding();
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableCanonicalRounding();
 			if (threadsNum <= 0) threadsNum = mXparser.getThreadsNumber();
-			tests = new PerformanceTestResult[100];
+			tests = new PerformanceTestResult[21];
 			int testId = -1;
 			int lastTestId = 20;
 			tests[++testId] = new PerformanceTestResult(threadsNum); test000(tests[testId], testId);
@@ -551,21 +552,23 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		 *
 		 * @return Number of tests that were not performed.
 		 */
-		public static int Start() {
-			return Start(mXparser.getThreadsNumber());
-		}
-		/**
-		 * Performance test run with multithreading support.
-		 *
-		 * @param args If parameters are given then only the first one
-		 *             is verified, and is considered as number of threads.
-		 */
-		public static void Main(string[] args) {
-			if (args.Length > 0) {
-				int threadsNumber = int.Parse(args[0]);
-				if (threadsNumber > 0) Start(threadsNumber);
-				else Start();
-			} else Start();
+		[TestMethod]
+		public void testPerformance() {
+			startPerformanceTests(mXparser.getThreadsNumber());
+			bool testResult = true;
+			if (tests != null) {
+				foreach (PerformanceTestResult ptr in tests)
+					if (!ptr.isClosed) {
+						testResult = false;
+						mXparser.consolePrintln("test = " + ptr.Id + "isClosed = " + ptr.isClosed);
+						break;
+					}
+			}
+			else {
+				mXparser.consolePrintln("tests == null");
+				testResult = false;
+			}
+			Assert.IsTrue(testResult);
 		}
 	}
 	/**
@@ -582,6 +585,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		internal int threadsNum;
 		internal String description;
 		internal String exprStr;
+		internal bool isClosed = false;
 		internal PerformanceTestResult(int threadsNum) {
 			this.threadsNum = threadsNum;
 		}
@@ -592,6 +596,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 			endTime = mXparser.currentTimeMillis();
 			computingTimeSec = (endTime - startTime)/1000.0;
 			iterPerSec = (long)Math.Round(iterNum / computingTimeSec);
+			isClosed = true;
 			mXparser.consolePrintln("(threads = " + threadsNum + ") test - " + Id + "; " + exprStr + "; " + iterPerSec + "; " + computingTimeSec + "; " + iterNum + "; " + description);
 		}
 	}

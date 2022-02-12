@@ -173,21 +173,6 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs">
       <Link>src\org\mariuszgromada\math\mxparser\RecursiveArgument.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs">
-      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\PerformanceTests.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpression.cs">
-      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpression.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpressionAPI.cs">
-      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestExpressionAPI.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestSyntax.cs">
-      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RegTestSyntax.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\regressiontesting\RunTest.cs">
-      <Link>src\org\mariuszgromada\math\mxparser\regressiontesting\RunTest.cs</Link>
-    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\ParseException.cs">
       <Link>src\org\mariuszgromada\math\mxparser\syntaxchecker\ParseException.cs</Link>
     </Compile>
