@@ -1,5 +1,5 @@
 /*
- * @(#)PerformanceTests.java       5.0.0   2022-02-09
+ * @(#)PerformanceTest.java       5.0.0   2022-02-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -55,6 +55,8 @@
  */
 package org.mariuszgromada.math.mxparser.test;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
@@ -85,7 +87,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *
  * @see Expression
  */
-public class PerformanceTests {
+public class PerformanceTest {
 	/**
 	 * Default number of iterations
 	 */
@@ -480,12 +482,12 @@ public class PerformanceTests {
 	 * @param  threadsNum   Number of threads
 	 * @return Number of tests that were not performed.
 	 */
-	public static int start(int threadsNum) {
+	public static int startPerformanceTests(int threadsNum) {
 		mXparser.disableUlpRounding();
 		mXparser.disableAlmostIntRounding();
 		mXparser.disableCanonicalRounding();
 		if (threadsNum <= 0) threadsNum = mXparser.getThreadsNumber();
-		tests = new PerformanceTestResult[100];
+		tests = new PerformanceTestResult[21];
 		int testId = -1;
 		int lastTestId = 20;
 		tests[++testId] = new PerformanceTestResult(threadsNum); test000(tests[testId], testId);
@@ -546,8 +548,23 @@ public class PerformanceTests {
 	 *
 	 * @return Number of tests that were not performed.
 	 */
-	public static int start() {
-		return start(mXparser.getThreadsNumber());
+	@Test
+	public void testPerformance() {
+		startPerformanceTests(mXparser.getThreadsNumber());
+		boolean testResult = true;
+		if (tests != null) {
+			for (PerformanceTestResult ptr : tests)
+				if (!ptr.isClosed) {
+					testResult = false;
+					mXparser.consolePrintln("test = " + ptr.Id + "isClosed = " + ptr.isClosed);
+					break;
+				}
+		}
+		else {
+			mXparser.consolePrintln("tests == null");
+			testResult = false;
+		}
+		Assertions.assertTrue(testResult);
 	}
 	/**
 	 * Performance test run with multithreading support.
@@ -558,9 +575,9 @@ public class PerformanceTests {
 	public static void main(String[] args) {
 		if (args.length > 0) {
 			int threadsNumber = Integer.parseInt(args[0]);
-			if (threadsNumber > 0) start(threadsNumber);
-			else start();
-		} else start();
+			if (threadsNumber > 0) startPerformanceTests(threadsNumber);
+			else startPerformanceTests(mXparser.getThreadsNumber());
+		} else startPerformanceTests(mXparser.getThreadsNumber());
 	}
 }
 /**
@@ -577,6 +594,7 @@ class PerformanceTestResult {
 	int threadsNum;
 	String description;
 	String exprStr;
+	boolean isClosed = false;
 	PerformanceTestResult(int threadsNum) {
 		this.threadsNum = threadsNum;
 	}
@@ -587,6 +605,7 @@ class PerformanceTestResult {
 		endTime = System.currentTimeMillis();
 		computingTimeSec = (endTime - startTime)/1000.0;
 		iterPerSec = Math.round(iterNum / computingTimeSec);
+		isClosed = true;
 		mXparser.consolePrintln("(threads = " + threadsNum + ") test - " + Id + "; " + exprStr + "; " + iterPerSec + "; " + computingTimeSec + "; " + iterNum + "; " + description);
 	}
 }
