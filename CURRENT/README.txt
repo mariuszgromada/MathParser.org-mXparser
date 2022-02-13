@@ -882,27 +882,3 @@ doc/tutorial.html
 
 mXparser API:
 doc/index.html
-
-If you would like to run some regression testing just hit commands listed below:
-
-JAVA:
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.Tutorial
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest reg
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest api
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest syn
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest perf
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.RunTest reg api syn perf
-
-Setting number of threads in performance tests:
-java -cp mxparser.jar org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests 4
-
-C# (using PowerShell):
-[Reflection.Assembly]::LoadFile("full\exact\path\to\mxparser.dll")
-[org.mariuszgromada.math.mxparser.Tutorial]::Start()
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("reg")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("api")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("syn")
-[org.mariuszgromada.math.mxparser.regressiontesting.RunTest]::Start("perf")
-
-Setting number of threads in performance tests:
-[org.mariuszgromada.math.mxparser.regressiontesting.PerformanceTests]::Start(4)

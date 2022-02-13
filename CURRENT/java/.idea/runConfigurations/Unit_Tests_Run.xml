@@ -1,0 +1,236 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Unit Tests Run" type="JUnit" factoryName="JUnit">
+    <module name="mxparser-java" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.regressiontesting.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Tutorial" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Expression" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Argument" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Function" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.ArgumentExtension" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.FunctionExtension" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.FunctionExtensionVariadic" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Constant" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.RecursiveArgument" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mXparser" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.AstronomicalConstants" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.BooleanAlgebra" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.Calculus" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.Coefficients" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.Evaluate" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.MathConstants" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.MathFunctions" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.NumberTheory" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.PhysicalConstants" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.PrimesCache" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.SpecialFunctions" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.SpecialValue" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.SpecialValueTrigonometric" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.Statistics" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.Units" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.CalculusOperator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.ConstantValue" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.ConstantValue" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.Function1Arg" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.Function2Arg" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.Function3Arg" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.FunctionVariadic" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.KeyWord" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.Operator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.RandomVariable" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.Token" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.parsertokens.Unit" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.ParseException" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.SimpleCharStream" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerConstants" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxCheckerTokenManager" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.Token" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.TokenMgrError" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="PACKAGE_NAME" value="org.mariuszgromada.math.mxparser.test" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="package" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

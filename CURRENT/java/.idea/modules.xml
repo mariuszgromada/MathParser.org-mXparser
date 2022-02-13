@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/mxparser-java.iml" filepath="$PROJECT_DIR$/mxparser-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/working-tests/working-tests.iml" filepath="$PROJECT_DIR$/working-tests/working-tests.iml" />
+    </modules>
+  </component>
+</project>

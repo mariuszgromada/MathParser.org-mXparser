@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Working Tests Run" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="WorkingTests" />
+    <module name="working-tests" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -96,7 +96,8 @@
 				<artifactId>maven-install-plugin</artifactId>
 				<version>3.0.0-M1</version>
 				<configuration>
-					<createChecksum>true</createChecksum>
+					<!--IntelliJ IDEA shows error here, to check-->
+					<!--createChecksum>true</createChecksum-->
 				</configuration>
 			</plugin>
 			<plugin>
