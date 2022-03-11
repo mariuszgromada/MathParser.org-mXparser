@@ -1,9 +1,9 @@
 /*
- * @(#)ConstantValue.java        4.2.0    2018-01-30
+ * @(#)ConstantValue.java        5.0.0    2022-03-05
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.2.0
+ * @version        5.0.0
  */
 public final class ConstantValue {
 	/*
@@ -188,7 +188,11 @@ public final class ConstantValue {
 	 * ConstantValue - tokens key words.
 	 */
 	public static final String PI_STR 							= "pi";
+	public static final String PI_STR_UNI_1						= "π";
+	public static final String PI_STR_UNI_2						= "ℼ";
 	public static final String EULER_STR 						= "e";
+	public static final String EULER_STR_UNI_1					= "ℯ";
+	public static final String EULER_STR_UNI_2					= "ⅇ";
 	public static final String EULER_MASCHERONI_STR				= "[gam]";
 	public static final String GOLDEN_RATIO_STR					= "[phi]";
 	public static final String PLASTIC_STR						= "[PN]";
@@ -286,7 +290,11 @@ public final class ConstantValue {
 	 * ConstantValue - syntax.
 	 */
 	public static final String PI_SYN							= PI_STR;
+	public static final String PI_SYN_UNI_1						= PI_STR_UNI_1;
+	public static final String PI_SYN_UNI_2						= PI_STR_UNI_2;
 	public static final String EULER_SYN						= EULER_STR;
+	public static final String EULER_SYN_UNI_1					= EULER_STR_UNI_1;
+	public static final String EULER_SYN_UNI_2					= EULER_STR_UNI_2;
 	public static final String EULER_MASCHERONI_SYN				= EULER_MASCHERONI_STR;
 	public static final String GOLDEN_RATIO_SYN					= GOLDEN_RATIO_STR;
 	public static final String PLASTIC_SYN						= PLASTIC_STR;
@@ -483,7 +491,11 @@ public final class ConstantValue {
 	 * ConstantValue - since.
 	 */
 	public static final String PI_SINCE							= mXparser.NAMEv10;
+	public static final String PI_SINCE_UNI_1					= mXparser.NAMEv50;
+	public static final String PI_SINCE_UNI_2					= mXparser.NAMEv50;
 	public static final String EULER_SINCE						= mXparser.NAMEv10;
+	public static final String EULER_SINCE_UNI_1				= mXparser.NAMEv50;
+	public static final String EULER_SINCE_UNI_2				= mXparser.NAMEv50;
 	public static final String EULER_MASCHERONI_SINCE			= mXparser.NAMEv10;
 	public static final String GOLDEN_RATIO_SINCE				= mXparser.NAMEv10;
 	public static final String PLASTIC_SINCE					= mXparser.NAMEv10;

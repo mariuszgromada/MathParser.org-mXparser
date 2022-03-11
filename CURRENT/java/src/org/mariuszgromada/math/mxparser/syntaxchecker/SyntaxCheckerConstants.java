@@ -223,35 +223,39 @@ public interface SyntaxCheckerConstants {
   /** RegularExpression Id. */
   int NOT = 110;
   /** RegularExpression Id. */
-  int BITNOT = 111;
+  int UNICODE_ROOT = 111;
   /** RegularExpression Id. */
-  int IMP = 112;
+  int BITNOT = 112;
   /** RegularExpression Id. */
-  int CIMP = 113;
+  int IMP = 113;
   /** RegularExpression Id. */
-  int NIMP = 114;
+  int CIMP = 114;
   /** RegularExpression Id. */
-  int CNIMP = 115;
+  int NIMP = 115;
   /** RegularExpression Id. */
-  int NAND = 116;
+  int CNIMP = 116;
   /** RegularExpression Id. */
-  int EQV = 117;
+  int NAND = 117;
   /** RegularExpression Id. */
-  int NOR = 118;
+  int EQV = 118;
   /** RegularExpression Id. */
-  int BITWISE = 119;
+  int NOR = 119;
   /** RegularExpression Id. */
-  int XOR = 120;
+  int BITWISE = 120;
   /** RegularExpression Id. */
-  int IDENTIFIER = 121;
+  int XOR = 121;
   /** RegularExpression Id. */
-  int LEFT_OR_RIGHT_DER = 122;
+  int IDENTIFIER = 122;
   /** RegularExpression Id. */
-  int OTHER_CHAR = 123;
+  int LEFT_OR_RIGHT_DER = 123;
   /** RegularExpression Id. */
-  int INVALID_TOKEN = 128;
+  int UNICODE_NAME = 124;
   /** RegularExpression Id. */
-  int UNEXPECTED_CHAR = 129;
+  int OTHER_CHAR = 125;
+  /** RegularExpression Id. */
+  int INVALID_TOKEN = 130;
+  /** RegularExpression Id. */
+  int UNEXPECTED_CHAR = 131;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -353,8 +357,8 @@ public interface SyntaxCheckerConstants {
     "\";\"",
     "\"+\"",
     "\"-\"",
-    "\"*\"",
-    "\"/\"",
+    "<MULTIPLY>",
+    "<DIV>",
     "\"^\"",
     "\"^^\"",
     "\"#\"",
@@ -363,24 +367,26 @@ public interface SyntaxCheckerConstants {
     "<EQ>",
     "<NEQ>",
     "\"<\"",
-    "\"<=\"",
+    "<LEQ>",
     "\">\"",
-    "\">=\"",
+    "<GEQ>",
     "<OR>",
     "<AND>",
-    "\"~\"",
+    "<NOT>",
+    "<UNICODE_ROOT>",
     "\"@~\"",
-    "\"-->\"",
-    "\"<--\"",
-    "\"-/>\"",
-    "\"</-\"",
+    "<IMP>",
+    "<CIMP>",
+    "<NIMP>",
+    "<CNIMP>",
     "<NAND>",
-    "\"<->\"",
+    "<EQV>",
     "<NOR>",
     "<BITWISE>",
-    "\"(+)\"",
+    "<XOR>",
     "<IDENTIFIER>",
     "<LEFT_OR_RIGHT_DER>",
+    "<UNICODE_NAME>",
     "<OTHER_CHAR>",
     "\"[%]\"",
     "\"[%%]\"",

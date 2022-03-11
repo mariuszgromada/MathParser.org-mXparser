@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxChecker.jj        5.0.0    2022-01-16
+ * @(#)SyntaxChecker.jj        5.0.0    2022-03-11
  *
  * SyntaxChecker.jj - mXparser grammar specification for JavaCC
  *
@@ -171,34 +171,97 @@ TOKEN : /* TOKENS */
 | 	< SEMICOLON:			";"																			>
 | 	< PLUS:					"+"																			>
 | 	< MINUS:				"-"																			>
-| 	< MULTIPLY:				"*"																			>
-| 	< DIV:					"/"																			>
+| 	< MULTIPLY:				( "*" | "\u00d7" /* × */ | "\u2a09" /* ⨉ */ | "\u2219" /* ∙ */ )			>
+| 	< DIV:					( "/" | "\u00f7" /* ÷ */ )													>
 | 	< POWER:				"^"																			>
 | 	< TETRATION:			"^^"																		>
 | 	< MODULO:				"#"																			>
 | 	< FACTORIAL:			"!"																			>
 | 	< PERCENTAGE:			"%"																			>
 | 	< EQ:					( "=" | "==" )																>
-| 	< NEQ:					( "<>" | "!=" | "~=" )														>
+| 	< NEQ:					( "<>" | "!=" | "~=" | "\u2260" /* ≠ */ )									>
 | 	< LT:					"<"																			>
-| 	< LEQ:					"<="																		>
+| 	< LEQ:					( "<=" | "\u2264" /* ≤ */ | "\u22dc" /* ⋜ */ )								>
 | 	< GT:					">"																			>
-| 	< GEQ:					">="																		>
-| 	< OR:					( "|" | "||" | "\\/" )														>
-| 	< AND:					( "&" | "&&" | "/\\" )														>
-| 	< NOT:					"~"																			>
+| 	< GEQ:					( ">=" | "\u2265" /* ≥ */ | "\u22dd" /* ⋝ */ )								>
+| 	< OR:					( "|" | "||" | "\\/" | "\u2228" /* ∨ */ )	    							>
+| 	< AND:					( "&" | "&&" | "/\\" | "\u2227" /* ∧ */ )									>
+| 	< NOT:					( "~" | "\u00ac" /* ¬ */ )													>
+| 	< UNICODE_ROOT:			( "\u221a" /* √ */ | "\u221b" /* ∛ */ | "\u221c" /* ∜ */ )					>
 | 	< BITNOT:   			"@~"																		>
-| 	< IMP:					"-->"																		>
-| 	< CIMP:					"<--"																		>
-| 	< NIMP:					"-/>"																		>
-| 	< CNIMP:				"</-"																		>
-|   < NAND:					<NOT><AND>																	>
-|   < EQV:  				"<->"																		>
-|   < NOR:					<NOT><OR>																	>
+| 	< IMP:					( "-->" | "\u21d2" /* ⇒ */ )											    >
+| 	< CIMP:					( "<--" | "\u21d0" /* ⇐ */  )												>
+| 	< NIMP:					( "-/>" | "\u21cf" /* ⇏ */ )												>
+| 	< CNIMP:				( "</-" | "\u21cd" /* ⇍ */ )												>
+|   < NAND:					( <NOT><AND> | "\u22bc" /* ⊼ */ )											>
+|   < EQV:  				( "<->"	| "\u21d4" /* ⇔ */ )												>
+|   < NOR:					( <NOT><OR> | "\u22bd" /* ⊽ */ )											>
 |   < BITWISE:				( "@&" | "@^" | "@|" | "@<<" | "@>>" )										>
-| 	< XOR:					"(+)"																		>
+| 	< XOR:					( "(+)" | "\u22bb" /* ⊻ */)													>
 |	< IDENTIFIER:			<LETTERS> ( <LETTERS> | <INTEGER> )*  										>
-|	< LEFT_OR_RIGHT_DER:	( "der+" | "der-" ) 														>
+|	< LEFT_OR_RIGHT_DER:	( "der+" | "der-" | "\u2202+" /* ∂+ */ | "\u2202-" /* ∂- */ ) 				>
+|   < UNICODE_NAME:         (
+    "\u03b1" /* α */ |
+    "\u03b2" /* β */ |
+    "\u03b3" /* γ */ |
+    "\u03b4" /* δ */ |
+    "\u03b5" /* ε */ |
+    "\u03b6" /* ζ */ |
+    "\u03b7" /* η */ |
+    "\u03b8" /* θ */ |
+    "\u03b9" /* ι */ |
+    "\u03ba" /* κ */ |
+    "\u03bb" /* λ */ |
+    "\u03bc" /* μ */ |
+    "\u03bd" /* ν */ |
+    "\u03be" /* ξ */ |
+    "\u03bf" /* ο */ |
+    "\u03c0" /* π */ |
+    "\u03c1" /* ρ */ |
+    "\u03c2" /* ς */ |
+    "\u03c3" /* σ */ |
+    "\u03c4" /* τ */ |
+    "\u03c5" /* υ */ |
+    "\u03c6" /* φ */ |
+    "\u03c7" /* χ */ |
+    "\u03c8" /* ψ */ |
+    "\u03c9" /* ω */ |
+    "\u0391" /* Α */ |
+    "\u0392" /* Β */ |
+    "\u0393" /* Γ */ |
+    "\u0394" /* Δ */ |
+    "\u0395" /* Ε */ |
+    "\u0396" /* Ζ */ |
+    "\u0397" /* Η */ |
+    "\u0398" /* Θ */ |
+    "\u0399" /* Ι */ |
+    "\u039a" /* Κ */ |
+    "\u039b" /* Λ */ |
+    "\u039c" /* Μ */ |
+    "\u039d" /* Ν */ |
+    "\u039e" /* Ξ */ |
+    "\u039f" /* Ο */ |
+    "\u03a0" /* Π */ |
+    "\u03a1" /* Ρ */ |
+    "\u03a3" /* Σ */ |
+    "\u03a4" /* Τ */ |
+    "\u03a5" /* Υ */ |
+    "\u03a6" /* Φ */ |
+    "\u03a7" /* Χ */ |
+    "\u03a8" /* Ψ */ |
+    "\u03a9" /* Ω */ |
+    "\u2211" /* ∑ */ |
+    "\u220f" /* ∏ */ |
+    "\u213f" /* ℿ */ |
+    "\u2206" /* ∆ */ |
+    "\u2207" /* ∇ */ |
+    "\u222b" /* ∫ */ |
+    "\u213c" /* ℼ */ |
+    "\u2107" /* ℇ */ |
+    "\u2147" /* ⅇ */ |
+    "\u212f" /* ℯ */ |
+    "\u2202" /* ∂ */
+)   >
 | 	< OTHER_CHAR:			( "`"  | "@" | "#" | "$" | "." | "'" | ":" | ";" | "\\" | "/" | "?" )		>
 }
 
@@ -207,7 +270,7 @@ TOKEN : /* TOKENS */
  */
 void start():{}
 {
-	( expression() (<EOF>) | <EOF > )
+	expression() <EOF> | <EOF >
 }
 
 void expression():{ } 
@@ -242,17 +305,17 @@ void unaryRigthOperator():{}
 
 void unaryLeftOperator():{}
 {
-	<NOT> | <BITNOT>
+	<NOT> | <BITNOT> | (<UNICODE_ROOT>)+
 }
 
 void itemExpression():{}
 {
-    ( <PLUS> | <MINUS> )? ( itemOrFunctionOptionalImpliedMultiplication() ( bracketedExpressionOptionalImpliedMultiplication() )? ( itemOrFunctionOptionalImpliedMultiplication() )? | bracketedExpressionOptionalImpliedMultiplication() ( itemOrFunctionOptionalImpliedMultiplication() )? )+
+    ( <PLUS> | <MINUS> )? ( itemOrFunctionOptionalImpliedMultiplication()  ( bracketedExpressionOptionalImpliedMultiplication() | (<UNICODE_ROOT>)+ bracketedExpressionOptionalImpliedMultiplication() )? ( itemOrFunctionOptionalImpliedMultiplication() | (<UNICODE_ROOT>)+ itemOrFunctionOptionalImpliedMultiplication() )? | ( bracketedExpressionOptionalImpliedMultiplication() ) ( itemOrFunctionOptionalImpliedMultiplication() | (<UNICODE_ROOT>)+ itemOrFunctionOptionalImpliedMultiplication() )? )+
 }
 
 void bracketedExpressionOptionalImpliedMultiplication():{}
 {
-    bracketedExpression() ( bracketedExpression() )?
+    bracketedExpression() ( bracketedExpression() | (<UNICODE_ROOT>)+ bracketedExpression() )?
 }
 
 void bracketedExpression():{}
@@ -262,12 +325,12 @@ void bracketedExpression():{}
 
 void itemOrFunctionOptionalImpliedMultiplication():{}
 {
-	<DECIMAL> ( itemOrFunctionImpliedMultiplication() )? ( <DECIMAL> )? | itemOrFunctionImpliedMultiplication() ( <DECIMAL> )?
+    <DECIMAL> ( itemOrFunctionImpliedMultiplication() | (<UNICODE_ROOT>)+ ( itemOrFunctionImpliedMultiplication() | <DECIMAL> ) )? ( <DECIMAL> | (<UNICODE_ROOT>)+ <DECIMAL> )? | ( itemOrFunctionImpliedMultiplication() ) ( <DECIMAL> | (<UNICODE_ROOT>)+ <DECIMAL> )?
 }
 
 void itemOrFunctionImpliedMultiplication():{}
 {
-	( itemOrFunction() )+ | otherBaseNumber()
+	itemOrFunction() ( itemOrFunction() | (<UNICODE_ROOT>)+ ( itemOrFunction() | <DECIMAL> | otherBaseNumber() ) )* | otherBaseNumber()
 }
 
 void itemOrFunction():{}
@@ -282,12 +345,12 @@ void otherBaseNumber():{}
 
 void itemName():{}
 {
-	<IDENTIFIER> | <LEFT_OR_RIGHT_DER>
+	<IDENTIFIER> | <LEFT_OR_RIGHT_DER> | <UNICODE_NAME>
 }
 
 void unitOrSpecialConstant():{}
 {
-	"[%]" | "[%%]" | "[" ( <OTHER_CHAR> | <IDENTIFIER> ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <DECIMAL> )* )+ "]"
+	"[%]" | "[%%]" | "[" ( ( <OTHER_CHAR> | <IDENTIFIER> | <UNICODE_NAME> )  ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <DECIMAL> )* )+ "]"
 }
 
 void argumentList():{}

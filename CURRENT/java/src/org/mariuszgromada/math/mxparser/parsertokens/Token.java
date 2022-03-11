@@ -122,6 +122,11 @@ public class Token {
 	 * otherwise returns false
 	 */
 	public boolean isUnaryLeftOperator() {
+		if (tokenTypeId == Operator.TYPE_ID) {
+			if (tokenId == Operator.SQUARE_ROOT_ID) return true;
+			if (tokenId == Operator.CUBE_ROOT_ID) return true;
+			if (tokenId == Operator.FOURTH_ROOT_ID) return true;
+		}
 		if (tokenTypeId == BooleanOperator.TYPE_ID) {
 			if (tokenId == BooleanOperator.NEG_ID) return true;
 		}
@@ -194,7 +199,14 @@ public class Token {
 		if (tokenTypeId == BinaryRelation.TYPE_ID) return true;
 		if (tokenTypeId == BitwiseOperator.TYPE_ID) return true;
 		if (tokenTypeId == BooleanOperator.TYPE_ID) return true;
-		if (tokenTypeId == Operator.TYPE_ID) return true;
+		if (tokenTypeId == Operator.TYPE_ID) {
+			if (	tokenId != Operator.SQUARE_ROOT_ID
+					&& tokenId != Operator.CUBE_ROOT_ID
+					&& tokenId != Operator.FOURTH_ROOT_ID
+					&& tokenId != Operator.FACT_ID
+					&& tokenId != Operator.PERC_ID
+			)  return true;
+		}
 		return false;
 	}
 	/**
@@ -231,6 +243,20 @@ public class Token {
 		if (tokenStr.length() == 0) return false;
 		if (tokenStr.charAt(0) == '[') return true;
 		else return false;
+	}
+	/**
+	 * Verification if the token represents unicode root operator
+	 *
+	 * @return true in case token represents unicode root operator
+	 * otherwise returns false
+	 */
+	public boolean isUnicodeRootOperator() {
+		if (tokenTypeId == Operator.TYPE_ID) {
+			if (tokenId == Operator.SQUARE_ROOT_ID) return true;
+			if (tokenId == Operator.CUBE_ROOT_ID) return true;
+			if (tokenId == Operator.FOURTH_ROOT_ID) return true;
+		}
+		return false;
 	}
 	/**
 	 * Creates token representing multiplication operator.

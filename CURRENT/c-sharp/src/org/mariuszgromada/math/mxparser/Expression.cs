@@ -2069,7 +2069,7 @@ namespace org.mariuszgromada.math.mxparser {
 				constValue = AstronomicalConstants.MOON_MASS;
 				break;
 			case ConstantValue.MONN_SEMI_MAJOR_AXIS_ID:
-				constValue = AstronomicalConstants.MONN_SEMI_MAJOR_AXIS;
+				constValue = AstronomicalConstants.MOON_SEMI_MAJOR_AXIS;
 				break;
 			case ConstantValue.SOLAR_RADIUS_ID:
 				constValue = AstronomicalConstants.SOLAR_RADIUS;
@@ -4950,11 +4950,7 @@ namespace org.mariuszgromada.math.mxparser {
 				recursionCallPending = false;
 				return syntax;
 			}
-			#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
-				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
-			#else
-				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)) );
-			#endif
+			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			try {
 				syn.checkSyntax();
 				/*

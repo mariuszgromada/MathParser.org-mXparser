@@ -1,9 +1,9 @@
 /*
- * @(#)Operator.java        4.2.0    2017-10-19
+ * @(#)Operator.java        5.0.0    2022-03-05
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.2.0
+ * @version        5.0.0
  */
 public final class Operator {
 	/*
@@ -96,52 +96,79 @@ public final class Operator {
 	public static final int MOD_ID					= 7;
 	public static final int PERC_ID					= 8;
 	public static final int TETRATION_ID			= 9;
+	public static final int SQUARE_ROOT_ID			= 10;
+	public static final int CUBE_ROOT_ID			= 11;
+	public static final int FOURTH_ROOT_ID			= 12;
 	/*
 	 * Operator - tokens key words.
 	 */
 	public static final String PLUS_STR 			= "+";
 	public static final String MINUS_STR 			= "-";
 	public static final String MULTIPLY_STR 		= "*";
+	public static final String MULTIPLY_STR_UNI_1	= "×";
+	public static final String MULTIPLY_STR_UNI_2	= "⨉";
+	public static final String MULTIPLY_STR_UNI_3	= "∙";
 	public static final String DIVIDE_STR 			= "/";
+	public static final String DIVIDE_STR_UNI_1		= "÷";
 	public static final String POWER_STR 			= "^";
 	public static final String FACT_STR 			= "!";
 	public static final String MOD_STR				= "#";
 	public static final String PERC_STR				= "%";
 	public static final String TETRATION_STR		= "^^";
+	public static final String SQUARE_ROOT_STR		= "√";
+	public static final String CUBE_ROOT_STR		= "∛";
+	public static final String FOURTH_ROOT_STR		= "∜";
 	/*
 	 * Operator - syntax.
 	 */
 	public static final String PLUS_SYN 			= "a + b";
 	public static final String MINUS_SYN 			= "a - b";
-	public static final String MULTIPLY_SYN 		= "a * b";
-	public static final String DIVIDE_SYN 			= "a / b";
+	public static final String MULTIPLY_SYN 		= "a " + MULTIPLY_STR + " b";
+	public static final String MULTIPLY_SYN_UNI_1	= "a " + MULTIPLY_STR_UNI_1 + " b";
+	public static final String MULTIPLY_SYN_UNI_2	= "a " + MULTIPLY_STR_UNI_2 + " b";
+	public static final String MULTIPLY_SYN_UNI_3	= "a " + MULTIPLY_STR_UNI_3 + " b";
+	public static final String DIVIDE_SYN 			= "a " + DIVIDE_STR + " b";
+	public static final String DIVIDE_SYN_UNI_1		= "a " + DIVIDE_STR_UNI_1 + " b";
 	public static final String POWER_SYN 			= "a^b";
 	public static final String FACT_SYN 			= "n!";
 	public static final String MOD_SYN				= "a # b";
 	public static final String PERC_SYN				= "n%";
 	public static final String TETRATION_SYN		= "a^^n";
+	public static final String SQUARE_ROOT_SYN		= "√a";
+	public static final String CUBE_ROOT_SYN		= "∛a";
+	public static final String FOURTH_ROOT_SYN		= "∜a";
 	/*
 	 * Operator - tokens description.
 	 */
 	public static final String PLUS_DESC 			= "Addition";
 	public static final String MINUS_DESC 			= "Subtraction";
-	public static final String MULTIPLY_DESC 		= "Nultiplication";
+	public static final String MULTIPLY_DESC 		= "Multiplication";
 	public static final String DIVIDE_DESC 			= "Division";
 	public static final String POWER_DESC 			= "Exponentiation";
 	public static final String FACT_DESC			= "Factorial";
 	public static final String MOD_DESC				= "Modulo function";
 	public static final String PERC_DESC			= "Percentage";
 	public static final String TETRATION_DESC		= "Tetration (hyper-4, power tower, exponential tower)";
+	public static final String SQUARE_ROOT_DESC		= "Square root function represented as unary left operator";
+	public static final String CUBE_ROOT_DESC		= "Cube root function represented as unary left operator";
+	public static final String FOURTH_ROOT_DESC		= "Fourth root function represented as unary left operator";
 	/*
 	 * Operator - since.
 	 */
 	public static final String PLUS_SINCE 			= mXparser.NAMEv10;
 	public static final String MINUS_SINCE 			= mXparser.NAMEv10;
 	public static final String MULTIPLY_SINCE 		= mXparser.NAMEv10;
+	public static final String MULTIPLY_SINCE_UNI_1	= mXparser.NAMEv50;
+	public static final String MULTIPLY_SINCE_UNI_2	= mXparser.NAMEv50;
+	public static final String MULTIPLY_SINCE_UNI_3	= mXparser.NAMEv50;
 	public static final String DIVIDE_SINCE 		= mXparser.NAMEv10;
+	public static final String DIVIDE_SINCE_UNI_1	= mXparser.NAMEv50;
 	public static final String POWER_SINCE 			= mXparser.NAMEv10;
 	public static final String FACT_SINCE			= mXparser.NAMEv10;
 	public static final String MOD_SINCE			= mXparser.NAMEv10;
 	public static final String PERC_SINCE			= mXparser.NAMEv41;
 	public static final String TETRATION_SINCE		= mXparser.NAMEv42;
+	public static final String SQUARE_ROOT_SINCE	= mXparser.NAMEv50;
+	public static final String CUBE_ROOT_SINCE		= mXparser.NAMEv50;
+	public static final String FOURTH_ROOT_SINCE	= mXparser.NAMEv50;
 }

@@ -1,9 +1,9 @@
 /*
- * @(#)AstronomicalConstants.java        4.0.0    2017-03-11
+ * @(#)AstronomicalConstants.java        5.0.0    2022-02-27
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -75,7 +75,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.0.0
+ * @version        5.0.0
  */
 public final class AstronomicalConstants {
 	/**
@@ -125,7 +125,7 @@ public final class AstronomicalConstants {
 	/**
 	 * Moon semi-major axis
 	 */
-	public static final double MONN_SEMI_MAJOR_AXIS = 384399 * Units.KILOMETRE;
+	public static final double MOON_SEMI_MAJOR_AXIS = 384399 * Units.KILOMETRE;
 	/**
 	 * Solar radius
 	 */

@@ -1,9 +1,9 @@
 /*
- * @(#)BooleanOperator.java        4.1.0    2017-05-13
+ * @(#)BooleanOperator.java        5.0.0    2022-02-26
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.1.0
+ * @version        5.0.0
  */
 public final class BooleanOperator {
 	/*
@@ -102,46 +102,88 @@ public final class BooleanOperator {
 	 * BooleanOperator - tokens key words.
 	 */
 	public static final String NEG_STR				= "~";
+	public static final String NEG_STR_UNI_1		= "¬";
 	public static final String AND_STR				= "&";
+	public static final String AND_STR_UNI_1		= "∧";
 	public static final String AND1_STR				= "&&";
 	public static final String AND2_STR				= "/\\";
 	public static final String NAND_STR				= NEG_STR + AND_STR;
 	public static final String NAND1_STR			= NEG_STR + AND1_STR;
 	public static final String NAND2_STR			= NEG_STR + AND2_STR;
+	public static final String NAND_STR_UNI_1		= NEG_STR + AND_STR_UNI_1;
+	public static final String NAND_STR_UNI_2		= NEG_STR_UNI_1 + AND_STR;
+	public static final String NAND_STR_UNI_3		= NEG_STR_UNI_1 + AND1_STR;
+	public static final String NAND_STR_UNI_4		= NEG_STR_UNI_1 + AND2_STR;
+	public static final String NAND_STR_UNI_5		= NEG_STR_UNI_1 + AND_STR_UNI_1;
+	public static final String NAND_STR_UNI_6		= "⊼";
 	public static final String OR_STR				= "|";
+	public static final String OR_STR_UNI_1			= "∨";
 	public static final String OR1_STR				= "||";
 	public static final String OR2_STR				= "\\/";
 	public static final String NOR_STR				= NEG_STR + OR_STR;
 	public static final String NOR1_STR				= NEG_STR + OR1_STR;
 	public static final String NOR2_STR				= NEG_STR + OR2_STR;
+	public static final String NOR_STR_UNI_1		= NEG_STR + OR_STR_UNI_1;
+	public static final String NOR_STR_UNI_2		= NEG_STR_UNI_1 + OR_STR;
+	public static final String NOR_STR_UNI_3		= NEG_STR_UNI_1 + OR1_STR;
+	public static final String NOR_STR_UNI_4		= NEG_STR_UNI_1 + OR2_STR;
+	public static final String NOR_STR_UNI_5		= NEG_STR_UNI_1 + OR_STR_UNI_1;
+	public static final String NOR_STR_UNI_6		= "⊽";
 	public static final String XOR_STR				= "(+)";
+	public static final String XOR_STR_UNI_1		= "⊻";
 	public static final String IMP_STR				= "-->";
+	public static final String IMP_STR_UNI_1		= "⇒";
 	public static final String CIMP_STR				= "<--";
+	public static final String CIMP_STR_UNI_1		= "⇐";
 	public static final String NIMP_STR				= "-/>";
+	public static final String NIMP_STR_UNI_1		= "⇏";
 	public static final String CNIMP_STR			= "</-";
+	public static final String CNIMP_STR_UNI_1		= "⇍";
 	public static final String EQV_STR				= "<->";
+	public static final String EQV_STR_UNI_1		= "⇔";
 	/*
 	 * BooleanOperator - syntax.
 	 */
 	public static final String NEG_SYN				= "~p";
+	public static final String NEG_SYN_UNI_1		= "¬p";
 	public static final String AND_SYN				= "p & q";
 	public static final String AND1_SYN				= "p && q";
 	public static final String AND2_SYN				= "p /\\ q";
-	public static final String NAND_SYN				= "p " + NEG_STR + AND_STR + " q";
-	public static final String NAND1_SYN			= "p " + NEG_STR + AND1_STR + " q";
-	public static final String NAND2_SYN			= "p " + NEG_STR + AND2_STR + " q";
+	public static final String AND_SYN_UNI_1		= "p ∧ q";
+	public static final String NAND_SYN				= "p " + NAND_STR + " q";
+	public static final String NAND1_SYN			= "p " + NAND1_STR + " q";
+	public static final String NAND2_SYN			= "p " + NAND2_STR + " q";
+	public static final String NAND_SYN_UNI_1		= "p " + NAND_STR_UNI_1 + " q";
+	public static final String NAND_SYN_UNI_2		= "p " + NAND_STR_UNI_2 + " q";
+	public static final String NAND_SYN_UNI_3		= "p " + NAND_STR_UNI_3 + " q";
+	public static final String NAND_SYN_UNI_4		= "p " + NAND_STR_UNI_4 + " q";
+	public static final String NAND_SYN_UNI_5		= "p " + NAND_STR_UNI_5 + " q";
+	public static final String NAND_SYN_UNI_6		= "p " + NAND_STR_UNI_6 + " q";
 	public static final String OR_SYN				= "p | q";
 	public static final String OR1_SYN				= "p || q";
 	public static final String OR2_SYN				= "p \\/ q";
-	public static final String NOR_SYN				= "p " + NEG_STR + OR_STR + " q";
-	public static final String NOR1_SYN				= "p " + NEG_STR + OR1_STR + " q";
-	public static final String NOR2_SYN				= "p " + NEG_STR + OR2_STR + " q";
+	public static final String OR_SYN_UNI_1			= "p ∨ q";
+	public static final String NOR_SYN				= "p " + NOR_STR + " q";
+	public static final String NOR1_SYN				= "p " + NOR1_STR + " q";
+	public static final String NOR2_SYN				= "p " + NOR2_STR + " q";
+	public static final String NOR_SYN_UNI_1		= "p " + NOR_STR_UNI_1 + " q";
+	public static final String NOR_SYN_UNI_2		= "p " + NOR_STR_UNI_2 + " q";
+	public static final String NOR_SYN_UNI_3		= "p " + NOR_STR_UNI_3 + " q";
+	public static final String NOR_SYN_UNI_4		= "p " + NOR_STR_UNI_4 + " q";
+	public static final String NOR_SYN_UNI_5		= "p " + NOR_STR_UNI_5 + " q";
+	public static final String NOR_SYN_UNI_6		= "p " + NOR_STR_UNI_6 + " q";
 	public static final String XOR_SYN				= "p (+) q";
+	public static final String XOR_SYN_UNI_1		= "p ⊻ q";
 	public static final String IMP_SYN				= "p --> q";
+	public static final String IMP_SYN_UNI_1		= "p ⇒ q";
 	public static final String CIMP_SYN				= "p <-- q";
-	public static final String NIMP_SYN				= "p  -/> q";
+	public static final String CIMP_SYN_UNI_1		= "p ⇐ q";
+	public static final String NIMP_SYN				= "p -/> q";
+	public static final String NIMP_SYN_UNI_1		= "p ⇏ q";
 	public static final String CNIMP_SYN			= "p </- q";
+	public static final String CNIMP_SYN_UNI_1		= "p ⇍ q";
 	public static final String EQV_SYN				= "p <-> q";
+	public static final String EQV_SYN_UNI_1		= "p ⇔ q";
 	/*
 	 * BooleanOperator - tokens description.
 	 */
@@ -160,14 +202,35 @@ public final class BooleanOperator {
 	 * BooleanOperator - since.
 	 */
 	public static final String AND_SINCE			= mXparser.NAMEv10;
+	public static final String AND_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String OR_SINCE				= mXparser.NAMEv10;
+	public static final String OR_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String NEG_SINCE			= mXparser.NAMEv10;
+	public static final String NEG_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String NAND_SINCE			= mXparser.NAMEv10;
+	public static final String NAND_SINCE_UNI_1		= mXparser.NAMEv50;
+	public static final String NAND_SINCE_UNI_2		= mXparser.NAMEv50;
+	public static final String NAND_SINCE_UNI_3		= mXparser.NAMEv50;
+	public static final String NAND_SINCE_UNI_4		= mXparser.NAMEv50;
+	public static final String NAND_SINCE_UNI_5		= mXparser.NAMEv50;
+	public static final String NAND_SINCE_UNI_6		= mXparser.NAMEv50;
 	public static final String NOR_SINCE			= mXparser.NAMEv10;
+	public static final String NOR_SINCE_UNI_1		= mXparser.NAMEv50;
+	public static final String NOR_SINCE_UNI_2		= mXparser.NAMEv50;
+	public static final String NOR_SINCE_UNI_3		= mXparser.NAMEv50;
+	public static final String NOR_SINCE_UNI_4		= mXparser.NAMEv50;
+	public static final String NOR_SINCE_UNI_5		= mXparser.NAMEv50;
+	public static final String NOR_SINCE_UNI_6		= mXparser.NAMEv50;
 	public static final String XOR_SINCE			= mXparser.NAMEv10;
+	public static final String XOR_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String IMP_SINCE			= mXparser.NAMEv10;
+	public static final String IMP_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String CIMP_SINCE			= mXparser.NAMEv10;
+	public static final String CIMP_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String NIMP_SINCE			= mXparser.NAMEv10;
+	public static final String NIMP_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String CNIMP_SINCE			= mXparser.NAMEv10;
+	public static final String CNIMP_SINCE_UNI_1	= mXparser.NAMEv50;
 	public static final String EQV_SINCE			= mXparser.NAMEv10;
+	public static final String EQV_SINCE_UNI_1		= mXparser.NAMEv50;
 }

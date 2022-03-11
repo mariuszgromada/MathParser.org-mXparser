@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.0.0    2022-02-09
+ * @(#)SyntaxTest.java        5.0.0    2022-03-11
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3434,7 +3434,26 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
-
+    @Test
+    public void testApi0127() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(127, testDescr);
+        testResult = testImpliedMultiplication("2pi2√√pi", "2*pi2*√√pi");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0128() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(128, testDescr);
+        testResult = testImpliedMultiplication("2pi2√√2pi", "2*pi2*√√2*pi");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
     public static boolean testImpliedMultiplication(String expStr, String expResStr, String... elements) {
         Expression e = new Expression(expStr);
         if (elements != null)

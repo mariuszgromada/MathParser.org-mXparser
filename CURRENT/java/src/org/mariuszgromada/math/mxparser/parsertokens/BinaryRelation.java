@@ -1,9 +1,9 @@
 /*
- * @(#)BinaryRelation.java        4.1.0    2017-05-13
+ * @(#)BinaryRelation.java        5.0.0    2022-03-05
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.1.0
+ * @version        5.0.0
  */
 public final class BinaryRelation {
 	/*
@@ -99,24 +99,34 @@ public final class BinaryRelation {
 	public static final String EQ_STR 				= "=";
 	public static final String EQ1_STR 				= "==";
 	public static final String NEQ_STR 				= "<>";
+	public static final String NEQ_STR_UNI_1		= "≠";
 	public static final String NEQ1_STR 			= "~=";
 	public static final String NEQ2_STR 			= "!=";
 	public static final String LT_STR 				= "<";
 	public static final String GT_STR 				= ">";
 	public static final String LEQ_STR 				= "<=";
+	public static final String LEQ_STR_UNI_1		= "≤";
+	public static final String LEQ_STR_UNI_2		= "⋜";
 	public static final String GEQ_STR 				= ">=";
+	public static final String GEQ_STR_UNI_1		= "≥";
+	public static final String GEQ_STR_UNI_2		= "⋝";
 	/*
 	 * BinaryRelation - syntax.
 	 */
 	public static final String EQ_SYN 				= "a = b";
 	public static final String EQ1_SYN 				= "a == b";
 	public static final String NEQ_SYN 				= "a <> b";
+	public static final String NEQ_SYN_UNI_1		= "a ≠ b";
 	public static final String NEQ1_SYN 			= "a ~= b";
 	public static final String NEQ2_SYN 			= "a != b";
 	public static final String LT_SYN 				= "a < b";
 	public static final String GT_SYN 				= "a > b";
 	public static final String LEQ_SYN 				= "a <= b";
+	public static final String LEQ_SYN_UNI_1		= "a ≤ b";
+	public static final String LEQ_SYN_UNI_2 		= "a ⋝ b";
 	public static final String GEQ_SYN 				= "a >= b";
+	public static final String GEQ_SYN_UNI_1		= "a ≥ b";
+	public static final String GEQ_SYN_UNI_2		= "a ⋝ b";
 	/*
 	 * BinaryRelation - tokens description.
 	 */
@@ -131,8 +141,13 @@ public final class BinaryRelation {
 	 */
 	public static final String EQ_SINCE				= mXparser.NAMEv10;
 	public static final String NEQ_SINCE			= mXparser.NAMEv10;
+	public static final String NEQ_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String LT_SINCE 			= mXparser.NAMEv10;
 	public static final String GT_SINCE				= mXparser.NAMEv10;
 	public static final String LEQ_SINCE 			= mXparser.NAMEv10;
+	public static final String LEQ_SINCE_UNI_1		= mXparser.NAMEv50;
+	public static final String LEQ_SINCE_UNI_2		= mXparser.NAMEv50;
 	public static final String GEQ_SINCE 			= mXparser.NAMEv10;
+	public static final String GEQ_SINCE_UNI_1		= mXparser.NAMEv50;
+	public static final String GEQ_SINCE_UNI_2		= mXparser.NAMEv50;
 }

@@ -1,9 +1,9 @@
 /*
- * @(#)CalculusOperator.java        4.3.0   2018-12-12
+ * @(#)CalculusOperator.java        5.0.0   2022-03-05
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        5.0.0
  */
 public final class CalculusOperator {
 	/*
@@ -106,14 +106,26 @@ public final class CalculusOperator {
 	 * CalculusOperator - tokens key words.
 	 */
 	public static final String SUM_STR					= "sum";
+	public static final String SUM_STR_UNI_1			= "∑";
+	public static final String SUM_STR_UNI_2			= "Σ";
 	public static final String PROD_STR					= "prod";
+	public static final String PROD_STR_UNI_1			= "∏";
+	public static final String PROD_STR_UNI_2			= "ℿ";
+	public static final String PROD_STR_UNI_3			= "Π";
 	public static final String INT_STR					= "int";
+	public static final String INT_STR_UNI_1			= "∫";
 	public static final String DER_STR					= "der";
+	public static final String DER_STR_UNI_1			= "∂";
 	public static final String DER_LEFT_STR				= "der-";
+	public static final String DER_LEFT_STR_UNI_1		= "∂-";
 	public static final String DER_RIGHT_STR			= "der+";
+	public static final String DER_RIGHT_STR_UNI_1		= "∂+";
 	public static final String DERN_STR					= "dern";
 	public static final String FORW_DIFF_STR			= "diff";
+	public static final String FORW_DIFF_STR_UNI_1		= "∆";
+	public static final String FORW_DIFF_STR_UNI_2		= "Δ";
 	public static final String BACKW_DIFF_STR			= "difb";
+	public static final String BACKW_DIFF_STR_UNI_1		= "∇";
 	public static final String AVG_STR					= "avg";
 	public static final String VAR_STR					= "vari";
 	public static final String STD_STR					= "stdi";
@@ -124,14 +136,26 @@ public final class CalculusOperator {
 	 * CalculusOperator - syntax.
 	 */
 	public static final String SUM_SYN					= "sum( i, from, to, expr , <by> )";
+	public static final String SUM_SYN_UNI_1			= "∑( i, from, to, expr , <by> )";
+	public static final String SUM_SYN_UNI_2			= "Σ( i, from, to, expr , <by> )";
 	public static final String PROD_SYN					= "prod( i, from, to, expr , <by> )";
+	public static final String PROD_SYN_UNI_1			= "∏( i, from, to, expr , <by> )";
+	public static final String PROD_SYN_UNI_2			= "ℿ( i, from, to, expr , <by> )";
+	public static final String PROD_SYN_UNI_3			= "Π( i, from, to, expr , <by> )";
 	public static final String INT_SYN					= "int( expr, arg, from, to )";
+	public static final String INT_SYN_UNI_1			= "∫( expr, arg, from, to )";
 	public static final String DER_SYN					= "der( expr, arg, <point> )";
+	public static final String DER_SYN_UNI_1			= "∂( expr, arg, <point> )";
 	public static final String DER_LEFT_SYN				= "der-( expr, arg, <point> )";
+	public static final String DER_LEFT_SYN_UNI_1		= "∂-( expr, arg, <point> )";
 	public static final String DER_RIGHT_SYN			= "der+( expr, arg, <point> )";
+	public static final String DER_RIGHT_SYN_UNI_1		= "∂+( expr, arg, <point> )";
 	public static final String DERN_SYN					= "dern( expr, n, arg )";
 	public static final String FORW_DIFF_SYN			= "diff( expr, arg, <delta> )";
+	public static final String FORW_DIFF_SYN_UNI_1		= "∆( expr, arg, <delta> )";
+	public static final String FORW_DIFF_SYN_UNI_2		= "Δ( expr, arg, <delta> )";
 	public static final String BACKW_DIFF_SYN			= "difb( expr, arg, <delta> )";
+	public static final String BACKW_DIFF_SYN_UNI_1		= "∇( expr, arg, <delta> )";
 	public static final String AVG_SYN					= "avg( i, from, to, expr , <by> )";
 	public static final String VAR_SYN					= "vari( i, from, to, expr , <by> )";
 	public static final String STD_SYN					= "stdi( i, from, to, expr , <by> )";
@@ -160,14 +184,26 @@ public final class CalculusOperator {
 	 * CalculusOperator - since.
 	 */
 	public static final String SUM_SINCE				= mXparser.NAMEv10;
+	public static final String SUM_SINCE_UNI_1			= mXparser.NAMEv50;
+	public static final String SUM_SINCE_UNI_2			= mXparser.NAMEv50;
 	public static final String PROD_SINCE				= mXparser.NAMEv10;
+	public static final String PROD_SINCE_UNI_1			= mXparser.NAMEv50;
+	public static final String PROD_SINCE_UNI_2			= mXparser.NAMEv50;
+	public static final String PROD_SINCE_UNI_3			= mXparser.NAMEv50;
 	public static final String INT_SINCE				= mXparser.NAMEv10;
+	public static final String INT_SINCE_UNI_1			= mXparser.NAMEv50;
 	public static final String DER_SINCE				= mXparser.NAMEv10;
+	public static final String DER_SINCE_UNI_1			= mXparser.NAMEv50;
 	public static final String DER_LEFT_SINCE			= mXparser.NAMEv10;
+	public static final String DER_LEFT_SINCE_UNI_1		= mXparser.NAMEv50;
 	public static final String DER_RIGHT_SINCE			= mXparser.NAMEv10;
+	public static final String DER_RIGHT_SINCE_UNI_1	= mXparser.NAMEv50;
 	public static final String DERN_SINCE				= mXparser.NAMEv10;
 	public static final String FORW_DIFF_SINCE			= mXparser.NAMEv10;
+	public static final String FORW_DIFF_SINCE_UNI_1	= mXparser.NAMEv50;
+	public static final String FORW_DIFF_SINCE_UNI_2	= mXparser.NAMEv50;
 	public static final String BACKW_DIFF_SINCE			= mXparser.NAMEv10;
+	public static final String BACKW_DIFF_SINCE_UNI_1	= mXparser.NAMEv50;
 	public static final String AVG_SINCE				= mXparser.NAMEv24;
 	public static final String VAR_SINCE				= mXparser.NAMEv24;
 	public static final String STD_SINCE				= mXparser.NAMEv24;
