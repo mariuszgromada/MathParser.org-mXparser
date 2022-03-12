@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cs        5.0.0    2022-01-29
+ * @(#)Token.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -121,12 +121,15 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isUnaryLeftOperator() {
-			if (tokenTypeId == BooleanOperator.TYPE_ID)
-			{
+			if (tokenTypeId == Operator.TYPE_ID) {
+				if (tokenId == Operator.SQUARE_ROOT_ID) return true;
+				if (tokenId == Operator.CUBE_ROOT_ID) return true;
+				if (tokenId == Operator.FOURTH_ROOT_ID) return true;
+			}
+			if (tokenTypeId == BooleanOperator.TYPE_ID) {
 				if (tokenId == BooleanOperator.NEG_ID) return true;
 			}
-			if (tokenTypeId == BitwiseOperator.TYPE_ID)
-			{
+			if (tokenTypeId == BitwiseOperator.TYPE_ID) {
 				if (tokenId == BitwiseOperator.COMPL_ID) return true;
 			}
 			return false;
@@ -138,8 +141,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isUnaryRightOperator() {
-			if (tokenTypeId == Operator.TYPE_ID)
-			{
+			if (tokenTypeId == Operator.TYPE_ID) {
 				if (tokenId == Operator.FACT_ID) return true;
 				if (tokenId == Operator.PERC_ID) return true;
 			}
@@ -196,7 +198,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			if (tokenTypeId == BinaryRelation.TYPE_ID) return true;
 			if (tokenTypeId == BitwiseOperator.TYPE_ID) return true;
 			if (tokenTypeId == BooleanOperator.TYPE_ID) return true;
-			if (tokenTypeId == Operator.TYPE_ID) return true;
+			if (tokenTypeId == Operator.TYPE_ID) {
+				if (	tokenId != Operator.SQUARE_ROOT_ID
+						&& tokenId != Operator.CUBE_ROOT_ID
+						&& tokenId != Operator.FOURTH_ROOT_ID
+						&& tokenId != Operator.FACT_ID
+						&& tokenId != Operator.PERC_ID
+				)  return true;
+			}
 			return false;
 		}
 		/**
@@ -233,6 +242,20 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			if (tokenStr.Length == 0) return false;
 			if (tokenStr[0] == '[') return true;
 			else return false;
+		}
+		/**
+		 * Verification if the token represents unicode root operator
+		 *
+		 * @return true in case token represents unicode root operator
+		 * otherwise returns false
+		 */
+		public bool isUnicodeRootOperator() {
+			if (tokenTypeId == Operator.TYPE_ID) {
+				if (tokenId == Operator.SQUARE_ROOT_ID) return true;
+				if (tokenId == Operator.CUBE_ROOT_ID) return true;
+				if (tokenId == Operator.FOURTH_ROOT_ID) return true;
+			}
+			return false;
 		}
 		/**
 		 * Creates token representing multiplication operator.

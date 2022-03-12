@@ -112,21 +112,23 @@ public class SyntaxCheckerConstants {
   public const int OR = 108;
   public const int AND = 109;
   public const int NOT = 110;
-  public const int BITNOT = 111;
-  public const int IMP = 112;
-  public const int CIMP = 113;
-  public const int NIMP = 114;
-  public const int CNIMP = 115;
-  public const int NAND = 116;
-  public const int EQV = 117;
-  public const int NOR = 118;
-  public const int BITWISE = 119;
-  public const int XOR = 120;
-  public const int IDENTIFIER = 121;
-  public const int LEFT_OR_RIGHT_DER = 122;
-  public const int OTHER_CHAR = 123;
-  public const int INVALID_TOKEN = 128;
-  public const int UNEXPECTED_CHAR = 129;
+  public const int UNICODE_ROOT = 111;
+  public const int BITNOT = 112;
+  public const int IMP = 113;
+  public const int CIMP = 114;
+  public const int NIMP = 115;
+  public const int CNIMP = 116;
+  public const int NAND = 117;
+  public const int EQV = 118;
+  public const int NOR = 119;
+  public const int BITWISE = 120;
+  public const int XOR = 121;
+  public const int IDENTIFIER = 122;
+  public const int LEFT_OR_RIGHT_DER = 123;
+  public const int UNICODE_NAME = 124;
+  public const int OTHER_CHAR = 125;
+  public const int INVALID_TOKEN = 130;
+  public const int UNEXPECTED_CHAR = 131;
 
   public const int DEFAULT = 0;
 
@@ -226,8 +228,8 @@ public class SyntaxCheckerConstants {
     "\";\"",
     "\"+\"",
     "\"-\"",
-    "\"*\"",
-    "\"/\"",
+    "<MULTIPLY>",
+    "<DIV>",
     "\"^\"",
     "\"^^\"",
     "\"#\"",
@@ -236,24 +238,26 @@ public class SyntaxCheckerConstants {
     "<EQ>",
     "<NEQ>",
     "\"<\"",
-    "\"<=\"",
+    "<LEQ>",
     "\">\"",
-    "\">=\"",
+    "<GEQ>",
     "<OR>",
     "<AND>",
-    "\"~\"",
+    "<NOT>",
+    "<UNICODE_ROOT>",
     "\"@~\"",
-    "\"-->\"",
-    "\"<--\"",
-    "\"-/>\"",
-    "\"</-\"",
+    "<IMP>",
+    "<CIMP>",
+    "<NIMP>",
+    "<CNIMP>",
     "<NAND>",
-    "\"<->\"",
+    "<EQV>",
     "<NOR>",
     "<BITWISE>",
-    "\"(+)\"",
+    "<XOR>",
     "<IDENTIFIER>",
     "<LEFT_OR_RIGHT_DER>",
+    "<UNICODE_NAME>",
     "<OTHER_CHAR>",
     "\"[%]\"",
     "\"[%%]\"",

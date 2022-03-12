@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.0.0    2022-02-12
+ * @(#)SyntaxTest.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -2963,7 +2963,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void TestSyn0198() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
-			String expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyz� + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
+			String expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyzą + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
 			TestCommonTools.consolePrintTestSynStart(198, expStr);
 			Expression e = new Expression(expStr);
 			e.disableImpliedMultiplicationMode();
@@ -3950,6 +3950,595 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
-
+		[TestMethod]
+		public void testSyn0263() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2×4";
+			TestCommonTools.consolePrintTestSynStart(263, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0264() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2⨉4";
+			TestCommonTools.consolePrintTestSynStart(264, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0265() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2∙4";
+			TestCommonTools.consolePrintTestSynStart(265, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0266() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2÷4";
+			TestCommonTools.consolePrintTestSynStart(266, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0267() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "¬1+1∧0+0∨1";
+			TestCommonTools.consolePrintTestSynStart(267, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0268() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "(1⇒1) + (0⇐1) + (1⇏0) + (0⇍0) + (1⇔1)";
+			TestCommonTools.consolePrintTestSynStart(268, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0269() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "(1~∧1) + (1¬&1) + (1¬&&1) + (1¬/\\1) + (1¬∧1)";
+			TestCommonTools.consolePrintTestSynStart(269, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0270() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "(1~∨1) + (1¬|1) + (1¬||1) + (1¬\\/1) + (1¬∨1)";
+			TestCommonTools.consolePrintTestSynStart(270, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0271() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "1 ≠ 2";
+			TestCommonTools.consolePrintTestSynStart(271, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0272() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "(1 ≤ 2) & (1 ⋜ 2)";
+			TestCommonTools.consolePrintTestSynStart(272, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0273() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "(2 ≥ 1) & (2 ⋝ 1)";
+			TestCommonTools.consolePrintTestSynStart(273, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0274() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "√4+2*√8+√(3+3)+√e";
+			TestCommonTools.consolePrintTestSynStart(274, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0275() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∛4+2*∛8+∛(3+3)+∛e";
+			TestCommonTools.consolePrintTestSynStart(275, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0276() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜4+2*∜8+∜(3+3)+∜e";
+			TestCommonTools.consolePrintTestSynStart(276, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0277() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+π+ℼ";
+			TestCommonTools.consolePrintTestSynStart(277, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0278() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "e+ℯ+ⅇ";
+			TestCommonTools.consolePrintTestSynStart(278, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0279() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∑(i, 1, 10, i^2) + Σ(i, 1, 10, i^2)";
+			TestCommonTools.consolePrintTestSynStart(279, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0280() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∏(i, 1, 10, i^2) + ℿ(i, 1, 10, i^2) + Π(i, 1, 10, i^2)";
+			TestCommonTools.consolePrintTestSynStart(280, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0281() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∫(x^2, x, 0, 1)";
+			TestCommonTools.consolePrintTestSynStart(281, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0282() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∂(x^2, x, 1)";
+			TestCommonTools.consolePrintTestSynStart(282, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0283() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∂+(x^2, x, 0)";
+			TestCommonTools.consolePrintTestSynStart(283, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0284() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∂-(x^2, x, 0)";
+			TestCommonTools.consolePrintTestSynStart(284, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0285() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			Argument x = new Argument("x = 2");
+			String expStr = "∆(x^2, x) + Δ(x^2, x)";
+			TestCommonTools.consolePrintTestSynStart(285, expStr);
+			Expression e = new Expression(expStr, x);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0286() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			Argument x = new Argument("x = 2");
+			String expStr = "∇(x^2, x)";
+			TestCommonTools.consolePrintTestSynStart(286, expStr);
+			Expression e = new Expression(expStr, x);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0287() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "√√√4+√√4+2√4";
+			TestCommonTools.consolePrintTestSynStart(287, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0288() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∛∛∛4+∛∛4+2∛4";
+			TestCommonTools.consolePrintTestSynStart(288, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0289() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∜∜4+∜∜4+2∜4";
+			TestCommonTools.consolePrintTestSynStart(289, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0290() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∛√4+∜∛√4+2√4";
+			TestCommonTools.consolePrintTestSynStart(290, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0291() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜2∛3√4+∜2∛√4+2√4";
+			TestCommonTools.consolePrintTestSynStart(291, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0292() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sin(pi)∜2∛3√4+∜2∛√4+pi√4";
+			TestCommonTools.consolePrintTestSynStart(292, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0293() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∛+4";
+			TestCommonTools.consolePrintTestSynStart(293, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0294() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∛-4";
+			TestCommonTools.consolePrintTestSynStart(294, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0295() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "5+∜";
+			TestCommonTools.consolePrintTestSynStart(295, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0296() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∜*4";
+			TestCommonTools.consolePrintTestSynStart(296, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0297() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∜pi";
+			TestCommonTools.consolePrintTestSynStart(297, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0298() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2∜∛*4+√pi*sin(√4)∛4";
+			TestCommonTools.consolePrintTestSynStart(298, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0299() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "pi√pi";
+			TestCommonTools.consolePrintTestSynStart(299, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0300() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi√pi";
+			TestCommonTools.consolePrintTestSynStart(300, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0301() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi√√pi";
+			TestCommonTools.consolePrintTestSynStart(301, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0302() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi2√√pi";
+			TestCommonTools.consolePrintTestSynStart(302, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkLexSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0303() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi2√√pi";
+			TestCommonTools.consolePrintTestSynStart(303, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0304() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi√√2pi";
+			TestCommonTools.consolePrintTestSynStart(304, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
     }
 }

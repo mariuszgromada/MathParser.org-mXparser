@@ -1,5 +1,5 @@
-/*
- * @(#)ParserSymbol.cs        5.0.0    2022-01-29
+﻿/*
+ * @(#)ParserSymbol.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -203,8 +203,70 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 											+ "|" + BASE35_REG_EXP
 											+ "|" + BASE36_REG_EXP
 									+ ")";
+		public const String UNICODE_NAME_REG_EXP = "(" +
+											"\u03b1" /* α */
+											+ "|" + "\u03b2" /* β */
+											+ "|" + "\u03b3" /* γ */
+											+ "|" + "\u03b4" /* δ */
+											+ "|" + "\u03b5" /* ε */
+											+ "|" + "\u03b6" /* ζ */
+											+ "|" + "\u03b7" /* η */
+											+ "|" + "\u03b8" /* θ */
+											+ "|" + "\u03b9" /* ι */
+											+ "|" + "\u03ba" /* κ */
+											+ "|" + "\u03bb" /* λ */
+											+ "|" + "\u03bc" /* μ */
+											+ "|" + "\u03bd" /* ν */
+											+ "|" + "\u03be" /* ξ */
+											+ "|" + "\u03bf" /* ο */
+											+ "|" + "\u03c0" /* π */
+											+ "|" + "\u03c1" /* ρ */
+											+ "|" + "\u03c2" /* ς */
+											+ "|" + "\u03c3" /* σ */
+											+ "|" + "\u03c4" /* τ */
+											+ "|" + "\u03c5" /* υ */
+											+ "|" + "\u03c6" /* φ */
+											+ "|" + "\u03c7" /* χ */
+											+ "|" + "\u03c8" /* ψ */
+											+ "|" + "\u03c9" /* ω */
+											+ "|" + "\u0391" /* Α */
+											+ "|" + "\u0392" /* Β */
+											+ "|" + "\u0393" /* Γ */
+											+ "|" + "\u0394" /* Δ */
+											+ "|" + "\u0395" /* Ε */
+											+ "|" + "\u0396" /* Ζ */
+											+ "|" + "\u0397" /* Η */
+											+ "|" + "\u0398" /* Θ */
+											+ "|" + "\u0399" /* Ι */
+											+ "|" + "\u039a" /* Κ */
+											+ "|" + "\u039b" /* Λ */
+											+ "|" + "\u039c" /* Μ */
+											+ "|" + "\u039d" /* Ν */
+											+ "|" + "\u039e" /* Ξ */
+											+ "|" + "\u039f" /* Ο */
+											+ "|" + "\u03a0" /* Π */
+											+ "|" + "\u03a1" /* Ρ */
+											+ "|" + "\u03a3" /* Σ */
+											+ "|" + "\u03a4" /* Τ */
+											+ "|" + "\u03a5" /* Υ */
+											+ "|" + "\u03a6" /* Φ */
+											+ "|" + "\u03a7" /* Χ */
+											+ "|" + "\u03a8" /* Ψ */
+											+ "|" + "\u03a9" /* Ω */
+											+ "|" + "\u2211" /* ∑ */
+											+ "|" + "\u220f" /* ∏ */
+											+ "|" + "\u213f" /* ℿ */
+											+ "|" + "\u2206" /* ∆ */
+											+ "|" + "\u2207" /* ∇ */
+											+ "|" + "\u222b" /* ∫ */
+											+ "|" + "\u213c" /* ℼ */
+											+ "|" + "\u2107" /* ℇ */
+											+ "|" + "\u2147" /* ⅇ */
+											+ "|" + "\u212f" /* ℯ */
+											+ "|" + "\u2202" /* ∂ */
+									+ ")";
 		public const String FRACTION							= "(" + INTEGER + "_)?" + INTEGER + "_" + INTEGER;
-		public const String nameOnlyTokenRegExp					= "([a-zA-Z_])+([a-zA-Z0-9_])*";
+		public const String nameOnlyTokenRegExp					= "(" + "([a-zA-Z_])+([a-zA-Z0-9_])*" + "|" + UNICODE_NAME_REG_EXP + ")";
 		public const String unitOnlyTokenRegExp					= "\\[" + nameOnlyTokenRegExp + "\\]";
 		public const String nameOnlyTokenOptBracketsRegExp		= "(" +  nameOnlyTokenRegExp + "|" + unitOnlyTokenRegExp + ")";
 		public const String nameTokenRegExp						= "(\\s)*" + nameOnlyTokenRegExp + "(\\s)*";

@@ -1,5 +1,5 @@
-/*
- * @(#)ApiTest.cs        5.0.0    2022-02-12
+﻿/*
+ * @(#)ApiTest.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3413,7 +3413,26 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
-
+		[TestMethod]
+		public void testApi0127() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(127, testDescr);
+			testResult = testImpliedMultiplication("2pi2√√pi", "2*pi2*√√pi");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0128() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(128, testDescr);
+			testResult = testImpliedMultiplication("2pi2√√2pi", "2*pi2*√√2*pi");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
 		public static bool testImpliedMultiplication(String expStr, String expResStr, params String[] elements) {
 			Expression e = new Expression(expStr);
 			if (elements != null)

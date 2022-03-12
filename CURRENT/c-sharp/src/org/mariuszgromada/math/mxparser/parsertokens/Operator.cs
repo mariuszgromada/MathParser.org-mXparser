@@ -1,9 +1,9 @@
-/*
- * @(#)Operator.cs        4.2.0    2017-10-19
+﻿/*
+ * @(#)Operator.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Operator {
@@ -97,53 +97,80 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int MOD_ID					= 7;
         public const int PERC_ID                = 8;
 		public const int TETRATION_ID			= 9;
+		public const int SQUARE_ROOT_ID			= 10;
+		public const int CUBE_ROOT_ID			= 11;
+		public const int FOURTH_ROOT_ID			= 12;
 		/*
 		 * Operator - tokens key words.
 		 */
 		public const String PLUS_STR 			= "+";
 		public const String MINUS_STR 			= "-";
 		public const String MULTIPLY_STR 		= "*";
+		public const String MULTIPLY_STR_UNI_1	= "×";
+		public const String MULTIPLY_STR_UNI_2	= "⨉";
+		public const String MULTIPLY_STR_UNI_3	= "∙";
 		public const String DIVIDE_STR 			= "/";
+		public const String DIVIDE_STR_UNI_1	= "÷";
 		public const String POWER_STR 			= "^";
 		public const String FACT_STR 			= "!";
 		public const String MOD_STR				= "#";
         public const String PERC_STR			= "%";
 		public const String TETRATION_STR		= "^^";
+		public const String SQUARE_ROOT_STR		= "√";
+		public const String CUBE_ROOT_STR		= "∛";
+		public const String FOURTH_ROOT_STR		= "∜";
 		/*
 		 * Operator - syntax.
 		 */
 		public const String PLUS_SYN 			= "a + b";
 		public const String MINUS_SYN 			= "a - b";
-		public const String MULTIPLY_SYN 		= "a * b";
-		public const String DIVIDE_SYN 			= "a / b";
+		public const String MULTIPLY_SYN 		= "a " + MULTIPLY_STR + " b";
+		public const String MULTIPLY_SYN_UNI_1	= "a " + MULTIPLY_STR_UNI_1 + " b";
+		public const String MULTIPLY_SYN_UNI_2	= "a " + MULTIPLY_STR_UNI_2 + " b";
+		public const String MULTIPLY_SYN_UNI_3	= "a " + MULTIPLY_STR_UNI_3 + " b";
+		public const String DIVIDE_SYN 			= "a " + DIVIDE_STR + " b";
+		public const String DIVIDE_SYN_UNI_1	= "a " + DIVIDE_STR_UNI_1 + " b";
 		public const String POWER_SYN 			= "a^b";
 		public const String FACT_SYN 			= "n!";
 		public const String MOD_SYN				= "a # b";
         public const String PERC_SYN			= "n%";
 		public const String TETRATION_SYN		= "a^^n";
+		public const String SQUARE_ROOT_SYN		= "√a";
+		public const String CUBE_ROOT_SYN		= "∛a";
+		public const String FOURTH_ROOT_SYN		= "∜a";
 		/*
 		 * Operator - tokens description.
 		 */
 		public const String PLUS_DESC 			= "Addition";
 		public const String MINUS_DESC 			= "Subtraction";
-		public const String MULTIPLY_DESC 		= "Nultiplication";
+		public const String MULTIPLY_DESC 		= "Multiplication";
 		public const String DIVIDE_DESC 		= "Division";
 		public const String POWER_DESC 			= "Exponentiation";
 		public const String FACT_DESC			= "Factorial";
 		public const String MOD_DESC			= "Modulo function";
         public const String PERC_DESC			= "Percentage";
 		public const String TETRATION_DESC		= "Tetration (hyper-4, power tower, exponential tower)";
+		public const String SQUARE_ROOT_DESC	= "Square root function represented as unary left operator";
+		public const String CUBE_ROOT_DESC		= "Cube root function represented as unary left operator";
+		public const String FOURTH_ROOT_DESC	= "Fourth root function represented as unary left operator";
 		/*
 		 * Operator - since.
 		 */
 		public const String PLUS_SINCE 			= mXparser.NAMEv10;
 		public const String MINUS_SINCE 		= mXparser.NAMEv10;
 		public const String MULTIPLY_SINCE 		= mXparser.NAMEv10;
+		public const String MULTIPLY_SINCE_UNI_1= mXparser.NAMEv50;
+		public const String MULTIPLY_SINCE_UNI_2= mXparser.NAMEv50;
+		public const String MULTIPLY_SINCE_UNI_3= mXparser.NAMEv50;
 		public const String DIVIDE_SINCE 		= mXparser.NAMEv10;
+		public const String DIVIDE_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String POWER_SINCE 		= mXparser.NAMEv10;
 		public const String FACT_SINCE			= mXparser.NAMEv10;
 		public const String MOD_SINCE			= mXparser.NAMEv10;
         public const String PERC_SINCE			= mXparser.NAMEv41;
 		public const String TETRATION_SINCE		= mXparser.NAMEv42;
+		public const String SQUARE_ROOT_SINCE	= mXparser.NAMEv50;
+		public const String CUBE_ROOT_SINCE		= mXparser.NAMEv50;
+		public const String FOURTH_ROOT_SINCE	= mXparser.NAMEv50;
 	}
 }

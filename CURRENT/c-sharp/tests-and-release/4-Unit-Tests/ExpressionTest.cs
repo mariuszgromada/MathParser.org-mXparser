@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.0.0    2022-02-12
+ * @(#)ExpressionTest.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -4437,6 +4437,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "fib(n)= fib(n-1)+fib(n-2), fib(10) = ";
+			TestCommonTools.consolePrintTestExprStart(285, expStr);
 			RecursiveArgument fib10 = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
 			fib10.addBaseCase(0, 0);
 			fib10.addBaseCase(1, 1);
@@ -4453,6 +4454,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0)), fib(10) = ";
+			TestCommonTools.consolePrintTestExprStart(286, expStr);
 			Function fibb = new Function("fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0))");
 			Expression testExp = new Expression("fib(10)", fibb);
 			double value = testExp.calculate();
@@ -20084,5 +20086,1229 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
-    }
+		[TestMethod]
+		public void TestExpr1237() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4×2";
+			TestCommonTools.consolePrintTestExprStart(1237, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 8;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1238() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4⨉2";
+			TestCommonTools.consolePrintTestExprStart(1238, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 8;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1239() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4∙2";
+			TestCommonTools.consolePrintTestExprStart(1239, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 8;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1240() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4÷2";
+			TestCommonTools.consolePrintTestExprStart(1240, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1241() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "10+¬1";
+			TestCommonTools.consolePrintTestExprStart(1241, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 10;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1242() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "1∧0";
+			TestCommonTools.consolePrintTestExprStart(1242, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			if ( MathFunctions.abs(reg - value) <= 1e-13 )
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1243() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "1∨0";
+			TestCommonTools.consolePrintTestExprStart(1243, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1244() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(1~∧1) + (1¬&1) + (1¬&&1) + (1¬/\\1) + (1¬∧1) + (1⊼1)";
+			TestCommonTools.consolePrintTestExprStart(1244, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1245() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(0~∨0) + (0¬|0) + (0¬||0) + (0¬\\/0) + (0¬∨0) + (0⊽0)";
+			TestCommonTools.consolePrintTestExprStart(1245, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 6;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1246() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(0⊻0) + (0⊻1) + (1⊻0) + (1⊻1)";
+			TestCommonTools.consolePrintTestExprStart(1246, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1247() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(0⇍1) + (1⇍1)";
+			TestCommonTools.consolePrintTestExprStart(1247, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1248() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(0⇐0) + (0⇐1) + (1⇐0)";
+			TestCommonTools.consolePrintTestExprStart(1248, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1249() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(0⇒0) + (0⇒1) + (1⇒0)";
+			TestCommonTools.consolePrintTestExprStart(1249, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1250() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(1⇏0) + (1⇏1)";
+			TestCommonTools.consolePrintTestExprStart(1250, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1251() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(0⇔0) + (1⇔1)";
+			TestCommonTools.consolePrintTestExprStart(1251, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1252() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(1≠2)+(1≠1)";
+			TestCommonTools.consolePrintTestExprStart(1252, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1253() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(1≤2)+(1≤1)+(2≤1)";
+			TestCommonTools.consolePrintTestExprStart(1253, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1254() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(1⋜2)+(1⋜1)+(2⋜1)";
+			TestCommonTools.consolePrintTestExprStart(1254, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1255() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(2≥1)+(2≥2)+(1≥2)";
+			TestCommonTools.consolePrintTestExprStart(1255, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1256() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(2⋝1)+(2⋝2)+(1⋝2)";
+			TestCommonTools.consolePrintTestExprStart(1256, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1257() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "√4+√(6+3)+√16*2";
+			TestCommonTools.consolePrintTestExprStart(1257, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 13;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1258() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∛1+∛(6+2)+∛27*2";
+			TestCommonTools.consolePrintTestExprStart(1258, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 9;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1259() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∜1+∜(14+2)+∜81*2";
+			TestCommonTools.consolePrintTestExprStart(1259, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 9;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1260() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+π+ℼ";
+			TestCommonTools.consolePrintTestExprStart(1260, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 3 * MathConstants.PI;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1261() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "e+ℯ+ⅇ";
+			TestCommonTools.consolePrintTestExprStart(1261, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 3 * MathConstants.E;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1262() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∑(i, 1, 10, i) + Σ(i, 11, 20, i)";
+			TestCommonTools.consolePrintTestExprStart(1262, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 210;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1263() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∏(i, 1, 3, i) + ℿ(i, 4, 6, i) + Π(i, 7, 9, i)";
+			TestCommonTools.consolePrintTestExprStart(1263, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 630;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1264() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "2*∫( √abs(x^2-1), x, -1, 1)";
+			TestCommonTools.consolePrintTestExprStart(1264, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI;
+			if (MathFunctions.abs(reg - value) <= 1e-04)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1265() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∂(x^2, x, 2)";
+			TestCommonTools.consolePrintTestExprStart(1265, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 4;
+			if (MathFunctions.abs(reg - value) <= 1e-04)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1266() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∂+( abs(x), x, 0)";
+			TestCommonTools.consolePrintTestExprStart(1266, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-04)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1267() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∂-( abs(x), x, 0)";
+			TestCommonTools.consolePrintTestExprStart(1267, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -1;
+			if (MathFunctions.abs(reg - value) <= 1e-04)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1268() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Argument x = new Argument("x = 2");
+			String expStr = "∆(x^2, x) + Δ(x^2, x)";
+			TestCommonTools.consolePrintTestExprStart(1268, expStr);
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 10;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1269() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Argument x = new Argument("x = 2");
+			String expStr = "∇(x^2, x)";
+			TestCommonTools.consolePrintTestExprStart(1269, expStr);
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 3;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1270() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "α+β+γ+δ+ε";
+			TestCommonTools.consolePrintTestExprStart(1270, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("α", 1);
+			Argument u2 = new Argument("β = 2");
+			Constant u3 = new Constant("γ", 3);
+			Constant u4 = new Constant("δ = 4");
+			Argument u5 = new Argument("ε = α+β+γ+δ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1271() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "ζ+η+θ+ι+κ";
+			TestCommonTools.consolePrintTestExprStart(1271, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("ζ", 1);
+			Argument u2 = new Argument("η = 2");
+			Constant u3 = new Constant("θ", 3);
+			Constant u4 = new Constant("ι = 4");
+			Argument u5 = new Argument("κ = ζ+η+θ+ι", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1272() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "λ+μ+ν+ξ+ο";
+			TestCommonTools.consolePrintTestExprStart(1272, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("λ", 1);
+			Argument u2 = new Argument("μ = 2");
+			Constant u3 = new Constant("ν", 3);
+			Constant u4 = new Constant("ξ = 4");
+			Argument u5 = new Argument("ο = λ+μ+ν+ξ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1273() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "π+ρ+ς+σ+τ";
+			TestCommonTools.consolePrintTestExprStart(1273, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("π", 1);
+			Argument u2 = new Argument("ρ = 2");
+			Constant u3 = new Constant("ς", 3);
+			Constant u4 = new Constant("σ = 4");
+			Argument u5 = new Argument("τ = π+ρ+ς+σ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1274() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "υ+φ+χ+ψ+ω";
+			TestCommonTools.consolePrintTestExprStart(1274, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("υ", 1);
+			Argument u2 = new Argument("φ = 2");
+			Constant u3 = new Constant("χ", 3);
+			Constant u4 = new Constant("ψ = 4");
+			Argument u5 = new Argument("ω = υ+φ+χ+ψ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1275() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Α+Β+Γ+Δ+Ε";
+			TestCommonTools.consolePrintTestExprStart(1275, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("Α", 1);
+			Argument u2 = new Argument("Β = 2");
+			Constant u3 = new Constant("Γ", 3);
+			Constant u4 = new Constant("Δ = 4");
+			Argument u5 = new Argument("Ε = Α+Β+Γ+Δ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1276() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Ζ+Η+Θ+Ι+Κ";
+			TestCommonTools.consolePrintTestExprStart(1276, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("Ζ", 1);
+			Argument u2 = new Argument("Η = 2");
+			Constant u3 = new Constant("Θ", 3);
+			Constant u4 = new Constant("Ι = 4");
+			Argument u5 = new Argument("Κ = Ζ+Η+Θ+Ι", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1277() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Λ+Μ+Ν+Ξ+Ο";
+			TestCommonTools.consolePrintTestExprStart(1277, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("Λ", 1);
+			Argument u2 = new Argument("Μ = 2");
+			Constant u3 = new Constant("Ν", 3);
+			Constant u4 = new Constant("Ξ = 4");
+			Argument u5 = new Argument("Ο = Λ+Μ+Ν+Ξ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1278() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Π+Ρ+Σ+Τ+Υ";
+			TestCommonTools.consolePrintTestExprStart(1278, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("Π", 1);
+			Argument u2 = new Argument("Ρ = 2");
+			Constant u3 = new Constant("Σ", 3);
+			Constant u4 = new Constant("Τ = 4");
+			Argument u5 = new Argument("Υ = Π+Ρ+Σ+Τ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1279() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Φ+Χ+Ψ+Ω+∑";
+			TestCommonTools.consolePrintTestExprStart(1279, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("Φ", 1);
+			Argument u2 = new Argument("Χ = 2");
+			Constant u3 = new Constant("Ψ", 3);
+			Constant u4 = new Constant("Ω = 4");
+			Argument u5 = new Argument("∑ = Φ+Χ+Ψ+Ω", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1280() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∏+ℿ+∆+∇+∫";
+			TestCommonTools.consolePrintTestExprStart(1280, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("∏", 1);
+			Argument u2 = new Argument("ℿ = 2");
+			Constant u3 = new Constant("∆", 3);
+			Constant u4 = new Constant("∇ = 4");
+			Argument u5 = new Argument("∫ = ∏+ℿ+∆+∇", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1281() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "ℼ+ℇ+ⅇ+ℯ+∂";
+			TestCommonTools.consolePrintTestExprStart(1281, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Argument u1 = new Argument("ℼ", 1);
+			Argument u2 = new Argument("ℇ = 2");
+			Constant u3 = new Constant("ⅇ", 3);
+			Constant u4 = new Constant("ℯ = 4");
+			Argument u5 = new Argument("∂ = ℼ+ℇ+ⅇ+ℯ", u1, u2, u3, u4);
+			Expression testExp = new Expression(expStr, u1, u2, u3, u4, u5);
+			double value = testExp.calculate();
+			double reg = 20;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1282() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "α(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1282, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("α(β,γ,δ,ε) = β^2+γ^2+δ^2+ε^2");
+			Expression testExp = new Expression(expStr, a);
+			double value = testExp.calculate();
+			double reg = 30;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1283() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "α(1,2,3,4) + β(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1283, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("α(β,γ,δ,ε) = β^2+γ^2+δ^2+ε^2");
+			Function b = new Function("β", "α^2+γ^2+δ^2+ε^2", "α", "γ", "δ", "ε");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1284() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "ζ(1,2,3,4) + η(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1284, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("ζ(η,θ,ι,κ) = η^2+θ^2+ι^2+κ^2");
+			Function b = new Function("η", "ζ^2+θ^2+ι^2+κ^2", "ζ", "θ", "ι", "κ");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1285() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "λ(1,2,3,4) + μ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1285, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("λ(μ,ν,ξ,ο) = μ^2+ν^2+ξ^2+ο^2");
+			Function b = new Function("μ", "λ^2+ν^2+ξ^2+ο^2", "λ", "ν", "ξ", "ο");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1286() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "π(1,2,3,4) + ρ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1286, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("π(ρ,ς,σ,τ) = ρ^2+ς^2+σ^2+τ^2");
+			Function b = new Function("ρ", "π^2+ς^2+σ^2+τ^2", "π", "ς", "σ", "τ");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1287() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "υ(1,2,3,4) + φ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1287, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("υ(φ,χ,ψ,ω) = φ^2+χ^2+ψ^2+ω^2");
+			Function b = new Function("φ", "υ^2+χ^2+ψ^2+ω^2", "υ", "χ", "ψ", "ω");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1288() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Α(1,2,3,4) + Β(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1288, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("Α(Β,Γ,Δ,Ε) = Β^2+Γ^2+Δ^2+Ε^2");
+			Function b = new Function("Β", "Α^2+Γ^2+Δ^2+Ε^2", "Α", "Γ", "Δ", "Ε");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1289() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Ζ(1,2,3,4) + Η(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1289, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("Ζ(Η,Θ,Ι,Κ) = Η^2+Θ^2+Ι^2+Κ^2");
+			Function b = new Function("Η", "Ζ^2+Θ^2+Ι^2+Κ^2", "Ζ", "Θ", "Ι", "Κ");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1290() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Λ(1,2,3,4) + Μ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1290, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("Λ(Μ,Ν,Ξ,Ο) = Μ^2+Ν^2+Ξ^2+Ο^2");
+			Function b = new Function("Μ", "Λ^2+Ν^2+Ξ^2+Ο^2", "Λ", "Ν", "Ξ", "Ο");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1291() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Π(1,2,3,4) + Ρ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1291, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("Π(Ρ,Σ,Τ,Υ) = Ρ^2+Σ^2+Τ^2+Υ^2");
+			Function b = new Function("Ρ", "Π^2+Σ^2+Τ^2+Υ^2", "Π", "Σ", "Τ", "Υ");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1292() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Φ(1,2,3,4) + Χ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1292, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("Φ(Χ,Ψ,Ω,∑) = Χ^2+Ψ^2+Ω^2+∑^2");
+			Function b = new Function("Χ", "Φ^2+Ψ^2+Ω^2+∑^2", "Φ", "Ψ", "Ω", "∑");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1293() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∏(1,2,3,4) + ℿ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1293, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("∏(ℿ,∆,∇,∫) = ℿ^2+∆^2+∇^2+∫^2");
+			Function b = new Function("ℿ", "∏^2+∆^2+∇^2+∫^2", "∏", "∆", "∇", "∫");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1294() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "ℼ(1,2,3,4) + ℇ(1,2,3,4)";
+			TestCommonTools.consolePrintTestExprStart(1294, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Function a = new Function("ℼ(ℇ,ⅇ,ℯ,∂) = ℇ^2+ⅇ^2+ℯ^2+∂^2");
+			Function b = new Function("ℇ", "ℼ^2+ⅇ^2+ℯ^2+∂^2", "ℼ", "ⅇ", "ℯ", "∂");
+			Expression testExp = new Expression(expStr, a, b);
+			double value = testExp.calculate();
+			double reg = 60;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1295() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "[α]+[β]+[γ]+[δ]+[ε]+[ζ]+[η]+[θ]+[ι]+[κ]+[λ]+[μ]+[ν]+[ξ]+[ο]+[π]+[ρ]+[ς]+[σ]+[τ]+[υ]+[φ]+[χ]+[ψ]+[ω]+[Α]+[Β]+[Γ]+[Δ]+[Ε]+[Ζ]+[Η]+[Θ]+[Ι]+[Κ]+[Λ]+[Μ]+[Ν]+[Ξ]+[Ο]+[Π]+[Ρ]+[Σ]+[Τ]+[Υ]+[Φ]+[Χ]+[Ψ]+[Ω]+[∑]+[∏]+[ℿ]+[∆]+[∇]+[∫]+[ℼ]+[ℇ]+[ⅇ]+[ℯ]+[∂]";
+			TestCommonTools.consolePrintTestExprStart(1295, expStr);
+			mXparser.setToOverrideBuiltinTokens();
+			Constant c1 = new Constant("[α] = 1");
+			Constant c2 = new Constant("[β] = 2");
+			Constant c3 = new Constant("[γ] = 3");
+			Constant c4 = new Constant("[δ] = 4");
+			Constant c5 = new Constant("[ε] = 5");
+			Constant c6 = new Constant("[ζ] = 6");
+			Constant c7 = new Constant("[η] = 7");
+			Constant c8 = new Constant("[θ] = 8");
+			Constant c9 = new Constant("[ι] = 9");
+			Constant c10 = new Constant("[κ] = 10");
+			Constant c11 = new Constant("[λ] = 11");
+			Constant c12 = new Constant("[μ] = 12");
+			Constant c13 = new Constant("[ν] = 13");
+			Constant c14 = new Constant("[ξ] = 14");
+			Constant c15 = new Constant("[ο] = 15");
+			Constant c16 = new Constant("[π] = 16");
+			Constant c17 = new Constant("[ρ] = 17");
+			Constant c18 = new Constant("[ς] = 18");
+			Constant c19 = new Constant("[σ] = 19");
+			Constant c20 = new Constant("[τ] = 20");
+			Constant c21 = new Constant("[υ] = 21");
+			Constant c22 = new Constant("[φ] = 22");
+			Constant c23 = new Constant("[χ] = 23");
+			Constant c24 = new Constant("[ψ] = 24");
+			Constant c25 = new Constant("[ω] = 25");
+			Constant c26 = new Constant("[Α] = 26");
+			Constant c27 = new Constant("[Β] = 27");
+			Constant c28 = new Constant("[Γ] = 28");
+			Constant c29 = new Constant("[Δ] = 29");
+			Constant c30 = new Constant("[Ε] = 30");
+			Constant c31 = new Constant("[Ζ] = 31");
+			Constant c32 = new Constant("[Η] = 32");
+			Constant c33 = new Constant("[Θ] = 33");
+			Constant c34 = new Constant("[Ι] = 34");
+			Constant c35 = new Constant("[Κ] = 35");
+			Constant c36 = new Constant("[Λ] = 36");
+			Constant c37 = new Constant("[Μ] = 37");
+			Constant c38 = new Constant("[Ν] = 38");
+			Constant c39 = new Constant("[Ξ] = 39");
+			Constant c40 = new Constant("[Ο] = 40");
+			Constant c41 = new Constant("[Π] = 41");
+			Constant c42 = new Constant("[Ρ] = 42");
+			Constant c43 = new Constant("[Σ] = 43");
+			Constant c44 = new Constant("[Τ] = 44");
+			Constant c45 = new Constant("[Υ] = 45");
+			Constant c46 = new Constant("[Φ] = 46");
+			Constant c47 = new Constant("[Χ] = 47");
+			Constant c48 = new Constant("[Ψ] = 48");
+			Constant c49 = new Constant("[Ω] = 49");
+			Constant c50 = new Constant("[∑] = 50");
+			Constant c51 = new Constant("[∏] = 51");
+			Constant c52 = new Constant("[ℿ] = 52");
+			Constant c53 = new Constant("[∆] = 53");
+			Constant c54 = new Constant("[∇] = 54");
+			Constant c55 = new Constant("[∫] = 55");
+			Constant c56 = new Constant("[ℼ] = 56");
+			Constant c57 = new Constant("[ℇ] = 57");
+			Constant c58 = new Constant("[ⅇ] = 58");
+			Constant c59 = new Constant("[ℯ] = 59");
+			Constant c60 = new Constant("[∂] = 60");
+			Expression testExp = new Expression(expStr, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33, c34, c35, c36, c37, c38, c39, c40, c41, c42, c43, c44, c45, c46, c47, c48, c49, c50, c51, c52, c53, c54, c55, c56, c57, c58, c59, c60);
+			double value = testExp.calculate();
+			double reg = 1830;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1296() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "√√16";
+			TestCommonTools.consolePrintTestExprStart(1296, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1297() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "√√√256";
+			TestCommonTools.consolePrintTestExprStart(1297, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1298() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∛∛-19683";
+			TestCommonTools.consolePrintTestExprStart(1298, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -3;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1299() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∛∛∛-7625597484987";
+			TestCommonTools.consolePrintTestExprStart(1299, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -3;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1300() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+pi√pi";
+			TestCommonTools.consolePrintTestExprStart(1300, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI + MathConstants.PI * MathFunctions.sqrt(MathConstants.PI);
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1301() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+pi√pipi";
+			TestCommonTools.consolePrintTestExprStart(1301, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI + MathConstants.PI * MathFunctions.sqrt(MathConstants.PI) * MathConstants.PI;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1302() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+pi∛pi";
+			TestCommonTools.consolePrintTestExprStart(1302, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI + MathConstants.PI * MathFunctions.root(3, MathConstants.PI);
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1303() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+pi∛pipi";
+			TestCommonTools.consolePrintTestExprStart(1303, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI + MathConstants.PI * MathFunctions.root(3, MathConstants.PI) * MathConstants.PI;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1304() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+pi∜pi";
+			TestCommonTools.consolePrintTestExprStart(1304, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI + MathConstants.PI * MathFunctions.root(4, MathConstants.PI);
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1305() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi+pi∜pipi";
+			TestCommonTools.consolePrintTestExprStart(1305, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI + MathConstants.PI * MathFunctions.root(4, MathConstants.PI) * MathConstants.PI;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1306() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∜65536";
+			TestCommonTools.consolePrintTestExprStart(1306, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1307() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "∜∜∜445.791568452592";
+			TestCommonTools.consolePrintTestExprStart(1307, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1.1;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1308() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "pi√pi";
+			TestCommonTools.consolePrintTestExprStart(1308, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = MathConstants.PI * MathFunctions.sqrt(MathConstants.PI);
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1309() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi√pi";
+			TestCommonTools.consolePrintTestExprStart(1309, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2 * MathConstants.PI * MathFunctions.sqrt(MathConstants.PI);
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1310() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi√√pi";
+			TestCommonTools.consolePrintTestExprStart(1310, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2 * MathConstants.PI * MathFunctions.sqrt( MathFunctions.sqrt(MathConstants.PI) );
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1311() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi√√2pi";
+			TestCommonTools.consolePrintTestExprStart(1311, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2 * MathConstants.PI * MathFunctions.sqrt( MathFunctions.sqrt(2) ) * MathConstants.PI;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+	}
+
 }

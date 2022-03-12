@@ -1,9 +1,9 @@
-/*
- * @(#)CalculusOperator.cs        4.3.0   2018-12-12
+﻿/*
+ * @(#)CalculusOperator.cs        5.0.0   2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class CalculusOperator {
@@ -107,14 +107,26 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * CalculusOperator - tokens key words.
 		 */
 		public const String SUM_STR					= "sum";
+		public const String SUM_STR_UNI_1			= "∑";
+		public const String SUM_STR_UNI_2			= "Σ";
 		public const String PROD_STR				= "prod";
+		public const String PROD_STR_UNI_1			= "∏";
+		public const String PROD_STR_UNI_2			= "ℿ";
+		public const String PROD_STR_UNI_3			= "Π";
 		public const String INT_STR					= "int";
+		public const String INT_STR_UNI_1			= "∫";
 		public const String DER_STR					= "der";
+		public const String DER_STR_UNI_1			= "∂";
 		public const String DER_LEFT_STR			= "der-";
+		public const String DER_LEFT_STR_UNI_1		= "∂-";
 		public const String DER_RIGHT_STR			= "der+";
+		public const String DER_RIGHT_STR_UNI_1		= "∂+";
 		public const String DERN_STR				= "dern";
 		public const String FORW_DIFF_STR			= "diff";
+		public const String FORW_DIFF_STR_UNI_1		= "∆";
+		public const String FORW_DIFF_STR_UNI_2		= "Δ";
 		public const String BACKW_DIFF_STR			= "difb";
+		public const String BACKW_DIFF_STR_UNI_1	= "∇";
 		public const String AVG_STR					= "avg";
 		public const String VAR_STR					= "vari";
 		public const String STD_STR					= "stdi";
@@ -125,14 +137,26 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * CalculusOperator - syntax.
 		 */
 		public const String SUM_SYN					= "sum( i, from, to, expr , <by> )";
+		public const String SUM_SYN_UNI_1			= "∑( i, from, to, expr , <by> )";
+		public const String SUM_SYN_UNI_2			= "Σ( i, from, to, expr , <by> )";
 		public const String PROD_SYN				= "prod( i, from, to, expr , <by> )";
+		public const String PROD_SYN_UNI_1			= "∏( i, from, to, expr , <by> )";
+		public const String PROD_SYN_UNI_2			= "ℿ( i, from, to, expr , <by> )";
+		public const String PROD_SYN_UNI_3			= "Π( i, from, to, expr , <by> )";
 		public const String INT_SYN					= "int( expr, arg, from, to )";
+		public const String INT_SYN_UNI_1			= "∫( expr, arg, from, to )";
 		public const String DER_SYN					= "der( expr, arg, <point> )";
+		public const String DER_SYN_UNI_1			= "∂( expr, arg, <point> )";
 		public const String DER_LEFT_SYN			= "der-( expr, arg, <point> )";
+		public const String DER_LEFT_SYN_UNI_1		= "∂-( expr, arg, <point> )";
 		public const String DER_RIGHT_SYN			= "der+( expr, arg, <point> )";
+		public const String DER_RIGHT_SYN_UNI_1		= "∂+( expr, arg, <point> )";
 		public const String DERN_SYN				= "dern( expr, n, arg )";
 		public const String FORW_DIFF_SYN			= "diff( expr, arg, <delta> )";
+		public const String FORW_DIFF_SYN_UNI_1		= "∆( expr, arg, <delta> )";
+		public const String FORW_DIFF_SYN_UNI_2		= "Δ( expr, arg, <delta> )";
 		public const String BACKW_DIFF_SYN			= "difb( expr, arg, <delta> )";
+		public const String BACKW_DIFF_SYN_UNI_1	= "∇( expr, arg, <delta> )";
 		public const String AVG_SYN					= "avg( i, from, to, expr , <by> )";
 		public const String VAR_SYN					= "vari( i, from, to, expr , <by> )";
 		public const String STD_SYN					= "stdi( i, from, to, expr , <by> )";
@@ -161,14 +185,26 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * CalculusOperator - since.
 		 */
 		public const String SUM_SINCE				= mXparser.NAMEv10;
+		public const String SUM_SINCE_UNI_1			= mXparser.NAMEv50;
+		public const String SUM_SINCE_UNI_2			= mXparser.NAMEv50;
 		public const String PROD_SINCE				= mXparser.NAMEv10;
+		public const String PROD_SINCE_UNI_1		= mXparser.NAMEv50;
+		public const String PROD_SINCE_UNI_2		= mXparser.NAMEv50;
+		public const String PROD_SINCE_UNI_3		= mXparser.NAMEv50;
 		public const String INT_SINCE				= mXparser.NAMEv10;
+		public const String INT_SINCE_UNI_1			= mXparser.NAMEv50;
 		public const String DER_SINCE				= mXparser.NAMEv10;
+		public const String DER_SINCE_UNI_1			= mXparser.NAMEv50;
 		public const String DER_LEFT_SINCE			= mXparser.NAMEv10;
+		public const String DER_LEFT_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String DER_RIGHT_SINCE			= mXparser.NAMEv10;
+		public const String DER_RIGHT_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String DERN_SINCE				= mXparser.NAMEv10;
 		public const String FORW_DIFF_SINCE			= mXparser.NAMEv10;
+		public const String FORW_DIFF_SINCE_UNI_1	= mXparser.NAMEv50;
+		public const String FORW_DIFF_SINCE_UNI_2	= mXparser.NAMEv50;
 		public const String BACKW_DIFF_SINCE		= mXparser.NAMEv10;
+		public const String BACKW_DIFF_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String AVG_SINCE				= mXparser.NAMEv24;
 		public const String VAR_SINCE				= mXparser.NAMEv24;
 		public const String STD_SINCE				= mXparser.NAMEv24;

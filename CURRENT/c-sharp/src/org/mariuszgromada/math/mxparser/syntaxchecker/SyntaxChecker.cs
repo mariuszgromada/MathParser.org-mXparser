@@ -62,12 +62,14 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case PLUS:
     case MINUS:
     case NOT:
+    case UNICODE_ROOT:
     case BITNOT:
     case IDENTIFIER:
     case LEFT_OR_RIGHT_DER:
-    case 124:
-    case 125:
+    case UNICODE_NAME:
     case 126:
+    case 127:
+    case 128:
       expression();
       jj_consume_token(0);
       break;
@@ -145,6 +147,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   public void unaryLeftExpression() {
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
     case NOT:
+    case UNICODE_ROOT:
     case BITNOT:
       unaryLeftOperator();
       break;
@@ -262,8 +265,24 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case BITNOT:
       jj_consume_token(BITNOT);
       break;
+    case UNICODE_ROOT:
+      while (true) {
+        jj_consume_token(UNICODE_ROOT);
+        switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+        case UNICODE_ROOT:
+          ;
+          break;
+        default:
+          jj_la1[6] = jj_gen;
+          goto label_2;
+          
+        }
+      }
+      label_2: ;
+      
+      break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -282,14 +301,14 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_consume_token(MINUS);
         break;
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[8] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
         
       }
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[9] = jj_gen;
       ;break;
       
     }
@@ -338,16 +357,44 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       case FRACTION:
       case IDENTIFIER:
       case LEFT_OR_RIGHT_DER:
-      case 124:
-      case 125:
+      case UNICODE_NAME:
       case 126:
+      case 127:
+      case 128:
         itemOrFunctionOptionalImpliedMultiplication();
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case LEFT_PAR:
-          bracketedExpressionOptionalImpliedMultiplication();
+        case UNICODE_ROOT:
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case LEFT_PAR:
+            bracketedExpressionOptionalImpliedMultiplication();
+            break;
+          case UNICODE_ROOT:
+            while (true) {
+              jj_consume_token(UNICODE_ROOT);
+              switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+              case UNICODE_ROOT:
+                ;
+                break;
+              default:
+                jj_la1[10] = jj_gen;
+                goto label_4;
+                
+              }
+            }
+            label_4: ;
+            
+            bracketedExpressionOptionalImpliedMultiplication();
+            break;
+          default:
+            jj_la1[11] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+            
+          }
           break;
         default:
-          jj_la1[9] = jj_gen;
+          jj_la1[12] = jj_gen;
           ;break;
           
         }
@@ -393,15 +440,89 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         case OCTAL:
         case HEXADECIMAL:
         case FRACTION:
+        case UNICODE_ROOT:
         case IDENTIFIER:
         case LEFT_OR_RIGHT_DER:
-        case 124:
-        case 125:
+        case UNICODE_NAME:
         case 126:
-          itemOrFunctionOptionalImpliedMultiplication();
+        case 127:
+        case 128:
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case DECIMAL:
+          case BASE1:
+          case BASE2:
+          case BASE3:
+          case BASE4:
+          case BASE5:
+          case BASE6:
+          case BASE7:
+          case BASE8:
+          case BASE9:
+          case BASE10:
+          case BASE11:
+          case BASE12:
+          case BASE13:
+          case BASE14:
+          case BASE15:
+          case BASE16:
+          case BASE17:
+          case BASE18:
+          case BASE19:
+          case BASE20:
+          case BASE21:
+          case BASE22:
+          case BASE23:
+          case BASE24:
+          case BASE25:
+          case BASE26:
+          case BASE27:
+          case BASE28:
+          case BASE29:
+          case BASE30:
+          case BASE31:
+          case BASE32:
+          case BASE33:
+          case BASE34:
+          case BASE35:
+          case BASE36:
+          case BINARY:
+          case OCTAL:
+          case HEXADECIMAL:
+          case FRACTION:
+          case IDENTIFIER:
+          case LEFT_OR_RIGHT_DER:
+          case UNICODE_NAME:
+          case 126:
+          case 127:
+          case 128:
+            itemOrFunctionOptionalImpliedMultiplication();
+            break;
+          case UNICODE_ROOT:
+            while (true) {
+              jj_consume_token(UNICODE_ROOT);
+              switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+              case UNICODE_ROOT:
+                ;
+                break;
+              default:
+                jj_la1[13] = jj_gen;
+                goto label_5;
+                
+              }
+            }
+            label_5: ;
+            
+            itemOrFunctionOptionalImpliedMultiplication();
+            break;
+          default:
+            jj_la1[14] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+            
+          }
           break;
         default:
-          jj_la1[10] = jj_gen;
+          jj_la1[15] = jj_gen;
           ;break;
           
         }
@@ -450,21 +571,95 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         case OCTAL:
         case HEXADECIMAL:
         case FRACTION:
+        case UNICODE_ROOT:
         case IDENTIFIER:
         case LEFT_OR_RIGHT_DER:
-        case 124:
-        case 125:
+        case UNICODE_NAME:
         case 126:
-          itemOrFunctionOptionalImpliedMultiplication();
+        case 127:
+        case 128:
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case DECIMAL:
+          case BASE1:
+          case BASE2:
+          case BASE3:
+          case BASE4:
+          case BASE5:
+          case BASE6:
+          case BASE7:
+          case BASE8:
+          case BASE9:
+          case BASE10:
+          case BASE11:
+          case BASE12:
+          case BASE13:
+          case BASE14:
+          case BASE15:
+          case BASE16:
+          case BASE17:
+          case BASE18:
+          case BASE19:
+          case BASE20:
+          case BASE21:
+          case BASE22:
+          case BASE23:
+          case BASE24:
+          case BASE25:
+          case BASE26:
+          case BASE27:
+          case BASE28:
+          case BASE29:
+          case BASE30:
+          case BASE31:
+          case BASE32:
+          case BASE33:
+          case BASE34:
+          case BASE35:
+          case BASE36:
+          case BINARY:
+          case OCTAL:
+          case HEXADECIMAL:
+          case FRACTION:
+          case IDENTIFIER:
+          case LEFT_OR_RIGHT_DER:
+          case UNICODE_NAME:
+          case 126:
+          case 127:
+          case 128:
+            itemOrFunctionOptionalImpliedMultiplication();
+            break;
+          case UNICODE_ROOT:
+            while (true) {
+              jj_consume_token(UNICODE_ROOT);
+              switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+              case UNICODE_ROOT:
+                ;
+                break;
+              default:
+                jj_la1[16] = jj_gen;
+                goto label_6;
+                
+              }
+            }
+            label_6: ;
+            
+            itemOrFunctionOptionalImpliedMultiplication();
+            break;
+          default:
+            jj_la1[17] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+            
+          }
           break;
         default:
-          jj_la1[11] = jj_gen;
+          jj_la1[18] = jj_gen;
           ;break;
           
         }
         break;
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[19] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
         
@@ -514,18 +709,19 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       case LEFT_PAR:
       case IDENTIFIER:
       case LEFT_OR_RIGHT_DER:
-      case 124:
-      case 125:
+      case UNICODE_NAME:
       case 126:
+      case 127:
+      case 128:
         ;
         break;
       default:
-        jj_la1[13] = jj_gen;
-        goto label_2;
+        jj_la1[20] = jj_gen;
+        goto label_3;
         
       }
     }
-    label_2: ;
+    label_3: ;
     
   }
 
@@ -533,10 +729,37 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     bracketedExpression();
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
     case LEFT_PAR:
-      bracketedExpression();
+    case UNICODE_ROOT:
+      switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+      case LEFT_PAR:
+        bracketedExpression();
+        break;
+      case UNICODE_ROOT:
+        while (true) {
+          jj_consume_token(UNICODE_ROOT);
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case UNICODE_ROOT:
+            ;
+            break;
+          default:
+            jj_la1[21] = jj_gen;
+            goto label_7;
+            
+          }
+        }
+        label_7: ;
+        
+        bracketedExpression();
+        break;
+      default:
+        jj_la1[22] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+        
+      }
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[23] = jj_gen;
       ;break;
       
     }
@@ -593,24 +816,181 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       case OCTAL:
       case HEXADECIMAL:
       case FRACTION:
+      case UNICODE_ROOT:
       case IDENTIFIER:
       case LEFT_OR_RIGHT_DER:
-      case 124:
-      case 125:
+      case UNICODE_NAME:
       case 126:
-        itemOrFunctionImpliedMultiplication();
+      case 127:
+      case 128:
+        switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+        case BASE1:
+        case BASE2:
+        case BASE3:
+        case BASE4:
+        case BASE5:
+        case BASE6:
+        case BASE7:
+        case BASE8:
+        case BASE9:
+        case BASE10:
+        case BASE11:
+        case BASE12:
+        case BASE13:
+        case BASE14:
+        case BASE15:
+        case BASE16:
+        case BASE17:
+        case BASE18:
+        case BASE19:
+        case BASE20:
+        case BASE21:
+        case BASE22:
+        case BASE23:
+        case BASE24:
+        case BASE25:
+        case BASE26:
+        case BASE27:
+        case BASE28:
+        case BASE29:
+        case BASE30:
+        case BASE31:
+        case BASE32:
+        case BASE33:
+        case BASE34:
+        case BASE35:
+        case BASE36:
+        case BINARY:
+        case OCTAL:
+        case HEXADECIMAL:
+        case FRACTION:
+        case IDENTIFIER:
+        case LEFT_OR_RIGHT_DER:
+        case UNICODE_NAME:
+        case 126:
+        case 127:
+        case 128:
+          itemOrFunctionImpliedMultiplication();
+          break;
+        case UNICODE_ROOT:
+          while (true) {
+            jj_consume_token(UNICODE_ROOT);
+            switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+            case UNICODE_ROOT:
+              ;
+              break;
+            default:
+              jj_la1[24] = jj_gen;
+              goto label_8;
+              
+            }
+          }
+          label_8: ;
+          
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case BASE1:
+          case BASE2:
+          case BASE3:
+          case BASE4:
+          case BASE5:
+          case BASE6:
+          case BASE7:
+          case BASE8:
+          case BASE9:
+          case BASE10:
+          case BASE11:
+          case BASE12:
+          case BASE13:
+          case BASE14:
+          case BASE15:
+          case BASE16:
+          case BASE17:
+          case BASE18:
+          case BASE19:
+          case BASE20:
+          case BASE21:
+          case BASE22:
+          case BASE23:
+          case BASE24:
+          case BASE25:
+          case BASE26:
+          case BASE27:
+          case BASE28:
+          case BASE29:
+          case BASE30:
+          case BASE31:
+          case BASE32:
+          case BASE33:
+          case BASE34:
+          case BASE35:
+          case BASE36:
+          case BINARY:
+          case OCTAL:
+          case HEXADECIMAL:
+          case FRACTION:
+          case IDENTIFIER:
+          case LEFT_OR_RIGHT_DER:
+          case UNICODE_NAME:
+          case 126:
+          case 127:
+          case 128:
+            itemOrFunctionImpliedMultiplication();
+            break;
+          case DECIMAL:
+            jj_consume_token(DECIMAL);
+            break;
+          default:
+            jj_la1[25] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+            
+          }
+          break;
+        default:
+          jj_la1[26] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+          
+        }
         break;
       default:
-        jj_la1[15] = jj_gen;
+        jj_la1[27] = jj_gen;
         ;break;
         
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case DECIMAL:
-        jj_consume_token(DECIMAL);
+      case UNICODE_ROOT:
+        switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+        case DECIMAL:
+          jj_consume_token(DECIMAL);
+          break;
+        case UNICODE_ROOT:
+          while (true) {
+            jj_consume_token(UNICODE_ROOT);
+            switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+            case UNICODE_ROOT:
+              ;
+              break;
+            default:
+              jj_la1[28] = jj_gen;
+              goto label_9;
+              
+            }
+          }
+          label_9: ;
+          
+          jj_consume_token(DECIMAL);
+          break;
+        default:
+          jj_la1[29] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+          
+        }
         break;
       default:
-        jj_la1[16] = jj_gen;
+        jj_la1[30] = jj_gen;
         ;break;
         
       }
@@ -657,22 +1037,50 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case FRACTION:
     case IDENTIFIER:
     case LEFT_OR_RIGHT_DER:
-    case 124:
-    case 125:
+    case UNICODE_NAME:
     case 126:
+    case 127:
+    case 128:
       itemOrFunctionImpliedMultiplication();
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case DECIMAL:
-        jj_consume_token(DECIMAL);
+      case UNICODE_ROOT:
+        switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+        case DECIMAL:
+          jj_consume_token(DECIMAL);
+          break;
+        case UNICODE_ROOT:
+          while (true) {
+            jj_consume_token(UNICODE_ROOT);
+            switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+            case UNICODE_ROOT:
+              ;
+              break;
+            default:
+              jj_la1[31] = jj_gen;
+              goto label_10;
+              
+            }
+          }
+          label_10: ;
+          
+          jj_consume_token(DECIMAL);
+          break;
+        default:
+          jj_la1[32] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+          
+        }
         break;
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[33] = jj_gen;
         ;break;
         
       }
       break;
     default:
-      jj_la1[18] = jj_gen;
+      jj_la1[34] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -683,26 +1091,120 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
     case IDENTIFIER:
     case LEFT_OR_RIGHT_DER:
-    case 124:
-    case 125:
+    case UNICODE_NAME:
     case 126:
+    case 127:
+    case 128:
+      itemOrFunction();
       while (true) {
-        itemOrFunction();
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+        case UNICODE_ROOT:
         case IDENTIFIER:
         case LEFT_OR_RIGHT_DER:
-        case 124:
-        case 125:
+        case UNICODE_NAME:
         case 126:
+        case 127:
+        case 128:
           ;
           break;
         default:
-          jj_la1[19] = jj_gen;
-          goto label_3;
+          jj_la1[35] = jj_gen;
+          goto label_11;
+          
+        }
+        switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+        case IDENTIFIER:
+        case LEFT_OR_RIGHT_DER:
+        case UNICODE_NAME:
+        case 126:
+        case 127:
+        case 128:
+          itemOrFunction();
+          break;
+        case UNICODE_ROOT:
+          while (true) {
+            jj_consume_token(UNICODE_ROOT);
+            switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+            case UNICODE_ROOT:
+              ;
+              break;
+            default:
+              jj_la1[36] = jj_gen;
+              goto label_12;
+              
+            }
+          }
+          label_12: ;
+          
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case IDENTIFIER:
+          case LEFT_OR_RIGHT_DER:
+          case UNICODE_NAME:
+          case 126:
+          case 127:
+          case 128:
+            itemOrFunction();
+            break;
+          case DECIMAL:
+            jj_consume_token(DECIMAL);
+            break;
+          case BASE1:
+          case BASE2:
+          case BASE3:
+          case BASE4:
+          case BASE5:
+          case BASE6:
+          case BASE7:
+          case BASE8:
+          case BASE9:
+          case BASE10:
+          case BASE11:
+          case BASE12:
+          case BASE13:
+          case BASE14:
+          case BASE15:
+          case BASE16:
+          case BASE17:
+          case BASE18:
+          case BASE19:
+          case BASE20:
+          case BASE21:
+          case BASE22:
+          case BASE23:
+          case BASE24:
+          case BASE25:
+          case BASE26:
+          case BASE27:
+          case BASE28:
+          case BASE29:
+          case BASE30:
+          case BASE31:
+          case BASE32:
+          case BASE33:
+          case BASE34:
+          case BASE35:
+          case BASE36:
+          case BINARY:
+          case OCTAL:
+          case HEXADECIMAL:
+          case FRACTION:
+            otherBaseNumber();
+            break;
+          default:
+            jj_la1[37] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+            
+          }
+          break;
+        default:
+          jj_la1[38] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
           
         }
       }
-      label_3: ;
+      label_11: ;
       
       break;
     case BASE1:
@@ -748,7 +1250,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       otherBaseNumber();
       break;
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[39] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -757,26 +1259,27 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   public void itemOrFunction() {
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
-    case 124:
-    case 125:
     case 126:
+    case 127:
+    case 128:
       unitOrSpecialConstant();
       break;
     case IDENTIFIER:
     case LEFT_OR_RIGHT_DER:
+    case UNICODE_NAME:
       itemName();
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
       case LEFT_PAR:
         argumentList();
         break;
       default:
-        jj_la1[21] = jj_gen;
+        jj_la1[40] = jj_gen;
         ;break;
         
       }
       break;
     default:
-      jj_la1[22] = jj_gen;
+      jj_la1[41] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -906,7 +1409,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_consume_token(FRACTION);
       break;
     default:
-      jj_la1[23] = jj_gen;
+      jj_la1[42] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -921,8 +1424,11 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     case LEFT_OR_RIGHT_DER:
       jj_consume_token(LEFT_OR_RIGHT_DER);
       break;
+    case UNICODE_NAME:
+      jj_consume_token(UNICODE_NAME);
+      break;
     default:
-      jj_la1[24] = jj_gen;
+      jj_la1[43] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -931,14 +1437,14 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   public void unitOrSpecialConstant() {
     switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
-    case 124:
-      jj_consume_token(124);
-      break;
-    case 125:
-      jj_consume_token(125);
-      break;
     case 126:
       jj_consume_token(126);
+      break;
+    case 127:
+      jj_consume_token(127);
+      break;
+    case 128:
+      jj_consume_token(128);
       while (true) {
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case OTHER_CHAR:
@@ -946,109 +1452,113 @@ public class SyntaxChecker : SyntaxCheckerConstants {
           break;
         case IDENTIFIER:
           jj_consume_token(IDENTIFIER);
-          while (true) {
-            switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
-            case DECIMAL:
-            case LEFT_PAR:
-            case RIGHT_PAR:
-            case COMMA:
-            case PLUS:
-            case MINUS:
-            case MULTIPLY:
-            case DIV:
-            case POWER:
-            case MODULO:
-            case LT:
-            case GT:
-            case OR:
-            case AND:
-            case NOT:
-              ;
-              break;
-            default:
-              jj_la1[25] = jj_gen;
-              goto label_5;
-              
-            }
-            switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
-            case NOT:
-              jj_consume_token(NOT);
-              break;
-            case MODULO:
-              jj_consume_token(MODULO);
-              break;
-            case POWER:
-              jj_consume_token(POWER);
-              break;
-            case AND:
-              jj_consume_token(AND);
-              break;
-            case MULTIPLY:
-              jj_consume_token(MULTIPLY);
-              break;
-            case DIV:
-              jj_consume_token(DIV);
-              break;
-            case LEFT_PAR:
-              jj_consume_token(LEFT_PAR);
-              break;
-            case RIGHT_PAR:
-              jj_consume_token(RIGHT_PAR);
-              break;
-            case MINUS:
-              jj_consume_token(MINUS);
-              break;
-            case PLUS:
-              jj_consume_token(PLUS);
-              break;
-            case COMMA:
-              jj_consume_token(COMMA);
-              break;
-            case OR:
-              jj_consume_token(OR);
-              break;
-            case GT:
-              jj_consume_token(GT);
-              break;
-            case LT:
-              jj_consume_token(LT);
-              break;
-            case DECIMAL:
-              jj_consume_token(DECIMAL);
-              break;
-            default:
-              jj_la1[26] = jj_gen;
-              jj_consume_token(-1);
-              throw new ParseException();
-              
-            }
-          }
-          label_5: ;
-          
+          break;
+        case UNICODE_NAME:
+          jj_consume_token(UNICODE_NAME);
           break;
         default:
-          jj_la1[27] = jj_gen;
+          jj_la1[44] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
           
         }
+        while (true) {
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case DECIMAL:
+          case LEFT_PAR:
+          case RIGHT_PAR:
+          case COMMA:
+          case PLUS:
+          case MINUS:
+          case MULTIPLY:
+          case DIV:
+          case POWER:
+          case MODULO:
+          case LT:
+          case GT:
+          case OR:
+          case AND:
+          case NOT:
+            ;
+            break;
+          default:
+            jj_la1[45] = jj_gen;
+            goto label_14;
+            
+          }
+          switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
+          case NOT:
+            jj_consume_token(NOT);
+            break;
+          case MODULO:
+            jj_consume_token(MODULO);
+            break;
+          case POWER:
+            jj_consume_token(POWER);
+            break;
+          case AND:
+            jj_consume_token(AND);
+            break;
+          case MULTIPLY:
+            jj_consume_token(MULTIPLY);
+            break;
+          case DIV:
+            jj_consume_token(DIV);
+            break;
+          case LEFT_PAR:
+            jj_consume_token(LEFT_PAR);
+            break;
+          case RIGHT_PAR:
+            jj_consume_token(RIGHT_PAR);
+            break;
+          case MINUS:
+            jj_consume_token(MINUS);
+            break;
+          case PLUS:
+            jj_consume_token(PLUS);
+            break;
+          case COMMA:
+            jj_consume_token(COMMA);
+            break;
+          case OR:
+            jj_consume_token(OR);
+            break;
+          case GT:
+            jj_consume_token(GT);
+            break;
+          case LT:
+            jj_consume_token(LT);
+            break;
+          case DECIMAL:
+            jj_consume_token(DECIMAL);
+            break;
+          default:
+            jj_la1[46] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+            
+          }
+        }
+        label_14: ;
+        
         switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
         case IDENTIFIER:
+        case UNICODE_NAME:
         case OTHER_CHAR:
           ;
           break;
         default:
-          jj_la1[28] = jj_gen;
-          goto label_4;
+          jj_la1[47] = jj_gen;
+          goto label_13;
           
         }
       }
-      label_4: ;
+      label_13: ;
       
-      jj_consume_token(127);
+      jj_consume_token(129);
       break;
     default:
-      jj_la1[29] = jj_gen;
+      jj_la1[48] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
       
@@ -1065,8 +1575,8 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         ;
         break;
       default:
-        jj_la1[30] = jj_gen;
-        goto label_6;
+        jj_la1[49] = jj_gen;
+        goto label_15;
         
       }
       switch ((jj_ntk==-1)?jj_init_ntk():jj_ntk) {
@@ -1077,14 +1587,14 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         jj_consume_token(SEMICOLON);
         break;
       default:
-        jj_la1[31] = jj_gen;
+        jj_la1[50] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
         
       }
       expression();
     }
-    label_6: ;
+    label_15: ;
     
     jj_consume_token(RIGHT_PAR);
   }
@@ -1094,7 +1604,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
   public Token token, jj_nt;
   private long jj_ntk;
   private long jj_gen;
-  private long[] jj_la1 = new long[32];
+  private long[] jj_la1 = new long[51];
   static private long[] jj_la1_0;
   static private long[] jj_la1_1;
   static private long[] jj_la1_2;
@@ -1108,19 +1618,19 @@ public class SyntaxChecker : SyntaxCheckerConstants {
       jj_la1_init_4();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new long[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_0 = new long[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new long[] {0xffff0000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xffff0000,0xffff0000,0xffff0000,0xffff0000,0x0,0xfffe0000,0x10000,0x10000,0xffff0000,0x0,0xfffe0000,0x0,0x0,0xfffe0000,0x0,0x10000,0x10000,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_1 = new long[] {0xffff0000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xffff0000,0xffff0000,0x0,0xffff0000,0xffff0000,0xffff0000,0xffff0000,0x0,0x0,0x0,0x0,0xffff0000,0xfffe0000,0xfffe0000,0x0,0x10000,0x10000,0x0,0x10000,0x10000,0xffff0000,0x0,0x0,0xffff0000,0x0,0xfffe0000,0x0,0x0,0xfffe0000,0x0,0x0,0x10000,0x10000,0x0,0x0,0x0,0x0,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new long[] {0x63ffffff,0xe0000000,0x0,0x0,0xe0000000,0x0,0x0,0x60000000,0x60000000,0x2000000,0x1ffffff,0x1ffffff,0x3ffffff,0x3ffffff,0x2000000,0x1ffffff,0x0,0x0,0x1ffffff,0x0,0x1ffffff,0x2000000,0x0,0x1ffffff,0x0,0xee000000,0xee000000,0x0,0x0,0x0,0x18000000,0x18000000,};
+      jj_la1_2 = new long[] {0x63ffffff,0xe0000000,0x0,0x0,0xe0000000,0x0,0x0,0x0,0x60000000,0x60000000,0x0,0x2000000,0x2000000,0x0,0x1ffffff,0x1ffffff,0x0,0x1ffffff,0x1ffffff,0x3ffffff,0x3ffffff,0x0,0x2000000,0x2000000,0x0,0x1ffffff,0x1ffffff,0x1ffffff,0x0,0x0,0x0,0x0,0x0,0x0,0x1ffffff,0x0,0x0,0x1ffffff,0x0,0x1ffffff,0x2000000,0x0,0x1ffffff,0x0,0x0,0xee000000,0xee000000,0x0,0x0,0x18000000,0x18000000,};
    }
    private static void jj_la1_init_3() {
-      jj_la1_3 = new long[] {0x7600c000,0x1ff3fcf,0x30,0xc000,0x1ff3fcf,0x30,0xc000,0x0,0x0,0x0,0x76000000,0x76000000,0x76000000,0x76000000,0x0,0x76000000,0x0,0x0,0x76000000,0x76000000,0x76000000,0x0,0x76000000,0x0,0x6000000,0x750b,0x750b,0xa000000,0xa000000,0x70000000,0x0,0x0,};
+      jj_la1_3 = new long[] {0xdc01c000,0x3fe3fcf,0x30,0x1c000,0x3fe3fcf,0x30,0x8000,0x1c000,0x0,0x0,0x8000,0x8000,0x8000,0x8000,0xdc008000,0xdc008000,0x8000,0xdc008000,0xdc008000,0xdc000000,0xdc000000,0x8000,0x8000,0x8000,0x8000,0xdc000000,0xdc008000,0xdc008000,0x8000,0x8000,0x8000,0x8000,0x8000,0x8000,0xdc000000,0xdc008000,0x8000,0xdc000000,0xdc008000,0xdc000000,0x0,0xdc000000,0x0,0x1c000000,0x34000000,0x750b,0x750b,0x34000000,0xc0000000,0x0,0x0,};
    }
    private static void jj_la1_init_4() {
-      jj_la1_4 = new long[] {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_4 = new long[] {0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x1,0x0,0x1,0x1,0x1,0x1,0x0,0x0,0x0,0x0,0x1,0x1,0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x1,0x0,0x1,0x1,0x1,0x0,0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,};
    }
 
   public SyntaxChecker(System.IO.Stream stream) {
@@ -1129,7 +1639,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 32; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 51; i++) jj_la1[i] = -1;
   }
 
   public void ReInit(System.IO.Stream stream) {
@@ -1138,7 +1648,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 32; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 51; i++) jj_la1[i] = -1;
   }
 
   public SyntaxChecker(System.IO.TextReader stream) {
@@ -1147,7 +1657,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 32; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 51; i++) jj_la1[i] = -1;
   }
 
   public void ReInit(System.IO.TextReader stream) {
@@ -1156,7 +1666,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 32; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 51; i++) jj_la1[i] = -1;
   }
 
   public SyntaxChecker(SyntaxCheckerTokenManager tm) {
@@ -1164,7 +1674,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 32; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 51; i++) jj_la1[i] = -1;
   }
 
   public void ReInit(SyntaxCheckerTokenManager tm) {
@@ -1172,7 +1682,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 32; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 51; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind){
@@ -1219,15 +1729,15 @@ public class SyntaxChecker : SyntaxCheckerConstants {
 
   public ParseException generateParseException() {
     jj_expentries.Clear();
-    bool[] la1tokens = new bool[130];
-    for (int i = 0; i < 130; i++) {
+    bool[] la1tokens = new bool[132];
+    for (int i = 0; i < 132; i++) {
       la1tokens[i] = false;
     }
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < 51; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1248,7 +1758,7 @@ public class SyntaxChecker : SyntaxCheckerConstants {
         }
       }
     }
-    for (int i = 0; i < 130; i++) {
+    for (int i = 0; i < 132; i++) {
       if (la1tokens[i]) {
         jj_expentry = new long[1];
         jj_expentry[0] = i;

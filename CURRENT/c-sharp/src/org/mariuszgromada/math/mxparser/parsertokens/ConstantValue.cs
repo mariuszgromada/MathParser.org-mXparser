@@ -1,9 +1,9 @@
-/*
- * @(#)ConstantValue.cs        4.2.0    2018-01-30
+﻿/*
+ * @(#)ConstantValue.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ConstantValue {
@@ -189,7 +189,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * ConstantValue - tokens key words.
 		 */
 		public const String PI_STR 							= "pi";
+		public const String PI_STR_UNI_1					= "π";
+		public const String PI_STR_UNI_2					= "ℼ";
 		public const String EULER_STR 						= "e";
+		public const String EULER_STR_UNI_1					= "ℯ";
+		public const String EULER_STR_UNI_2					= "ⅇ";
 		public const String EULER_MASCHERONI_STR			= "[gam]";
 		public const String GOLDEN_RATIO_STR				= "[phi]";
 		public const String PLASTIC_STR						= "[PN]";
@@ -287,7 +291,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * ConstantValue - syntax.
 		 */
 		public const String PI_SYN							= PI_STR;
+		public const String PI_SYN_UNI_1						= PI_STR_UNI_1;
+		public const String PI_SYN_UNI_2						= PI_STR_UNI_2;
 		public const String EULER_SYN						= EULER_STR;
+		public const String EULER_SYN_UNI_1					= EULER_STR_UNI_1;
+		public const String EULER_SYN_UNI_2					= EULER_STR_UNI_2;
 		public const String EULER_MASCHERONI_SYN			= EULER_MASCHERONI_STR;
 		public const String GOLDEN_RATIO_SYN				= GOLDEN_RATIO_STR;
 		public const String PLASTIC_SYN						= PLASTIC_STR;
@@ -484,7 +492,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * ConstantValue - since.
 		 */
 		public const String PI_SINCE						= mXparser.NAMEv10;
+		public const String PI_SINCE_UNI_1					= mXparser.NAMEv50;
+		public const String PI_SINCE_UNI_2					= mXparser.NAMEv50;
 		public const String EULER_SINCE						= mXparser.NAMEv10;
+		public const String EULER_SINCE_UNI_1				= mXparser.NAMEv50;
+		public const String EULER_SINCE_UNI_2				= mXparser.NAMEv50;
 		public const String EULER_MASCHERONI_SINCE			= mXparser.NAMEv10;
 		public const String GOLDEN_RATIO_SINCE				= mXparser.NAMEv10;
 		public const String PLASTIC_SINCE					= mXparser.NAMEv10;

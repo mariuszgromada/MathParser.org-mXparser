@@ -6054,6 +6054,10 @@ public class Expression extends PrimitiveElement {
 		case CalculusOperator.BACKW_DIFF_ID: BACKWARD_DIFFERENCE(pos); break;
 		}
 	}
+	/**
+	 * Unicode root operators
+	 * @param pos
+	 */
 	private void rootOperCalc(int pos) {
 		switch (tokensList.get(pos).tokenId) {
 			case Operator.SQUARE_ROOT_ID: SQUARE_ROOT_OPERATOR(pos); break;

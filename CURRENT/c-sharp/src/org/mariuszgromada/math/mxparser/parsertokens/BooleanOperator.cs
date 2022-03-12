@@ -1,9 +1,9 @@
-/*
- * @(#)BooleanOperator.java        4.1.0    2017-04-18
+﻿/*
+ * @(#)BooleanOperator.cs        5.0.0    2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BooleanOperator {
@@ -103,46 +103,88 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * BooleanOperator - tokens key words.
 		 */
 		public const String NEG_STR				= "~";
+		public const String NEG_STR_UNI_1		= "¬";
 		public const String AND_STR				= "&";
+		public const String AND_STR_UNI_1		= "∧";
 		public const String AND1_STR			= "&&";
 		public const String AND2_STR			= "/\\";
 		public const String NAND_STR			= NEG_STR + AND_STR;
 		public const String NAND1_STR			= NEG_STR + AND1_STR;
 		public const String NAND2_STR			= NEG_STR + AND2_STR;
+		public const String NAND_STR_UNI_1		= NEG_STR + AND_STR_UNI_1;
+		public const String NAND_STR_UNI_2		= NEG_STR_UNI_1 + AND_STR;
+		public const String NAND_STR_UNI_3		= NEG_STR_UNI_1 + AND1_STR;
+		public const String NAND_STR_UNI_4		= NEG_STR_UNI_1 + AND2_STR;
+		public const String NAND_STR_UNI_5		= NEG_STR_UNI_1 + AND_STR_UNI_1;
+		public const String NAND_STR_UNI_6		= "⊼";
 		public const String OR_STR				= "|";
+		public const String OR_STR_UNI_1		= "∨";
 		public const String OR1_STR				= "||";
 		public const String OR2_STR				= "\\/";
 		public const String NOR_STR				= NEG_STR + OR_STR;
 		public const String NOR1_STR			= NEG_STR + OR1_STR;
 		public const String NOR2_STR			= NEG_STR + OR2_STR;
+		public const String NOR_STR_UNI_1		= NEG_STR + OR_STR_UNI_1;
+		public const String NOR_STR_UNI_2		= NEG_STR_UNI_1 + OR_STR;
+		public const String NOR_STR_UNI_3		= NEG_STR_UNI_1 + OR1_STR;
+		public const String NOR_STR_UNI_4		= NEG_STR_UNI_1 + OR2_STR;
+		public const String NOR_STR_UNI_5		= NEG_STR_UNI_1 + OR_STR_UNI_1;
+		public const String NOR_STR_UNI_6		= "⊽";
 		public const String XOR_STR				= "(+)";
+		public const String XOR_STR_UNI_1		= "⊻";
 		public const String IMP_STR				= "-->";
+		public const String IMP_STR_UNI_1		= "⇒";
 		public const String CIMP_STR			= "<--";
+		public const String CIMP_STR_UNI_1		= "⇐";
 		public const String NIMP_STR			= "-/>";
+		public const String NIMP_STR_UNI_1		= "⇏";
 		public const String CNIMP_STR			= "</-";
+		public const String CNIMP_STR_UNI_1		= "⇍";
 		public const String EQV_STR				= "<->";
+		public const String EQV_STR_UNI_1		= "⇔";
 		/*
 		 * BooleanOperator - syntax.
 		 */
 		public const String NEG_SYN				= "~p";
+		public const String NEG_SYN_UNI_1		= "¬p";
 		public const String AND_SYN				= "p & q";
 		public const String AND1_SYN			= "p && q";
 		public const String AND2_SYN			= "p /\\ q";
+		public const String AND_SYN_UNI_1		= "p ∧ q";
 		public const String NAND_SYN			= "p " + NEG_STR + AND_STR + " q";
 		public const String NAND1_SYN			= "p " + NEG_STR + AND1_STR + " q";
 		public const String NAND2_SYN			= "p " + NEG_STR + AND2_STR + " q";
+		public const String NAND_SYN_UNI_1		= "p " + NAND_STR_UNI_1 + " q";
+		public const String NAND_SYN_UNI_2		= "p " + NAND_STR_UNI_2 + " q";
+		public const String NAND_SYN_UNI_3		= "p " + NAND_STR_UNI_3 + " q";
+		public const String NAND_SYN_UNI_4		= "p " + NAND_STR_UNI_4 + " q";
+		public const String NAND_SYN_UNI_5		= "p " + NAND_STR_UNI_5 + " q";
+		public const String NAND_SYN_UNI_6		= "p " + NAND_STR_UNI_6 + " q";
 		public const String OR_SYN				= "p | q";
 		public const String OR1_SYN				= "p || q";
 		public const String OR2_SYN				= "p \\/ q";
+		public const String OR_SYN_UNI_1		= "p ∨ q";
 		public const String NOR_SYN				= "p " + NEG_STR + OR_STR + " q";
 		public const String NOR1_SYN			= "p " + NEG_STR + OR1_STR + " q";
 		public const String NOR2_SYN			= "p " + NEG_STR + OR2_STR + " q";
+		public const String NOR_SYN_UNI_1		= "p " + NOR_STR_UNI_1 + " q";
+		public const String NOR_SYN_UNI_2		= "p " + NOR_STR_UNI_2 + " q";
+		public const String NOR_SYN_UNI_3		= "p " + NOR_STR_UNI_3 + " q";
+		public const String NOR_SYN_UNI_4		= "p " + NOR_STR_UNI_4 + " q";
+		public const String NOR_SYN_UNI_5		= "p " + NOR_STR_UNI_5 + " q";
+		public const String NOR_SYN_UNI_6		= "p " + NOR_STR_UNI_6 + " q";
 		public const String XOR_SYN				= "p (+) q";
+		public const String XOR_SYN_UNI_1		= "p ⊻ q";
 		public const String IMP_SYN				= "p --> q";
+		public const String IMP_SYN_UNI_1		= "p ⇒ q";
 		public const String CIMP_SYN			= "p <-- q";
+		public const String CIMP_SYN_UNI_1		= "p ⇐ q";
 		public const String NIMP_SYN			= "p  -/> q";
+		public const String NIMP_SYN_UNI_1		= "p ⇏ q";
 		public const String CNIMP_SYN			= "p </- q";
+		public const String CNIMP_SYN_UNI_1		= "p ⇍ q";
 		public const String EQV_SYN				= "p <-> q";
+		public const String EQV_SYN_UNI_1		= "p ⇔ q";
 		/*
 		 * BooleanOperator - tokens description.
 		 */
@@ -161,15 +203,36 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * BooleanOperator - since.
 		 */
 		public const String AND_SINCE			= mXparser.NAMEv10;
+		public const String AND_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String OR_SINCE			= mXparser.NAMEv10;
+		public const String OR_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String NEG_SINCE			= mXparser.NAMEv10;
+		public const String NEG_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String NAND_SINCE			= mXparser.NAMEv10;
+		public const String NAND_SINCE_UNI_1	= mXparser.NAMEv50;
+		public const String NAND_SINCE_UNI_2	= mXparser.NAMEv50;
+		public const String NAND_SINCE_UNI_3	= mXparser.NAMEv50;
+		public const String NAND_SINCE_UNI_4	= mXparser.NAMEv50;
+		public const String NAND_SINCE_UNI_5	= mXparser.NAMEv50;
+		public const String NAND_SINCE_UNI_6	= mXparser.NAMEv50;
 		public const String NOR_SINCE			= mXparser.NAMEv10;
+		public const String NOR_SINCE_UNI_1		= mXparser.NAMEv50;
+		public const String NOR_SINCE_UNI_2		= mXparser.NAMEv50;
+		public const String NOR_SINCE_UNI_3		= mXparser.NAMEv50;
+		public const String NOR_SINCE_UNI_4		= mXparser.NAMEv50;
+		public const String NOR_SINCE_UNI_5		= mXparser.NAMEv50;
+		public const String NOR_SINCE_UNI_6		= mXparser.NAMEv50;
 		public const String XOR_SINCE			= mXparser.NAMEv10;
+		public const String XOR_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String IMP_SINCE			= mXparser.NAMEv10;
+		public const String IMP_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String CIMP_SINCE			= mXparser.NAMEv10;
+		public const String CIMP_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String NIMP_SINCE			= mXparser.NAMEv10;
+		public const String NIMP_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String CNIMP_SINCE			= mXparser.NAMEv10;
+		public const String CNIMP_SINCE_UNI_1	= mXparser.NAMEv50;
 		public const String EQV_SINCE			= mXparser.NAMEv10;
+		public const String EQV_SINCE_UNI_1		= mXparser.NAMEv50;
 	}
 }

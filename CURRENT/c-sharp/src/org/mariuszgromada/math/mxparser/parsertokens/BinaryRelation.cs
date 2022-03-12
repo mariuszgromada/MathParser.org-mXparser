@@ -1,9 +1,9 @@
-/*
- * @(#)BinaryRelation.cs        4.1.0    2017-05-13
+﻿/*
+ * @(#)BinaryRelation.cs        5.0.0    2022-03-12
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.1.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BinaryRelation {
@@ -100,24 +100,34 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String EQ_STR 				= "=";
 		public const String EQ1_STR 			= "==";
 		public const String NEQ_STR 			= "<>";
+		public const String NEQ_STR_UNI_1		= "≠";
 		public const String NEQ1_STR 			= "~=";
 		public const String NEQ2_STR 			= "!=";
 		public const String LT_STR 				= "<";
 		public const String GT_STR 				= ">";
 		public const String LEQ_STR 			= "<=";
+		public const String LEQ_STR_UNI_1		= "≤";
+		public const String LEQ_STR_UNI_2		= "⋜";
 		public const String GEQ_STR 			= ">=";
+		public const String GEQ_STR_UNI_1		= "≥";
+		public const String GEQ_STR_UNI_2		= "⋝";
 		/*
 		 * BinaryRelation - syntax.
 		 */
 		public const String EQ_SYN 				= "a = b";
 		public const String EQ1_SYN 			= "a == b";
 		public const String NEQ_SYN 			= "a <> b";
+		public const String NEQ_SYN_UNI_1		= "a ≠ b";
 		public const String NEQ1_SYN 			= "a ~= b";
 		public const String NEQ2_SYN 			= "a != b";
 		public const String LT_SYN 				= "a < b";
 		public const String GT_SYN 				= "a > b";
 		public const String LEQ_SYN 			= "a <= b";
+		public const String LEQ_SYN_UNI_1		= "a ≤ b";
+		public const String LEQ_SYN_UNI_2 		= "a ⋝ b";
 		public const String GEQ_SYN 			= "a >= b";
+		public const String GEQ_SYN_UNI_1		= "a ≥ b";
+		public const String GEQ_SYN_UNI_2		= "a ⋝ b";
 		/*
 		 * BinaryRelation - tokens description.
 		 */
@@ -132,9 +142,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
 		public const String EQ_SINCE			= mXparser.NAMEv10;
 		public const String NEQ_SINCE			= mXparser.NAMEv10;
+		public const String NEQ_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String LT_SINCE 			= mXparser.NAMEv10;
 		public const String GT_SINCE			= mXparser.NAMEv10;
 		public const String LEQ_SINCE 			= mXparser.NAMEv10;
+		public const String LEQ_SINCE_UNI_1		= mXparser.NAMEv50;
+		public const String LEQ_SINCE_UNI_2		= mXparser.NAMEv50;
 		public const String GEQ_SINCE 			= mXparser.NAMEv10;
+		public const String GEQ_SINCE_UNI_1		= mXparser.NAMEv50;
+		public const String GEQ_SINCE_UNI_2		= mXparser.NAMEv50;
 	}
 }

@@ -260,8 +260,7 @@ public final class ParserSymbol {
 					+ "|" + "\u2147" /* ⅇ */
 					+ "|" + "\u212f" /* ℯ */
 					+ "|" + "\u2202" /* ∂ */
-			+ ")"
-			;
+			+ ")";
 	public static final String FRACTION							= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
 	public static final String nameOnlyTokenRegExp				= "(" + "([a-zA-Z_])+([a-zA-Z0-9_])*" + "|" + UNICODE_NAME_REG_EXP + ")";
 	public static final String unitOnlyTokenRegExp				= "\\[" + nameOnlyTokenRegExp + "\\]";

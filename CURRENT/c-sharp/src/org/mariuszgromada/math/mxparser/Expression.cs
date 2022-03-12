@@ -1,5 +1,5 @@
-/*
- * @(#)Expression.cs        5.0.0   2022-01-29
+﻿/*
+ * @(#)Expression.cs        5.0.0   2022-03-13
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -96,7 +96,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.4.0
+	 * @version        5.0.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -2854,6 +2854,36 @@ namespace org.mariuszgromada.math.mxparser {
 			opSetDecreaseRemove(pos, BinaryRelations.geq(a, b) );
 		}
 		/**
+		 * Square root as unary left operator
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void SQUARE_ROOT_OPERATOR(int pos) {
+			double a = getTokenValue(pos+1);
+			setToNumber(pos, MathFunctions.sqrt(a) );
+			tokensList.RemoveAt(pos+1);
+		}
+		/**
+		 * Cube root as unary left operator
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void CUBE_ROOT_OPERATOR(int pos) {
+			double a = getTokenValue(pos+1);
+			setToNumber(pos, MathFunctions.root(3, a) );
+			tokensList.RemoveAt(pos+1);
+		}
+		/**
+		 * Fourth root as unary left operator
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void FOURTH_ROOT_OPERATOR(int pos) {
+			double a = getTokenValue(pos+1);
+			setToNumber(pos, MathFunctions.root(4, a) );
+			tokensList.RemoveAt(pos+1);
+		}
+		/**
 		 * Bitwise COMPL
 		 *
 		 * @param      pos                 the token position
@@ -5361,6 +5391,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int modPos;
 			int percPos;
 			int negPos;
+			int rootOperGroupPos;
 			int andGroupPos;
 			int orGroupPos;
 			int implGroupPos;
@@ -5425,6 +5456,7 @@ namespace org.mariuszgromada.math.mxparser {
 				percPos = -1;
 				powerNum = 0;
 				negPos = -1;
+				rootOperGroupPos = -1;
 				andGroupPos = -1;
 				orGroupPos = -1;
 				implGroupPos = -1;
@@ -5573,6 +5605,9 @@ namespace org.mariuszgromada.math.mxparser {
 								if ((token.tokenId == Operator.PERC_ID) && (percPos < 0) && (leftIsNumber)) {
 									percPos = pos;
 								} else
+								if ( (token.tokenId == Operator.SQUARE_ROOT_ID || token.tokenId == Operator.CUBE_ROOT_ID || token.tokenId == Operator.FOURTH_ROOT_ID) && (rootOperGroupPos < 0) && rigthIsNumber )
+									rootOperGroupPos = pos;
+								else
 								if ((token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNumber && rigthIsNumber)) {
 									modPos = pos;
 								} else
@@ -5710,6 +5745,9 @@ namespace org.mariuszgromada.math.mxparser {
 				} else
 				if (negPos >= 0) {
 					NEG(negPos);
+				} else
+				if (rootOperGroupPos >= 0) {
+					rootOperCalc(rootOperGroupPos);
 				} else
 				if (bitwiseComplPos >= 0) {
 					BITWISE_COMPL(bitwiseComplPos);
@@ -5998,6 +6036,17 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		/**
+		 * Unicode root operators
+		 * @param pos
+		 */
+		private void rootOperCalc(int pos) {
+			switch (tokensList[pos].tokenId) {
+				case Operator.SQUARE_ROOT_ID: SQUARE_ROOT_OPERATOR(pos); break;
+				case Operator.CUBE_ROOT_ID: CUBE_ROOT_OPERATOR(pos); break;
+				case Operator.FOURTH_ROOT_ID: FOURTH_ROOT_OPERATOR(pos); break;
+			}
+		}
+		/**
 		 * Calculates boolean operators
 		 * @param pos
 		 */
@@ -6053,46 +6102,79 @@ namespace org.mariuszgromada.math.mxparser {
 			addKeyWord(Operator.PLUS_STR, Operator.PLUS_DESC, Operator.PLUS_ID, Operator.PLUS_SYN, Operator.PLUS_SINCE, Operator.TYPE_ID);
 			addKeyWord(Operator.MINUS_STR, Operator.MINUS_DESC, Operator.MINUS_ID, Operator.MINUS_SYN, Operator.MINUS_SINCE, Operator.TYPE_ID);
 			addKeyWord(Operator.MULTIPLY_STR, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN, Operator.MULTIPLY_SINCE, Operator.TYPE_ID);
+			addKeyWord(Operator.MULTIPLY_STR_UNI_1, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN_UNI_1, Operator.MULTIPLY_SINCE_UNI_1, Operator.TYPE_ID);
+			addKeyWord(Operator.MULTIPLY_STR_UNI_2, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN_UNI_2, Operator.MULTIPLY_SINCE_UNI_2, Operator.TYPE_ID);
+			addKeyWord(Operator.MULTIPLY_STR_UNI_3, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN_UNI_3, Operator.MULTIPLY_SINCE_UNI_3, Operator.TYPE_ID);
 			addKeyWord(Operator.DIVIDE_STR, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_SYN, Operator.DIVIDE_SINCE, Operator.TYPE_ID);
+			addKeyWord(Operator.DIVIDE_STR_UNI_1, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_SYN_UNI_1, Operator.DIVIDE_SINCE_UNI_1, Operator.TYPE_ID);
 			addKeyWord(Operator.POWER_STR, Operator.POWER_DESC, Operator.POWER_ID, Operator.POWER_SYN, Operator.POWER_SINCE, Operator.TYPE_ID);
 			addKeyWord(Operator.FACT_STR, Operator.FACT_DESC, Operator.FACT_ID, Operator.FACT_SYN, Operator.FACT_SINCE, Operator.TYPE_ID);
 			addKeyWord(Operator.MOD_STR, Operator.MOD_DESC, Operator.MOD_ID, Operator.MOD_SYN, Operator.MOD_SINCE, Operator.TYPE_ID);
 			addKeyWord(Operator.PERC_STR, Operator.PERC_DESC, Operator.PERC_ID, Operator.PERC_SYN, Operator.PERC_SINCE, Operator.TYPE_ID);
 			addKeyWord(Operator.TETRATION_STR, Operator.TETRATION_DESC, Operator.TETRATION_ID, Operator.TETRATION_SYN, Operator.TETRATION_SINCE, Operator.TYPE_ID);
+			addKeyWord(Operator.SQUARE_ROOT_STR, Operator.SQUARE_ROOT_DESC, Operator.SQUARE_ROOT_ID, Operator.SQUARE_ROOT_SYN, Operator.SQUARE_ROOT_SINCE, Operator.TYPE_ID);
+			addKeyWord(Operator.CUBE_ROOT_STR, Operator.CUBE_ROOT_DESC, Operator.CUBE_ROOT_ID, Operator.CUBE_ROOT_SYN, Operator.CUBE_ROOT_SINCE, Operator.TYPE_ID);
+			addKeyWord(Operator.FOURTH_ROOT_STR, Operator.FOURTH_ROOT_DESC, Operator.FOURTH_ROOT_ID, Operator.FOURTH_ROOT_SYN, Operator.FOURTH_ROOT_SINCE, Operator.TYPE_ID);
 			/*
 			 * Boolean operators key words
 			 */
 			addKeyWord(BooleanOperator.NEG_STR, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.NEG_SYN, BooleanOperator.NEG_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NEG_STR_UNI_1, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.NEG_SYN_UNI_1, BooleanOperator.NEG_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.AND_STR, BooleanOperator.AND_DESC, BooleanOperator.AND_ID, BooleanOperator.AND_SYN, BooleanOperator.AND_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.AND_STR_UNI_1, BooleanOperator.AND_DESC, BooleanOperator.AND_ID, BooleanOperator.AND_SYN_UNI_1, BooleanOperator.AND_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.AND1_STR, BooleanOperator.AND_DESC, BooleanOperator.AND_ID, BooleanOperator.AND1_SYN, BooleanOperator.AND_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.AND2_STR, BooleanOperator.AND_DESC, BooleanOperator.AND_ID, BooleanOperator.AND2_SYN, BooleanOperator.AND_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NAND_STR, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN, BooleanOperator.NAND_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NAND1_STR, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND1_SYN, BooleanOperator.NAND_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NAND2_STR, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND2_SYN, BooleanOperator.NAND_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NAND_STR_UNI_1, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN_UNI_1, BooleanOperator.NAND_SINCE_UNI_1, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NAND_STR_UNI_2, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN_UNI_2, BooleanOperator.NAND_SINCE_UNI_2, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NAND_STR_UNI_3, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN_UNI_3, BooleanOperator.NAND_SINCE_UNI_3, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NAND_STR_UNI_4, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN_UNI_4, BooleanOperator.NAND_SINCE_UNI_4, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NAND_STR_UNI_5, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN_UNI_5, BooleanOperator.NAND_SINCE_UNI_5, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NAND_STR_UNI_6, BooleanOperator.NAND_DESC, BooleanOperator.NAND_ID, BooleanOperator.NAND_SYN_UNI_6, BooleanOperator.NAND_SINCE_UNI_6, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.OR_STR, BooleanOperator.OR_DESC, BooleanOperator.OR_ID, BooleanOperator.OR_SYN, BooleanOperator.OR_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.OR1_STR, BooleanOperator.OR_DESC, BooleanOperator.OR_ID, BooleanOperator.OR1_SYN, BooleanOperator.OR_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.OR2_STR, BooleanOperator.OR_DESC, BooleanOperator.OR_ID, BooleanOperator.OR2_SYN, BooleanOperator.OR_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.OR_STR_UNI_1, BooleanOperator.OR_DESC, BooleanOperator.OR_ID, BooleanOperator.OR_SYN_UNI_1, BooleanOperator.OR_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NOR_STR, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN, BooleanOperator.NOR_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NOR1_STR, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR1_SYN, BooleanOperator.NOR_SINCE, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NOR2_STR, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR2_SYN, BooleanOperator.NOR_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NOR_STR_UNI_1, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN_UNI_1, BooleanOperator.NOR_SINCE_UNI_1, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NOR_STR_UNI_2, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN_UNI_2, BooleanOperator.NOR_SINCE_UNI_2, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NOR_STR_UNI_3, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN_UNI_3, BooleanOperator.NOR_SINCE_UNI_3, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NOR_STR_UNI_4, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN_UNI_4, BooleanOperator.NOR_SINCE_UNI_4, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NOR_STR_UNI_5, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN_UNI_5, BooleanOperator.NOR_SINCE_UNI_5, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NOR_STR_UNI_6, BooleanOperator.NOR_DESC, BooleanOperator.NOR_ID, BooleanOperator.NOR_SYN_UNI_6, BooleanOperator.NOR_SINCE_UNI_6, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.XOR_STR, BooleanOperator.XOR_DESC, BooleanOperator.XOR_ID, BooleanOperator.XOR_SYN, BooleanOperator.XOR_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.XOR_STR_UNI_1, BooleanOperator.XOR_DESC, BooleanOperator.XOR_ID, BooleanOperator.XOR_SYN_UNI_1, BooleanOperator.XOR_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.IMP_STR, BooleanOperator.IMP_DESC, BooleanOperator.IMP_ID, BooleanOperator.IMP_SYN, BooleanOperator.IMP_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.IMP_STR_UNI_1, BooleanOperator.IMP_DESC, BooleanOperator.IMP_ID, BooleanOperator.IMP_SYN_UNI_1, BooleanOperator.IMP_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.NIMP_STR, BooleanOperator.NIMP_DESC, BooleanOperator.NIMP_ID, BooleanOperator.NIMP_SYN, BooleanOperator.NIMP_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.NIMP_STR_UNI_1, BooleanOperator.NIMP_DESC, BooleanOperator.NIMP_ID, BooleanOperator.NIMP_SYN_UNI_1, BooleanOperator.NIMP_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.CIMP_STR, BooleanOperator.CIMP_DESC, BooleanOperator.CIMP_ID, BooleanOperator.CIMP_SYN, BooleanOperator.CIMP_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.CIMP_STR_UNI_1, BooleanOperator.CIMP_DESC, BooleanOperator.CIMP_ID, BooleanOperator.CIMP_SYN_UNI_1, BooleanOperator.CIMP_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.CNIMP_STR, BooleanOperator.CNIMP_DESC, BooleanOperator.CNIMP_ID, BooleanOperator.CNIMP_SYN, BooleanOperator.CNIMP_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.CNIMP_STR_UNI_1, BooleanOperator.CNIMP_DESC, BooleanOperator.CNIMP_ID, BooleanOperator.CNIMP_SYN_UNI_1, BooleanOperator.CNIMP_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			addKeyWord(BooleanOperator.EQV_STR, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.EQV_SYN, BooleanOperator.EQV_SINCE, BooleanOperator.TYPE_ID);
+			addKeyWord(BooleanOperator.EQV_STR_UNI_1, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.EQV_SYN_UNI_1, BooleanOperator.EQV_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 			/*
 			 * Binary relations key words
 			 */
 			addKeyWord(BinaryRelation.EQ_STR, BinaryRelation.EQ_DESC, BinaryRelation.EQ_ID, BinaryRelation.EQ_SYN, BinaryRelation.EQ_SINCE, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.EQ1_STR, BinaryRelation.EQ_DESC, BinaryRelation.EQ_ID, BinaryRelation.EQ1_SYN, BinaryRelation.EQ_SINCE, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.NEQ_STR, BinaryRelation.NEQ_DESC, BinaryRelation.NEQ_ID, BinaryRelation.NEQ_SYN, BinaryRelation.NEQ_SINCE, BinaryRelation.TYPE_ID);
+			addKeyWord(BinaryRelation.NEQ_STR_UNI_1, BinaryRelation.NEQ_DESC, BinaryRelation.NEQ_ID, BinaryRelation.NEQ_SYN_UNI_1, BinaryRelation.NEQ_SINCE_UNI_1, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.NEQ1_STR, BinaryRelation.NEQ_DESC, BinaryRelation.NEQ_ID, BinaryRelation.NEQ1_SYN, BinaryRelation.NEQ_SINCE, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.NEQ2_STR, BinaryRelation.NEQ_DESC, BinaryRelation.NEQ_ID, BinaryRelation.NEQ2_SYN, BinaryRelation.NEQ_SINCE, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.LT_STR, BinaryRelation.LT_DESC, BinaryRelation.LT_ID, BinaryRelation.LT_SYN, BinaryRelation.LT_SINCE, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.GT_STR, BinaryRelation.GT_DESC, BinaryRelation.GT_ID, BinaryRelation.GT_SYN, BinaryRelation.GT_SINCE, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.LEQ_STR, BinaryRelation.LEQ_DESC, BinaryRelation.LEQ_ID, BinaryRelation.LEQ_SYN, BinaryRelation.LEQ_SINCE, BinaryRelation.TYPE_ID);
+			addKeyWord(BinaryRelation.LEQ_STR_UNI_1, BinaryRelation.LEQ_DESC, BinaryRelation.LEQ_ID, BinaryRelation.LEQ_SYN_UNI_1, BinaryRelation.LEQ_SINCE_UNI_1, BinaryRelation.TYPE_ID);
+			addKeyWord(BinaryRelation.LEQ_STR_UNI_2, BinaryRelation.LEQ_DESC, BinaryRelation.LEQ_ID, BinaryRelation.LEQ_SYN_UNI_2, BinaryRelation.LEQ_SINCE_UNI_2, BinaryRelation.TYPE_ID);
 			addKeyWord(BinaryRelation.GEQ_STR, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN, BinaryRelation.GEQ_SINCE, BinaryRelation.TYPE_ID);
+			addKeyWord(BinaryRelation.GEQ_STR_UNI_1, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN_UNI_1, BinaryRelation.GEQ_SINCE_UNI_1, BinaryRelation.TYPE_ID);
+			addKeyWord(BinaryRelation.GEQ_STR_UNI_2, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN_UNI_2, BinaryRelation.GEQ_SINCE_UNI_2, BinaryRelation.TYPE_ID);
 			if (parserKeyWordsOnly == false) {
 				/*
 				 * 1 arg functions key words
@@ -6280,14 +6362,26 @@ namespace org.mariuszgromada.math.mxparser {
 				 * Calculus key words
 				 */
 				addKeyWord(CalculusOperator.SUM_STR, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN, CalculusOperator.SUM_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.SUM_STR_UNI_1, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN_UNI_1, CalculusOperator.SUM_SINCE_UNI_1, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.SUM_STR_UNI_2, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN_UNI_2, CalculusOperator.SUM_SINCE_UNI_2, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.PROD_STR, CalculusOperator.PROD_DESC, CalculusOperator.PROD_ID, CalculusOperator.PROD_SYN, CalculusOperator.PROD_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.PROD_STR_UNI_1, CalculusOperator.PROD_DESC, CalculusOperator.PROD_ID, CalculusOperator.PROD_SYN_UNI_1, CalculusOperator.PROD_SINCE_UNI_1, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.PROD_STR_UNI_2, CalculusOperator.PROD_DESC, CalculusOperator.PROD_ID, CalculusOperator.PROD_SYN_UNI_2, CalculusOperator.PROD_SINCE_UNI_2, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.PROD_STR_UNI_3, CalculusOperator.PROD_DESC, CalculusOperator.PROD_ID, CalculusOperator.PROD_SYN_UNI_3, CalculusOperator.PROD_SINCE_UNI_3, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.INT_STR, CalculusOperator.INT_DESC, CalculusOperator.INT_ID, CalculusOperator.INT_SYN, CalculusOperator.INT_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.INT_STR_UNI_1, CalculusOperator.INT_DESC, CalculusOperator.INT_ID, CalculusOperator.INT_SYN_UNI_1, CalculusOperator.INT_SINCE_UNI_1, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.DER_STR, CalculusOperator.DER_DESC, CalculusOperator.DER_ID, CalculusOperator.DER_SYN, CalculusOperator.DER_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DER_STR_UNI_1, CalculusOperator.DER_DESC, CalculusOperator.DER_ID, CalculusOperator.DER_SYN_UNI_1, CalculusOperator.DER_SINCE_UNI_1, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.DER_LEFT_STR, CalculusOperator.DER_LEFT_DESC, CalculusOperator.DER_LEFT_ID, CalculusOperator.DER_LEFT_SYN, CalculusOperator.DER_LEFT_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DER_LEFT_STR_UNI_1, CalculusOperator.DER_LEFT_DESC, CalculusOperator.DER_LEFT_ID, CalculusOperator.DER_LEFT_SYN_UNI_1, CalculusOperator.DER_LEFT_SINCE_UNI_1, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.DER_RIGHT_STR, CalculusOperator.DER_RIGHT_DESC, CalculusOperator.DER_RIGHT_ID, CalculusOperator.DER_RIGHT_SYN, CalculusOperator.DER_RIGHT_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.DER_RIGHT_STR_UNI_1, CalculusOperator.DER_RIGHT_DESC, CalculusOperator.DER_RIGHT_ID, CalculusOperator.DER_RIGHT_SYN_UNI_1, CalculusOperator.DER_RIGHT_SINCE_UNI_1, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.DERN_STR, CalculusOperator.DERN_DESC, CalculusOperator.DERN_ID, CalculusOperator.DERN_SYN, CalculusOperator.DERN_SINCE, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.FORW_DIFF_STR, CalculusOperator.FORW_DIFF_DESC, CalculusOperator.FORW_DIFF_ID, CalculusOperator.FORW_DIFF_SYN, CalculusOperator.FORW_DIFF_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.FORW_DIFF_STR_UNI_1, CalculusOperator.FORW_DIFF_DESC, CalculusOperator.FORW_DIFF_ID, CalculusOperator.FORW_DIFF_SYN_UNI_1, CalculusOperator.FORW_DIFF_SINCE_UNI_1, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.FORW_DIFF_STR_UNI_2, CalculusOperator.FORW_DIFF_DESC, CalculusOperator.FORW_DIFF_ID, CalculusOperator.FORW_DIFF_SYN_UNI_2, CalculusOperator.FORW_DIFF_SINCE_UNI_2, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.BACKW_DIFF_STR, CalculusOperator.BACKW_DIFF_DESC, CalculusOperator.BACKW_DIFF_ID, CalculusOperator.BACKW_DIFF_SYN, CalculusOperator.BACKW_DIFF_SINCE, CalculusOperator.TYPE_ID);
+				addKeyWord(CalculusOperator.BACKW_DIFF_STR_UNI_1, CalculusOperator.BACKW_DIFF_DESC, CalculusOperator.BACKW_DIFF_ID, CalculusOperator.BACKW_DIFF_SYN_UNI_1, CalculusOperator.BACKW_DIFF_SINCE_UNI_1, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.AVG_STR, CalculusOperator.AVG_DESC, CalculusOperator.AVG_ID, CalculusOperator.AVG_SYN, CalculusOperator.AVG_SINCE, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.VAR_STR, CalculusOperator.VAR_DESC, CalculusOperator.VAR_ID, CalculusOperator.VAR_SYN, CalculusOperator.VAR_SINCE, CalculusOperator.TYPE_ID);
 				addKeyWord(CalculusOperator.STD_STR, CalculusOperator.STD_DESC, CalculusOperator.STD_ID, CalculusOperator.STD_SYN, CalculusOperator.STD_SINCE, CalculusOperator.TYPE_ID);
@@ -6298,7 +6392,11 @@ namespace org.mariuszgromada.math.mxparser {
 				 * Constants key words
 				 */
 				addKeyWord(ConstantValue.PI_STR, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN, ConstantValue.PI_SINCE, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.PI_STR_UNI_1, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN_UNI_1, ConstantValue.PI_SINCE_UNI_1, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.PI_STR_UNI_2, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN_UNI_2, ConstantValue.PI_SINCE_UNI_2, ConstantValue.TYPE_ID);
 				addKeyWord(ConstantValue.EULER_STR, ConstantValue.EULER_DESC, ConstantValue.EULER_ID, ConstantValue.EULER_SYN, ConstantValue.EULER_SINCE, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.EULER_STR_UNI_1, ConstantValue.EULER_DESC, ConstantValue.EULER_ID, ConstantValue.EULER_SYN_UNI_1, ConstantValue.EULER_SINCE_UNI_1, ConstantValue.TYPE_ID);
+				addKeyWord(ConstantValue.EULER_STR_UNI_2, ConstantValue.EULER_DESC, ConstantValue.EULER_ID, ConstantValue.EULER_SYN_UNI_2, ConstantValue.EULER_SINCE_UNI_2, ConstantValue.TYPE_ID);
 				addKeyWord(ConstantValue.EULER_MASCHERONI_STR, ConstantValue.EULER_MASCHERONI_DESC, ConstantValue.EULER_MASCHERONI_ID, ConstantValue.EULER_MASCHERONI_SYN, ConstantValue.EULER_MASCHERONI_SINCE, ConstantValue.TYPE_ID);
 				addKeyWord(ConstantValue.GOLDEN_RATIO_STR, ConstantValue.GOLDEN_RATIO_DESC, ConstantValue.GOLDEN_RATIO_ID, ConstantValue.GOLDEN_RATIO_SYN, ConstantValue.GOLDEN_RATIO_SINCE, ConstantValue.TYPE_ID);
 				addKeyWord(ConstantValue.PLASTIC_STR, ConstantValue.PLASTIC_DESC, ConstantValue.PLASTIC_ID, ConstantValue.PLASTIC_SYN, ConstantValue.PLASTIC_SINCE, ConstantValue.TYPE_ID);
@@ -6966,8 +7064,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(token);
 						return;
 					}
-				}
-				else if (precedingToken.isRightParenthesis()) {
+				} else if (precedingToken.isRightParenthesis()) {
 					// ')2', ')h.1212', ')1_2_3' cases
 					if (token.isNumber()) {
 						initialTokens.Add(Token.makeMultiplyToken());
@@ -6979,6 +7076,16 @@ namespace org.mariuszgromada.math.mxparser {
 							!token.isBinaryOperator() &&
 							!token.isUnaryRightOperator() &&
 							!token.isRightParenthesis()) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					}
+				} else if (token.isUnicodeRootOperator()) {
+					/* Unicode root operator */
+					if (!precedingToken.isLeftParenthesis() &&
+							!precedingToken.isBinaryOperator() &&
+							!precedingToken.isParameterSeparator() &&
+							!precedingToken.isUnaryLeftOperator()) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
@@ -7207,6 +7314,8 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 				if (foundNameFolloweByInteger) {
 					partAtPos.str = partAtPos.str + partAtPosPlus1.str;
+					partAtPos.type = TokenPart.UNKNOWN_NAME;
+					partAtPos.keyWord = null;
 					tokenParts.RemoveAt(namePos + 1);
 				}
 			} while (foundNameFolloweByInteger);
@@ -7255,6 +7364,100 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 
+		private static bool isUnicodeName(char c) {
+			if (c == 'α') return true;
+			if (c == 'β') return true;
+			if (c == 'γ') return true;
+			if (c == 'δ') return true;
+			if (c == 'ε') return true;
+			if (c == 'ζ') return true;
+			if (c == 'η') return true;
+			if (c == 'θ') return true;
+			if (c == 'ι') return true;
+			if (c == 'κ') return true;
+			if (c == 'λ') return true;
+			if (c == 'μ') return true;
+			if (c == 'ν') return true;
+			if (c == 'ξ') return true;
+			if (c == 'ο') return true;
+			if (c == 'π') return true;
+			if (c == 'ρ') return true;
+			if (c == 'ς') return true;
+			if (c == 'σ') return true;
+			if (c == 'τ') return true;
+			if (c == 'υ') return true;
+			if (c == 'φ') return true;
+			if (c == 'χ') return true;
+			if (c == 'ψ') return true;
+			if (c == 'ω') return true;
+			if (c == 'Α') return true;
+			if (c == 'Β') return true;
+			if (c == 'Γ') return true;
+			if (c == 'Δ') return true;
+			if (c == 'Ε') return true;
+			if (c == 'Ζ') return true;
+			if (c == 'Η') return true;
+			if (c == 'Θ') return true;
+			if (c == 'Ι') return true;
+			if (c == 'Κ') return true;
+			if (c == 'Λ') return true;
+			if (c == 'Μ') return true;
+			if (c == 'Ν') return true;
+			if (c == 'Ξ') return true;
+			if (c == 'Ο') return true;
+			if (c == 'Π') return true;
+			if (c == 'Ρ') return true;
+			if (c == 'Σ') return true;
+			if (c == 'Τ') return true;
+			if (c == 'Υ') return true;
+			if (c == 'Φ') return true;
+			if (c == 'Χ') return true;
+			if (c == 'Ψ') return true;
+			if (c == 'Ω') return true;
+			if (c == '∑') return true;
+			if (c == '∏') return true;
+			if (c == 'ℿ') return true;
+			if (c == '∆') return true;
+			if (c == '∇') return true;
+			if (c == '∫') return true;
+			if (c == 'ℼ') return true;
+			if (c == 'ℇ') return true;
+			if (c == 'ⅇ') return true;
+			if (c == 'ℯ') return true;
+			if (c == '∂') return true;
+
+			return false;
+		}
+
+
+		private static bool isUnicodeOperator(char c) {
+			if (c == '∜') return true;
+			if (c == '∛') return true;
+			if (c == '√') return true;
+			if (c == '⊻') return true;
+			if (c == '⊽') return true;
+			if (c == '⊼') return true;
+			if (c == '⇔') return true;
+			if (c == '⇍') return true;
+			if (c == '⇏') return true;
+			if (c == '⇐') return true;
+			if (c == '⇒') return true;
+			if (c == '¬') return true;
+			if (c == '∧') return true;
+			if (c == '∨') return true;
+			if (c == '⋝') return true;
+			if (c == '≥') return true;
+			if (c == '⋜') return true;
+			if (c == '≤') return true;
+			if (c == '≠') return true;
+			if (c == '÷') return true;
+			if (c == '∙') return true;
+			if (c == '⨉') return true;
+			if (c == '×') return true;
+			return false;
+		}
+
+
 		private static bool isNotSpecialChar(char c) {
 			if (c == '+') return false;
 			if (c == '-') return false;
@@ -7276,6 +7479,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (c == '@') return false;
 			if (c == ']') return false;
 			if (c == '[') return false;
+			if (isUnicodeOperator(c)) return false;
+
 			return true;
 		}
 
@@ -7318,7 +7523,9 @@ namespace org.mariuszgromada.math.mxparser {
 				(c == '@') ||
 				(c == '!') ||
 				(c == '[') ||
-				(c == ']'))
+				(c == ']') ||
+				isUnicodeOperator(c)
+			)
 				return true;
 			else
 				return false;
