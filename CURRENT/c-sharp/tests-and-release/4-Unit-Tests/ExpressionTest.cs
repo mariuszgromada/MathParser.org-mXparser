@@ -1986,7 +1986,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			1.13198824 + /*Viswanath'sconstant*/
 			1 + /*Legendre'sconstant*/
 			1.45136923488338105028396848589202744 + /*Ramanujan-Soldnerconstant*/
-			1.60669515241529176378330152319092458 + /*Erdıs-Borweinconstant*/
+			1.60669515241529176378330152319092458 + /*Erd≈ës-Borweinconstant*/
 			0.28016949902386913303 + /*Bernstein'sconstant[29]*/
 			0.30366300289873265859744812190155623 + /*Gauss-Kuzmin-Wirsingconstant*/
 			0.35323637185499598454 + /*Hafner-Sarnak-McCurleyconstant*/
@@ -1995,16 +1995,16 @@ namespace org.mariuszgromada.math.mxparser.test {
 			0.66274341934918158097474209710925290 + /*Laplacelimit*/
 			0.8093940205 + /*Alladi-Grinsteadconstant[30]*/
 			1.0986858055 + /*Lengyel'sconstant[31]*/
-			3.27582291872181115978768188245384386 + /*LÈvy'sconstant*/
-			1.20205690315959428539973816151144999 + /*ApÈry'sconstant*/
+			3.27582291872181115978768188245384386 + /*L√©vy'sconstant*/
+			1.20205690315959428539973816151144999 + /*Ap√©ry'sconstant*/
 			1.30637788386308069046861449260260571 + /*Mills'constant*/
 			1.45607494858268967139959535111654356 + /*Backhouse'sconstant[32]*/
 			1.4670780794 + /*Porter'sconstant[33]*/
 			1.5396007178 + /*Lieb'ssquareiceconstant[34]*/
 			1.70521114010536776428855145343450816 + /*Niven'sconstant*/
-			2.58498175957925321706589358738317116 + /*SierpiÒski'sconstant*/
+			2.58498175957925321706589358738317116 + /*Sierpi≈Ñski'sconstant*/
 			2.68545200106530644530971483548179569 + /*Khinchin'sconstant*/
-			2.80777024202851936522150118655777293 + /*FransÈn-Robinsonconstant*/
+			2.80777024202851936522150118655777293 + /*Frans√©n-Robinsonconstant*/
 			0.5 + /*Landau'sconstant*/
 			2.29558714939263807403429804918949039 + /*Parabolicconstant*/
 			0.56714329040978387299996866221035555 + /*Omegaconstant*/

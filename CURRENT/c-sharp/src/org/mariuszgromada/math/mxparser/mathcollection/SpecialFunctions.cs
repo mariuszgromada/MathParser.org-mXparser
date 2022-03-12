@@ -1071,7 +1071,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Minus 1 branch of Lambert-W function
 		 * Analytical approximations for real values of the Lambert W-function - D.A. Barry
-		 * Mathematics and Computers in Simulation 53 (2000) 95–103
+		 * Mathematics and Computers in Simulation 53 (2000) 95â€“103
 		 * @param x
 		 * @return Approxmiation of minus 1 branch of Lambert-W function
 		 */
@@ -1081,7 +1081,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(x + MathConstants.EXP_MINUS_1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -1;
 			/*
 			 * Analytical approximations for real values of the Lambert W-function - D.A. Barry
-			 * Mathematics and Computers in Simulation 53 (2000) 95–103
+			 * Mathematics and Computers in Simulation 53 (2000) 95â€“103
 			 */
 			double M1 = 0.3361;
 			double M2 = -0.0042;

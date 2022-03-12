@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @(#)SyntaxTest.cs        5.0.0    2022-02-12
  *
  * You may use this software under the condition of "Simplified BSD License"

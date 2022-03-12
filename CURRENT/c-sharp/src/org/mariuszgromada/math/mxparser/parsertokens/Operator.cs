@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        4.2.0    2017-10-19
+ * @(#)Operator.cs        4.2.0    2017-10-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *

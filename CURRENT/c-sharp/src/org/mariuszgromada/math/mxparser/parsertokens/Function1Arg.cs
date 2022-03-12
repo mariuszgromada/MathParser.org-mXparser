@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @(#)Function1Arg.cs        4.2.0    2018-05-29
  *
  * You may use this software under the condition of "Simplified BSD License"

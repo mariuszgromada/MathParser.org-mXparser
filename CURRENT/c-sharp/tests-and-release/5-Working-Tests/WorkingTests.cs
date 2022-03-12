@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using org.mariuszgromada.math.mxparser;
 
 class WorkingTests
