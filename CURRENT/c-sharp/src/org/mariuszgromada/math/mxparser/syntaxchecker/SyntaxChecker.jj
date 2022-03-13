@@ -55,6 +55,8 @@
 
 options {
   STATIC = false;
+  UNICODE_INPUT = true;
+  LOOKAHEAD = 2;
 }
 
 PARSER_BEGIN(SyntaxChecker)

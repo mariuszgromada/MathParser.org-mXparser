@@ -4881,11 +4881,7 @@ namespace org.mariuszgromada.math.mxparser {
 				errorMessage = "Empty expression string\n";
 				return syntax;
 			}
-			#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
-				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
-			#else
-				syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.ASCII.GetBytes(expressionString)));
-			#endif
+			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
 			try {
 				syn.checkSyntax();
 			} catch (Exception e) {

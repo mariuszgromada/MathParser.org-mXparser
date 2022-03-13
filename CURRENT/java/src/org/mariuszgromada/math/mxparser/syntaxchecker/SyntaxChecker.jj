@@ -56,6 +56,8 @@
 options {
 	JDK_VERSION = "1.6";
 	STATIC = false;
+	UNICODE_INPUT = true;
+	LOOKAHEAD = 2;
 }
 
 PARSER_BEGIN(SyntaxChecker)
