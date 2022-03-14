@@ -1421,6 +1421,27 @@ public final class mXparser {
     	Expression.showTokens(tokens);
     }
 	/**
+	 * Prints tokens to the console.
+	 * @param tokens   Tokens list.
+	 *
+	 * @see Expression#getCopyOfInitialTokens()
+	 * @see Token
+	 */
+	public static final void consolePrint(List<Token> tokens) {
+		mXparser.consolePrintTokens(tokens);
+	}
+	/**
+	 * Prints tokens to the console.
+	 * @param tokens   Tokens list.
+	 *
+	 * @see Expression#getCopyOfInitialTokens()
+	 * @see Token
+	 */
+	public static final void consolePrintln(List<Token> tokens) {
+		mXparser.consolePrintTokens(tokens);
+		mXparser.consolePrintln();
+	}
+	/**
 	 * License info.
 	 */
 	public static final String LICENSE =

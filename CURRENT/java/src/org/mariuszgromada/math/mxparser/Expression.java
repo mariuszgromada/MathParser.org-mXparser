@@ -8005,6 +8005,15 @@ public class Expression extends PrimitiveElement {
 		return tokensListCopy;
 	}
 	/**
+	 * Prints to the console copy of initial tokens. Presents how
+	 * expression string is interpreted by the parser.
+	 *
+	 * @see #getCopyOfInitialTokens()
+	 */
+	public void consolePrintCopyOfInitialTokens() {
+		mXparser.consolePrintTokens(getCopyOfInitialTokens());
+	}
+	/**
 	 * Returns missing user defined arguments names, i.e.
 	 * sin(x) + cos(y) where x and y are not defined
 	 * function will return x and y.

@@ -1515,6 +1515,27 @@ namespace org.mariuszgromada.math.mxparser {
 			Expression.showTokens(tokens);
 		}
 		/**
+		 * Prints tokens to the console.
+		 * @param tokens   Tokens list.
+		 *
+		 * @see Expression#getCopyOfInitialTokens()
+		 * @see Token
+		 */
+		public static void consolePrint(List<Token> tokens) {
+			mXparser.consolePrintTokens(tokens);
+		}
+		/**
+		 * Prints tokens to the console.
+		 * @param tokens   Tokens list.
+		 *
+		 * @see Expression#getCopyOfInitialTokens()
+		 * @see Token
+		 */
+		public static void consolePrintln(List<Token> tokens) {
+			mXparser.consolePrintTokens(tokens);
+			mXparser.consolePrintln();
+		}
+		/**
 		 * License info.
 		 */
 		public const String LICENSE =
