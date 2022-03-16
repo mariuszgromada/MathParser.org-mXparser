@@ -65,7 +65,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
+				<version>3.3.2</version>
 				<configuration>
 					<excludePackageNames>org.mariuszgromada.math.mxparser.syntaxchecker</excludePackageNames>
 				</configuration>
@@ -81,7 +81,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.6</version>
+				<version>3.0.1</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -103,14 +103,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M4</version>
+				<version>3.0.0-M5</version>
 				<configuration>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
 					<includes>
-						<include>RegressionTest.java</include>
+						<include>SyntaxTest.java</include>
+						<include>ApiTest.java</include>
+						<include>ExpressionTest.java</include>
+						<include>PerformanceTest.java</include>
+						<include>Miscellaneous.java</include>
 					</includes>
-					<excludes>
-						<exclude>WorkingTests.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -150,13 +152,13 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.3.2</version>
+			<version>5.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -168,7 +170,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.3.2</version>
+			<version>5.8.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
