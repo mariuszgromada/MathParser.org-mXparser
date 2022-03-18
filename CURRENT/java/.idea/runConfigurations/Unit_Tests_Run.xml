@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Unit Tests Run" type="JUnit" factoryName="JUnit">
     <module name="mxparser-java" />
-    <extension name="coverage">
+    <extension name="coverage" sample_coverage="false">
       <pattern>
         <option name="PATTERN" value="org.mariuszgromada.math.mxparser.regressiontesting.*" />
         <option name="ENABLED" value="true" />

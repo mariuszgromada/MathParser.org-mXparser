@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2016/06/nuspec.xsd">
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>4.4.2</version>
+    <version>5.0.0</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -13,8 +13,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you find the software useful donation is something you might consider: http://mathparser.org/donate/ *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: http://scalarmath.org/ *** MathSpace.pl: http://mathspace.pl/ *** </description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under "Simplified BSD license", which means software is completely free.</summary>
-    <releaseNotes>v.4.4 Gemoni: API improvements: 1. Canonical rounding solving the problem of floating-point arithmetic artifact, 2. ArgumentExtension allowing user defined arguments implementation via source code, 3. Binaries also covering new frameworks: .NET Core 3.1, .NET Standard 2.1, .NET Framework 4.8</releaseNotes>
-    <copyright>Copyright 2010 - 2020, Mariusz Gromada - MathParser.org</copyright>
+    <releaseNotes>v.5.0 Leonis: Implied Multiplication and Unicode Math Symbols</releaseNotes>
+    <copyright>Copyright 2010 - 2022, Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
 	<license type="expression">BSD-2-Clause</license>
 	<license type="file">LICENSE.txt</license>
@@ -22,76 +22,74 @@
   <files>
 
     <file src="..\README.txt" target="" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net20\*.dll" target="lib\net20" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net35\*.dll" target="lib\net35" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net40\*.dll" target="lib\net40" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net45\*.dll" target="lib\net45" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net46\*.dll" target="lib\net46" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net47\*.dll" target="lib\net47" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net48\*.dll" target="lib\net48" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net451\*.dll" target="lib\net451" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net452\*.dll" target="lib\net452" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net461\*.dll" target="lib\net461" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net462\*.dll" target="lib\net462" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net471\*.dll" target="lib\net471" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net472\*.dll" target="lib\net472" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net35\*.dll" target="lib\net35" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net40\*.dll" target="lib\net40" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net45\*.dll" target="lib\net45" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net46\*.dll" target="lib\net46" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net47\*.dll" target="lib\net47" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net48\*.dll" target="lib\net48" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net451\*.dll" target="lib\net451" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net452\*.dll" target="lib\net452" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net461\*.dll" target="lib\net461" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net462\*.dll" target="lib\net462" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net471\*.dll" target="lib\net471" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net472\*.dll" target="lib\net472" />
 	
-	
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp1.0\*.dll" target="lib\netcoreapp10" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp1.0\*.json" target="lib\netcoreapp10" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp1.0\*.dll" target="lib\netcoreapp10" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp1.0\*.json" target="lib\netcoreapp10" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp1.1\*.dll" target="lib\netcoreapp11" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp1.1\*.json" target="lib\netcoreapp11" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp1.1\*.dll" target="lib\netcoreapp11" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp1.1\*.json" target="lib\netcoreapp11" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp2.0\*.dll" target="lib\netcoreapp20" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp2.0\*.json" target="lib\netcoreapp20" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp2.0\*.dll" target="lib\netcoreapp20" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp2.0\*.json" target="lib\netcoreapp20" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp2.1\*.dll" target="lib\netcoreapp21" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp2.1\*.json" target="lib\netcoreapp21" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp2.1\*.dll" target="lib\netcoreapp21" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp2.1\*.json" target="lib\netcoreapp21" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp2.2\*.dll" target="lib\netcoreapp22" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp2.2\*.json" target="lib\netcoreapp22" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp2.2\*.dll" target="lib\netcoreapp22" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp2.2\*.json" target="lib\netcoreapp22" />
 		
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp3.0\*.dll" target="lib\netcoreapp30" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp3.0\*.json" target="lib\netcoreapp30" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp3.0\*.dll" target="lib\netcoreapp30" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp3.0\*.json" target="lib\netcoreapp30" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp3.1\*.dll" target="lib\netcoreapp31" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netcoreapp3.1\*.json" target="lib\netcoreapp31" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp3.1\*.dll" target="lib\netcoreapp31" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netcoreapp3.1\*.json" target="lib\netcoreapp31" />
 
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.0\*.dll" target="lib\netstandard10" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.0\*.json" target="lib\netstandard10" />
 
-
-
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.0\*.dll" target="lib\netstandard10" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.0\*.json" target="lib\netstandard10" />
-
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.1\*.dll" target="lib\netstandard11" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.1\*.json" target="lib\netstandard11" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.1\*.dll" target="lib\netstandard11" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.1\*.json" target="lib\netstandard11" />
 	
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.2\*.dll" target="lib\netstandard12" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.2\*.json" target="lib\netstandard12" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.2\*.dll" target="lib\netstandard12" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.2\*.json" target="lib\netstandard12" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.3\*.dll" target="lib\netstandard13" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.3\*.json" target="lib\netstandard13" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.3\*.dll" target="lib\netstandard13" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.3\*.json" target="lib\netstandard13" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.4\*.dll" target="lib\netstandard14" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.4\*.json" target="lib\netstandard14" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.4\*.dll" target="lib\netstandard14" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.4\*.json" target="lib\netstandard14" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.5\*.dll" target="lib\netstandard15" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.5\*.json" target="lib\netstandard15" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.5\*.dll" target="lib\netstandard15" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.5\*.json" target="lib\netstandard15" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.6\*.dll" target="lib\netstandard16" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.6\*.dll" target="lib\netstandard16" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard1.6\*.json" target="lib\netstandard16" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard2.0\*.dll" target="lib\netstandard20" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard2.0\*.json" target="lib\netstandard20" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.0\*.dll" target="lib\netstandard20" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.0\*.json" target="lib\netstandard20" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard2.1\*.dll" target="lib\netstandard21" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\netstandard2.1\*.json" target="lib\netstandard21" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.1\*.dll" target="lib\netstandard21" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.1\*.json" target="lib\netstandard21" />
+	
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net50\*.dll" target="lib\net50" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net50\*.json" target="lib\net50" />
 
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net20\*.dll" target="lib\net20" />
-    <file src="tests-and-release\mXparser-01-Release-Net-Stand-Core\bin\Release\net20\*.json" target="lib\net20" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net60\*.dll" target="lib\net60" />
+    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net60\*.json" target="lib\net60" />
 
-    <file src="tests-and-release\mXparser-04-Release-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
+    <file src="tests-and-release\3-Release-PCL\bin\Release\*.dll" target="lib\portable45-net45+win8+wpa81" />
 	
 	<file src="..\..\LICENSE.txt" target="" />
 	
