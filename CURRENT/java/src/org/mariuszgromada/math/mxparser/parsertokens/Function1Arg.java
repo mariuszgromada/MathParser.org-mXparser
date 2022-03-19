@@ -1,9 +1,9 @@
 /*
- * @(#)Function1Arg.java        4.2.0    2018-05-29
+ * @(#)Function1Arg.java        5.0.0    2022-03-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.2.0
+ * @version        5.0.0
  */
 public final class Function1Arg {
 	/*
@@ -181,6 +181,7 @@ public final class Function1Arg {
 	public static final String LN_STR 					= "ln";
 	public static final String LOG2_STR 				= "log2";
 	public static final String LOG10_STR 				= "log10";
+	public static final String LOG10_STR_LG				= "lg";
 	public static final String RAD_STR 					= "rad";
 	public static final String EXP_STR 					= "exp";
 	public static final String SQRT_STR 				= "sqrt";
@@ -287,6 +288,7 @@ public final class Function1Arg {
 	public static final String LN_SYN 					= LN_STR + "(x)";
 	public static final String LOG2_SYN 				= LOG2_STR + "(x)";
 	public static final String LOG10_SYN 				= LOG10_STR + "(x)";
+	public static final String LOG10_SYN_LG				= LOG10_STR_LG + "(x)";
 	public static final String RAD_SYN 					= RAD_STR + "(x)";
 	public static final String EXP_SYN 					= EXP_STR + "(x)";
 	public static final String SQRT_SYN 				= SQRT_STR + "(x)";
@@ -442,6 +444,7 @@ public final class Function1Arg {
 	public static final String LN_SINCE 				= mXparser.NAMEv10;
 	public static final String LOG2_SINCE 				= mXparser.NAMEv10;
 	public static final String LOG10_SINCE 				= mXparser.NAMEv10;
+	public static final String LOG10_SINCE_LG			= mXparser.NAMEv50;
 	public static final String RAD_SINCE 				= mXparser.NAMEv10;
 	public static final String EXP_SINCE 				= mXparser.NAMEv10;
 	public static final String SQRT_SINCE 				= mXparser.NAMEv10;

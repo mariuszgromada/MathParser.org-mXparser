@@ -1,9 +1,9 @@
 /*
- * @(#)Function1Arg.cs        4.2.0    2018-05-29
+ * @(#)Function1Arg.cs        5.0.0    2022-03-19
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function1Arg {
@@ -182,6 +182,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LN_STR 					= "ln";
 		public const String LOG2_STR 				= "log2";
 		public const String LOG10_STR 				= "log10";
+		public const String LOG10_STR_LG			= "lg";
 		public const String RAD_STR 				= "rad";
 		public const String EXP_STR 				= "exp";
 		public const String SQRT_STR 				= "sqrt";
@@ -288,6 +289,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LN_SYN 					= LN_STR + "(x)";
 		public const String LOG2_SYN 				= LOG2_STR + "(x)";
 		public const String LOG10_SYN 				= LOG10_STR + "(x)";
+		public const String LOG10_SYN_LG			= LOG10_STR_LG + "(x)";
 		public const String RAD_SYN 				= RAD_STR + "(x)";
 		public const String EXP_SYN 				= EXP_STR + "(x)";
 		public const String SQRT_SYN 				= SQRT_STR + "(x)";
@@ -443,6 +445,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LN_SINCE 				= mXparser.NAMEv10;
 		public const String LOG2_SINCE 				= mXparser.NAMEv10;
 		public const String LOG10_SINCE 			= mXparser.NAMEv10;
+		public const String LOG10_SINCE_LG			= mXparser.NAMEv50;
 		public const String RAD_SINCE 				= mXparser.NAMEv10;
 		public const String EXP_SINCE 				= mXparser.NAMEv10;
 		public const String SQRT_SINCE 				= mXparser.NAMEv10;

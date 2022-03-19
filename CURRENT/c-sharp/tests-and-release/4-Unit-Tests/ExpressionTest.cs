@@ -21309,6 +21309,20 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
+		[TestMethod]
+		public void TestExpr1312() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "lg(100)";
+			TestCommonTools.consolePrintTestExprStart(1312, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
 	}
 
 }

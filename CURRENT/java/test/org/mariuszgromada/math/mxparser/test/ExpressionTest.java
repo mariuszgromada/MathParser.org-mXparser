@@ -21308,4 +21308,18 @@ public final class ExpressionTest {
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testExpr1312() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        String expStr = "lg(100)";
+        TestCommonTools.consolePrintTestExprStart(1312, expStr);
+        Expression testExp = new Expression(expStr);
+        double value = testExp.calculate();
+        double reg = 2;
+        if (MathFunctions.abs(reg - value) <= 1e-13)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
 }
