@@ -101,7 +101,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise returns random number.
 	 */
-	public static final double rndUniformContinuous(double a, double b, Random rnd) {
+	public static double rndUniformContinuous(double a, double b, Random rnd) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (b < a) return Double.NaN;
@@ -116,7 +116,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise returns random number.
 	 */
-	public static final double rndUniformContinuous(double a, double b) {
+	public static double rndUniformContinuous(double a, double b) {
 		return rndUniformContinuous(a, b, randomGenerator);
 	}
 	/**
@@ -125,7 +125,7 @@ public final class ProbabilityDistributions {
 	 * @param rnd     Random number generator.
 	 * @return        Random number.
 	 */
-	public static final double rndUniformContinuous(Random rnd) {
+	public static double rndUniformContinuous(Random rnd) {
 		return rnd.nextDouble();
 	}
 	/**
@@ -133,7 +133,7 @@ public final class ProbabilityDistributions {
 	 *
 	 * @return        Random number.
 	 */
-	public static final double randomUniformContinuous() {
+	public static double randomUniformContinuous() {
 		return rndUniformContinuous(randomGenerator);
 	}
 	/**
@@ -146,7 +146,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise function value.
 	 */
-	public static final double pdfUniformContinuous(double x, double a, double b) {
+	public static double pdfUniformContinuous(double x, double a, double b) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
@@ -170,7 +170,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise function value.
 	 */
-	public static final double cdfUniformContinuous(double x, double a, double b) {
+	public static double cdfUniformContinuous(double x, double a, double b) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
@@ -196,7 +196,7 @@ public final class ProbabilityDistributions {
 	 *                or q is lower than 0 or q is greater than 1 -
 	 *                otherwise function value.
 	 */
-	public static final double qntUniformContinuous(double q, double a, double b) {
+	public static double qntUniformContinuous(double q, double a, double b) {
 		if (Double.isNaN(q)) return Double.NaN;
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
@@ -220,7 +220,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise returns random number.
 	 */
-	public static final double rndInteger(int a, int b, Random rnd) {
+	public static double rndInteger(int a, int b, Random rnd) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (b < a) return Double.NaN;
@@ -238,7 +238,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise returns random number.
 	 */
-	public static final double rndInteger(int a, int b) {
+	public static double rndInteger(int a, int b) {
 		return rndInteger(a, b, randomGenerator);
 	}
 	/**
@@ -247,7 +247,7 @@ public final class ProbabilityDistributions {
 	 * @param rnd     Random number generator.
 	 * @return        Returns random number.
 	 */
-	public static final int rndInteger(Random rnd) {
+	public static int rndInteger(Random rnd) {
 		return rnd.nextInt();
 	}
 	/**
@@ -257,7 +257,7 @@ public final class ProbabilityDistributions {
 	 * @param rnd        Random number generator.
 	 * @return           if n &lt; 0 returns -1, otherwise random index.
 	 */
-	public static final int rndIndex(int n, Random rnd) {
+	public static int rndIndex(int n, Random rnd) {
 		if (n < 0) return -1;
 		return rnd.nextInt(n);
 	}
@@ -267,7 +267,7 @@ public final class ProbabilityDistributions {
 	 * @param n          Bound.
 	 * @return           if n &lt; 0 returns -1, otherwise random index.
 	 */
-	public static final int rndIndex(int n) {
+	public static int rndIndex(int n) {
 		if (n < 0) return -1;
 		return randomGenerator.nextInt(n);
 	}
@@ -277,7 +277,7 @@ public final class ProbabilityDistributions {
 	 * @return        Double.NaN if a or b is null, or b is lower than a -
 	 *                otherwise returns random number.
 	 */
-	public static final int rndInteger() {
+	public static int rndInteger() {
 		return rndInteger(randomGenerator);
 	}
 	/**
@@ -289,7 +289,7 @@ public final class ProbabilityDistributions {
 	 * @return                  Double.NaN if mean or stddev or rnd is null or stddev is lower than 0 -
 	 *                          otherwise random number.
 	 */
-	public static final double rndNormal(double mean, double stddev, Random rnd) {
+	public static double rndNormal(double mean, double stddev, Random rnd) {
 		if (Double.isNaN(mean)) return Double.NaN;
 		if (Double.isNaN(stddev)) return Double.NaN;
 		if (rnd == null) return Double.NaN;
@@ -325,7 +325,7 @@ public final class ProbabilityDistributions {
 	 * @return                  Double.NaN if mean or stddev is null or stddev is lower than 0 -
 	 *                          otherwise random number.
 	 */
-	public static final double rndNormal(double mean, double stddev) {
+	public static double rndNormal(double mean, double stddev) {
 		return rndNormal(mean, stddev, randomGenerator);
 	}
 	/**
@@ -337,7 +337,7 @@ public final class ProbabilityDistributions {
 	 * @return                  Double.NaN if mean or stddev is null or stddev is lower than 0 -
 	 *                          otherwise function value.
 	 */
-	public static final double pdfNormal(double x, double mean, double stddev) {
+	public static double pdfNormal(double x, double mean, double stddev) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(mean)) return Double.NaN;
 		if (Double.isNaN(stddev)) return Double.NaN;
@@ -360,7 +360,7 @@ public final class ProbabilityDistributions {
 	 * @return                  Double.NaN if mean or stddev is null or stddev is lower than 0 -
 	 *                          otherwise function value.
 	 */
-	public static final double cdfNormal(double x, double mean, double stddev) {
+	public static double cdfNormal(double x, double mean, double stddev) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(mean)) return Double.NaN;
 		if (Double.isNaN(stddev)) return Double.NaN;
@@ -384,7 +384,7 @@ public final class ProbabilityDistributions {
 	 *                          or q is lower than 0 or q is greater than 1 -
 	 *                          otherwise function value.
 	 */
-	public static final double qntNormal(double q, double mean, double stddev) {
+	public static double qntNormal(double q, double mean, double stddev) {
 		if (Double.isNaN(q)) return Double.NaN;
 		if (Double.isNaN(mean)) return Double.NaN;
 		if (Double.isNaN(stddev)) return Double.NaN;

@@ -13990,7 +13990,7 @@ public final class ExpressionTest {
         Expression testExp = new Expression(expStr);
         double value = testExp.calculate();
         double reg = 0;
-        if ( MathFunctions.abs(reg - value) <= 0.00000000001 )
+        if ( MathFunctions.abs(reg - value) <= 0.0000000001 )
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         mXparser.setDefaultEpsilon();
@@ -14076,7 +14076,7 @@ public final class ExpressionTest {
         Expression testExp = new Expression(expStr);
         double value = testExp.calculate();
         double reg = 0;
-        if ( MathFunctions.abs(reg - value) <= 0.0000000000001 )
+        if ( MathFunctions.abs(reg - value) <= 0.000000000001 )
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         mXparser.setDefaultEpsilon();

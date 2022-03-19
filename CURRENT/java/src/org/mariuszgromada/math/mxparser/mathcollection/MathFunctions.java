@@ -96,7 +96,7 @@ public final class MathFunctions {
 	 * @param b  The b parameter
 	 * @return   The result of addition
 	 */
-	public static final double plus(double a, double b) {
+	public static double plus(double a, double b) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (!mXparser.checkIfCanonicalRounding()) return a + b;
@@ -114,7 +114,7 @@ public final class MathFunctions {
 	 * @param b  The b parameter
 	 * @return   The result of subtraction
 	 */
-	public static final double minus(double a, double b) {
+	public static double minus(double a, double b) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (!mXparser.checkIfCanonicalRounding()) return a - b;
@@ -132,7 +132,7 @@ public final class MathFunctions {
 	 * @param b  The b parameter
 	 * @return   The result of multiplication
 	 */
-	public static final double multiply(double a, double b) {
+	public static double multiply(double a, double b) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
 		if (!mXparser.checkIfCanonicalRounding()) return a * b;
@@ -150,7 +150,7 @@ public final class MathFunctions {
 	 * @param b  The b parameter
 	 * @return   The result of division
 	 */
-	public static final double div(double a, double b) {
+	public static double div(double a, double b) {
 		if (b == 0) return Double.NaN;
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(b)) return Double.NaN;
@@ -169,7 +169,7 @@ public final class MathFunctions {
 	 * @return     if n &gt;= 0 returns Bell numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double bellNumber(int n) {
+	public static double bellNumber(int n) {
 		double result = Double.NaN;
 		if (n > 1) {
 			n -= 1;
@@ -196,7 +196,7 @@ public final class MathFunctions {
 	 * @return     if n &lt;&gt; Double.NaN return bellNumber( (int)Math.round(n) ),
 	 *             otherwise return Double.NaN.
 	 */
-	public static final double bellNumber(double n) {
+	public static double bellNumber(double n) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return bellNumber( (int)Math.round(n) );
@@ -210,7 +210,7 @@ public final class MathFunctions {
 	 * @return     if n &gt;=0 returns Euler number,
 	 *             otherwise return Double.NaN.
 	 */
-	public static final double eulerNumber(int n, int k) {
+	public static double eulerNumber(int n, int k) {
 		if ( n < 0)
 			return Double.NaN;
 		if (k < 0)
@@ -232,7 +232,7 @@ public final class MathFunctions {
 	 * @return     if n, k &lt;&gt; Double.NaN returns eulerNumber( (int)Math.round(n), (int)Math.round(k) ),
 	 *             otherwise return Double.NaN.
 	 */
-	public static final double eulerNumber(double n, double k) {
+	public static double eulerNumber(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
 		return eulerNumber( (int)Math.round(n), (int)Math.round(k) );
@@ -244,7 +244,7 @@ public final class MathFunctions {
 	 *
 	 * @return     Factorial if n &gt;=0, otherwise returns Double.NaN.
 	 */
-	public static final double factorial(int n) {
+	public static double factorial(int n) {
 		double f = Double.NaN;
 		if (n >= 0)
 			if (n < 2) f = 1;
@@ -265,7 +265,7 @@ public final class MathFunctions {
 	 * @return     if n &lt;&gt; Double.NaN return factorial( (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double factorial(double n) {
+	public static double factorial(double n) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return factorial( (int)Math.round(n) );
@@ -279,7 +279,7 @@ public final class MathFunctions {
 	 * @return     Generalized binomial coefficient, if
 	 *             n = Double.NaN or k &lt; 0 returns Double.NaN.
 	 */
-	public static final double binomCoeff(double n, long k) {
+	public static double binomCoeff(double n, long k) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -309,7 +309,7 @@ public final class MathFunctions {
 	 * @return     if n, k &lt;&gt; Double.NaN returns binomCoeff(n, (int)Math.round(k) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double binomCoeff(double n, double k) {
+	public static double binomCoeff(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
 		return binomCoeff(n, (long)Math.round(k) );
@@ -324,7 +324,7 @@ public final class MathFunctions {
 	 * @return   For k greater than 0 return number of permutations, otherwise
 	 *           returns Double.NaN
 	 */
-	public static final double numberOfPermutations(double n, long k) {
+	public static double numberOfPermutations(double n, long k) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -349,7 +349,7 @@ public final class MathFunctions {
 	 * @return   For k greater than 0 return number of permutations, otherwise
 	 *           returns Double.NaN
 	 */
-	public static final double numberOfPermutations(double n, double k) {
+	public static double numberOfPermutations(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
 		return numberOfPermutations(n, (long)Math.round(k) );
@@ -363,7 +363,7 @@ public final class MathFunctions {
 	 * @return     if n, m &gt;= 0 returns Bernoulli number,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double bernoulliNumber(int m, int n) {
+	public static double bernoulliNumber(int m, int n) {
 		double result = Double.NaN;
 		if ( (m >= 0) && (n >= 0) ) {
 			result = 0;
@@ -385,7 +385,7 @@ public final class MathFunctions {
 	 * @return     if n, m &lt;&gt; Double.NaN returns bernoulliNumber( (int)Math.round(m), (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double bernoulliNumber(double m, double n) {
+	public static double bernoulliNumber(double m, double n) {
 		if (Double.isNaN(m) || Double.isNaN(n))
 			return Double.NaN;
 		return bernoulliNumber( (int)Math.round(m), (int)Math.round(n) );
@@ -398,7 +398,7 @@ public final class MathFunctions {
 	 *
 	 * @return     Stirling numbers of the first kind
 	 */
-	public static final double Stirling1Number(int n, int k) {
+	public static double Stirling1Number(int n, int k) {
 		if (k > n)
 			return 0;
 		if (n == 0)
@@ -423,7 +423,7 @@ public final class MathFunctions {
 	 * @return     if n, k &lt;&gt; Doube.NaN returns Stirling1Number( (int)Math.round(n), (int)Math.round(k) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double Stirling1Number(double n, double k) {
+	public static double Stirling1Number(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
 		return Stirling1Number( (int)Math.round(n), (int)Math.round(k) );
@@ -436,7 +436,7 @@ public final class MathFunctions {
 	 *
 	 * @return     Stirling numbers of the second kind
 	 */
-	public static final double Stirling2Number(int n, int k) {
+	public static double Stirling2Number(int n, int k) {
 		if (k > n)
 			return 0;
 		if (n == 0)
@@ -461,7 +461,7 @@ public final class MathFunctions {
 	 * @return     if n, k &lt;&gt; Doube.NaN returns Stirling2Number( (int)Math.round(n), (int)Math.round(k) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double Stirling2Number(double n, double k) {
+	public static double Stirling2Number(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
 		return Stirling2Number( (int)Math.round(n), (int)Math.round(k) );
@@ -475,7 +475,7 @@ public final class MathFunctions {
 	 * @return     if n,k &gt;= 0 and k &lt;= n return Worpitzky number,
 	 *             otherwise return Double.NaN.
 	 */
-	public static final double worpitzkyNumber(int n, int k) {
+	public static double worpitzkyNumber(int n, int k) {
 		double result = Double.NaN;
 		if ( (n >= 0) && (k >= 0) && (k <= n) ){
 			result = 0;
@@ -495,7 +495,7 @@ public final class MathFunctions {
 	 * @return     if n,k &lt;&gt; Double.NaN returns worpitzkyNumber( (int)Math.round(n), (int)Math.round(k) ),
 	 *             otherwise return Double.NaN.
 	 */
-	public static final double worpitzkyNumber(double n, double k) {
+	public static double worpitzkyNumber(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
 		return worpitzkyNumber( (int)Math.round(n), (int)Math.round(k) );
@@ -508,7 +508,7 @@ public final class MathFunctions {
 	 * @return     if n &gt; 0 returns harmonic number, otherwise returns 0
 	 *             (empty summation operator)
 	 */
-	public static final double harmonicNumber(int n) {
+	public static double harmonicNumber(int n) {
 		if (n <= 0)
 			return 0;
 		if (n == 1)
@@ -528,7 +528,7 @@ public final class MathFunctions {
 	 * @return     if n &lt;&gt; Double.NaN returns harmonicNumber( (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN
 	 */
-	public static final double harmonicNumber(double n) {
+	public static double harmonicNumber(double n) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return harmonicNumber( (int)Math.round(n) );
@@ -542,7 +542,7 @@ public final class MathFunctions {
 	 * @return     if x &lt;&gt; Double.NaN and x &gt;= 0 Harmonic number,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double harmonicNumber(double x, int n) {
+	public static double harmonicNumber(double x, int n) {
 		if  ( (Double.isNaN(x)) || (x < 0) )
 			return Double.NaN;
 		if (n <= 0)
@@ -565,7 +565,7 @@ public final class MathFunctions {
 	 * @return     if x,n &lt;&gt; Double.NaN returns harmonicNumber( x, (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double harmonicNumber(double x, double n) {
+	public static double harmonicNumber(double x, double n) {
 		if ( (Double.isNaN(x)) || (Double.isNaN(n)) )
 			return Double.NaN;
 		return harmonicNumber( x, (int)Math.round(n) );
@@ -577,7 +577,7 @@ public final class MathFunctions {
 	 *
 	 * @return     Catalan numbers
 	 */
-	public static final double catalanNumber(int n) {
+	public static double catalanNumber(int n) {
 		return binomCoeff(2*n, n) * div(1, n+1);
 	}
 	/**
@@ -588,7 +588,7 @@ public final class MathFunctions {
 	 * @return     if n &lt;&gt; Double.NaN returns catalanNumber( (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double catalanNumber(double n) {
+	public static double catalanNumber(double n) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return catalanNumber( (int)Math.round(n) );
@@ -601,7 +601,7 @@ public final class MathFunctions {
 	 * @return     if n &gt;= 0 returns fibonacci numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public final static double fibonacciNumber(int n) {
+	public static double fibonacciNumber(int n) {
 		if (n < 0 )
 			return Double.NaN;
 		if (n == 0)
@@ -619,7 +619,7 @@ public final class MathFunctions {
 	 * @return     if n &lt;&gt; Double.NaN returns fibonacciNumber( (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public final static double fibonacciNumber(double n) {
+	public static double fibonacciNumber(double n) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return fibonacciNumber( (int)Math.round(n) );
@@ -632,7 +632,7 @@ public final class MathFunctions {
 	 * @return     if n &gt;= 0 returns Lucas numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public final static double lucasNumber(int n) {
+	public static double lucasNumber(int n) {
 		if (n < 0 )
 			return Double.NaN;
 		if (n == 0)
@@ -650,7 +650,7 @@ public final class MathFunctions {
 	 * @return     if n &lt;&gt; Double.NaN returns lucasNumber( (int)Math.round(n) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public final static double lucasNumber(double n) {
+	public static double lucasNumber(double n) {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return lucasNumber( (int)Math.round(n) );
@@ -664,7 +664,7 @@ public final class MathFunctions {
 	 * @return     if i,j &lt;&gt; Double.NaN returns Kronecker delta,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double kroneckerDelta(double i, double j) {
+	public static double kroneckerDelta(double i, double j) {
 		if (Double.isNaN(i) || Double.isNaN(j))
 			return Double.NaN;
 		if (i == j)
@@ -680,7 +680,7 @@ public final class MathFunctions {
 	 *
 	 * @return     Kronecker delta
 	 */
-	public static final double kroneckerDelta(int i, int j) {
+	public static double kroneckerDelta(int i, int j) {
 		if (i == j)
 			return 1;
 		else
@@ -695,7 +695,7 @@ public final class MathFunctions {
 	 *             there is no division by 0 while computing returns continued fraction
 	 *             value, otherwise returns Double.NaN.
 	 */
-	public static final double continuedFraction(double... sequence) {
+	public static double continuedFraction(double... sequence) {
 		if (sequence == null) return Double.NaN;
 		if (sequence.length == 0) return Double.NaN;
 		double cf = 0;
@@ -727,7 +727,7 @@ public final class MathFunctions {
 	 *
 	 * @return     continued polynomial value
 	 */
-	private static final double continuedPolynomial(int n, double[] x) {
+	private static double continuedPolynomial(int n, double[] x) {
 		if (x == null) return Double.NaN;
 		if (x.length == 0) return Double.NaN;
 		if (n == 0)
@@ -746,7 +746,7 @@ public final class MathFunctions {
 	 *             returns continued polynomial, otherwise returns
 	 *             Double.NaN.
 	 */
-	public static final double continuedPolynomial(double... x) {
+	public static double continuedPolynomial(double... x) {
 		if (x == null) return Double.NaN;
 		if (x.length == 0) return Double.NaN;
 		for (double d : x) {
@@ -765,7 +765,7 @@ public final class MathFunctions {
 	 * @return     if x &lt;&gt; Double.NaN and m &gt;= 0 returns polynomial value,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double eulerPolynomial(int m, double x) {
+	public static double eulerPolynomial(int m, double x) {
 		if (Double.isNaN(x))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -790,7 +790,7 @@ public final class MathFunctions {
 	 * @return     if x,m &lt;&gt; Double.NaN returns eulerPolynomial( (int)Math.round(m), (int)Math.round(x) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double eulerPolynomial(double m, double x) {
+	public static double eulerPolynomial(double m, double x) {
 		if (Double.isNaN(m) || Double.isNaN(x))
 			return Double.NaN;
 		return eulerPolynomial( (int)Math.round(m), (int)Math.round(x) );
@@ -805,7 +805,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the (a,b) range.
 	 */
-	public static final double chi(double x, double a, double b) {
+	public static double chi(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -826,7 +826,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the [a,b] range.
 	 */
-	public static final double chi_LR(double x, double a, double b) {
+	public static double chi_LR(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -847,7 +847,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the [a,b) range.
 	 */
-	public static final double chi_L(double x, double a, double b) {
+	public static double chi_L(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -868,7 +868,7 @@ public final class MathFunctions {
 	 * @return     if x, a, b &lt;&gt; Double.NaN returns
 	 * 			   characteristic function value on the (a,b] range.
 	 */
-	public static final double chi_R(double x, double a, double b) {
+	public static double chi_R(double x, double a, double b) {
 		if (Double.isNaN(x) || Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -888,7 +888,7 @@ public final class MathFunctions {
 	 * @return   True if the number is almost integer according to the default epsilon,
 	 *           otherwise returns false.
 	 */
-	public static final boolean isAlmostInt(double a) {
+	public static boolean isAlmostInt(double a) {
 		double aint = Math.round(a);
 		if (abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
 		else return false;
@@ -900,7 +900,7 @@ public final class MathFunctions {
 	 * @param n   The integer exponent
 	 * @return    Return a to the power of n, if canonical rounding is enable, the it operates on big numbers
 	 */
-	private static final double powInt(double a, int n) {
+	private static double powInt(double a, int n) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isInfinite(a)) Math.pow(a, n);
 		if (a == 0) return Math.pow(a, n);
@@ -923,7 +923,7 @@ public final class MathFunctions {
 	 * @return     if a,b &lt;&gt; Double.NaN returns Math.pow(a, b),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double power(double a, double b) {
+	public static double power(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		if (Double.isInfinite(a)) Math.pow(a, b);
@@ -961,7 +961,7 @@ public final class MathFunctions {
 	 * @param x   Number
 	 * @return    Returns root of a number. If calculation is not possible Double.NaN is returned.
 	 */
-	public static final double root(double n, double x) {
+	public static double root(double n, double x) {
 		if (Double.isNaN(n) || Double.isNaN(n)) return Double.NaN;
 		if (Double.isInfinite(n) || Double.isInfinite(n)) return Double.NaN;
 		if (n < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
@@ -988,7 +988,7 @@ public final class MathFunctions {
 	 * @param n   exponent
 	 * @return    Tetration result.
 	 */
-	public static final double tetration(double a, double n) {
+	public static double tetration(double a, double n) {
 		if (Double.isNaN(a)) return Double.NaN;
 		if (Double.isNaN(n)) return Double.NaN;
 		if (n == Double.POSITIVE_INFINITY) {
@@ -1032,7 +1032,7 @@ public final class MathFunctions {
 	 *
 	 * @return     if a,b &lt;&gt; Double.NaN returns a % b.
 	 */
-	public static final double mod(double a, double b) {
+	public static double mod(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		return a % b;
@@ -1064,7 +1064,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN return Math.sin(a),
 	 *             otherwise return Double.NaN.
 	 */
-	public static final double sin(double a) {
+	public static double sin(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
@@ -1082,7 +1082,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.cos(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double cos(double a) {
+	public static double cos(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
@@ -1100,7 +1100,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.tan(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double tan(double a) {
+	public static double tan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
@@ -1118,7 +1118,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and tan(a) &lt;&gt; 0 returns 1 / Math.tan(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double ctan(double a) {
+	public static double ctan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
@@ -1140,7 +1140,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and cos(a) &lt;&gt; 0 returns 1 / Math.cos(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sec(double a) {
+	public static double sec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
@@ -1162,7 +1162,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and sin(a) &lt;&gt; 0 returns 1 / Math.sin(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double cosec(double a) {
+	public static double cosec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		if (mXparser.checkIfDegreesMode())
@@ -1181,7 +1181,7 @@ public final class MathFunctions {
 	 * @param val   Parameter
 	 * @return      f double is almost integer returns the closest integer, otherwise original value
 	 */
-	private static final double intIfAlmostIntOtherwiseOrig(double val) {
+	private static double intIfAlmostIntOtherwiseOrig(double val) {
 		double valint = Math.round(val);
 		if ( Math.abs(val-valint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) return valint;
 		return val;
@@ -1194,7 +1194,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.asin(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double asin(double a) {
+	public static double asin(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAsin(a);
@@ -1214,7 +1214,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.acos(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double acos(double a) {
+	public static double acos(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAcos(a);
@@ -1234,7 +1234,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.atan(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double atan(double a) {
+	public static double atan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAtan(a);
@@ -1255,7 +1255,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.atan(1/a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double actan(double a) {
+	public static double actan(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueActan(a);
@@ -1278,7 +1278,7 @@ public final class MathFunctions {
 	 * @param      a                   the a function parameter
 	 * @return     Inverse trigonometric secant function
 	 */
-	public static final double asec(double a) {
+	public static double asec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAsec(a);
@@ -1297,7 +1297,7 @@ public final class MathFunctions {
 	 * @param      a                   the a function parameter
 	 * @return     Inverse trigonometric cosecant function
 	 */
-	public static final double acosec(double a) {
+	public static double acosec(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		SpecialValue sv = SpecialValueTrigonometric.getSpecialValueAcsc(a);
@@ -1318,7 +1318,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.log(1/a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double ln(double a) {
+	public static double ln(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.log(a);
@@ -1331,7 +1331,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.log(a)/Math.log(2.0),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double log2(double a) {
+	public static double log2(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.log(a)/Math.log(2.0);
@@ -1344,7 +1344,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.log10(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double log10(double a) {
+	public static double log10(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.log10(a);
@@ -1357,7 +1357,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.toRadians(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double rad(double a) {
+	public static double rad(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.toRadians(a);
@@ -1370,7 +1370,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.exp(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double exp(double a) {
+	public static double exp(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.exp(a);
@@ -1383,7 +1383,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.sqrt(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	 public static final double sqrt(double a) {
+	 public static double sqrt(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.sqrt(a);
@@ -1396,7 +1396,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.sinh(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sinh(double a) {
+	public static double sinh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.sinh(a);
@@ -1409,7 +1409,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.cosh(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double cosh(double a) {
+	public static double cosh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.cosh(a);
@@ -1422,7 +1422,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.tanh(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double tanh(double a) {
+	public static double tanh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.tanh(a);
@@ -1435,7 +1435,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and tanh(a) &lt;&gt; 0 returns 1 / Math.tanh(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double coth(double a) {
+	public static double coth(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1452,7 +1452,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and cosh(a) &lt;&gt; 0 returns 1 / Math.cosh(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sech(double a) {
+	public static double sech(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1469,7 +1469,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and sinh(a) &lt;&gt; 0 returns 1 / Math.sinh(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double csch(double a) {
+	public static double csch(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1486,7 +1486,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.toDegrees(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double deg(double a) {
+	public static double deg(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.toDegrees(a);
@@ -1499,7 +1499,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.abs(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double abs(double a) {
+	public static double abs(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.abs(a);
@@ -1512,7 +1512,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.signum(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sgn(double a) {
+	public static double sgn(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.signum(a);
@@ -1525,7 +1525,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.floor(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double floor(double a) {
+	public static double floor(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.floor(a);
@@ -1538,7 +1538,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.ceil(a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double ceil(double a) {
+	public static double ceil(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.ceil(a);
@@ -1551,7 +1551,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.log(a + Math.sqrt(a*a+1)),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double arsinh(double a) {
+	public static double arsinh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.log(a + Math.sqrt(a*a+1));
@@ -1564,7 +1564,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN returns Math.log(a + Math.sqrt(a*a-1)),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double arcosh(double a) {
+	public static double arcosh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		return Math.log(a + Math.sqrt(a*a-1));
@@ -1577,7 +1577,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and 1-a &lt;&gt; 0 returns 0.5*Math.log( (1+a)/(1-a) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double artanh(double a) {
+	public static double artanh(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1593,7 +1593,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and a-1 &lt;&gt; 0 returns 0.5*Math.log( (a+1)/(a-1) );,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double arcoth(double a) {
+	public static double arcoth(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1609,7 +1609,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.log( (1+Math.sqrt(1-a*a))/a);,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double arsech(double a) {
+	public static double arsech(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1625,7 +1625,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.log( (1+Math.sqrt(1-a*a))/a);,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double arcsch(double a) {
+	public static double arcsch(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1641,7 +1641,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.sin(PI*a) / (PI*a);,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sa(double a) {
+	public static double sa(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double x = MathConstants.PI * a;
@@ -1660,7 +1660,7 @@ public final class MathFunctions {
 	 * @return     if a &lt;&gt; Double.NaN and a &lt;&gt; 0 returns Math.sin(a) / (a),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sinc(double a) {
+	public static double sinc(double a) {
 		if (Double.isNaN(a))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1682,7 +1682,7 @@ public final class MathFunctions {
 	 * @return     if a,b &lt;&gt; Double.NaN and log(b) &lt;&gt; 0 returns Math.log(a) / Math.log(b),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double log(double a, double b) {
+	public static double log(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		double result = Double.NaN;
@@ -1698,7 +1698,7 @@ public final class MathFunctions {
 	 * @param places   decimal places
 	 * @return         Rounded value
 	 */
- 	public static final double round(double value, int places) {
+ 	public static double round(double value, int places) {
 		if (Double.isNaN(value)) return Double.NaN;
 		if (Double.isInfinite(value)) return value;
 		if (places < 0) return Double.NaN;
@@ -1713,7 +1713,7 @@ public final class MathFunctions {
 	 * @param places   decimal places
 	 * @return         Rounded value
 	 */
- 	public static final double roundHalfUp(double value, int places) {
+ 	public static double roundHalfUp(double value, int places) {
  		if (Double.isNaN(value)) return Double.NaN;
 		if (places < 0) return Double.NaN;
  		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
@@ -1745,7 +1745,7 @@ public final class MathFunctions {
 	 * @param places   decimal places
 	 * @return         Rounded value
 	 */
- 	public static final double roundDown(double value, int places) {
+ 	public static double roundDown(double value, int places) {
  		if (Double.isNaN(value)) return Double.NaN;
 		if (places < 0) return Double.NaN;
  		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
@@ -1780,7 +1780,7 @@ public final class MathFunctions {
  	 * @see MathFunctions#decimalDigitsBefore(double)
  	 * @see MathFunctions#ulp(double)
  	 */
-	public static final double roundUlp(double number) {
+	public static double roundUlp(double number) {
 		if ( (Double.isNaN(number) ) || (Double.isInfinite(number)) || (number == 0) )
 			return number;
 		else {
@@ -1798,7 +1798,7 @@ public final class MathFunctions {
  	 * @return For non- negative x returns Math.floor(x),
  	 *         otherwise returns -Math.floor(-x)
  	 */
- 	public static final double integerPart(double x) {
+ 	public static double integerPart(double x) {
  		if (x > 0) return Math.floor(x);
  		else if (x < 0) return -Math.floor(-x);
  		else return 0;
@@ -1810,7 +1810,7 @@ public final class MathFunctions {
  	 * @param value Double value, small one.
  	 * @return Number of digits, number of places.
  	 */
-	public static final int decimalDigitsBefore(double value) {
+	public static int decimalDigitsBefore(double value) {
 		if (value == 0) return -1;
 		if (value <= 1e-322) return 322;
 		else if (value <= 1e-321) return 321;
@@ -2142,7 +2142,7 @@ public final class MathFunctions {
 	 * @param value Double number
 	 * @return ULP for a given double.
 	 */
-	public static final double ulp(double value) {
+	public static double ulp(double value) {
 		return Math.ulp(value);
 	}
 	/**
@@ -2153,7 +2153,7 @@ public final class MathFunctions {
 	 *                Returned proper value is always between -1 and +322.
 	 *                If value is NaN then -2 is returned.
 	 */
-	public static final int ulpDecimalDigitsBefore(double value) {
+	public static int ulpDecimalDigitsBefore(double value) {
 		if (Double.isNaN(value)) return -2;
 		double u = ulp(value);
 		return decimalDigitsBefore(u);
@@ -2166,7 +2166,7 @@ public final class MathFunctions {
 	 *                 then returns Double.NaN, if list contains no elements
 	 *                 then returns Double.NaN.
 	 */
-	public static final double coalesce(double[] values) {
+	public static double coalesce(double[] values) {
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		for (double v : values) {
@@ -2183,7 +2183,7 @@ public final class MathFunctions {
 	 *
 	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
 	 */
-	public static final boolean isInteger(double x) {
+	public static boolean isInteger(double x) {
 		if (Double.isNaN(x)) return false;
 		if (x == Double.POSITIVE_INFINITY) return false;
 		if (x == Double.NEGATIVE_INFINITY) return false;
@@ -2201,7 +2201,7 @@ public final class MathFunctions {
 	 *
 	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
 	 */
-	public static final boolean almostEqual(double a, double b) {
+	public static boolean almostEqual(double a, double b) {
 		if (Double.isNaN(a)) return false;
 		if (Double.isNaN(b)) return false;
 		if (a == b) return true;

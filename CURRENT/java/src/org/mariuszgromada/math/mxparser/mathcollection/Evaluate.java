@@ -89,7 +89,7 @@ public final class Evaluate {
 	 * @param coefficients       Polynomial coefficients
 	 * @return                   Polynomial value
 	 */
-	public static final double polynomial(double x, double[] coefficients) {
+	public static double polynomial(double x, double[] coefficients) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (coefficients == null) return Double.NaN;
 		if (coefficients.length == 0) return Double.NaN;
@@ -110,7 +110,7 @@ public final class Evaluate {
 	 * @param n      Polynomial degree
 	 * @return Polynomial value
 	 */
-	public static final double p1evl(double x, double[] coef, int n) {
+	public static double p1evl(double x, double[] coef, int n) {
 		double ans;
 		ans = x + coef[0];
 		for(int i=1; i<n; i++) { ans = ans*x+coef[i]; }
@@ -123,7 +123,7 @@ public final class Evaluate {
 	 * @param n      Polynomial degree
 	 * @return Polynomial value
 	 */
-	public static final double polevl(double x, double[] coef, int n) {
+	public static double polevl(double x, double[] coef, int n) {
 		double ans;
 		ans = coef[0];
 		for(int i=1; i<=n; i++) ans = ans*x+coef[i];

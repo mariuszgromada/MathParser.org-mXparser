@@ -203,7 +203,7 @@ public final class SpecialFunctions {
 	 * @param x   Point at which function will be evaluated.
 	 * @return Logarithmic integral function li(x)
 	 */
-	public static final double logarithmicIntegralLi(double x) {
+	public static double logarithmicIntegralLi(double x) {
 		if (Double.isNaN(x))
 			return Double.NaN;
 		if (x < 0)
@@ -219,7 +219,7 @@ public final class SpecialFunctions {
 	 * @param x   Point at which function will be evaluated.
 	 * @return Offset logarithmic integral function Li(x)
 	 */
-	public static final double offsetLogarithmicIntegralLi(double x) {
+	public static double offsetLogarithmicIntegralLi(double x) {
 		if (Double.isNaN(x))
 			return Double.NaN;
 		if (x < 0)
@@ -233,7 +233,7 @@ public final class SpecialFunctions {
 	 * @param x   Point at which function will be evaluated.
 	 * @return    Error function erf(x)
 	 */
-	public static final double erf(double x) {
+	public static double erf(double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == 0) return 0;
 		if (x == Double.POSITIVE_INFINITY) return 1.0;
@@ -245,7 +245,7 @@ public final class SpecialFunctions {
 	 * @param x   Point at which function will be evaluated.
 	 * @return    Complementary error function erfc(x)
 	 */
-	public static final double erfc(double x) {
+	public static double erfc(double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == 0) return 1;
 		if (x == Double.POSITIVE_INFINITY) return 0.0;
@@ -257,7 +257,7 @@ public final class SpecialFunctions {
 	 * @param x   Point at which function will be evaluated.
 	 * @return    Inverse error function erfInv(x)
 	 */
-	public static final double erfInv(double x) {
+	public static double erfInv(double x) {
 		if (x == 0.0) return 0;
 		if (x >= 1.0) return Double.POSITIVE_INFINITY;
 		if (x <= -1.0) return Double.NEGATIVE_INFINITY;
@@ -279,7 +279,7 @@ public final class SpecialFunctions {
 	 * @param invert
 	 * @return
 	 */
-	private static final double erfImp(double z, boolean invert) {
+	private static double erfImp(double z, boolean invert) {
     	if (z < 0) {
         	if (!invert) return -erfImp(-z, false);
         	if (z < -0.5) return 2 - erfImp(-z, true);
@@ -348,7 +348,7 @@ public final class SpecialFunctions {
 	 * @param z   Point at which function will be evaluated.
 	 * @return    Inverse of complementary inverse error function erfcInv(x)
 	 */
-	public static final double erfcInv(double z) {
+	public static double erfcInv(double z) {
 		if (z <= 0.0) return Double.POSITIVE_INFINITY;
         if (z >= 2.0) return Double.NEGATIVE_INFINITY;
         double p, q, s;
@@ -370,7 +370,7 @@ public final class SpecialFunctions {
 	 * @param s
 	 * @return
 	 */
-	private static final double erfInvImpl(double p, double q, double s) {
+	private static double erfInvImpl(double p, double q, double s) {
     	double result;
     	if (p <= 0.5) {
     		final float y = 0.0891314744949340820313f;
@@ -419,7 +419,7 @@ public final class SpecialFunctions {
 	 * @param n Integer number
 	 * @return  Returns Gamma function for the integers.
 	 */
-	private static final double gammaInt(long n) {
+	private static double gammaInt(long n) {
 		if (n == 0) return MathConstants.EULER_MASCHERONI;
 		if (n == 1) return 1;
 		if (n == 2) return 1;
@@ -447,7 +447,7 @@ public final class SpecialFunctions {
 	 * @param x   Argument value
 	 * @return  Returns gamma function value.
 	 */
-	public static final double gamma(double x) {
+	public static double gamma(double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
 		if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
@@ -467,7 +467,7 @@ public final class SpecialFunctions {
 	 * @param x    Function parameter
 	 * @return     Gamma function value (Lanchos approx).
 	 */
-	public static final double lanchosGamma(double x) {
+	public static double lanchosGamma(double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 
 		double xabs = MathFunctions.abs(x);
@@ -552,7 +552,7 @@ public final class SpecialFunctions {
 	 * @param x Argument value
 	 * @return  Returns signum of the gamma(x)
 	 */
-	public static final double sgnGamma(double x) {
+	public static double sgnGamma(double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (x == Double.POSITIVE_INFINITY) return 1;
 		if (x == Double.NEGATIVE_INFINITY) return Double.NaN;
@@ -570,7 +570,7 @@ public final class SpecialFunctions {
 	 * @param x  Argument value
 	 * @return Value of the regularized lower gamma function 'P'.
 	 */
-	public static final double regularizedGammaLowerP(double s, double x) {
+	public static double regularizedGammaLowerP(double s, double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(s)) return Double.NaN;
 		if (MathFunctions.almostEqual(x, 0)) return 0;
@@ -660,7 +660,7 @@ public final class SpecialFunctions {
 	 * @param x   Argument value
 	 * @return Value of the incomplete lower gamma function.
 	 */
-	public static final double incompleteGammaLower(double s, double x) {
+	public static double incompleteGammaLower(double s, double x) {
 		return gamma(s) * regularizedGammaLowerP(s, x);
 	}
 	/**
@@ -669,7 +669,7 @@ public final class SpecialFunctions {
 	 * @param x  Argument value
 	 * @return Value of the regularized upper gamma function 'Q'.
 	 */
-	public static final double regularizedGammaUpperQ(double s, double x) {
+	public static double regularizedGammaUpperQ(double s, double x) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(s)) return Double.NaN;
 		if (MathFunctions.almostEqual(x, 0)) return 1;
@@ -739,7 +739,7 @@ public final class SpecialFunctions {
 	 * @param x   Argument value
 	 * @return Value of the incomplete upper gamma function.
 	 */
-	public static final double incompleteGammaUpper(double s, double x) {
+	public static double incompleteGammaUpper(double s, double x) {
 		return gamma(s) * regularizedGammaUpperQ(s, x);
 	}
 	/**
@@ -747,7 +747,7 @@ public final class SpecialFunctions {
 	 * @param x   Argument value
 	 * @return Approximated value of the digamma function.
 	 */
-	public static final double diGamma(double x) {
+	public static double diGamma(double x) {
 		final double c = 12.0;
 		final double d1 = -0.57721566490153286;
 		final double d2 = 1.6449340668482264365;
@@ -998,7 +998,7 @@ public final class SpecialFunctions {
 	 * @param maxIter   Maximum number of iteration
 	 * @return          Halley iteration value if succesfull, otherwise Double.NaN
 	 */
-	private static final double halleyIteration(double x, double wInitial, int maxIter) {
+	private static double halleyIteration(double x, double wInitial, int maxIter) {
 		double w = wInitial;
 		double tol = 1;
 		double t = 0, p, e;
@@ -1022,7 +1022,7 @@ public final class SpecialFunctions {
 	 * @param r
 	 * @return Ner zero approximation
 	 */
-	private static final double seriesEval(double r) {
+	private static double seriesEval(double r) {
 		double t8 = Coefficients.lambertWqNearZero[8] + r * (Coefficients.lambertWqNearZero[9] + r * (Coefficients.lambertWqNearZero[10] + r * Coefficients.lambertWqNearZero[11]));
 		double t5 = Coefficients.lambertWqNearZero[5] + r * (Coefficients.lambertWqNearZero[6] + r * (Coefficients.lambertWqNearZero[7] + r * t8));
 		double t1 = Coefficients.lambertWqNearZero[1] + r * (Coefficients.lambertWqNearZero[2] + r * (Coefficients.lambertWqNearZero[3] + r * (Coefficients.lambertWqNearZero[4] + r * t5)));
@@ -1033,7 +1033,7 @@ public final class SpecialFunctions {
 	 * @param x
 	 * @return Approximation of principal branch of Lambert-W function
 	 */
-	private static final double lambertW0(double x) {
+	private static double lambertW0(double x) {
 		if (Math.abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
 		if (Math.abs(x + MathConstants.EXP_MINUS_1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -1;
 		if (Math.abs(x - 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return MathConstants.OMEGA;
@@ -1061,7 +1061,7 @@ public final class SpecialFunctions {
 	 * @param x
 	 * @return Approxmiation of minus 1 branch of Lambert-W function
 	 */
-	private static final double lambertW1(double x) {
+	private static double lambertW1(double x) {
 		if (x >= -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 		if (x < -MathConstants.EXP_MINUS_1) return Double.NaN;
 		if (Math.abs(x + MathConstants.EXP_MINUS_1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return -1;
@@ -1082,7 +1082,7 @@ public final class SpecialFunctions {
 	 * @return       Principal branch for x greater or equal than -1/e, otherwise Double.NaN.
 	 *               Minus 1 branch for x greater or equal than -1/e and lower than 0, otherwise Double.NaN.
 	 */
-	public static final double lambertW(double x, double branch) {
+	public static double lambertW(double x, double branch) {
 		if (Double.isNaN(x)) return Double.NaN;
 		if (Double.isNaN(branch)) return Double.NaN;
 		if (Math.abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0(x);

@@ -952,14 +952,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				res = r;
 				sres = rs;
 			}
-#if NETCOREAPP3_0 || NETCOREAPP3_1
 			double resround = MathFunctions.round(res, MathFunctions.ulpDecimalDigitsBefore(res));
 			String sresround = resround.ToString(CultureInfo.InvariantCulture);
 			if (sres.Length - sresround.Length >= 4) return resround;
 			else return res;
-#else
-			return res;
-#endif
 		}
 		/**
 		 * Applies the integer exponent to the base a

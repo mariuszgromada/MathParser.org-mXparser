@@ -8087,7 +8087,7 @@ public class Expression extends PrimitiveElement {
 	/*
 	 * Text adjusting.
 	 */
-	private static final String getLeftSpaces(String maxStr, String str) {
+	private static String getLeftSpaces(String maxStr, String str) {
 		String spc = "";
 		for (int i=0; i<maxStr.length() - str.length(); i++)
 			spc = spc + " ";
@@ -8096,7 +8096,7 @@ public class Expression extends PrimitiveElement {
 	/*
 	 * Text adjusting.
 	 */
-	private static final String getRightSpaces(String maxStr, String str) {
+	private static String getRightSpaces(String maxStr, String str) {
 		String spc = "";
 		for (int i=0; i<maxStr.length() - str.length(); i++)
 			spc = " " + spc;
@@ -8266,7 +8266,7 @@ public class Expression extends PrimitiveElement {
 	/*
 	 * show tokens
 	 */
-	static final void showTokens(List<Token> tokensList) {
+	static void showTokens(List<Token> tokensList) {
 		String maxStr = "TokenTypeId";
 		mXparser.consolePrintln(" --------------------");
 		mXparser.consolePrintln("| Expression tokens: |");

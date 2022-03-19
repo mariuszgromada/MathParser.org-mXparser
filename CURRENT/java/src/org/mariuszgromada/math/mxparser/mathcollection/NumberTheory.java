@@ -101,7 +101,7 @@ public final class NumberTheory {
 	 * @param n initial search size, has to be non-zero positive.
 	 * @see NumberTheory#toFraction(double)
 	 */
-	public static final void setToFractionInitSearchSize(long n) {
+	public static void setToFractionInitSearchSize(long n) {
 		if (n >= 0) TO_FRACTION_INIT_SEARCH_SIZE = n;
 	}
 	/**
@@ -110,7 +110,7 @@ public final class NumberTheory {
 	 * @return initial search size used by the toFraction method
 	 * @see NumberTheory#toFraction(double)
 	 */
-	public static final long getToFractionInitSearchSize() {
+	public static long getToFractionInitSearchSize() {
 		return TO_FRACTION_INIT_SEARCH_SIZE;
 	}
 	/**
@@ -122,7 +122,7 @@ public final class NumberTheory {
 	 * @return     if a,b &lt;&gt; Double.NaN returns Math.min(a, b),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double min(double a, double b) {
+	public static double min(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		return Math.min(a, b);
@@ -135,7 +135,7 @@ public final class NumberTheory {
 	 * @return     if each number form numbers &lt;&gt; Double.NaN returns the smallest number,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double min(double... numbers) {
+	public static double min(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		double min = Double.POSITIVE_INFINITY;
@@ -156,7 +156,7 @@ public final class NumberTheory {
 	 * @return     Returns the index of the first smallest number,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double argmin(double... numbers) {
+	public static double argmin(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		double min = Double.POSITIVE_INFINITY;
@@ -182,7 +182,7 @@ public final class NumberTheory {
 	 * @return     if a,b &lt;&gt; Double.NaN returns Math.max(a, b),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double max(double a, double b) {
+	public static double max(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		return Math.max(a, b);
@@ -195,7 +195,7 @@ public final class NumberTheory {
 	 * @return     if each number form numbers &lt;&gt; Double.NaN returns the highest number,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double max(double... numbers) {
+	public static double max(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		double max = Double.NEGATIVE_INFINITY;
@@ -216,7 +216,7 @@ public final class NumberTheory {
 	 * @return     Returns the index of the first biggest number,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double argmax(double... numbers) {
+	public static double argmax(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		double max = Double.NEGATIVE_INFINITY;
@@ -241,7 +241,7 @@ public final class NumberTheory {
 	 * @param rightIndex    Starting right index.
 	 * @return              Initial ordering swapped according to sorting order.
 	 */
-	private static final void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
+	private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
 		int i = leftIndex;
 		int j = rightIndex;
 		double x = array[(leftIndex+rightIndex)/2];
@@ -279,7 +279,7 @@ public final class NumberTheory {
 	 * @return       Sorts array and additionally returns
 	 *               initial ordering swapped according to sorting order.
 	 */
-	public static final int[] sortAsc(double[] array) {
+	public static int[] sortAsc(double[] array) {
 		if (array == null) return null;
 		int[] initOrder = new int[array.length];
 		for (int i = 0; i < array.length; i++) {
@@ -298,7 +298,7 @@ public final class NumberTheory {
 	 * @return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
 	 *                                        2 - minimal value position in original array
 	 */
-	public static final double[][] getDistValues(double[] array, boolean returnOrderByDescFreqAndAscOrigPos) {
+	public static double[][] getDistValues(double[] array, boolean returnOrderByDescFreqAndAscOrigPos) {
 		if (array == null) return null;
 		/*
 		 * double[n][3] is returned
@@ -450,7 +450,7 @@ public final class NumberTheory {
 	 * @return           Number of unique values. If list is null or any Double.NaN
 	 *                   is found then Double.NaN is returned.
 	 */
-	public static final double numberOfDistValues(double... numbers) {
+	public static double numberOfDistValues(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return 0;
 		for (double v : numbers) {
@@ -467,7 +467,7 @@ public final class NumberTheory {
 	 * @param      b                   the b function parameter
 	 * @return     GCD(a,b)
 	 */
-	public static final long gcd(long a, long b) {
+	public static long gcd(long a, long b) {
 		if (a < 0) a = -a;
 		if (b < 0) b = -b;
 		if ( (a == 0) && (b != 0) ) return b;
@@ -503,7 +503,7 @@ public final class NumberTheory {
 	 * @return     if a, b &lt;&gt; Double.NaN returns gcd( (int)Math.round(a),(int)Math.round(b) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double gcd(double a, double b) {
+	public static double gcd(double a, double b) {
 		if ( Double.isNaN(a) || Double.isNaN(a) )
 			return Double.NaN;
 		if (a < 0) a = -a;
@@ -541,7 +541,7 @@ public final class NumberTheory {
 	 *
 	 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
 	 */
-	public static final long gcd(long... numbers) {
+	public static long gcd(long... numbers) {
 		if (numbers == null) return -1;
 		if (numbers.length == 0) return -1;
 		if (numbers.length == 1)
@@ -565,7 +565,7 @@ public final class NumberTheory {
 	 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double gcd(double... numbers) {
+	public static double gcd(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1)
@@ -586,7 +586,7 @@ public final class NumberTheory {
 	 *
 	 * @return     LCM(a,b)
 	 */
-	public static final long lcm(long a, long b) {
+	public static long lcm(long a, long b) {
 		a = Math.abs(a);
 		b = Math.abs(b);
 		if ( (a == 0) || (b == 0) )
@@ -602,7 +602,7 @@ public final class NumberTheory {
 	 * @return     if a, b &lt;&gt; Double.NaN returns lcm( (int)Math.round(a), (int)Math.round(b) ),
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double lcm(double a, double b) {
+	public static double lcm(double a, double b) {
 		if ( Double.isNaN(a) || Double.isNaN(a) )
 			return Double.NaN;
 		a = MathFunctions.floor( MathFunctions.abs(a) );
@@ -616,7 +616,7 @@ public final class NumberTheory {
 	 *
 	 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
 	 */
-	public static final long lcm(long... numbers) {
+	public static long lcm(long... numbers) {
 		if (numbers == null) return -1;
 		if (numbers.length == 0) return -1;
 		if (numbers.length == 1)
@@ -639,7 +639,7 @@ public final class NumberTheory {
 	 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double lcm(double... numbers) {
+	public static double lcm(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1)
@@ -661,7 +661,7 @@ public final class NumberTheory {
 	 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double sum(double... numbers) {
+	public static double sum(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
@@ -694,7 +694,7 @@ public final class NumberTheory {
 	 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double prod(double... numbers) {
+	public static double prod(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
@@ -726,7 +726,7 @@ public final class NumberTheory {
 	 *
 	 * @return true if number is prime, otherwise false
 	 */
-	public static final boolean primeTest(long n) {
+	public static boolean primeTest(long n) {
 		/*
 		 * 2 is a prime :-)
 		 */
@@ -796,7 +796,7 @@ public final class NumberTheory {
 	 *
 	 * @return true if number is prime, otherwise false
 	 */
-	public static final double primeTest(double n) {
+	public static double primeTest(double n) {
 		if ( Double.isNaN(n) ) return Double.NaN;
 		boolean isPrime = primeTest((long)n);
 		if (isPrime == true)
@@ -811,7 +811,7 @@ public final class NumberTheory {
 	 *
 	 * @return Number of primes below or equal x
 	 */
-	public static final long primeCount(long n) {
+	public static long primeCount(long n) {
 		if (n <= 1) return 0;
 		if (n == 2) return 1;
 		long numberOfPrimes = 1;
@@ -829,7 +829,7 @@ public final class NumberTheory {
 	 *
 	 * @return Number of primes below or equal x
 	 */
-	public static final double primeCount(double n) {
+	public static double primeCount(double n) {
 		return primeCount((long)n);
 	}
 	/**
@@ -843,7 +843,7 @@ public final class NumberTheory {
 	 *
 	 * @return     summation operation (for empty summation operations returns 0).
 	 */
-	public static final double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
+	public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		double fval;
@@ -928,7 +928,7 @@ public final class NumberTheory {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double piProduct(Expression f, Argument index, double from, double to, double delta) {
+	public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		double fval;
@@ -1013,7 +1013,7 @@ public final class NumberTheory {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double min(Expression f, Argument index, double from, double to, double delta) {
+	public static double min(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		double min = Double.POSITIVE_INFINITY;
@@ -1052,7 +1052,7 @@ public final class NumberTheory {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double max(Expression f, Argument index, double from, double to, double delta) {
+	public static double max(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		double max = Double.NEGATIVE_INFINITY;
@@ -1085,7 +1085,7 @@ public final class NumberTheory {
      * @return        Regular expression string if base between 1 and 36,
      *                otherwise empty string "" is returned.
      */
-	private static final String getRegExpForNumeralSystem(int numeralSystemBase) {
+	private static String getRegExpForNumeralSystem(int numeralSystemBase) {
 		switch (numeralSystemBase) {
 			case 1: return ParserSymbol.BASE1_REG_EXP;
 			case 2: return ParserSymbol.BASE2_REG_EXP;
@@ -1141,7 +1141,7 @@ public final class NumberTheory {
 	 * @return            Returns digit index if digit char was recognized,
 	 *                    otherwise returns -1.
 	 */
-	public static final int digitIndex(char digitChar) {
+	public static int digitIndex(char digitChar) {
 		switch (digitChar) {
 			case '0': return 0;
 			case '1': return 1;
@@ -1222,7 +1222,7 @@ public final class NumberTheory {
 	 *                     32:W, 33:X, 34:Y, 35:Z. If digit index is put of range
 	 *                     '?' is returned.
 	 */
-	public static final char digitChar(int digitIndex) {
+	public static char digitChar(int digitIndex) {
 		switch (digitIndex) {
 			case  0: return '0';
 			case  1: return '1';
@@ -1283,7 +1283,7 @@ public final class NumberTheory {
 	 *          system base is returned (base between 1 and 36), otherwise
 	 *          -1 is returned.
 	 */
-	public static final int getNumeralSystemBase(String numberLiteral) {
+	public static int getNumeralSystemBase(String numberLiteral) {
 		for (int b = 0; b <= 36; b++)
 			if (mXparser.regexMatch(numberLiteral, getRegExpForNumeralSystem(b)))
 				return b;
@@ -1301,7 +1301,7 @@ public final class NumberTheory {
 	 * @return                 Decimal number after conversion. If conversion was not
 	 *                         possible the Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
+	public static double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
 		if (numberLiteral == null) return Double.NaN;
 		numberLiteral = numberLiteral.trim();
 		if (numberLiteral.length() == 0) {
@@ -1355,7 +1355,7 @@ public final class NumberTheory {
 	 * @return     Decimal number after conversion. If conversion was not
 	 *             possible the Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(String numberLiteral) {
+	public static double convOthBase2Decimal(String numberLiteral) {
 		if (numberLiteral == null) return Double.NaN;
 		numberLiteral = numberLiteral.trim();
 		int numberLiteralStrLenght = numberLiteral.length();
@@ -1380,7 +1380,7 @@ public final class NumberTheory {
 	 * @return                    Number after conversion. If conversion is not possible then
 	 *                            Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(int numeralSystemBase, int... digits) {
+	public static double convOthBase2Decimal(int numeralSystemBase, int... digits) {
 		if (numeralSystemBase < 1) return Double.NaN;
 		if (digits == null) return Double.NaN;
 		int length = digits.length;
@@ -1411,7 +1411,7 @@ public final class NumberTheory {
 	 * @return                    Number after conversion. If conversion is not possible then
 	 *                            Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(double numeralSystemBase, double... digits) {
+	public static double convOthBase2Decimal(double numeralSystemBase, double... digits) {
 		if (numeralSystemBase < 0) return Double.NaN;
 		if (Double.isNaN(numeralSystemBase)) return Double.NaN;
 		int numeralSystemBaseInt = (int)MathFunctions.floor(numeralSystemBase);
@@ -1441,7 +1441,7 @@ public final class NumberTheory {
 	 * @return                Number after conversion. If conversion is not possible then
 	 *                        Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(int[] baseAndDigits) {
+	public static double convOthBase2Decimal(int[] baseAndDigits) {
 		if (baseAndDigits == null) return Double.NaN;
 		if (baseAndDigits.length == 0) return Double.NaN;
 		int numeralSystemBase = baseAndDigits[0];
@@ -1462,7 +1462,7 @@ public final class NumberTheory {
 	 * @return                Number after conversion. If conversion is not possible then
 	 *                        Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(double[] baseAndDigits) {
+	public static double convOthBase2Decimal(double[] baseAndDigits) {
 		if (baseAndDigits == null) return Double.NaN;
 		if (baseAndDigits.length == 0) return Double.NaN;
 		double numeralSystemBase = baseAndDigits[0];
@@ -1488,7 +1488,7 @@ public final class NumberTheory {
 	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
 	 *                   the "NaN" string is returned.
 	 */
-	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
+	public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
 		if (Double.isNaN(decimalNumber)) return "NaN";
 		if (numeralSystemBase < 1) return "NaN";
 		if (numeralSystemBase > 36) return "NaN";
@@ -1542,7 +1542,7 @@ public final class NumberTheory {
 	 *
 	 * If conversion was not possible the "NaN" string is returned.
 	 */
-	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
+	public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
 		if (Double.isNaN(decimalNumber)) return "NaN";
 		if (numeralSystemBase < 1) return "NaN";
 		if (numeralSystemBase > 36) return "NaN";
@@ -1562,7 +1562,7 @@ public final class NumberTheory {
 	 * @param number   The number
 	 * @return         Number of digits needed to represent given number in base 10 numeral system.
 	 */
-	public static final int numberOfDigits(long number) {
+	public static int numberOfDigits(long number) {
 		if (number < 0) number = -number;
 		if (number < 10) return 1;
 		else if (number < 100) return 2;
@@ -1582,7 +1582,7 @@ public final class NumberTheory {
 	 *                 If number is NaN the NaN is returned. If number is infinite then
 	 *                 Double.POSITIVE_INFINITY is returned.
 	 */
-	public static final double numberOfDigits(double number) {
+	public static double numberOfDigits(double number) {
 		if (Double.isNaN(number)) return Double.NaN;
 		if (Double.isInfinite(number)) return Double.POSITIVE_INFINITY;
 		if (number < 0.0) number = -number;
@@ -1904,7 +1904,7 @@ public final class NumberTheory {
 	 * @return                    Returns number of digits. In case when numeralSystemBase is lower than
 	 *                            1 then -1 is returned.
 	 */
-	public static final long numberOfDigits(long number, long numeralSystemBase) {
+	public static long numberOfDigits(long number, long numeralSystemBase) {
 		if (numeralSystemBase < 1) return -1;
 		if (number < 0) number = -number;
 		if (numeralSystemBase == 10) return numberOfDigits(number);
@@ -1928,7 +1928,7 @@ public final class NumberTheory {
 	 *                            then Double.NaN is returned. If numeralSystemBase is infinite then Double.NaN
 	 *                            is returned.
 	 */
-	public static final double numberOfDigits(double number, double numeralSystemBase) {
+	public static double numberOfDigits(double number, double numeralSystemBase) {
 		if (Double.isNaN(number)) return Double.NaN;
 		if (Double.isNaN(numeralSystemBase)) return Double.NaN;
 		if (Double.isInfinite(numeralSystemBase)) return Double.NaN;
@@ -1957,7 +1957,7 @@ public final class NumberTheory {
 	 * @param numeralSystemBase   Base of numeral system - above 0
 	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
 	 */
-	public static final int digitAtPosition(long number, int position, int numeralSystemBase) {
+	public static int digitAtPosition(long number, int position, int numeralSystemBase) {
 		if (numeralSystemBase < 1) return -1;
 		if (number < 0) number = -number;
 		int digitsNum = (int)numberOfDigits(number, numeralSystemBase);
@@ -1988,7 +1988,7 @@ public final class NumberTheory {
 	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
 	 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
 	 */
-	public static final int digitAtPosition(long number, int position) {
+	public static int digitAtPosition(long number, int position) {
 		return digitAtPosition(number, position, 10);
 	}
 	/**
@@ -1999,7 +1999,7 @@ public final class NumberTheory {
 	 * @param numeralSystemBase   Base of numeral system - above 0
 	 * @return                    Return digit at given position. If digit finding was not possible then Double.NaN is returned.
 	 */
-	public static final double digitAtPosition(double number, double position, double numeralSystemBase) {
+	public static double digitAtPosition(double number, double position, double numeralSystemBase) {
 		if (Double.isNaN(number)) return Double.NaN;
 		if (Double.isNaN(position)) return Double.NaN;
 		if (Double.isNaN(numeralSystemBase)) return Double.NaN;
@@ -2038,7 +2038,7 @@ public final class NumberTheory {
 	 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
 	 * @return                    Return digit at given position. If digit finding was not possible then Double.NaN is returned.
 	 */
-	public static final double digitAtPosition(double number, double position) {
+	public static double digitAtPosition(double number, double position) {
 		return digitAtPosition(number, position, 10.0);
 	}
 	/**
@@ -2047,7 +2047,7 @@ public final class NumberTheory {
 	 * @param number     Number to be decomposed
 	 * @return           List of prime factors (non-distinct)
 	 */
-	public static final long[] primeFactors(long number) {
+	public static long[] primeFactors(long number) {
 		long[] longZeroArray = new long[0];
 		long[] factors;
 		if (number == 0) return longZeroArray;
@@ -2089,7 +2089,7 @@ public final class NumberTheory {
 	 * @param number     Number to be decomposed
 	 * @return           List of prime factors (non-distinct)
 	 */
-	public static final double[] primeFactors(double number) {
+	public static double[] primeFactors(double number) {
 		double[] doubleZeroArray = new double[0];
 		double[] factors;
 		if (Double.isNaN(number)) return doubleZeroArray;
@@ -2133,7 +2133,7 @@ public final class NumberTheory {
 	 * @param number     Number to be decomposed
 	 * @return           Number of distinct prime factors
 	 */
-	public static final double numberOfPrimeFactors(double number) {
+	public static double numberOfPrimeFactors(double number) {
 		if (Double.isNaN(number)) return Double.NaN;
 		double[] factors = primeFactors(number);
 		if (factors.length <= 1) return factors.length;
@@ -2149,7 +2149,7 @@ public final class NumberTheory {
 	 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
 	 *                   is returned.
 	 */
-	public static final double primeFactorValue(double number, double id) {
+	public static double primeFactorValue(double number, double id) {
 		if (Double.isNaN(number)) return Double.NaN;
 		if (Double.isNaN(id)) return Double.NaN;
 		if (Double.isInfinite(number)) return Double.NaN;
@@ -2174,7 +2174,7 @@ public final class NumberTheory {
 	 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
 	 *                   is returned.
 	 */
-	public static final double primeFactorExponent(double number, double id) {
+	public static double primeFactorExponent(double number, double id) {
 		if (Double.isNaN(number)) return Double.NaN;
 		if (Double.isNaN(id)) return Double.NaN;
 		if (Double.isInfinite(number)) return Double.NaN;
@@ -2200,7 +2200,7 @@ public final class NumberTheory {
 	 * @return Returns array containing sign, numerator and denominator.
 	 * Sign at index 0, numerator at index 1, denominator at index 2.
 	 */
-	private static final double[] fractionToDoubleArray(double sign, double numerator, double denominator) {
+	private static double[] fractionToDoubleArray(double sign, double numerator, double denominator) {
 		double[] fraction = new double[3];
 		fraction[0] = sign;
 		fraction[1] = numerator;
@@ -2218,7 +2218,7 @@ public final class NumberTheory {
 	 * @return Returns array containing whole number, numerator and denominator.
 	 * Sign at index 0, whole number at index 1, numerator at index 2, denominator at index 3.
 	 */
-	private static final double[] mixedFractionToDoubleArray(double sign, double whole, double numerator, double denominator) {
+	private static double[] mixedFractionToDoubleArray(double sign, double whole, double numerator, double denominator) {
 		double[] mixedFraction = new double[4];
 		mixedFraction[0] = sign;
 		mixedFraction[1] = whole;
@@ -2236,7 +2236,7 @@ public final class NumberTheory {
 	 * If conversion is not possible then Double.NaN is
 	 * assigned to all the fields.
 	 */
-	public static final double[] toFraction(double value) {
+	public static double[] toFraction(double value) {
 		if (Double.isNaN(value)) return fractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN);
 		if (Double.isInfinite(value)) return fractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN);
 		if (value == 0) return fractionToDoubleArray(0, 0, 1);
@@ -2334,7 +2334,7 @@ public final class NumberTheory {
 	 * If conversion is not possible then Double.NaN is
 	 * assigned to both numerator and denominator.
 	 */
-	public static final double[] toMixedFraction(double value) {
+	public static double[] toMixedFraction(double value) {
 		double[] fraction = toFraction(value);
 		double sign = fraction[0];
 		double numerator = fraction[1];
@@ -2358,7 +2358,7 @@ public final class NumberTheory {
 	 * @see NumberTheory#toFraction(double)
 	 * @see NumberTheory#toMixedFraction(double)
 	 */
-	public static final String fractionToString(double[] fraction) {
+	public static String fractionToString(double[] fraction) {
 		boolean mixedFraction = false;
 		if ( (fraction.length !=3) && (fraction.length !=4) )
 			return ConstantValue.NAN_STR;
@@ -2433,7 +2433,7 @@ public final class NumberTheory {
 	 * @see NumberTheory#toFraction(double)
 	 * @see NumberTheory#fractionToString(double[])
 	 */
-	public static final String toFractionString(double value) {
+	public static String toFractionString(double value) {
 		return fractionToString( toFraction(value) );
 	}
 	/**
@@ -2445,7 +2445,7 @@ public final class NumberTheory {
 	 * @see NumberTheory#toMixedFraction(double)
 	 * @see NumberTheory#fractionToString(double[])
 	 */
-	public static final String toMixedFractionString(double value) {
+	public static String toMixedFractionString(double value) {
 		return fractionToString( toMixedFraction(value) );
 	}
 }

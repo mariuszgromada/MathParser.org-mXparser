@@ -102,8 +102,8 @@ public final class Calculus {
 	 *
 	 * @see        Expression
 	 */
-	public static final double integralTrapezoid(Expression f, Argument x, double a, double b,
-			double eps, int maxSteps) {
+	public static double integralTrapezoid(Expression f, Argument x, double a, double b,
+										   double eps, int maxSteps) {
 		double h = 0.5*(b-a);
 		double s = mXparser.getFunctionValue(f, x, a)
 					+ mXparser.getFunctionValue(f, x, b)
@@ -145,8 +145,8 @@ public final class Calculus {
 	 *
 	 * @see        Expression
 	 */
-	public static final double derivative(Expression f, Argument x, double x0,
-			int derType, double eps, int maxSteps) {
+	public static double derivative(Expression f, Argument x, double x0,
+									int derType, double eps, int maxSteps) {
 		final double START_DX = 0.1;
 		int step = 0;
 		double error = 2.0*eps;
@@ -196,8 +196,8 @@ public final class Calculus {
 	 *
 	 * @see        Expression
 	 */
-	public static final double derivativeNth(Expression f, double n, Argument x,
-			double x0, int derType, double eps, int maxSteps) {
+	public static double derivativeNth(Expression f, double n, Argument x,
+									   double x0, int derType, double eps, int maxSteps) {
 		n = Math.round(n);
 		int step = 0;
 		double error = 2*eps;
@@ -240,7 +240,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double forwardDifference(Expression f, Argument x, double x0) {
+	public static double forwardDifference(Expression f, Argument x, double x0) {
 		if (Double.isNaN(x0))
 			return Double.NaN;
 		double xb = x.getArgumentValue();
@@ -259,7 +259,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double forwardDifference(Expression f, Argument x) {
+	public static double forwardDifference(Expression f, Argument x) {
 		double xb = x.getArgumentValue();
 		if (Double.isNaN(xb))
 			return Double.NaN;
@@ -281,7 +281,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double backwardDifference(Expression f, Argument x, double x0) {
+	public static double backwardDifference(Expression f, Argument x, double x0) {
 		if (Double.isNaN(x0))
 			return Double.NaN;
 		double xb = x.getArgumentValue();
@@ -300,7 +300,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double backwardDifference(Expression f, Argument x) {
+	public static double backwardDifference(Expression f, Argument x) {
 		double xb = x.getArgumentValue();
 		if (Double.isNaN(xb))
 			return Double.NaN;
@@ -323,7 +323,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double forwardDifference(Expression f, double h, Argument x, double x0) {
+	public static double forwardDifference(Expression f, double h, Argument x, double x0) {
 		if (Double.isNaN(x0))
 			return Double.NaN;
 		double xb = x.getArgumentValue();
@@ -343,7 +343,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double forwardDifference(Expression f,  double h, Argument x) {
+	public static double forwardDifference(Expression f, double h, Argument x) {
 		double xb = x.getArgumentValue();
 		if (Double.isNaN(xb))
 			return Double.NaN;
@@ -366,7 +366,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double backwardDifference(Expression f,  double h, Argument x, double x0) {
+	public static double backwardDifference(Expression f, double h, Argument x, double x0) {
 		if (Double.isNaN(x0))
 			return Double.NaN;
 		double xb = x.getArgumentValue();
@@ -386,7 +386,7 @@ public final class Calculus {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double backwardDifference(Expression f,  double h, Argument x) {
+	public static double backwardDifference(Expression f, double h, Argument x) {
 		double xb = x.getArgumentValue();
 		if (Double.isNaN(xb))
 			return Double.NaN;
@@ -407,7 +407,7 @@ public final class Calculus {
 	 * @param maxSteps Maximum number of iterations
 	 * @return   Function root - if found, otherwise Double.NaN.
 	 */
-	public static final double solveBrent(Expression f, Argument x, double a, double b, double eps, double maxSteps) {
+	public static double solveBrent(Expression f, Argument x, double a, double b, double eps, double maxSteps) {
 		double  fa, fb, fc, fs, c, c0, c1, c2;
 		double tmp, d, s;
 		boolean mflag;

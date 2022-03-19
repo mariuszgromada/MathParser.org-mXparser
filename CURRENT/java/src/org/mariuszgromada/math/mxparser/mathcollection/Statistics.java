@@ -96,7 +96,7 @@ public final class Statistics {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double avg(Expression f, Argument index, double from, double to, double delta) {
+	public static double avg(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		double sum = 0;
@@ -143,7 +143,7 @@ public final class Statistics {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double var(Expression f, Argument index, double from, double to, double delta) {
+	public static double var(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		return var( mXparser.getFunctionValues(f, index, from, to, delta) );
@@ -176,7 +176,7 @@ public final class Statistics {
 	 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double avg(double... numbers) {
+	public static double avg(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
@@ -198,7 +198,7 @@ public final class Statistics {
 	 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double var(double... numbers) {
+	public static double var(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) {
@@ -224,7 +224,7 @@ public final class Statistics {
 	 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
 	 *             otherwise returns Double.NaN.
 	 */
-	public static final double std(double... numbers) {
+	public static double std(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) {
@@ -238,7 +238,7 @@ public final class Statistics {
 	 * @param numbers   List of number
 	 * @return          Sample median, if table was empty or null then Double.NaN is returned.
 	 */
-	public static final double median(double... numbers) {
+	public static double median(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];
@@ -261,7 +261,7 @@ public final class Statistics {
 	 * @param numbers   List of number
 	 * @return          Sample median, if table was empty or null then Double.NaN is returned.
 	 */
-	public static final double mode(double... numbers) {
+	public static double mode(double... numbers) {
 		if (numbers == null) return Double.NaN;
 		if (numbers.length == 0) return Double.NaN;
 		if (numbers.length == 1) return numbers[0];

@@ -93,13 +93,13 @@ public final class BinaryRelations {
 	/**
 	 * Sets comparison mode to EXACT.
 	 */
-	public static final void setExactComparison() {
+	public static void setExactComparison() {
 		epsilonComparison = false;
 	}
 	/**
 	 * Sets comparison mode to EPSILON.
 	 */
-	public static final void setEpsilonComparison() {
+	public static void setEpsilonComparison() {
 		epsilonComparison = true;
 	}
 	/**
@@ -108,7 +108,7 @@ public final class BinaryRelations {
 	 *
 	 * @see #setEpsilonComparison()
 	 */
-	public static final void setEpsilon(double epsilon) {
+	public static void setEpsilon(double epsilon) {
 		if (epsilon > 0) BinaryRelations.epsilon = epsilon;
 	}
 	/**
@@ -117,7 +117,7 @@ public final class BinaryRelations {
 	 * @see #setEpsilonComparison()
 	 * @see #DEFAULT_COMPARISON_EPSILON
 	 */
-	public static final void setDefaultEpsilon() {
+	public static void setDefaultEpsilon() {
 		BinaryRelations.epsilon = DEFAULT_COMPARISON_EPSILON;
 	}
 	/**
@@ -126,7 +126,7 @@ public final class BinaryRelations {
 	 *
 	 * @see #setEpsilonComparison()
 	 */
-	public static final double getEpsilon() {
+	public static double getEpsilon() {
 		return epsilon;
 	}
 	/**
@@ -135,7 +135,7 @@ public final class BinaryRelations {
 	 * @see #setEpsilonComparison()
 	 * @see #setExactComparison()
 	 */
-	public static final boolean checkIfEpsilonMode() {
+	public static boolean checkIfEpsilonMode() {
 		return epsilonComparison;
 	}
 	/**
@@ -144,7 +144,7 @@ public final class BinaryRelations {
 	 * @see #setEpsilonComparison()
 	 * @see #setExactComparison()
 	 */
-	public static final boolean checkIfExactMode() {
+	public static boolean checkIfExactMode() {
 		return !epsilonComparison;
 	}
 	/**
@@ -157,7 +157,7 @@ public final class BinaryRelations {
 	 *             else if a = b return 1,
 	 *             otherwise return 0.
 	 */
-	public static final double eq(double a, double b) {
+	public static double eq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
@@ -177,7 +177,7 @@ public final class BinaryRelations {
 	 *             else if a &lt;&gt; b return 1,
 	 *             otherwise return 0.
 	 */
-	public static final double neq(double a, double b) {
+	public static double neq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
@@ -197,7 +197,7 @@ public final class BinaryRelations {
 	 *             else if a &lt; b return 1,
 	 *             otherwise return 0.
 	 */
-	public static final double lt(double a, double b) {
+	public static double lt(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
@@ -217,7 +217,7 @@ public final class BinaryRelations {
 	 *             else if a &gt; b return 1,
 	 *             otherwise return 0.
 	 */
-	public static final double gt(double a, double b) {
+	public static double gt(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
@@ -237,7 +237,7 @@ public final class BinaryRelations {
 	 *             else if a &lt;= b return 1,
 	 *             otherwise return 0.
 	 */
-	public static final double leq(double a, double b) {
+	public static double leq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;
@@ -257,7 +257,7 @@ public final class BinaryRelations {
 	 *             else if a &gt;= b return 1,
 	 *             otherwise return 0.
 	 */
-	public static final double geq(double a, double b) {
+	public static double geq(double a, double b) {
 		if ( ( Double.isNaN(a) ) || ( Double.isNaN(b) ) ) return Double.NaN;
 		double eps = NumberTheory.max(epsilon, MathFunctions.ulp(b) );
 		if ( Double.isInfinite(a) || Double.isInfinite(b) ) eps = 0;

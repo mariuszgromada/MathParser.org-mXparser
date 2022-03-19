@@ -220,7 +220,7 @@ public final class mXparser {
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
 	 * @see PrimesCache
 	 */
-	public static final void initPrimesCache() {
+	public static void initPrimesCache() {
 		primesCache = new PrimesCache();
 	}
 	/**
@@ -229,7 +229,7 @@ public final class mXparser {
 	 *                            will be stored in cache.
 	 * @see PrimesCache
 	 */
-	public static final void initPrimesCache(int mximumNumberInCache) {
+	public static void initPrimesCache(int mximumNumberInCache) {
 		primesCache = new PrimesCache(mximumNumberInCache);
 	}
 	/**
@@ -237,7 +237,7 @@ public final class mXparser {
 	 * @param primesCache The primes cache object
 	 * @see PrimesCache
 	 */
-	public static final void initPrimesCache(PrimesCache primesCache) {
+	public static void initPrimesCache(PrimesCache primesCache) {
 		mXparser.primesCache = primesCache;
 	}
 	/**
@@ -247,7 +247,7 @@ public final class mXparser {
 	 * @return Returns true in case when primes cache initialization was successful,
 	 * otherwise returns false.
 	 */
-	public static final boolean isInitPrimesCacheSuccessful() {
+	public static boolean isInitPrimesCacheSuccessful() {
 		if (primesCache == null) return false;
 		synchronized (primesCache) {
 			return primesCache.isInitSuccessful();
@@ -264,7 +264,7 @@ public final class mXparser {
 	 * @return If primes cache was initialized then maximum number in
 	 * primes cache, otherwise {@link mXparser#PRIMES_CACHE_NOT_INITIALIZED}
 	 */
-	public static final int getMaxNumInPrimesCache() {
+	public static int getMaxNumInPrimesCache() {
 		if ( primesCache != null ) {
 			synchronized (primesCache) {
 				return primesCache.getMaxNumInCache();
@@ -277,13 +277,13 @@ public final class mXparser {
 	 *
 	 * @return Threads number.
 	 */
-	public static final int getThreadsNumber() {
+	public static int getThreadsNumber() {
 		return THREADS_NUMBER;
 	}
 	/**
 	 * Sets default threads number
 	 */
-	public static final void setDefaultThreadsNumber() {
+	public static void setDefaultThreadsNumber() {
 		THREADS_NUMBER = Runtime.getRuntime().availableProcessors();
 	}
 	/**
@@ -291,7 +291,7 @@ public final class mXparser {
 	 *
 	 * @param threadsNumber  Thread number.
 	 */
-	public static final void setThreadsNumber(int threadsNumber) {
+	public static void setThreadsNumber(int threadsNumber) {
 		if (threadsNumber > 0) THREADS_NUMBER = threadsNumber;
 	}
 	/**
@@ -306,7 +306,7 @@ public final class mXparser {
 	 *
 	 * @see        Expression
 	 */
-	public static final double getFunctionValue(Expression f, Argument x, double x0) {
+	public static double getFunctionValue(Expression f, Argument x, double x0) {
 		x.setArgumentValue(x0);
 		return f.calculate();
 	}
@@ -317,7 +317,7 @@ public final class mXparser {
 	 *
 	 * @return     numbers array
 	 */
-	public static final double[] arrayList2double(List<Double> numbers) {
+	public static double[] arrayList2double(List<Double> numbers) {
 		if (numbers == null)
 			return null;
 		int size = numbers.size();
@@ -337,7 +337,7 @@ public final class mXparser {
 	 * @param delta        'delta' step definition
 	 * @return             Array of function values
 	 */
-	public static final double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
+	public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return null;
 		int n = 0;
@@ -378,21 +378,21 @@ public final class mXparser {
 	 * @see ProbabilityDistributions
 	 * @see ProbabilityDistributions#randomGenerator
 	 */
-	public static final void setRandomGenerator(Random randomGenerator) {
+	public static void setRandomGenerator(Random randomGenerator) {
 		if (randomGenerator != null) ProbabilityDistributions.randomGenerator = randomGenerator;
 	}
 	/**
 	 * Sets comparison mode to EXACT.
 	 * @see BinaryRelations
 	 */
-	public static final void setExactComparison() {
+	public static void setExactComparison() {
 		BinaryRelations.setExactComparison();
 	}
 	/**
 	 * Sets comparison mode to EPSILON.
 	 * @see BinaryRelations
 	 */
-	public static final void setEpsilonComparison() {
+	public static void setEpsilonComparison() {
 		BinaryRelations.setEpsilonComparison();
 	}
 	/**
@@ -402,7 +402,7 @@ public final class mXparser {
 	 * @see #setEpsilonComparison()
 	 * @see BinaryRelations
 	 */
-	public static final void setEpsilon(double epsilon) {
+	public static void setEpsilon(double epsilon) {
 		BinaryRelations.setEpsilon(epsilon);
 	}
 	/**
@@ -412,7 +412,7 @@ public final class mXparser {
 	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
 	 * @see BinaryRelations
 	 */
-	public static final void setDefaultEpsilon() {
+	public static void setDefaultEpsilon() {
 		BinaryRelations.setDefaultEpsilon();
 	}
 	/**
@@ -422,7 +422,7 @@ public final class mXparser {
 	 * @see #setEpsilonComparison()
 	 * @see BinaryRelations
 	 */
-	public static final double getEpsilon() {
+	public static double getEpsilon() {
 		return BinaryRelations.getEpsilon();
 	}
 	/**
@@ -432,7 +432,7 @@ public final class mXparser {
 	 * @see #setExactComparison()
 	 * @see BinaryRelations
 	 */
-	public static final boolean checkIfEpsilonMode() {
+	public static boolean checkIfEpsilonMode() {
 		return BinaryRelations.checkIfEpsilonMode();
 	}
 	/**
@@ -442,7 +442,7 @@ public final class mXparser {
 	 * @see #setExactComparison()
 	 * @see BinaryRelations
 	 */
-	public static final boolean checkIfExactMode() {
+	public static boolean checkIfExactMode() {
 		return BinaryRelations.checkIfExactMode();
 	}
 	/**
@@ -457,7 +457,7 @@ public final class mXparser {
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
 	 */
-	public static final void enableUlpRounding() {
+	public static void enableUlpRounding() {
 		ulpRounding = true;
 	}
 	/**
@@ -472,7 +472,7 @@ public final class mXparser {
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
 	 */
-	public static final void disableUlpRounding() {
+	public static void disableUlpRounding() {
 		ulpRounding = false;
 	}
 	/**
@@ -489,7 +489,7 @@ public final class mXparser {
 	 *
 	 * @param ulpRoundingState    True to enable, false to disable
 	 */
-	public static final void setUlpRounding(boolean ulpRoundingState) {
+	public static void setUlpRounding(boolean ulpRoundingState) {
 		ulpRounding = ulpRoundingState;
 	}
 	/**
@@ -505,7 +505,7 @@ public final class mXparser {
 	 *
 	 * @return True if ULP rounding is enabled, otherwise false.
 	 */
-	public static final boolean checkIfUlpRounding() {
+	public static boolean checkIfUlpRounding() {
 		return ulpRounding;
 	}
 	/**
@@ -520,7 +520,7 @@ public final class mXparser {
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 2.5 - 2.2 = 0.3
 	 */
-	public static final void enableCanonicalRounding() {
+	public static void enableCanonicalRounding() {
 		canonicalRounding = true;
 	}
 	/**
@@ -535,7 +535,7 @@ public final class mXparser {
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 2.5 - 2.2 = 0.3
 	 */
-	public static final void disableCanonicalRounding() {
+	public static void disableCanonicalRounding() {
 		canonicalRounding = false;
 	}
 	/**
@@ -552,7 +552,7 @@ public final class mXparser {
 	 *
 	 * @param canonicalRoundingState    True to enable, false to disable
 	 */
-	public static final void setCanonicalRounding(boolean canonicalRoundingState) {
+	public static void setCanonicalRounding(boolean canonicalRoundingState) {
 		canonicalRounding = canonicalRoundingState;
 	}
 	/**
@@ -568,7 +568,7 @@ public final class mXparser {
 	 *
 	 * @return True if Canonical rounding is enabled, otherwise false.
 	 */
-	public static final boolean checkIfCanonicalRounding() {
+	public static boolean checkIfCanonicalRounding() {
 		return canonicalRounding;
 	}
 	/**
@@ -581,7 +581,7 @@ public final class mXparser {
 	 * @see mXparser#getEpsilon()
 	 * @see Expression#calculate()
 	 */
-	public static final void enableAlmostIntRounding() {
+	public static void enableAlmostIntRounding() {
 		almostIntRounding = true;
 	}
 	/**
@@ -594,7 +594,7 @@ public final class mXparser {
 	 * @see mXparser#getEpsilon()
 	 * @see Expression#calculate()
 	 */
-	public static final void disableAlmostIntRounding() {
+	public static void disableAlmostIntRounding() {
 		almostIntRounding = false;
 	}
 	/**
@@ -605,7 +605,7 @@ public final class mXparser {
 	 *
 	 * @param almostIntRoundingState    True to enable, false to disable
 	 */
-	public static final void setAlmostIntRounding(boolean almostIntRoundingState) {
+	public static void setAlmostIntRounding(boolean almostIntRoundingState) {
 		almostIntRounding = almostIntRoundingState;
 	}
 	/**
@@ -620,7 +620,7 @@ public final class mXparser {
 	 * @see mXparser#getEpsilon()
 	 * @see Expression#calculate()
 	 */
-	public static final boolean checkIfAlmostIntRounding() {
+	public static boolean checkIfAlmostIntRounding() {
 		return almostIntRounding;
 	}
 	/**
@@ -641,7 +641,7 @@ public final class mXparser {
 	 *
 	 * @param maxAllowedRecursionDepth  Maximum number of allowed recursion calls
 	 */
-	public static final void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
+	public static void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 		MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
 	}
 	/**
@@ -662,21 +662,21 @@ public final class mXparser {
 	 *
 	 * @return Max allowed recursion calls
 	 */
-	public static final int getMaxAllowedRecursionDepth() {
+	public static int getMaxAllowedRecursionDepth() {
 		return MAX_RECURSION_CALLS;
 	}
 	/**
 	 * Set mXparser to operate in radians mode for
 	 * trigonometric functions
 	 */
-	public static final void setRadiansMode() {
+	public static void setRadiansMode() {
 		degreesMode = false;
 	}
 	/**
 	 * Set mXparser to operate in degrees mode for
 	 * trigonometric functions
 	 */
-	public static final void setDegreesMode() {
+	public static void setDegreesMode() {
 		degreesMode = true;
 	}
 	/**
@@ -685,7 +685,7 @@ public final class mXparser {
 	 *
 	 * @return true - if radians mode, false - otherwise
 	 */
-	public static final boolean checkIfRadiansMode() {
+	public static boolean checkIfRadiansMode() {
 		return !degreesMode;
 	}
 	/**
@@ -694,7 +694,7 @@ public final class mXparser {
 	 *
 	 * @return true - if degrees mode, false - otherwise
 	 */
-	public static final boolean checkIfDegreesMode() {
+	public static boolean checkIfDegreesMode() {
 		return degreesMode;
 	}
 	/**
@@ -703,7 +703,7 @@ public final class mXparser {
 	 * @param n initial search size, has to be non-zero positive.
 	 * @see NumberTheory#toFraction(double)
 	 */
-	public static final void setToFractionInitSearchSize(long n) {
+	public static void setToFractionInitSearchSize(long n) {
 		NumberTheory.setToFractionInitSearchSize(n);
 	}
 	/**
@@ -712,7 +712,7 @@ public final class mXparser {
 	 * @return initial search size used by the toFraction method
 	 * @see NumberTheory#toFraction(double)
 	 */
-	public static final long getToFractionInitSearchSize() {
+	public static long getToFractionInitSearchSize() {
 		return NumberTheory.getToFractionInitSearchSize();
 	}
 	/**
@@ -722,7 +722,7 @@ public final class mXparser {
 	 *
 	 * @param tokens  List of tokens to remove.
 	 */
-	public static final void removeBuiltinTokens(String... tokens) {
+	public static void removeBuiltinTokens(String... tokens) {
 		if (tokens == null) return;
 		synchronized (tokensToRemove) {
 			for (String token : tokens)
@@ -737,7 +737,7 @@ public final class mXparser {
 	 * Un-marks tokens previously marked to be removed.
 	 * @param tokens List of tokens to un-mark.
 	 */
-	public static final void unremoveBuiltinTokens(String... tokens) {
+	public static void unremoveBuiltinTokens(String... tokens) {
 		if (tokens == null) return;
 		if (tokens.length == 0) return;
 		if (tokensToRemove.size() == 0) return;
@@ -751,7 +751,7 @@ public final class mXparser {
 	/**
 	 * Un-marks all tokens previously marked to be removed.
 	 */
-	public static final void unremoveAllBuiltinTokens() {
+	public static void unremoveAllBuiltinTokens() {
 		synchronized (tokensToRemove) {
 			tokensToRemove.clear();
 			optionsChangesetNumber++;
@@ -761,7 +761,7 @@ public final class mXparser {
 	 * Returns current list of tokens marked to be removed.
 	 * @return Current list of tokens marked to be removed
 	 */
-	public static final String[] getBuiltinTokensToRemove() {
+	public static String[] getBuiltinTokensToRemove() {
 		synchronized (tokensToRemove) {
 			int tokensNum = tokensToRemove.size();
 			String[] tokensToRemoveArray = new String[tokensNum];
@@ -779,7 +779,7 @@ public final class mXparser {
 	 * @param currentToken     Current token name
 	 * @param newToken         New token name
 	 */
-	public static final void modifyBuiltinToken(String currentToken, String newToken) {
+	public static void modifyBuiltinToken(String currentToken, String newToken) {
 		if (currentToken == null) return;
 		if (currentToken.length() == 0) return;
 		if (newToken == null) return;
@@ -805,7 +805,7 @@ public final class mXparser {
 	 * @param newToken              New token name
 	 * @param newTokenDescription   New token description (if null the previous one will be used)
 	 */
-	public static final void modifyBuiltinToken(String currentToken, String newToken, String newTokenDescription) {
+	public static void modifyBuiltinToken(String currentToken, String newToken, String newTokenDescription) {
 		if (currentToken == null) return;
 		if (currentToken.length() == 0) return;
 		if (newToken == null) return;
@@ -825,7 +825,7 @@ public final class mXparser {
 	 * Un-marks tokens previously marked to be modified.
 	 * @param currentOrNewTokens   List of tokens to be un-marked (current or modified).
 	 */
-	public static final void unmodifyBuiltinTokens(String... currentOrNewTokens) {
+	public static void unmodifyBuiltinTokens(String... currentOrNewTokens) {
 		if (currentOrNewTokens == null) return;
 		if (currentOrNewTokens.length == 0) return;
 		if (tokensToModify.size() == 0) return;
@@ -845,7 +845,7 @@ public final class mXparser {
 	/**
 	 * Un-marks all tokens previously marked to be modified.
 	 */
-	public static final void unmodifyAllBuiltinTokens() {
+	public static void unmodifyAllBuiltinTokens() {
 		synchronized (tokensToModify) {
 			tokensToModify.clear();
 			optionsChangesetNumber++;
@@ -856,7 +856,7 @@ public final class mXparser {
 	 * @return String[i][0] - current token, String[i][1] - new token,
 	 *                        String[i][2] - new token description.
 	 */
-	public static final String[][] getBuiltinTokensToModify() {
+	public static String[][] getBuiltinTokensToModify() {
 		synchronized (tokensToModify) {
 			int tokensNum = tokensToModify.size();
 			String[][] tokensToModifyArray = new String[tokensNum][3];
@@ -873,7 +873,7 @@ public final class mXparser {
 	 * Sets mXparser to override built-in tokens
 	 * by user defined tokens.
 	 */
-	public static final synchronized void setToOverrideBuiltinTokens() {
+	public static synchronized void setToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = true;
 		optionsChangesetNumber++;
 	}
@@ -881,7 +881,7 @@ public final class mXparser {
 	 * Sets mXparser not to override built-in tokens
 	 * by user defined tokens.
 	 */
-	public static final synchronized void setNotToOverrideBuiltinTokens() {
+	public static synchronized void setNotToOverrideBuiltinTokens() {
 		overrideBuiltinTokens = false;
 		optionsChangesetNumber++;
 	}
@@ -891,14 +891,14 @@ public final class mXparser {
 	 * @return True if mXparser is set to override built-in tokens by
 	 *         user defined tokens, otherwise false.
 	 */
-	public static final boolean checkIfsetToOverrideBuiltinTokens() {
+	public static boolean checkIfsetToOverrideBuiltinTokens() {
 		return overrideBuiltinTokens;
 	}
 	/**
 	 * Sets default mXparser options
 	 *
 	 */
-	public static final synchronized void setDefaultOptions() {
+	public static synchronized void setDefaultOptions() {
 		enableUlpRounding();
 		enableAlmostIntRounding();
 		setMaxAllowedRecursionDepth(DEFAULT_MAX_RECURSION_CALLS);
@@ -917,7 +917,7 @@ public final class mXparser {
 	 * @param tokenTypeId Token type id
 	 * @return String representing token type description.
 	 */
-	public static final String getTokenTypeDescription(int tokenTypeId) {
+	public static String getTokenTypeDescription(int tokenTypeId) {
 		String type = "";
 		switch (tokenTypeId) {
 			case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
@@ -947,7 +947,7 @@ public final class mXparser {
 	 * @param number   Integer number
 	 * @return         Hex string (i.e. FF23)
 	 */
-	public static final String numberToHexString(int number) {
+	public static String numberToHexString(int number) {
 		return Integer.toHexString(number);
 	}
 	/**
@@ -956,7 +956,7 @@ public final class mXparser {
 	 * @param number   Long number
 	 * @return         Hex string (i.e. FF23)
 	 */
-	public static final String numberToHexString(long number) {
+	public static String numberToHexString(long number) {
 		return Long.toHexString(number);
 	}
 	/**
@@ -965,7 +965,7 @@ public final class mXparser {
 	 * @param number   Double number
 	 * @return         Hex string (i.e. FF23)
 	 */
-	public static final String numberToHexString(double number) {
+	public static String numberToHexString(double number) {
 		return numberToHexString((long)number);
 	}
 	/**
@@ -975,7 +975,7 @@ public final class mXparser {
 	 * @param hexString   Hex string (i.e. 48656C6C6F)
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
-	public static final String hexString2AsciiString(String hexString) {
+	public static String hexString2AsciiString(String hexString) {
 		String hexByteStr;
 		int hexByteInt;
 		String asciiString = "";
@@ -994,7 +994,7 @@ public final class mXparser {
 	 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
-	public static final String numberToAsciiString(int number) {
+	public static String numberToAsciiString(int number) {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
 	/**
@@ -1005,7 +1005,7 @@ public final class mXparser {
 	 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
-	public static final String numberToAsciiString(long number) {
+	public static String numberToAsciiString(long number) {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
 	/**
@@ -1016,7 +1016,7 @@ public final class mXparser {
 	 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
 	 */
-	public static final String numberToAsciiString(double number) {
+	public static String numberToAsciiString(double number) {
 		return hexString2AsciiString( numberToHexString(number) );
 	}
 	/**
@@ -1031,7 +1031,7 @@ public final class mXparser {
 	 * @return                 Decimal number after conversion. If conversion was not
 	 *                         possible the Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
+	public static double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
 		return NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
 	}
 	/**
@@ -1054,7 +1054,7 @@ public final class mXparser {
 	 * @return     Decimal number after conversion. If conversion was not
 	 *             possible the Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(String numberLiteral) {
+	public static double convOthBase2Decimal(String numberLiteral) {
 		return NumberTheory.convOthBase2Decimal(numberLiteral);
 	}
 	/**
@@ -1065,7 +1065,7 @@ public final class mXparser {
 	 * @return                    Number after conversion. If conversion is not possible then
 	 *                            Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(int numeralSystemBase, int... digits) {
+	public static double convOthBase2Decimal(int numeralSystemBase, int... digits) {
 		return NumberTheory.convOthBase2Decimal(numeralSystemBase, digits);
 	}
 	/**
@@ -1076,7 +1076,7 @@ public final class mXparser {
 	 * @return                    Number after conversion. If conversion is not possible then
 	 *                            Double.NaN is returned.
 	 */
-	public static final double convOthBase2Decimal(double numeralSystemBase, double... digits) {
+	public static double convOthBase2Decimal(double numeralSystemBase, double... digits) {
 		return NumberTheory.convOthBase2Decimal(numeralSystemBase, digits);
 	}
 	/**
@@ -1094,7 +1094,7 @@ public final class mXparser {
 	 *                   33:X, 34:Y, 35:Z. If conversion was not possible
 	 *                   the "NaN" string is returned.
 	 */
-	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
+	public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
 		return NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase);
 	}
 	/**
@@ -1121,7 +1121,7 @@ public final class mXparser {
 	 *
 	 * If conversion was not possible the "NaN" string is returned.
 	 */
-	public static final String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
+	public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
 		return NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, format);
 	}
 	/**
@@ -1134,7 +1134,7 @@ public final class mXparser {
 	 * If conversion is not possible then Double.NaN is
 	 * assigned to all the fields.
 	 */
-	public static final double[] toFraction(double value) {
+	public static double[] toFraction(double value) {
 		return NumberTheory.toFraction(value);
 	}
 	/**
@@ -1148,7 +1148,7 @@ public final class mXparser {
 	 * If conversion is not possible then Double.NaN is
 	 * assigned to both numerator and denominator.
 	 */
-	public static final double[] toMixedFraction(double value) {
+	public static double[] toMixedFraction(double value) {
 		return NumberTheory.toMixedFraction(value);
 	}
 	/**
@@ -1160,7 +1160,7 @@ public final class mXparser {
 	 * @see NumberTheory#toFraction(double)
 	 * @see NumberTheory#toMixedFraction(double)
 	 */
-	public static final String fractionToString(double[] fraction) {
+	public static String fractionToString(double[] fraction) {
 		return NumberTheory.fractionToString(fraction);
 	}
 	/**
@@ -1172,7 +1172,7 @@ public final class mXparser {
 	 * @see NumberTheory#toFraction(double)
 	 * @see NumberTheory#fractionToString(double[])
 	 */
-	public static final String toFractionString(double value) {
+	public static String toFractionString(double value) {
 		return NumberTheory.toFractionString(value);
 	}
 	/**
@@ -1184,7 +1184,7 @@ public final class mXparser {
 	 * @see NumberTheory#toMixedFraction(double)
 	 * @see NumberTheory#fractionToString(double[])
 	 */
-	public static final String toMixedFractionString(double value) {
+	public static String toMixedFractionString(double value) {
 		return NumberTheory.toMixedFractionString(value);
 	}
 	/**
@@ -1192,7 +1192,7 @@ public final class mXparser {
 	 *
 	 * @param o    Object to print
 	 */
-	public static final void consolePrintln(Object o) {
+	public static void consolePrintln(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
 			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
 				System.out.print(CONSOLE_PREFIX);
@@ -1209,7 +1209,7 @@ public final class mXparser {
 	 *
 	 * @param stringArray  array of strinfs
 	 */
-	public static final void consolePrintln(String[] stringArray) {
+	public static void consolePrintln(String[] stringArray) {
 		if (stringArray == null) {
 			consolePrintln("null");
 			return;
@@ -1221,7 +1221,7 @@ public final class mXparser {
 	 * Prints new line to the Console, no new line
 	 *
 	 */
-	public static final void consolePrintln() {
+	public static void consolePrintln() {
 		synchronized (CONSOLE_OUTPUT) {
 			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
 				System.out.print(CONSOLE_PREFIX);
@@ -1238,7 +1238,7 @@ public final class mXparser {
 	 *
 	 * @param o    Object to print
 	 */
-	public static final void consolePrint(Object o) {
+	public static void consolePrint(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
 			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
 				System.out.print(CONSOLE_PREFIX);
@@ -1248,7 +1248,7 @@ public final class mXparser {
 			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
 		}
 	}
-	public static final void consolePrintSettings(String prefix) {
+	public static void consolePrintSettings(String prefix) {
 		mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
 		mXparser.consolePrintln(prefix + "checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
 		mXparser.consolePrintln(prefix + "checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
@@ -1263,7 +1263,7 @@ public final class mXparser {
 		mXparser.consolePrintln(prefix + "checkIfsetToOverrideBuiltinTokens = " + mXparser.checkIfsetToOverrideBuiltinTokens());
 		mXparser.consolePrintln(prefix + "Java version = " + System.getProperty("java.version"));
 	}
-	public static final void consolePrintSettings() {
+	public static void consolePrintSettings() {
 		consolePrintSettings("");
 	}
 	/**
@@ -1275,7 +1275,7 @@ public final class mXparser {
 	 * @see mXparser#consolePrintln()
 	 * @see mXparser#resetConsoleOutput()
 	 */
-	public static final void resetConsoleOutput() {
+	public static void resetConsoleOutput() {
 		synchronized (CONSOLE_OUTPUT) {
 			CONSOLE_OUTPUT = "";
 			CONSOLE_ROW_NUMBER = 1;
@@ -1328,7 +1328,7 @@ public final class mXparser {
 	 * @see mXparser#consolePrintln()
 	 * @see mXparser#resetConsoleOutput()
 	 */
-	public static final String getConsoleOutput() {
+	public static String getConsoleOutput() {
 		return CONSOLE_OUTPUT;
 	}
 	/**
@@ -1336,7 +1336,7 @@ public final class mXparser {
 	 *
 	 * @return String with all general help content
 	 */
-	public static final String getHelp() {
+	public static String getHelp() {
 		synchronized (mXparserExp) {
 			return mXparserExp.getHelp();
 		}
@@ -1347,7 +1347,7 @@ public final class mXparser {
 	 * @return  String with all help content
 	 * lines containing given keyword
 	 */
-	public static final String getHelp(String word) {
+	public static String getHelp(String word) {
 		synchronized (mXparserExp) {
 			return mXparserExp.getHelp(word);
 		}
@@ -1355,14 +1355,14 @@ public final class mXparser {
 	/**
 	 * Prints all help content.
 	 */
-	public static final void consolePrintHelp() {
+	public static void consolePrintHelp() {
 		System.out.println(getHelp());
 	}
 	/**
 	 * Prints filtered help content.
 	 * @param word      Key word.
 	 */
-	public static final void consolePrintHelp(String word) {
+	public static void consolePrintHelp(String word) {
 		System.out.println(getHelp(word));
 	}
 	/**
@@ -1374,7 +1374,7 @@ public final class mXparser {
 	 * @see KeyWord#wordTypeId
 	 * @see mXparser#getHelp()
 	 */
-	public static final List<KeyWord> getKeyWords() {
+	public static List<KeyWord> getKeyWords() {
 		synchronized (mXparserExp) {
 			return mXparserExp.getKeyWords();
 		}
@@ -1393,7 +1393,7 @@ public final class mXparser {
 	 * @see KeyWord#wordTypeId
 	 * @see mXparser#getHelp(String)
 	 */
-	public static final List<KeyWord> getKeyWords(String query) {
+	public static List<KeyWord> getKeyWords(String query) {
 		synchronized (mXparserExp) {
 			return mXparserExp.getKeyWords(query);
 		}
@@ -1407,7 +1407,7 @@ public final class mXparser {
 	 *
 	 * @return            True if pattern matches entirely, False otherwise
 	 */
-    public static final boolean regexMatch(String str, String pattern){
+    public static boolean regexMatch(String str, String pattern){
         return Pattern.matches(pattern, str);
     }
     /**
@@ -1417,7 +1417,7 @@ public final class mXparser {
      * @see Expression#getCopyOfInitialTokens()
      * @see Token
      */
-    public static final void consolePrintTokens(List<Token> tokens) {
+    public static void consolePrintTokens(List<Token> tokens) {
     	Expression.showTokens(tokens);
     }
 	/**
@@ -1427,7 +1427,7 @@ public final class mXparser {
 	 * @see Expression#getCopyOfInitialTokens()
 	 * @see Token
 	 */
-	public static final void consolePrint(List<Token> tokens) {
+	public static void consolePrint(List<Token> tokens) {
 		mXparser.consolePrintTokens(tokens);
 	}
 	/**
@@ -1437,7 +1437,7 @@ public final class mXparser {
 	 * @see Expression#getCopyOfInitialTokens()
 	 * @see Token
 	 */
-	public static final void consolePrintln(List<Token> tokens) {
+	public static void consolePrintln(List<Token> tokens) {
 		mXparser.consolePrintTokens(tokens);
 		mXparser.consolePrintln();
 	}
@@ -1494,7 +1494,7 @@ public final class mXparser {
 	 *
 	 * @return     license info as string
 	 */
-	public static final String getLicense() {
+	public static String getLicense() {
 		return LICENSE;
 	}
 	/**
@@ -1502,7 +1502,7 @@ public final class mXparser {
 	 *
 	 * @param n Number of milliseconds
 	 */
-	public static final void wait (int n){
+	public static void wait (int n){
         long t0,t1;
         t0=System.currentTimeMillis();
         do{
@@ -1515,7 +1515,7 @@ public final class mXparser {
 	 * remember to reset this flag after process is cancelled and you are going to start
 	 * new calculation process.
 	 */
-	public static final void cancelCurrentCalculation() {
+	public static void cancelCurrentCalculation() {
 		cancelCurrentCalculationFlag = true;
 	}
 	/**
@@ -1523,7 +1523,7 @@ public final class mXparser {
 	 *
 	 * {@link #cancelCurrentCalculation()}
 	 */
-	public static final void resetCancelCurrentCalculationFlag() {
+	public static void resetCancelCurrentCalculationFlag() {
 		cancelCurrentCalculationFlag = false;
 	}
 	/**
@@ -1535,7 +1535,7 @@ public final class mXparser {
 	 * @return true in case cancel calculation flag is active,
 	 *        otherwise false
 	 */
-	public static final boolean isCurrentCalculationCancelled() {
+	public static boolean isCurrentCalculationCancelled() {
 		return cancelCurrentCalculationFlag;
 	}
 	/*

@@ -219,7 +219,7 @@ public final class BooleanAlgebra {
 	 *             else if a &lt;&gt; 0 return TRUE,
 	 *             else return FALSE.
 	 */
-	public static final int double2IntBoolean(double a) {
+	public static int double2IntBoolean(double a) {
 		if ( Double.isNaN(a) )
 			return NULL;
 		if ( BinaryRelations.epsilonComparison ) {
@@ -244,7 +244,7 @@ public final class BooleanAlgebra {
 	 *
 	 * @return     Truth table element AND[A][B] where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double and(double a, double b) {
+	public static double and(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return AND_TRUTH_TABLE[A][B];
@@ -258,7 +258,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element OR[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double or(double a, double b) {
+	public static double or(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return OR_TRUTH_TABLE[A][B];
@@ -272,7 +272,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element XOR[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double xor(double a, double b) {
+	public static double xor(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return XOR_TRUTH_TABLE[A][B];
@@ -286,7 +286,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element NAND[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double nand(double a, double b) {
+	public static double nand(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return NAND_TRUTH_TABLE[A][B];
@@ -300,7 +300,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element NOR[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double nor(double a, double b) {
+	public static double nor(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return NOR_TRUTH_TABLE[A][B];
@@ -314,7 +314,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element XNOR[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double xnor(double a, double b) {
+	public static double xnor(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return XNOR_TRUTH_TABLE[A][B];
@@ -328,7 +328,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element IMP[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double imp(double a, double b) {
+	public static double imp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return IMP_TRUTH_TABLE[A][B];
@@ -342,7 +342,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element EQV[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double eqv(double a, double b) {
+	public static double eqv(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return EQV_TRUTH_TABLE[A][B];
@@ -355,7 +355,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element NOT[A]
 	 *             where A = double2IntBoolean(a)
 	 */
-	public static final double not(double a) {
+	public static double not(double a) {
 		int A = double2IntBoolean(a);
 		return NOT_TRUTH_TABLE[A];
 	}
@@ -368,7 +368,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element CIMP[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double cimp(double a, double b) {
+	public static double cimp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return CIMP_TRUTH_TABLE[A][B];
@@ -382,7 +382,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element NIMP[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double nimp(double a, double b) {
+	public static double nimp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return NIMP_TRUTH_TABLE[A][B];
@@ -396,7 +396,7 @@ public final class BooleanAlgebra {
 	 * @return     Truth table element CNIMP[A][B]
 	 *             where A = double2IntBoolean(a), B = double2IntBoolean(b)
 	 */
-	public static final double cnimp(double a, double b) {
+	public static double cnimp(double a, double b) {
 		int A = double2IntBoolean(a);
 		int B = double2IntBoolean(b);
 		return CNIMP_TRUTH_TABLE[A][B];
@@ -408,7 +408,7 @@ public final class BooleanAlgebra {
 	 * @return   Returns BooleanAlgebra.TRUE if all values on the list are BooleanAlgebra.TURE,
 	 *           otherwise returns BooleanAlgebra.FALSE
 	 */
-	public static final double andVariadic(double[] values) {
+	public static double andVariadic(double[] values) {
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		int cntTrue = 0;
@@ -429,7 +429,7 @@ public final class BooleanAlgebra {
 	 * @return   Returns BooleanAlgebra.TRUE if at least one value on the list is BooleanAlgebra.TURE,
 	 *           otherwise returns BooleanAlgebra.FALSE
 	 */
-	public static final double orVariadic(double[] values) {
+	public static double orVariadic(double[] values) {
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		int cntFalse = 0;
@@ -450,7 +450,7 @@ public final class BooleanAlgebra {
 	 * @return   Returns BooleanAlgebra.TRUE if exactly one value on the list is BooleanAlgebra.TURE,
 	 *           otherwise returns BooleanAlgebra.FALSE
 	 */
-	public static final double xorVariadic(double[] values) {
+	public static double xorVariadic(double[] values) {
 		if (values == null) return Double.NaN;
 		if (values.length == 0) return Double.NaN;
 		int cntTrue = 0;
