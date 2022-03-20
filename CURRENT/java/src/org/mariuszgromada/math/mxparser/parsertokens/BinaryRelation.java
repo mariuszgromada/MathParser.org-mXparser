@@ -1,5 +1,5 @@
 /*
- * @(#)BinaryRelation.java        5.0.0    2022-03-05
+ * @(#)BinaryRelation.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -113,20 +113,20 @@ public final class BinaryRelation {
 	/*
 	 * BinaryRelation - syntax.
 	 */
-	public static final String EQ_SYN 				= "a = b";
-	public static final String EQ1_SYN 				= "a == b";
-	public static final String NEQ_SYN 				= "a <> b";
-	public static final String NEQ_SYN_UNI_1		= "a ≠ b";
-	public static final String NEQ1_SYN 			= "a ~= b";
-	public static final String NEQ2_SYN 			= "a != b";
-	public static final String LT_SYN 				= "a < b";
-	public static final String GT_SYN 				= "a > b";
-	public static final String LEQ_SYN 				= "a <= b";
-	public static final String LEQ_SYN_UNI_1		= "a ≤ b";
-	public static final String LEQ_SYN_UNI_2 		= "a ⋝ b";
-	public static final String GEQ_SYN 				= "a >= b";
-	public static final String GEQ_SYN_UNI_1		= "a ≥ b";
-	public static final String GEQ_SYN_UNI_2		= "a ⋝ b";
+	public static final String EQ_SYN 				= SyntaxStringBuilder.binaryRelation(EQ_STR);
+	public static final String EQ1_SYN 				= SyntaxStringBuilder.binaryRelation(EQ1_STR);
+	public static final String NEQ_SYN 				= SyntaxStringBuilder.binaryRelation(NEQ_STR);
+	public static final String NEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(NEQ_STR_UNI_1);
+	public static final String NEQ1_SYN 			= SyntaxStringBuilder.binaryRelation(NEQ1_STR);
+	public static final String NEQ2_SYN 			= SyntaxStringBuilder.binaryRelation(NEQ2_STR);
+	public static final String LT_SYN 				= SyntaxStringBuilder.binaryRelation(LT_STR);
+	public static final String GT_SYN 				= SyntaxStringBuilder.binaryRelation(GT_STR);
+	public static final String LEQ_SYN 				= SyntaxStringBuilder.binaryRelation(LEQ_STR);
+	public static final String LEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(LEQ_STR_UNI_1);
+	public static final String LEQ_SYN_UNI_2 		= SyntaxStringBuilder.binaryRelation(LEQ_STR_UNI_2);
+	public static final String GEQ_SYN 				= SyntaxStringBuilder.binaryRelation(GEQ_STR);
+	public static final String GEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(GEQ_STR_UNI_1);
+	public static final String GEQ_SYN_UNI_2		= SyntaxStringBuilder.binaryRelation(GEQ_STR_UNI_2);
 	/*
 	 * BinaryRelation - tokens description.
 	 */

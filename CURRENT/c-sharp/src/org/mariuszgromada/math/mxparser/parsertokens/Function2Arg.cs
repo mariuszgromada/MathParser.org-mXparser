@@ -1,9 +1,9 @@
 /*
- * @(#)Function2Arg.cs        4.2.0    2018-05-29
+ * @(#)Function2Arg.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function2Arg {
@@ -151,36 +151,36 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * BinaryFunction - syntax.
 		 */
-		public const String LOG_SYN 						= "log(a, b)";
-		public const String MOD_SYN 						= "mod(a, b)";
-		public const String BINOM_COEFF_SYN					= "C(n, k)";
-		public const String BERNOULLI_NUMBER_SYN			= "Bern(m, n)";
-		public const String STIRLING1_NUMBER_SYN			= "Stirl1(n, k)";
-		public const String STIRLING2_NUMBER_SYN			= "Stirl2(n, k)";
-		public const String WORPITZKY_NUMBER_SYN			= "Worp(n, k)";
-		public const String EULER_NUMBER_SYN				= "Euler(n, k)";
-		public const String KRONECKER_DELTA_SYN				= "KDelta(i, j)";
-		public const String EULER_POLYNOMIAL_SYN			= "EulerPol";
-		public const String HARMONIC_NUMBER_SYN				= "Harm(x, n)";
-		public const String RND_UNIFORM_CONT_SYN 			= "rUni(a, b)";
-		public const String RND_UNIFORM_DISCR_SYN  			= "rUnid(a, b)";
-		public const String ROUND_SYN						= "round(x, n)";
-		public const String RND_NORMAL_SYN					= "rNor(mean, stdv)";
-		public const String NDIG_SYN						= "ndig(number, base)";
-		public const String DIGIT10_SYN						= "dig10(num, pos)";
-		public const String FACTVAL_SYN						= "factval(number, factorid)";
-		public const String FACTEXP_SYN						= "factexp(number, factorid)";
-		public const String ROOT_SYN						= "root(rootorder, number)";
-		public const String INC_GAMMA_LOWER_SYN				= INC_GAMMA_LOWER_STR + "(s,x)";
-		public const String INC_GAMMA_UPPER_SYN				= INC_GAMMA_UPPER_STR + "(s,x)";
-		public const String REG_GAMMA_LOWER_SYN				= REG_GAMMA_LOWER_STR + "(s,x)";
-		public const String REG_GAMMA_UPPER_SYN				= REG_GAMMA_UPPER_STR + "(s,x)";
-		public const String REG_GAMMA_LOWER_P_SYN			= REG_GAMMA_LOWER_P_STR + "(s,x)";
-		public const String REG_GAMMA_UPPER_Q_SYN			= REG_GAMMA_UPPER_Q_STR + "(s,x)";
-		public const String BINOM_COEFF_NCK_SYN				= BINOM_COEFF_NCK_STR + "(n,k)";
-		public const String PERMUTATIONS_SYN				= PERMUTATIONS_STR + "(n,k)";
-		public const String BETA_SYN						= BETA_STR + "(x,y)";
-		public const String LOG_BETA_SYN					= LOG_BETA_STR + "(x,y)";
+		public static readonly String LOG_SYN 						= SyntaxStringBuilder.binaryFunction(LOG_STR, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+		public static readonly String MOD_SYN 						= SyntaxStringBuilder.binaryFunction(MOD_STR, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+		public static readonly String BINOM_COEFF_SYN				= SyntaxStringBuilder.binaryFunction(BINOM_COEFF_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String BERNOULLI_NUMBER_SYN			= SyntaxStringBuilder.binaryFunction(BERNOULLI_NUMBER_STR, SyntaxStringBuilder.m, SyntaxStringBuilder.n);
+		public static readonly String STIRLING1_NUMBER_SYN			= SyntaxStringBuilder.binaryFunction(STIRLING1_NUMBER_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String STIRLING2_NUMBER_SYN			= SyntaxStringBuilder.binaryFunction(STIRLING2_NUMBER_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String WORPITZKY_NUMBER_SYN			= SyntaxStringBuilder.binaryFunction(WORPITZKY_NUMBER_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String EULER_NUMBER_SYN				= SyntaxStringBuilder.binaryFunction(EULER_NUMBER_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String KRONECKER_DELTA_SYN			= SyntaxStringBuilder.binaryFunction(KRONECKER_DELTA_STR, SyntaxStringBuilder.i, SyntaxStringBuilder.j);
+		public static readonly String EULER_POLYNOMIAL_SYN			= SyntaxStringBuilder.binaryFunction(EULER_POLYNOMIAL_STR, SyntaxStringBuilder.m, SyntaxStringBuilder.x);
+		public static readonly String HARMONIC_NUMBER_SYN			= SyntaxStringBuilder.binaryFunction(HARMONIC_NUMBER_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.n);
+		public static readonly String RND_UNIFORM_CONT_SYN 			= SyntaxStringBuilder.binaryFunction(RND_UNIFORM_CONT_STR, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+		public static readonly String RND_UNIFORM_DISCR_SYN  		= SyntaxStringBuilder.binaryFunction(RND_UNIFORM_DISCR_STR, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+		public static readonly String ROUND_SYN						= SyntaxStringBuilder.binaryFunction(ROUND_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.n);
+		public static readonly String RND_NORMAL_SYN				= SyntaxStringBuilder.binaryFunction(RND_NORMAL_STR, SyntaxStringBuilder.mean, SyntaxStringBuilder.stdv);
+		public static readonly String NDIG_SYN						= SyntaxStringBuilder.binaryFunction(NDIG_STR, SyntaxStringBuilder.number, SyntaxStringBuilder.basestr);
+		public static readonly String DIGIT10_SYN					= SyntaxStringBuilder.binaryFunction(DIGIT10_STR, SyntaxStringBuilder.num, SyntaxStringBuilder.pos);
+		public static readonly String FACTVAL_SYN					= SyntaxStringBuilder.binaryFunction(FACTVAL_STR, SyntaxStringBuilder.number, SyntaxStringBuilder.factorid);
+		public static readonly String FACTEXP_SYN					= SyntaxStringBuilder.binaryFunction(FACTEXP_STR, SyntaxStringBuilder.number, SyntaxStringBuilder.factorid);
+		public static readonly String ROOT_SYN						= SyntaxStringBuilder.binaryFunction(ROOT_STR, SyntaxStringBuilder.rootorder, SyntaxStringBuilder.number);
+		public static readonly String INC_GAMMA_LOWER_SYN			= SyntaxStringBuilder.binaryFunction(INC_GAMMA_LOWER_STR, SyntaxStringBuilder.s, SyntaxStringBuilder.x);
+		public static readonly String INC_GAMMA_UPPER_SYN			= SyntaxStringBuilder.binaryFunction(INC_GAMMA_UPPER_STR, SyntaxStringBuilder.s, SyntaxStringBuilder.x);
+		public static readonly String REG_GAMMA_LOWER_SYN			= SyntaxStringBuilder.binaryFunction(REG_GAMMA_LOWER_STR, SyntaxStringBuilder.s, SyntaxStringBuilder.x);
+		public static readonly String REG_GAMMA_UPPER_SYN			= SyntaxStringBuilder.binaryFunction(REG_GAMMA_UPPER_STR, SyntaxStringBuilder.s, SyntaxStringBuilder.x);
+		public static readonly String REG_GAMMA_LOWER_P_SYN			= SyntaxStringBuilder.binaryFunction(REG_GAMMA_LOWER_P_STR, SyntaxStringBuilder.s, SyntaxStringBuilder.x);
+		public static readonly String REG_GAMMA_UPPER_Q_SYN			= SyntaxStringBuilder.binaryFunction(REG_GAMMA_UPPER_Q_STR, SyntaxStringBuilder.s, SyntaxStringBuilder.x);
+		public static readonly String BINOM_COEFF_NCK_SYN			= SyntaxStringBuilder.binaryFunction(BINOM_COEFF_NCK_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String PERMUTATIONS_SYN				= SyntaxStringBuilder.binaryFunction(PERMUTATIONS_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
+		public static readonly String BETA_SYN						= SyntaxStringBuilder.binaryFunction(BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.y);
+		public static readonly String LOG_BETA_SYN					= SyntaxStringBuilder.binaryFunction(LOG_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.y);
 		/*
 		 * BinaryFunction - tokens description.
 		 */

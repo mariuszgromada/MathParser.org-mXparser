@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)BinaryRelation.cs        5.0.0    2022-03-12
+ * @(#)BinaryRelation.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -114,20 +114,20 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * BinaryRelation - syntax.
 		 */
-		public const String EQ_SYN 				= "a = b";
-		public const String EQ1_SYN 			= "a == b";
-		public const String NEQ_SYN 			= "a <> b";
-		public const String NEQ_SYN_UNI_1		= "a ≠ b";
-		public const String NEQ1_SYN 			= "a ~= b";
-		public const String NEQ2_SYN 			= "a != b";
-		public const String LT_SYN 				= "a < b";
-		public const String GT_SYN 				= "a > b";
-		public const String LEQ_SYN 			= "a <= b";
-		public const String LEQ_SYN_UNI_1		= "a ≤ b";
-		public const String LEQ_SYN_UNI_2 		= "a ⋝ b";
-		public const String GEQ_SYN 			= "a >= b";
-		public const String GEQ_SYN_UNI_1		= "a ≥ b";
-		public const String GEQ_SYN_UNI_2		= "a ⋝ b";
+		public static readonly String EQ_SYN 			= SyntaxStringBuilder.binaryRelation(EQ_STR);
+		public static readonly String EQ1_SYN 			= SyntaxStringBuilder.binaryRelation(EQ1_STR);
+		public static readonly String NEQ_SYN 			= SyntaxStringBuilder.binaryRelation(NEQ_STR);
+		public static readonly String NEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(NEQ_STR_UNI_1);
+		public static readonly String NEQ1_SYN 			= SyntaxStringBuilder.binaryRelation(NEQ1_STR);
+		public static readonly String NEQ2_SYN 			= SyntaxStringBuilder.binaryRelation(NEQ2_STR);
+		public static readonly String LT_SYN 			= SyntaxStringBuilder.binaryRelation(LT_STR);
+		public static readonly String GT_SYN 			= SyntaxStringBuilder.binaryRelation(GT_STR);
+		public static readonly String LEQ_SYN 			= SyntaxStringBuilder.binaryRelation(LEQ_STR);
+		public static readonly String LEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(LEQ_STR_UNI_1);
+		public static readonly String LEQ_SYN_UNI_2 	= SyntaxStringBuilder.binaryRelation(LEQ_STR_UNI_2);
+		public static readonly String GEQ_SYN 			= SyntaxStringBuilder.binaryRelation(GEQ_STR);
+		public static readonly String GEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(GEQ_STR_UNI_1);
+		public static readonly String GEQ_SYN_UNI_2		= SyntaxStringBuilder.binaryRelation(GEQ_STR_UNI_2);
 		/*
 		 * BinaryRelation - tokens description.
 		 */

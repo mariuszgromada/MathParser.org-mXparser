@@ -1,9 +1,9 @@
 /*
- * @(#)BitwiseOperator.cs        4.2.0    2018-01-28
+ * @(#)BitwiseOperator.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.2.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BitwiseOperator {
@@ -106,12 +106,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * BitwiseOperator - syntax.
 		 */
-		public const String COMPL_SYN			= "@~a";
-		public const String AND_SYN				= "a @& b";
-		public const String XOR_SYN				= "a @^ b";
-		public const String OR_SYN				= "a @| b";
-		public const String LEFT_SHIFT_SYN		= "a @<< b";
-		public const String RIGHT_SHIFT_SYN		= "a @>> b";
+		public static readonly String COMPL_SYN			= SyntaxStringBuilder.unaryLeftBitwiseOperator(COMPL_STR);
+		public static readonly String AND_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(AND_STR);
+		public static readonly String XOR_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(XOR_STR);
+		public static readonly String OR_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(OR_STR);
+		public static readonly String LEFT_SHIFT_SYN	= SyntaxStringBuilder.binaryBitwiseOperator(LEFT_SHIFT_STR);
+		public static readonly String RIGHT_SHIFT_SYN	= SyntaxStringBuilder.binaryBitwiseOperator(RIGHT_SHIFT_STR);
 		/*
 		 * BitwiseOperator - tokens description.
 		 */

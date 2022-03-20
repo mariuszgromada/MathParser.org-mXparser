@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        5.0.0    2022-03-05
+ * @(#)Operator.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -121,22 +121,22 @@ public final class Operator {
 	/*
 	 * Operator - syntax.
 	 */
-	public static final String PLUS_SYN 			= "a + b";
-	public static final String MINUS_SYN 			= "a - b";
-	public static final String MULTIPLY_SYN 		= "a " + MULTIPLY_STR + " b";
-	public static final String MULTIPLY_SYN_UNI_1	= "a " + MULTIPLY_STR_UNI_1 + " b";
-	public static final String MULTIPLY_SYN_UNI_2	= "a " + MULTIPLY_STR_UNI_2 + " b";
-	public static final String MULTIPLY_SYN_UNI_3	= "a " + MULTIPLY_STR_UNI_3 + " b";
-	public static final String DIVIDE_SYN 			= "a " + DIVIDE_STR + " b";
-	public static final String DIVIDE_SYN_UNI_1		= "a " + DIVIDE_STR_UNI_1 + " b";
-	public static final String POWER_SYN 			= "a^b";
-	public static final String FACT_SYN 			= "n!";
-	public static final String MOD_SYN				= "a # b";
-	public static final String PERC_SYN				= "n%";
-	public static final String TETRATION_SYN		= "a^^n";
-	public static final String SQUARE_ROOT_SYN		= "√a";
-	public static final String CUBE_ROOT_SYN		= "∛a";
-	public static final String FOURTH_ROOT_SYN		= "∜a";
+	public static final String PLUS_SYN 			= SyntaxStringBuilder.binaryOperator(PLUS_STR);
+	public static final String MINUS_SYN 			= SyntaxStringBuilder.binaryOperator(MINUS_STR);
+	public static final String MULTIPLY_SYN 		= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR);
+	public static final String MULTIPLY_SYN_UNI_1	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_1);
+	public static final String MULTIPLY_SYN_UNI_2	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_2);
+	public static final String MULTIPLY_SYN_UNI_3	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_3);
+	public static final String DIVIDE_SYN 			= SyntaxStringBuilder.binaryOperator(DIVIDE_STR);
+	public static final String DIVIDE_SYN_UNI_1		= SyntaxStringBuilder.binaryOperator(DIVIDE_STR_UNI_1);
+	public static final String POWER_SYN 			= SyntaxStringBuilder.binaryOperatorNoSpace(POWER_STR);
+	public static final String FACT_SYN 			= SyntaxStringBuilder.unaryRightOperator(FACT_STR);
+	public static final String MOD_SYN				= SyntaxStringBuilder.binaryOperator(MOD_STR);
+	public static final String PERC_SYN				= SyntaxStringBuilder.unaryRightOperator(PERC_STR);
+	public static final String TETRATION_SYN		= SyntaxStringBuilder.binaryOperatorNoSpace(TETRATION_STR);
+	public static final String SQUARE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(SQUARE_ROOT_STR);
+	public static final String CUBE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(CUBE_ROOT_STR);
+	public static final String FOURTH_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(FOURTH_ROOT_STR);
 	/*
 	 * Operator - tokens description.
 	 */

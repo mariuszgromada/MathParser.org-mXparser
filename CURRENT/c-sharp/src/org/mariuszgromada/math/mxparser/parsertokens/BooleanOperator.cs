@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)BooleanOperator.cs        5.0.0    2022-03-13
+ * @(#)BooleanOperator.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -145,46 +145,46 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * BooleanOperator - syntax.
 		 */
-		public const String NEG_SYN				= "~p";
-		public const String NEG_SYN_UNI_1		= "¬p";
-		public const String AND_SYN				= "p & q";
-		public const String AND1_SYN			= "p && q";
-		public const String AND2_SYN			= "p /\\ q";
-		public const String AND_SYN_UNI_1		= "p ∧ q";
-		public const String NAND_SYN			= "p " + NEG_STR + AND_STR + " q";
-		public const String NAND1_SYN			= "p " + NEG_STR + AND1_STR + " q";
-		public const String NAND2_SYN			= "p " + NEG_STR + AND2_STR + " q";
-		public const String NAND_SYN_UNI_1		= "p " + NAND_STR_UNI_1 + " q";
-		public const String NAND_SYN_UNI_2		= "p " + NAND_STR_UNI_2 + " q";
-		public const String NAND_SYN_UNI_3		= "p " + NAND_STR_UNI_3 + " q";
-		public const String NAND_SYN_UNI_4		= "p " + NAND_STR_UNI_4 + " q";
-		public const String NAND_SYN_UNI_5		= "p " + NAND_STR_UNI_5 + " q";
-		public const String NAND_SYN_UNI_6		= "p " + NAND_STR_UNI_6 + " q";
-		public const String OR_SYN				= "p | q";
-		public const String OR1_SYN				= "p || q";
-		public const String OR2_SYN				= "p \\/ q";
-		public const String OR_SYN_UNI_1		= "p ∨ q";
-		public const String NOR_SYN				= "p " + NEG_STR + OR_STR + " q";
-		public const String NOR1_SYN			= "p " + NEG_STR + OR1_STR + " q";
-		public const String NOR2_SYN			= "p " + NEG_STR + OR2_STR + " q";
-		public const String NOR_SYN_UNI_1		= "p " + NOR_STR_UNI_1 + " q";
-		public const String NOR_SYN_UNI_2		= "p " + NOR_STR_UNI_2 + " q";
-		public const String NOR_SYN_UNI_3		= "p " + NOR_STR_UNI_3 + " q";
-		public const String NOR_SYN_UNI_4		= "p " + NOR_STR_UNI_4 + " q";
-		public const String NOR_SYN_UNI_5		= "p " + NOR_STR_UNI_5 + " q";
-		public const String NOR_SYN_UNI_6		= "p " + NOR_STR_UNI_6 + " q";
-		public const String XOR_SYN				= "p (+) q";
-		public const String XOR_SYN_UNI_1		= "p ⊻ q";
-		public const String IMP_SYN				= "p --> q";
-		public const String IMP_SYN_UNI_1		= "p ⇒ q";
-		public const String CIMP_SYN			= "p <-- q";
-		public const String CIMP_SYN_UNI_1		= "p ⇐ q";
-		public const String NIMP_SYN			= "p  -/> q";
-		public const String NIMP_SYN_UNI_1		= "p ⇏ q";
-		public const String CNIMP_SYN			= "p </- q";
-		public const String CNIMP_SYN_UNI_1		= "p ⇍ q";
-		public const String EQV_SYN				= "p <-> q";
-		public const String EQV_SYN_UNI_1		= "p ⇔ q";
+		public static readonly String NEG_SYN			= SyntaxStringBuilder.unaryLeftBooleanOperator(NEG_STR);
+		public static readonly String NEG_SYN_UNI_1		= SyntaxStringBuilder.unaryLeftBooleanOperator(NEG_STR_UNI_1);
+		public static readonly String AND_SYN			= SyntaxStringBuilder.binaryBooleanOperator(AND_STR);
+		public static readonly String AND1_SYN			= SyntaxStringBuilder.binaryBooleanOperator(AND1_STR);
+		public static readonly String AND2_SYN			= SyntaxStringBuilder.binaryBooleanOperator(AND2_STR);
+		public static readonly String AND_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(AND_STR_UNI_1);
+		public static readonly String NAND_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR);
+		public static readonly String NAND1_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NAND1_STR);
+		public static readonly String NAND2_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NAND2_STR);
+		public static readonly String NAND_SYN_UNI_1	= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR_UNI_1);
+		public static readonly String NAND_SYN_UNI_2	= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR_UNI_2);
+		public static readonly String NAND_SYN_UNI_3	= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR_UNI_3);
+		public static readonly String NAND_SYN_UNI_4	= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR_UNI_4);
+		public static readonly String NAND_SYN_UNI_5	= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR_UNI_5);
+		public static readonly String NAND_SYN_UNI_6	= SyntaxStringBuilder.binaryBooleanOperator(NAND_STR_UNI_6);
+		public static readonly String OR_SYN			= SyntaxStringBuilder.binaryBooleanOperator(OR_STR);
+		public static readonly String OR1_SYN			= SyntaxStringBuilder.binaryBooleanOperator(OR1_STR);
+		public static readonly String OR2_SYN			= SyntaxStringBuilder.binaryBooleanOperator(OR2_STR);
+		public static readonly String OR_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(OR_STR_UNI_1);
+		public static readonly String NOR_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR);
+		public static readonly String NOR1_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NOR1_STR);
+		public static readonly String NOR2_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NOR2_STR);
+		public static readonly String NOR_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR_UNI_1);
+		public static readonly String NOR_SYN_UNI_2		= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR_UNI_2);
+		public static readonly String NOR_SYN_UNI_3		= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR_UNI_3);
+		public static readonly String NOR_SYN_UNI_4		= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR_UNI_4);
+		public static readonly String NOR_SYN_UNI_5		= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR_UNI_5);
+		public static readonly String NOR_SYN_UNI_6		= SyntaxStringBuilder.binaryBooleanOperator(NOR_STR_UNI_6);
+		public static readonly String XOR_SYN			= SyntaxStringBuilder.binaryBooleanOperator(XOR_STR);
+		public static readonly String XOR_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(XOR_STR_UNI_1);
+		public static readonly String IMP_SYN			= SyntaxStringBuilder.binaryBooleanOperator(IMP_STR);
+		public static readonly String IMP_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(IMP_STR_UNI_1);
+		public static readonly String CIMP_SYN			= SyntaxStringBuilder.binaryBooleanOperator(CIMP_STR);
+		public static readonly String CIMP_SYN_UNI_1	= SyntaxStringBuilder.binaryBooleanOperator(CIMP_STR_UNI_1);
+		public static readonly String NIMP_SYN			= SyntaxStringBuilder.binaryBooleanOperator(NIMP_STR);
+		public static readonly String NIMP_SYN_UNI_1	= SyntaxStringBuilder.binaryBooleanOperator(NIMP_STR_UNI_1);
+		public static readonly String CNIMP_SYN			= SyntaxStringBuilder.binaryBooleanOperator(CNIMP_STR);
+		public static readonly String CNIMP_SYN_UNI_1	= SyntaxStringBuilder.binaryBooleanOperator(CNIMP_STR_UNI_1);
+		public static readonly String EQV_SYN			= SyntaxStringBuilder.binaryBooleanOperator(EQV_STR);
+		public static readonly String EQV_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(EQV_STR_UNI_1);
 		/*
 		 * BooleanOperator - tokens description.
 		 */

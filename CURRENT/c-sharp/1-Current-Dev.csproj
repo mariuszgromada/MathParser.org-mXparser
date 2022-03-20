@@ -114,6 +114,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Operator.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\ParserSymbol.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\SyntaxStringBuilder.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\parsertokens\Unit.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\PrimitiveElement.cs" />

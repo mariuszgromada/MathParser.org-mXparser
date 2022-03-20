@@ -1,5 +1,5 @@
 /*
- * @(#)CalculusOperator.java        5.0.0   2022-03-05
+ * @(#)CalculusOperator.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -135,33 +135,33 @@ public final class CalculusOperator {
 	/*
 	 * CalculusOperator - syntax.
 	 */
-	public static final String SUM_SYN					= "sum( i, from, to, expr , <by> )";
-	public static final String SUM_SYN_UNI_1			= "∑( i, from, to, expr , <by> )";
-	public static final String SUM_SYN_UNI_2			= "Σ( i, from, to, expr , <by> )";
-	public static final String PROD_SYN					= "prod( i, from, to, expr , <by> )";
-	public static final String PROD_SYN_UNI_1			= "∏( i, from, to, expr , <by> )";
-	public static final String PROD_SYN_UNI_2			= "ℿ( i, from, to, expr , <by> )";
-	public static final String PROD_SYN_UNI_3			= "Π( i, from, to, expr , <by> )";
-	public static final String INT_SYN					= "int( expr, arg, from, to )";
-	public static final String INT_SYN_UNI_1			= "∫( expr, arg, from, to )";
-	public static final String DER_SYN					= "der( expr, arg, <point> )";
-	public static final String DER_SYN_UNI_1			= "∂( expr, arg, <point> )";
-	public static final String DER_LEFT_SYN				= "der-( expr, arg, <point> )";
-	public static final String DER_LEFT_SYN_UNI_1		= "∂-( expr, arg, <point> )";
-	public static final String DER_RIGHT_SYN			= "der+( expr, arg, <point> )";
-	public static final String DER_RIGHT_SYN_UNI_1		= "∂+( expr, arg, <point> )";
-	public static final String DERN_SYN					= "dern( expr, n, arg )";
-	public static final String FORW_DIFF_SYN			= "diff( expr, arg, <delta> )";
-	public static final String FORW_DIFF_SYN_UNI_1		= "∆( expr, arg, <delta> )";
-	public static final String FORW_DIFF_SYN_UNI_2		= "Δ( expr, arg, <delta> )";
-	public static final String BACKW_DIFF_SYN			= "difb( expr, arg, <delta> )";
-	public static final String BACKW_DIFF_SYN_UNI_1		= "∇( expr, arg, <delta> )";
-	public static final String AVG_SYN					= "avg( i, from, to, expr , <by> )";
-	public static final String VAR_SYN					= "vari( i, from, to, expr , <by> )";
-	public static final String STD_SYN					= "stdi( i, from, to, expr , <by> )";
-	public static final String MIN_SYN					= "mini( i, from, to, expr , <by> )";
-	public static final String MAX_SYN					= "maxi( i, from, to, expr , <by> )";
-	public static final String SOLVE_SYN				= "solve( expr, arg, from, to )";
+	public static final String SUM_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(SUM_STR);
+	public static final String SUM_SYN_UNI_1			= SyntaxStringBuilder.calculusIFromToExprOptBy(SUM_STR_UNI_1);
+	public static final String SUM_SYN_UNI_2			= SyntaxStringBuilder.calculusIFromToExprOptBy(SUM_STR_UNI_2);
+	public static final String PROD_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(PROD_STR);
+	public static final String PROD_SYN_UNI_1			= SyntaxStringBuilder.calculusIFromToExprOptBy(PROD_STR_UNI_1);
+	public static final String PROD_SYN_UNI_2			= SyntaxStringBuilder.calculusIFromToExprOptBy(PROD_STR_UNI_2);
+	public static final String PROD_SYN_UNI_3			= SyntaxStringBuilder.calculusIFromToExprOptBy(PROD_STR_UNI_3);
+	public static final String INT_SYN					= SyntaxStringBuilder.calculusExprArgFromTo(INT_STR);
+	public static final String INT_SYN_UNI_1			= SyntaxStringBuilder.calculusExprArgFromTo(INT_STR_UNI_1);
+	public static final String DER_SYN					= SyntaxStringBuilder.calculusExprArgOptPoint(DER_STR);
+	public static final String DER_SYN_UNI_1			= SyntaxStringBuilder.calculusExprArgOptPoint(DER_STR_UNI_1);
+	public static final String DER_LEFT_SYN				= SyntaxStringBuilder.calculusExprArgOptPoint(DER_LEFT_STR);
+	public static final String DER_LEFT_SYN_UNI_1		= SyntaxStringBuilder.calculusExprArgOptPoint(DER_LEFT_STR_UNI_1);
+	public static final String DER_RIGHT_SYN			= SyntaxStringBuilder.calculusExprArgOptPoint(DER_RIGHT_STR);
+	public static final String DER_RIGHT_SYN_UNI_1		= SyntaxStringBuilder.calculusExprArgOptPoint(DER_RIGHT_STR_UNI_1);
+	public static final String DERN_SYN					= SyntaxStringBuilder.exprNArg(DERN_STR);
+	public static final String FORW_DIFF_SYN			= SyntaxStringBuilder.calculusExprArgOptDelta(FORW_DIFF_STR);
+	public static final String FORW_DIFF_SYN_UNI_1		= SyntaxStringBuilder.calculusExprArgOptDelta(FORW_DIFF_STR_UNI_1);
+	public static final String FORW_DIFF_SYN_UNI_2		= SyntaxStringBuilder.calculusExprArgOptDelta(FORW_DIFF_STR_UNI_2);
+	public static final String BACKW_DIFF_SYN			= SyntaxStringBuilder.calculusExprArgOptDelta(BACKW_DIFF_STR);
+	public static final String BACKW_DIFF_SYN_UNI_1		= SyntaxStringBuilder.calculusExprArgOptDelta(BACKW_DIFF_STR_UNI_1);
+	public static final String AVG_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(AVG_STR);
+	public static final String VAR_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(VAR_STR);
+	public static final String STD_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(STD_STR);
+	public static final String MIN_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(MIN_STR);
+	public static final String MAX_SYN					= SyntaxStringBuilder.calculusIFromToExprOptBy(MAX_STR);
+	public static final String SOLVE_SYN				= SyntaxStringBuilder.calculusExprArgFromTo(SOLVE_STR);
 	/*
 	 * CalculusOperator - tokens description.
 	 */

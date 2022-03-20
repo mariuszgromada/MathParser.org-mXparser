@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Operator.cs        5.0.0    2022-03-13
+ * @(#)Operator.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -122,22 +122,22 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * Operator - syntax.
 		 */
-		public const String PLUS_SYN 			= "a + b";
-		public const String MINUS_SYN 			= "a - b";
-		public const String MULTIPLY_SYN 		= "a " + MULTIPLY_STR + " b";
-		public const String MULTIPLY_SYN_UNI_1	= "a " + MULTIPLY_STR_UNI_1 + " b";
-		public const String MULTIPLY_SYN_UNI_2	= "a " + MULTIPLY_STR_UNI_2 + " b";
-		public const String MULTIPLY_SYN_UNI_3	= "a " + MULTIPLY_STR_UNI_3 + " b";
-		public const String DIVIDE_SYN 			= "a " + DIVIDE_STR + " b";
-		public const String DIVIDE_SYN_UNI_1	= "a " + DIVIDE_STR_UNI_1 + " b";
-		public const String POWER_SYN 			= "a^b";
-		public const String FACT_SYN 			= "n!";
-		public const String MOD_SYN				= "a # b";
-        public const String PERC_SYN			= "n%";
-		public const String TETRATION_SYN		= "a^^n";
-		public const String SQUARE_ROOT_SYN		= "√a";
-		public const String CUBE_ROOT_SYN		= "∛a";
-		public const String FOURTH_ROOT_SYN		= "∜a";
+		public static readonly String PLUS_SYN 				= SyntaxStringBuilder.binaryOperator(PLUS_STR);
+		public static readonly String MINUS_SYN 			= SyntaxStringBuilder.binaryOperator(MINUS_STR);
+		public static readonly String MULTIPLY_SYN 			= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR);
+		public static readonly String MULTIPLY_SYN_UNI_1	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_1);
+		public static readonly String MULTIPLY_SYN_UNI_2	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_2);
+		public static readonly String MULTIPLY_SYN_UNI_3	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_3);
+		public static readonly String DIVIDE_SYN 			= SyntaxStringBuilder.binaryOperator(DIVIDE_STR);
+		public static readonly String DIVIDE_SYN_UNI_1		= SyntaxStringBuilder.binaryOperator(DIVIDE_STR_UNI_1);
+		public static readonly String POWER_SYN 			= SyntaxStringBuilder.binaryOperatorNoSpace(POWER_STR);
+		public static readonly String FACT_SYN 				= SyntaxStringBuilder.unaryRightOperator(FACT_STR);
+		public static readonly String MOD_SYN				= SyntaxStringBuilder.binaryOperator(MOD_STR);
+		public static readonly String PERC_SYN				= SyntaxStringBuilder.unaryRightOperator(PERC_STR);
+		public static readonly String TETRATION_SYN			= SyntaxStringBuilder.binaryOperatorNoSpace(TETRATION_STR);
+		public static readonly String SQUARE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(SQUARE_ROOT_STR);
+		public static readonly String CUBE_ROOT_SYN			= SyntaxStringBuilder.unaryLeftOperator(CUBE_ROOT_STR);
+		public static readonly String FOURTH_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(FOURTH_ROOT_STR);
 		/*
 		 * Operator - tokens description.
 		 */

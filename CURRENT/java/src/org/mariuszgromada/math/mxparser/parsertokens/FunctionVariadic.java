@@ -1,9 +1,9 @@
 /*
- * @(#)FunctionVariadic.java        4.1.0    2017-06-13
+ * @(#)FunctionVariadic.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2017 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.1.0
+ * @version        5.0.0
  */
 public final class FunctionVariadic {
 	/*
@@ -139,29 +139,29 @@ public final class FunctionVariadic {
 	/*
 	 * FunctionVariadic - syntax.
 	 */
-	public static final String IFF_SYN 					= "iff( cond-1, expr-1; ... ; cond-n, expr-n )";
-	public static final String MIN_SYN					= "min(a1, ..., an)";
-	public static final String MAX_SYN					= "max(a1, ..., an)";
-	public static final String CONT_FRAC_SYN			= "ConFrac(a1, ..., an)";
-	public static final String CONT_POL_SYN				= "ConPol(a1, ..., an)";
-	public static final String GCD_SYN					= "gcd(a1, ..., an)";
-	public static final String LCM_SYN					= "lcm(a1, ..., an)";
-	public static final String SUM_SYN					= "add(a1, ..., an)";
-	public static final String PROD_SYN					= "multi(a1, ..., an)";
-	public static final String AVG_SYN					= "mean(a1, ..., an)";
-	public static final String VAR_SYN					= "var(a1, ..., an)";
-	public static final String STD_SYN					= "std(a1, ..., an)";
-	public static final String RND_LIST_SYN				= "rList(a1, ..., an)";
-	public static final String COALESCE_SYN				= "coalesce(a1, ..., an)";
-	public static final String OR_SYN					= "or(a1, ..., an)";
-	public static final String AND_SYN					= "and(a1, ..., an)";
-	public static final String XOR_SYN					= "xor(a1, ..., an)";
-	public static final String ARGMIN_SYN				= "argmin(a1, ..., an)";
-	public static final String ARGMAX_SYN				= "argmax(a1, ..., an)";
-	public static final String MEDIAN_SYN				= "med(a1, ..., an)";
-	public static final String MODE_SYN					= "mode(a1, ..., an)";
-	public static final String BASE_SYN					= "base(b, d1, ..., dn)";
-	public static final String NDIST_SYN				= "ndist(v1, ..., vn)";
+	public static final String IFF_SYN 					= SyntaxStringBuilder.functionVariadicCond(IFF_STR);
+	public static final String MIN_SYN					= SyntaxStringBuilder.functionVariadicA(MIN_STR);
+	public static final String MAX_SYN					= SyntaxStringBuilder.functionVariadicA(MAX_STR);
+	public static final String CONT_FRAC_SYN			= SyntaxStringBuilder.functionVariadicA(CONT_FRAC_STR);
+	public static final String CONT_POL_SYN				= SyntaxStringBuilder.functionVariadicA(CONT_POL_STR);
+	public static final String GCD_SYN					= SyntaxStringBuilder.functionVariadicA(GCD_STR);
+	public static final String LCM_SYN					= SyntaxStringBuilder.functionVariadicA(LCM_STR);
+	public static final String SUM_SYN					= SyntaxStringBuilder.functionVariadicA(SUM_STR);
+	public static final String PROD_SYN					= SyntaxStringBuilder.functionVariadicA(PROD_STR);
+	public static final String AVG_SYN					= SyntaxStringBuilder.functionVariadicA(AVG_STR);
+	public static final String VAR_SYN					= SyntaxStringBuilder.functionVariadicA(VAR_STR);
+	public static final String STD_SYN					= SyntaxStringBuilder.functionVariadicA(STD_STR);
+	public static final String RND_LIST_SYN				= SyntaxStringBuilder.functionVariadicA(RND_LIST_STR);
+	public static final String COALESCE_SYN				= SyntaxStringBuilder.functionVariadicA(COALESCE_STR);
+	public static final String OR_SYN					= SyntaxStringBuilder.functionVariadicA(OR_STR);
+	public static final String AND_SYN					= SyntaxStringBuilder.functionVariadicA(AND_STR);
+	public static final String XOR_SYN					= SyntaxStringBuilder.functionVariadicA(XOR_STR);
+	public static final String ARGMIN_SYN				= SyntaxStringBuilder.functionVariadicA(ARGMIN_STR);
+	public static final String ARGMAX_SYN				= SyntaxStringBuilder.functionVariadicA(ARGMAX_STR);
+	public static final String MEDIAN_SYN				= SyntaxStringBuilder.functionVariadicA(MEDIAN_STR);
+	public static final String MODE_SYN					= SyntaxStringBuilder.functionVariadicA(MODE_STR);
+	public static final String BASE_SYN					= SyntaxStringBuilder.functionVariadicBD(BASE_STR);
+	public static final String NDIST_SYN				= SyntaxStringBuilder.functionVariadicV(NDIST_STR);
 	/*
 	 * FunctionVariadic - tokens description.
 	 */

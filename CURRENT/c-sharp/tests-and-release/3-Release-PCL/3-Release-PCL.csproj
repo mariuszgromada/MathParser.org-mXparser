@@ -161,6 +161,9 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs">
       <Link>src\org\mariuszgromada\math\mxparser\parsertokens\RandomVariable.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\SyntaxStringBuilder.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\parsertokens\SyntaxStringBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs">
       <Link>src\org\mariuszgromada\math\mxparser\parsertokens\Token.cs</Link>
     </Compile>

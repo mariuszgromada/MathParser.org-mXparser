@@ -1,9 +1,9 @@
 /*
- * @(#)Function3Arg.java        4.2.0    2018-05-29
+ * @(#)Function3Arg.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2018 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.2.0
+ * @version        5.0.0
  */
 public final class Function3Arg {
 	/*
@@ -123,21 +123,21 @@ public final class Function3Arg {
 	/*
 	 * 3-args Function - syntax.
 	 */
-	public static final String IF_SYN 						= "if( cond, expr-if-true, expr-if-false )";
-	public static final String CHI_SYN						= "chi(x, a, b)";
-	public static final String CHI_LR_SYN					= "CHi(x, a, b)";
-	public static final String CHI_L_SYN					= "Chi(x, a, b)";
-	public static final String CHI_R_SYN					= "cHi(x, a, b)";
-	public static final String PDF_UNIFORM_CONT_SYN			= "pUni(x, a, b)";
-	public static final String CDF_UNIFORM_CONT_SYN			= "cUni(x, a, b)";
-	public static final String QNT_UNIFORM_CONT_SYN			= "qUni(q, a, b)";
-	public static final String PDF_NORMAL_SYN				= "pNor(x, mean, stdv)";
-	public static final String CDF_NORMAL_SYN				= "cNor(x, mean, stdv)";
-	public static final String QNT_NORMAL_SYN				= "qNor(q, mean, stdv)";
-	public static final String DIGIT_SYN					= "dig(num, pos, base)";
-	public static final String INC_BETA_SYN					= INC_BETA_STR + "(x,a,b)";
-	public static final String REG_BETA_SYN					= REG_BETA_STR + "(x,a,b)";
-	public static final String REG_BETA_I_SYN				= REG_BETA_I_STR + "(x,a,b)";
+	public static final String IF_SYN 						= SyntaxStringBuilder.function3Arg(IF_STR, SyntaxStringBuilder.cond, SyntaxStringBuilder.exprIfTrue, SyntaxStringBuilder.exprIfFalse);
+	public static final String CHI_SYN						= SyntaxStringBuilder.function3Arg(CHI_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String CHI_LR_SYN					= SyntaxStringBuilder.function3Arg(CHI_LR_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String CHI_L_SYN					= SyntaxStringBuilder.function3Arg(CHI_L_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String CHI_R_SYN					= SyntaxStringBuilder.function3Arg(CHI_R_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String PDF_UNIFORM_CONT_SYN			= SyntaxStringBuilder.function3Arg(PDF_UNIFORM_CONT_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String CDF_UNIFORM_CONT_SYN			= SyntaxStringBuilder.function3Arg(CDF_UNIFORM_CONT_STR, SyntaxStringBuilder.a, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String QNT_UNIFORM_CONT_SYN			= SyntaxStringBuilder.function3Arg(QNT_UNIFORM_CONT_STR, SyntaxStringBuilder.q, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String PDF_NORMAL_SYN				= SyntaxStringBuilder.function3Arg(PDF_NORMAL_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.mean, SyntaxStringBuilder.stdv);
+	public static final String CDF_NORMAL_SYN				= SyntaxStringBuilder.function3Arg(CDF_NORMAL_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.mean, SyntaxStringBuilder.stdv);
+	public static final String QNT_NORMAL_SYN				= SyntaxStringBuilder.function3Arg(QNT_NORMAL_STR, SyntaxStringBuilder.q, SyntaxStringBuilder.mean, SyntaxStringBuilder.stdv);
+	public static final String DIGIT_SYN					= SyntaxStringBuilder.function3Arg(DIGIT_STR, SyntaxStringBuilder.num, SyntaxStringBuilder.pos, SyntaxStringBuilder.basestr);
+	public static final String INC_BETA_SYN					= SyntaxStringBuilder.function3Arg(INC_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String REG_BETA_SYN					= SyntaxStringBuilder.function3Arg(REG_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String REG_BETA_I_SYN				= SyntaxStringBuilder.function3Arg(REG_BETA_I_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
 	/*
 	 * 3-args Function - tokens description.
 	 */
