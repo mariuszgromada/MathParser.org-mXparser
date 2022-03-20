@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.0.0   2022-01-26
+ * @(#)mXparser.java        5.0.0   2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -144,10 +144,6 @@ public final class mXparser {
 	 */
 	private static int THREADS_NUMBER = Runtime.getRuntime().availableProcessors();
 	/**
-	 * Empty expression for general help purposes.
-	 */
-	static volatile Expression mXparserExp = new Expression();
-	/**
 	 * Double floating-point precision arithmetic causes
 	 *
 	 * mXparser provides intelligent ULP rounding to avoid some
@@ -208,6 +204,17 @@ public final class mXparser {
 	 */
 	static volatile boolean overrideBuiltinTokens = false;
 	/**
+	 * Implied multiplication mode
+	 */
+	static volatile boolean impliedMultiplicationMode = true;
+	/**
+	 * Internal indicator informing hte parser
+	 * that unicode know keywords are enabled
+	 * and will be recognized by the parser
+	 * as built-in functions or operators
+	 */
+	static volatile boolean unicodeKeyWordsEnabled = true;
+	/**
 	 * Options changeset
 	 */
 	static volatile int optionsChangesetNumber = 0;
@@ -215,6 +222,10 @@ public final class mXparser {
 	 * Indicator whether to call cancel current calculation
 	 */
 	private static volatile boolean cancelCurrentCalculationFlag = false;
+	/**
+	 * Empty expression for general help purposes.
+	 */
+	static volatile Expression mXparserExp = new Expression();
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -698,6 +709,58 @@ public final class mXparser {
 		return degreesMode;
 	}
 	/**
+	 * Sets implied multiplication
+	 */
+	public static void enableImpliedMultiplicationMode() {
+		impliedMultiplicationMode = true;
+		mXparserExp.enableImpliedMultiplicationMode();
+	}
+	/**
+	 * Disables implied multiplication
+	 */
+	public static void disableImpliedMultiplicationMode() {
+		impliedMultiplicationMode = false;
+		mXparserExp.disableImpliedMultiplicationMode();
+	}
+	/**
+	 * Gets implied multiplication status
+	 *
+	 * @return     true if implied multiplication is enabled,
+	 *             otherwise returns false.
+	 */
+	public static boolean checkIfImpliedMultiplicationMode() {
+		return impliedMultiplicationMode;
+	}
+	/**
+	 * Enables unicode built-in parser keywords, this flag
+	 * informs the parser that built-in unicode keywords
+	 * are supported and will be recognized as functions or
+	 * operators.
+	 */
+	public static void enableUnicodeBuiltinKeyWordsMode() {
+		unicodeKeyWordsEnabled = true;
+		mXparserExp.enableUnicodeBuiltinKeyWordsMode();
+	}
+	/**
+	 * Disables unicode built-in parser keywords, this flag
+	 * informs the parser that built-in unicode keywords
+	 * are not supported and will not be recognized as functions or
+	 * operators.
+	 */
+	public static void disableUnicodeBuiltinKeyWordsMode() {
+		unicodeKeyWordsEnabled = false;
+		mXparserExp.disableUnicodeBuiltinKeyWordsMode();
+	}
+	/**
+	 * Gets unicode built-in parser keywords mode
+	 *
+	 * @return     true if unicode built-in parser keywords is enabled,
+	 *             otherwise returns false.
+	 */
+	public static boolean checkIfUnicodeBuiltinKeyWordsMode() {
+		return unicodeKeyWordsEnabled;
+	}
+	/**
 	 * Sets initial search size for the toFraction method
 	 *
 	 * @param n initial search size, has to be non-zero positive.
@@ -909,6 +972,8 @@ public final class mXparser {
 		setDefaultEpsilon();
 		setEpsilonComparison();
 		setToFractionInitSearchSize(NumberTheory.DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE);
+		enableImpliedMultiplicationMode();
+		enableUnicodeBuiltinKeyWordsMode();
 		optionsChangesetNumber++;
 	}
 	/**

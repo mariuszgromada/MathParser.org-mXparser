@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        5.0.0    2022-03-11
+ * @(#)ParserSymbol.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -317,6 +317,7 @@ public final class ParserSymbol {
 	public static final String BLANK_DESC					= "Blank (whitespace) character";
 	public static final String NUMBER_DESC					= "Decimal number";
 	public static final String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
+	public static final String UNICODE_MATH					= " - unicode math symbol";
 	/*
 	 * ParserSymbol - since.
 	 */

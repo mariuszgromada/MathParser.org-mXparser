@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ParserSymbol.cs        5.0.0    2022-03-13
+ * @(#)ParserSymbol.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -319,6 +319,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String BLANK_DESC					= "Blank (whitespace) character";
 		public const String NUMBER_DESC					= "Decimal number";
 		public const String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
+		public const String UNICODE_MATH				= " - unicode math symbol";
 		/*
 		 * ParserSymbol - since.
 		 */

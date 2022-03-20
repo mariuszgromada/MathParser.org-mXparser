@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.0.0    2022-02-12
+ * @(#)Miscellaneous.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -66,7 +66,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 
         internal static void consolePrintOptionsExpression(Expression testExp) {
             mXparser.consolePrintln("------------ OPTIONS AFTER ------------");
-            mXparser.consolePrintln("getImpliedMultiplicationMode = " + testExp.getImpliedMultiplicationMode());
+            mXparser.consolePrintln("getImpliedMultiplicationMode = " + testExp.checkIfImpliedMultiplicationMode());
             mXparser.consolePrintln("getCanonicalExpressionString = " + testExp.getCanonicalExpressionString());
             mXparser.consolePrintSettings();
             mXparser.consolePrintln("getErrorMessage = " + testExp.getErrorMessage());
@@ -131,6 +131,8 @@ namespace org.mariuszgromada.math.mxparser.test {
             mXparser.setEpsilonComparison();
             mXparser.setDefaultEpsilon();
             mXparser.enableUlpRounding();
+            mXparser.enableImpliedMultiplicationMode();
+            mXparser.enableUnicodeBuiltinKeyWordsMode();
         }
         internal static void testSynSettingsInit() {
             mXparser.setDefaultOptions();

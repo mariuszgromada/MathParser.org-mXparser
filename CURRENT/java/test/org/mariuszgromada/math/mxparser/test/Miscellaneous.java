@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.0.0    2022-02-09
+ * @(#)Miscellaneous.java        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -67,7 +67,7 @@ class TestCommonTools {
 
     static void consolePrintOptionsExpression(Expression testExp) {
         mXparser.consolePrintln("------------ OPTIONS AFTER ------------");
-        mXparser.consolePrintln("getImpliedMultiplicationMode = " + testExp.getImpliedMultiplicationMode());
+        mXparser.consolePrintln("getImpliedMultiplicationMode = " + testExp.checkIfImpliedMultiplicationMode());
         mXparser.consolePrintln("getCanonicalExpressionString = " + testExp.getCanonicalExpressionString());
         mXparser.consolePrintSettings();
         mXparser.consolePrintln("getErrorMessage = " + testExp.getErrorMessage());
@@ -132,6 +132,8 @@ class TestCommonTools {
         mXparser.setEpsilonComparison();
         mXparser.setDefaultEpsilon();
         mXparser.enableUlpRounding();
+        mXparser.enableImpliedMultiplicationMode();
+        mXparser.enableUnicodeBuiltinKeyWordsMode();
     }
     static void testSynSettingsInit() {
         mXparser.setDefaultOptions();

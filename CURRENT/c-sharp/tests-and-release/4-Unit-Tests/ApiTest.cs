@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ApiTest.cs        5.0.0    2022-03-13
+ * @(#)ApiTest.cs        5.0.0    2022-03-20
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3430,6 +3430,141 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String testDescr = "Implied Multiplication & canonical expression string test";
 			TestCommonTools.consolePrintTestApiStart(128, testDescr);
 			testResult = testImpliedMultiplication("2pi2√√2pi", "2*pi2*√√2*pi");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0129() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication on/off API - global and local";
+			TestCommonTools.consolePrintTestApiStart(129, testDescr);
+			mXparser.enableImpliedMultiplicationMode();
+			Expression e1 = new Expression("2pi");
+			bool global1 = mXparser.checkIfImpliedMultiplicationMode();
+			bool local1 = e1.checkIfImpliedMultiplicationMode();
+			mXparser.disableImpliedMultiplicationMode();
+			Expression e2 = new Expression("2pi");
+			bool global2 = mXparser.checkIfImpliedMultiplicationMode();
+			bool local2 = e2.checkIfImpliedMultiplicationMode();
+			if (global1 && local1 && !global2 && !local2)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0130() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Unicode Parser Keywords on/off API - global and local";
+			TestCommonTools.consolePrintTestApiStart(130, testDescr);
+			mXparser.enableUnicodeBuiltinKeyWordsMode();
+			Expression e1 = new Expression("2pi");
+			bool global1 = mXparser.checkIfUnicodeBuiltinKeyWordsMode();
+			bool local1 = e1.checkIfUnicodeBuiltinKeyWordsMode();
+			mXparser.disableUnicodeBuiltinKeyWordsMode();
+			Expression e2 = new Expression("2pi");
+			bool global2 = mXparser.checkIfUnicodeBuiltinKeyWordsMode();
+			bool local2 = e2.checkIfUnicodeBuiltinKeyWordsMode();
+			if (global1 && local1 && !global2 && !local2)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0131() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication on/off API - global - check syntax impact";
+			TestCommonTools.consolePrintTestApiStart(131, testDescr);
+			mXparser.enableImpliedMultiplicationMode();
+			Expression e1 = new Expression("2pi");
+			bool syn1 = e1.checkSyntax();
+			mXparser.disableImpliedMultiplicationMode();
+			Expression e2 = new Expression("2pi");
+			bool syn2 = e2.checkSyntax();
+			if (syn1 && !syn2)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0132() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication on/off API - local - check syntax impact";
+			TestCommonTools.consolePrintTestApiStart(132, testDescr);
+			Expression e = new Expression("2pi");
+			e.enableImpliedMultiplicationMode();
+			bool syn1 = e.checkSyntax();
+			e.disableImpliedMultiplicationMode();
+			bool syn2 = e.checkSyntax();
+			if (syn1 && !syn2)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0133() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Unicode Parser Keywords on/off API - global - check syntax impact";
+			TestCommonTools.consolePrintTestApiStart(133, testDescr);
+			mXparser.enableUnicodeBuiltinKeyWordsMode();
+			Expression e1 = new Expression("√π");
+			bool syn1 = e1.checkSyntax();
+			mXparser.disableUnicodeBuiltinKeyWordsMode();
+			Expression e2 = new Expression("√π");
+			bool syn2 = e2.checkSyntax();
+			if (syn1 && !syn2)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0134() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Unicode Parser Keywords on/off API - local - check syntax impact";
+			TestCommonTools.consolePrintTestApiStart(134, testDescr);
+			Expression e = new Expression("√π");
+			e.enableUnicodeBuiltinKeyWordsMode();
+			bool syn1 = e.checkSyntax();
+			e.disableUnicodeBuiltinKeyWordsMode();
+			bool syn2 = e.checkSyntax();
+			if (syn1 && !syn2)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0135() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Unicode Parser Keywords on/off API - global - syntax help";
+			TestCommonTools.consolePrintTestApiStart(135, testDescr);
+			mXparser.enableUnicodeBuiltinKeyWordsMode();
+			int n1 = mXparser.getKeyWords().Count;
+			mXparser.disableUnicodeBuiltinKeyWordsMode();
+			int n2 = mXparser.getKeyWords().Count;
+			if (n1 == n2 + 49)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0136() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Unicode Parser Keywords on/off API - local - syntax help";
+			TestCommonTools.consolePrintTestApiStart(136, testDescr);
+			Expression e = new Expression("2pi");
+			e.enableUnicodeBuiltinKeyWordsMode();
+			int n1 = e.getKeyWords().Count;
+			e.disableUnicodeBuiltinKeyWordsMode();
+			int n2 = e.getKeyWords().Count;
+			if (n1 == n2 + 49)
+				testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
