@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.0.0   2022-03-20
+ * @(#)Expression.java        5.0.0   2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -155,6 +155,13 @@ public class Expression extends PrimitiveElement {
 	 * Expression string (for example: "sin(x)+cos(y)")
 	 */
 	String expressionString;
+	/**
+	 * Expression string after attempt to clean
+	 */
+	private String expressionStringCleaned;
+	/**
+	 * Expression description
+	 */
 	private String description;
 	/**
 	 * List of arguments
@@ -312,6 +319,16 @@ public class Expression extends PrimitiveElement {
 	 */
 	private boolean unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 	/**
+	 * Internal indicator informing the parser
+	 * whether t try to fix the expression String.
+	 * For example, situations such as:
+	 * "++" change to "+",
+	 * "+-" changed tro "-"
+	 * "-+" changed tro "-"
+	 * "--" changed tro "-"
+	 */
+	private boolean attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
+	/**
 	 * Indicator whether expression was
 	 * automatically built for user defined
 	 * functions purpose
@@ -448,6 +465,7 @@ public class Expression extends PrimitiveElement {
 		parserKeyWordsOnly = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
+		attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 		disableRounding = KEEP_ROUNDING_SETTINGS;
 	}
 	/**
@@ -552,6 +570,7 @@ public class Expression extends PrimitiveElement {
 		parserKeyWordsOnly = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
+		attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 		this.UDFExpression = UDFExpression;
 		this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
 		this.disableRounding = disableUlpRounding;
@@ -617,6 +636,7 @@ public class Expression extends PrimitiveElement {
 		recursionCallsCounter = expression.recursionCallsCounter;
 		parserKeyWordsOnly = expression.parserKeyWordsOnly;
 		unicodeKeyWordsEnabled = expression.unicodeKeyWordsEnabled;
+		attemptToFixExpStrEnabled = expression.attemptToFixExpStrEnabled;
 		disableRounding = expression.disableRounding;
 		UDFExpression = expression.UDFExpression;
 		UDFVariadicParamsAtRunTime = expression.UDFVariadicParamsAtRunTime;
@@ -755,6 +775,41 @@ public class Expression extends PrimitiveElement {
 	 */
 	public boolean checkIfUnicodeBuiltinKeyWordsMode() {
 		return unicodeKeyWordsEnabled;
+	}
+	/**
+	 * Enables attempt to fix the expression String.
+	 * For example, situations such as:
+	 * "++" change to "+",
+	 * "+-" changed tro "-"
+	 * "-+" changed tro "-"
+	 * "--" changed tro "-"
+	 */
+	public void enableAttemptToFixExpStrMode() {
+		if (attemptToFixExpStrEnabled) return;
+		attemptToFixExpStrEnabled = true;
+		setExpressionModifiedFlag();
+	}
+	/**
+	 * Disables attempt to fix the expression String.
+	 * For example, situations such as:
+	 * "++" change to "+",
+	 * "+-" changed tro "-"
+	 * "-+" changed tro "-"
+	 * "--" changed tro "-"
+	 */
+	public void disableAttemptToFixExpStrMode() {
+		if (!attemptToFixExpStrEnabled) return;
+		attemptToFixExpStrEnabled = false;
+		setExpressionModifiedFlag();
+	}
+	/**
+	 * Gets attempt to fix expression string mode
+	 *
+	 * @return     true attempt to fix expression string mode is enabled,
+	 *             otherwise returns false.
+	 */
+	public boolean checkIfAttemptToFixExpStrMode() {
+		return attemptToFixExpStrEnabled;
 	}
 	/**
 	 * Sets recursive mode
@@ -4957,7 +5012,8 @@ public class Expression extends PrimitiveElement {
 			errorMessage = "Empty expression string\n";
 			return syntax;
 		}
-		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionString.getBytes()));
+		cleanExpressionString();
+		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
 	    try {
 	        syn.checkSyntax();
 	    } catch (Exception e) {
@@ -4965,6 +5021,97 @@ public class Expression extends PrimitiveElement {
 			errorMessage = "lexical error \n\n" + e.getMessage() + "\n";
 	    }
 		return syntax;
+	}
+	/**
+	 * Cleans "--" case
+	 * considering defined parser keywords "-->", "<--"
+	 */
+	private void cleanMinusMinus() {
+		if (expressionStringCleaned.length() >= 2) {
+			char currChar;
+			char prevChar;
+			boolean toClean = false;
+			int pos = 1;
+			do {
+				currChar = expressionStringCleaned.charAt(pos);
+				prevChar = expressionStringCleaned.charAt(pos-1);
+				toClean = false;
+				if (currChar == '-' && prevChar == '-') {
+					toClean = true;
+					if (pos-2 >= 0)
+						if (expressionStringCleaned.charAt(pos-2) == '<')
+							toClean = false;
+					if (pos+1 < expressionStringCleaned.length())
+						if (expressionStringCleaned.charAt(pos+1) == '>')
+							toClean = false;
+				}
+				if (toClean) {
+					String leftPart = expressionStringCleaned.substring(0, pos-1);
+					String rightPart = "";
+					if (pos+1 < expressionStringCleaned.length())
+						rightPart = expressionStringCleaned.substring(pos+1);
+					expressionStringCleaned = leftPart;
+					if (rightPart.length() > 0) {
+						if (leftPart.length() > 0)
+							expressionStringCleaned = expressionStringCleaned + "+" + rightPart;
+						else
+							expressionStringCleaned = rightPart;
+					}
+					pos = leftPart.length() + 1;
+				}
+				pos++;
+			} while (pos < expressionStringCleaned.length());
+		}
+	}
+	/**
+	 * Cleans blanks and other cases like "++', "+-", "-+"", "--"
+	 */
+	private void cleanExpressionString() {
+		expressionStringCleaned = "";
+		if (expressionString == null) return;
+		int expLen = expressionString.length();
+		if (expLen == 0) return;
+		char c;
+		char clag1 = 'a';
+		int blankCnt = 0;
+		int newExpLen = 0;
+		for (int i = 0; i < expLen; i++) {
+			c = expressionString.charAt(i);
+			if ( isBlankChar(c) ) {
+				blankCnt++;
+			} else if (blankCnt > 0) {
+				if (newExpLen > 0) {
+					if (isNotSpecialChar(clag1)) expressionStringCleaned = expressionStringCleaned + " ";
+				}
+				blankCnt = 0;
+			}
+			if (blankCnt == 0) {
+				expressionStringCleaned = expressionStringCleaned + c;
+				clag1 = c;
+				newExpLen++;
+			}
+		}
+		if (attemptToFixExpStrEnabled) {
+			if (expressionStringCleaned.contains("++"))
+				expressionStringCleaned = expressionStringCleaned.replace("++", "+");
+			if (expressionStringCleaned.contains("+-"))
+				expressionStringCleaned = expressionStringCleaned.replace("+-", "-");
+			if (expressionStringCleaned.contains("-+"))
+				expressionStringCleaned = expressionStringCleaned.replace("-+", "-");
+			if (expressionStringCleaned.contains("--")) {
+				if (expressionStringCleaned.contains("-->") || expressionStringCleaned.contains("<--")) {
+					cleanMinusMinus();
+				} else expressionStringCleaned = expressionStringCleaned.replace("--", "+");
+			}
+			int len = expressionStringCleaned.length();
+			if (len > 0)
+				if (expressionStringCleaned.charAt(0) == '+')
+					expressionStringCleaned = expressionStringCleaned.substring(1);
+			len = expressionStringCleaned.length();
+			if (len > 0)
+				if (expressionStringCleaned.charAt(len-1) == '-' || expressionStringCleaned.charAt(len-1) == '+')
+					expressionStringCleaned = expressionStringCleaned.substring(0,len-1);
+		}
 	}
 	/**
 	 * Checks syntax of the expression string.
@@ -5052,7 +5199,8 @@ public class Expression extends PrimitiveElement {
 			recursionCallPending = false;
 			return syntax;
 		}
-		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionString.getBytes()));
+		cleanExpressionString();
+		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
 	    try {
 	        syn.checkSyntax();
 	        /*
@@ -7654,29 +7802,8 @@ public class Expression extends PrimitiveElement {
 		/*
 		 * Clearing expression string from spaces
 		 */
-		String newExpressionString = "";
-		boolean specialConstFound = false;
-		String specialConstStr = "";
-		char c;
-		char clag1 = 'a';
-		int blankCnt = 0;
-		int newExpLen = 0;
-		for (int i = 0; i < expLen; i++) {
-			c = expressionString.charAt(i);
-			if ( isBlankChar(c) ) {
-				blankCnt++;
-			} else if (blankCnt > 0) {
-				if (newExpLen > 0) {
-					if (isNotSpecialChar(clag1)) newExpressionString = newExpressionString + " ";
-				}
-				blankCnt = 0;
-			}
-			if (blankCnt == 0) {
-				newExpressionString = newExpressionString + c;
-				clag1 = c;
-				newExpLen++;
-			}
-		}
+		if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) cleanExpressionString();
+		String newExpressionString = expressionStringCleaned;
 		/*
 		 * words list and tokens list
 		 */
@@ -7692,6 +7819,9 @@ public class Expression extends PrimitiveElement {
 		char precedingChar;
 		char followingChar;
 		char firstChar;
+		char c;
+		boolean specialConstFound = false;
+		String specialConstStr = "";
 		/*
 		 * Check all available positions in the expression tokens list
 		 */

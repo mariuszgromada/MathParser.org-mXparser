@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.0   2022-03-20
+ * @(#)Expression.cs        5.0.0   2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -134,6 +134,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Expression string (for example: "sin(x)+cos(y)")
 		 */
 		internal String expressionString;
+		/**
+		 * Expression string after attempt to clean
+		 */
+		private String expressionStringCleaned;
+		/**
+		 * Expression description
+		 */
 		private String description;
 		/**
 		 * List of arguments
@@ -291,6 +298,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private bool unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 		/**
+		 * Internal indicator informing the parser
+		 * whether t try to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed tro "-"
+		 * "-+" changed tro "-"
+		 * "--" changed tro "-"
+		 */
+		private bool attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
+		/**
 		 * Indicator whether expression was
 		 * automatically built for user defined
 		 * functions purpose
@@ -426,6 +443,7 @@ namespace org.mariuszgromada.math.mxparser {
 			parserKeyWordsOnly = false;
 			impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 			unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
+			attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 			disableRounding = KEEP_ROUNDING_SETTINGS;
 		}
 		/**
@@ -526,6 +544,7 @@ namespace org.mariuszgromada.math.mxparser {
 			parserKeyWordsOnly = false;
 			impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 			unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
+			attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 			this.UDFExpression = UDFExpression;
 			this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
 			this.disableRounding = disableUlpRounding;
@@ -588,6 +607,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallPending = expression.recursionCallPending;
 			parserKeyWordsOnly = expression.parserKeyWordsOnly;
 			unicodeKeyWordsEnabled = expression.unicodeKeyWordsEnabled;
+			attemptToFixExpStrEnabled = expression.attemptToFixExpStrEnabled;
 			disableRounding = expression.disableRounding;
 			UDFExpression = expression.UDFExpression;
 			UDFVariadicParamsAtRunTime = expression.UDFVariadicParamsAtRunTime;
@@ -724,6 +744,41 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public bool checkIfUnicodeBuiltinKeyWordsMode() {
 			return unicodeKeyWordsEnabled;
+		}
+		/**
+		 * Enables attempt to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed tro "-"
+		 * "-+" changed tro "-"
+		 * "--" changed tro "-"
+		 */
+		public void enableAttemptToFixExpStrMode() {
+			if (attemptToFixExpStrEnabled) return;
+			attemptToFixExpStrEnabled = true;
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Disables attempt to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed tro "-"
+		 * "-+" changed tro "-"
+		 * "--" changed tro "-"
+		 */
+		public void disableAttemptToFixExpStrMode() {
+			if (!attemptToFixExpStrEnabled) return;
+			attemptToFixExpStrEnabled = false;
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Gets attempt to fix expression string mode
+		 *
+		 * @return     true attempt to fix expression string mode is enabled,
+		 *             otherwise returns false.
+		 */
+		public bool checkIfAttemptToFixExpStrMode() {
+			return attemptToFixExpStrEnabled;
 		}
 		/**
 		 * Sets recursive mode
@@ -4922,7 +4977,8 @@ namespace org.mariuszgromada.math.mxparser {
 				errorMessage = "Empty expression string\n";
 				return syntax;
 			}
-			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
+			cleanExpressionString();
+			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionStringCleaned)));
 			try {
 				syn.checkSyntax();
 			} catch (Exception e) {
@@ -4930,6 +4986,97 @@ namespace org.mariuszgromada.math.mxparser {
 				errorMessage = "lexical error \n\n" + e.Message + "\n";
 			}
 			return syntax;
+		}
+		/**
+		 * Cleans "--" case
+		 * considering defined parser keywords "-->", "<--"
+		 */
+		private void cleanMinusMinus() {
+			if (expressionStringCleaned.Length >= 2) {
+				char currChar;
+				char prevChar;
+				bool toClean = false;
+				int pos = 1;
+				do {
+					currChar = expressionStringCleaned[pos];
+					prevChar = expressionStringCleaned[pos-1];
+					toClean = false;
+					if (currChar == '-' && prevChar == '-') {
+						toClean = true;
+						if (pos-2 >= 0)
+							if (expressionStringCleaned[pos-2] == '<')
+								toClean = false;
+						if (pos+1 < expressionStringCleaned.Length)
+							if (expressionStringCleaned[pos+1] == '>')
+								toClean = false;
+					}
+					if (toClean) {
+						String leftPart = expressionStringCleaned.Substring(0, pos-1);
+						String rightPart = "";
+						if (pos+1 < expressionStringCleaned.Length)
+							rightPart = expressionStringCleaned.Substring(pos+1);
+						expressionStringCleaned = leftPart;
+						if (rightPart.Length > 0) {
+							if (leftPart.Length > 0)
+								expressionStringCleaned = expressionStringCleaned + "+" + rightPart;
+							else
+								expressionStringCleaned = rightPart;
+						}
+						pos = leftPart.Length + 1;
+					}
+					pos++;
+				} while (pos < expressionStringCleaned.Length);
+			}
+		}
+		/**
+		 * Cleans blanks and other cases like "++', "+-", "-+"", "--" 
+		 */
+		private void cleanExpressionString() {
+			expressionStringCleaned = "";
+			if (expressionString == null) return;
+			int expLen = expressionString.Length;
+			if (expLen == 0) return;
+			char c;
+			char clag1 = 'a';
+			int blankCnt = 0;
+			int newExpLen = 0;
+			for (int i = 0; i < expLen; i++) {
+				c = expressionString[i];
+				if ( isBlankChar(c) ) {
+					blankCnt++;
+				} else if (blankCnt > 0) {
+					if (newExpLen > 0) {
+						if (isNotSpecialChar(clag1)) expressionStringCleaned = expressionStringCleaned + " ";
+					}
+					blankCnt = 0;
+				}
+				if (blankCnt == 0) {
+					expressionStringCleaned = expressionStringCleaned + c;
+					clag1 = c;
+					newExpLen++;
+				}
+			}
+			if (attemptToFixExpStrEnabled) {
+				if (expressionStringCleaned.Contains("++"))
+					expressionStringCleaned = expressionStringCleaned.Replace("++", "+");
+				if (expressionStringCleaned.Contains("+-"))
+					expressionStringCleaned = expressionStringCleaned.Replace("+-", "-");
+				if (expressionStringCleaned.Contains("-+"))
+					expressionStringCleaned = expressionStringCleaned.Replace("-+", "-");
+				if (expressionStringCleaned.Contains("--")) {
+					if (expressionStringCleaned.Contains("-->") || expressionStringCleaned.Contains("<--")) {
+						cleanMinusMinus();
+					} else expressionStringCleaned = expressionStringCleaned.Replace("--", "+");
+				}
+				int len = expressionStringCleaned.Length;
+				if (len > 0)
+					if (expressionStringCleaned[0] == '+')
+						expressionStringCleaned = expressionStringCleaned.Substring(1);
+				len = expressionStringCleaned.Length;
+				if (len > 0)
+					if (expressionStringCleaned[len-1] == '-' || expressionStringCleaned[len-1] == '+')
+						expressionStringCleaned = expressionStringCleaned.Substring(0,len-1);
+			}
 		}
 		/**
 		 * Checks syntax of the expression string.
@@ -5017,7 +5164,8 @@ namespace org.mariuszgromada.math.mxparser {
 				recursionCallPending = false;
 				return syntax;
 			}
-			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionString)));
+			cleanExpressionString();
+			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionStringCleaned)));
 			try {
 				syn.checkSyntax();
 				/*
@@ -7638,29 +7786,8 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Clearing expression string from spaces
 			 */
-			String newExpressionString = "";
-			bool specialConstFound = false;
-			String specialConstStr = "";
-			char c;
-			char clag1 = 'a';
-			int blankCnt = 0;
-			int newExpLen = 0;
-			for (int i = 0; i < expLen; i++) {
-				c = expressionString[i];
-				if ( isBlankChar(c) ) {
-					blankCnt++;
-				} else if (blankCnt > 0) {
-					if (newExpLen > 0) {
-						if (isNotSpecialChar(clag1)) newExpressionString = newExpressionString + " ";
-					}
-					blankCnt = 0;
-				}
-				if (blankCnt == 0) {
-					newExpressionString = newExpressionString + c;
-					clag1 = c;
-					newExpLen++;
-				}
-			}
+			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) cleanExpressionString();
+			String newExpressionString = expressionStringCleaned;
 			/*
 			 * words list and tokens list
 			 */
@@ -7676,11 +7803,15 @@ namespace org.mariuszgromada.math.mxparser {
 			char precedingChar;
 			char followingChar;
 			char firstChar;
+			char c;
+			bool specialConstFound = false;
+			String specialConstStr = "";
 			double tmpParsed = 0;
 			/*
 			 * Check all available positions in the expression tokens list
 			 */
-			do {
+			do
+			{
 				/*
 				 * 1st step
 				 *

@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.0.0    2022-03-11
+ * @(#)SyntaxTest.java        5.0.0    2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -99,6 +99,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "1++";
         TestCommonTools.consolePrintTestSynStart(1, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean reg = false;
         boolean syn = e.checkSyntax();
@@ -113,6 +114,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "1+1-";
         TestCommonTools.consolePrintTestSynStart(2, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean reg = false;
         boolean syn = e.checkSyntax();
@@ -127,6 +129,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "+-1";
         TestCommonTools.consolePrintTestSynStart(3, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean reg = false;
         boolean syn = e.checkSyntax();
@@ -3344,6 +3347,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 + + (180/3)*5";
         TestCommonTools.consolePrintTestSynStart(219, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean syn = e.checkSyntax();
         boolean reg = false;
@@ -3358,6 +3362,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 + - (180/3)*5";
         TestCommonTools.consolePrintTestSynStart(220, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean syn = e.checkSyntax();
         boolean reg = false;
@@ -3372,6 +3377,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 -  + (180/3)*5";
         TestCommonTools.consolePrintTestSynStart(221, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean syn = e.checkSyntax();
         boolean reg = false;
@@ -3386,6 +3392,7 @@ public final class SyntaxTest {
         boolean testResult = false;
         String expStr = "10*(350.0/5) + 60.0 -   - (180/3)*5";
         TestCommonTools.consolePrintTestSynStart(222, expStr);
+        mXparser.disableAttemptToFixExpStrMode();
         Expression e = new Expression(expStr);
         boolean syn = e.checkSyntax();
         boolean reg = false;

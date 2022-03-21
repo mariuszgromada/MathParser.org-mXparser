@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.0.0   2022-03-20
+ * @(#)mXparser.cs        5.0.0   2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -286,6 +286,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 * as built-in functions or operators
 		 */
 		internal volatile static bool unicodeKeyWordsEnabled = true;
+		/**
+		 * Internal indicator informing the parser
+		 * whether t try to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed tro "-"
+		 * "-+" changed tro "-"
+		 * "--" changed tro "-"
+		 */
+		internal volatile static bool attemptToFixExpStrEnabled = true;
 		/**
 		 * Options changeset
 		 */
@@ -835,6 +845,37 @@ namespace org.mariuszgromada.math.mxparser {
 			return unicodeKeyWordsEnabled;
 		}
 		/**
+		 * Enables attempt to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed tro "-"
+		 * "-+" changed tro "-"
+		 * "--" changed tro "-"
+		 */
+		public static void enableAttemptToFixExpStrMode() {
+			attemptToFixExpStrEnabled = true;
+		}
+		/**
+		 * Disables attempt to fix the expression String.
+		 * For example, situations such as:
+		 * "++" change to "+",
+		 * "+-" changed tro "-"
+		 * "-+" changed tro "-"
+		 * "--" changed tro "-"
+		 */
+		public static void disableAttemptToFixExpStrMode() {
+			attemptToFixExpStrEnabled = false;
+		}
+		/**
+		 * Gets attempt to fix expression string mode
+		 *
+		 * @return     true attempt to fix expression string mode is enabled,
+		 *             otherwise returns false.
+		 */
+		public static bool checkIfAttemptToFixExpStrMode() {
+			return attemptToFixExpStrEnabled;
+		}
+		/**
 		 * Sets initial search size for the toFraction method
 		 *
 		 * @param n initial search size, has to be non-zero positive.
@@ -1048,6 +1089,7 @@ namespace org.mariuszgromada.math.mxparser {
 			setToFractionInitSearchSize(NumberTheory.DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE);
 			enableImpliedMultiplicationMode();
 			enableUnicodeBuiltinKeyWordsMode();
+			enableAttemptToFixExpStrMode();
 			optionsChangesetNumber++;
 		}
 		/**

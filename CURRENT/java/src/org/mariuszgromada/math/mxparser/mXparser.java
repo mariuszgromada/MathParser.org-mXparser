@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.0.0   2022-03-20
+ * @(#)mXparser.java        5.0.0   2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -214,6 +214,16 @@ public final class mXparser {
 	 * as built-in functions or operators
 	 */
 	static volatile boolean unicodeKeyWordsEnabled = true;
+	/**
+	 * Internal indicator informing the parser
+	 * whether t try to fix the expression String.
+	 * For example, situations such as:
+	 * "++" change to "+",
+	 * "+-" changed tro "-"
+	 * "-+" changed tro "-"
+	 * "--" changed tro "-"
+	 */
+	static boolean attemptToFixExpStrEnabled = true;
 	/**
 	 * Options changeset
 	 */
@@ -761,6 +771,37 @@ public final class mXparser {
 		return unicodeKeyWordsEnabled;
 	}
 	/**
+	 * Enables attempt to fix the expression String.
+	 * For example, situations such as:
+	 * "++" change to "+",
+	 * "+-" changed tro "-"
+	 * "-+" changed tro "-"
+	 * "--" changed tro "-"
+	 */
+	public static void enableAttemptToFixExpStrMode() {
+		attemptToFixExpStrEnabled = true;
+	}
+	/**
+	 * Disables attempt to fix the expression String.
+	 * For example, situations such as:
+	 * "++" change to "+",
+	 * "+-" changed tro "-"
+	 * "-+" changed tro "-"
+	 * "--" changed tro "-"
+	 */
+	public static void disableAttemptToFixExpStrMode() {
+		attemptToFixExpStrEnabled = false;
+	}
+	/**
+	 * Gets attempt to fix expression string mode
+	 *
+	 * @return     true attempt to fix expression string mode is enabled,
+	 *             otherwise returns false.
+	 */
+	public static boolean checkIfAttemptToFixExpStrMode() {
+		return attemptToFixExpStrEnabled;
+	}
+	/**
 	 * Sets initial search size for the toFraction method
 	 *
 	 * @param n initial search size, has to be non-zero positive.
@@ -974,6 +1015,7 @@ public final class mXparser {
 		setToFractionInitSearchSize(NumberTheory.DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE);
 		enableImpliedMultiplicationMode();
 		enableUnicodeBuiltinKeyWordsMode();
+		enableAttemptToFixExpStrMode();
 		optionsChangesetNumber++;
 	}
 	/**

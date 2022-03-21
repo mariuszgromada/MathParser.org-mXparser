@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.0.0    2022-03-13
+ * @(#)SyntaxTest.cs        5.0.0    2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -79,6 +79,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "1++";
 			TestCommonTools.consolePrintTestSynStart(1, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool reg = false;
 			bool syn = e.checkSyntax();
@@ -93,6 +94,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "1+1-";
 			TestCommonTools.consolePrintTestSynStart(2, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool reg = false;
 			bool syn = e.checkSyntax();
@@ -107,6 +109,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "+-1";
 			TestCommonTools.consolePrintTestSynStart(3, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool reg = false;
 			bool syn = e.checkSyntax();
@@ -3324,6 +3327,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 + + (180/3)*5";
 			TestCommonTools.consolePrintTestSynStart(219, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
@@ -3338,6 +3342,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 + - (180/3)*5";
 			TestCommonTools.consolePrintTestSynStart(220, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
@@ -3352,6 +3357,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 -  + (180/3)*5";
 			TestCommonTools.consolePrintTestSynStart(221, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
@@ -3366,6 +3372,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 -   - (180/3)*5";
 			TestCommonTools.consolePrintTestSynStart(222, expStr);
+			mXparser.disableAttemptToFixExpStrMode();
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;

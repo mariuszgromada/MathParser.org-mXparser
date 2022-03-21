@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.0.0    2022-03-20
+ * @(#)SyntaxTest.java        5.0.0    2022-03-21
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3039,7 +3039,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(87, testDescr);
-        testResult = testImpliedMultiplication("2x","2*x");
+        testResult = testCanonicalString("2x","2*x");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3049,7 +3049,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(88, testDescr);
-        testResult = testImpliedMultiplication("2xy", "2*xy");
+        testResult = testCanonicalString("2xy", "2*xy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3059,7 +3059,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(89, testDescr);
-        testResult = testImpliedMultiplication("2xy", "2*x*y","x");
+        testResult = testCanonicalString("2xy", "2*x*y","x");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3069,7 +3069,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(90, testDescr);
-        testResult = testImpliedMultiplication("2xyzsin(x)cos(x)2(3+4)6", "2*x*yz*sin(x)*cos(x)*2*(3+4)*6", "x");
+        testResult = testCanonicalString("2xyzsin(x)cos(x)2(3+4)6", "2*x*yz*sin(x)*cos(x)*2*(3+4)*6", "x");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3079,7 +3079,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(91, testDescr);
-        testResult = testImpliedMultiplication("2xyz2","2*x*y*z2", "x", "y");
+        testResult = testCanonicalString("2xyz2","2*x*y*z2", "x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3089,7 +3089,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(92, testDescr);
-        testResult = testImpliedMultiplication("2xyz2","2*x*y*z2","x", "y", "z");
+        testResult = testCanonicalString("2xyz2","2*x*y*z2","x", "y", "z");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3099,7 +3099,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(93, testDescr);
-        testResult = testImpliedMultiplication("2xyz2.1", "2*x*y*z*2.1", "x", "y");
+        testResult = testCanonicalString("2xyz2.1", "2*x*y*z*2.1", "x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3109,7 +3109,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(94, testDescr);
-        testResult = testImpliedMultiplication("2xyz2.1e", "2*x*y*z*2.1*e","x", "y");
+        testResult = testCanonicalString("2xyz2.1e", "2*x*y*z*2.1*e","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3119,7 +3119,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(95, testDescr);
-        testResult = testImpliedMultiplication("2xyz2.1e3", "2*x*y*z*2.1e3","x", "y");
+        testResult = testCanonicalString("2xyz2.1e3", "2*x*y*z*2.1e3","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3129,7 +3129,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(96, testDescr);
-        testResult = testImpliedMultiplication("2xyzh.1234", "2*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("2xyzh.1234", "2*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3139,7 +3139,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(97, testDescr);
-        testResult = testImpliedMultiplication("2.1xyzh.1234", "2.1*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("2.1xyzh.1234", "2.1*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3149,7 +3149,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(98, testDescr);
-        testResult = testImpliedMultiplication("-2.1xyzh.1234", "-2.1*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("-2.1xyzh.1234", "-2.1*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3159,7 +3159,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(99, testDescr);
-        testResult = testImpliedMultiplication("1_2_3-2.1xyzh.1234", "1_2_3-2.1*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("1_2_3-2.1xyzh.1234", "1_2_3-2.1*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3169,7 +3169,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(100, testDescr);
-        testResult = testImpliedMultiplication("1_2_3xyzh.1234", "1_2_3*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("1_2_3xyzh.1234", "1_2_3*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3179,7 +3179,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(101, testDescr);
-        testResult = testImpliedMultiplication("2_3xyzh.1234", "2_3*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("2_3xyzh.1234", "2_3*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3189,7 +3189,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(102, testDescr);
-        testResult = testImpliedMultiplication("b4.0123xyzh.1234", "b4.0123*x*y*z*h.1234","x", "y");
+        testResult = testCanonicalString("b4.0123xyzh.1234", "b4.0123*x*y*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3199,7 +3199,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(103, testDescr);
-        testResult = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
+        testResult = testCanonicalString("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3209,7 +3209,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(104, testDescr);
-        testResult = testImpliedMultiplication("xy1_2_3zh.1234", "x*y*1_2_3*z*h.1234","x", "y");
+        testResult = testCanonicalString("xy1_2_3zh.1234", "x*y*1_2_3*z*h.1234","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3219,7 +3219,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(105, testDescr);
-        testResult = testImpliedMultiplication("xyh.1234z1_2_3", "x*y*h.1234*z*1_2_3","x", "y");
+        testResult = testCanonicalString("xyh.1234z1_2_3", "x*y*h.1234*z*1_2_3","x", "y");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3229,7 +3229,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(106, testDescr);
-        testResult = testImpliedMultiplication("xyh.1234z1_2_3", "xy*h.1234*z*1_2_3");
+        testResult = testCanonicalString("xyh.1234z1_2_3", "xy*h.1234*z*1_2_3");
 
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -3240,7 +3240,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(107, testDescr);
-        testResult = testImpliedMultiplication("2xx","2*xx");
+        testResult = testCanonicalString("2xx","2*xx");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3250,7 +3250,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(108, testDescr);
-        testResult = testImpliedMultiplication("2xxyy", "2*xxyy");
+        testResult = testCanonicalString("2xxyy", "2*xxyy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3260,7 +3260,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(109, testDescr);
-        testResult = testImpliedMultiplication("2xxyy", "2*xx*yy","xx");
+        testResult = testCanonicalString("2xxyy", "2*xx*yy","xx");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3270,7 +3270,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(110, testDescr);
-        testResult = testImpliedMultiplication("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
+        testResult = testCanonicalString("2xxyyzsin(xx)cos(xx)2(3+4)6", "2*xx*yyz*sin(xx)*cos(xx)*2*(3+4)*6", "xx");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3280,7 +3280,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(111, testDescr);
-        testResult = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2", "xx", "yy");
+        testResult = testCanonicalString("2xxyyz2","2*xx*yy*z2", "xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3290,7 +3290,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(112, testDescr);
-        testResult = testImpliedMultiplication("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
+        testResult = testCanonicalString("2xxyyz2","2*xx*yy*z2","xx", "yy", "z");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3300,7 +3300,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(113, testDescr);
-        testResult = testImpliedMultiplication("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
+        testResult = testCanonicalString("2xxyyz2.1", "2*xx*yy*z*2.1", "xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3310,7 +3310,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(114, testDescr);
-        testResult = testImpliedMultiplication("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
+        testResult = testCanonicalString("2xxyyz2.1e", "2*xx*yy*z*2.1*e","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3320,7 +3320,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(115, testDescr);
-        testResult = testImpliedMultiplication("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
+        testResult = testCanonicalString("2xxyyz2.1e3", "2*xx*yy*z*2.1e3","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3330,7 +3330,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(116, testDescr);
-        testResult = testImpliedMultiplication("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("2xxyyzh.1234", "2*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3340,7 +3340,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(117, testDescr);
-        testResult = testImpliedMultiplication("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("2.1xxyyzh.1234", "2.1*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3350,7 +3350,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(118, testDescr);
-        testResult = testImpliedMultiplication("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("-2.1xxyyzh.1234", "-2.1*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3360,7 +3360,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(119, testDescr);
-        testResult = testImpliedMultiplication("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("1_2_3-2.1xxyyzh.1234", "1_2_3-2.1*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3370,7 +3370,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(120, testDescr);
-        testResult = testImpliedMultiplication("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("1_2_3xxyyzh.1234", "1_2_3*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3380,7 +3380,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(121, testDescr);
-        testResult = testImpliedMultiplication("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("2_3xxyyzh.1234", "2_3*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3390,7 +3390,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(122, testDescr);
-        testResult = testImpliedMultiplication("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("b4.0123xxyyzh.1234", "b4.0123*xx*yy*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3400,7 +3400,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(123, testDescr);
-        testResult = testImpliedMultiplication("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
+        testResult = testCanonicalString("2.1apipi[h-]2.1e2pi(.3+0.4)[h-]pi.01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi", "2.1*a*pi*pi*[h-]*2.1e2*pi*(.3+0.4)*[h-]*pi*.01*(3-2)*(3^2)*2*cos(2.1*pi)*2*sin(1.9*pi)*0.1*pi");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3410,7 +3410,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(124, testDescr);
-        testResult = testImpliedMultiplication("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
+        testResult = testCanonicalString("xxyy1_2_3zh.1234", "xx*yy*1_2_3*z*h.1234","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3420,7 +3420,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(125, testDescr);
-        testResult = testImpliedMultiplication("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
+        testResult = testCanonicalString("xxyyh.1234z1_2_3", "xx*yy*h.1234*z*1_2_3","xx", "yy");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3430,7 +3430,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(126, testDescr);
-        testResult = testImpliedMultiplication("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
+        testResult = testCanonicalString("xxyyh.1234z1_2_3", "xxyy*h.1234*z*1_2_3");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3440,7 +3440,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(127, testDescr);
-        testResult = testImpliedMultiplication("2pi2√√pi", "2*pi2*√√pi");
+        testResult = testCanonicalString("2pi2√√pi", "2*pi2*√√pi");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3450,7 +3450,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(128, testDescr);
-        testResult = testImpliedMultiplication("2pi2√√2pi", "2*pi2*√√2*pi");
+        testResult = testCanonicalString("2pi2√√2pi", "2*pi2*√√2*pi");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3589,7 +3589,139 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
-    public static boolean testImpliedMultiplication(String expStr, String expResStr, String... elements) {
+    @Test
+    public void testApi0137() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Attempt to fix expression string on/off API - global and local";
+        TestCommonTools.consolePrintTestApiStart(137, testDescr);
+        mXparser.enableAttemptToFixExpStrMode();
+        Expression e1 = new Expression("-+2++3--3+-4-+5-->6<--7<->8++");
+        boolean global1 = mXparser.checkIfAttemptToFixExpStrMode();
+        boolean local1 = e1.checkIfAttemptToFixExpStrMode();
+        mXparser.disableAttemptToFixExpStrMode();
+        Expression e2 = new Expression("-+2++3--3+-4-+5-->6<--7<->8++");
+        boolean global2 = mXparser.checkIfAttemptToFixExpStrMode();
+        boolean local2 = e2.checkIfAttemptToFixExpStrMode();
+        if (global1 && local1 && !global2 && !local2)
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0138() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Attempt to fix expression string on/off API - global - check syntax impact";
+        TestCommonTools.consolePrintTestApiStart(138, testDescr);
+        mXparser.enableAttemptToFixExpStrMode();
+        Expression e1 = new Expression("-+2++3--3+-4-+5-->6<--7<->8++");
+        boolean syn1 = e1.checkSyntax();
+        mXparser.disableAttemptToFixExpStrMode();
+        Expression e2 = new Expression("-+2++3--3+-4-+5-->6<--7<->8++");
+        boolean syn2 = e2.checkSyntax();
+        if (syn1 && !syn2)
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0139() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Attempt to fix expression string on/off API - local - check syntax impact";
+        TestCommonTools.consolePrintTestApiStart(139, testDescr);
+        Expression e = new Expression("-+2++3--3+-4-+5-->6<--7<->8++");
+        e.enableAttemptToFixExpStrMode();
+        boolean syn1 = e.checkSyntax();
+        e.disableAttemptToFixExpStrMode();
+        boolean syn2 = e.checkSyntax();
+        if (syn1 && !syn2)
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0140() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(140, testDescr);
+        testResult = testCanonicalString("2--3", "2+3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0141() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(141, testDescr);
+        testResult = testCanonicalString("2++3", "2+3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0142() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(142, testDescr);
+        testResult = testCanonicalString("2+-3", "2-3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0143() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(143, testDescr);
+        testResult = testCanonicalString("2-+3", "2-3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0144() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(144, testDescr);
+        testResult = testCanonicalString("2--3<--4", "2+3<--4");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0145() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(145, testDescr);
+        testResult = testCanonicalString("2--3-->4", "2+3-->4");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0146() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(146, testDescr);
+        testResult = testCanonicalString("+2--3-->4-", "2+3-->4");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0147() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(147, testDescr);
+        testResult = testCanonicalString("-2--3-->4+", "-2+3-->4");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         Expression e = new Expression(expStr);
         if (elements != null)
             if (elements.length > 0)
