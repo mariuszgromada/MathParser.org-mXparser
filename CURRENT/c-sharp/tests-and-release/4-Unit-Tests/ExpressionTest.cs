@@ -18190,7 +18190,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
 			mXparser.disableUlpRounding();
-			String expStr = "( isNaN( BetaI(-1,1,1) ) - [true] ) + ( isNaN( BetaI(2,1,1) ) - [true] ) + ( isNaN( BetaI( [NaN] ,1,1) ) - [true] ) + ( isNaN( BetaI(0.5, [NaN], 1) ) - [true] ) + ( isNaN( BetaI(0.5, 1 , [NaN]) ) - [true] )";
+			String expStr = "( isNaN( BetaI(-1,0,1) ) - [true] ) + ( isNaN( BetaI(2,1,0) ) - [true] ) + ( isNaN( BetaI( [NaN] ,1,1) ) - [true] ) + ( isNaN( BetaI(0.5, [NaN], 1) ) - [true] ) + ( isNaN( BetaI(0.5, 1 , [NaN]) ) - [true] )";
 			TestCommonTools.consolePrintTestExprStart(1133, expStr);
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();
