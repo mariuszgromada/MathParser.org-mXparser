@@ -1,9 +1,9 @@
 /*
- * @(#)MathFunctions.java        4.4.2   2020-01-25
+ * @(#)MathFunctions.java        5.0.0   2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2020 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -85,7 +85,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.4.2
+ * @version        5.0.0
  */
 public final class MathFunctions {
 	/**
@@ -269,6 +269,44 @@ public final class MathFunctions {
 		if (Double.isNaN(n))
 			return Double.NaN;
 		return factorial( (int)Math.round(n) );
+	}
+	/**
+	 * Falling factorial polynomial
+	 * @param x  Argument
+	 * @param n  Polynomial degree
+	 * @return   Falling factorial polynomial of degree n at point x
+	 */
+	public static double factorialFalling(double x, double n){
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(n)) return Double.NaN;
+		if (n < 0) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(n, 0)) return 1.0;
+		double k, y;
+		y = 1;
+		for (k = 0; k <= n - 1; k = k + 1) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			y = y * (x - k);
+		}
+		return y;
+	}
+	/**
+	 * Rising factorial polynomial
+	 * @param x  Argument
+	 * @param n  Polynomial degree
+	 * @return   Rising factorial polynomial of degree n at point x
+	 */
+	public static double factorialRising(double x, double n){
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(n)) return Double.NaN;
+		if (n < 0) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(n, 0)) return 1.0;
+		double k, y;
+		y = 1;
+		for (k = 0; k <= n - 1; k = k + 1) {
+			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+			y = y * (x + k);
+		}
+		return y;
 	}
 	/**
 	 * Generalized binomial coefficient

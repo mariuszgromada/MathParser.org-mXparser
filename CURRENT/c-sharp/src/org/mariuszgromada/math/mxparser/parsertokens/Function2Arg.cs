@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.cs        5.0.0    2022-03-20
+ * @(#)Function2Arg.cs        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -115,6 +115,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int PERMUTATIONS_ID					= 25;
 		public const int BETA_ID							= 26;
 		public const int LOG_BETA_ID						= 27;
+		public const int PDF_STUDENT_T_ID					= 28;
+		public const int CDF_STUDENT_T_ID					= 29;
+		public const int QNT_STUDENT_T_ID					= 30;
 		/*
 		 * BinaryFunction - tokens key words.
 		 */
@@ -148,6 +151,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PERMUTATIONS_STR				= "nPk";
 		public const String BETA_STR						= "Beta";
 		public const String LOG_BETA_STR					= "logBeta";
+		public const String PDF_STUDENT_T_STR				= "pStud";
+		public const String CDF_STUDENT_T_STR				= "cStud";
+		public const String QNT_STUDENT_T_STR				= "qStud";
 		/*
 		 * BinaryFunction - syntax.
 		 */
@@ -181,6 +187,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String PERMUTATIONS_SYN				= SyntaxStringBuilder.binaryFunction(PERMUTATIONS_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
 		public static readonly String BETA_SYN						= SyntaxStringBuilder.binaryFunction(BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.y);
 		public static readonly String LOG_BETA_SYN					= SyntaxStringBuilder.binaryFunction(LOG_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.y);
+		public static readonly String PDF_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(PDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.v);
+		public static readonly String CDF_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(CDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.v);
+		public static readonly String QNT_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(QNT_STUDENT_T_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.v);
 		/*
 		 * BinaryFunction - tokens description.
 		 */
@@ -211,6 +220,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PERMUTATIONS_DESC				= "Number of k-permutations that can be drawn from n-elements set";
 		public const String BETA_DESC						= "The Beta special function B(x,y), also called the Euler integral of the first kind";
 		public const String LOG_BETA_DESC					= "The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)";
+		public const String PDF_STUDENT_T_DESC				= "Probability distribution function - Student's t-distribution";
+		public const String CDF_STUDENT_T_DESC				= "Cumulative distribution function - Student's t-distribution";
+		public const String QNT_STUDENT_T_DESC				= "Quantile function (inverse cumulative distribution function) - Student's t-distribution";
 		/*
 		 * BinaryFunction - since.
 		 */
@@ -242,5 +254,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String PERMUTATIONS_SINCE				= mXparser.NAMEv42;
 		public const String BETA_SINCE						= mXparser.NAMEv42;
 		public const String LOG_BETA_SINCE					= mXparser.NAMEv42;
+		public const String PDF_STUDENT_T_SINCE				= mXparser.NAMEv50;
+		public const String CDF_STUDENT_T_SINCE				= mXparser.NAMEv50;
+		public const String QNT_STUDENT_T_SINCE				= mXparser.NAMEv50;
 	}
 }

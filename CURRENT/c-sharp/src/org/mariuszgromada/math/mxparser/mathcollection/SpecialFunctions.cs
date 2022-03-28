@@ -1,9 +1,9 @@
 /*
- * @(#)SpecialFunctions.cs        4.3.0   2018-12-12
+ * @(#)SpecialFunctions.cs        5.0.0   2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -79,7 +79,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class SpecialFunctions {
@@ -272,7 +272,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Calculates the inverse error function evaluated at x.
-		 * @param x
+		 * @param z
 		 * @param invert
 		 * @return
 		 */
@@ -924,11 +924,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(b)) return Double.NaN;
 			if (Double.IsNaN(x)) return Double.NaN;
-			if ( (a <= 0) || (b <= 0) ) return Double.NaN;
-			if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
-			if (x > 1+BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
-			if (MathFunctions.almostEqual(x, 0)) return 0;
-			if (MathFunctions.almostEqual(x, 1)) return 1;
+
+			if ((a < 0) || (b < 0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(a, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(b, 0.0)) return Double.NaN;
+
+			if (x < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0.0;
+			if (x > 1 + BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 1.0;
+			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
+			if (BinaryRelations.isEqualOrAlmost(x, 1.0)) return 1.0;
+			if (BinaryRelations.isEqualOrAlmost(a, 1.0)) return 1.0 - Math.Pow(1.0 - x, b);
+			if (BinaryRelations.isEqualOrAlmost(b, 1.0)) return Math.Pow(x, a);
 
 			double bt = (x == 0.0 || x == 1.0)
 				? 0.0
@@ -999,6 +1005,66 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				}
 			}
 			return symmetryTransformation ? 1.0 - (bt*h/a) : bt*h/a;
+		}
+		/**
+		 * Inerse regularized incomplete Beta special function
+		 * @param a   Argument value
+		 * @param b   Argument value
+		 * @param p   Argument value
+		 * @return  Return inverse incomplete Beta special function
+		 * for positive a and positive b and x between 0 and 1
+		 */
+		public static double inverseRegularizedBeta(double a, double b, double p) {
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+
+			if ( (a < 0) || (b < 0) ) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(a, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(b, 0.0)) return Double.NaN;
+
+			if (p < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+			if (p > 1 + BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
+
+			if (BinaryRelations.isEqualOrAlmost(p, 0.0)) return 0.0;
+			if (BinaryRelations.isEqualOrAlmost(p, 1.0)) return 1.0;
+			if (BinaryRelations.isEqualOrAlmost(a, 1.0)) return 1.0 - Math.Pow(1.0 - p, 1.0 / b);
+			if (BinaryRelations.isEqualOrAlmost(b, 1.0)) return Math.Pow(p, 1.0 / a);
+
+			double pp, t, u, err, x, al, h, w;
+			double a1 = a - 1.0;
+			double b1 = b - 1.0;
+
+			if (a >= 1.0 && b >= 1.0) {
+				pp = (p < 0.5) ? p : 1.0 - p;
+				t = Math.Sqrt(-2.0 * Math.Log(pp));
+				x = (2.30753 + t * 0.27061) / (1.0 + t * (0.99229 + t * 0.04481)) - t;
+				if (p < 0.5) x = -x;
+				al = (x * x - 3.0) / 6.0;
+				h = 2.0 / (1.0 / (2.0 * a - 1.0) + 1.0 / (2.0 * b - 1.0));
+				w = (x * Math.Sqrt(al + h) / h) - (1.0 / (2.0 * b - 1.0) - 1.0 / (2.0 * a - 1.0)) * (al + 5.0 / 6.0 - 2.0 / (3.0 * h));
+				x = a / (a + b * Math.Exp(2.0 * w));
+			} else {
+				double lna = Math.Log(a / (a + b));
+				double lnb = Math.Log(b / (a + b));
+				t = Math.Exp(a * lna) / a;
+				u = Math.Exp(b * lnb) / b;
+				w = t + u;
+				if (p < t / w) x = Math.Pow(a * w * p, 1.0 / a);
+				else x = 1.0 - Math.Pow(b * w * (1.0 - p), 1.0 / b);
+			}
+
+			double afac = -logGamma(a) - logGamma(b) + logGamma(a + b);
+			for (int j = 0; j < 10; j++) {
+				if (x == 0.0 || x == 1.0) return x;
+				err = regularizedBeta(a, b, x) - p;
+				t = Math.Exp(a1 * Math.Log(x) + b1 * Math.Log(1.0 - x) + afac);
+				u = err / t;
+				x -= (t = u / (1.0 - 0.5 * Math.Min(1.0, u * (a1 / x - b1 / (1.0 - x)))));
+				if (x <= 0.0) x = 0.5 * (x + t);
+				if (x >= 1.0) x = 0.5 * (x + t + 1.0);
+				if (Math.Abs(t) < 1e-11 * x && j > 0) break;
+			}
+			return x;
 		}
 		/*
 		 * halleyIteration epsilon
@@ -1102,6 +1168,64 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(branch) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW0(x);
 			if (Math.Abs(branch + 1) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return lambertW1(x);
 			return Double.NaN;
+		}
+		/**
+		 * The Gaussian or ordinary hypergeometric special function
+		 * @param a    Argument value
+		 * @param b    Argument value
+		 * @param c    Argument value
+		 * @param z    Argument value
+		 * @param maxIterations   Stop condition
+		 * @param precision   Stop condition
+		 * @return   Returns hypergeometric special function approximation
+		 */
+		public static double hypergeometricF(double a, double b, double c, double z, double maxIterations, double precision){
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (Double.IsNaN(c)) return Double.NaN;
+			if (Double.IsNaN(z)) return Double.NaN;
+			if (Double.IsNaN(maxIterations)) return Double.NaN;
+			if (Double.IsNaN(precision)) return Double.NaN;
+			if (maxIterations < 1) return Double.NaN;
+			if (precision < 0) return Double.NaN;
+			double y;
+			if(Math.Abs(z) >= 0.5)
+				y = Math.Pow(1 - z, -a) * hypergeometricFDirect(a, c - b, c, z/(z - 1), maxIterations, precision);
+			else
+				y = hypergeometricFDirect(a, b, c, z, maxIterations, precision);
+			return y;
+		}
+		/**
+		 * The Gaussian or ordinary hypergeometric special function - direct
+		 * @param a    Argument value
+		 * @param b    Argument value
+		 * @param c    Argument value
+		 * @param z    Argument value
+		 * @param maxIterations   Stop condition
+		 * @param precision   Stop condition
+		 * @return   Returns hypergeometric special function approximation - direct
+		 */
+		private static double hypergeometricFDirect(double a, double b, double c, double z, double maxIterations, double precision){
+			if (Double.IsNaN(a)) return Double.NaN;
+			if (Double.IsNaN(b)) return Double.NaN;
+			if (Double.IsNaN(c)) return Double.NaN;
+			if (Double.IsNaN(z)) return Double.NaN;
+			if (Double.IsNaN(maxIterations)) return Double.NaN;
+			if (Double.IsNaN(precision)) return Double.NaN;
+			if (maxIterations < 1) return Double.NaN;
+			if (precision < 0) return Double.NaN;
+			double y, yp, n;
+			bool done;
+			y = 0;
+			done = false;
+			for (n = 0; n < maxIterations && !done; n = n + 1){
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				yp = MathFunctions.factorialRising(a, n) * MathFunctions.factorialRising(b, n) / MathFunctions.factorialRising(c, n) * Math.Pow(z, n) / MathFunctions.factorial(n);
+				if(Math.Abs(yp) < precision)
+					done = true;
+				y = y + yp;
+			}
+			return y;
 		}
 	}
 }

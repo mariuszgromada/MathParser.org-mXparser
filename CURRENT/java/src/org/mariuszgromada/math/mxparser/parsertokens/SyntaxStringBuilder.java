@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxStringBuilder.java        5.0.0    2022-03-20
+ * @(#)SyntaxStringBuilder.java        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -129,6 +129,7 @@ final class SyntaxStringBuilder {
     static final String iInParentheses = parentheses(i);
     static final String nInParentheses = parentheses(n);
     static final String xInParentheses = parentheses(x);
+    static final String vInParentheses = parentheses(v);
     static final String optBy = optionalParameter(by);
     static final String optPoint = optionalParameter(point);
     static final String optDelta = optionalParameter(delta);
@@ -192,6 +193,9 @@ final class SyntaxStringBuilder {
     }
     static String unaryFunctionI(String fun) {
         return fun + iInParentheses;
+    }
+    static String unaryFunctionV(String fun) {
+        return fun + vInParentheses;
     }
     static String binaryFunction(String fun, String x1, String x2) {
         return fun + parentheses(x1 + comma + space + x2);

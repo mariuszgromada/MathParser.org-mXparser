@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.0.0    2022-03-13
+ * @(#)ExpressionTest.cs        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -21319,6 +21319,561 @@ namespace org.mariuszgromada.math.mxparser.test {
 			double value = testExp.calculate();
 			double reg = 2;
 			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1313() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[9]:= SetPrecision[Sum[PDF[StudentTDistribution[1], x], {x, -10, 10, 0.02}], 20]
+			Out[9]= 46.830597759724916784
+			 */
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 1), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1313, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 46.830597759724916784;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1314() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[10]:= SetPrecision[Sum[PDF[StudentTDistribution[2], x], {x, -10, 10, 0.02}], 20]
+			Out[10]= 49.508346930021311039
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 2), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1314, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.508346930021311039;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1315() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[11]:= SetPrecision[Sum[PDF[StudentTDistribution[3], x], {x, -10, 10, 0.02}], 20]
+			Out[11]= 49.893891451661730230
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 3), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1315, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.893891451661730230;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1316() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[12]:= SetPrecision[Sum[PDF[StudentTDistribution[4], x], {x, -10, 10, 0.02}], 20]
+			Out[12]= 49.972008436752780369
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 4), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1316, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.972008436752780369;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1317() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[13]:= SetPrecision[Sum[PDF[StudentTDistribution[5], x], {x, -10, 10, 0.02}], 20]
+			Out[13]= 49.991493532953654721
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 5), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1317, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.991493532953654721;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1318() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[17]:= SetPrecision[Sum[PDF[StudentTDistribution[7], x], {x, -10, 10, 0.02}], 20]
+			Out[17]= 49.998937324212853639
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 7), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1318, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.998937324212853639;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1319() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[16]:= SetPrecision[Sum[PDF[StudentTDistribution[10], x], {x, -10, 10, 0.02}], 20]
+			Out[16]= 49.999921248381660632
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 10), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1319, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.999921248381660632;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1320() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[18]:= SetPrecision[Sum[PDF[StudentTDistribution[3.5], x], {x, -10, 10, 0.02}], 20]
+			Out[18]= 49.946608252637815895
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 3.5), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1320, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.946608252637815895;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1321() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[3]:= SetPrecision[Sum[CDF[StudentTDistribution[1], x], {x, -4, 2, 0.02}], 20]
+			Out[3]= 111.04123242153693241
+			 */
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 1), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1321, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 111.04123242153693241;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1322() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[4]:= SetPrecision[Sum[CDF[StudentTDistribution[2], x], {x, -4, 2, 0.02}], 20]
+			Out[4]= 105.63973985365477404
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 2), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1322, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 105.63973985365477404;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1323() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[5]:= SetPrecision[Sum[CDF[StudentTDistribution[3], x], {x, -4, 2, 0.02}], 20]
+			Out[5]= 103.76840911119133182
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 3), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1323, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 103.76840911119133182;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1324() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[6]:= SetPrecision[Sum[CDF[StudentTDistribution[4], x], {x, -4, 2, 0.02}], 20]
+			Out[6]= 102.88505229712588118
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 4), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1324, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 102.88505229712588118;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1325() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[7]:= SetPrecision[Sum[CDF[StudentTDistribution[5], x], {x, -4, 2, 0.02}], 20]
+			Out[7]= 102.39024509448005062
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 5), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1325, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 102.39024509448005062;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1326() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[8]:= SetPrecision[Sum[CDF[StudentTDistribution[7], x], {x, -4, 2, 0.02}], 20]
+			Out[8]= 101.87231418516095971
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 7), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1326, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 101.87231418516095971;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1327() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[9]:= SetPrecision[Sum[CDF[StudentTDistribution[10], x], {x, -4, 2, 0.02}], 20]
+			Out[9]= 101.52722288162753728
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 10), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1327, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 101.52722288162753728;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1328() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[10]:= SetPrecision[Sum[CDF[StudentTDistribution[3.5], x], {x, -4, 2, 0.02}], 20]
+			Out[10]= 103.25631202978907197
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 3.5), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1328, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 103.25631202978907197;
+			if (MathFunctions.abs(reg - value) <= 1e-11)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1329() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(v, 2, 10, int( pStud(x, v), x, -3, 1) - ( cStud(1, v) - cStud(-3, v)), 0.5)";
+			TestCommonTools.consolePrintTestExprStart(1329, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-5)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1330() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[11]:= SetPrecision[Sum[CDF[StudentTDistribution[6], x], {x, -4, 2, 0.02}], 20]
+			Out[11]= 102.08096048688545920
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -4, 2, cStud(x, 6), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1330, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 102.08096048688545920;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1331() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[12]:= SetPrecision[Sum[PDF[StudentTDistribution[6], x], {x, -10, 10, 0.02}], 20]
+			Out[12]= 49.997120486355342450
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(x, -10, 10, pStud(x, 6), 0.02)";
+			TestCommonTools.consolePrintTestExprStart(1331, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.997120486355342450;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1332() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[20]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[1], p], {p, 0.01, 0.3, 0.01}], 20]
+			Out[20]= -122.13661350334075451
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.01, 0.3, qStud(p, 1), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1332, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -122.13661350334075451;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1333() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[21]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[2], p], {p, 0.31, 0.6, 0.01}], 20]
+			Out[21]= -4.0222366861212943689
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.31, 0.6, qStud(p, 2), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1333, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -4.0222366861212943689;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1334() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[22]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[3], p], {p, 0.61, 0.99, 0.01}], 20]
+			Out[22]= 49.022649438142927636
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.61, 0.99, qStud(p, 3), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1334, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 49.022649438142927636;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1335() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[23]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[4], p], {p, 0.01, 0.3, 0.01}], 20]
+			Out[23]= -41.523786374754216411
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.01, 0.3, qStud(p, 4), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1335, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -41.523786374754216411;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1336() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[24]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[5], p], {p, 0.31, 0.6, 0.01}], 20]
+			Out[24]= -3.6861528079308447658
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.31, 0.6, qStud(p, 5), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1336, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -3.6861528079308447658;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1337() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[25]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[6], p], {p, 0.61, 0.99, 0.01}], 20]
+			Out[25]= 42.080419687579002641
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.61, 0.99, qStud(p, 6), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1337, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 42.080419687579002641;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1338() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[26]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[7], p], {p, 0.01, 0.3, 0.01}], 20]
+			Out[26]= -37.636003256786395355
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.01, 0.3, qStud(p, 7), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1338, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -37.636003256786395355;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1339() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[27]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[10], p], {p, 0.31, 0.6, 0.01}], 20]
+			Out[27]= -3.5794892654924845843
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.31, 0.6, qStud(p, 10), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1339, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -3.5794892654924845843;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1340() {
+			/*
+			Wolfram 12.3 / Raspberry Pi
+			In[28]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[3.5], p], {p, 0.61, 0.99, 0.01}], 20]
+			Out[28]= 46.797703078921131237
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(p, 0.61, 0.99, qStud(p, 3.5), 0.01)";
+			TestCommonTools.consolePrintTestExprStart(1340, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 46.797703078921131237;
+			if (MathFunctions.abs(reg - value) <= 1e-13)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1341() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "avg(i, 1, 200000, rStud(10))";
+			TestCommonTools.consolePrintTestExprStart(1341, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 0.01)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1342() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "vari(i, 1, 200000, rStud(10))";
+			TestCommonTools.consolePrintTestExprStart(1342, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 10.0 / (10.0 - 2.0);
+			if (MathFunctions.abs(reg - value) <= 0.01)
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);

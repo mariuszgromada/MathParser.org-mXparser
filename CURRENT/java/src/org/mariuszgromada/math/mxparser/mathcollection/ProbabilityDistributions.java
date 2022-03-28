@@ -1,9 +1,9 @@
 /*
- * @(#)ProbabilityDistributions.java        4.3.0   2018-12-12
+ * @(#)ProbabilityDistributions.java        5.0.0   2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -61,7 +61,11 @@ package org.mariuszgromada.math.mxparser.mathcollection;
 
 import java.util.Random;
 
+import org.mariuszgromada.math.mxparser.Argument;
+import org.mariuszgromada.math.mxparser.Constant;
+import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.mXparser;
+import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
 
 /**
  * ProbabilityDistributions - random number generators, PDF - Probability Distribution Functions,
@@ -85,7 +89,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.0
+ * @version        5.3.0
  */
 public final class ProbabilityDistributions {
 	/**
@@ -397,5 +401,249 @@ public final class ProbabilityDistributions {
 		if (q == 0.0) return Double.NEGATIVE_INFINITY;
 		if (q == 1.0) return Double.POSITIVE_INFINITY;
 		return mean - ( stddev * MathConstants.SQRT2 * SpecialFunctions.erfcInv( 2.0*q ) );
+	}
+	/**
+	 * Probability distribution function - Student's t-distribution
+	 *
+	 * @param x   Given point.
+	 * @param v   Number of degrees of freedom.
+	 * @return    Returns the PDF of Student's t-distribution.
+	 */
+	public static double pdfStudentT(double x, double v){
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(v)) return Double.NaN;
+		if (v <= 0) return Double.NaN;
+		if (x == Double.NEGATIVE_INFINITY) return 0;
+		if (x == Double.POSITIVE_INFINITY) return 0;
+
+		if (BinaryRelations.isEqualOrAlmost(v, 1))
+			return 1.0 / ( MathConstants.PI * (1.0 + x*x) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 2))
+			return 1.0 / ( 2.0 * MathConstants.SQRT2 * Math.pow(1 + x*x / 2.0, 1.5) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 3))
+			return 2.0 / ( MathConstants.PI * MathConstants.SQRT3 * Math.pow(1.0 + x*x / 3.0, 2.0) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 4))
+			return 3.0 / ( 8.0 * Math.pow(1.0 + x*x / 4, 2.5) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 5))
+			return 8.0 / ( 3.0 * MathConstants.PI * MathConstants.SQRT5 * Math.pow(1.0 + x*x / 5.0, 3.0) );
+
+		if (v == Double.POSITIVE_INFINITY)
+			return 1.0 / MathConstants.SQRT2Pi * Math.exp(-x*x / 2.0);
+
+		return SpecialFunctions.gamma((v + 1.0) / 2.0) / (Math.sqrt(v*MathConstants.PI) * SpecialFunctions.gamma(v/2.0)) * Math.pow(1.0 + x*x/v, -((v + 1.0)/2.0));
+	}
+	/**
+	 * Cumulative distribution function - Student's t-distribution
+	 * for positive arguments
+	 *
+	 * @param x   Given point.
+	 * @param v   Number of degrees of freedom.
+	 * @return    Returns the CDF of Student's t-distribution.
+	 */
+	private static double cdfStudentTPositiveX(double x, double v) {
+		if (BinaryRelations.isEqualOrAlmost(v, 1.0))
+			return 0.5 + MathConstants.PIINV * Math.atan(x);
+
+		if (BinaryRelations.isEqualOrAlmost(v, 2.0))
+			return 0.5 + x / ( 2.0 * MathConstants.SQRT2 * Math.sqrt(1 + x*x / 2.0 ) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 3.0))
+			return 0.5 + MathConstants.PIINV * ( 1.0 / MathConstants.SQRT3 * x / (1.0 + x*x / 3.0) + Math.atan(x / MathConstants.SQRT3) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 4.0))
+			return 0.5 + 3.0/8.0 * x / Math.sqrt(1 + x*x / 4.0) * (1.0 - 1.0/12.0 * x*x / (1.0 + x*x /4.0) );
+
+		if (BinaryRelations.isEqualOrAlmost(v, 5.0))
+			return 0.5 + MathConstants.PIINV * ( x / ( MathConstants.SQRT5 * (1.0 + x*x / 5.0) ) * (1.0 + 2.0 / (3.0 * (1.0 + x*x / 5.0) ) ) + Math.atan(x / MathConstants.SQRT5) );
+
+		if (v == Double.POSITIVE_INFINITY)
+			return 0.5 * (1.0 + SpecialFunctions.erf(x / MathConstants.SQRT2) );
+
+		return 1.0 / 2.0 + x * SpecialFunctions.gamma((v + 1.0) / 2.0) * SpecialFunctions.hypergeometricF(1.0 / 2.0, (v + 1.0) / 2.0, 3.0/2.0, -Math.pow(x, 2.0) / v, 300, 1e-14) / (Math.sqrt(MathConstants.PI * v) * SpecialFunctions.gamma(v / 2.0));
+	}
+	/**
+	 * Cumulative distribution function - Student's t-distribution
+	 *
+	 * @param x   Given point.
+	 * @param v   Number of degrees of freedom.
+	 * @return    Returns the CDF of Student's t-distribution.
+	 */
+	public static double cdfStudentT(double x, double v){
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(v)) return Double.NaN;
+		if (v <= 0) return Double.NaN;
+		if (x == Double.NEGATIVE_INFINITY) return 0;
+		if (x == Double.POSITIVE_INFINITY) return 1;
+		if (BinaryRelations.isEqualOrAlmost(x, 0))
+			return 0.5;
+
+		if (x > 0)
+			return cdfStudentTPositiveX(x, v);
+		else
+			return 1.0 - cdfStudentTPositiveX(-x, v);
+	}
+
+	private static Constant pp = new Constant("p", 1);
+	private static Constant vv = new Constant("v", 1);
+	private static Expression qntSolveStud = new Expression("solve( cStud(x, v) - p, x, -100000000000000.0, 100000000000000.0)", pp, vv) {{checkSyntax();}};
+	/**
+	 * Quantile function (Inverse cumulative distribution function)
+	 * - Student's t-distribution
+	 *
+	 * @param p   Probability
+	 * @param v   Number of degrees of freedom.
+	 * @return    Returns the quantile of Student's t-distribution
+	 */
+	public static double qntStudentT(double p, double v){
+		if (Double.isNaN(p)) return Double.NaN;
+		if (Double.isNaN(v)) return Double.NaN;
+		if (v <= 0.0) return Double.NaN;
+
+		if( BinaryRelations.isEqualOrAlmost(p, 0.0) )
+			return Double.NEGATIVE_INFINITY;
+		if( BinaryRelations.isEqualOrAlmost(p, 1.0) )
+			return Double.POSITIVE_INFINITY;
+
+		if ( (p < 0.0) || (p > 1.0) ) return Double.NaN;
+
+		if (BinaryRelations.isEqualOrAlmost(p, 0.5))
+			return 0;
+
+		double q, a;
+		if( BinaryRelations.isEqualOrAlmost(v, 1.0) )
+			return Math.tan(MathConstants.PI*(p - 0.5));
+
+		if( BinaryRelations.isEqualOrAlmost(v, 2.0) ) {
+			a = 4.0 * p * (1.0 - p);
+			return (2.0 * p - 1.0) * Math.sqrt(2.0 / a);
+		}
+
+		if ( BinaryRelations.isEqualOrAlmost(v, 4.0) ) {
+			a = 4 * p * (1.0 - p);
+			q = Math.cos(1.0/3.0 * Math.acos(Math.sqrt(a)))/Math.sqrt(a);
+			return Math.signum(p - 0.5) * 2.0 * Math.sqrt(q - 1);
+		}
+
+		double x;
+		if (v == Double.POSITIVE_INFINITY)
+			x = MathConstants.SQRT2 * SpecialFunctions.erfInv(2.0 * Math.max(p, 1.0 - p) - 1);
+		else {
+			x = SpecialFunctions.inverseRegularizedBeta(0.5 * v, 0.5, 2.0 * Math.min(p, 1.0 - p));
+			x = Math.sqrt(v * (1.0 - x) / x);
+		}
+
+		if (Double.isNaN(x)) {
+			if (BinaryRelations.isEqualOrAlmost(v % 2, 0))
+				x = qntChengFuStudentTAlgorithm(p, v);
+			else
+				x = qntHillsAlgorithm396(p, v);
+		}
+
+		if (Double.isNaN(x)) {
+			pp.setConstantValue(Math.max(p, 1.0 - p));
+			vv.setConstantValue(v);
+			x = qntSolveStud.calculate();
+		}
+
+		return p >= 0.5 ? x : -x;
+	}
+
+	/**
+	 * Pseudo-random number from Student's t-distribution
+	 *
+	 * @param v   Number of degrees of freedom.
+	 * @return    returns Pseudo-random number from Student's t-distribution
+	 */
+	public static double rndStudentT(double v) {
+		if (Double.isNaN(v)) return Double.NaN;
+		if (v <= 0) return Double.NaN;
+		return qntStudentT(randomGenerator.nextDouble(), v);
+	}
+	/*
+	 * Cheng Fu approximation of quantile function of
+	 * Student's t-distribution
+	 */
+	private static double qntChengFuStudentTAlgorithm(double p, double v){
+		if (Double.isNaN(p)) return Double.NaN;
+		if (Double.isNaN(v)) return Double.NaN;
+		if (v <= 0) return Double.NaN;
+		if ( (p < 0.0) || (p > 1.0) ) return Double.NaN;
+		double a, qi, i, gy, j, qip1, q, k;
+		k = Math.ceil( v /2);
+		a = 1 - p;
+		if(a != 0.5){
+			qi = Math.sqrt( 2 * Math.pow(1 - 2*a, 2)/(1 - Math.pow(1 - 2*a, 2)));
+			for (i = 0; i < 20; i = i + 1){
+				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				gy = 0;
+				for (j = 0; j <= k - 1; j = j + 1){
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					gy = gy + MathFunctions.factorial(2*j) / Math.pow(2, 2*j) / Math.pow( MathFunctions.factorial(j), 2d) * Math.pow(1d + Math.pow(qi, 2d)/(2d*k), -j);
+				}
+				qip1 = 1 / Math.sqrt(1/(2*k) * (Math.pow(gy/(1 - 2*a), 2) - 1));
+				qi = qip1;
+			}
+			if (a > 0.5) {
+				q = -qi;
+			} else {
+				q = qi;
+			}
+		} else {
+			q = 0d;
+		}
+		return q;
+	}
+	/*
+	 * Hills 396 approximation of quantile function of
+	 * Student's t-distribution
+	 */
+	private static double qntHillsAlgorithm396(double p, double v){
+		if (Double.isNaN(p)) return Double.NaN;
+		if (Double.isNaN(v)) return Double.NaN;
+		if (v <= 0) return Double.NaN;
+		if ( (p < 0.0) || (p > 1.0) ) return Double.NaN;
+		double q, z;
+		boolean negate;
+		if (p > 0.5) {
+			negate = false;
+			z = 2.0 * (1.0 - p);
+		} else {
+			negate = true;
+			z = 2.0 * p;
+		}
+		double a, b, c, d, x, y;
+		a = 1.0 / (v - 0.5);
+		b = 48.0 / (a*a);
+		c = ((20700.0 * a/b - 98.0) * a - 16.0) * a + 96.36;
+		d = ((94.5/(b + c) - 3.0)/b + 1.0) * Math.sqrt(a * MathConstants.PIBY2) * v;
+		x = z*d;
+		y = Math.pow(x, 2/v);
+
+		if (y > 0.05 + a) {
+			x = qntNormal(z*0.5, 0.0, 1.0);
+			y = x*x;
+			if (v < 5.0) {
+				c = c + 0.3 * (v - 4.5)*(x + 0.6);
+			}
+			c = c + (((0.05*d*x - 5.0)*x - 7.0)*x - 2.0)*x + b;
+			y = (((((0.4*y + 6.3)*y + 36.0)*y + 94.5)/c - y - 3.0)/b + 1.0) * x;
+			y = a*y*y;
+			if(y > 0.002){
+				y = Math.exp(y) - 1d;
+			}else{
+				y = y + 0.5*y*y;
+			}
+		} else {
+			y = ((1/(((v + 6)/(v*y) - 0.089 * d - 0.822)*(v + 2.0)*3.0) + 0.5/(v + 4.0))*y - 1)*(v + 1.0)/(v + 2.0) + 1.0/y;
+		}
+		q = Math.sqrt(v*y);
+		if(negate){
+			q = -q;
+		}
+		return q;
 	}
 }

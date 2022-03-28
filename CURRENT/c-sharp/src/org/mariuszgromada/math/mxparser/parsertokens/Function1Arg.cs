@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        5.0.0    2022-03-20
+ * @(#)Function1Arg.cs        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -150,6 +150,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int LOG_GAMMA_ID				= 61;
 		public const int DI_GAMMA_ID				= 62;
 		public const int PARAM_ID					= 63;
+		public const int RND_STUDENT_T_ID			= 64;
 		/*
 		 * UnaryFunction - tokens key words.
 		 */
@@ -257,6 +258,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LOG_GAMMA_STR			= "logGamma";
 		public const String DI_GAMMA_STR			= "diGamma";
 		public const String PARAM_STR				= "par";
+		public const String RND_STUDENT_T_STR		= "rStud";
 		/*
 		 * UnaryFunction - syntax.
 		 */
@@ -364,6 +366,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String LOG_GAMMA_SYN			= SyntaxStringBuilder.unaryFunctionX(LOG_GAMMA_STR);
 		public static readonly String DI_GAMMA_SYN			= SyntaxStringBuilder.unaryFunctionX(DI_GAMMA_STR);
 		public static readonly String PARAM_SYN				= SyntaxStringBuilder.unaryFunctionI(PARAM_STR);
+		public static readonly String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(PARAM_STR);
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -429,6 +432,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LOG_GAMMA_DESC			= "Log Gamma special function, lnΓ(s)";
 		public const String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)";
 		public const String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
+		public const String RND_STUDENT_T_DESC		= "Random variable - Student's t-distribution";
 		/*
 		 * UnaryFunction - tokens description.
 		 */
@@ -495,5 +499,6 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String LOG_GAMMA_SINCE			= mXparser.NAMEv42;
 		public const String DI_GAMMA_SINCE			= mXparser.NAMEv42;
 		public const String PARAM_SINCE				= mXparser.NAMEv42;
+		public const String RND_STUDENT_T_SINCE		= mXparser.NAMEv50;
 	}
 }

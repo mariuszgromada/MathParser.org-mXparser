@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.0   2022-03-21
+ * @(#)Expression.cs        5.0.0   2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -3682,6 +3682,10 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			f1SetDecreaseRemove(pos, value );
 		}
+		public void RND_STUDENT_T(int pos) {
+			double v = getTokenValue(pos+1);
+			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentT(v) );
+		}
 		/**
 		 * Logarithm
 		 * Sets tokens to number token
@@ -3767,6 +3771,21 @@ namespace org.mariuszgromada.math.mxparser {
 			double x = getTokenValue(pos+1);
 			double y = getTokenValue(pos+2);
 			f2SetDecreaseRemove(pos, SpecialFunctions.logBeta(x, y) );
+		}
+		private void PDF_STUDENT_T(int pos) {
+			double x = getTokenValue(pos+1);
+			double v = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.pdfStudentT(x, v) );
+		}
+		private void CDF_STUDENT_T(int pos) {
+			double x = getTokenValue(pos+1);
+			double v = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.cdfStudentT(x, v) );
+		}
+		private void QNT_STUDENT_T(int pos) {
+			double p = getTokenValue(pos+1);
+			double v = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.qntStudentT(p, v) );
 		}
 		/**
 		 * Bernoulli Number
@@ -6107,6 +6126,7 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function1Arg.LOG_GAMMA_ID: LOG_GAMMA(pos); break;
 			case Function1Arg.DI_GAMMA_ID: DI_GAMMA(pos); break;
 			case Function1Arg.PARAM_ID: UDF_PARAM(pos); break;
+			case Function1Arg.RND_STUDENT_T_ID: RND_STUDENT_T(pos); break;
 			}
 		}
 		/**
@@ -6142,6 +6162,9 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function2Arg.PERMUTATIONS_ID: PERMUTATIONS(pos); break;
 			case Function2Arg.BETA_ID: BETA(pos); break;
 			case Function2Arg.LOG_BETA_ID: LOG_BETA(pos); break;
+			case Function2Arg.PDF_STUDENT_T_ID: PDF_STUDENT_T(pos); break;
+			case Function2Arg.CDF_STUDENT_T_ID: CDF_STUDENT_T(pos); break;
+			case Function2Arg.QNT_STUDENT_T_ID: QNT_STUDENT_T(pos); break;
 			}
 		}
 		/**
@@ -6467,6 +6490,7 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function1Arg.SGN_GAMMA_STR, Function1Arg.SGN_GAMMA_DESC, Function1Arg.SGN_GAMMA_ID, Function1Arg.SGN_GAMMA_SYN, Function1Arg.SGN_GAMMA_SINCE, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.LOG_GAMMA_STR, Function1Arg.LOG_GAMMA_DESC, Function1Arg.LOG_GAMMA_ID, Function1Arg.LOG_GAMMA_SYN, Function1Arg.LOG_GAMMA_SINCE, Function1Arg.TYPE_ID);
 				addKeyWord(Function1Arg.DI_GAMMA_STR, Function1Arg.DI_GAMMA_DESC, Function1Arg.DI_GAMMA_ID, Function1Arg.DI_GAMMA_SYN, Function1Arg.DI_GAMMA_SINCE, Function1Arg.TYPE_ID);
+				addKeyWord(Function1Arg.RND_STUDENT_T_STR, Function1Arg.RND_STUDENT_T_DESC, Function1Arg.RND_STUDENT_T_ID, Function1Arg.RND_STUDENT_T_SYN, Function1Arg.RND_STUDENT_T_SINCE, Function1Arg.TYPE_ID);
 				/*
 				 * 2 args functions key words
 				 */
@@ -6500,6 +6524,9 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function2Arg.PERMUTATIONS_STR, Function2Arg.PERMUTATIONS_DESC, Function2Arg.PERMUTATIONS_ID, Function2Arg.PERMUTATIONS_SYN, Function2Arg.PERMUTATIONS_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.BETA_STR, Function2Arg.BETA_DESC, Function2Arg.BETA_ID, Function2Arg.BETA_SYN, Function2Arg.BETA_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.LOG_BETA_STR, Function2Arg.LOG_BETA_DESC, Function2Arg.LOG_BETA_ID, Function2Arg.LOG_BETA_SYN, Function2Arg.LOG_BETA_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.PDF_STUDENT_T_STR, Function2Arg.PDF_STUDENT_T_DESC, Function2Arg.PDF_STUDENT_T_ID, Function2Arg.PDF_STUDENT_T_SYN, Function2Arg.PDF_STUDENT_T_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.CDF_STUDENT_T_STR, Function2Arg.CDF_STUDENT_T_DESC, Function2Arg.CDF_STUDENT_T_ID, Function2Arg.CDF_STUDENT_T_SYN, Function2Arg.CDF_STUDENT_T_SINCE, Function2Arg.TYPE_ID);
+				addKeyWord(Function2Arg.QNT_STUDENT_T_STR, Function2Arg.QNT_STUDENT_T_DESC, Function2Arg.QNT_STUDENT_T_ID, Function2Arg.QNT_STUDENT_T_SYN, Function2Arg.QNT_STUDENT_T_SINCE, Function2Arg.TYPE_ID);
 				/*
 				 * 3 args functions key words
 				 */

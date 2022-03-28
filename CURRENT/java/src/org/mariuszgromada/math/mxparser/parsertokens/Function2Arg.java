@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.java        5.0.0    2022-03-20
+ * @(#)Function2Arg.java        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -114,6 +114,9 @@ public final class Function2Arg {
 	public static final int PERMUTATIONS_ID						= 25;
 	public static final int BETA_ID								= 26;
 	public static final int LOG_BETA_ID							= 27;
+	public static final int PDF_STUDENT_T_ID					= 28;
+	public static final int CDF_STUDENT_T_ID					= 29;
+	public static final int QNT_STUDENT_T_ID					= 30;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -147,6 +150,9 @@ public final class Function2Arg {
 	public static final String PERMUTATIONS_STR					= "nPk";
 	public static final String BETA_STR							= "Beta";
 	public static final String LOG_BETA_STR						= "logBeta";
+	public static final String PDF_STUDENT_T_STR				= "pStud";
+	public static final String CDF_STUDENT_T_STR				= "cStud";
+	public static final String QNT_STUDENT_T_STR				= "qStud";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -180,6 +186,9 @@ public final class Function2Arg {
 	public static final String PERMUTATIONS_SYN					= SyntaxStringBuilder.binaryFunction(PERMUTATIONS_STR, SyntaxStringBuilder.n, SyntaxStringBuilder.k);
 	public static final String BETA_SYN							= SyntaxStringBuilder.binaryFunction(BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.y);
 	public static final String LOG_BETA_SYN						= SyntaxStringBuilder.binaryFunction(LOG_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.y);
+	public static final String PDF_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(PDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.v);
+	public static final String CDF_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(CDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.v);
+	public static final String QNT_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(QNT_STUDENT_T_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.v);
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -210,6 +219,9 @@ public final class Function2Arg {
 	public static final String PERMUTATIONS_DESC				= "Number of k-permutations that can be drawn from n-elements set";
 	public static final String BETA_DESC						= "The Beta special function B(x,y), also called the Euler integral of the first kind";
 	public static final String LOG_BETA_DESC					= "The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)";
+	public static final String PDF_STUDENT_T_DESC				= "Probability distribution function - Student's t-distribution";
+	public static final String CDF_STUDENT_T_DESC				= "Cumulative distribution function - Student's t-distribution";
+	public static final String QNT_STUDENT_T_DESC				= "Quantile function (inverse cumulative distribution function) - Student's t-distribution";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -241,4 +253,7 @@ public final class Function2Arg {
 	public static final String PERMUTATIONS_SINCE				= mXparser.NAMEv42;
 	public static final String BETA_SINCE						= mXparser.NAMEv42;
 	public static final String LOG_BETA_SINCE					= mXparser.NAMEv42;
+	public static final String PDF_STUDENT_T_SINCE				= mXparser.NAMEv50;
+	public static final String CDF_STUDENT_T_SINCE				= mXparser.NAMEv50;
+	public static final String QNT_STUDENT_T_SINCE				= mXparser.NAMEv50;
 }

@@ -1,9 +1,9 @@
 /*
- * @(#)ProbabilityDistributions.cs        4.3.0   2018-12-12
+ * @(#)ProbabilityDistributions.cs        5.0.0   2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -82,7 +82,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
 	 *
-	 * @version        4.3.0
+	 * @version        5.0.0
 	 */
 	[CLSCompliant(true)]
 	public class ProbabilityDistributions {
@@ -396,5 +396,250 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (q == 1.0) return Double.PositiveInfinity;
 			return mean - (stddev * MathConstants.SQRT2 * SpecialFunctions.erfcInv(2.0 * q));
 		}
+		/**
+		 * Probability distribution function - Student's t-distribution
+		 *
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the PDF of Student's t-distribution.
+		 */
+		public static double pdfStudentT(double x, double v){
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(v)) return Double.NaN;
+			if (v <= 0) return Double.NaN;
+			if (x == Double.PositiveInfinity) return 0;
+			if (x == Double.PositiveInfinity) return 0;
+
+			if (BinaryRelations.isEqualOrAlmost(v, 1))
+				return 1.0 / ( MathConstants.PI * (1.0 + x*x) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 2))
+				return 1.0 / ( 2.0 * MathConstants.SQRT2 * Math.Pow(1 + x*x / 2.0, 1.5) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 3))
+				return 2.0 / ( MathConstants.PI * MathConstants.SQRT3 * Math.Pow(1.0 + x*x / 3.0, 2.0) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 4))
+				return 3.0 / ( 8.0 * Math.Pow(1.0 + x*x / 4, 2.5) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 5))
+				return 8.0 / ( 3.0 * MathConstants.PI * MathConstants.SQRT5 * Math.Pow(1.0 + x*x / 5.0, 3.0) );
+
+			if (v == Double.PositiveInfinity)
+				return 1.0 / MathConstants.SQRT2Pi * Math.Exp(-x*x / 2.0);
+
+			return SpecialFunctions.gamma((v + 1.0) / 2.0) / (Math.Sqrt(v*MathConstants.PI) * SpecialFunctions.gamma(v/2.0)) * Math.Pow(1.0 + x*x/v, -((v + 1.0)/2.0));
+		}
+		/**
+		 * Cumulative distribution function - Student's t-distribution
+		 * for positive arguments
+		 *
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the CDF of Student's t-distribution.
+		 */
+		private static double cdfStudentTPositiveX(double x, double v) {
+			if (BinaryRelations.isEqualOrAlmost(v, 1.0))
+				return 0.5 + MathConstants.PIINV * Math.Atan(x);
+
+			if (BinaryRelations.isEqualOrAlmost(v, 2.0))
+				return 0.5 + x / ( 2.0 * MathConstants.SQRT2 * Math.Sqrt(1 + x*x / 2.0 ) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 3.0))
+				return 0.5 + MathConstants.PIINV * ( 1.0 / MathConstants.SQRT3 * x / (1.0 + x*x / 3.0) + Math.Atan(x / MathConstants.SQRT3) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 4.0))
+				return 0.5 + 3.0/8.0 * x / Math.Sqrt(1 + x*x / 4.0) * (1.0 - 1.0/12.0 * x*x / (1.0 + x*x /4.0) );
+
+			if (BinaryRelations.isEqualOrAlmost(v, 5.0))
+				return 0.5 + MathConstants.PIINV * ( x / ( MathConstants.SQRT5 * (1.0 + x*x / 5.0) ) * (1.0 + 2.0 / (3.0 * (1.0 + x*x / 5.0) ) ) + Math.Atan(x / MathConstants.SQRT5) );
+
+			if (v == Double.PositiveInfinity)
+				return 0.5 * (1.0 + SpecialFunctions.erf(x / MathConstants.SQRT2) );
+
+			return 1.0 / 2.0 + x * SpecialFunctions.gamma((v + 1.0) / 2.0) * SpecialFunctions.hypergeometricF(1.0 / 2.0, (v + 1.0) / 2.0, 3.0/2.0, -Math.Pow(x, 2.0) / v, 300, 1e-14) / (Math.Sqrt(MathConstants.PI * v) * SpecialFunctions.gamma(v / 2.0));
+		}
+		/**
+		 * Cumulative distribution function - Student's t-distribution
+		 *
+		 * @param x   Given point.
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the CDF of Student's t-distribution.
+		 */
+		public static double cdfStudentT(double x, double v){
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(v)) return Double.NaN;
+			if (v <= 0) return Double.NaN;
+			if (x == Double.NegativeInfinity) return 0;
+			if (x == Double.PositiveInfinity) return 1;
+			if (BinaryRelations.isEqualOrAlmost(x, 0))
+				return 0.5;
+
+			if (x > 0)
+				return cdfStudentTPositiveX(x, v);
+			else
+				return 1.0 - cdfStudentTPositiveX(-x, v);
+		}
+
+		private static Constant pp = new Constant("p", 1);
+		private static Constant vv = new Constant("v", 1);
+		private static Expression qntSolveStud = new Expression("solve( cStud(x, v) - p, x, -100000000000000.0, 100000000000000.0)", pp, vv);
+		/**
+		 * Quantile function (Inverse cumulative distribution function)
+		 * - Student's t-distribution
+		 *
+		 * @param p   Probability
+		 * @param v   Number of degrees of freedom.
+		 * @return    Returns the quantile of Student's t-distribution
+		 */
+		public static double qntStudentT(double p, double v){
+			if (Double.IsNaN(p)) return Double.NaN;
+			if (Double.IsNaN(v)) return Double.NaN;
+			if (v <= 0.0) return Double.NaN;
+
+			if( BinaryRelations.isEqualOrAlmost(p, 0.0) )
+				return Double.NegativeInfinity;
+			if( BinaryRelations.isEqualOrAlmost(p, 1.0) )
+				return Double.PositiveInfinity;
+
+			if ( (p < 0.0) || (p > 1.0) ) return Double.NaN;
+
+			if (BinaryRelations.isEqualOrAlmost(p, 0.5))
+				return 0;
+
+			double q, a;
+			if( BinaryRelations.isEqualOrAlmost(v, 1.0) )
+				return Math.Tan(MathConstants.PI*(p - 0.5));
+
+			if( BinaryRelations.isEqualOrAlmost(v, 2.0) ) {
+				a = 4.0 * p * (1.0 - p);
+				return (2.0 * p - 1.0) * Math.Sqrt(2.0 / a);
+			}
+
+			if ( BinaryRelations.isEqualOrAlmost(v, 4.0) ) {
+				a = 4 * p * (1.0 - p);
+				q = Math.Cos(1.0/3.0 * Math.Acos(Math.Sqrt(a)))/Math.Sqrt(a);
+				return Math.Sign(p - 0.5) * 2.0 * Math.Sqrt(q - 1);
+			}
+
+			double x;
+			if (v == Double.PositiveInfinity)
+				x = MathConstants.SQRT2 * SpecialFunctions.erfInv(2.0 * Math.Max(p, 1.0 - p) - 1);
+			else {
+				x = SpecialFunctions.inverseRegularizedBeta(0.5 * v, 0.5, 2.0 * Math.Min(p, 1.0 - p));
+				x = Math.Sqrt(v * (1.0 - x) / x);
+			}
+
+			if (Double.IsNaN(x)) {
+				if (BinaryRelations.isEqualOrAlmost(v % 2, 0))
+					x = qntChengFuStudentTAlgorithm(p, v);
+				else
+					x = qntHillsAlgorithm396(p, v);
+			}
+
+			if (Double.IsNaN(x)) {
+				pp.setConstantValue(Math.Max(p, 1.0 - p));
+				vv.setConstantValue(v);
+				x = qntSolveStud.calculate();
+			}
+
+			return p >= 0.5 ? x : -x;
+		}
+
+		/**
+		 * Pseudo-random number from Student's t-distribution
+		 *
+		 * @param v   Number of degrees of freedom.
+		 * @return    returns Pseudo-random number from Student's t-distribution
+		 */
+		public static double rndStudentT(double v) {
+			if (Double.IsNaN(v)) return Double.NaN;
+			if (v <= 0) return Double.NaN;
+			return qntStudentT(randomGenerator.NextDouble(), v);
+		}
+		/*
+		 * Cheng Fu approximation of quantile function of
+		 * Student's t-distribution
+		 */
+		private static double qntChengFuStudentTAlgorithm(double p, double v){
+			if (Double.IsNaN(p)) return Double.NaN;
+			if (Double.IsNaN(v)) return Double.NaN;
+			if (v <= 0) return Double.NaN;
+			if ( (p < 0.0) || (p > 1.0) ) return Double.NaN;
+			double a, qi, i, gy, j, qip1, q, k;
+			k = Math.Ceiling( v /2);
+			a = 1 - p;
+			if(a != 0.5){
+				qi = Math.Sqrt( 2 * Math.Pow(1 - 2*a, 2)/(1 - Math.Pow(1 - 2*a, 2)));
+				for (i = 0; i < 20; i = i + 1){
+					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					gy = 0;
+					for (j = 0; j <= k - 1; j = j + 1){
+						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+						gy = gy + MathFunctions.factorial(2*j) / Math.Pow(2, 2*j) / Math.Pow( MathFunctions.factorial(j), 2d) * Math.Pow(1d + Math.Pow(qi, 2d)/(2d*k), -j);
+					}
+					qip1 = 1 / Math.Sqrt(1/(2*k) * (Math.Pow(gy/(1 - 2*a), 2) - 1));
+					qi = qip1;
+				}
+				if (a > 0.5) {
+					q = -qi;
+				} else {
+					q = qi;
+				}
+			} else {
+				q = 0d;
+			}
+			return q;
+		}
+		/*
+		 * Hills 396 approximation of quantile function of
+		 * Student's t-distribution
+		 */
+		private static double qntHillsAlgorithm396(double p, double v){
+			if (Double.IsNaN(p)) return Double.NaN;
+			if (Double.IsNaN(v)) return Double.NaN;
+			if (v <= 0) return Double.NaN;
+			if ( (p < 0.0) || (p > 1.0) ) return Double.NaN;
+			double q, z;
+			bool negate;
+			if (p > 0.5) {
+				negate = false;
+				z = 2.0 * (1.0 - p);
+			} else {
+				negate = true;
+				z = 2.0 * p;
+			}
+			double a, b, c, d, x, y;
+			a = 1.0 / (v - 0.5);
+			b = 48.0 / (a*a);
+			c = ((20700.0 * a/b - 98.0) * a - 16.0) * a + 96.36;
+			d = ((94.5/(b + c) - 3.0)/b + 1.0) * Math.Sqrt(a * MathConstants.PIBY2) * v;
+			x = z*d;
+			y = Math.Pow(x, 2/v);
+
+			if (y > 0.05 + a) {
+				x = qntNormal(z*0.5, 0.0, 1.0);
+				y = x*x;
+				if (v < 5.0) {
+					c = c + 0.3 * (v - 4.5)*(x + 0.6);
+				}
+				c = c + (((0.05*d*x - 5.0)*x - 7.0)*x - 2.0)*x + b;
+				y = (((((0.4*y + 6.3)*y + 36.0)*y + 94.5)/c - y - 3.0)/b + 1.0) * x;
+				y = a*y*y;
+				if(y > 0.002){
+					y = Math.Exp(y) - 1d;
+				}else{
+					y = y + 0.5*y*y;
+				}
+			} else {
+				y = ((1/(((v + 6)/(v*y) - 0.089 * d - 0.822)*(v + 2.0)*3.0) + 0.5/(v + 4.0))*y - 1)*(v + 1.0)/(v + 2.0) + 1.0/y;
+			}
+			q = Math.Sqrt(v*y);
+			if(negate){
+				q = -q;
+			}
+			return q;
+		}
+
 	}
 }

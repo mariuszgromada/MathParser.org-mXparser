@@ -1,9 +1,9 @@
 /*
- * @(#)MathConstants.java        4.3.4    2019-12-22
+ * @(#)MathConstants.java        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
- * Copyright 2010-2019 MARIUSZ GROMADA. All rights reserved.
+ * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -75,7 +75,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
  *
- * @version        4.3.4
+ * @version        5.0.0
  */
 public final class MathConstants {
 	/**
@@ -86,6 +86,10 @@ public final class MathConstants {
 	 * Pi/2
 	 */
 	public static final double PIBY2 = PI / 2.0;
+	/**
+	 * 1/Pi
+	 */
+	public static final double PIINV = 1.0 / PI;
 	/**
 	 * Napier's constant, or Euler's number, base of Natural logarithm
 	 */
@@ -306,6 +310,10 @@ public final class MathConstants {
 	 * SQRT3BY3
 	 */
 	public static final double SQRT3BY3 = SQRT3/3.0;
+	/**
+	 * SQRT5
+	 */
+	public static final double SQRT5 = Math.sqrt(5.0);
 	/**
 	 * Not-a-Number
 	 */

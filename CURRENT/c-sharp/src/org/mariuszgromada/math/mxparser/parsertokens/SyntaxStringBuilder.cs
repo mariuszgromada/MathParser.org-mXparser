@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxStringBuilder.cs        5.0.0    2022-03-20
+ * @(#)SyntaxStringBuilder.cs        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -131,6 +131,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		internal static readonly String iInParentheses = parentheses(i);
 		internal static readonly String nInParentheses = parentheses(n);
 		internal static readonly String xInParentheses = parentheses(x);
+		internal static readonly String vInParentheses = parentheses(v);
 		internal static readonly String optBy = optionalParameter(by);
 		internal static readonly String optPoint = optionalParameter(point);
 		internal static readonly String optDelta = optionalParameter(delta);
@@ -194,6 +195,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		}
 		internal static String unaryFunctionI(String fun) {
 			return fun + iInParentheses;
+		}
+		internal static String unaryFunctionV(String fun) {
+			return fun + vInParentheses;
 		}
 		internal static String binaryFunction(String fun, String x1, String x2) {
 			return fun + parentheses(x1 + comma + space + x2);

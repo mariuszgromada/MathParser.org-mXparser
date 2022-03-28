@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        5.0.0    2022-03-20
+ * @(#)Function1Arg.java        5.0.0    2022-03-28
  *
  * You may use this software under the condition of "Simplified BSD License"
  *
@@ -149,6 +149,7 @@ public final class Function1Arg {
 	public static final int LOG_GAMMA_ID				= 61;
 	public static final int DI_GAMMA_ID					= 62;
 	public static final int PARAM_ID					= 63;
+	public static final int RND_STUDENT_T_ID			= 64;
 	/*
 	 * UnaryFunction - tokens key words.
 	 */
@@ -256,6 +257,7 @@ public final class Function1Arg {
 	public static final String LOG_GAMMA_STR			= "logGamma";
 	public static final String DI_GAMMA_STR				= "diGamma";
 	public static final String PARAM_STR				= "par";
+	public static final String RND_STUDENT_T_STR		= "rStud";
 	/*
 	 * UnaryFunction - syntax.
 	 */
@@ -363,6 +365,7 @@ public final class Function1Arg {
 	public static final String LOG_GAMMA_SYN			= SyntaxStringBuilder.unaryFunctionX(LOG_GAMMA_STR);
 	public static final String DI_GAMMA_SYN				= SyntaxStringBuilder.unaryFunctionX(DI_GAMMA_STR);
 	public static final String PARAM_SYN				= SyntaxStringBuilder.unaryFunctionI(PARAM_STR);
+	public static final String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(PARAM_STR);
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -428,6 +431,7 @@ public final class Function1Arg {
 	public static final String LOG_GAMMA_DESC			= "Log Gamma special function, lnΓ(s)";
 	public static final String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)";
 	public static final String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
+	public static final String RND_STUDENT_T_DESC		= "Random variable - Student's t-distribution";
 	/*
 	 * UnaryFunction - tokens description.
 	 */
@@ -494,4 +498,5 @@ public final class Function1Arg {
 	public static final String LOG_GAMMA_SINCE			= mXparser.NAMEv42;
 	public static final String DI_GAMMA_SINCE			= mXparser.NAMEv42;
 	public static final String PARAM_SINCE				= mXparser.NAMEv42;
+	public static final String RND_STUDENT_T_SINCE		= mXparser.NAMEv50;
 }
