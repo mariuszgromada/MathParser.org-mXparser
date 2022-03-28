@@ -366,7 +366,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String LOG_GAMMA_SYN			= SyntaxStringBuilder.unaryFunctionX(LOG_GAMMA_STR);
 		public static readonly String DI_GAMMA_SYN			= SyntaxStringBuilder.unaryFunctionX(DI_GAMMA_STR);
 		public static readonly String PARAM_SYN				= SyntaxStringBuilder.unaryFunctionI(PARAM_STR);
-		public static readonly String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(PARAM_STR);
+		public static readonly String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(RND_STUDENT_T_STR);
 		/*
 		 * UnaryFunction - tokens description.
 		 */

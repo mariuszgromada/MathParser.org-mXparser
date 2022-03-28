@@ -365,7 +365,7 @@ public final class Function1Arg {
 	public static final String LOG_GAMMA_SYN			= SyntaxStringBuilder.unaryFunctionX(LOG_GAMMA_STR);
 	public static final String DI_GAMMA_SYN				= SyntaxStringBuilder.unaryFunctionX(DI_GAMMA_STR);
 	public static final String PARAM_SYN				= SyntaxStringBuilder.unaryFunctionI(PARAM_STR);
-	public static final String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(PARAM_STR);
+	public static final String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(RND_STUDENT_T_STR);
 	/*
 	 * UnaryFunction - tokens description.
 	 */
