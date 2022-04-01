@@ -1,16 +1,77 @@
-Simplified BSD License
+Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
 
-Copyright 2010 - 2020 Mariusz Gromada. All rights reserved.
+PRODUCT: MathParser.org-mXparser
+LICENSE: Dual License 
 
-You may use this software under the condition of Simplified BSD License.
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+SOFTWARE means source code and/or binary form and/or documentation.
 
-1. Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE
+BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.
+
+MARIUSZ GROMADA provides MathParser.org-mXparser Software under the dual
+license model designed to meet the needs of both Non-Commercial Use
+as well as Commercial Use.
+
+NON-COMMERCIAL USE means any use or activity where a fee is not charged
+and the purpose is not the sale of a good or service, and the use or activity
+is not intended to produce a profit. NON-COMMERCIAL USE examples:
+
+1. Free Open-Source Software ("FOSS").
+2. Non-commercial use in research, scholarly and education.
+
+COMMERCIAL USE means any use or activity where a fee is charged or the
+purpose is the sale of a good or service, or the use or activity is intended
+to produce a profit. COMMERCIAL USE examples:
+
+1. OEMs (Original Equipment Manufacturers).
+2. ISVs (Independent Software Vendors).
+3. VARs (Value Added Resellers).
+4. Other distributors that combine and distribute commercially licensed software.
+
+NON-COMMERCIAL LICENSE
+
+Redistribution and use of the PRODUCT in source and/or binary forms, with or
+without modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain unmodified content of the entire
+   MathParser.org-mXparser Dual License, including definition of Non-Commercial
+   Use, definition of Commercial Use, Non-Commercial License conditions,
+   Commercial License conditions, and the following DISCLAIMER.
+2. Redistributions in binary form must reproduce the entire content of
+   MathParser.org-mXparser Dual License in the documentation and/or other
+   materials provided with the distribution, including definition of Non-Commercial
+   Use, definition of Commercial Use, Non-Commercial License conditions, Commercial
+   License conditions, and the following DISCLAIMER.
+
+COMMERCIAL LICENSE
+
+Provided that you purchased a license and comply with all below terms and conditions,
+MARIUSZ GROMADA grants you a nonexclusive license including the following rights:
+
+1. In case you purchased a "Single License" You can install and use the PRODUCT
+   from one workstation.
+2. Additional copies of the PRODUCT can be installed and used from more than one
+   workstation; however, this number is limited to the number of copies purchased
+   as per order.
+3. In case you purchased a "Site License", the PRODUCT can be installed and used
+   from all workstations located at your premises.
+4. You may incorporate the unmodified PRODUCT into your own products and software.
+5. If you purchased a license with the "Source Code" option, you may modify the
+   PRODUCT 's source code and incorporate the modified source code into your own
+   products and / or software.
+6. You may distribute your product and / or software with the incorporated
+   PRODUCT royalty-free.
+7. You may make copies of the PRODUCT for backup and archival purposes.
+8. MARIUSZ GROMADA reserves all rights not expressly granted to you in this agreement.
+
+CONTACT
+
+- e-mail: mathparser.org@gmail.com
+- https://mathparser.org
+- https://github.com/mariuszgromada/MathParser.org-mXparser
+
+DISCLAIMER
 
 THIS SOFTWARE IS PROVIDED BY MARIUSZ GROMADA "AS IS" AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -23,23 +84,6 @@ AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-The views and conclusions contained in the software and documentation
-are those of the authors and should not be interpreted as representing
-official policies, either expressed or implied, of Mariusz Gromada.
-
-Mariusz Gromada, MathParser.org
-e-mail: mariuszgromada.org@gmail.com
-
-Please visit:
-
-MathParser.org-mXparser:
-- https://mathparser.org
-- https://github.com/mariuszgromada/MathParser.org-mXparser
-
-Scalar - The Most Advanced Scientific Calculator:
-- https://scalarmath.org
-- https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
-- https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
-
-Science Blog:
-- https://mathspace.pl
+THE VIEWS AND CONCLUSIONS CONTAINED IN THE SOFTWARE AND DOCUMENTATION
+ARE THOSE OF THE AUTHORS AND SHOULD NOT BE INTERPRETED AS REPRESENTING
+OFFICIAL POLICIES, EITHER EXPRESSED OR IMPLIED, OF MARIUSZ GROMADA.
