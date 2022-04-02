@@ -47,12 +47,14 @@ are met:
 COMMERCIAL LICENSE
 
 Before purchasing a commercial license, MARIUSZ GROMADA allows you to download,
-install and use the PRODUCT to perform integration tests, confirm the quality
-of the PRODUCT and its suitability. Tests should be time-limited and should take
-place via test environments. The purpose of the tests must not be to generate profit.
+install and use up to five copies of the PRODUCT to perform integration tests,
+confirm the quality of the PRODUCT and its suitability. The testing period should
+be limited to one month. Tests should take place via test environments. The purpose
+of the tests must not be to generate profit.
 
-Provided that you purchased a license and comply with all below terms and conditions,
-MARIUSZ GROMADA grants you a nonexclusive license including the following rights:
+Provided that you purchased a license, you comply with all below terms and conditions
+and you have acknowledged and understood the following DISCLAIMER, MARIUSZ GROMADA
+grants you a nonexclusive license including the following rights:
 
 1. In case you purchased a "Single License" You can install and use the PRODUCT
    from one workstation.
