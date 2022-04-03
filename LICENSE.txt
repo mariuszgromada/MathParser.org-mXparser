@@ -1,15 +1,15 @@
 Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
 
 PRODUCT: MathParser.org-mXparser
-LICENSE: Dual License 
+LICENSE: DUAL LICENSE 
 
 SOFTWARE means source code and/or binary form and/or documentation.
 
 BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE
 BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.
 
-MARIUSZ GROMADA provides MathParser.org-mXparser Software under the dual
-license model designed to meet the needs of both Non-Commercial Use
+MARIUSZ GROMADA provides MathParser.org-mXparser SOFTWARE under the DUAL
+LICENSE model designed to meet the needs of both Non-Commercial Use
 as well as Commercial Use.
 
 NON-COMMERCIAL USE means any use or activity where a fee is not charged
@@ -35,14 +35,14 @@ without modification, are permitted provided that the following conditions
 are met:
 
 1. Redistributions of source code must retain unmodified content of the entire
-   MathParser.org-mXparser Dual License, including definition of Non-Commercial
-   Use, definition of Commercial Use, Non-Commercial License conditions,
-   Commercial License conditions, and the following DISCLAIMER.
+   MathParser.org-mXparser DUAL LICENSE, including definition of NON-COMMERCIAL
+   USE, definition of COMMERCIAL USE, NON-COMMERCIAL LICENSE conditions,
+   COMMERCIAL LICENSE conditions, and the following DISCLAIMER.
 2. Redistributions in binary form must reproduce the entire content of
-   MathParser.org-mXparser Dual License in the documentation and/or other
-   materials provided with the distribution, including definition of Non-Commercial
-   Use, definition of Commercial Use, Non-Commercial License conditions, Commercial
-   License conditions, and the following DISCLAIMER.
+   MathParser.org-mXparser DUAL LICENSE in the documentation and/or other
+   materials provided with the distribution, including definition of NON-COMMERCIAL
+   USE, definition of COMMERCIAL USE, NON-COMMERCIAL LICENSE conditions, COMMERCIAL
+   LICENSE conditions, and the following DISCLAIMER.
 
 COMMERCIAL LICENSE
 
@@ -72,11 +72,29 @@ grants you a nonexclusive license including the following rights:
 7. You may make copies of the PRODUCT for backup and archival purposes.
 8. MARIUSZ GROMADA reserves all rights not expressly granted to you in this agreement.
 
+UPGRADE POLICY
+
+The MathParser.org-mXparser is versioned according to the following convention:
+[MAJOR] . [MINOR] . [PATCH]
+
+1. COMMERCIAL LICENSE holders can install and use the updated version for bug fixes
+   free of charge, i.e. if you have purchased a license for the [MAJOR] . [MINOR]
+   version (e.g.: 5.0), you can freely install all the various releases specified
+   in the [PATCH] version (e.g.: 5.0.2). The license terms remain unchanged after
+   the update.
+2. COMMERCIAL LICENSE holders for [MAJOR] . [MINOR] version (e.g.: 5.0) can install
+   and use the updated version [MAJOR] . [MINOR + 1] free of charge, i.e., plus one
+   release in the [MINOR] range (e.g.: 5.1). The license terms remain unchanged after
+   the update.
+3. COMMERCIAL LICENSE holders who wish to upgrade their version, but are not eligible
+   for the free upgrade, can claim a discount when purchasing the upgrade. For this
+   purpose, please contact us via e-mail.
+
 CONTACT
 
 - e-mail: mathparser.org@gmail.com
-- https://mathparser.org
-- https://github.com/mariuszgromada/MathParser.org-mXparser
+- website: https://mathparser.org
+- source code repository: https://github.com/mariuszgromada/MathParser.org-mXparser
 
 DISCLAIMER
 
