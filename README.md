@@ -260,9 +260,7 @@
     Cnk.calculate()
 :+1:
 
-## If anything above matches you then mXparser is a good choce! mXparser is freely distributed under Simplified BSD licence, but still you can give credits to the author, and even donate if you wish :+1: 
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
+## If anything above matches you then mXparser is a good choice!
 
 #### mXparser can interact with end users as it supports syntax checking.
 ![syntax](http://mathparser.org/wp-content/uploads/2017/05/syntax.png)
