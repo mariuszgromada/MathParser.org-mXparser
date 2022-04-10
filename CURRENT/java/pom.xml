@@ -116,6 +116,15 @@
 				</configuration>
 			</plugin>
 		</plugins>
+        <resources>
+            <resource>
+				<directory></directory>
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
 	</build>
 	<scm>
 		<connection>scm:git:git@github.com:mariuszgromada/MathParser.org-mXparser.git</connection>
@@ -134,10 +143,10 @@
 	</distributionManagement>
 	<licenses>
 		<license>
-			<name>Simplified BSD License</name>
-			<url>https://mathparser.org/mxparser-license/</url>
+			<name>DUAL LICENSE</name>
+			<url>https://github.com/mariuszgromada/MathParser.org-mXparser/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
-			<comments>2-clause BSD license known also as FreeBSD License</comments>
+			<comments>DUAL LICENSE model designed to meet the needs of both Non-Commercial Use as well as Commercial Use.</comments>
 		</license>
 	</licenses>
 	<organization>

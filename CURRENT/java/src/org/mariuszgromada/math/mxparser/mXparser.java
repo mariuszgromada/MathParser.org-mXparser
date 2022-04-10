@@ -1,58 +1,112 @@
 /*
- * @(#)mXparser.java        5.0.0   2022-03-21
+ * @(#)mXparser.java        5.0.0    2022-04-10
  *
- * You may use this software under the condition of "Simplified BSD License"
+ * Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
  *
- * Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.
+ * PRODUCT: MathParser.org-mXparser
+ * LICENSE: DUAL LICENSE
  *
- * Redistribution and use in source and binary forms, with or without modification, are
- * permitted provided that the following conditions are met:
+ * SOFTWARE means source code and/or binary form and/or documentation.
  *
- *    1. Redistributions of source code must retain the above copyright notice, this list of
- *       conditions and the following disclaimer.
+ * BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE
+ * BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.
  *
- *    2. Redistributions in binary form must reproduce the above copyright notice, this list
- *       of conditions and the following disclaimer in the documentation and/or other materials
- *       provided with the distribution.
+ * MARIUSZ GROMADA provides MathParser.org-mXparser SOFTWARE under the
+ * DUAL LICENSE model designed to meet the needs of both Non-Commercial Use
+ * as well as Commercial Use.
  *
- * THIS SOFTWARE IS PROVIDED BY <MARIUSZ GROMADA> ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * NON-COMMERCIAL USE means any use or activity where a fee is not charged
+ * and the purpose is not the sale of a good or service, and the use or
+ * activity is not intended to produce a profit. NON-COMMERCIAL USE examples:
  *
- * The views and conclusions contained in the software and documentation are those of the
- * authors and should not be interpreted as representing official policies, either expressed
- * or implied, of MARIUSZ GROMADA.
+ * 1. Free Open-Source Software ("FOSS").
+ * 2. Non-commercial use in research, scholarly and education.
  *
- * If you have any questions/bugs feel free to contact:
+ * COMMERCIAL USE means any use or activity where a fee is charged or the
+ * purpose is the sale of a good or service, or the use or activity is
+ * intended to produce a profit. COMMERCIAL USE examples:
  *
- *     Mariusz Gromada
- *     mariuszgromada.org@gmail.com
- *     http://mathparser.org
- *     http://mathspace.pl
- *     http://janetsudoku.mariuszgromada.org
- *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://mariuszgromada.github.io/MathParser.org-mXparser
- *     http://mxparser.sourceforge.net
- *     http://bitbucket.org/mariuszgromada/mxparser
- *     http://mxparser.codeplex.com
- *     http://github.com/mariuszgromada/Janet-Sudoku
- *     http://janetsudoku.codeplex.com
- *     http://sourceforge.net/projects/janetsudoku
- *     http://bitbucket.org/mariuszgromada/janet-sudoku
- *     http://github.com/mariuszgromada/MathParser.org-mXparser
- *     http://scalarmath.org/
- *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite
- *     https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro
+ * 1. OEMs (Original Equipment Manufacturers).
+ * 2. ISVs (Independent Software Vendors).
+ * 3. VARs (Value Added Resellers).
+ * 4. Other distributors that combine and distribute commercially licensed
+ *    software.
  *
- *                              Asked if he believes in one God, a mathematician answered:
- *                              "Yes, up to isomorphism."
- */
+ * IN CASE YOU WANT TO USE THE SOFTWARE COMMERCIALLY, YOU MUST PURCHASE
+ * THE APPROPRIATE LICENSE FROM "INFIMA IWONA GLOWACKA-GROMADA", ONLINE
+ * STORE ADDRESS: HTTPS://PAYHIP.COM/INFIMA
+ *
+ * NON-COMMERCIAL LICENSE
+ *
+ * Redistribution and use of the PRODUCT in source and/or binary forms, with
+ * or without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * 1. Redistributions of source code must retain unmodified content of the
+ *    entire MathParser.org-mXparser DUAL LICENSE, including definition of
+ *    NON-COMMERCIAL USE, definition of COMMERCIAL USE, NON-COMMERCIAL
+ *    LICENSE conditions, COMMERCIAL LICENSE conditions, and the following
+ *    DISCLAIMER.
+ * 2. Redistributions in binary form must reproduce the entire content of
+ *    MathParser.org-mXparser DUAL LICENSE in the documentation and/or other
+ *    materials provided with the distribution, including definition of
+ *    NON-COMMERCIAL USE, definition of COMMERCIAL USE, NON-COMMERCIAL
+ *    LICENSE conditions, COMMERCIAL LICENSE conditions, and the following
+ *    DISCLAIMER.
+ *
+ * COMMERCIAL LICENSE
+ *
+ *  1. Before purchasing a commercial license, MARIUSZ GROMADA allows you to
+ *     download, install and use up to three copies of the PRODUCT to perform
+ *     integration tests, confirm the quality of the PRODUCT and its
+ *     suitability. The testing period should be limited to one month. Tests
+ *     should take place via test environments. The purpose of the tests must
+ *     not be to generate profit.
+ *  2. Provided that you purchased a license from "INFIMA IWONA GLOWACKA-GROMADA"
+ *     (online store address: https://payhip.com/INFIMA), you comply with all
+ *     below terms and conditions, and you have acknowledged and understood the
+ *     following DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license
+ *     including the following rights:
+ *  3. In case you purchased a "Single License" You can install and use the
+ *     PRODUCT from one workstation.
+ *  4. Additional copies of the PRODUCT can be installed and used from more
+ *     than one workstation; however, this number is limited to the number of
+ *     copies purchased as per order.
+ *  5. In case you purchased a "Site License", the PRODUCT can be installed
+ *     and used from all workstations located at your premises.
+ *  6. You may incorporate the unmodified PRODUCT into your own products and
+ *     software.
+ *  7. If you purchased a license with the "Source Code" option, you may modify
+ *     the PRODUCT's source code and incorporate the modified source code into
+ *     your own products and / or software.
+ *  8. You may distribute your product and / or software with the incorporated
+ *     PRODUCT royalty-free.
+ *  9. You may make copies of the PRODUCT for backup and archival purposes.
+ * 10. MARIUSZ GROMADA reserves all rights not expressly granted to you in
+ *     this agreement.
+ *
+ * CONTACT
+ * - e-mail: info@mathparser.org
+ * - website: https://mathparser.org
+ * - source code: https://github.com/mariuszgromada/MathParser.org-mXparser
+ * - online store: https://payhip.com/INFIMA
+ *
+ * DISCLAIMER
+ *
+ * THIS SOFTWARE IS PROVIDED BY MARIUSZ GROMADA "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL MATHPARSER.ORG MARIUSZ GROMADA OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * THE VIEWS AND CONCLUSIONS CONTAINED IN THE SOFTWARE AND DOCUMENTATION ARE
+ * THOSE OF THE AUTHORS AND SHOULD NOT BE INTERPRETED AS REPRESENTING OFFICIAL
+ * POLICIES, EITHER EXPRESSED OR IMPLIED, OF MARIUSZ GROMADA. */
 package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
@@ -84,21 +138,14 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  * parameters transforming.
  *
  * @author         <b>Mariusz Gromada</b><br>
- *                 <a href="mailto:mariuszgromada.org@gmail.com">mariuszgromada.org@gmail.com</a><br>
- *                 <a href="http://mathspace.pl" target="_blank">MathSpace.pl</a><br>
- *                 <a href="http://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
- *                 <a href="http://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
- *                 <a href="http://mxparser.sourceforge.net" target="_blank">mXparser on SourceForge</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/mxparser" target="_blank">mXparser on Bitbucket</a><br>
- *                 <a href="http://mxparser.codeplex.com" target="_blank">mXparser on CodePlex</a><br>
- *                 <a href="http://janetsudoku.mariuszgromada.org" target="_blank">Janet Sudoku - project web page</a><br>
- *                 <a href="http://github.com/mariuszgromada/Janet-Sudoku" target="_blank">Janet Sudoku on GitHub</a><br>
- *                 <a href="http://janetsudoku.codeplex.com" target="_blank">Janet Sudoku on CodePlex</a><br>
- *                 <a href="http://sourceforge.net/projects/janetsudoku" target="_blank">Janet Sudoku on SourceForge</a><br>
- *                 <a href="http://bitbucket.org/mariuszgromada/janet-sudoku" target="_blank">Janet Sudoku on BitBucket</a><br>
- *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Free</a><br>
+ *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
+ *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
+ *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
- *                 <a href="http://scalarmath.org/" target="_blank">ScalarMath.org</a><br>
+ *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
  * @version        5.0.0
  *
@@ -1552,50 +1599,125 @@ public final class mXparser {
 	 * License info.
 	 */
 	public static final String LICENSE =
-		"                      mXparser - version " + mXparser.VERSION + "\n" +
-		"         A flexible mathematical eXpressions parser for JAVA.\n" +
-		"\n" +
-		"You may use this software under the condition of Simplified BSD License:\n" +
-		"\n" +
-		"Copyright 2010-2022 MARIUSZ GROMADA. All rights reserved.\n" +
-		"\n" +
-		"Redistribution and use in source and binary forms, with or without modification, are\n" +
-		"permitted provided that the following conditions are met:\n" +
-		"\n" +
-		"   1. Redistributions of source code must retain the above copyright notice, this list of\n" +
-		"      conditions and the following disclaimer.\n" +
-		"\n" +
-		"   2. Redistributions in binary form must reproduce the above copyright notice, this list\n" +
-		"      of conditions and the following disclaimer in the documentation and/or other materials\n" +
-		"      provided with the distribution.\n" +
-		"\n" +
-		"THIS SOFTWARE IS PROVIDED BY MARIUSZ GROMADA ``AS IS'' AND ANY EXPRESS OR IMPLIED\n" +
-		"WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND\n" +
-		"FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL MARIUSZ GROMADA OR\n" +
-		"CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\n" +
-		"CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n" +
-		"SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON\n" +
-		"ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n" +
-		"NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF\n" +
-		"ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n" +
-		"\n" +
-		"The views and conclusions contained in the software and documentation are those of the\n" +
-		"authors and should not be interpreted as representing official policies, either expressed\n" +
-		"or implied, of MARIUSZ GROMADA.\n" +
-		"\n" +
-		"If you have any questions/bugs feel free to contact:\n" +
-		"\n" +
-		"    Mariusz Gromada\n" +
-		"    mariuszgromada.org@gmail.com\n" +
-		"    http://mathspace.plt/\n" +
-		"    http://mathparser.org/\n" +
-		"    http://github.com/mariuszgromada/MathParser.org-mXparser\n" +
-		"    http://mariuszgromada.github.io/MathParser.org-mXparser/\n" +
-		"    http://mxparser.sourceforge.net/\n" +
-		"    http://bitbucket.org/mariuszgromada/mxparser/\n" +
-		"    http://mxparser.codeplex.com/\n" +
-		"    http://janetsudoku.mariuszgromada.org/\n"
+		"mXparser - version " + mXparser.VERSION + "\n"
+		+ "Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.\n"
+		+ "\n"
+		+ "PRODUCT: MathParser.org-mXparser\n"
+		+ "LICENSE: DUAL LICENSE \n"
+		+ "\n"
+		+ "SOFTWARE means source code and/or binary form and/or documentation.\n"
+		+ "\n"
+		+ "BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE\n"
+		+ "BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.\n"
+		+ "\n"
+		+ "MARIUSZ GROMADA provides MathParser.org-mXparser SOFTWARE under the\n"
+		+ "DUAL LICENSE model designed to meet the needs of both Non-Commercial Use\n"
+		+ "as well as Commercial Use.\n"
+		+ "\n"
+		+ "NON-COMMERCIAL USE means any use or activity where a fee is not charged\n"
+		+ "and the purpose is not the sale of a good or service, and the use or\n"
+		+ "activity is not intended to produce a profit. NON-COMMERCIAL USE examples:\n"
+		+ "\n"
+		+ "1. Free Open-Source Software (\"FOSS\").\n"
+		+ "2. Non-commercial use in research, scholarly and education.\n"
+		+ "\n"
+		+ "COMMERCIAL USE means any use or activity where a fee is charged or the\n"
+		+ "purpose is the sale of a good or service, or the use or activity is\n"
+		+ "intended to produce a profit. COMMERCIAL USE examples:\n"
+		+ "\n"
+		+ "1. OEMs (Original Equipment Manufacturers).\n"
+		+ "2. ISVs (Independent Software Vendors).\n"
+		+ "3. VARs (Value Added Resellers).\n"
+		+ "4. Other distributors that combine and distribute commercially licensed\n"
+		+ "   software.\n"
+		+ "\n"
+		+ "IN CASE YOU WANT TO USE THE SOFTWARE COMMERCIALLY, YOU MUST PURCHASE\n"
+		+ "THE APPROPRIATE LICENSE FROM \"INFIMA IWONA GLOWACKA-GROMADA\", ONLINE\n"
+		+ "STORE ADDRESS: HTTPS://PAYHIP.COM/INFIMA\n"
+		+ "\n"
+		+ "NON-COMMERCIAL LICENSE\n"
+		+ "\n"
+		+ "Redistribution and use of the PRODUCT in source and/or binary forms, with\n"
+		+ "or without modification, are permitted provided that the following\n"
+		+ "conditions are met:\n"
+		+ "\n"
+		+ "1. Redistributions of source code must retain unmodified content of the\n"
+		+ "   entire MathParser.org-mXparser DUAL LICENSE, including definition of\n"
+		+ "   NON-COMMERCIAL USE, definition of COMMERCIAL USE, NON-COMMERCIAL\n"
+		+ "   LICENSE conditions, COMMERCIAL LICENSE conditions, and the following\n"
+		+ "   DISCLAIMER.\n"
+		+ "2. Redistributions in binary form must reproduce the entire content of\n"
+		+ "   MathParser.org-mXparser DUAL LICENSE in the documentation and/or other\n"
+		+ "   materials provided with the distribution, including definition of\n"
+		+ "   NON-COMMERCIAL USE, definition of COMMERCIAL USE, NON-COMMERCIAL\n"
+		+ "   LICENSE conditions, COMMERCIAL LICENSE conditions, and the following\n"
+		+ "   DISCLAIMER.\n"
+		+ "\n"
+		+ "COMMERCIAL LICENSE\n"
+		+ "\n"
+		+ " 1. Before purchasing a commercial license, MARIUSZ GROMADA allows you to\n"
+		+ "    download, install and use up to three copies of the PRODUCT to perform\n"
+		+ "    integration tests, confirm the quality of the PRODUCT and its\n"
+		+ "    suitability. The testing period should be limited to one month. Tests\n"
+		+ "    should take place via test environments. The purpose of the tests must\n"
+		+ "    not be to generate profit.\n"
+		+ " 2. Provided that you purchased a license from \"INFIMA IWONA GLOWACKA-GROMADA\"\n"
+		+ "    (online store address: https://payhip.com/INFIMA), you comply with all\n"
+		+ "    below terms and conditions, and you have acknowledged and understood the\n"
+		+ "    following DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license\n"
+		+ "    including the following rights:\n"
+		+ " 3. In case you purchased a \"Single License\" You can install and use the\n"
+		+ "    PRODUCT from one workstation.\n"
+		+ " 4. Additional copies of the PRODUCT can be installed and used from more\n"
+		+ "    than one workstation; however, this number is limited to the number of\n"
+		+ "    copies purchased as per order.\n"
+		+ " 5. In case you purchased a \"Site License\", the PRODUCT can be installed\n"
+		+ "    and used from all workstations located at your premises.\n"
+		+ " 6. You may incorporate the unmodified PRODUCT into your own products and\n"
+		+ "    software.\n"
+		+ " 7. If you purchased a license with the \"Source Code\" option, you may modify\n"
+		+ "    the PRODUCT's source code and incorporate the modified source code into\n"
+		+ "    your own products and / or software.\n"
+		+ " 8. You may distribute your product and / or software with the incorporated\n"
+		+ "    PRODUCT royalty-free.\n"
+		+ " 9. You may make copies of the PRODUCT for backup and archival purposes.\n"
+		+ "10. MARIUSZ GROMADA reserves all rights not expressly granted to you in\n"
+		+ "    this agreement.\n"
+		+ "\n"
+		+ "CONTACT\n"
+		+ "- e-mail: info@mathparser.org\n"
+		+ "- website: https://mathparser.org\n"
+		+ "- source code: https://github.com/mariuszgromada/MathParser.org-mXparser\n"
+		+ "- online store: https://payhip.com/INFIMA\n"
+		+ "\n"
+		+ "DISCLAIMER\n"
+		+ "\n"
+		+ "THIS SOFTWARE IS PROVIDED BY MARIUSZ GROMADA \"AS IS\" AND ANY EXPRESS OR\n"
+		+ "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"
+		+ "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"
+		+ "IN NO EVENT SHALL MATHPARSER.ORG MARIUSZ GROMADA OR CONTRIBUTORS BE LIABLE\n"
+		+ "FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n"
+		+ "DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n"
+		+ "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n"
+		+ "CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n"
+		+ "OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE\n"
+		+ "USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
+		+ "\n"
+		+ "THE VIEWS AND CONCLUSIONS CONTAINED IN THE SOFTWARE AND DOCUMENTATION ARE\n"
+		+ "THOSE OF THE AUTHORS AND SHOULD NOT BE INTERPRETED AS REPRESENTING OFFICIAL\n"
+		+ "POLICIES, EITHER EXPRESSED OR IMPLIED, OF MARIUSZ GROMADA.\n"
 		;
+
+	/**
+	 * Prints to the console license terms
+	 * and conditions of MathParser.org-mXparser
+	 * software
+	 */
+	public static void consolePrintLicense() {
+		mXparser.consolePrint("\n\n");
+		mXparser.consolePrint(LICENSE);
+		mXparser.consolePrintln();
+	}
 	/**
 	 * Gets license info
 	 *
