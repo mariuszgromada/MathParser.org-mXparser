@@ -2,13 +2,19 @@
 
 ## Nuget
 
-    PM> Install-Package MathParser.org-mXparser -Version 5.0.1
+```
+PM> Install-Package MathParser.org-mXparser -Version 5.0.1
+```
 
 ## Maven
 
+```
+<dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
     <version>5.0.0</version>
+</dependency>
+```
 
 ## NPM
 
