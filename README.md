@@ -13,6 +13,21 @@
 ## NPM
 
     $ npm i mathparser.org-mxparser
+
+# v.5.0 Leonies - a major release
+
+* **Implied Multiplication**: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
+* **Unicode Math Symbols**: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
+* Student's t-distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256
+* Chi-Squared Distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257
+* An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
+* Regression tests refactoring: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/247
+
+# Did you find the software useful? If yes:
+* please consider donation: http://mathparser.org/donate/
+* or purchase the license https://payhip.com/INFIMA
+
+
 # Scalar Scientific Calculator, Charts & Scripts - my new project
 
 [![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
