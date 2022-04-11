@@ -6,16 +6,16 @@
 	 Developing and maintaining MathParser.org-mXparser takes a lot of time,
 	 mainly my free time. I hope it saved some of your time. If yes, then
 	 
-	                       buy me a cup coffee :-)
+	                     buy me a cup of coffee :-)
                     *** http://mathparser.org/donate/ ***
-					
+
                            or purchase the license
-			         *** https://payhip.com/INFIMA ***
+                      *** https://payhip.com/INFIMA ***
 					
            *** Scalar Scientific Calculator, Charts & Scripts ***					
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite ***
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
-                        *** http://scalarmath.org/ ***
+                        *** https://scalarmath.org/ ***
 
 
 v.5.0.0 (2022-04-10): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions

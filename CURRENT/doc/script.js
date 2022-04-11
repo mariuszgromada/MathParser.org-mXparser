@@ -129,23 +129,16 @@ function show(type) {
 }
 
 function updateTabs(type) {
-    var firstRow = document.getElementById(Object.keys(data)[0]);
-    var table = firstRow.closest('table');
     for (var value in tabs) {
-        var tab = document.getElementById(tabs[value][0]);
+        var sNode = document.getElementById(tabs[value][0]);
+        var spanNode = sNode.firstChild;
         if (value == type) {
-            tab.className = activeTableTab;
-            tab.innerHTML = tabs[value][1];
-            tab.setAttribute('aria-selected', true);
-            tab.setAttribute('tabindex',0);
-            table.setAttribute('aria-labelledby', tabs[value][0]);
+            sNode.className = activeTableTab;
+            spanNode.innerHTML = tabs[value][1];
         }
         else {
-            tab.className = tableTab;
-            tab.setAttribute('aria-selected', false);
-            tab.setAttribute('tabindex',-1);
-            tab.setAttribute('onclick', "show("+ value + ")");
-            tab.innerHTML = tabs[value][1];
+            sNode.className = tableTab;
+            spanNode.innerHTML = "<a href=\"javascript:show("+ value + ");\">" + tabs[value][1] + "</a>";
         }
     }
 }
@@ -153,14 +146,4 @@ function updateTabs(type) {
 function updateModuleFrame(pFrame, cFrame) {
     top.packageFrame.location = pFrame;
     top.classFrame.location = cFrame;
-}
-function switchTab(e) {
-    if (e.keyCode == 37 || e.keyCode == 38) {
-        $("[aria-selected=true]").prev().click().focus();
-        e.preventDefault();
-    }
-    if (e.keyCode == 39 || e.keyCode == 40) {
-        $("[aria-selected=true]").next().click().focus();
-        e.preventDefault();
-    }
 }

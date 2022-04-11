@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"org.mariuszgromada.math.mxparser"},{"l":"org.mariuszgromada.math.mxparser.mathcollection"},{"l":"org.mariuszgromada.math.mxparser.parsertokens"},{"l":"org.mariuszgromada.math.mxparser.regressiontesting"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"org.mariuszgromada.math.mxparser"},{"l":"org.mariuszgromada.math.mxparser.mathcollection"},{"l":"org.mariuszgromada.math.mxparser.parsertokens"}]
