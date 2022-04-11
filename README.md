@@ -38,10 +38,6 @@
 
 ![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
 
-# mXparser - optional donation
-
-[![paypall-donation](http://mathparser.org/wp-content/uploads/2017/07/paypall-donation.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
-
 # mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
     ### 23.11.2021: first 1000000 downloads!
     ### 15.10.2020: first 500000 downloads!
