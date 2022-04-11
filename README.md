@@ -13,6 +13,21 @@
 ## NPM
 
     $ npm i mathparser.org-mxparser
+
+# v.5.0 Leonies - a major release
+
+* **Implied Multiplication**: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
+* **Unicode Math Symbols**: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
+* Student's t-distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256
+* Chi-Squared Distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257
+* An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
+* Regression tests refactoring: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/247
+
+# Did you find the software useful? If yes:
+* please consider donation: http://mathparser.org/donate/
+* or purchase the license https://payhip.com/INFIMA
+
+
 # Scalar Scientific Calculator, Charts & Scripts - my new project
 
 [![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
@@ -20,11 +35,6 @@
 ### Scalar in action
 
 [![Scalar-In-Action](https://scalarmath.org/wp-content/uploads/2019/04/scalar-math.jpg)](https://youtu.be/HUlEUaioogQ)
-
-### Scalar user guide in PDF
-
-[![Scalar-Manual](https://scalarmath.org/wp-content/uploads/2021/11/scalar-app-user-manual-pdf-1.jpg)](https://1drv.ms/b/s!Ao17_WkDEd7L2vQv_Xdbt-o0J1wjxQ)
-
 
 ### Scalar - Free version
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
@@ -37,10 +47,6 @@
 ![mXparser icon](http://mathparser.org/wp-content/uploads/2020/01/mxparser-icon.png)
 
 ![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
-
-# mXparser - optional donation
-
-[![paypall-donation](http://mathparser.org/wp-content/uploads/2017/07/paypall-donation.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QJYYH86583LEN)
 
 # mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
     ### 23.11.2021: first 1000000 downloads!
