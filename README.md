@@ -299,15 +299,22 @@ PM> Install-Package MathParser.org-mXparser -Version 5.0.1
 ## Operators
 |Key word|Category|Description|Example|Since|
 |---|---|---|---|---|
-| + | Operator | Addition | a + b | 1.0 |
-| - | Operator | Subtraction | a - b | 1.0 |
-| * | Operator | Multiplication | a * b | 1.0 |
-| / | Operator | Division | a / b | 1.0 |
-| ^ | Operator | Exponentiation | a^b | 1.0 |
-| ! | Operator | Factorial | n! | 1.0 |
-| # | Operator | Modulo function | a # b | 1.0 |
-| % | Operator | Percentage | n% | 4.1 |
-| ^^ | Operator | Tetration | a^^b | 4.3 |
+| + |Operator|Addition|a + b|1.0|
+| - |Operator|Subtraction|a - b|1.0|
+| * |Operator|Multiplication|a * b|1.0|
+| × |Operator|Multiplication - unicode math symbol|a × b|5.0|
+| ⨉ |Operator|Multiplication - unicode math symbol|a ⨉ b|5.0|
+| ∙ |Operator|Multiplication - unicode math symbol|a ∙ b|5.0|
+| / |Operator|Division|a / b|1.0|
+| ÷ |Operator|Division - unicode math symbol|a ÷ b|5.0|
+| ^ |Operator|Exponentiation|a^b|1.0|
+| ! |Operator|Factorial|n!|1.0|
+| # |Operator|Modulo function|a # b|1.0|
+| % |Operator|Percentage|n%|4.1|
+| ^^ |Operator|Tetration (hyper-4, power tower, exponential tower)|a^^b|4.2|
+| √ |Operator|Square root function represented as unary left operator - unicode math symbol|√x|5.0|
+| ∛ |Operator|Cube root function represented as unary left operator - unicode math symbol|∛x|5.0|
+| ∜ |Operator|Fourth root function represented as unary left operator - unicode math symbol|∜x|5.0|
 
 ## Boolean Operators
 |Key word|Category|Description|Example|Since|
