@@ -30,8 +30,8 @@ PM> Install-Package MathParser.org-mXparser -Version 5.0.1
 * Regression tests refactoring: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/247
 
 # Did you find the software useful? If yes:
-* please consider donation: http://mathparser.org/donate/
-* or purchase the license https://payhip.com/INFIMA
+* please consider donation: **[DONATION](https://mathparser.org/donate/)**
+* or purchase the license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
 
 [![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
 
