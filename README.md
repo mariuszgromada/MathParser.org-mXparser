@@ -2,13 +2,19 @@
 
 ## Nuget
 
-    PM> Install-Package MathParser.org-mXparser -Version 5.0.1
+```
+PM> Install-Package MathParser.org-mXparser -Version 5.0.1
+```
 
 ## Maven
 
+```
+<dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>5.0.0</version>
+    <version>5.0.1</version>
+</dependency>
+```
 
 ## NPM
 
@@ -27,6 +33,7 @@
 * please consider donation: http://mathparser.org/donate/
 * or purchase the license https://payhip.com/INFIMA
 
+[![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
 
 # Scalar Scientific Calculator, Charts & Scripts - my new project
 
