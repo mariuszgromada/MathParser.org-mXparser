@@ -7869,7 +7869,7 @@ public class Expression extends PrimitiveElement {
 			addFunctionsKeyWords();
 			addConstantsKeyWords();
 		}
-		keyWordsList.sort(new DescKwLenComparator());
+		java.util.Collections.sort(keyWordsList, new DescKwLenComparator());
 		/*
 		 * Evaluate position after sorting for the following keywords types
 		 *    number
