@@ -322,29 +322,29 @@ PM> Install-Package MathParser.org-mXparser -Version 5.0.1
 | & |Boolean Operator|Logical conjunction (AND)|p & q|1.0|
 | ∧ |Boolean Operator|Logical conjunction (AND) - unicode math symbol|p ∧ q|5.0|
 | && |Boolean Operator|Logical conjunction (AND)|p && q|1.0|
-| /\ |Boolean Operator|Logical conjunction (AND)|p /\ q|1.0|
+| /\\ |Boolean Operator|Logical conjunction (AND)|p /\\ q|1.0|
 | ⊼ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ⊼ q|5.0|
 | ~& |Boolean Operator|NAND - Sheffer stroke|p ~& q|1.0|
 | ~∧ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ~∧ q|5.0|
 | ¬& |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬& q|5.0|
 | ¬∧ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬∧ q|5.0|
 | ~&& |Boolean Operator|NAND - Sheffer stroke|p ~&& q|1.0|
-| ~/\ |Boolean Operator|NAND - Sheffer stroke|p ~/\ q|1.0|
+| ~/\\ |Boolean Operator|NAND - Sheffer stroke|p ~/\\ q|1.0|
 | ¬&& |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬&& q|5.0|
-| ¬/\ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬/\ q|5.0|
+| ¬/\\ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬/\\ q|5.0|
 | \| |Boolean Operator|Logical disjunction (OR)|p \| q|1.0|
 | ∨ |Boolean Operator|Logical disjunction (OR) - unicode math symbol|p ∨ q|5.0|
 | \|\| |Boolean Operator|Logical disjunction (OR)|p \|\| q|1.0|
-| \/ |Boolean Operator|Logical disjunction (OR)|p \/ q|1.0|
+| \\/ |Boolean Operator|Logical disjunction (OR)|p \\/ q|1.0|
 | ⊽ |Boolean Operator|Logical NOR - unicode math symbol|p ⊽ q|5.0|
 | ~\| |Boolean Operator|Logical NOR|p ~\| q|1.0|
 | ~∨ |Boolean Operator|Logical NOR - unicode math symbol|p ~∨ q|5.0|
 | ¬\| |Boolean Operator|Logical NOR - unicode math symbol|p ¬\| q|5.0|
 | ¬∨ |Boolean Operator|Logical NOR - unicode math symbol|p ¬∨ q|5.0|
 | ~\|\| |Boolean Operator|Logical NOR|p ~\|\| q|1.0|
-| ~\/ |Boolean Operator|Logical NOR|p ~\/ q|1.0|
+| ~\\/ |Boolean Operator|Logical NOR|p ~\\/ q|1.0|
 | ¬\|\| |Boolean Operator|Logical NOR - unicode math symbol|p ¬\|\| q|5.0|
-| ¬\/ |Boolean Operator|Logical NOR - unicode math symbol|p ¬\/ q|5.0|
+| ¬\\/ |Boolean Operator|Logical NOR - unicode math symbol|p ¬\\/ q|5.0|
 | ⊻ |Boolean Operator|Exclusive or (XOR) - unicode math symbol|p ⊻ q|5.0|
 | (+) |Boolean Operator|Exclusive or (XOR)|p (+) q|1.0|
 | ⇒ |Boolean Operator|Implication (IMP) - unicode math symbol|p ⇒ q|5.0|
