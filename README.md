@@ -35,7 +35,7 @@ PM> Install-Package MathParser.org-mXparser -Version 5.0.1
 
 [![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
 
-# Scalar Scientific Calculator, Charts & Scripts - my new project
+# Scalar Scientific Calculator, Charts & Scripts
 
 [![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
 
