@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.0.0    2022-04-10
+ * @(#)Expression.java        5.0.2    2022-04-17
  *
  * Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
  *
@@ -166,7 +166,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.0.2
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -3769,11 +3769,11 @@ public class Expression extends PrimitiveElement {
 		}
 		f1SetDecreaseRemove(pos, value );
 	}
-	public void RND_STUDENT_T(int pos) {
+	private void RND_STUDENT_T(int pos) {
 		double v = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentT(v) );
 	}
-	public void RND_CHI2(int pos) {
+	private void RND_CHI2(int pos) {
 		double k = getTokenValue(pos+1);
 		f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquared(k) );
 	}
@@ -8492,6 +8492,80 @@ public class Expression extends PrimitiveElement {
 		}
 		return helpStr;
 	}
+	public String getHelpInMarkDownFormat(String stringFilter) {
+		List<KeyWord> kwList = getKeyWords();
+		String allLines = "|Key word|Category|Description|Example|Since|\n|---|---|---|---|---|";
+		for (KeyWord kw : kwList) {
+			String line = "";
+			boolean toAdd = false;
+			line = "|";
+			line = line + " ";
+			line = line + kw.wordString.replace("\\", "\\\\").replace("|", "\\|");
+			line = line + " ";
+			line = line + "|";
+			line = line + mXparser.getTokenTypeDescription(kw.wordTypeId);
+			line = line + "|";
+			line = line + kw.description.replace("\\", "\\\\").replace("|", "\\|");
+			line = line + "|";
+			line = line + kw.syntax.replace("\\", "\\\\").replace("|", "\\|");
+			line = line + "|";
+			line = line + kw.since;
+			line = line + "|";
+			if (line.contains(stringFilter)) toAdd = true;
+			if (kw.wordString.contains(stringFilter)) toAdd = true;
+			if (mXparser.getTokenTypeDescription(kw.wordTypeId).contains(stringFilter)) toAdd = true;
+			if (kw.description.contains(stringFilter)) toAdd = true;
+			if (kw.syntax.contains(stringFilter)) toAdd = true;
+			if (kw.since.contains(stringFilter)) toAdd = true;
+			line = line.replace("<Physical Constant>", "\\<Physical Constant\\>");
+			line = line.replace("<Astronomical Constant>", "\\<Astronomical Constant\\>");
+			line = line.replace("<Metric prefix>", "\\<Metric Constant\\>");
+			line = line.replace("<Unit of length>", "\\<Unit of length\\>");
+			line = line.replace("<Unit of area>", "\\<Unit of area\\>");
+			line = line.replace("<Unit of volume>", "\\<Unit of volume\\>");
+			line = line.replace("<Unit of time>", "\\<Unit of time\\>");
+			line = line.replace("<Unit of mass>", "\\<Unit of mass\\>");
+			line = line.replace("<Unit of information>", "\\<Unit of information\\>");
+			line = line.replace("<Unit of energy>", "\\<Unit of energy\\>");
+			line = line.replace("<Unit of speed>", "\\<Unit of speed\\>");
+			line = line.replace("<Unit of acceleration>", "\\<Unit of acceleration\\>");
+			line = line.replace("<Unit of angle>", "\\<Unit of angle\\>");
+			line = line.replace("<Ratio, Fraction>", "\\<Ratio, Fraction\\>");
+			if (toAdd) allLines = allLines + "\n" + line;
+		}
+		return allLines;
+	}
+	public String getHelpInHtmlFormat(String stringFilter) {
+		List<KeyWord> kwList = getKeyWords();
+		String allLines = "<figure class=\"wp-block-table\">\n<table>\n<tbody>"
+						+ "<tr><td><b>Key word</b></td><td><b>Category</b></td><td><b>Description</b></td><td><b>Example</b></td><td><b>Since</b></td></tr>"
+				;
+		for (KeyWord kw : kwList) {
+			String line = "";
+			boolean toAdd = false;
+			line = "<tr><td>";
+			line = line + kw.wordString.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;");
+			line = line + "</td><td>";
+			line = line + mXparser.getTokenTypeDescription(kw.wordTypeId);
+			line = line + "</td><td>";
+			line = line + kw.description.replace("&", "~&amp;").replace(">", "&gt;").replace("<", "&lt;");
+			line = line + "</td><td>";
+			line = line + kw.syntax.replace("&", "~&amp;").replace(">", "&gt;").replace("<", "&lt;");
+			line = line + "</td><td>";
+			line = line + kw.since;
+			line = line + "</td><tr>";
+			if (line.contains(stringFilter)) toAdd = true;
+			if (kw.wordString.contains(stringFilter)) toAdd = true;
+			if (mXparser.getTokenTypeDescription(kw.wordTypeId).contains(stringFilter)) toAdd = true;
+			if (kw.description.contains(stringFilter)) toAdd = true;
+			if (kw.syntax.contains(stringFilter)) toAdd = true;
+			if (kw.since.contains(stringFilter)) toAdd = true;
+			if (toAdd) allLines = allLines + "\n" + line;
+		}
+		allLines = allLines + "\n</tbody>\n</table>\n<figcaption>as of 2022-04-15</figcaption>\n</figure>";
+		return allLines;
+	}
+
 	/**
 	 * Returns list of key words known to the parser
 	 *

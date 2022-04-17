@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.0    2022-04-10
+ * @(#)Expression.cs        5.0.2    2022-04-17
  *
  * Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
  *
@@ -144,7 +144,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.0.2
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -3730,11 +3730,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			f1SetDecreaseRemove(pos, value );
 		}
-		public void RND_STUDENT_T(int pos) {
+		private void RND_STUDENT_T(int pos) {
 			double v = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndStudentT(v) );
 		}
-		public void RND_CHI2(int pos) {
+		private void RND_CHI2(int pos) {
 			double k = getTokenValue(pos+1);
 			f1SetDecreaseRemove(pos, ProbabilityDistributions.rndChiSquared(k) );
 		}

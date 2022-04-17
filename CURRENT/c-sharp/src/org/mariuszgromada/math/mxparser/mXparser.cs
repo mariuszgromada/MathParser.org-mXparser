@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.0.0    2022-04-10
+ * @(#)mXparser.cs        5.0.2    2022-04-17
  *
  * Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
  *
@@ -132,7 +132,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.0.2
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -144,7 +144,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const String VERSION = "5.0.0";
+		public const String VERSION = "5.0.2";
 		public const String VERSION_CODE_NAME = "Leonis";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET48
