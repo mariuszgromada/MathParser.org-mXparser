@@ -4,7 +4,7 @@
 ## Nuget
 
 ```
-PM> Install-Package MathParser.org-mXparser -Version 5.0.2
+Install-Package MathParser.org-mXparser -Version 5.0.2
 ```
 
 ## Maven
@@ -16,6 +16,18 @@ PM> Install-Package MathParser.org-mXparser -Version 5.0.2
     <version>5.0.2</version>
 </dependency>
 ```
+
+## Gradle
+
+```
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.2'
+```
+
+```
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.2")
+```
+
+
 
 ## NPM
 
