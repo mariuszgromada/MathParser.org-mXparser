@@ -27,8 +27,6 @@ implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.2'
 implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.2")
 ```
 
-
-
 ## NPM
 
     $ npm i mathparser.org-mxparser
@@ -42,11 +40,11 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.2")
 * An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
 * Regression tests refactoring: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/247
 
-# Did you find the software useful? If yes:
-* please consider donation: **[DONATION](https://mathparser.org/donate/)**
-* or purchase the license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
+# Are you a satisfied mXparser user? If so, please support my work:
+* order a commercial license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
 
-[![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
+[![INFIMA](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
+* or consider donation: **[DONATION](https://mathparser.org/donate/)**
 
 # Scalar Scientific Calculator, Charts & Scripts
 
