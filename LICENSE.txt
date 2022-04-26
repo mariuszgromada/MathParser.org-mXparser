@@ -81,6 +81,18 @@ COMMERCIAL LICENSE
  9. You may make copies of the PRODUCT for backup and archival purposes.
 10. MARIUSZ GROMADA reserves all rights not expressly granted to you in
     this agreement.
+	
+ADDITIONAL CLARIFICATION ON WORKSTATION
+
+A workstation is a device, a remote device, or a virtual device, used by you,
+your employees, or other entities to whom you have commissioned the tasks.
+For example, the number of workstations may refer to the number of software
+developers, engineers, architects, scientists, and other professionals who
+use the PRODUCT on your behalf. The number of workstations is not the number
+of copies of your end-product that you distribute to your end-users. By
+purchasing the COMMERCIAL LICENSE you only pay for the number of workstations,
+while the number of copies of your final product (delivered to your end-users)
+is not limited.
 
 CONTACT
 - e-mail: info@mathparser.org
