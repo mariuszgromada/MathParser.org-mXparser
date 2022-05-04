@@ -32,8 +32,8 @@ intended to produce a profit. COMMERCIAL USE examples:
 IN CASE YOU WANT TO USE THE SOFTWARE COMMERCIALLY, YOU MUST PURCHASE
 THE APPROPRIATE LICENSE FROM "INFIMA" ONLINE STORE, STORE ADDRESS:
 
-1. https://payhip.com/INFIMA 
-2. https://mathparser.org/order-commercial-license
+1. https://mathparser.org/order-commercial-license
+2. https://payhip.com/INFIMA 
 
 NON-COMMERCIAL LICENSE
 
@@ -101,6 +101,7 @@ CONTACT
 - e-mail: info@mathparser.org
 - website: https://mathparser.org
 - source code: https://github.com/mariuszgromada/MathParser.org-mXparser
+- online store: https://mathparser.org/order-commercial-license
 - online store: https://payhip.com/INFIMA
 
 DISCLAIMER
