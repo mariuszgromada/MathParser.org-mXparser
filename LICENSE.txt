@@ -61,8 +61,8 @@ COMMERCIAL LICENSE
     suitability. The testing period should be limited to one month. Tests
     should take place via test environments. The purpose of the tests must
     not be to generate profit.
- 2. Provided that you purchased a license from "INFIMA IWONA GLOWACKA-GROMADA"
-    (online store address: https://mathparser.org/order-commercial-license
+ 2. Provided that you purchased a license from "INFIMA" online store
+    (store address: https://mathparser.org/order-commercial-license
 	or https://payhip.com/INFIMA), you comply with all below terms and
 	conditions, and you have acknowledged and understood the following
 	DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license including
