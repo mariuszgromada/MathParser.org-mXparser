@@ -30,8 +30,10 @@ intended to produce a profit. COMMERCIAL USE examples:
    software.
 
 IN CASE YOU WANT TO USE THE SOFTWARE COMMERCIALLY, YOU MUST PURCHASE
-THE APPROPRIATE LICENSE FROM "INFIMA IWONA GLOWACKA-GROMADA", ONLINE
-STORE ADDRESS: HTTPS://PAYHIP.COM/INFIMA
+THE APPROPRIATE LICENSE FROM "INFIMA" ONLINE STORE, STORE ADDRESS:
+
+1. https://payhip.com/INFIMA 
+2. https://mathparser.org/order-commercial-license
 
 NON-COMMERCIAL LICENSE
 
@@ -60,10 +62,11 @@ COMMERCIAL LICENSE
     should take place via test environments. The purpose of the tests must
     not be to generate profit.
  2. Provided that you purchased a license from "INFIMA IWONA GLOWACKA-GROMADA"
-    (online store address: https://payhip.com/INFIMA), you comply with all
-    below terms and conditions, and you have acknowledged and understood the
-    following DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license
-    including the following rights:
+    (online store address: https://mathparser.org/order-commercial-license
+	or https://payhip.com/INFIMA), you comply with all below terms and
+	conditions, and you have acknowledged and understood the following
+	DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license including
+	the following rights:
  3. In case you purchased a "Single License" You can install and use the
     PRODUCT from one workstation.
  4. Additional copies of the PRODUCT can be installed and used from more
