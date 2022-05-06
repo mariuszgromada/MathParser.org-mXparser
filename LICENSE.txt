@@ -63,10 +63,10 @@ COMMERCIAL LICENSE
     not be to generate profit.
  2. Provided that you purchased a license from "INFIMA" online store
     (store address: https://mathparser.org/order-commercial-license
-	or https://payhip.com/INFIMA), you comply with all below terms and
-	conditions, and you have acknowledged and understood the following
-	DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license including
-	the following rights:
+    or https://payhip.com/INFIMA), you comply with all below terms and
+    conditions, and you have acknowledged and understood the following
+    DISCLAIMER, MARIUSZ GROMADA grants you a nonexclusive license including
+    the following rights:
  3. In case you purchased a "Single License" You can install and use the
     PRODUCT from one workstation.
  4. Additional copies of the PRODUCT can be installed and used from more
