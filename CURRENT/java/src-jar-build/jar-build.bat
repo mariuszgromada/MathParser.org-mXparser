@@ -1,4 +1,4 @@
-SET MXPARSER_VER=MathParser.org-mXparser-v.5.0.0
+SET MXPARSER_VER=MathParser.org-mXparser-v.5.0.2
 SET JAVAC="%JDK_HOME%\bin\javac"
 SET JAR="%JDK_HOME%\bin\jar"
 SET MANIFEST=%ROOT_PATH%\Manifest.txt

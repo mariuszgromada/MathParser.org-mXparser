@@ -2,15 +2,12 @@
 	  A flexible mathematical expressions parser for JAVA and C# .NET (CLS)
 
                        *** Donation through PayPal ***
-     *** Did you find the software useful? Please consider donation :-) ***
-	 Developing and maintaining MathParser.org-mXparser takes a lot of time,
-	 mainly my free time. I hope it saved some of your time. If yes, then
-	 
-	                     buy me a cup of coffee :-)
+     *** Did you find the software useful? Please consider donation ***
                     *** http://mathparser.org/donate/ ***
 
-                           or purchase the license
-                      *** https://payhip.com/INFIMA ***
+                    or purchase the commercial license
+           *** https://mathparser.org/order-commercial-license/ ***
+                     *** https://payhip.com/INFIMA ***
 					
            *** Scalar Scientific Calculator, Charts & Scripts ***					
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite ***
