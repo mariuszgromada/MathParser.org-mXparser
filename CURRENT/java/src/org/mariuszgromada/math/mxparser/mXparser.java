@@ -1674,7 +1674,7 @@ public final class mXparser {
         + "    PRODUCT from one workstation.\n"
         + " 4. Additional copies of the PRODUCT can be installed and used from more\n"
         + "    than one workstation; however, this number is limited to the number of\n"
-        + "    copies purchased as per order.\n"
+        + "    workstations purchased as per order.\n"
         + " 5. In case you purchased a \"Site License\", the PRODUCT can be installed\n"
         + "    and used from all workstations located at your premises.\n"
         + " 6. You may incorporate the unmodified PRODUCT into your own products and\n"

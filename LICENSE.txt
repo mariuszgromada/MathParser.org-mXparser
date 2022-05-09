@@ -71,7 +71,7 @@ COMMERCIAL LICENSE
     PRODUCT from one workstation.
  4. Additional copies of the PRODUCT can be installed and used from more
     than one workstation; however, this number is limited to the number of
-    copies purchased as per order.
+    workstations purchased as per order.
  5. In case you purchased a "Site License", the PRODUCT can be installed
     and used from all workstations located at your premises.
  6. You may incorporate the unmodified PRODUCT into your own products and
