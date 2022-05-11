@@ -40,7 +40,7 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.2")
 * An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
 * Regression tests refactoring: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/247
 
-# Are you a satisfied mXparser user? If so, please support my work:
+# Did you find the software useful? If so, please support my work:
 * order a commercial license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
 
 [![INFIMA](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
