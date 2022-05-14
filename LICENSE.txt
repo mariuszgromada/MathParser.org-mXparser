@@ -84,8 +84,8 @@ COMMERCIAL LICENSE
  9. You may make copies of the PRODUCT for backup and archival purposes.
 10. The license to use the PRODUCT has been granted only to you, i.e.,
     the person or entity that made the purchase, who is identified and
-	confirmed by the data provided during the purchase. This means that
-	you may not resell this license to other persons or entities.
+    confirmed by the data provided during the purchase. This means that
+    you may not resell this license to other persons or entities.
 11. MARIUSZ GROMADA reserves all rights not expressly granted to you in
     this agreement.
 	
