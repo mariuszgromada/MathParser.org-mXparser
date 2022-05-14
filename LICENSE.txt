@@ -1,7 +1,7 @@
 Copyright 2010 - 2022 MARIUSZ GROMADA. All rights reserved.
 
 PRODUCT: MathParser.org-mXparser
-LICENSE: DUAL LICENSE 
+LICENSE: END USER DUAL LICENSE AGREEMENT
 
 SOFTWARE means source code and/or binary form and/or documentation.
 
@@ -42,16 +42,16 @@ or without modification, are permitted provided that the following
 conditions are met:
 
 1. Redistributions of source code must retain unmodified content of the
-   entire MathParser.org-mXparser DUAL LICENSE, including definition of
-   NON-COMMERCIAL USE, definition of COMMERCIAL USE, NON-COMMERCIAL
-   LICENSE conditions, COMMERCIAL LICENSE conditions, and the following
-   DISCLAIMER.
+   entire MathParser.org-mXparser END USER DUAL LICENSE AGREEMENT,
+   including definition of NON-COMMERCIAL USE, definition of
+   COMMERCIAL USE, NON-COMMERCIAL LICENSE conditions, COMMERCIAL LICENSE
+   conditions, and the following DISCLAIMER.
 2. Redistributions in binary form must reproduce the entire content of
-   MathParser.org-mXparser DUAL LICENSE in the documentation and/or other
-   materials provided with the distribution, including definition of
-   NON-COMMERCIAL USE, definition of COMMERCIAL USE, NON-COMMERCIAL
-   LICENSE conditions, COMMERCIAL LICENSE conditions, and the following
-   DISCLAIMER.
+   MathParser.org-mXparser END USER DUAL LICENSE AGREEMENT in the
+   documentation and/or other materials provided with the distribution,
+   including definition of NON-COMMERCIAL USE, definition of COMMERCIAL
+   USE, NON-COMMERCIAL LICENSE conditions, COMMERCIAL LICENSE conditions,
+   and the following DISCLAIMER.
 
 COMMERCIAL LICENSE
 
@@ -82,7 +82,11 @@ COMMERCIAL LICENSE
  8. You may distribute your product and / or software with the incorporated
     PRODUCT royalty-free.
  9. You may make copies of the PRODUCT for backup and archival purposes.
-10. MARIUSZ GROMADA reserves all rights not expressly granted to you in
+10. The license to use the PRODUCT has been granted only to you, i.e.,
+    the person or entity that made the purchase, who is identified and
+	confirmed by the data provided during the purchase. This means that
+	you may not resell this license to other persons or entities.
+11. MARIUSZ GROMADA reserves all rights not expressly granted to you in
     this agreement.
 	
 ADDITIONAL CLARIFICATION ON WORKSTATION
