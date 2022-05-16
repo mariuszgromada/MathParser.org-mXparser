@@ -1,4 +1,4 @@
-# MathParser.org-mXparser has been downloaded more than 1,250,000 times!
+# MathParser.org-mXparser has been downloaded more than 1,300,000 times!
 # Package installation
 
 ## Nuget
