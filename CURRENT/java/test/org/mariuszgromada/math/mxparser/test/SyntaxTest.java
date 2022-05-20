@@ -178,7 +178,7 @@ import org.mariuszgromada.math.mxparser.*;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.0.3
  *
  */
 public final class SyntaxTest {
@@ -4666,6 +4666,66 @@ public final class SyntaxTest {
         Expression e = new Expression(expStr);
         boolean syn = e.checkSyntax();
         boolean reg = true;
+        if (syn == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0305() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String expStr = "2pi+3e";
+        TestCommonTools.consolePrintTestSynStart(305, expStr);
+        Expression e = new Expression(expStr);
+        e.enableImpliedMultiplicationMode();
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        if (syn == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0306() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String expStr = "2pi+3e";
+        TestCommonTools.consolePrintTestSynStart(306, expStr);
+        Expression e = new Expression(expStr);
+        e.disableImpliedMultiplicationMode();
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        if (syn == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0307() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String expStr = "2(3+4)5";
+        TestCommonTools.consolePrintTestSynStart(307, expStr);
+        Expression e = new Expression(expStr);
+        e.enableImpliedMultiplicationMode();
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        if (syn == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0308() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String expStr = "2(3+4)5";
+        TestCommonTools.consolePrintTestSynStart(308, expStr);
+        Expression e = new Expression(expStr);
+        e.disableImpliedMultiplicationMode();
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
         if (syn == reg)
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);

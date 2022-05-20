@@ -196,7 +196,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.2
+	 * @version        5.0.3
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -337,6 +337,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Implied multiplication mode
 		 */
 		private bool impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
+		/**
+		 * Fires an error when impliedMultiplicationMode is on
+		 * and there is a missing multiplication operator
+		 */
+		private bool impliedMultiplicationError = false;
 		/**
 		 * Internal parameter for calculus expressions
 		 * to avoid decrease in accuracy.
@@ -5313,6 +5318,10 @@ namespace org.mariuszgromada.math.mxparser {
 				 * IF there are no lex error
 				 */
 				tokenizeExpressionString();
+				if (!impliedMultiplicationMode && impliedMultiplicationError) {
+					syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+					errorMessage =  errorMessage + level + "Multiplication operator missing - try Implied Multiplication Mode." + "\n";
+				}
 				/*
 				 * Duplicated tokens?
 				 */
@@ -7467,76 +7476,98 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			/* Start: Implied Multiplication related part*/
-			if (impliedMultiplicationMode) {
-				Token precedingToken = initialTokens[initialTokens.Count - 1];
-				if (token.isSpecialTokenName()) {
-					/* Special constant case [...]
-					 * Excluding: '([a]', ';[a]', ',[a]', '+[a]', ....
-					 */
-					if (!precedingToken.isLeftParenthesis() &&
-							!precedingToken.isBinaryOperator() &&
-							!precedingToken.isParameterSeparator() &&
-							!precedingToken.isUnaryLeftOperator()) {
+			Token precedingToken = initialTokens[initialTokens.Count - 1];
+			if (token.isSpecialTokenName()) {
+				/* Special constant case [...]
+				 * Excluding: '([a]', ';[a]', ',[a]', '+[a]', ....
+				 */
+				if (!precedingToken.isLeftParenthesis() &&
+						!precedingToken.isBinaryOperator() &&
+						!precedingToken.isParameterSeparator() &&
+						!precedingToken.isUnaryLeftOperator()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
+					else impliedMultiplicationError = true;
 				}
-				else if (precedingToken.isSpecialTokenName()) {
-					if (!token.isRightParenthesis() &&
-							!token.isBinaryOperator() &&
-							!token.isParameterSeparator() &&
-							!token.isUnaryRightOperator()) {
+			}
+			else if (precedingToken.isSpecialTokenName()) {
+				if (!token.isRightParenthesis() &&
+						!token.isBinaryOperator() &&
+						!token.isParameterSeparator() &&
+						!token.isUnaryRightOperator()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
+					else impliedMultiplicationError = true;
 				}
-				else if (token.isLeftParenthesis()) {
-					// ')(' case
-					if (precedingToken.isRightParenthesis()) {
+			}
+			else if (token.isLeftParenthesis()) {
+				// ')(' case
+				if (precedingToken.isRightParenthesis()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
-					// '2(' case
-					if (precedingToken.isNumber()) {
+					else impliedMultiplicationError = true;
+				}
+				// '2(' case
+				if (precedingToken.isNumber()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
-					// 'e(', 'pi(' cases
-					if (precedingToken.isIdentifier()) {
+					else impliedMultiplicationError = true;
+				}
+				// 'e(', 'pi(' cases
+				if (precedingToken.isIdentifier()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
-				} else if (precedingToken.isRightParenthesis()) {
-					// ')2', ')h.1212', ')1_2_3' cases
-					if (token.isNumber()) {
+					else impliedMultiplicationError = true;
+				}
+			} else if (precedingToken.isRightParenthesis()) {
+				// ')2', ')h.1212', ')1_2_3' cases
+				if (token.isNumber()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
-					// ')x', ')sin(x)', ')[sdf]' cases
-					if (!token.isParameterSeparator() &&
-							!token.isBinaryOperator() &&
-							!token.isUnaryRightOperator() &&
-							!token.isRightParenthesis()) {
+					else impliedMultiplicationError = true;
+				}
+				// ')x', ')sin(x)', ')[sdf]' cases
+				if (!token.isParameterSeparator() &&
+						!token.isBinaryOperator() &&
+						!token.isUnaryRightOperator() &&
+						!token.isRightParenthesis()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
-				} else if (token.isUnicodeRootOperator()) {
-					/* Unicode root operator */
-					if (!precedingToken.isLeftParenthesis() &&
-							!precedingToken.isBinaryOperator() &&
-							!precedingToken.isParameterSeparator() &&
-							!precedingToken.isUnaryLeftOperator()) {
+					else impliedMultiplicationError = true;
+				}
+			} else if (token.isUnicodeRootOperator()) {
+				/* Unicode root operator */
+				if (!precedingToken.isLeftParenthesis() &&
+						!precedingToken.isBinaryOperator() &&
+						!precedingToken.isParameterSeparator() &&
+						!precedingToken.isUnaryLeftOperator()) {
+					if (impliedMultiplicationMode) {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
 					}
+					else impliedMultiplicationError = true;
 				}
 			}
 			/* End: Implied Multiplication related part*/
@@ -7989,6 +8020,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Tokenizing expressiong string
 		 */
 		private void tokenizeExpressionString() {
+			impliedMultiplicationError = false;
 			/*
 			 * Add parser and argument key words
 			 */

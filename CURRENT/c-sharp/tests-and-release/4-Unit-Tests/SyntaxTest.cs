@@ -179,7 +179,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.0.3
 	 *
 	 */
 	[TestClass]
@@ -4668,6 +4668,66 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0305() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi+3e";
+			TestCommonTools.consolePrintTestSynStart(305, expStr);
+			Expression e = new Expression(expStr);
+			e.enableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0306() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2pi+3e";
+			TestCommonTools.consolePrintTestSynStart(306, expStr);
+			Expression e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0307() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2(3+4)5";
+			TestCommonTools.consolePrintTestSynStart(307, expStr);
+			Expression e = new Expression(expStr);
+			e.enableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0308() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "2(3+4)5";
+			TestCommonTools.consolePrintTestSynStart(308, expStr);
+			Expression e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
 			if (syn == reg)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
