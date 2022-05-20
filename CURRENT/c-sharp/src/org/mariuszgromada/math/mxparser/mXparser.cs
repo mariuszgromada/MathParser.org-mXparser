@@ -303,7 +303,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see #consolePrint(Object)
 		 */
 		private static volatile String CONSOLE_OUTPUT = "";
-		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + " bin " + BUIT_FOR + "] ";
+		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 		private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static volatile int CONSOLE_ROW_NUMBER = 1;
 		/**
@@ -1747,7 +1747,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public const String LICENSE =
 			"mXparser - version " + mXparser.VERSION + "\n"
-			+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT\n"
+			+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-20\n"
+			+ "The most up-to-date license is available at the below link:"
+			+ "https://mathparser.org/mxparser-license"
 			+ "\n"
 			+ "AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved\n"
 			+ "PUBLISHER: INFIMA - https://payhip.com/infima\n"

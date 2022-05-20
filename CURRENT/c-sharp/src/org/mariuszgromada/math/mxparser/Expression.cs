@@ -1958,8 +1958,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Dependent Arguments handling.
 		 *
 		 * @param      pos                 the token position
+		 * @param      calcStepsRegister   steps register
 		 */
-		private void DEPENDENT_ARGUMENT(int pos) {
+		private void DEPENDENT_ARGUMENT(int pos, CalcStepsRegister calcStepsRegister) {
 			Argument argument = argumentsList[ tokensList[pos].tokenId ];
 			bool argumentVerboseMode = argument.getVerboseMode();
 			if (verboseMode == true)
@@ -1976,7 +1977,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			int tokensListSizeBefore = tokensList.Count;
 			Token tokenBefore = tokensList[pos];
-			double argumentValue = argument.getArgumentValue();
+			double argumentValue = argument.getArgumentValue(calcStepsRegister);
 			int tokensListSizeAfter = tokensList.Count;
 			if (tokensListSizeBefore == tokensListSizeAfter) {
 				Token tokenAfter = tokensList[pos];
@@ -1991,8 +1992,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * User functions handling.
 		 *
 		 * @param      pos                 the token position
+		 * @param      calcStepsRegister   steps register
 		 */
-		private void USER_FUNCTION(int pos) {
+		private void USER_FUNCTION(int pos, CalcStepsRegister calcStepsRegister) {
 			Function function;
 			Function fun = functionsList[ tokensList[pos].tokenId ];
 			if (fun.getRecursiveMode() == true) {
@@ -2021,7 +2023,7 @@ namespace org.mariuszgromada.math.mxparser {
 			Token tokenBefore = tokensList[pos];
 			double value;
 			try {
-				value = function.calculate();
+				value = function.calculate(calcStepsRegister);
 			} catch(
 				#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETCOREAPP1_0 || NETCOREAPP1_1
 					Exception
@@ -5604,6 +5606,54 @@ namespace org.mariuszgromada.math.mxparser {
 		 *             otherwise returns Double.NaN.
 		 */
 		public double calculate() {
+			return calculate(null);
+		}
+
+		private String tokenToString(Token token) {
+			if (token == null) return "";
+			if (token.isNumber()) {
+				double intTokenValue = Math.Round(token.tokenValue);
+				if (intTokenValue == token.tokenValue)
+					return ((long)intTokenValue).ToString();
+				else
+					return (token.tokenValue).ToString();
+			} else
+				return token.tokenStr;
+		}
+
+		private String tokensListToString() {
+			if (tokensList == null) return "";
+			if (tokensList.Count == 0) return "";
+			String result = "";
+			for (int i = 0; i < tokensList.Count; i++) {
+				Token t0 = null;
+				Token t1 = tokensList[i];
+				if (i > 0) t0 = tokensList[i-1];
+				if (t0 != null)
+					if (!t0.isLeftParenthesis() &&
+						!t0.isParameterSeparator() &&
+						!t0.isBinaryOperator() &&
+						!t0.isUnaryLeftOperator() &&
+						!t0.isUnaryRightOperator() &&
+						!t0.isUnicodeRootOperator() &&
+						!t0.isRightParenthesis())
+						if (t1.isNumber())
+							result = result + " ";
+				result = result + tokenToString(t1);
+			}
+
+			return result;
+		}
+		/**
+		 * Calculates the expression value
+		 *
+		 * @param calcStepsRegister  A collection to store list of calculation steps,
+		 *                           steps registered as strings.
+		 *
+		 * @return     The expression value if syntax was ok,
+		 *             otherwise returns Double.NaN.
+		 */
+		public double calculate(CalcStepsRegister calcStepsRegister) {
 			computingTime = 0;
 			long startTime = mXparser.currentTimeMillis();
 			if (verboseMode == true) {
@@ -5744,10 +5794,33 @@ namespace org.mariuszgromada.math.mxparser {
 			int p;
 			List<int> commas = null;
 			int emptyLoopCounter = 0;
+			int loopCounter = 0;
 			/* While exist token which needs to bee evaluated */
 			if (verboseMode == true)
 				printSystemInfo("Starting calculation loop\n", WITH_EXP_STR);
+
+			CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
+			String stepDescription = "";
+			if (calcStepsRegister != null) {
+				if (description.Trim().Length > 0)
+					stepDescription = description.Trim() + " = " + expressionString.Trim();
+				else
+					stepDescription = expressionString.Trim();
+			}
+			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 			do {
+				loopCounter++;
+				if (calcStepsRegister != null) {
+					CalcStepRecord stepRecord = new CalcStepRecord();
+					stepRecord.stepNumberGroup = calcStepsRegister.stepNumberGroup;
+					stepRecord.stepNumberGroupWithin = loopCounter;
+					stepRecord.stepDescription = stepDescription;
+					stepRecord.stepContent = tokensListToString();
+					stepRecord.stepType = calcStepsRegister.stepType;
+					if (loopCounter == 1)
+						stepRecord.firstStepInGroup = true;
+					calcStepsRegister.calcStepRecords.Add(stepRecord);
+				}
 				if (mXparser.isCurrentCalculationCancelled()) {
 					errorMessage = errorMessage + "\n" + "Cancel request - finishing";
 					return Double.NaN;
@@ -5862,7 +5935,11 @@ namespace org.mariuszgromada.math.mxparser {
 								if (token.tokenTypeId == Argument.TYPE_ID) {
 									argument = argumentsList[tokensList[tokenIndex].tokenId];
 									if (argument.argumentType == Argument.DEPENDENT_ARGUMENT) {
-										DEPENDENT_ARGUMENT(tokenIndex);
+										if (calcStepsRegister != null)
+											stepTypePrev = calcStepsRegister.stepType;
+										DEPENDENT_ARGUMENT(tokenIndex, calcStepsRegister);
+										if (calcStepsRegister != null)
+											calcStepsRegister.stepType = stepTypePrev;
 										depArgFound = true;
 										break;
 									}
@@ -6049,7 +6126,11 @@ namespace org.mariuszgromada.math.mxparser {
 				else
 				/* ... user functions  ... */
 				if (userFunPos >= 0) {
-					USER_FUNCTION(userFunPos);
+					if (calcStepsRegister != null)
+						stepTypePrev = calcStepsRegister.stepType;
+					USER_FUNCTION(userFunPos, calcStepsRegister);
+					if (calcStepsRegister != null)
+						calcStepsRegister.stepType = stepTypePrev;
 				} else
 				/* ... powering  ... */
 				if (tetrationPos >= 0) {
@@ -6157,6 +6238,19 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 
 			} while (tokensList.Count > 1);
+
+			if (calcStepsRegister != null) {
+				CalcStepRecord stepRecord = new CalcStepRecord();
+				stepRecord.stepNumberGroup = calcStepsRegister.stepNumberGroup;
+				stepRecord.stepNumberGroupWithin = loopCounter;
+				stepRecord.stepDescription = stepDescription;
+				stepRecord.stepContent = tokensListToString();
+				stepRecord.stepType = calcStepsRegister.stepType;
+				stepRecord.lastStepInGroup = true;
+				calcStepsRegister.calcStepRecords.Add(stepRecord);
+				calcStepsRegister.stepNumberGroup--;
+			}
+
 			if (verboseMode == true) {
 				//printSystemInfo("\n", WITH_EXP_STR);
 				printSystemInfo("Calculated value: " + tokensList[0].tokenValue + "\n", WITH_EXP_STR);

@@ -3,6 +3,9 @@ MathParser.org-mXparser DUAL LICENSE AGREEMENT
 AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved
 PUBLISHER: INFIMA - https://payhip.com/infima
 
+The most up-to-date license is available at the below link:
+https://mathparser.org/mxparser-license
+
 SOFTWARE means source code and/or binary form and/or documentation.
 PRODUCT: MathParser.org-mXparser SOFTWARE
 LICENSE: DUAL LICENSE AGREEMENT

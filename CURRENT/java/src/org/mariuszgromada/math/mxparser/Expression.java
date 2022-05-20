@@ -2004,7 +2004,7 @@ public class Expression extends PrimitiveElement {
 	 *
 	 * @param      pos                 the token position
 	 */
-	private void DEPENDENT_ARGUMENT(int pos) {
+	private void DEPENDENT_ARGUMENT(int pos, CalcStepsRegister calcStepsRegister) {
 		Argument argument = argumentsList.get( tokensList.get(pos).tokenId);
 		boolean argumentVerboseMode = argument.getVerboseMode();
 		if (verboseMode == true)
@@ -2021,7 +2021,7 @@ public class Expression extends PrimitiveElement {
 		 */
 		int tokensListSizeBefore = tokensList.size();
 		Token tokenBefore = tokensList.get(pos);
-		double argumentValue = argument.getArgumentValue();
+		double argumentValue = argument.getArgumentValue(calcStepsRegister);
 		int tokensListSizeAfter = tokensList.size();
 		if (tokensListSizeBefore == tokensListSizeAfter) {
 			Token tokenAfter = tokensList.get(pos);
@@ -2037,7 +2037,7 @@ public class Expression extends PrimitiveElement {
 	 *
 	 * @param      pos                 the token position
 	 */
-	private void USER_FUNCTION(int pos) {
+	private void USER_FUNCTION(int pos, CalcStepsRegister calcStepsRegister) {
 		Function function;
 		Function fun = functionsList.get( tokensList.get(pos).tokenId );
 		if (fun.getRecursiveMode() == true) {
@@ -2066,7 +2066,7 @@ public class Expression extends PrimitiveElement {
 		Token tokenBefore = tokensList.get(pos);
 		double value;
 		try {
-			value = function.calculate();
+			value = function.calculate(calcStepsRegister);
 		} catch(StackOverflowError soe){
 			value = Double.NaN;
 			errorMessage = soe.getMessage();
@@ -5636,6 +5636,56 @@ public class Expression extends PrimitiveElement {
 	 *             otherwise returns Double.NaN.
 	 */
 	public double calculate() {
+		return calculate(null);
+	}
+
+
+	private String tokenToString(Token token) {
+		if (token == null) return "";
+		if (token.isNumber()) {
+			double intTokenValue = Math.round(token.tokenValue);
+			if (intTokenValue == token.tokenValue)
+				return Long.toString((long)intTokenValue);
+			else
+				return Double.toString(token.tokenValue);
+		} else
+			return token.tokenStr;
+	}
+
+	private String tokensListToString() {
+		if (tokensList == null) return "";
+		if (tokensList.size() == 0) return "";
+		String result = "";
+		for (int i = 0; i < tokensList.size(); i++) {
+			Token t0 = null;
+			Token t1 = tokensList.get(i);
+			if (i > 0) t0 = tokensList.get(i-1);
+			if (t0 != null)
+				if (!t0.isLeftParenthesis() &&
+						!t0.isParameterSeparator() &&
+						!t0.isBinaryOperator() &&
+						!t0.isUnaryLeftOperator() &&
+						!t0.isUnaryRightOperator() &&
+						!t0.isUnicodeRootOperator() &&
+						!t0.isRightParenthesis())
+					if (t1.isNumber())
+						result = result + " ";
+			result = result + tokenToString(t1);
+		}
+
+		return result;
+	}
+
+	/**
+	 * Calculates the expression value
+	 *
+	 * @param calcStepsRegister A collection to store list of calculation steps,
+	 *                          steps registered as strings.
+	 *
+	 * @return     The expression value if syntax was ok,
+	 *             otherwise returns Double.NaN.
+	 */
+	public double calculate(CalcStepsRegister calcStepsRegister) {
 		computingTime = 0;
 		long startTime = System.currentTimeMillis();
 		if (verboseMode == true) {
@@ -5776,11 +5826,33 @@ public class Expression extends PrimitiveElement {
 		int p;
 		List<Integer> commas = null;
 		int emptyLoopCounter = 0;
-
+		int loopCounter = 0;
 		/* While exist token which needs to bee evaluated */
 		if (verboseMode == true)
 			printSystemInfo("Starting calculation loop\n", WITH_EXP_STR);
+
+		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
+		String stepDescription = "";
+		if (calcStepsRegister != null) {
+			if (description.trim().length() > 0)
+				stepDescription = description.trim() + " = " + expressionString.trim();
+			else
+				stepDescription = expressionString.trim();
+		}
+		CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 		do {
+			loopCounter++;
+			if (calcStepsRegister != null) {
+				CalcStepRecord stepRecord = new CalcStepRecord();
+				stepRecord.stepNumberGroup = calcStepsRegister.stepNumberGroup;
+				stepRecord.stepNumberGroupWithin = loopCounter;
+				stepRecord.stepDescription = stepDescription;
+				stepRecord.stepContent = tokensListToString();
+				stepRecord.stepType = calcStepsRegister.stepType;
+				if (loopCounter == 1)
+					stepRecord.firstStepInGroup = true;
+				calcStepsRegister.calcStepRecords.add(stepRecord);
+			}
 			if (mXparser.isCurrentCalculationCancelled()) {
 				errorMessage = errorMessage + "\n" + "Cancel request - finishing";
 				return Double.NaN;
@@ -5895,7 +5967,11 @@ public class Expression extends PrimitiveElement {
 							if (token.tokenTypeId == Argument.TYPE_ID) {
 								argument = argumentsList.get( tokensList.get(tokenIndex).tokenId );
 								if (argument.argumentType == Argument.DEPENDENT_ARGUMENT) {
-									DEPENDENT_ARGUMENT(tokenIndex);
+									if (calcStepsRegister != null)
+										stepTypePrev = calcStepsRegister.stepType;
+									DEPENDENT_ARGUMENT(tokenIndex, calcStepsRegister);
+									if (calcStepsRegister != null)
+										calcStepsRegister.stepType = stepTypePrev;
 									depArgFound = true;
 									break;
 								}
@@ -6077,7 +6153,11 @@ public class Expression extends PrimitiveElement {
 			else
 			/* ... user functions  ... */
 			if (userFunPos >= 0) {
-				USER_FUNCTION(userFunPos);
+				if (calcStepsRegister != null)
+					stepTypePrev = calcStepsRegister.stepType;
+				USER_FUNCTION(userFunPos, calcStepsRegister);
+				if (calcStepsRegister != null)
+					calcStepsRegister.stepType = stepTypePrev;
 			} else
 			/* ... powering  ... */
 			if (tetrationPos >= 0) {
@@ -6184,6 +6264,19 @@ public class Expression extends PrimitiveElement {
 				return Double.NaN;
 			}
 		} while (tokensList.size() > 1);
+
+		if (calcStepsRegister != null) {
+			CalcStepRecord stepRecord = new CalcStepRecord();
+			stepRecord.stepNumberGroup = calcStepsRegister.stepNumberGroup;
+			stepRecord.stepNumberGroupWithin = loopCounter;
+			stepRecord.stepDescription = stepDescription;
+			stepRecord.stepContent = tokensListToString();
+			stepRecord.stepType = calcStepsRegister.stepType;
+			stepRecord.lastStepInGroup = true;
+			calcStepsRegister.calcStepRecords.add(stepRecord);
+			calcStepsRegister.stepNumberGroup--;
+		}
+
 		if (verboseMode == true) {
 			printSystemInfo("Calculated value: " + tokensList.get(0).tokenValue + "\n", WITH_EXP_STR);
 			printSystemInfo("Exiting\n", WITH_EXP_STR);

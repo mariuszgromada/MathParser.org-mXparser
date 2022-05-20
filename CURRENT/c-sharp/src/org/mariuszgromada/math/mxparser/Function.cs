@@ -625,8 +625,20 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     Function value as double.
 		 */
 		public double calculate() {
+			return calculate((CalcStepsRegister) null);
+		}
+		/**
+		 * Calculates function value
+		 *
+		 * @param calcStepsRegister A collection to store list of calculation steps,
+		 *                          steps registered as strings.
+		 *
+		 * @return     Function value as double.
+		 */
+		public double calculate(CalcStepsRegister calcStepsRegister) {
+			CalcStepsRegister.setUserFunction(calcStepsRegister, this);
 			if (functionBodyType == BODY_RUNTIME)
-				return functionExpression.calculate();
+				return functionExpression.calculate(calcStepsRegister);
 			else
 				if (isVariadic == false)
 					return functionExtension.calculate();

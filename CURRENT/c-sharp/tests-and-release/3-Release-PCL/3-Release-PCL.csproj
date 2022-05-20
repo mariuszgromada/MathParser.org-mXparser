@@ -65,6 +65,12 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs">
       <Link>src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs</Link>
     </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\CalcStepRecord.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\CalcStepRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs">
+      <Link>src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs">
       <Link>src\org\mariuszgromada\math\mxparser\mathcollection\AstronomicalConstants.cs</Link>
     </Compile>

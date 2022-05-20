@@ -665,12 +665,26 @@ public class Argument extends PrimitiveElement {
 	 *             based on the argument expression.
 	 */
 	public double getArgumentValue() {
+		return getArgumentValue(null);
+	}
+	/**
+	 * Gets argument value.
+	 *
+	 * @param calcStepsRegister A collection to store list of calculation steps,
+	 *                          steps registered as strings.
+	 *
+	 * @return     direct argument value for free argument,
+	 *             otherwise returns calculated argument value
+	 *             based on the argument expression.
+	 */
+	public double getArgumentValue(CalcStepsRegister calcStepsRegister) {
+		CalcStepsRegister.setUserArgument(calcStepsRegister, this);
 		if (argumentBodyType == BODY_EXTENDED)
 			return argumentExtension.getArgumentValue();
 		if (argumentType == FREE_ARGUMENT)
 			return argumentValue;
 		else
-			return argumentExpression.calculate();
+			return argumentExpression.calculate(calcStepsRegister);
 	}
 	/**
 	 * Adds user defined elements (such as: Arguments, Constants, Functions)
