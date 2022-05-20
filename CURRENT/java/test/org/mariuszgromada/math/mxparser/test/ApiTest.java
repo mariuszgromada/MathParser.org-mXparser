@@ -183,7 +183,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.0.3
  *
  */
 public final class ApiTest {
@@ -3826,6 +3826,76 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0148() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Calc Steps Register - Expression 2*(3+4)+5";
+        TestCommonTools.consolePrintTestApiStart(148, testDescr);
+        Expression e = new Expression("2*(3+4)+5");
+        CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+        double result = e.calculate(calcStepsRegister);
+        if (result != calcStepsRegister.result) testResult = false;
+        if (!e.getExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
+        if (calcStepsRegister.argumentNameStart.length() > 0) testResult = false;
+        if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 5)  testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0149() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Calc Steps Register - Argument x = 2*(3+4)+5";
+        TestCommonTools.consolePrintTestApiStart(149, testDescr);
+        Argument x = new Argument("x", "2*(3+4)+5");
+        CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+        double result = x.getArgumentValue(calcStepsRegister);        if (result != calcStepsRegister.result) testResult = false;
+        if (!x.getArgumentName().equals(calcStepsRegister.argumentNameStart)) testResult = false;
+        if (!x.getArgumentExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
+        if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 5)  testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0150() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Calc Steps Register - Function f(x) = 2*(3+4)+5";
+        TestCommonTools.consolePrintTestApiStart(150, testDescr);
+        Function f = new Function("f(x) = 2*(3+4)+5");
+        CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+        double result = f.calculate(calcStepsRegister);
+        if (!f.getFunctionName().equals(calcStepsRegister.functionNameStart)) testResult = false;
+        if (!f.getFunctionExpressionString().trim().equals(calcStepsRegister.expressionStringStart)) testResult = false;
+        if (calcStepsRegister.argumentNameStart.length() > 0) testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 5)  testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0151() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Calc Steps Register - Expression 2*(3+4)+5";
+        TestCommonTools.consolePrintTestApiStart(151, testDescr);
+        CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+        Argument x = new Argument("x", "2*rList(2,1,3,5,4)");
+        Argument y = new Argument("y = 2*x", x);
+        Argument z = new Argument("z = 3*y/x", x, y);
+        Function f = new Function("f(a,b) = a*b");
+        Expression e = new Expression("f(x,y)+z+(x*y)/z", x, y, z, f);
+        double result = e.calculate(calcStepsRegister);
+        if (result != calcStepsRegister.result) testResult = false;
+        if (!e.getExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
+        if (calcStepsRegister.argumentNameStart.length() > 0) testResult = false;
+        if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 72)  testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         Expression e = new Expression(expStr);
         if (elements != null)
@@ -3835,5 +3905,3 @@ public final class ApiTest {
         return expResStr.equals(e.getCanonicalExpressionString());
     }
 }
-
-

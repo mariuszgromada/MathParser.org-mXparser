@@ -211,6 +211,19 @@ public class CalcStepsRegister {
      */
     public String expressionStringStart = "";
     /**
+     * Final result of calculation
+     */
+    public double result = Double.NaN;
+    /**
+     * Duration of calculation process - in seconds
+     */
+    public double computingTime = Double.NaN;
+    /**
+     * Information on error or lack of error
+     * while performing calculation process
+     */
+    public String errorMessage = "";
+    /**
      * Prints this step register to the console.
      */
     public void consolePrint() {
@@ -221,28 +234,29 @@ public class CalcStepsRegister {
         mXparser.consolePrint("CalcStepsRegister for ");
         boolean toPrintEq = false;
         if (argumentNameStart.length() > 0) {
-            mXparser.consolePrint("Argument ");
+            mXparser.consolePrint("Argument " + argumentNameStart);
             toPrintEq = true;
         }
         if (functionNameStart.length() > 0) {
-            mXparser.consolePrint("Function ");
+            mXparser.consolePrint("Function " + functionNameStart);
             toPrintEq = true;
         }
         if (toPrintEq)
             mXparser.consolePrint(" = ");
         else
             mXparser.consolePrint("Expression ");
-        mXparser.consolePrintln(expressionStringStart);
+        mXparser.consolePrintln(expressionStringStart + ", result = " + result);
         for (CalcStepRecord stepRecord : calcStepRecords)
             mXparser.consolePrintln(
-                    "gr = " + stepRecord.stepNumberGroup
-                    + ", nr = " + stepRecord.stepNumberGroupWithin
-                    + ", first = " + stepRecord.firstStepInGroup
-                    + ", last = " + stepRecord.lastStepInGroup
-                    + ", type = " + stepRecord.stepType
-                    + ", descr = " + stepRecord.stepDescription
-                    + ", step = " + stepRecord.stepContent
+                    "gr = " + stepRecord.numberGroup
+                    + ", nr = " + stepRecord.numberGroupWithin
+                    + ", first = " + stepRecord.firstInGroup
+                    + ", last = " + stepRecord.lastInGroup
+                    + ", type = " + stepRecord.type
+                    + ", descr = " + stepRecord.description
+                    + ", step = " + stepRecord.content
             );
+        mXparser.consolePrintln("Computing time = " + computingTime + " s.");
     }
     boolean isStartSet = false;
     int stepNumberGroup = 0;
@@ -265,7 +279,7 @@ public class CalcStepsRegister {
         calcStepsRegister.stepTypeSetUserArgument();
         if (calcStepsRegister.isStartSet) return;
         calcStepsRegister.argumentNameStart = argument.getArgumentName();
-        calcStepsRegister.expressionStringStart = argument.getArgumentExpressionString();
+        calcStepsRegister.expressionStringStart = argument.getArgumentExpressionString().trim();
         calcStepsRegister.isStartSet = true;
     }
     static void setUserFunction(CalcStepsRegister calcStepsRegister, Function function) {
@@ -273,14 +287,14 @@ public class CalcStepsRegister {
         calcStepsRegister.stepTypeSetUserFunction();
         if (calcStepsRegister.isStartSet) return;
         calcStepsRegister.functionNameStart = function.getFunctionName();
-        calcStepsRegister.expressionStringStart = function.getFunctionExpressionString();
+        calcStepsRegister.expressionStringStart = function.getFunctionExpressionString().trim();
         calcStepsRegister.isStartSet = true;
     }
     static void stepNumberGroupIncrease(CalcStepsRegister calcStepsRegister, Expression expression) {
         if (calcStepsRegister == null) return;
         calcStepsRegister.stepNumberGroup++;
         if (calcStepsRegister.isStartSet) return;
-        calcStepsRegister.expressionStringStart = expression.getExpressionString();
+        calcStepsRegister.expressionStringStart = expression.getExpressionString().trim();
         calcStepsRegister.isStartSet = true;
     }
 }

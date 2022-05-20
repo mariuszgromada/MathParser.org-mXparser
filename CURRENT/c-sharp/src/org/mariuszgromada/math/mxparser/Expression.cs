@@ -5821,13 +5821,13 @@ namespace org.mariuszgromada.math.mxparser {
 				loopCounter++;
 				if (calcStepsRegister != null) {
 					CalcStepRecord stepRecord = new CalcStepRecord();
-					stepRecord.stepNumberGroup = calcStepsRegister.stepNumberGroup;
-					stepRecord.stepNumberGroupWithin = loopCounter;
-					stepRecord.stepDescription = stepDescription;
-					stepRecord.stepContent = tokensListToString();
-					stepRecord.stepType = calcStepsRegister.stepType;
+					stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
+					stepRecord.numberGroupWithin = loopCounter;
+					stepRecord.description = stepDescription;
+					stepRecord.content = tokensListToString();
+					stepRecord.type = calcStepsRegister.stepType;
 					if (loopCounter == 1)
-						stepRecord.firstStepInGroup = true;
+						stepRecord.firstInGroup = true;
 					calcStepsRegister.calcStepRecords.Add(stepRecord);
 				}
 				if (mXparser.isCurrentCalculationCancelled()) {
@@ -6248,18 +6248,6 @@ namespace org.mariuszgromada.math.mxparser {
 
 			} while (tokensList.Count > 1);
 
-			if (calcStepsRegister != null) {
-				CalcStepRecord stepRecord = new CalcStepRecord();
-				stepRecord.stepNumberGroup = calcStepsRegister.stepNumberGroup;
-				stepRecord.stepNumberGroupWithin = loopCounter;
-				stepRecord.stepDescription = stepDescription;
-				stepRecord.stepContent = tokensListToString();
-				stepRecord.stepType = calcStepsRegister.stepType;
-				stepRecord.lastStepInGroup = true;
-				calcStepsRegister.calcStepRecords.Add(stepRecord);
-				calcStepsRegister.stepNumberGroup--;
-			}
-
 			if (verboseMode == true) {
 				//printSystemInfo("\n", WITH_EXP_STR);
 				printSystemInfo("Calculated value: " + tokensList[0].tokenValue + "\n", WITH_EXP_STR);
@@ -6274,11 +6262,29 @@ namespace org.mariuszgromada.math.mxparser {
 				if (mXparser.almostIntRounding) {
 					double resultint = Math.Round(result);
 					if ( Math.Abs(result-resultint) <= BinaryRelations.getEpsilon() )
-						return resultint;
-				}
-				if (mXparser.canonicalRounding)
-					return MathFunctions.canonicalRound(result);
+						result = resultint;
+				} 
+				else if (mXparser.canonicalRounding)
+					result = MathFunctions.canonicalRound(result);
 			}
+
+			if (calcStepsRegister != null) {
+				CalcStepRecord stepRecord = new CalcStepRecord();
+				stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
+				stepRecord.numberGroupWithin = loopCounter;
+				stepRecord.description = stepDescription;
+				stepRecord.content = tokensListToString();
+				stepRecord.type = calcStepsRegister.stepType;
+				stepRecord.lastInGroup = true;
+				calcStepsRegister.calcStepRecords.Add(stepRecord);
+				calcStepsRegister.stepNumberGroup--;
+				if (calcStepsRegister.stepNumberGroup == 0) {
+					calcStepsRegister.result = result;
+					calcStepsRegister.computingTime = computingTime;
+					calcStepsRegister.errorMessage = errorMessage;
+				}
+			}
+
 			return result;
 		}
 		/**

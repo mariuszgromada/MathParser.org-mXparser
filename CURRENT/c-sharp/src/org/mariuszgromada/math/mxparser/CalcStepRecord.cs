@@ -208,33 +208,33 @@ namespace org.mariuszgromada.math.mxparser {
          * the calculation process will be done based on the calculation tree, where each group
          * will be a marker of a particular (different) leaf of this tree.
          */
-        public int stepNumberGroup = 0;
+        public int numberGroup = 0;
         /**
          * Marker of a step in a process of calculation of a given expression pointed by
          * a particular leaf in a calculation tree.
          */
-        public int stepNumberGroupWithin = 0;
+        public int numberGroupWithin = 0;
         /**
          * Calculation step type
          * @see StepType
          */
-        public StepType stepType;
+        public StepType type;
         /**
          * Calculation step description - can be ana argument name, function name and or
          * an expression string
          */
-        public String stepDescription;
+        public String description;
         /**
          * Calculation step content - so what is really happening in this step
          */
-        public String stepContent;
+        public String content;
         /**
          * True if this is a first step in a given group.
          */
-        public bool firstStepInGroup = false;
+        public bool firstInGroup = false;
         /**
          * True if this is a last step in a given group.
          */
-        public bool lastStepInGroup = false;
+        public bool lastInGroup = false;
     }
 }

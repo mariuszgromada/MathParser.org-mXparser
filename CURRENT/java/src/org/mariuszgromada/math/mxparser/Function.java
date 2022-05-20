@@ -639,6 +639,7 @@ public class Function extends PrimitiveElement {
 	 * @return     Function value as double.
 	 */
 	public double calculate(CalcStepsRegister calcStepsRegister) {
+		CalcStepsRegister.setUserFunction(calcStepsRegister, this);
 		if (functionBodyType == BODY_RUNTIME)
 			return functionExpression.calculate(calcStepsRegister);
 		else

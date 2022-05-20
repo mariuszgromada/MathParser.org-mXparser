@@ -212,6 +212,19 @@ namespace org.mariuszgromada.math.mxparser {
          */
         public String expressionStringStart = "";
         /**
+         * Final result of calculation
+         */
+        public double result = Double.NaN;
+        /**
+         * Duration of calculation process - in seconds
+         */
+        public double computingTime = Double.NaN;
+        /**
+         * Information on error or lack of error
+         * while performing calculation process
+         */
+        public String errorMessage = "";
+        /**
          * Prints this step register to the console.
          */
         public void consolePrint() {
@@ -222,28 +235,29 @@ namespace org.mariuszgromada.math.mxparser {
             mXparser.consolePrint("CalcStepsRegister for ");
             bool toPrintEq = false;
             if (argumentNameStart.Length > 0) {
-                mXparser.consolePrint("Argument ");
+                mXparser.consolePrint("Argument " + argumentNameStart);
                 toPrintEq = true;
             }
             if (functionNameStart.Length > 0) {
-                mXparser.consolePrint("Function ");
+                mXparser.consolePrint("Function " + functionNameStart);
                 toPrintEq = true;
             }
             if (toPrintEq)
                 mXparser.consolePrint(" = ");
             else
                 mXparser.consolePrint("Expression ");
-            mXparser.consolePrintln(expressionStringStart);
+            mXparser.consolePrintln(expressionStringStart + ", result = " + result);
             foreach (CalcStepRecord stepRecord in calcStepRecords)
                 mXparser.consolePrintln(
-                        "gr = " + stepRecord.stepNumberGroup
-                        + ", nr = " + stepRecord.stepNumberGroupWithin
-                        + ", first = " + stepRecord.firstStepInGroup
-                        + ", last = " + stepRecord.lastStepInGroup
-                        + ", type = " + stepRecord.stepType
-                        + ", descr = " + stepRecord.stepDescription
-                        + ", step = " + stepRecord.stepContent
+                        "gr = " + stepRecord.numberGroup
+                        + ", nr = " + stepRecord.numberGroupWithin
+                        + ", first = " + stepRecord.firstInGroup
+                        + ", last = " + stepRecord.lastInGroup
+                        + ", type = " + stepRecord.type
+                        + ", descr = " + stepRecord.description
+                        + ", step = " + stepRecord.content
                 );
+            mXparser.consolePrintln("Computing time = " + computingTime + " s.");
         }
         internal bool isStartSet = false;
         internal int stepNumberGroup = 0;
@@ -267,7 +281,7 @@ namespace org.mariuszgromada.math.mxparser {
             calcStepsRegister.stepTypeSetUserArgument();
             if (calcStepsRegister.isStartSet) return;
             calcStepsRegister.argumentNameStart = argument.getArgumentName();
-            calcStepsRegister.expressionStringStart = argument.getArgumentExpressionString();
+            calcStepsRegister.expressionStringStart = argument.getArgumentExpressionString().Trim();
             calcStepsRegister.isStartSet = true;
         }
         internal static void setUserFunction(CalcStepsRegister calcStepsRegister, Function function) {
@@ -275,14 +289,14 @@ namespace org.mariuszgromada.math.mxparser {
             calcStepsRegister.stepTypeSetUserFunction();
             if (calcStepsRegister.isStartSet) return;
             calcStepsRegister.functionNameStart = function.getFunctionName();
-            calcStepsRegister.expressionStringStart = function.getFunctionExpressionString();
+            calcStepsRegister.expressionStringStart = function.getFunctionExpressionString().Trim();
             calcStepsRegister.isStartSet = true;
         }
         internal static void stepNumberGroupIncrease(CalcStepsRegister calcStepsRegister, Expression expression) {
             if (calcStepsRegister == null) return;
             calcStepsRegister.stepNumberGroup++;
             if (calcStepsRegister.isStartSet) return;
-            calcStepsRegister.expressionStringStart = expression.getExpressionString();
+            calcStepsRegister.expressionStringStart = expression.getExpressionString().Trim();
             calcStepsRegister.isStartSet = true;
         }
     }
