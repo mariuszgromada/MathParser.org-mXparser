@@ -1,7 +1,9 @@
 /*
- * @(#)ConstantValue.java        5.0.3    2022-05-17
+ * @(#)ConstantValue.java        5.0.3    2022-05-21
  *
- * MathParser.org-mXparser DUAL LICENSE AGREEMENT
+ * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-20
+ * The most up-to-date license is available at the below link:
+ * https://mathparser.org/mxparser-license
  *
  * AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved
  * PUBLISHER: INFIMA - https://payhip.com/infima
@@ -690,4 +692,3 @@ public final class ConstantValue {
 	/* other values */
 	public static final String NAN_SINCE						= mXparser.NAMEv41;
 }
-
