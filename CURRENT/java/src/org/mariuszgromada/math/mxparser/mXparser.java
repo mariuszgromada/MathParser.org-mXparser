@@ -1656,8 +1656,8 @@ public final class mXparser {
 	public static final String LICENSE =
 		"mXparser - version " + mXparser.VERSION + "\n"
 		+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-20\n"
-		+ "The most up-to-date license is available at the below link:"
-		+ "https://mathparser.org/mxparser-license"
+		+ "The most up-to-date license is available at the below link:\n"
+		+ "- https://mathparser.org/mxparser-license\n"
 		+ "\n"
 		+ "AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved\n"
 		+ "PUBLISHER: INFIMA - https://payhip.com/infima\n"
