@@ -191,7 +191,7 @@ namespace org.mariuszgromada.math.mxparser {
     [CLSCompliant(true)]
     public class CalcStepsRegister {
         /**
-         * List that store all the calculation steps
+         * List that stores all the calculation steps
          */
         public List<CalcStepRecord> calcStepRecords = new List<CalcStepRecord>();
         /**

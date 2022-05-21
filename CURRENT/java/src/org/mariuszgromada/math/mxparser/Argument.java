@@ -670,7 +670,7 @@ public class Argument extends PrimitiveElement {
 		return getArgumentValue(null);
 	}
 	/**
-	 * Gets argument value.
+	 * Gets argument value and registers all the calculation steps
 	 *
 	 * @param calcStepsRegister A collection to store list of calculation steps,
 	 *                          steps registered as strings.

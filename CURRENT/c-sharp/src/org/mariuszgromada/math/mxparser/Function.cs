@@ -630,7 +630,7 @@ namespace org.mariuszgromada.math.mxparser {
 			return calculate((CalcStepsRegister) null);
 		}
 		/**
-		 * Calculates function value
+		 * Calculates function value and registers all the calculation steps
 		 *
 		 * @param calcStepsRegister A collection to store list of calculation steps,
 		 *                          steps registered as strings.

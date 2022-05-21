@@ -5656,7 +5656,7 @@ namespace org.mariuszgromada.math.mxparser {
 			return result;
 		}
 		/**
-		 * Calculates the expression value
+		 * Calculates the expression value and registers all the calculation steps
 		 *
 		 * @param calcStepsRegister  A collection to store list of calculation steps,
 		 *                           steps registered as strings.

@@ -190,7 +190,7 @@ import java.util.List;
  */
 public class CalcStepsRegister {
     /**
-     * List that store all the calculation steps
+     * List that stores all the calculation steps
      */
     public List<CalcStepRecord> calcStepRecords = new ArrayList<CalcStepRecord>();
     /**

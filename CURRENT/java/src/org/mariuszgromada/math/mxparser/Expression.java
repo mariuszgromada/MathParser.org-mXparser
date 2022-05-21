@@ -5641,7 +5641,7 @@ public class Expression extends PrimitiveElement {
 		return syntax;
 	}
 	/**
-	 * Calculates the expression value
+	 * Calculates the expression value and registers all the calculation steps
 	 *
 	 * @return     The expression value if syntax was ok,
 	 *             otherwise returns Double.NaN.
