@@ -4,7 +4,7 @@
 ## Nuget
 
 ```
-Install-Package MathParser.org-mXparser -Version 5.0.2
+Install-Package MathParser.org-mXparser -Version 5.0.3
 ```
 
 ## Maven
