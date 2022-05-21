@@ -178,7 +178,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.0.3
  */
 public final class ParserSymbol {
 	/*
@@ -409,6 +409,14 @@ public final class ParserSymbol {
 	public static final String SEMI_SYN						= "(a1; ... ;an)";
 	public static final String BLANK_SYN					= " ";
 	public static final String NUMBER_SYN					= "Integer (since v.1.0): 1, -2; Decimal (since v.1.0): 0.2, -0.3, 1.2; Leading zero (since v.4.1): 001, -002.1; Scientific notation (since v.4.2): 1.2e-10, 1.2e+10, 2.3e10; No leading zero (since v.4.2): .2, -.212; Fractions (since v.4.2): 1_2, 2_1_3, 14_3; Other systems (since v.4.1): b1.111, b2.1001, b3.12021, b16.af12, h.af1, b.1001, o.0127";
+	public static final String NUMBER_SYN_INT				= "1, -2, 3";
+	public static final String NUMBER_SYN_DEC				= "0.1, -0.2, 1.3";
+	public static final String NUMBER_SYN_WITH_ZEROS		= "001, -000.2, 00001.3";
+	public static final String NUMBER_SYN_NO_ZEROS			= ".1, -.2, .3";
+	public static final String NUMBER_SYN_SCI				= "1.2e10, 1.2e+10, -3.2e-5, 2.eE+10";
+	public static final String NUMBER_SYN_FRAC				= "1_2, 2_3, 2_3_4, -2_4";
+	public static final String NUMBER_SYN_OTH_BASE			= "\tb1.111, b2.1001, b3.12021, -b16.af12, h.af1, b.1001, o.0127";
+
 	/*
 	 * ParserSymbol - tokens description.
 	 */
@@ -418,7 +426,14 @@ public final class ParserSymbol {
 	public static final String SEMI_DESC					= "Semicolon (function parameters)";
 	public static final String BLANK_DESC					= "Blank (whitespace) character";
 	public static final String NUMBER_DESC					= "Decimal number";
-	public static final String NUMBER_REG_DESC				= "Regullar expression for decimal numbers";
+	public static final String NUMBER_REG_DESC				= "Regular expression for decimal numbers";
+	public static final String NUMBER_DESC_INT				= "Integer numbers";
+	public static final String NUMBER_DESC_DEC				= "Decimal numbers";
+	public static final String NUMBER_DESC_WITH_ZEROS		= "Integer / Decimal numbers with leading zeros";
+	public static final String NUMBER_DESC_NO_ZEROS			= "Integer / Decimal numbers without leading zeros";
+	public static final String NUMBER_DESC_SCI				= "Decimal numbers in scientific notation";
+	public static final String NUMBER_DESC_FRAC				= "Fractions";
+	public static final String NUMBER_DESC_OTH_BASE			= "Numbers in other numeral bases";
 	public static final String UNICODE_MATH					= " - unicode math symbol";
 	/*
 	 * ParserSymbol - since.
@@ -429,4 +444,11 @@ public final class ParserSymbol {
 	public static final String SEMI_SINCE					= mXparser.NAMEv10;
 	public static final String BLANK_SINCE					= mXparser.NAMEv42;
 	public static final String NUMBER_SINCE					= mXparser.NAMEv10;
+	public static final String NUMBER_SINCE_INT				= mXparser.NAMEv10;
+	public static final String NUMBER_SINCE_DEC				= mXparser.NAMEv10;
+	public static final String NUMBER_SINCE_WITH_ZEROS		= mXparser.NAMEv41;
+	public static final String NUMBER_SINCE_NO_ZEROS		= mXparser.NAMEv42;
+	public static final String NUMBER_SINCE_SCI				= mXparser.NAMEv42;
+	public static final String NUMBER_SINCE_FRAC			= mXparser.NAMEv42;
+	public static final String NUMBER_SINCE_OTH_BASE		= mXparser.NAMEv42;
 }
