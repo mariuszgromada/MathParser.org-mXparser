@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="mxparser-java" target="8" />
+      <module name="mxparser-java" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

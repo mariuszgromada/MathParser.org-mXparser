@@ -3853,7 +3853,8 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(149, testDescr);
         Argument x = new Argument("x", "2*(3+4)+5");
         CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
-        double result = x.getArgumentValue(calcStepsRegister);        if (result != calcStepsRegister.result) testResult = false;
+        double result = x.getArgumentValue(calcStepsRegister);
+        if (result != calcStepsRegister.result) testResult = false;
         if (!x.getArgumentName().equals(calcStepsRegister.argumentNameStart)) testResult = false;
         if (!x.getArgumentExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
         if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
@@ -3881,7 +3882,7 @@ public final class ApiTest {
     public void testApi0151() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = true;
-        String testDescr = "Calc Steps Register - Expression 2*(3+4)+5";
+        String testDescr = "Calc Steps Register - Expression f(x,y)+z+(x*y)/z";
         TestCommonTools.consolePrintTestApiStart(151, testDescr);
         CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
         Argument x = new Argument("x", "2*rList(2,1,3,5,4)");
