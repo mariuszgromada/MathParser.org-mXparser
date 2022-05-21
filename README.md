@@ -13,18 +13,18 @@ Install-Package MathParser.org-mXparser -Version 5.0.2
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>5.0.2</version>
+    <version>5.0.3</version>
 </dependency>
 ```
 
 ## Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.2'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.3'
 ```
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.2")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.3")
 ```
 
 ## NPM
