@@ -15,10 +15,11 @@
                         *** https://scalarmath.org/ ***
 
 
-v.5.0.0 (2022-04-10): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions
+v.5.0.3 (2022-05-21): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register
 
 	 * Implied Multiplication: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
 	 * Unicode Math Symbols: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
+	 * Calculation Steps Register: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/260
 	 * Student's t-distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256
 	 * Chi-Squared Distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257
 	 * An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
