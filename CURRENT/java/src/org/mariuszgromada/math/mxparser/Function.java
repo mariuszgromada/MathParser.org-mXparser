@@ -1,9 +1,9 @@
 /*
- * @(#)Function.java        5.0.3    2022-05-21
+ * @(#)Function.java        5.0.4    2022-05-22
  *
- * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-20
+ * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
- * https://mathparser.org/mxparser-license
+ * - https://mathparser.org/mxparser-license
  *
  * AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved
  * PUBLISHER: INFIMA - https://payhip.com/infima
@@ -59,6 +59,14 @@
  *    definition of NON-COMMERCIAL USE, definition of COMMERCIAL USE,
  *    NON-COMMERCIAL LICENSE conditions, COMMERCIAL LICENSE conditions, and
  *    the following DISCLAIMER.
+ * 3. Any form of redistribution requires confirmation and signature of
+ *    the NON-COMMERCIAL USE by successfully calling the method:
+ *       License.iConfirmNonCommercialUse(...)
+ *    The method call takes place only internally for logging purposes and
+ *    there is no connection with other external services and no data is
+ *    sent or collected. The lack of a method call (or its successful call)
+ *    does not affect the operation of the PRODUCT in any way. Please see
+ *    the API documentation.
  *
  * COMMERCIAL LICENSE
  *
@@ -100,7 +108,15 @@
  *     distribute your product and/or software with the incorporated
  *     PRODUCT royalty-free.
  * 12. You may make copies of the PRODUCT for backup and archival purposes.
- * 13. AUTHOR & PUBLISHER reserve all rights not expressly granted to you
+ * 13. Any form of redistribution requires confirmation and signature of
+ *     the COMMERCIAL USE by successfully calling the method:
+ *        License.iConfirmCommercialUse(...)
+ *     The method call takes place only internally for logging purposes and
+ *     there is no connection with other external services and no data is
+ *     sent or collected. The lack of a method call (or its successful call)
+ *     does not affect the operation of the PRODUCT in any way. Please see
+ *     the API documentation.
+ * 14. AUTHOR & PUBLISHER reserve all rights not expressly granted to you
  *     in this agreement.
  *
  * ADDITIONAL CLARIFICATION ON WORKSTATION
