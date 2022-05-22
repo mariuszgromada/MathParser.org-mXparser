@@ -5,18 +5,18 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>5.0.3</Version>
-    <AssemblyVersion>5.0.3.0</AssemblyVersion>
-    <FileVersion>5.0.3.0</FileVersion>
+    <Version>5.0.4</Version>
+    <AssemblyVersion>5.0.4.0</AssemblyVersion>
+    <FileVersion>5.0.4.0</FileVersion>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
     <Description>A flexible mathematical expressions parser for JAVA and C# .NET</Description>
     <Copyright>Copyright © Mariusz Gromada 2010 - 2022</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>http://mathparser.org/</PackageProjectUrl>
+    <PackageProjectUrl>https://mathparser.org</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
-    <RepositoryUrl>http://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
+    <RepositoryUrl>https://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageReleaseNotes>v.5.0 Leonis</PackageReleaseNotes>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
@@ -43,6 +43,7 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Function.cs" Link="src\org\mariuszgromada\math\mxparser\Function.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" Link="src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs" Link="src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\License.cs" Link="src\org\mariuszgromada\math\mxparser\License.cs" />
 	<Compile Include="..\..\src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs" Link="src\org\mariuszgromada\math\mxparser\ArgumentExtension.cs" />
 	<Compile Include="..\..\src\org\mariuszgromada\math\mxparser\CalcStepRecord.cs" Link="src\org\mariuszgromada\math\mxparser\CalcStepRecord.cs" />
 	<Compile Include="..\..\src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs" Link="src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs" />

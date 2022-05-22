@@ -202,7 +202,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.2
+ * @version        5.0.4
  *
  * @see RecursiveArgument
  * @see Expression
@@ -213,7 +213,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final String VERSION = "5.0.3";
+	public static final String VERSION = "5.0.4";
 	public static final String VERSION_CODE_NAME = "Leonis";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
@@ -1651,181 +1651,14 @@ public final class mXparser {
 		mXparser.consolePrintln();
 	}
 	/**
-	 * License info.
+	 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
 	 */
-	public static final String LICENSE =
-		"mXparser - version " + mXparser.VERSION + "\n"
-		+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-20\n"
-		+ "The most up-to-date license is available at the below link:\n"
-		+ "- https://mathparser.org/mxparser-license\n"
-		+ "\n"
-		+ "AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved\n"
-		+ "PUBLISHER: INFIMA - https://payhip.com/infima\n"
-		+ "\n"
-		+ "SOFTWARE means source code and/or binary form and/or documentation.\n"
-		+ "PRODUCT: MathParser.org-mXparser SOFTWARE\n"
-		+ "LICENSE: DUAL LICENSE AGREEMENT\n"
-		+ "\n"
-		+ "BY INSTALLING, COPYING, OR OTHERWISE USING THE PRODUCT, YOU AGREE TO BE\n"
-		+ "BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.\n"
-		+ "\n"
-		+ "AUTHOR & PUBLISHER provide the PRODUCT under the DUAL LICENSE AGREEMENT\n"
-		+ "model designed to meet the needs of both non-commercial use as well as\n"
-		+ "commercial use.\n"
-		+ "\n"
-		+ "NON-COMMERCIAL USE means any use or activity where a fee is not charged\n"
-		+ "and the purpose is not the sale of a good or service, and the use or\n"
-		+ "activity is not intended to produce a profit. NON-COMMERCIAL USE examples:\n"
-		+ "\n"
-		+ "1. Free Open-Source Software (\"FOSS\").\n"
-		+ "2. Non-commercial use in research, scholarly and education.\n"
-		+ "\n"
-		+ "COMMERCIAL USE means any use or activity where a fee is charged or the\n"
-		+ "purpose is the sale of a good or service, or the use or activity is\n"
-		+ "intended to produce a profit. COMMERCIAL USE examples:\n"
-		+ "\n"
-		+ "1. OEMs (Original Equipment Manufacturers).\n"
-		+ "2. ISVs (Independent Software Vendors).\n"
-		+ "3. VARs (Value Added Resellers).\n"
-		+ "4. Other distributors that combine and distribute commercially licensed\n"
-		+ "   software.\n"
-		+ "\n"
-		+ "IN CASE YOU WANT TO USE THE PRODUCT COMMERCIALLY, YOU MUST PURCHASE THE\n"
-		+ "APPROPRIATE LICENSE FROM \"INFIMA\" ONLINE STORE, STORE ADDRESS:\n"
-		+ "\n"
-		+ "1. https://mathparser.org/order-commercial-license\n"
-		+ "2. https://payhip.com/infima\n"
-		+ "\n"
-		+ "NON-COMMERCIAL LICENSE\n"
-		+ "\n"
-		+ "Redistribution and use of the PRODUCT in source and/or binary forms,\n"
-		+ "with or without modification, are permitted provided that the following\n"
-		+ "conditions are met:\n"
-		+ "\n"
-		+ "1. Redistributions of source code must retain unmodified content of the\n"
-		+ "   entire MathParser.org-mXparser DUAL LICENSE AGREEMENT, including\n"
-		+ "   definition of NON-COMMERCIAL USE, definition of COMMERCIAL USE,\n"
-		+ "   NON-COMMERCIAL LICENSE conditions, COMMERCIAL LICENSE conditions, and\n"
-		+ "   the following DISCLAIMER.\n"
-		+ "2. Redistributions in binary form must reproduce the entire content of\n"
-		+ "   MathParser.org-mXparser DUAL LICENSE AGREEMENT in the documentation\n"
-		+ "   and/or other materials provided with the distribution, including\n"
-		+ "   definition of NON-COMMERCIAL USE, definition of COMMERCIAL USE,\n"
-		+ "   NON-COMMERCIAL LICENSE conditions, COMMERCIAL LICENSE conditions, and\n"
-		+ "   the following DISCLAIMER.\n"
-		+ "\n"
-		+ "COMMERCIAL LICENSE\n"
-		+ "\n"
-		+ " 1. Before purchasing a commercial license, AUTHOR & PUBLISHER allow you\n"
-		+ "    to download, install and use up to three copies of the PRODUCT to\n"
-		+ "    perform integration tests, confirm the quality of the PRODUCT and\n"
-		+ "    its suitability. The testing period should be limited to fourteen\n"
-		+ "    days. Tests should be performed under the conditions of test\n"
-		+ "    environments. The purpose of the tests must not be to generate profit.\n"
-		+ " 2. Provided that you purchased a license from \"INFIMA\" online store\n"
-		+ "    (store address: https://mathparser.org/order-commercial-license or\n"
-		+ "    https://payhip.com/infima), and you comply with all below terms and\n"
-		+ "    conditions, and you have acknowledged and understood the following\n"
-		+ "    DISCLAIMER, AUTHOR & PUBLISHER grant you a nonexclusive license\n"
-		+ "    including the following rights:\n"
-		+ " 3. The license has been granted only to you, i.e., the person or entity\n"
-		+ "    that made the purchase, who is identified and confirmed by the data\n"
-		+ "    provided during the purchase.\n"
-		+ " 4. In case you purchased a license in the \"ONE-TIME PURCHASE\" model,\n"
-		+ "    the license has been granted only for the PRODUCT version specified\n"
-		+ "    in the purchase. The upgrade policy gives you additional rights and\n"
-		+ "    is described in the dedicated section below.\n"
-		+ " 5. In case you purchased a license in the \"SUBSCRIPTION\" model, you can\n"
-		+ "    install and use any version of the PRODUCT, but only during the\n"
-		+ "    subscription validity period.\n"
-		+ " 6. In case you purchased a \"SINGLE LICENSE\" you can install and use the\n"
-		+ "    PRODUCT from one workstation.\n"
-		+ " 7. Additional copies of the PRODUCT can be installed and used from more\n"
-		+ "    than one workstation; however, this number is limited to the number\n"
-		+ "    of workstations purchased as per order.\n"
-		+ " 8. In case you purchased a \"SITE LICENSE \", the PRODUCT can be installed\n"
-		+ "    and used from all workstations located at your premises.\n"
-		+ " 9. You may incorporate the unmodified PRODUCT into your own products\n"
-		+ "    and software.\n"
-		+ "10. If you purchased a license with the \"SOURCE CODE\" option, you may\n"
-		+ "    modify the PRODUCT's source code and incorporate the modified source\n"
-		+ "    code into your own products and/or software.\n"
-		+ "11. Provided that the license validity period has not expired, you may\n"
-		+ "    distribute your product and/or software with the incorporated\n"
-		+ "    PRODUCT royalty-free.\n"
-		+ "12. You may make copies of the PRODUCT for backup and archival purposes.\n"
-		+ "13. AUTHOR & PUBLISHER reserve all rights not expressly granted to you\n"
-		+ "    in this agreement.\n"
-		+ "\n"
-		+ "ADDITIONAL CLARIFICATION ON WORKSTATION\n"
-		+ "\n"
-		+ "A workstation is a device, a remote device, or a virtual device, used by\n"
-		+ "you, your employees, or other entities to whom you have commissioned the\n"
-		+ "tasks. For example, the number of workstations may refer to the number\n"
-		+ "of software developers, engineers, architects, scientists, and other\n"
-		+ "professionals who use the PRODUCT on your behalf. The number of\n"
-		+ "workstations is not the number of copies of your end-product that you\n"
-		+ "distribute to your end-users.\n"
-		+ "\n"
-		+ "By purchasing the COMMERCIAL LICENSE, you only pay for the number of\n"
-		+ "workstations, while the number of copies of your final product\n"
-		+ "(delivered to your end-users) is not limited.\n"
-		+ "\n"
-		+ "UPGRADE POLICY\n"
-		+ "\n"
-		+ "The PRODUCT is versioned according to the following convention:\n"
-		+ "\n"
-		+ "   [MAJOR].[MINOR].[PATCH]\n"
-		+ "\n"
-		+ "1. COMMERCIAL LICENSE holders can install and use the updated version\n"
-		+ "   for bug fixes free of charge, i.e. if you have purchased a license\n"
-		+ "   for the [MAJOR].[MINOR] version (e.g.: 5.0), you can freely install\n"
-		+ "   all the various releases specified in the [PATCH] version (e.g.: 5.0.2).\n"
-		+ "   The license terms remain unchanged after the update.\n"
-		+ "2. COMMERCIAL LICENSE holders for [MAJOR].[MINOR] version (e.g.: 5.0)\n"
-		+ "   can install and use the updated version [MAJOR].[MINOR + 1] free of\n"
-		+ "   charge, i.e., plus one release in the [MINOR] range (e.g.: 5.1). The\n"
-		+ "   license terms remain unchanged after the update.\n"
-		+ "3. COMMERCIAL LICENSE holders who wish to upgrade their version, but are\n"
-		+ "   not eligible for the free upgrade, can claim a discount when\n"
-		+ "   purchasing the upgrade. For this purpose, please contact us via e-mail.\n"
-		+ "\n"
-		+ "DISCLAIMER\n"
-		+ "\n"
-		+ "THIS PRODUCT IS PROVIDED BY AUTHOR & PUBLISHER \"AS IS\" AND ANY EXPRESS\n"
-		+ "OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED\n"
-		+ "WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n"
-		+ "DISCLAIMED. IN NO EVENT SHALL AUTHOR OR PUBLISHER OR CONTRIBUTORS BE\n"
-		+ "LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\n"
-		+ "CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF\n"
-		+ "SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS\n"
-		+ "INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN\n"
-		+ "CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)\n"
-		+ "ARISING IN ANY WAY OUT OF THE USE OF THIS PRODUCT, EVEN IF ADVISED OF\n"
-		+ "THE POSSIBILITY OF SUCH DAMAGE.\n"
-		+ "\n"
-		+ "THE VIEWS AND CONCLUSIONS CONTAINED IN THE PRODUCT AND DOCUMENTATION ARE\n"
-		+ "THOSE OF THE AUTHORS AND SHOULD NOT BE INTERPRETED AS REPRESENTING\n"
-		+ "OFFICIAL POLICIES, EITHER EXPRESSED OR IMPLIED, OF AUTHOR OR PUBLISHER.\n"
-		+ "\n"
-		+ "CONTACT\n"
-		+ "\n"
-		+ "- e-mail: info@mathparser.org\n"
-		+ "- website: https://mathparser.org\n"
-		+ "- source code: https://github.com/mariuszgromada/MathParser.org-mXparser\n"
-		+ "- online store: https://mathparser.org/order-commercial-license\n"
-		+ "- online store: https://payhip.com/infima\n"
-		;
-
+	public static final String LICENSE = License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
 	/**
-	 * Prints to the console license terms
-	 * and conditions of MathParser.org-mXparser
-	 * software
+	 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 	 */
 	public static void consolePrintLicense() {
-		mXparser.consolePrint("\n\n");
-		mXparser.consolePrint(LICENSE);
-		mXparser.consolePrintln();
+		License.consolePrintLicense();
 	}
 	/**
 	 * Gets license info
