@@ -15,7 +15,7 @@
                         *** https://scalarmath.org/ ***
 
 
-v.5.0.3 (2022-05-21): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register
+v.5.0.4 (2022-05-22): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register
 
 	 * Implied Multiplication: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
 	 * Unicode Math Symbols: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
