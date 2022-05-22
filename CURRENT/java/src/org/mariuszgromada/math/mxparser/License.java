@@ -325,7 +325,7 @@ public class License {
 			setErrorMessage(MessageType.WARNING, ERROR_NOT_CONFIRMED);
 			return false;
 		}
-        if (typeOfUse == UseType.Null || signature == null) {
+		if (typeOfUse == UseType.Null || signature == null) {
 			setErrorMessage(MessageType.ERROR, ERROR_NOT_CONFIRMED);
 			return false;
 		}
@@ -352,8 +352,8 @@ public class License {
 	 * @return   The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT as string.
 	 */
 	public static String geTermsOfAgreement() {
-        return MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
-    }
+		return MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
+	}
 	/**
 	 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 	 */
