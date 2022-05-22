@@ -310,7 +310,7 @@ public class License {
 		if (!checkIfProperSignature(mySignature))
 			return false;
 		signature = mySignature.trim();
-        typeOfUse = UseType.NonCommercial;
+		typeOfUse = UseType.NonCommercial;
 		setMessageConfirmedNonCommercial();
 		return true;
 	}
