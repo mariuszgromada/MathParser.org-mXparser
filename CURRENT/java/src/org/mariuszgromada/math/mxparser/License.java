@@ -204,17 +204,17 @@ package org.mariuszgromada.math.mxparser;
  * @see #getUseTypeConfirmationMessage()
  */
 public class License {
-    private static UseType typeOfUse = UseType.Null;
+	private static UseType typeOfUse = UseType.Null;
 	private static String signature = null;
 	private static int numberOfConfirmationAttempts = 0;
 	private static String message = "";
 	private static String errorMessage = "";
 	private static final String ERROR_NOT_CONFIRMED = "The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License.geTermsOfAgreement().";
-    private enum UseType {
+	private enum UseType {
 		Null
-        ,Commercial
-        ,NonCommercial
-    }
+		,Commercial
+		,NonCommercial
+	}
 	private enum MessageType {
 		ERROR
 		,WARNING
@@ -270,7 +270,7 @@ public class License {
 	 * @see #checkIfUseTypeConfirmed()
 	 * @see #geTermsOfAgreement()
 	 */
-    public static boolean iConfirmCommercialUse(final String mySignature) {
+	public static boolean iConfirmCommercialUse(final String mySignature) {
 		if (!checkLackOfPreviousConfirmation())
 			return false;
 		if (!checkIfNoPreviousConfirmationAttempts())
@@ -279,10 +279,10 @@ public class License {
 		if (!checkIfProperSignature(mySignature))
 			return false;
 		signature = mySignature.trim();
-        typeOfUse = UseType.Commercial;
+		typeOfUse = UseType.Commercial;
 		setMessageConfirmedCommercial();
 		return true;
-    }
+	}
 	/**
 	 * By successfully calling this method, you confirm and sign that you use MathParser.org-mXparser
 	 * non-commercially according to the License.geTermsOfAgreement(). The confirmation can only be
@@ -301,7 +301,7 @@ public class License {
 	 * @see #checkIfUseTypeConfirmed()
 	 * @see #geTermsOfAgreement()
 	 */
-    public static boolean iConfirmNonCommercialUse(final String mySignature) {
+	public static boolean iConfirmNonCommercialUse(final String mySignature) {
 		if (!checkLackOfPreviousConfirmation())
 			return false;
 		if (!checkIfNoPreviousConfirmationAttempts())
@@ -313,14 +313,14 @@ public class License {
         typeOfUse = UseType.NonCommercial;
 		setMessageConfirmedNonCommercial();
 		return true;
-    }
+	}
 	/**
 	 * Verifies whether the use type has been successfully confirmed and signed.
 	 *
 	 * @return   True in case commercial or non-commercial user type has been confirmed and signed.
 	 *           Otherwise, returns false.
 	 */
-    public static boolean checkIfUseTypeConfirmed() {
+	public static boolean checkIfUseTypeConfirmed() {
 		if (numberOfConfirmationAttempts == 0) {
 			setErrorMessage(MessageType.WARNING, ERROR_NOT_CONFIRMED);
 			return false;
@@ -334,7 +334,7 @@ public class License {
 		if (typeOfUse == UseType.Commercial)
 			setMessageConfirmedCommercial();
 		return true;
-    }
+	}
 	/**
 	 * Verifies whether the use type has been successfully confirmed and signed.
 	 *
@@ -351,7 +351,7 @@ public class License {
 	 *
 	 * @return   The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT as string.
 	 */
-    public static String geTermsOfAgreement() {
+	public static String geTermsOfAgreement() {
         return MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
     }
 	/**
