@@ -76,15 +76,6 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.4")
 - Chrome, Firefox, MS Edge, Safari
 - nodeJS
 
-# JAVA intro
-![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
-
-# C# intro
-![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
-
-# TypeScript intro
-![mXparser demo - TypeScript](https://github.com/futurearchitec/tempresources/raw/main/mxparser-demo-ts-r1.gif)
-
 # Tutorial
 The tutorial consists of c.a. 140 live examples from over 30 sections. Each of the examples can be copied and run on your own environment. In addition, mXparser provides an extensive collection of over 500 built-in math functions, expressions and symbols. Familiarize yourself with the scope and the syntax. Live testing is the best way to learn. Good luck! 
 ### [Using internal help](https://mathparser.org/mxparser-tutorial/using-internal-help/)
@@ -298,6 +289,15 @@ mXparser provides a rich collection of built-in math functions, math expressions
 
 # API documentation
 ### [API documentation](https://mathparser.org/api/)
+
+# JAVA intro
+![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
+
+# C# intro
+![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
+
+# TypeScript intro
+![mXparser demo - TypeScript](https://github.com/futurearchitec/tempresources/raw/main/mxparser-demo-ts-r1.gif)
 
 # Main functionalities:
 - **basic operators**, i.e.: +, -, *, ^, !
