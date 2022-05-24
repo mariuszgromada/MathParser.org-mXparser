@@ -1,4 +1,8 @@
 # MathParser.org-mXparser has been downloaded more than 1,300,000 times!
+![mXparser icon](https://mathparser.org/wp-content/uploads/2022/05/MathParser.org-mXparser-icon-small.png)
+
+## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
+
 # Package installation
 
 ## Nuget
@@ -48,11 +52,9 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.4")
 
 # Scalar Scientific Calculator, Charts & Scripts
 
-[![Scalar-Lite](http://scalarmath.org/wp-content/uploads/2019/01/scalar-promo-screens.png)](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite)
+[![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2022/05/scalar-presentation-web-small.png)](https://scalarmath.org/)
 
-### Scalar in action
-
-[![Scalar-In-Action](https://scalarmath.org/wp-content/uploads/2019/04/scalar-math.jpg)](https://youtu.be/HUlEUaioogQ)
+### >>> [Click Here to see Scalar in action](https://youtu.be/HUlEUaioogQ) <<<
 
 ### Scalar - Free version
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="300">](https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
@@ -62,40 +64,17 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.4")
 
 # MathParser.org-mXparser
 
-![mXparser icon](http://mathparser.org/wp-content/uploads/2020/01/mxparser-icon.png)
-
-![01-mXparser-calc](http://mathparser.org/wp-content/uploads/2017/05/01-mXparser-calc.gif)
-
-# mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
-    ### 23.11.2021: first 1000000 downloads!
-    ### 15.10.2020: first 500000 downloads!
-    ### 20.12.2019: first 250000 downloads!
-    ### 01.01.2019: first 100000 downloads!
-    ### 01.08.2018: first 60000 downloads!
-    ### 20.11.2017: first 20000 downloads!
-    ### 01.09.2017: first 15000 downloads!
-    ### 04.05.2017: first 10000 downloads!
-    ### 31.03.2016: first 1000 downloads!
-    
-![02-mXparser-sin.gif](http://mathparser.org/wp-content/uploads/2017/05/02-mXparser-sin.gif)
-
 **mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA, C# .NET, TypeScript and JavaScript. 
 
 # Supported frameworks
 ![mXparser frameworks](https://github.com/futurearchitec/tempresources/raw/main/supported-frameworks.png)
 - JAVA: 6+
 - Android - tested with mxparser compiled using jdk 1.7
-- .NET Framework (2+) / MONO CLS
-- .NET Core: 1+
-- .NET Standard: 1+
-- .NET PCL
+- .NET Framework (2+) / MONO CLS, .NET Core: 1+, .NET Standard: 1+, .NET PCL
 - Xamarin
-- TypeScript
-- JavaScript
+- TypeScript, JavaScript
 - Chrome, Firefox, MS Edge, Safari
 - nodeJS
-
-![03-mXparser-sum.gif](http://mathparser.org/wp-content/uploads/2017/05/03-mXparser-sum.gif)
 
 # JAVA intro
 ![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
