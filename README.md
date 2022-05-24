@@ -4,15 +4,11 @@
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
 
 # Package installation
-
 ## Nuget
-
 ```
 Install-Package MathParser.org-mXparser -Version 5.0.4
 ```
-
 ## Maven
-
 ```
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
@@ -20,31 +16,28 @@ Install-Package MathParser.org-mXparser -Version 5.0.4
     <version>5.0.4</version>
 </dependency>
 ```
-
 ## Gradle
-
 ```
 implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.4'
 ```
-
 ```
 implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.4")
 ```
-
 ## NPM
-
     $ npm i mathparser.org-mxparser
-
 # v.5.0 Leonies - a major release
+- [Implied Multiplication](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243), click to see [usage example](https://mathparser.org/mxparser-tutorial/implied-multiplication/)
+- [Unicode Math Symbols](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249), click to see [usage example](https://mathparser.org/mxparser-tutorial/unicode-math/)
+- [Calculation Steps Register](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/260), click to see [usage example](https://mathparser.org/mxparser-tutorial/calculation-steps-register)
+- [An Attempt To Fix Expression String](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254)
+- [Student's t-distribution](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
+- [Chi-Squared Distribution](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
+- Minor Bug fixing: [259](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/259), [258](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/258), [252](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/252)
+- Regression tests refactoring
+- [License update](https://github.com/mariuszgromada/MathParser.org-mXparser/blob/master/LICENSE.txt)
 
-* **Implied Multiplication**: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
-* **Unicode Math Symbols**: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
-* Student's t-distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256
-* Chi-Squared Distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257
-* An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
-* Regression tests refactoring: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/247
 
-# Did you find the software useful? If so, please support my work:
+# Please support my wor :-)
 * order a commercial license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
 
 [![INFIMA](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
