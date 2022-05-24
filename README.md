@@ -273,7 +273,6 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - User expression in the loop – Performance
 - User function in the loop – Performance
 - User argument (dependent) in the loop – Performance
-- 
 # [>>> Click to learn from examples <<<](http://mathparser.org/mxparser-tutorial/)
 
 # Math Collection
