@@ -96,7 +96,7 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - Numbers and constants / arguments and parenthesis and functions
 - Implied multiplication and possible ambiguity
 - Implied multiplication and list of tokens
-- Enable / disable implied multiplication and list of tokens
+- Enable / disable implied multiplication
 ### [**Evaluating relations**](https://mathparser.org/mxparser-tutorial/evaluating-relations/)
 - Binary relation “=”
 - Binary relation “<“
