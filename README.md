@@ -44,9 +44,6 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.4")
 
     $ npm i mathparser.org-mxparser
 
-# Please support my wor :-)
-* order a commercial license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
-
 [![INFIMA](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
 * or consider donation: **[DONATION](https://mathparser.org/donate/)**
 
@@ -288,7 +285,11 @@ mXparser provides a rich collection of built-in math functions, math expressions
 ### - [**Number formats**](https://mathparser.org/mxparser-math-collection/number-formats/)
 
 ## **API documentation**
-### [API documentation](https://mathparser.org/api/)
+### - [API documentation](https://mathparser.org/api/)
+
+## **Did you find the software useful?**
+- please consider [**donation**](http://mathparser.org/donate)
+- purchase the commercial license from [**here**](https://mathparser.org/order-commercial-license) or from [**here**](https://payhip.com/INFIMA)
 
 # JAVA intro
 ![mXparser demo](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-r2.gif)
