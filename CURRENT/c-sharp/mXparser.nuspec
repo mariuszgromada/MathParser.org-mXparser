@@ -15,6 +15,7 @@
     <copyright>Copyright 2010 - 2022, Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
 	<license type="file">LICENSE.txt</license>
+	<repository type="git" url="https://github.com/mariuszgromada/MathParser.org-mXparser" />
 	<dependencies>
 		<group targetFramework=".NETFramework3.5" />
 		<group targetFramework=".NETFramework4.0" />

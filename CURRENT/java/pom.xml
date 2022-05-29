@@ -128,7 +128,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:mariuszgromada/MathParser.org-mXparser.git</connection>
 		<developerConnection>scm:git:git@github.com:mariuszgromada/MathParser.org-mXparser.git</developerConnection>
-		<url>http://github.com/mariuszgromada/MathParser.org-mXparser</url>
+		<url>https://github.com/mariuszgromada/MathParser.org-mXparser</url>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
