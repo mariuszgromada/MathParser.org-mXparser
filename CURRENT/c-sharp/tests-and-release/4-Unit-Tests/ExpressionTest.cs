@@ -22264,6 +22264,34 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
+		[TestMethod]
+		public void TestExpr1356() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "1^1!^2^^2!^^2!^^92^B32.252cerf^9292";
+			TestCommonTools.consolePrintTestExprStart(1356, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1357() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "6^^6^^2.116^B18.08";
+			TestCommonTools.consolePrintTestExprStart(1357, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = Double.PositiveInfinity;
+			if (value == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
 	}
 
 }

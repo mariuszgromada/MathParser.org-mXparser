@@ -22243,4 +22243,32 @@ public final class ExpressionTest {
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testExpr1356() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        String expStr = "1^1!^2^^2!^^2!^^92^B32.252cerf^9292";
+        TestCommonTools.consolePrintTestExprStart(1356, expStr);
+        Expression testExp = new Expression(expStr);
+        double value = testExp.calculate();
+        double reg = 1;
+        if (MathFunctions.abs(reg - value) <= 1e-14)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1357() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        String expStr = "6^^6^^2.116^B18.08";
+        TestCommonTools.consolePrintTestExprStart(1357, expStr);
+        Expression testExp = new Expression(expStr);
+        double value = testExp.calculate();
+        double reg = Double.POSITIVE_INFINITY;
+        if (value == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
 }
