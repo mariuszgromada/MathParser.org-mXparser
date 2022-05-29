@@ -22292,6 +22292,34 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
+		[TestMethod]
+		public void TestExpr1358() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "3!<=3^2^9^92^9~&2";
+			TestCommonTools.consolePrintTestExprStart(1358, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1359() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "2^2^^2^2^^2^2^^2222∛2^9^92^92^^0=2^9^92^9^2^2^9^92^92^^0=222^22^^2^9^9<--2^92^^0<2^9^92^9^2^2^9^92^92^^0=2^9^92^92";
+			TestCommonTools.consolePrintTestExprStart(1359, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
 	}
 
 }

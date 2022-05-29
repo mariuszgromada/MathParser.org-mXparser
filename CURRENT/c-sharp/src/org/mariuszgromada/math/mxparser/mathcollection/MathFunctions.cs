@@ -1217,7 +1217,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsInfinity(b)) Math.Pow(a, b);
 			double babs = Math.Abs(b);
 			double bint = Math.Round(babs);
-			if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
+			if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON && babs < int.MaxValue && -babs > int.MinValue) {
 				if (b >= 0) return powInt(a, (int)bint);
 				else return powInt(a, -(int)bint);
 			} else if (a >= 0)

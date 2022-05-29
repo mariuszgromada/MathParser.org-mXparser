@@ -1094,7 +1094,8 @@ public final class MathFunctions {
 		if (Double.isInfinite(b)) Math.pow(a, b);
 		double babs = Math.abs(b);
 		double bint = Math.round(babs);
-		if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON ) {
+		if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON
+				&& babs < Integer.MAX_VALUE && -babs > Integer.MIN_VALUE) {
 			if (b >= 0) return powInt(a, (int)bint);
 			else return powInt(a, -(int)bint);
 		} else if (a >= 0)
