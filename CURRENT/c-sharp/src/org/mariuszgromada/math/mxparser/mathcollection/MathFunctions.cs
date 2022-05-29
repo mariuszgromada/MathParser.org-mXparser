@@ -1280,6 +1280,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(a)) return Double.NaN;
 			if (Double.IsNaN(n)) return Double.NaN;
 			if (Double.IsPositiveInfinity(n)) {
+				if (BinaryRelations.isEqualOrAlmost(a, 1)) return 1.0;
 				if (abs(a - MathConstants.EXP_MINUS_E) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
 					return MathConstants.EXP_MINUS_1;
 				if (abs(a - MathConstants.EXP_1_OVER_E) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON)
