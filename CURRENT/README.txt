@@ -14,6 +14,9 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** https://scalarmath.org/ ***
 
+v.5.0.5 (2022-05-29): Fix #261
+     * Crash in Java powInt function
+	 * Tetration special case (base = 1)
 
 v.5.0.4 (2022-05-22): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register
 
