@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.java        5.0.4    2022-05-22
+ * @(#)ProbabilityDistributions.java        5.0.5    2022-05-29
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -182,12 +182,9 @@ package org.mariuszgromada.math.mxparser.mathcollection;
 
 import java.util.Random;
 
-import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.mXparser;
-import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
-
 /**
  * ProbabilityDistributions - random number generators, PDF - Probability Distribution Functions,
  * CDF - Cumulative Distribution Functions, QNT - Quantile Functions (Inverse Cumulative Distribution
@@ -203,7 +200,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.0.5
  */
 public final class ProbabilityDistributions {
 	/**

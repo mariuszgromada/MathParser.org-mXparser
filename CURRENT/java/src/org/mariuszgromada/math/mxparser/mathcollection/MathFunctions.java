@@ -277,7 +277,11 @@ public final class MathFunctions {
 		if (Double.isInfinite(b)) return a / b;
 		BigDecimal da = BigDecimal.valueOf(a);
 		BigDecimal db = BigDecimal.valueOf(b);
-		return da.divide(db, MathContext.DECIMAL128).doubleValue();
+		try {
+			return da.divide(db, MathContext.DECIMAL128).doubleValue();
+		} catch (Throwable e) {
+			return a / b;
+		}
 	}
 	/**
 	 * Bell Numbers
@@ -1064,8 +1068,12 @@ public final class MathFunctions {
 		if (n == 1) return a;
 		if (mXparser.checkIfCanonicalRounding()) {
 			BigDecimal da = BigDecimal.valueOf(a);
-			if (n >= 0) return da.pow(n).doubleValue();
-			else return BigDecimal.ONE.divide(da, MathContext.DECIMAL128).pow(-n).doubleValue();
+			try {
+				if (n >= 0) return da.pow(n).doubleValue();
+				else return BigDecimal.ONE.divide(da, MathContext.DECIMAL128).pow(-n).doubleValue();
+			} catch (Throwable e) {
+				return Math.pow(a, n);
+			}
 		} else {
 			return Math.pow(a, n);
 		}
@@ -1859,9 +1867,13 @@ public final class MathFunctions {
 		if (Double.isNaN(value)) return Double.NaN;
 		if (Double.isInfinite(value)) return value;
 		if (places < 0) return Double.NaN;
-	    BigDecimal bd = new BigDecimal(Double.toString(value));
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+		try {
+			BigDecimal bd = new BigDecimal(Double.toString(value));
+			bd = bd.setScale(places, RoundingMode.HALF_UP);
+			return bd.doubleValue();
+		} catch (Throwable e) {
+			return roundHalfUp(value, places);
+		}
  	}
 	/**
 	 * Double half up rounding
