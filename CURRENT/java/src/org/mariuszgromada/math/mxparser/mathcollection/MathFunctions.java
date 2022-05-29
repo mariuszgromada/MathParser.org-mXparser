@@ -1058,7 +1058,7 @@ public final class MathFunctions {
 	 */
 	private static double powInt(double a, int n) {
 		if (Double.isNaN(a)) return Double.NaN;
-		if (Double.isInfinite(a)) Math.pow(a, n);
+		if (Double.isInfinite(a)) return Math.pow(a, n);
 		if (a == 0) return Math.pow(a, n);
 		if (n == 0) return 1;
 		if (n == 1) return a;
