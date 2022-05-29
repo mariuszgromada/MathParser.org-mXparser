@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.0.4    2022-05-22
+ * @(#)mXparser.java        5.0.5    2022-05-29
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -218,7 +218,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.4
+ * @version        5.0.5
  *
  * @see RecursiveArgument
  * @see Expression
@@ -229,7 +229,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final String VERSION = "5.0.4";
+	public static final String VERSION = "5.0.5";
 	public static final String VERSION_CODE_NAME = "Leonis";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**

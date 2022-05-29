@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.0.4    2022-05-22
+ * @(#)mXparser.cs        5.0.5    2022-05-29
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -202,7 +202,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.4
+	 * @version        5.0.5
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -214,7 +214,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const String VERSION = "5.0.4";
+		public const String VERSION = "5.0.5";
 		public const String VERSION_CODE_NAME = "Leonis";
 		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET48
