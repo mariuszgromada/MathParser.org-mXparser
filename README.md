@@ -10,17 +10,30 @@
 - [**An Attempt To Fix Expression String**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254)
 - [**Student's t-distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
 - [**Chi-Squared Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
-- Minor Bug fixing: [259](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/259), [258](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/258), [252](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/252)
+- Minor Bug fixing: [259](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/259), [258](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/258), [252](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/252), [261](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/261)
 - Regression tests refactoring
 
 # Package installation
 
-## Nuget
+## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 5.0.4
+Install-Package MathParser.org-mXparser -Version 5.0.5
 ```
-## Maven
+
+## Nuget – .NET CLI
+
+```
+dotnet add package MathParser.org-mXparser --version 5.0.5
+```
+
+## Nuget – Package Reference
+
+```
+<PackageReference Include="MathParser.org-mXparser" Version="5.0.5"/>
+```
+
+## Maven - Dependency
 
 ```
 <dependency>
@@ -30,14 +43,16 @@ Install-Package MathParser.org-mXparser -Version 5.0.4
 </dependency>
 ```
 
-## Gradle
+## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.4'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.5'
 ```
 
+## Maven – Gradle (Kotlin)
+
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.4")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.5")
 ```
 
 ## NPM
