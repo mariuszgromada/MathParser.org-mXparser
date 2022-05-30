@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.0.5    2022-05-29
+ * @(#)ExpressionTest.cs        5.0.6    2022-05-30
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.5
+	 * @version        5.0.6
 	 *
 	 */
 	[TestClass]
@@ -22320,6 +22320,19 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
+		[TestMethod]
+		public void TestExpr1360() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "Bell(999999*9999999)";
+			TestCommonTools.consolePrintTestExprStart(1360, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = Double.NaN;
+			if (Double.IsNaN(value))
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
 	}
-
 }
