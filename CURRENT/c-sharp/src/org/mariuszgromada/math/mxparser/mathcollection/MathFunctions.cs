@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        5.0.5    2022-05-29
+ * @(#)MathFunctions.cs        5.0.6    2022-05-30
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,12 +199,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.5
+	 * @version        5.0.6
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
 		private static readonly double DECIMAL_MIN_VALUE = (double)Decimal.MinValue / 1e17;
 		private static readonly double DECIMAL_MAX_VALUE = (double)Decimal.MaxValue / 1e17;
+
+		private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
+
+		private static void refreshMaxAllowedRecursionDepth() {
+			MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
+		}
 
 		internal static bool isNotInDecimalRange(double x) {
 			if (Double.IsNaN(x)) return true;
@@ -371,9 +377,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     if n >=0 returns Euler number,
 		 *             otherwise return Double.NaN.
+		 *             Returns also Double.NaN when MAX RECURSION CALLS
+		 *             is exceeded.
+		 *             
+		 * @see mXparser#getMaxAllowedRecursionDepth() 
+		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
 		 */
 		public static double eulerNumber(int n, int k) {
-			if ( n < 0)
+			refreshMaxAllowedRecursionDepth();
+			return eulerNumber(n, k, 1);
+		}
+		private static double eulerNumber(int n, int k, int recursionCall) {
+			if (recursionCall > MAX_RECURSION_CALLS)
+				return Double.NaN;
+			if (n < 0)
 				return Double.NaN;
 			if (k < 0)
 				return 0;
@@ -383,7 +400,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else
 					return 0;
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-			return (k+1) * eulerNumber(n-1, k) + (n-k) * eulerNumber(n-1, k-1);
+			double e1 = eulerNumber(n - 1, k, recursionCall + 1);
+			if (Double.IsNaN(e1))
+				return Double.NaN;
+			double e2 = eulerNumber(n - 1, k - 1, recursionCall + 1);
+			if (Double.IsNaN(e2))
+				return Double.NaN;
+			return (k + 1) * e1 + (n - k) * e2;
 		}
 		/**
 		 * Euler numbers
@@ -598,8 +621,19 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param      k                   the k function parameter
 		 *
 		 * @return     Stirling numbers of the first kind
+		 *             Returns also Double.NaN when MAX RECURSION CALLS
+		 *             is exceeded.
+		 *             
+		 * @see mXparser#getMaxAllowedRecursionDepth() 
+		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
 		 */
 		public static double Stirling1Number(int n, int k) {
+			refreshMaxAllowedRecursionDepth();
+			return Stirling1Number(n, k, 1);
+		}
+		private static double Stirling1Number(int n, int k, int recursionCall) {
+			if (recursionCall > MAX_RECURSION_CALLS)
+				return Double.NaN;
 			if (k > n)
 				return 0;
 			if (n == 0)
@@ -613,7 +647,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else
 					return 0;
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-			return (n-1) * Stirling1Number(n-1, k) + Stirling1Number(n-1, k-1);
+			double s1 = Stirling1Number(n - 1, k, recursionCall + 1);
+			if (Double.IsNaN(s1))
+				return Double.NaN;
+			double s2 = Stirling1Number(n - 1, k - 1, recursionCall + 1);
+			if (Double.IsNaN(s2))
+				return Double.NaN;
+			return (n - 1) * s1 + s2;
 		}
 		/**
 		 * Stirling numbers of the first kind
@@ -636,8 +676,19 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param      k                   the k function parameter
 		 *
 		 * @return     Stirling numbers of the second kind
+		 *             Returns also Double.NaN when MAX RECURSION CALLS
+		 *             is exceeded.
+		 *             
+		 * @see mXparser#getMaxAllowedRecursionDepth() 
+		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
 		 */
 		public static double Stirling2Number(int n, int k) {
+			refreshMaxAllowedRecursionDepth();
+			return Stirling2Number(n, k, 1);
+		}
+		private static double Stirling2Number(int n, int k, int recursionCall) {
+			if (recursionCall > MAX_RECURSION_CALLS)
+				return Double.NaN;
 			if (k > n)
 				return 0;
 			if (n == 0)
@@ -651,7 +702,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else
 					return 0;
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-			return k * Stirling2Number(n-1, k) + Stirling2Number(n-1, k-1);
+			double s1 = Stirling2Number(n - 1, k, recursionCall + 1);
+			if (Double.IsNaN(s1))
+				return Double.NaN;
+			double s2 = Stirling2Number(n - 1, k - 1, recursionCall + 1);
+			if (Double.IsNaN(s2))
+				return Double.NaN;
+			return k * s1 + s2;
+
 		}
 		/**
 		 * Stirling numbers of the second kind
@@ -801,16 +859,34 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     if n >= 0 returns fibonacci numbers,
 		 *             otherwise returns Double.NaN.
+		 *             
+		 *             Returns also Double.NaN when MAX RECURSION CALLS
+		 *             is exceeded.
+		 *             
+		 * @see mXparser#getMaxAllowedRecursionDepth() 
+		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
 		 */
 		public static double fibonacciNumber(int n) {
-			if (n < 0 )
+			refreshMaxAllowedRecursionDepth();
+			return fibonacciNumber(n, 1);
+		}
+		private static double fibonacciNumber(int n, int recursionCall) {
+			if (recursionCall > MAX_RECURSION_CALLS)
+				return Double.NaN;
+			if (n < 0)
 				return Double.NaN;
 			if (n == 0)
 				return 0;
 			if (n == 1)
 				return 1;
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-			return fibonacciNumber(n-1) + fibonacciNumber(n-2);
+			double f1 = fibonacciNumber(n - 1, recursionCall + 1);
+			if (Double.IsNaN(f1))
+				return Double.NaN;
+			double f2 = fibonacciNumber(n - 2, recursionCall + 1);
+			if (Double.IsNaN(f2))
+				return Double.NaN;
+			return f1 + f2;
 		}
 		/**
 		 * Fibonacci numbers
@@ -832,16 +908,33 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     if n >=0 returns Lucas numbers,
 		 *             otherwise returns Double.NaN.
+		 *             Returns also Double.NaN when MAX RECURSION CALLS
+		 *             is exceeded.
+		 *             
+		 * @see mXparser#getMaxAllowedRecursionDepth() 
+		 * @see mXparser#setMaxAllowedRecursionDepth(int) 
 		 */
 		public static double lucasNumber(int n) {
-			if (n < 0 )
+			refreshMaxAllowedRecursionDepth();
+			return lucasNumber(n, 1);
+		}
+		private static double lucasNumber(int n, int recursionCall) {
+			if (recursionCall > MAX_RECURSION_CALLS)
+				return Double.NaN;
+			if (n < 0)
 				return Double.NaN;
 			if (n == 0)
 				return 2;
 			if (n == 1)
 				return 1;
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-			return lucasNumber(n-1) + lucasNumber(n-2);
+			double l1 = lucasNumber(n - 1, recursionCall + 1);
+			if (Double.IsNaN(l1))
+				return Double.NaN;
+			double l2 = lucasNumber(n - 2, recursionCall + 1);
+			if (Double.IsNaN(l2))
+				return Double.NaN;
+			return l1 + l2;
 		}
 		/**
 		 * Lucas numebrs
