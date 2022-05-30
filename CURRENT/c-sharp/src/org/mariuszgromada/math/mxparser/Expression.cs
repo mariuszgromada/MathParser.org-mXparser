@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.4    2022-05-22
+ * @(#)Expression.cs        5.0.6    2022-05-30
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -214,7 +214,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.3
+	 * @version        5.0.6
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -5681,6 +5681,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 *             otherwise returns Double.NaN.
 		 */
 		public double calculate(CalcStepsRegister calcStepsRegister) {
+			try {
+				return calculateInternal(calcStepsRegister);
+			} catch (Exception e) {
+				errorMessage = errorMessage + "System error while calling the method 'calculate()': " + e.Message + "\n";
+				return Double.NaN;
+			}
+		}
+		private double calculateInternal(CalcStepsRegister calcStepsRegister) {
 			computingTime = 0;
 			long startTime = mXparser.currentTimeMillis();
 			if (verboseMode == true) {
