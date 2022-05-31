@@ -14,6 +14,10 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** https://scalarmath.org/ ***
 
+v.5.0.6 (2022-05-31): Fix #263, #262
+     * Possible StackOverflow in some recursive functions: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/263
+	 * Possible OutOfMemory in some functions: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/262
+
 v.5.0.5 (2022-05-29): Fix #261
      * Crash in Java powInt function
 	 * Tetration special case (base = 1)
