@@ -274,6 +274,15 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - Removing built-in tokens
 - Modifying built-in tokens
 - Overriding built-in tokens
+### [**Smart rounding settings**](https://mathparser.org/mxparser-tutorial/smart-rounding-settings/)
+- A few words on Floating Point Math
+- Why mXparser is based on the double data type?
+- Smart rounding options available in mXparser
+- Check which rounding settings are currently active
+- Only Canonical Rounding option is active
+- Only Unit In The Last Place Rounding option is active
+- Only Almost Integer Rounding option is active
+- None of the rounding options are active
 ### [**Efficient calculations in the loops**](https://mathparser.org/mxparser-tutorial/efficient-calculations-in-loops/)
 - User expression in the loop + output
 - User function in the loop + output
