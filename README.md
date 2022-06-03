@@ -279,10 +279,10 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - Why mXparser is based on the double data type?
 - Smart rounding options available in mXparser
 - Check which rounding settings are currently active
-- Only Canonical Rounding option is active
-- Only Unit In The Last Place Rounding option is active
-- Only Almost Integer Rounding option is active
-- None of the rounding options are active
+- Example - Only Canonical Rounding option is active
+- Example - Only Unit In The Last Place Rounding option is active
+- Example - Only Almost Integer Rounding option is active
+- Example - None of the rounding options are active
 ### [**Efficient calculations in the loops**](https://mathparser.org/mxparser-tutorial/efficient-calculations-in-loops/)
 - User expression in the loop + output
 - User function in the loop + output
