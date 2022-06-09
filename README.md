@@ -18,19 +18,19 @@
 ## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 5.0.5
+Install-Package MathParser.org-mXparser -Version 5.0.6
 ```
 
 ## Nuget – .NET CLI
 
 ```
-dotnet add package MathParser.org-mXparser --version 5.0.5
+dotnet add package MathParser.org-mXparser --version 5.0.6
 ```
 
 ## Nuget – Package Reference
 
 ```
-<PackageReference Include="MathParser.org-mXparser" Version="5.0.5"/>
+<PackageReference Include="MathParser.org-mXparser" Version="5.0.6"/>
 ```
 
 ## Maven - Dependency
@@ -39,20 +39,20 @@ dotnet add package MathParser.org-mXparser --version 5.0.5
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>5.0.4</version>
+    <version>5.0.6</version>
 </dependency>
 ```
 
 ## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.5'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.0.6'
 ```
 
 ## Maven – Gradle (Kotlin)
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.5")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.6")
 ```
 
 ## NPM
@@ -128,11 +128,16 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - Implementing your own Argument Extension
 ### [**User defined functions**](https://mathparser.org/mxparser-tutorial/user-defined-functions/)
 - Fast function definition (performance of creation)
-- Handy function constructor, but slower proces of function creation (performance of
-- creation slower, but calculation the same)
+- Handy function constructor, but slower proces of function creation (performance of creation slower, but calculation the same)
 - Function with more parameters
 - Function in function
 - Implementing your own Function Extension
+### [**Expression pre-compilation**](https://mathparser.org/mxparser-tutorial/expression-pre-compilation/)
+- What is pre-compilation?
+- When is pre-compilation done?
+- When is pre-compilation done again?
+- An example of bad practice in computing the value of an expression for a changing argument value
+- An example of good practice in computing the value of an expression for a changing argument value
 ### [**Variadic user defined functions**](https://mathparser.org/mxparser-tutorial/variadic-user-defined-functions/)
 - Function returning number of parameters provided
 - Function returning sum of first and last parameter provided
@@ -269,6 +274,15 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - Removing built-in tokens
 - Modifying built-in tokens
 - Overriding built-in tokens
+### [**Smart rounding settings**](https://mathparser.org/mxparser-tutorial/smart-rounding-settings/)
+- A few words on Floating Point Math
+- Why mXparser is based on the double data type?
+- Smart rounding options available in mXparser
+- Check which rounding settings are currently active
+- Example - Only Canonical Rounding option is active
+- Example - Only Unit In The Last Place Rounding option is active
+- Example - Only Almost Integer Rounding option is active
+- Example - None of the rounding options are active
 ### [**Efficient calculations in the loops**](https://mathparser.org/mxparser-tutorial/efficient-calculations-in-loops/)
 - User expression in the loop + output
 - User function in the loop + output
