@@ -118,6 +118,11 @@ COMMERCIAL LICENSE
 
 ADDITIONAL CLARIFICATION ON WORKSTATION
 
+The number of workstations does not relate to the final distribution of
+your end-product to your end-users. In typical cases the number of
+workstations is a way to measure the scale of the process of design
+and/or development and/or creation and/or manufacturing of your product.
+
 A workstation is a device, a remote device, or a virtual device, used by
 you, your employees, or other entities to whom you have commissioned the
 tasks. For example, the number of workstations may refer to the number
