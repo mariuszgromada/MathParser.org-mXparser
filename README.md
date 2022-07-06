@@ -1,4 +1,4 @@
-# MathParser.org-mXparser has been downloaded more than 1,350,000 times!
+# MathParser.org-mXparser has been downloaded more than 1,400,000 times!
 ![mXparser icon](https://mathparser.org/wp-content/uploads/2022/05/MathParser.org-mXparser-icon-small.png)
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
