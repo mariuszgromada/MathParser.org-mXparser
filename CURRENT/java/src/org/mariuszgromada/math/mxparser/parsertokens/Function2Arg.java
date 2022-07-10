@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.java        5.0.4    2022-05-22
+ * @(#)Function2Arg.java        5.0.7    2022-07-10
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.0.7
  */
 public final class Function2Arg {
 	/*
@@ -313,9 +313,9 @@ public final class Function2Arg {
 	public static final String PDF_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(PDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.v);
 	public static final String CDF_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(CDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.v);
 	public static final String QNT_STUDENT_T_SYN				= SyntaxStringBuilder.binaryFunction(QNT_STUDENT_T_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.v);
-	public static final String PDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(PDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
-	public static final String CDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(CDF_STUDENT_T_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
-	public static final String QNT_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(QNT_STUDENT_T_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.k);
+	public static final String PDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(PDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
+	public static final String CDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(CDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
+	public static final String QNT_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(QNT_CHI2_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.k);
 	/*
 	 * BinaryFunction - tokens description.
 	 */
