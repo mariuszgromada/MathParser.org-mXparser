@@ -762,9 +762,9 @@ mXparser provides a rich collection of built-in math functions, math expressions
 | pStud |Binary Function|Probability distribution function - Student's t-distribution|pStud(x, v)|5.0|
 | cStud |Binary Function|Cumulative distribution function - Student's t-distribution|cStud(x, v)|5.0|
 | qStud |Binary Function|Quantile function (inverse cumulative distribution function) - Student's t-distribution|qStud(p, v)|5.0|
-| pChi2 |Binary Function|Probability distribution function - Chi-squared distribution|pStud(x, k)|5.0|
-| cChi2 |Binary Function|Cumulative distribution function - Chi-squared distribution|cStud(x, k)|5.0|
-| qChi2 |Binary Function|Quantile function (inverse cumulative distribution function) - Chi-squared distribution|qStud(p, k)|5.0|
+| pChi2 |Binary Function|Probability distribution function - Chi-squared distribution|pChi2(x, k)|5.0|
+| cChi2 |Binary Function|Cumulative distribution function - Chi-squared distribution|cChi2(x, k)|5.0|
+| qChi2 |Binary Function|Quantile function (inverse cumulative distribution function) - Chi-squared distribution|qChi2(p, k)|5.0|
 
 ## 3-args Functions
 |Key word|Category|Description|Example|Since|
