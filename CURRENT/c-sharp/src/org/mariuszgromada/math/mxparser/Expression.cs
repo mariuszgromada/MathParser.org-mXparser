@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.6    2022-05-30
+ * @(#)Expression.cs        5.0.7    2022-07-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -214,7 +214,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.6
+	 * @version        5.0.7
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -3611,7 +3611,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PERC(int pos) {
 			double a = getTokenValue(pos - 1);
-			setToNumber(pos, a * Units.PERC);
+			setToNumber(pos, MathFunctions.multiply(a, Units.PERC));
 			tokensList.RemoveAt(pos - 1);
 		}
 		/**

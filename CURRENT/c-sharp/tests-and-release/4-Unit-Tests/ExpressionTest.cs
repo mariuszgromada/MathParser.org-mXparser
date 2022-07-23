@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.0.6    2022-05-30
+ * @(#)ExpressionTest.cs        5.0.7    2022-07-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -22330,6 +22330,20 @@ namespace org.mariuszgromada.math.mxparser.test {
 			double value = testExp.calculate();
 			double reg = Double.NaN;
 			if (Double.IsNaN(value))
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1361() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "0.035%";
+			TestCommonTools.consolePrintTestExprStart(1361, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0.00035;
+			if (reg == value)
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);

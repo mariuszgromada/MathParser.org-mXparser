@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.java        5.0.6    2022-05-30
+ * @(#)ExpressionTest.java        5.0.7    2022-07-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ import static org.mariuszgromada.math.mxparser.mathcollection.MathConstants.PI;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.6
+ * @version        5.0.7
  *
  */
 public final class ExpressionTest {
@@ -22309,6 +22309,20 @@ public final class ExpressionTest {
         double value = testExp.calculate();
         double reg = Double.NaN;
         if (Double.isNaN(value))
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1361() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        String expStr = "0.035%";
+        TestCommonTools.consolePrintTestExprStart(1361, expStr);
+        Expression testExp = new Expression(expStr);
+        double value = testExp.calculate();
+        double reg = 0.00035;
+        if (reg == value)
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);
