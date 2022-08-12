@@ -10,7 +10,7 @@ import { BooleanAlgebra } from './BooleanAlgebra';
 import { BinaryRelations } from './BinaryRelations';
 import { javaemul } from 'j4ts/j4ts';
 import { java } from 'j4ts/j4ts';
-import { BigNumber } from 'bignumber.js/bignumber';
+import { BigNumber } from 'bignumber.js/bignumber.js';
 
 /**
  * NumberTheory - summation / products etc...
