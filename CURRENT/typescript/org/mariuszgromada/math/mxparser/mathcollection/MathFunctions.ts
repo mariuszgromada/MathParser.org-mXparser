@@ -6,7 +6,7 @@ import { Units } from './Units';
 import { SpecialFunctions } from './SpecialFunctions';
 import { MathConstants } from './MathConstants';
 import { BinaryRelations } from './BinaryRelations';
-import { BigNumber } from 'bignumber.js/bignumber';
+import { BigNumber } from 'bignumber.js/bignumber.js';
 
 /**
  * MathFunctions - the most popular math functions. Many of function implemented by this class
