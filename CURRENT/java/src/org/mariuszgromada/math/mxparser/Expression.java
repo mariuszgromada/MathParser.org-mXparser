@@ -8333,7 +8333,6 @@ public class Expression extends PrimitiveElement {
 					}
 				}
 
-
 				/*
 				 * If key word known by the parser was found
 				 */

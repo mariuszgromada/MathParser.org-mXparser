@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.0.6    2022-05-30
+ * @(#)mXparser.java        5.0.7    2022-08-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -229,7 +229,7 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final String VERSION = "5.0.6";
+	public static final String VERSION = "5.0.7";
 	public static final String VERSION_CODE_NAME = "Leonis";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
