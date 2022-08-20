@@ -260,8 +260,10 @@ class TestCommonTools {
         mXparser.setEpsilonComparison();
         mXparser.setDefaultEpsilon();
         mXparser.enableUlpRounding();
+        mXparser.enableCanonicalRounding();
         mXparser.enableImpliedMultiplicationMode();
         mXparser.enableUnicodeBuiltinKeyWordsMode();
+        mXparser.setRadiansMode();
     }
     static void testSynSettingsInit() {
         mXparser.setDefaultOptions();

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        5.0.6    2022-05-30
+ * @(#)MathFunctions.cs        5.0.7    2022-08-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.6
+	 * @version        5.0.7
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -207,8 +207,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static readonly double DECIMAL_MAX_VALUE = (double)Decimal.MaxValue / 1e17;
 
 		private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
+        private static readonly String DECIMAL_FORMAT = "0." + new String('#', 339);
 
-		private static void refreshMaxAllowedRecursionDepth() {
+        private static void refreshMaxAllowedRecursionDepth() {
 			MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 		}
 
@@ -1585,7 +1586,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else r = Math.Asin(a);
 			if (mXparser.checkIfDegreesMode()) {
 				if (sv != null) return sv.fvdeg;
-				return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			} else return r;
 		}
 		/**
@@ -1605,7 +1606,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else r = Math.Acos(a);
 			if (mXparser.checkIfDegreesMode()) {
 				if (sv != null) return sv.fvdeg;
-				return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			}
 			else return r;
 		}
@@ -1626,7 +1627,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else r = Math.Atan(a);
 			if (mXparser.checkIfDegreesMode()) {
 				if (sv != null) return sv.fvdeg;
-				return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			}
 			else return r;
 		}
@@ -1651,7 +1652,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			if (mXparser.checkIfDegreesMode()) {
 				if (sv != null) return sv.fvdeg;
-				return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			}
 			else return r;
 		}
@@ -1670,7 +1671,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else r = Math.Acos(1 / a);
 			if (mXparser.checkIfDegreesMode()) {
 				if (sv != null) return sv.fvdeg;
-				return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			}
 			else return r;
 		}
@@ -1689,7 +1690,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			else r = Math.Asin(1 / a);
 			if (mXparser.checkIfDegreesMode()) {
 				if (sv != null) return sv.fvdeg;
-				return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+				return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 			}
 			else return r;
 		}
@@ -2181,7 +2182,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
  		/**
  		 * Returns integer part of a doube value.
  		 * @param x   Number
- 		 * @return For non- negative x returns Math.floor(x),
+ 		 * @return For non-negative x returns Math.floor(x),
  		 *         otherwise returns -Math.floor(-x)
  		 */
  		public static double integerPart(double x) {
@@ -2545,6 +2546,57 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(value)) return -2;
 			double u = ulp(value);
 			return decimalDigitsBefore(u);
+		}
+		/**
+		 * Length of a number represented in a standard decimal format
+		 * @param value   A given number
+		 * @return        Length of a number represented in a standard decimal format
+		 *                including decimal separator, excluding leading zeros (integer part),
+		 *                excluding trailing zeros (fractional part)
+		 */
+		public static int decimalNumberLength(double value) {
+			return value.ToString(CultureInfo.InvariantCulture).Length;
+		}
+		/**
+		 * Fractional part length of a number represented in a standard decimal format
+		 * @param value   A given number
+		 * @return        Fractional part length of a number represented in a standard decimal
+		 *                format excluding decimal separator, excluding trailing zeros (fractional part)
+		 */
+		public static int fractionalPartLength(double value) {
+			if (Double.IsNaN(value)) return 0;
+			if (Double.IsInfinity(value)) return 0;
+			if (ulpDecimalDigitsBefore(value) <= 0) return 0;
+			String valueStr = value.ToString(CultureInfo.InvariantCulture);
+			int dotPos = valueStr.IndexOf('.');
+			if (dotPos >= 0) return valueStr.Length - 1 - dotPos;
+			return 0;
+		}
+		/**
+		 * Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
+		 * provided that the result is significantly shortened in the standard decimal notation. Examples:
+		 * 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
+		 * made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
+		 * by at least 9 places.
+		 * @param value   A given number
+		 * @return        Returns an intelligently rounded number when the decimal position of ULP
+		 *                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
+		 *                the number by a minimum of 9 places. Otherwise, returns original number.
+		 */
+		public static double lengthRound(double value) {
+			if (Double.IsNaN(value)) return value;
+			if (Double.IsInfinity(value)) return value;
+			if (value == 0d || value == -1d || value == 1d || value == -2d || value == 2d || value == -3d || value == 3d) return value;
+			if (value == -4d || value == 4d || value == -5d || value == 5d || value == -6d || value == 6d) return value;
+			if (value == -7d || value == 7d || value == -8d || value == 8d || value == -9d || value == 9d) return value;
+			if (value == -10d || value == 10d || value == -11d || value == 11d || value == -12d || value == 12d) return value;
+			if (ulpDecimalDigitsBefore(value) < 6) return value;
+			int decPartLen = fractionalPartLength(value);
+			if (decPartLen < 11) return value;
+			double valueRound = round(value, decPartLen - 2);
+			int decPartLenRound = fractionalPartLength(valueRound);
+			if (decPartLen - decPartLenRound >= 9) return valueRound;
+			return value;
 		}
 		/**
 		 * Returns the first non-NaN value

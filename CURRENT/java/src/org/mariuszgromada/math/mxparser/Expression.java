@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.0.7    2022-07-23
+ * @(#)Expression.java        5.0.7    2022-08-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6314,6 +6314,9 @@ public class Expression extends PrimitiveElement {
 				double resultint = Math.round(result);
 				if ( Math.abs(result-resultint) <= BinaryRelations.getEpsilon() )
 					result = resultint;
+			}
+			if (mXparser.canonicalRounding) {
+				result = MathFunctions.lengthRound(result);
 			}
 		}
 

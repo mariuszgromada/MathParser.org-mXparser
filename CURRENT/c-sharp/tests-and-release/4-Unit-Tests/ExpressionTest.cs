@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.0.7    2022-07-23
+ * @(#)ExpressionTest.cs        5.0.7    2022-08-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.6
+	 * @version        5.0.7
 	 *
 	 */
 	[TestClass]
@@ -10059,7 +10059,10 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
-			String expStr = "-00000001.0002e-0002";
+            mXparser.disableCanonicalRounding();
+            mXparser.disableAlmostIntRounding();
+            mXparser.disableUlpRounding();
+            String expStr = "-00000001.0002e-0002";
 			TestCommonTools.consolePrintTestExprStart(650, expStr);
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();
@@ -10180,7 +10183,10 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
 			String expStr = "((1%)%)%";
-			TestCommonTools.consolePrintTestExprStart(658, expStr);
+            mXparser.disableCanonicalRounding();
+            mXparser.disableAlmostIntRounding();
+            mXparser.disableUlpRounding();
+            TestCommonTools.consolePrintTestExprStart(658, expStr);
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();
 			double reg = 0.000001;
@@ -13307,7 +13313,10 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
-			Function f = new Function("f(x,a,n) = (sqrt(pi)/2) * sum(k, 0, n, ( a^(1/2 - k) / ( Gamma(3/2 - k) * k! ) ) * (x-a)^k   )");
+            mXparser.disableCanonicalRounding();
+            mXparser.disableAlmostIntRounding();
+            mXparser.disableUlpRounding();
+            Function f = new Function("f(x,a,n) = (sqrt(pi)/2) * sum(k, 0, n, ( a^(1/2 - k) / ( Gamma(3/2 - k) * k! ) ) * (x-a)^k   )");
 			String expStr = "sum(x, 1, 3, sqrt(x) - f(x,2,50) , 0.001)";
 			TestCommonTools.consolePrintTestExprStart(857, expStr);
 			Expression testExp = new Expression(expStr, f);
@@ -14776,6 +14785,8 @@ namespace org.mariuszgromada.math.mxparser.test {
 			* SetPrecision[Sum[Gamma[x], {x, -0.9, -0.1, 0.001}], 16] = -4033.861662372823
 			*/
 			mXparser.disableUlpRounding();
+			mXparser.disableCanonicalRounding();
+			mXparser.disableAlmostIntRounding();
 			String expStr = "( sum(x, -0.9, -0.1, Gamma(x), 0.001) - (-4033.861662372823) ) / (-4033.861662372823)";
 			TestCommonTools.consolePrintTestExprStart(943, expStr);
 			Expression testExp = new Expression(expStr);
@@ -17463,7 +17474,8 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			mXparser.disableUlpRounding();
 			mXparser.disableAlmostIntRounding();
-			String expStr = "1 + 1e-14";
+            mXparser.disableCanonicalRounding();
+            String expStr = "1 + 1e-14";
 			TestCommonTools.consolePrintTestExprStart(1090, expStr);
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();
@@ -17481,7 +17493,8 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			mXparser.disableUlpRounding();
 			mXparser.disableAlmostIntRounding();
-			String expStr = "-1 - 1e-14";
+            mXparser.disableCanonicalRounding();
+            String expStr = "-1 - 1e-14";
 			TestCommonTools.consolePrintTestExprStart(1091, expStr);
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();
@@ -22343,6 +22356,96 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();
 			double reg = 0.00035;
+			if (reg == value)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1362() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "asin(sin(30.5))";
+			TestCommonTools.consolePrintTestExprStart(1362, expStr);
+			mXparser.setDegreesMode();
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 30.5;
+			if (reg == value)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1363() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "acos(cos(30.5))";
+			TestCommonTools.consolePrintTestExprStart(1363, expStr);
+			mXparser.setDegreesMode();
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 30.5;
+			if (reg == value)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1364() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "atan(tan(30.5))";
+			TestCommonTools.consolePrintTestExprStart(1364, expStr);
+			mXparser.setDegreesMode();
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 30.5;
+			if (reg == value)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1365() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "actan(ctan(30.5))";
+			TestCommonTools.consolePrintTestExprStart(1365, expStr);
+			mXparser.setDegreesMode();
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 30.5;
+			if (reg == value)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1366() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "arcsec(sec(30.5))";
+			TestCommonTools.consolePrintTestExprStart(1366, expStr);
+			mXparser.setDegreesMode();
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 30.5;
+			if (reg == value)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1367() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "arccsc(csc(30.5))";
+			TestCommonTools.consolePrintTestExprStart(1367, expStr);
+			mXparser.setDegreesMode();
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 30.5;
 			if (reg == value)
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);

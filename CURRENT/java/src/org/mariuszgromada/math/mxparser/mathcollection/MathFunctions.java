@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        5.0.6    2022-05-30
+ * @(#)MathFunctions.java        5.0.7    2022-08-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -183,6 +183,9 @@ package org.mariuszgromada.math.mxparser.mathcollection;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import org.mariuszgromada.math.mxparser.mXparser;
 
@@ -203,10 +206,11 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.6
+ * @version        5.0.7
  */
 public final class MathFunctions {
 	private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
+	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH)) {{setMaximumFractionDigits(340);}};
 
 	private static void refreshMaxAllowedRecursionDepth() {
 		MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
@@ -1460,7 +1464,7 @@ public final class MathFunctions {
 		else r = Math.asin(a);
 		if (mXparser.checkIfDegreesMode()) {
 			if (sv != null) return sv.fvdeg;
-			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 		} else return r;
 	}
 	/**
@@ -1480,7 +1484,7 @@ public final class MathFunctions {
 		else r = Math.acos(a);
 		if (mXparser.checkIfDegreesMode()) {
 			if (sv != null) return sv.fvdeg;
-			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 		} else return r;
 	}
 	/**
@@ -1500,7 +1504,7 @@ public final class MathFunctions {
 		else r = Math.atan(a);
 		if (mXparser.checkIfDegreesMode()) {
 			if (sv != null) return sv.fvdeg;
-			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 		}
 		else return r;
 	}
@@ -1525,7 +1529,7 @@ public final class MathFunctions {
 		}
 		if (mXparser.checkIfDegreesMode()) {
 			if (sv != null) return sv.fvdeg;
-			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 		}
 		else return r;
 	}
@@ -1544,7 +1548,7 @@ public final class MathFunctions {
 		else r = Math.acos(1/a);
 		if (mXparser.checkIfDegreesMode()) {
 			if (sv != null) return sv.fvdeg;
-			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 		}
 		else return r;
 	}
@@ -1563,7 +1567,7 @@ public final class MathFunctions {
 		else r = Math.asin(1/a);
 		if (mXparser.checkIfDegreesMode()) {
 			if (sv != null) return sv.fvdeg;
-			return intIfAlmostIntOtherwiseOrig(r / Units.DEGREE_ARC);
+			return intIfAlmostIntOtherwiseOrig(div(r, Units.DEGREE_ARC));
 		}
 		else return r;
 	}
@@ -2056,7 +2060,7 @@ public final class MathFunctions {
  	/**
  	 * Returns integer part of a double value.
  	 * @param x  Number
- 	 * @return For non- negative x returns Math.floor(x),
+ 	 * @return For non-negative x returns Math.floor(x),
  	 *         otherwise returns -Math.floor(-x)
  	 */
  	public static double integerPart(double x) {
@@ -2418,6 +2422,57 @@ public final class MathFunctions {
 		if (Double.isNaN(value)) return -2;
 		double u = ulp(value);
 		return decimalDigitsBefore(u);
+	}
+	/**
+	 * Length of a number represented in a standard decimal format
+	 * @param value   A given number
+	 * @return        Length of a number represented in a standard decimal format
+	 *                including decimal separator, excluding leading zeros (integer part),
+	 *                excluding trailing zeros (fractional part)
+	 */
+	public static int decimalNumberLength(double value) {
+		return DECIMAL_FORMAT.format(value).length();
+	}
+	/**
+	 * Fractional part length of a number represented in a standard decimal format
+	 * @param value   A given number
+	 * @return        Fractional part length of a number represented in a standard decimal
+	 *                format excluding decimal separator, excluding trailing zeros (fractional part)
+	 */
+	public static int fractionalPartLength(double value) {
+		if (Double.isNaN(value)) return 0;
+		if (Double.isInfinite(value)) return 0;
+		if (ulpDecimalDigitsBefore(value) <= 0) return 0;
+		String valueStr = DECIMAL_FORMAT.format(value);
+		int dotPos = valueStr.indexOf('.');
+		if (dotPos >= 0) return valueStr.length() - 1 - dotPos;
+		return 0;
+	}
+	/**
+	 * Intelligent rounding of a number within the decimal position of the ULP (Unit in the Last Place),
+	 * provided that the result is significantly shortened in the standard decimal notation. Examples:
+	 * 30.499999999999992 is rounded to 30.5, but 30.499999999999122 will not be rounded. Rounding is
+	 * made to the decimal position of the ULP minus 2 on condition that the resulted number is shortened
+	 * by at least 9 places.
+	 * @param value   A given number
+	 * @return        Returns an intelligently rounded number when the decimal position of ULP
+	 *                is a minimum of 11 and when rounded to the position of ULP - 2, shortens
+	 *                the number by a minimum of 9 places. Otherwise, returns original number.
+	 */
+	public static double lengthRound(double value) {
+		if (Double.isNaN(value)) return value;
+		if (Double.isInfinite(value)) return value;
+		if (value == 0d || value == -1d || value == 1d || value == -2d || value == 2d || value == -3d || value == 3d) return value;
+		if (value == -4d || value == 4d || value == -5d || value == 5d || value == -6d || value == 6d) return value;
+		if (value == -7d || value == 7d || value == -8d || value == 8d || value == -9d || value == 9d) return value;
+		if (value == -10d || value == 10d || value == -11d || value == 11d || value == -12d || value == 12d) return value;
+		if (ulpDecimalDigitsBefore(value) < 6) return value;
+		int decPartLen = fractionalPartLength(value);
+		if (decPartLen < 11) return value;
+		double valueRound = round(value, decPartLen - 2);
+		int decPartLenRound = fractionalPartLength(valueRound);
+		if (decPartLen - decPartLenRound >= 9) return valueRound;
+		return value;
 	}
 	/**
 	 * Returns the first non-NaN value

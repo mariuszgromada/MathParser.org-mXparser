@@ -259,8 +259,10 @@ namespace org.mariuszgromada.math.mxparser.test {
             mXparser.setEpsilonComparison();
             mXparser.setDefaultEpsilon();
             mXparser.enableUlpRounding();
+            mXparser.enableCanonicalRounding();
             mXparser.enableImpliedMultiplicationMode();
             mXparser.enableUnicodeBuiltinKeyWordsMode();
+            mXparser.setRadiansMode();
         }
         internal static void testSynSettingsInit() {
             mXparser.setDefaultOptions();

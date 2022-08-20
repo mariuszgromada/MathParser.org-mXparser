@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.7    2022-07-23
+ * @(#)Expression.cs        5.0.7    2022-08-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6289,9 +6289,11 @@ namespace org.mariuszgromada.math.mxparser {
 					double resultint = Math.Round(result);
 					if ( Math.Abs(result-resultint) <= BinaryRelations.getEpsilon() )
 						result = resultint;
-				} 
-				else if (mXparser.canonicalRounding)
-					result = MathFunctions.canonicalRound(result);
+				}
+				if (mXparser.canonicalRounding) {
+					//result = MathFunctions.canonicalRound(result);
+                    result = MathFunctions.lengthRound(result);
+                }
 			}
 
 			if (calcStepsRegister != null) {
