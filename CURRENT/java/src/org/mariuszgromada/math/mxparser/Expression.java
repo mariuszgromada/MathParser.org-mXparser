@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.0.7    2022-08-16
+ * @(#)Expression.java        5.0.7    2022-08-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -7769,6 +7769,7 @@ public class Expression extends PrimitiveElement {
 					} else if (neverParseForImpliedMultiplication.contains(substr)) {
 						keywordFound = true;
 						parserKeyword = new KeyWord();
+						break;
 					}
 				}
 			}
@@ -7798,8 +7799,13 @@ public class Expression extends PrimitiveElement {
 
 				tokenParts.add(tokenPart);
 
-				lastConsumedPos = rPos - 1;
-				lPos = rPos;
+				if (rPos > lPos) {
+					lastConsumedPos = rPos - 1;
+					lPos = rPos;
+				} else {
+					lastConsumedPos = tokenStrLength - 1;
+					lPos = tokenStrLength;
+				}
 			} else {
 				lPos++;
 			}

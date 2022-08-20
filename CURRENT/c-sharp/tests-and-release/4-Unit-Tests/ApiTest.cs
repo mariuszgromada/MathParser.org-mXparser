@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ApiTest.cs        5.0.4    2022-05-22
+ * @(#)ApiTest.cs        5.0.7    2022-08-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -200,7 +200,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.3
+	 * @version        5.0.7
 	 *
 	 */
 	[TestClass]
@@ -3915,13 +3915,98 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
+		[TestMethod]
+		public void testApi0152() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(152, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, 2*xi)", "sum(i,1,10,2*x*i)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0153() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(153, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, xi*2)", "sum(i,1,10,x*i*2)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0154() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(154, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, 2*ix)", "sum(i,1,10,2*i*x)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0155() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(155, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, ix*2)", "sum(i,1,10,i*x*2)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0156() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(156, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, 2*xpi)", "sum(i,1,10,2*x*pi)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0157() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(157, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, xpi*2)", "sum(i,1,10,x*pi*2)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0158() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(158, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, 2*pix)", "sum(i,1,10,2*pi*x)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0159() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication & canonical expression string test";
+			TestCommonTools.consolePrintTestApiStart(159, testDescr);
+			testResult = testCanonicalString("sum(i, 1, 10, pix*2)", "sum(i,1,10,pi*x*2)");
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
 		public static bool testCanonicalString(String expStr, String expResStr, params String[] elements) {
-			Expression e = new Expression(expStr);
+            mXparser.consolePrintln();
+            mXparser.consolePrintln("------ expStr = " + expStr);
+            mXparser.consolePrintln("------ expResStr = " + expResStr);
+            Expression e = new Expression(expStr);
 			if (elements != null)
 				if (elements.Length > 0)
 					foreach (String str in elements)
 						e.addArguments(new Argument(str, "0"));
-			return expResStr.Equals(e.getCanonicalExpressionString());
+            String canExprStr = e.getCanonicalExpressionString();
+            mXparser.consolePrintln("------ canExprStr = " + canExprStr);
+            return expResStr.Equals(canExprStr);
 		}
     }
 }

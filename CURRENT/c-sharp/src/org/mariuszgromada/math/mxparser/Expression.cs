@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.7    2022-08-16
+ * @(#)Expression.cs        5.0.7    2022-08-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -7757,12 +7757,12 @@ namespace org.mariuszgromada.math.mxparser {
 						else if (neverParseForImpliedMultiplication.Contains(substr)) {
 							keywordFound = true;
 							parserKeyword = new KeyWord();
-						}
+                            break;
+                        }
 					}
 				}
 
-				if (decimalFound || fractionFound || otherNumberBaseFound || keywordFound)
-				{
+				if (decimalFound || fractionFound || otherNumberBaseFound || keywordFound) {
 					// Checking if not recognized token was present
 					if (lPos - lastConsumedPos > 1) {
 						tokenPart = new TokenPart();
@@ -7787,8 +7787,13 @@ namespace org.mariuszgromada.math.mxparser {
 
 					tokenParts.Add(tokenPart);
 
-					lastConsumedPos = rPos - 1;
-					lPos = rPos;
+					if (rPos > lPos) {
+						lastConsumedPos = rPos - 1;
+						lPos = rPos;
+					} else {
+						lastConsumedPos = tokenStrLength - 1;
+						lPos = tokenStrLength;
+					}
 				}
 				else {
 					lPos++;

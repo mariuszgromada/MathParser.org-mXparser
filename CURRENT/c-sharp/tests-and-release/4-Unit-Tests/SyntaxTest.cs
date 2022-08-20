@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.0.4    2022-05-22
+ * @(#)SyntaxTest.cs        5.0.7    2022-08-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -197,7 +197,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.3
+	 * @version        5.0.7
 	 *
 	 */
 	[TestClass]
@@ -4744,6 +4744,118 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestSynStart(308, expStr);
 			Expression e = new Expression(expStr);
 			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0309() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, 2*xi)";
+			TestCommonTools.consolePrintTestSynStart(309, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0310() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, xi*2)";
+			TestCommonTools.consolePrintTestSynStart(310, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0311() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, 2*ix)";
+			TestCommonTools.consolePrintTestSynStart(311, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0312() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, ix*2)";
+			TestCommonTools.consolePrintTestSynStart(310, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0313() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, 2*xpi)";
+			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0314() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, xpi*2)";
+			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0315() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, 2*pix)";
+			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0316() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 10, pix*2)";
+			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
 			if (syn == reg)
