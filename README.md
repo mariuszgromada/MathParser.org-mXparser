@@ -10,7 +10,7 @@
 - [**An Attempt To Fix Expression String**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254)
 - [**Student's t-distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
 - [**Chi-Squared Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
-- Minor Bug fixing: [259](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/259), [258](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/258), [252](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/252), [261](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/261)
+- Minor Bug fixing: [259](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/259), [258](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/258), [252](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/252), [261](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/261), [262](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/262), [263](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/263), [271](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/271), [269](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/269), [268](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/268), [266](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/266), [265](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/265)
 - Regression tests refactoring
 
 # Package installation
