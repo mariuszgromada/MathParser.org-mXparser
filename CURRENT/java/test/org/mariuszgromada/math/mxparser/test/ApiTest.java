@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.0.7    2022-08-20
+ * @(#)SyntaxTest.java        5.0.7    2022-08-21
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -3992,6 +3992,47 @@ public final class ApiTest {
         String testDescr = "Implied Multiplication & canonical expression string test";
         TestCommonTools.consolePrintTestApiStart(159, testDescr);
         testResult = testCanonicalString("sum(i, 1, 10, pix*2)", "sum(i,1,10,pi*x*2)");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0160() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(160, testDescr);
+        testResult = testCanonicalString("300+Caster_Attack*3", "300+Cast*e*r_Attack*3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0161() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(161, testDescr);
+        testResult = testCanonicalString("300+Caster_Attack(2)*3", "300+Cast*e*r_Attack(2)*3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0162() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(162, testDescr);
+        testResult = testCanonicalString("300+Caster_AttackC(2)*3", "300+Cast*e*r_Attack*C(2)*3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0163() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(163, testDescr);
+        mXparser.disableImpliedMultiplicationMode();
+        testResult = testCanonicalString("300+Caster_AttackC(2)*3", "300+Caster_AttackC(2)*3");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }

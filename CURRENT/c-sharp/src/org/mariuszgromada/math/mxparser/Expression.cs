@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.7    2022-08-20
+ * @(#)Expression.cs        5.0.7    2022-08-21
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -7687,7 +7687,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param token The token
 		 * @return  returns true in case there was a reason to parse, otherwise returns false
 		 */
-		private bool checkNumberNameManyImpliedMultiplication(Token token) {
+		private bool checkNumberNameManyImpliedMultiplication(Token token, bool parenthesisIsOnTheRight) {
 			int tokenStrLength = token.tokenStr.Length;
 			if (tokenStrLength < 2) return false;
 			char c;
@@ -7750,9 +7750,11 @@ namespace org.mariuszgromada.math.mxparser {
 					if (canStartKeyword) {
 						kw = tryFindKnownKeyword(substr);
 						if (kw.wordTypeId != KeyWord.NO_DEFINITION) {
-							parserKeyword = kw;
-							keywordFound = true;
-							break;
+							if (!KeyWord.isFunctionForm(kw) || (rPos == tokenStrLength && parenthesisIsOnTheRight)) {
+								parserKeyword = kw;
+								keywordFound = true;
+								break;
+							}
 						}
 						else if (neverParseForImpliedMultiplication.Contains(substr)) {
 							keywordFound = true;
@@ -7858,7 +7860,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      tokenStr            the token string
 		 * @param      keyWord             the key word
 		 */
-		private void addToken(String tokenStr, KeyWord keyWord) {
+		private void addToken(String tokenStr, KeyWord keyWord, bool parenthesisIsOnTheRight) {
 			Token token = new Token();
 			token.tokenStr = tokenStr;
 			token.keyWord = keyWord.wordString;
@@ -7876,9 +7878,12 @@ namespace org.mariuszgromada.math.mxparser {
 				if (!alternativeMatchFound) alternativeMatchFound = checkSpecialConstantName(token);
 				if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
 				if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
-				if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token);
+				if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight);
 				if (!alternativeMatchFound) initialTokensAdd(token);
 			}
+		}
+		private void addToken(String tokenStr, KeyWord keyWord) {
+			addToken(tokenStr, keyWord, false);
 		}
 
 		private static bool isUnicodeName(char c) {
@@ -8054,7 +8059,11 @@ namespace org.mariuszgromada.math.mxparser {
 			else
 				return false;
 		}
-
+		private bool charIsLeftParenthesis(String str, int pos) {
+			int len = str.Length;
+			if (pos >= len) return false;
+			return str[pos] == '(';
+		}
 		/**
 		 * Tokenizing expressiong string
 		 */
@@ -8201,7 +8210,7 @@ namespace org.mariuszgromada.math.mxparser {
 						 * as unknown key word word
 						 */
 						tokenStr = newExpressionString.Substring(lastPos, pos-lastPos);
-						addToken(tokenStr, new KeyWord());
+						addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
 					}
 					/*
 					 * Check leading operators ('-' or '+')
@@ -8344,7 +8353,7 @@ namespace org.mariuszgromada.math.mxparser {
 							 * as unknown key word
 							 */
 							tokenStr = newExpressionString.Substring(lastPos, pos - lastPos);
-							addToken(tokenStr, new KeyWord());
+							addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
 						}
 						matchStatusPrev = FOUND;
 						/*
@@ -8392,7 +8401,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			if (matchStatus == NOT_FOUND) {
 				tokenStr = newExpressionString.Substring(lastPos, pos - lastPos);
-				addToken(tokenStr, new KeyWord());
+				addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
 			}
 			/*
 			 * Evaluate tokens levels

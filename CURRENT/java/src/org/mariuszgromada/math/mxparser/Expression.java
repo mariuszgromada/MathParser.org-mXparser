@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.0.7    2022-08-20
+ * @(#)Expression.java        5.0.7    2022-08-21
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -7700,7 +7700,7 @@ public class Expression extends PrimitiveElement {
 	 * @param token The token
 	 * @return  returns true in case there was a reason to parse, otherwise returns false
 	 */
-	private boolean checkNumberNameManyImpliedMultiplication(Token token) {
+	private boolean checkNumberNameManyImpliedMultiplication(Token token, boolean parenthesisIsOnTheRight) {
 		int tokenStrLength = token.tokenStr.length();
 		if (tokenStrLength < 2) return false;
 		char c;
@@ -7763,9 +7763,11 @@ public class Expression extends PrimitiveElement {
 				if (canStartKeyword) {
 					kw = tryFindKnownKeyword(substr);
 					if (kw.wordTypeId != KeyWord.NO_DEFINITION) {
-						parserKeyword = kw;
-						keywordFound = true;
-						break;
+						if (!KeyWord.isFunctionForm(kw) || (rPos == tokenStrLength && parenthesisIsOnTheRight)) {
+							parserKeyword = kw;
+							keywordFound = true;
+							break;
+						}
 					} else if (neverParseForImpliedMultiplication.contains(substr)) {
 						keywordFound = true;
 						parserKeyword = new KeyWord();
@@ -7868,7 +7870,7 @@ public class Expression extends PrimitiveElement {
 	 * @param      tokenStr            the token string
 	 * @param      keyWord             the key word
 	 */
-	private void addToken(String tokenStr, KeyWord keyWord) {
+	private void addToken(String tokenStr, KeyWord keyWord, boolean parenthesisIsOnTheRight) {
 		Token token = new Token();
 		token.tokenStr = tokenStr;
 		token.keyWord = keyWord.wordString;
@@ -7886,9 +7888,12 @@ public class Expression extends PrimitiveElement {
 			if (!alternativeMatchFound) alternativeMatchFound = checkSpecialConstantName(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkOtherNumberBases(token);
 			if (!alternativeMatchFound) alternativeMatchFound = checkFraction(token);
-			if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token);
+			if (impliedMultiplicationMode && !alternativeMatchFound) alternativeMatchFound = checkNumberNameManyImpliedMultiplication(token, parenthesisIsOnTheRight);
 			if (!alternativeMatchFound) initialTokensAdd(token);
 		}
+	}
+	private void addToken(String tokenStr, KeyWord keyWord) {
+		addToken(tokenStr, keyWord, false);
 	}
 
 	private static boolean isUnicodeName(char c) {
@@ -8064,7 +8069,11 @@ public class Expression extends PrimitiveElement {
 		else
 			return false;
 	}
-
+	private boolean charIsLeftParenthesis(String str, int pos) {
+		int len = str.length();
+		if (pos >= len) return false;
+		return str.charAt(pos) == '(';
+	}
 	/**
 	 * Tokenizing expression string
 	 */
@@ -8209,7 +8218,7 @@ public class Expression extends PrimitiveElement {
 					 * as unknown key word word
 					 */
 					tokenStr = newExpressionString.substring(lastPos, pos);
-					addToken(tokenStr, new KeyWord());
+					addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
 				}
 				/*
 				 * Check leading operators ('-' or '+')
@@ -8352,7 +8361,7 @@ public class Expression extends PrimitiveElement {
 						 * as unknown key word
 						 */
 						tokenStr = newExpressionString.substring(lastPos, pos);
-						addToken(tokenStr, new KeyWord());
+						addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
 					}
 					matchStatusPrev = FOUND;
 					/*
@@ -8400,7 +8409,7 @@ public class Expression extends PrimitiveElement {
 		 */
 		if (matchStatus == NOT_FOUND) {
 			tokenStr = newExpressionString.substring(lastPos, pos);
-			addToken(tokenStr, new KeyWord());
+			addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
 		}
 		/*
 		 * Evaluate tokens levels
