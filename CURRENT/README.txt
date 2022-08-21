@@ -14,34 +14,41 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** https://scalarmath.org/ ***
 
+v.5.0.7 (2022-08-21): Fix #271, #269, #268, #266, #265
+     * Canonical rounding not working in case of inverse trigonometric functions while degrees mode applied: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/271
+     * Sum function endless loops under certain conditions when checking syntax: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/269
+     * 0.035%=3.5000000000000005E-4: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/268
+     * Mistakes in the examples for the new functions cChi2, pChi2 y qChi2: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/266
+     * Tokenization fix in case of Implied Multiplication and known keywords that are functions, but no parameters are provide: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/265
+
 v.5.0.6 (2022-05-31): Fix #263, #262
      * Possible StackOverflow in some recursive functions: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/263
-	 * Possible OutOfMemory in some functions: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/262
+     * Possible OutOfMemory in some functions: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/262
 
 v.5.0.5 (2022-05-29): Fix #261
      * Crash in Java powInt function
-	 * Tetration special case (base = 1)
+     * Tetration special case (base = 1)
 
 v.5.0.4 (2022-05-22): Leonis - a major release: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register
 
-	 * Implied Multiplication: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
-	 * Unicode Math Symbols: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
-	 * Calculation Steps Register: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/260
-	 * Student's t-distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256
-	 * Chi-Squared Distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257
-	 * An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
-	 * Minor Bug fixing
-	 * Regression tests refactoring
-	 * License update: https://github.com/mariuszgromada/MathParser.org-mXparser/blob/master/LICENSE.txt
+     * Implied Multiplication: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243
+     * Unicode Math Symbols: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249
+     * Calculation Steps Register: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/260
+     * Student's t-distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256
+     * Chi-Squared Distribution: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257
+     * An Attempt To Fix Expression String: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254
+     * Minor Bug fixing
+     * Regression tests refactoring
+     * License update: https://github.com/mariuszgromada/MathParser.org-mXparser/blob/master/LICENSE.txt
 
 v.4.4.2 (2020-01-25): Gemoni - bugs fixing
 
-	 * #200 System.OutOfMemoryException: Array dimensions exceeded supported range (https://github.com/mariuszgromada/MathParser.org-mXparser/issues/200)
-	 * #199 cancelCurrentCalculation does not stop for some expressions (https://github.com/mariuszgromada/MathParser.org-mXparser/issues/199)
+     * #200 System.OutOfMemoryException: Array dimensions exceeded supported range (https://github.com/mariuszgromada/MathParser.org-mXparser/issues/200)
+     * #199 cancelCurrentCalculation does not stop for some expressions (https://github.com/mariuszgromada/MathParser.org-mXparser/issues/199)
 
 v.4.4.0 (2020-01-14): Gemoni - API improvement
 
-	 * Canonical rounding: Bye bye floating point arithmetic artifacts
+     * Canonical rounding: Bye bye floating point arithmetic artifacts
 
 	ULP rounding is switched of as a default setting (can be enabled / disabled). As a default canonical rounding is switched on (can be disabled / enabled). New methods:
 
