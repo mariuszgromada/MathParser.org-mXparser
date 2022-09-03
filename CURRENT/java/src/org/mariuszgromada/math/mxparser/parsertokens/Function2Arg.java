@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.java        5.0.7    2022-07-10
+ * @(#)Function2Arg.java        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.7
+ * @version        5.1.0
  */
 public final class Function2Arg {
 	/*
@@ -238,6 +238,7 @@ public final class Function2Arg {
 	public static final int PDF_CHI2_ID							= 31;
 	public static final int CDF_CHI2_ID							= 32;
 	public static final int QNT_CHI2_ID							= 33;
+	public static final int RND_F_SNEDECOR_ID					= 34;
 	/*
 	 * BinaryFunction - tokens key words.
 	 */
@@ -277,6 +278,7 @@ public final class Function2Arg {
 	public static final String PDF_CHI2_STR						= "pChi2";
 	public static final String CDF_CHI2_STR						= "cChi2";
 	public static final String QNT_CHI2_STR						= "qChi2";
+	public static final String RND_F_SNEDECOR_STR				= "rFSned";
 	/*
 	 * BinaryFunction - syntax.
 	 */
@@ -316,6 +318,7 @@ public final class Function2Arg {
 	public static final String PDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(PDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
 	public static final String CDF_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(CDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
 	public static final String QNT_CHI2_SYN						= SyntaxStringBuilder.binaryFunction(QNT_CHI2_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.k);
+	public static final String RND_F_SNEDECOR_SYN				= SyntaxStringBuilder.binaryFunction(RND_F_SNEDECOR_STR, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
 	/*
 	 * BinaryFunction - tokens description.
 	 */
@@ -352,6 +355,7 @@ public final class Function2Arg {
 	public static final String PDF_CHI2_DESC					= "Probability distribution function - Chi-squared distribution";
 	public static final String CDF_CHI2_DESC					= "Cumulative distribution function - Chi-squared distribution";
 	public static final String QNT_CHI2_DESC					= "Quantile function (inverse cumulative distribution function) - Chi-squared distribution";
+	public static final String RND_F_SNEDECOR_DESC				= "Random variable - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
 	/*
 	 * BinaryFunction - since.
 	 */
@@ -389,4 +393,5 @@ public final class Function2Arg {
 	public static final String PDF_CHI2_SINCE					= mXparser.NAMEv50;
 	public static final String CDF_CHI2_SINCE					= mXparser.NAMEv50;
 	public static final String QNT_CHI2_SINCE					= mXparser.NAMEv50;
+	public static final String RND_F_SNEDECOR_SINCE				= mXparser.NAMEv51;
 }

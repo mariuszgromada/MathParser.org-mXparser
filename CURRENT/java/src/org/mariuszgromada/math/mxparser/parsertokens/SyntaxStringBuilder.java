@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxStringBuilder.java        5.0.4    2022-05-22
+ * @(#)SyntaxStringBuilder.java        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -202,7 +202,7 @@ package org.mariuszgromada.math.mxparser.parsertokens;
  * @see FunctionVariadic
  * @see Operator
  *
- * @version        5.0.0
+ * @version        5.1.0
  */
 final class SyntaxStringBuilder {
     static final String space = " ";
@@ -222,6 +222,8 @@ final class SyntaxStringBuilder {
     static final String j = "j";
     static final String s = "s";
     static final String v = "v";
+    static final String d1 = "d1";
+    static final String d2 = "d2";
     static final String dots = "...";
     static final String comma = ",";
     static final String semicolon = ";";

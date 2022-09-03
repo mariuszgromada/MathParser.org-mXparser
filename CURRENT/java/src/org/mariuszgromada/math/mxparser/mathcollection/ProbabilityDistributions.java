@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.java        5.0.5    2022-05-29
+ * @(#)ProbabilityDistributions.java        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -200,7 +200,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.5
+ * @version        5.1.0
  */
 public final class ProbabilityDistributions {
 	/**
@@ -808,5 +808,106 @@ public final class ProbabilityDistributions {
 		k = Math.round(k);
 		if (k < 1.0) return Double.NaN;
 		return qntChiSquared(randomGenerator.nextDouble(), k);
+	}
+	/**
+	 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+	 * also known as Fisher–Snedecor distribution)
+	 *
+	 * @param x     Real value
+	 * @param d1    Number of degrees of freedom - 1
+	 * @param d2    Number of degrees of freedom - 2
+	 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
+	 * also known as Fisher–Snedecor distribution)
+	 */
+	public static double pdfSnedecordF(double x, double d1, double d2) {
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(d1)) return Double.NaN;
+		if (Double.isNaN(d2)) return Double.NaN;
+		if (Double.isInfinite(d1)) return Double.NaN;
+		if (Double.isInfinite(d2)) return Double.NaN;
+		if (d1 < 0.0) return Double.NaN;
+		if (d2 < 0.0) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+		if (x == Double.POSITIVE_INFINITY) return 0.0;
+		if (x == Double.NEGATIVE_INFINITY) return 0.0;
+		if (x < 0.0) return 0.0;
+		if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
+		double d1div2 = d1 / 2.0;
+		double d2div2 = d2 / 2.0;
+		return ( ( Math.pow(d1*x, d1div2) * Math.pow(d2, d2div2) ) / Math.pow(d1*x + d2, d1div2 + d2div2 ) ) / ( x * SpecialFunctions.beta(d1div2, d2div2) );
+	}
+	/**
+	 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+	 * also known as Fisher–Snedecor distribution)
+	 *
+	 * @param x     Real value
+	 * @param d1    Number of degrees of freedom - 1
+	 * @param d2    Number of degrees of freedom - 2
+	 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
+	 *              also known as Fisher–Snedecor distribution)
+	 */
+	public static double cdfSnedecordF(double x, double d1, double d2) {
+		if (Double.isNaN(x)) return Double.NaN;
+		if (Double.isNaN(d1)) return Double.NaN;
+		if (Double.isNaN(d2)) return Double.NaN;
+		if (Double.isInfinite(d1)) return Double.NaN;
+		if (Double.isInfinite(d2)) return Double.NaN;
+		if (d1 < 0.0) return Double.NaN;
+		if (d2 < 0.0) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+		if (x == Double.POSITIVE_INFINITY) return 1.0;
+		if (x == Double.NEGATIVE_INFINITY) return 0.0;
+		if (x < 0.0) return 0.0;
+		if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
+		return SpecialFunctions.regularizedBeta( d1/2.0, d2/2.0, (d1*x)/(d1*x + d2));
+	}
+	/**
+	 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
+	 * or F-ratio, also known as Fisher–Snedecor distribution)
+	 *
+	 * @param p     Probability
+	 * @param d1    Number of degrees of freedom - 1
+	 * @param d2    Number of degrees of freedom - 2
+	 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
+	 *              also known as Fisher–Snedecor distribution)
+	 */
+	public static double qntSnedecordF(double p, double d1, double d2) {
+		if (Double.isNaN(p)) return Double.NaN;
+		if (Double.isNaN(d1)) return Double.NaN;
+		if (Double.isNaN(d2)) return Double.NaN;
+		if (Double.isInfinite(d1)) return Double.NaN;
+		if (Double.isInfinite(d2)) return Double.NaN;
+		if (d1 < 0.0) return Double.NaN;
+		if (d2 < 0.0) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(p, 0.0)) return 0.0;
+		if (BinaryRelations.isEqualOrAlmost(p, 1.0)) return Double.POSITIVE_INFINITY;
+		if (p < 0.0) return Double.NaN;
+		if (p > 1.0) return Double.NaN;
+		double regBetaInv = SpecialFunctions.inverseRegularizedBeta(d1/2.0, d2/2.0, p);
+		return (d2 * regBetaInv) / ( d1 * (1 - regBetaInv) );
+	}
+	/**
+	 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
+	 * also known as Fisher–Snedecor distribution)
+	 *
+	 * @param d1    Number of degrees of freedom - 1
+	 * @param d2    Number of degrees of freedom - 2
+	 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
+	 *              or F-ratio, also known as Fisher–Snedecor distribution)
+	 */
+	public static double rndSnedecordF(double d1, double d2) {
+		if (Double.isNaN(d1)) return Double.NaN;
+		if (Double.isNaN(d2)) return Double.NaN;
+		if (Double.isInfinite(d1)) return Double.NaN;
+		if (Double.isInfinite(d2)) return Double.NaN;
+		if (d1 < 0.0) return Double.NaN;
+		if (d2 < 0.0) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+		if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+		return qntSnedecordF(randomGenerator.nextDouble(), d1, d2);
 	}
 }

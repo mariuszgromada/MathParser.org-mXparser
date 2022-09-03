@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxStringBuilder.cs        5.0.4    2022-05-22
+ * @(#)SyntaxStringBuilder.cs        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 * @see FunctionVariadic
 	 * @see Operator
 	 *
-	 * @version        5.0.0
+	 * @version        5.1.0
 	 */
 	internal sealed class SyntaxStringBuilder {
 		internal const String space = " ";
@@ -224,7 +224,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		internal const String j = "j";
 		internal const String s = "s";
 		internal const String v = "v";
-		internal const String dots = "...";
+        internal const String d1 = "d1";
+        internal const String d2 = "d2";
+        internal const String dots = "...";
 		internal const String comma = ",";
 		internal const String semicolon = ";";
 		internal const String from = "from";

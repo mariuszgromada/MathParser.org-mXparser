@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.0.7    2022-08-21
+ * @(#)Expression.cs        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -214,7 +214,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.7
+	 * @version        5.1.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -4053,6 +4053,16 @@ namespace org.mariuszgromada.math.mxparser {
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndNormal(mean, stddev, ProbabilityDistributions.randomGenerator));
 		}
 		/**
+		 * Random number - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void RND_F_SNEDECOR(int pos) {
+			double d1 = getTokenValue(pos+1);
+			double d2 = getTokenValue(pos+2);
+			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndSnedecordF(d1, d2) );
+		}
+		/**
 		 * Number of digits in given numeral system
 		 *
 		 * @param      pos                 the token position
@@ -4354,6 +4364,39 @@ namespace org.mariuszgromada.math.mxparser {
 			double mean = getTokenValue(pos + 2);
 			double stddev = getTokenValue(pos + 3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntNormal(q, mean, stddev));
+		}
+		/**
+		 * Probability Distribution Function - Snedecor's F distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void PDF_F_SNEDECOR(int pos) {
+			double x = getTokenValue(pos+1);
+			double d1 = getTokenValue(pos+2);
+			double d2 = getTokenValue(pos+3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.pdfSnedecordF(x, d1, d2) );
+		}
+		/**
+		 * Cumulative Distribution Function - Snedecor's F distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void CDF_F_SNEDECOR(int pos) {
+			double x = getTokenValue(pos+1);
+			double d1 = getTokenValue(pos+2);
+			double d2 = getTokenValue(pos+3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.cdfSnedecordF(x, d1, d2) );
+		}
+		/**
+		 * Quantile Function - Snedecor's F distribution
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void QNT_F_SNEDECOR(int pos) {
+			double p = getTokenValue(pos+1);
+			double d1 = getTokenValue(pos+2);
+			double d2 = getTokenValue(pos+3);
+			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordF(p, d1, d2) );
 		}
 		/**
 		 * Digit at position - numeral system with given base
@@ -6426,7 +6469,8 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function2Arg.PDF_CHI2_ID: PDF_CHI2(pos); break;
 			case Function2Arg.CDF_CHI2_ID: CDF_CHI2(pos); break;
 			case Function2Arg.QNT_CHI2_ID: QNT_CHI2(pos); break;
-			}
+			case Function2Arg.RND_F_SNEDECOR_ID: RND_F_SNEDECOR(pos); break;
+            }
 		}
 		/**
 		 * Calculates function with 3 arguments
@@ -6448,6 +6492,9 @@ namespace org.mariuszgromada.math.mxparser {
 			case Function3Arg.DIGIT_ID: DIGIT(pos); break;
 			case Function3Arg.INC_BETA_ID: INC_BETA(pos); break;
 			case Function3Arg.REG_BETA_ID: REG_BETA(pos); break;
+			case Function3Arg.PDF_F_SNEDECOR_ID: PDF_F_SNEDECOR(pos); break;
+			case Function3Arg.CDF_F_SNEDECOR_ID: CDF_F_SNEDECOR(pos); break;
+			case Function3Arg.QNT_F_SNEDECOR_ID: QNT_F_SNEDECOR(pos); break;
 			}
 		}
 		/**
@@ -6792,10 +6839,11 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function2Arg.PDF_CHI2_STR, Function2Arg.PDF_CHI2_DESC, Function2Arg.PDF_CHI2_ID, Function2Arg.PDF_CHI2_SYN, Function2Arg.PDF_CHI2_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.CDF_CHI2_STR, Function2Arg.CDF_CHI2_DESC, Function2Arg.CDF_CHI2_ID, Function2Arg.CDF_CHI2_SYN, Function2Arg.CDF_CHI2_SINCE, Function2Arg.TYPE_ID);
 				addKeyWord(Function2Arg.QNT_CHI2_STR, Function2Arg.QNT_CHI2_DESC, Function2Arg.QNT_CHI2_ID, Function2Arg.QNT_CHI2_SYN, Function2Arg.QNT_CHI2_SINCE, Function2Arg.TYPE_ID);
-				/*
+                addKeyWord(Function2Arg.RND_F_SNEDECOR_STR, Function2Arg.RND_F_SNEDECOR_DESC, Function2Arg.RND_F_SNEDECOR_ID, Function2Arg.RND_F_SNEDECOR_SYN, Function2Arg.RND_F_SNEDECOR_SINCE, Function2Arg.TYPE_ID);
+                /*
 				 * 3 args functions key words
 				 */
-				addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.IF_SYN, Function3Arg.IF_SINCE, Function3Arg.TYPE_ID);
+                addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.IF_SYN, Function3Arg.IF_SINCE, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.CHI_STR, Function3Arg.CHI_DESC, Function3Arg.CHI_ID, Function3Arg.CHI_SYN, Function3Arg.CHI_SINCE, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.CHI_LR_STR, Function3Arg.CHI_LR_DESC, Function3Arg.CHI_LR_ID, Function3Arg.CHI_LR_SYN, Function3Arg.CHI_LR_SINCE, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.CHI_L_STR, Function3Arg.CHI_L_DESC, Function3Arg.CHI_L_ID, Function3Arg.CHI_L_SYN, Function3Arg.CHI_L_SINCE, Function3Arg.TYPE_ID);
@@ -6810,10 +6858,13 @@ namespace org.mariuszgromada.math.mxparser {
 				addKeyWord(Function3Arg.INC_BETA_STR, Function3Arg.INC_BETA_DESC, Function3Arg.INC_BETA_ID, Function3Arg.INC_BETA_SYN, Function3Arg.INC_BETA_SINCE, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.REG_BETA_STR, Function3Arg.REG_BETA_DESC, Function3Arg.REG_BETA_ID, Function3Arg.REG_BETA_SYN, Function3Arg.REG_BETA_SINCE, Function3Arg.TYPE_ID);
 				addKeyWord(Function3Arg.REG_BETA_I_STR, Function3Arg.REG_BETA_DESC, Function3Arg.REG_BETA_ID, Function3Arg.REG_BETA_I_SYN, Function3Arg.REG_BETA_I_SINCE, Function3Arg.TYPE_ID);
-				/*
+                addKeyWord(Function3Arg.PDF_F_SNEDECOR_STR, Function3Arg.PDF_F_SNEDECOR_DESC, Function3Arg.PDF_F_SNEDECOR_ID, Function3Arg.PDF_F_SNEDECOR_SYN, Function3Arg.PDF_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID);
+                addKeyWord(Function3Arg.CDF_F_SNEDECOR_STR, Function3Arg.CDF_F_SNEDECOR_DESC, Function3Arg.CDF_F_SNEDECOR_ID, Function3Arg.CDF_F_SNEDECOR_SYN, Function3Arg.CDF_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID);
+                addKeyWord(Function3Arg.QNT_F_SNEDECOR_STR, Function3Arg.QNT_F_SNEDECOR_DESC, Function3Arg.QNT_F_SNEDECOR_ID, Function3Arg.QNT_F_SNEDECOR_SYN, Function3Arg.QNT_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID);
+                /*
 				 * Variadic functions as key words
 				 */
-				addKeyWord(FunctionVariadic.IFF_STR, FunctionVariadic.IFF_DESC, FunctionVariadic.IFF_ID, FunctionVariadic.IFF_SYN, FunctionVariadic.IFF_SINCE, FunctionVariadic.TYPE_ID);
+                addKeyWord(FunctionVariadic.IFF_STR, FunctionVariadic.IFF_DESC, FunctionVariadic.IFF_ID, FunctionVariadic.IFF_SYN, FunctionVariadic.IFF_SINCE, FunctionVariadic.TYPE_ID);
 				addKeyWord(FunctionVariadic.MIN_STR, FunctionVariadic.MIN_DESC, FunctionVariadic.MIN_ID, FunctionVariadic.MIN_SYN, FunctionVariadic.MIN_SINCE, FunctionVariadic.TYPE_ID);
 				addKeyWord(FunctionVariadic.MAX_STR, FunctionVariadic.MAX_DESC, FunctionVariadic.MAX_ID, FunctionVariadic.MAX_SYN, FunctionVariadic.MAX_SINCE, FunctionVariadic.TYPE_ID);
 				addKeyWord(FunctionVariadic.CONT_FRAC_STR, FunctionVariadic.CONT_FRAC_DESC, FunctionVariadic.CONT_FRAC_ID, FunctionVariadic.CONT_FRAC_SYN, FunctionVariadic.CONT_FRAC_SINCE, FunctionVariadic.TYPE_ID);

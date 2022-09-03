@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.cs        5.0.4    2022-05-22
+ * @(#)ProbabilityDistributions.cs        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -196,7 +196,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.1.0
 	 */
 	[CLSCompliant(true)]
 	public class ProbabilityDistributions {
@@ -806,6 +806,107 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			k = Math.Round(k);
 			if (k < 1.0) return Double.NaN;
 			return qntChiSquared(randomGenerator.NextDouble(), k);
+		}
+		/**
+		 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * @param x     Real value
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 */
+		public static double pdfSnedecordF(double x, double d1, double d2) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(d1)) return Double.NaN;
+			if (Double.IsNaN(d2)) return Double.NaN;
+			if (Double.IsInfinity(d1)) return Double.NaN;
+			if (Double.IsInfinity(d2)) return Double.NaN;
+			if (d1 < 0.0) return Double.NaN;
+			if (d2 < 0.0) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+			if (x == Double.PositiveInfinity) return 0.0;
+			if (x == Double.NegativeInfinity) return 0.0;
+			if (x < 0.0) return 0.0;
+			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
+			double d1div2 = d1 / 2.0;
+			double d2div2 = d2 / 2.0;
+			return ( ( Math.Pow(d1*x, d1div2) * Math.Pow(d2, d2div2) ) / Math.Pow(d1*x + d2, d1div2 + d2div2 ) ) / ( x * SpecialFunctions.beta(d1div2, d2div2) );
+		}
+		/**
+		 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * @param x     Real value
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 */
+		public static double cdfSnedecordF(double x, double d1, double d2) {
+			if (Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsNaN(d1)) return Double.NaN;
+			if (Double.IsNaN(d2)) return Double.NaN;
+			if (Double.IsInfinity(d1)) return Double.NaN;
+			if (Double.IsInfinity(d2)) return Double.NaN;
+			if (d1 < 0.0) return Double.NaN;
+			if (d2 < 0.0) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+			if (x == Double.PositiveInfinity) return 1.0;
+			if (x == Double.NegativeInfinity) return 0.0;
+			if (x < 0.0) return 0.0;
+			if (BinaryRelations.isEqualOrAlmost(x, 0.0)) return 0.0;
+			return SpecialFunctions.regularizedBeta( d1/2.0, d2/2.0, (d1*x)/(d1*x + d2));
+		}
+		/**
+		 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
+		 * or F-ratio, also known as Fisher–Snedecor distribution)
+		 *
+		 * @param p     Probability
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
+		 *              also known as Fisher–Snedecor distribution)
+		 */
+		public static double qntSnedecordF(double p, double d1, double d2) {
+			if (Double.IsNaN(p)) return Double.NaN;
+			if (Double.IsNaN(d1)) return Double.NaN;
+			if (Double.IsNaN(d2)) return Double.NaN;
+			if (Double.IsInfinity(d1)) return Double.NaN;
+			if (Double.IsInfinity(d2)) return Double.NaN;
+			if (d1 < 0.0) return Double.NaN;
+			if (d2 < 0.0) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(p, 0.0)) return 0.0;
+			if (BinaryRelations.isEqualOrAlmost(p, 1.0)) return Double.PositiveInfinity;
+			if (p < 0.0) return Double.NaN;
+			if (p > 1.0) return Double.NaN;
+			double regBetaInv = SpecialFunctions.inverseRegularizedBeta(d1/2.0, d2/2.0, p);
+			return (d2 * regBetaInv) / ( d1 * (1 - regBetaInv) );
+		}
+		/**
+		 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
+		 * also known as Fisher–Snedecor distribution)
+		 *
+		 * @param d1    Number of degrees of freedom - 1
+		 * @param d2    Number of degrees of freedom - 2
+		 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
+		 *              or F-ratio, also known as Fisher–Snedecor distribution)
+		 */
+		public static double rndSnedecordF(double d1, double d2) {
+			if (Double.IsNaN(d1)) return Double.NaN;
+			if (Double.IsNaN(d2)) return Double.NaN;
+			if (Double.IsInfinity(d1)) return Double.NaN;
+			if (Double.IsInfinity(d2)) return Double.NaN;
+			if (d1 < 0.0) return Double.NaN;
+			if (d2 < 0.0) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
+			if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
+			return qntSnedecordF(randomGenerator.NextDouble(), d1, d2);
 		}
 	}
 }

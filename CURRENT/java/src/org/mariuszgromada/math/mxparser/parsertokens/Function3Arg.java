@@ -1,5 +1,5 @@
 /*
- * @(#)Function3Arg.java        5.0.4    2022-05-22
+ * @(#)Function3Arg.java        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.1.0
  */
 public final class Function3Arg {
 	/*
@@ -220,6 +220,9 @@ public final class Function3Arg {
 	public static final int DIGIT_ID						= 13;
 	public static final int INC_BETA_ID						= 14;
 	public static final int REG_BETA_ID						= 15;
+	public static final int PDF_F_SNEDECOR_ID				= 16;
+	public static final int CDF_F_SNEDECOR_ID				= 17;
+	public static final int QNT_F_SNEDECOR_ID				= 18;
 	/*
 	 * 3-args Function - tokens key words.
 	 */
@@ -238,6 +241,9 @@ public final class Function3Arg {
 	public static final String INC_BETA_STR					= "BetaInc";
 	public static final String REG_BETA_STR					= "BetaReg";
 	public static final String REG_BETA_I_STR				= "BetaI";
+	public static final String PDF_F_SNEDECOR_STR			= "pFSned";
+	public static final String CDF_F_SNEDECOR_STR			= "cFSned";
+	public static final String QNT_F_SNEDECOR_STR			= "qFSned";
 	/*
 	 * 3-args Function - syntax.
 	 */
@@ -256,6 +262,9 @@ public final class Function3Arg {
 	public static final String INC_BETA_SYN					= SyntaxStringBuilder.function3Arg(INC_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
 	public static final String REG_BETA_SYN					= SyntaxStringBuilder.function3Arg(REG_BETA_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
 	public static final String REG_BETA_I_SYN				= SyntaxStringBuilder.function3Arg(REG_BETA_I_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.a, SyntaxStringBuilder.b);
+	public static final String PDF_F_SNEDECOR_SYN			= SyntaxStringBuilder.function3Arg(PDF_F_SNEDECOR_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
+	public static final String CDF_F_SNEDECOR_SYN			= SyntaxStringBuilder.function3Arg(CDF_F_SNEDECOR_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
+	public static final String QNT_F_SNEDECOR_SYN			= SyntaxStringBuilder.function3Arg(QNT_F_SNEDECOR_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
 	/*
 	 * 3-args Function - tokens description.
 	 */
@@ -269,11 +278,13 @@ public final class Function3Arg {
 	public static final String QNT_UNIFORM_CONT_DESC		= "Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b)";
 	public static final String PDF_NORMAL_DESC				= "Probability distribution function - Normal distribution N(m,s)";
 	public static final String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
-	public static final String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function)";
+	public static final String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function) - Normal distribution N(m,s)";
 	public static final String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
 	public static final String INC_BETA_DESC				= "The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind";
 	public static final String REG_BETA_DESC				= "The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind";
-	/*
+	public static final String PDF_F_SNEDECOR_DESC			= "Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
+	public static final String CDF_F_SNEDECOR_DESC			= "Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
+	public static final String QNT_F_SNEDECOR_DESC			= "Quantile function (inverse cumulative distribution function) - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";	/*
 	 * 3-args Function - since.
 	 */
 	public static final String IF_SINCE 					= mXparser.NAMEv10;
@@ -291,4 +302,7 @@ public final class Function3Arg {
 	public static final String INC_BETA_SINCE				= mXparser.NAMEv42;
 	public static final String REG_BETA_SINCE				= mXparser.NAMEv42;
 	public static final String REG_BETA_I_SINCE				= mXparser.NAMEv42;
+	public static final String PDF_F_SNEDECOR_SINCE			= mXparser.NAMEv51;
+	public static final String CDF_F_SNEDECOR_SINCE			= mXparser.NAMEv51;
+	public static final String QNT_F_SNEDECOR_SINCE			= mXparser.NAMEv51;
 }

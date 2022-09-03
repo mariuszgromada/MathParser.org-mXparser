@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.java        5.0.4    2022-05-22
+ * @(#)SpecialFunctions.java        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -195,7 +195,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.1.0
  */
 public final class SpecialFunctions {
 
@@ -593,15 +593,16 @@ public final class SpecialFunctions {
 			if ( MathFunctions.abs(xabs-xint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON )
 				return Double.NaN;
 		} else return Double.NaN;
-		if(x < 0.5) return MathConstants.PI / (Math.sin(MathConstants.PI * x) * lanchosGamma(1-x));
-		int g = 7;
-		x -= 1;
-		double a = Coefficients.lanchosGamma[0];
+		if (x < 0.5) return MathConstants.PI / (Math.sin(MathConstants.PI * x) * lanchosGamma(1.0-x));
+		double g = 7.0;
+		double[] coefficients = Coefficients.lanchosGamma;
+		x -= 1.0;
+		double a = coefficients[0];
 		double t = x+g+0.5;
-		for(int i = 1; i < Coefficients.lanchosGamma.length; i++){
-			a += Coefficients.lanchosGamma[i] / (x+i);
+		for (int i = 1; i < coefficients.length; i++){
+			a += coefficients[i] / (x+i);
 		}
-		return Math.sqrt(2*MathConstants.PI) * Math.pow(t, x+0.5) * Math.exp(-t) * a;
+		return Math.sqrt(2.0*MathConstants.PI) * Math.pow(t, x+0.5) * Math.exp(-t) * a;
 	}
 	/**
 	 * Real valued log gamma function.

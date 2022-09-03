@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.0.7    2022-08-16
+ * @(#)ExpressionTest.cs        5.1.0    2022-09-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.7
+	 * @version        5.1.0
 	 *
 	 */
 	[TestClass]
@@ -22449,6 +22449,219 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (reg == value)
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1368() {
+			/*
+			Mathematica 13.1.0 Kernel for Linux ARM (32-bit) / Raspberry Pi
+			In[5]:= SetPrecision[  Sum[   Sum[     Sum[    PDF[FRatioDistribution[d1, d2], x], {x, 0.1, 5, 0.02}    ], {d1, 1, 101, 1}     ], {d2, 1, 101, 1}   ], 20]
+			Out[5]= 503760.51435908034910
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(d2, 1, 101, sum(d1, 1, 101, sum(x, 0.1, 5, pFSned(x, d1, d2), 0.02), 1 ), 1)";
+			TestCommonTools.consolePrintTestExprStart(1368, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 503760.51435908034910;
+			if (MathFunctions.abs(reg - value) <= 1e-8)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1369() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Constant d1 = new Constant("d1 = rUnid(3, 100)");
+			Constant d2 = new Constant("d2 = rUnid(1, 100)");
+			Constant m = new Constant("m = ( (d1-2)/d1 ) * ( d2 / (d2 + 2) )", d1, d2);
+			Constant x0 = new Constant("x0 = rUni(0.7*m, 1.3*m)", m);
+			String expStr = "der(cFSned(x, d1, d2), x, x0) - pFSned(x0, d1, d2)";
+			TestCommonTools.consolePrintTestExprStart(1369, expStr);
+			Expression testExp = new Expression(expStr, x0, d1, d2);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-8)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			mXparser.consolePrintln("------ d1 = " + d1.getConstantValue());
+			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
+			mXparser.consolePrintln("------ m = " + m.getConstantValue());
+			mXparser.consolePrintln("------ x0 = " + x0.getConstantValue());
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1370() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(d2, 1, 101, sum(d1, 1, 101, sum(x, 0.2, 5, der( cFSned(x, d1, d2), x, x) - pFSned(x, d1, d2), 0.2)))";
+			TestCommonTools.consolePrintTestExprStart(1370, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-3)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1371() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Constant d1 = new Constant("d1 = rUnid(3, 100)");
+			Constant d2 = new Constant("d2 = rUnid(1, 100)");
+			Constant m = new Constant("m = ( (d1-2)/d1 ) * ( d2 / (d2 + 2) )", d1, d2);
+			Constant x0 = new Constant("x0 = rUni(0.2*m, 3*m)", m);
+			String expStr = "qFSned( cFSned(x0, d1, d2), d1, d2) - x0";
+			TestCommonTools.consolePrintTestExprStart(1371, expStr);
+			Expression testExp = new Expression(expStr, x0, d1, d2);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			mXparser.consolePrintln("------ d1 = " + d1.getConstantValue());
+			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
+			mXparser.consolePrintln("------ m = " + m.getConstantValue());
+			mXparser.consolePrintln("------ x0 = " + x0.getConstantValue());
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1372() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Constant d1 = new Constant("d1 = rUnid(3, 100)");
+			Constant d2 = new Constant("d2 = rUnid(1, 100)");
+			Constant p = new Constant("p = rUni(0.02, 0.98)");
+			String expStr = "cFSned( qFSned(p, d1, d2), d1, d2) - p";
+			TestCommonTools.consolePrintTestExprStart(1372, expStr);
+			Expression testExp = new Expression(expStr, p, d1, d2);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-12)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			mXparser.consolePrintln("------ d1 = " + d1.getConstantValue());
+			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
+			mXparser.consolePrintln("------ p = " + p.getConstantValue());
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1373() {
+			/*
+			Mathematica 13.1.0 Kernel for Linux ARM (32-bit) / Raspberry Pi
+			In[6]:= SetPrecision[  Sum[   Sum[     Sum[    CDF[FRatioDistribution[d1, d2], x], {x, 0.1, 5, 0.02}    ], {d1, 1, 101, 1}     ], {d2, 1, 101, 1}   ], 20]
+			Out[6]= 1.9892431022685815115E6
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(d2, 1, 101, sum(d1, 1, 101, sum(x, 0.1, 5, cFSned(x, d1, d2), 0.02), 1 ), 1)";
+			TestCommonTools.consolePrintTestExprStart(1373, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1.9892431022685815115E6;
+			if (MathFunctions.abs(reg - value) <= 1e-8)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1374() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(d1, 1, 100, sum(d2, 1, 100, sum(p, 0.01, 0.99, cFSned( qFSned(p, d1, d2), d1, d2) , 0.01) ) )";
+			TestCommonTools.consolePrintTestExprStart(1374, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 495000;
+			if (MathFunctions.abs(reg - value) <= 1e-9)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1375() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Constant d1 = new Constant("d1 = rUnid(3, 100)");
+			Constant d2 = new Constant("d2 = rUnid(1, 100)");
+			Constant m = new Constant("m = ( (d1-2)/d1 ) * ( d2 / (d2 + 2) )", d1, d2);
+			Constant a = new Constant("a = 0.2*m", m);
+			Constant b = new Constant("b = 1.9*m", m);
+			String expStr = "int( pFSned(x, d1, d2), x, a, b ) - ( cFSned(b, d1, d2) - cFSned(a, d1, d2) )";
+			TestCommonTools.consolePrintTestExprStart(1375, expStr);
+			Expression testExp = new Expression(expStr, d1, d2, a, b);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-6)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			mXparser.consolePrintln("------ d1 = " + d1.getConstantValue());
+			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
+			mXparser.consolePrintln("------ m = " + m.getConstantValue());
+			mXparser.consolePrintln("------ a = " + a.getConstantValue());
+			mXparser.consolePrintln("------ b = " + b.getConstantValue());
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1376() {
+			/*
+			Mathematica 13.1.0 Kernel for Linux ARM (32-bit) / Raspberry Pi
+			In[10]:= SetPrecision[  Sum[   Sum[     Sum[    InverseCDF[FRatioDistribution[d1, d2], p], {p, 0.01, 0.99, 0.01}    ], {d1, 1, 101, 1}     ], {d2, 1, 101, 1}   ], 20]
+			Out[10]= 2.1453359845434864983E6
+			*/
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(d2, 1, 101, sum(d1, 1, 101, sum(p, 0.01, 0.99, qFSned(p, d1, d2), 0.01), 1 ), 1)";
+			TestCommonTools.consolePrintTestExprStart(1376, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2.1453359845434864983E6;
+			if (MathFunctions.abs(reg - value) <= 1e-6)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1377() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Constant d1 = new Constant("d1 = rUnid(50, 100)");
+			Constant d2 = new Constant("d2 = rUnid(50, 100)");
+			Constant m = new Constant("m = d2 / (d2 - 2)", d1, d2);
+			String expStr = "avg(i, 1, 1000000, rFSned(d1, d2)) - m";
+			TestCommonTools.consolePrintTestExprStart(1377, expStr);
+			Expression testExp = new Expression(expStr, d1, d2, m);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-2)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			mXparser.consolePrintln("------ d1 = " + d1.getConstantValue());
+			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
+			mXparser.consolePrintln("------ m = " + m.getConstantValue());
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void TestExpr1378() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Constant d1 = new Constant("d1 = rUnid(30, 70)");
+			Constant d2 = new Constant("d2 = rUnid(30, 70)");
+			Constant v = new Constant("v = (2 * d2 * d2 * (d1 + d2 -2)) / (d1 * (d2 - 4) * (d2 - 2)^2)", d1, d2);
+			String expStr = "vari(i, 1, 1000000, rFSned(d1, d2)) - v";
+			TestCommonTools.consolePrintTestExprStart(1377, expStr);
+			Expression testExp = new Expression(expStr, d1, d2, v);
+			double value = testExp.calculate();
+			double reg = 0;
+			if (MathFunctions.abs(reg - value) <= 1e-2)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			mXparser.consolePrintln("------ d1 = " + d1.getConstantValue());
+			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
+			mXparser.consolePrintln("------ v = " + v.getConstantValue());
 			Assert.IsTrue(testResult);
 		}
 	}
