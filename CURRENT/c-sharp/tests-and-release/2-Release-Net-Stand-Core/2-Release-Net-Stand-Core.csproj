@@ -5,9 +5,9 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>5.0.7</Version>
-    <AssemblyVersion>5.0.7.0</AssemblyVersion>
-    <FileVersion>5.0.7.0</FileVersion>
+    <Version>5.1.0</Version>
+    <AssemblyVersion>5.1.0.0</AssemblyVersion>
+    <FileVersion>5.1.0.0</FileVersion>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
@@ -18,7 +18,7 @@
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>v.5.0 Leonis</PackageReleaseNotes>
+    <PackageReleaseNotes>v.5.1 Libris</PackageReleaseNotes>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
   <PropertyGroup>

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>5.0.7</version>
+    <version>5.1.0</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -11,7 +11,7 @@
 	<icon>images\icon.png</icon>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you find the software useful donation or purchase is something you might consider: https://mathparser.org/donate/ *** Online store: https://payhip.com/INFIMA *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: https://scalarmath.org/ *** MathSpace.pl: https://mathspace.pl/ ***</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under the DUAL LICENSE model, that is designed to meet the needs of both Non-Commercial Use as well as Commercial Use.</summary>
-    <releaseNotes>v.5.0 Leonis: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register</releaseNotes>
+    <releaseNotes>v.5.1 Libris: Additional Probability Distributions</releaseNotes>
     <copyright>Copyright 2010 - 2022, Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
 	<license type="file">LICENSE.txt</license>
