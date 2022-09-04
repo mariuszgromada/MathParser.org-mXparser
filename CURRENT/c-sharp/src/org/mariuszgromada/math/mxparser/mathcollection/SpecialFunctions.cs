@@ -1240,11 +1240,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		private const double GSL_DBL_EPSILON = 2.2204460492503131e-16;
 		/**
-		 * Halley iteration used in Lambert-W approximation
+		 * Halley's iteration used in Lambert-W approximation
 		 * @param x         Point at which Halley iteration will be calculated
 		 * @param wInitial  Starting point
 		 * @param maxIter   Maximum number of iteration
-		 * @return          Halley iteration value if succesfull, otherwise Double.NaN
+		 * @return          Halley's iteration value if successful, otherwise Double.NaN
 		 */
 		private static double halleyIteration(double x, double wInitial, int maxIter) {
 			double w = wInitial;
