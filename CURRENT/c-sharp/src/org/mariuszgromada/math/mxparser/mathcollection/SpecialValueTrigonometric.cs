@@ -565,7 +565,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Returns special value of inverse trigonometric sine function
 		 * @param x    The sine value
 		 * @return     Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		public static SpecialValue getSpecialValueAsin(double x) {
 			return getSpecialValue(x, valuesListAsin);
@@ -574,7 +574,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Returns special value of inverse trigonometric cosine function
 		 * @param x    The cosine value
 		 * @return     Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		public static SpecialValue getSpecialValueAcos(double x) {
 			return getSpecialValue(x, valuesListAcos);
@@ -583,7 +583,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Returns special value of inverse trigonometric tangent function
 		 * @param x    The tangent value
 		 * @return     Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		public static SpecialValue getSpecialValueAtan(double x) {
 			return getSpecialValue(x, valuesListAtan);
@@ -592,7 +592,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Returns special value of inverse trigonometric cotangent function
 		 * @param x    The cotangent value
 		 * @return     Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		public static SpecialValue getSpecialValueActan(double x) {
 			return getSpecialValue(x, valuesListActan);
@@ -601,7 +601,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Returns special value of inverse trigonometric secant function
 		 * @param x    The secant value
 		 * @return     Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		public static SpecialValue getSpecialValueAsec(double x) {
 			return getSpecialValue(x, valuesListAsec);
@@ -610,7 +610,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Returns special value of inverse trigonometric cosecant function
 		 * @param x    The cosecant value
 		 * @return     Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		public static SpecialValue getSpecialValueAcsc(double x) {
 			return getSpecialValue(x, valuesListAcsc);
@@ -620,7 +620,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param x              The trigonometric function value value
 		 * @param valuesList     List of special values of a given trigonometric function
 		 * @return               Returns special value object if special value was found,
-		 * other wise returns null.
+		 * otherwise returns null.
 		 */
 		private static SpecialValue getSpecialValue(double x, List<SpecialValue> valuesList) {
 			if (Double.IsNaN(x)) return null;

@@ -566,7 +566,7 @@ public class SpecialValueTrigonometric {
 	 * Returns special value of inverse trigonometric sine function
 	 * @param x    The sine value
 	 * @return     Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	public static final SpecialValue getSpecialValueAsin(double x) {
 		return getSpecialValue(x, valuesListAsin);
@@ -575,7 +575,7 @@ public class SpecialValueTrigonometric {
 	 * Returns special value of inverse trigonometric cosine function
 	 * @param x    The cosine value
 	 * @return     Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	public static final SpecialValue getSpecialValueAcos(double x) {
 		return getSpecialValue(x, valuesListAcos);
@@ -584,7 +584,7 @@ public class SpecialValueTrigonometric {
 	 * Returns special value of inverse trigonometric tangent function
 	 * @param x    The tangent value
 	 * @return     Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	public static final SpecialValue getSpecialValueAtan(double x) {
 		return getSpecialValue(x, valuesListAtan);
@@ -593,7 +593,7 @@ public class SpecialValueTrigonometric {
 	 * Returns special value of inverse trigonometric cotangent function
 	 * @param x    The cotangent value
 	 * @return     Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	public static final SpecialValue getSpecialValueActan(double x) {
 		return getSpecialValue(x, valuesListActan);
@@ -602,7 +602,7 @@ public class SpecialValueTrigonometric {
 	 * Returns special value of inverse trigonometric secant function
 	 * @param x    The secant value
 	 * @return     Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	public static final SpecialValue getSpecialValueAsec(double x) {
 		return getSpecialValue(x, valuesListAsec);
@@ -611,7 +611,7 @@ public class SpecialValueTrigonometric {
 	 * Returns special value of inverse trigonometric cosecant function
 	 * @param x    The cosecant value
 	 * @return     Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	public static final SpecialValue getSpecialValueAcsc(double x) {
 		return getSpecialValue(x, valuesListAcsc);
@@ -621,7 +621,7 @@ public class SpecialValueTrigonometric {
 	 * @param x              The trigonometric function value value
 	 * @param valuesList     List of special values of a given trigonometric function
 	 * @return               Returns special value object if special value was found,
-	 * other wise returns null.
+	 * otherwise returns null.
 	 */
 	private static final SpecialValue getSpecialValue(double x, List<SpecialValue> valuesList) {
 		if (Double.isNaN(x)) return null;
