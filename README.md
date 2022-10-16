@@ -291,6 +291,28 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - User expression in the loop – Performance
 - User function in the loop – Performance
 - User argument (dependent) in the loop – Performance
+### [**Extensive list of settings**](https://mathparser.org/mxparser-tutorial/extensive-list-of-settings/)
+- Degrees / Radians Mode
+- Attempt To Fix Expression String Mode
+- Primes Cache
+- Epsilon Comparison / Exact Comparison Mode
+- Canonical Rounding Mode
+- ULP (Unit In The Last Place) Rounding Mode
+- Almost Integers Rounding Mode
+- Implied Multiplication Mode
+- Unicode Builtin Key Words Mode
+- Verbose / Silent Mode
+- Override Builtin Tokens Mode
+- Modify Builtin Tokens Mode
+- Remove Builtin Tokens Mode
+- Current Calculation Cancellation
+- Setting Console Prefix
+- Reaching Console Output String
+- Maximum Allowed Recursion Depth
+- Double to Fraction Conversion
+- Random Generator Selection
+- Maximum Threads Number
+- Default Settings
 ## [>>> Click to learn from examples <<<](http://mathparser.org/mxparser-tutorial/)
 
 ## **Math Collection**
