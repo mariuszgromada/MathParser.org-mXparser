@@ -595,10 +595,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argumentValue   the argument value
 		 */
 		public void setArgumentValue(int argumentIndex, double argumentValue) {
-			if (isVariadic == false)
+			if (!isVariadic)
 				if (functionBodyType == BODY_RUNTIME)
 					functionExpression.argumentsList[argumentIndex].argumentValue = argumentValue;
-				else if (isVariadic == false)
+				else if (!isVariadic)
 					functionExtension.setParameterValue(argumentIndex, argumentValue);
 		}
 		/**
@@ -658,7 +658,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (functionBodyType == BODY_RUNTIME)
 				return functionExpression.calculate(calcStepsRegister);
 			else
-				if (isVariadic == false)
+				if (!isVariadic)
 					return functionExtension.calculate();
 				else {
 					List<Double> paramsList = functionExpression.UDFVariadicParamsAtRunTime;
@@ -893,7 +893,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getParametersNumber() {
-			if (isVariadic == false)
+			if (!isVariadic)
 				return parametersNumber;
 			else {
 				if (functionExpression.UDFVariadicParamsAtRunTime != null)

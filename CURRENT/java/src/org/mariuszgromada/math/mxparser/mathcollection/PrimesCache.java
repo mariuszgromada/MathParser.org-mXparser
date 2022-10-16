@@ -283,7 +283,7 @@ public class PrimesCache {
 			 */
 	        for (int i = 2; i*i <= maxNumInCache; i++) {
 	        	if (mXparser.isCurrentCalculationCancelled()) return;
-	            if (isPrime[i] == true)
+	            if (isPrime[i])
 	                for (int j = i; i*j <= maxNumInCache; j++) {
 	                    isPrime[i*j] = false;
 	                    if (mXparser.isCurrentCalculationCancelled()) return;
@@ -302,7 +302,7 @@ public class PrimesCache {
 	 */
 	private void countPrimes() {
 		for (int i = 0; i <= maxNumInCache; i++) {
-			if (isPrime[i] == true) numberOfPrimes++;
+			if (isPrime[i]) numberOfPrimes++;
 			if (mXparser.isCurrentCalculationCancelled()) return;
 		}
 	}

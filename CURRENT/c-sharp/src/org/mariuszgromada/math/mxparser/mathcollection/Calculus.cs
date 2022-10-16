@@ -571,7 +571,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					}
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 				}
-				if (rndflag == false) return Double.NaN;
+				if (!rndflag) return Double.NaN;
 			}
 			c = a;
 			d = c;
@@ -598,8 +598,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				} else
 					s = b - (fb * (b - a)) / (fb - fa);
 				if ((s < (3 * (a + b) / 4) || s > b) ||
-						((mflag == true) && MathFunctions.abs(s - b) >= (MathFunctions.abs(b - c) / 2)) ||
-						((mflag == false) && MathFunctions.abs(s - b) >= (MathFunctions.abs(c - d) / 2))) {
+						(mflag && MathFunctions.abs(s - b) >= (MathFunctions.abs(b - c) / 2)) ||
+						(!mflag && MathFunctions.abs(s - b) >= (MathFunctions.abs(c - d) / 2))) {
 					s = (a + b) / 2;
 					mflag = true;
 				} else

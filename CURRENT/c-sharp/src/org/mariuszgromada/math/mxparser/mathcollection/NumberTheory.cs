@@ -523,7 +523,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (distVal[i, count] > maxBase) maxBase = distVal[i, count];
 				if (distVal[i, initPosFirst] > maxBase) maxBase = distVal[i, initPosFirst];
 			}
-			if (returnOrderByDescFreqAndAscOrigPos == false) return distValFinal;
+			if (!returnOrderByDescFreqAndAscOrigPos) return distValFinal;
 			/*
 			 * This will be numeral system with base maxBase
 			 * so we need to increment with 1 to have digits interpretation
@@ -903,7 +903,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						long topCache = Math.Min(top, mXparser.primesCache.maxNumInCache);
 						long i;
 						for (i = 3; i <= topCache; i += 2) {
-							if (mXparser.primesCache.isPrime[(int)i] == true)
+							if (mXparser.primesCache.isPrime[(int)i])
 								if (n % i == 0) return false;
 							if (mXparser.isCurrentCalculationCancelled()) return false;
 						}
@@ -935,7 +935,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double primeTest(double n) {
 			if (Double.IsNaN(n)) return Double.NaN;
 			bool isPrime = primeTest((long)n);
-			if (isPrime == true)
+			if (isPrime)
 				return 1;
 			else
 				return 0;
@@ -954,7 +954,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double NAN = Double.NaN;
 			for (long i = 3; i <= n; i++) {
 				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
-				if (primeTest(i) == true)
+				if (primeTest(i))
 					numberOfPrimes++;
 			}
 			return numberOfPrimes;
@@ -1671,7 +1671,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param decimalNumber    Decimal number
 		 * @param numeralSystemBase       Numeral system base between 1 and 36
 		 * @return           Number literal representing decimal number in
-		 *                   given numeral numeral system. Digits
+		 *                   given numeral system. Digits
 		 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
 		 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
 		 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
@@ -1722,7 +1722,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                   where xx is the numeral system base specification.
 		 *
 		 * @return           Number literal representing decimal number in
-		 *                   given numeral numeral system.
+		 *                   given numeral system.
 		 *
 		 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
 		 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.
@@ -2580,7 +2580,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double denominator = fraction[denominatorIdx];
 			String numeratorStr = String.Format("{0:0}", numerator);
 			String denominatorStr = String.Format("{0:0}", denominator);
-			if (mixedFraction == false) {
+			if (!mixedFraction) {
 				if (numerator == 0) return "0";
 				if (denominator == 1) {
 					if (sign >= 0)

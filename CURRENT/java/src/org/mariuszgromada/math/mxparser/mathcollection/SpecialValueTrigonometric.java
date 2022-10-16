@@ -554,7 +554,7 @@ public class SpecialValueTrigonometric {
 	 * @return       Returns special values of trigonometric functions object if the special value was found for a given x
 	 * otherwise returns null
 	 */
-	public static final SpecialValueTrigonometric getSpecialValueTrigonometric(double xrad) {
+	public static SpecialValueTrigonometric getSpecialValueTrigonometric(double xrad) {
 		if (Double.isNaN(xrad)) return null;
 		if (Double.isInfinite(xrad)) return null;
 		for (SpecialValueTrigonometric sv : valuesListTrig) {
@@ -568,7 +568,7 @@ public class SpecialValueTrigonometric {
 	 * @return     Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	public static final SpecialValue getSpecialValueAsin(double x) {
+	public static SpecialValue getSpecialValueAsin(double x) {
 		return getSpecialValue(x, valuesListAsin);
 	}
 	/**
@@ -577,7 +577,7 @@ public class SpecialValueTrigonometric {
 	 * @return     Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	public static final SpecialValue getSpecialValueAcos(double x) {
+	public static SpecialValue getSpecialValueAcos(double x) {
 		return getSpecialValue(x, valuesListAcos);
 	}
 	/**
@@ -586,7 +586,7 @@ public class SpecialValueTrigonometric {
 	 * @return     Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	public static final SpecialValue getSpecialValueAtan(double x) {
+	public static SpecialValue getSpecialValueAtan(double x) {
 		return getSpecialValue(x, valuesListAtan);
 	}
 	/**
@@ -595,7 +595,7 @@ public class SpecialValueTrigonometric {
 	 * @return     Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	public static final SpecialValue getSpecialValueActan(double x) {
+	public static SpecialValue getSpecialValueActan(double x) {
 		return getSpecialValue(x, valuesListActan);
 	}
 	/**
@@ -604,7 +604,7 @@ public class SpecialValueTrigonometric {
 	 * @return     Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	public static final SpecialValue getSpecialValueAsec(double x) {
+	public static SpecialValue getSpecialValueAsec(double x) {
 		return getSpecialValue(x, valuesListAsec);
 	}
 	/**
@@ -613,7 +613,7 @@ public class SpecialValueTrigonometric {
 	 * @return     Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	public static final SpecialValue getSpecialValueAcsc(double x) {
+	public static SpecialValue getSpecialValueAcsc(double x) {
 		return getSpecialValue(x, valuesListAcsc);
 	}
 	/**
@@ -623,7 +623,7 @@ public class SpecialValueTrigonometric {
 	 * @return               Returns special value object if special value was found,
 	 * otherwise returns null.
 	 */
-	private static final SpecialValue getSpecialValue(double x, List<SpecialValue> valuesList) {
+	private static SpecialValue getSpecialValue(double x, List<SpecialValue> valuesList) {
 		if (Double.isNaN(x)) return null;
 		if (Double.isInfinite(x)) return null;
 		for (SpecialValue sv : valuesList) {

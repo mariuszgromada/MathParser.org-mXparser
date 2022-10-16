@@ -563,7 +563,7 @@ public class Expression extends PrimitiveElement {
 	 * to all related expressions.
 	 */
 	void setExpressionModifiedFlag() {
-		if (recursionCallPending == false) {
+		if (!recursionCallPending) {
 			recursionCallPending = true;
 			recursionCallsCounter = 0;
 			internalClone = false;
@@ -1578,7 +1578,7 @@ public class Expression extends PrimitiveElement {
 	 */
 	private void setToNumber(int pos, double number, boolean ulpRound) {
 		Token token = tokensList.get(pos);
-		if ( (mXparser.ulpRounding) && (disableRounding == false) ){
+		if (mXparser.ulpRounding && !disableRounding){
 			if (ulpRound) {
 				if ( (Double.isNaN(number) ) || (Double.isInfinite(number)) )
 					token.tokenValue = number;
@@ -1939,7 +1939,7 @@ public class Expression extends PrimitiveElement {
 						if (t.tokenId == ParserSymbol.COMMA_ID)
 							comma = true;
 				}
-			if ( (paren == true) || (comma == true) ) {
+			if (paren || comma) {
 				if (cPos > pos + 2) {
 					functionParameters.add( new FunctionParameter(paramTkones, paramStr, pPos, cPos-1 ) );
 					paramTkones = new ArrayList<Token>();
@@ -2016,10 +2016,10 @@ public class Expression extends PrimitiveElement {
 	private void FREE_ARGUMENT(int pos) {
 		Argument argument = argumentsList.get( tokensList.get(pos).tokenId);
 		boolean argumentVerboseMode = argument.getVerboseMode();
-		if (verboseMode == true)
+		if (verboseMode)
 			argument.setVerboseMode();
 		setToNumber(pos, argument.getArgumentValue());
-		if (argumentVerboseMode == false)
+		if (!argumentVerboseMode)
 			argument.setSilentMode();
 	}
 	/**
@@ -2030,7 +2030,7 @@ public class Expression extends PrimitiveElement {
 	private void DEPENDENT_ARGUMENT(int pos, CalcStepsRegister calcStepsRegister) {
 		Argument argument = argumentsList.get( tokensList.get(pos).tokenId);
 		boolean argumentVerboseMode = argument.getVerboseMode();
-		if (verboseMode == true)
+		if (verboseMode)
 			argument.setVerboseMode();
 		/*
 		 * Handling possible recursive calls that can change
@@ -2052,7 +2052,7 @@ public class Expression extends PrimitiveElement {
 				setToNumber(pos, argumentValue);
 			}
 		}
-		if (argumentVerboseMode == false)
+		if (!argumentVerboseMode)
 			argument.setSilentMode();
 	}
 	/**
@@ -2063,18 +2063,18 @@ public class Expression extends PrimitiveElement {
 	private void USER_FUNCTION(int pos, CalcStepsRegister calcStepsRegister) {
 		Function function;
 		Function fun = functionsList.get( tokensList.get(pos).tokenId );
-		if (fun.getRecursiveMode() == true) {
+		if (fun.getRecursiveMode()) {
 			function = fun.clone();
 			function.functionExpression.recursionCallsCounter = recursionCallsCounter;
 		} else
 			function = fun;
 		function.functionExpression.UDFVariadicParamsAtRunTime = getNumbers(pos);
 		int argsNumber = function.getParametersNumber();
-		if (function.isVariadic == false)
+		if (!function.isVariadic)
 			for (int argIdx = 0; argIdx < argsNumber; argIdx++)
 				function.setArgumentValue(argIdx, tokensList.get(pos + argIdx + 1).tokenValue);
 		boolean functionVerboseMode = function.getVerboseMode();
-		if (verboseMode == true)
+		if (verboseMode)
 			function.setVerboseMode();
 		/*
 		 * Handling possible recursive calls that can change
@@ -2104,7 +2104,7 @@ public class Expression extends PrimitiveElement {
 					tokensList.remove(pos+argIdx);
 			}
 		}
-		if (functionVerboseMode == false)
+		if (!functionVerboseMode)
 			function.setSilentMode();
 	}
 	/**
@@ -2125,11 +2125,11 @@ public class Expression extends PrimitiveElement {
 		double index = tokensList.get(pos+1).tokenValue;
 		RecursiveArgument argument = (RecursiveArgument)argumentsList.get( tokensList.get(pos).tokenId );
 		boolean argumentVerboseMode = argument.getVerboseMode();
-		if (verboseMode == true)
+		if (verboseMode)
 			argument.setVerboseMode();
 		double result = argument.getArgumentValue(index);
 		f1SetDecreaseRemove(pos, result);
-		if (argumentVerboseMode == false)
+		if (!argumentVerboseMode)
 			argument.setSilentMode();
 	}
 	/**
@@ -3830,7 +3830,7 @@ public class Expression extends PrimitiveElement {
 		double value = Double.NaN;
 		double x = getTokenValue(pos+1);
 		int npar = UDFVariadicParamsAtRunTime.size();
-		if ( (Double.isNaN(x) == false ) && (x != Double.POSITIVE_INFINITY) && (x != Double.NEGATIVE_INFINITY) ) {
+		if ( (!Double.isNaN(x)) && (x != Double.POSITIVE_INFINITY) && (x != Double.NEGATIVE_INFINITY) ) {
 			int i = (int)MathFunctions.integerPart(x);
 			if (i == 0) {
 				value = npar;
@@ -3886,7 +3886,7 @@ public class Expression extends PrimitiveElement {
 			}
 			if ( (pn == lastIndex) || (!isNumber) )
 				end = true;
-		} while ( end == false );
+		} while (!end);
 		return numbers;
 	}
 	/**
@@ -4205,7 +4205,7 @@ public class Expression extends PrimitiveElement {
 		List<FunctionParameter> ifParams = getFunctionParameters(pos, tokensList);
 		FunctionParameter ifParam = ifParams.get(0);
 		Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
-		if (verboseMode == true)
+		if (verboseMode)
 			ifExp.setVerboseMode();
 		ifSetRemove(pos, ifExp.calculate());
 	}
@@ -4230,7 +4230,7 @@ public class Expression extends PrimitiveElement {
 		boolean iffCon = true;
 		do {
 			iffExp = new Expression(iffParam.paramStr, iffParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
-			if (verboseMode == true)
+			if (verboseMode)
 				iffExp.setVerboseMode();
 			iffCon = true;
 			iffValue = iffExp.calculate();
@@ -4264,7 +4264,7 @@ public class Expression extends PrimitiveElement {
 			from = pos;
 			for (p = to; p >= from; p--)
 				if (p != pos + 1)
-				tokensList.remove(p);
+					tokensList.remove(p);
 		} else {
 			to = iffParams.get(parametersNumber-1).toIndex+1;
 			from = pos+1;
@@ -4515,7 +4515,7 @@ public class Expression extends PrimitiveElement {
 		iterParams.toExp = new Expression(iterParams.toParam.paramStr, iterParams.toParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 		iterParams.funExp = new Expression(iterParams.funParam.paramStr, iterParams.funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		iterParams.deltaExp = null;
-		if (verboseMode == true) {
+		if (verboseMode) {
 			iterParams.fromExp.setVerboseMode();
 			iterParams.toExp.setVerboseMode();
 			iterParams.funExp.setVerboseMode();
@@ -4527,12 +4527,12 @@ public class Expression extends PrimitiveElement {
 		iterParams.to = iterParams.toExp.calculate();
 		iterParams.delta = 1.0;
 		if (iterParams.to < iterParams.from) iterParams.delta = -1.0;
-		if (iterParams.withDelta == true) {
+		if (iterParams.withDelta) {
 			iterParams.deltaExp = new Expression(iterParams.deltaParam.paramStr, iterParams.deltaParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (index.presence == Argument.NOT_FOUND) {
 				updateMissingTokens(iterParams.deltaParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
 			}
-			if (verboseMode == true)
+			if (verboseMode)
 				iterParams.deltaExp.setVerboseMode();
 			iterParams.delta = iterParams.deltaExp.calculate();
 		}
@@ -4931,13 +4931,13 @@ public class Expression extends PrimitiveElement {
 		FunctionParameter xParam = params.get(1);
 		ArgumentParameter x = getParamArgument(xParam.paramStr);
 		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		if (verboseMode == true)
+		if (verboseMode)
 			funExp.setVerboseMode();
 		double h = 1;
 		if (params.size() == 3) {
 			FunctionParameter hParam = params.get(2);
 			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			if (verboseMode == true)
+			if (verboseMode)
 				hExp.setVerboseMode();
 			h = hExp.calculate();
 		}
@@ -4955,13 +4955,13 @@ public class Expression extends PrimitiveElement {
 		FunctionParameter xParam = params.get(1);
 		ArgumentParameter x = getParamArgument(xParam.paramStr);
 		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-		if (verboseMode == true)
+		if (verboseMode)
 			funExp.setVerboseMode();
 		double h = 1;
 		if (params.size() == 3) {
 			FunctionParameter hParam = params.get(2);
 			Expression hExp = new Expression(hParam.paramStr, hParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
-			if (verboseMode == true)
+			if (verboseMode)
 				hExp.setVerboseMode();
 			h = hExp.calculate();
 		}
@@ -5380,7 +5380,7 @@ public class Expression extends PrimitiveElement {
 	 *             otherwise returns false.
 	 */
 	private boolean checkSyntax(String level, boolean functionWithBodyExt) {
-		if ( (expressionWasModified == false) && (syntaxStatus == NO_SYNTAX_ERRORS) && (optionsChangesetNumber == mXparser.optionsChangesetNumber) ) {
+		if ( (!expressionWasModified) && (syntaxStatus == NO_SYNTAX_ERRORS) && (optionsChangesetNumber == mXparser.optionsChangesetNumber) ) {
 			errorMessage = level + "already checked - no errors!\n";
 			recursionCallPending = false;
 			return NO_SYNTAX_ERRORS;
@@ -5445,7 +5445,7 @@ public class Expression extends PrimitiveElement {
 						errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
 					} else if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME) {
 						if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
-							if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
+							if ( (arg.argumentExpression != this) && (!arg.argumentExpression.recursionCallPending) ) {
 								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
 								syntax = syntax && syntaxRec;
 								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
@@ -5494,11 +5494,11 @@ public class Expression extends PrimitiveElement {
 					if (npar == 0) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting at least one argument.\n";
-					} else if ( (fun.isVariadic == false) && ( fpar != npar ) ) {
+					} else if ( (!fun.isVariadic) && ( fpar != npar ) ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + fpar + " arguments.\n";
 					} else
-						if ( (fun.functionExpression != this) && (fun.functionExpression.recursionCallPending == false) ) {
+						if ( (fun.functionExpression != this) && (!fun.functionExpression.recursionCallPending) ) {
 							boolean syntaxRec;
 							if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
 								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", false);
@@ -5571,7 +5571,7 @@ public class Expression extends PrimitiveElement {
 						} else {
 							if ( (paramsNumber == 2) || (paramsNumber == 4) ) {
 								FunctionParameter argParam = funParams.get(1);
-								if ( checkIfKnownArgument(argParam) == false) {
+								if (!checkIfKnownArgument(argParam)) {
 									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 									errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
 								}
@@ -5597,7 +5597,7 @@ public class Expression extends PrimitiveElement {
 							errorMessage = errorMessage + level + tokenStr + "<NTH_DERIVATIVE> expecting 3 or 5 calculus arguments.\n";
 						} else {
 							FunctionParameter argParam = funParams.get(2);
-							if ( checkIfKnownArgument(argParam) == false) {
+							if (!checkIfKnownArgument(argParam)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
 							}
@@ -5655,7 +5655,7 @@ public class Expression extends PrimitiveElement {
 							errorMessage = errorMessage + level + tokenStr + "<DIFF> expecting 2 or 3 arguments.\n";
 						} else {
 							FunctionParameter xParam = funParams.get(1);
-							if ( checkIfKnownArgument(xParam) == false) {
+							if (!checkIfKnownArgument(xParam)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 								errorMessage = errorMessage + level + tokenStr + "<DIFF> argument was expected.\n";
 							}
@@ -5766,7 +5766,7 @@ public class Expression extends PrimitiveElement {
 	private double calculateInternal(CalcStepsRegister calcStepsRegister) {
 		computingTime = 0;
 		long startTime = System.currentTimeMillis();
-		if (verboseMode == true) {
+		if (verboseMode) {
 			printSystemInfo("\n", NO_EXP_STR);
 			printSystemInfo("\n", WITH_EXP_STR);
 			printSystemInfo("Starting ...\n", WITH_EXP_STR);
@@ -5777,11 +5777,11 @@ public class Expression extends PrimitiveElement {
 		 * evaluate expression string tokens
 		 *
 		 */
-		if ( (expressionWasModified == true) || (syntaxStatus != NO_SYNTAX_ERRORS) )
+		if ( (expressionWasModified) || (syntaxStatus != NO_SYNTAX_ERRORS) )
 				syntaxStatus = checkSyntax();
 		if ( syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
 			errorMessage =  errorMessage + "Problem with expression syntax\n";
-			if (verboseMode == true)
+			if (verboseMode)
 				printSystemInfo("syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN, returning Double.NaN\n", NO_EXP_STR);
 			/*
 			 * Recursive counter to avoid infinite loops in expressions
@@ -5819,7 +5819,7 @@ public class Expression extends PrimitiveElement {
 		 */
 		if (tokensList.size() == 0) {
 			errorMessage =  errorMessage + "Empty expression\n";
-			if (verboseMode == true)
+			if (verboseMode)
 				printSystemInfo("tokensList.size() == 0, returning Double.NaN\n", NO_EXP_STR);
 			recursionCallsCounter = 0;
 			return Double.NaN;
@@ -5841,7 +5841,7 @@ public class Expression extends PrimitiveElement {
 		 */
 		if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
 			errorMessage =  errorMessage + "recursionCallsCounter >= MAX_RECURSION_CALLS\n";
-			if (verboseMode == true) {
+			if (verboseMode) {
 				printSystemInfo("recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS, returning Double.NaN\n", NO_EXP_STR);
 				printSystemInfo("recursionCallsCounter = " +  recursionCallsCounter + "\n", NO_EXP_STR);
 				printSystemInfo("mXparser.MAX_RECURSION_CALLS = " +  mXparser.MAX_RECURSION_CALLS + "\n", NO_EXP_STR);
@@ -5906,7 +5906,7 @@ public class Expression extends PrimitiveElement {
 		int emptyLoopCounter = 0;
 		int loopCounter = 0;
 		/* While exist token which needs to bee evaluated */
-		if (verboseMode == true)
+		if (verboseMode)
 			printSystemInfo("Starting calculation loop\n", WITH_EXP_STR);
 
 		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
@@ -6062,7 +6062,7 @@ public class Expression extends PrimitiveElement {
 					while ( (tokenIndex < tokensNumber) && (maxPartLevel == tokensList.get(tokenIndex).tokenLevel ) )
 						tokenIndex++;
 					rPos = tokenIndex - 1;
-					if (verboseMode == true) {
+					if (verboseMode) {
 						printSystemInfo("Parsing (" + lPos + ", " + rPos + ") ", WITH_EXP_STR);
 						showParsing(lPos,rPos);
 					}
@@ -6327,7 +6327,7 @@ public class Expression extends PrimitiveElement {
 			} else if (tokensList.size() > 1) {
 				this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Fatal error - not know what to do with tokens while calculate().\n";
 			}
-			if (verboseMode == true) {
+			if (verboseMode) {
 				showParsing(0,tokensList.size()-1);
 				printSystemInfo(" done\n", NO_EXP_STR);
 			}
@@ -6343,7 +6343,7 @@ public class Expression extends PrimitiveElement {
 			}
 		} while (tokensList.size() > 1);
 
-		if (verboseMode == true) {
+		if (verboseMode) {
 			printSystemInfo("Calculated value: " + tokensList.get(0).tokenValue + "\n", WITH_EXP_STR);
 			printSystemInfo("Exiting\n", WITH_EXP_STR);
 			printSystemInfo("\n", NO_EXP_STR);
@@ -6715,7 +6715,7 @@ public class Expression extends PrimitiveElement {
 		addKeyWord(BinaryRelation.GEQ_STR, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN, BinaryRelation.GEQ_SINCE, BinaryRelation.TYPE_ID);
 		addKeyWordUnicode(BinaryRelation.GEQ_STR_UNI_1, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN_UNI_1, BinaryRelation.GEQ_SINCE_UNI_1, BinaryRelation.TYPE_ID);
 		addKeyWordUnicode(BinaryRelation.GEQ_STR_UNI_2, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN_UNI_2, BinaryRelation.GEQ_SINCE_UNI_2, BinaryRelation.TYPE_ID);
-		if (parserKeyWordsOnly == false) {
+		if (!parserKeyWordsOnly) {
 			/*
 			 * 1 arg functions key words
 			 */
@@ -8136,7 +8136,7 @@ public class Expression extends PrimitiveElement {
 		keyWordsList = new ArrayList<KeyWord>();
 		addParserKeyWords();
 		validateParserKeyWords();
-		if (parserKeyWordsOnly == false) {
+		if (!parserKeyWordsOnly) {
 			addArgumentsKeyWords();
 			addFunctionsKeyWords();
 			addConstantsKeyWords();
@@ -8295,7 +8295,7 @@ public class Expression extends PrimitiveElement {
 				/*
 				 * If leading operator was found
 				 */
-				if (leadingOp == true) {
+				if (leadingOp) {
 					/*
 					 * Add leading operator to the tokens list
 					 */
@@ -8507,7 +8507,7 @@ public class Expression extends PrimitiveElement {
 					tokenLevel--;
 					if (!tokenStack.isEmpty()) {
 						TokenStackElement stackEl = tokenStack.pop();
-						if (stackEl.precedingFunction == true)
+						if (stackEl.precedingFunction)
 							tokenLevel--;
 					}
 				}
@@ -8714,7 +8714,7 @@ public class Expression extends PrimitiveElement {
 		String helpStr = "Help content: \n\n";
 		addParserKeyWords();
 		validateParserKeyWords();
-		if (parserKeyWordsOnly == false) {
+		if (!parserKeyWordsOnly) {
 			addArgumentsKeyWords();
 			addFunctionsKeyWords();
 			addConstantsKeyWords();
@@ -8794,7 +8794,7 @@ public class Expression extends PrimitiveElement {
 		List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
 		addParserKeyWords();
 		validateParserKeyWords();
-		if (parserKeyWordsOnly == false) {
+		if (!parserKeyWordsOnly) {
 			addArgumentsKeyWords();
 			addFunctionsKeyWords();
 			addConstantsKeyWords();
@@ -8869,7 +8869,7 @@ public class Expression extends PrimitiveElement {
 			boolean vMode = a.getVerboseMode();
 			a.setSilentMode();
 			printSystemInfo(a.getArgumentName() + " = " + a.getArgumentValue() + "\n", WITH_EXP_STR);
-			if (vMode == true)
+			if (vMode)
 				a.setVerboseMode();
 		}
 	}

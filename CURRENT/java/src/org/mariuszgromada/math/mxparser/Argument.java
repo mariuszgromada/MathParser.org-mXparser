@@ -405,7 +405,7 @@ public class Argument extends PrimitiveElement {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpr = new Expression(headEqBody.bodyStr);
-			if (forceDependent == true) {
+			if (forceDependent) {
 				argumentExpression = bodyExpr;
 				addDefinitions(elements);
 				argumentType = DEPENDENT_ARGUMENT;

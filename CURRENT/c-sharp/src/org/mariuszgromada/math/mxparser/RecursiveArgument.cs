@@ -407,7 +407,7 @@ namespace org.mariuszgromada.math.mxparser {
 							,base.argumentExpression.UDFVariadicParamsAtRunTime);
 					newExp.setDescription(base.getArgumentName());
 					//newExp.setRecursiveMode();
-					if (base.getVerboseMode() == true)
+					if (base.getVerboseMode())
 					{
 						//System.out.println(super.getVerboseMode() + ", " +super.getArgumentName() + ", " + super.argumentExpression.expressionString + "," + "VERBOSE MODE for recurssion");
 						newExp.setVerboseMode();

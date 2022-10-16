@@ -280,7 +280,7 @@ public final class Statistics {
 	 * @see        Expression
 	 * @see        Argument
 	 */
-	public static final double std(Expression f, Argument index, double from, double to, double delta) {
+	public static double std(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
 		return std( mXparser.getFunctionValues(f, index, from, to, delta) );

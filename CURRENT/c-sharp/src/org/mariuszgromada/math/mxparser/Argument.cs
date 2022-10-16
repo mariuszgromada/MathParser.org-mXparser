@@ -410,7 +410,7 @@ namespace org.mariuszgromada.math.mxparser {
 				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				Expression bodyExpr = new Expression(headEqBody.bodyStr);
-				if (forceDependent == true) {
+				if (forceDependent) {
 					argumentExpression = bodyExpr;
 					addDefinitions(elements);
 					argumentType = DEPENDENT_ARGUMENT;

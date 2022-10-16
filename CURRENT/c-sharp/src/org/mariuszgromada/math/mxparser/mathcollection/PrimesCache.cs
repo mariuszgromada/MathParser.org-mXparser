@@ -283,7 +283,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				 */
 				for (int i = 2; i*i <= maxNumInCache; i++) {
 					if (mXparser.isCurrentCalculationCancelled()) return;
-					if (isPrime[i] == true)
+					if (isPrime[i])
 						for (int j = i; i*j <= maxNumInCache; j++) {
 							isPrime[i*j] = false;
 							if (mXparser.isCurrentCalculationCancelled()) return;
@@ -302,7 +302,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		private void countPrimes() {
 			for (int i = 0; i <= maxNumInCache; i++) {
-				if (isPrime[i] == true) numberOfPrimes++;
+				if (isPrime[i]) numberOfPrimes++;
 				if (mXparser.isCurrentCalculationCancelled()) return;
 			}
 		}
@@ -379,7 +379,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public int primeTest(int n) {
 			if (n <= 1) return IS_NOT_PRIME;
 			if ( (n <= maxNumInCache) && (cacheStatus = CACHING_FINISHED) )
-				if ( isPrime[n] == true)
+				if (isPrime[n])
 					return IS_PRIME;
 				else
 					return IS_NOT_PRIME;

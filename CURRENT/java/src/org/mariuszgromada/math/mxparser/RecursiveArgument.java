@@ -401,7 +401,7 @@ public class RecursiveArgument extends Argument {
 						,super.argumentExpression.UDFExpression
 						,super.argumentExpression.UDFVariadicParamsAtRunTime);
 				newExp.setDescription(super.getArgumentName());
-				if (super.getVerboseMode() == true)
+				if (super.getVerboseMode())
 					newExp.setVerboseMode();
 				/*
 				 * perform recursive call
