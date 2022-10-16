@@ -90,7 +90,7 @@ implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.0.7")
 - nodeJS
 
 ## **Tutorial**
-The tutorial consists of c.a. 140 live examples from over 30 sections. Each of the examples can be copied and run on your own environment. In addition, mXparser provides an extensive collection of over 500 built-in math functions, expressions and symbols. Familiarize yourself with the scope and the syntax. Live testing is the best way to learn. Good luck! 
+The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of the examples can be copied and run on your own environment. In addition, mXparser provides an extensive collection of over 500 built-in math functions, expressions and symbols. Familiarize yourself with the scope and the syntax. Live testing is the best way to learn. Good luck! 
 ### [**Using internal help**](https://mathparser.org/mxparser-tutorial/using-internal-help/)
 - Full help content
 - In-line help searching
@@ -127,12 +127,16 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - Dealing with free arguments
 - Defining dependent arguments
 - Implementing your own Argument Extension
+- Getting list of missing user defined arguments
+- Possible conflict between Implied Multiplication and getting list of missing user defined arguments + recommended solutions
 ### [**User defined functions**](https://mathparser.org/mxparser-tutorial/user-defined-functions/)
 - Fast function definition (performance of creation)
 - Handy function constructor, but slower proces of function creation (performance of creation slower, but calculation the same)
 - Function with more parameters
 - Function in function
 - Implementing your own Function Extension
+- Getting list of missing user defined functions
+- Possible conflict between Implied Multiplication and getting list of missing user defined functions + recommended solutions
 ### [**Expression pre-compilation**](https://mathparser.org/mxparser-tutorial/expression-pre-compilation/)
 - What is pre-compilation?
 - When is pre-compilation done?
@@ -291,6 +295,28 @@ The tutorial consists of c.a. 140 live examples from over 30 sections. Each of t
 - User expression in the loop – Performance
 - User function in the loop – Performance
 - User argument (dependent) in the loop – Performance
+### [**Extensive list of settings**](https://mathparser.org/mxparser-tutorial/extensive-list-of-settings/)
+- Degrees / Radians Mode
+- Attempt To Fix Expression String Mode
+- Primes Cache
+- Epsilon Comparison / Exact Comparison Mode
+- Canonical Rounding Mode
+- ULP (Unit In The Last Place) Rounding Mode
+- Almost Integers Rounding Mode
+- Implied Multiplication Mode
+- Unicode Builtin Key Words Mode
+- Verbose / Silent Mode
+- Override Builtin Tokens Mode
+- Modify Builtin Tokens Mode
+- Remove Builtin Tokens Mode
+- Current Calculation Cancellation
+- Setting Console Prefix
+- Reaching Console Output String
+- Maximum Allowed Recursion Depth
+- Double to Fraction Conversion
+- Random Generator Selection
+- Maximum Threads Number
+- Default Settings
 ## [>>> Click to learn from examples <<<](http://mathparser.org/mxparser-tutorial/)
 
 ## **Math Collection**
