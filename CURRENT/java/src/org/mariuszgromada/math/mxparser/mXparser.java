@@ -334,12 +334,12 @@ public final class mXparser {
 	static volatile boolean unicodeKeyWordsEnabled = true;
 	/**
 	 * Internal indicator informing the parser
-	 * whether t try to fix the expression String.
+	 * whether to try to fix the expression String.
 	 * For example, situations such as:
 	 * "++" change to "+",
-	 * "+-" changed tro "-"
-	 * "-+" changed tro "-"
-	 * "--" changed tro "-"
+	 * "+-" changed to "-"
+	 * "-+" changed to "-"
+	 * "--" changed to "-"
 	 */
 	static boolean attemptToFixExpStrEnabled = true;
 	/**
@@ -892,9 +892,9 @@ public final class mXparser {
 	 * Enables attempt to fix the expression String.
 	 * For example, situations such as:
 	 * "++" change to "+",
-	 * "+-" changed tro "-"
-	 * "-+" changed tro "-"
-	 * "--" changed tro "-"
+	 * "+-" changed to "-"
+	 * "-+" changed to "-"
+	 * "--" changed to "+"
 	 */
 	public static void enableAttemptToFixExpStrMode() {
 		attemptToFixExpStrEnabled = true;
@@ -903,9 +903,9 @@ public final class mXparser {
 	 * Disables attempt to fix the expression String.
 	 * For example, situations such as:
 	 * "++" change to "+",
-	 * "+-" changed tro "-"
-	 * "-+" changed tro "-"
-	 * "--" changed tro "-"
+	 * "+-" changed to "-"
+	 * "-+" changed to "-"
+	 * "--" changed to "+"
 	 */
 	public static void disableAttemptToFixExpStrMode() {
 		attemptToFixExpStrEnabled = false;

@@ -422,12 +422,12 @@ namespace org.mariuszgromada.math.mxparser {
 		private bool unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 		/**
 		 * Internal indicator informing the parser
-		 * whether t try to fix the expression String.
+		 * whether to try to fix the expression String.
 		 * For example, situations such as:
 		 * "++" change to "+",
-		 * "+-" changed tro "-"
-		 * "-+" changed tro "-"
-		 * "--" changed tro "-"
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
 		 */
 		private bool attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 		/**
@@ -872,9 +872,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Enables attempt to fix the expression String.
 		 * For example, situations such as:
 		 * "++" change to "+",
-		 * "+-" changed tro "-"
-		 * "-+" changed tro "-"
-		 * "--" changed tro "-"
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
 		 */
 		public void enableAttemptToFixExpStrMode() {
 			if (attemptToFixExpStrEnabled) return;
@@ -885,9 +885,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Disables attempt to fix the expression String.
 		 * For example, situations such as:
 		 * "++" change to "+",
-		 * "+-" changed tro "-"
-		 * "-+" changed tro "-"
-		 * "--" changed tro "-"
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
 		 */
 		public void disableAttemptToFixExpStrMode() {
 			if (!attemptToFixExpStrEnabled) return;

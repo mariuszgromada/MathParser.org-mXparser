@@ -443,12 +443,12 @@ public class Expression extends PrimitiveElement {
 	private boolean unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 	/**
 	 * Internal indicator informing the parser
-	 * whether t try to fix the expression String.
+	 * whether to try to fix the expression String.
 	 * For example, situations such as:
 	 * "++" change to "+",
 	 * "+-" changed tro "-"
 	 * "-+" changed tro "-"
-	 * "--" changed tro "-"
+	 * "--" changed tro "+"
 	 */
 	private boolean attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
 	/**
@@ -903,9 +903,9 @@ public class Expression extends PrimitiveElement {
 	 * Enables attempt to fix the expression String.
 	 * For example, situations such as:
 	 * "++" change to "+",
-	 * "+-" changed tro "-"
-	 * "-+" changed tro "-"
-	 * "--" changed tro "-"
+	 * "+-" changed to "-"
+	 * "-+" changed to "-"
+	 * "--" changed to "+"
 	 */
 	public void enableAttemptToFixExpStrMode() {
 		if (attemptToFixExpStrEnabled) return;
@@ -916,9 +916,9 @@ public class Expression extends PrimitiveElement {
 	 * Disables attempt to fix the expression String.
 	 * For example, situations such as:
 	 * "++" change to "+",
-	 * "+-" changed tro "-"
-	 * "-+" changed tro "-"
-	 * "--" changed tro "-"
+	 * "+-" changed to "-"
+	 * "-+" changed to "-"
+	 * "--" changed ro "+"
 	 */
 	public void disableAttemptToFixExpStrMode() {
 		if (!attemptToFixExpStrEnabled) return;

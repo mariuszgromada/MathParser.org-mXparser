@@ -406,12 +406,12 @@ namespace org.mariuszgromada.math.mxparser {
 		internal volatile static bool unicodeKeyWordsEnabled = true;
 		/**
 		 * Internal indicator informing the parser
-		 * whether t try to fix the expression String.
+		 * whether to try to fix the expression String.
 		 * For example, situations such as:
 		 * "++" change to "+",
-		 * "+-" changed tro "-"
-		 * "-+" changed tro "-"
-		 * "--" changed tro "-"
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
 		 */
 		internal volatile static bool attemptToFixExpStrEnabled = true;
 		/**
@@ -966,9 +966,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Enables attempt to fix the expression String.
 		 * For example, situations such as:
 		 * "++" change to "+",
-		 * "+-" changed tro "-"
-		 * "-+" changed tro "-"
-		 * "--" changed tro "-"
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
 		 */
 		public static void enableAttemptToFixExpStrMode() {
 			attemptToFixExpStrEnabled = true;
@@ -977,9 +977,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Disables attempt to fix the expression String.
 		 * For example, situations such as:
 		 * "++" change to "+",
-		 * "+-" changed tro "-"
-		 * "-+" changed tro "-"
-		 * "--" changed tro "-"
+		 * "+-" changed to "-"
+		 * "-+" changed to "-"
+		 * "--" changed to "+"
 		 */
 		public static void disableAttemptToFixExpStrMode() {
 			attemptToFixExpStrEnabled = false;
