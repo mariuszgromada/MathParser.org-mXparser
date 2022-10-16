@@ -468,7 +468,7 @@ public class Expression extends PrimitiveElement {
 	/**
 	 * Internal indicator for calculation process
 	 * Expression.Calculate() method
-	 * It show whether to build again tokens list
+	 * It shows whether to build again tokens list
 	 * if clone - build again
 	 * if not clone - build only at the beginning
 	 *
