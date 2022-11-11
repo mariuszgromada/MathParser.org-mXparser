@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepRecord.java        5.0.4    2022-05-22
+ * @(#)CalcStepRecord.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -179,6 +179,9 @@
  * - online store: https://payhip.com/infima
  */
 package org.mariuszgromada.math.mxparser;
+
+import java.io.Serializable;
+
 /**
  * Calculation is a multistep process and this class
  * provides a container to store a single calculation step.
@@ -193,14 +196,16 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.3
+ * @version        5.1.0
  *
  * @see CalcStepRecord
  * @see Expression
  * @see Argument
  * @see Function
  */
-public class CalcStepRecord {
+public class CalcStepRecord implements Serializable {
+    private static final int serialClassID = 7;
+    private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
     /**
      * Calculation step type.
      * 1. If an expression string refers (at some point) to a dependent argument

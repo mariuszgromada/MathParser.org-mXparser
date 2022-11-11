@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.1.0    2022-09-04
+ * @(#)Expression.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -181,6 +181,7 @@
 package org.mariuszgromada.math.mxparser;
 
 import java.io.ByteArrayInputStream;
+import java.io.Serializable;
 import java.util.*;
 
 import org.mariuszgromada.math.mxparser.mathcollection.AstronomicalConstants;
@@ -243,7 +244,9 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  * @see            Constant
  * @see            Function
  */
-public class Expression extends PrimitiveElement {
+public class Expression extends PrimitiveElement implements Serializable {
+	private static final int serialClassID = 6;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
 	 * Expression type id
 	 */

@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.java        5.0.7    2022-08-21
+ * @(#)KeyWord.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -181,9 +181,10 @@
 
 package org.mariuszgromada.math.mxparser.parsertokens;
 
+import org.mariuszgromada.math.mxparser.SerializationUtils;
 import org.mariuszgromada.math.mxparser.Function;
 import org.mariuszgromada.math.mxparser.RecursiveArgument;
-
+import java.io.Serializable;
 /**
  * Class representing key words knowon to the parser
  *
@@ -197,9 +198,11 @@ import org.mariuszgromada.math.mxparser.RecursiveArgument;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.7
+ * @version        5.1.0
  */
-public class KeyWord {
+public class KeyWord implements Serializable {
+	private static final int serialClassID = 91;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	public static final int NO_DEFINITION = ConstantValue.NaN;
 	public String wordString;
 	public int	wordId;

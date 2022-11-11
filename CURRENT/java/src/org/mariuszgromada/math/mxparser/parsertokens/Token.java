@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        5.0.4    2022-05-22
+ * @(#)Token.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -182,7 +182,8 @@ package org.mariuszgromada.math.mxparser.parsertokens;
 
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Constant;
-
+import org.mariuszgromada.math.mxparser.SerializationUtils;
+import java.io.Serializable;
 /**
  * Token recognized by mXparser after string tokenization process.
  *
@@ -196,9 +197,12 @@ import org.mariuszgromada.math.mxparser.Constant;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.1.0
  */
-public class Token {
+public class Token implements Serializable {
+	private static final int serialClassID = 92;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
+
 	/**
 	 * Indicator that token was not matched
 	 */

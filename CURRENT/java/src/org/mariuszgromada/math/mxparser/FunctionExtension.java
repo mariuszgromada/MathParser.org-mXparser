@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionExtension.java        5.0.4    2022-05-22
+ * @(#)FunctionExtension.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,8 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import java.io.Serializable;
+
 /**
  * FunctionExtension provides interface for function algorithm definition.
  * In this case algorithm definition is based on source code using
@@ -201,12 +203,12 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.1.0
  *
  * @see Function
  *
  */
-public interface FunctionExtension {
+public interface FunctionExtension extends Serializable {
 	/**
 	 * Gets parameters number.
 	 *

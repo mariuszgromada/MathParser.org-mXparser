@@ -1,5 +1,5 @@
 /*
- * @(#)PrimitiveElement.java        5.1.0    2022-11-11
+ * @(#)SerializationUtils.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,11 +180,10 @@
  */
 package org.mariuszgromada.math.mxparser;
 
-import java.io.Serializable;
+import java.io.*;
+import java.util.Base64;
 /**
- * Class used for connecting all basic elements such as: Argument, Constant,
- * Function. Class not used by the end user.
- *
+ * A utility class for simplified serialization and deserialization of parser objects (and not only).
  *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
@@ -198,47 +197,230 @@ import java.io.Serializable;
  *
  * @version        5.1.0
  *
- * @see            Argument
- * @see            Constant
- * @see            Function
- * @see            RecursiveArgument
- * @see            Expression#addDefinitions(PrimitiveElement...)
- * @see            Expression#removeDefinitions(PrimitiveElement...)
+ * @see Expression
+ * @see Argument
+ * @see RecursiveArgument
+ * @see Constant
+ * @see Function
  */
-public class PrimitiveElement implements Serializable {
-	private static final int serialClassID = 1;
-	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
-	/**
-	 * Element type id
-	 *
-	 * @see     Argument#TYPE_ID
-	 * @see     Constant#TYPE_ID
-	 * @see     Function#TYPE_ID
-	 */
-	private int myTypeId;
-	/**
-	 * Default constructor setting element type id
-	 *
-	 * @param typeId     Element type id
-	 *
-	 * @see     Argument#TYPE_ID
-	 * @see     Constant#TYPE_ID
-	 * @see     Function#TYPE_ID
-	 */
-	public PrimitiveElement(int typeId) {
-		myTypeId = typeId;
-	}
-	/**
-	 * Returns element type id
-	 *
-	 * @return  Element type id as int Function.TYPE_ID, Argument.TYPE_ID, Function.TYPE_ID
-	 *
-	 * @see     Argument#TYPE_ID
-	 * @see     Constant#TYPE_ID
-	 * @see     Function#TYPE_ID
-	 *
-	 */
-	public int getMyTypeId() {
-		return myTypeId;
-	}
+public final class SerializationUtils {
+    private static boolean lastOperationWasSuccessful = false;
+    private static String lastOperationMessage = "";
+    /**
+     * Information whether the last ordered operation under
+     * any serialization or deserialization method was correctly
+     * performed.
+     *
+     * @return true if the operation was performed correctly, otherwise false.
+     */
+    public static boolean lastOperationWasSuccessful() {
+        return lastOperationWasSuccessful;
+    }
+
+    /**
+     * Text information about the last operation performed
+     * by any serialization or deserialization method.
+     *
+     * @return The content of the error in case of failure, information
+     * about the operation performed in case of success.
+     */
+    public static String getLastOperationMessage() {
+        return lastOperationMessage;
+    }
+    private static final String INFO_SERIALIZATION_PERFORMED = "Serialization has been performed:";
+    private static final String INFO_DESERIALIZATION_PERFORMED = "Deserialization has been performed:";
+    private static final String ERROR_NULL_OBJECT = "Null object passed in the parameter.";
+    private static final String ERROR_NULL_FILE_PATH = "Null file passed in the parameter.";
+    private static final String ERROR_FILE_PATH_ZERO_LENGTH = "The file path does not contain any characters.";
+    private static final String ERROR_IS_NOT_A_FILE = "The file path is not a file:";
+    private static final String ERROR_FILE_NOT_EXISTS = "The file path does not exits:";
+    private static final String ERROR_NULL_DATA = "Null data passed in the parameter.";
+    private static final String ERROR_NULL_TYPE = "Null type passed in the parameter.";
+    private static final String INFO_EXCEPTION = "Exception: ";
+    /**
+     * Unique serialization UID based on library version and class id.
+     * @param classId Class id
+     *
+     * @return The digits from the right 0 the first two digits are the class id,
+     * the digits 3 and 4 are the parser version in the PATCH range,
+     * the digits 5 and 6 are the parser version in the MINOR range,
+     * the digits 7 and 8 are the parser version in the MAJOR range.
+     */
+    public static long getSerialVersionUID(int classId) {
+        return	1000000L * (long) mXparser.VERSION_MAJOR
+                + 10000L * (long) mXparser.VERSION_MINOR
+                + 100L * (long) mXparser.VERSION_PATCH
+                + 1L * (long) classId
+                ;
+    }
+    /**
+     * Serialization of an object to byte data.
+     * @param object The object for which serialization is possible.
+     *
+     * @return The data object if the operation was successful, otherwise it returns null.
+     * @see #getLastOperationMessage()
+     * @see #lastOperationWasSuccessful()
+     */
+    public static byte[] serializeToBytes(Serializable object) {
+        lastOperationWasSuccessful = false;
+        if (object == null) {
+            lastOperationMessage = ERROR_NULL_OBJECT;
+            return null;
+        }
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = null;
+            oos = new ObjectOutputStream(baos);
+            synchronized (object) {
+                oos.writeObject(object);
+                oos.close();
+            }
+            lastOperationMessage = INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName();
+            lastOperationWasSuccessful = true;
+            return baos.toByteArray();
+        } catch (Exception e) {
+            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
+            return null;
+        }
+    }
+    /**
+     * Serialization of an object to String data.
+     * @param object The object for which serialization is possible.
+     *
+     * @return The data string if the operation was successful, otherwise it returns null.
+     * @see #getLastOperationMessage()
+     * @see #lastOperationWasSuccessful()
+     */
+    public static String serializeToString(Serializable object) {
+        lastOperationWasSuccessful = false;
+        byte[] data = serializeToBytes(object);
+        if (data == null) return null;
+        return Base64.getEncoder().encodeToString(data);
+    }
+    /**
+     * Serialization of an object to a file.
+     * @param object The object for which serialization is possible.
+     * @param filePath  File path
+     *
+     * @return true if the operation was successful, otherwise it returns false.
+     * @see #getLastOperationMessage()
+     * @see #lastOperationWasSuccessful()
+     */
+    public static boolean serializeToFile(Serializable object, String filePath) {
+        lastOperationWasSuccessful = false;
+        if (filePath == null) {
+            lastOperationMessage = ERROR_NULL_FILE_PATH;
+            return false;
+        }
+        if (filePath.length() == 0) {
+            lastOperationMessage = ERROR_FILE_PATH_ZERO_LENGTH;
+            return false;
+        }
+        if (object == null) {
+            lastOperationMessage = ERROR_NULL_OBJECT;
+            return false;
+        }
+        File file = new File(filePath);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            synchronized (object) {
+                oos.writeObject(object);
+                oos.close();
+            }
+            lastOperationMessage = INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName() + ", " + filePath;
+            lastOperationWasSuccessful = true;
+            return true;
+        } catch (Exception e) {
+            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
+            return false;
+        }
+    }
+    /**
+     * Deserializes an object from byte data.
+     * @param data Data object.
+     * @param objectType Resulting class type.
+     * @param <T> Resulting class type.
+     *
+     * @return The deserialized object if operation was successful, otherwise it returns null.
+     */
+    public static <T> T deserializeFromBytes(byte[] data, Class<T> objectType) {
+        lastOperationWasSuccessful = false;
+        if (data == null) {
+            lastOperationMessage = ERROR_NULL_DATA;
+            return null;
+        }
+        if (objectType == null) {
+            lastOperationMessage = ERROR_NULL_TYPE;
+            return null;
+        }
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            T deserializedObject = (T) ois.readObject();
+            ois.close();
+            lastOperationWasSuccessful = true;
+            lastOperationMessage = INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName();
+            return deserializedObject;
+        } catch (Exception e) {
+            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
+            return null;
+        }
+    }
+    /**
+     * Deserializes an object from string data.
+     * @param data Data object.
+     * @param objectType Resulting class type.
+     * @param <T> Resulting class type.
+     *
+     * @return The deserialized object if operation was successful, otherwise it returns null.
+     */
+    public static <T> T deserializeFromString(String data, Class<T> objectType) {
+        lastOperationWasSuccessful = false;
+        if (data == null) {
+            lastOperationMessage = ERROR_NULL_DATA;
+            return null;
+        }
+        return deserializeFromBytes(Base64.getDecoder().decode(data), objectType);
+    }
+    /**
+     * Deserializes an object from byte data.
+     * @param filePath File path.
+     * @param objectType Resulting class type.
+     * @param <T> Resulting class type.
+     *
+     * @return The deserialized object if operation was successful, otherwise it returns null.
+     */
+    public static <T> T deserializeFromFile(String filePath, Class<T> objectType) {
+        lastOperationWasSuccessful = false;
+        if (filePath == null) {
+            lastOperationMessage = ERROR_NULL_FILE_PATH;
+            return null;
+        }
+        if (filePath.length() == 0) {
+            lastOperationMessage = ERROR_FILE_PATH_ZERO_LENGTH;
+            return null;
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            lastOperationMessage = ERROR_FILE_NOT_EXISTS + " " + filePath;
+            return null;
+        }
+        if (!file.isFile()) {
+            lastOperationMessage = ERROR_IS_NOT_A_FILE + " " + filePath;
+            return null;
+        }
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            T deserializedObject = (T) ois.readObject();
+            ois.close();
+            lastOperationWasSuccessful = true;
+            lastOperationMessage = INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName() + ", " + filePath;
+            return deserializedObject;
+        } catch (Exception e) {
+            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
+            return null;
+        }
+    }
 }

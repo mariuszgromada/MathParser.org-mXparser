@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.0.4    2022-05-22
+ * @(#)Miscellaneous.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Comparator;
 
@@ -196,7 +197,9 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
 /**
  * Package level class for handling function parameters.
  */
-class FunctionParameter {
+class FunctionParameter implements Serializable {
+	private static final int serialClassID = 80;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	List<Token> tokens;
 	String paramStr;
 	int fromIndex;
@@ -214,7 +217,9 @@ class FunctionParameter {
 /**
 * Package level class for generating iterative operator parameters
 */
-class IterativeOperatorParameters {
+class IterativeOperatorParameters implements Serializable {
+	private static final int serialClassID = 81;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	FunctionParameter indexParam;
 	FunctionParameter fromParam;
 	FunctionParameter toParam;
@@ -264,7 +269,9 @@ class IterativeOperatorParameters {
 /**
 * Handling argument parameters
 */
-class ArgumentParameter {
+class ArgumentParameter implements Serializable {
+	private static final int serialClassID = 82;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	Argument argument;
 	double initialValue;
 	int initialType;
@@ -282,14 +289,18 @@ class ArgumentParameter {
 * which is used with stack while
 * evaluation of tokens levels
 */
-class TokenStackElement {
+class TokenStackElement implements Serializable {
+	private static final int serialClassID = 83;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	int tokenIndex;
 	int tokenId;
 	int tokenTypeId;
 	int tokenLevel;
 	boolean precedingFunction;
 }
-class SyntaxStackElement {
+class SyntaxStackElement implements Serializable {
+	private static final int serialClassID = 84;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	String tokenStr;
 	int tokenLevel;
 	SyntaxStackElement(String tokenStr, int tokenLevel) {
@@ -307,7 +318,9 @@ class SyntaxStackElement {
 * This king of sorting is used while checking the syntax
 * (duplicated key word error)
 */
-class KwStrComparator implements Comparator<KeyWord> {
+class KwStrComparator implements Comparator<KeyWord>, Serializable {
+	private static final int serialClassID = 85;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
 	 *
 	 */
@@ -324,7 +337,9 @@ class KwStrComparator implements Comparator<KeyWord> {
 * This king of sorting is used while tokenizing
 * (best match)
 */
-class DescKwLenComparator implements Comparator<KeyWord> {
+class DescKwLenComparator implements Comparator<KeyWord>, Serializable {
+	private static final int serialClassID = 86;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
 	 *
 	 */
@@ -339,7 +354,9 @@ class DescKwLenComparator implements Comparator<KeyWord> {
 * type of the key word
 *
 */
-class KwTypeComparator implements Comparator<KeyWord> {
+class KwTypeComparator implements Comparator<KeyWord>, Serializable {
+	private static final int serialClassID = 87;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
 	 *
 	 */
@@ -361,7 +378,9 @@ class KwTypeComparator implements Comparator<KeyWord> {
 * Function "f(x,y) = sin(x) + cos(y)"
 * Constant "a = 5/20"
 */
-class HeadEqBody {
+class HeadEqBody implements Serializable {
+	private static final int serialClassID = 88;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	private boolean ONLY_PARSER_KEYWORDS = true;
 	String headStr;
 	String bodyStr;
@@ -396,7 +415,9 @@ class HeadEqBody {
 /**
  * Data structure used internally for token to be modified list
  */
-class TokenModification {
+class TokenModification implements Serializable {
+	private static final int serialClassID = 89;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	String currentToken;
 	String newToken;
 	String newTokenDescription;
@@ -408,7 +429,9 @@ class TokenModification {
  * in case of a token i a form of one name
  * for instance x2x2 = x2*x2
  */
-class TokenPart {
+class TokenPart implements Serializable {
+	private static final int serialClassID = 90;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	static final int INTEGER = 1;
 	static final int DECIMAL = 2;
 	static final int FRACTION = 3;

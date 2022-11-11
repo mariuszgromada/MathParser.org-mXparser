@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.0.4    2022-05-22
+ * @(#)Function.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
@@ -216,7 +217,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.3
+ * @version        5.1.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -225,7 +226,9 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  * @see FunctionExtension
  *
  */
-public class Function extends PrimitiveElement {
+public class Function extends PrimitiveElement implements Serializable {
+	private static final int serialClassID = 3;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
 	 * No syntax errors in the function.
 	 */

@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.0.7    2022-08-21
+ * @(#)SyntaxTest.java        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -186,6 +186,9 @@ import org.mariuszgromada.math.mxparser.*;
 import org.mariuszgromada.math.mxparser.mathcollection.*;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.List;
 
 /**
@@ -201,7 +204,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.7
+ * @version        5.1.0
  *
  */
 public final class ApiTest {
@@ -4033,6 +4036,212 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(163, testDescr);
         mXparser.disableImpliedMultiplicationMode();
         testResult = testCanonicalString("300+Caster_AttackC(2)*3", "300+Caster_AttackC(2)*3");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0164() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Argument x Bytes";
+        TestCommonTools.consolePrintTestApiStart(164, testDescr);
+        Argument x = new Argument("x = 3");
+        Argument y = new Argument("y = 2*x", x);
+        byte[] data = SerializationUtils.serializeToBytes(y);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Argument ys = SerializationUtils.deserializeFromBytes(data ,Argument.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (ys != null)
+            if (y.getArgumentName().equals(ys.getArgumentName()) && y.getArgumentValue() == ys.getArgumentValue())
+                testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0165() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Function x String";
+        TestCommonTools.consolePrintTestApiStart(165, testDescr);
+        Constant c = new Constant("c = 3");
+        Function g = new Function("g(x) = 2*x + c", c);
+        Function f = new Function("f(x,y) = g(x)*g(y)", g);
+        String data = SerializationUtils.serializeToString(f);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Function fs = SerializationUtils.deserializeFromString(data, Function.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (fs != null)
+            if (f.getFunctionName().equals(fs.getFunctionName()) && f.calculate(2,3) == fs.calculate(2, 3))
+                testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0166() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: RecursiveArgument x Bytes";
+        TestCommonTools.consolePrintTestApiStart(166, testDescr);
+        RecursiveArgument fib = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
+        byte[] data = SerializationUtils.serializeToBytes(fib);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        RecursiveArgument fibs = SerializationUtils.deserializeFromBytes(data, RecursiveArgument.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        fib.addBaseCase(0, 0);
+        fib.addBaseCase(1, 1);
+        if (fibs != null) {
+            fibs.addBaseCase(0, 0);
+            fibs.addBaseCase(1, 1);
+            if (fib.getArgumentName().equals(fibs.getArgumentName()) && fib.getArgumentValue(10) == fibs.getArgumentValue(10))
+                testResult = true;
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0167() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Extended Argument x String";
+        TestCommonTools.consolePrintTestApiStart(167, testDescr);
+        Argument x = new Argument("x", new PiMultArgExt());
+        String s = SerializationUtils.serializeToString(x);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Argument xs = SerializationUtils.deserializeFromString(s, Argument.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (xs != null) {
+            if (x.getArgumentName().equals(xs.getArgumentName()) && x.getArgumentValue() == xs.getArgumentValue())
+                testResult = true;
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0168() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Extended Function x Bytes";
+        TestCommonTools.consolePrintTestApiStart(168, testDescr);
+        Function f = new Function("f", new FunExt());
+        byte[] data = SerializationUtils.serializeToBytes(f);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Function fs = SerializationUtils.deserializeFromBytes(data, Function.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (fs != null) {
+            if (f.getFunctionName().equals(fs.getFunctionName()) && f.calculate(2, 3) == fs.calculate(2, 3))
+                testResult = true;
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0169() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Extended Function Variadic x String";
+        TestCommonTools.consolePrintTestApiStart(168, testDescr);
+        Function f = new Function("f", new FunExtVar());
+        String data = SerializationUtils.serializeToString(f);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Function fs = SerializationUtils.deserializeFromString(data, Function.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (fs != null) {
+            if (f.getFunctionName().equals(fs.getFunctionName()) && f.calculate(2, 3, 4, 5) == fs.calculate(2, 3, 4, 5))
+                testResult = true;
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0170() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Constant x Bytes";
+        TestCommonTools.consolePrintTestApiStart(170, testDescr);
+        Constant b = new Constant("b = 5");
+        Constant a = new Constant("a = 2*b", b);
+        byte[] data = SerializationUtils.serializeToBytes(a);
+        mXparser.consolePrintln();
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Constant as = SerializationUtils.deserializeFromBytes(data, Constant.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (as != null) {
+            if (a.getConstantName().equals(as.getConstantName()) && a.getConstantValue() == as.getConstantValue())
+                testResult = true;
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0171() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Expression x Bytes";
+        TestCommonTools.consolePrintTestApiStart(171, testDescr);
+        Constant a = new Constant("a = 0.0001");
+        Function s = new Function("s(x) = if( abs(x) < a, x, 2*s(x/2)*c(x/2) )", a);
+        Function c = new Function("c(x) = if( abs(x) < a, 1, c(x/2)^2-s(x/2)^2 )", a);
+        a = null;
+        s.addDefinitions(c);
+        c.addDefinitions(s);
+        Expression e1 = new Expression("sin(5)-s(5)", s);
+        Expression e2 = new Expression("cos(5)-c(5)", c);
+        double v1 = e1.calculate();
+        double v2 = e2.calculate();
+        c = null;
+        s = null;
+        mXparser.consolePrintln();
+        byte[] data1 = SerializationUtils.serializeToBytes(e1);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        byte[] data2 = SerializationUtils.serializeToBytes(e2);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Expression es1 = SerializationUtils.deserializeFromBytes(data1, Expression.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        Expression es2 = SerializationUtils.deserializeFromBytes(data2, Expression.class);
+        mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        if (es1 != null && es2 != null) {
+            double vs1 = es1.calculate();
+            double vs2 = es2.calculate();
+            if (e1.getExpressionString().equals(es1.getExpressionString()) && e2.getExpressionString().equals(es2.getExpressionString()) && v1 == vs1 && v2 == vs2)
+                testResult = true;
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0172() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Serialization / Deserialization: Expression x File";
+        TestCommonTools.consolePrintTestApiStart(171, testDescr);
+        Argument x = new Argument("x = 5");
+        Function f = new Function("f(x,y) = x + 2*y");
+        Expression e = new Expression("f(2,3)*x", f, x);
+        double v = e.calculate();
+        String tmpPath = System.getProperty("java.io.tmpdir");
+        File tmpDir = new File(tmpPath);
+        try {
+            String filePath = tmpDir.getCanonicalPath() + FileSystems.getDefault().getSeparator() + "mxp_ser_test.ser";
+            mXparser.consolePrintln();
+            boolean serializationDone = SerializationUtils.serializeToFile(e, filePath);
+            mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+            Expression es = SerializationUtils.deserializeFromFile(filePath, Expression.class);
+            mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+            File toRemove = new File(filePath);
+            boolean isDeleted = toRemove.delete();
+            mXparser.consolePrintln("File: " + filePath + " is deleted = " + isDeleted);
+            if (es != null) {
+                double vs = es.calculate();
+                if (e.getExpressionString().equals(es.getExpressionString()) && v == vs)
+                    testResult = true;
+            }
+        } catch (Exception exception) {}
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
