@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.1.0    2022-09-04
+ * @(#)mXparser.cs        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -211,12 +211,15 @@ namespace org.mariuszgromada.math.mxparser {
 	 */
 	[CLSCompliant(true)]
 	public sealed class mXparser {
-		/**
+        /**
 		 * mXparser version
 		 */
-		public const String VERSION = "5.1.0";
+        public const int VERSION_MAJOR = 5;
+        public const int VERSION_MINOR = 1;
+        public const int VERSION_PATCH = 0;
+        public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 		public const String VERSION_CODE_NAME = "Libris";
-		public const String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
+		public static readonly String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET48
 		public const String BUIT_FOR = "NET48";
 #elif NET472
@@ -261,6 +264,8 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String BUIT_FOR = "NETSTANDARD1_1";
 #elif NETSTANDARD1_0
 		public const String BUIT_FOR = "NETSTANDARD1_0";
+#elif NET7_0
+		public const String BUIT_FOR = "NET7_0";
 #elif NET6_0
 		public const String BUIT_FOR = "NET6_0";
 #elif NET6_0_ANDROID
@@ -308,11 +313,11 @@ namespace org.mariuszgromada.math.mxparser {
 #else
 		public const String BUIT_FOR = ".NET";
 #endif
-		/**
+        /**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
 		 */
-		internal const int NOT_FOUND = -1;
+        internal const int NOT_FOUND = -1;
 		internal const int FOUND = 0;
 		/**
 		 * Console output string  for below methods
@@ -1763,7 +1768,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
 		 */
-		public const String LICENSE = License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
+		public static readonly String LICENSE = License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
 		/**
 		 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 		 */

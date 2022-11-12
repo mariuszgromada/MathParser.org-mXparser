@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.1.0    2022-09-04
+ * @(#)Expression.cs        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -221,7 +221,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 * @see            Constant
 	 * @see            Function
 	 */
-	[CLSCompliant(true)]
+	[CLSCompliant(true), Serializable]
 	public class Expression : PrimitiveElement {
 		/**
 		 * Expression type id
@@ -248,14 +248,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public const bool NO_SYNTAX_ERRORS = true;
 		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = false;
-		/**
+        /**
 		 * Expression string (for example: "sin(x)+cos(y)")
 		 */
-		internal String expressionString;
-		/**
+        internal String expressionString;
+        /**
 		 * Expression string after attempt to clean
 		 */
-		private String expressionStringCleaned;
+        private String expressionStringCleaned;
 		/**
 		 * Expression description
 		 */

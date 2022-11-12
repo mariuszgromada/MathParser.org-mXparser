@@ -367,7 +367,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 		 */
-		public const String MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT =
+		public static readonly String MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT =
 			"mXparser - version " + mXparser.VERSION + "\n"
 			+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22\n"
 			+ "The most up-to-date license is available at the below link:\n"

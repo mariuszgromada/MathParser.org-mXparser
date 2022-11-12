@@ -185,6 +185,24 @@ import java.util.Base64;
 /**
  * A utility class for simplified serialization and deserialization of parser objects (and not only).
  *
+ * Important - using binary serialization you confirm that
+ * you understand the security risks.
+ *
+ * WARNING: Deserializing data from an untrusted source can introduce
+ * security vulnerabilities to your application. Depending on the settings
+ * used during deserialization, untrusted data may be able to execute
+ * arbitrary code or cause a denial of service attack. Untrusted data
+ * can come from over the network from an untrusted source
+ * (e.g. any network client), or it can be manipulated/tampered by
+ * an intermediary while in transit over an unauthenticated connection,
+ * or from local storage where it may have been compromised/tampered,
+ * or from many other sources. MathParser.org-mXparser does not provide
+ * any means to authenticate data or secure it from tampering.
+ * Use an appropriate data authentication method before deserializing.
+ * Be very mindful of these attack scenarios; many projects and companies
+ * and users of serialization libraries in general have been bitten by
+ * untrusted deserialization of user data in the past.
+ *
  * @author         <b>Mariusz Gromada</b><br>
  *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
  *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
@@ -204,6 +222,85 @@ import java.util.Base64;
  * @see Function
  */
 public final class SerializationUtils {
+    private static boolean binarySerializationEnabled = false;
+    /**
+     * Enables binary serialization done by the SerializationUtils.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     */
+    public static void enableBinarySerializationIamAwareOfSecurityRisks() {
+        binarySerializationEnabled = true;
+        lastOperationWasSuccessful = true;
+        logLastOperationMessage(INFO_BINARY_SERIALIZATION_ENABLED);
+    }
+    /**
+     * Disables binary serialization done by the SerializationUtils.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     */
+    public static void disableBinarySerialization() {
+        binarySerializationEnabled = false;
+        lastOperationWasSuccessful = true;
+        logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+    }
+    /**
+     * Returns whether binary serialization done by SerializationUtils is enabled by.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @return True if enabled, false if disabled.
+     */
+    public static boolean isBinarySerializationEnabled() {
+        return binarySerializationEnabled;
+    }
     private static boolean lastOperationWasSuccessful = false;
     private static String lastOperationMessage = "";
     /**
@@ -211,15 +308,50 @@ public final class SerializationUtils {
      * any serialization or deserialization method was correctly
      * performed.
      *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
      * @return true if the operation was performed correctly, otherwise false.
      */
-    public static boolean lastOperationWasSuccessful() {
+    public static boolean checkLastOperationWasSuccessful() {
         return lastOperationWasSuccessful;
     }
-
     /**
      * Text information about the last operation performed
      * by any serialization or deserialization method.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
      *
      * @return The content of the error in case of failure, information
      * about the operation performed in case of success.
@@ -227,18 +359,334 @@ public final class SerializationUtils {
     public static String getLastOperationMessage() {
         return lastOperationMessage;
     }
-    private static final String INFO_SERIALIZATION_PERFORMED = "Serialization has been performed:";
-    private static final String INFO_DESERIALIZATION_PERFORMED = "Deserialization has been performed:";
-    private static final String ERROR_NULL_OBJECT = "Null object passed in the parameter.";
-    private static final String ERROR_NULL_FILE_PATH = "Null file passed in the parameter.";
-    private static final String ERROR_FILE_PATH_ZERO_LENGTH = "The file path does not contain any characters.";
-    private static final String ERROR_IS_NOT_A_FILE = "The file path is not a file:";
-    private static final String ERROR_FILE_NOT_EXISTS = "The file path does not exits:";
-    private static final String ERROR_NULL_DATA = "Null data passed in the parameter.";
-    private static final String ERROR_NULL_TYPE = "Null type passed in the parameter.";
-    private static final String INFO_EXCEPTION = "Exception: ";
+    private static void logLastOperationMessage(String message) {
+        lastOperationMessage = message + "\n" + WARNING_BINARY_SERIALIZATION_SECURITY_RISKS;
+    }
+    /**
+     * Serialization of an object to byte data.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @param object The object for which serialization is possible.
+     *
+     * @return The data object if the operation was successful, otherwise it returns null.
+     * @see #getLastOperationMessage()
+     * @see #checkLastOperationWasSuccessful()
+     */
+    public static byte[] serializeToBytes(Serializable object) {
+        lastOperationWasSuccessful = false;
+        if (!binarySerializationEnabled) {
+            logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+            return null;
+        }
+        if (object == null) {
+            logLastOperationMessage(ERROR_NULL_OBJECT);
+            return null;
+        }
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = null;
+            oos = new ObjectOutputStream(baos);
+            synchronized (object) {
+                oos.writeObject(object);
+                oos.close();
+            }
+            logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName());
+            lastOperationWasSuccessful = true;
+            return baos.toByteArray();
+        } catch (Exception e) {
+            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            return null;
+        }
+    }
+    /**
+     * Serialization of an object to String data.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @param object The object for which serialization is possible.
+     *
+     * @return The data string if the operation was successful, otherwise it returns null.
+     * @see #getLastOperationMessage()
+     * @see #checkLastOperationWasSuccessful()
+     */
+    public static String serializeToString(Serializable object) {
+        lastOperationWasSuccessful = false;
+        byte[] data = serializeToBytes(object);
+        if (data == null) return null;
+        return Base64.getEncoder().encodeToString(data);
+    }
+    /**
+     * Serialization of an object to a file.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @param object The object for which serialization is possible.
+     * @param filePath  File path
+     *
+     * @return true if the operation was successful, otherwise it returns false.
+     * @see #getLastOperationMessage()
+     * @see #checkLastOperationWasSuccessful()
+     */
+    public static boolean serializeToFile(Serializable object, String filePath) {
+        lastOperationWasSuccessful = false;
+        if (!binarySerializationEnabled) {
+            logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+            return false;
+        }
+        if (filePath == null) {
+            logLastOperationMessage(ERROR_NULL_FILE_PATH);
+            return false;
+        }
+        if (filePath.length() == 0) {
+            logLastOperationMessage(ERROR_FILE_PATH_ZERO_LENGTH);
+            return false;
+        }
+        if (object == null) {
+            logLastOperationMessage(ERROR_NULL_OBJECT);
+            return false;
+        }
+        File file = new File(filePath);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            synchronized (object) {
+                oos.writeObject(object);
+                oos.close();
+            }
+            logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName() + ", " + filePath);
+            lastOperationWasSuccessful = true;
+            return true;
+        } catch (Exception e) {
+            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            return false;
+        }
+    }
+    /**
+     * Deserializes an object from byte data.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @param data Data object.
+     * @param objectType Resulting class type.
+     * @param <T> Resulting class type.
+     *
+     * @return The deserialized object if operation was successful, otherwise it returns null.
+     */
+    public static <T> T deserializeFromBytes(byte[] data, Class<T> objectType) {
+        lastOperationWasSuccessful = false;
+        if (!binarySerializationEnabled) {
+            logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+            return null;
+        }
+        if (data == null) {
+            logLastOperationMessage(ERROR_NULL_DATA);
+            return null;
+        }
+        if (objectType == null) {
+            logLastOperationMessage(ERROR_NULL_TYPE);
+            return null;
+        }
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            T deserializedObject = (T) ois.readObject();
+            ois.close();
+            lastOperationWasSuccessful = true;
+            logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName());
+            return deserializedObject;
+        } catch (Exception e) {
+            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            return null;
+        }
+    }
+    /**
+     * Deserializes an object from string data.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @param data Data object.
+     * @param objectType Resulting class type.
+     * @param <T> Resulting class type.
+     *
+     * @return The deserialized object if operation was successful, otherwise it returns null.
+     */
+    public static <T> T deserializeFromString(String data, Class<T> objectType) {
+        lastOperationWasSuccessful = false;
+        if (!binarySerializationEnabled) {
+            logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+            return null;
+        }
+        if (data == null) {
+            logLastOperationMessage(ERROR_NULL_DATA);
+            return null;
+        }
+        return deserializeFromBytes(Base64.getDecoder().decode(data), objectType);
+    }
+    /**
+     * Deserializes an object from byte data.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
+     * @param filePath File path.
+     * @param objectType Resulting class type.
+     * @param <T> Resulting class type.
+     *
+     * @return The deserialized object if operation was successful, otherwise it returns null.
+     */
+    public static <T> T deserializeFromFile(String filePath, Class<T> objectType) {
+        lastOperationWasSuccessful = false;
+        if (!binarySerializationEnabled) {
+            logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+            return null;
+        }
+        if (filePath == null) {
+            logLastOperationMessage(ERROR_NULL_FILE_PATH);
+            return null;
+        }
+        if (filePath.length() == 0) {
+            logLastOperationMessage(ERROR_FILE_PATH_ZERO_LENGTH);
+            return null;
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            logLastOperationMessage(ERROR_FILE_NOT_EXISTS + " " + filePath);
+            return null;
+        }
+        if (!file.isFile()) {
+            logLastOperationMessage(ERROR_IS_NOT_A_FILE + " " + filePath);
+            return null;
+        }
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            T deserializedObject = (T) ois.readObject();
+            ois.close();
+            lastOperationWasSuccessful = true;
+            logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName() + ", " + filePath);
+            return deserializedObject;
+        } catch (Exception e) {
+            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            return null;
+        }
+    }
     /**
      * Unique serialization UID based on library version and class id.
+     *
+     * Important - using binary serialization you confirm that
+     * you understand the security risks.
+     *
+     * WARNING: Deserializing data from an untrusted source can introduce
+     * security vulnerabilities to your application. Depending on the settings
+     * used during deserialization, untrusted data may be able to execute
+     * arbitrary code or cause a denial of service attack. Untrusted data
+     * can come from over the network from an untrusted source
+     * (e.g. any network client), or it can be manipulated/tampered by
+     * an intermediary while in transit over an unauthenticated connection,
+     * or from local storage where it may have been compromised/tampered,
+     * or from many other sources. MathParser.org-mXparser does not provide
+     * any means to authenticate data or secure it from tampering.
+     * Use an appropriate data authentication method before deserializing.
+     * Be very mindful of these attack scenarios; many projects and companies
+     * and users of serialization libraries in general have been bitten by
+     * untrusted deserialization of user data in the past.
+     *
      * @param classId Class id
      *
      * @return The digits from the right 0 the first two digits are the class id,
@@ -253,174 +701,30 @@ public final class SerializationUtils {
                 + 1L * (long) classId
                 ;
     }
-    /**
-     * Serialization of an object to byte data.
-     * @param object The object for which serialization is possible.
-     *
-     * @return The data object if the operation was successful, otherwise it returns null.
-     * @see #getLastOperationMessage()
-     * @see #lastOperationWasSuccessful()
-     */
-    public static byte[] serializeToBytes(Serializable object) {
-        lastOperationWasSuccessful = false;
-        if (object == null) {
-            lastOperationMessage = ERROR_NULL_OBJECT;
-            return null;
-        }
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = null;
-            oos = new ObjectOutputStream(baos);
-            synchronized (object) {
-                oos.writeObject(object);
-                oos.close();
-            }
-            lastOperationMessage = INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName();
-            lastOperationWasSuccessful = true;
-            return baos.toByteArray();
-        } catch (Exception e) {
-            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
-            return null;
-        }
-    }
-    /**
-     * Serialization of an object to String data.
-     * @param object The object for which serialization is possible.
-     *
-     * @return The data string if the operation was successful, otherwise it returns null.
-     * @see #getLastOperationMessage()
-     * @see #lastOperationWasSuccessful()
-     */
-    public static String serializeToString(Serializable object) {
-        lastOperationWasSuccessful = false;
-        byte[] data = serializeToBytes(object);
-        if (data == null) return null;
-        return Base64.getEncoder().encodeToString(data);
-    }
-    /**
-     * Serialization of an object to a file.
-     * @param object The object for which serialization is possible.
-     * @param filePath  File path
-     *
-     * @return true if the operation was successful, otherwise it returns false.
-     * @see #getLastOperationMessage()
-     * @see #lastOperationWasSuccessful()
-     */
-    public static boolean serializeToFile(Serializable object, String filePath) {
-        lastOperationWasSuccessful = false;
-        if (filePath == null) {
-            lastOperationMessage = ERROR_NULL_FILE_PATH;
-            return false;
-        }
-        if (filePath.length() == 0) {
-            lastOperationMessage = ERROR_FILE_PATH_ZERO_LENGTH;
-            return false;
-        }
-        if (object == null) {
-            lastOperationMessage = ERROR_NULL_OBJECT;
-            return false;
-        }
-        File file = new File(filePath);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            synchronized (object) {
-                oos.writeObject(object);
-                oos.close();
-            }
-            lastOperationMessage = INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName() + ", " + filePath;
-            lastOperationWasSuccessful = true;
-            return true;
-        } catch (Exception e) {
-            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
-            return false;
-        }
-    }
-    /**
-     * Deserializes an object from byte data.
-     * @param data Data object.
-     * @param objectType Resulting class type.
-     * @param <T> Resulting class type.
-     *
-     * @return The deserialized object if operation was successful, otherwise it returns null.
-     */
-    public static <T> T deserializeFromBytes(byte[] data, Class<T> objectType) {
-        lastOperationWasSuccessful = false;
-        if (data == null) {
-            lastOperationMessage = ERROR_NULL_DATA;
-            return null;
-        }
-        if (objectType == null) {
-            lastOperationMessage = ERROR_NULL_TYPE;
-            return null;
-        }
-        try {
-            ByteArrayInputStream bais = new ByteArrayInputStream(data);
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            T deserializedObject = (T) ois.readObject();
-            ois.close();
-            lastOperationWasSuccessful = true;
-            lastOperationMessage = INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName();
-            return deserializedObject;
-        } catch (Exception e) {
-            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
-            return null;
-        }
-    }
-    /**
-     * Deserializes an object from string data.
-     * @param data Data object.
-     * @param objectType Resulting class type.
-     * @param <T> Resulting class type.
-     *
-     * @return The deserialized object if operation was successful, otherwise it returns null.
-     */
-    public static <T> T deserializeFromString(String data, Class<T> objectType) {
-        lastOperationWasSuccessful = false;
-        if (data == null) {
-            lastOperationMessage = ERROR_NULL_DATA;
-            return null;
-        }
-        return deserializeFromBytes(Base64.getDecoder().decode(data), objectType);
-    }
-    /**
-     * Deserializes an object from byte data.
-     * @param filePath File path.
-     * @param objectType Resulting class type.
-     * @param <T> Resulting class type.
-     *
-     * @return The deserialized object if operation was successful, otherwise it returns null.
-     */
-    public static <T> T deserializeFromFile(String filePath, Class<T> objectType) {
-        lastOperationWasSuccessful = false;
-        if (filePath == null) {
-            lastOperationMessage = ERROR_NULL_FILE_PATH;
-            return null;
-        }
-        if (filePath.length() == 0) {
-            lastOperationMessage = ERROR_FILE_PATH_ZERO_LENGTH;
-            return null;
-        }
-        File file = new File(filePath);
-        if (!file.exists()) {
-            lastOperationMessage = ERROR_FILE_NOT_EXISTS + " " + filePath;
-            return null;
-        }
-        if (!file.isFile()) {
-            lastOperationMessage = ERROR_IS_NOT_A_FILE + " " + filePath;
-            return null;
-        }
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            T deserializedObject = (T) ois.readObject();
-            ois.close();
-            lastOperationWasSuccessful = true;
-            lastOperationMessage = INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName() + ", " + filePath;
-            return deserializedObject;
-        } catch (Exception e) {
-            lastOperationMessage = INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage();
-            return null;
-        }
-    }
+    private static final String INFO_SERIALIZATION_PERFORMED = "Serialization has been performed:";
+    private static final String INFO_DESERIALIZATION_PERFORMED = "Deserialization has been performed:";
+    private static final String ERROR_NULL_OBJECT = "Null object passed in the parameter.";
+    private static final String ERROR_NULL_FILE_PATH = "Null file passed in the parameter.";
+    private static final String ERROR_FILE_PATH_ZERO_LENGTH = "The file path does not contain any characters.";
+    private static final String ERROR_IS_NOT_A_FILE = "The file path is not a file:";
+    private static final String ERROR_FILE_NOT_EXISTS = "The file path does not exits:";
+    private static final String ERROR_NULL_DATA = "Null data passed in the parameter.";
+    private static final String ERROR_NULL_TYPE = "Null type passed in the parameter.";
+    private static final String INFO_EXCEPTION = "Exception: ";
+    private static final String INFO_BINARY_SERIALIZATION_ENABLED = "Binary serialization is enabled. Use it only in a conscious and limited way.";
+    private static final String INFO_BINARY_SERIALIZATION_DISABLED = "Binary serialization is disabled. You can enable it if you are aware of security risks.";
+    private static final String WARNING_BINARY_SERIALIZATION_SECURITY_RISKS =
+            "SECURITY WARNING:\n"
+            + "Deserializing data from an untrusted source can introduce security vulnerabilities\n"
+            + "to your application. Depending on the settings used during deserialization,\n"
+            + "untrusted data may be able to execute arbitrary code or cause a denial of service\n"
+            + "attack. Untrusted data can come from over the network from an untrusted source\n"
+            + "(e.g. any network client), or it can be manipulated/tampered by an intermediary while\n"
+            + "in transit over an unauthenticated connection, or from local storage where it may\n"
+            + "have been compromised/tampered, or from many other sources. MathParser.org-mXparser\n"
+            + "does not provide any means to authenticate data or secure it from tampering. Use an\n"
+            + "appropriate data authentication method before deserializing. Be very mindful of these\n"
+            + "attack scenarios; many projects and companies and users of serialization libraries in\n"
+            + "general have been bitten by untrusted deserialization of user data in the past."
+            ;
 }

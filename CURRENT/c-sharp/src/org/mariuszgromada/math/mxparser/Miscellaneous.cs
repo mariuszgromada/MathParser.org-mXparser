@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.0.4    2022-05-22
+ * @(#)Miscellaneous.cs        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -183,16 +183,17 @@ using System;
 using System.Collections.Generic;
 
 namespace org.mariuszgromada.math.mxparser {
-	/*=================================================
+    /*=================================================
 	*
 	* Package level classes and interfaces
 	*
 	*=================================================
 	*/
-	/**
+    /**
 	 * Package level class for handling function parameters.
 	 */
-	internal class FunctionParameter {
+    [Serializable]
+    internal class FunctionParameter {
 		internal List<Token> tokens;
 		internal String paramStr;
 		internal int fromIndex;
@@ -208,10 +209,11 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 	}
 
-	/**
+    /**
 	* Package level class for generating iterative operator parameters
 	*/
-	internal class IterativeOperatorParameters {
+    [Serializable]
+    internal class IterativeOperatorParameters {
 		internal FunctionParameter indexParam;
 		internal FunctionParameter fromParam;
 		internal FunctionParameter toParam;
@@ -259,10 +261,11 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 	}
-	/**
+    /**
 	* Handling argument parameters
 	*/
-	internal class ArgumentParameter {
+    [Serializable]
+    internal class ArgumentParameter {
 		internal Argument argument;
 		internal double initialValue;
 		internal int initialType;
@@ -275,19 +278,21 @@ namespace org.mariuszgromada.math.mxparser {
 			presence = Expression.NOT_FOUND;
 		}
 	}
-	/**
+    /**
 	* Internal token class
 	* which is used with stack while
 	* evaluation of tokens levels
 	*/
-	internal class TokenStackElement {
+    [Serializable]
+    internal class TokenStackElement {
 		internal int tokenIndex;
 		internal int tokenId;
 		internal int tokenTypeId;
 		internal int tokenLevel;
 		internal bool precedingFunction;
 	}
-	internal class SyntaxStackElement {
+    [Serializable]
+    internal class SyntaxStackElement {
 		internal String tokenStr;
 		internal int tokenLevel;
 		internal SyntaxStackElement(String tokenStr, int tokenLevel) {
@@ -295,17 +300,18 @@ namespace org.mariuszgromada.math.mxparser {
 			this.tokenLevel = tokenLevel;
 		}
 	}
-	/*
+    /*
 	* ---------------------------------------------------------
 	* Comparators for sorting
 	* ---------------------------------------------------------
 	*/
-	/**
+    /**
 	* Comparator for key word list sorting by key word string.
 	* This king of sorting is used while checking the syntax
 	* (duplicated key word error)
 	*/
-	class KwStrComparator : IComparer<KeyWord> {
+    [Serializable]
+    class KwStrComparator : IComparer<KeyWord> {
 		/**
 		 *
 		 */
@@ -315,14 +321,15 @@ namespace org.mariuszgromada.math.mxparser {
 			return s1.CompareTo(s2);
 		}
 	}
-	/**
+    /**
 	* Comparator for key word list sorting by
 	* descending key word length
 	* .
 	* This king of sorting is used while tokenizing
 	* (best match)
 	*/
-	class DescKwLenComparator : IComparer<KeyWord> {
+    [Serializable]
+    class DescKwLenComparator : IComparer<KeyWord> {
 		/**
 		 *
 		 */
@@ -332,12 +339,13 @@ namespace org.mariuszgromada.math.mxparser {
 			return l2 - l1;
 		}
 	}
-	/**
+    /**
 	* Comparator for key word list sorting by
 	* type of the key word
 	*
 	*/
-	class KwTypeComparator : IComparer<KeyWord> {
+    [Serializable]
+    class KwTypeComparator : IComparer<KeyWord> {
 		/**
 		 *
 		 */
@@ -347,19 +355,20 @@ namespace org.mariuszgromada.math.mxparser {
 			return t1 - t2;
 		}
 	}
-	/*
+    /*
 	* ---------------------------------------------------------
 	* Grouping constants by interfaces
 	* ---------------------------------------------------------
 	*/
-	/*
+    /*
 	* Package level class to be used
 	* while function, argument, constant definition
 	* using only one string, ie:
 	* Function "f(x,y) = sin(x) + cos(y)"
 	* Constant "a = 5/20"
 	*/
-	internal class HeadEqBody {
+    [Serializable]
+    internal class HeadEqBody {
 		private const bool ONLY_PARSER_KEYWORDS = true;
 		internal String headStr;
 		internal String bodyStr;
@@ -391,23 +400,24 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 	}
-	/**
+    /**
 	 * Data structure used internally for token to be modified list
 	 */
-	internal class TokenModification {
+    [Serializable]
+    internal class TokenModification {
 		internal String currentToken;
 		internal String newToken;
 		internal String newTokenDescription;
 	}
 
-	/**
+    /**
 	 * Data structure used in tokenization
 	 * searching for implied multiplication
 	 * in case of a token i a form of one name
 	 * for instance x2x2 = x2*x2
 	 */
-	class TokenPart
-	{
+    [Serializable]
+    class TokenPart {
 		internal const int INTEGER = 1;
 		internal const int DECIMAL = 2;
 		internal const int FRACTION = 3;

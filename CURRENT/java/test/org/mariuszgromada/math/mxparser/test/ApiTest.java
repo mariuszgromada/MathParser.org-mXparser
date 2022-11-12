@@ -187,7 +187,6 @@ import org.mariuszgromada.math.mxparser.mathcollection.*;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.util.List;
 
@@ -4047,11 +4046,13 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(164, testDescr);
         Argument x = new Argument("x = 3");
         Argument y = new Argument("y = 2*x", x);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         byte[] data = SerializationUtils.serializeToBytes(y);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Argument ys = SerializationUtils.deserializeFromBytes(data ,Argument.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (ys != null)
             if (y.getArgumentName().equals(ys.getArgumentName()) && y.getArgumentValue() == ys.getArgumentValue())
                 testResult = true;
@@ -4067,11 +4068,13 @@ public final class ApiTest {
         Constant c = new Constant("c = 3");
         Function g = new Function("g(x) = 2*x + c", c);
         Function f = new Function("f(x,y) = g(x)*g(y)", g);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         String data = SerializationUtils.serializeToString(f);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Function fs = SerializationUtils.deserializeFromString(data, Function.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (fs != null)
             if (f.getFunctionName().equals(fs.getFunctionName()) && f.calculate(2,3) == fs.calculate(2, 3))
                 testResult = true;
@@ -4085,11 +4088,13 @@ public final class ApiTest {
         String testDescr = "Serialization / Deserialization: RecursiveArgument x Bytes";
         TestCommonTools.consolePrintTestApiStart(166, testDescr);
         RecursiveArgument fib = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         byte[] data = SerializationUtils.serializeToBytes(fib);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         RecursiveArgument fibs = SerializationUtils.deserializeFromBytes(data, RecursiveArgument.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         fib.addBaseCase(0, 0);
         fib.addBaseCase(1, 1);
         if (fibs != null) {
@@ -4108,11 +4113,13 @@ public final class ApiTest {
         String testDescr = "Serialization / Deserialization: Extended Argument x String";
         TestCommonTools.consolePrintTestApiStart(167, testDescr);
         Argument x = new Argument("x", new PiMultArgExt());
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         String s = SerializationUtils.serializeToString(x);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Argument xs = SerializationUtils.deserializeFromString(s, Argument.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (xs != null) {
             if (x.getArgumentName().equals(xs.getArgumentName()) && x.getArgumentValue() == xs.getArgumentValue())
                 testResult = true;
@@ -4127,11 +4134,13 @@ public final class ApiTest {
         String testDescr = "Serialization / Deserialization: Extended Function x Bytes";
         TestCommonTools.consolePrintTestApiStart(168, testDescr);
         Function f = new Function("f", new FunExt());
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         byte[] data = SerializationUtils.serializeToBytes(f);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Function fs = SerializationUtils.deserializeFromBytes(data, Function.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (fs != null) {
             if (f.getFunctionName().equals(fs.getFunctionName()) && f.calculate(2, 3) == fs.calculate(2, 3))
                 testResult = true;
@@ -4146,11 +4155,13 @@ public final class ApiTest {
         String testDescr = "Serialization / Deserialization: Extended Function Variadic x String";
         TestCommonTools.consolePrintTestApiStart(168, testDescr);
         Function f = new Function("f", new FunExtVar());
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         String data = SerializationUtils.serializeToString(f);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Function fs = SerializationUtils.deserializeFromString(data, Function.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (fs != null) {
             if (f.getFunctionName().equals(fs.getFunctionName()) && f.calculate(2, 3, 4, 5) == fs.calculate(2, 3, 4, 5))
                 testResult = true;
@@ -4166,11 +4177,13 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(170, testDescr);
         Constant b = new Constant("b = 5");
         Constant a = new Constant("a = 2*b", b);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         byte[] data = SerializationUtils.serializeToBytes(a);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Constant as = SerializationUtils.deserializeFromBytes(data, Constant.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (as != null) {
             if (a.getConstantName().equals(as.getConstantName()) && a.getConstantValue() == as.getConstantValue())
                 testResult = true;
@@ -4194,9 +4207,12 @@ public final class ApiTest {
         Expression e2 = new Expression("cos(5)-c(5)", c);
         double v1 = e1.calculate();
         double v2 = e2.calculate();
+        boolean syn1 = e1.getSyntaxStatus();
+        boolean syn2 = e2.getSyntaxStatus();
         c = null;
         s = null;
         mXparser.consolePrintln();
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         byte[] data1 = SerializationUtils.serializeToBytes(e1);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         byte[] data2 = SerializationUtils.serializeToBytes(e2);
@@ -4205,11 +4221,15 @@ public final class ApiTest {
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         Expression es2 = SerializationUtils.deserializeFromBytes(data2, Expression.class);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
+        SerializationUtils.disableBinarySerialization();
         if (es1 != null && es2 != null) {
+            boolean syns1 = es1.getSyntaxStatus();
+            boolean syns2 = es2.getSyntaxStatus();
             double vs1 = es1.calculate();
             double vs2 = es2.calculate();
-            if (e1.getExpressionString().equals(es1.getExpressionString()) && e2.getExpressionString().equals(es2.getExpressionString()) && v1 == vs1 && v2 == vs2)
-                testResult = true;
+            if (syn1 == syns1 && syn2 == syns2)
+                if (e1.getExpressionString().equals(es1.getExpressionString()) && e2.getExpressionString().equals(es2.getExpressionString()) && v1 == vs1 && v2 == vs2)
+                    testResult = true;
         }
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -4226,6 +4246,7 @@ public final class ApiTest {
         double v = e.calculate();
         String tmpPath = System.getProperty("java.io.tmpdir");
         File tmpDir = new File(tmpPath);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
         try {
             String filePath = tmpDir.getCanonicalPath() + FileSystems.getDefault().getSeparator() + "mxp_ser_test.ser";
             mXparser.consolePrintln();
@@ -4241,7 +4262,120 @@ public final class ApiTest {
                 if (e.getExpressionString().equals(es.getExpressionString()) && v == vs)
                     testResult = true;
             }
-        } catch (Exception exception) {}
+        } catch (Exception ex) {
+            mXparser.consolePrintln(ex.getMessage());
+            ex.printStackTrace();
+        }
+        SerializationUtils.disableBinarySerialization();
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0173() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Disabled serialization: serializeToBytes";
+        TestCommonTools.consolePrintTestApiStart(173, testDescr);
+        Argument x = new Argument("x = 5");
+        SerializationUtils.disableBinarySerialization();
+        byte[] data = SerializationUtils.serializeToBytes(x);
+        if (data == null && !SerializationUtils.checkLastOperationWasSuccessful())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0174() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Disabled serialization: serializeToString";
+        TestCommonTools.consolePrintTestApiStart(174, testDescr);
+        Argument x = new Argument("x = 5");
+        SerializationUtils.disableBinarySerialization();
+        String data = SerializationUtils.serializeToString(x);
+        if (data == null && !SerializationUtils.checkLastOperationWasSuccessful())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0175() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Disabled serialization: serializeToFile";
+        TestCommonTools.consolePrintTestApiStart(175, testDescr);
+        Argument x = new Argument("x = 5");
+        SerializationUtils.disableBinarySerialization();
+        String tmpPath = System.getProperty("java.io.tmpdir");
+        File tmpDir = new File(tmpPath);
+        try {
+            String filePath = tmpDir.getCanonicalPath() + FileSystems.getDefault().getSeparator() + "mxp_ser_test.ser";
+            mXparser.consolePrintln();
+            boolean serializationDone = SerializationUtils.serializeToFile(x, filePath);
+            if (!serializationDone && !SerializationUtils.checkLastOperationWasSuccessful())
+                testResult = true;
+        } catch (Exception ex) {
+            mXparser.consolePrintln(ex.getMessage());
+            ex.printStackTrace();
+        }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0176() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Disabled serialization: deserializeFromBytes";
+        TestCommonTools.consolePrintTestApiStart(176, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+        Argument x = new Argument("x = 5");
+        byte[] data = SerializationUtils.serializeToBytes(x);
+        SerializationUtils.disableBinarySerialization();
+        Argument xs = SerializationUtils.deserializeFromBytes(data, Argument.class);
+        if (data != null && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0177() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Disabled serialization: deserializeFromString";
+        TestCommonTools.consolePrintTestApiStart(177, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+        Argument x = new Argument("x = 5");
+        String data = SerializationUtils.serializeToString(x);
+        SerializationUtils.disableBinarySerialization();
+        Argument xs = SerializationUtils.deserializeFromString(data, Argument.class);
+        if (data != null && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0178() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Disabled serialization: deserializeFromFile";
+        TestCommonTools.consolePrintTestApiStart(177, testDescr);
+        Argument x = new Argument("x = 5");
+        String tmpPath = System.getProperty("java.io.tmpdir");
+        File tmpDir = new File(tmpPath);
+        try {
+            String filePath = tmpDir.getCanonicalPath() + FileSystems.getDefault().getSeparator() + "mxp_ser_test.ser";
+            mXparser.consolePrintln();
+            SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+            boolean serializationDone = SerializationUtils.serializeToFile(x, filePath);
+            SerializationUtils.disableBinarySerialization();
+            Argument xs = SerializationUtils.deserializeFromFile(filePath, Argument.class);
+            if (serializationDone && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
+                testResult = true;
+        } catch (Exception ex) {
+            mXparser.consolePrintln(ex.getMessage());
+            ex.printStackTrace();
+        }
+        SerializationUtils.disableBinarySerialization();
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }

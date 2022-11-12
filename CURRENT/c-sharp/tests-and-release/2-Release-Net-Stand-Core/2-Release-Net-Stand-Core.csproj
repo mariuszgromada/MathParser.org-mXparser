@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard1.0;netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;netstandard2.1;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net50;net60</TargetFrameworks>
+    <TargetFrameworks>net35;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;netstandard2.0;netstandard2.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net50;net60;net70</TargetFrameworks>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
@@ -91,6 +91,7 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerTokenManager.cs" Link="src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerTokenManager.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\Token.cs" Link="src\org\mariuszgromada\math\mxparser\syntaxchecker\Token.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" Link="src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\SerializationUtils.cs" Link="src\org\mariuszgromada\math\mxparser\SerializationUtils.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs" Link="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
   </ItemGroup>
   <ItemGroup>

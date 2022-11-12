@@ -25,7 +25,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.*" />
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.test.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>

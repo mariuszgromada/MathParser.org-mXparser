@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.0.4    2022-05-22
+ * @(#)Miscellaneous.cs        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -273,11 +273,12 @@ namespace org.mariuszgromada.math.mxparser.test {
     }
 
 
-	/**
+    /**
 	 * Example of implementation
 	 * FunctionExtension interface
 	 * @see FunctionExtension
 	 */
+    [Serializable]
 	internal class FunExt : FunctionExtension {
 		double x;
 		double y;
@@ -308,11 +309,12 @@ namespace org.mariuszgromada.math.mxparser.test {
 			return new FunExt(x, y);
 		}
 	}
-	/**
+    /**
 	 * Example of implementation
 	 * FunctionExtensionVariadic interface
 	 * @see FunctionExtensionVariadic
 	 */
+    [Serializable]
 	internal class FunExtVar : FunctionExtensionVariadic {
 		public double calculate(params double[] parameters) {
 			if (parameters == null) return Double.NaN;
@@ -326,11 +328,12 @@ namespace org.mariuszgromada.math.mxparser.test {
 			return new FunExtVar();
 		}
 	}
-	/**
+    /**
 	 * Example of implementation
 	 * ArgumentExtension interface
 	 * @see ArgumentExtension
 	 */
+    [Serializable]
 	internal class PiMultArgExt : ArgumentExtension {
 		private int multiple = 0;
 		public double getArgumentValue() {
