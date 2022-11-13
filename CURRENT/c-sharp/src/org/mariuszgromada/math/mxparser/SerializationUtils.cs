@@ -178,7 +178,7 @@
  * - online store: https://mathparser.org/order-commercial-license
  * - online store: https://payhip.com/infima
  */
-#if !NET7_0
+#if !NET7_0_OR_GREATER
 using System;
 using System.IO;
 using System.Runtime.Serialization;

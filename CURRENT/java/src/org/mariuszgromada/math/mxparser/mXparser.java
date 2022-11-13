@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.1.0    2022-09-04
+ * @(#)mXparser.java        5.1.0    2022-11-12
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1477,6 +1477,9 @@ public final class mXparser {
 		}
 	}
 	public static void consolePrintSettings(String prefix) {
+		mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
+		mXparser.consolePrintln(prefix + "mXparser.BUIT_FOR = " + mXparser.BUIT_FOR);
+		mXparser.consolePrintln(prefix + "java.version = " + System.getProperty("java.version"));
 		mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
 		mXparser.consolePrintln(prefix + "checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
 		mXparser.consolePrintln(prefix + "checkIfUlpRounding = " + mXparser.checkIfUlpRounding());

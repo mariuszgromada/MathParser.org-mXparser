@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.1.0    2022-11-11
+ * @(#)mXparser.cs        5.1.0    2022-11-12
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -296,10 +296,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String BUIT_FOR = "NETCOREAPP1_1";
 #elif NETCOREAPP1_0
 		public const String BUIT_FOR = "NETCOREAPP1_0";
-#elif NET
-		public const String BUIT_FOR = "NET";
-#elif PCL
-		public const String BUIT_FOR = ".NET PCL";
 #elif IOS
 		public const String BUIT_FOR = "Xamarin.iOS";
 #elif ANDROID
@@ -310,8 +306,12 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String BUIT_FOR = ".NET Standard";
 #elif NETCOREAPP
 		public const String BUIT_FOR = ".NET Core";
+#elif NET
+		public const String BUIT_FOR = "NET";
+#elif PCL
+		public const String BUIT_FOR = ".NET PCL";
 #else
-		public const String BUIT_FOR = ".NET";
+        public const String BUIT_FOR = ".NET";
 #endif
         /**
 		 * FOUND / NOT_FOUND
@@ -1576,7 +1576,10 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		public static void consolePrintSettings(String prefix) {
-			mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
+            mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
+            mXparser.consolePrintln(prefix + "mXparser.BUIT_FOR = " + mXparser.BUIT_FOR);
+            mXparser.consolePrintln(prefix + "Environment.Version = " + Environment.Version);
+            mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
 			mXparser.consolePrintln(prefix + "checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
 			mXparser.consolePrintln(prefix + "checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
 			mXparser.consolePrintln(prefix + "checkIfRadiansMode = " + mXparser.checkIfRadiansMode());

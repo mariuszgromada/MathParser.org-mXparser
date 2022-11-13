@@ -4037,22 +4037,19 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
-		[TestMethod]
 		private static String commentTestDescriptionAsMockup(String descr) {
-#if NET7_0
+#if NET8_0
 			return descr + " - this is just a Mockup as Binary Serialization is not support since .NET7.0";
 #else
 			return descr;
 #endif
 		}
-		public void testApi0164() {
+        [TestMethod]
+        public void testApi0164() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
             String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Argument x Bytes");
             TestCommonTools.consolePrintTestApiStart(164, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x = 3");
 			Argument y = new Argument("y = 2*x", x);
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
@@ -4065,7 +4062,6 @@ namespace org.mariuszgromada.math.mxparser.test {
             if (ys != null)
 				if (y.getArgumentName().Equals(ys.getArgumentName()) && y.getArgumentValue() == ys.getArgumentValue())
 					testResult = true;
-#endif
             TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4075,9 +4071,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Function x String");
 			TestCommonTools.consolePrintTestApiStart(165, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Constant c = new Constant("c = 3");
 			Function g = new Function("g(x) = 2*x + c", c);
 			Function f = new Function("f(x,y) = g(x)*g(y)", g);
@@ -4091,7 +4084,6 @@ namespace org.mariuszgromada.math.mxparser.test {
             if (fs != null)
 				if (f.getFunctionName().Equals(fs.getFunctionName()) && f.calculate(2,3) == fs.calculate(2, 3))
 					testResult = true;
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4101,9 +4093,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: RecursiveArgument x Bytes");
 			TestCommonTools.consolePrintTestApiStart(166, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			RecursiveArgument fib = new RecursiveArgument("fib(n)= fib(n-1)+fib(n-2)");
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
             byte[] data = SerializationUtils.serializeToBytes(fib);
@@ -4120,7 +4109,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 				if (fib.getArgumentName().Equals(fibs.getArgumentName()) && fib.getArgumentValue(10) == fibs.getArgumentValue(10))
 					testResult = true;
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4130,9 +4118,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Extended Argument x String");
 			TestCommonTools.consolePrintTestApiStart(167, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x", new PiMultArgExt());
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
             String s = SerializationUtils.serializeToString(x);
@@ -4145,7 +4130,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 				if (x.getArgumentName().Equals(xs.getArgumentName()) && x.getArgumentValue() == xs.getArgumentValue())
 					testResult = true;
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4155,9 +4139,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Extended Function x Bytes");
 			TestCommonTools.consolePrintTestApiStart(168, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Function f = new Function("f", new FunExt());
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
             byte[] data = SerializationUtils.serializeToBytes(f);
@@ -4170,7 +4151,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 				if (f.getFunctionName().Equals(fs.getFunctionName()) && f.calculate(2, 3) == fs.calculate(2, 3))
 					testResult = true;
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4180,9 +4160,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Extended Function Variadic x String");
 			TestCommonTools.consolePrintTestApiStart(168, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Function f = new Function("f", new FunExtVar());
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
             String data = SerializationUtils.serializeToString(f);
@@ -4195,7 +4172,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 				if (f.getFunctionName().Equals(fs.getFunctionName()) && f.calculate(2, 3, 4, 5) == fs.calculate(2, 3, 4, 5))
 					testResult = true;
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4205,9 +4181,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Constant x Bytes");
 			TestCommonTools.consolePrintTestApiStart(170, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Constant b = new Constant("b = 5");
 			Constant a = new Constant("a = 2*b", b);
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
@@ -4221,7 +4194,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 				if (a.getConstantName().Equals(acs.getConstantName()) && a.getConstantValue() == acs.getConstantValue())
 					testResult = true;
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4231,9 +4203,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Expression x Bytes");
 			TestCommonTools.consolePrintTestApiStart(171, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Constant a = new Constant("a = 0.0001");
 			Function s = new Function("s(x) = if( abs(x) < a, x, 2*s(x/2)*c(x/2) )", a);
 			Function c = new Function("c(x) = if( abs(x) < a, 1, c(x/2)^2-s(x/2)^2 )", a);
@@ -4268,7 +4237,6 @@ namespace org.mariuszgromada.math.mxparser.test {
                     if (e1.getExpressionString().Equals(es1.getExpressionString()) && e2.getExpressionString().Equals(es2.getExpressionString()) && v1 == vs1 && v2 == vs2)
 						testResult = true;
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4278,9 +4246,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Serialization / Deserialization: Expression x File");
 			TestCommonTools.consolePrintTestApiStart(171, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x = 5");
 			Function f = new Function("f(x,y) = x + 2*y");
 			Expression e = new Expression("f(2,3)*x", f, x);
@@ -4305,7 +4270,6 @@ namespace org.mariuszgromada.math.mxparser.test {
                 mXparser.consolePrintln(ex.StackTrace);
             }
             SerializationUtils.disableBinarySerialization();
-#endif
             TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4315,15 +4279,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: serializeToBytes");
 			TestCommonTools.consolePrintTestApiStart(173, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x = 5");
 			SerializationUtils.disableBinarySerialization();
 			byte[] data = SerializationUtils.serializeToBytes(x);
 			if (data == null && !SerializationUtils.checkLastOperationWasSuccessful())
 				testResult = true;
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4333,15 +4293,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: serializeToString");
 			TestCommonTools.consolePrintTestApiStart(174, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x = 5");
 			SerializationUtils.disableBinarySerialization();
 			String data = SerializationUtils.serializeToString(x);
 			if (data == null && !SerializationUtils.checkLastOperationWasSuccessful())
 				testResult = true;
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4351,9 +4307,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: serializeToFile");
 			TestCommonTools.consolePrintTestApiStart(175, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x = 5");
 			SerializationUtils.disableBinarySerialization();
 			try {
@@ -4366,7 +4319,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 				mXparser.consolePrintln(ex.Message);
                 mXparser.consolePrintln(ex.StackTrace);
 			}
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4376,9 +4328,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: deserializeFromBytes");
 			TestCommonTools.consolePrintTestApiStart(176, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
 			Argument x = new Argument("x = 5");
 			byte[] data = SerializationUtils.serializeToBytes(x);
@@ -4386,7 +4335,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Argument xs = SerializationUtils.deserializeFromBytes<Argument>(data);
 			if (data != null && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
 				testResult = true;
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4396,9 +4344,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: deserializeFromString");
 			TestCommonTools.consolePrintTestApiStart(177, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
 			Argument x = new Argument("x = 5");
 			String data = SerializationUtils.serializeToString(x);
@@ -4406,7 +4351,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Argument xs = SerializationUtils.deserializeFromString<Argument>(data);
 			if (data != null && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
 				testResult = true;
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -4416,9 +4360,6 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: deserializeFromFile");
 			TestCommonTools.consolePrintTestApiStart(177, testDescr);
-#if NET7_0
-            testResult = true;
-#else
 			Argument x = new Argument("x = 5");
 			try {
                 String filePath = Path.GetTempFileName();
@@ -4434,7 +4375,6 @@ namespace org.mariuszgromada.math.mxparser.test {
                 mXparser.consolePrintln(ex.StackTrace);
             }
 			SerializationUtils.disableBinarySerialization();
-#endif
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
