@@ -14,6 +14,11 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** https://scalarmath.org/ ***
 
+
+v.5.1.0 (2022-11-13): Libris - Serialization Support + Additional Probability Distributions
+     * Serialization support: #207 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/207
+     * F-Snecdecor distribution: #238 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/238
+
 v.5.0.7 (2022-08-21): Fix #271, #269, #268, #266, #265
      * Canonical rounding not working in case of inverse trigonometric functions while degrees mode applied: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/271
      * Sum function endless loops under certain conditions when checking syntax: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/269
