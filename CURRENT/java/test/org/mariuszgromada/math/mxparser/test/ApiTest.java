@@ -4050,7 +4050,7 @@ public final class ApiTest {
         byte[] data = SerializationUtils.serializeToBytes(y);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Argument ys = SerializationUtils.deserializeFromBytes(data ,Argument.class);
+        Argument ys = SerializationUtils.deserializeFromBytes(data);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (ys != null)
@@ -4072,7 +4072,7 @@ public final class ApiTest {
         String data = SerializationUtils.serializeToString(f);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Function fs = SerializationUtils.deserializeFromString(data, Function.class);
+        Function fs = SerializationUtils.deserializeFromString(data);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (fs != null)
@@ -4092,7 +4092,7 @@ public final class ApiTest {
         byte[] data = SerializationUtils.serializeToBytes(fib);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        RecursiveArgument fibs = SerializationUtils.deserializeFromBytes(data, RecursiveArgument.class);
+        RecursiveArgument fibs = SerializationUtils.deserializeFromBytes(data);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         fib.addBaseCase(0, 0);
@@ -4117,7 +4117,7 @@ public final class ApiTest {
         String s = SerializationUtils.serializeToString(x);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Argument xs = SerializationUtils.deserializeFromString(s, Argument.class);
+        Argument xs = SerializationUtils.deserializeFromString(s);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (xs != null) {
@@ -4138,7 +4138,7 @@ public final class ApiTest {
         byte[] data = SerializationUtils.serializeToBytes(f);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Function fs = SerializationUtils.deserializeFromBytes(data, Function.class);
+        Function fs = SerializationUtils.deserializeFromBytes(data);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (fs != null) {
@@ -4159,7 +4159,7 @@ public final class ApiTest {
         String data = SerializationUtils.serializeToString(f);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Function fs = SerializationUtils.deserializeFromString(data, Function.class);
+        Function fs = SerializationUtils.deserializeFromString(data);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (fs != null) {
@@ -4181,7 +4181,7 @@ public final class ApiTest {
         byte[] data = SerializationUtils.serializeToBytes(a);
         mXparser.consolePrintln();
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Constant as = SerializationUtils.deserializeFromBytes(data, Constant.class);
+        Constant as = SerializationUtils.deserializeFromBytes(data);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (as != null) {
@@ -4217,9 +4217,9 @@ public final class ApiTest {
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         byte[] data2 = SerializationUtils.serializeToBytes(e2);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Expression es1 = SerializationUtils.deserializeFromBytes(data1, Expression.class);
+        Expression es1 = SerializationUtils.deserializeFromBytes(data1);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-        Expression es2 = SerializationUtils.deserializeFromBytes(data2, Expression.class);
+        Expression es2 = SerializationUtils.deserializeFromBytes(data2);
         mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
         SerializationUtils.disableBinarySerialization();
         if (es1 != null && es2 != null) {
@@ -4252,7 +4252,7 @@ public final class ApiTest {
             mXparser.consolePrintln();
             boolean serializationDone = SerializationUtils.serializeToFile(e, filePath);
             mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
-            Expression es = SerializationUtils.deserializeFromFile(filePath, Expression.class);
+            Expression es = SerializationUtils.deserializeFromFile(filePath);
             mXparser.consolePrintln(SerializationUtils.getLastOperationMessage());
             File toRemove = new File(filePath);
             boolean isDeleted = toRemove.delete();
@@ -4331,7 +4331,7 @@ public final class ApiTest {
         Argument x = new Argument("x = 5");
         byte[] data = SerializationUtils.serializeToBytes(x);
         SerializationUtils.disableBinarySerialization();
-        Argument xs = SerializationUtils.deserializeFromBytes(data, Argument.class);
+        Argument xs = SerializationUtils.deserializeFromBytes(data);
         if (data != null && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -4347,7 +4347,7 @@ public final class ApiTest {
         Argument x = new Argument("x = 5");
         String data = SerializationUtils.serializeToString(x);
         SerializationUtils.disableBinarySerialization();
-        Argument xs = SerializationUtils.deserializeFromString(data, Argument.class);
+        Argument xs = SerializationUtils.deserializeFromString(data);
         if (data != null && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -4368,7 +4368,7 @@ public final class ApiTest {
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
             boolean serializationDone = SerializationUtils.serializeToFile(x, filePath);
             SerializationUtils.disableBinarySerialization();
-            Argument xs = SerializationUtils.deserializeFromFile(filePath, Argument.class);
+            Argument xs = SerializationUtils.deserializeFromFile(filePath);
             if (serializationDone && xs == null && !SerializationUtils.checkLastOperationWasSuccessful())
                 testResult = true;
         } catch (Exception ex) {

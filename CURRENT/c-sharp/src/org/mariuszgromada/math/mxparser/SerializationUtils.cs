@@ -412,12 +412,12 @@ namespace org.mariuszgromada.math.mxparser {
                         ms.Close();
                     }
 #pragma warning restore SYSLIB0011
-                    logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + objectToSerialize.GetType().Name);
+                    logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + getSimpleName(objectToSerialize));
                     lastOperationWasSuccessful = true;
                     return ms.ToArray();
                 }
             } catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + e.GetType().Name + ", " + e.Message);
+                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
                 return null;
             }
         }
@@ -509,12 +509,12 @@ namespace org.mariuszgromada.math.mxparser {
                         fs.Close();
                     }
 #pragma warning restore SYSLIB0011
-                    logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + objectToSerialize.GetType().Name + ", " + filePath);
+                    logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + getSimpleName(objectToSerialize) + ", " + filePath);
                     lastOperationWasSuccessful = true;
                     return true;
                 }
             } catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + e.GetType().Name + ", " + e.Message);
+                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
                 return false;
             }
         }
@@ -565,13 +565,13 @@ namespace org.mariuszgromada.math.mxparser {
                     T deserializedObject = (T) bf.Deserialize(ms);
                     ms.Close();
                     lastOperationWasSuccessful = true;
-                    logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + deserializedObject.GetType().Name);
+                    logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + getSimpleName(deserializedObject));
                     return deserializedObject;
                 }
 #pragma warning restore SYSLIB0011
             }
             catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + e.GetType().Name + ", " + e.Message);
+                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
                 return default(T);
             }
         }
@@ -672,13 +672,13 @@ namespace org.mariuszgromada.math.mxparser {
                     T deserializedObject = (T) form.Deserialize(fs);
                     fs.Close();
                     lastOperationWasSuccessful = true;
-                    logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + deserializedObject.GetType().Name + ", " + filePath);
+                    logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + getSimpleName(deserializedObject) + ", " + filePath);
                     return deserializedObject;
                 }
 #pragma warning restore SYSLIB0011
             }
             catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + e.GetType().Name + ", " + e.Message);
+                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
                 return default(T);
             }
         }
@@ -708,7 +708,12 @@ namespace org.mariuszgromada.math.mxparser {
                 + "attack scenarios; many projects and companies and users of serialization libraries in\n"
                 + "general have been bitten by untrusted deserialization of user data in the past."
                 ;
+        private static String getSimpleName(Object obj) {
+            if (obj == null)
+                return "<UNKNOWN>";
+            else
+                return obj.GetType().Name;
+        }
     }
-
 }
 #endif

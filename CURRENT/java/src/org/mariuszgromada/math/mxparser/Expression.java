@@ -404,10 +404,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private String errorMessage;
 	/**
-	 * Flag used internally to mark started recursion
+	 * Log used internally to mark started recursion
 	 * call on the current object, necessary to
 	 * avoid infinite loops while recursive syntax
-	 * checking (i.e. f -> g and g -> f)
+	 * checking (i.e. f to g and g to f)
 	 * or marking modified flags on the expressions
 	 * related to this expression.
 	 *
@@ -433,7 +433,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Internal indicator for tokenization process
 	 * if true, then keywords such as constants
-	 * functions etc.. will not be recognized
+	 * functions etc... will not be recognized
 	 * during tokenization
 	 */
 	private boolean parserKeyWordsOnly;

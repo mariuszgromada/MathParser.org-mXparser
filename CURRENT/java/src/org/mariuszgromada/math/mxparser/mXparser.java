@@ -238,7 +238,7 @@ public final class mXparser {
 	/**
 	 * Framework used to compile mXparser
 	 */
-	public static final String BUIT_FOR = "JDK 8";
+	public static final String BUIT_FOR = "JDK8";
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes

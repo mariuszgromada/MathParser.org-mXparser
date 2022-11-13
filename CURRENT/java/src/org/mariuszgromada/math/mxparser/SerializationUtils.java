@@ -383,19 +383,19 @@ public final class SerializationUtils {
      * and users of serialization libraries in general have been bitten by
      * untrusted deserialization of user data in the past.
      *
-     * @param object The object for which serialization is possible.
+     * @param objectToSerialize The object for which serialization is possible.
      *
      * @return The data object if the operation was successful, otherwise it returns null.
      * @see #getLastOperationMessage()
      * @see #checkLastOperationWasSuccessful()
      */
-    public static byte[] serializeToBytes(Serializable object) {
+    public static byte[] serializeToBytes(Serializable objectToSerialize) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
             logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
             return null;
         }
-        if (object == null) {
+        if (objectToSerialize == null) {
             logLastOperationMessage(ERROR_NULL_OBJECT);
             return null;
         }
@@ -403,15 +403,15 @@ public final class SerializationUtils {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = null;
             oos = new ObjectOutputStream(baos);
-            synchronized (object) {
-                oos.writeObject(object);
+            synchronized (objectToSerialize) {
+                oos.writeObject(objectToSerialize);
                 oos.close();
             }
-            logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName());
+            logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + getSimpleName(objectToSerialize));
             lastOperationWasSuccessful = true;
             return baos.toByteArray();
         } catch (Exception e) {
-            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.getMessage());
             return null;
         }
     }
@@ -436,15 +436,15 @@ public final class SerializationUtils {
      * and users of serialization libraries in general have been bitten by
      * untrusted deserialization of user data in the past.
      *
-     * @param object The object for which serialization is possible.
+     * @param objectToSerialize The object for which serialization is possible.
      *
      * @return The data string if the operation was successful, otherwise it returns null.
      * @see #getLastOperationMessage()
      * @see #checkLastOperationWasSuccessful()
      */
-    public static String serializeToString(Serializable object) {
+    public static String serializeToString(Serializable objectToSerialize) {
         lastOperationWasSuccessful = false;
-        byte[] data = serializeToBytes(object);
+        byte[] data = serializeToBytes(objectToSerialize);
         if (data == null) return null;
         return Base64.getEncoder().encodeToString(data);
     }
@@ -469,14 +469,14 @@ public final class SerializationUtils {
      * and users of serialization libraries in general have been bitten by
      * untrusted deserialization of user data in the past.
      *
-     * @param object The object for which serialization is possible.
+     * @param objectToSerialize The object for which serialization is possible.
      * @param filePath  File path
      *
      * @return true if the operation was successful, otherwise it returns false.
      * @see #getLastOperationMessage()
      * @see #checkLastOperationWasSuccessful()
      */
-    public static boolean serializeToFile(Serializable object, String filePath) {
+    public static boolean serializeToFile(Serializable objectToSerialize, String filePath) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
             logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
@@ -490,7 +490,7 @@ public final class SerializationUtils {
             logLastOperationMessage(ERROR_FILE_PATH_ZERO_LENGTH);
             return false;
         }
-        if (object == null) {
+        if (objectToSerialize == null) {
             logLastOperationMessage(ERROR_NULL_OBJECT);
             return false;
         }
@@ -498,15 +498,15 @@ public final class SerializationUtils {
         try {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            synchronized (object) {
-                oos.writeObject(object);
+            synchronized (objectToSerialize) {
+                oos.writeObject(objectToSerialize);
                 oos.close();
             }
-            logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + object.getClass().getSimpleName() + ", " + filePath);
+            logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + getSimpleName(objectToSerialize) + ", " + filePath);
             lastOperationWasSuccessful = true;
             return true;
         } catch (Exception e) {
-            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.getMessage());
             return false;
         }
     }
@@ -532,12 +532,11 @@ public final class SerializationUtils {
      * untrusted deserialization of user data in the past.
      *
      * @param data Data object.
-     * @param objectType Resulting class type.
      * @param <T> Resulting class type.
      *
      * @return The deserialized object if operation was successful, otherwise it returns null.
      */
-    public static <T> T deserializeFromBytes(byte[] data, Class<T> objectType) {
+    public static <T> T deserializeFromBytes(byte[] data) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
             logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
@@ -547,20 +546,17 @@ public final class SerializationUtils {
             logLastOperationMessage(ERROR_NULL_DATA);
             return null;
         }
-        if (objectType == null) {
-            logLastOperationMessage(ERROR_NULL_TYPE);
-            return null;
-        }
         try {
             ByteArrayInputStream bais = new ByteArrayInputStream(data);
             ObjectInputStream ois = new ObjectInputStream(bais);
+            @SuppressWarnings("unchecked")
             T deserializedObject = (T) ois.readObject();
             ois.close();
             lastOperationWasSuccessful = true;
-            logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName());
+            logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + getSimpleName(deserializedObject));
             return deserializedObject;
         } catch (Exception e) {
-            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.getMessage());
             return null;
         }
     }
@@ -586,12 +582,11 @@ public final class SerializationUtils {
      * untrusted deserialization of user data in the past.
      *
      * @param data Data object.
-     * @param objectType Resulting class type.
      * @param <T> Resulting class type.
      *
      * @return The deserialized object if operation was successful, otherwise it returns null.
      */
-    public static <T> T deserializeFromString(String data, Class<T> objectType) {
+    public static <T> T deserializeFromString(String data) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
             logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
@@ -601,7 +596,7 @@ public final class SerializationUtils {
             logLastOperationMessage(ERROR_NULL_DATA);
             return null;
         }
-        return deserializeFromBytes(Base64.getDecoder().decode(data), objectType);
+        return deserializeFromBytes(Base64.getDecoder().decode(data));
     }
     /**
      * Deserializes an object from byte data.
@@ -625,12 +620,11 @@ public final class SerializationUtils {
      * untrusted deserialization of user data in the past.
      *
      * @param filePath File path.
-     * @param objectType Resulting class type.
      * @param <T> Resulting class type.
      *
      * @return The deserialized object if operation was successful, otherwise it returns null.
      */
-    public static <T> T deserializeFromFile(String filePath, Class<T> objectType) {
+    public static <T> T deserializeFromFile(String filePath) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
             logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
@@ -656,15 +650,22 @@ public final class SerializationUtils {
         try {
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
+            @SuppressWarnings("unchecked")
             T deserializedObject = (T) ois.readObject();
             ois.close();
             lastOperationWasSuccessful = true;
-            logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + objectType.getSimpleName() + ", " + filePath);
+            logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + getSimpleName(deserializedObject) + ", " + filePath);
             return deserializedObject;
         } catch (Exception e) {
-            logLastOperationMessage(INFO_EXCEPTION + " " + e.getClass().getSimpleName() + ", " + e.getMessage());
+            logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.getMessage());
             return null;
         }
+    }
+    private static String getSimpleName(Object obj) {
+        if (obj == null)
+            return "<UNKNOWN>";
+        else
+            return obj.getClass().getSimpleName();
     }
     /**
      * Unique serialization UID based on library version and class id.
