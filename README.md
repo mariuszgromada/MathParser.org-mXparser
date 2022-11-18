@@ -8,7 +8,7 @@
 - [**Implied Multiplication**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243), click to see [usage example](https://mathparser.org/mxparser-tutorial/implied-multiplication/)
 - [**Unicode Math Symbols**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/249), click to see [usage example](https://mathparser.org/mxparser-tutorial/unicode-math/)
 - [**Calculation Steps Register**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/260), click to see [usage example](https://mathparser.org/mxparser-tutorial/calculation-steps-register)
-- [**Serialization Support**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/207)
+- [**Serialization Support**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/207), click to see [usage example](https://mathparser.org/mxparser-tutorial/serialization-deserialization/)
 - [**An Attempt To Fix Expression String**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/254)
 - [**Student's t-distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/256): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
 - [**Chi-Squared Distribution**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/257): Probabilisty Density Function, Cumulative Distribution Function, Quantile Function  
@@ -319,6 +319,14 @@ The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of t
 - Random Generator Selection
 - Maximum Threads Number
 - Default Settings
+### [**Serialization & Deserialization**](https://mathparser.org/mxparser-tutorial/serialization-deserialization/)
+- SerializationUtils class
+- Binary serialization SECURITY WARNING
+- Enabling / Disabling binary serialization
+- Expression serialization / deserialization from / to byte[]
+- Expression serialization / deserialization from / to String
+- Expression serialization / deserialization from / to File
+- Serialization / Deserialization of complex objects
 ## [>>> Click to learn from examples <<<](http://mathparser.org/mxparser-tutorial/)
 
 ## **Math Collection**
