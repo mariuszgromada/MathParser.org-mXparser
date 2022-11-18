@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.1.0    2022-11-11
+ * @(#)Expression.java        5.1.1    2022-11-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -237,7 +237,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.1.1
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -533,6 +533,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     Error message as string.
 	 */
 	public String getErrorMessage() {
+		int length = errorMessage.length();
+
+		if (length > 0)
+			if (errorMessage.charAt(length - 1) == '\n')
+				return errorMessage.substring(0, length - 1);
+
 		return errorMessage;
 	}
 	/**
@@ -5449,9 +5455,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 					} else if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME) {
 						if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
 							if ( (arg.argumentExpression != this) && (!arg.argumentExpression.recursionCallPending) ) {
-								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
+								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.expressionString + "] ", false);
 								syntax = syntax && syntaxRec;
-								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.getErrorMessage();
+								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.errorMessage;
 							}
 						}
 					} else {
@@ -5468,9 +5474,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 						errorMessage = errorMessage + level + tokenStr + "<RECURSIVE_ARGUMENT> expecting 1 parameter.\n";
 					} else
 						if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.getExpressionString() + "] ", false);
+							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.expressionString + "] ", false);
 							syntax = syntax && syntaxRec;
-							errorMessage = errorMessage + level + tokenStr + "checking recursive argument ...\n" + arg.argumentExpression.getErrorMessage();
+							errorMessage = errorMessage + level + tokenStr + "checking recursive argument ...\n" + arg.argumentExpression.errorMessage;
 						}
 				}
 				/*
@@ -5504,14 +5510,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 						if ( (fun.functionExpression != this) && (!fun.functionExpression.recursionCallPending) ) {
 							boolean syntaxRec;
 							if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", false);
+								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.expressionString + "] ", false);
 							else
-								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.getExpressionString() + "] ", true);
+								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.expressionString + "] ", true);
 							syntax = syntax && syntaxRec;
 							if (fun.isVariadic)
-								errorMessage = errorMessage + level + tokenStr + "checking variadic user defined function ...\n" + fun.functionExpression.getErrorMessage();
+								errorMessage = errorMessage + level + tokenStr + "checking variadic user defined function ...\n" + fun.functionExpression.errorMessage;
 							else
-								errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.getErrorMessage();
+								errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.errorMessage;
 						}
 				}
 				/*

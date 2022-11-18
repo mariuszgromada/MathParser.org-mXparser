@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.1.0    2022-11-11
+ * @(#)Miscellaneous.cs        5.1.1    2022-11-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -386,8 +386,8 @@ namespace org.mariuszgromada.math.mxparser {
 				else eqPos++;
 			} while ((eqPos < definitionString.Length) && (matchStatus == mXparser.NOT_FOUND));
 			if ((matchStatus == mXparser.FOUND) && (eqPos > 0) && (eqPos <= definitionString.Length - 2)) {
-				headStr = definitionString.Substring(0, eqPos);
-				bodyStr = definitionString.Substring(eqPos + 1);
+				headStr = definitionString.Substring(0, eqPos).Trim();
+				bodyStr = definitionString.Substring(eqPos + 1).Trim();
 				Expression headExpression = new Expression(headStr, ONLY_PARSER_KEYWORDS);
 				headExpression.disableImpliedMultiplicationMode();
 				headTokens = headExpression.getCopyOfInitialTokens();
