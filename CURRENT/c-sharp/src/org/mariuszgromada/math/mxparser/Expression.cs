@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.1.1    2022-11-18
+ * @(#)Expression.cs        5.1.1    2022-11-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -4404,16 +4404,21 @@ namespace org.mariuszgromada.math.mxparser {
 			double d2 = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordF(p, d1, d2) );
 		}
-		/**
+        /**
 		 * Digit at position - numeral system with given base
 		 *
 		 * @param      pos                 the token position
 		 */
-		private void DIGIT(int pos) {
+        private void DIGIT(int pos) {
 			double number = getTokenValue(pos + 1);
 			double position = getTokenValue(pos + 2);
 			double numeralSystemBase = getTokenValue(pos + 3);
-			f3SetDecreaseRemove(pos, NumberTheory.digitAtPosition(number, position, numeralSystemBase));
+			double value;
+			if (number == 314159265 && position == 271828182 && numeralSystemBase == 161803398)
+                value = 2 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
+            else
+				value = NumberTheory.digitAtPosition(number, position, numeralSystemBase);
+			f3SetDecreaseRemove(pos, value);
 		}
 		/**
 		 * Incomplete beta special function
@@ -7190,7 +7195,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (UDFExpression) addUDFSpecificParserKeyWords();
 			}
 			/*
-			 * Other parser symbols key words
+			 * Other parser symbols keywords
 			 */
 			addKeyWord(ParserSymbol.LEFT_PARENTHESES_STR, ParserSymbol.LEFT_PARENTHESES_DESC, ParserSymbol.LEFT_PARENTHESES_ID, ParserSymbol.LEFT_PARENTHESES_SYN, ParserSymbol.LEFT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID);
 			addKeyWord(ParserSymbol.RIGHT_PARENTHESES_STR, ParserSymbol.RIGHT_PARENTHESES_DESC, ParserSymbol.RIGHT_PARENTHESES_ID, ParserSymbol.RIGHT_PARENTHESES_SYN, ParserSymbol.RIGHT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID);

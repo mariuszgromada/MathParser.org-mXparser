@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.1.0    2022-09-04
+ * @(#)ExpressionTest.cs        5.1.1    2022-11-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.1.1
 	 *
 	 */
 	[TestClass]
@@ -22652,7 +22652,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Constant d2 = new Constant("d2 = rUnid(30, 70)");
 			Constant v = new Constant("v = (2 * d2 * d2 * (d1 + d2 -2)) / (d1 * (d2 - 4) * (d2 - 2)^2)", d1, d2);
 			String expStr = "vari(i, 1, 1000000, rFSned(d1, d2)) - v";
-			TestCommonTools.consolePrintTestExprStart(1377, expStr);
+			TestCommonTools.consolePrintTestExprStart(1378, expStr);
 			Expression testExp = new Expression(expStr, d1, d2, v);
 			double value = testExp.calculate();
 			double reg = 0;
@@ -22663,6 +22663,20 @@ namespace org.mariuszgromada.math.mxparser.test {
 			mXparser.consolePrintln("------ d2 = " + d2.getConstantValue());
 			mXparser.consolePrintln("------ v = " + v.getConstantValue());
 			Assert.IsTrue(testResult);
+		}
+        [TestMethod]
+        public void testExpr1379() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "dig(314159265, 271828182, 161803398)";
+			TestCommonTools.consolePrintTestExprStart(1379, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assert.IsTrue(testResult);
 		}
 	}
 }
