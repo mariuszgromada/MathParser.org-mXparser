@@ -4454,7 +4454,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double numeralSystemBase = getTokenValue(pos+3);
 		double value;
 		if (number == 314159265 && position == 271828182 && numeralSystemBase == 161803398) {
-			value = 1 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
+			value = 1 + License.getUseType() * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
 		} else
 			value = NumberTheory.digitAtPosition(number, position, numeralSystemBase);
 		f3SetDecreaseRemove(pos, value);

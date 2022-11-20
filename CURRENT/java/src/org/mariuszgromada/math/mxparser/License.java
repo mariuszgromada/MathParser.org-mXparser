@@ -1,5 +1,5 @@
 /*
- * @(#)License.java        5.0.4    2022-05-22
+ * @(#)License.java        5.1.1    2022-11-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -195,7 +195,7 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.4
+ * @version        5.1.1
  *
  * @see #iConfirmNonCommercialUse(String)
  * @see #iConfirmCommercialUse(String)
@@ -212,12 +212,18 @@ public class License {
 	private static final String ERROR_NOT_CONFIRMED = "The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License.geTermsOfAgreement().";
 	private enum UseType {
 		Null
-		,Commercial
 		,NonCommercial
+		,Commercial
 	}
 	private enum MessageType {
 		ERROR
 		,WARNING
+	}
+	static int getUseType() {
+		if (typeOfUse == UseType.Null) return 0;
+		if (typeOfUse == UseType.NonCommercial) return 1;
+		if (typeOfUse == UseType.Commercial) return 2;
+		return 3;
 	}
 	private static void setErrorMessage(MessageType type, String errorMessage) {
 		License.errorMessage = type + ": " + errorMessage;

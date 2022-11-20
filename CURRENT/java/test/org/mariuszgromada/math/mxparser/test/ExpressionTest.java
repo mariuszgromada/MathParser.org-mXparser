@@ -22644,11 +22644,12 @@ public final class ExpressionTest {
     public void testExpr1379() {
         TestCommonTools.testExprSettingsInit();
         boolean testResult = false;
+        License.iConfirmNonCommercialUse("INFIMA");
         String expStr = "dig(314159265, 271828182, 161803398)";
         TestCommonTools.consolePrintTestExprStart(1379, expStr);
         Expression testExp = new Expression(expStr);
         double value = testExp.calculate();
-        double reg = 1 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
+        double reg = 1 + 1 * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
         if (MathFunctions.abs(reg - value) <= 1e-14)
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
