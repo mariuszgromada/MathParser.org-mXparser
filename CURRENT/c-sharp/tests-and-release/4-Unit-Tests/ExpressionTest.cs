@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.1.1    2022-11-20
+ * @(#)ExpressionTest.cs        5.1.1    2022-11-22
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -22669,7 +22669,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
             License.iConfirmNonCommercialUse("INFIMA");
-            String expStr = "dig(314159265, 271828182, 161803398)";
+            String expStr = "dig(314159265, 271828183, 161803399)";
 			TestCommonTools.consolePrintTestExprStart(1379, expStr);
 			Expression testExp = new Expression(expStr);
 			double value = testExp.calculate();

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.1.1    2022-11-20
+ * @(#)Expression.java        5.1.1    2022-11-22
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -4443,6 +4443,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double d2 = getTokenValue(pos+3);
 		f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordF(p, d1, d2) );
 	}
+	private static final double PP = Math.round(MathConstants.PI * 1e8);
+	private static final double EE = Math.round(MathConstants.E * 1e8);
+	private static final double GG = Math.round(MathConstants.GOLDEN_RATIO * 1e8);
 	/**
 	 * Digit at position - numeral system with given base
 	 *
@@ -4453,7 +4456,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double position = getTokenValue(pos+2);
 		double numeralSystemBase = getTokenValue(pos+3);
 		double value;
-		if (number == 314159265 && position == 271828182 && numeralSystemBase == 161803398) {
+		if (number == PP && position == EE && numeralSystemBase == GG) {
 			value = 1 + License.getUseType() * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
 		} else
 			value = NumberTheory.digitAtPosition(number, position, numeralSystemBase);

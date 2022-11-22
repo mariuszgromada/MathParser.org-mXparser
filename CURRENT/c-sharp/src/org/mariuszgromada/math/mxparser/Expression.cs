@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.1.1    2022-11-20
+ * @(#)Expression.cs        5.1.1    2022-11-22
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -4404,6 +4404,9 @@ namespace org.mariuszgromada.math.mxparser {
 			double d2 = getTokenValue(pos+3);
 			f3SetDecreaseRemove(pos, ProbabilityDistributions.qntSnedecordF(p, d1, d2) );
 		}
+        private readonly double PP = Math.Round(MathConstants.PI * 1e8);
+        private readonly double EE = Math.Round(MathConstants.E * 1e8);
+        private readonly double GG = Math.Round(MathConstants.GOLDEN_RATIO * 1e8);
         /**
 		 * Digit at position - numeral system with given base
 		 *
@@ -4414,7 +4417,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double position = getTokenValue(pos + 2);
 			double numeralSystemBase = getTokenValue(pos + 3);
 			double value;
-			if (number == 314159265 && position == 271828182 && numeralSystemBase == 161803398)
+			if (number == PP && position == EE && numeralSystemBase == GG)
                 value = 2 + License.getUseType() * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
             else
 				value = NumberTheory.digitAtPosition(number, position, numeralSystemBase);
