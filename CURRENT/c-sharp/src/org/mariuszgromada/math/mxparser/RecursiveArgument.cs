@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cs        5.1.0    2022-11-11
+ * @(#)RecursiveArgument.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -223,7 +223,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.0
 	 *
 	 * @see Argument
 	 * @see Expression
@@ -235,12 +235,12 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Type identifier for recursive arguments.
 		 */
-		public const int TYPE_ID_RECURSIVE			= 102;
-		public const String TYPE_DESC_RECURSIVE		= "User defined recursive argument";
-		/**
+		public const int TYPE_ID_RECURSIVE					= 102;
+		public static readonly String TYPE_DESC_RECURSIVE	= StringResources.USER_DEFINED_RECURSIVE_ARGUMENT;
+        /**
 		 * Base values
 		 */
-		private List<Double> baseValues;
+        private List<Double> baseValues;
 		/**
 		 * To avoid never ending loops
 		 */
@@ -253,16 +253,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      recursiveExpressionString     the recursive expression string
 		 * @param      indexName                     index argument name
 		 */
-		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName)
-			: base(argumentName, recursiveExpressionString)
-		{
+		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName) : base(argumentName, recursiveExpressionString) {
 			if (argumentName.Equals(this.getArgumentName())) {
 				this.argumentType = RECURSIVE_ARGUMENT;
 				baseValues = new List<Double>();
 				this.n = new Argument(indexName);
 				base.argumentExpression.addArguments(n);
 				base.argumentExpression.addArguments(this);
-				base.argumentExpression.setDescription(argumentName);
 				recursiveCounter = -1;
 			}
 		}
@@ -278,9 +275,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        PrimitiveElement
 		 * @see        Argument
 		 */
-		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements)
-			: base(argumentName, recursiveExpressionString)
-		{
+		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements) : base(argumentName, recursiveExpressionString) {
 			if (argumentName.Equals(this.getArgumentName())) {
 				this.argumentType = RECURSIVE_ARGUMENT;
 				baseValues = new List<Double>();
@@ -288,9 +283,11 @@ namespace org.mariuszgromada.math.mxparser {
 				base.argumentExpression.addArguments(n);
 				base.argumentExpression.addArguments(this);
 				base.argumentExpression.addDefinitions(elements);
-				base.argumentExpression.setDescription(argumentName);
 				recursiveCounter = -1;
 			}
+		}
+		private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
+			return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringResources.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
 		}
 		/**
 		 * Constructor - creates argument based on the argument definition string.
@@ -311,8 +308,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 * @see    Argument
 		 */
-		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString)
-		{
+		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString) {
 			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
 				this.argumentType = RECURSIVE_ARGUMENT;
 				baseValues = new List<Double>();
@@ -320,12 +316,10 @@ namespace org.mariuszgromada.math.mxparser {
 				base.argumentExpression.addArguments(base.n);
 				base.argumentExpression.addArguments(this);
 				base.argumentExpression.addDefinitions(elements);
-				base.argumentExpression.setDescription(argumentDefinitionString);
-			}
-			else {
+			} else {
 				base.argumentExpression = new Expression();
-				base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
-			}
+				base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
+            }
 		}
 		/**
 		 * Adds base case
@@ -348,8 +342,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Clears all based cases and stored calculated values
 		 */
-		public void resetAllCases()
-		{
+		public void resetAllCases() {
 			baseValues.Clear();
 			recursiveCounter = -1;
 		}
@@ -385,8 +378,7 @@ namespace org.mariuszgromada.math.mxparser {
 					 */
 					recursiveCounter--;
 					return baseValues[idx];
-				}
-				else if (idx >= 0) {
+				} else if (idx >= 0) {
 					/*
 					 * value is to be calculated by the recursive calls
 					 */
@@ -406,12 +398,8 @@ namespace org.mariuszgromada.math.mxparser {
 							,base.argumentExpression.UDFExpression
 							,base.argumentExpression.UDFVariadicParamsAtRunTime);
 					newExp.setDescription(base.getArgumentName());
-					//newExp.setRecursiveMode();
 					if (base.getVerboseMode())
-					{
-						//System.out.println(super.getVerboseMode() + ", " +super.getArgumentName() + ", " + super.argumentExpression.expressionString + "," + "VERBOSE MODE for recurssion");
 						newExp.setVerboseMode();
-					}
 					/*
 					 * perform recursive call
 					 */

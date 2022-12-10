@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.java        5.1.0    2022-11-11
+ * @(#)CalcStepsRegister.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -198,7 +198,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.2.0
  *
  * @see CalcStepRecord
  * @see Expression
@@ -249,35 +249,35 @@ public class CalcStepsRegister implements Serializable {
      */
     public void consolePrint() {
         if (calcStepRecords.size() == 0) {
-            mXparser.consolePrintln("CalcStepsRegister is empty");
+            mXparser.consolePrintln(StringResources.CALC_STEPS_REGISTER_IS_EMPTY);
             return;
         }
-        mXparser.consolePrint("CalcStepsRegister for ");
+        mXparser.consolePrint(StringResources.CALC_STEPS_REGISTER_FOR + StringInvariant.SPACE);
         boolean toPrintEq = false;
         if (argumentNameStart.length() > 0) {
-            mXparser.consolePrint("Argument " + argumentNameStart);
+            mXparser.consolePrint(StringResources.ARGUMENT + StringInvariant.SPACE + argumentNameStart);
             toPrintEq = true;
         }
         if (functionNameStart.length() > 0) {
-            mXparser.consolePrint("Function " + functionNameStart);
+            mXparser.consolePrint(StringResources.FUNCTION + StringInvariant.SPACE + functionNameStart);
             toPrintEq = true;
         }
         if (toPrintEq)
-            mXparser.consolePrint(" = ");
+            mXparser.consolePrint(StringInvariant.SPACE_EQUAL_SPACE);
         else
-            mXparser.consolePrint("Expression ");
-        mXparser.consolePrintln(expressionStringStart + ", result = " + result);
+            mXparser.consolePrint(StringResources.EXPRESSION + StringInvariant.SPACE);
+        mXparser.consolePrintln(expressionStringStart + StringInvariant.COMMA_SPACE + StringResources.RESULT + StringInvariant.SPACE_EQUAL_SPACE + result);
         for (CalcStepRecord stepRecord : calcStepRecords)
             mXparser.consolePrintln(
-                    "gr = " + stepRecord.numberGroup
-                    + ", nr = " + stepRecord.numberGroupWithin
-                    + ", first = " + stepRecord.firstInGroup
-                    + ", last = " + stepRecord.lastInGroup
-                    + ", type = " + stepRecord.type
-                    + ", descr = " + stepRecord.description
-                    + ", step = " + stepRecord.content
+                    StringResources.GROUP_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.numberGroup
+                    + StringInvariant.COMMA_SPACE + StringResources.NUMBER_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.numberGroupWithin
+                    + StringInvariant.COMMA_SPACE + StringResources.FIRST + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.firstInGroup
+                    + StringInvariant.COMMA_SPACE + StringResources.LAST + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.lastInGroup
+                    + StringInvariant.COMMA_SPACE + StringResources.TYPE + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.type
+                    + StringInvariant.COMMA_SPACE + StringResources.DESCRIPTION_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.description
+                    + StringInvariant.COMMA_SPACE + StringResources.STEP + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.content
             );
-        mXparser.consolePrintln("Computing time = " + computingTime + " s.");
+        mXparser.consolePrintln(StringResources.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + computingTime + " s.");
     }
     boolean isStartSet = false;
     int stepNumberGroup = 0;

@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        5.0.4    2022-05-22
+ * @(#)ParserSymbol.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.3
+ * @version        5.2.0
  */
 public final class ParserSymbol {
 	/*
@@ -241,7 +241,6 @@ public final class ParserSymbol {
 	public static final String DEC_FRACT						= "(" + INTEGER + ")?" + "\\." + INTEGER;
 	public static final String DEC_FRACT_OR_INT					= "(" + DEC_FRACT + "|" + INTEGER + ")";
 	public static final String DECIMAL_REG_EXP					= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")?";
-	public static final String DECIMAL_SCIENTIFIC_REG_EXP		= "[+-]?" + DEC_FRACT_OR_INT + "([eE][+-]?" + INTEGER + ")";
 	public static final String BASE1_REG_EXP					= "[+-]?[bB]1\\.(" + DIGIT_B1 + ")*";
 	public static final String BASE2_REG_EXP					= "[+-]?[bB][2]?\\." + DIGIT_B2 + "(" + DIGIT_B2 + ")*";
 	public static final String BASE3_REG_EXP					= "[+-]?[bB]3\\." + DIGIT_B3 + "(" + DIGIT_B3 + ")*";
@@ -391,6 +390,14 @@ public final class ParserSymbol {
 	public static final String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String function1ArgDefStrRegExp 		= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 	public static final String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+	public static final String ANY_NUMBER_LITERAL_REG_EXP		= "(" + DECIMAL_REG_EXP + "|" + BASE_OTHER_REG_EXP + "|" + FRACTION + ")";
+	public static final String NUMBER_NAME_IMPL_MULTI_REG_EXP	=
+			"("
+			+ "(" + ANY_NUMBER_LITERAL_REG_EXP + nameOnlyTokenOptBracketsRegExp + ")+" + "(" + ANY_NUMBER_LITERAL_REG_EXP + ")?"
+			+ "|"
+			+ "(" + nameOnlyTokenOptBracketsRegExp + ANY_NUMBER_LITERAL_REG_EXP + ")+" + "(" + nameOnlyTokenOptBracketsRegExp + ")?"
+			+ ")";
+
 
 	/*
 	 * ParserSymbol - token type id.

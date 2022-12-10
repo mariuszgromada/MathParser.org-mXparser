@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.java        5.1.0    2022-11-11
+ * @(#)RecursiveArgument.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -224,7 +224,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.2.0
  *
  * @see Argument
  * @see Expression
@@ -237,8 +237,8 @@ public class RecursiveArgument extends Argument implements Serializable {
 	/**
 	 * Type identifier for recursive arguments.
 	 */
-	public static final int TYPE_ID_RECURSIVE		= 102;
-	public static final String TYPE_DESC_RECURSIVE			= "User defined recursive argument";
+	public static final int TYPE_ID_RECURSIVE			= 102;
+	public static final String TYPE_DESC_RECURSIVE		= StringResources.USER_DEFINED_RECURSIVE_ARGUMENT;
 	/**
 	 * Base values
 	 */
@@ -263,7 +263,6 @@ public class RecursiveArgument extends Argument implements Serializable {
 			this.n = new Argument(indexName);
 			super.argumentExpression.addArguments(n);
 			super.argumentExpression.addArguments(this);
-			super.argumentExpression.setDescription(argumentName);
 			recursiveCounter = -1;
 		}
 	}
@@ -288,9 +287,11 @@ public class RecursiveArgument extends Argument implements Serializable {
 			super.argumentExpression.addArguments(n);
 			super.argumentExpression.addArguments(this);
 			super.argumentExpression.addDefinitions(elements);
-			super.argumentExpression.setDescription(argumentName);
 			recursiveCounter = -1;
 		}
+	}
+	private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
+		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringResources.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
 	}
 	/**
 	 * Constructor - creates argument based on the argument definition string.
@@ -320,10 +321,9 @@ public class RecursiveArgument extends Argument implements Serializable {
 			super.argumentExpression.addArguments(super.n);
 			super.argumentExpression.addArguments(this);
 			super.argumentExpression.addDefinitions(elements);
-			super.argumentExpression.setDescription(argumentDefinitionString);
 		} else {
 			super.argumentExpression = new Expression();
-			super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + argumentDefinitionString + "] " + "Invalid argument definition (patterns: f(n) = f(n-1) ...  ).");
+			super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
 		}
 	}
 	/**
@@ -383,8 +383,7 @@ public class RecursiveArgument extends Argument implements Serializable {
 				 */
 				recursiveCounter--;
 				return baseValues.get(idx).doubleValue();
-			}
-			else if (idx >= 0) {
+			}  else if (idx >= 0) {
 				/*
 				 * value is to be calculated by the recursive calls
 				 */

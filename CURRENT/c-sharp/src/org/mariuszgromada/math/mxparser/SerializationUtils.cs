@@ -1,5 +1,5 @@
 /*
- * @(#)SerializationUtils.cs        5.1.0    2022-11-11
+ * @(#)SerializationUtils.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -216,7 +216,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        5.1.0
+     * @version        5.2.0
      *
      * @see Expression
      * @see Argument
@@ -251,7 +251,7 @@ namespace org.mariuszgromada.math.mxparser {
         public static void enableBinarySerializationIamAwareOfSecurityRisks() {
             binarySerializationEnabled = true;
             lastOperationWasSuccessful = true;
-            logLastOperationMessage(INFO_BINARY_SERIALIZATION_ENABLED);
+            logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_ENABLED);
         }
         /**
          * Disables binary serialization done by the SerializationUtils.
@@ -277,7 +277,7 @@ namespace org.mariuszgromada.math.mxparser {
         public static void disableBinarySerialization() {
             binarySerializationEnabled = false;
             lastOperationWasSuccessful = true;
-            logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+            logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_DISABLED);
         }
         /**
          * Returns whether binary serialization done by SerializationUtils is enabled by.
@@ -364,7 +364,7 @@ namespace org.mariuszgromada.math.mxparser {
             return lastOperationMessage;
         }
         private static void logLastOperationMessage(String message) {
-            lastOperationMessage = message + "\n" + WARNING_BINARY_SERIALIZATION_SECURITY_RISKS;
+            lastOperationMessage = message + StringInvariant.NEW_LINE + StringResources.WARNING_BINARY_SERIALIZATION_SECURITY_RISKS;
         }
         /**
          * Serialization of an object to byte data.
@@ -396,11 +396,11 @@ namespace org.mariuszgromada.math.mxparser {
         public static byte[] serializeToBytes(Object objectToSerialize) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
-                logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+                logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_DISABLED);
                 return null;
             }
             if (objectToSerialize == null) {
-                logLastOperationMessage(ERROR_NULL_OBJECT);
+                logLastOperationMessage(StringResources.ERROR_NULL_OBJECT);
                 return null;
             }
             try {
@@ -412,12 +412,12 @@ namespace org.mariuszgromada.math.mxparser {
                         ms.Close();
                     }
 #pragma warning restore SYSLIB0011
-                    logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + getSimpleName(objectToSerialize));
+                    logLastOperationMessage(StringResources.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(objectToSerialize));
                     lastOperationWasSuccessful = true;
                     return ms.ToArray();
                 }
             } catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return null;
             }
         }
@@ -485,19 +485,19 @@ namespace org.mariuszgromada.math.mxparser {
         public static bool serializeToFile(Object objectToSerialize, String filePath) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
-                logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+                logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_DISABLED);
                 return false;
             }
             if (filePath == null) {
-                logLastOperationMessage(ERROR_NULL_FILE_PATH);
+                logLastOperationMessage(StringResources.ERROR_NULL_FILE_PATH);
                 return false;
             }
             if (filePath.Length == 0) {
-                logLastOperationMessage(ERROR_FILE_PATH_ZERO_LENGTH);
+                logLastOperationMessage(StringResources.ERROR_FILE_PATH_ZERO_LENGTH);
                 return false;
             }
             if (objectToSerialize == null) {
-                logLastOperationMessage(ERROR_NULL_OBJECT);
+                logLastOperationMessage(StringResources.ERROR_NULL_OBJECT);
                 return false;
             }
             try {
@@ -509,12 +509,12 @@ namespace org.mariuszgromada.math.mxparser {
                         fs.Close();
                     }
 #pragma warning restore SYSLIB0011
-                    logLastOperationMessage(INFO_SERIALIZATION_PERFORMED + " " + getSimpleName(objectToSerialize) + ", " + filePath);
+                    logLastOperationMessage(StringResources.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(objectToSerialize) + StringInvariant.COMMA_SPACE + filePath);
                     lastOperationWasSuccessful = true;
                     return true;
                 }
             } catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return false;
             }
         }
@@ -549,11 +549,11 @@ namespace org.mariuszgromada.math.mxparser {
         public static T deserializeFromBytes <T>(byte[] data) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
-                logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+                logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_DISABLED);
                 return default(T);
             }
             if (data == null) {
-                logLastOperationMessage(ERROR_NULL_DATA);
+                logLastOperationMessage(StringResources.ERROR_NULL_DATA);
                 return default(T);
             }
             try {
@@ -565,13 +565,13 @@ namespace org.mariuszgromada.math.mxparser {
                     T deserializedObject = (T) bf.Deserialize(ms);
                     ms.Close();
                     lastOperationWasSuccessful = true;
-                    logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + getSimpleName(deserializedObject));
+                    logLastOperationMessage(StringResources.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(deserializedObject));
                     return deserializedObject;
                 }
 #pragma warning restore SYSLIB0011
             }
             catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return default(T);
             }
         }
@@ -606,11 +606,11 @@ namespace org.mariuszgromada.math.mxparser {
         public static T deserializeFromString<T>(String data) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
-                logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+                logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_DISABLED);
                 return default(T);
             }
             if (data == null) {
-                logLastOperationMessage(ERROR_NULL_DATA);
+                logLastOperationMessage(StringResources.ERROR_NULL_DATA);
                 return default(T);
             }
             return deserializeFromBytes<T>(Convert.FromBase64String(data));
@@ -646,23 +646,23 @@ namespace org.mariuszgromada.math.mxparser {
         public static T deserializeFromFile<T>(String filePath) {
             lastOperationWasSuccessful = false;
             if (!binarySerializationEnabled) {
-                logLastOperationMessage(INFO_BINARY_SERIALIZATION_DISABLED);
+                logLastOperationMessage(StringResources.INFO_BINARY_SERIALIZATION_DISABLED);
                 return default(T);
             }
             if (filePath == null) {
-                logLastOperationMessage(ERROR_NULL_FILE_PATH);
+                logLastOperationMessage(StringResources.ERROR_NULL_FILE_PATH);
                 return default(T);
             }
             if (filePath.Length == 0) {
-                logLastOperationMessage(ERROR_FILE_PATH_ZERO_LENGTH);
+                logLastOperationMessage(StringResources.ERROR_FILE_PATH_ZERO_LENGTH);
                 return default(T);
             }
             if (!File.Exists(filePath)) {
-                logLastOperationMessage(ERROR_FILE_NOT_EXISTS + " " + filePath);
+                logLastOperationMessage(StringResources.ERROR_FILE_NOT_EXISTS + StringInvariant.SPACE + filePath);
                 return default(T);
             }
             if (Directory.Exists(filePath)) {
-                logLastOperationMessage(ERROR_IS_NOT_A_FILE + " " + filePath);
+                logLastOperationMessage(StringResources.ERROR_IS_NOT_A_FILE + StringInvariant.SPACE + filePath);
                 return default(T);
             }
             try {
@@ -672,48 +672,17 @@ namespace org.mariuszgromada.math.mxparser {
                     T deserializedObject = (T) form.Deserialize(fs);
                     fs.Close();
                     lastOperationWasSuccessful = true;
-                    logLastOperationMessage(INFO_DESERIALIZATION_PERFORMED + " " + getSimpleName(deserializedObject) + ", " + filePath);
+                    logLastOperationMessage(StringResources.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(deserializedObject) + StringInvariant.COMMA_SPACE + filePath);
                     return deserializedObject;
                 }
 #pragma warning restore SYSLIB0011
             }
             catch (Exception e) {
-                logLastOperationMessage(INFO_EXCEPTION + " " + getSimpleName(e) + ", " + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return default(T);
             }
         }
-        private const String INFO_SERIALIZATION_PERFORMED = "Serialization has been performed:";
-        private const String INFO_DESERIALIZATION_PERFORMED = "Deserialization has been performed:";
-        private const String ERROR_NULL_OBJECT = "Null object passed in the parameter.";
-        private const String ERROR_NULL_FILE_PATH = "Null file passed in the parameter.";
-        private const String ERROR_FILE_PATH_ZERO_LENGTH = "The file path does not contain any characters.";
-        private const String ERROR_IS_NOT_A_FILE = "The file path is not a file:";
-        private const String ERROR_FILE_NOT_EXISTS = "The file path does not exits:";
-        private const String ERROR_NULL_DATA = "Null data passed in the parameter.";
-        private const String ERROR_NULL_TYPE = "Null type passed in the parameter.";
-        private const String INFO_EXCEPTION = "Exception: ";
-        private const String INFO_BINARY_SERIALIZATION_ENABLED = "Binary serialization is enabled. Use it only in a conscious and limited way.";
-        private const String INFO_BINARY_SERIALIZATION_DISABLED = "Binary serialization is disabled. You can enable it if you are aware of security risks.";
-        private const String WARNING_BINARY_SERIALIZATION_SECURITY_RISKS =
-                "SECURITY WARNING:\n"
-                + "Deserializing data from an untrusted source can introduce security vulnerabilities\n"
-                + "to your application. Depending on the settings used during deserialization,\n"
-                + "untrusted data may be able to execute arbitrary code or cause a denial of service\n"
-                + "attack. Untrusted data can come from over the network from an untrusted source\n"
-                + "(e.g. any network client), or it can be manipulated/tampered by an intermediary while\n"
-                + "in transit over an unauthenticated connection, or from local storage where it may\n"
-                + "have been compromised/tampered, or from many other sources. MathParser.org-mXparser\n"
-                + "does not provide any means to authenticate data or secure it from tampering. Use an\n"
-                + "appropriate data authentication method before deserializing. Be very mindful of these\n"
-                + "attack scenarios; many projects and companies and users of serialization libraries in\n"
-                + "general have been bitten by untrusted deserialization of user data in the past."
-                ;
-        private static String getSimpleName(Object obj) {
-            if (obj == null)
-                return "<UNKNOWN>";
-            else
-                return obj.GetType().Name;
-        }
+
     }
 }
 #endif

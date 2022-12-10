@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.1.1    2022-11-22
+ * @(#)Expression.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -212,6 +212,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
 import org.mariuszgromada.math.mxparser.parsertokens.Unit;
 import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
+
 /**
  * Expression - base class for real expressions definition.
  *
@@ -237,7 +238,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.1
+ * @version        5.2.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -250,8 +251,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Expression type id
 	 */
-	public static final int TYPE_ID		= 100;
-	public static final String TYPE_DESC	= "User defined expression";
+	public static final int TYPE_ID			= 100;
+	public static final String TYPE_DESC	= StringResources.USER_DEFINED_EXPRESSION;
 	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
@@ -275,15 +276,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Expression string (for example: "sin(x)+cos(y)")
 	 */
-	String expressionString;
+	String expressionString = "";
 	/**
 	 * Expression string after attempt to clean
 	 */
-	private String expressionStringCleaned;
+	private String expressionStringCleaned = "";
 	/**
 	 * Expression description
 	 */
-	private String description;
+	private String description = "";
 	/**
 	 * List of arguments
 	 *
@@ -304,7 +305,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	List<Constant> constantsList;
 	/**
-	 * List of key words known by the parser
+	 * List of keywords known by the parser
 	 */
 	private List<KeyWord> keyWordsList;
 	/**
@@ -404,6 +405,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private String errorMessage;
 	/**
+	 * Optional message from calculate method
+	 */
+	private String errorMessageCalculate;
+	private static int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
+	/**
 	 * Log used internally to mark started recursion
 	 * call on the current object, necessary to
 	 * avoid infinite loops while recursive syntax
@@ -417,7 +423,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private boolean recursionCallPending;
 	/**
 	 * Internal counter to avoid infinite loops while calculating
-	 * expression defined in the way shown by below examples
+	 * expression defined in the way showed by below examples
 	 *
 	 * Argument x = new Argument("x = 2*y");
 	 * Argument y = new Argument("y = 2*x");
@@ -485,6 +491,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private boolean internalClone;
 	/**
+	 * An indicator of whether an error message
+	 * should be passed from the current expression
+	 * to the expression that called it.
+	 */
+	private boolean forwardErrorMessage = true;
+	/**
 	 * mXparser options changeset
 	 * used in checkSyntax() method
 	 */
@@ -521,9 +533,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	void showRelatedExpressions() {
 		mXparser.consolePrintln();
-		mXparser.consolePrintln(this.description + " = " + this.expressionString + ":");
+		mXparser.consolePrintln(description + StringInvariant.SPACE_EQUAL_SPACE + expressionString + StringInvariant.COLON);
 		for (Expression e : relatedExpressionsList)
-			mXparser.consolePrintln("-> " + e.description + " = " + e.expressionString);
+			mXparser.consolePrintln(StringInvariant.RIGHT_ARROW_SPACE + e.description + StringInvariant.SPACE_EQUAL_SPACE + e.expressionString);
 	}
 	/**
 	 * Method return error message after
@@ -536,8 +548,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int length = errorMessage.length();
 
 		if (length > 0)
-			if (errorMessage.charAt(length - 1) == '\n')
-				return errorMessage.substring(0, length - 1);
+			if (errorMessage.endsWith(StringInvariant.NEW_LINE))
+				return errorMessage.substring(0, length - StringInvariant.NEW_LINE.length());
 
 		return errorMessage;
 	}
@@ -578,7 +590,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			internalClone = false;
 			expressionWasModified = true;
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "Syntax status unknown.";
+			errorMessage = StringResources.SYNTAX_STATUS_UNKNOWN;
 			for (Expression e : relatedExpressionsList)
 				e.setExpressionModifiedFlag();
 			recursionCallPending = false;
@@ -590,10 +602,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void expressionInternalVarsInit() {
 		description = "";
 		errorMessage = "";
+		errorMessageCalculate = "";
 		computingTime = 0;
 		recursionCallPending = false;
 		recursionCallsCounter = 0;
 		internalClone = false;
+		forwardErrorMessage = true;
 		parserKeyWordsOnly = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
@@ -652,7 +666,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public Expression(String expressionString, PrimitiveElement...elements) {
 		super(Expression.TYPE_ID);
 		expressionInit();
-		this.expressionString = new String(expressionString);
+		this.expressionString = expressionString;
 		setExpressionModifiedFlag();
 		addDefinitions(elements);
 	}
@@ -665,7 +679,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	Expression(String expressionString, boolean parserKeyWordsOnly) {
 		super(Expression.TYPE_ID);
 		expressionInit();
-		this.expressionString = new String(expressionString);
+		this.expressionString = expressionString;
 		setExpressionModifiedFlag();
 		this.parserKeyWordsOnly = parserKeyWordsOnly;
 	}
@@ -693,12 +707,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 		relatedExpressionsList = new ArrayList<Expression>();
 		expressionWasModified = false;
 		syntaxStatus = NO_SYNTAX_ERRORS;
-		description = "_internal_";
+		description = StringInvariant.INTERNAL;
 		errorMessage = "";
+		errorMessageCalculate = "";
 		computingTime = 0;
 		recursionCallPending = false;
 		recursionCallsCounter = 0;
 		internalClone = false;
+		forwardErrorMessage = true;
 		parserKeyWordsOnly = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
@@ -731,7 +747,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			List<Function> functionsList, List<Constant> constantsList
 			,boolean internal, boolean UDFExpression, List<Double> UDFVariadicParamsAtRunTime) {
 		super(Expression.TYPE_ID);
-		this.expressionString = new String(expressionString);
+		this.expressionString = expressionString;
 		expressionInternalVarsInit();
 		setSilentMode();
 		disableRecursiveMode();
@@ -750,8 +766,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private Expression(Expression expression) {
 		super(Expression.TYPE_ID);
-		expressionString = new String(expression.expressionString);
-		description = new String(expression.description);
+		expressionString = expression.expressionString;
+		description = expression.description;
 		argumentsList = expression.argumentsList;
 		functionsList = expression.functionsList;
 		constantsList = expression.constantsList;
@@ -763,7 +779,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		verboseMode = expression.verboseMode;
 		impliedMultiplicationMode = expression.impliedMultiplicationMode;
 		syntaxStatus = expression.syntaxStatus;
-		errorMessage = new String(expression.errorMessage);
+		errorMessage = expression.errorMessage;
+		errorMessageCalculate = expression.errorMessageCalculate;
 		recursionCallPending = expression.recursionCallPending;
 		recursionCallsCounter = expression.recursionCallsCounter;
 		parserKeyWordsOnly = expression.parserKeyWordsOnly;
@@ -772,6 +789,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		disableRounding = expression.disableRounding;
 		UDFExpression = expression.UDFExpression;
 		UDFVariadicParamsAtRunTime = expression.UDFVariadicParamsAtRunTime;
+		forwardErrorMessage = expression.forwardErrorMessage;
 		internalClone = true;
 	}
 	/**
@@ -963,6 +981,20 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public boolean getRecursiveMode() {
 		return recursiveMode;
+	}
+	/**
+	 * An indicator of whether an error message
+	 * should be passed from the current expression
+	 * to the expression that called it.
+	 *
+	 * @param forward If true then message is being forwarded.
+	 */
+	void setForwardErrorMessage(boolean forward) {
+		if (forward != forwardErrorMessage) {
+			errorMessage = "";
+			errorMessageCalculate = "";
+			forwardErrorMessage = forward;
+		}
 	}
 	/**
 	 * Gets computing time.
@@ -2054,6 +2086,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int tokensListSizeBefore = tokensList.size();
 		Token tokenBefore = tokensList.get(pos);
 		double argumentValue = argument.getArgumentValue(calcStepsRegister);
+		if (forwardErrorMessage && this != argument.argumentExpression) {
+			errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+			errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+		}
 		int tokensListSizeAfter = tokensList.size();
 		if (tokensListSizeBefore == tokensListSizeAfter) {
 			Token tokenAfter = tokensList.get(pos);
@@ -2101,7 +2137,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 			value = function.calculate(calcStepsRegister);
 		} catch(StackOverflowError soe){
 			value = Double.NaN;
-			errorMessage = soe.getMessage();
+			errorMessage = StringInvariant.trimNotNull(soe.getMessage());
+		}
+		if (forwardErrorMessage && this != function.functionExpression) {
+			errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, function.functionExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+			errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, function.functionExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 		}
 		int tokensListSizeAfter = tokensList.size();
 		if (tokensListSizeBefore == tokensListSizeAfter) {
@@ -2137,6 +2177,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (verboseMode)
 			argument.setVerboseMode();
 		double result = argument.getArgumentValue(index);
+		if (forwardErrorMessage && this != argument.argumentExpression) {
+			errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+			errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+		}
 		f1SetDecreaseRemove(pos, result);
 		if (!argumentVerboseMode)
 			argument.setSilentMode();
@@ -4488,7 +4532,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 *
 	 * @param      tokens              the tokens list
-	 * @param      keyWord             missing key word
+	 * @param      keyWord             missing keyword
 	 * @param      tokenId             missing token id
 	 * @param      tokenTypeId         missing token type id
 	 */
@@ -5230,16 +5274,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 		recursionCallsCounter = 0;
 		if (expressionString.length() == 0) {
 	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "Empty expression string\n";
+			errorMessage = StringResources.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
 			return syntax;
 		}
 		cleanExpressionString();
 		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
 	    try {
 	        syn.checkSyntax();
-	    } catch (Exception e) {
+	    } catch (Throwable e) {
 	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "lexical error \n\n" + e.getMessage() + "\n";
+			errorMessage = StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e);
 	    }
 		return syntax;
 	}
@@ -5302,7 +5346,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				blankCnt++;
 			} else if (blankCnt > 0) {
 				if (newExpLen > 0) {
-					if (isNotSpecialChar(clag1)) expressionStringCleaned = expressionStringCleaned + " ";
+					if (isNotSpecialChar(clag1)) expressionStringCleaned = expressionStringCleaned + StringInvariant.SPACE;
 				}
 				blankCnt = 0;
 			}
@@ -5340,8 +5384,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     true if syntax is ok
 	 */
 	public boolean checkSyntax() {
-		boolean syntax = checkSyntax("[" + expressionString + "] ", false);
-		return syntax;
+		return checkSyntax(StringResources.createExpressionDescription(description, expressionString), false);
 	}
 	/**
 	 * Checks syntax of the calculus parameter
@@ -5398,7 +5441,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private boolean checkSyntax(String level, boolean functionWithBodyExt) {
 		if ( (!expressionWasModified) && (syntaxStatus == NO_SYNTAX_ERRORS) && (optionsChangesetNumber == mXparser.optionsChangesetNumber) ) {
-			errorMessage = level + "already checked - no errors!\n";
+			errorMessage = StringResources.startErrorMassage(level, StringResources.ALREADY_CHECKED_NO_ERRORS);
 			recursionCallPending = false;
 			return NO_SYNTAX_ERRORS;
 		}
@@ -5407,15 +5450,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			recursionCallPending = false;
 			expressionWasModified = false;
-			errorMessage = errorMessage + level + "function with extended body - assuming no errors.\n";
+			errorMessage = StringResources.startErrorMassage(level, StringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS);
 			return NO_SYNTAX_ERRORS;
 		}
 		recursionCallPending = true;
-		errorMessage = level +"checking ...\n";
+		errorMessage = StringResources.startErrorMassage(level, StringResources.STARTING_SYNTAX_CHECK);
 		boolean syntax = NO_SYNTAX_ERRORS;
 		if (expressionString.length() == 0) {
 	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = errorMessage + level + "Empty expression string\n";
+			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.EXPRESSION_STRING_IS_EMPTY);
 			syntaxStatus = syntax;
 			recursionCallPending = false;
 			return syntax;
@@ -5430,7 +5473,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			tokenizeExpressionString();
 			if (!impliedMultiplicationMode && impliedMultiplicationError) {
 				syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage =  errorMessage + level + "Multiplication operator missing - try Implied Multiplication Mode." + "\n";
+				errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE);
 			}
 			/*
 			 * Duplicated tokens?
@@ -5443,7 +5486,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				kw2 = keyWordsList.get(kwId).wordString;
 				if ( kw1.equals(kw2) ) {
 					syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-					errorMessage = errorMessage + level + "(" + kw1 + ") Duplicated <KEYWORD>.\n";
+					errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.buildErrorMessageKeyword(StringResources.DUPLICATED_KEYWORD, kw1));
 				}
 			}
 			int tokensNumber = initialTokens.size();
@@ -5451,7 +5494,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			SyntaxStackElement stackElement;
 			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 				Token t = initialTokens.get(tokenIndex);
-				String tokenStr = "(" + t.tokenStr +", " + tokenIndex + ") ";
+				String tokenStr = StringResources.buildTokenString(t.tokenStr, tokenIndex);
 				/*
 				 * Check syntax for "ARGUMENT" token
 				 */
@@ -5459,17 +5502,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 					Argument arg = getArgument(t.tokenId);
 					if (getParametersNumber(tokenIndex) >= 0 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<ARGUMENT> was expected.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WAS_EXPECTED, tokenStr);
 					} else if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME) {
 						if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
 							if ( (arg.argumentExpression != this) && (!arg.argumentExpression.recursionCallPending) ) {
-								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.expressionString + "] ", false);
+								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
 								syntax = syntax && syntaxRec;
-								errorMessage = errorMessage + level + tokenStr + "checking dependent argument ...\n" + arg.argumentExpression.errorMessage;
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenStr, arg.argumentExpression.errorMessage);
 							}
 						}
 					} else {
-						errorMessage = errorMessage + level + tokenStr + "argument with extended body - assuming no errors.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, tokenStr);
 					}
 				}
 				/*
@@ -5479,12 +5522,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 					Argument arg = getArgument(t.tokenId);
 					if (getParametersNumber(tokenIndex) != 1 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<RECURSIVE_ARGUMENT> expecting 1 parameter.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, tokenStr);
 					} else
-						if ( (arg.argumentExpression != this) && (arg.argumentExpression.recursionCallPending == false) ) {
-							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + arg.argumentExpression.expressionString + "] ", false);
+						if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
+							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
 							syntax = syntax && syntaxRec;
-							errorMessage = errorMessage + level + tokenStr + "checking recursive argument ...\n" + arg.argumentExpression.errorMessage;
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenStr, arg.argumentExpression.errorMessage);
 						}
 				}
 				/*
@@ -5497,7 +5540,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 							calculusToken = true;
 					if (!calculusToken) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "invalid <TOKEN>.\n";
+						if (!impliedMultiplicationMode && mXparser.regexMatch(t.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenStr);
+						else
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.INVALID_TOKEN, tokenStr);
 					}
 				}
 				/*
@@ -5508,25 +5554,24 @@ public class Expression extends PrimitiveElement implements Serializable {
 					fun.checkRecursiveMode();
 					int npar = getParametersNumber(tokenIndex);
 					int fpar = fun.getParametersNumber();
-					if (npar == 0) {
+					if (npar <= 0) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting at least one argument.\n";
-					} else if ( (!fun.isVariadic) && ( fpar != npar ) ) {
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, tokenStr);
+					} else if (!fun.isVariadic && fpar != npar) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_FUNCTION> expecting " + fpar + " arguments.\n";
-					} else
-						if ( (fun.functionExpression != this) && (!fun.functionExpression.recursionCallPending) ) {
-							boolean syntaxRec;
-							if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.expressionString + "] ", false);
-							else
-								syntaxRec = fun.functionExpression.checkSyntax(level + "-> " + "[" + t.tokenStr + "] = [" + fun.functionExpression.expressionString + "] ", true);
-							syntax = syntax && syntaxRec;
-							if (fun.isVariadic)
-								errorMessage = errorMessage + level + tokenStr + "checking variadic user defined function ...\n" + fun.functionExpression.errorMessage;
-							else
-								errorMessage = errorMessage + level + tokenStr + "checking user defined function ...\n" + fun.functionExpression.errorMessage;
-						}
+						errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, fpar, npar, tokenStr);
+					} else if ( (fun.functionExpression != this) && (!fun.functionExpression.recursionCallPending) ) {
+						boolean syntaxRec;
+						if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
+							syntaxRec = fun.functionExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
+						else
+							syntaxRec = fun.functionExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
+						syntax = syntax && syntaxRec;
+						if (fun.isVariadic)
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenStr, fun.functionExpression.errorMessage);
+						else
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, tokenStr, fun.functionExpression.errorMessage);
+					}
 				}
 				/*
 				 * Check syntax for "CONSTANT" token
@@ -5534,7 +5579,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if (t.tokenTypeId == ConstantValue.TYPE_ID) {
 					if ( getParametersNumber(tokenIndex) >= 0 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<CONSTANT> was expected.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.CONSTANT_WAS_EXPECTED, tokenStr);
 					}
 				}
 				/*
@@ -5543,7 +5588,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if (t.tokenTypeId == Constant.TYPE_ID) {
 					if ( getParametersNumber(tokenIndex) >= 0 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<USER_DEFINED_CONSTANT> was expected.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.USER_CONSTANT_WAS_EXPECTED, tokenStr);
 					}
 				}
 				/*
@@ -5552,7 +5597,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if (t.tokenTypeId == Function1Arg.TYPE_ID) {
 					if ( getParametersNumber(tokenIndex) != 1 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<FUNCTION> expecting 1 argument.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenStr);
 					}
 				}
 				/*
@@ -5561,7 +5606,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if (t.tokenTypeId == Function2Arg.TYPE_ID) {
 					if ( getParametersNumber(tokenIndex) != 2 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<FUNCTION> expecting 2 arguments.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenStr);
 					}
 				}
 				/*
@@ -5570,7 +5615,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if (t.tokenTypeId == Function3Arg.TYPE_ID) {
 					if ( getParametersNumber(tokenIndex) != 3 ) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "<FUNCTION> expecting 3 arguments.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenStr);
 					}
 				}
 				/*
@@ -5584,13 +5629,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 					if ( (t.tokenId == CalculusOperator.DER_ID) || (t.tokenId == CalculusOperator.DER_LEFT_ID) || (t.tokenId == CalculusOperator.DER_RIGHT_ID) )  {
 						if ( (paramsNumber < 2) || (paramsNumber > 5) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> expecting 2 or 3 or 4 or 5 calculus parameters.\n";
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenStr);
 						} else {
 							if ( (paramsNumber == 2) || (paramsNumber == 4) ) {
 								FunctionParameter argParam = funParams.get(1);
 								if (!checkIfKnownArgument(argParam)) {
 									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
+									errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenStr);
 								}
 							} else {
 								FunctionParameter argParam = funParams.get(1);
@@ -5599,11 +5644,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 								int errors = checkCalculusParameter(stackElement.tokenStr);
 								if (errors > 0) {
 									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> Found duplicated key words for calculus parameter " + "(" + stackElement.tokenStr + ", " + errors + ").\n";
+									errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
 								}
 								if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
 									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> One token (argument or unknown) was expected.\n";
+									errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
 								}
 							}
 						}
@@ -5611,12 +5656,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 					if (t.tokenId == CalculusOperator.DERN_ID) {
 						if ( (paramsNumber !=3) && (paramsNumber != 5) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<NTH_DERIVATIVE> expecting 3 or 5 calculus arguments.\n";
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenStr);
 						} else {
 							FunctionParameter argParam = funParams.get(2);
 							if (!checkIfKnownArgument(argParam)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<DERIVATIVE> argument was expected.\n";
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenStr);
 							}
 						}
 					}
@@ -5624,7 +5669,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 							(t.tokenId == CalculusOperator.SOLVE_ID)	) {
 						if (paramsNumber !=4) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<INTEGRAL/SOLVE> expecting 4 calculus arguments.\n";
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenStr);
 						} else {
 							FunctionParameter argParam = funParams.get(1);
 							stackElement = new SyntaxStackElement(argParam.paramStr, t.tokenLevel+1);
@@ -5632,11 +5677,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 							int errors = checkCalculusParameter(stackElement.tokenStr);
 							if (errors > 0) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "Found duplicated key words for calculus parameter " + "(" + stackElement.tokenStr + ", " + errors + ").\n";
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
 							}
 							if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "One token (argument or unknown) was expected.\n";
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
 							}
 						}
 					}
@@ -5650,7 +5695,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 															) {
 						if ( (paramsNumber != 4) && (paramsNumber != 5) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<ITER_OPERATOR> expecting 4 or 5 calculus arguments.\n";
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenStr);
 						} else {
 							FunctionParameter indexParam = funParams.get(0);
 							stackElement = new SyntaxStackElement(indexParam.paramStr, t.tokenLevel+1);
@@ -5658,23 +5703,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 							int errors = checkCalculusParameter(stackElement.tokenStr);
 							if (errors > 0) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "Found duplicated key words for calculus parameter " + "(" + stackElement.tokenStr + ", " + errors + ").\n";
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
 							}
 							if ( !checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam) ) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "One token (argument or unknown) was expected.\n";
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
 							}
 						}
 					}
 					if ( (t.tokenId == CalculusOperator.FORW_DIFF_ID) || (t.tokenId == CalculusOperator.BACKW_DIFF_ID) ) {
 						if ( (paramsNumber != 2) && (paramsNumber != 3) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "<DIFF> expecting 2 or 3 arguments.\n";
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenStr);
 						} else {
 							FunctionParameter xParam = funParams.get(1);
 							if (!checkIfKnownArgument(xParam)) {
 								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = errorMessage + level + tokenStr + "<DIFF> argument was expected.\n";
+								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenStr);
 							}
 						}
 					}
@@ -5686,12 +5731,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 					int paramsNumber = getParametersNumber(tokenIndex);
 					if (paramsNumber < 1) {
 						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = errorMessage + level + tokenStr + "At least one argument was expected.\n";
+						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenStr);
 					}
 					if (t.tokenId == FunctionVariadic.IFF_ID) {
 						if ( (paramsNumber % 2 != 0) || (paramsNumber < 2) ) {
 							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = errorMessage + level + tokenStr + "Expecting parity number of arguments.\n";
+							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenStr);
 						}
 					}
 				}
@@ -5703,13 +5748,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 			}
 	    } catch (Exception e) {
 	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage =  errorMessage + level + "lexical error \n\n" + e.getMessage() + "\n";
+			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e));
 	    }
 		if (syntax == NO_SYNTAX_ERRORS) {
-			errorMessage = errorMessage + level + "no errors.\n";
+			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.NO_ERRORS_DETECTED);
 			expressionWasModified = false;
 		} else {
-			errorMessage = errorMessage + level + "errors were found.\n";
+			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.ERRORS_HAVE_BEEN_FOUND);
 			expressionWasModified = true;
 		}
 		syntaxStatus = syntax;
@@ -5725,7 +5770,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public double calculate() {
 		return calculate(null);
 	}
-
 
 	private String tokenToString(Token token) {
 		if (token == null) return "";
@@ -5756,13 +5800,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 						!t0.isUnicodeRootOperator() &&
 						!t0.isRightParenthesis())
 					if (t1.isNumber())
-						result = result + " ";
+						result = result + StringInvariant.SPACE;
 			result = result + tokenToString(t1);
 		}
 
 		return result;
 	}
 
+	private void registerErrorWhileCalculate(String errorMessageToAdd) {
+		errorMessage = StringResources.addErrorMassageNoLevel(errorMessage, errorMessageToAdd, description, expressionString);
+		errorMessageCalculate = StringResources.addErrorMassageNoLevel(errorMessageCalculate, errorMessageToAdd, description, expressionString);
+	}
 	/**
 	 * Calculates the expression value
 	 *
@@ -5776,7 +5824,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		try {
 			return calculateInternal(calcStepsRegister);
 		} catch (Throwable e) {
-			errorMessage = errorMessage + "System error while calling the method 'calculate()': " + e.getMessage() + "\n";
+			registerErrorWhileCalculate(StringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringInvariant.trimNotNull(e.getMessage()));
 			return Double.NaN;
 		}
 	}
@@ -5784,9 +5832,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 		computingTime = 0;
 		long startTime = System.currentTimeMillis();
 		if (verboseMode) {
-			printSystemInfo("\n", NO_EXP_STR);
-			printSystemInfo("\n", WITH_EXP_STR);
-			printSystemInfo("Starting ...\n", WITH_EXP_STR);
+			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
+			printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
+			printSystemInfo(StringResources.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
 			showArguments();
 		}
 		/*
@@ -5797,12 +5845,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if ( (expressionWasModified) || (syntaxStatus != NO_SYNTAX_ERRORS) )
 				syntaxStatus = checkSyntax();
 		if ( syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
-			errorMessage =  errorMessage + "Problem with expression syntax\n";
 			if (verboseMode)
-				printSystemInfo("syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN, returning Double.NaN\n", NO_EXP_STR);
+				printSystemInfo(StringResources.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
 			/*
 			 * Recursive counter to avoid infinite loops in expressions
-			 * created in they way shown in below examples
+			 * created in they way showed in below examples
 			 *
 			 * Argument x = new Argument("x = 2*y");
 			 * Argument y = new Argument("y = 2*x");
@@ -5835,15 +5882,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * if nothing to calculate return Double.NaN
 		 */
 		if (tokensList.size() == 0) {
-			errorMessage =  errorMessage + "Empty expression\n";
+			registerErrorWhileCalculate(StringResources.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
 			if (verboseMode)
-				printSystemInfo("tokensList.size() == 0, returning Double.NaN\n", NO_EXP_STR);
+				printSystemInfo(StringResources.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
 			recursionCallsCounter = 0;
 			return Double.NaN;
 		}
 		/*
 		 * Incrementing recursive counter to avoid infinite loops in expressions
-		 * created in they way shown in below examples
+		 * created in they way showed in below examples
 		 *
 		 * Argument x = new Argument("x = 2*y");
 		 * Argument y = new Argument("y = 2*x");
@@ -5857,14 +5904,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 *
 		 */
 		if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
-			errorMessage =  errorMessage + "recursionCallsCounter >= MAX_RECURSION_CALLS\n";
-			if (verboseMode) {
-				printSystemInfo("recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS, returning Double.NaN\n", NO_EXP_STR);
-				printSystemInfo("recursionCallsCounter = " +  recursionCallsCounter + "\n", NO_EXP_STR);
-				printSystemInfo("mXparser.MAX_RECURSION_CALLS = " +  mXparser.MAX_RECURSION_CALLS + "\n", NO_EXP_STR);
-			}
-			recursionCallsCounter = 0;
-			this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Maximum recursion calls reached.\n";
+			if (verboseMode)
+				printSystemInfo(StringResources.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
+			recursionCallsCounter--;
+			registerErrorWhileCalculate(StringResources.RECURSION_CALLS_COUNTER_EXCEEDED);
 			return Double.NaN;
 		}
 		recursionCallsCounter++;
@@ -5924,13 +5967,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int loopCounter = 0;
 		/* While exist token which needs to bee evaluated */
 		if (verboseMode)
-			printSystemInfo("Starting calculation loop\n", WITH_EXP_STR);
+			printSystemInfo(StringResources.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
 
 		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
 		String stepDescription = "";
 		if (calcStepsRegister != null) {
 			if (description.trim().length() > 0)
-				stepDescription = description.trim() + " = " + expressionString.trim();
+				stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
 			else
 				stepDescription = expressionString.trim();
 		}
@@ -5949,7 +5992,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				calcStepsRegister.calcStepRecords.add(stepRecord);
 			}
 			if (mXparser.isCurrentCalculationCancelled()) {
-				errorMessage = errorMessage + "\n" + "Cancel request - finishing";
+				registerErrorWhileCalculate(StringResources.CANCEL_REQUEST_FINISHING);
 				return Double.NaN;
 			}
 			tokensNumber = tokensList.size();
@@ -6005,7 +6048,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				else if ( (token.tokenTypeId == Function3Arg.TYPE_ID) && (token.tokenId == Function3Arg.IF_CONDITION_ID) ) ifPos = p;
 				else if ( (token.tokenTypeId == FunctionVariadic.TYPE_ID) && (token.tokenId == FunctionVariadic.IFF_ID) ) iffPos = p;
 			} while ( (p < tokensNumber-1 ) && (calculusPos < 0) && (ifPos < 0) && (iffPos < 0) );
-			if ( (calculusPos < 0) && (ifPos < 0) && (iffPos < 0) ){
+			if (calculusPos < 0 && ifPos < 0 && iffPos < 0) {
 				/* Find start index of the tokens with the highest level */
 				for (tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
 					token = tokensList.get(tokenIndex);
@@ -6038,7 +6081,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						RANDOM_VARIABLE(tokenIndex);
 				}
 				if (lPos < 0) {
-					errorMessage = errorMessage + "\n" + "Internal error / strange token level - finishing";
+					registerErrorWhileCalculate(StringResources.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
 					return Double.NaN;
 				}
 				/*
@@ -6080,7 +6123,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						tokenIndex++;
 					rPos = tokenIndex - 1;
 					if (verboseMode) {
-						printSystemInfo("Parsing (" + lPos + ", " + rPos + ") ", WITH_EXP_STR);
+						printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringInvariant.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
 						showParsing(lPos,rPos);
 					}
 					/* if no calculus operations were found
@@ -6341,12 +6384,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 			else
 			if ( (lParPos >= 0) && (rParPos > lParPos) ) {
 				PARENTHESES(lParPos,rParPos);
-			} else if (tokensList.size() > 1) {
-				this.errorMessage = errorMessage + "\n" + "[" + description + "][" + expressionString + "] " + "Fatal error - not know what to do with tokens while calculate().\n";
 			}
 			if (verboseMode) {
 				showParsing(0,tokensList.size()-1);
-				printSystemInfo(" done\n", NO_EXP_STR);
+				printSystemInfo(StringInvariant.SPACE + StringResources.DONE + StringInvariant.NEW_LINE, NO_EXP_STR);
 			}
 
 			if (tokensList.size() == tokensNumber)
@@ -6355,19 +6396,19 @@ public class Expression extends PrimitiveElement implements Serializable {
 				emptyLoopCounter = 0;
 
 			if (emptyLoopCounter > 10) {
-				errorMessage = errorMessage + "\n" + "Internal error, do not know what to do with the token, probably mXparser bug, please report - finishing";
+				registerErrorWhileCalculate(StringResources.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN);
 				return Double.NaN;
 			}
 		} while (tokensList.size() > 1);
 
 		if (verboseMode) {
-			printSystemInfo("Calculated value: " + tokensList.get(0).tokenValue + "\n", WITH_EXP_STR);
-			printSystemInfo("Exiting\n", WITH_EXP_STR);
-			printSystemInfo("\n", NO_EXP_STR);
+			printSystemInfo(StringResources.CALCULATED_VALUE + StringInvariant.COLON_SPACE + tokensList.get(0).tokenValue + StringInvariant.NEW_LINE, WITH_EXP_STR);
+			printSystemInfo(StringResources.EXITING + StringInvariant.NEW_LINE, WITH_EXP_STR);
+			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
 		}
 		long endTime = System.currentTimeMillis();
 		computingTime = (endTime - startTime)/1000.0;
-		recursionCallsCounter = 0;
+		recursionCallsCounter--;
 		double result = tokensList.get(0).tokenValue;
 		if (!disableRounding) {
 			if (mXparser.almostIntRounding) {
@@ -6650,11 +6691,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 		addKeyWord(ConstantValue.NPAR_STR, ConstantValue.NPAR_DESC, ConstantValue.NPAR_ID, ConstantValue.NPAR_SYN, ConstantValue.NPAR_SINCE, ConstantValue.TYPE_ID);
 	}
 	/**
-	 * Creates parser key words list
+	 * Creates parser keywords list
 	 */
 	private void addParserKeyWords() {
 		/*
-		 * Operators key words
+		 * Operators keywords
 		 */
 		addKeyWord(Operator.PLUS_STR, Operator.PLUS_DESC, Operator.PLUS_ID, Operator.PLUS_SYN, Operator.PLUS_SINCE, Operator.TYPE_ID);
 		addKeyWord(Operator.MINUS_STR, Operator.MINUS_DESC, Operator.MINUS_ID, Operator.MINUS_SYN, Operator.MINUS_SINCE, Operator.TYPE_ID);
@@ -6673,7 +6714,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		addKeyWordUnicode(Operator.CUBE_ROOT_STR, Operator.CUBE_ROOT_DESC, Operator.CUBE_ROOT_ID, Operator.CUBE_ROOT_SYN, Operator.CUBE_ROOT_SINCE, Operator.TYPE_ID);
 		addKeyWordUnicode(Operator.FOURTH_ROOT_STR, Operator.FOURTH_ROOT_DESC, Operator.FOURTH_ROOT_ID, Operator.FOURTH_ROOT_SYN, Operator.FOURTH_ROOT_SINCE, Operator.TYPE_ID);
 		/*
-		 * Boolean operators key words
+		 * Boolean operators keywords
 		 */
 		addKeyWord(BooleanOperator.NEG_STR, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.NEG_SYN, BooleanOperator.NEG_SINCE, BooleanOperator.TYPE_ID);
 		addKeyWordUnicode(BooleanOperator.NEG_STR_UNI_1, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.NEG_SYN_UNI_1, BooleanOperator.NEG_SINCE_UNI_1, BooleanOperator.TYPE_ID);
@@ -6716,7 +6757,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		addKeyWord(BooleanOperator.EQV_STR, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.EQV_SYN, BooleanOperator.EQV_SINCE, BooleanOperator.TYPE_ID);
 		addKeyWordUnicode(BooleanOperator.EQV_STR_UNI_1, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.EQV_SYN_UNI_1, BooleanOperator.EQV_SINCE_UNI_1, BooleanOperator.TYPE_ID);
 		/*
-		 * Binary relations key words
+		 * Binary relations keywords
 		 */
 		addKeyWord(BinaryRelation.EQ_STR, BinaryRelation.EQ_DESC, BinaryRelation.EQ_ID, BinaryRelation.EQ_SYN, BinaryRelation.EQ_SINCE, BinaryRelation.TYPE_ID);
 		addKeyWord(BinaryRelation.EQ1_STR, BinaryRelation.EQ_DESC, BinaryRelation.EQ_ID, BinaryRelation.EQ1_SYN, BinaryRelation.EQ_SINCE, BinaryRelation.TYPE_ID);
@@ -6734,7 +6775,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		addKeyWordUnicode(BinaryRelation.GEQ_STR_UNI_2, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN_UNI_2, BinaryRelation.GEQ_SINCE_UNI_2, BinaryRelation.TYPE_ID);
 		if (!parserKeyWordsOnly) {
 			/*
-			 * 1 arg functions key words
+			 * 1 arg functions keywords
 			 */
 			addKeyWord(Function1Arg.SIN_STR, Function1Arg.SIN_DESC, Function1Arg.SIN_ID, Function1Arg.SIN_SYN, Function1Arg.SIN_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.COS_STR, Function1Arg.COS_DESC, Function1Arg.COS_ID, Function1Arg.COS_SYN, Function1Arg.COS_SINCE, Function1Arg.TYPE_ID);
@@ -6842,7 +6883,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			addKeyWord(Function1Arg.RND_STUDENT_T_STR, Function1Arg.RND_STUDENT_T_DESC, Function1Arg.RND_STUDENT_T_ID, Function1Arg.RND_STUDENT_T_SYN, Function1Arg.RND_STUDENT_T_SINCE, Function1Arg.TYPE_ID);
 			addKeyWord(Function1Arg.RND_CHI2_STR, Function1Arg.RND_CHI2_DESC, Function1Arg.RND_CHI2_ID, Function1Arg.RND_CHI2_SYN, Function1Arg.RND_CHI2_SINCE, Function1Arg.TYPE_ID);
 			/*
-			 * 2 args functions key words
+			 * 2 args functions keywords
 			 */
 			addKeyWord(Function2Arg.LOG_STR, Function2Arg.LOG_DESC, Function2Arg.LOG_ID, Function2Arg.LOG_SYN, Function2Arg.LOG_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.MOD_STR, Function2Arg.MOD_DESC, Function2Arg.MOD_ID, Function2Arg.MOD_SYN, Function2Arg.MOD_SINCE, Function2Arg.TYPE_ID);
@@ -6882,7 +6923,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			addKeyWord(Function2Arg.QNT_CHI2_STR, Function2Arg.QNT_CHI2_DESC, Function2Arg.QNT_CHI2_ID, Function2Arg.QNT_CHI2_SYN, Function2Arg.QNT_CHI2_SINCE, Function2Arg.TYPE_ID);
 			addKeyWord(Function2Arg.RND_F_SNEDECOR_STR, Function2Arg.RND_F_SNEDECOR_DESC, Function2Arg.RND_F_SNEDECOR_ID, Function2Arg.RND_F_SNEDECOR_SYN, Function2Arg.RND_F_SNEDECOR_SINCE, Function2Arg.TYPE_ID);
 			/*
-			 * 3 args functions key words
+			 * 3 args functions keywords
 			 */
 			addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.IF_SYN, Function3Arg.IF_SINCE, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.CHI_STR, Function3Arg.CHI_DESC, Function3Arg.CHI_ID, Function3Arg.CHI_SYN, Function3Arg.CHI_SINCE, Function3Arg.TYPE_ID);
@@ -6903,7 +6944,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			addKeyWord(Function3Arg.CDF_F_SNEDECOR_STR, Function3Arg.CDF_F_SNEDECOR_DESC, Function3Arg.CDF_F_SNEDECOR_ID, Function3Arg.CDF_F_SNEDECOR_SYN, Function3Arg.CDF_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID);
 			addKeyWord(Function3Arg.QNT_F_SNEDECOR_STR, Function3Arg.QNT_F_SNEDECOR_DESC, Function3Arg.QNT_F_SNEDECOR_ID, Function3Arg.QNT_F_SNEDECOR_SYN, Function3Arg.QNT_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID);
 			/*
-			 * Variadic functions as key words
+			 * Variadic functions as keywords
 			 */
 			addKeyWord(FunctionVariadic.IFF_STR, FunctionVariadic.IFF_DESC, FunctionVariadic.IFF_ID, FunctionVariadic.IFF_SYN, FunctionVariadic.IFF_SINCE, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.MIN_STR, FunctionVariadic.MIN_DESC, FunctionVariadic.MIN_ID, FunctionVariadic.MIN_SYN, FunctionVariadic.MIN_SINCE, FunctionVariadic.TYPE_ID);
@@ -6929,7 +6970,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			addKeyWord(FunctionVariadic.BASE_STR, FunctionVariadic.BASE_DESC, FunctionVariadic.BASE_ID, FunctionVariadic.BASE_SYN, FunctionVariadic.BASE_SINCE, FunctionVariadic.TYPE_ID);
 			addKeyWord(FunctionVariadic.NDIST_STR, FunctionVariadic.NDIST_DESC, FunctionVariadic.NDIST_ID, FunctionVariadic.NDIST_SYN, FunctionVariadic.NDIST_SINCE, FunctionVariadic.TYPE_ID);
 			/*
-			 * Calculus key words
+			 * Calculus keywords
 			 */
 			addKeyWord(CalculusOperator.SUM_STR, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN, CalculusOperator.SUM_SINCE, CalculusOperator.TYPE_ID);
 			addKeyWordUnicode(CalculusOperator.SUM_STR_UNI_1, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN_UNI_1, CalculusOperator.SUM_SINCE_UNI_1, CalculusOperator.TYPE_ID);
@@ -6959,7 +7000,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			addKeyWord(CalculusOperator.MAX_STR, CalculusOperator.MAX_DESC, CalculusOperator.MAX_ID, CalculusOperator.MAX_SYN, CalculusOperator.MAX_SINCE, CalculusOperator.TYPE_ID);
 			addKeyWord(CalculusOperator.SOLVE_STR, CalculusOperator.SOLVE_DESC, CalculusOperator.SOLVE_ID, CalculusOperator.SOLVE_SYN, CalculusOperator.SOLVE_SINCE, CalculusOperator.TYPE_ID);
 			/*
-			 * Constants key words
+			 * Constants keywords
 			 */
 			addKeyWord(ConstantValue.PI_STR, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN, ConstantValue.PI_SINCE, ConstantValue.TYPE_ID);
 			addKeyWordUnicode(ConstantValue.PI_STR_UNI_1, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN_UNI_1, ConstantValue.PI_SINCE_UNI_1, ConstantValue.TYPE_ID);
@@ -7235,7 +7276,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		addKeyWord(ParserSymbol.BLANK_STR, ParserSymbol.BLANK_DESC, ParserSymbol.BLANK_ID, ParserSymbol.BLANK_SYN, ParserSymbol.BLANK_SINCE, ParserSymbol.TYPE_ID);
 	}
 	/**
-	 * Adds arguments key words to the keywords list
+	 * Adds arguments keywords to the keywords list
 	 */
 	private void addArgumentsKeyWords() {
 		int argumentsNumber = argumentsList.size();
@@ -7248,7 +7289,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 	}
 	/**
-	 * Adds functions key words to the keywords list
+	 * Adds functions keywords to the keywords list
 	 */
 	private void addFunctionsKeyWords() {
 		int functionsNumber = functionsList.size();
@@ -7266,7 +7307,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 	}
 	/**
-	 * Adds constants key words to the keywords list
+	 * Adds constants keywords to the keywords list
 	 */
 	private void addConstantsKeyWords() {
 		int constantsNumber = constantsList.size();
@@ -7276,7 +7317,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 	}
 	/**
-	 * Final validation of key words
+	 * Final validation of keywords
 	 */
 	private void validateParserKeyWords() {
 		if (mXparser.overrideBuiltinTokens) {
@@ -7313,7 +7354,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 	}
 	/**
-	 * Adds key word to the keyWords list
+	 * Adds keyword to the keyWords list
 	 *
 	 * @param wordString
 	 * @param wordDescription
@@ -7345,7 +7386,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		keyWordsList.add(new KeyWord(wordString, wordDescription, wordId, wordSyntax, wordSince, wordTypeId));
 	}
 	/**
-	 * Adds key word to the keyWords list
+	 * Adds keyword to the keyWords list
 	 *
 	 * @param wordString
 	 * @param wordDescription
@@ -7936,7 +7977,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * while parsing string expression
 	 *
 	 * @param      tokenStr            the token string
-	 * @param      keyWord             the key word
+	 * @param      keyWord             the keyword
 	 */
 	private void addToken(String tokenStr, KeyWord keyWord, boolean parenthesisIsOnTheRight) {
 		Token token = new Token();
@@ -8148,7 +8189,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void tokenizeExpressionString() {
         impliedMultiplicationError = false;
 		/*
-		 * Add parser and argument key words
+		 * Add parser and argument keywords
 		 */
 		keyWordsList = new ArrayList<KeyWord>();
 		addParserKeyWords();
@@ -8165,7 +8206,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 *    plus operator
 		 *    minus operator
 		 *
-		 * Above mentioned information is required
+		 * Above-mentioned information is required
 		 * when distinguishing between numbers (regexp) and operators
 		 *
 		 * For example
@@ -8199,11 +8240,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * words list and tokens list
 		 */
 		if (newExpressionString.length() == 0) return;
-		int lastPos = 0; /* position of the key word previously added*/
+		int lastPos = 0; /* position of the keyword previously added*/
 		int pos = 0; /* current position */
 		String tokenStr = "";
-		int matchStatusPrev = NOT_FOUND; /* unknown key word (previous) */
-		int matchStatus = NOT_FOUND; /* unknown key word (current) */
+		int matchStatusPrev = NOT_FOUND; /* unknown keyword (previous) */
+		int matchStatus = NOT_FOUND; /* unknown keyword (current) */
 		KeyWord kw = null;
 		String sub = "";
 		String kwStr = "";
@@ -8283,7 +8324,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if ( (matchStatusPrev == NOT_FOUND) && (pos > 0) ) {
 					/*
 					 * add preceding word to the list of tokens
-					 * as unknown key word word
+					 * as unknown keyword word
 					 */
 					tokenStr = newExpressionString.substring(lastPos, pos);
 					addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
@@ -8342,7 +8383,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			} else {
 				/*
 				 * If there is no number which starts with current position
-				 * Check for known key words
+				 * Check for known keywords
 				 */
 				int kwId = -1;
 				matchStatus = NOT_FOUND;
@@ -8356,12 +8397,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 						if (sub.equals(kwStr))
 							matchStatus = FOUND;
 						/*
-						 * If key word is known by the parser
+						 * If keyword is known by the parser
 						 * and keyword is not a special keyword of the form [...]
 						 */
 						if (matchStatus == FOUND && firstChar != '[') {
 							/*
-							 * If key word is in the form of identifier
+							 * If keyword is in the form of identifier
 							 * then check preceding and following characters
 							 */
 							if (	(kw.wordTypeId == Argument.TYPE_ID) ||
@@ -8397,7 +8438,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 				/*
 				 * If keyword was unknown to the parser
-				 * but it might be a special constant key word in the for [...]
+				 * but it might be a special constant keyword in the for [...]
 				 */
 				specialConstFound = false;
 				if (matchStatus != FOUND) {
@@ -8417,7 +8458,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				}
 
 				/*
-				 * If key word known by the parser was found
+				 * If keyword known by the parser was found
 				 */
 				if (matchStatus == FOUND || specialConstFound) {
 					/*
@@ -8426,7 +8467,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					if ( (matchStatusPrev == NOT_FOUND) && (pos > 0) ) {
 						/*
 						 * Add preceding word to the tokens list
-						 * as unknown key word
+						 * as unknown keyword
 						 */
 						tokenStr = newExpressionString.substring(lastPos, pos);
 						addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
@@ -8434,7 +8475,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					matchStatusPrev = FOUND;
 					/*
 					 * Add current (known by the parser or special constant)
-					 * key word to the tokens list
+					 * keyword to the tokens list
 					 */
 					if (matchStatus == FOUND) {
 						tokenStr = newExpressionString.substring(pos, pos+kwStr.length());
@@ -8470,10 +8511,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		} while (pos < newExpressionString.length());
 		/*
-		 * If key word was not known by the parser
+		 * If keyword was not known by the parser
 		 * and end with the string end
 		 * it needs to be added to the tokens list
-		 * as unknown key word
+		 * as unknown keyword
 		 */
 		if (matchStatus == NOT_FOUND) {
 			tokenStr = newExpressionString.substring(lastPos, pos);
@@ -8542,7 +8583,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private final String FUNCTION = "function";
 	private final String ARGUMENT = "argument";
 	private final String UNITCONST = "unit/const";
-	private final String ERROR    = "error";
+	private final String ERROR = "error";
 	/**
 	 * Tokenizes expression string and returns tokens list,
 	 * including: string, type, level.
@@ -8664,7 +8705,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private static String getLeftSpaces(String maxStr, String str) {
 		String spc = "";
 		for (int i=0; i<maxStr.length() - str.length(); i++)
-			spc = spc + " ";
+			spc = spc + StringInvariant.SPACE;
 		return spc + str;
 	}
 	/*
@@ -8673,7 +8714,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private static String getRightSpaces(String maxStr, String str) {
 		String spc = "";
 		for (int i=0; i<maxStr.length() - str.length(); i++)
-			spc = " " + spc;
+			spc = StringInvariant.SPACE + spc;
 		return str + spc;
 	}
 	/**
@@ -8681,15 +8722,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 */
 	private void showParsing(int lPos, int rPos) {
-		mXparser.consolePrint(" ---> ");
+		mXparser.consolePrint(StringInvariant.LONG_RIGHT_ARROW_SPACE);
 		for (int i=lPos; i<=rPos; i++) {
 			Token token = tokensList.get(i);
 			if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
-				mXparser.consolePrint(token.tokenValue + " ");
+				mXparser.consolePrint(token.tokenValue + StringInvariant.SPACE);
 			else
-				mXparser.consolePrint(token.tokenStr + " ");
+				mXparser.consolePrint(token.tokenStr + StringInvariant.SPACE);
 		}
-		mXparser.consolePrint(" ... ");
+		mXparser.consolePrint(StringInvariant.DOTS_SPACE);
 	}
 	/**
 	 * shows known keywords
@@ -8697,7 +8738,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	void showKeyWords() {
 		int keyWordsNumber = keyWordsList.size();
 		String maxStr = "KEY_WORD";
-		mXparser.consolePrintln("KEY WORDS:");
+		mXparser.consolePrintln("Keywords:");
 		mXparser.consolePrintln(" -------------------------------------------");
 		mXparser.consolePrintln("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
 		mXparser.consolePrintln(" -------------------------------------------");
@@ -8722,13 +8763,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Searching help content.
 	 *
-	 * @param      word                searching key word
+	 * @param      word                searching keyword
 	 *
 	 * @return     The help content.
 	 */
 	public String getHelp(String word) {
 		keyWordsList = new ArrayList<KeyWord>();
-		String helpStr = "Help content: \n\n";
+		String helpStr = StringResources.HELP_CONTENT + StringInvariant.COLON + StringInvariant.NEW_LINE + StringInvariant.NEW_LINE;
 		addParserKeyWords();
 		validateParserKeyWords();
 		if (!parserKeyWordsOnly) {
@@ -8737,11 +8778,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 			addConstantsKeyWords();
 		}
 		helpStr = helpStr + getLeftSpaces("12345","#") + "  " +
-		getRightSpaces("01234567890123456789", "key word") + getRightSpaces("                        ","type")
-		+ getRightSpaces("0123456789012345678901234567890123456789012345", "syntax") + getRightSpaces("012345", "since") +  "description" + "\n";
+		getRightSpaces("01234567890123456789", StringResources.KEYWORD) + getRightSpaces("                        ",StringResources.TYPE)
+		+ getRightSpaces("0123456789012345678901234567890123456789012345", StringResources.SYNTAX) + getRightSpaces("012345", StringResources.SINCE) +  StringResources.DESCRIPTION + StringInvariant.NEW_LINE;
 		helpStr = helpStr + getLeftSpaces("12345","-") + "  " +
 		getRightSpaces("01234567890123456789", "--------") + getRightSpaces("                        ","----")
-		+ getRightSpaces("0123456789012345678901234567890123456789012345", "------") + getRightSpaces("012345", "-----") +  "-----------" + "\n";
+		+ getRightSpaces("0123456789012345678901234567890123456789012345", "------") + getRightSpaces("012345", "-----") +  "-----------" + StringInvariant.NEW_LINE;
 
 		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
 		int keyWordsNumber = keyWordsList.size();
@@ -8753,7 +8794,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			kw = keyWord.wordString;
 			switch (keyWord.wordTypeId) {
 				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-				case ParserSymbol.NUMBER_TYPE_ID: type = "number"; kw = "_number_"; break;
+				case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = "_" + StringResources.NUMBER + "_"; break;
 				case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
 				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
 				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
@@ -8771,9 +8812,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 				case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
 				case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
 			}
-			line = getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + ". " +
-			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ","<" + type + ">")
-			+ getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + getRightSpaces("012345", keyWord.since) +  keyWord.description + "\n";
+			line = getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + StringInvariant.DOT_SPACE +
+			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ",StringInvariant.LOWER + type + StringInvariant.GREATER)
+			+ getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + getRightSpaces("012345", keyWord.since) +  keyWord.description + StringInvariant.NEW_LINE;
 			if ( (line.toLowerCase().indexOf(word.toLowerCase()) >= 0) ){
 				helpStr = helpStr + line;
 			}
@@ -8781,7 +8822,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		return helpStr;
 	}
 	/**
-	 * Returns list of key words known to the parser
+	 * Returns list of keywords known to the parser
 	 *
 	 * @return      List of keywords known to the parser.
 	 *
@@ -8793,9 +8834,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 		return getKeyWords("");
 	}
 	/**
-	 * Returns list of key words known to the parser
+	 * Returns list of keywords known to the parser
 	 *
-	 * @param query Give any string to filter list of key words against this string.
+	 * @param query Give any string to filter list of keywords against this string.
 	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 	 *              to narrow the result.
@@ -8819,14 +8860,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
 		String line;
 		for (KeyWord kw : keyWordsList) {
-			line = 	"str=" + kw.wordString + " " +
-					"desc=" + kw.description + " " +
-					"syn=" + kw.syntax + " " +
-					"sin=" + kw.since + " " +
-					"wid=" + kw.wordId + " " +
+			line = 	"str=" + kw.wordString + StringInvariant.SPACE +
+					"desc=" + kw.description + StringInvariant.SPACE +
+					"syn=" + kw.syntax + StringInvariant.SPACE +
+					"sin=" + kw.since + StringInvariant.SPACE +
+					"wid=" + kw.wordId + StringInvariant.SPACE +
 					"tid=" + kw.wordTypeId
 					;
-			if ( (line.toLowerCase().indexOf(query.toLowerCase()) >= 0) )
+			if ( (line.toLowerCase().contains(query.toLowerCase())) )
 				kwyWordsToReturn.add(kw);
 		}
 		return kwyWordsToReturn;
@@ -8843,12 +8884,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	static void showTokens(List<Token> tokensList) {
 		String maxStr = "TokenTypeId";
 		mXparser.consolePrintln(" --------------------");
-		mXparser.consolePrintln("| Expression tokens: |");
+		mXparser.consolePrintln("| " + StringResources.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
 		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 		mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
 		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 		if (tokensList == null) {
-			mXparser.consolePrintln("NULL tokens list");
+			mXparser.consolePrintln(StringResources.NULL_TOKENS_LIST);
 			return;
 		}
 		int tokensNumber = tokensList.size();
@@ -8885,7 +8926,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		for (Argument a : argumentsList) {
 			boolean vMode = a.getVerboseMode();
 			a.setSilentMode();
-			printSystemInfo(a.getArgumentName() + " = " + a.getArgumentValue() + "\n", WITH_EXP_STR);
+			printSystemInfo(a.getArgumentName() + StringInvariant.SPACE_EQUAL_SPACE + a.getArgumentValue() + StringInvariant.NEW_LINE, WITH_EXP_STR);
 			if (vMode)
 				a.setVerboseMode();
 		}
@@ -8897,9 +8938,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void printSystemInfo(String info, boolean withExpressionString) {
 		if (withExpressionString)
-			mXparser.consolePrint( /*"[" + this +  "]" +  */ "[" + description + "]" + "[" + expressionString + "] " + info);
+			mXparser.consolePrint(StringInvariant.surroundSquareBrackets(description) + StringInvariant.surroundSquareBracketsAddSpace(expressionString) + info);
 		else
-			mXparser.consolePrint(/*"[" + this +  "]" + */ info);
+			mXparser.consolePrint(info);
 	}
 	/**
 	 * Expression cloning.

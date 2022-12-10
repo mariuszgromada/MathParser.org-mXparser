@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.1.1    2022-11-18
+ * @(#)mXparser.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -202,7 +202,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.1
+	 * @version        5.2.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -215,10 +215,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * mXparser version
 		 */
         public const int VERSION_MAJOR = 5;
-        public const int VERSION_MINOR = 1;
-        public const int VERSION_PATCH = 1;
+        public const int VERSION_MINOR = 2;
+        public const int VERSION_PATCH = 0;
         public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
-		public const String VERSION_CODE_NAME = "Libris";
+		public const String VERSION_CODE_NAME = "Orion";
 		public static readonly String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET48
 		public const String BUIT_FOR = "NET48";
@@ -377,10 +377,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 * g.addDefinitions(f);
 		 */
 		internal volatile static int MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
-		/**
+        /**
+         * The maximum error message length in expression
+         */
+        internal volatile static int ERROR_MESSAGE_MAXIMUM_LENGTH = 10000;
+        /**
+         * The maximum number of expected tokens presented
+         * in error message when lexical error was encountered
+         */
+        internal volatile static int ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS = 5;
+        /**
 		 * List of built-in tokens to remove.
 		 */
-		internal volatile static List<String> tokensToRemove = new List<String>();
+        internal volatile static List<String> tokensToRemove = new List<String>();
 		/**
 		 * List of built-in tokens to modify
 		 */
@@ -1326,7 +1335,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Other base (base between 1 and 36) number literal conversion to decimal number.
 		 *
-		 * @param numberLiteral    Number literal in given numeral system with base between
+		 * @param numberLiteral    Number literal in given system with base between
 		 *                         1 and 36. Digits: 0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7,
 		 *                         8:8, 9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G, 17:H,
 		 *                         18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O, 25:P, 26:Q, 27:R,
@@ -1528,7 +1537,7 @@ namespace org.mariuszgromada.math.mxparser {
 				consoleWriteLine(o);
 				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
+				CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
 			}
 		}
 		/**
@@ -1557,7 +1566,7 @@ namespace org.mariuszgromada.math.mxparser {
 				consoleWriteLine();
 				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
+				CONSOLE_OUTPUT = CONSOLE_OUTPUT + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
 			}
 		}
 		/**
@@ -1669,8 +1678,8 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		/**
-		 * General mXparser expression help - in-line key word searching
-		 * @param   word    Key word to be searched
+		 * General mXparser expression help - in-line keyword searching
+		 * @param   word    Keyword to be searched
 		 * @return  String with all help content
 		 * lines containing given keyword
 		 */
@@ -1687,13 +1696,13 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Prints filtered help content.
-		 * @param word      Key word.
+		 * @param word      Keyword.
 		 */
 		public static void consolePrintHelp(String word) {
 			consoleWriteLine(getHelp(word));
 		}
 		/**
-		 * Returns list of key words known to the parser
+		 * Returns list of keywords known to the parser
 		 *
 		 * @return      List of keywords known to the parser.
 		 *
@@ -1707,9 +1716,9 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		/**
-		 * Returns list of key words known to the parser
+		 * Returns list of keywords known to the parser
 		 *
-		 * @param query Give any string to filter list of key words against this string.
+		 * @param query Give any string to filter list of keywords against this string.
 		 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 		 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 		 *              to narrow the result.

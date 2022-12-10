@@ -129,8 +129,9 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\SyntaxCheckerTokenManager.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\Token.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" />
-    <Compile Include="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\SerializationUtils.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

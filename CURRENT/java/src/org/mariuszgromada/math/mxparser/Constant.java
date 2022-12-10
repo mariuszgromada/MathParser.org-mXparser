@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        5.1.0    2022-11-11
+ * @(#)Constant.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -209,7 +209,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -228,17 +228,17 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * Type identifier for constants
 	 */
 	public static final int TYPE_ID				= 104;
-	public static final String TYPE_DESC		= "User defined constant";
+	public static final String TYPE_DESC		= StringResources.USER_DEFINED_CONSTANT;
 	/**
 	 * Status of the Expression syntax
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
 	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-	private static final String NO_SYNTAX_ERROR_MSG = "Constant - no syntax errors.";
+	private static final String NO_SYNTAX_ERROR_MSG = StringResources.NO_ERRORS_DETECTED;
 	/**
 	 * Name of the constant
 	 */
-	private String constantName;
+	private String constantName = "";
 	/**
 	 * COnstant value
 	 */
@@ -246,7 +246,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	/**
 	 * Constant description
 	 */
-	private String description;
+	private String description = "";
 	/**
 	 * Dependent expression list
 	 */
@@ -263,6 +263,12 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * Message after checking the syntax
 	 */
 	private String errorMessage;
+	private static String buildErrorMessageInvalidConstantName(String constantName) {
+		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(constantName, StringResources.INVALID_CONSTANT_NAME, StringInvariant.CONSTANT_NAME_EXAMPLES);
+	}
+	private static String buildErrorMessageInvalidConstantDefinitionString(String constantDefinitionString) {
+		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(constantDefinitionString, StringResources.INVALID_CONSTANT_DEFINITION, StringInvariant.CONSTANT_DEFINITION_EXAMPLES);
+	}
 	/**
 	 * Constructor - creates constant with a given name and given value
 	 *
@@ -282,7 +288,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			errorMessage = NO_SYNTAX_ERROR_MSG;
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameOnlyTokenOptBracketsRegExp;;
+			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 		}
 	}
 	/**
@@ -306,7 +312,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			errorMessage = NO_SYNTAX_ERROR_MSG;
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameOnlyTokenOptBracketsRegExp;;
+			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 		}
 	}
 	/**
@@ -324,14 +330,14 @@ public class Constant extends PrimitiveElement implements Serializable {
 		description = "";
 		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 		relatedExpressionsList = new ArrayList<Expression>();
-		if ( mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp) ) {
+		if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
 			constantName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
 			constantValue = bodyExpression.calculate();
 			syntaxStatus = bodyExpression.getSyntaxStatus();
 			errorMessage = bodyExpression.getErrorMessage();
-		} else errorMessage = "[" + constantDefinitionString + "] " + "--> pattern not mathes: " + ParserSymbol.constUnitgDefStrRegExp;
+		} else errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
 	}
 	/**
 	 * Gets constant name
@@ -353,7 +359,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			setExpressionModifiedFlags();
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = "[" + constantName + "] " + "--> invalid constant name, pattern not mathes: " + ParserSymbol.nameOnlyTokenOptBracketsRegExp;;
+			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 		}
 	}
 	/**

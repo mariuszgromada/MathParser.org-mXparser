@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.0.7    2022-08-20
+ * @(#)SyntaxTest.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -197,7 +197,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.7
+	 * @version        5.2.0
 	 *
 	 */
 	[TestClass]
@@ -1422,7 +1422,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1438,7 +1438,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1454,7 +1454,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1470,7 +1470,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1486,7 +1486,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1503,7 +1503,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = true;
 			bool syn = e.checkSyntax();
 			if (
-			(msg.IndexOf("pattern not mathes") == -1) &&
+			(!msg.Contains("Pattern does not match")) &&
 			(reg == syn)
 			)
 				testResult = true;
@@ -1521,7 +1521,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1537,7 +1537,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1553,7 +1553,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1569,7 +1569,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1585,7 +1585,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1621,7 +1621,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1657,7 +1657,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument definition") >= 0)
+			if (msg.Contains("Invalid argument definition"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1673,7 +1673,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x(1)", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("Invalid argument name") >= 0)
+			if (msg.Contains("Invalid argument name"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1689,7 +1689,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1705,7 +1705,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1721,7 +1721,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1737,7 +1737,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1753,7 +1753,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1770,7 +1770,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = true;
 			bool syn = e.checkSyntax();
 			if (
-			(msg.IndexOf("pattern not mathes") == -1) &&
+			(!msg.Contains("Pattern does not match")) &&
 			(reg == syn) &&
 			(e.calculate() == 6)
 			)
@@ -1789,7 +1789,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("pattern not mathes") >= 0)
+			if (msg.Contains("Pattern does not match"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1806,7 +1806,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = true;
 			bool syn = e.checkSyntax();
 			if (
-			(msg.IndexOf("pattern not mathes") == -1) &&
+			(!msg.Contains("Pattern does not match")) &&
 			(reg == syn) &&
 			(e.calculate() == 8)
 			)
@@ -1825,7 +1825,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("1fa", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.IndexOf("invalid constant name") >= 0)
+			if (msg.Contains("Invalid constant name"))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);

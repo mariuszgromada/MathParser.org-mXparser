@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ParserSymbol.cs        5.0.4    2022-05-22
+ * @(#)ParserSymbol.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.3
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ParserSymbol {
@@ -395,6 +395,14 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String functionDefStrRegExp				= nameTokenRegExp + paramsTokenRegeExp + "=" + "(\\s)*(.)+(\\s)*";
 		public const String function1ArgDefStrRegExp			= nameTokenRegExp + "(\\s)*\\(" + nameTokenRegExp + "(\\s)*\\)(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
 		public const String functionVariadicDefStrRegExp		= nameTokenRegExp + "(\\s)*" + "\\(" + "(\\s)*" + "\\.\\.\\." + "(\\s)*" + "\\)" + "(\\s)*" + "=" + "(\\s)*(.)+(\\s)*";
+		public const String ANY_NUMBER_LITERAL_REG_EXP			= "(" + DECIMAL_REG_EXP + "|" + BASE_OTHER_REG_EXP + "|" + FRACTION + ")";
+		public const String NUMBER_NAME_IMPL_MULTI_REG_EXP		=
+				"("
+				+ "(" + ANY_NUMBER_LITERAL_REG_EXP + nameOnlyTokenOptBracketsRegExp + ")+" + "(" + ANY_NUMBER_LITERAL_REG_EXP + ")?"
+				+ "|"
+				+ "(" + nameOnlyTokenOptBracketsRegExp + ANY_NUMBER_LITERAL_REG_EXP + ")+" + "(" + nameOnlyTokenOptBracketsRegExp + ")?"
+				+ ")";
+
 		/**
 		 * ParserSymbol - token type id.
 		 */

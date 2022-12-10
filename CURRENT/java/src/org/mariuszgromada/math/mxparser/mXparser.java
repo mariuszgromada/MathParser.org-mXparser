@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.1.1    2022-11-18
+ * @(#)mXparser.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -218,7 +218,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Unit;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.1
+ * @version        5.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -230,10 +230,10 @@ public final class mXparser {
 	 * mXparser version
 	 */
 	public static final int VERSION_MAJOR = 5;
-	public static final int VERSION_MINOR = 1;
-	public static final int VERSION_PATCH = 1;
+	public static final int VERSION_MINOR = 2;
+	public static final int VERSION_PATCH = 0;
 	public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
-	public static final String VERSION_CODE_NAME = "Libris";
+	public static final String VERSION_CODE_NAME = "Orion";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
 	 * Framework used to compile mXparser
@@ -303,6 +303,15 @@ public final class mXparser {
 	 * g.addDefinitions(f);
 	 */
 	static volatile int MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
+	/**
+	 * The maximum error message length in expression
+	 */
+	static volatile int ERROR_MESSAGE_MAXIMUM_LENGTH = 10000;
+	/**
+	 * The maximum number of expected tokens presented
+	 * in error message when lexical error was encountered
+	 */
+	static volatile int ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS = 5;
 	/**
 	 * List of built-in tokens to remove.
 	 */
@@ -1314,7 +1323,7 @@ public final class mXparser {
 	 * @param decimalNumber    Decimal number
 	 * @param numeralSystemBase       Numeral system base between 1 and 36
 	 * @return           Number literal representing decimal number in
-	 *                   given numeral numeral system. Digits
+	 *                   given numeral system. Digits
 	 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
 	 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
 	 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
@@ -1429,7 +1438,7 @@ public final class mXparser {
 			System.out.println(o);
 			CONSOLE_ROW_NUMBER++;
 			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + "\n" + CONSOLE_OUTPUT_PREFIX;
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
 		}
 	}
 	/**
@@ -1458,7 +1467,7 @@ public final class mXparser {
 			System.out.println();
 			CONSOLE_ROW_NUMBER++;
 			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + "\n" + CONSOLE_OUTPUT_PREFIX;
+			CONSOLE_OUTPUT = CONSOLE_OUTPUT + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
 		}
 	}
 	/**
@@ -1573,8 +1582,8 @@ public final class mXparser {
 		}
 	}
 	/**
-	 * General mXparser expression help - in-line key word searching
-	 * @param   word    Key word to be searched
+	 * General mXparser expression help - in-line keyword searching
+	 * @param   word    Keyword to be searched
 	 * @return  String with all help content
 	 * lines containing given keyword
 	 */
@@ -1591,13 +1600,13 @@ public final class mXparser {
 	}
 	/**
 	 * Prints filtered help content.
-	 * @param word      Key word.
+	 * @param word      Keyword.
 	 */
 	public static void consolePrintHelp(String word) {
 		System.out.println(getHelp(word));
 	}
 	/**
-	 * Returns list of key words known to the parser
+	 * Returns list of keywords known to the parser
 	 *
 	 * @return      List of keywords known to the parser.
 	 *
@@ -1611,9 +1620,9 @@ public final class mXparser {
 		}
 	}
 	/**
-	 * Returns list of key words known to the parser
+	 * Returns list of keywords known to the parser
 	 *
-	 * @param query Give any string to filter list of key words against this string.
+	 * @param query Give any string to filter list of keywords against this string.
 	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
 	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
 	 *              to narrow the result.

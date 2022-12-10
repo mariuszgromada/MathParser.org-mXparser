@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        5.1.0    2022-11-11
+ * @(#)Function.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -215,7 +215,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -241,14 +241,14 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Function type id identifier
 		 */
-		public const int TYPE_ID			= 103;
-		public const String TYPE_DESC		= "User defined function";
-		/**
+		public const int TYPE_ID					= 103;
+		public static readonly String TYPE_DESC		= StringResources.USER_DEFINED_FUNCTION;
+        /**
 		 * Function with body based on the expression string.
 		 *
 		 * @see Function#getFunctionBodyType()
 		 */
-		public const int BODY_RUNTIME = 1;
+        public const int BODY_RUNTIME = 1;
 		/**
 		 * Function with body based on the extended code.
 		 *
@@ -271,11 +271,11 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * function name
 		 */
-		private String functionName;
+		private String functionName = "";
 		/**
 		 * function description
 		 */
-		private String description;
+		private String description = "";
 		/**
 		 * Indicates whether UDF is variadic
 		 */
@@ -306,6 +306,15 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 *=================================================
 		 */
+		private static String buildErrorMessageInvalidFunctionName(String functionName) {
+			return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(functionName, StringResources.INVALID_FUNCTION_NAME, StringInvariant.FUNCTION_NAME_EXAMPLES);
+		}
+		private static String buildErrorMessageInvalidFunctionDefinitionString(String functionDefinitionString) {
+			return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(functionDefinitionString, StringResources.INVALID_FUNCTION_DEFINITION, StringInvariant.FUNCTION_DEFINITION_EXAMPLES);
+		}
+		private static String buildErrorMessageIncorrectNumberOfFunctionParameters(String functionName, int expectedNumberOfParameters, int providedNumberOfParameters) {
+			return StringResources.buildErrorMessageIncorrectNumberOfParameters(functionName, StringResources.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, expectedNumberOfParameters, providedNumberOfParameters);
+		}
 		/**
 		 * Constructor - creates function from function name
 		 * and function expression string.
@@ -329,13 +338,13 @@ namespace org.mariuszgromada.math.mxparser {
 				description = "";
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
-			}
-			else {
+			} else {
 				parametersNumber = 0;
 				description = "";
 				functionExpression = new Expression("");
-				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
-			}
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+                functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
+            }
 		}
 		/**
 		 * Constructor - creates function from function name,
@@ -363,13 +372,13 @@ namespace org.mariuszgromada.math.mxparser {
 				description = "";
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
-			}
-			else {
+			} else {
 				parametersNumber = 0;
 				description = "";
 				functionExpression = new Expression("");
-				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
-			}
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+                functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
+            }
 		}
 		/**
 		 * Constructor for function definition in natural math language,
@@ -389,7 +398,7 @@ namespace org.mariuszgromada.math.mxparser {
 			parametersNumber = 0;
 			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
-				this.functionName = headEqBody.headTokens[0].tokenStr;
+				functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
@@ -408,7 +417,7 @@ namespace org.mariuszgromada.math.mxparser {
 				addFunctions(this);
 			} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
-				this.functionName = headEqBody.headTokens[0].tokenStr;
+				functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
@@ -420,9 +429,8 @@ namespace org.mariuszgromada.math.mxparser {
 			} else {
 				functionExpression = new Expression();
 				functionExpression.setDescription(functionDefinitionString);
-				String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
-				functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
-			}
+                functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
+            }
 		}
 		/**
 		 * Constructor for function definition based on
@@ -435,8 +443,9 @@ namespace org.mariuszgromada.math.mxparser {
 		public Function(String functionName, FunctionExtension functionExtension) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
-				functionExpression = new Expression("{body-ext}");
-				isVariadic = false;
+				functionExpression = new Expression(StringInvariant.BODY_EXTENDED);
+                functionExpression.setDescription(functionName);
+                isVariadic = false;
 				parametersNumber = functionExtension.getParametersNumber();
 				description = "";
 				this.functionExtension = functionExtension;
@@ -445,8 +454,8 @@ namespace org.mariuszgromada.math.mxparser {
 				parametersNumber = 0;
 				description = "";
 				functionExpression = new Expression("");
-				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
-			}
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+            }
 		}
 		/**
 		 * Constructor for function definition based on
@@ -459,8 +468,9 @@ namespace org.mariuszgromada.math.mxparser {
 		public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) : base(Function.TYPE_ID) {
 			if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 				this.functionName = functionName;
-				functionExpression = new Expression("{body-ext-var}");
-				isVariadic = true;
+				functionExpression = new Expression(StringInvariant.BODY_EXTENDED_VARIADIC);
+                functionExpression.setDescription(functionName);
+                isVariadic = true;
 				parametersNumber = -1;
 				description = "";
 				this.functionExtensionVariadic = functionExtensionVariadic;
@@ -469,8 +479,8 @@ namespace org.mariuszgromada.math.mxparser {
 				parametersNumber = 0;
 				description = "";
 				functionExpression = new Expression("");
-				functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
-			}
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+            }
 		}
 		/**
 		 * Private constructor used for function cloning.
@@ -539,9 +549,8 @@ namespace org.mariuszgromada.math.mxparser {
 			} else {
 				functionExpression = new Expression();
 				functionExpression.setDescription(functionDefinitionString);
-				String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
-				functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
-			}
+                functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
+            }
 		}
 		/**
 		 * Sets function description.
@@ -584,9 +593,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
 				setExpressionModifiedFlags();
-			}
-			else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
-		}
+			} else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+        }
 		/**
 		 * Sets value of function argument (function parameter).
 		 *
@@ -699,10 +707,9 @@ namespace org.mariuszgromada.math.mxparser {
 						functionExtension.setParameterValue(p, parameters[p]);
 					return functionExtension.calculate();
 				}
-			}
-			else {
-				this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + parameters.Length + ")!");
-				return Double.NaN;
+			} else {
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), parameters.Length));
+                return Double.NaN;
 			}
 		}
 		/**
@@ -739,10 +746,9 @@ namespace org.mariuszgromada.math.mxparser {
 						functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
 					return functionExtension.calculate();
 				}
-			}
-			else {
-				this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + arguments.Length + ")!");
-				return Double.NaN;
+			} else {
+                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), arguments.Length));
+                return Double.NaN;
 			}
 		}
 		/**
@@ -902,13 +908,13 @@ namespace org.mariuszgromada.math.mxparser {
 					return -1;
 			}
 		}
-		/**
+        /**
 		 * Set parameters number.
 		 *
 		 * @param      parametersNumber    the number of function parameters (default = number of arguments
-		 *                                 (less number might be specified).
+		 *                                 (lower number might be specified).
 		 */
-		public void setParametersNumber(int parametersNumber) {
+        public void setParametersNumber(int parametersNumber) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
 				this.parametersNumber = parametersNumber;
 				functionExpression.setExpressionModifiedFlag();

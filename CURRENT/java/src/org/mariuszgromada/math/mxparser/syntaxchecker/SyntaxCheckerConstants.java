@@ -262,7 +262,7 @@ public interface SyntaxCheckerConstants {
 
   /** Literal token values. */
   String[] tokenImage = {
-    "<EOF>",
+    "<EOL>",
     "\" \"",
     "\"\\t\"",
     "\"\\n\"",

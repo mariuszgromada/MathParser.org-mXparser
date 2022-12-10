@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.1.0    2022-11-11
+ * @(#)Function.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -217,7 +217,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.2.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -245,7 +245,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * Function type id identifier
 	 */
 	public static final int TYPE_ID			= 103;
-	public static final String TYPE_DESC	= "User defined function";
+	public static final String TYPE_DESC	= StringResources.USER_DEFINED_FUNCTION;
 	/**
 	 * Function with body based on the expression string.
 	 *
@@ -274,11 +274,11 @@ public class Function extends PrimitiveElement implements Serializable {
 	/**
 	 * function name
 	 */
-	private String functionName;
+	private String functionName = "";
 	/**
 	 * function description
 	 */
-	private String description;
+	private String description = "";
 	/**
 	 * Indicates whether UDF is variadic
 	 */
@@ -309,6 +309,15 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *
 	 *=================================================
 	 */
+	private static String buildErrorMessageInvalidFunctionName(String functionName) {
+		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(functionName, StringResources.INVALID_FUNCTION_NAME, StringInvariant.FUNCTION_NAME_EXAMPLES);
+	}
+	private static String buildErrorMessageInvalidFunctionDefinitionString(String functionDefinitionString) {
+		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(functionDefinitionString, StringResources.INVALID_FUNCTION_DEFINITION, StringInvariant.FUNCTION_DEFINITION_EXAMPLES);
+	}
+	private static String buildErrorMessageIncorrectNumberOfFunctionParameters(String functionName, int expectedNumberOfParameters, int providedNumberOfParameters) {
+		return StringResources.buildErrorMessageIncorrectNumberOfParameters(functionName, StringResources.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, expectedNumberOfParameters, providedNumberOfParameters);
+	}
 	/**
 	 * Constructor - creates function from function name
 	 * and function expression string.
@@ -337,7 +346,8 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = 0;
 			description = "";
 			functionExpression = new Expression("");
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+			functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
 		}
 	}
 	/**
@@ -371,7 +381,8 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = 0;
 			description = "";
 			functionExpression = new Expression("");
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+			functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
 		}
 	}
 	/**
@@ -393,7 +404,7 @@ public class Function extends PrimitiveElement implements Serializable {
 		parametersNumber = 0;
 		if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
-			this.functionName = headEqBody.headTokens.get(0).tokenStr;
+			functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
@@ -412,7 +423,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			addFunctions(this);
 		} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
-			this.functionName = headEqBody.headTokens.get(0).tokenStr;
+			functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
@@ -424,8 +435,7 @@ public class Function extends PrimitiveElement implements Serializable {
 		} else {
 			functionExpression = new Expression();
 			functionExpression.setDescription(functionDefinitionString);
-			String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
-			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
+			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
 		}
 	}
 	/**
@@ -440,7 +450,8 @@ public class Function extends PrimitiveElement implements Serializable {
 		super(Function.TYPE_ID);
 		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
-			functionExpression = new Expression("{body-ext}");
+			functionExpression = new Expression(StringInvariant.BODY_EXTENDED);
+			functionExpression.setDescription(functionName);
 			isVariadic = false;
 			parametersNumber = functionExtension.getParametersNumber();
 			description = "";
@@ -450,7 +461,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = 0;
 			description = "";
 			functionExpression = new Expression("");
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
 		}
 	}
 	/**
@@ -465,7 +476,8 @@ public class Function extends PrimitiveElement implements Serializable {
 		super(Function.TYPE_ID);
 		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
-			functionExpression = new Expression("{body-ext-var}");
+			functionExpression = new Expression(StringInvariant.BODY_EXTENDED_VARIADIC);
+			functionExpression.setDescription(functionName);
 			isVariadic = true;
 			parametersNumber = -1;
 			description = "";
@@ -475,7 +487,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = 0;
 			description = "";
 			functionExpression = new Expression("");
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
 		}
 	}
 	/**
@@ -546,8 +558,7 @@ public class Function extends PrimitiveElement implements Serializable {
 		} else {
 			functionExpression = new Expression();
 			functionExpression.setDescription(functionDefinitionString);
-			String errorMessage = ""; errorMessage = errorMessage + "\n [" + functionDefinitionString + "] " + "--> pattern not mathes: f(x1,...,xn) = ... reg exp: " + ParserSymbol.functionDefStrRegExp;
-			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, errorMessage);
+			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
 		}
 	}
 	/**
@@ -591,7 +602,7 @@ public class Function extends PrimitiveElement implements Serializable {
 		if ( mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp) ) {
 			this.functionName = functionName;
 			setExpressionModifiedFlags();
-		} else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "]" + "Invalid function name, pattern not matches: " + ParserSymbol.nameTokenRegExp);
+		} else functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
 	}
 	/**
 	 * Sets value of function argument (function parameter).
@@ -705,9 +716,8 @@ public class Function extends PrimitiveElement implements Serializable {
 					functionExtension.setParameterValue(p, parameters[p]);
 				return functionExtension.calculate();
 			}
-		}
-		else {
-			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + parameters.length + ")!");
+		}  else {
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), parameters.length));
 			return Double.NaN;
 		}
 	}
@@ -745,9 +755,8 @@ public class Function extends PrimitiveElement implements Serializable {
 					functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
 				return functionExtension.calculate();
 			}
-		}
-		else {
-			this.functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, "[" + functionName + "] incorrect number of function parameters (expecting " + getParametersNumber() + ", provided " + arguments.length + ")!");
+		} else {
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), arguments.length));
 			return Double.NaN;
 		}
 	}
@@ -912,7 +921,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * Set parameters number.
 	 *
 	 * @param      parametersNumber    the number of function parameters (default = number of arguments
-	 *                                 (less number might be specified).
+	 *                                 (lower number might be specified).
 	 */
 	public void setParametersNumber(int parametersNumber) {
 		if (functionBodyType == Function.BODY_RUNTIME) {

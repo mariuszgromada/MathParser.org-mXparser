@@ -133,7 +133,7 @@ public class SyntaxCheckerConstants {
   public const int DEFAULT = 0;
 
   public String[] tokenImage = {
-    "<EOF>",
+    "<EOL>",
     "\" \"",
     "\"\\t\"",
     "\"\\n\"",

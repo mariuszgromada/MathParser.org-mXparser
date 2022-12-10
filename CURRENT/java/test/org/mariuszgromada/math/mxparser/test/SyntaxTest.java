@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.0.7    2022-08-20
+ * @(#)SyntaxTest.java        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -196,7 +196,7 @@ import org.mariuszgromada.math.mxparser.*;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.7
+ * @version        5.2.0
  *
  */
 public final class SyntaxTest {
@@ -1420,7 +1420,7 @@ public final class SyntaxTest {
         Expression e = new Expression("f", f);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1436,7 +1436,7 @@ public final class SyntaxTest {
         Expression e = new Expression("f", f);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1452,7 +1452,7 @@ public final class SyntaxTest {
         Expression e = new Expression("f", f);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1468,7 +1468,7 @@ public final class SyntaxTest {
         Expression e = new Expression("f", f);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1484,7 +1484,7 @@ public final class SyntaxTest {
         Expression e = new Expression("f", f);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1501,7 +1501,7 @@ public final class SyntaxTest {
         boolean reg = true;
         boolean syn = e.checkSyntax();
         if (
-                (msg.indexOf("pattern not mathes") == -1) &&
+                (!msg.contains("Pattern does not match")) &&
                         (reg == syn)
         )
             testResult = true;
@@ -1519,7 +1519,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1535,7 +1535,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1551,7 +1551,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1567,7 +1567,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1583,7 +1583,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1600,7 +1600,7 @@ public final class SyntaxTest {
         boolean reg = true;
         boolean syn = e.checkSyntax();
         if (
-                (msg.indexOf("Invalid argument definition") == -1) &&
+                (!msg.contains("Invalid argument definition")) &&
                         (reg == syn) &&
                         (e.calculate() == 6)
         )
@@ -1619,7 +1619,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1636,7 +1636,7 @@ public final class SyntaxTest {
         boolean reg = true;
         boolean syn = e.checkSyntax();
         if (
-                (msg.indexOf("Invalid argument definition") == -1) &&
+                (!msg.contains("Invalid argument definition")) &&
                         (reg == syn) &&
                         (e.calculate() == 8)
         )
@@ -1655,7 +1655,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument definition") >= 0)
+        if (msg.contains("Invalid argument definition"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1671,7 +1671,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x(1)", x);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("Invalid argument name") >= 0)
+        if (msg.contains("Invalid argument name"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1687,7 +1687,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1703,7 +1703,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1719,7 +1719,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1735,7 +1735,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1751,7 +1751,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1768,7 +1768,7 @@ public final class SyntaxTest {
         boolean reg = true;
         boolean syn = e.checkSyntax();
         if (
-                (msg.indexOf("pattern not mathes") == -1) &&
+                (!msg.contains("Pattern does not match")) &&
                         (reg == syn) &&
                         (e.calculate() == 6)
         )
@@ -1787,7 +1787,7 @@ public final class SyntaxTest {
         Expression e = new Expression("x", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("pattern not mathes") >= 0)
+        if (msg.contains("Pattern does not match"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1804,7 +1804,7 @@ public final class SyntaxTest {
         boolean reg = true;
         boolean syn = e.checkSyntax();
         if (
-                (msg.indexOf("pattern not mathes") == -1) &&
+                (!msg.contains("Pattern does not match")) &&
                         (reg == syn) &&
                         (e.calculate() == 8)
         )
@@ -1823,7 +1823,7 @@ public final class SyntaxTest {
         Expression e = new Expression("1fa", c1);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (msg.indexOf("invalid constant name") >= 0)
+        if (msg.contains("Invalid constant name"))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
