@@ -412,12 +412,12 @@ namespace org.mariuszgromada.math.mxparser {
                         ms.Close();
                     }
 #pragma warning restore SYSLIB0011
-                    logLastOperationMessage(StringResources.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(objectToSerialize));
+                    logLastOperationMessage(StringResources.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + StringUtils.getSimpleName(objectToSerialize));
                     lastOperationWasSuccessful = true;
                     return ms.ToArray();
                 }
             } catch (Exception e) {
-                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringUtils.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return null;
             }
         }
@@ -509,12 +509,12 @@ namespace org.mariuszgromada.math.mxparser {
                         fs.Close();
                     }
 #pragma warning restore SYSLIB0011
-                    logLastOperationMessage(StringResources.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(objectToSerialize) + StringInvariant.COMMA_SPACE + filePath);
+                    logLastOperationMessage(StringResources.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + StringUtils.getSimpleName(objectToSerialize) + StringInvariant.COMMA_SPACE + filePath);
                     lastOperationWasSuccessful = true;
                     return true;
                 }
             } catch (Exception e) {
-                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringUtils.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return false;
             }
         }
@@ -565,13 +565,13 @@ namespace org.mariuszgromada.math.mxparser {
                     T deserializedObject = (T) bf.Deserialize(ms);
                     ms.Close();
                     lastOperationWasSuccessful = true;
-                    logLastOperationMessage(StringResources.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(deserializedObject));
+                    logLastOperationMessage(StringResources.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + StringUtils.getSimpleName(deserializedObject));
                     return deserializedObject;
                 }
 #pragma warning restore SYSLIB0011
             }
             catch (Exception e) {
-                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringUtils.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return default(T);
             }
         }
@@ -672,13 +672,13 @@ namespace org.mariuszgromada.math.mxparser {
                     T deserializedObject = (T) form.Deserialize(fs);
                     fs.Close();
                     lastOperationWasSuccessful = true;
-                    logLastOperationMessage(StringResources.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + StringResources.getSimpleName(deserializedObject) + StringInvariant.COMMA_SPACE + filePath);
+                    logLastOperationMessage(StringResources.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + StringUtils.getSimpleName(deserializedObject) + StringInvariant.COMMA_SPACE + filePath);
                     return deserializedObject;
                 }
 #pragma warning restore SYSLIB0011
             }
             catch (Exception e) {
-                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringResources.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
+                logLastOperationMessage(StringResources.INFO_EXCEPTION + StringInvariant.SPACE + StringUtils.getSimpleName(e) + StringInvariant.COMMA_SPACE + e.Message);
                 return default(T);
             }
         }

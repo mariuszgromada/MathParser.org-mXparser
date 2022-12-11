@@ -236,34 +236,6 @@ final class StringInvariant {
     static final String LONG_RIGHT_ARROW = "--->";
     static final String LONG_RIGHT_ARROW_SPACE = LONG_RIGHT_ARROW + SPACE;
     static final String RIGHT_ARROW_SPACE = RIGHT_ARROW + SPACE;
-    static String surroundBrackets(String str) {
-        return LEFT_BRACKET + str + RIGHT_BRACKET;
-    }
-    static String surroundBracketsAddSpace(String str) {
-        return surroundBrackets(str) + SPACE;
-    }
-    static String surroundSquareBrackets(String str) {
-        return LEFT_SQUARE_BRACKET + str + RIGHT_SQUARE_BRACKET;
-    }
-    static String surroundSquareBracketsAddSpace(String str) {
-        return surroundSquareBrackets(str) + SPACE;
-    }
-    static String surroundApostrophe(String str) {
-        return APOSTROPHE + str + APOSTROPHE;
-    }
-    static String surroundApostropheAddSpace(String str) {
-        return surroundApostrophe(str) + SPACE;
-    }
-    static String surroundQuote(String str) {
-        return QUOTE + str + QUOTE;
-    }
-    static String surroundQuoteAddSpace(String str) {
-        return surroundQuote(str) + SPACE;
-    }
-    static String trimNotNull(String str) {
-        if (str != null) return str.trim();
-        else return "";
-    }
 }
 
 /**
@@ -430,14 +402,14 @@ final class StringResources {
 
 
     static String createExpressionDescription(String description, String expressionString) {
-        String expressionDescription = StringInvariant.surroundSquareBrackets(expressionString) + StringInvariant.COLON_SPACE;
+        String expressionDescription = StringUtils.surroundSquareBrackets(expressionString) + StringInvariant.COLON_SPACE;
         if (description.trim().length() > 0)
-            expressionDescription = StringInvariant.surroundSquareBrackets(description) + expressionDescription;
+            expressionDescription = StringUtils.surroundSquareBrackets(description) + expressionDescription;
         return expressionDescription;
     }
 
     static String buildErrorMessagePatternDoesNotMatchWithExamples(String userText, String errorMessage, String examples) {
-        return StringInvariant.surroundApostropheAddSpace(userText)
+        return StringUtils.surroundApostropheAddSpace(userText)
                 + errorMessage
                 + StringInvariant.SPACE
                 + PATTERN_DOES_NOT_MATCH
@@ -452,7 +424,7 @@ final class StringResources {
     static String buildTokenString(String tokenStr, int tokenIndex) {
         return StringResources.TOKEN
                 + StringInvariant.SPACE
-                + StringInvariant.surroundApostrophe(tokenStr)
+                + StringUtils.surroundApostrophe(tokenStr)
                 + StringInvariant.COMMA_SPACE
                 + StringResources.INDEX
                 + StringInvariant.SPACE
@@ -471,7 +443,7 @@ final class StringResources {
     static String buildErrorMessageKeyword(String errorMessage, String keyword) {
         return KEYWORD
                 + StringInvariant.SPACE
-                + StringInvariant.surroundApostrophe(keyword)
+                + StringUtils.surroundApostrophe(keyword)
                 + StringInvariant.COLON
                 + StringInvariant.SPACE
                 + errorMessage
@@ -479,7 +451,7 @@ final class StringResources {
     }
 
     static String buildErrorMessageIncorrectNumberOfParameters(String elementName, String errorMessage, int expectedNumberOfParameters, int providedNumberOfParameters) {
-        return StringInvariant.surroundApostropheAddSpace(elementName)
+        return StringUtils.surroundApostropheAddSpace(elementName)
                 + errorMessage
                 + StringInvariant.SPACE
                 + EXPECTED
@@ -495,26 +467,26 @@ final class StringResources {
 
     private static String buildErrorMessageFromParseException(ParseException pe) {
         if (pe.currentToken == null)
-            return StringInvariant.trimNotNull(pe.getMessage());
+            return StringUtils.trimNotNull(pe.getMessage());
 
         if (pe.currentToken.next == null)
-            return StringInvariant.trimNotNull(pe.getMessage());
+            return StringUtils.trimNotNull(pe.getMessage());
 
         if (pe.currentToken.next.image == null)
-            return StringInvariant.trimNotNull(pe.getMessage());
+            return StringUtils.trimNotNull(pe.getMessage());
 
         if (pe.expectedTokenSequences == null)
-            return StringInvariant.trimNotNull(pe.getMessage());
+            return StringUtils.trimNotNull(pe.getMessage());
 
         if (pe.expectedTokenSequences.length == 0)
-            return StringInvariant.trimNotNull(pe.getMessage());
+            return StringUtils.trimNotNull(pe.getMessage());
 
         if (pe.tokenImage == null)
-            return StringInvariant.trimNotNull(pe.getMessage());
+            return StringUtils.trimNotNull(pe.getMessage());
 
         String errorMessage = ENCOUNTERED
                 + StringInvariant.SPACE
-                + StringInvariant.surroundQuoteAddSpace(pe.currentToken.next.image)
+                + StringUtils.surroundQuoteAddSpace(pe.currentToken.next.image)
                 + AT_INDEX
                 + StringInvariant.SPACE
                 + pe.currentToken.next.beginColumn
@@ -561,7 +533,7 @@ final class StringResources {
                 + StringInvariant.SPACE
                 + ERROR
                 + StringInvariant.COLON_SPACE
-                + StringInvariant.trimNotNull(tme.getMessage())
+                + StringUtils.trimNotNull(tme.getMessage())
                 ;
     }
 
@@ -579,7 +551,7 @@ final class StringResources {
                 + StringInvariant.SPACE
                 + EXCEPTION
                 + StringInvariant.COLON_SPACE
-                + StringInvariant.trimNotNull(e.getMessage())
+                + StringUtils.trimNotNull(e.getMessage())
                 ;
     }
 
@@ -672,7 +644,52 @@ final class StringResources {
                 + StringInvariant.NEW_LINE
                 ;
     }
+}
 
+/**
+ * A class containing all string utils.
+ *
+ * @author         <b>Mariusz Gromada</b><br>
+ *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
+ *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
+ *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
+ *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
+ *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
+ *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+ *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+ *
+ * @version        5.2.0
+ */
+final class StringUtils {
+    static String surroundBrackets(String str) {
+        return StringInvariant.LEFT_BRACKET + str + StringInvariant.RIGHT_BRACKET;
+    }
+    static String surroundBracketsAddSpace(String str) {
+        return surroundBrackets(str) + StringInvariant.SPACE;
+    }
+    static String surroundSquareBrackets(String str) {
+        return StringInvariant.LEFT_SQUARE_BRACKET + str + StringInvariant.RIGHT_SQUARE_BRACKET;
+    }
+    static String surroundSquareBracketsAddSpace(String str) {
+        return surroundSquareBrackets(str) + StringInvariant.SPACE;
+    }
+    static String surroundApostrophe(String str) {
+        return StringInvariant.APOSTROPHE + str + StringInvariant.APOSTROPHE;
+    }
+    static String surroundApostropheAddSpace(String str) {
+        return surroundApostrophe(str) + StringInvariant.SPACE;
+    }
+    static String surroundQuote(String str) {
+        return StringInvariant.QUOTE + str + StringInvariant.QUOTE;
+    }
+    static String surroundQuoteAddSpace(String str) {
+        return surroundQuote(str) + StringInvariant.SPACE;
+    }
+    static String trimNotNull(String str) {
+        if (str != null) return str.trim();
+        else return "";
+    }
     static String stringConcatenateMaxLength(String str1, String str2, int maxLength) {
         if (str1.length() + str2.length() > maxLength)
             if (str1.contains(StringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED))
@@ -682,5 +699,4 @@ final class StringResources {
         else
             return str1 + str2;
     }
-
 }

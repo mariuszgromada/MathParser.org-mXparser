@@ -2019,8 +2019,8 @@ namespace org.mariuszgromada.math.mxparser {
 			Token tokenBefore = tokensList[pos];
 			double argumentValue = argument.getArgumentValue(calcStepsRegister);
 			if (forwardErrorMessage && this != argument.argumentExpression) {
-				errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
-				errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+				errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+				errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 			}
 			int tokensListSizeAfter = tokensList.Count;
 			if (tokensListSizeBefore == tokensListSizeAfter) {
@@ -2076,11 +2076,11 @@ namespace org.mariuszgromada.math.mxparser {
 				#endif
 			soe){
 				value = Double.NaN;
-				errorMessage = StringInvariant.trimNotNull(soe.Message);
+				errorMessage = StringUtils.trimNotNull(soe.Message);
 			}
 			if (forwardErrorMessage && this != function.functionExpression) {
-				errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, function.functionExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
-				errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, function.functionExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+				errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, function.functionExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+				errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, function.functionExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 			}
 			int tokensListSizeAfter = tokensList.Count;
 			if (tokensListSizeBefore == tokensListSizeAfter) {
@@ -2117,8 +2117,8 @@ namespace org.mariuszgromada.math.mxparser {
 				argument.setVerboseMode();
 			double result = argument.getArgumentValue(index);
 			if (forwardErrorMessage && this != argument.argumentExpression) {
-				errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
-				errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+				errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+				errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 			}
 			f1SetDecreaseRemove(pos, result);
 			if (!argumentVerboseMode)
@@ -5462,7 +5462,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (arg.argumentExpression != this && !arg.argumentExpression.recursionCallPending) {
-				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
 				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 				return syntaxRec;
 			}
@@ -5481,7 +5481,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 
 			if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
-				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
 				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 				return syntaxRec;
 			}
@@ -5532,9 +5532,9 @@ namespace org.mariuszgromada.math.mxparser {
 				bool syntaxRec;
 
 				if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
+					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
 				else
-					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
+					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
 
 				if (fun.isVariadic)
 					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
@@ -5895,7 +5895,7 @@ namespace org.mariuszgromada.math.mxparser {
 			try {
 				return calculateInternal(calcStepsRegister);
 			} catch (Exception e) {
-                registerErrorWhileCalculate(StringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringInvariant.trimNotNull(e.Message));
+                registerErrorWhileCalculate(StringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringUtils.trimNotNull(e.Message));
                 return Double.NaN;
 			}
 		}
@@ -6195,7 +6195,7 @@ namespace org.mariuszgromada.math.mxparser {
 							tokenIndex++;
 						rPos = tokenIndex - 1;
 						if (verboseMode) {
-                            printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringInvariant.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
+                            printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
                             showParsing(lPos, rPos);
 						}
 						/* if no calculus operations were found
@@ -9032,7 +9032,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void printSystemInfo(String info, bool withExpressionString) {
 			if (withExpressionString)
-                mXparser.consolePrint(StringInvariant.surroundSquareBrackets(description) + StringInvariant.surroundSquareBracketsAddSpace(expressionString) + info);
+                mXparser.consolePrint(StringUtils.surroundSquareBrackets(description) + StringUtils.surroundSquareBracketsAddSpace(expressionString) + info);
             else
                 mXparser.consolePrint(info);
         }

@@ -238,34 +238,6 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String LONG_RIGHT_ARROW = "--->";
         internal static readonly String LONG_RIGHT_ARROW_SPACE = LONG_RIGHT_ARROW + SPACE;
         internal static readonly String RIGHT_ARROW_SPACE = RIGHT_ARROW + SPACE;
-        internal static String surroundBrackets(String str) {
-            return LEFT_BRACKET + str + RIGHT_BRACKET;
-        }
-        internal static String surroundBracketsAddSpace(String str) {
-            return surroundBrackets(str) + SPACE;
-        }
-        internal static String surroundSquareBrackets(String str) {
-            return LEFT_SQUARE_BRACKET + str + RIGHT_SQUARE_BRACKET;
-        }
-        internal static String surroundSquareBracketsAddSpace(String str) {
-            return surroundSquareBrackets(str) + SPACE;
-        }
-        internal static String surroundApostrophe(String str) {
-            return APOSTROPHE + str + APOSTROPHE;
-        }
-        internal static String surroundApostropheAddSpace(String str) {
-            return surroundApostrophe(str) + SPACE;
-        }
-        internal static String surroundQuote(String str) {
-            return QUOTE + str + QUOTE;
-        }
-        internal static String surroundQuoteAddSpace(String str) {
-            return surroundQuote(str) + SPACE;
-        }
-        internal static String trimNotNull(String str) {
-            if (str != null) return str.Trim();
-            else return "";
-        }
     }
 
     /**
@@ -431,14 +403,14 @@ namespace org.mariuszgromada.math.mxparser {
                 ;
 
         internal static String createExpressionDescription(String description, String expressionString) {
-            String expressionDescription = StringInvariant.surroundSquareBrackets(expressionString) + StringInvariant.COLON_SPACE;
+            String expressionDescription = StringUtils.surroundSquareBrackets(expressionString) + StringInvariant.COLON_SPACE;
             if (description.Trim().Length > 0)
-                expressionDescription = StringInvariant.surroundSquareBrackets(description) + expressionDescription;
+                expressionDescription = StringUtils.surroundSquareBrackets(description) + expressionDescription;
             return expressionDescription;
         }
 
         internal static String buildErrorMessagePatternDoesNotMatchWithExamples(String userText, String errorMessage, String examples) {
-            return StringInvariant.surroundApostropheAddSpace(userText)
+            return StringUtils.surroundApostropheAddSpace(userText)
                     + errorMessage
                     + StringInvariant.SPACE
                     + PATTERN_DOES_NOT_MATCH
@@ -453,7 +425,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal static String buildTokenString(String tokenStr, int tokenIndex) {
             return StringResources.TOKEN
                     + StringInvariant.SPACE
-                    + StringInvariant.surroundApostrophe(tokenStr)
+                    + StringUtils.surroundApostrophe(tokenStr)
                     + StringInvariant.COMMA_SPACE
                     + StringResources.INDEX
                     + StringInvariant.SPACE
@@ -472,7 +444,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal static String buildErrorMessageKeyword(String errorMessage, String keyword) {
             return KEYWORD
                     + StringInvariant.SPACE
-                    + StringInvariant.surroundApostrophe(keyword)
+                    + StringUtils.surroundApostrophe(keyword)
                     + StringInvariant.COLON
                     + StringInvariant.SPACE
                     + errorMessage
@@ -480,7 +452,7 @@ namespace org.mariuszgromada.math.mxparser {
         }
 
         internal static String buildErrorMessageIncorrectNumberOfParameters(String elementName, String errorMessage, int expectedNumberOfParameters, int providedNumberOfParameters) {
-            return StringInvariant.surroundApostropheAddSpace(elementName)
+            return StringUtils.surroundApostropheAddSpace(elementName)
                     + errorMessage
                     + StringInvariant.SPACE
                     + EXPECTED
@@ -496,26 +468,26 @@ namespace org.mariuszgromada.math.mxparser {
 
         private static String buildErrorMessageFromParseException(ParseException pe) {
             if (pe.currentToken == null)
-                return StringInvariant.trimNotNull(pe.Message);
+                return StringUtils.trimNotNull(pe.Message);
 
             if (pe.currentToken.next == null)
-                return StringInvariant.trimNotNull(pe.Message);
+                return StringUtils.trimNotNull(pe.Message);
 
             if (pe.currentToken.next.image == null)
-                return StringInvariant.trimNotNull(pe.Message);
+                return StringUtils.trimNotNull(pe.Message);
 
             if (pe.expectedTokenSequences == null)
-                return StringInvariant.trimNotNull(pe.Message);
+                return StringUtils.trimNotNull(pe.Message);
 
             if (pe.expectedTokenSequences.Length == 0)
-                return StringInvariant.trimNotNull(pe.Message);
+                return StringUtils.trimNotNull(pe.Message);
 
             if (pe.tokenImage == null)
-                return StringInvariant.trimNotNull(pe.Message);
+                return StringUtils.trimNotNull(pe.Message);
 
             String errorMessage = ENCOUNTERED
                     + StringInvariant.SPACE
-                    + StringInvariant.surroundQuoteAddSpace(pe.currentToken.next.image)
+                    + StringUtils.surroundQuoteAddSpace(pe.currentToken.next.image)
                     + AT_INDEX
                     + StringInvariant.SPACE
                     + pe.currentToken.next.beginColumn
@@ -562,7 +534,7 @@ namespace org.mariuszgromada.math.mxparser {
                     + StringInvariant.SPACE
                     + ERROR
                     + StringInvariant.COLON_SPACE
-                    + StringInvariant.trimNotNull(tme.Message)
+                    + StringUtils.trimNotNull(tme.Message)
                     ;
         }
 
@@ -580,7 +552,7 @@ namespace org.mariuszgromada.math.mxparser {
                     + StringInvariant.SPACE
                     + EXCEPTION
                     + StringInvariant.COLON_SPACE
-                    + StringInvariant.trimNotNull(e.Message)
+                    + StringUtils.trimNotNull(e.Message)
                     ;
         }
 
@@ -674,7 +646,52 @@ namespace org.mariuszgromada.math.mxparser {
                     + StringInvariant.NEW_LINE
                     ;
         }
+    }
 
+    /**
+     * A class containing all string utils.
+     *
+     * @author         <b>Mariusz Gromada</b><br>
+     *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
+     *                 <a href="https://github.com/mariuszgromada/MathParser.org-mXparser" target="_blank">mXparser on GitHub</a><br>
+     *                 <a href="https://payhip.com/INFIMA" target="_blank">INFIMA place to purchase a commercial MathParser.org-mXparser software license</a><br>
+     *                 <a href="mailto:info@mathparser.org">info@mathparser.org</a><br>
+     *                 <a href="https://scalarmath.org/" target="_blank">ScalarMath.org - a powerful math engine and math scripting language</a><br>
+     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite" target="_blank">Scalar Lite</a><br>
+     *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
+     *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
+     *
+     * @version        5.2.0
+     */
+    internal sealed class StringUtils {
+        internal static String surroundBrackets(String str) {
+            return StringInvariant.LEFT_BRACKET + str + StringInvariant.RIGHT_BRACKET;
+        }
+        internal static String surroundBracketsAddSpace(String str) {
+            return surroundBrackets(str) + StringInvariant.SPACE;
+        }
+        internal static String surroundSquareBrackets(String str) {
+            return StringInvariant.LEFT_SQUARE_BRACKET + str + StringInvariant.RIGHT_SQUARE_BRACKET;
+        }
+        internal static String surroundSquareBracketsAddSpace(String str) {
+            return surroundSquareBrackets(str) + StringInvariant.SPACE;
+        }
+        internal static String surroundApostrophe(String str) {
+            return StringInvariant.APOSTROPHE + str + StringInvariant.APOSTROPHE;
+        }
+        internal static String surroundApostropheAddSpace(String str) {
+            return surroundApostrophe(str) + StringInvariant.SPACE;
+        }
+        internal static String surroundQuote(String str) {
+            return StringInvariant.QUOTE + str + StringInvariant.QUOTE;
+        }
+        internal static String surroundQuoteAddSpace(String str) {
+            return surroundQuote(str) + StringInvariant.SPACE;
+        }
+        internal static String trimNotNull(String str) {
+            if (str != null) return str.Trim();
+            else return "";
+        }
         internal static String stringConcatenateMaxLength(String str1, String str2, int maxLength) {
             if (str1.Length + str2.Length > maxLength)
                 if (str1.Contains(StringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED))

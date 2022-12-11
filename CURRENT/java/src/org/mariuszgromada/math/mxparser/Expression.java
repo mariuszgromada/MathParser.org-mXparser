@@ -2067,8 +2067,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		Token tokenBefore = tokensList.get(pos);
 		double argumentValue = argument.getArgumentValue(calcStepsRegister);
 		if (forwardErrorMessage && this != argument.argumentExpression) {
-			errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
-			errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+			errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+			errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 		}
 		int tokensListSizeAfter = tokensList.size();
 		if (tokensListSizeBefore == tokensListSizeAfter) {
@@ -2117,11 +2117,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 			value = function.calculate(calcStepsRegister);
 		} catch(StackOverflowError soe){
 			value = Double.NaN;
-			errorMessage = StringInvariant.trimNotNull(soe.getMessage());
+			errorMessage = StringUtils.trimNotNull(soe.getMessage());
 		}
 		if (forwardErrorMessage && this != function.functionExpression) {
-			errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, function.functionExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
-			errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, function.functionExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+			errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, function.functionExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+			errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, function.functionExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 		}
 		int tokensListSizeAfter = tokensList.size();
 		if (tokensListSizeBefore == tokensListSizeAfter) {
@@ -2158,8 +2158,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 			argument.setVerboseMode();
 		double result = argument.getArgumentValue(index);
 		if (forwardErrorMessage && this != argument.argumentExpression) {
-			errorMessageCalculate = StringResources.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
-			errorMessage = StringResources.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
+			errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, argument.argumentExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
+			errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, argument.argumentExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
 		}
 		f1SetDecreaseRemove(pos, result);
 		if (!argumentVerboseMode)
@@ -5498,7 +5498,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return NO_SYNTAX_ERRORS;
 
 		if (arg.argumentExpression != this && !arg.argumentExpression.recursionCallPending) {
-			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
 			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 			return syntaxRec;
 		}
@@ -5517,7 +5517,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 
 		if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
-			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
 			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 			return syntaxRec;
 		}
@@ -5568,9 +5568,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			boolean syntaxRec;
 
 			if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
+				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
 			else
-				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
+				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
 
 			if (fun.isVariadic)
 				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
@@ -5930,7 +5930,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		try {
 			return calculateInternal(calcStepsRegister);
 		} catch (Throwable e) {
-			registerErrorWhileCalculate(StringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringInvariant.trimNotNull(e.getMessage()));
+			registerErrorWhileCalculate(StringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringUtils.trimNotNull(e.getMessage()));
 			return Double.NaN;
 		}
 	}
@@ -6229,7 +6229,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						tokenIndex++;
 					rPos = tokenIndex - 1;
 					if (verboseMode) {
-						printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringInvariant.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
+						printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
 						showParsing(lPos,rPos);
 					}
 					/* if no calculus operations were found
@@ -9044,7 +9044,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void printSystemInfo(String info, boolean withExpressionString) {
 		if (withExpressionString)
-			mXparser.consolePrint(StringInvariant.surroundSquareBrackets(description) + StringInvariant.surroundSquareBracketsAddSpace(expressionString) + info);
+			mXparser.consolePrint(StringUtils.surroundSquareBrackets(description) + StringUtils.surroundSquareBracketsAddSpace(expressionString) + info);
 		else
 			mXparser.consolePrint(info);
 	}
