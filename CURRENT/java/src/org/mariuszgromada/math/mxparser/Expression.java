@@ -1115,21 +1115,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public int getArgumentIndex(String argumentName) {
 		int argumentsNumber = argumentsList.size();
-		if (argumentsNumber > 0) {
-			int argumentIndex = 0;
-			int searchResult = NOT_FOUND;
-			while ((argumentIndex < argumentsNumber)&&(searchResult == NOT_FOUND)) {
-				if (argumentsList.get(argumentIndex).getArgumentName().equals(argumentName))
-					searchResult = FOUND;
-				else
-					argumentIndex++;
-			}
-			if (searchResult == FOUND)
-				return argumentIndex;
-			else
-				return NOT_FOUND;
-		} else
+		if (argumentsNumber == 0)
 			return NOT_FOUND;
+
+		for (int argumentIndex = 0; argumentIndex < argumentsNumber; argumentIndex++)
+			if (argumentsList.get(argumentIndex).getArgumentName().equals(argumentName))
+				return argumentIndex;
+
+		return NOT_FOUND;
 	}
 	/**
 	 * Gets argument from the expression.
@@ -1322,21 +1315,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public int getConstantIndex(String constantName) {
 		int constantsNumber = constantsList.size();
-		if (constantsNumber > 0) {
-			int constantIndex = 0;
-			int searchResult = NOT_FOUND;
-			while ((constantIndex < constantsNumber)&&(searchResult == NOT_FOUND)) {
-				if (constantsList.get(constantIndex).getConstantName().equals(constantName))
-					searchResult = FOUND;
-				else
-					constantIndex++;
-			}
-			if (searchResult == FOUND)
-				return constantIndex;
-			else
-				return NOT_FOUND;
-		} else
+		if (constantsNumber == 0)
 			return NOT_FOUND;
+
+		for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++)
+			if (constantsList.get(constantIndex).getConstantName().equals(constantName))
+				return constantIndex;
+
+		return NOT_FOUND;
 	}
 	/**
 	 * Gets constant associated with the expression.
@@ -1489,23 +1475,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public int getFunctionIndex(String functionName) {
 		int functionsNumber = functionsList.size();
-		if (functionsNumber > 0) {
-			int functionIndex = 0;
-			int searchResult = NOT_FOUND;
-			while ((functionIndex < functionsNumber)
-					&& (searchResult == NOT_FOUND)) {
-				if (functionsList.get(functionIndex).getFunctionName().
-						equals(functionName))
-					searchResult = FOUND;
-				else
-					functionIndex++;
-			}
-			if (searchResult == FOUND)
-				return functionIndex;
-			else
-				return NOT_FOUND;
-		} else
+		if (functionsNumber == 0)
 			return NOT_FOUND;
+
+		for (int functionIndex = 0; functionIndex < functionsNumber; functionIndex++)
+			if (functionsList.get(functionIndex).getFunctionName().equals(functionName))
+				return functionIndex;
+
+		return NOT_FOUND;
 	}
 	/**
 	 * Gets function associated with the expression.
@@ -1619,26 +1596,25 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void setToNumber(int pos, double number, boolean ulpRound) {
 		Token token = tokensList.get(pos);
-		if (mXparser.ulpRounding && !disableRounding){
-			if (ulpRound) {
-				if ( (Double.isNaN(number) ) || (Double.isInfinite(number)) )
-					token.tokenValue = number;
-				else {
-					int precision = MathFunctions.ulpDecimalDigitsBefore(number);
-					if (precision >= 0)
-						token.tokenValue = MathFunctions.round(number, precision);
-					else
-						token.tokenValue = number;
-				}
-			} else {
-				token.tokenValue = number;
-			}
-		} else {
-			token.tokenValue = number;
-		}
 		token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
 		token.tokenId = ParserSymbol.NUMBER_ID;
 		token.keyWord = ParserSymbol.NUMBER_STR;
+
+		if (!mXparser.ulpRounding || disableRounding || !ulpRound) {
+			token.tokenValue = number;
+			return;
+		}
+
+		if ((Double.isNaN(number)) || (Double.isInfinite(number))) {
+			token.tokenValue = number;
+			return;
+		}
+
+		int precision = MathFunctions.ulpDecimalDigitsBefore(number);
+		if (precision >= 0)
+			token.tokenValue = MathFunctions.round(number, precision);
+		else
+			token.tokenValue = number;
 	}
 	private void setToNumber(int pos, double number) {
 		setToNumber(pos, number, false);
@@ -1967,7 +1943,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean paren;
 		boolean end = false;
 		List<Token> paramTkones = new ArrayList<Token>();
-		String paramStr = "";
+		StringBuilder paramStrBuilder = new StringBuilder();
 		do {
 			Token t = tokensList.get(cPos);
 			comma = false;
@@ -1982,14 +1958,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 				}
 			if (paren || comma) {
 				if (cPos > pos + 2) {
-					functionParameters.add( new FunctionParameter(paramTkones, paramStr, pPos, cPos-1 ) );
+					functionParameters.add( new FunctionParameter(paramTkones, paramStrBuilder.toString(), pPos, cPos-1 ) );
 					paramTkones = new ArrayList<Token>();
-					paramStr = "";
+					paramStrBuilder = new StringBuilder();
 					pPos = cPos+1;
 				}
 			} else {
 				paramTkones.add(t);
-				paramStr = paramStr + t.tokenStr;
+				paramStrBuilder.append(t.tokenStr);
 			}
 			if (paren)
 				end = true;
@@ -2953,21 +2929,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void PLUS(int pos) {
 		Token b = tokensList.get(pos+1);
-		if (pos>0) {
-			Token a = tokensList.get(pos-1);
-			if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-				if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
-				else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
-			else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-				setToNumber(pos,b.tokenValue);
-				tokensList.remove(pos+1);
-			}
-		}
-		else
+
+		if (pos == 0) {
 			if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 				setToNumber(pos,b.tokenValue);
 				tokensList.remove(pos+1);
 			}
+			return;
+		}
+
+		Token a = tokensList.get(pos-1);
+		if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
+			if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
+			else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
+		else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+			setToNumber(pos,b.tokenValue);
+			tokensList.remove(pos+1);
+		}
 	}
 	/**
 	 * Subtraction handling
@@ -2976,21 +2954,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void MINUS(int pos) {
 		Token b = tokensList.get(pos+1);
-		if (pos>0) {
-			Token a = tokensList.get(pos-1);
-			if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-				if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
-				else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
-			else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-				setToNumber(pos,-b.tokenValue);
-				tokensList.remove(pos+1);
-			}
-		}
-		else
+
+		if (pos == 0) {
 			if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 				setToNumber(pos,-b.tokenValue);
 				tokensList.remove(pos+1);
 			}
+			return;
+		}
+
+		Token a = tokensList.get(pos-1);
+		if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
+			if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
+			else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
+		else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+			setToNumber(pos,-b.tokenValue);
+			tokensList.remove(pos+1);
+		}
 	}
 	/**
 	 * Logical AND
@@ -5332,7 +5312,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Cleans blanks and other cases like "++', "+-", "-+"", "--"
 	 */
 	private void cleanExpressionString() {
-		expressionStringCleaned = "";
+		StringBuilder expressionStringCleanedBuilder = new StringBuilder();
 		if (expressionString == null) return;
 		int expLen = expressionString.length();
 		if (expLen == 0) return;
@@ -5346,16 +5326,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 				blankCnt++;
 			} else if (blankCnt > 0) {
 				if (newExpLen > 0) {
-					if (isNotSpecialChar(clag1)) expressionStringCleaned = expressionStringCleaned + StringInvariant.SPACE;
+					if (isNotSpecialChar(clag1)) expressionStringCleanedBuilder.append(StringInvariant.SPACE);
 				}
 				blankCnt = 0;
 			}
 			if (blankCnt == 0) {
-				expressionStringCleaned = expressionStringCleaned + c;
+				expressionStringCleanedBuilder.append(c);
 				clag1 = c;
 				newExpLen++;
 			}
 		}
+		expressionStringCleaned = expressionStringCleanedBuilder.toString();
 		if (attemptToFixExpStrEnabled) {
 			if (expressionStringCleaned.contains("++"))
 				expressionStringCleaned = expressionStringCleaned.replace("++", "+");

@@ -1079,21 +1079,14 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			public int getArgumentIndex(String argumentName) {
 				int argumentsNumber = argumentsList.Count;
-				if (argumentsNumber > 0) {
-					int argumentIndex = 0;
-					int searchResult = NOT_FOUND;
-					while ((argumentIndex < argumentsNumber)&&(searchResult == NOT_FOUND)) {
-						if (argumentsList[argumentIndex].getArgumentName().Equals(argumentName))
-							searchResult = FOUND;
-						else
-							argumentIndex++;
-					}
-					if (searchResult == FOUND)
-						return argumentIndex;
-					else
-						return NOT_FOUND;
-				} else
+				if (argumentsNumber == 0)
 					return NOT_FOUND;
+
+				for (int argumentIndex = 0; argumentIndex < argumentsNumber; argumentIndex++)
+					if (argumentsList[argumentIndex].getArgumentName().Equals(argumentName))
+						return argumentIndex;
+
+				return NOT_FOUND;
 			}
 			/**
 			 * Gets argument from the expression.
@@ -1273,21 +1266,14 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			public int getConstantIndex(String constantName) {
 				int constantsNumber = constantsList.Count;
-				if (constantsNumber > 0) {
-					int constantIndex = 0;
-					int searchResult = NOT_FOUND;
-					while ((constantIndex < constantsNumber)&&(searchResult == NOT_FOUND)) {
-						if (constantsList[constantIndex].getConstantName().Equals(constantName))
-							searchResult = FOUND;
-						else
-							constantIndex++;
-					}
-					if (searchResult == FOUND)
-						return constantIndex;
-					else
-						return NOT_FOUND;
-				} else
+				if (constantsNumber == 0)
 					return NOT_FOUND;
+
+				for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++)
+					if (constantsList[constantIndex].getConstantName().Equals(constantName))
+	                    return constantIndex;
+
+				return NOT_FOUND;
 			}
 			/**
 			 * Gets constant associated with the expression.
@@ -1440,23 +1426,14 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			public int getFunctionIndex(String functionName) {
 				int functionsNumber = functionsList.Count;
-				if (functionsNumber > 0) {
-					int functionIndex = 0;
-					int searchResult = NOT_FOUND;
-					while ((functionIndex < functionsNumber)
-							&& (searchResult == NOT_FOUND)) {
-						if (functionsList[functionIndex].getFunctionName().
-								Equals(functionName))
-							searchResult = FOUND;
-						else
-							functionIndex++;
-					}
-					if (searchResult == FOUND)
-						return functionIndex;
-					else
-						return NOT_FOUND;
-				} else
+				if (functionsNumber == 0)
 					return NOT_FOUND;
+
+				for (int functionIndex = 0; functionIndex < functionsNumber; functionIndex++)
+					if (functionsList[functionIndex].getFunctionName().Equals(functionName))
+						return functionIndex;
+
+				return NOT_FOUND;
 			}
 			/**
 			 * Gets function associated with the expression.
@@ -1570,26 +1547,25 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void setToNumber(int pos, double number, bool ulpRound) {
 			Token token = tokensList[pos];
-			if (mXparser.ulpRounding && !disableRounding) {
-				if (ulpRound) {
-					if ((Double.IsNaN(number)) || (Double.IsInfinity(number)))
-						token.tokenValue = number;
-					else {
-						int precision = MathFunctions.ulpDecimalDigitsBefore(number);
-						if (precision >= 0)
-							token.tokenValue = MathFunctions.round(number, precision);
-						else
-							token.tokenValue = number;
-					}
-				} else {
-					token.tokenValue = number;
-				}
-			} else {
+            token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+            token.tokenId = ParserSymbol.NUMBER_ID;
+            token.keyWord = ParserSymbol.NUMBER_STR;
+
+            if (!mXparser.ulpRounding || disableRounding || !ulpRound) {
 				token.tokenValue = number;
+				return;
 			}
-			token.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
-			token.tokenId = ParserSymbol.NUMBER_ID;
-			token.keyWord = ParserSymbol.NUMBER_STR;
+
+			if ((Double.IsNaN(number)) || (Double.IsInfinity(number))) {
+				token.tokenValue = number;
+				return;
+			}
+
+			int precision = MathFunctions.ulpDecimalDigitsBefore(number);
+			if (precision >= 0)
+				token.tokenValue = MathFunctions.round(number, precision);
+			else
+				token.tokenValue = number;
 		}
 		private void setToNumber(int pos, double number) {
 			setToNumber(pos, number, false);
@@ -1918,8 +1894,8 @@ namespace org.mariuszgromada.math.mxparser {
 			bool paren;
 			bool end = false;
 			List<Token> paramTkones = new List<Token>();
-			String paramStr = "";
-			do {
+            StringBuilder paramStrBuilder = new StringBuilder();
+            do {
 				Token t = tokensList[cPos];
 				comma = false;
 				paren = false;
@@ -1933,15 +1909,15 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 				if (paren || comma) {
 					if (cPos > pos + 2) {
-						functionParameters.Add( new FunctionParameter(paramTkones, paramStr, pPos, cPos-1 ) );
+						functionParameters.Add( new FunctionParameter(paramTkones, paramStrBuilder.ToString(), pPos, cPos-1 ) );
 						paramTkones = new List<Token>();
-						paramStr = "";
+                        paramStrBuilder = new StringBuilder();
 						pPos = cPos+1;
 					}
 				} else {
 					paramTkones.Add(t);
-					paramStr = paramStr + t.tokenStr;
-				}
+					paramStrBuilder.Append(t.tokenStr);
+                }
 				if (paren)
 					end = true;
 				else
@@ -2912,21 +2888,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void PLUS(int pos) {
 			Token b = tokensList[pos+1];
-			if (pos>0) {
-				Token a = tokensList[pos-1];
-				if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-					if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
-					else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
-				else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-					setToNumber(pos,b.tokenValue);
-					tokensList.RemoveAt(pos+1);
-				}
-			}
-			else
+
+			if (pos == 0) {
 				if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					setToNumber(pos,b.tokenValue);
 					tokensList.RemoveAt(pos+1);
-				}
+				}	
+				return;
+			}
+
+			Token a = tokensList[pos-1];
+			if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
+				if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
+				else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
+			else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+				setToNumber(pos,b.tokenValue);
+				tokensList.RemoveAt(pos+1);
+			}
 		}
 		/**
 		 * Subtraction handling
@@ -2935,21 +2913,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void MINUS(int pos) {
 			Token b = tokensList[pos+1];
-			if (pos>0) {
-				Token a = tokensList[pos-1];
-				if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
-					if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
-					else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
-				else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-					setToNumber(pos,-b.tokenValue);
-					tokensList.RemoveAt(pos+1);
-				}
-			}
-			else
+
+			if (pos == 0) {
 				if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
 					setToNumber(pos,-b.tokenValue);
 					tokensList.RemoveAt(pos+1);
 				}
+				return;
+			}
+
+			Token a = tokensList[pos-1];
+			if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
+				if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
+				else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
+			else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
+				setToNumber(pos,-b.tokenValue);
+				tokensList.RemoveAt(pos+1);
+			}
 		}
 		/**
 		 * Logical AND
@@ -5296,7 +5276,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Cleans blanks and other cases like "++', "+-", "-+"", "--" 
 		 */
 		private void cleanExpressionString() {
-			expressionStringCleaned = "";
+            StringBuilder expressionStringCleanedBuilder = new StringBuilder();
 			if (expressionString == null) return;
 			int expLen = expressionString.Length;
 			if (expLen == 0) return;
@@ -5310,17 +5290,18 @@ namespace org.mariuszgromada.math.mxparser {
 					blankCnt++;
 				} else if (blankCnt > 0) {
 					if (newExpLen > 0) {
-						if (isNotSpecialChar(clag1)) expressionStringCleaned = expressionStringCleaned + StringInvariant.SPACE;
+						if (isNotSpecialChar(clag1)) expressionStringCleanedBuilder.Append(StringInvariant.SPACE);
 					}
 					blankCnt = 0;
 				}
 				if (blankCnt == 0) {
-					expressionStringCleaned = expressionStringCleaned + c;
+                    expressionStringCleanedBuilder.Append(c);
 					clag1 = c;
 					newExpLen++;
 				}
 			}
-			if (attemptToFixExpStrEnabled) {
+            expressionStringCleaned = expressionStringCleanedBuilder.ToString();
+            if (attemptToFixExpStrEnabled) {
 				if (expressionStringCleaned.Contains("++"))
 					expressionStringCleaned = expressionStringCleaned.Replace("++", "+");
 				if (expressionStringCleaned.Contains("+-"))

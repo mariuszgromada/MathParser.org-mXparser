@@ -310,14 +310,11 @@ final class StringResources {
     static String INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR = "Invalid token. Possibly missing multiplication operator - try implied multiplication mode.";
     static String EXPRESSION_TOKENS = "Expression tokens";
     static String NULL_TOKENS_LIST = "NULL tokens list";
-
     // -------------------------------------------------
     static String FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS = "User-defined function with extended body - no errors by assumption.";
     static String ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS = "User-defined argument with extended body - no errors by assumption.";
     static String MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE = "Possibly missing multiplication operator - try implied multiplication mode.";
-
     // -------------------------------------------------
-
     static String STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT = "Starting syntax check of the dependent user-defined argument.";
     static String STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT = "Starting syntax check of the user-defined recursive argument.";
     static String STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION = "Starting syntax check of the user-defined function.";
@@ -325,19 +322,14 @@ final class StringResources {
     // -------------------------------------------------
     static String ARGUMENT_WAS_EXPECTED = "User-defined argument was expected.";
     static String RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER = "A recursive user-defined argument requires one parameter.";
-
-
     // -------------------------------------------------
     static String INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION = "Incorrect number of parameters in user-defined function.";
-
     // -------------------------------------------------
     static String INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS = "Incorrect number of function parameters.";
     static String EXPECTED = "Expected";
     static String PROVIDED = "provided";
     static String USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT = "Incorrect number of parameters in user-defined function - at least one argument is expected.";
     static String EXPECTED_EVEN_NUMBER_OF_ARGUMENTS = "Even number of arguments was expected.";
-
-
     // -------------------------------------------------
     static String INVALID_FUNCTION_NAME = "Invalid function name.";
     static String INVALID_ARGUMENT_NAME = "Invalid argument name.";
@@ -347,16 +339,13 @@ final class StringResources {
     static String INVALID_CONSTANT_DEFINITION = "Invalid constant definition.";
     static String PATTERN_DOES_NOT_MATCH = "Pattern does not match.";
     static String PATTERN_EXAMPLES = "Pattern examples";
-
     // -------------------------------------------------
     static String CONSTANT_WAS_EXPECTED = "Constant value was expected.";
     static String USER_CONSTANT_WAS_EXPECTED = "User-defined constant was expected.";
-
     // -------------------------------------------------
     static String UNARY_FUNCTION_EXPECTS_1_PARAMETER = "A unary function expects 1 parameter.";
     static String BINARY_FUNCTION_EXPECTS_2_PARAMETERS = "A binary function expects 2 parameters.";
     static String TERNARY_FUNCTION_EXPECTS_3_PARAMETERS = "A ternary function expects 3 parameters.";
-
     // -------------------------------------------------
     static String DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS = "A derivative operator expects 2 or 3 or 4 or 5 calculus parameters.";
     static String ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION = "An argument was expected in a derivative operator invocation.";
@@ -368,7 +357,6 @@ final class StringResources {
     static String FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS = "The forward / backward difference operator expects 2 or 3 calculus parameters.";
     static String FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED = "An argument was expected in the forward / backward difference operator invocation.";
     static String AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED = "At least one argument was expected.";
-
     // -------------------------------------------------
     static String ERROR_WHILE_EXECUTING_THE_CALCULATE = "Error while executing the calculate.";
     static String RECURSION_CALLS_COUNTER_EXCEEDED = "Recursion calls counter exceeded maximum calls allowed.";
@@ -392,8 +380,6 @@ final class StringResources {
     static String TYPE = "Type";
     static String SINCE = "Since";
     static String DESCRIPTION = "Description";
-
-
     // -------------------------------------------------
     static String CALC_STEPS_REGISTER_IS_EMPTY = "CalcStepsRegister is empty";
     static String CALC_STEPS_REGISTER_FOR = "CalcStepsRegister for";
@@ -420,7 +406,6 @@ final class StringResources {
     static String INFO_EXCEPTION = "Exception: ";
     static String INFO_BINARY_SERIALIZATION_ENABLED = "Binary serialization is enabled. Use it only in a conscious and limited way.";
     static String INFO_BINARY_SERIALIZATION_DISABLED = "Binary serialization is disabled. You can enable it if you are aware of security risks.";
-
     // -------------------------------------------------
     static String USER_DEFINED_EXPRESSION = "User defined expression";
     static String USER_DEFINED_ARGUMENT = "User defined argument";
@@ -428,8 +413,6 @@ final class StringResources {
     static String USER_DEFINED_FUNCTION = "User defined function";
     static String USER_DEFINED_RECURSIVE_ARGUMENT = "User defined recursive argument";
     // -------------------------------------------------
-
-
     static String WARNING_BINARY_SERIALIZATION_SECURITY_RISKS =
             "SECURITY WARNING:\n"
                     + "Deserializing data from an untrusted source can introduce security vulnerabilities" + StringInvariant.NEW_LINE
