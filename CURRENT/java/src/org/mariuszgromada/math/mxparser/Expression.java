@@ -5271,97 +5271,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	    }
 		return syntax;
 	}
-	/**
-	 * Cleans "--" case
-	 * considering defined parser keywords "-->", "<--"
-	 */
-	private void cleanMinusMinus() {
-		if (expressionStringCleaned.length() >= 2) {
-			char currChar;
-			char prevChar;
-			boolean toClean = false;
-			int pos = 1;
-			do {
-				currChar = expressionStringCleaned.charAt(pos);
-				prevChar = expressionStringCleaned.charAt(pos-1);
-				toClean = false;
-				if (currChar == '-' && prevChar == '-') {
-					toClean = true;
-					if (pos-2 >= 0)
-						if (expressionStringCleaned.charAt(pos-2) == '<')
-							toClean = false;
-					if (pos+1 < expressionStringCleaned.length())
-						if (expressionStringCleaned.charAt(pos+1) == '>')
-							toClean = false;
-				}
-				if (toClean) {
-					String leftPart = expressionStringCleaned.substring(0, pos-1);
-					String rightPart = "";
-					if (pos+1 < expressionStringCleaned.length())
-						rightPart = expressionStringCleaned.substring(pos+1);
-					expressionStringCleaned = leftPart;
-					if (rightPart.length() > 0) {
-						if (leftPart.length() > 0)
-							expressionStringCleaned = expressionStringCleaned + "+" + rightPart;
-						else
-							expressionStringCleaned = rightPart;
-					}
-					pos = leftPart.length() + 1;
-				}
-				pos++;
-			} while (pos < expressionStringCleaned.length());
-		}
-	}
+
 	/**
 	 * Cleans blanks and other cases like "++', "+-", "-+"", "--"
 	 */
 	private void cleanExpressionString() {
-		StringBuilder expressionStringCleanedBuilder = new StringBuilder();
-		if (expressionString == null) return;
-		int expLen = expressionString.length();
-		if (expLen == 0) return;
-		char c;
-		char clag1 = 'a';
-		int blankCnt = 0;
-		int newExpLen = 0;
-		for (int i = 0; i < expLen; i++) {
-			c = expressionString.charAt(i);
-			if ( isBlankChar(c) ) {
-				blankCnt++;
-			} else if (blankCnt > 0) {
-				if (newExpLen > 0) {
-					if (isNotSpecialChar(clag1)) expressionStringCleanedBuilder.append(StringInvariant.SPACE);
-				}
-				blankCnt = 0;
-			}
-			if (blankCnt == 0) {
-				expressionStringCleanedBuilder.append(c);
-				clag1 = c;
-				newExpLen++;
-			}
-		}
-		expressionStringCleaned = expressionStringCleanedBuilder.toString();
-		if (attemptToFixExpStrEnabled) {
-			if (expressionStringCleaned.contains("++"))
-				expressionStringCleaned = expressionStringCleaned.replace("++", "+");
-			if (expressionStringCleaned.contains("+-"))
-				expressionStringCleaned = expressionStringCleaned.replace("+-", "-");
-			if (expressionStringCleaned.contains("-+"))
-				expressionStringCleaned = expressionStringCleaned.replace("-+", "-");
-			if (expressionStringCleaned.contains("--")) {
-				if (expressionStringCleaned.contains("-->") || expressionStringCleaned.contains("<--")) {
-					cleanMinusMinus();
-				} else expressionStringCleaned = expressionStringCleaned.replace("--", "+");
-			}
-			int len = expressionStringCleaned.length();
-			if (len > 0)
-				if (expressionStringCleaned.charAt(0) == '+')
-					expressionStringCleaned = expressionStringCleaned.substring(1);
-			len = expressionStringCleaned.length();
-			if (len > 0)
-				if (expressionStringCleaned.charAt(len-1) == '-' || expressionStringCleaned.charAt(len-1) == '+')
-					expressionStringCleaned = expressionStringCleaned.substring(0,len-1);
-		}
+		expressionStringCleaned = StringUtils.cleanExpressionString(expressionString, attemptToFixExpStrEnabled);
 	}
 	/**
 	 * Checks syntax of the expression string.
@@ -7937,7 +7852,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			canStartOtherNumberBase = false;
 
 			c = token.tokenStr.charAt(lPos);
-			isDigit = is0To9Digit(c);
+			isDigit = StringUtils.is0To9Digit(c);
 
 			if (isDigit || c == '.' || c == '+' || c == '-')
 				canStartDecimal = true;
@@ -8111,184 +8026,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 		addToken(tokenStr, keyWord, false);
 	}
 
-	private static boolean isUnicodeName(char c) {
-		if (c == 'α') return true;
-		if (c == 'β') return true;
-		if (c == 'γ') return true;
-		if (c == 'δ') return true;
-		if (c == 'ε') return true;
-		if (c == 'ζ') return true;
-		if (c == 'η') return true;
-		if (c == 'θ') return true;
-		if (c == 'ι') return true;
-		if (c == 'κ') return true;
-		if (c == 'λ') return true;
-		if (c == 'μ') return true;
-		if (c == 'ν') return true;
-		if (c == 'ξ') return true;
-		if (c == 'ο') return true;
-		if (c == 'π') return true;
-		if (c == 'ρ') return true;
-		if (c == 'ς') return true;
-		if (c == 'σ') return true;
-		if (c == 'τ') return true;
-		if (c == 'υ') return true;
-		if (c == 'φ') return true;
-		if (c == 'χ') return true;
-		if (c == 'ψ') return true;
-		if (c == 'ω') return true;
-		if (c == 'Α') return true;
-		if (c == 'Β') return true;
-		if (c == 'Γ') return true;
-		if (c == 'Δ') return true;
-		if (c == 'Ε') return true;
-		if (c == 'Ζ') return true;
-		if (c == 'Η') return true;
-		if (c == 'Θ') return true;
-		if (c == 'Ι') return true;
-		if (c == 'Κ') return true;
-		if (c == 'Λ') return true;
-		if (c == 'Μ') return true;
-		if (c == 'Ν') return true;
-		if (c == 'Ξ') return true;
-		if (c == 'Ο') return true;
-		if (c == 'Π') return true;
-		if (c == 'Ρ') return true;
-		if (c == 'Σ') return true;
-		if (c == 'Τ') return true;
-		if (c == 'Υ') return true;
-		if (c == 'Φ') return true;
-		if (c == 'Χ') return true;
-		if (c == 'Ψ') return true;
-		if (c == 'Ω') return true;
-		if (c == '∑') return true;
-		if (c == '∏') return true;
-		if (c == 'ℿ') return true;
-		if (c == '∆') return true;
-		if (c == '∇') return true;
-		if (c == '∫') return true;
-		if (c == 'ℼ') return true;
-		if (c == 'ℇ') return true;
-		if (c == 'ⅇ') return true;
-		if (c == 'ℯ') return true;
-		if (c == '∂') return true;
-
-		return false;
-	}
-
-
-	private static boolean isUnicodeOperator(char c) {
-		if (c == '∜') return true;
-		if (c == '∛') return true;
-		if (c == '√') return true;
-		if (c == '⊻') return true;
-		if (c == '⊽') return true;
-		if (c == '⊼') return true;
-		if (c == '⇔') return true;
-		if (c == '⇍') return true;
-		if (c == '⇏') return true;
-		if (c == '⇐') return true;
-		if (c == '⇒') return true;
-		if (c == '¬') return true;
-		if (c == '∧') return true;
-		if (c == '∨') return true;
-		if (c == '⋝') return true;
-		if (c == '≥') return true;
-		if (c == '⋜') return true;
-		if (c == '≤') return true;
-		if (c == '≠') return true;
-		if (c == '÷') return true;
-		if (c == '∙') return true;
-		if (c == '⨉') return true;
-		if (c == '×') return true;
-		return false;
-	}
-
-	private static boolean isNotSpecialChar(char c) {
-		if (c == '+') return false;
-		if (c == '-') return false;
-		if (c == '*') return false;
-		if (c == '/') return false;
-		if (c == '^') return false;
-		if (c == ',') return false;
-		if (c == ';') return false;
-		if (c == '(') return false;
-		if (c == ')') return false;
-		if (c == '|') return false;
-		if (c == '&') return false;
-		if (c == '=') return false;
-		if (c == '>') return false;
-		if (c == '<') return false;
-		if (c == '~') return false;
-		if (c == '\\') return false;
-		if (c == '#') return false;
-		if (c == '@') return false;
-		if (c == ']') return false;
-		if (c == '[') return false;
-		if (isUnicodeOperator(c)) return false;
-
-		return true;
-	}
-
-	private static boolean is0To9Digit(char c) {
-		if (	(c == '0') ||
-				(c == '1') ||
-				(c == '2') ||
-				(c == '3') ||
-				(c == '4') ||
-				(c == '5') ||
-				(c == '6') ||
-				(c == '7') ||
-				(c == '8') ||
-				(c == '9')  )
-			return true;
-		else
-			return false;
-	}
-
-	private static boolean canBeSeparatingChar(char c) {
-		if (
-				( c == ' ' ) ||
-				( c == ',' ) ||
-				( c == ';' ) ||
-				( c == '|' ) ||
-				( c == '&' ) ||
-				( c == '+' ) ||
-				( c == '-' ) ||
-				( c == '*' ) ||
-				( c == '\\' ) ||
-				( c == '/' ) ||
-				( c == '(' ) ||
-				( c == ')' ) ||
-				( c == '=' ) ||
-				( c == '>' ) ||
-				( c == '<' ) ||
-				( c == '~' ) ||
-				( c == '^' ) ||
-				( c == '#' ) ||
-				( c == '%' ) ||
-				( c == '@' ) ||
-				( c == '!' ) ||
-				( c == '[' ) ||
-				( c == ']' ) ||
-				isUnicodeOperator(c)
-		)
-			return true;
-		else
-			return false;
-	}
-
-	private static boolean isBlankChar(char c) {
-		if ( (c == ' ') || (c == '\n') || (c == '\r') || (c == '\t') || (c == '\f') )
-			return true;
-		else
-			return false;
-	}
-	private boolean charIsLeftParenthesis(String str, int pos) {
-		int len = str.length();
-		if (pos >= len) return false;
-		return str.charAt(pos) == '(';
-	}
 	/**
 	 * Tokenizing expression string
 	 */
@@ -8379,7 +8116,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (	(firstChar == '+') ||
 					(firstChar == '-') ||
 					(firstChar == '.') ||
-					is0To9Digit(firstChar)	) {
+					StringUtils.is0To9Digit(firstChar)	) {
 				for (int i = pos; i < newExpressionString.length(); i++) {
 					/*
 					 * Escaping if encountering char that can not
@@ -8389,7 +8126,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						c = newExpressionString.charAt(i);
 						if (	(c != '+') &&
 								(c != '-') &&
-								!is0To9Digit(c) &&
+								!StringUtils.is0To9Digit(c) &&
 								(c != '.') &&
 								(c != 'e') &&
 								(c != 'E') ) break;
@@ -8408,13 +8145,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (numEnd >= 0)
 				if (pos > 0) {
 					precedingChar = newExpressionString.charAt(pos-1);
-					if ( !canBeSeparatingChar(precedingChar) )
+					if ( !StringUtils.canBeSeparatingChar(precedingChar) )
 						numEnd = -1;
 				}
 			if (numEnd >= 0)
 				if (numEnd < newExpressionString.length()-1) {
 					followingChar = newExpressionString.charAt(numEnd+1);
-					if ( !canBeSeparatingChar(followingChar)	)
+					if ( !StringUtils.canBeSeparatingChar(followingChar)	)
 						numEnd = -1;
 				}
 			if (numEnd >= 0) {
@@ -8433,7 +8170,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					 * as unknown keyword word
 					 */
 					tokenStr = newExpressionString.substring(lastPos, pos);
-					addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
+					addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 				}
 				/*
 				 * Check leading operators ('-' or '+')
@@ -8528,14 +8265,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 								 */
 								if (pos > 0) {
 									precedingChar = newExpressionString.charAt(pos-1);
-									if ( !canBeSeparatingChar(precedingChar) ) matchStatus = NOT_FOUND;
+									if ( !StringUtils.canBeSeparatingChar(precedingChar) ) matchStatus = NOT_FOUND;
 								}
 								/*
 								 * Checking following character
 								 */
 								if ( (matchStatus == FOUND) && ( pos + kwStr.length() < newExpressionString.length() ) ) {
 									followingChar = newExpressionString.charAt(pos + kwStr.length());
-									if ( !canBeSeparatingChar(followingChar) ) matchStatus = NOT_FOUND;
+									if ( !StringUtils.canBeSeparatingChar(followingChar) ) matchStatus = NOT_FOUND;
 								}
 							}
 						}
@@ -8576,7 +8313,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 						 * as unknown keyword
 						 */
 						tokenStr = newExpressionString.substring(lastPos, pos);
-						addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
+						addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 					}
 					matchStatusPrev = FOUND;
 					/*
@@ -8624,7 +8361,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		if (matchStatus == NOT_FOUND) {
 			tokenStr = newExpressionString.substring(lastPos, pos);
-			addToken(tokenStr, new KeyWord(), charIsLeftParenthesis(newExpressionString, pos));
+			addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 		}
 		/*
 		 * Evaluate tokens levels

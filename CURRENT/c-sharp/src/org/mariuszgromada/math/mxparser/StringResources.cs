@@ -1,4 +1,4 @@
-/*
+﻿/*
  * @(#)StringResources.cs        5.2.0    2022-12-09
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
@@ -180,6 +180,7 @@
  */
 using org.mariuszgromada.math.mxparser.syntaxchecker;
 using System;
+using System.Text;
 
 namespace org.mariuszgromada.math.mxparser {
 
@@ -706,6 +707,289 @@ namespace org.mariuszgromada.math.mxparser {
                 return "<NULL>";
             else
                 return obj.GetType().Name;
+        }
+        internal static bool isUnicodeName(char c) {
+            switch (c) {
+                case 'α':
+                case 'β':
+                case 'γ':
+                case 'δ':
+                case 'ε':
+                case 'ζ':
+                case 'η':
+                case 'θ':
+                case 'ι':
+                case 'κ':
+                case 'λ':
+                case 'μ':
+                case 'ν':
+                case 'ξ':
+                case 'ο':
+                case 'π':
+                case 'ρ':
+                case 'ς':
+                case 'σ':
+                case 'τ':
+                case 'υ':
+                case 'φ':
+                case 'χ':
+                case 'ψ':
+                case 'ω':
+                case 'Α':
+                case 'Β':
+                case 'Γ':
+                case 'Δ':
+                case 'Ε':
+                case 'Ζ':
+                case 'Η':
+                case 'Θ':
+                case 'Ι':
+                case 'Κ':
+                case 'Λ':
+                case 'Μ':
+                case 'Ν':
+                case 'Ξ':
+                case 'Ο':
+                case 'Π':
+                case 'Ρ':
+                case 'Σ':
+                case 'Τ':
+                case 'Υ':
+                case 'Φ':
+                case 'Χ':
+                case 'Ψ':
+                case 'Ω':
+                case '∑':
+                case '∏':
+                case 'ℿ':
+                case '∆':
+                case '∇':
+                case '∫':
+                case 'ℼ':
+                case 'ℇ':
+                case 'ⅇ':
+                case 'ℯ':
+                case '∂':
+                    return true;
+            }
+            return false;
+        }
+
+        internal static bool isUnicodeOperator(char c) {
+            switch (c) {
+                case '∜':
+                case '∛':
+                case '√':
+                case '⊻':
+                case '⊽':
+                case '⊼':
+                case '⇔':
+                case '⇍':
+                case '⇏':
+                case '⇐':
+                case '⇒':
+                case '¬':
+                case '∧':
+                case '∨':
+                case '⋝':
+                case '≥':
+                case '⋜':
+                case '≤':
+                case '≠':
+                case '÷':
+                case '∙':
+                case '⨉':
+                case '×':
+                    return true;
+            }
+            return false;
+        }
+
+        internal static bool isNotSpecialChar(char c) {
+            switch (c) {
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '^':
+                case ',':
+                case ';':
+                case '(':
+                case ')':
+                case '|':
+                case '&':
+                case '=':
+                case '>':
+                case '<':
+                case '~':
+                case '\\':
+                case '#':
+                case '@':
+                case ']':
+                case '[':
+                    return false;
+            }
+            return !isUnicodeOperator(c);
+        }
+
+        internal static bool is0To9Digit(char c) {
+            switch (c) {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    return true;
+            }
+            return false;
+        }
+
+        internal static bool canBeSeparatingChar(char c) {
+            switch (c) {
+                case ' ':
+                case ',':
+                case ';':
+                case '|':
+                case '&':
+                case '+':
+                case '-':
+                case '*':
+                case '\\':
+                case '/':
+                case '(':
+                case ')':
+                case '=':
+                case '>':
+                case '<':
+                case '~':
+                case '^':
+                case '#':
+                case '%':
+                case '@':
+                case '!':
+                case '[':
+                case ']':
+                    return true;
+            }
+            return isUnicodeOperator(c);
+        }
+
+        internal static bool isBlankChar(char c) {
+            switch (c) {
+                case ' ':
+                case '\n':
+                case '\r':
+                case '\t':
+                case '\f':
+                    return true;
+            }
+            return false;
+        }
+
+		internal static bool charIsLeftParenthesis(String str, int pos) {
+			int len = str.Length;
+			if (pos >= len) return false;
+			return str[pos] == '(';
+		}
+        /**
+         * Cleans "--" case
+         * considering defined parser keywords "-->", "<--"
+         */
+        private static String cleanMinusMinus(String expressionString) {
+            String expressionStringCleaned = expressionString;
+            if (expressionStringCleaned.Length >= 2) {
+				char currChar;
+				char prevChar;
+				bool toClean = false;
+				int pos = 1;
+				do {
+					currChar = expressionStringCleaned[pos];
+					prevChar = expressionStringCleaned[pos-1];
+					toClean = false;
+					if (currChar == '-' && prevChar == '-') {
+						toClean = true;
+						if (pos-2 >= 0)
+							if (expressionStringCleaned[pos-2] == '<')
+								toClean = false;
+						if (pos+1 < expressionStringCleaned.Length)
+							if (expressionStringCleaned[pos+1] == '>')
+								toClean = false;
+					}
+					if (toClean) {
+						String leftPart = expressionStringCleaned.Substring(0, pos-1);
+						String rightPart = "";
+						if (pos+1 < expressionStringCleaned.Length)
+							rightPart = expressionStringCleaned.Substring(pos+1);
+						expressionStringCleaned = leftPart;
+						if (rightPart.Length > 0) {
+							if (leftPart.Length > 0)
+								expressionStringCleaned = expressionStringCleaned + "+" + rightPart;
+							else
+								expressionStringCleaned = rightPart;
+						}
+						pos = leftPart.Length + 1;
+					}
+					pos++;
+				} while (pos < expressionStringCleaned.Length);
+			}
+            return expressionStringCleaned;
+        }
+        /**
+         * Cleans blanks and other cases like "++', "+-", "-+"", "--"
+         */
+        internal static String cleanExpressionString(String expressionString, bool attemptToFixExpStrEnabled) {
+            StringBuilder expressionStringCleanedBuilder = new StringBuilder();
+			if (expressionString == null) return "";
+			int expLen = expressionString.Length;
+			if (expLen == 0) return "";
+			char c;
+			char clag1 = 'a';
+			int blankCnt = 0;
+			int newExpLen = 0;
+			for (int i = 0; i < expLen; i++) {
+				c = expressionString[i];
+				if ( isBlankChar(c) ) {
+					blankCnt++;
+				} else if (blankCnt > 0) {
+					if (newExpLen > 0) {
+						if (isNotSpecialChar(clag1)) expressionStringCleanedBuilder.Append(StringInvariant.SPACE);
+					}
+					blankCnt = 0;
+				}
+				if (blankCnt == 0) {
+                    expressionStringCleanedBuilder.Append(c);
+					clag1 = c;
+					newExpLen++;
+				}
+			}
+            String expressionStringCleaned = expressionStringCleanedBuilder.ToString();
+            if (attemptToFixExpStrEnabled) {
+				if (expressionStringCleaned.Contains("++"))
+					expressionStringCleaned = expressionStringCleaned.Replace("++", "+");
+				if (expressionStringCleaned.Contains("+-"))
+					expressionStringCleaned = expressionStringCleaned.Replace("+-", "-");
+				if (expressionStringCleaned.Contains("-+"))
+					expressionStringCleaned = expressionStringCleaned.Replace("-+", "-");
+				if (expressionStringCleaned.Contains("--")) {
+					if (expressionStringCleaned.Contains("-->") || expressionStringCleaned.Contains("<--")) {
+                        expressionStringCleaned = cleanMinusMinus(expressionStringCleaned);
+					} else expressionStringCleaned = expressionStringCleaned.Replace("--", "+");
+				}
+				int len = expressionStringCleaned.Length;
+				if (len > 0)
+					if (expressionStringCleaned[0] == '+')
+						expressionStringCleaned = expressionStringCleaned.Substring(1);
+				len = expressionStringCleaned.Length;
+				if (len > 0)
+					if (expressionStringCleaned[len-1] == '-' || expressionStringCleaned[len-1] == '+')
+						expressionStringCleaned = expressionStringCleaned.Substring(0,len-1);
+			}
+            return expressionStringCleaned;
         }
     }
 }

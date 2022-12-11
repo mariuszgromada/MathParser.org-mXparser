@@ -699,4 +699,289 @@ final class StringUtils {
         else
             return str1 + str2;
     }
+    static boolean isUnicodeName(char c) {
+        switch (c) {
+            case 'α':
+            case 'β':
+            case 'γ':
+            case 'δ':
+            case 'ε':
+            case 'ζ':
+            case 'η':
+            case 'θ':
+            case 'ι':
+            case 'κ':
+            case 'λ':
+            case 'μ':
+            case 'ν':
+            case 'ξ':
+            case 'ο':
+            case 'π':
+            case 'ρ':
+            case 'ς':
+            case 'σ':
+            case 'τ':
+            case 'υ':
+            case 'φ':
+            case 'χ':
+            case 'ψ':
+            case 'ω':
+            case 'Α':
+            case 'Β':
+            case 'Γ':
+            case 'Δ':
+            case 'Ε':
+            case 'Ζ':
+            case 'Η':
+            case 'Θ':
+            case 'Ι':
+            case 'Κ':
+            case 'Λ':
+            case 'Μ':
+            case 'Ν':
+            case 'Ξ':
+            case 'Ο':
+            case 'Π':
+            case 'Ρ':
+            case 'Σ':
+            case 'Τ':
+            case 'Υ':
+            case 'Φ':
+            case 'Χ':
+            case 'Ψ':
+            case 'Ω':
+            case '∑':
+            case '∏':
+            case 'ℿ':
+            case '∆':
+            case '∇':
+            case '∫':
+            case 'ℼ':
+            case 'ℇ':
+            case 'ⅇ':
+            case 'ℯ':
+            case '∂':
+                return true;
+        }
+        return false;
+    }
+
+    private static boolean isUnicodeOperator(char c) {
+        switch (c) {
+            case '∜':
+            case '∛':
+            case '√':
+            case '⊻':
+            case '⊽':
+            case '⊼':
+            case '⇔':
+            case '⇍':
+            case '⇏':
+            case '⇐':
+            case '⇒':
+            case '¬':
+            case '∧':
+            case '∨':
+            case '⋝':
+            case '≥':
+            case '⋜':
+            case '≤':
+            case '≠':
+            case '÷':
+            case '∙':
+            case '⨉':
+            case '×':
+                return true;
+        }
+        return false;
+    }
+
+    static boolean isNotSpecialChar(char c) {
+        switch (c) {
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+            case '^':
+            case ',':
+            case ';':
+            case '(':
+            case ')':
+            case '|':
+            case '&':
+            case '=':
+            case '>':
+            case '<':
+            case '~':
+            case '\\':
+            case '#':
+            case '@':
+            case ']':
+            case '[':
+                return false;
+        }
+        return !isUnicodeOperator(c);
+    }
+
+    static boolean is0To9Digit(char c) {
+        switch (c) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                return true;
+        }
+        return false;
+    }
+
+    static boolean canBeSeparatingChar(char c) {
+        switch (c) {
+            case ' ':
+            case ',':
+            case ';':
+            case '|':
+            case '&':
+            case '+':
+            case '-':
+            case '*':
+            case '\\':
+            case '/':
+            case '(':
+            case ')':
+            case '=':
+            case '>':
+            case '<':
+            case '~':
+            case '^':
+            case '#':
+            case '%':
+            case '@':
+            case '!':
+            case '[':
+            case ']':
+                return true;
+        }
+        return isUnicodeOperator(c);
+    }
+
+    static boolean isBlankChar(char c) {
+        switch (c) {
+            case ' ':
+            case '\n':
+            case '\r':
+            case '\t':
+            case '\f':
+                return true;
+        }
+        return false;
+    }
+
+    static boolean charIsLeftParenthesis(String str, int pos) {
+        int len = str.length();
+        if (pos >= len) return false;
+        return str.charAt(pos) == '(';
+    }
+
+    /**
+     * Cleans "--" case
+     * considering defined parser keywords "-->", "<--"
+     */
+    private static String cleanMinusMinus(String expressionString) {
+        String expressionStringCleaned = expressionString;
+        if (expressionStringCleaned.length() >= 2) {
+            char currChar;
+            char prevChar;
+            boolean toClean = false;
+            int pos = 1;
+            do {
+                currChar = expressionStringCleaned.charAt(pos);
+                prevChar = expressionStringCleaned.charAt(pos-1);
+                toClean = false;
+                if (currChar == '-' && prevChar == '-') {
+                    toClean = true;
+                    if (pos-2 >= 0)
+                        if (expressionStringCleaned.charAt(pos-2) == '<')
+                            toClean = false;
+                    if (pos+1 < expressionStringCleaned.length())
+                        if (expressionStringCleaned.charAt(pos+1) == '>')
+                            toClean = false;
+                }
+                if (toClean) {
+                    String leftPart = expressionStringCleaned.substring(0, pos-1);
+                    String rightPart = "";
+                    if (pos+1 < expressionStringCleaned.length())
+                        rightPart = expressionStringCleaned.substring(pos+1);
+                    expressionStringCleaned = leftPart;
+                    if (rightPart.length() > 0) {
+                        if (leftPart.length() > 0)
+                            expressionStringCleaned = expressionStringCleaned + "+" + rightPart;
+                        else
+                            expressionStringCleaned = rightPart;
+                    }
+                    pos = leftPart.length() + 1;
+                }
+                pos++;
+            } while (pos < expressionStringCleaned.length());
+        }
+        return expressionStringCleaned;
+    }
+
+    /**
+     * Cleans blanks and other cases like "++', "+-", "-+"", "--"
+     */
+    static String cleanExpressionString(String expressionString, boolean attemptToFixExpStrEnabled) {
+        StringBuilder expressionStringCleanedBuilder = new StringBuilder();
+        if (expressionString == null) return "";
+        int expLen = expressionString.length();
+        if (expLen == 0) return "";
+        char c;
+        char clag1 = 'a';
+        int blankCnt = 0;
+        int newExpLen = 0;
+        for (int i = 0; i < expLen; i++) {
+            c = expressionString.charAt(i);
+            if (isBlankChar(c) ) {
+                blankCnt++;
+            } else if (blankCnt > 0) {
+                if (newExpLen > 0) {
+                    if (isNotSpecialChar(clag1)) expressionStringCleanedBuilder.append(StringInvariant.SPACE);
+                }
+                blankCnt = 0;
+            }
+            if (blankCnt == 0) {
+                expressionStringCleanedBuilder.append(c);
+                clag1 = c;
+                newExpLen++;
+            }
+        }
+        String expressionStringCleaned = expressionStringCleanedBuilder.toString();
+        if (attemptToFixExpStrEnabled) {
+            if (expressionStringCleaned.contains("++"))
+                expressionStringCleaned = expressionStringCleaned.replace("++", "+");
+            if (expressionStringCleaned.contains("+-"))
+                expressionStringCleaned = expressionStringCleaned.replace("+-", "-");
+            if (expressionStringCleaned.contains("-+"))
+                expressionStringCleaned = expressionStringCleaned.replace("-+", "-");
+            if (expressionStringCleaned.contains("--")) {
+                if (expressionStringCleaned.contains("-->") || expressionStringCleaned.contains("<--")) {
+                    expressionStringCleaned = cleanMinusMinus(expressionStringCleaned);
+                } else expressionStringCleaned = expressionStringCleaned.replace("--", "+");
+            }
+            int len = expressionStringCleaned.length();
+            if (len > 0)
+                if (expressionStringCleaned.charAt(0) == '+')
+                    expressionStringCleaned = expressionStringCleaned.substring(1);
+            len = expressionStringCleaned.length();
+            if (len > 0)
+                if (expressionStringCleaned.charAt(len-1) == '-' || expressionStringCleaned.charAt(len-1) == '+')
+                    expressionStringCleaned = expressionStringCleaned.substring(0,len-1);
+        }
+        return expressionStringCleaned;
+    }
 }
