@@ -272,6 +272,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Status of the Expression syntax
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = true;
+	public static final boolean SYNTAX_ERROR = false;
 	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = false;
 	/**
 	 * Expression string (for example: "sin(x)+cos(y)")
@@ -767,6 +768,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private Expression(Expression expression) {
 		super(Expression.TYPE_ID);
 		expressionString = expression.expressionString;
+		expressionStringCleaned = expression.expressionStringCleaned;
 		description = expression.description;
 		argumentsList = expression.argumentsList;
 		functionsList = expression.functionsList;
@@ -799,6 +801,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void setExpressionString(String expressionString) {
 		this.expressionString = expressionString;
+		expressionStringCleaned = "";
 		setExpressionModifiedFlag();
 	}
 	/**
@@ -824,7 +827,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Clears expression string
 	 */
 	public void clearExpressionString() {
-		this.expressionString = "";
+		expressionString = "";
+		expressionStringCleaned = "";
 		setExpressionModifiedFlag();
 	}
 	/**
@@ -1977,7 +1981,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Gets / returns argument representing given argument name. If
 	 * argument name exists on the list of known arguments
-	 * the the initial status of the found argument is remembered, otherwise new
+	 * the initial status of the found argument is remembered, otherwise new
 	 * argument will be created.
 	 *
 	 * @param      argumentName        the argument name
@@ -4734,8 +4738,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		final int DEF_MAX_STEPS		= 20;
 		/*
-		 * Get internal function strinng
-		 * 1th - parameter
+		 * Get internal function string
+		 * 1st - parameter
 		 */
 		FunctionParameter funParam = derParams.get(0);
 		/*
@@ -4818,7 +4822,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		final int DEF_MAX_STEPS		= 20;
 		List<FunctionParameter> derParams = getFunctionParameters(pos, tokensList);
 		/*
-		 * Get internal function strinng
+		 * Get internal function string
 		 * 1st - parameter
 		 */
 		FunctionParameter funParam = derParams.get(0);
@@ -4885,8 +4889,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		final int DEF_MAX_STEPS		= 20;
 		List<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
 		/*
-		 * Get internal function strinng
-		 * 1th - parameter
+		 * Get internal function string
+		 * 1st - parameter
 		 */
 		FunctionParameter funParam = intParams.get(0);
 		/*
@@ -4931,8 +4935,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		final int DEF_MAX_STEPS		= 100;
 		List<FunctionParameter> intParams = getFunctionParameters(pos, tokensList);
 		/*
-		 * Get internal function strinng
-		 * 1th - parameter
+		 * Get internal function string
+		 * 1st - parameter
 		 */
 		FunctionParameter funParam = intParams.get(0);
 		/*
@@ -5262,7 +5266,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	    try {
 	        syn.checkSyntax();
 	    } catch (Throwable e) {
-	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	    	syntax = SYNTAX_ERROR;
 			errorMessage = StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e);
 	    }
 		return syntax;
@@ -5413,333 +5417,457 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return false;
 		return true;
 	}
-	/**
-	 * Checking the syntax (recursively).
-	 *
-	 * @param      level               string representing the recurssion level.
-	 * @return     true if syntax was correct,
-	 *             otherwise returns false.
-	 */
-	private boolean checkSyntax(String level, boolean functionWithBodyExt) {
-		if ( (!expressionWasModified) && (syntaxStatus == NO_SYNTAX_ERRORS) && (optionsChangesetNumber == mXparser.optionsChangesetNumber) ) {
-			errorMessage = StringResources.startErrorMassage(level, StringResources.ALREADY_CHECKED_NO_ERRORS);
-			recursionCallPending = false;
-			return NO_SYNTAX_ERRORS;
-		}
-		optionsChangesetNumber = mXparser.optionsChangesetNumber;
-		if (functionWithBodyExt) {
-			syntaxStatus = NO_SYNTAX_ERRORS;
-			recursionCallPending = false;
-			expressionWasModified = false;
-			errorMessage = StringResources.startErrorMassage(level, StringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS);
-			return NO_SYNTAX_ERRORS;
-		}
-		recursionCallPending = true;
-		errorMessage = StringResources.startErrorMassage(level, StringResources.STARTING_SYNTAX_CHECK);
-		boolean syntax = NO_SYNTAX_ERRORS;
-		if (expressionString.length() == 0) {
-	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.EXPRESSION_STRING_IS_EMPTY);
-			syntaxStatus = syntax;
-			recursionCallPending = false;
-			return syntax;
-		}
-		cleanExpressionString();
-		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
-	    try {
-	        syn.checkSyntax();
-	        /*
-	         * IF there are no lex error
-	         */
-			tokenizeExpressionString();
-			if (!impliedMultiplicationMode && impliedMultiplicationError) {
-				syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE);
-			}
-			/*
-			 * Duplicated tokens?
-			 */
-			String kw1;
-			String kw2;
-			java.util.Collections.sort(keyWordsList, new KwStrComparator() );
-			for (int kwId = 1; kwId < keyWordsList.size(); kwId++) {
-				kw1 = keyWordsList.get(kwId-1).wordString;
-				kw2 = keyWordsList.get(kwId).wordString;
-				if ( kw1.equals(kw2) ) {
-					syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-					errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.buildErrorMessageKeyword(StringResources.DUPLICATED_KEYWORD, kw1));
-				}
-			}
-			int tokensNumber = initialTokens.size();
-			Stack<SyntaxStackElement> syntaxStack = new Stack<SyntaxStackElement>();
-			SyntaxStackElement stackElement;
-			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
-				Token t = initialTokens.get(tokenIndex);
-				String tokenStr = StringResources.buildTokenString(t.tokenStr, tokenIndex);
-				/*
-				 * Check syntax for "ARGUMENT" token
-				 */
-				if (t.tokenTypeId == Argument.TYPE_ID) {
-					Argument arg = getArgument(t.tokenId);
-					if (getParametersNumber(tokenIndex) >= 0 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WAS_EXPECTED, tokenStr);
-					} else if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME) {
-						if ( arg.getArgumentType() == Argument.DEPENDENT_ARGUMENT ) {
-							if ( (arg.argumentExpression != this) && (!arg.argumentExpression.recursionCallPending) ) {
-								boolean syntaxRec = arg.argumentExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
-								syntax = syntax && syntaxRec;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenStr, arg.argumentExpression.errorMessage);
-							}
-						}
-					} else {
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "RECURSIVE ARGUMENT" token
-				 */
-				if (t.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) {
-					Argument arg = getArgument(t.tokenId);
-					if (getParametersNumber(tokenIndex) != 1 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, tokenStr);
-					} else
-						if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
-							boolean syntaxRec = arg.argumentExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
-							syntax = syntax && syntaxRec;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenStr, arg.argumentExpression.errorMessage);
-						}
-				}
-				/*
-				 * Check syntax for "NOT RECOGNIZED" token
-				 */
-				if (t.tokenTypeId == Token.NOT_MATCHED) {
-					boolean calculusToken = false;
-					for (SyntaxStackElement e : syntaxStack)
-						if ( e.tokenStr.equals(t.tokenStr) )
-							calculusToken = true;
-					if (!calculusToken) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						if (!impliedMultiplicationMode && mXparser.regexMatch(t.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenStr);
-						else
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.INVALID_TOKEN, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "USER DEFINED FUNCTION" token
-				 */
-				if (t.tokenTypeId == Function.TYPE_ID) {
-					Function fun = getFunction(t.tokenId);
-					fun.checkRecursiveMode();
-					int npar = getParametersNumber(tokenIndex);
-					int fpar = fun.getParametersNumber();
-					if (npar <= 0) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, tokenStr);
-					} else if (!fun.isVariadic && fpar != npar) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, fpar, npar, tokenStr);
-					} else if ( (fun.functionExpression != this) && (!fun.functionExpression.recursionCallPending) ) {
-						boolean syntaxRec;
-						if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
-							syntaxRec = fun.functionExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
-						else
-							syntaxRec = fun.functionExpression.checkSyntax(level + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(t.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
-						syntax = syntax && syntaxRec;
-						if (fun.isVariadic)
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenStr, fun.functionExpression.errorMessage);
-						else
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, tokenStr, fun.functionExpression.errorMessage);
-					}
-				}
-				/*
-				 * Check syntax for "CONSTANT" token
-				 */
-				if (t.tokenTypeId == ConstantValue.TYPE_ID) {
-					if ( getParametersNumber(tokenIndex) >= 0 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.CONSTANT_WAS_EXPECTED, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "USER DEFINED CONSTANT" token
-				 */
-				if (t.tokenTypeId == Constant.TYPE_ID) {
-					if ( getParametersNumber(tokenIndex) >= 0 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.USER_CONSTANT_WAS_EXPECTED, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "UNARY FUNCTION" token
-				 */
-				if (t.tokenTypeId == Function1Arg.TYPE_ID) {
-					if ( getParametersNumber(tokenIndex) != 1 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "BINARY FUNCTION" token
-				 */
-				if (t.tokenTypeId == Function2Arg.TYPE_ID) {
-					if ( getParametersNumber(tokenIndex) != 2 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "3 args FUNCTION" token
-				 */
-				if (t.tokenTypeId == Function3Arg.TYPE_ID) {
-					if ( getParametersNumber(tokenIndex) != 3 ) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenStr);
-					}
-				}
-				/*
-				 * Check syntax for "CALCULUS OPERATOR" token
-				 */
-				if (t.tokenTypeId == CalculusOperator.TYPE_ID) {
-					int paramsNumber = getParametersNumber(tokenIndex);
-					List<FunctionParameter> funParams = null;
-					if (paramsNumber > 0)
-						funParams = getFunctionParameters(tokenIndex, initialTokens);
-					if ( (t.tokenId == CalculusOperator.DER_ID) || (t.tokenId == CalculusOperator.DER_LEFT_ID) || (t.tokenId == CalculusOperator.DER_RIGHT_ID) )  {
-						if ( (paramsNumber < 2) || (paramsNumber > 5) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenStr);
-						} else {
-							if ( (paramsNumber == 2) || (paramsNumber == 4) ) {
-								FunctionParameter argParam = funParams.get(1);
-								if (!checkIfKnownArgument(argParam)) {
-									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenStr);
-								}
-							} else {
-								FunctionParameter argParam = funParams.get(1);
-								stackElement = new SyntaxStackElement(argParam.paramStr, t.tokenLevel+1);
-								syntaxStack.push(stackElement);
-								int errors = checkCalculusParameter(stackElement.tokenStr);
-								if (errors > 0) {
-									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
-								}
-								if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
-									syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-									errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
-								}
-							}
-						}
-					}
-					if (t.tokenId == CalculusOperator.DERN_ID) {
-						if ( (paramsNumber !=3) && (paramsNumber != 5) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenStr);
-						} else {
-							FunctionParameter argParam = funParams.get(2);
-							if (!checkIfKnownArgument(argParam)) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenStr);
-							}
-						}
-					}
-					if (	(t.tokenId == CalculusOperator.INT_ID) ||
-							(t.tokenId == CalculusOperator.SOLVE_ID)	) {
-						if (paramsNumber !=4) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenStr);
-						} else {
-							FunctionParameter argParam = funParams.get(1);
-							stackElement = new SyntaxStackElement(argParam.paramStr, t.tokenLevel+1);
-							syntaxStack.push(stackElement);
-							int errors = checkCalculusParameter(stackElement.tokenStr);
-							if (errors > 0) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
-							}
-							if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
-							}
-						}
-					}
-					if ( 	(t.tokenId == CalculusOperator.PROD_ID) ||
-							(t.tokenId == CalculusOperator.SUM_ID)  ||
-							(t.tokenId == CalculusOperator.MIN_ID)  ||
-							(t.tokenId == CalculusOperator.MAX_ID)  ||
-							(t.tokenId == CalculusOperator.AVG_ID)  ||
-							(t.tokenId == CalculusOperator.VAR_ID)  ||
-							(t.tokenId == CalculusOperator.STD_ID)
-															) {
-						if ( (paramsNumber != 4) && (paramsNumber != 5) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenStr);
-						} else {
-							FunctionParameter indexParam = funParams.get(0);
-							stackElement = new SyntaxStackElement(indexParam.paramStr, t.tokenLevel+1);
-							syntaxStack.push(stackElement);
-							int errors = checkCalculusParameter(stackElement.tokenStr);
-							if (errors > 0) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
-							}
-							if ( !checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam) ) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenStr);
-							}
-						}
-					}
-					if ( (t.tokenId == CalculusOperator.FORW_DIFF_ID) || (t.tokenId == CalculusOperator.BACKW_DIFF_ID) ) {
-						if ( (paramsNumber != 2) && (paramsNumber != 3) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenStr);
-						} else {
-							FunctionParameter xParam = funParams.get(1);
-							if (!checkIfKnownArgument(xParam)) {
-								syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-								errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenStr);
-							}
-						}
-					}
-				}
-				/*
-				 * Check syntax for "VARIADIC FUNCTION" token
-				 */
-				if (t.tokenTypeId == FunctionVariadic.TYPE_ID) {
-					int paramsNumber = getParametersNumber(tokenIndex);
-					if (paramsNumber < 1) {
-						syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-						errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenStr);
-					}
-					if (t.tokenId == FunctionVariadic.IFF_ID) {
-						if ( (paramsNumber % 2 != 0) || (paramsNumber < 2) ) {
-							syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-							errorMessage = StringResources.addErrorMassageTokenString(errorMessage, level, StringResources.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenStr);
-						}
-					}
-				}
-				if ( (t.tokenTypeId == ParserSymbol.TYPE_ID) && (t.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) ) {
-					if ( syntaxStack.size() > 0 )
-						if (t.tokenLevel == syntaxStack.lastElement().tokenLevel )
-							syntaxStack.pop();
-				}
-			}
-	    } catch (Exception e) {
-	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e));
-	    }
+	// ======================================================
+	// Syntax checking logic
+	private boolean syntaxIsAlreadyCheckedNorErrors() {
+		if (!expressionWasModified && syntaxStatus == NO_SYNTAX_ERRORS && optionsChangesetNumber == mXparser.optionsChangesetNumber)
+			return true;
+		return false;
+	}
+	private void registerFinalSyntaxAlreadyCheckedNorErrors(String recursionInfoLevel) {
+		errorMessage = StringResources.startErrorMassage(recursionInfoLevel, StringResources.ALREADY_CHECKED_NO_ERRORS);
+		recursionCallPending = false;
+
+	}
+	private void registerFinalSyntaxFunctionWithBodyExtNoErrors(String recursionInfoLevel) {
+		syntaxStatus = NO_SYNTAX_ERRORS;
+		recursionCallPending = false;
+		expressionWasModified = false;
+		errorMessage = StringResources.startErrorMassage(recursionInfoLevel, StringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS);
+	}
+	private void registerFinalSyntaxExpressionStringIsEmpty(String recursionInfoLevel) {
+		errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.EXPRESSION_STRING_IS_EMPTY);
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		recursionCallPending = false;
+	}
+	private void registerSyntaxLexicalError(String recursionInfoLevel, Throwable e) {
+		errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e));
+	}
+	private void registerFinalSyntax(String recursionInfoLevel, boolean syntax) {
 		if (syntax == NO_SYNTAX_ERRORS) {
-			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.NO_ERRORS_DETECTED);
+			errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.NO_ERRORS_DETECTED);
 			expressionWasModified = false;
 		} else {
-			errorMessage = StringResources.addErrorMassage(errorMessage, level, StringResources.ERRORS_HAVE_BEEN_FOUND);
+			errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.ERRORS_HAVE_BEEN_FOUND);
 			expressionWasModified = true;
 		}
 		syntaxStatus = syntax;
 		recursionCallPending = false;
+	}
+	private void registerPartialSyntaxStartingSyntaxCheck(String recursionInfoLevel) {
+		recursionCallPending = true;
+		errorMessage = StringResources.startErrorMassage(recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK);
+	}
+	private boolean checkPartialSyntaxImpliedMultiplication(String recursionInfoLevel) {
+		if (!impliedMultiplicationMode && impliedMultiplicationError) {
+			errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE);
+			return SYNTAX_ERROR;
+		}
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxDuplicatedKeywords(String recursionInfoLevel) {
+		String kw1, kw2;
+		java.util.Collections.sort(keyWordsList, new KwStrComparator() );
+		for (int kwId = 1; kwId < keyWordsList.size(); kwId++) {
+			kw1 = keyWordsList.get(kwId-1).wordString;
+			kw2 = keyWordsList.get(kwId).wordString;
+			if ( kw1.equals(kw2) ) {
+				errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.buildErrorMessageKeyword(StringResources.DUPLICATED_KEYWORD, kw1));
+				return SYNTAX_ERROR;
+			}
+		}
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxUserDefinedArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != Argument.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		Argument arg = getArgument(token.tokenId);
+
+		if (getParametersNumber(tokenIndex) >= 0 ) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if (arg.getArgumentBodyType() == Argument.BODY_EXTENDED) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, tokenInfoMessage);
+			return NO_SYNTAX_ERRORS;
+		}
+
+		if (arg.getArgumentType() != Argument.DEPENDENT_ARGUMENT)
+			return NO_SYNTAX_ERRORS;
+
+		if (arg.argumentExpression != this && !arg.argumentExpression.recursionCallPending) {
+			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
+			return syntaxRec;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxUserDefinedRecursiveArgument(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != RecursiveArgument.TYPE_ID_RECURSIVE)
+			return NO_SYNTAX_ERRORS;
+
+		Argument arg = getArgument(token.tokenId);
+
+		if (getParametersNumber(tokenIndex) != 1 ) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
+			boolean syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
+			return syntaxRec;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxInvalidToken(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack) {
+		if (token.tokenTypeId != Token.NOT_MATCHED)
+			return NO_SYNTAX_ERRORS;
+
+		boolean calculusToken = false;
+		for (SyntaxStackElement e : syntaxStack)
+			if ( e.tokenStr.equals(token.tokenStr) )
+				calculusToken = true;
+
+		if (!calculusToken) {
+
+			if (!impliedMultiplicationMode && mXparser.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfoMessage);
+			else
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.INVALID_TOKEN, tokenInfoMessage);
+
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxUserDefinedFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != Function.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		Function fun = getFunction(token.tokenId);
+		fun.checkRecursiveMode();
+		int npar = getParametersNumber(tokenIndex);
+		int fpar = fun.getParametersNumber();
+
+		if (npar <= 0) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if (!fun.isVariadic && fpar != npar) {
+			errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, fpar, npar, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if (fun.functionExpression != this && !fun.functionExpression.recursionCallPending) {
+			boolean syntaxRec;
+
+			if (fun.getFunctionBodyType() == Function.BODY_RUNTIME)
+				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), false);
+			else
+				syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringInvariant.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringInvariant.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
+
+			if (fun.isVariadic)
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
+			else
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
+
+			return syntaxRec;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxBuiltinConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != ConstantValue.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (getParametersNumber(tokenIndex) >= 0) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.CONSTANT_WAS_EXPECTED, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxUserDefinedConstant(String recursionInfoLevel, int tokenIndex, Token token, String tokenStr) {
+		if (token.tokenTypeId != Constant.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (getParametersNumber(tokenIndex) >= 0) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.USER_CONSTANT_WAS_EXPECTED, tokenStr);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxUnaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != Function1Arg.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (getParametersNumber(tokenIndex) != 1) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxBinaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != Function2Arg.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (getParametersNumber(tokenIndex) != 2) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxTernaryFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != Function3Arg.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (getParametersNumber(tokenIndex) != 3) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkInternalSyntaxCalculusOperatorDerivative(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+		if (token.tokenId != CalculusOperator.DER_ID && token.tokenId != CalculusOperator.DER_LEFT_ID && token.tokenId != CalculusOperator.DER_RIGHT_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (paramsNumber < 2 || paramsNumber > 5) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if (paramsNumber == 2 || paramsNumber == 4) {
+			FunctionParameter argParam = funParams.get(1);
+
+			if (!checkIfKnownArgument(argParam)) {
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
+				return SYNTAX_ERROR;
+			}
+
+		} else {
+
+			FunctionParameter argParam = funParams.get(1);
+			SyntaxStackElement stackElement = new SyntaxStackElement(argParam.paramStr, token.tokenLevel+1);
+			syntaxStack.push(stackElement);
+
+			int errors = checkCalculusParameter(stackElement.tokenStr);
+			if (errors > 0) {
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				return SYNTAX_ERROR;
+			}
+			if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				return SYNTAX_ERROR;
+			}
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkInternalSyntaxCalculusOperatorDerivativeNth(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+		if (token.tokenId != CalculusOperator.DERN_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (paramsNumber != 3 && paramsNumber != 5) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		FunctionParameter argParam = funParams.get(2);
+		if (!checkIfKnownArgument(argParam)) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkInternalSyntaxCalculusOperatorIntegralSolve(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+		if (token.tokenId != CalculusOperator.INT_ID && token.tokenId != CalculusOperator.SOLVE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (paramsNumber !=4) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		FunctionParameter argParam = funParams.get(1);
+		SyntaxStackElement stackElement = new SyntaxStackElement(argParam.paramStr, token.tokenLevel+1);
+		syntaxStack.push(stackElement);
+
+		int errors = checkCalculusParameter(stackElement.tokenStr);
+		if (errors > 0) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if (!checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam)) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkInternalSyntaxCalculusOperatorIterated(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+		if (token.tokenId != CalculusOperator.PROD_ID
+				&& token.tokenId != CalculusOperator.SUM_ID
+				&& token.tokenId != CalculusOperator.MIN_ID
+				&& token.tokenId != CalculusOperator.MAX_ID
+				&& token.tokenId != CalculusOperator.AVG_ID
+				&& token.tokenId != CalculusOperator.VAR_ID
+				&& token.tokenId != CalculusOperator.STD_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (paramsNumber != 4 && paramsNumber != 5) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		FunctionParameter indexParam = funParams.get(0);
+		SyntaxStackElement stackElement = new SyntaxStackElement(indexParam.paramStr, token.tokenLevel+1);
+		syntaxStack.push(stackElement);
+
+		int errors = checkCalculusParameter(stackElement.tokenStr);
+		if (errors > 0) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+		if (!checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam)) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkInternalSyntaxCalculusOperatorForwardBackwardDiff(String recursionInfoLevel, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack, int paramsNumber, List<FunctionParameter> funParams){
+		if (token.tokenId != CalculusOperator.FORW_DIFF_ID && token.tokenId != CalculusOperator.BACKW_DIFF_ID)
+			return NO_SYNTAX_ERRORS;
+
+		if (paramsNumber != 2 && paramsNumber != 3) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		FunctionParameter xParam = funParams.get(1);
+		if (!checkIfKnownArgument(xParam)) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxVariadicFunction(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage) {
+		if (token.tokenTypeId != FunctionVariadic.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		int paramsNumber = getParametersNumber(tokenIndex);
+
+		if (paramsNumber < 1) {
+			errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+			return SYNTAX_ERROR;
+		}
+
+		if (token.tokenId == FunctionVariadic.IFF_ID) {
+			if (paramsNumber % 2 != 0 || paramsNumber < 2) {
+				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenInfoMessage);
+				return SYNTAX_ERROR;
+			}
+		}
+
+		return NO_SYNTAX_ERRORS;
+	}
+	private boolean checkPartialSyntaxCalculusOperator(String recursionInfoLevel, int tokenIndex, Token token, String tokenInfoMessage, Stack<SyntaxStackElement> syntaxStack) {
+		if (token.tokenTypeId != CalculusOperator.TYPE_ID)
+			return NO_SYNTAX_ERRORS;
+
+		int paramsNumber = getParametersNumber(tokenIndex);
+		List<FunctionParameter> funParams = null;
+
+		if (paramsNumber > 0)
+			funParams = getFunctionParameters(tokenIndex, initialTokens);
+
+		boolean syntax = NO_SYNTAX_ERRORS;
+
+		syntax = syntax && checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
+		syntax = syntax && checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
+		syntax = syntax && checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
+		syntax = syntax && checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
+		syntax = syntax && checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
+
+		return syntax;
+	}
+	private void performSyntaxStackPopIfEndOfSectionLevel(Token token, Stack<SyntaxStackElement> syntaxStack) {
+		if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
+			if (syntaxStack.size() > 0)
+				if (token.tokenLevel == syntaxStack.lastElement().tokenLevel)
+					syntaxStack.pop();
+	}
+	/**
+	 * Checking the syntax (recursively).
+	 *
+	 * @param      recursionInfoLevel               string representing the recursion level.
+	 * @return     true if syntax was correct,
+	 *             otherwise returns false.
+	 */
+	private boolean checkSyntax(String recursionInfoLevel, boolean functionWithBodyExt) {
+		if (syntaxIsAlreadyCheckedNorErrors()) {
+			registerFinalSyntaxAlreadyCheckedNorErrors(recursionInfoLevel);
+			return NO_SYNTAX_ERRORS;
+		}
+		optionsChangesetNumber = mXparser.optionsChangesetNumber;
+		if (functionWithBodyExt) {
+			registerFinalSyntaxFunctionWithBodyExtNoErrors(recursionInfoLevel);
+			return NO_SYNTAX_ERRORS;
+		}
+		registerPartialSyntaxStartingSyntaxCheck(recursionInfoLevel);
+		boolean syntax = NO_SYNTAX_ERRORS;
+		cleanExpressionString();
+		if (expressionStringCleaned.length() == 0) {
+			registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
+			return SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		}
+		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
+	    try {
+	        syn.checkSyntax();
+			tokenizeExpressionString();
+
+			syntax = syntax && checkPartialSyntaxImpliedMultiplication(recursionInfoLevel);
+			syntax = syntax && checkPartialSyntaxDuplicatedKeywords(recursionInfoLevel);
+
+			int tokensNumber = initialTokens.size();
+			Stack<SyntaxStackElement> syntaxStack = new Stack<SyntaxStackElement>();
+
+			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
+				Token token = initialTokens.get(tokenIndex);
+				String tokenInfoMessage = StringResources.buildTokenString(token.tokenStr, tokenIndex);
+
+				syntax = syntax && checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack);
+				syntax = syntax && checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+				syntax = syntax && checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, syntaxStack);
+				syntax = syntax && checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+
+				performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
+			}
+	    } catch (Exception e) {
+			registerSyntaxLexicalError(recursionInfoLevel, e);
+	    	syntax = SYNTAX_ERROR;
+	    }
+		registerFinalSyntax(recursionInfoLevel, syntax);
 		return syntax;
 	}
 	/**
@@ -5751,7 +5879,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public double calculate() {
 		return calculate(null);
 	}
-
 	private String tokenToString(Token token) {
 		if (token == null) return "";
 		if (token.isNumber()) {
@@ -5760,10 +5887,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 				return Long.toString((long)intTokenValue);
 			else
 				return Double.toString(token.tokenValue);
-		} else
-			return token.tokenStr;
+		}
+		return token.tokenStr;
 	}
-
 	private String tokensListToString() {
 		if (tokensList == null) return "";
 		if (tokensList.size() == 0) return "";
@@ -5787,7 +5913,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		return result;
 	}
-
 	private void registerErrorWhileCalculate(String errorMessageToAdd) {
 		errorMessage = StringResources.addErrorMassageNoLevel(errorMessage, errorMessageToAdd, description, expressionString);
 		errorMessageCalculate = StringResources.addErrorMassageNoLevel(errorMessageCalculate, errorMessageToAdd, description, expressionString);
