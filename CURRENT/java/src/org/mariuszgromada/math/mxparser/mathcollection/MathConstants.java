@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.java        5.0.4    2022-05-22
+ * @(#)MathConstants.java        5.2.0    2022-12-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,8 @@
  */
 package org.mariuszgromada.math.mxparser.mathcollection;
 
+import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
+
 /**
  * MathConstants - class representing the most important math constants.
  *
@@ -193,7 +195,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class MathConstants {
 	/**
@@ -436,4 +438,108 @@ public final class MathConstants {
 	 * Not-a-Number
 	 */
 	public static final double NOT_A_NUMBER = Double.NaN;
+
+	/**
+	 * Returns constant value, where constant is represented by the
+	 * token id in the ConstantValue class
+	 *
+	 * @param constantValueId
+	 * @return Returns constant value if id is known, otherwise Double.NaN is returned.
+	 *
+	 * @see ConstantValue
+	 */
+	public static double getConstantValue(int constantValueId) {
+		switch (constantValueId) {
+			case ConstantValue.PI_ID: return MathConstants.PI;
+			case ConstantValue.EULER_ID: return MathConstants.E;
+			case ConstantValue.EULER_MASCHERONI_ID: return MathConstants.EULER_MASCHERONI;
+			case ConstantValue.GOLDEN_RATIO_ID: return MathConstants.GOLDEN_RATIO;
+			case ConstantValue.PLASTIC_ID: return MathConstants.PLASTIC;
+			case ConstantValue.EMBREE_TREFETHEN_ID: return MathConstants.EMBREE_TREFETHEN;
+			case ConstantValue.FEIGENBAUM_DELTA_ID: return MathConstants.FEIGENBAUM_DELTA;
+			case ConstantValue.FEIGENBAUM_ALFA_ID: return MathConstants.FEIGENBAUM_ALFA;
+			case ConstantValue.TWIN_PRIME_ID: return MathConstants.TWIN_PRIME;
+			case ConstantValue.MEISSEL_MERTEENS_ID: return MathConstants.MEISSEL_MERTEENS;
+			case ConstantValue.BRAUN_TWIN_PRIME_ID: return MathConstants.BRAUN_TWIN_PRIME;
+			case ConstantValue.BRAUN_PRIME_QUADR_ID: return MathConstants.BRAUN_PRIME_QUADR;
+			case ConstantValue.BRUIJN_NEWMAN_ID: return MathConstants.BRUIJN_NEWMAN;
+			case ConstantValue.CATALAN_ID: return MathConstants.CATALAN;
+			case ConstantValue.LANDAU_RAMANUJAN_ID: return MathConstants.LANDAU_RAMANUJAN;
+			case ConstantValue.VISWANATH_ID: return MathConstants.VISWANATH;
+			case ConstantValue.LEGENDRE_ID: return MathConstants.LEGENDRE;
+			case ConstantValue.RAMANUJAN_SOLDNER_ID: return MathConstants.RAMANUJAN_SOLDNER;
+			case ConstantValue.ERDOS_BORWEIN_ID: return MathConstants.ERDOS_BORWEIN;
+			case ConstantValue.BERNSTEIN_ID: return MathConstants.BERNSTEIN;
+			case ConstantValue.GAUSS_KUZMIN_WIRSING_ID: return MathConstants.GAUSS_KUZMIN_WIRSING;
+			case ConstantValue.HAFNER_SARNAK_MCCURLEY_ID: return MathConstants.HAFNER_SARNAK_MCCURLEY;
+			case ConstantValue.GOLOMB_DICKMAN_ID: return MathConstants.GOLOMB_DICKMAN;
+			case ConstantValue.CAHEN_ID: return MathConstants.CAHEN;
+			case ConstantValue.LAPLACE_LIMIT_ID: return MathConstants.LAPLACE_LIMIT;
+			case ConstantValue.ALLADI_GRINSTEAD_ID: return MathConstants.ALLADI_GRINSTEAD;
+			case ConstantValue.LENGYEL_ID: return MathConstants.LENGYEL;
+			case ConstantValue.LEVY_ID: return MathConstants.LEVY;
+			case ConstantValue.APERY_ID: return MathConstants.APERY;
+			case ConstantValue.MILLS_ID: return MathConstants.MILLS;
+			case ConstantValue.BACKHOUSE_ID: return MathConstants.BACKHOUSE;
+			case ConstantValue.PORTER_ID: return MathConstants.PORTER;
+			case ConstantValue.LIEB_QUARE_ICE_ID: return MathConstants.LIEB_QUARE_ICE;
+			case ConstantValue.NIVEN_ID: return MathConstants.NIVEN;
+			case ConstantValue.SIERPINSKI_ID: return MathConstants.SIERPINSKI;
+			case ConstantValue.KHINCHIN_ID: return MathConstants.KHINCHIN;
+			case ConstantValue.FRANSEN_ROBINSON_ID: return MathConstants.FRANSEN_ROBINSON;
+			case ConstantValue.LANDAU_ID: return MathConstants.LANDAU;
+			case ConstantValue.PARABOLIC_ID: return MathConstants.PARABOLIC;
+			case ConstantValue.OMEGA_ID: return MathConstants.OMEGA;
+			case ConstantValue.MRB_ID: return MathConstants.MRB;
+			case ConstantValue.LI2_ID: return MathConstants.LI2;
+			case ConstantValue.GOMPERTZ_ID: return MathConstants.GOMPERTZ;
+			case ConstantValue.LIGHT_SPEED_ID: return PhysicalConstants.LIGHT_SPEED;
+			case ConstantValue.GRAVITATIONAL_CONSTANT_ID: return PhysicalConstants.GRAVITATIONAL_CONSTANT;
+			case ConstantValue.GRAVIT_ACC_EARTH_ID: return PhysicalConstants.GRAVIT_ACC_EARTH;
+			case ConstantValue.PLANCK_CONSTANT_ID: return PhysicalConstants.PLANCK_CONSTANT;
+			case ConstantValue.PLANCK_CONSTANT_REDUCED_ID: return PhysicalConstants.PLANCK_CONSTANT_REDUCED;
+			case ConstantValue.PLANCK_LENGTH_ID: return PhysicalConstants.PLANCK_LENGTH;
+			case ConstantValue.PLANCK_MASS_ID: return PhysicalConstants.PLANCK_MASS;
+			case ConstantValue.PLANCK_TIME_ID: return PhysicalConstants.PLANCK_TIME;
+			case ConstantValue.LIGHT_YEAR_ID: return AstronomicalConstants.LIGHT_YEAR;
+			case ConstantValue.ASTRONOMICAL_UNIT_ID: return AstronomicalConstants.ASTRONOMICAL_UNIT;
+			case ConstantValue.PARSEC_ID: return AstronomicalConstants.PARSEC;
+			case ConstantValue.KILOPARSEC_ID: return AstronomicalConstants.KILOPARSEC;
+			case ConstantValue.EARTH_RADIUS_EQUATORIAL_ID: return AstronomicalConstants.EARTH_RADIUS_EQUATORIAL;
+			case ConstantValue.EARTH_RADIUS_POLAR_ID: return AstronomicalConstants.EARTH_RADIUS_POLAR;
+			case ConstantValue.EARTH_RADIUS_MEAN_ID: return AstronomicalConstants.EARTH_RADIUS_MEAN;
+			case ConstantValue.EARTH_MASS_ID: return AstronomicalConstants.EARTH_MASS;
+			case ConstantValue.EARTH_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.EARTH_SEMI_MAJOR_AXIS;
+			case ConstantValue.MOON_RADIUS_MEAN_ID: return AstronomicalConstants.MOON_RADIUS_MEAN;
+			case ConstantValue.MOON_MASS_ID: return AstronomicalConstants.MOON_MASS;
+			case ConstantValue.MONN_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.MOON_SEMI_MAJOR_AXIS;
+			case ConstantValue.SOLAR_RADIUS_ID: return AstronomicalConstants.SOLAR_RADIUS;
+			case ConstantValue.SOLAR_MASS_ID: return AstronomicalConstants.SOLAR_MASS;
+			case ConstantValue.MERCURY_RADIUS_MEAN_ID: return AstronomicalConstants.MERCURY_RADIUS_MEAN;
+			case ConstantValue.MERCURY_MASS_ID: return AstronomicalConstants.MERCURY_MASS;
+			case ConstantValue.MERCURY_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.MERCURY_SEMI_MAJOR_AXIS;
+			case ConstantValue.VENUS_RADIUS_MEAN_ID: return AstronomicalConstants.VENUS_RADIUS_MEAN;
+			case ConstantValue.VENUS_MASS_ID: return AstronomicalConstants.VENUS_MASS;
+			case ConstantValue.VENUS_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.VENUS_SEMI_MAJOR_AXIS;
+			case ConstantValue.MARS_RADIUS_MEAN_ID: return AstronomicalConstants.MARS_RADIUS_MEAN;
+			case ConstantValue.MARS_MASS_ID: return AstronomicalConstants.MARS_MASS;
+			case ConstantValue.MARS_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.MARS_SEMI_MAJOR_AXIS;
+			case ConstantValue.JUPITER_RADIUS_MEAN_ID: return AstronomicalConstants.JUPITER_RADIUS_MEAN;
+			case ConstantValue.JUPITER_MASS_ID: return AstronomicalConstants.JUPITER_MASS;
+			case ConstantValue.JUPITER_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.JUPITER_SEMI_MAJOR_AXIS;
+			case ConstantValue.SATURN_RADIUS_MEAN_ID: return AstronomicalConstants.SATURN_RADIUS_MEAN;
+			case ConstantValue.SATURN_MASS_ID: return AstronomicalConstants.SATURN_MASS;
+			case ConstantValue.SATURN_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.SATURN_SEMI_MAJOR_AXIS;
+			case ConstantValue.URANUS_RADIUS_MEAN_ID: return AstronomicalConstants.URANUS_RADIUS_MEAN;
+			case ConstantValue.URANUS_MASS_ID: return AstronomicalConstants.URANUS_MASS;
+			case ConstantValue.URANUS_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.URANUS_SEMI_MAJOR_AXIS;
+			case ConstantValue.NEPTUNE_RADIUS_MEAN_ID: return AstronomicalConstants.NEPTUNE_RADIUS_MEAN;
+			case ConstantValue.NEPTUNE_MASS_ID: return AstronomicalConstants.NEPTUNE_MASS;
+			case ConstantValue.NEPTUNE_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.NEPTUNE_SEMI_MAJOR_AXIS;
+			case ConstantValue.TRUE_ID: return BooleanAlgebra.TRUE;
+			case ConstantValue.FALSE_ID: return BooleanAlgebra.FALSE;
+			case ConstantValue.NAN_ID: return MathConstants.NOT_A_NUMBER;
+		}
+		return Double.NaN;
+	}
 }

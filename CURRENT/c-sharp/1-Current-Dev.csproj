@@ -80,6 +80,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Constant.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Expression.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\ExpressionUtils.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Function.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\FunctionExtensionVariadic.cs" />
@@ -130,7 +131,9 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\Token.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\SerializationUtils.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringInvariant.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringUtils.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
   </ItemGroup>
   <ItemGroup>
