@@ -6485,13 +6485,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int plusKwId = ConstantValue.NaN;
 		int minusKwId = ConstantValue.NaN;
 		for (int kwId = 0; kwId < keyWordsList.size(); kwId++) {
-			if ( keyWordsList.get(kwId).wordTypeId == ParserSymbol.NUMBER_TYPE_ID)
-				numberKwId = kwId;
+			if ( keyWordsList.get(kwId).wordTypeId == ParserSymbol.NUMBER_TYPE_ID) numberKwId = kwId;
 			if ( keyWordsList.get(kwId).wordTypeId == Operator.TYPE_ID) {
-				if (keyWordsList.get(kwId).wordId == Operator.PLUS_ID)
-					plusKwId = kwId;
-				if (keyWordsList.get(kwId).wordId == Operator.MINUS_ID)
-					minusKwId = kwId;
+				if (keyWordsList.get(kwId).wordId == Operator.PLUS_ID) plusKwId = kwId;
+				if (keyWordsList.get(kwId).wordId == Operator.MINUS_ID) minusKwId = kwId;
 			}
 		}
 		initialTokens = new ArrayList<Token>();
@@ -6510,8 +6507,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int lastPos = 0; /* position of the keyword previously added*/
 		int pos = 0; /* current position */
 		String tokenStr = StringInvariant.EMPTY;
-		int matchStatusPrev = NOT_FOUND; /* unknown keyword (previous) */
-		int matchStatus = NOT_FOUND; /* unknown keyword (current) */
+		boolean matchFoundPrev = false; /* unknown keyword (previous) */
+		boolean matchFound = false; /* unknown keyword (current) */
 		KeyWord kw = null;
 		String sub = StringInvariant.EMPTY;
 		String kwStr = StringInvariant.EMPTY;
@@ -6537,9 +6534,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 			 * Number has to start with digit or dot
 			 */
 			firstChar = newExpressionString.charAt(pos);
-			if (	(firstChar == '+') ||
-					(firstChar == '-') ||
-					(firstChar == '.') ||
+			if (	firstChar == '+' ||
+					firstChar == '-' ||
+					firstChar == '.' ||
 					StringUtils.is0To9Digit(firstChar)	) {
 				for (int i = pos; i < newExpressionString.length(); i++) {
 					/*
@@ -6548,19 +6545,18 @@ public class Expression extends PrimitiveElement implements Serializable {
 					 */
 					if (i > pos) {
 						c = newExpressionString.charAt(i);
-						if (	(c != '+') &&
-								(c != '-') &&
+						if (	c != '+' &&
+								c != '-' &&
 								!StringUtils.is0To9Digit(c) &&
-								(c != '.') &&
-								(c != 'e') &&
-								(c != 'E') ) break;
+								c != '.' &&
+								c != 'e' &&
+								c != 'E' ) break;
 					}
 					/*
 					 * Checking if substring represents number
 					 */
 					String str = newExpressionString.substring(pos, i+1);
-					if ( mXparser.regexMatch(str, ParserSymbol.DECIMAL_REG_EXP) )
-						numEnd = i;
+					if (mXparser.regexMatch(str, ParserSymbol.DECIMAL_REG_EXP))  numEnd = i;
 				}
 			}
 			/*
@@ -6569,14 +6565,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (numEnd >= 0)
 				if (pos > 0) {
 					precedingChar = newExpressionString.charAt(pos-1);
-					if ( !StringUtils.canBeSeparatingChar(precedingChar) )
-						numEnd = -1;
+					if (!StringUtils.canBeSeparatingChar(precedingChar)) numEnd = -1;
 				}
 			if (numEnd >= 0)
 				if (numEnd < newExpressionString.length()-1) {
 					followingChar = newExpressionString.charAt(numEnd+1);
-					if ( !StringUtils.canBeSeparatingChar(followingChar)	)
-						numEnd = -1;
+					if (!StringUtils.canBeSeparatingChar(followingChar)) numEnd = -1;
 				}
 			if (numEnd >= 0) {
 				/*
@@ -6588,7 +6582,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				 *   number starts with '-', preceding word 'abc'
 				 *   is not known by the parser
 				 */
-				if ( (matchStatusPrev == NOT_FOUND) && (pos > 0) ) {
+				if (!matchFoundPrev && pos > 0) {
 					/*
 					 * add preceding word to the list of tokens
 					 * as unknown keyword word
@@ -6605,14 +6599,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 				 */
 				firstChar = newExpressionString.charAt(pos);
 				boolean leadingOp = true;
-				if ( (firstChar == '-') || (firstChar == '+') ) {
+				if (firstChar == '-' || firstChar == '+') {
 					if (initialTokens.size() > 0) {
 						Token lastToken = initialTokens.get(initialTokens.size()-1);
-						if (	((lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID) && (lastToken.tokenId != Operator.PERC_ID)) ||
-								(lastToken.tokenTypeId == BinaryRelation.TYPE_ID) ||
-								(lastToken.tokenTypeId == BooleanOperator.TYPE_ID) ||
-								(lastToken.tokenTypeId == BitwiseOperator.TYPE_ID) ||
-								((lastToken.tokenTypeId == ParserSymbol.TYPE_ID) && (lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) ))
+						if (	(lastToken.tokenTypeId == Operator.TYPE_ID && lastToken.tokenId != Operator.FACT_ID && lastToken.tokenId != Operator.PERC_ID) ||
+								lastToken.tokenTypeId == BinaryRelation.TYPE_ID ||
+								lastToken.tokenTypeId == BooleanOperator.TYPE_ID ||
+								lastToken.tokenTypeId == BitwiseOperator.TYPE_ID ||
+								(lastToken.tokenTypeId == ParserSymbol.TYPE_ID && lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID))
 							leadingOp = false;
 						 else leadingOp = true;
 					} else leadingOp = false;
@@ -6624,12 +6618,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 					/*
 					 * Add leading operator to the tokens list
 					 */
-					if (firstChar == '-') {
-						addToken("-", keyWordsList.get(minusKwId));
-					}
-					if (firstChar == '+') {
-						addToken("+", keyWordsList.get(plusKwId));
-					}
+					if (firstChar == '-') addToken("-", keyWordsList.get(minusKwId));
+					if (firstChar == '+') addToken("+", keyWordsList.get(plusKwId));
 					pos++;
 				}
 				/*
@@ -6645,15 +6635,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 				/*
 				 * Mark match status indicators
 				 */
-				matchStatus = FOUND;
-				matchStatusPrev = FOUND;
+				matchFound = true;
+				matchFoundPrev = true;
 			} else {
 				/*
 				 * If there is no number which starts with current position
 				 * Check for known keywords
 				 */
 				int kwId = -1;
-				matchStatus = NOT_FOUND;
+				matchFound = false;
 				firstChar = newExpressionString.charAt(pos);
 				do {
 					kwId++;
@@ -6662,53 +6652,53 @@ public class Expression extends PrimitiveElement implements Serializable {
 					if (pos + kwStr.length() <= newExpressionString.length()) {
 						sub = newExpressionString.substring(pos, pos + kwStr.length() );
 						if (sub.equals(kwStr))
-							matchStatus = FOUND;
+							matchFound = true;
 						/*
 						 * If keyword is known by the parser
 						 * and keyword is not a special keyword of the form [...]
 						 */
-						if (matchStatus == FOUND && firstChar != '[') {
+						if (matchFound && firstChar != '[') {
 							/*
 							 * If keyword is in the form of identifier
 							 * then check preceding and following characters
 							 */
-							if (	(kw.wordTypeId == Argument.TYPE_ID) ||
-									(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
-									(kw.wordTypeId == Function1Arg.TYPE_ID) ||
-									(kw.wordTypeId == Function2Arg.TYPE_ID) ||
-									(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-									(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
-									(kw.wordTypeId == ConstantValue.TYPE_ID) ||
-									(kw.wordTypeId == Constant.TYPE_ID) ||
-									(kw.wordTypeId == RandomVariable.TYPE_ID) ||
-									(kw.wordTypeId == Unit.TYPE_ID) ||
-									(kw.wordTypeId == Function.TYPE_ID) ||
-									(kw.wordTypeId == CalculusOperator.TYPE_ID)	) {
+							if (	kw.wordTypeId == Argument.TYPE_ID ||
+									kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ||
+									kw.wordTypeId == Function1Arg.TYPE_ID ||
+									kw.wordTypeId == Function2Arg.TYPE_ID ||
+									kw.wordTypeId == Function3Arg.TYPE_ID ||
+									kw.wordTypeId == FunctionVariadic.TYPE_ID ||
+									kw.wordTypeId == ConstantValue.TYPE_ID ||
+									kw.wordTypeId == Constant.TYPE_ID ||
+									kw.wordTypeId == RandomVariable.TYPE_ID ||
+									kw.wordTypeId == Unit.TYPE_ID ||
+									kw.wordTypeId == Function.TYPE_ID ||
+									kw.wordTypeId == CalculusOperator.TYPE_ID	) {
 								/*
 								 * Checking preceding character
 								 */
 								if (pos > 0) {
 									precedingChar = newExpressionString.charAt(pos-1);
-									if ( !StringUtils.canBeSeparatingChar(precedingChar) ) matchStatus = NOT_FOUND;
+									if (!StringUtils.canBeSeparatingChar(precedingChar)) matchFound = false;
 								}
 								/*
 								 * Checking following character
 								 */
-								if ( (matchStatus == FOUND) && ( pos + kwStr.length() < newExpressionString.length() ) ) {
+								if (matchFound && pos + kwStr.length() < newExpressionString.length()) {
 									followingChar = newExpressionString.charAt(pos + kwStr.length());
-									if ( !StringUtils.canBeSeparatingChar(followingChar) ) matchStatus = NOT_FOUND;
+									if (!StringUtils.canBeSeparatingChar(followingChar)) matchFound = false;
 								}
 							}
 						}
 					}
-				} while ( (kwId < keyWordsList.size()-1) && (matchStatus == NOT_FOUND) );
+				} while (kwId < keyWordsList.size()-1 && !matchFound);
 
 				/*
 				 * If keyword was unknown to the parser
 				 * but it might be a special constant keyword in the for [...]
 				 */
 				specialConstFound = false;
-				if (matchStatus != FOUND) {
+				if (!matchFound) {
 					if (firstChar == '[') {
 						for (int i = pos+1; i < newExpressionString.length(); i++) {
 							/*
@@ -6727,11 +6717,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 				/*
 				 * If keyword known by the parser was found
 				 */
-				if (matchStatus == FOUND || specialConstFound) {
+				if (matchFound || specialConstFound) {
 					/*
 					 * if preceding word was not known by the parser
 					 */
-					if ( (matchStatusPrev == NOT_FOUND) && (pos > 0) ) {
+					if (!matchFoundPrev && pos > 0) {
 						/*
 						 * Add preceding word to the tokens list
 						 * as unknown keyword
@@ -6739,14 +6729,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 						tokenStr = newExpressionString.substring(lastPos, pos);
 						addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 					}
-					matchStatusPrev = FOUND;
+					matchFoundPrev = true;
 					/*
 					 * Add current (known by the parser or special constant)
 					 * keyword to the tokens list
 					 */
-					if (matchStatus == FOUND) {
+					if (matchFound) {
 						tokenStr = newExpressionString.substring(pos, pos+kwStr.length());
-						if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) ) {
+						if ( !(kw.wordTypeId == ParserSymbol.TYPE_ID && kw.wordId == ParserSymbol.BLANK_ID) ) {
 							addToken(tokenStr, kw);
 						}
 					} else {
@@ -6765,7 +6755,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					/*
 					 * Update preceding word indicator
 					 */
-					matchStatusPrev = NOT_FOUND;
+					matchFoundPrev = false;
 					/*
 					 * Increment position if possible
 					 */
@@ -6783,7 +6773,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * it needs to be added to the tokens list
 		 * as unknown keyword
 		 */
-		if (matchStatus == NOT_FOUND) {
+		if (!matchFound) {
 			tokenStr = newExpressionString.substring(lastPos, pos);
 			addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 		}

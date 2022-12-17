@@ -6465,13 +6465,10 @@ namespace org.mariuszgromada.math.mxparser {
 			int plusKwId = ConstantValue.NaN;
 			int minusKwId = ConstantValue.NaN;
 			for (int kwId = 0; kwId < keyWordsList.Count; kwId++) {
-				if ( keyWordsList[kwId].wordTypeId == ParserSymbol.NUMBER_TYPE_ID)
-					numberKwId = kwId;
-				if ( keyWordsList[kwId].wordTypeId == Operator.TYPE_ID) {
-					if (keyWordsList[kwId].wordId == Operator.PLUS_ID)
-						plusKwId = kwId;
-					if (keyWordsList[kwId].wordId == Operator.MINUS_ID)
-						minusKwId = kwId;
+				if (keyWordsList[kwId].wordTypeId == ParserSymbol.NUMBER_TYPE_ID) numberKwId = kwId;
+				if (keyWordsList[kwId].wordTypeId == Operator.TYPE_ID) {
+					if (keyWordsList[kwId].wordId == Operator.PLUS_ID) plusKwId = kwId;
+					if (keyWordsList[kwId].wordId == Operator.MINUS_ID) minusKwId = kwId;
 				}
 			}
 			initialTokens = new List<Token>();
@@ -6490,8 +6487,8 @@ namespace org.mariuszgromada.math.mxparser {
 			int lastPos = 0; /* position of the keyword previously added*/
 			int pos = 0; /* current position */
 			String tokenStr = StringInvariant.EMPTY;
-			int matchStatusPrev = NOT_FOUND; /* unknown keyword (previous) */
-			int matchStatus = NOT_FOUND; /* unknown keyword (current) */
+			bool matchFoundPrev = false; /* unknown keyword (previous) */
+            bool matchFound = false; /* unknown keyword (current) */
 			KeyWord kw = null;
 			String sub = StringInvariant.EMPTY;
 			String kwStr = StringInvariant.EMPTY;
@@ -6505,8 +6502,7 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Check all available positions in the expression tokens list
 			 */
-			do
-			{
+			do {
 				/*
 				 * 1st step
 				 *
@@ -6519,9 +6515,9 @@ namespace org.mariuszgromada.math.mxparser {
 				 * Number has to start with digit or dot
 				 */
 				firstChar = newExpressionString[pos];
-				if (	(firstChar == '+') ||
-						(firstChar == '-') ||
-						(firstChar == '.') ||
+				if (	firstChar == '+' ||
+						firstChar == '-' ||
+						firstChar == '.' ||
                         StringUtils.is0To9Digit(firstChar)	) {
 					for (int i = pos; i < newExpressionString.Length; i++) {
 						/*
@@ -6530,19 +6526,18 @@ namespace org.mariuszgromada.math.mxparser {
 						 */
 						if (i > pos) {
 							c = newExpressionString[i];
-							if (	(c != '+') &&
-									(c != '-') &&
+							if (	c != '+' &&
+									c != '-' &&
 									!StringUtils.is0To9Digit(c) &&
-									(c != '.') &&
-									(c != 'e') &&
-									(c != 'E')	) break;
+									c != '.' &&
+									c != 'e' &&
+									c != 'E'	) break;
 						}
 						/*
 						 * Checking if substring represents number
 						 */
 						String str = newExpressionString.Substring(pos, i + 1 - pos);
-						if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed))
-							numEnd = i;
+						if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed)) numEnd = i;
 					}
 				}
 				/*
@@ -6551,14 +6546,12 @@ namespace org.mariuszgromada.math.mxparser {
 				if (numEnd >= 0)
 					if (pos > 0) {
 						precedingChar = newExpressionString[pos-1];
-						if ( !StringUtils.canBeSeparatingChar(precedingChar) )
-							numEnd = -1;
+						if (!StringUtils.canBeSeparatingChar(precedingChar)) numEnd = -1;
 					}
 				if (numEnd >= 0)
 					if (numEnd < newExpressionString.Length - 1) {
 						followingChar = newExpressionString[numEnd + 1];
-						if ( !StringUtils.canBeSeparatingChar(followingChar) )
-							numEnd = -1;
+						if (!StringUtils.canBeSeparatingChar(followingChar)) numEnd = -1;
 					}
 				if (numEnd >= 0) {
 					/*
@@ -6570,7 +6563,7 @@ namespace org.mariuszgromada.math.mxparser {
 					 *   number starts with '-', preceding word 'abc'
 					 *   is not known by the parser
 					 */
-					if ( (matchStatusPrev == NOT_FOUND) && (pos > 0) ) {
+					if (!matchFoundPrev && pos > 0) {
 						/*
 						 * add preceding word to the list of tokens
 						 * as unknown keyword word
@@ -6587,14 +6580,14 @@ namespace org.mariuszgromada.math.mxparser {
 					 */
 					firstChar = newExpressionString[pos];
 					bool leadingOp = true;
-					if ( (firstChar == '-') || (firstChar == '+') ) {
+					if (firstChar == '-' || firstChar == '+') {
 						if (initialTokens.Count > 0) {
 							Token lastToken = initialTokens[initialTokens.Count-1];
-							if (((lastToken.tokenTypeId == Operator.TYPE_ID) && (lastToken.tokenId != Operator.FACT_ID) && (lastToken.tokenId != Operator.PERC_ID)) ||
-									(lastToken.tokenTypeId == BinaryRelation.TYPE_ID) ||
-									(lastToken.tokenTypeId == BooleanOperator.TYPE_ID) ||
-									(lastToken.tokenTypeId == BitwiseOperator.TYPE_ID) ||
-									((lastToken.tokenTypeId == ParserSymbol.TYPE_ID) && (lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID)))
+							if (	(lastToken.tokenTypeId == Operator.TYPE_ID && lastToken.tokenId != Operator.FACT_ID && lastToken.tokenId != Operator.PERC_ID) ||
+									lastToken.tokenTypeId == BinaryRelation.TYPE_ID ||
+									lastToken.tokenTypeId == BooleanOperator.TYPE_ID ||
+									lastToken.tokenTypeId == BitwiseOperator.TYPE_ID ||
+									(lastToken.tokenTypeId == ParserSymbol.TYPE_ID && lastToken.tokenId == ParserSymbol.LEFT_PARENTHESES_ID)	)
 								leadingOp = false;
 							 else leadingOp = true;
 						} else leadingOp = false;
@@ -6606,12 +6599,8 @@ namespace org.mariuszgromada.math.mxparser {
 						/*
 						 * Add leading operator to the tokens list
 						 */
-						if (firstChar == '-') {
-							addToken("-", keyWordsList[minusKwId] );
-						}
-						if (firstChar == '+') {
-							addToken("+", keyWordsList[plusKwId] );
-						}
+						if (firstChar == '-') addToken("-", keyWordsList[minusKwId] );
+						if (firstChar == '+') addToken("+", keyWordsList[plusKwId] );
 						pos++;
 					}
 					/*
@@ -6627,15 +6616,15 @@ namespace org.mariuszgromada.math.mxparser {
 					/*
 					 * Mark match status indicators
 					 */
-					matchStatus = FOUND;
-					matchStatusPrev = FOUND;
+					matchFound = true;
+					matchFoundPrev = true;
 				} else {
 					/*
 					 * If there is no number which starts with current position
 					 * Check for known keywords
 					 */
 					int kwId = -1;
-					matchStatus = NOT_FOUND;
+					matchFound = false;
 					firstChar = newExpressionString[pos];
 					do {
 						kwId++;
@@ -6644,53 +6633,53 @@ namespace org.mariuszgromada.math.mxparser {
 						if (pos + kwStr.Length <= newExpressionString.Length) {
 							sub = newExpressionString.Substring(pos, kwStr.Length );
 							if (sub.Equals(kwStr))
-								matchStatus = FOUND;
+								matchFound = true;
 							/*
 							 * If keyword is known by the parser
 							 * and keyword is not a special keyword of the form [...]
 							 */
-							if (matchStatus == FOUND && firstChar != '[') {
+							if (matchFound && firstChar != '[') {
 								/*
 								 * If keyword is in the form of identifier
 								 * then check preceding and following characters
 								 */
-								if (	(kw.wordTypeId == Argument.TYPE_ID) ||
-										(kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) ||
-										(kw.wordTypeId == Function1Arg.TYPE_ID) ||
-										(kw.wordTypeId == Function2Arg.TYPE_ID) ||
-										(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-										(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
-										(kw.wordTypeId == ConstantValue.TYPE_ID) ||
-										(kw.wordTypeId == Constant.TYPE_ID) ||
-										(kw.wordTypeId == RandomVariable.TYPE_ID) ||
-										(kw.wordTypeId == Unit.TYPE_ID) ||
-										(kw.wordTypeId == Function.TYPE_ID) ||
-										(kw.wordTypeId == CalculusOperator.TYPE_ID)) {
+								if (	kw.wordTypeId == Argument.TYPE_ID ||
+										kw.wordTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ||
+										kw.wordTypeId == Function1Arg.TYPE_ID ||
+										kw.wordTypeId == Function2Arg.TYPE_ID ||
+										kw.wordTypeId == Function3Arg.TYPE_ID ||
+										kw.wordTypeId == FunctionVariadic.TYPE_ID ||
+										kw.wordTypeId == ConstantValue.TYPE_ID ||
+										kw.wordTypeId == Constant.TYPE_ID ||
+										kw.wordTypeId == RandomVariable.TYPE_ID ||
+										kw.wordTypeId == Unit.TYPE_ID ||
+										kw.wordTypeId == Function.TYPE_ID ||
+										kw.wordTypeId == CalculusOperator.TYPE_ID	) {
 									/*
 									 * Checking preceding character
 									 */
 									if (pos > 0) {
 										precedingChar = newExpressionString[pos - 1];
-										if ( !StringUtils.canBeSeparatingChar(precedingChar) ) matchStatus = NOT_FOUND;
+										if (!StringUtils.canBeSeparatingChar(precedingChar)) matchFound = false;
 									}
 									/*
 									 * Checking following character
 									 */
-									if ((matchStatus == FOUND) && (pos + kwStr.Length < newExpressionString.Length)) {
+									if (matchFound && pos + kwStr.Length < newExpressionString.Length) {
 										followingChar = newExpressionString[pos + kwStr.Length];
-										if ( !StringUtils.canBeSeparatingChar(followingChar) ) matchStatus = NOT_FOUND;
+										if (!StringUtils.canBeSeparatingChar(followingChar)) matchFound = false;
 									}
 								}
 							}
 						}
-					} while ( (kwId < keyWordsList.Count-1) && (matchStatus == NOT_FOUND) );
+					} while (kwId < keyWordsList.Count-1 && !matchFound);
 
 					/*
 					 * If keyword was unknown to the parser
 					 * but it might be a special constant keyword in the for [...]
 					 */
 					specialConstFound = false;
-					if (matchStatus != FOUND) {
+					if (!matchFound) {
 						if (firstChar == '[') {
 							for (int i = pos+1; i < newExpressionString.Length; i++) {
 								/*
@@ -6709,11 +6698,11 @@ namespace org.mariuszgromada.math.mxparser {
 					/*
 					 * If keyword known by the parser was found
 					 */
-					if (matchStatus == FOUND || specialConstFound)  {
+					if (matchFound || specialConstFound)  {
 						/*
 						 * if preceding word was not known by the parser
 						 */
-						if ( (matchStatusPrev == NOT_FOUND) && (pos > 0) ) {
+						if (!matchFoundPrev && pos > 0) {
 							/*
 							 * Add preceding word to the tokens list
 							 * as unknown keyword
@@ -6721,14 +6710,14 @@ namespace org.mariuszgromada.math.mxparser {
 							tokenStr = newExpressionString.Substring(lastPos, pos - lastPos);
 							addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 						}
-						matchStatusPrev = FOUND;
+						matchFoundPrev = true;
 						/*
 						 * Add current (known by the parser or special constant)
 						 * keyword to the tokens list
 						 */
-						if (matchStatus == FOUND) {
+						if (matchFound) {
 							tokenStr = newExpressionString.Substring(pos, kwStr.Length);
-							if ( !( (kw.wordTypeId == ParserSymbol.TYPE_ID) && (kw.wordId == ParserSymbol.BLANK_ID) ) ) {
+							if ( !(kw.wordTypeId == ParserSymbol.TYPE_ID && kw.wordId == ParserSymbol.BLANK_ID) ) {
 								addToken(tokenStr, kw);
 							}
 						} else {
@@ -6747,7 +6736,7 @@ namespace org.mariuszgromada.math.mxparser {
 						/*
 						 * Update preceding word indicator
 						 */
-						matchStatusPrev = NOT_FOUND;
+						matchFoundPrev = false;
 						/*
 						 * Increment position if possible
 						 */
@@ -6765,7 +6754,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * it needs to be added to the tokens list
 			 * as unknown keyword
 			 */
-			if (matchStatus == NOT_FOUND) {
+			if (!matchFound) {
 				tokenStr = newExpressionString.Substring(lastPos, pos - lastPos);
 				addToken(tokenStr, new KeyWord(), StringUtils.charIsLeftParenthesis(newExpressionString, pos));
 			}
