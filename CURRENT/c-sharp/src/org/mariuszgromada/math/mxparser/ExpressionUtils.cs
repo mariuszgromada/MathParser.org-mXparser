@@ -1312,5 +1312,91 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return result;
 		}
+		/**
+		 * Evaluates tokens levels
+		 */
+		internal static void evaluateTokensLevels(List<Token> initialTokens) {
+			int tokenLevel = 0;
+			Stack<TokenStackElement> tokenStack =  new Stack<TokenStackElement>();
+			bool precedingFunction = false;
+			if (initialTokens.Count > 0)
+				for (int tokenIndex = 0; tokenIndex < initialTokens.Count; tokenIndex++) {
+					Token token = initialTokens[tokenIndex];
+					if (	( token.tokenTypeId == Function1Arg.TYPE_ID ) ||
+							( token.tokenTypeId == Function2Arg.TYPE_ID ) ||
+							( token.tokenTypeId == Function3Arg.TYPE_ID )	||
+							( token.tokenTypeId == Function.TYPE_ID )	||
+							( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
+							( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
+							( token.tokenTypeId == FunctionVariadic.TYPE_ID )
+							) {
+						tokenLevel++;
+						precedingFunction = true;
+					} else
+					if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID)) {
+						tokenLevel++;
+						TokenStackElement stackEl = new TokenStackElement();
+						stackEl.tokenId = token.tokenId;
+						stackEl.tokenIndex = tokenIndex;
+						stackEl.tokenLevel = tokenLevel;
+						stackEl.tokenTypeId = token.tokenTypeId;
+						stackEl.precedingFunction = precedingFunction;
+						tokenStack.Push(stackEl);
+						precedingFunction = false;
+					} else
+						precedingFunction = false;
+					token.tokenLevel = tokenLevel;
+					if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)) {
+						tokenLevel--;
+						if (tokenStack.Count > 0) {
+							TokenStackElement stackEl = tokenStack.Pop();
+							if (stackEl.precedingFunction)
+								tokenLevel--;
+						}
+					}
+				}
+		}
+        internal static int getNumeralSystemBaseFromBaseInd(String baseInd) {
+            if (baseInd.Equals("b")) return 2;
+            if (baseInd.Equals("o")) return 8;
+            if (baseInd.Equals("h")) return 16;
+            if (baseInd.Equals("b1")) return 1;
+            if (baseInd.Equals("b2")) return 2;
+            if (baseInd.Equals("b3")) return 3;
+            if (baseInd.Equals("b4")) return 4;
+            if (baseInd.Equals("b5")) return 5;
+            if (baseInd.Equals("b6")) return 6;
+            if (baseInd.Equals("b7")) return 7;
+            if (baseInd.Equals("b8")) return 8;
+            if (baseInd.Equals("b9")) return 9;
+            if (baseInd.Equals("b10")) return 10;
+            if (baseInd.Equals("b11")) return 11;
+            if (baseInd.Equals("b12")) return 12;
+            if (baseInd.Equals("b13")) return 13;
+            if (baseInd.Equals("b14")) return 14;
+            if (baseInd.Equals("b15")) return 15;
+            if (baseInd.Equals("b16")) return 16;
+            if (baseInd.Equals("b17")) return 17;
+            if (baseInd.Equals("b18")) return 18;
+            if (baseInd.Equals("b19")) return 19;
+            if (baseInd.Equals("b20")) return 20;
+            if (baseInd.Equals("b21")) return 21;
+            if (baseInd.Equals("b22")) return 22;
+            if (baseInd.Equals("b23")) return 23;
+            if (baseInd.Equals("b24")) return 24;
+            if (baseInd.Equals("b25")) return 25;
+            if (baseInd.Equals("b26")) return 26;
+            if (baseInd.Equals("b27")) return 27;
+            if (baseInd.Equals("b28")) return 28;
+            if (baseInd.Equals("b29")) return 29;
+            if (baseInd.Equals("b30")) return 30;
+            if (baseInd.Equals("b31")) return 31;
+            if (baseInd.Equals("b32")) return 32;
+            if (baseInd.Equals("b33")) return 33;
+            if (baseInd.Equals("b34")) return 34;
+            if (baseInd.Equals("b35")) return 35;
+            if (baseInd.Equals("b36")) return 36;
+            return 0;
+        }
     }
 }

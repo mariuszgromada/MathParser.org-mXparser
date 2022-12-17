@@ -1059,7 +1059,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * based on the argument name and the argument value.
 			 *
 			 * @param      argumentName        the argument name
-			 * @param      argumentValue       the the argument value
+			 * @param      argumentValue       the argument value
 			 *
 			 * @see        Argument
 			 * @see        RecursiveArgument
@@ -5936,47 +5936,7 @@ namespace org.mariuszgromada.math.mxparser {
 			String baseInd = token.tokenStr.Substring(0, dotPos).ToLower();
 			String numberLiteral = StringInvariant.EMPTY;
 			if (tokenStrLength > dotPos + 1) numberLiteral = token.tokenStr.Substring(dotPos + 1);
-			int numeralSystemBase = 0;
-			/* evaluate numeral system base */
-			if (baseInd.Equals("b")) numeralSystemBase = 2;
-			else if (baseInd.Equals("o")) numeralSystemBase = 8;
-			else if (baseInd.Equals("h")) numeralSystemBase = 16;
-			else if (baseInd.Equals("b1")) numeralSystemBase = 1;
-			else if (baseInd.Equals("b2")) numeralSystemBase = 2;
-			else if (baseInd.Equals("b3")) numeralSystemBase = 3;
-			else if (baseInd.Equals("b4")) numeralSystemBase = 4;
-			else if (baseInd.Equals("b5")) numeralSystemBase = 5;
-			else if (baseInd.Equals("b6")) numeralSystemBase = 6;
-			else if (baseInd.Equals("b7")) numeralSystemBase = 7;
-			else if (baseInd.Equals("b8")) numeralSystemBase = 8;
-			else if (baseInd.Equals("b9")) numeralSystemBase = 9;
-			else if (baseInd.Equals("b10")) numeralSystemBase = 10;
-			else if (baseInd.Equals("b11")) numeralSystemBase = 11;
-			else if (baseInd.Equals("b12")) numeralSystemBase = 12;
-			else if (baseInd.Equals("b13")) numeralSystemBase = 13;
-			else if (baseInd.Equals("b14")) numeralSystemBase = 14;
-			else if (baseInd.Equals("b15")) numeralSystemBase = 15;
-			else if (baseInd.Equals("b16")) numeralSystemBase = 16;
-			else if (baseInd.Equals("b17")) numeralSystemBase = 17;
-			else if (baseInd.Equals("b18")) numeralSystemBase = 18;
-			else if (baseInd.Equals("b19")) numeralSystemBase = 19;
-			else if (baseInd.Equals("b20")) numeralSystemBase = 20;
-			else if (baseInd.Equals("b21")) numeralSystemBase = 21;
-			else if (baseInd.Equals("b22")) numeralSystemBase = 22;
-			else if (baseInd.Equals("b23")) numeralSystemBase = 23;
-			else if (baseInd.Equals("b24")) numeralSystemBase = 24;
-			else if (baseInd.Equals("b25")) numeralSystemBase = 25;
-			else if (baseInd.Equals("b26")) numeralSystemBase = 26;
-			else if (baseInd.Equals("b27")) numeralSystemBase = 27;
-			else if (baseInd.Equals("b28")) numeralSystemBase = 28;
-			else if (baseInd.Equals("b29")) numeralSystemBase = 29;
-			else if (baseInd.Equals("b30")) numeralSystemBase = 30;
-			else if (baseInd.Equals("b31")) numeralSystemBase = 31;
-			else if (baseInd.Equals("b32")) numeralSystemBase = 32;
-			else if (baseInd.Equals("b33")) numeralSystemBase = 33;
-			else if (baseInd.Equals("b34")) numeralSystemBase = 34;
-			else if (baseInd.Equals("b35")) numeralSystemBase = 35;
-			else if (baseInd.Equals("b36")) numeralSystemBase = 36;
+			int numeralSystemBase = ExpressionUtils.getNumeralSystemBaseFromBaseInd(baseInd);
 			/* if base was found, perform conversion */
 			if ((numeralSystemBase > 0) && (numeralSystemBase <= 36)) {
 				double tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
@@ -6763,51 +6723,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 *
 			 * token level identifies the sequance of parsing
 			 */
-			evaluateTokensLevels();
-		}
-		/**
-		 * Evaluates tokens levels
-		 */
-		private void evaluateTokensLevels() {
-			int tokenLevel = 0;
-			Stack<TokenStackElement> tokenStack =  new Stack<TokenStackElement>();
-			bool precedingFunction = false;
-			if (initialTokens.Count > 0)
-				for (int tokenIndex = 0; tokenIndex < initialTokens.Count; tokenIndex++) {
-					Token token = initialTokens[tokenIndex];
-					if (	( token.tokenTypeId == Function1Arg.TYPE_ID ) ||
-							( token.tokenTypeId == Function2Arg.TYPE_ID ) ||
-							( token.tokenTypeId == Function3Arg.TYPE_ID )	||
-							( token.tokenTypeId == Function.TYPE_ID )	||
-							( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
-							( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
-							( token.tokenTypeId == FunctionVariadic.TYPE_ID )
-							) {
-						tokenLevel++;
-						precedingFunction = true;
-					} else
-					if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID)) {
-						tokenLevel++;
-						TokenStackElement stackEl = new TokenStackElement();
-						stackEl.tokenId = token.tokenId;
-						stackEl.tokenIndex = tokenIndex;
-						stackEl.tokenLevel = tokenLevel;
-						stackEl.tokenTypeId = token.tokenTypeId;
-						stackEl.precedingFunction = precedingFunction;
-						tokenStack.Push(stackEl);
-						precedingFunction = false;
-					} else
-						precedingFunction = false;
-					token.tokenLevel = tokenLevel;
-					if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)) {
-						tokenLevel--;
-						if (tokenStack.Count > 0) {
-							TokenStackElement stackEl = tokenStack.Pop();
-							if (stackEl.precedingFunction)
-								tokenLevel--;
-						}
-					}
-				}
+			ExpressionUtils.evaluateTokensLevels(initialTokens);
 		}
 		/**
 		 * copy initial tokens lito to tokens list

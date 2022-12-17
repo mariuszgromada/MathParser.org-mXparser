@@ -180,9 +180,12 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 
 /**
  * Utility methods used in Expression class
@@ -1314,5 +1317,91 @@ final class ExpressionUtils {
         }
 
         return result;
+    }
+    /**
+     * Evaluates tokens levels
+     */
+    static void evaluateTokensLevels(List<Token> initialTokens) {
+        int tokenLevel = 0;
+        Stack<TokenStackElement> tokenStack =  new Stack<TokenStackElement>();
+        boolean precedingFunction = false;
+        if (initialTokens.size() > 0)
+            for (int tokenIndex = 0; tokenIndex < initialTokens.size(); tokenIndex++) {
+                Token token = initialTokens.get(tokenIndex);
+                if (	( token.tokenTypeId == Function1Arg.TYPE_ID ) ||
+                        ( token.tokenTypeId == Function2Arg.TYPE_ID ) ||
+                        ( token.tokenTypeId == Function3Arg.TYPE_ID )	||
+                        ( token.tokenTypeId == Function.TYPE_ID )	||
+                        ( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
+                        ( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
+                        ( token.tokenTypeId == FunctionVariadic.TYPE_ID )
+                ) {
+                    tokenLevel++;
+                    precedingFunction = true;
+                } else
+                if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID)) {
+                    tokenLevel++;
+                    TokenStackElement stackEl = new TokenStackElement();
+                    stackEl.tokenId = token.tokenId;
+                    stackEl.tokenIndex = tokenIndex;
+                    stackEl.tokenLevel = tokenLevel;
+                    stackEl.tokenTypeId = token.tokenTypeId;
+                    stackEl.precedingFunction = precedingFunction;
+                    tokenStack.push(stackEl);
+                    precedingFunction = false;
+                } else
+                    precedingFunction = false;
+                token.tokenLevel = tokenLevel;
+                if ((token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)) {
+                    tokenLevel--;
+                    if (!tokenStack.isEmpty()) {
+                        TokenStackElement stackEl = tokenStack.pop();
+                        if (stackEl.precedingFunction)
+                            tokenLevel--;
+                    }
+                }
+            }
+    }
+    static int getNumeralSystemBaseFromBaseInd(String baseInd) {
+        if (baseInd.equals("b")) return 2;
+        if (baseInd.equals("o")) return 8;
+        if (baseInd.equals("h")) return 16;
+        if (baseInd.equals("b1")) return 1;
+        if (baseInd.equals("b2")) return 2;
+        if (baseInd.equals("b3")) return 3;
+        if (baseInd.equals("b4")) return 4;
+        if (baseInd.equals("b5")) return 5;
+        if (baseInd.equals("b6")) return 6;
+        if (baseInd.equals("b7")) return 7;
+        if (baseInd.equals("b8")) return 8;
+        if (baseInd.equals("b9")) return 9;
+        if (baseInd.equals("b10")) return 10;
+        if (baseInd.equals("b11")) return 11;
+        if (baseInd.equals("b12")) return 12;
+        if (baseInd.equals("b13")) return 13;
+        if (baseInd.equals("b14")) return 14;
+        if (baseInd.equals("b15")) return 15;
+        if (baseInd.equals("b16")) return 16;
+        if (baseInd.equals("b17")) return 17;
+        if (baseInd.equals("b18")) return 18;
+        if (baseInd.equals("b19")) return 19;
+        if (baseInd.equals("b20")) return 20;
+        if (baseInd.equals("b21")) return 21;
+        if (baseInd.equals("b22")) return 22;
+        if (baseInd.equals("b23")) return 23;
+        if (baseInd.equals("b24")) return 24;
+        if (baseInd.equals("b25")) return 25;
+        if (baseInd.equals("b26")) return 26;
+        if (baseInd.equals("b27")) return 27;
+        if (baseInd.equals("b28")) return 28;
+        if (baseInd.equals("b29")) return 29;
+        if (baseInd.equals("b30")) return 30;
+        if (baseInd.equals("b31")) return 31;
+        if (baseInd.equals("b32")) return 32;
+        if (baseInd.equals("b33")) return 33;
+        if (baseInd.equals("b34")) return 34;
+        if (baseInd.equals("b35")) return 35;
+        if (baseInd.equals("b36")) return 36;
+        return 0;
     }
 }
