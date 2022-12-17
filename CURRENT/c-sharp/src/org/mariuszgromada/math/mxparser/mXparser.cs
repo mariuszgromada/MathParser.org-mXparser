@@ -325,7 +325,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see #consolePrintln(Object)
 		 * @see #consolePrint(Object)
 		 */
-		private static volatile String CONSOLE_OUTPUT = "";
+		private static volatile String CONSOLE_OUTPUT = StringInvariant.EMPTY;
 		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 		private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static volatile int CONSOLE_ROW_NUMBER = 1;
@@ -1231,7 +1231,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return String representing token type description.
 		 */
 		public static String getTokenTypeDescription(int tokenTypeId) {
-			String type = "";
+			String type = StringInvariant.EMPTY;
 			switch (tokenTypeId) {
 				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
 				case ParserSymbol.NUMBER_TYPE_ID: type = "Number"; break;
@@ -1291,7 +1291,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public static String hexString2AsciiString(String hexString) {
 			String hexByteStr;
 			int hexByteInt;
-			String asciiString = "";
+			String asciiString = StringInvariant.EMPTY;
 			for (int i = 0; i < hexString.Length; i += 2) {
 				hexByteStr = hexString.Substring(i, 2);
 				hexByteInt = int.Parse(hexByteStr, NumberStyles.HexNumber);
@@ -1511,7 +1511,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private static void consoleWriteLine() {
 #if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
-				System.Diagnostics.Debug.WriteLine("");
+				System.Diagnostics.Debug.WriteLine(StringInvariant.EMPTY);
 #else
 				Console.WriteLine();
 #endif
@@ -1530,7 +1530,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln(Object o) {
 			lock (CONSOLE_OUTPUT) {
-				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(StringInvariant.EMPTY))) {
 					consoleWrite(CONSOLE_PREFIX);
 					CONSOLE_OUTPUT = CONSOLE_PREFIX;
 				}
@@ -1559,7 +1559,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln() {
 			lock (CONSOLE_OUTPUT) {
-				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(StringInvariant.EMPTY))) {
 					consoleWrite(CONSOLE_PREFIX);
 					CONSOLE_OUTPUT = CONSOLE_PREFIX;
 				}
@@ -1576,7 +1576,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrint(Object o) {
 			lock (CONSOLE_OUTPUT) {
-				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(""))) {
+				if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.Equals(StringInvariant.EMPTY))) {
 					consoleWrite(CONSOLE_PREFIX);
 					CONSOLE_OUTPUT = CONSOLE_PREFIX;
 				}
@@ -1602,7 +1602,7 @@ namespace org.mariuszgromada.math.mxparser {
 			mXparser.consolePrintln(prefix + "checkIfsetToOverrideBuiltinTokens = " + mXparser.checkIfsetToOverrideBuiltinTokens());
 		}
 		public static void consolePrintSettings() {
-			consolePrintSettings("");
+			consolePrintSettings(StringInvariant.EMPTY);
 		}
 		/**
 		 * Resets console output string, console output
@@ -1615,7 +1615,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void resetConsoleOutput() {
 			lock (CONSOLE_OUTPUT) {
-				CONSOLE_OUTPUT = "";
+				CONSOLE_OUTPUT = StringInvariant.EMPTY;
 				CONSOLE_ROW_NUMBER = 1;
 			}
 		}

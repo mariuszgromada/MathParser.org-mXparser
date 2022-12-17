@@ -238,7 +238,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	/**
 	 * Name of the constant
 	 */
-	private String constantName = "";
+	private String constantName = StringInvariant.EMPTY;
 	/**
 	 * COnstant value
 	 */
@@ -246,7 +246,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	/**
 	 * Constant description
 	 */
-	private String description = "";
+	private String description = StringInvariant.EMPTY;
 	/**
 	 * Dependent expression list
 	 */
@@ -283,7 +283,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
 			this.constantName = constantName;
 			this.constantValue = constantValue;
-			description = "";
+			description = StringInvariant.EMPTY;
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			errorMessage = NO_SYNTAX_ERROR_MSG;
 		} else {
@@ -327,7 +327,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 */
 	public Constant(String constantDefinitionString, PrimitiveElement...elements) {
 		super(Constant.TYPE_ID);
-		description = "";
+		description = StringInvariant.EMPTY;
 		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 		relatedExpressionsList = new ArrayList<Expression>();
 		if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp)) {

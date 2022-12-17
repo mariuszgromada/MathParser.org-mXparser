@@ -433,7 +433,7 @@ namespace org.mariuszgromada.math.mxparser {
 
             bool[] expectedTokenAdded = new bool[pe.tokenImage.Length];
             int numberOfExpectedTokensAdded = 0;
-            String expectedTokens = "";
+            String expectedTokens = StringInvariant.EMPTY;
 
             for (int i = 0; i < pe.expectedTokenSequences.Length; i++) {
                 int numberOfTokensInSequence = pe.expectedTokenSequences[i].Length;

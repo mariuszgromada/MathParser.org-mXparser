@@ -196,6 +196,7 @@ package org.mariuszgromada.math.mxparser;
  * @version        5.2.0
  */
 final class StringInvariant {
+    static final String EMPTY = "";
     static final String ARGUMENT_DEFINITION_EXAMPLES = "'x', 'x=5', 'x=5+3/2', 'x=2*y', ...";
     static final String CONSTANT_DEFINITION_EXAMPLES = "'x', 'x=5', 'x=5+3/2', '[x]=2*y', ...";
     static final String ARGUMENT_NAME_EXAMPLES = "'x', 'x_y', 'x1', 'x_1', 'abc', ...";

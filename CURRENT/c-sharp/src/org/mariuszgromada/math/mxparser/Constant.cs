@@ -235,7 +235,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
 		 * Name of the constant
 		 */
-        private String constantName = "";
+        private String constantName = StringInvariant.EMPTY;
 		/**
 		 * COnstant value
 		 */
@@ -243,7 +243,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Constant description
 		 */
-		private String description = "";
+		private String description = StringInvariant.EMPTY;
 		/**
 		 * Dependent expression list
 		 */
@@ -278,7 +278,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				this.constantName = constantName;
 				this.constantValue = constantValue;
-				description = "";
+				description = StringInvariant.EMPTY;
 				syntaxStatus = NO_SYNTAX_ERRORS;
 				errorMessage = NO_SYNTAX_ERROR_MSG;
 			} else {
@@ -319,7 +319,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
 		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
-			description = "";
+			description = StringInvariant.EMPTY;
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			relatedExpressionsList = new List<Expression>();
 			if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp)) {

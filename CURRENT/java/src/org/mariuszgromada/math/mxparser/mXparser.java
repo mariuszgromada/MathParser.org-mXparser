@@ -251,7 +251,7 @@ public final class mXparser {
 	 * @see #consolePrintln(Object)
 	 * @see #consolePrint(Object)
 	 */
-	private static volatile String CONSOLE_OUTPUT = "";
+	private static volatile String CONSOLE_OUTPUT = StringInvariant.EMPTY;
 	private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 	private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 	private static volatile int CONSOLE_ROW_NUMBER = 1;
@@ -1155,7 +1155,7 @@ public final class mXparser {
 	 * @return String representing token type description.
 	 */
 	public static String getTokenTypeDescription(int tokenTypeId) {
-		String type = "";
+		String type = StringInvariant.EMPTY;
 		switch (tokenTypeId) {
 			case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
 			case ParserSymbol.NUMBER_TYPE_ID: type = "Number"; break;
@@ -1215,7 +1215,7 @@ public final class mXparser {
 	public static String hexString2AsciiString(String hexString) {
 		String hexByteStr;
 		int hexByteInt;
-		String asciiString = "";
+		String asciiString = StringInvariant.EMPTY;
 		for (int i = 0; i < hexString.length(); i+=2) {
 			hexByteStr = hexString.substring(i, i+2);
 			hexByteInt = Integer.parseInt(hexByteStr, 16);
@@ -1431,7 +1431,7 @@ public final class mXparser {
 	 */
 	public static void consolePrintln(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(StringInvariant.EMPTY))) {
 				System.out.print(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
@@ -1460,7 +1460,7 @@ public final class mXparser {
 	 */
 	public static void consolePrintln() {
 		synchronized (CONSOLE_OUTPUT) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(StringInvariant.EMPTY))) {
 				System.out.print(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
@@ -1477,7 +1477,7 @@ public final class mXparser {
 	 */
 	public static void consolePrint(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(""))) {
+			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(StringInvariant.EMPTY))) {
 				System.out.print(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
@@ -1504,7 +1504,7 @@ public final class mXparser {
 		mXparser.consolePrintln(prefix + "Java version = " + System.getProperty("java.version"));
 	}
 	public static void consolePrintSettings() {
-		consolePrintSettings("");
+		consolePrintSettings(StringInvariant.EMPTY);
 	}
 	/**
 	 * Resets console output string, console output
@@ -1517,7 +1517,7 @@ public final class mXparser {
 	 */
 	public static void resetConsoleOutput() {
 		synchronized (CONSOLE_OUTPUT) {
-			CONSOLE_OUTPUT = "";
+			CONSOLE_OUTPUT = StringInvariant.EMPTY;
 			CONSOLE_ROW_NUMBER = 1;
 		}
 	}

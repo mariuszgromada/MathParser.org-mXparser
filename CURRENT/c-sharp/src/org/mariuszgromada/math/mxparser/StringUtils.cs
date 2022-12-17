@@ -225,7 +225,7 @@ namespace org.mariuszgromada.math.mxparser {
         }
         internal static String trimNotNull(String str) {
             if (str != null) return str.Trim();
-            else return "";
+            else return StringInvariant.EMPTY;
         }
         internal static String stringConcatenateMaxLength(String str1, String str2, int maxLength) {
             if (str1.Length + str2.Length > maxLength)
@@ -428,7 +428,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Text adjusting.
 		 */
         internal static String getLeftSpaces(String maxStr, String str) {
-			String spc = "";
+			String spc = StringInvariant.EMPTY;
 			for (int i=0; i<maxStr.Length - str.Length; i++)
 				spc = spc + StringInvariant.SPACE;
 			return spc + str;
@@ -437,7 +437,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Text adjusting.
 		 */
         internal static String getRightSpaces(String maxStr, String str) {
-			String spc = "";
+			String spc = StringInvariant.EMPTY;
 			for (int i=0; i<maxStr.Length - str.Length; i++)
 				spc = StringInvariant.SPACE + spc;
 			return str + spc;

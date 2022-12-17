@@ -209,8 +209,8 @@ namespace org.mariuszgromada.math.mxparser {
 		private static UseType typeOfUse = UseType.Null;
 		private static String signature = null;
 		private static int numberOfConfirmationAttempts = 0;
-		private static String message = "";
-		private static String errorMessage = "";
+		private static String message = StringInvariant.EMPTY;
+		private static String errorMessage = StringInvariant.EMPTY;
 		private const String ERROR_NOT_CONFIRMED = "The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License.geTermsOfAgreement().";
 		private enum UseType {
 			Null

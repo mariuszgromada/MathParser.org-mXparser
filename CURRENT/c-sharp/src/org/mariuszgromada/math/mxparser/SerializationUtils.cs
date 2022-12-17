@@ -306,7 +306,7 @@ namespace org.mariuszgromada.math.mxparser {
             return binarySerializationEnabled;
         }
         private static bool lastOperationWasSuccessful = false;
-        private static String lastOperationMessage = "";
+        private static String lastOperationMessage = StringInvariant.EMPTY;
         /**
          * Information whether the last ordered operation under
          * any serialization or deserialization method was correctly

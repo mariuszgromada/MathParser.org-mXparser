@@ -277,15 +277,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Expression string (for example: "sin(x)+cos(y)")
 	 */
-	String expressionString = "";
+	String expressionString = StringInvariant.EMPTY;
 	/**
 	 * Expression string after attempt to clean
 	 */
-	private String expressionStringCleaned = "";
+	private String expressionStringCleaned = StringInvariant.EMPTY;
 	/**
 	 * Expression description
 	 */
-	private String description = "";
+	private String description = StringInvariant.EMPTY;
 	/**
 	 * List of arguments
 	 *
@@ -601,9 +601,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Common variables while expression initializing
 	 */
 	private void expressionInternalVarsInit() {
-		description = "";
-		errorMessage = "";
-		errorMessageCalculate = "";
+		description = StringInvariant.EMPTY;
+		errorMessage = StringInvariant.EMPTY;
+		errorMessageCalculate = StringInvariant.EMPTY;
 		computingTime = 0;
 		recursionCallPending = false;
 		recursionCallsCounter = 0;
@@ -650,7 +650,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public Expression(PrimitiveElement...elements) {
 		super(Expression.TYPE_ID);
-		expressionString = "";
+		expressionString = StringInvariant.EMPTY;
 		expressionInit();
 		setExpressionModifiedFlag();
 		addDefinitions(elements);
@@ -709,8 +709,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		expressionWasModified = false;
 		syntaxStatus = NO_SYNTAX_ERRORS;
 		description = StringInvariant.INTERNAL;
-		errorMessage = "";
-		errorMessageCalculate = "";
+		errorMessage = StringInvariant.EMPTY;
+		errorMessageCalculate = StringInvariant.EMPTY;
 		computingTime = 0;
 		recursionCallPending = false;
 		recursionCallsCounter = 0;
@@ -801,7 +801,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void setExpressionString(String expressionString) {
 		this.expressionString = expressionString;
-		expressionStringCleaned = "";
+		expressionStringCleaned = StringInvariant.EMPTY;
 		setExpressionModifiedFlag();
 	}
 	/**
@@ -827,8 +827,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Clears expression string
 	 */
 	public void clearExpressionString() {
-		expressionString = "";
-		expressionStringCleaned = "";
+		expressionString = StringInvariant.EMPTY;
+		expressionStringCleaned = StringInvariant.EMPTY;
 		setExpressionModifiedFlag();
 	}
 	/**
@@ -851,7 +851,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Clears expression description
 	 */
 	public void clearDescription() {
-		this.description = "";
+		this.description = StringInvariant.EMPTY;
 	}
 	/**
 	 * Enables verbose mode.
@@ -995,8 +995,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	void setForwardErrorMessage(boolean forward) {
 		if (forward != forwardErrorMessage) {
-			errorMessage = "";
-			errorMessageCalculate = "";
+			errorMessage = StringInvariant.EMPTY;
+			errorMessageCalculate = StringInvariant.EMPTY;
 			forwardErrorMessage = forward;
 		}
 	}
@@ -5207,7 +5207,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			printSystemInfo(StringResources.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
 
 		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
-		String stepDescription = "";
+		String stepDescription = StringInvariant.EMPTY;
 		if (calcStepsRegister != null) {
 			if (description.trim().length() > 0) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
 			else stepDescription = expressionString.trim();
@@ -5968,7 +5968,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (dotPos == 0) return false;
 		/* check if there is base indicator */
 		String baseInd = token.tokenStr.substring(0, dotPos).toLowerCase();
-		String numberLiteral = "";
+		String numberLiteral = StringInvariant.EMPTY;
 		if (tokenStrLength > dotPos+1) numberLiteral = token.tokenStr.substring(dotPos+1);
 		int numeralSystemBase = 0;
 		/* evaluate numeral system base */
@@ -6262,7 +6262,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean canStartFraction, fractionFound;
 		boolean canStartKeyword, keywordFound;
 		boolean isDigit;
-		String substr = "";
+		String substr = StringInvariant.EMPTY;
 		KeyWord parserKeyword, kw;
 		int lPos = 0;
 		int rPos;
@@ -6509,18 +6509,18 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (newExpressionString.length() == 0) return;
 		int lastPos = 0; /* position of the keyword previously added*/
 		int pos = 0; /* current position */
-		String tokenStr = "";
+		String tokenStr = StringInvariant.EMPTY;
 		int matchStatusPrev = NOT_FOUND; /* unknown keyword (previous) */
 		int matchStatus = NOT_FOUND; /* unknown keyword (current) */
 		KeyWord kw = null;
-		String sub = "";
-		String kwStr = "";
+		String sub = StringInvariant.EMPTY;
+		String kwStr = StringInvariant.EMPTY;
 		char precedingChar;
 		char followingChar;
 		char firstChar;
 		char c;
 		boolean specialConstFound = false;
-		String specialConstStr = "";
+		String specialConstStr = StringInvariant.EMPTY;
 		/*
 		 * Check all available positions in the expression tokens list
 		 */
@@ -6929,7 +6929,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     The help content.
 	 */
 	public String getHelp() {
-		return getHelp("");
+		return getHelp(StringInvariant.EMPTY);
 	}
 	/**
 	 * Searching help content.
@@ -6952,7 +6952,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see Expression#getHelp()
 	 */
 	public List<KeyWord> getKeyWords() {
-		return getKeyWords("");
+		return getKeyWords(StringInvariant.EMPTY);
 	}
 	/**
 	 * Returns list of keywords known to the parser

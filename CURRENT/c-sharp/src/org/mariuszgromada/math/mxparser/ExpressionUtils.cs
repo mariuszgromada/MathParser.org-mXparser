@@ -935,7 +935,7 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 					if (toClean) {
 						String leftPart = expressionStringCleaned.Substring(0, pos-1);
-						String rightPart = "";
+						String rightPart = StringInvariant.EMPTY;
 						if (pos+1 < expressionStringCleaned.Length)
 							rightPart = expressionStringCleaned.Substring(pos+1);
 						expressionStringCleaned = leftPart;
@@ -957,9 +957,9 @@ namespace org.mariuszgromada.math.mxparser {
          */
         internal static String cleanExpressionString(String expressionString, bool attemptToFixExpStrEnabled) {
             StringBuilder expressionStringCleanedBuilder = new StringBuilder();
-			if (expressionString == null) return "";
+			if (expressionString == null) return StringInvariant.EMPTY;
 			int expLen = expressionString.Length;
-			if (expLen == 0) return "";
+			if (expLen == 0) return StringInvariant.EMPTY;
 			char c;
 			char clag1 = 'a';
 			int blankCnt = 0;
@@ -1166,7 +1166,7 @@ namespace org.mariuszgromada.math.mxparser {
 			String line;
 			for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
 				KeyWord keyWord = keyWordsList[keyWordIndex];
-				type = "";
+				type = StringInvariant.EMPTY;
 				kw = keyWord.wordString;
 				switch (keyWord.wordTypeId) {
 				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
@@ -1279,7 +1279,7 @@ namespace org.mariuszgromada.math.mxparser {
 			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 		}
 		internal static String tokenToString(Token token) {
-			if (token == null) return "";
+			if (token == null) return StringInvariant.EMPTY;
 			if (token.isNumber()) {
 				double intTokenValue = Math.Round(token.tokenValue);
 				if (intTokenValue == token.tokenValue)
@@ -1290,9 +1290,9 @@ namespace org.mariuszgromada.math.mxparser {
 			return token.tokenStr;
 		}
         internal static String tokensListToString(List<Token> tokensList) {
-			if (tokensList == null) return "";
-			if (tokensList.Count == 0) return "";
-			String result = "";
+			if (tokensList == null) return StringInvariant.EMPTY;
+			if (tokensList.Count == 0) return StringInvariant.EMPTY;
+			String result = StringInvariant.EMPTY;
 			for (int i = 0; i < tokensList.Count; i++) {
 				Token t0 = null;
 				Token t1 = tokensList[i];

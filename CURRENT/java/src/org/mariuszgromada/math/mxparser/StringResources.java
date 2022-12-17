@@ -434,7 +434,7 @@ final class StringResources {
 
         boolean[] expectedTokenAdded = new boolean[pe.tokenImage.length];
         int numberOfExpectedTokensAdded = 0;
-        String expectedTokens = "";
+        String expectedTokens = StringInvariant.EMPTY;
 
         for (int i = 0; i < pe.expectedTokenSequences.length; i++) {
             int numberOfTokensInSequence = pe.expectedTokenSequences[i].length;

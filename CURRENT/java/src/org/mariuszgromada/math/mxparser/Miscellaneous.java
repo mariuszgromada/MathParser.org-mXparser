@@ -405,8 +405,8 @@ class HeadEqBody implements Serializable {
 			headTokens = headExpression.getCopyOfInitialTokens();
 		} else {
 			definitionError = true;
-			headStr = "";
-			bodyStr = "";
+			headStr = StringInvariant.EMPTY;
+			bodyStr = StringInvariant.EMPTY;
 			headTokens = null;
 			eqPos = -1;
 		}

@@ -300,7 +300,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Description of the argument.
 		 */
-		private String description = "";
+		private String description = StringInvariant.EMPTY;
 		/**
 		 * Argument expression for dependent and recursive
 		 * arguments.
@@ -309,7 +309,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Argument name (x, y, arg1, my_argument, etc...)
 		 */
-		private String argumentName = "";
+		private String argumentName = StringInvariant.EMPTY;
 		/**
 		 * Argument type (free, dependent)
 		 */
@@ -394,7 +394,7 @@ namespace org.mariuszgromada.math.mxparser {
             }
 			argumentBodyType = BODY_RUNTIME;
 			setSilentMode();
-			description = "";
+			description = StringInvariant.EMPTY;
 		}
 		/**
 		 * Default constructor - creates argument based on the argument definition string.
@@ -457,7 +457,7 @@ namespace org.mariuszgromada.math.mxparser {
             }
 			argumentBodyType = BODY_RUNTIME;
 			setSilentMode();
-			description = "";
+			description = StringInvariant.EMPTY;
 		}
 		/**
 		 * Constructor - creates free argument.
@@ -478,7 +478,7 @@ namespace org.mariuszgromada.math.mxparser {
             }
 			argumentBodyType = BODY_RUNTIME;
 			setSilentMode();
-			description = "";
+			description = StringInvariant.EMPTY;
 		}
 		/**
 		 * Constructor for argument definition based on
@@ -502,7 +502,7 @@ namespace org.mariuszgromada.math.mxparser {
                 argumentBodyType = BODY_RUNTIME;
 			}
 			setSilentMode();
-			description = "";
+			description = StringInvariant.EMPTY;
 		}
 		/**
 		 * Constructor - creates dependent argument(with hidden
@@ -531,7 +531,7 @@ namespace org.mariuszgromada.math.mxparser {
             }
 			argumentBodyType = BODY_RUNTIME;
 			setSilentMode();
-			description = "";
+			description = StringInvariant.EMPTY;
 		}
 		/**
 		 * Sets argument description.
@@ -656,7 +656,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public void setArgumentValue(double argumentValue) {
 			if (argumentType == DEPENDENT_ARGUMENT) {
 				argumentType = FREE_ARGUMENT;
-				argumentExpression.setExpressionString("");
+				argumentExpression.setExpressionString(StringInvariant.EMPTY);
 			}
 			argumentBodyType = BODY_RUNTIME;
 			this.argumentValue = argumentValue;

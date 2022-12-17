@@ -935,7 +935,7 @@ final class ExpressionUtils {
                 }
                 if (toClean) {
                     String leftPart = expressionStringCleaned.substring(0, pos-1);
-                    String rightPart = "";
+                    String rightPart = StringInvariant.EMPTY;
                     if (pos+1 < expressionStringCleaned.length())
                         rightPart = expressionStringCleaned.substring(pos+1);
                     expressionStringCleaned = leftPart;
@@ -957,9 +957,9 @@ final class ExpressionUtils {
      */
     static String cleanExpressionString(String expressionString, boolean attemptToFixExpStrEnabled) {
         StringBuilder expressionStringCleanedBuilder = new StringBuilder();
-        if (expressionString == null) return "";
+        if (expressionString == null) return StringInvariant.EMPTY;
         int expLen = expressionString.length();
-        if (expLen == 0) return "";
+        if (expLen == 0) return StringInvariant.EMPTY;
         char c;
         char clag1 = 'a';
         int blankCnt = 0;
@@ -1169,7 +1169,7 @@ final class ExpressionUtils {
         String line;
         for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
             KeyWord keyWord = keyWordsList.get(keyWordIndex);
-            type = "";
+            type = StringInvariant.EMPTY;
             kw = keyWord.wordString;
             switch (keyWord.wordTypeId) {
                 case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
@@ -1282,7 +1282,7 @@ final class ExpressionUtils {
         mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
     }
     static String tokenToString(Token token) {
-        if (token == null) return "";
+        if (token == null) return StringInvariant.EMPTY;
         if (token.isNumber()) {
             double intTokenValue = Math.round(token.tokenValue);
             if (intTokenValue == token.tokenValue)
@@ -1293,9 +1293,9 @@ final class ExpressionUtils {
         return token.tokenStr;
     }
     static String tokensListToString(List<Token> tokensList) {
-        if (tokensList == null) return "";
-        if (tokensList.size() == 0) return "";
-        String result = "";
+        if (tokensList == null) return StringInvariant.EMPTY;
+        if (tokensList.size() == 0) return StringInvariant.EMPTY;
+        String result = StringInvariant.EMPTY;
         for (int i = 0; i < tokensList.size(); i++) {
             Token t0 = null;
             Token t1 = tokensList.get(i);
@@ -1315,5 +1315,4 @@ final class ExpressionUtils {
 
         return result;
     }
-
 }

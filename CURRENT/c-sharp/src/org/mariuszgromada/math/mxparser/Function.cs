@@ -271,11 +271,11 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * function name
 		 */
-		private String functionName = "";
+		private String functionName = StringInvariant.EMPTY;
 		/**
 		 * function description
 		 */
-		private String description = "";
+		private String description = StringInvariant.EMPTY;
 		/**
 		 * Indicates whether UDF is variadic
 		 */
@@ -335,13 +335,13 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.UDFExpression = true;
 				isVariadic = false;
 				parametersNumber = 0;
-				description = "";
+				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else {
 				parametersNumber = 0;
-				description = "";
-				functionExpression = new Expression("");
+				description = StringInvariant.EMPTY;
+				functionExpression = new Expression(StringInvariant.EMPTY);
                 functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
                 functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
             }
@@ -369,13 +369,13 @@ namespace org.mariuszgromada.math.mxparser {
 				foreach (String argName in argumentsNames)
 					functionExpression.addArguments(new Argument(argName));
 				parametersNumber = argumentsNames.Length - countRecursiveArguments();
-				description = "";
+				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else {
 				parametersNumber = 0;
-				description = "";
-				functionExpression = new Expression("");
+				description = StringInvariant.EMPTY;
+				functionExpression = new Expression(StringInvariant.EMPTY);
                 functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
                 functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
             }
@@ -412,7 +412,7 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 				}
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-				description = "";
+				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
@@ -423,7 +423,7 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.UDFExpression = true;
 				isVariadic = true;
 				parametersNumber = -1;
-				description = "";
+				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else {
@@ -447,13 +447,13 @@ namespace org.mariuszgromada.math.mxparser {
                 functionExpression.setDescription(functionName);
                 isVariadic = false;
 				parametersNumber = functionExtension.getParametersNumber();
-				description = "";
+				description = StringInvariant.EMPTY;
 				this.functionExtension = functionExtension;
 				functionBodyType = BODY_EXTENDED;
 			} else {
 				parametersNumber = 0;
-				description = "";
-				functionExpression = new Expression("");
+				description = StringInvariant.EMPTY;
+				functionExpression = new Expression(StringInvariant.EMPTY);
                 functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
             }
 		}
@@ -472,13 +472,13 @@ namespace org.mariuszgromada.math.mxparser {
                 functionExpression.setDescription(functionName);
                 isVariadic = true;
 				parametersNumber = -1;
-				description = "";
+				description = StringInvariant.EMPTY;
 				this.functionExtensionVariadic = functionExtensionVariadic;
 				functionBodyType = BODY_EXTENDED;
 			} else {
 				parametersNumber = 0;
-				description = "";
-				functionExpression = new Expression("");
+				description = StringInvariant.EMPTY;
+				functionExpression = new Expression(StringInvariant.EMPTY);
                 functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
             }
 		}
@@ -532,7 +532,7 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 				}
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-				description = "";
+				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
@@ -543,7 +543,7 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.UDFExpression = true;
 				isVariadic = true;
 				parametersNumber = -1;
-				description = "";
+				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else {
@@ -927,11 +927,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return If parameter exists returns parameters name, otherwise empty string is returned.
 		 */
 		public String getParameterName(int parameterIndex) {
-			if (parameterIndex < 0) return "";
-			if (parameterIndex >= parametersNumber) return "";
+			if (parameterIndex < 0) return StringInvariant.EMPTY;
+			if (parameterIndex >= parametersNumber) return StringInvariant.EMPTY;
 			if (functionBodyType == BODY_RUNTIME) return getArgument(parameterIndex).getArgumentName();
 			if (functionBodyType == BODY_EXTENDED) return this.functionExtension.getParameterName(parameterIndex);
-			return "";
+			return StringInvariant.EMPTY;
 		}
 		/**
 		 * Gets number of arguments associated with the function expression.

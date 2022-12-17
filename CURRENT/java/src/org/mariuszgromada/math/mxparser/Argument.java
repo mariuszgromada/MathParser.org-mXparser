@@ -301,7 +301,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	/**
 	 * Description of the argument.
 	 */
-	private String description = "";
+	private String description = StringInvariant.EMPTY;
 	/**
 	 * Argument expression for dependent and recursive
 	 * arguments.
@@ -310,7 +310,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	/**
 	 * Argument name (x, y, arg1, my_argument, etc...)
 	 */
-	private String argumentName = "";
+	private String argumentName = StringInvariant.EMPTY;
 	/**
 	 * Argument type (free, dependent)
 	 */
@@ -392,7 +392,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 		}
 		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
-		description = "";
+		description = StringInvariant.EMPTY;
 	}
 	/**
 	 * Default constructor - creates argument based on the argument definition string.
@@ -456,7 +456,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 		}
 		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
-		description = "";
+		description = StringInvariant.EMPTY;
 	}
 	/**
 	 * Constructor - creates free argument.
@@ -478,7 +478,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 		}
 		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
-		description = "";
+		description = StringInvariant.EMPTY;
 	}
 	/**
 	 * Constructor for argument definition based on
@@ -503,7 +503,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 			argumentBodyType = BODY_RUNTIME;
 		}
 		setSilentMode();
-		description = "";
+		description = StringInvariant.EMPTY;
 	}
 	/**
 	 * Constructor - creates dependent argument(with hidden
@@ -533,7 +533,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 		}
 		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
-		description = "";
+		description = StringInvariant.EMPTY;
 	}
 	/**
 	 * Sets argument description.
@@ -658,7 +658,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public void setArgumentValue(double argumentValue) {
 		if (argumentType == DEPENDENT_ARGUMENT) {
 			argumentType = FREE_ARGUMENT;
-			argumentExpression.setExpressionString("");
+			argumentExpression.setExpressionString(StringInvariant.EMPTY);
 		}
 		argumentBodyType = BODY_RUNTIME;
 		this.argumentValue = argumentValue;

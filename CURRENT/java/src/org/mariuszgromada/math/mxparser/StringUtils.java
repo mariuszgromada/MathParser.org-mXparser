@@ -225,7 +225,7 @@ final class StringUtils {
     }
     static String trimNotNull(String str) {
         if (str != null) return str.trim();
-        else return "";
+        else return StringInvariant.EMPTY;
     }
     static String stringConcatenateMaxLength(String str1, String str2, int maxLength) {
         if (str1.length() + str2.length() > maxLength)
@@ -422,7 +422,7 @@ final class StringUtils {
      * Text adjusting.
      */
     static String getLeftSpaces(String maxStr, String str) {
-        String spc = "";
+        String spc = StringInvariant.EMPTY;
         for (int i=0; i<maxStr.length() - str.length(); i++)
             spc = spc + StringInvariant.SPACE;
         return spc + str;
@@ -431,7 +431,7 @@ final class StringUtils {
      * Text adjusting.
      */
     static String getRightSpaces(String maxStr, String str) {
-        String spc = "";
+        String spc = StringInvariant.EMPTY;
         for (int i=0; i<maxStr.length() - str.length(); i++)
             spc = StringInvariant.SPACE + spc;
         return str + spc;

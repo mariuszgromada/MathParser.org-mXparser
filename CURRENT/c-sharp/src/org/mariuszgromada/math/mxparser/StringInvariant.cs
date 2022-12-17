@@ -198,6 +198,7 @@ namespace org.mariuszgromada.math.mxparser {
      * @version        5.2.0
      */
     internal sealed class StringInvariant {
+        internal const String EMPTY = "";
         internal const String ARGUMENT_DEFINITION_EXAMPLES = "'x', 'x=5', 'x=5+3/2', 'x=2*y', ...";
         internal const String CONSTANT_DEFINITION_EXAMPLES = "'x', 'x=5', 'x=5+3/2', '[x]=2*y', ...";
         internal const String ARGUMENT_NAME_EXAMPLES = "'x', 'x_y', 'x1', 'x_1', 'abc', ...";

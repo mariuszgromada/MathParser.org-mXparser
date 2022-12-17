@@ -214,12 +214,12 @@ namespace org.mariuszgromada.math.mxparser {
          * If a root of the calculation tree is an argument
          * then argument name is provided here
          */
-        public String argumentNameStart = "";
+        public String argumentNameStart = StringInvariant.EMPTY;
         /**
          * If a root of the calculation tree is a function
          * then function name is provided here
          */
-        public String functionNameStart = "";
+        public String functionNameStart = StringInvariant.EMPTY;
         /**
          * 1. If a root of the calculation tree is an expression
          * then expression string is provided here.
@@ -228,7 +228,7 @@ namespace org.mariuszgromada.math.mxparser {
          * 3. If a root of the calculation tree is a function
          * then function expression string is provided here.
          */
-        public String expressionStringStart = "";
+        public String expressionStringStart = StringInvariant.EMPTY;
         /**
          * Final result of calculation
          */
@@ -241,7 +241,7 @@ namespace org.mariuszgromada.math.mxparser {
          * Information on error or lack of error
          * while performing calculation process
          */
-        public String errorMessage = "";
+        public String errorMessage = StringInvariant.EMPTY;
         /**
          * Prints this step register to the console.
          */
