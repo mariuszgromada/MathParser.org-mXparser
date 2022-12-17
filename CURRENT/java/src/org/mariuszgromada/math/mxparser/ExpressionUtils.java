@@ -1281,4 +1281,39 @@ final class ExpressionUtils {
         }
         mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
     }
+    static String tokenToString(Token token) {
+        if (token == null) return "";
+        if (token.isNumber()) {
+            double intTokenValue = Math.round(token.tokenValue);
+            if (intTokenValue == token.tokenValue)
+                return Long.toString((long)intTokenValue);
+            else
+                return Double.toString(token.tokenValue);
+        }
+        return token.tokenStr;
+    }
+    static String tokensListToString(List<Token> tokensList) {
+        if (tokensList == null) return "";
+        if (tokensList.size() == 0) return "";
+        String result = "";
+        for (int i = 0; i < tokensList.size(); i++) {
+            Token t0 = null;
+            Token t1 = tokensList.get(i);
+            if (i > 0) t0 = tokensList.get(i-1);
+            if (t0 != null)
+                if (!t0.isLeftParenthesis() &&
+                        !t0.isParameterSeparator() &&
+                        !t0.isBinaryOperator() &&
+                        !t0.isUnaryLeftOperator() &&
+                        !t0.isUnaryRightOperator() &&
+                        !t0.isUnicodeRootOperator() &&
+                        !t0.isRightParenthesis())
+                    if (t1.isNumber())
+                        result = result + StringInvariant.SPACE;
+            result = result + tokenToString(t1);
+        }
+
+        return result;
+    }
+
 }

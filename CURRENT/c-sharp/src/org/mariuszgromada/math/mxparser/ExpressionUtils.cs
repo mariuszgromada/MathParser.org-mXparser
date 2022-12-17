@@ -1278,5 +1278,39 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 		}
+		internal static String tokenToString(Token token) {
+			if (token == null) return "";
+			if (token.isNumber()) {
+				double intTokenValue = Math.Round(token.tokenValue);
+				if (intTokenValue == token.tokenValue)
+					return ((long)intTokenValue).ToString();
+				else
+					return (token.tokenValue).ToString();
+			}
+			return token.tokenStr;
+		}
+        internal static String tokensListToString(List<Token> tokensList) {
+			if (tokensList == null) return "";
+			if (tokensList.Count == 0) return "";
+			String result = "";
+			for (int i = 0; i < tokensList.Count; i++) {
+				Token t0 = null;
+				Token t1 = tokensList[i];
+				if (i > 0) t0 = tokensList[i-1];
+				if (t0 != null)
+					if (!t0.isLeftParenthesis() &&
+						!t0.isParameterSeparator() &&
+						!t0.isBinaryOperator() &&
+						!t0.isUnaryLeftOperator() &&
+						!t0.isUnaryRightOperator() &&
+						!t0.isUnicodeRootOperator() &&
+						!t0.isRightParenthesis())
+						if (t1.isNumber())
+							result = result + StringInvariant.SPACE;
+				result = result + tokenToString(t1);
+			}
+
+			return result;
+		}
     }
 }

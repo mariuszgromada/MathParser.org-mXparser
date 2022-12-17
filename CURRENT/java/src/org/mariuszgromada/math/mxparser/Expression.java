@@ -5078,40 +5078,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public double calculate() {
 		return calculate(null);
 	}
-	private String tokenToString(Token token) {
-		if (token == null) return "";
-		if (token.isNumber()) {
-			double intTokenValue = Math.round(token.tokenValue);
-			if (intTokenValue == token.tokenValue)
-				return Long.toString((long)intTokenValue);
-			else
-				return Double.toString(token.tokenValue);
-		}
-		return token.tokenStr;
-	}
-	private String tokensListToString() {
-		if (tokensList == null) return "";
-		if (tokensList.size() == 0) return "";
-		String result = "";
-		for (int i = 0; i < tokensList.size(); i++) {
-			Token t0 = null;
-			Token t1 = tokensList.get(i);
-			if (i > 0) t0 = tokensList.get(i-1);
-			if (t0 != null)
-				if (!t0.isLeftParenthesis() &&
-						!t0.isParameterSeparator() &&
-						!t0.isBinaryOperator() &&
-						!t0.isUnaryLeftOperator() &&
-						!t0.isUnaryRightOperator() &&
-						!t0.isUnicodeRootOperator() &&
-						!t0.isRightParenthesis())
-					if (t1.isNumber())
-						result = result + StringInvariant.SPACE;
-			result = result + tokenToString(t1);
-		}
-
-		return result;
-	}
 	private void registerErrorWhileCalculate(String errorMessageToAdd) {
 		errorMessage = StringResources.addErrorMassageNoLevel(errorMessage, errorMessageToAdd, description, expressionString);
 		errorMessageCalculate = StringResources.addErrorMassageNoLevel(errorMessageCalculate, errorMessageToAdd, description, expressionString);
@@ -5147,9 +5113,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * evaluate expression string tokens
 		 *
 		 */
-		if ( (expressionWasModified) || (syntaxStatus != NO_SYNTAX_ERRORS) )
+		if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
 				syntaxStatus = checkSyntax();
-		if ( syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+		if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
 			if (verboseMode)
 				printSystemInfo(StringResources.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
 			/*
@@ -5181,7 +5147,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 */
-		if ( (recursionCallsCounter == 0) || (internalClone) )
+		if (recursionCallsCounter == 0 || internalClone)
 			copyInitialTokens();
 		/*
 		 * if nothing to calculate return Double.NaN
@@ -5219,57 +5185,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * position for particular tokens types
 		 */
-		int calculusPos;
-		int ifPos;
-		int iffPos;
-		int variadicFunPos;
-		int depArgPos;
-		int recArgPos;
-		int f3ArgPos;
-		int f2ArgPos;
-		int f1ArgPos;
-		int userFunPos;
-		int plusPos;
-		int minusPos;
-		int multiplyPos;
-		int dividePos;
-		int powerPos;
-		int tetrationPos;
-		int powerNum;
-		int factPos;
-		int modPos;
-		int percPos;
-		int negPos;
-		int rootOperGroupPos;
-		int andGroupPos;
-		int orGroupPos;
-		int implGroupPos;
-		int bolPos;
-		int eqPos;
-		int neqPos;
-		int ltPos;
-		int gtPos;
-		int leqPos;
-		int geqPos;
-		int commaPos;
-		int lParPos;
-		int rParPos;
-		int bitwisePos;
+		int calculusPos, ifPos, iffPos, variadicFunPos;
+		int depArgPos, recArgPos, f3ArgPos, f2ArgPos;
+		int f1ArgPos, userFunPos, plusPos, minusPos;
+		int multiplyPos, dividePos, powerPos, tetrationPos;
+		int powerNum, factPos, modPos, percPos;
+		int negPos, rootOperGroupPos, andGroupPos, orGroupPos;
+		int implGroupPos, bolPos, eqPos, neqPos;
+		int ltPos, gtPos, leqPos, geqPos;
+		int commaPos, lParPos, rParPos, bitwisePos;
 		int bitwiseComplPos;
-		Token token;
-		Token tokenL;
-		Token tokenR;
+		int tokensNumber, maxPartLevel;
+		int lPos, rPos;
+		int tokenIndex, pos, p;
+		Token token, tokenL, tokenR;
 		Argument argument;
-		int tokensNumber;
-		int maxPartLevel;
-		int lPos;
-		int rPos;
-		int tokenIndex;
-		int pos;
-		int p;
 		List<Integer> commas = null;
-		int emptyLoopCounter = 0;
-		int loopCounter = 0;
+		int emptyLoopCounter = 0, loopCounter = 0;
 		/* While exist token which needs to bee evaluated */
 		if (verboseMode)
 			printSystemInfo(StringResources.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
@@ -5277,10 +5209,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
 		String stepDescription = "";
 		if (calcStepsRegister != null) {
-			if (description.trim().length() > 0)
-				stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
-			else
-				stepDescription = expressionString.trim();
+			if (description.trim().length() > 0) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
+			else stepDescription = expressionString.trim();
 		}
 		CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 		do {
@@ -5290,7 +5220,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
 				stepRecord.numberGroupWithin = loopCounter;
 				stepRecord.description = stepDescription;
-				stepRecord.content = tokensListToString();
+				stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
 				stepRecord.type = calcStepsRegister.stepType;
 				if (loopCounter == 1)
 					stepRecord.firstInGroup = true;
@@ -5302,47 +5232,19 @@ public class Expression extends PrimitiveElement implements Serializable {
 			}
 			tokensNumber = tokensList.size();
 			maxPartLevel = -1;
-			lPos = -1;
-			rPos = -1;
+			lPos = -1; rPos = -1;
 			/*
 			 * initializing tokens types positions
 			 */
-			calculusPos = -1;
-			ifPos = -1;
-			iffPos = -1;
-			variadicFunPos = -1;
-			recArgPos = -1;
-			depArgPos = -1;
-			f3ArgPos = -1;
-			f2ArgPos = -1;
-			f1ArgPos = -1;
-			userFunPos = -1;
-			plusPos = -1;
-			minusPos = -1;
-			multiplyPos = -1;
-			dividePos = -1;
-			powerPos = -1;
-			tetrationPos = -1;
-			factPos = -1;
-			modPos = -1;
-			percPos = -1;
-			powerNum = 0;
-			negPos = -1;
-			rootOperGroupPos = -1;
-			andGroupPos = -1;
-			orGroupPos = -1;
-			implGroupPos = -1;
-			bolPos = -1;
-			eqPos = -1;
-			neqPos = -1;
-			ltPos = -1;
-			gtPos = -1;
-			leqPos = -1;
-			geqPos = -1;
-			commaPos = -1;
-			lParPos = -1;
-			rParPos = -1;
-			bitwisePos = -1;
+			calculusPos = -1; ifPos = -1; iffPos = -1; variadicFunPos = -1;
+			recArgPos = -1; depArgPos = -1; f3ArgPos = -1; f2ArgPos = -1;
+			f1ArgPos = -1; userFunPos = -1; plusPos = -1; minusPos = -1;
+			multiplyPos = -1; dividePos = -1; powerPos = -1; tetrationPos = -1;
+			factPos = -1; modPos = -1; percPos = -1; powerNum = 0;
+			negPos = -1; rootOperGroupPos = -1; andGroupPos = -1; orGroupPos = -1;
+			implGroupPos = -1; bolPos = -1; eqPos = -1; neqPos = -1;
+			ltPos = -1; gtPos = -1; leqPos = -1; geqPos = -1;
+			commaPos = -1; lParPos = -1; rParPos = -1; bitwisePos = -1;
 			bitwiseComplPos = -1;
 			/* calculus or if or iff operations ... */
 			p = -1;
@@ -5350,9 +5252,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 				p++;
 				token = tokensList.get(p);
 				if (token.tokenTypeId == CalculusOperator.TYPE_ID) calculusPos = p;
-				else if ( (token.tokenTypeId == Function3Arg.TYPE_ID) && (token.tokenId == Function3Arg.IF_CONDITION_ID) ) ifPos = p;
-				else if ( (token.tokenTypeId == FunctionVariadic.TYPE_ID) && (token.tokenId == FunctionVariadic.IFF_ID) ) iffPos = p;
-			} while ( (p < tokensNumber-1 ) && (calculusPos < 0) && (ifPos < 0) && (iffPos < 0) );
+				else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID) ifPos = p;
+				else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID) iffPos = p;
+			} while (p < tokensNumber-1 && calculusPos < 0 && ifPos < 0 && iffPos < 0);
 			if (calculusPos < 0 && ifPos < 0 && iffPos < 0) {
 				/* Find start index of the tokens with the highest level */
 				for (tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
@@ -5372,18 +5274,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 						 * on argument clones. Here we are also checking
 						 * if there is dependent argument in expression.
 						 */
-						if (argument.argumentType == Argument.FREE_ARGUMENT)
-							FREE_ARGUMENT(tokenIndex);
-						else
-							depArgPos = tokenIndex;
-					} else if (token.tokenTypeId == ConstantValue.TYPE_ID)
-						CONSTANT(tokenIndex);
-					else if (token.tokenTypeId == Unit.TYPE_ID)
-						UNIT(tokenIndex);
-					else if (token.tokenTypeId == Constant.TYPE_ID)
-						USER_CONSTANT(tokenIndex);
-					else if (token.tokenTypeId == RandomVariable.TYPE_ID)
-						RANDOM_VARIABLE(tokenIndex);
+						if (argument.argumentType == Argument.FREE_ARGUMENT) FREE_ARGUMENT(tokenIndex);
+						else depArgPos = tokenIndex;
+					} else if (token.tokenTypeId == ConstantValue.TYPE_ID) CONSTANT(tokenIndex);
+					else if (token.tokenTypeId == Unit.TYPE_ID) UNIT(tokenIndex);
+					else if (token.tokenTypeId == Constant.TYPE_ID) USER_CONSTANT(tokenIndex);
+					else if (token.tokenTypeId == RandomVariable.TYPE_ID) RANDOM_VARIABLE(tokenIndex);
 				}
 				if (lPos < 0) {
 					registerErrorWhileCalculate(StringResources.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
@@ -5407,25 +5303,24 @@ public class Expression extends PrimitiveElement implements Serializable {
 						int currentTokensNumber = tokensList.size();
 						for (tokenIndex = 0; tokenIndex < currentTokensNumber; tokenIndex++) {
 							token = tokensList.get(tokenIndex);
-							if (token.tokenTypeId == Argument.TYPE_ID) {
-								argument = argumentsList.get( tokensList.get(tokenIndex).tokenId );
-								if (argument.argumentType == Argument.DEPENDENT_ARGUMENT) {
-									if (calcStepsRegister != null)
-										stepTypePrev = calcStepsRegister.stepType;
-									DEPENDENT_ARGUMENT(tokenIndex, calcStepsRegister);
-									if (calcStepsRegister != null)
-										calcStepsRegister.stepType = stepTypePrev;
-									depArgFound = true;
-									break;
-								}
-							}
+							if (token.tokenTypeId != Argument.TYPE_ID)
+								continue;
+							argument = argumentsList.get( tokensList.get(tokenIndex).tokenId );
+							if (argument.argumentType != Argument.DEPENDENT_ARGUMENT)
+								continue;
+							if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
+							DEPENDENT_ARGUMENT(tokenIndex, calcStepsRegister);
+							if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+							depArgFound = true;
+							break;
 						}
 					} while (depArgFound);
 				} else {
 					tokenIndex = lPos;
 					/* Find end index of the tokens with the highest level */
-					while ( (tokenIndex < tokensNumber) && (maxPartLevel == tokensList.get(tokenIndex).tokenLevel ) )
+					while (tokenIndex < tokensNumber && maxPartLevel == tokensList.get(tokenIndex).tokenLevel)
 						tokenIndex++;
+
 					rPos = tokenIndex - 1;
 					if (verboseMode) {
 						printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
@@ -5448,110 +5343,50 @@ public class Expression extends PrimitiveElement implements Serializable {
 							tokenR = tokensList.get(pos+1);
 							if (tokenR.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) rigthIsNumber = true;
 						}
-						if ((token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) && (recArgPos < 0))
-							recArgPos = pos;
-						else
-						if ((token.tokenTypeId == FunctionVariadic.TYPE_ID) && (variadicFunPos < 0))
-							variadicFunPos = pos;
-						else
-						if ((token.tokenTypeId == Function3Arg.TYPE_ID) && (f3ArgPos < 0))
-							f3ArgPos = pos;
-						else
-						if ((token.tokenTypeId == Function2Arg.TYPE_ID) && (f2ArgPos < 0))
-							f2ArgPos = pos;
-						else
-						if ((token.tokenTypeId == Function1Arg.TYPE_ID) && (f1ArgPos < 0))
-							f1ArgPos = pos;
-						else
-						if ((token.tokenTypeId == Function.TYPE_ID) && (userFunPos < 0))
-							userFunPos = pos;
-						else
-						if (token.tokenTypeId == Operator.TYPE_ID) {
-							if ( (token.tokenId == Operator.POWER_ID) && (leftIsNumber && rigthIsNumber) ) {
+						if (token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE && recArgPos < 0) recArgPos = pos;
+						else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && variadicFunPos < 0) variadicFunPos = pos;
+						else if (token.tokenTypeId == Function3Arg.TYPE_ID && f3ArgPos < 0) f3ArgPos = pos;
+						else if (token.tokenTypeId == Function2Arg.TYPE_ID && f2ArgPos < 0) f2ArgPos = pos;
+						else if (token.tokenTypeId == Function1Arg.TYPE_ID && f1ArgPos < 0) f1ArgPos = pos;
+						else if (token.tokenTypeId == Function.TYPE_ID && userFunPos < 0) userFunPos = pos;
+						else if (token.tokenTypeId == Operator.TYPE_ID) {
+							if (token.tokenId == Operator.POWER_ID && leftIsNumber && rigthIsNumber) {
 								powerPos = pos;
 								powerNum++;
-							} else
-							if ( (token.tokenId == Operator.TETRATION_ID) && (leftIsNumber && rigthIsNumber) ) {
-								tetrationPos = pos;
-							} else
-							if ( (token.tokenId == Operator.FACT_ID) && (factPos < 0) && (leftIsNumber)) {
-								factPos = pos;
-							} else
-							if ( (token.tokenId == Operator.PERC_ID) && (percPos < 0) && (leftIsNumber)) {
-								percPos = pos;
-							} else
-							if ( (token.tokenId == Operator.SQUARE_ROOT_ID || token.tokenId == Operator.CUBE_ROOT_ID || token.tokenId == Operator.FOURTH_ROOT_ID) && (rootOperGroupPos < 0) && rigthIsNumber )
-								rootOperGroupPos = pos;
-							else
-							if ( (token.tokenId == Operator.MOD_ID) && (modPos < 0) && (leftIsNumber && rigthIsNumber)) {
-								modPos = pos;
-							} else
-							if ( (token.tokenId == Operator.PLUS_ID)  && (plusPos < 0) && (rigthIsNumber))
-								plusPos = pos;
-							else
-							if ( (token.tokenId == Operator.MINUS_ID)  && (minusPos < 0) && (rigthIsNumber))
-								minusPos = pos;
-							else
-							if ( (token.tokenId == Operator.MULTIPLY_ID) && (multiplyPos < 0) && (leftIsNumber && rigthIsNumber))
-								multiplyPos = pos;
-							else
-							if ( (token.tokenId == Operator.DIVIDE_ID) && (dividePos < 0) && (leftIsNumber && rigthIsNumber))
-								dividePos = pos;
-						} else
-						if (token.tokenTypeId == BooleanOperator.TYPE_ID) {
-							if ( (token.tokenId == BooleanOperator.NEG_ID) && (negPos < 0) && (rigthIsNumber) )
-								negPos = pos;
-							else
-							if (leftIsNumber && rigthIsNumber) {
-								if ( (token.tokenId == BooleanOperator.AND_ID || token.tokenId == BooleanOperator.NAND_ID) && (andGroupPos < 0) )
-									andGroupPos = pos;
-								else
-								if ( (token.tokenId == BooleanOperator.OR_ID || token.tokenId == BooleanOperator.NOR_ID || token.tokenId == BooleanOperator.XOR_ID) && (orGroupPos < 0) )
-									orGroupPos = pos;
-								else
-								if ( (token.tokenId == BooleanOperator.IMP_ID || token.tokenId == BooleanOperator.CIMP_ID || token.tokenId == BooleanOperator.NIMP_ID || token.tokenId == BooleanOperator.CNIMP_ID || token.tokenId == BooleanOperator.EQV_ID) && (implGroupPos < 0) )
-									implGroupPos = pos;
+							} else if (token.tokenId == Operator.TETRATION_ID && leftIsNumber && rigthIsNumber) tetrationPos = pos;
+							else if (token.tokenId == Operator.FACT_ID && factPos < 0 && leftIsNumber) factPos = pos;
+							else if (token.tokenId == Operator.PERC_ID && percPos < 0 && leftIsNumber) percPos = pos;
+							else if ((token.tokenId == Operator.SQUARE_ROOT_ID || token.tokenId == Operator.CUBE_ROOT_ID || token.tokenId == Operator.FOURTH_ROOT_ID) && rootOperGroupPos < 0 && rigthIsNumber) rootOperGroupPos = pos;
+							else if (token.tokenId == Operator.MOD_ID && modPos < 0 && leftIsNumber && rigthIsNumber) modPos = pos;
+							else if (token.tokenId == Operator.PLUS_ID && plusPos < 0 && rigthIsNumber) plusPos = pos;
+							else if (token.tokenId == Operator.MINUS_ID && minusPos < 0 && rigthIsNumber) minusPos = pos;
+							else if (token.tokenId == Operator.MULTIPLY_ID && multiplyPos < 0 && leftIsNumber && rigthIsNumber) multiplyPos = pos;
+							else if (token.tokenId == Operator.DIVIDE_ID && dividePos < 0 && leftIsNumber && rigthIsNumber) dividePos = pos;
+						} else if (token.tokenTypeId == BooleanOperator.TYPE_ID) {
+							if (token.tokenId == BooleanOperator.NEG_ID && negPos < 0 && rigthIsNumber) negPos = pos;
+							else if (leftIsNumber && rigthIsNumber) {
+								if ((token.tokenId == BooleanOperator.AND_ID || token.tokenId == BooleanOperator.NAND_ID) && andGroupPos < 0) andGroupPos = pos;
+								else if ((token.tokenId == BooleanOperator.OR_ID || token.tokenId == BooleanOperator.NOR_ID || token.tokenId == BooleanOperator.XOR_ID) && orGroupPos < 0) orGroupPos = pos;
+								else if ((token.tokenId == BooleanOperator.IMP_ID || token.tokenId == BooleanOperator.CIMP_ID || token.tokenId == BooleanOperator.NIMP_ID || token.tokenId == BooleanOperator.CNIMP_ID || token.tokenId == BooleanOperator.EQV_ID) && implGroupPos < 0) implGroupPos = pos;
 								else if (bolPos < 0) bolPos = pos;
 							}
-						} else
-						if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
-							if ( (token.tokenId == BinaryRelation.EQ_ID) && (eqPos < 0) && (leftIsNumber && rigthIsNumber))
-								eqPos = pos;
-							else
-							if ( (token.tokenId == BinaryRelation.NEQ_ID) && (neqPos < 0) && (leftIsNumber && rigthIsNumber))
-								neqPos = pos;
-							else
-							if ( (token.tokenId == BinaryRelation.LT_ID) && (ltPos < 0) && (leftIsNumber && rigthIsNumber))
-								ltPos = pos;
-							else
-							if ( (token.tokenId == BinaryRelation.GT_ID) && (gtPos < 0) && (leftIsNumber && rigthIsNumber))
-								gtPos = pos;
-							else
-							if ( (token.tokenId == BinaryRelation.LEQ_ID) && (leqPos < 0) && (leftIsNumber && rigthIsNumber))
-								leqPos = pos;
-							else
-							if ( (token.tokenId == BinaryRelation.GEQ_ID) && (geqPos < 0) && (leftIsNumber && rigthIsNumber))
-								geqPos = pos;
-						} else
-						if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
-							if ((token.tokenId == BitwiseOperator.COMPL_ID) && (bitwiseComplPos < 0) && (rigthIsNumber))
-								bitwiseComplPos = pos;
-							else
-							if ((bitwisePos < 0) && (leftIsNumber && rigthIsNumber))
-								bitwisePos = pos;
-						} else
-						if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
-							if ( (token.tokenId == ParserSymbol.COMMA_ID) ) {
-								if (commaPos < 0)
-									commas = new ArrayList<Integer>();
+						} else if (token.tokenTypeId == BinaryRelation.TYPE_ID) {
+							if (token.tokenId == BinaryRelation.EQ_ID && eqPos < 0 && leftIsNumber && rigthIsNumber) eqPos = pos;
+							else if (token.tokenId == BinaryRelation.NEQ_ID && neqPos < 0 && leftIsNumber && rigthIsNumber) neqPos = pos;
+							else if (token.tokenId == BinaryRelation.LT_ID && ltPos < 0 && leftIsNumber && rigthIsNumber) ltPos = pos;
+							else if (token.tokenId == BinaryRelation.GT_ID && gtPos < 0 && leftIsNumber && rigthIsNumber) gtPos = pos;
+							else if (token.tokenId == BinaryRelation.LEQ_ID && leqPos < 0 && leftIsNumber && rigthIsNumber) leqPos = pos;
+							else if (token.tokenId == BinaryRelation.GEQ_ID && geqPos < 0 && leftIsNumber && rigthIsNumber) geqPos = pos;
+						} else if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
+							if (token.tokenId == BitwiseOperator.COMPL_ID && bitwiseComplPos < 0 && rigthIsNumber) bitwiseComplPos = pos;
+							else if (bitwisePos < 0 && leftIsNumber && rigthIsNumber) bitwisePos = pos;
+						} else if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
+							if (token.tokenId == ParserSymbol.COMMA_ID) {
+								if (commaPos < 0) commas = new ArrayList<Integer>();
 								commas.add(pos);
 								commaPos = pos;
-							} else
-							if ( (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) && (lParPos < 0) )
-								lParPos = pos;
-							else
-							if ( (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID) && (rParPos < 0) )
-								rParPos = pos;
+							} else if (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID && lParPos < 0) lParPos = pos;
+							else if (token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID && rParPos < 0) rParPos = pos;
 						}
 					}
 					/*
@@ -5563,142 +5398,68 @@ public class Expression extends PrimitiveElement implements Serializable {
 						do {
 							p--;
 							token = tokensList.get(p);
-							if ( (token.tokenTypeId == Operator.TYPE_ID) && (token.tokenId == Operator.POWER_ID) )
-								powerPos = p;
-						} while ( (p>lPos) && (powerPos == -1) );
+							if (token.tokenTypeId == Operator.TYPE_ID && token.tokenId == Operator.POWER_ID) powerPos = p;
+						} while (p>lPos && powerPos == -1);
 					}
 				}
 			}
-			/* calculus operations */
 			if (calculusPos >= 0) calculusCalc(calculusPos);
-			else
-			if (ifPos >= 0) {
-				IF_CONDITION(ifPos);
-			} else
-			if (iffPos >= 0) {
-				IFF(iffPos);
-			} else	/* ... arguments ... */
-			/* ... recursive arguments ... */
-			if (recArgPos >= 0) {
-				RECURSIVE_ARGUMENT(recArgPos);
-			} else
-			/* ... variadic functions  ... */
-			if (variadicFunPos >= 0) variadicFunCalc(variadicFunPos);
-			else
-			/* ... 3-args functions  ... */
-			if (f3ArgPos >= 0) f3ArgCalc(f3ArgPos);
-			else
-			/* ... 2-args functions  ... */
-			if (f2ArgPos >= 0) f2ArgCalc(f2ArgPos);
-			else
-			/* ... 1-arg functions  ... */
-			if (f1ArgPos >= 0) f1ArgCalc(f1ArgPos);
-			else
-			/* ... user functions  ... */
-			if (userFunPos >= 0) {
-				if (calcStepsRegister != null)
-					stepTypePrev = calcStepsRegister.stepType;
+			else if (ifPos >= 0) IF_CONDITION(ifPos);
+			else if (iffPos >= 0) IFF(iffPos);
+			else if (recArgPos >= 0) RECURSIVE_ARGUMENT(recArgPos);
+			else if (variadicFunPos >= 0) variadicFunCalc(variadicFunPos);
+			else if (f3ArgPos >= 0) f3ArgCalc(f3ArgPos);
+			else if (f2ArgPos >= 0) f2ArgCalc(f2ArgPos);
+			else if (f1ArgPos >= 0) f1ArgCalc(f1ArgPos);
+			else if (userFunPos >= 0) {
+				if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
 				USER_FUNCTION(userFunPos, calcStepsRegister);
-				if (calcStepsRegister != null)
-					calcStepsRegister.stepType = stepTypePrev;
+				if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+			} else if (tetrationPos >= 0) TETRATION(tetrationPos);
+			else if (powerPos >= 0) POWER(powerPos);
+			else if (factPos >= 0) FACT(factPos);
+			else if (percPos >= 0) PERC(percPos);
+			else if (modPos >= 0) MODULO(modPos);
+			else if (negPos >= 0) NEG(negPos);
+			else if (rootOperGroupPos >= 0) rootOperCalc(rootOperGroupPos);
+			else if (bitwiseComplPos >= 0) BITWISE_COMPL(bitwiseComplPos);
+			else if (multiplyPos >= 0 || dividePos >= 0) {
+				if (multiplyPos >= 0 && dividePos >= 0) {
+					if (multiplyPos <= dividePos) MULTIPLY(multiplyPos);
+					else DIVIDE(dividePos);
+				} else if (multiplyPos >= 0) MULTIPLY(multiplyPos);
+				else DIVIDE(dividePos);
 			} else
-			/* ... powering  ... */
-			if (tetrationPos >= 0) {
-				TETRATION(tetrationPos);
+			if (minusPos >= 0 || plusPos >= 0) {
+				if (minusPos >= 0 && plusPos >= 0) {
+					if (minusPos <= plusPos) MINUS(minusPos);
+					else PLUS(plusPos);
+				} else if (minusPos >= 0) MINUS(minusPos);
+				else PLUS(plusPos);
 			} else
-			if (powerPos >= 0) {
-				POWER(powerPos);
-			} else
-			if (factPos >= 0) {
-				FACT(factPos);
-			} else
-			if (percPos >= 0) {
-				PERC(percPos);
-			} else
-			if (modPos >= 0) {
-				MODULO(modPos);
-			} else
-			if (negPos >= 0) {
-				NEG(negPos);
-			} else
-			if (rootOperGroupPos >= 0) {
-				rootOperCalc(rootOperGroupPos);
-			} else
-			if (bitwiseComplPos >= 0) {
-				BITWISE_COMPL(bitwiseComplPos);
-			} else
-			/* ... arithmetical operators  ... */
-			if ( (multiplyPos >= 0) || (dividePos >= 0) ) {
-				if ( (multiplyPos >= 0) && (dividePos >= 0) )
-					if (multiplyPos <= dividePos)
-						MULTIPLY(multiplyPos);
-					else
-						DIVIDE(dividePos);
-				else
-					if (multiplyPos >= 0)
-						MULTIPLY(multiplyPos);
-					else
-						DIVIDE(dividePos);
-			} else
-			if ( (minusPos >= 0) || (plusPos >= 0) ) {
-				if ( (minusPos >= 0) && (plusPos >= 0) )
-					if (minusPos <= plusPos)
-						MINUS(minusPos);
-					else
-						PLUS(plusPos);
-				else
-					if (minusPos >= 0)
-						MINUS(minusPos);
-					else
-						PLUS(plusPos);
-			} else
-			if (neqPos >= 0) {
-				NEQ(neqPos);
-			} else
-			/* ... binary relations ... */
-			if (eqPos >= 0) {
-				EQ(eqPos);
-			} else
-			if (ltPos >= 0) {
-				LT(ltPos);
-			} else
-			if (gtPos >= 0) {
-				GT(gtPos);
-			} else
-			if (leqPos >= 0) {
-				LEQ(leqPos);
-			} else
-			if (geqPos >= 0) {
-				GEQ(geqPos);
-			} else
-			if (commaPos >= 0) {
+			if (neqPos >= 0) NEQ(neqPos);
+			else if (eqPos >= 0) EQ(eqPos);
+			else if (ltPos >= 0) LT(ltPos);
+			else if (gtPos >= 0) GT(gtPos);
+			else if (leqPos >= 0) LEQ(leqPos);
+			else if (geqPos >= 0) GEQ(geqPos);
+			else if (commaPos >= 0) {
 				for (int i = commas.size()-1; i >= 0; i--)
-					COMMA( commas.get(i) );
-			} else
-			/* ... logical operators  ... */
-			if (andGroupPos >= 0) bolCalc(andGroupPos);
-			else
-			if (orGroupPos >= 0) bolCalc(orGroupPos);
-			else
-			if (implGroupPos >= 0) bolCalc(implGroupPos);
-			else
-			if (bolPos >= 0) bolCalc(bolPos);
-			else
-			/* ... bitwise operators  ... */
-			if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
-			else
-			if ( (lParPos >= 0) && (rParPos > lParPos) ) {
-				PARENTHESES(lParPos,rParPos);
-			}
+					COMMA(commas.get(i));
+			} else if (andGroupPos >= 0) bolCalc(andGroupPos);
+			else if (orGroupPos >= 0) bolCalc(orGroupPos);
+			else if (implGroupPos >= 0) bolCalc(implGroupPos);
+			else if (bolPos >= 0) bolCalc(bolPos);
+			else if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
+			else if (lParPos >= 0 && rParPos > lParPos) PARENTHESES(lParPos,rParPos);
+
 			if (verboseMode) {
 				showParsing(0,tokensList.size()-1);
 				printSystemInfo(StringInvariant.SPACE + StringResources.DONE + StringInvariant.NEW_LINE, NO_EXP_STR);
 			}
 
-			if (tokensList.size() == tokensNumber)
-				emptyLoopCounter++;
-			else
-				emptyLoopCounter = 0;
+			if (tokensList.size() == tokensNumber) emptyLoopCounter++;
+			else emptyLoopCounter = 0;
 
 			if (emptyLoopCounter > 10) {
 				registerErrorWhileCalculate(StringResources.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN);
@@ -5717,13 +5478,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double result = tokensList.get(0).tokenValue;
 		if (!disableRounding) {
 			if (mXparser.almostIntRounding) {
-				double resultint = Math.round(result);
-				if ( Math.abs(result-resultint) <= BinaryRelations.getEpsilon() )
-					result = resultint;
+				double resultInt = Math.round(result);
+				if (Math.abs(result-resultInt) <= BinaryRelations.getEpsilon()) result = resultInt;
 			}
-			if (mXparser.canonicalRounding) {
-				result = MathFunctions.lengthRound(result);
-			}
+			if (mXparser.canonicalRounding) result = MathFunctions.lengthRound(result);
 		}
 
 		if (calcStepsRegister != null) {
@@ -5731,7 +5489,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
 			stepRecord.numberGroupWithin = loopCounter;
 			stepRecord.description = stepDescription;
-			stepRecord.content = tokensListToString();
+			stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
 			stepRecord.type = calcStepsRegister.stepType;
 			stepRecord.lastInGroup = true;
 			calcStepsRegister.calcStepRecords.add(stepRecord);
