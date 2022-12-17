@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2022-12-09
+ * @(#)Expression.java        5.2.0    2022-12-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -2135,307 +2135,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void UNIT(int pos) {
-		double unitValue = Double.NaN;
-		switch (tokensList.get(pos).tokenId) {
-		/* Ratio, Fraction */
-		case Unit.PERC_ID:
-			unitValue = Units.PERC;
-			break;
-		case Unit.PROMIL_ID:
-			unitValue = Units.PROMIL;
-			break;
-			/* Metric prefixes */
-		case Unit.YOTTA_ID:
-			unitValue = Units.YOTTA;
-			break;
-		case Unit.ZETTA_ID:
-			unitValue = Units.ZETTA;
-			break;
-		case Unit.EXA_ID:
-			unitValue = Units.EXA;
-			break;
-		case Unit.PETA_ID:
-			unitValue = Units.PETA;
-			break;
-		case Unit.TERA_ID:
-			unitValue = Units.TERA;
-			break;
-		case Unit.GIGA_ID:
-			unitValue = Units.GIGA;
-			break;
-		case Unit.MEGA_ID:
-			unitValue = Units.MEGA;
-			break;
-		case Unit.KILO_ID:
-			unitValue = Units.KILO;
-			break;
-		case Unit.HECTO_ID:
-			unitValue = Units.HECTO;
-			break;
-		case Unit.DECA_ID:
-			unitValue = Units.DECA;
-			break;
-		case Unit.DECI_ID:
-			unitValue = Units.DECI;
-			break;
-		case Unit.CENTI_ID:
-			unitValue = Units.CENTI;
-			break;
-		case Unit.MILLI_ID:
-			unitValue = Units.MILLI;
-			break;
-		case Unit.MICRO_ID:
-			unitValue = Units.MICRO;
-			break;
-		case Unit.NANO_ID:
-			unitValue = Units.NANO;
-			break;
-		case Unit.PICO_ID:
-			unitValue = Units.PICO;
-			break;
-		case Unit.FEMTO_ID:
-			unitValue = Units.FEMTO;
-			break;
-		case Unit.ATTO_ID:
-			unitValue = Units.ATTO;
-			break;
-		case Unit.ZEPTO_ID:
-			unitValue = Units.ZEPTO;
-			break;
-		case Unit.YOCTO_ID:
-			unitValue = Units.YOCTO;
-			break;
-			/* Units of length / distance */
-		case Unit.METRE_ID:
-			unitValue = Units.METRE;
-			break;
-		case Unit.KILOMETRE_ID:
-			unitValue = Units.KILOMETRE;
-			break;
-		case Unit.CENTIMETRE_ID:
-			unitValue = Units.CENTIMETRE;
-			break;
-		case Unit.MILLIMETRE_ID:
-			unitValue = Units.MILLIMETRE;
-			break;
-		case Unit.INCH_ID:
-			unitValue = Units.INCH;
-			break;
-		case Unit.YARD_ID:
-			unitValue = Units.YARD;
-			break;
-		case Unit.FEET_ID:
-			unitValue = Units.FEET;
-			break;
-		case Unit.MILE_ID:
-			unitValue = Units.MILE;
-			break;
-		case Unit.NAUTICAL_MILE_ID:
-			unitValue = Units.NAUTICAL_MILE;
-			break;
-			/* Units of area */
-		case Unit.METRE2_ID:
-			unitValue = Units.METRE2;
-			break;
-		case Unit.CENTIMETRE2_ID:
-			unitValue = Units.CENTIMETRE2;
-			break;
-		case Unit.MILLIMETRE2_ID:
-			unitValue = Units.MILLIMETRE2;
-			break;
-		case Unit.ARE_ID:
-			unitValue = Units.ARE;
-			break;
-		case Unit.HECTARE_ID:
-			unitValue = Units.HECTARE;
-			break;
-		case Unit.ACRE_ID:
-			unitValue = Units.ACRE;
-			break;
-		case Unit.KILOMETRE2_ID:
-			unitValue = Units.KILOMETRE2;
-			break;
-			/* Units of volume */
-		case Unit.MILLIMETRE3_ID:
-			unitValue = Units.MILLIMETRE3;
-			break;
-		case Unit.CENTIMETRE3_ID:
-			unitValue = Units.CENTIMETRE3;
-			break;
-		case Unit.METRE3_ID:
-			unitValue = Units.METRE3;
-			break;
-		case Unit.KILOMETRE3_ID:
-			unitValue = Units.KILOMETRE3;
-			break;
-		case Unit.MILLILITRE_ID:
-			unitValue = Units.MILLILITRE;
-			break;
-		case Unit.LITRE_ID:
-			unitValue = Units.LITRE;
-			break;
-		case Unit.GALLON_ID:
-			unitValue = Units.GALLON;
-			break;
-		case Unit.PINT_ID:
-			unitValue = Units.PINT;
-			break;
-			/* Units of time */
-		case Unit.SECOND_ID:
-			unitValue = Units.SECOND;
-			break;
-		case Unit.MILLISECOND_ID:
-			unitValue = Units.MILLISECOND;
-			break;
-		case Unit.MINUTE_ID:
-			unitValue = Units.MINUTE;
-			break;
-		case Unit.HOUR_ID:
-			unitValue = Units.HOUR;
-			break;
-		case Unit.DAY_ID:
-			unitValue = Units.DAY;
-			break;
-		case Unit.WEEK_ID:
-			unitValue = Units.WEEK;
-			break;
-		case Unit.JULIAN_YEAR_ID:
-			unitValue = Units.JULIAN_YEAR;
-			break;
-			/* Units of mass */
-		case Unit.KILOGRAM_ID:
-			unitValue = Units.KILOGRAM;
-			break;
-		case Unit.GRAM_ID:
-			unitValue = Units.GRAM;
-			break;
-		case Unit.MILLIGRAM_ID:
-			unitValue = Units.MILLIGRAM;
-			break;
-		case Unit.DECAGRAM_ID:
-			unitValue = Units.DECAGRAM;
-			break;
-		case Unit.TONNE_ID:
-			unitValue = Units.TONNE;
-			break;
-		case Unit.OUNCE_ID:
-			unitValue = Units.OUNCE;
-			break;
-		case Unit.POUND_ID:
-			unitValue = Units.POUND;
-			break;
-			/* Units of information */
-		case Unit.BIT_ID:
-			unitValue = Units.BIT;
-			break;
-		case Unit.KILOBIT_ID:
-			unitValue = Units.KILOBIT;
-			break;
-		case Unit.MEGABIT_ID:
-			unitValue = Units.MEGABIT;
-			break;
-		case Unit.GIGABIT_ID:
-			unitValue = Units.GIGABIT;
-			break;
-		case Unit.TERABIT_ID:
-			unitValue = Units.TERABIT;
-			break;
-		case Unit.PETABIT_ID:
-			unitValue = Units.PETABIT;
-			break;
-		case Unit.EXABIT_ID:
-			unitValue = Units.EXABIT;
-			break;
-		case Unit.ZETTABIT_ID:
-			unitValue = Units.ZETTABIT;
-			break;
-		case Unit.YOTTABIT_ID:
-			unitValue = Units.YOTTABIT;
-			break;
-		case Unit.BYTE_ID:
-			unitValue = Units.BYTE;
-			break;
-		case Unit.KILOBYTE_ID:
-			unitValue = Units.KILOBYTE;
-			break;
-		case Unit.MEGABYTE_ID:
-			unitValue = Units.MEGABYTE;
-			break;
-		case Unit.GIGABYTE_ID:
-			unitValue = Units.GIGABYTE;
-			break;
-		case Unit.TERABYTE_ID:
-			unitValue = Units.TERABYTE;
-			break;
-		case Unit.PETABYTE_ID:
-			unitValue = Units.PETABYTE;
-			break;
-		case Unit.EXABYTE_ID:
-			unitValue = Units.EXABYTE;
-			break;
-		case Unit.ZETTABYTE_ID:
-			unitValue = Units.ZETTABYTE;
-			break;
-		case Unit.YOTTABYTE_ID:
-			unitValue = Units.YOTTABYTE;
-			break;
-			/* Units of energy */
-		case Unit.JOULE_ID:
-			unitValue = Units.JOULE;
-			break;
-		case Unit.ELECTRONO_VOLT_ID:
-			unitValue = Units.ELECTRONO_VOLT;
-			break;
-		case Unit.KILO_ELECTRONO_VOLT_ID:
-			unitValue = Units.KILO_ELECTRONO_VOLT;
-			break;
-		case Unit.MEGA_ELECTRONO_VOLT_ID:
-			unitValue = Units.MEGA_ELECTRONO_VOLT;
-			break;
-		case Unit.GIGA_ELECTRONO_VOLT_ID:
-			unitValue = Units.GIGA_ELECTRONO_VOLT;
-			break;
-		case Unit.TERA_ELECTRONO_VOLT_ID:
-			unitValue = Units.TERA_ELECTRONO_VOLT;
-			break;
-			/* Units of speed */
-		case Unit.METRE_PER_SECOND_ID:
-			unitValue = Units.METRE_PER_SECOND;
-			break;
-		case Unit.KILOMETRE_PER_HOUR_ID:
-			unitValue = Units.KILOMETRE_PER_HOUR;
-			break;
-		case Unit.MILE_PER_HOUR_ID:
-			unitValue = Units.MILE_PER_HOUR;
-			break;
-		case Unit.KNOT_ID:
-			unitValue = Units.KNOT;
-			break;
-			/* Units of acceleration */
-		case Unit.METRE_PER_SECOND2_ID:
-			unitValue = Units.METRE_PER_SECOND2;
-			break;
-		case Unit.KILOMETRE_PER_HOUR2_ID:
-			unitValue = Units.KILOMETRE_PER_HOUR2;
-			break;
-		case Unit.MILE_PER_HOUR2_ID:
-			unitValue = Units.MILE_PER_HOUR2;
-			break;
-			/* Units of angle */
-		case Unit.RADIAN_ARC_ID:
-			unitValue = Units.RADIAN_ARC;
-			break;
-		case Unit.DEGREE_ARC_ID:
-			unitValue = Units.DEGREE_ARC;
-			break;
-		case Unit.MINUTE_ARC_ID:
-			unitValue = Units.MINUTE_ARC;
-			break;
-		case Unit.SECOND_ARC_ID:
-			unitValue = Units.SECOND_ARC;
-			break;
-		}
-		setToNumber(pos, unitValue);
+		setToNumber(pos, Units.getUnitValue(tokensList.get(pos).tokenId));
 	}
 	/**
 	 * Random Variables handling.
@@ -2443,106 +2143,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void RANDOM_VARIABLE(int pos) {
-		double rndVar = Double.NaN;
-		switch (tokensList.get(pos).tokenId) {
-		case RandomVariable.UNIFORM_ID:
-			rndVar = ProbabilityDistributions.rndUniformContinuous(ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT_ID:
-			rndVar = ProbabilityDistributions.rndInteger(ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT1_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-10, 10, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT2_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-100, 100, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT3_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-1000, 1000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT4_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-10000, 10000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT5_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-100000, 100000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT6_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-1000000, 1000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT7_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-10000000, 10000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT8_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-100000000, 100000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.INT9_ID:
-			rndVar = ProbabilityDistributions.rndInteger(-1000000000, 1000000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 2147483646, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_1_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 10, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_2_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 100, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_3_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 1000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_4_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 10000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_5_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 100000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_6_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 1000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_7_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 10000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_8_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 100000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT0_9_ID:
-			rndVar = ProbabilityDistributions.rndInteger(0, 1000000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 2147483646, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_1_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 10, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_2_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 100, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_3_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 1000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_4_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 10000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_5_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 100000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_6_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 1000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_7_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 10000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_8_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 100000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NAT1_9_ID:
-			rndVar = ProbabilityDistributions.rndInteger(1, 1000000000, ProbabilityDistributions.randomGenerator);
-			break;
-		case RandomVariable.NOR_ID:
-			rndVar = ProbabilityDistributions.rndNormal(0.0, 1.0, ProbabilityDistributions.randomGenerator);
-			break;
-		}
-		setToNumber(pos, rndVar);
+		setToNumber(pos, ProbabilityDistributions.getRandomVariableValue(tokensList.get(pos).tokenId));
 	}
 	/**
 	 * Gets token value
@@ -7488,10 +7089,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 			tokensList.add(token.clone());
 		}
 	}
-	private final String FUNCTION = "function";
-	private final String ARGUMENT = "argument";
-	private final String UNITCONST = "unit/const";
-	private final String ERROR = "error";
 	/**
 	 * Tokenizes expression string and returns tokens list,
 	 * including: string, type, level.
@@ -7502,30 +7099,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see mXparser#consolePrintTokens(List)
 	 */
 	public List<Token> getCopyOfInitialTokens() {
-		List<Token> tokensListCopy = new ArrayList<Token>();
-		if (expressionString.length() == 0) return tokensListCopy;
 		tokenizeExpressionString();
-		if (initialTokens.size() == 0) return tokensListCopy;
-		Token token;
-		for (int i = 0; i < initialTokens.size(); i++) {
-			token =  initialTokens.get(i);
-			if (token.tokenTypeId == Token.NOT_MATCHED) {
-				if (mXparser.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
-					token.looksLike = UNITCONST;
-				} else if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
-					token.looksLike = ARGUMENT;
-					if (i < initialTokens.size()-1) {
-						Token tokenNext = initialTokens.get(i+1);
-						if ( (tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) )
-							token.looksLike = FUNCTION;
-					}
-				} else {
-					token.looksLike = ERROR;
-				}
-			}
-			tokensListCopy.add(token.clone());
-		}
-		return tokensListCopy;
+		return ExpressionUtils.getCopyOfInitialTokens(expressionString, initialTokens);
 	}
 	/**
 	 * Prints to the console copy of initial tokens. Presents how
@@ -7545,17 +7120,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * - distinct strings.
 	 */
 	public String[] getMissingUserDefinedArguments() {
-		List<Token> tokens = getCopyOfInitialTokens();
-		List<String> missingArguments = new ArrayList<String>();
-		for (Token t : tokens)
-			if ( t.looksLike.equals(ARGUMENT) )
-				if ( !missingArguments.contains(t.tokenStr) )
-					missingArguments.add(t.tokenStr);
-		int n = missingArguments.size();
-		String[] missArgs = new String[n];
-		for (int i = 0; i < n; i++)
-			missArgs[i] = missingArguments.get(i);
-		return missArgs;
+		return ExpressionUtils.getMissingUserDefinedArguments(getCopyOfInitialTokens());
 	}
 	/**
 	 * Returns missing user defined units names, i.e.
@@ -7566,17 +7131,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * - distinct strings.
 	 */
 	public String[] getMissingUserDefinedUnits() {
-		List<Token> tokens = getCopyOfInitialTokens();
-		List<String> missingUnits = new ArrayList<String>();
-		for (Token t : tokens)
-			if ( t.looksLike.equals(UNITCONST) )
-				if ( !missingUnits.contains(t.tokenStr) )
-					missingUnits.add(t.tokenStr);
-		int n = missingUnits.size();
-		String[] missUnits = new String[n];
-		for (int i = 0; i < n; i++)
-			missUnits[i] = missingUnits.get(i);
-		return missUnits;
+		return ExpressionUtils.getMissingUserDefinedUnits(getCopyOfInitialTokens());
 	}
 	/**
 	 * Returns missing user defined functions names, i.e.
@@ -7587,17 +7142,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * - distinct strings.
 	 */
 	public String[] getMissingUserDefinedFunctions() {
-		List<Token> tokens = getCopyOfInitialTokens();
-		List<String> missingFunctions = new ArrayList<String>();
-		for (Token t : tokens)
-			if ( t.looksLike.equals(FUNCTION) )
-				if ( !missingFunctions.contains(t.tokenStr) )
-					missingFunctions.add(t.tokenStr);
-		int n = missingFunctions.size();
-		String[] missFun = new String[n];
-		for (int i = 0; i < n; i++)
-			missFun[i] = missingFunctions.get(i);
-		return missFun;
+		return ExpressionUtils.getMissingUserDefinedFunctions(getCopyOfInitialTokens());
 	}
 	/**
 	 * Gets initial tokens and returns copied list
@@ -7607,58 +7152,18 @@ public class Expression extends PrimitiveElement implements Serializable {
 	List<Token> getInitialTokens() {
 		return initialTokens;
 	}
-	/*
-	 * Text adjusting.
-	 */
-	private static String getLeftSpaces(String maxStr, String str) {
-		String spc = "";
-		for (int i=0; i<maxStr.length() - str.length(); i++)
-			spc = spc + StringInvariant.SPACE;
-		return spc + str;
-	}
-	/*
-	 * Text adjusting.
-	 */
-	private static String getRightSpaces(String maxStr, String str) {
-		String spc = "";
-		for (int i=0; i<maxStr.length() - str.length(); i++)
-			spc = StringInvariant.SPACE + spc;
-		return str + spc;
-	}
 	/**
 	 * Shows parsing (verbose mode purposes).
 	 *
 	 */
 	private void showParsing(int lPos, int rPos) {
-		mXparser.consolePrint(StringInvariant.LONG_RIGHT_ARROW_SPACE);
-		for (int i=lPos; i<=rPos; i++) {
-			Token token = tokensList.get(i);
-			if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
-				mXparser.consolePrint(token.tokenValue + StringInvariant.SPACE);
-			else
-				mXparser.consolePrint(token.tokenStr + StringInvariant.SPACE);
-		}
-		mXparser.consolePrint(StringInvariant.DOTS_SPACE);
+		ExpressionUtils.showParsing(lPos, rPos, tokensList);
 	}
 	/**
 	 * shows known keywords
 	 */
 	void showKeyWords() {
-		int keyWordsNumber = keyWordsList.size();
-		String maxStr = "KEY_WORD";
-		mXparser.consolePrintln("Keywords:");
-		mXparser.consolePrintln(" -------------------------------------------");
-		mXparser.consolePrintln("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
-		mXparser.consolePrintln(" -------------------------------------------");
-		for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
-			KeyWord keyWord = keyWordsList.get(keyWordIndex);
-			String idxStr = getLeftSpaces(maxStr, Integer.toString(keyWordIndex));
-			String wordStr = getLeftSpaces(maxStr, keyWord.wordString);
-			String idStr = getLeftSpaces(maxStr, Integer.toString(keyWord.wordId));
-			String typeIdStr = getLeftSpaces(maxStr, Integer.toString(keyWord.wordTypeId));
-			mXparser.consolePrintln("| " + idxStr+ " | " + wordStr + " | " + idStr + " | " + typeIdStr + " |");
-		}
-		mXparser.consolePrintln(" -------------------------------------------");
+		ExpressionUtils.showKeyWords(keyWordsList);
 	}
 	/**
 	 * Gets help content.
@@ -7676,52 +7181,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     The help content.
 	 */
 	public String getHelp(String word) {
-		keyWordsList = new ArrayList<KeyWord>();
-		String helpStr = StringResources.HELP_CONTENT + StringInvariant.COLON + StringInvariant.NEW_LINE + StringInvariant.NEW_LINE;
 		initParserKeyWords();
-		helpStr = helpStr + getLeftSpaces("12345","#") + "  " +
-		getRightSpaces("01234567890123456789", StringResources.KEYWORD) + getRightSpaces("                        ",StringResources.TYPE)
-		+ getRightSpaces("0123456789012345678901234567890123456789012345", StringResources.SYNTAX) + getRightSpaces("012345", StringResources.SINCE) +  StringResources.DESCRIPTION + StringInvariant.NEW_LINE;
-		helpStr = helpStr + getLeftSpaces("12345","-") + "  " +
-		getRightSpaces("01234567890123456789", "--------") + getRightSpaces("                        ","----")
-		+ getRightSpaces("0123456789012345678901234567890123456789012345", "------") + getRightSpaces("012345", "-----") +  "-----------" + StringInvariant.NEW_LINE;
-
-		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
-		int keyWordsNumber = keyWordsList.size();
-		String type, kw;
-		String line;
-		for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
-			KeyWord keyWord = keyWordsList.get(keyWordIndex);
-			type = "";
-			kw = keyWord.wordString;
-			switch (keyWord.wordTypeId) {
-				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-				case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = "_" + StringResources.NUMBER + "_"; break;
-				case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
-				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
-				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
-				case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
-				case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
-				case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
-				case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
-				case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
-				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
-				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
-				case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
-				case Function.TYPE_ID: type = Function.TYPE_DESC; break;
-				case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
-				case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
-				case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
-			}
-			line = getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + StringInvariant.DOT_SPACE +
-			getRightSpaces("01234567890123456789", kw) + getRightSpaces("                        ",StringInvariant.LOWER + type + StringInvariant.GREATER)
-			+ getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + getRightSpaces("012345", keyWord.since) +  keyWord.description + StringInvariant.NEW_LINE;
-			if ( (line.toLowerCase().indexOf(word.toLowerCase()) >= 0) ){
-				helpStr = helpStr + line;
-			}
-		}
-		return helpStr;
+		return ExpressionUtils.getHelp(word, keyWordsList);
 	}
 	/**
 	 * Returns list of keywords known to the parser
@@ -7750,22 +7211,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see Expression#getHelp(String)
 	 */
 	public List<KeyWord> getKeyWords(String query) {
-		List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
 		initParserKeyWords();
-		java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
-		String line;
-		for (KeyWord kw : keyWordsList) {
-			line = 	"str=" + kw.wordString + StringInvariant.SPACE +
-					"desc=" + kw.description + StringInvariant.SPACE +
-					"syn=" + kw.syntax + StringInvariant.SPACE +
-					"sin=" + kw.since + StringInvariant.SPACE +
-					"wid=" + kw.wordId + StringInvariant.SPACE +
-					"tid=" + kw.wordTypeId
-					;
-			if ( (line.toLowerCase().contains(query.toLowerCase())) )
-				kwyWordsToReturn.add(kw);
-		}
-		return kwyWordsToReturn;
+		return ExpressionUtils.getKeyWords(query, keyWordsList);
 	}
 	/*
 	 * shows tokens
@@ -7777,36 +7224,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * show tokens
 	 */
 	static void showTokens(List<Token> tokensList) {
-		String maxStr = "TokenTypeId";
-		mXparser.consolePrintln(" --------------------");
-		mXparser.consolePrintln("| " + StringResources.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
-		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
-		mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
-		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
-		if (tokensList == null) {
-			mXparser.consolePrintln(StringResources.NULL_TOKENS_LIST);
-			return;
-		}
-		int tokensNumber = tokensList.size();
-		for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
-			String tokenIndexStr = getLeftSpaces(maxStr, Integer.toString(tokenIndex) );
-			String tokenStr = getLeftSpaces(maxStr, tokensList.get(tokenIndex).tokenStr );
-			String keyWordStr = getLeftSpaces(maxStr, tokensList.get(tokenIndex).keyWord );
-			String tokenIdStr = getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenId) );
-			String tokenTypeIdStr = getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenTypeId) );
-			String tokenLevelStr = getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenLevel) );
-			String tokenValueStr = getLeftSpaces(maxStr, Double.toString(tokensList.get(tokenIndex).tokenValue) );
-			String tokenLooksLikeStr = getLeftSpaces(maxStr, tokensList.get(tokenIndex).looksLike );
-			mXparser.consolePrintln(	"| " + tokenIndexStr +
-								" | " + tokenStr +
-								" | " + keyWordStr +
-								" | " + tokenIdStr +
-								" | " + tokenTypeIdStr +
-								" | " + tokenLevelStr +
-								" | " + tokenValueStr +
-								" | " + tokenLooksLikeStr + " |");
-		}
-		mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+		ExpressionUtils.showTokens(tokensList);
 	}
 	/**
 	 * shows initial tokens

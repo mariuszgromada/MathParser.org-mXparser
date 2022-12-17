@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)StringUtils.cs        5.2.0    2022-12-09
+ * @(#)StringUtils.cs        5.2.0    2022-12-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -308,7 +308,6 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return false;
         }
-
         internal static bool isUnicodeOperator(char c) {
             switch (c) {
                 case '∜':
@@ -338,7 +337,6 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return false;
         }
-
         internal static bool isNotSpecialChar(char c) {
             switch (c) {
                 case '+':
@@ -365,7 +363,6 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return !isUnicodeOperator(c);
         }
-
         internal static bool is0To9Digit(char c) {
             switch (c) {
                 case '0':
@@ -382,7 +379,6 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return false;
         }
-
         internal static bool canBeSeparatingChar(char c) {
             switch (c) {
                 case ' ':
@@ -412,7 +408,6 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return isUnicodeOperator(c);
         }
-
         internal static bool isBlankChar(char c) {
             switch (c) {
                 case ' ':
@@ -424,11 +419,29 @@ namespace org.mariuszgromada.math.mxparser {
             }
             return false;
         }
-
 		internal static bool charIsLeftParenthesis(String str, int pos) {
 			int len = str.Length;
 			if (pos >= len) return false;
 			return str[pos] == '(';
 		}
+        /*
+		 * Text adjusting.
+		 */
+        internal static String getLeftSpaces(String maxStr, String str) {
+			String spc = "";
+			for (int i=0; i<maxStr.Length - str.Length; i++)
+				spc = spc + StringInvariant.SPACE;
+			return spc + str;
+		}
+        /*
+		 * Text adjusting.
+		 */
+        internal static String getRightSpaces(String maxStr, String str) {
+			String spc = "";
+			for (int i=0; i<maxStr.Length - str.Length; i++)
+				spc = StringInvariant.SPACE + spc;
+			return str + spc;
+		}
+
     }
 }

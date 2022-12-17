@@ -1,5 +1,5 @@
 /*
- * @(#)Units.java        5.0.4    2022-05-22
+ * @(#)Units.java        5.2.0    2022-12-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,9 @@
  */
 package org.mariuszgromada.math.mxparser.mathcollection;
 
+import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
+import org.mariuszgromada.math.mxparser.parsertokens.Unit;
+
 /**
  * Units - class representing the most important units (length, area, volume, mass).
  *
@@ -193,7 +196,7 @@ package org.mariuszgromada.math.mxparser.mathcollection;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class Units {
 	/* ===========================================
@@ -669,4 +672,124 @@ public final class Units {
 	 * Second (angle)
 	 */
 	public static final double SECOND_ARC = MINUTE_ARC / 60.0;
+	/**
+	 * Returns unit value, where unit is represented by the
+	 * token id in the Unit class
+	 *
+	 * @param unitId
+	 * @return Returns unit value if id is known, otherwise Double.NaN is returned.
+	 *
+	 * @see Unit
+	 */
+	public static double getUnitValue(int unitId) {
+		switch (unitId) {
+			case Unit.PERC_ID: return PERC;
+			case Unit.PROMIL_ID: return PROMIL;
+			/* Metric prefixes */
+			case Unit.YOTTA_ID: return YOTTA;
+			case Unit.ZETTA_ID: return ZETTA;
+			case Unit.EXA_ID: return EXA;
+			case Unit.PETA_ID: return PETA;
+			case Unit.TERA_ID: return TERA;
+			case Unit.GIGA_ID: return GIGA;
+			case Unit.MEGA_ID: return MEGA;
+			case Unit.KILO_ID: return KILO;
+			case Unit.HECTO_ID: return HECTO;
+			case Unit.DECA_ID: return DECA;
+			case Unit.DECI_ID: return DECI;
+			case Unit.CENTI_ID: return CENTI;
+			case Unit.MILLI_ID: return MILLI;
+			case Unit.MICRO_ID: return MICRO;
+			case Unit.NANO_ID: return NANO;
+			case Unit.PICO_ID: return PICO;
+			case Unit.FEMTO_ID: return FEMTO;
+			case Unit.ATTO_ID: return ATTO;
+			case Unit.ZEPTO_ID: return ZEPTO;
+			case Unit.YOCTO_ID: return YOCTO;
+			/* Units of length / distance */
+			case Unit.METRE_ID: return METRE;
+			case Unit.KILOMETRE_ID: return KILOMETRE;
+			case Unit.CENTIMETRE_ID: return CENTIMETRE;
+			case Unit.MILLIMETRE_ID: return MILLIMETRE;
+			case Unit.INCH_ID: return INCH;
+			case Unit.YARD_ID: return YARD;
+			case Unit.FEET_ID: return FEET;
+			case Unit.MILE_ID: return MILE;
+			case Unit.NAUTICAL_MILE_ID: return NAUTICAL_MILE;
+			/* Units of area */
+			case Unit.METRE2_ID: return METRE2;
+			case Unit.CENTIMETRE2_ID: return CENTIMETRE2;
+			case Unit.MILLIMETRE2_ID: return MILLIMETRE2;
+			case Unit.ARE_ID: return ARE;
+			case Unit.HECTARE_ID: return HECTARE;
+			case Unit.ACRE_ID: return ACRE;
+			case Unit.KILOMETRE2_ID: return KILOMETRE2;
+			/* Units of volume */
+			case Unit.MILLIMETRE3_ID: return MILLIMETRE3;
+			case Unit.CENTIMETRE3_ID: return CENTIMETRE3;
+			case Unit.METRE3_ID: return METRE3;
+			case Unit.KILOMETRE3_ID: return KILOMETRE3;
+			case Unit.MILLILITRE_ID: return MILLILITRE;
+			case Unit.LITRE_ID: return LITRE;
+			case Unit.GALLON_ID: return GALLON;
+			case Unit.PINT_ID: return PINT;
+			/* Units of time */
+			case Unit.SECOND_ID: return SECOND;
+			case Unit.MILLISECOND_ID: return MILLISECOND;
+			case Unit.MINUTE_ID: return MINUTE;
+			case Unit.HOUR_ID: return HOUR;
+			case Unit.DAY_ID: return DAY;
+			case Unit.WEEK_ID: return WEEK;
+			case Unit.JULIAN_YEAR_ID: return JULIAN_YEAR;
+			/* Units of mass */
+			case Unit.KILOGRAM_ID: return KILOGRAM;
+			case Unit.GRAM_ID: return GRAM;
+			case Unit.MILLIGRAM_ID: return MILLIGRAM;
+			case Unit.DECAGRAM_ID: return DECAGRAM;
+			case Unit.TONNE_ID: return TONNE;
+			case Unit.OUNCE_ID: return OUNCE;
+			case Unit.POUND_ID: return POUND;
+			/* Units of information */
+			case Unit.BIT_ID: return BIT;
+			case Unit.KILOBIT_ID: return KILOBIT;
+			case Unit.MEGABIT_ID: return MEGABIT;
+			case Unit.GIGABIT_ID: return GIGABIT;
+			case Unit.TERABIT_ID: return TERABIT;
+			case Unit.PETABIT_ID: return PETABIT;
+			case Unit.EXABIT_ID: return EXABIT;
+			case Unit.ZETTABIT_ID: return ZETTABIT;
+			case Unit.YOTTABIT_ID: return YOTTABIT;
+			case Unit.BYTE_ID: return BYTE;
+			case Unit.KILOBYTE_ID: return KILOBYTE;
+			case Unit.MEGABYTE_ID: return MEGABYTE;
+			case Unit.GIGABYTE_ID: return GIGABYTE;
+			case Unit.TERABYTE_ID: return TERABYTE;
+			case Unit.PETABYTE_ID: return PETABYTE;
+			case Unit.EXABYTE_ID: return EXABYTE;
+			case Unit.ZETTABYTE_ID: return ZETTABYTE;
+			case Unit.YOTTABYTE_ID: return YOTTABYTE;
+			/* Units of energy */
+			case Unit.JOULE_ID: return JOULE;
+			case Unit.ELECTRONO_VOLT_ID: return ELECTRONO_VOLT;
+			case Unit.KILO_ELECTRONO_VOLT_ID: return KILO_ELECTRONO_VOLT;
+			case Unit.MEGA_ELECTRONO_VOLT_ID: return MEGA_ELECTRONO_VOLT;
+			case Unit.GIGA_ELECTRONO_VOLT_ID: return GIGA_ELECTRONO_VOLT;
+			case Unit.TERA_ELECTRONO_VOLT_ID: return TERA_ELECTRONO_VOLT;
+			/* Units of speed */
+			case Unit.METRE_PER_SECOND_ID: return METRE_PER_SECOND;
+			case Unit.KILOMETRE_PER_HOUR_ID: return KILOMETRE_PER_HOUR;
+			case Unit.MILE_PER_HOUR_ID: return MILE_PER_HOUR;
+			case Unit.KNOT_ID: return KNOT;
+			/* Units of acceleration */
+			case Unit.METRE_PER_SECOND2_ID: return METRE_PER_SECOND2;
+			case Unit.KILOMETRE_PER_HOUR2_ID: return KILOMETRE_PER_HOUR2;
+			case Unit.MILE_PER_HOUR2_ID: return MILE_PER_HOUR2;
+			/* Units of angle */
+			case Unit.RADIAN_ARC_ID: return RADIAN_ARC;
+			case Unit.DEGREE_ARC_ID: return DEGREE_ARC;
+			case Unit.MINUTE_ARC_ID: return MINUTE_ARC;
+			case Unit.SECOND_ARC_ID: return SECOND_ARC;
+		}
+		return Double.NaN;
+	}
 }

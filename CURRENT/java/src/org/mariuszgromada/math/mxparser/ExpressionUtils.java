@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        5.2.0    2022-12-16
+ * @(#)ExpressionUtils.java        5.2.0    2022-12-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1009,5 +1009,276 @@ final class ExpressionUtils {
         if (description.trim().length() > 0)
             expressionDescription = StringUtils.surroundSquareBrackets(description) + expressionDescription;
         return expressionDescription;
+    }
+
+    private static final String FUNCTION = "function";
+    private static final String ARGUMENT = "argument";
+    private static final String UNITCONST = "unit/const";
+    private static final String ERROR = "error";
+    /**
+     * Tokenizes expression string and returns tokens list,
+     * including: string, type, level.
+     *
+     * @return Copy of initial tokens.
+     *
+     * @see Token
+     * @see mXparser#consolePrintTokens(List)
+     */
+    static List<Token> getCopyOfInitialTokens(String expressionString, List<Token> initialTokens) {
+        List<Token> tokensListCopy = new ArrayList<Token>();
+        if (expressionString.length() == 0) return tokensListCopy;
+        if (initialTokens.size() == 0) return tokensListCopy;
+        Token token;
+        for (int i = 0; i < initialTokens.size(); i++) {
+            token =  initialTokens.get(i);
+            if (token.tokenTypeId == Token.NOT_MATCHED) {
+                if (mXparser.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+                    token.looksLike = UNITCONST;
+                } else if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+                    token.looksLike = ARGUMENT;
+                    if (i < initialTokens.size()-1) {
+                        Token tokenNext = initialTokens.get(i+1);
+                        if ( (tokenNext.tokenTypeId == ParserSymbol.TYPE_ID) && (tokenNext.tokenId == ParserSymbol.LEFT_PARENTHESES_ID) )
+                            token.looksLike = FUNCTION;
+                    }
+                } else {
+                    token.looksLike = ERROR;
+                }
+            }
+            tokensListCopy.add(token.clone());
+        }
+        return tokensListCopy;
+    }
+
+    /**
+     * Returns missing user defined arguments names, i.e.
+     * sin(x) + cos(y) where x and y are not defined
+     * function will return x and y.
+     *
+     * @return Array of missing user defined arguments names
+     * - distinct strings.
+     */
+    static String[] getMissingUserDefinedArguments(List<Token> tokens) {
+        List<String> missingArguments = new ArrayList<String>();
+        for (Token t : tokens)
+            if ( t.looksLike.equals(ARGUMENT) )
+                if ( !missingArguments.contains(t.tokenStr) )
+                    missingArguments.add(t.tokenStr);
+        int n = missingArguments.size();
+        String[] missArgs = new String[n];
+        for (int i = 0; i < n; i++)
+            missArgs[i] = missingArguments.get(i);
+        return missArgs;
+    }
+    /**
+     * Returns missing user defined units names, i.e.
+     * 2*[w] + [q] where [w] and [q] are not defined
+     * function will return [w] and [q].
+     *
+     * @return Array of missing user defined units names
+     * - distinct strings.
+     */
+    static String[] getMissingUserDefinedUnits(List<Token> tokens) {
+        List<String> missingUnits = new ArrayList<String>();
+        for (Token t : tokens)
+            if ( t.looksLike.equals(UNITCONST) )
+                if ( !missingUnits.contains(t.tokenStr) )
+                    missingUnits.add(t.tokenStr);
+        int n = missingUnits.size();
+        String[] missUnits = new String[n];
+        for (int i = 0; i < n; i++)
+            missUnits[i] = missingUnits.get(i);
+        return missUnits;
+    }
+    /**
+     * Returns missing user defined functions names, i.e.
+     * sin(x) + fun(x,y) where fun is not defined
+     * function will return fun.
+     *
+     * @return Array of missing user defined functions names
+     * - distinct strings.
+     */
+    static String[] getMissingUserDefinedFunctions(List<Token> tokens) {
+        List<String> missingFunctions = new ArrayList<String>();
+        for (Token t : tokens)
+            if ( t.looksLike.equals(FUNCTION) )
+                if ( !missingFunctions.contains(t.tokenStr) )
+                    missingFunctions.add(t.tokenStr);
+        int n = missingFunctions.size();
+        String[] missFun = new String[n];
+        for (int i = 0; i < n; i++)
+            missFun[i] = missingFunctions.get(i);
+        return missFun;
+    }
+
+
+    static void showKeyWords(List<KeyWord> keyWordsList) {
+        int keyWordsNumber = keyWordsList.size();
+        String maxStr = "KEY_WORD";
+        mXparser.consolePrintln("Keywords:");
+        mXparser.consolePrintln(" -------------------------------------------");
+        mXparser.consolePrintln("|      IDX | KEY_WORD |       ID |  TYPE_ID |");
+        mXparser.consolePrintln(" -------------------------------------------");
+        for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
+            KeyWord keyWord = keyWordsList.get(keyWordIndex);
+            String idxStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(keyWordIndex));
+            String wordStr = StringUtils.getLeftSpaces(maxStr, keyWord.wordString);
+            String idStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(keyWord.wordId));
+            String typeIdStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(keyWord.wordTypeId));
+            mXparser.consolePrintln("| " + idxStr+ " | " + wordStr + " | " + idStr + " | " + typeIdStr + " |");
+        }
+        mXparser.consolePrintln(" -------------------------------------------");
+    }
+    /**
+     * Searching help content.
+     *
+     * @param      word                searching keyword
+     *
+     * @return     The help content.
+     */
+    static String getHelp(String word, List<KeyWord> keyWordsList) {
+        String helpStr = StringResources.HELP_CONTENT
+                + StringInvariant.COLON
+                + StringInvariant.NEW_LINE
+                + StringInvariant.NEW_LINE
+                ;
+        helpStr = helpStr
+                + StringUtils.getLeftSpaces("12345","#")
+                + "  "
+                + StringUtils.getRightSpaces("01234567890123456789", StringResources.KEYWORD)
+                + StringUtils.getRightSpaces("                        ",StringResources.TYPE)
+                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", StringResources.SYNTAX)
+                + StringUtils.getRightSpaces("012345", StringResources.SINCE)
+                + StringResources.DESCRIPTION
+                + StringInvariant.NEW_LINE
+                ;
+        helpStr = helpStr
+                + StringUtils.getLeftSpaces("12345","-")
+                + "  "
+                + StringUtils.getRightSpaces("01234567890123456789", "--------")
+                + StringUtils.getRightSpaces("                        ","----")
+                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", "------")
+                + StringUtils.getRightSpaces("012345", "-----")
+                + "-----------"
+                + StringInvariant.NEW_LINE
+                ;
+
+        java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
+        int keyWordsNumber = keyWordsList.size();
+        String type, kw;
+        String line;
+        for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
+            KeyWord keyWord = keyWordsList.get(keyWordIndex);
+            type = "";
+            kw = keyWord.wordString;
+            switch (keyWord.wordTypeId) {
+                case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
+                case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = "_" + StringResources.NUMBER + "_"; break;
+                case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
+                case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
+                case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
+                case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
+                case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
+                case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
+                case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
+                case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
+                case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
+                case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
+                case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
+                case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
+                case Function.TYPE_ID: type = Function.TYPE_DESC; break;
+                case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
+                case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
+                case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
+            }
+            line = StringUtils.getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + StringInvariant.DOT_SPACE +
+                    StringUtils.getRightSpaces("01234567890123456789", kw) + StringUtils.getRightSpaces("                        ",StringInvariant.LOWER + type + StringInvariant.GREATER)
+                    + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + StringUtils.getRightSpaces("012345", keyWord.since) +  keyWord.description + StringInvariant.NEW_LINE;
+            if (line.toLowerCase().contains(word.toLowerCase())) {
+                helpStr = helpStr + line;
+            }
+        }
+        return helpStr;
+    }
+    /**
+     * Shows parsing (verbose mode purposes).
+     *
+     */
+    static void showParsing(int lPos, int rPos, List<Token> tokensList) {
+        mXparser.consolePrint(StringInvariant.LONG_RIGHT_ARROW_SPACE);
+        for (int i=lPos; i<=rPos; i++) {
+            Token token = tokensList.get(i);
+            if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
+                mXparser.consolePrint(token.tokenValue + StringInvariant.SPACE);
+            else
+                mXparser.consolePrint(token.tokenStr + StringInvariant.SPACE);
+        }
+        mXparser.consolePrint(StringInvariant.DOTS_SPACE);
+    }
+    /**
+     * Returns list of keywords known to the parser
+     *
+     * @param query Give any string to filter list of keywords against this string.
+     *              User more precise syntax: str=tokenString, desc=tokenDescription,
+     *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+     *              to narrow the result.
+     *
+     * @return      List of keywords known to the parser filter against query string.
+     *
+     * @see KeyWord
+     * @see KeyWord#wordTypeId
+     * @see Expression#getHelp(String)
+     */
+    static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
+        List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
+        java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
+        String line;
+        for (KeyWord kw : keyWordsList) {
+            line = 	"str=" + kw.wordString + StringInvariant.SPACE +
+                    "desc=" + kw.description + StringInvariant.SPACE +
+                    "syn=" + kw.syntax + StringInvariant.SPACE +
+                    "sin=" + kw.since + StringInvariant.SPACE +
+                    "wid=" + kw.wordId + StringInvariant.SPACE +
+                    "tid=" + kw.wordTypeId
+            ;
+            if ( (line.toLowerCase().contains(query.toLowerCase())) )
+                kwyWordsToReturn.add(kw);
+        }
+        return kwyWordsToReturn;
+    }
+    /*
+     * show tokens
+     */
+    static void showTokens(List<Token> tokensList) {
+        String maxStr = "TokenTypeId";
+        mXparser.consolePrintln(" --------------------");
+        mXparser.consolePrintln("| " + StringResources.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
+        mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+        mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
+        mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
+        if (tokensList == null) {
+            mXparser.consolePrintln(StringResources.NULL_TOKENS_LIST);
+            return;
+        }
+        int tokensNumber = tokensList.size();
+        for (int tokenIndex=0; tokenIndex < tokensNumber; tokenIndex++){
+            String tokenIndexStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(tokenIndex) );
+            String tokenStr = StringUtils.getLeftSpaces(maxStr, tokensList.get(tokenIndex).tokenStr );
+            String keyWordStr = StringUtils.getLeftSpaces(maxStr, tokensList.get(tokenIndex).keyWord );
+            String tokenIdStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenId) );
+            String tokenTypeIdStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenTypeId) );
+            String tokenLevelStr = StringUtils.getLeftSpaces(maxStr, Integer.toString(tokensList.get(tokenIndex).tokenLevel) );
+            String tokenValueStr = StringUtils.getLeftSpaces(maxStr, Double.toString(tokensList.get(tokenIndex).tokenValue) );
+            String tokenLooksLikeStr = StringUtils.getLeftSpaces(maxStr, tokensList.get(tokenIndex).looksLike );
+            mXparser.consolePrintln(	"| " + tokenIndexStr +
+                    " | " + tokenStr +
+                    " | " + keyWordStr +
+                    " | " + tokenIdStr +
+                    " | " + tokenTypeIdStr +
+                    " | " + tokenLevelStr +
+                    " | " + tokenValueStr +
+                    " | " + tokenLooksLikeStr + " |");
+        }
+        mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
     }
 }

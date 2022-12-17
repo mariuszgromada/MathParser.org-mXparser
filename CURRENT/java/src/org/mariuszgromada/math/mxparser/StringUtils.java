@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2022-12-16
+ * @(#)StringUtils.java        5.2.0    2022-12-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -179,6 +179,9 @@
  * - online store: https://payhip.com/infima
  */
 package org.mariuszgromada.math.mxparser;
+
+import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
+import org.mariuszgromada.math.mxparser.parsertokens.Token;
 
 /**
  * A class containing all string utils.
@@ -414,5 +417,23 @@ final class StringUtils {
         int len = str.length();
         if (pos >= len) return false;
         return str.charAt(pos) == '(';
+    }
+    /*
+     * Text adjusting.
+     */
+    static String getLeftSpaces(String maxStr, String str) {
+        String spc = "";
+        for (int i=0; i<maxStr.length() - str.length(); i++)
+            spc = spc + StringInvariant.SPACE;
+        return spc + str;
+    }
+    /*
+     * Text adjusting.
+     */
+    static String getRightSpaces(String maxStr, String str) {
+        String spc = "";
+        for (int i=0; i<maxStr.length() - str.length(); i++)
+            spc = StringInvariant.SPACE + spc;
+        return str + spc;
     }
 }

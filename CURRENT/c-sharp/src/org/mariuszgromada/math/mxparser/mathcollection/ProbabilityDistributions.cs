@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.cs        5.1.0    2022-09-04
+ * @(#)ProbabilityDistributions.cs        5.2.0    2022-12-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -178,6 +178,7 @@
  * - online store: https://mathparser.org/order-commercial-license
  * - online store: https://payhip.com/infima
  */
+using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
@@ -196,7 +197,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public class ProbabilityDistributions {
@@ -907,6 +908,84 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (BinaryRelations.isEqualOrAlmost(d1, 0.0)) return Double.NaN;
 			if (BinaryRelations.isEqualOrAlmost(d2, 0.0)) return Double.NaN;
 			return qntSnedecordF(randomGenerator.NextDouble(), d1, d2);
+		}
+		/**
+		 * Returns random variable value, where random variable is represented by the
+		 * token id in the RandomVariable class
+		 *
+		 * @param randomVariableId
+		 * @return Returns random variable value if id is known, otherwise Double.NaN is returned.
+		 *
+		 * @see RandomVariable
+		 */
+		public static double getRandomVariableValue(int randomVariableId) {
+			switch (randomVariableId) {
+				case RandomVariable.UNIFORM_ID:
+					return ProbabilityDistributions.rndUniformContinuous(ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT_ID:
+					return ProbabilityDistributions.rndInteger(ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT1_ID:
+					return ProbabilityDistributions.rndInteger(-10, 10, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT2_ID:
+					return ProbabilityDistributions.rndInteger(-100, 100, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT3_ID:
+					return ProbabilityDistributions.rndInteger(-1000, 1000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT4_ID:
+					return ProbabilityDistributions.rndInteger(-10000, 10000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT5_ID:
+					return ProbabilityDistributions.rndInteger(-100000, 100000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT6_ID:
+					return ProbabilityDistributions.rndInteger(-1000000, 1000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT7_ID:
+					return ProbabilityDistributions.rndInteger(-10000000, 10000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT8_ID:
+					return ProbabilityDistributions.rndInteger(-100000000, 100000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.INT9_ID:
+					return ProbabilityDistributions.rndInteger(-1000000000, 1000000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_ID:
+					return ProbabilityDistributions.rndInteger(0, 2147483646, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_1_ID:
+					return ProbabilityDistributions.rndInteger(0, 10, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_2_ID:
+					return ProbabilityDistributions.rndInteger(0, 100, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_3_ID:
+					return ProbabilityDistributions.rndInteger(0, 1000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_4_ID:
+					return ProbabilityDistributions.rndInteger(0, 10000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_5_ID:
+					return ProbabilityDistributions.rndInteger(0, 100000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_6_ID:
+					return ProbabilityDistributions.rndInteger(0, 1000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_7_ID:
+					return ProbabilityDistributions.rndInteger(0, 10000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_8_ID:
+					return ProbabilityDistributions.rndInteger(0, 100000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT0_9_ID:
+					return ProbabilityDistributions.rndInteger(0, 1000000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_ID:
+					return ProbabilityDistributions.rndInteger(1, 2147483646, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_1_ID:
+					return ProbabilityDistributions.rndInteger(1, 10, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_2_ID:
+					return ProbabilityDistributions.rndInteger(1, 100, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_3_ID:
+					return ProbabilityDistributions.rndInteger(1, 1000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_4_ID:
+					return ProbabilityDistributions.rndInteger(1, 10000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_5_ID:
+					return ProbabilityDistributions.rndInteger(1, 100000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_6_ID:
+					return ProbabilityDistributions.rndInteger(1, 1000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_7_ID:
+					return ProbabilityDistributions.rndInteger(1, 10000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_8_ID:
+					return ProbabilityDistributions.rndInteger(1, 100000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NAT1_9_ID:
+					return ProbabilityDistributions.rndInteger(1, 1000000000, ProbabilityDistributions.randomGenerator);
+				case RandomVariable.NOR_ID:
+					return ProbabilityDistributions.rndNormal(0.0, 1.0, ProbabilityDistributions.randomGenerator);
+			}
+			return Double.NaN;
 		}
 	}
 }
