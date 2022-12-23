@@ -221,6 +221,8 @@ final class StringInvariant {
     static final String SPACE_EQUAL_SPACE = SPACE + EQUAL + SPACE;
     static final String COLON = ":";
     static final String COLON_SPACE = COLON + SPACE;
+    static final String SEMICOLON = ";";
+    static final String SEMICOLON_SPACE = SEMICOLON + SPACE;
     static final String COMMA = ",";
     static final String COMMA_SPACE = COMMA + SPACE;
     static final String DOT = ".";
@@ -417,6 +419,14 @@ final class StringInvariant {
     static final String UNIT_ATTO_SYMBOL = "= 10⁻¹⁸";
     static final String UNIT_ZEPTO_SYMBOL = "= 10⁻²¹";
     static final String UNIT_YOCTO_SYMBOL = "= 10⁻²⁴";
+    // -------------------------------------------------
+    static final String PARSER_SYMBOL_NUMBER_INTEGER_EXAMPLE = "1, -2";
+    static final String PARSER_SYMBOL_NUMBER_DECIMAL_EXAMPLE = "0.2, -0.3, 1.2";
+    static final String PARSER_SYMBOL_NUMBER_LEADING_ZERO_EXAMPLE = "001, -002.1";
+    static final String PARSER_SYMBOL_NUMBER_SCI_NOTATION_EXAMPLE = "1.2e-10, 1.2e+10, 2.3E10";
+    static final String PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO_EXAMPLE = ".2, -.212";
+    static final String PARSER_SYMBOL_NUMBER_FRACTIONS_EXAMPLE = "1_2, 2_1_3, -14_3";
+    static final String PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS_EXAMPLE = "b1.111, b2.1001, b3.12021, -b16.af12, h.af1, -b.1001, o.0127";
     // -------------------------------------------------
     static final String SEPARATOR = " - ";
 }

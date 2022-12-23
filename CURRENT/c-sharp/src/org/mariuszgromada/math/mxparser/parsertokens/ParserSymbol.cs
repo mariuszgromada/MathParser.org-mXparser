@@ -434,15 +434,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String COMMA_SYN					= "(a1, ... ,an)";
 		public const String SEMI_SYN					= "(a1; ... ;an)";
 		public const String BLANK_SYN					= " ";
-		public const String NUMBER_SYN					= "Integer (since v.1.0): 1, -2; Decimal (since v.1.0): 0.2, -0.3, 1.2; Leading zero (since v.4.1): 001, -002.1; Scientific notation (since v.4.2): 1.2e-10, 1.2e+10, 2.3e10; No leading zero (since v.4.2): .2, -.212; Fractions (since v.4.2): 1_2, 2_1_3, 14_3; Other systems (since v.4.1): b1.111, b2.1001, b3.12021, b16.af12, h.af1, b.1001, o.0127";
-		public const String NUMBER_SYN_INT				= "1, -2, 3";
-		public const String NUMBER_SYN_DEC				= "0.1, -0.2, 1.3";
-		public const String NUMBER_SYN_WITH_ZEROS		= "001, -000.2, 00001.3";
-		public const String NUMBER_SYN_NO_ZEROS			= ".1, -.2, .3";
-		public const String NUMBER_SYN_SCI				= "1.2e10, 1.2e+10, -3.2e-5, 2.eE+10";
-		public const String NUMBER_SYN_FRAC				= "1_2, 2_3, 2_3_4, -2_4";
-		public const String NUMBER_SYN_OTH_BASE			= "\tb1.111, b2.1001, b3.12021, -b16.af12, h.af1, b.1001, o.0127";
-
+		public const String NUMBER_SYN					= "-2, 0.2, -002.1, 2.3e10, -.212, 1_2, 2_1_3, b1.111, b2.1001, h.af1,...";
 		/*
 		 * ParserSymbol - tokens description.
 		 */
@@ -453,16 +445,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static String SEMI_DESC = ParserSymbol.NA;
 		public static String BLANK_DESC = ParserSymbol.NA;
         public static String UNICODE_MATH_DESC = ParserSymbol.NA;
-
-        public const String NUMBER_DESC					= "Decimal number";
-		public const String NUMBER_REG_DESC				= "Regular expression for decimal numbers";
-		public const String NUMBER_DESC_INT				= "Integer numbers";
-		public const String NUMBER_DESC_DEC				= "Decimal numbers";
-		public const String NUMBER_DESC_WITH_ZEROS		= "Integer / Decimal numbers with leading zeros";
-		public const String NUMBER_DESC_NO_ZEROS		= "Integer / Decimal numbers without leading zeros";
-		public const String NUMBER_DESC_SCI				= "Decimal numbers in scientific notation";
-		public const String NUMBER_DESC_FRAC			= "Fractions";
-		public const String NUMBER_DESC_OTH_BASE		= "Numbers in other numeral bases";
+        public static String NUMBER_LITERAL_STR = ParserSymbol.NA;
+        public static String NUMBER_LITERAL_DESC = ParserSymbol.NA;
         /*
 		 * ParserSymbol - since.
 		 */

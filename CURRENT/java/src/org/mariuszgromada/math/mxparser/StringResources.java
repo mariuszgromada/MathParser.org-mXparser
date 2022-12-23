@@ -295,6 +295,7 @@ final class StringResources {
     static String KEYWORD = "Keyword";
     static String SYNTAX = "Syntax";
     static String NUMBER = "Number";
+    static String NUMBER_LITERAL = "Number literal";
     static String TYPE = "Type";
     static String SINCE = "Since";
     static String DESCRIPTION = "Description";
@@ -670,6 +671,13 @@ final class StringResources {
     static String PARSER_SYMBOL_COMMA = "Comma (function parameters)";
     static String PARSER_SYMBOL_SEMI = "Semicolon (function parameters)";
     static String PARSER_SYMBOL_BLANK = "Blank (whitespace) character";
+    static String PARSER_SYMBOL_NUMBER_INTEGER = "Integer";
+    static String PARSER_SYMBOL_NUMBER_DECIMAL = "Decimal";
+    static String PARSER_SYMBOL_NUMBER_LEADING_ZERO = "Leading zero";
+    static String PARSER_SYMBOL_NUMBER_SCI_NOTATION = "Scientific notation";
+    static String PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO = "No leading zero";
+    static String PARSER_SYMBOL_NUMBER_FRACTIONS = "Fractions";
+    static String PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS = "Other numeral systems";
     static String PARSER_SYMBOL_UNICODE_MATH = " - Unicode math symbol";
     // -------------------------------------------------
     static String DIMENSIONLESS_UNIT_PERC = "Percentage";
@@ -1081,11 +1089,55 @@ final class StringResources {
     }
     static void setLanguageSpecificDescriptionsParserSymbol() {
         ParserSymbol.TYPE_DESC = PARSER_SYMBOL;
+        ParserSymbol.NUMBER_LITERAL_STR = NUMBER_LITERAL;
         ParserSymbol.LEFT_PARENTHESES_DESC = PARSER_SYMBOL_LEFT_PARENTHESES + StringInvariant.SEPARATOR + PARSER_SYMBOL;
         ParserSymbol.RIGHT_PARENTHESES_DESC = PARSER_SYMBOL_RIGHT_PARENTHESES + StringInvariant.SEPARATOR + PARSER_SYMBOL;
         ParserSymbol.COMMA_DESC = PARSER_SYMBOL_COMMA + StringInvariant.SEPARATOR + PARSER_SYMBOL;
         ParserSymbol.SEMI_DESC = PARSER_SYMBOL_SEMI + StringInvariant.SEPARATOR + PARSER_SYMBOL;
         ParserSymbol.BLANK_DESC = PARSER_SYMBOL_BLANK + StringInvariant.SEPARATOR + PARSER_SYMBOL;
+        ParserSymbol.NUMBER_LITERAL_DESC = PARSER_SYMBOL_NUMBER_INTEGER
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv10)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_INTEGER_EXAMPLE
+                + StringInvariant.SEMICOLON_SPACE
+                + PARSER_SYMBOL_NUMBER_DECIMAL
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv10)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_DECIMAL_EXAMPLE
+                + StringInvariant.SEMICOLON_SPACE
+                + PARSER_SYMBOL_NUMBER_LEADING_ZERO
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv41)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_LEADING_ZERO_EXAMPLE
+                + StringInvariant.SEMICOLON_SPACE
+                + PARSER_SYMBOL_NUMBER_SCI_NOTATION
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv42)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_SCI_NOTATION_EXAMPLE
+                + StringInvariant.SEMICOLON_SPACE
+                + PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv42)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO_EXAMPLE
+                + StringInvariant.SEMICOLON_SPACE
+                + PARSER_SYMBOL_NUMBER_FRACTIONS
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv42)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_FRACTIONS_EXAMPLE
+                + StringInvariant.SEMICOLON_SPACE
+                + PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS
+                + StringInvariant.SPACE
+                + StringUtils.surroundBrackets(SINCE + StringInvariant.SPACE + mXparser.NAMEv41)
+                + StringInvariant.COLON_SPACE
+                + StringInvariant.PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS_EXAMPLE
+                + StringInvariant.SEMICOLON
+                ;
         ParserSymbol.UNICODE_MATH_DESC = PARSER_SYMBOL_UNICODE_MATH;
     }
     static void setLanguageSpecificDescriptionsRandomVariable() {

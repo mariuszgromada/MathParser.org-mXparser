@@ -857,7 +857,7 @@ final class ExpressionUtils {
         addKeyWord(ParserSymbol.RIGHT_PARENTHESES_STR, ParserSymbol.RIGHT_PARENTHESES_DESC, ParserSymbol.RIGHT_PARENTHESES_ID, ParserSymbol.RIGHT_PARENTHESES_SYN, ParserSymbol.RIGHT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
         addKeyWord(ParserSymbol.COMMA_STR, ParserSymbol.COMMA_DESC, ParserSymbol.COMMA_ID, ParserSymbol.COMMA_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
         addKeyWord(ParserSymbol.SEMI_STR, ParserSymbol.SEMI_DESC, ParserSymbol.COMMA_ID, ParserSymbol.SEMI_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
-        addKeyWord(ParserSymbol.DECIMAL_REG_EXP, ParserSymbol.NUMBER_REG_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID, keyWordsList);
+        addKeyWord(ParserSymbol.NUMBER_LITERAL_STR, ParserSymbol.NUMBER_LITERAL_DESC, ParserSymbol.NUMBER_ID, ParserSymbol.NUMBER_SYN, ParserSymbol.NUMBER_SINCE, ParserSymbol.NUMBER_TYPE_ID, keyWordsList);
         addKeyWord(ParserSymbol.BLANK_STR, ParserSymbol.BLANK_DESC, ParserSymbol.BLANK_ID, ParserSymbol.BLANK_SYN, ParserSymbol.BLANK_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
     }
     /**
@@ -1174,7 +1174,7 @@ final class ExpressionUtils {
             kw = keyWord.wordString;
             switch (keyWord.wordTypeId) {
                 case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-                case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = "_" + StringResources.NUMBER + "_"; break;
+                case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = StringResources.NUMBER; break;
                 case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
                 case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
                 case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;

@@ -225,6 +225,8 @@ namespace org.mariuszgromada.math.mxparser {
         internal static readonly String SPACE_EQUAL_SPACE = SPACE + EQUAL + SPACE;
         internal const String COLON = ":";
         internal static readonly String COLON_SPACE = COLON + SPACE;
+        internal const String SEMICOLON = ";";
+        internal static readonly String SEMICOLON_SPACE = SEMICOLON + SPACE;
         internal const String COMMA = ",";
         internal static readonly String COMMA_SPACE = COMMA + SPACE;
         internal const String DOT = ".";
@@ -421,6 +423,14 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String UNIT_ATTO_SYMBOL = "= 10⁻¹⁸";
         internal const String UNIT_ZEPTO_SYMBOL = "= 10⁻²¹";
         internal const String UNIT_YOCTO_SYMBOL = "= 10⁻²⁴";
+        // -------------------------------------------------
+        internal const String PARSER_SYMBOL_NUMBER_INTEGER_EXAMPLE = "1, -2";
+        internal const String PARSER_SYMBOL_NUMBER_DECIMAL_EXAMPLE = "0.2, -0.3, 1.2";
+        internal const String PARSER_SYMBOL_NUMBER_LEADING_ZERO_EXAMPLE = "001, -002.1";
+        internal const String PARSER_SYMBOL_NUMBER_SCI_NOTATION_EXAMPLE = "1.2e-10, 1.2e+10, 2.3E10";
+        internal const String PARSER_SYMBOL_NUMBER_NO_LEADING_ZERO_EXAMPLE = ".2, -.212";
+        internal const String PARSER_SYMBOL_NUMBER_FRACTIONS_EXAMPLE = "1_2, 2_1_3, -14_3";
+        internal const String PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS_EXAMPLE = "b1.111, b2.1001, b3.12021, -b16.af12, h.af1, -b.1001, o.0127";
         // -------------------------------------------------
         internal const String SEPARATOR = " - ";
     }
