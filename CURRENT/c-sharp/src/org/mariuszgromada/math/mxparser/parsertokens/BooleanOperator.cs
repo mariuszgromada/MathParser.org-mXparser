@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)BooleanOperator.cs        5.0.4    2022-05-22
+ * @(#)BooleanOperator.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BooleanOperator {
@@ -202,11 +202,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * BooleanOperator - token type id.
 		 */
 		public const int TYPE_ID				= 2;
-		public const String TYPE_DESC			= "Boolean Operator";
-		/*
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * BooleanOperator - tokens id.
 		 */
-		public const int AND_ID					= 1;
+        public const int AND_ID					= 1;
 		public const int NAND_ID				= 2;
 		public const int OR_ID					= 3;
 		public const int NOR_ID					= 4;
@@ -303,24 +303,24 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String CNIMP_SYN_UNI_1	= SyntaxStringBuilder.binaryBooleanOperator(CNIMP_STR_UNI_1);
 		public static readonly String EQV_SYN			= SyntaxStringBuilder.binaryBooleanOperator(EQV_STR);
 		public static readonly String EQV_SYN_UNI_1		= SyntaxStringBuilder.binaryBooleanOperator(EQV_STR_UNI_1);
-		/*
+        /*
 		 * BooleanOperator - tokens description.
 		 */
-		public const String AND_DESC			= "Logical conjunction (AND)";
-		public const String OR_DESC				= "Logical disjunction (OR)";
-		public const String NEG_DESC			= "Negation";
-		public const String NAND_DESC			= "NAND - Sheffer stroke";
-		public const String NOR_DESC			= "Logical NOR";
-		public const String XOR_DESC			= "Exclusive or (XOR)";
-		public const String IMP_DESC			= "Implication (IMP)";
-		public const String CIMP_DESC			= "Converse implication (CIMP)";
-		public const String NIMP_DESC			= "Material nonimplication (NIMP)";
-		public const String CNIMP_DESC			= "Converse nonimplication (CNIMP)";
-		public const String EQV_DESC			= "Logical biconditional (EQV)";
-		/*
+        public static String AND_DESC = ParserSymbol.NA;
+        public static String OR_DESC = ParserSymbol.NA;
+        public static String NEG_DESC = ParserSymbol.NA;
+        public static String NAND_DESC = ParserSymbol.NA;
+        public static String NOR_DESC = ParserSymbol.NA;
+        public static String XOR_DESC = ParserSymbol.NA;
+        public static String IMP_DESC = ParserSymbol.NA;
+        public static String CIMP_DESC = ParserSymbol.NA;
+        public static String NIMP_DESC = ParserSymbol.NA;
+        public static String CNIMP_DESC = ParserSymbol.NA;
+        public static String EQV_DESC = ParserSymbol.NA;
+        /*
 		 * BooleanOperator - since.
 		 */
-		public const String AND_SINCE			= mXparser.NAMEv10;
+        public const String AND_SINCE			= mXparser.NAMEv10;
 		public const String AND_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String OR_SINCE			= mXparser.NAMEv10;
 		public const String OR_SINCE_UNI_1		= mXparser.NAMEv50;

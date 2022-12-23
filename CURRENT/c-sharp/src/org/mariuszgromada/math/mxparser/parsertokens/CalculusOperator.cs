@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)CalculusOperator.cs        5.0.4    2022-05-22
+ * @(#)CalculusOperator.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class CalculusOperator {
@@ -202,11 +202,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * CalculusOperator - token type id.
 		 */
 		public const int TYPE_ID					= 8;
-		public const String TYPE_DESC				= "Calculus Operator";
-		/*
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * CalculusOperator - tokens id.
 		 */
-		public const int SUM_ID						= 1;
+        public const int SUM_ID						= 1;
 		public const int PROD_ID					= 3;
 		public const int INT_ID						= 5;
 		public const int DER_ID						= 6;
@@ -281,28 +281,28 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String MIN_SYN				= SyntaxStringBuilder.calculusIFromToExprOptBy(MIN_STR);
 		public static readonly String MAX_SYN				= SyntaxStringBuilder.calculusIFromToExprOptBy(MAX_STR);
 		public static readonly String SOLVE_SYN				= SyntaxStringBuilder.calculusExprArgFromTo(SOLVE_STR);
-		/*
+        /*
 		 * CalculusOperator - tokens description.
 		 */
-		public const String SUM_DESC				= "Summation operator - SIGMA";
-		public const String PROD_DESC				= "Product operator - PI";
-		public const String INT_DESC				= "Definite integral operator";
-		public const String DER_DESC				= "Derivative operator";
-		public const String DER_LEFT_DESC			= "Left derivative operator";
-		public const String DER_RIGHT_DESC			= "Right derivative operator";
-		public const String DERN_DESC				= "n-th derivative operator";
-		public const String FORW_DIFF_DESC			= "Forward difference operator";
-		public const String BACKW_DIFF_DESC			= "Backward difference operator";
-		public const String AVG_DESC				= "Average operator";
-		public const String VAR_DESC				= "Bias-corrected sample variance operator";
-		public const String STD_DESC				= "Bias-corrected sample standard deviation operator";
-		public const String MIN_DESC				= "Minimum value";
-		public const String MAX_DESC				= "Maximum value";
-		public const String SOLVE_DESC				= "f(x) = 0 equation solving, function root finding";
-		/*
+        public static String SUM_DESC = ParserSymbol.NA;
+        public static String PROD_DESC = ParserSymbol.NA;
+        public static String INT_DESC = ParserSymbol.NA;
+        public static String DER_DESC = ParserSymbol.NA;
+        public static String DER_LEFT_DESC = ParserSymbol.NA;
+        public static String DER_RIGHT_DESC = ParserSymbol.NA;
+        public static String DERN_DESC = ParserSymbol.NA;
+        public static String FORW_DIFF_DESC = ParserSymbol.NA;
+        public static String BACKW_DIFF_DESC = ParserSymbol.NA;
+        public static String AVG_DESC = ParserSymbol.NA;
+        public static String VAR_DESC = ParserSymbol.NA;
+        public static String STD_DESC = ParserSymbol.NA;
+        public static String MIN_DESC = ParserSymbol.NA;
+        public static String MAX_DESC = ParserSymbol.NA;
+        public static String SOLVE_DESC = ParserSymbol.NA;
+        /*
 		 * CalculusOperator - since.
 		 */
-		public const String SUM_SINCE				= mXparser.NAMEv10;
+        public const String SUM_SINCE				= mXparser.NAMEv10;
 		public const String SUM_SINCE_UNI_1			= mXparser.NAMEv50;
 		public const String SUM_SINCE_UNI_2			= mXparser.NAMEv50;
 		public const String PROD_SINCE				= mXparser.NAMEv10;

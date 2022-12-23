@@ -1,5 +1,5 @@
 /*
- * @(#)CalculusOperator.java        5.0.4    2022-05-22
+ * @(#)CalculusOperator.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class CalculusOperator {
 	/*
 	 * CalculusOperator - token type id.
 	 */
 	public static final int TYPE_ID 					= 8;
-	public static final String TYPE_DESC				= "Calculus Operator";
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * CalculusOperator - tokens id.
 	 */
@@ -283,21 +283,21 @@ public final class CalculusOperator {
 	/*
 	 * CalculusOperator - tokens description.
 	 */
-	public static final String SUM_DESC					= "Summation operator - SIGMA";
-	public static final String PROD_DESC				= "Product operator - PI";
-	public static final String INT_DESC					= "Definite integral operator";
-	public static final String DER_DESC					= "Derivative operator";
-	public static final String DER_LEFT_DESC			= "Left derivative operator";
-	public static final String DER_RIGHT_DESC			= "Right derivative operator";
-	public static final String DERN_DESC				= "n-th derivative operator";
-	public static final String FORW_DIFF_DESC			= "Forward difference operator";
-	public static final String BACKW_DIFF_DESC			= "Backward difference operator";
-	public static final String AVG_DESC					= "Average operator";
-	public static final String VAR_DESC					= "Bias-corrected sample variance operator";
-	public static final String STD_DESC					= "Bias-corrected sample standard deviation operator";
-	public static final String MIN_DESC					= "Minimum value";
-	public static final String MAX_DESC					= "Maximum value";
-	public static final String SOLVE_DESC				= "f(x) = 0 equation solving, function root finding";
+	public static String SUM_DESC = ParserSymbol.NA;
+	public static String PROD_DESC = ParserSymbol.NA;
+	public static String INT_DESC = ParserSymbol.NA;
+	public static String DER_DESC = ParserSymbol.NA;
+	public static String DER_LEFT_DESC = ParserSymbol.NA;
+	public static String DER_RIGHT_DESC = ParserSymbol.NA;
+	public static String DERN_DESC = ParserSymbol.NA;
+	public static String FORW_DIFF_DESC = ParserSymbol.NA;
+	public static String BACKW_DIFF_DESC = ParserSymbol.NA;
+	public static String AVG_DESC = ParserSymbol.NA;
+	public static String VAR_DESC = ParserSymbol.NA;
+	public static String STD_DESC = ParserSymbol.NA;
+	public static String MIN_DESC = ParserSymbol.NA;
+	public static String MAX_DESC = ParserSymbol.NA;
+	public static String SOLVE_DESC = ParserSymbol.NA;
 	/*
 	 * CalculusOperator - since.
 	 */

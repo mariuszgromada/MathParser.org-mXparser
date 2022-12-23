@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.cs        5.0.4    2022-05-22
+ * @(#)FunctionVariadic.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,19 +194,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class FunctionVariadic {
 		/*
 		 * BooleanOperator - token type id.
 		 */
-		public const int TYPE_ID					= 7;
-		public const String TYPE_DESC				= "Variadic Function";
-		/*
+		public const int TYPE_ID = 7;
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * BooleanOperator - tokens id.
 		 */
-		public const int IFF_ID						= 1;
+        public const int IFF_ID						= 1;
 		public const int MIN_ID						= 2;
 		public const int MAX_ID						= 3;
 		public const int CONT_FRAC_ID				= 4;
@@ -281,36 +281,36 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String MODE_SYN				= SyntaxStringBuilder.functionVariadicA(MODE_STR);
 		public static readonly String BASE_SYN				= SyntaxStringBuilder.functionVariadicBD(BASE_STR);
 		public static readonly String NDIST_SYN				= SyntaxStringBuilder.functionVariadicV(NDIST_STR);
-		/*
+        /*
 		 * FunctionVariadic - tokens description.
 		 */
-		public const String IFF_DESC 				= "If function";
-		public const String MIN_DESC 				= "Minimum function";
-		public const String MAX_DESC 				= "Maximum function";
-		public const String CONT_FRAC_DESC			= "Continued fraction";
-		public const String CONT_POL_DESC			= "Continued polynomial";
-		public const String GCD_DESC				= "Greatest common divisor";
-		public const String LCM_DESC				= "Least common multiple";
-		public const String SUM_DESC				= "Summation operator";
-		public const String PROD_DESC				= "Multiplication";
-		public const String AVG_DESC				= "Mean / average value";
-		public const String VAR_DESC				= "Bias-corrected sample variance";
-		public const String STD_DESC				= "Bias-corrected sample standard deviation";
-		public const String RND_LIST_DESC			= "Random number from given list of numbers";
-		public const String COALESCE_DESC			= "Returns the first non-NaN value";
-		public const String OR_DESC					= "Logical disjunction (OR) - variadic";
-		public const String AND_DESC				= "Logical conjunction (AND) - variadic";
-		public const String XOR_DESC				= "Exclusive or (XOR) - variadic";
-		public const String ARGMIN_DESC				= "Arguments / indices of the minima";
-		public const String ARGMAX_DESC				= "Arguments / indices of the maxima";
-		public const String MEDIAN_DESC				= "The sample median";
-		public const String MODE_DESC				= "Mode - the value that appears most often";
-		public const String BASE_DESC				= "Returns number in given numeral system base represented by list of digits";
-		public const String NDIST_DESC				= "Number of distinct values";
-		/*
+        public static String IFF_DESC = ParserSymbol.NA;
+        public static String MIN_DESC = ParserSymbol.NA;
+        public static String MAX_DESC = ParserSymbol.NA;
+        public static String CONT_FRAC_DESC = ParserSymbol.NA;
+        public static String CONT_POL_DESC = ParserSymbol.NA;
+        public static String GCD_DESC = ParserSymbol.NA;
+        public static String LCM_DESC = ParserSymbol.NA;
+        public static String SUM_DESC = ParserSymbol.NA;
+        public static String PROD_DESC = ParserSymbol.NA;
+        public static String AVG_DESC = ParserSymbol.NA;
+        public static String VAR_DESC = ParserSymbol.NA;
+        public static String STD_DESC = ParserSymbol.NA;
+        public static String RND_LIST_DESC = ParserSymbol.NA;
+        public static String COALESCE_DESC = ParserSymbol.NA;
+        public static String OR_DESC = ParserSymbol.NA;
+        public static String AND_DESC = ParserSymbol.NA;
+        public static String XOR_DESC = ParserSymbol.NA;
+        public static String ARGMIN_DESC = ParserSymbol.NA;
+        public static String ARGMAX_DESC = ParserSymbol.NA;
+        public static String MEDIAN_DESC = ParserSymbol.NA;
+        public static String MODE_DESC = ParserSymbol.NA;
+        public static String BASE_DESC = ParserSymbol.NA;
+        public static String NDIST_DESC = ParserSymbol.NA;
+        /*
 		 * FunctionVariadic - since.
 		 */
-		public const String IFF_SINCE 				= mXparser.NAMEv10;
+        public const String IFF_SINCE 				= mXparser.NAMEv10;
 		public const String MIN_SINCE 				= mXparser.NAMEv10;
 		public const String MAX_SINCE 				= mXparser.NAMEv10;
 		public const String CONT_FRAC_SINCE			= mXparser.NAMEv10;

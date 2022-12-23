@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)BinaryRelation.cs        5.0.4    2022-05-22
+ * @(#)BinaryRelation.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BinaryRelation {
@@ -202,11 +202,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * BinaryRelation - token type id.
 		 */
 		public const int TYPE_ID				= 3;
-		public const String TYPE_DESC			= "Binary Relation";
-		/*
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * BinaryRelation - tokens id.
 		 */
-		public const int EQ_ID					= 1;
+        public const int EQ_ID					= 1;
 		public const int NEQ_ID					= 2;
 		public const int LT_ID					= 3;
 		public const int GT_ID					= 4;
@@ -246,19 +246,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String GEQ_SYN 			= SyntaxStringBuilder.binaryRelation(GEQ_STR);
 		public static readonly String GEQ_SYN_UNI_1		= SyntaxStringBuilder.binaryRelation(GEQ_STR_UNI_1);
 		public static readonly String GEQ_SYN_UNI_2		= SyntaxStringBuilder.binaryRelation(GEQ_STR_UNI_2);
-		/*
+        /*
 		 * BinaryRelation - tokens description.
 		 */
-		public const String EQ_DESC 			= "Equality";
-		public const String NEQ_DESC			= "Inequation";
-		public const String LT_DESC 			= "Lower than";
-		public const String GT_DESC 			= "Greater than";
-		public const String LEQ_DESC 			= "Lower or equal";
-		public const String GEQ_DESC 			= "Greater or equal";
-		/*
+        public static String EQ_DESC = ParserSymbol.NA;
+        public static String NEQ_DESC = ParserSymbol.NA;
+        public static String LT_DESC = ParserSymbol.NA;
+        public static String GT_DESC = ParserSymbol.NA;
+        public static String LEQ_DESC = ParserSymbol.NA;
+        public static String GEQ_DESC = ParserSymbol.NA;
+        /*
 		 * BinaryRelation - since.
 		 */
-		public const String EQ_SINCE			= mXparser.NAMEv10;
+        public const String EQ_SINCE			= mXparser.NAMEv10;
 		public const String NEQ_SINCE			= mXparser.NAMEv10;
 		public const String NEQ_SINCE_UNI_1		= mXparser.NAMEv50;
 		public const String LT_SINCE 			= mXparser.NAMEv10;

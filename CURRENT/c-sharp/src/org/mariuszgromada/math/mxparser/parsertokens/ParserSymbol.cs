@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ParserSymbol.cs        5.2.0    2022-12-09
+ * @(#)ParserSymbol.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -406,12 +406,12 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/**
 		 * ParserSymbol - token type id.
 		 */
-		public const int TYPE_ID							= 20;
-		public const String TYPE_DESC						= "Parser Symbol";
-		/**
+		public const int TYPE_ID = 20;
+		public static String TYPE_DESC = ParserSymbol.NA;
+        /**
 		 * ParserSymbol - tokens id.
 		 */
-		public const int LEFT_PARENTHESES_ID				= 1;
+        public const int LEFT_PARENTHESES_ID				= 1;
 		public const int RIGHT_PARENTHESES_ID				= 2;
 		public const int COMMA_ID							= 3;
 		public const int BLANK_ID							= 4;
@@ -446,12 +446,15 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * ParserSymbol - tokens description.
 		 */
-		public const String LEFT_PARENTHESES_DESC 		= "Left parentheses";
-		public const String RIGHT_PARENTHESES_DESC		= "Right parentheses";
-		public const String COMMA_DESC					= "Comma (function parameters)";
-		public const String SEMI_DESC					= "Semicolon (function parameters)";
-		public const String BLANK_DESC					= "Blank (whitespace) character";
-		public const String NUMBER_DESC					= "Decimal number";
+		internal const String NA = "<NA>";
+		public static String LEFT_PARENTHESES_DESC = ParserSymbol.NA;
+		public static String RIGHT_PARENTHESES_DESC = ParserSymbol.NA;
+		public static String COMMA_DESC = ParserSymbol.NA;
+		public static String SEMI_DESC = ParserSymbol.NA;
+		public static String BLANK_DESC = ParserSymbol.NA;
+        public static String UNICODE_MATH_DESC = ParserSymbol.NA;
+
+        public const String NUMBER_DESC					= "Decimal number";
 		public const String NUMBER_REG_DESC				= "Regular expression for decimal numbers";
 		public const String NUMBER_DESC_INT				= "Integer numbers";
 		public const String NUMBER_DESC_DEC				= "Decimal numbers";
@@ -460,11 +463,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NUMBER_DESC_SCI				= "Decimal numbers in scientific notation";
 		public const String NUMBER_DESC_FRAC			= "Fractions";
 		public const String NUMBER_DESC_OTH_BASE		= "Numbers in other numeral bases";
-		public const String UNICODE_MATH				= " - unicode math symbol";
-		/*
+        /*
 		 * ParserSymbol - since.
 		 */
-		public const String LEFT_PARENTHESES_SINCE 		= mXparser.NAMEv10;
+        public const String LEFT_PARENTHESES_SINCE 		= mXparser.NAMEv10;
 		public const String RIGHT_PARENTHESES_SINCE		= mXparser.NAMEv10;
 		public const String COMMA_SINCE					= mXparser.NAMEv10;
 		public const String SEMI_SINCE					= mXparser.NAMEv10;

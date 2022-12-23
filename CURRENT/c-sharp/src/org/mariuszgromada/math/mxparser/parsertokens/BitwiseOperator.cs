@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.cs        5.0.4    2022-05-22
+ * @(#)BitwiseOperator.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BitwiseOperator {
@@ -202,11 +202,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * BitwiseOperator - token type id.
 		 */
 		public const int TYPE_ID 				= 11;
-		public const String TYPE_DESC			= "Bitwise Operator";
-		/*
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * BitwiseOperator - tokens id.
 		 */
-		public const int COMPL_ID				= 1;
+        public const int COMPL_ID				= 1;
 		public const int AND_ID					= 2;
 		public const int XOR_ID					= 3;
 		public const int OR_ID					= 4;
@@ -230,19 +230,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String OR_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(OR_STR);
 		public static readonly String LEFT_SHIFT_SYN	= SyntaxStringBuilder.binaryBitwiseOperator(LEFT_SHIFT_STR);
 		public static readonly String RIGHT_SHIFT_SYN	= SyntaxStringBuilder.binaryBitwiseOperator(RIGHT_SHIFT_STR);
-		/*
+        /*
 		 * BitwiseOperator - tokens description.
 		 */
-		public const String COMPL_DESC			= "Bitwise unary complement";
-		public const String AND_DESC			= "Bitwise AND";
-		public const String XOR_DESC			= "Bitwise exclusive OR";
-		public const String OR_DESC				= "Bitwise inclusive OR";
-		public const String LEFT_SHIFT_DESC		= "Signed left shift";
-		public const String RIGHT_SHIFT_DESC	= "Signed right shift";
-		/*
+        public static String COMPL_DESC = ParserSymbol.NA;
+        public static String AND_DESC = ParserSymbol.NA;
+        public static String XOR_DESC = ParserSymbol.NA;
+        public static String OR_DESC = ParserSymbol.NA;
+        public static String LEFT_SHIFT_DESC = ParserSymbol.NA;
+        public static String RIGHT_SHIFT_DESC = ParserSymbol.NA;
+        /*
 		 * BitwiseOperator - tokens since.
 		 */
-		public const String COMPL_SINCE			= mXparser.NAMEv40;
+        public const String COMPL_SINCE			= mXparser.NAMEv40;
 		public const String AND_SINCE			= mXparser.NAMEv40;
 		public const String XOR_SINCE			= mXparser.NAMEv40;
 		public const String OR_SINCE			= mXparser.NAMEv40;

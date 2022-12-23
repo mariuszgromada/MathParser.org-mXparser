@@ -1,5 +1,5 @@
 /*
- * @(#)ConstantValue.java        5.0.4    2022-05-22
+ * @(#)ConstantValue.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class ConstantValue {
 	/*
 	 * ConstantValue - token type id.
 	 */
 	public static final int TYPE_ID 							= 9;
-	public static final String TYPE_DESC						= "Constant Value";
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * ConstantValue - tokens id.
 	 */
@@ -213,7 +213,7 @@ public final class ConstantValue {
 	public static final int PLASTIC_ID							= 5;
 	public static final int EMBREE_TREFETHEN_ID					= 6;
 	public static final int FEIGENBAUM_DELTA_ID					= 7;
-	public static final int FEIGENBAUM_ALFA_ID					= 8;
+	public static final int FEIGENBAUM_ALPHA_ID 				= 8;
 	public static final int TWIN_PRIME_ID						= 9;
 	public static final int MEISSEL_MERTEENS_ID					= 10;
 	public static final int BRAUN_TWIN_PRIME_ID					= 11;
@@ -316,7 +316,7 @@ public final class ConstantValue {
 	public static final String PLASTIC_STR						= "[PN]";
 	public static final String EMBREE_TREFETHEN_STR				= "[B*]";
 	public static final String FEIGENBAUM_DELTA_STR				= "[F'd]";
-	public static final String FEIGENBAUM_ALFA_STR				= "[F'a]";
+	public static final String FEIGENBAUM_ALPHA_STR				= "[F'a]";
 	public static final String TWIN_PRIME_STR					= "[C2]";
 	public static final String MEISSEL_MERTEENS_STR				= "[M1]";
 	public static final String BRAUN_TWIN_PRIME_STR				= "[B2]";
@@ -418,7 +418,7 @@ public final class ConstantValue {
 	public static final String PLASTIC_SYN						= PLASTIC_STR;
 	public static final String EMBREE_TREFETHEN_SYN				= EMBREE_TREFETHEN_STR;
 	public static final String FEIGENBAUM_DELTA_SYN				= FEIGENBAUM_DELTA_STR;
-	public static final String FEIGENBAUM_ALFA_SYN				= FEIGENBAUM_ALFA_STR;
+	public static final String FEIGENBAUM_ALPHA_SYN				= FEIGENBAUM_ALPHA_STR;
 	public static final String TWIN_PRIME_SYN					= TWIN_PRIME_STR;
 	public static final String MEISSEL_MERTEENS_SYN				= MEISSEL_MERTEENS_STR;
 	public static final String BRAUN_TWIN_PRIME_SYN				= BRAUN_TWIN_PRIME_STR;
@@ -509,102 +509,96 @@ public final class ConstantValue {
 	/*
 	 * ConstantValue - tokens description.
 	 */
-	public static final String PI_DESC 							= "Pi, Archimedes' constant or Ludolph's number";
-	public static final String EULER_DESC 						= "Napier's constant, or Euler's number, base of Natural logarithm";
-	public static final String EULER_MASCHERONI_DESC			= "Euler-Mascheroni constant";
-	public static final String GOLDEN_RATIO_DESC				= "Golden ratio";
-	public static final String PLASTIC_DESC						= "Plastic constant";
-	public static final String EMBREE_TREFETHEN_DESC			= "Embree-Trefethen constant";
-	public static final String FEIGENBAUM_DELTA_DESC			= "Feigenbaum constant alfa";
-	public static final String FEIGENBAUM_ALFA_DESC				= "Feigenbaum constant delta";
-	public static final String TWIN_PRIME_DESC					= "Twin prime constant";
-	public static final String MEISSEL_MERTEENS_DESC			= "Meissel-Mertens constant";
-	public static final String BRAUN_TWIN_PRIME_DESC			= "Brun's constant for twin primes";
-	public static final String BRAUN_PRIME_QUADR_DESC			= "Brun's constant for prime quadruplets";
-	public static final String BRUIJN_NEWMAN_DESC				= "de Bruijn-Newman constant";
-	public static final String CATALAN_DESC						= "Catalan's constant";
-	public static final String LANDAU_RAMANUJAN_DESC			= "Landau-Ramanujan constant";
-	public static final String VISWANATH_DESC					= "Viswanath's constant";
-	public static final String LEGENDRE_DESC					= "Legendre's constant";
-	public static final String RAMANUJAN_SOLDNER_DESC			= "Ramanujan-Soldner constant";
-	public static final String ERDOS_BORWEIN_DESC				= "Erdos-Borwein constant";
-	public static final String BERNSTEIN_DESC					= "Bernstein's constant";
-	public static final String GAUSS_KUZMIN_WIRSING_DESC		= "Gauss-Kuzmin-Wirsing constant";
-	public static final String HAFNER_SARNAK_MCCURLEY_DESC		= "Hafner-Sarnak-McCurley constant";
-	public static final String GOLOMB_DICKMAN_DESC				= "Golomb-Dickman constant";
-	public static final String CAHEN_DESC						= "Cahen's constant";
-	public static final String LAPLACE_LIMIT_DESC				= "Laplace limit";
-	public static final String ALLADI_GRINSTEAD_DESC			= "Alladi-Grinstead constant";
-	public static final String LENGYEL_DESC						= "Lengyel's constant";
-	public static final String LEVY_DESC						= "Levy's constant";
-	public static final String APERY_DESC						= "Apery's constant";
-	public static final String MILLS_DESC						= "Mills' constant";
-	public static final String BACKHOUSE_DESC					= "Backhouse's constant";
-	public static final String PORTER_DESC						= "Porter's constant";
-	public static final String LIEB_QUARE_ICE_DESC				= "Lieb's square ice constant";
-	public static final String NIVEN_DESC						= "Niven's constant";
-	public static final String SIERPINSKI_DESC					= "Sierpinski's constant";
-	public static final String KHINCHIN_DESC					= "Khinchin's constant";
-	public static final String FRANSEN_ROBINSON_DESC			= "Fransen-Robinson constant";
-	public static final String LANDAU_DESC						= "Landau's constant";
-	public static final String PARABOLIC_DESC					= "Parabolic constant";
-	public static final String OMEGA_DESC						= "Omega constant";
-	public static final String MRB_DESC							= "MRB constant";
-	public static final String LI2_DESC							= "li(2) - Logarithmic integral function at x=2";
-	public static final String GOMPERTZ_DESC					= "Gompertz constant";
-	/* Physical Constants */
-	public static final String LIGHT_SPEED_DESC					= "<Physical Constant> Light speed in vacuum [m/s] (m=1, s=1)";
-	public static final String GRAVITATIONAL_CONSTANT_DESC		= "<Physical Constant> Gravitational constant (m=1, kg=1, s=1)]";
-	public static final String GRAVIT_ACC_EARTH_DESC			= "<Physical Constant> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)";
-	public static final String PLANCK_CONSTANT_DESC				= "<Physical Constant> Planck constant (m=1, kg=1, s=1)";
-	public static final String PLANCK_CONSTANT_REDUCED_DESC		= "<Physical Constant> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]";
-	public static final String PLANCK_LENGTH_DESC				= "<Physical Constant> Planck length [m] (m=1)";
-	public static final String PLANCK_MASS_DESC					= "<Physical Constant> Planck mass [kg] (kg=1)";
-	public static final String PLANCK_TIME_DESC					= "<Physical Constant> Planck time [s] (s=1)";
-	/* Astronomical Constants */
-	public static final String LIGHT_YEAR_DESC					= "<Astronomical Constant> Light year [m] (m=1)";
-	public static final String ASTRONOMICAL_UNIT_DESC			= "<Astronomical Constant> Astronomical unit [m] (m=1)";
-	public static final String PARSEC_DESC						= "<Astronomical Constant> Parsec [m] (m=1)";
-	public static final String KILOPARSEC_DESC					= "<Astronomical Constant> Kiloparsec [m] (m=1)";
-	public static final String EARTH_RADIUS_EQUATORIAL_DESC		= "<Astronomical Constant> Earth equatorial radius [m] (m=1)";
-	public static final String EARTH_RADIUS_POLAR_DESC			= "<Astronomical Constant> Earth polar radius [m] (m=1)";
-	public static final String EARTH_RADIUS_MEAN_DESC			= "<Astronomical Constant> Earth mean radius (m=1)";
-	public static final String EARTH_MASS_DESC					= "<Astronomical Constant> Earth mass [kg] (kg=1)";
-	public static final String EARTH_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Earth-Sun distance - semi major axis [m] (m=1)";
-	public static final String MOON_RADIUS_MEAN_DESC			= "<Astronomical Constant> Moon mean radius [m] (m=1)";
-	public static final String MOON_MASS_DESC					= "<Astronomical Constant> Moon mass [kg] (kg=1)";
-	public static final String MONN_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Moon-Earth distance - semi major axis [m] (m=1)";
-	public static final String SOLAR_RADIUS_DESC				= "<Astronomical Constant> Solar mean radius [m] (m=1)";
-	public static final String SOLAR_MASS_DESC					= "<Astronomical Constant> Solar mass [kg] (kg=1)";
-	public static final String MERCURY_RADIUS_MEAN_DESC			= "<Astronomical Constant> Mercury mean radius [m] (m=1)";
-	public static final String MERCURY_MASS_DESC				= "<Astronomical Constant> Mercury mass [kg] (kg=1)";
-	public static final String MERCURY_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Mercury-Sun distance - semi major axis [m] (m=1)";
-	public static final String VENUS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Venus mean radius [m] (m=1)";
-	public static final String VENUS_MASS_DESC					= "<Astronomical Constant> Venus mass [kg] (kg=1)";
-	public static final String VENUS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Venus-Sun distance - semi major axis [m] (m=1)";
-	public static final String MARS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Mars mean radius [m] (m=1)";
-	public static final String MARS_MASS_DESC					= "<Astronomical Constant> Mars mass [kg] (kg=1)";
-	public static final String MARS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Mars-Sun distance - semi major axis [m] (m=1)";
-	public static final String JUPITER_RADIUS_MEAN_DESC			= "<Astronomical Constant> Jupiter mean radius [m] (m=1)";
-	public static final String JUPITER_MASS_DESC				= "<Astronomical Constant> Jupiter mass [kg] (kg=1)";
-	public static final String JUPITER_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Jupiter-Sun distance - semi major axis [m] (m=1)";
-	public static final String SATURN_RADIUS_MEAN_DESC			= "<Astronomical Constant> Saturn mean radius [m] (m=1)";
-	public static final String SATURN_MASS_DESC					= "<Astronomical Constant> Saturn mass [kg] (kg=1)";
-	public static final String SATURN_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Saturn-Sun distance - semi major axis [m] (m=1)";
-	public static final String URANUS_RADIUS_MEAN_DESC			= "<Astronomical Constant> Uranus mean radius [m] (m=1)";
-	public static final String URANUS_MASS_DESC					= "<Astronomical Constant> Uranus mass [kg] (kg=1)";
-	public static final String URANUS_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Uranus-Sun distance - semi major axis [m] (m=1)";
-	public static final String NEPTUNE_RADIUS_MEAN_DESC			= "<Astronomical Constant> Neptune mean radius [m] (m=1)";
-	public static final String NEPTUNE_MASS_DESC				= "<Astronomical Constant> Neptune mass [kg] (kg=1)";
-	public static final String NEPTUNE_SEMI_MAJOR_AXIS_DESC		= "<Astronomical Constant> Neptune-Sun distance - semi major axis [m] (m=1)";
-	/* boolean values */
-	public static final String TRUE_DESC						= "Boolean True represented as double, [true] = 1";
-	public static final String FALSE_DESC						= "Boolean False represented as double, [false] = 0";
-	/* automatic values */
-	public static final String NPAR_DESC						= "Automatically generated constant for user defined functions, returns number of given function parameters";
-	/* other values */
-	public static final String NAN_DESC							= "Not-a-Number";
-
+	public static String PI_DESC = ParserSymbol.NA;
+	public static String EULER_DESC = ParserSymbol.NA;
+	public static String EULER_MASCHERONI_DESC = ParserSymbol.NA;
+	public static String GOLDEN_RATIO_DESC = ParserSymbol.NA;
+	public static String PLASTIC_DESC = ParserSymbol.NA;
+	public static String EMBREE_TREFETHEN_DESC = ParserSymbol.NA;
+	public static String FEIGENBAUM_DELTA_DESC = ParserSymbol.NA;
+	public static String FEIGENBAUM_ALPHA_DESC = ParserSymbol.NA;
+	public static String TWIN_PRIME_DESC = ParserSymbol.NA;
+	public static String MEISSEL_MERTEENS_DESC = ParserSymbol.NA;
+	public static String BRAUN_TWIN_PRIME_DESC = ParserSymbol.NA;
+	public static String BRAUN_PRIME_QUADR_DESC = ParserSymbol.NA;
+	public static String BRUIJN_NEWMAN_DESC = ParserSymbol.NA;
+	public static String CATALAN_DESC = ParserSymbol.NA;
+	public static String LANDAU_RAMANUJAN_DESC = ParserSymbol.NA;
+	public static String VISWANATH_DESC = ParserSymbol.NA;
+	public static String LEGENDRE_DESC = ParserSymbol.NA;
+	public static String RAMANUJAN_SOLDNER_DESC = ParserSymbol.NA;
+	public static String ERDOS_BORWEIN_DESC = ParserSymbol.NA;
+	public static String BERNSTEIN_DESC = ParserSymbol.NA;
+	public static String GAUSS_KUZMIN_WIRSING_DESC = ParserSymbol.NA;
+	public static String HAFNER_SARNAK_MCCURLEY_DESC = ParserSymbol.NA;
+	public static String GOLOMB_DICKMAN_DESC = ParserSymbol.NA;
+	public static String CAHEN_DESC = ParserSymbol.NA;
+	public static String LAPLACE_LIMIT_DESC = ParserSymbol.NA;
+	public static String ALLADI_GRINSTEAD_DESC = ParserSymbol.NA;
+	public static String LENGYEL_DESC = ParserSymbol.NA;
+	public static String LEVY_DESC = ParserSymbol.NA;
+	public static String APERY_DESC = ParserSymbol.NA;
+	public static String MILLS_DESC = ParserSymbol.NA;
+	public static String BACKHOUSE_DESC = ParserSymbol.NA;
+	public static String PORTER_DESC = ParserSymbol.NA;
+	public static String LIEB_QUARE_ICE_DESC = ParserSymbol.NA;
+	public static String NIVEN_DESC = ParserSymbol.NA;
+	public static String SIERPINSKI_DESC = ParserSymbol.NA;
+	public static String KHINCHIN_DESC = ParserSymbol.NA;
+	public static String FRANSEN_ROBINSON_DESC = ParserSymbol.NA;
+	public static String LANDAU_DESC = ParserSymbol.NA;
+	public static String PARABOLIC_DESC = ParserSymbol.NA;
+	public static String OMEGA_DESC = ParserSymbol.NA;
+	public static String MRB_DESC = ParserSymbol.NA;
+	public static String LI2_DESC = ParserSymbol.NA;
+	public static String GOMPERTZ_DESC = ParserSymbol.NA;
+	public static String LIGHT_SPEED_DESC = ParserSymbol.NA;
+	public static String GRAVITATIONAL_CONSTANT_DESC = ParserSymbol.NA;
+	public static String GRAVIT_ACC_EARTH_DESC = ParserSymbol.NA;
+	public static String PLANCK_CONSTANT_DESC = ParserSymbol.NA;
+	public static String PLANCK_CONSTANT_REDUCED_DESC = ParserSymbol.NA;
+	public static String PLANCK_LENGTH_DESC = ParserSymbol.NA;
+	public static String PLANCK_MASS_DESC = ParserSymbol.NA;
+	public static String PLANCK_TIME_DESC = ParserSymbol.NA;
+	public static String LIGHT_YEAR_DESC = ParserSymbol.NA;
+	public static String ASTRONOMICAL_UNIT_DESC = ParserSymbol.NA;
+	public static String PARSEC_DESC = ParserSymbol.NA;
+	public static String KILOPARSEC_DESC = ParserSymbol.NA;
+	public static String EARTH_RADIUS_EQUATORIAL_DESC = ParserSymbol.NA;
+	public static String EARTH_RADIUS_POLAR_DESC = ParserSymbol.NA;
+	public static String EARTH_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String EARTH_MASS_DESC = ParserSymbol.NA;
+	public static String EARTH_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String MOON_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String MOON_MASS_DESC = ParserSymbol.NA;
+	public static String MONN_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String SOLAR_RADIUS_DESC = ParserSymbol.NA;
+	public static String SOLAR_MASS_DESC = ParserSymbol.NA;
+	public static String MERCURY_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String MERCURY_MASS_DESC = ParserSymbol.NA;
+	public static String MERCURY_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String VENUS_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String VENUS_MASS_DESC = ParserSymbol.NA;
+	public static String VENUS_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String MARS_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String MARS_MASS_DESC = ParserSymbol.NA;
+	public static String MARS_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String JUPITER_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String JUPITER_MASS_DESC = ParserSymbol.NA;
+	public static String JUPITER_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String SATURN_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String SATURN_MASS_DESC = ParserSymbol.NA;
+	public static String SATURN_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String URANUS_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String URANUS_MASS_DESC = ParserSymbol.NA;
+	public static String URANUS_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String NEPTUNE_RADIUS_MEAN_DESC = ParserSymbol.NA;
+	public static String NEPTUNE_MASS_DESC = ParserSymbol.NA;
+	public static String NEPTUNE_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String TRUE_DESC = ParserSymbol.NA;
+	public static String FALSE_DESC = ParserSymbol.NA;
+	public static String NPAR_DESC = ParserSymbol.NA;
+	public static String NAN_DESC = ParserSymbol.NA;
 	/*
 	 * ConstantValue - since.
 	 */
@@ -619,7 +613,7 @@ public final class ConstantValue {
 	public static final String PLASTIC_SINCE					= mXparser.NAMEv10;
 	public static final String EMBREE_TREFETHEN_SINCE			= mXparser.NAMEv10;
 	public static final String FEIGENBAUM_DELTA_SINCE			= mXparser.NAMEv10;
-	public static final String FEIGENBAUM_ALFA_SINCE			= mXparser.NAMEv10;
+	public static final String FEIGENBAUM_ALPHA_SINCE			= mXparser.NAMEv10;
 	public static final String TWIN_PRIME_SINCE					= mXparser.NAMEv10;
 	public static final String MEISSEL_MERTEENS_SINCE			= mXparser.NAMEv10;
 	public static final String BRAUN_TWIN_PRIME_SINCE			= mXparser.NAMEv10;

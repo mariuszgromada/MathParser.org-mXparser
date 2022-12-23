@@ -1,5 +1,5 @@
 /*
- * @(#)BinaryRelation.java        5.0.4    2022-05-22
+ * @(#)BinaryRelation.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class BinaryRelation {
 	/*
 	 * BinaryRelation - token type id.
 	 */
 	public static final int TYPE_ID 				= 3;
-	public static final String TYPE_DESC			= "Binary Relation";
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * BinaryRelation - tokens id.
 	 */
@@ -248,12 +248,12 @@ public final class BinaryRelation {
 	/*
 	 * BinaryRelation - tokens description.
 	 */
-	public static final String EQ_DESC 				= "Equality";
-	public static final String NEQ_DESC				= "Inequation";
-	public static final String LT_DESC 				= "Lower than";
-	public static final String GT_DESC 				= "Greater than";
-	public static final String LEQ_DESC 			= "Lower or equal";
-	public static final String GEQ_DESC 			= "Greater or equal";
+	public static String EQ_DESC = ParserSymbol.NA;
+	public static String NEQ_DESC = ParserSymbol.NA;
+	public static String LT_DESC = ParserSymbol.NA;
+	public static String GT_DESC = ParserSymbol.NA;
+	public static String LEQ_DESC = ParserSymbol.NA;
+	public static String GEQ_DESC = ParserSymbol.NA;
 	/*
 	 * BinaryRelation - since.
 	 */

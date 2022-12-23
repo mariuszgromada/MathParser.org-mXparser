@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.java        5.2.0    2022-12-16
+ * @(#)StringInvariant.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -234,4 +234,189 @@ final class StringInvariant {
     static final String LONG_RIGHT_ARROW = "--->";
     static final String LONG_RIGHT_ARROW_SPACE = LONG_RIGHT_ARROW + SPACE;
     static final String RIGHT_ARROW_SPACE = RIGHT_ARROW + SPACE;
+    // -------------------------------------------------
+    static final String METER_UNIT = "[m]";
+    static final String SQUARE_METER_UNIT = "[m²]";
+    static final String CUBIC_METER_UNIT = "[m³]";
+    static final String SECOND_UNIT = "[s]";
+    static final String KILOGRAM_UNIT = "[kg]";
+    static final String BIT_UNIT = "[bit]";
+    static final String JOULE_UNIT = "[J]";
+    static final String RADIAN_UNIT = "[rad]";
+    static final String METER_DEFINITION = "(m=1)";
+    static final String SECOND_DEFINITION = "(s=1)";
+    static final String KILOGRAM_DEFINITION = "(kg=1)";
+    static final String BIT_DEFINITION = "(bit=1)";
+    static final String RADIAN_DEFINITION = "(rad=1)";
+    static final String TRUE_DEFINITION = "(true=1)";
+    static final String FALSE_DEFINITION = "(false=0)";
+    // -------------------------------------------------
+    static final String METER_PER_SECOND_UNIT = "[m/s]";
+    static final String METER_PER_SECOND_SQUARED_UNIT = "[m/s²]";
+    // -------------------------------------------------
+    static final String TRUE_AND_FALSE_DEFINITION = "(true=1, false=1)";
+    static final String METER_AND_SECOND_DEFINITION = "(m=1, s=1)";
+    static final String METER_AND_KILOGRAM_AND_SECOND_DEFINITION = "(m=1, kg=1, s=1)";
+    // -------------------------------------------------
+    static final String NORMAL_NMS_SYMBOL = "N(μ,σ)";
+    static final String NORMAL_N01_SYMBOL = "N(0,1)";
+    static final String UNIFORM_UAB_SYMBOL = "U(a,b)";
+    static final String UNIFORM_UDAB_SYMBOL = "U{a,b}";
+    static final String UNIFORM_U01_SYMBOL = "U(0,1)";
+    static final String BETA_XY_SYMBOL = "B(x,y)";
+    static final String LOG_BETA_XY_SYMBOL = "lnB(x,y)";
+    static final String INCOMPLETE_BETA_XAB_SYMBOL = "B(x,a,b)";
+    static final String REGULARIZED_INCOMPLETE_BETA_XAB_SYMBOL = "I(x,a,b)";
+    static final String GAMMA_S_SYMBOL = "Γ(s)";
+    static final String LOWER_GAMMA_SX_SYMBOL = "γ(s,x)";
+    static final String UPPER_GAMMA_SX_SYMBOL = "Γ(s,x)";
+    static final String REGULARIZED_GAMMA_P_SX_SYMBOL = "P(s,x)";
+    static final String REGULARIZED_GAMMA_Q_SX_SYMBOL = "Q(s,x)";
+    static final String LOG_GAMMA_S_SYMBOL = "lnΓ(s)";
+    static final String DIGAMMA_X_SYMBOL = "ψ(x)";
+    static final String EXPONENTIAL_INTEGRAL_X_SYMBOL = "Ei(x)";
+    static final String LOGARITHMIC_INTEGRAL_X_SYMBOL = "li(x)";
+    static final String LOGARITHMIC_INTEGRAL_2_SYMBOL = "li(2)";
+    static final String OFFSET_LOGARITHMIC_INTEGRAL_X_SYMBOL = "Li(x)";
+    static final String GAUSS_ERROR_X_SYMBOL = "erf(x)";
+    static final String INVERSE_GAUSS_ERROR_Y_SYMBOL = "erf⁻¹(y)";
+    static final String GAUSS_ERROR_COMPLEMENTARY_X_SYMBOL = "erfc(x)";
+    static final String INVERSE_GAUSS_ERROR_COMPLEMENTARY_Y_SYMBOL = "erfc⁻¹(x)";
+    static final String LAMBERT_W0_X_SYMBOL = "W₀(x)";
+    static final String LAMBERT_W_1_X_SYMBOL = "W₋₁(x)";
+    static final String PRIME_COUNTING_N_SYMBOL = "π(n)";
+    // -------------------------------------------------
+    static final String PI_SYMBOL = "π";
+    static final String E_SYMBOL = "e";
+    static final String MASCHERONI_SYMBOL = "γ";
+    static final String GOLDEN_RATIO_SYMBOL = "φ";
+    static final String PLASTICS_SYMBOL = "ρ";
+    static final String EMBREE_TREFETHEN_SYMBOL = "β*";
+    static final String FEIGENBAUM_DELTA_SYMBOL = "δ";
+    static final String FEIGENBAUM_ALPHA_SYMBOL = "α";
+    static final String MEISSEL_MERTEENS_SYMBOL = "M₁, B₁";
+    static final String BRAUN_TWIN_PRIME_SYMBOL = "B₂";
+    static final String BRAUN_PRIME_QUADR_SYMBOL = "B₄";
+    static final String TWIN_PRIME_SYMBOL = "∏₂";
+    static final String BRUIJN_NEWMAN_SYMBOL = "Λ";
+    static final String CATALAN_SYMBOL = "G";
+    static final String LANDAU_RAMANUJAN_SYMBOL = "b";
+    static final String VISWANATH_SYMBOL = "V";
+    static final String LEGENDRE_SYMBOL = "B";
+    static final String RAMANUJAN_SOLDNER_SYMBOL = "μ";
+    static final String ERDOS_BORWEIN_SYMBOL = "E";
+    static final String BERNSTEIN_SYMBOL = "β";
+    static final String GAUSS_KUZMIN_WIRSING_SYMBOL = "λ";
+    static final String HAFNER_SARNAK_MCCURLEY_SYMBOL = "σ";
+    static final String GOLOMB_DICKMAN_SYMBOL = "λ";
+    static final String CAHEN_SYMBOL = "C";
+    static final String LENGYEL_SYMBOL = "Λ";
+    static final String APERY_SYMBOL = "ζ(3)";
+    static final String MILLS_SYMBOL = "A";
+    static final String BACKHOUSE_SYMBOL = "B";
+    static final String PORTER_SYMBOL = "C";
+    static final String NIVEN_SYMBOL = "C";
+    static final String SIERPINSKI_SYMBOL = "K";
+    static final String KHINCHIN_SYMBOL = "K₀";
+    static final String FRANSEN_ROBINSON_SYMBOL = "F";
+    static final String LANDAU_SYMBOL = "L";
+    static final String PARABOLIC_SYMBOL = "P";
+    static final String OMEGA_SYMBOL = "Ω";
+    static final String MRB_SYMBOL = "S";
+    static final String GOMPERTZ_SYMBOL = "δ";
+    static final String LIGHT_SPEED_SYMBOL = "c";
+    static final String GRAVITATIONAL_CONSTANT_SYMBOL = "G";
+    static final String GRAVIT_ACC_EARTH_SYMBOL = "g";
+    static final String PLANCK_CONSTANT_SYMBOL = "h";
+    static final String PLANCK_CONSTANT_REDUCED_SYMBOL = "ħ";
+    static final String PLANCK_LENGTH_SYMBOL = "lᵖ";
+    static final String PLANCK_MASS_SYMBOL = "mᵖ";
+    static final String PLANCK_TIME_SYMBOL = "tᵖ";
+    static final String LIGHT_YEAR_SYMBOL = "ly";
+    static final String ASTRONOMICAL_UNIT_SYMBOL = "au, AU";
+    static final String PARSEC_SYMBOL = "pc";
+    static final String KILOPARSEC_SYMBOL = "kpc";
+    static final String EARTH_MASS_SYMBOL = "M⊕";
+    static final String EARTH_RADIUS_EQUATORIAL_SYMBOL = "Rª⊕";
+    static final String EARTH_RADIUS_POLAR_SYMBOL = "Rᵇ⊕";
+    static final String EARTH_RADIUS_MEAN_SYMBOL = "R⊕";
+    static final String SOLAR_RADIUS_SYMBOL = "R☉";
+    static final String SOLAR_MASS_SYMBOL = "M☉";
+    // -------------------------------------------------
+    static final String SUM_SYMBOL = "Σ";
+    static final String PROD_SYMBOL = "∏";
+    static final String INT_SYMBOL = "∫";
+    static final String DER_SYMBOL = "∂";
+    static final String DER_LEFT_SYMBOL = "∂-";
+    static final String DER_RIGHT_SYMBOL = "∂+";
+    static final String DERN_SYMBOL = "∂ⁿ";
+    static final String FORW_DIFF_SYMBOL = "∆";
+    static final String BACKW_DIFF_SYMBOL = "∇";
+    // -------------------------------------------------
+    static final String SOLVE_SYMBOL = "f(x)=0";
+    static final String AND_SYMBOL = "AND";
+    static final String NAND_SYMBOL = "NAND";
+    static final String OR_SYMBOL = "OR";
+    static final String NOR_SYMBOL = "NOR";
+    static final String XOR_SYMBOL = "XOR";
+    static final String IMP_SYMBOL = "IMP";
+    static final String CIMP_SYMBOL = "CIMP";
+    static final String NIMP_SYMBOL = "NIMP";
+    static final String CNIMP_SYMBOL = "CNIMP";
+    static final String EQV_SYMBOL = "EQV";
+    // -------------------------------------------------
+    static final String RANDOM_VARIABLE_INT1_SYMBOL = "U{-10¹,10¹}";
+    static final String RANDOM_VARIABLE_INT2_SYMBOL = "U{-10²,10²}";
+    static final String RANDOM_VARIABLE_INT3_SYMBOL = "U{-10³,10³}";
+    static final String RANDOM_VARIABLE_INT4_SYMBOL = "U{-10⁴,10⁴}";
+    static final String RANDOM_VARIABLE_INT5_SYMBOL = "U{-10⁵,10⁵}";
+    static final String RANDOM_VARIABLE_INT6_SYMBOL = "U{-10⁶,10⁶}";
+    static final String RANDOM_VARIABLE_INT7_SYMBOL = "U{-10⁷,10⁷}";
+    static final String RANDOM_VARIABLE_INT8_SYMBOL = "U{-10⁸,10⁸}";
+    static final String RANDOM_VARIABLE_INT9_SYMBOL = "U{-10⁹,10⁹}";
+
+    static final String RANDOM_VARIABLE_NAT0_1_SYMBOL = "U{0,10¹}";
+    static final String RANDOM_VARIABLE_NAT0_2_SYMBOL = "U{0,10²}";
+    static final String RANDOM_VARIABLE_NAT0_3_SYMBOL = "U{0,10³}";
+    static final String RANDOM_VARIABLE_NAT0_4_SYMBOL = "U{0,10⁴}";
+    static final String RANDOM_VARIABLE_NAT0_5_SYMBOL = "U{0,10⁵}";
+    static final String RANDOM_VARIABLE_NAT0_6_SYMBOL = "U{0,10⁶}";
+    static final String RANDOM_VARIABLE_NAT0_7_SYMBOL = "U{0,10⁷}";
+    static final String RANDOM_VARIABLE_NAT0_8_SYMBOL = "U{0,10⁸}";
+    static final String RANDOM_VARIABLE_NAT0_9_SYMBOL = "U{0,10⁹}";
+
+    static final String RANDOM_VARIABLE_NAT1_1_SYMBOL = "U{1,10¹}";
+    static final String RANDOM_VARIABLE_NAT1_2_SYMBOL = "U{1,10²}";
+    static final String RANDOM_VARIABLE_NAT1_3_SYMBOL = "U{1,10³}";
+    static final String RANDOM_VARIABLE_NAT1_4_SYMBOL = "U{1,10⁴}";
+    static final String RANDOM_VARIABLE_NAT1_5_SYMBOL = "U{1,10⁵}";
+    static final String RANDOM_VARIABLE_NAT1_6_SYMBOL = "U{1,10⁶}";
+    static final String RANDOM_VARIABLE_NAT1_7_SYMBOL = "U{1,10⁷}";
+    static final String RANDOM_VARIABLE_NAT1_8_SYMBOL = "U{1,10⁸}";
+    static final String RANDOM_VARIABLE_NAT1_9_SYMBOL = "U{1,10⁹}";
+    // -------------------------------------------------
+    static final String UNIT_PERC_SYMBOL = "= 0.01";
+    static final String UNIT_PROMIL_SYMBOL = "= 0.001";
+    static final String UNIT_YOTTA_SYMBOL = "= 10²⁴";
+    static final String UNIT_ZETTA_SYMBOL = "= 10²¹";
+    static final String UNIT_EXA_SYMBOL = "= 10¹⁸";
+    static final String UNIT_PETA_SYMBOL = "= 10¹⁵";
+    static final String UNIT_TERA_SYMBOL = "= 10¹²";
+    static final String UNIT_GIGA_SYMBOL = "= 10⁹";
+    static final String UNIT_MEGA_SYMBOL = "= 10⁶";
+    static final String UNIT_KILO_SYMBOL = "= 10³";
+    static final String UNIT_HECTO_SYMBOL = "= 10²";
+    static final String UNIT_DECA_SYMBOL = "= 10";
+    static final String UNIT_DECI_SYMBOL = "= 10⁻¹";
+    static final String UNIT_CENTI_SYMBOL = "= 10⁻²";
+    static final String UNIT_MILLI_SYMBOL = "= 10⁻³";
+    static final String UNIT_MICRO_SYMBOL = "= 10⁻⁶";
+    static final String UNIT_NANO_SYMBOL = "= 10⁻⁹";
+    static final String UNIT_PICO_SYMBOL = "= 10⁻¹²";
+    static final String UNIT_FEMTO_SYMBOL = "= 10⁻¹⁵";
+    static final String UNIT_ATTO_SYMBOL = "= 10⁻¹⁸";
+    static final String UNIT_ZEPTO_SYMBOL = "= 10⁻²¹";
+    static final String UNIT_YOCTO_SYMBOL = "= 10⁻²⁴";
+    // -------------------------------------------------
+    static final String SEPARATOR = " - ";
 }

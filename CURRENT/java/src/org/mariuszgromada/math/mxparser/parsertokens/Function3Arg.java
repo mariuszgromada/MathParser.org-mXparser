@@ -1,5 +1,5 @@
 /*
- * @(#)Function3Arg.java        5.1.0    2022-09-04
+ * @(#)Function3Arg.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.2.0
  */
 public final class Function3Arg {
 	/*
 	 * 3-args Function - token type id.
 	 */
-	public static final int TYPE_ID 						= 6;
-	public static final String TYPE_DESC					= "3-args Function";
+	public static final int TYPE_ID = 6;
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * 3-args Function - tokens id.
 	 */
@@ -268,23 +268,24 @@ public final class Function3Arg {
 	/*
 	 * 3-args Function - tokens description.
 	 */
-	public static final String IF_DESC 						= "If function";
-	public static final String CHI_DESC						= "Characteristic function for x in (a,b)";
-	public static final String CHI_LR_DESC					= "Characteristic function for x in [a,b]";
-	public static final String CHI_L_DESC					= "Characteristic function for x in [a,b)";
-	public static final String CHI_R_DESC					= "Characteristic function for x in (a,b]";
-	public static final String PDF_UNIFORM_CONT_DESC		= "Probability distribution function - Uniform continuous distribution U(a,b)";
-	public static final String CDF_UNIFORM_CONT_DESC		= "Cumulative distribution function - Uniform continuous distribution U(a,b)";
-	public static final String QNT_UNIFORM_CONT_DESC		= "Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b)";
-	public static final String PDF_NORMAL_DESC				= "Probability distribution function - Normal distribution N(m,s)";
-	public static final String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
-	public static final String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function) - Normal distribution N(m,s)";
-	public static final String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
-	public static final String INC_BETA_DESC				= "The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind";
-	public static final String REG_BETA_DESC				= "The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind";
-	public static final String PDF_F_SNEDECOR_DESC			= "Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
-	public static final String CDF_F_SNEDECOR_DESC			= "Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
-	public static final String QNT_F_SNEDECOR_DESC			= "Quantile function (inverse cumulative distribution function) - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";	/*
+	public static String IF_DESC = ParserSymbol.NA;
+	public static String CHI_DESC = ParserSymbol.NA;
+	public static String CHI_LR_DESC = ParserSymbol.NA;
+	public static String CHI_L_DESC = ParserSymbol.NA;
+	public static String CHI_R_DESC = ParserSymbol.NA;
+	public static String PDF_UNIFORM_CONT_DESC = ParserSymbol.NA;
+	public static String CDF_UNIFORM_CONT_DESC = ParserSymbol.NA;
+	public static String QNT_UNIFORM_CONT_DESC = ParserSymbol.NA;
+	public static String PDF_NORMAL_DESC = ParserSymbol.NA;
+	public static String CDF_NORMAL_DESC = ParserSymbol.NA;
+	public static String QNT_NORMAL_DESC = ParserSymbol.NA;
+	public static String DIGIT_DESC = ParserSymbol.NA;
+	public static String INC_BETA_DESC = ParserSymbol.NA;
+	public static String REG_BETA_DESC = ParserSymbol.NA;
+	public static String PDF_F_SNEDECOR_DESC = ParserSymbol.NA;
+	public static String CDF_F_SNEDECOR_DESC = ParserSymbol.NA;
+	public static String QNT_F_SNEDECOR_DESC = ParserSymbol.NA;
+	/*
 	 * 3-args Function - since.
 	 */
 	public static final String IF_SINCE 					= mXparser.NAMEv10;

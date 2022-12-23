@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.java        5.2.0    2022-12-16
+ * @(#)MathConstants.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -249,7 +249,7 @@ public final class MathConstants {
 	/**
 	 * Brun's constant for twin primes
 	 */
-	public static final double BRAUN_TWIN_PRIME = 1.9021605823;
+	public static final double BRAUN_TWIN_PRIME = 1.902160583104;
 	/**
 	 * Brun's constant for prime quadruplets
 	 */
@@ -357,7 +357,7 @@ public final class MathConstants {
 	/**
 	 * Landau's constant
 	 */
-	public static final double LANDAU = 0.5;
+	public static final double LANDAU = 0.5432589653429767;
 	/**
 	 * Parabolic constant
 	 */
@@ -369,7 +369,7 @@ public final class MathConstants {
 	/**
 	 * MRB constant
 	 */
-	public static final double MRB = 0.187859;
+	public static final double MRB = 0.18785964246206712024851793405427;
 	/**
 	 * A069284 - Logarithmic integral function li(2)
 	 */
@@ -457,7 +457,7 @@ public final class MathConstants {
 			case ConstantValue.PLASTIC_ID: return MathConstants.PLASTIC;
 			case ConstantValue.EMBREE_TREFETHEN_ID: return MathConstants.EMBREE_TREFETHEN;
 			case ConstantValue.FEIGENBAUM_DELTA_ID: return MathConstants.FEIGENBAUM_DELTA;
-			case ConstantValue.FEIGENBAUM_ALFA_ID: return MathConstants.FEIGENBAUM_ALFA;
+			case ConstantValue.FEIGENBAUM_ALPHA_ID: return MathConstants.FEIGENBAUM_ALFA;
 			case ConstantValue.TWIN_PRIME_ID: return MathConstants.TWIN_PRIME;
 			case ConstantValue.MEISSEL_MERTEENS_ID: return MathConstants.MEISSEL_MERTEENS;
 			case ConstantValue.BRAUN_TWIN_PRIME_ID: return MathConstants.BRAUN_TWIN_PRIME;

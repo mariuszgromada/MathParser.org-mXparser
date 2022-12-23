@@ -1,5 +1,5 @@
 /*
- * @(#)Function3Arg.cs        5.1.0    2022-09-04
+ * @(#)Function3Arg.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,19 +194,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function3Arg {
 		/*
 		 * 3-args Function - token type id.
 		 */
-		public const int TYPE_ID						= 6;
-		public const String TYPE_DESC					= "3-args Function";
-		/*
+		public const int TYPE_ID = 6;
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * 3-args Function - tokens id.
 		 */
-		public const int IF_CONDITION_ID				= 1;
+        public const int IF_CONDITION_ID				= 1;
 		public const int IF_ID							= 2;
 		public const int CHI_ID							= 3;
 		public const int CHI_LR_ID						= 4;
@@ -266,30 +266,30 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String PDF_F_SNEDECOR_SYN		= SyntaxStringBuilder.function3Arg(PDF_F_SNEDECOR_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
 		public static readonly String CDF_F_SNEDECOR_SYN		= SyntaxStringBuilder.function3Arg(CDF_F_SNEDECOR_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
 		public static readonly String QNT_F_SNEDECOR_SYN		= SyntaxStringBuilder.function3Arg(QNT_F_SNEDECOR_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
-		/*
+        /*
 		 * 3-args Function - tokens description.
 		 */
-		public const String IF_DESC 					= "If function";
-		public const String CHI_DESC					= "Characteristic function for x in (a,b)";
-		public const String CHI_LR_DESC					= "Characteristic function for x in [a,b]";
-		public const String CHI_L_DESC					= "Characteristic function for x in [a,b)";
-		public const String CHI_R_DESC					= "Characteristic function for x in (a,b]";
-		public const String PDF_UNIFORM_CONT_DESC		= "Probability distribution function - Uniform continuous distribution U(a,b)";
-		public const String CDF_UNIFORM_CONT_DESC		= "Cumulative distribution function - Uniform continuous distribution U(a,b)";
-		public const String QNT_UNIFORM_CONT_DESC		= "Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b)";
-		public const String PDF_NORMAL_DESC				= "Probability distribution function - Normal distribution N(m,s)";
-		public const String CDF_NORMAL_DESC				= "Cumulative distribution function - Normal distribution N(m,s)";
-		public const String QNT_NORMAL_DESC				= "Quantile function (inverse cumulative distribution function) - Normal distribution N(m,s)";
-		public const String DIGIT_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base";
-		public const String INC_BETA_DESC				= "The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind";
-		public const String REG_BETA_DESC				= "The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind";
-		public const String PDF_F_SNEDECOR_DESC			= "Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
-		public const String CDF_F_SNEDECOR_DESC			= "Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
-		public const String QNT_F_SNEDECOR_DESC			= "Quantile function (inverse cumulative distribution function) - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";	/*
-		/*
+        public static String IF_DESC = ParserSymbol.NA;
+        public static String CHI_DESC = ParserSymbol.NA;
+        public static String CHI_LR_DESC = ParserSymbol.NA;
+        public static String CHI_L_DESC = ParserSymbol.NA;
+        public static String CHI_R_DESC = ParserSymbol.NA;
+        public static String PDF_UNIFORM_CONT_DESC = ParserSymbol.NA;
+        public static String CDF_UNIFORM_CONT_DESC = ParserSymbol.NA;
+        public static String QNT_UNIFORM_CONT_DESC = ParserSymbol.NA;
+        public static String PDF_NORMAL_DESC = ParserSymbol.NA;
+        public static String CDF_NORMAL_DESC = ParserSymbol.NA;
+        public static String QNT_NORMAL_DESC = ParserSymbol.NA;
+        public static String DIGIT_DESC = ParserSymbol.NA;
+        public static String INC_BETA_DESC = ParserSymbol.NA;
+        public static String REG_BETA_DESC = ParserSymbol.NA;
+        public static String PDF_F_SNEDECOR_DESC = ParserSymbol.NA;
+        public static String CDF_F_SNEDECOR_DESC = ParserSymbol.NA;
+        public static String QNT_F_SNEDECOR_DESC = ParserSymbol.NA;
+        /*
 		 * 3-args Function - since.
 		 */
-		public const String IF_SINCE 					= mXparser.NAMEv10;
+        public const String IF_SINCE 					= mXparser.NAMEv10;
 		public const String CHI_SINCE					= mXparser.NAMEv10;
 		public const String CHI_LR_SINCE				= mXparser.NAMEv10;
 		public const String CHI_L_SINCE					= mXparser.NAMEv10;

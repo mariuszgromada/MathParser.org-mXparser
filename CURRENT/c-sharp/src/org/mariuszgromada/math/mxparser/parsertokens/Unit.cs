@@ -1,5 +1,5 @@
 /*
- * @(#)Unit.cs        5.0.4    2022-05-22
+ * @(#)Unit.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,19 +194,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	public sealed class Unit {
 		/*
 		 * Unit - token type id.
 		 */
-		public const int TYPE_ID 				= 12;
-		public const String TYPE_DESC			= "Unit";
-		/*
+		public const int TYPE_ID = 12;
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * Unit - tokens id.
 		 */
-		/* Ratio, Fraction */
-		public const int PERC_ID				= 1;
+        /* Ratio, Fraction */
+        public const int PERC_ID				= 1;
 		public const int PROMIL_ID				= 2;
 		/* Metric prefixes */
 		public const int YOTTA_ID				= 101;
@@ -553,122 +553,110 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String MINUTE_ARC_SYN			= MINUTE_ARC_STR;
 		public const String SECOND_ARC_SYN			= SECOND_ARC_STR;
 
-		/*
+        /*
 		 * Unit - tokens description.
 		 */
-		/* Ratio, Fraction */
-		public const String PERC_DESC				= "<Ratio, Fraction> Percentage = 0.01";
-		public const String PROMIL_DESC				= "<Ratio, Fraction> Promil, Per mille = 0.001";
-		/* Metric prefixes */
-		public const String YOTTA_DESC				= "<Metric prefix> Septillion / Yotta = 10^24";
-		public const String ZETTA_DESC				= "<Metric prefix> Sextillion / Zetta = 10^21";
-		public const String EXA_DESC				= "<Metric prefix> Quintillion / Exa = 10^18";
-		public const String PETA_DESC				= "<Metric prefix> Quadrillion / Peta = 10^15";
-		public const String TERA_DESC				= "<Metric prefix> Trillion / Tera = 10^12";
-		public const String GIGA_DESC				= "<Metric prefix> Billion / Giga = 10^9";
-		public const String MEGA_DESC				= "<Metric prefix> Million / Mega = 10^6";
-		public const String KILO_DESC				= "<Metric prefix> Thousand / Kilo = 10^3";
-		public const String HECTO_DESC				= "<Metric prefix> Hundred / Hecto = 10^2";
-		public const String DECA_DESC				= "<Metric prefix> Ten / Deca = 10";
-		public const String DECI_DESC				= "<Metric prefix> Tenth / Deci = 0.1";
-		public const String CENTI_DESC				= "<Metric prefix> Hundredth / Centi = 0.01";
-		public const String MILLI_DESC				= "<Metric prefix> Thousandth / Milli = 0.001";
-		public const String MICRO_DESC				= "<Metric prefix> Millionth / Micro = 10^-6";
-		public const String NANO_DESC				= "<Metric prefix> Billionth / Nano = 10^-9";
-		public const String PICO_DESC				= "<Metric prefix> Trillionth / Pico = 10^-12";
-		public const String FEMTO_DESC				= "<Metric prefix> Quadrillionth / Femto = 10^-15";
-		public const String ATTO_DESC				= "<Metric prefix> Quintillionth / Atoo = 10^-18";
-		public const String ZEPTO_DESC				= "<Metric prefix> Sextillionth / Zepto = 10^-21";
-		public const String YOCTO_DESC				= "<Metric prefix> Septillionth / Yocto = 10^-24";
-		/* Units of length / distance */
-		public const String METRE_DESC				= "<Unit of length> Metre / Meter (m=1)";
-		public const String KILOMETRE_DESC			= "<Unit of length> Kilometre / Kilometer (m=1)";
-		public const String CENTIMETRE_DESC			= "<Unit of length> Centimetre / Centimeter (m=1)";
-		public const String MILLIMETRE_DESC			= "<Unit of length> Millimetre / Millimeter (m=1)";
-		public const String INCH_DESC				= "<Unit of length> Inch (m=1)";
-		public const String YARD_DESC				= "<Unit of length> Yard (m=1)";
-		public const String FEET_DESC				= "<Unit of length> Feet (m=1)";
-		public const String MILE_DESC				= "<Unit of length> Mile (m=1)";
-		public const String NAUTICAL_MILE_DESC		= "<Unit of length> Nautical mile (m=1)";
-		/* Units of area */
-		public const String METRE2_DESC				= "<Unit of area> Square metre / Square meter (m=1)";
-		public const String CENTIMETRE2_DESC		= "<Unit of area> Square centimetre / Square centimeter (m=1)";
-		public const String MILLIMETRE2_DESC		= "<Unit of area> Square millimetre / Square millimeter (m=1)";
-		public const String ARE_DESC				= "<Unit of area> Are (m=1)";
-		public const String HECTARE_DESC			= "<Unit of area> Hectare (m=1)";
-		public const String ACRE_DESC				= "<Unit of area> Acre (m=1)";
-		public const String KILOMETRE2_DESC			= "<Unit of area> Square kilometre / Square kilometer (m=1)";
-		/* Units of volume */
-		public const String MILLIMETRE3_DESC		= "<Unit of volume> Cubic millimetre / Cubic millimeter (m=1)";
-		public const String CENTIMETRE3_DESC		= "<Unit of volume> Cubic centimetre / Cubic centimeter (m=1)";
-		public const String METRE3_DESC				= "<Unit of volume> Cubic metre / Cubic meter (m=1)";
-		public const String KILOMETRE3_DESC			= "<Unit of volume> Cubic kilometre / Cubic kilometer (m=1)";
-		public const String MILLILITRE_DESC			= "<Unit of volume> Millilitre / Milliliter (m=1)";
-		public const String LITRE_DESC				= "<Unit of volume> Litre / Liter (m=1)";
-		public const String GALLON_DESC				= "<Unit of volume> Gallon (m=1)";
-		public const String PINT_DESC				= "<Unit of volume> Pint (m=1)";
-		/* Units of time */
-		public const String SECOND_DESC				= "<Unit of time> Second (s=1)";
-		public const String MILLISECOND_DESC		= "<Unit of time> Millisecond (s=1)";
-		public const String MINUTE_DESC				= "<Unit of time> Minute (s=1)";
-		public const String HOUR_DESC				= "<Unit of time> Hour (s=1)";
-		public const String DAY_DESC				= "<Unit of time> Day (s=1)";
-		public const String WEEK_DESC				= "<Unit of time> Week (s=1)";
-		public const String JULIAN_YEAR_DESC		= "<Unit of time> Julian year = 365.25 days (s=1)";
-		/* Units of mass */
-		public const String KILOGRAM_DESC			= "<Unit of mass> Kilogram (kg=1)";
-		public const String GRAM_DESC				= "<Unit of mass> Gram (kg=1)";
-		public const String MILLIGRAM_DESC			= "<Unit of mass> Milligram (kg=1)";
-		public const String DECAGRAM_DESC			= "<Unit of mass> Decagram (kg=1)";
-		public const String TONNE_DESC				= "<Unit of mass> Tonne (kg=1)";
-		public const String OUNCE_DESC				= "<Unit of mass> Ounce (kg=1)";
-		public const String POUND_DESC				= "<Unit of mass> Pound (kg=1)";
-		/* Units of information */
-		public const String BIT_DESC				= "<Unit of information> Bit (bit=1)";
-		public const String KILOBIT_DESC			= "<Unit of information> Kilobit (bit=1)";
-		public const String MEGABIT_DESC			= "<Unit of information> Megabit (bit=1)";
-		public const String GIGABIT_DESC			= "<Unit of information> Gigabit (bit=1)";
-		public const String TERABIT_DESC			= "<Unit of information> Terabit (bit=1)";
-		public const String PETABIT_DESC			= "<Unit of information> Petabit (bit=1)";
-		public const String EXABIT_DESC				= "<Unit of information> Exabit (bit=1)";
-		public const String ZETTABIT_DESC			= "<Unit of information> Zettabit (bit=1)";
-		public const String YOTTABIT_DESC			= "<Unit of information> Yottabit (bit=1)";
-		public const String BYTE_DESC				= "<Unit of information> Byte (bit=1)";
-		public const String KILOBYTE_DESC			= "<Unit of information> Kilobyte (bit=1)";
-		public const String MEGABYTE_DESC			= "<Unit of information> Megabyte (bit=1)";
-		public const String GIGABYTE_DESC			= "<Unit of information> Gigabyte (bit=1)";
-		public const String TERABYTE_DESC			= "<Unit of information> Terabyte (bit=1)";
-		public const String PETABYTE_DESC			= "<Unit of information> Petabyte (bit=1)";
-		public const String EXABYTE_DESC			= "<Unit of information> Exabyte (bit=1)";
-		public const String ZETTABYTE_DESC			= "<Unit of information> Zettabyte (bit=1)";
-		public const String YOTTABYTE_DESC			= "<Unit of information> Yottabyte (bit=1)";
-		/* Units of energy */
-		public const String JOULE_DESC				= "<Unit of energy> Joule (m=1, kg=1, s=1)";
-		public const String ELECTRONO_VOLT_DESC		= "<Unit of energy> Electronovolt (m=1, kg=1, s=1)";
-		public const String KILO_ELECTRONO_VOLT_DESC= "<Unit of energy> Kiloelectronovolt (m=1, kg=1, s=1)";
-		public const String MEGA_ELECTRONO_VOLT_DESC= "<Unit of energy> Megaelectronovolt (m=1, kg=1, s=1)";
-		public const String GIGA_ELECTRONO_VOLT_DESC= "<Unit of energy> Gigaelectronovolt (m=1, kg=1, s=1)";
-		public const String TERA_ELECTRONO_VOLT_DESC= "<Unit of energy> Teraelectronovolt (m=1, kg=1, s=1)";
-		/* Units of speed */
-		public const String METRE_PER_SECOND_DESC	= "<Unit of speed> Metre / Meter per second (m=1, s=1)";
-		public const String KILOMETRE_PER_HOUR_DESC	= "<Unit of speed> Kilometre / Kilometer per hour (m=1, s=1)";
-		public const String MILE_PER_HOUR_DESC		= "<Unit of speed> Mile per hour (m=1, s=1)";
-		public const String KNOT_DESC				= "<Unit of speed> Knot (m=1, s=1)";
-		/* Units of acceleration */
-		public const String METRE_PER_SECOND2_DESC	= "<Unit of acceleration> Metre / Meter per square second (m=1, s=1)";
-		public const String KILOMETRE_PER_HOUR2_DESC= "<Unit of acceleration> Kilometre / Kilometer per square hour (m=1, s=1)";
-		public const String MILE_PER_HOUR2_DESC		= "<Unit of acceleration> Mile per square hour (m=1, s=1)";
-		/* Units of angle */
-		public const String RADIAN_ARC_DESC			= "<Unit of angle> Radian (rad=1)";
-		public const String DEGREE_ARC_DESC			= "<Unit of angle> Degree of arc (rad=1)";
-		public const String MINUTE_ARC_DESC			= "<Unit of angle> Minute of arc (rad=1)";
-		public const String SECOND_ARC_DESC			= "<Unit of angle> Second of arc (rad=1)";
-
-		/*
+        /* Ratio, Fraction */
+        public static String PERC_DESC = ParserSymbol.NA;
+        public static String PROMIL_DESC = ParserSymbol.NA;
+        public static String YOTTA_DESC = ParserSymbol.NA;
+        public static String ZETTA_DESC = ParserSymbol.NA;
+        public static String EXA_DESC = ParserSymbol.NA;
+        public static String PETA_DESC = ParserSymbol.NA;
+        public static String TERA_DESC = ParserSymbol.NA;
+        public static String GIGA_DESC = ParserSymbol.NA;
+        public static String MEGA_DESC = ParserSymbol.NA;
+        public static String KILO_DESC = ParserSymbol.NA;
+        public static String HECTO_DESC = ParserSymbol.NA;
+        public static String DECA_DESC = ParserSymbol.NA;
+        public static String DECI_DESC = ParserSymbol.NA;
+        public static String CENTI_DESC = ParserSymbol.NA;
+        public static String MILLI_DESC = ParserSymbol.NA;
+        public static String MICRO_DESC = ParserSymbol.NA;
+        public static String NANO_DESC = ParserSymbol.NA;
+        public static String PICO_DESC = ParserSymbol.NA;
+        public static String FEMTO_DESC = ParserSymbol.NA;
+        public static String ATTO_DESC = ParserSymbol.NA;
+        public static String ZEPTO_DESC = ParserSymbol.NA;
+        public static String YOCTO_DESC = ParserSymbol.NA;
+        public static String METRE_DESC = ParserSymbol.NA;
+        public static String KILOMETRE_DESC = ParserSymbol.NA;
+        public static String CENTIMETRE_DESC = ParserSymbol.NA;
+        public static String MILLIMETRE_DESC = ParserSymbol.NA;
+        public static String INCH_DESC = ParserSymbol.NA;
+        public static String YARD_DESC = ParserSymbol.NA;
+        public static String FEET_DESC = ParserSymbol.NA;
+        public static String MILE_DESC = ParserSymbol.NA;
+        public static String NAUTICAL_MILE_DESC = ParserSymbol.NA;
+        public static String METRE2_DESC = ParserSymbol.NA;
+        public static String CENTIMETRE2_DESC = ParserSymbol.NA;
+        public static String MILLIMETRE2_DESC = ParserSymbol.NA;
+        public static String ARE_DESC = ParserSymbol.NA;
+        public static String HECTARE_DESC = ParserSymbol.NA;
+        public static String ACRE_DESC = ParserSymbol.NA;
+        public static String KILOMETRE2_DESC = ParserSymbol.NA;
+        public static String MILLIMETRE3_DESC = ParserSymbol.NA;
+        public static String CENTIMETRE3_DESC = ParserSymbol.NA;
+        public static String METRE3_DESC = ParserSymbol.NA;
+        public static String KILOMETRE3_DESC = ParserSymbol.NA;
+        public static String MILLILITRE_DESC = ParserSymbol.NA;
+        public static String LITRE_DESC = ParserSymbol.NA;
+        public static String GALLON_DESC = ParserSymbol.NA;
+        public static String PINT_DESC = ParserSymbol.NA;
+        public static String SECOND_DESC = ParserSymbol.NA;
+        public static String MILLISECOND_DESC = ParserSymbol.NA;
+        public static String MINUTE_DESC = ParserSymbol.NA;
+        public static String HOUR_DESC = ParserSymbol.NA;
+        public static String DAY_DESC = ParserSymbol.NA;
+        public static String WEEK_DESC = ParserSymbol.NA;
+        public static String JULIAN_YEAR_DESC = ParserSymbol.NA;
+        public static String KILOGRAM_DESC = ParserSymbol.NA;
+        public static String GRAM_DESC = ParserSymbol.NA;
+        public static String MILLIGRAM_DESC = ParserSymbol.NA;
+        public static String DECAGRAM_DESC = ParserSymbol.NA;
+        public static String TONNE_DESC = ParserSymbol.NA;
+        public static String OUNCE_DESC = ParserSymbol.NA;
+        public static String POUND_DESC = ParserSymbol.NA;
+        public static String BIT_DESC = ParserSymbol.NA;
+        public static String KILOBIT_DESC = ParserSymbol.NA;
+        public static String MEGABIT_DESC = ParserSymbol.NA;
+        public static String GIGABIT_DESC = ParserSymbol.NA;
+        public static String TERABIT_DESC = ParserSymbol.NA;
+        public static String PETABIT_DESC = ParserSymbol.NA;
+        public static String EXABIT_DESC = ParserSymbol.NA;
+        public static String ZETTABIT_DESC = ParserSymbol.NA;
+        public static String YOTTABIT_DESC = ParserSymbol.NA;
+        public static String BYTE_DESC = ParserSymbol.NA;
+        public static String KILOBYTE_DESC = ParserSymbol.NA;
+        public static String MEGABYTE_DESC = ParserSymbol.NA;
+        public static String GIGABYTE_DESC = ParserSymbol.NA;
+        public static String TERABYTE_DESC = ParserSymbol.NA;
+        public static String PETABYTE_DESC = ParserSymbol.NA;
+        public static String EXABYTE_DESC = ParserSymbol.NA;
+        public static String ZETTABYTE_DESC = ParserSymbol.NA;
+        public static String YOTTABYTE_DESC = ParserSymbol.NA;
+        public static String JOULE_DESC = ParserSymbol.NA;
+        public static String ELECTRONO_VOLT_DESC = ParserSymbol.NA;
+        public static String KILO_ELECTRONO_VOLT_DESC = ParserSymbol.NA;
+        public static String MEGA_ELECTRONO_VOLT_DESC = ParserSymbol.NA;
+        public static String GIGA_ELECTRONO_VOLT_DESC = ParserSymbol.NA;
+        public static String TERA_ELECTRONO_VOLT_DESC = ParserSymbol.NA;
+        public static String METRE_PER_SECOND_DESC = ParserSymbol.NA;
+        public static String KILOMETRE_PER_HOUR_DESC = ParserSymbol.NA;
+        public static String MILE_PER_HOUR_DESC = ParserSymbol.NA;
+        public static String KNOT_DESC = ParserSymbol.NA;
+        public static String METRE_PER_SECOND2_DESC = ParserSymbol.NA;
+        public static String KILOMETRE_PER_HOUR2_DESC = ParserSymbol.NA;
+        public static String MILE_PER_HOUR2_DESC = ParserSymbol.NA;
+        public static String RADIAN_ARC_DESC = ParserSymbol.NA;
+        public static String DEGREE_ARC_DESC = ParserSymbol.NA;
+        public static String MINUTE_ARC_DESC = ParserSymbol.NA;
+        public static String SECOND_ARC_DESC = ParserSymbol.NA;
+        /*
 		 * Unit - since.
 		 */
-		/* Ratio, Fraction */
-		public const String PERC_SINCE					= mXparser.NAMEv40;
+        /* Ratio, Fraction */
+        public const String PERC_SINCE					= mXparser.NAMEv40;
 		public const String PROMIL_SINCE				= mXparser.NAMEv40;
 		/* Metric prefixes */
 		public const String YOTTA_SINCE					= mXparser.NAMEv40;

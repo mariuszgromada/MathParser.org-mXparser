@@ -1,5 +1,5 @@
 /*
- * @(#)RandomVariable.cs        5.0.4    2022-05-22
+ * @(#)RandomVariable.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,19 +194,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class RandomVariable {
 		/*
 		 * RandomVariable - token type id.
 		 */
-		public const int TYPE_ID						= 10;
-		public const String TYPE_DESC					= "Random Variable";
-		/*
+		public const int TYPE_ID = 10;
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * RandomVariable - tokens id.
 		 */
-		public const int UNIFORM_ID						= 1;
+        public const int UNIFORM_ID						= 1;
 		public const int INT_ID							= 2;
 		public const int INT1_ID						= 3;
 		public const int INT2_ID						= 4;
@@ -308,45 +308,45 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String NAT1_8_SYN					= NAT1_8_STR;
 		public const String NAT1_9_SYN					= NAT1_9_STR;
 		public const String NOR_SYN						= NOR_STR;
-		/*
+        /*
 		 * RandomVariable - tokens description.
 		 */
-		public const String UNIFORM_DESC				= "Random variable - Uniform continuous distribution U(0,1)";
-		public const String INT_DESC 					= "Random variable - random integer";
-		public const String INT1_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^1, 10^1}";
-		public const String INT2_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^2, 10^2}";
-		public const String INT3_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^3, 10^3}";
-		public const String INT4_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^4, 10^4}";
-		public const String INT5_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^5, 10^5}";
-		public const String INT6_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^6, 10^6}";
-		public const String INT7_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^7, 10^7}";
-		public const String INT8_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^8, 10^8}";
-		public const String INT9_DESC 					= "Random variable - random integer - Uniform discrete distribution U{-10^9, 10^9}";
-		public const String NAT0_DESC 					= "Random variable - random natural number including 0";
-		public const String NAT0_1_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^1}";
-		public const String NAT0_2_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^2}";
-		public const String NAT0_3_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^3}";
-		public const String NAT0_4_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^4}";
-		public const String NAT0_5_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^5}";
-		public const String NAT0_6_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^6}";
-		public const String NAT0_7_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^7}";
-		public const String NAT0_8_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^8}";
-		public const String NAT0_9_DESC 				= "Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^9}";
-		public const String NAT1_DESC 					= "Random variable - random natural number";
-		public const String NAT1_1_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^1}";
-		public const String NAT1_2_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^2}";
-		public const String NAT1_3_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^3}";
-		public const String NAT1_4_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^4}";
-		public const String NAT1_5_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^5}";
-		public const String NAT1_6_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^6}";
-		public const String NAT1_7_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^7}";
-		public const String NAT1_8_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^8}";
-		public const String NAT1_9_DESC 				= "Random variable - random natural number - Uniform discrete distribution U{1, 10^9}";
-		public const String NOR_DESC 					= "Random variable - Normal distribution N(0,1)";
-		/*
+        public static String UNIFORM_DESC = ParserSymbol.NA;
+        public static String INT_DESC = ParserSymbol.NA;
+        public static String INT1_DESC = ParserSymbol.NA;
+        public static String INT2_DESC = ParserSymbol.NA;
+        public static String INT3_DESC = ParserSymbol.NA;
+        public static String INT4_DESC = ParserSymbol.NA;
+        public static String INT5_DESC = ParserSymbol.NA;
+        public static String INT6_DESC = ParserSymbol.NA;
+        public static String INT7_DESC = ParserSymbol.NA;
+        public static String INT8_DESC = ParserSymbol.NA;
+        public static String INT9_DESC = ParserSymbol.NA;
+        public static String NAT0_DESC = ParserSymbol.NA;
+        public static String NAT0_1_DESC = ParserSymbol.NA;
+        public static String NAT0_2_DESC = ParserSymbol.NA;
+        public static String NAT0_3_DESC = ParserSymbol.NA;
+        public static String NAT0_4_DESC = ParserSymbol.NA;
+        public static String NAT0_5_DESC = ParserSymbol.NA;
+        public static String NAT0_6_DESC = ParserSymbol.NA;
+        public static String NAT0_7_DESC = ParserSymbol.NA;
+        public static String NAT0_8_DESC = ParserSymbol.NA;
+        public static String NAT0_9_DESC = ParserSymbol.NA;
+        public static String NAT1_DESC = ParserSymbol.NA;
+        public static String NAT1_1_DESC = ParserSymbol.NA;
+        public static String NAT1_2_DESC = ParserSymbol.NA;
+        public static String NAT1_3_DESC = ParserSymbol.NA;
+        public static String NAT1_4_DESC = ParserSymbol.NA;
+        public static String NAT1_5_DESC = ParserSymbol.NA;
+        public static String NAT1_6_DESC = ParserSymbol.NA;
+        public static String NAT1_7_DESC = ParserSymbol.NA;
+        public static String NAT1_8_DESC = ParserSymbol.NA;
+        public static String NAT1_9_DESC = ParserSymbol.NA;
+        public static String NOR_DESC = ParserSymbol.NA;
+        /*
 		 * RandomVariable - since.
 		 */
-		public const String UNIFORM_SINCE				= mXparser.NAMEv30;
+        public const String UNIFORM_SINCE				= mXparser.NAMEv30;
 		public const String INT_SINCE					= mXparser.NAMEv30;
 		public const String INT1_SINCE					= mXparser.NAMEv30;
 		public const String INT2_SINCE					= mXparser.NAMEv30;

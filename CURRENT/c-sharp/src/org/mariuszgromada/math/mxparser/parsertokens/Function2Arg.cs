@@ -1,5 +1,5 @@
 /*
- * @(#)Function2Arg.cs        5.1.0    2022-09-04
+ * @(#)Function2Arg.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,19 +194,19 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function2Arg {
 		/*
 		 * BinaryFunction - token type id.
 		 */
-		public const int TYPE_ID							= 5;
-		public const String TYPE_DESC						= "Binary Function";
-		/*
+		public const int TYPE_ID = 5;
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * BinaryFunction - tokens id.
 		 */
-		public const int LOG_ID								= 1;
+        public const int LOG_ID								= 1;
 		public const int MOD_ID								= 2;
 		public const int BINOM_COEFF_ID						= 3;
 		public const int BERNOULLI_NUMBER_ID				= 4;
@@ -320,47 +320,47 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String CDF_CHI2_SYN					= SyntaxStringBuilder.binaryFunction(CDF_CHI2_STR, SyntaxStringBuilder.x, SyntaxStringBuilder.k);
 		public static readonly String QNT_CHI2_SYN					= SyntaxStringBuilder.binaryFunction(QNT_CHI2_STR, SyntaxStringBuilder.p, SyntaxStringBuilder.k);
         public static readonly String RND_F_SNEDECOR_SYN			= SyntaxStringBuilder.binaryFunction(RND_F_SNEDECOR_STR, SyntaxStringBuilder.d1, SyntaxStringBuilder.d2);
-		/*
+        /*
 		 * BinaryFunction - tokens description.
 		 */
-		public const String LOG_DESC 						= "Logarithm function";
-		public const String MOD_DESC						= "Modulo function";
-		public const String BINOM_COEFF_DESC				= "Binomial coefficient function, number of k-combinations that can be drawn from n-elements set";
-		public const String BERNOULLI_NUMBER_DESC			= "Bernoulli numbers";
-		public const String STIRLING1_NUMBER_DESC			= "Stirling numbers of the first kind";
-		public const String STIRLING2_NUMBER_DESC			= "Stirling numbers of the second kind";
-		public const String WORPITZKY_NUMBER_DESC			= "Worpitzky number";
-		public const String EULER_NUMBER_DESC				= "Euler number";
-		public const String KRONECKER_DELTA_DESC			= "Kronecker delta";
-		public const String EULER_POLYNOMIAL_DESC			= "EulerPol";
-		public const String HARMONIC_NUMBER_DESC			= "Harmonic number";
-		public const String RND_UNIFORM_CONT_DESC 			= "Random variable - Uniform continuous distribution U(a,b), usage example: 2*rUni(2,10)";
-		public const String RND_UNIFORM_DISCR_DESC  		= "Random variable - Uniform discrete distribution U{a,b}, usage example: 2*rUnid(2,100)";
-		public const String ROUND_DESC						= "Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7";
-		public const String RND_NORMAL_DESC					= "Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)";
-		public const String NDIG_DESC						= "Number of digits representing the number in numeral system with given base";
-		public const String DIGIT10_DESC					= "Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system";
-		public const String FACTVAL_DESC					= "Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value";
-		public const String FACTEXP_DESC					= "Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value";
-		public const String ROOT_DESC						= "N-th order root of a number";
-		public const String INC_GAMMA_LOWER_DESC			= "Lower incomplete gamma special function";
-		public const String INC_GAMMA_UPPER_DESC			= "Upper incomplete Gamma special function";
-		public const String REG_GAMMA_LOWER_DESC			= "Lower regularized P gamma special function";
-		public const String REG_GAMMA_UPPER_DESC			= "Upper regularized Q Gamma special function";
-		public const String PERMUTATIONS_DESC				= "Number of k-permutations that can be drawn from n-elements set";
-		public const String BETA_DESC						= "The Beta special function B(x,y), also called the Euler integral of the first kind";
-		public const String LOG_BETA_DESC					= "The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)";
-		public const String PDF_STUDENT_T_DESC				= "Probability distribution function - Student's t-distribution";
-		public const String CDF_STUDENT_T_DESC				= "Cumulative distribution function - Student's t-distribution";
-		public const String QNT_STUDENT_T_DESC				= "Quantile function (inverse cumulative distribution function) - Student's t-distribution";
-		public const String PDF_CHI2_DESC					= "Probability distribution function - Chi-squared distribution";
-		public const String CDF_CHI2_DESC					= "Cumulative distribution function - Chi-squared distribution";
-		public const String QNT_CHI2_DESC					= "Quantile function (inverse cumulative distribution function) - Chi-squared distribution";
-        public const String RND_F_SNEDECOR_DESC				= "Random variable - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution)";
-		/*
+        public static String LOG_DESC = ParserSymbol.NA;
+        public static String MOD_DESC = ParserSymbol.NA;
+        public static String BINOM_COEFF_DESC = ParserSymbol.NA;
+        public static String BERNOULLI_NUMBER_DESC = ParserSymbol.NA;
+        public static String STIRLING1_NUMBER_DESC = ParserSymbol.NA;
+        public static String STIRLING2_NUMBER_DESC = ParserSymbol.NA;
+        public static String WORPITZKY_NUMBER_DESC = ParserSymbol.NA;
+        public static String EULER_NUMBER_DESC = ParserSymbol.NA;
+        public static String KRONECKER_DELTA_DESC = ParserSymbol.NA;
+        public static String EULER_POLYNOMIAL_DESC = ParserSymbol.NA;
+        public static String HARMONIC_NUMBER_DESC = ParserSymbol.NA;
+        public static String RND_UNIFORM_CONT_DESC = ParserSymbol.NA;
+        public static String RND_UNIFORM_DISCR_DESC = ParserSymbol.NA;
+        public static String ROUND_DESC = ParserSymbol.NA;
+        public static String RND_NORMAL_DESC = ParserSymbol.NA;
+        public static String NDIG_DESC = ParserSymbol.NA;
+        public static String DIGIT10_DESC = ParserSymbol.NA;
+        public static String FACTVAL_DESC = ParserSymbol.NA;
+        public static String FACTEXP_DESC = ParserSymbol.NA;
+        public static String ROOT_DESC = ParserSymbol.NA;
+        public static String INC_GAMMA_LOWER_DESC = ParserSymbol.NA;
+        public static String INC_GAMMA_UPPER_DESC = ParserSymbol.NA;
+        public static String REG_GAMMA_LOWER_DESC = ParserSymbol.NA;
+        public static String REG_GAMMA_UPPER_DESC = ParserSymbol.NA;
+        public static String PERMUTATIONS_DESC = ParserSymbol.NA;
+        public static String BETA_DESC = ParserSymbol.NA;
+        public static String LOG_BETA_DESC = ParserSymbol.NA;
+        public static String PDF_STUDENT_T_DESC = ParserSymbol.NA;
+        public static String CDF_STUDENT_T_DESC = ParserSymbol.NA;
+        public static String QNT_STUDENT_T_DESC = ParserSymbol.NA;
+        public static String PDF_CHI2_DESC = ParserSymbol.NA;
+        public static String CDF_CHI2_DESC = ParserSymbol.NA;
+        public static String QNT_CHI2_DESC = ParserSymbol.NA;
+        public static String RND_F_SNEDECOR_DESC = ParserSymbol.NA;
+        /*
 		 * BinaryFunction - since.
 		 */
-		public const String LOG_SINCE 						= mXparser.NAMEv10;
+        public const String LOG_SINCE 						= mXparser.NAMEv10;
 		public const String MOD_SINCE						= mXparser.NAMEv10;
 		public const String BINOM_COEFF_SINCE				= mXparser.NAMEv10;
 		public const String BINOM_COEFF_NCK_SINCE			= mXparser.NAMEv42;

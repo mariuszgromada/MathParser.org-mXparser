@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.cs        5.0.4    2022-05-22
+ * @(#)Function1Arg.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Function1Arg {
@@ -202,11 +202,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * UnaryFunction - token type id.
 		 */
 		public const int TYPE_ID					= 4;
-		public const String TYPE_DESC				= "Unary Function";
-		/*
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * UnaryFunction - tokens id.
 		 */
-		public const int SIN_ID						= 1;
+        public const int SIN_ID						= 1;
 		public const int COS_ID						= 2;
 		public const int TAN_ID						= 3;
 		public const int CTAN_ID					= 4;
@@ -488,77 +488,77 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String PARAM_SYN				= SyntaxStringBuilder.unaryFunctionI(PARAM_STR);
 		public static readonly String RND_STUDENT_T_SYN		= SyntaxStringBuilder.unaryFunctionV(RND_STUDENT_T_STR);
 		public static readonly String RND_CHI2_SYN			= SyntaxStringBuilder.unaryFunctionK(RND_CHI2_STR);
-		/*
+        /*
 		 * UnaryFunction - tokens description.
 		 */
-		public const String SIN_DESC 				= "Trigonometric sine function";
-		public const String COS_DESC 				= "Trigonometric cosine function";
-		public const String TAN_DESC				= "Trigonometric tangent function";
-		public const String CTAN_DESC 				= "Trigonometric cotangent function";
-		public const String SEC_DESC 				= "Trigonometric secant function";
-		public const String COSEC_DESC 				= "Trigonometric cosecant function";
-		public const String ASIN_DESC 				= "Inverse trigonometric sine function";
-		public const String ACOS_DESC 				= "Inverse trigonometric cosine function";
-		public const String ATAN_DESC 				= "Inverse trigonometric tangent function";
-		public const String ACTAN_DESC 				= "Inverse trigonometric cotangent function";
-		public const String LN_DESC 				= "Natural logarithm function (base e)";
-		public const String LOG2_DESC 				= "Binary logarithm function (base 2)";
-		public const String LOG10_DESC 				= "Common logarithm function (base 10)";
-		public const String RAD_DESC 				= "Degrees to radians function";
-		public const String EXP_DESC 				= "Exponential function";
-		public const String SQRT_DESC 				= "Squre root function";
-		public const String SINH_DESC 				= "Hyperbolic sine function";
-		public const String COSH_DESC 				= "Hyperbolic cosine function";
-		public const String TANH_DESC 				= "Hyperbolic tangent function";
-		public const String COTH_DESC 				= "Hyperbolic cotangent function";
-		public const String SECH_DESC 				= "Hyperbolic secant function";
-		public const String CSCH_DESC 				= "Hyperbolic cosecant function";
-		public const String DEG_DESC 				= "Radians to degrees function";
-		public const String ABS_DESC 				= "Absolut value function";
-		public const String SGN_DESC				= "Signum function";
-		public const String FLOOR_DESC				= "Floor function";
-		public const String CEIL_DESC				= "Ceiling function";
-		public const String NOT_DESC				= "Negation function";
-		public const String ARSINH_DESC				= "Inverse hyperbolic sine function";
-		public const String ARCOSH_DESC				= "Inverse hyperbolic cosine function";
-		public const String ARTANH_DESC				= "Inverse hyperbolic tangent function";
-		public const String ARCOTH_DESC				= "Inverse hyperbolic cotangent function";
-		public const String ARSECH_DESC				= "Inverse hyperbolic secant function";
-		public const String ARCSCH_DESC				= "Inverse hyperbolic cosecant function";
-		public const String SA_DESC					= "Sinc function (normalized)";
-		public const String SINC_DESC				= "Sinc function (unnormalized)";
-		public const String BELL_NUMBER_DESC		= "Bell number";
-		public const String LUCAS_NUMBER_DESC		= "Lucas number";
-		public const String FIBONACCI_NUMBER_DESC	= "Fibonacci number";
-		public const String HARMONIC_NUMBER_DESC	= "Harmonic number";
-		public const String IS_PRIME_DESC			= "Prime number test (is number a prime?)";
-		public const String PRIME_COUNT_DESC		= "Prime-counting function - Pi(x)";
-		public const String EXP_INT_DESC			= "Exponential integral function (non-elementary special function) - usage example: Ei(x)";
-		public const String LOG_INT_DESC			= "Logarithmic integral function (non-elementary special function) - usage example: li(x)";
-		public const String OFF_LOG_INT_DESC		= "Offset logarithmic integral function (non-elementary special function) - usage example: Li(x)";
-		public const String GAUSS_ERF_DESC			= "Gauss error function (non-elementary special function) - usage example: 2 + erf(x)";
-		public const String GAUSS_ERFC_DESC			= "Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)";
-		public const String GAUSS_ERF_INV_DESC		= "Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
-		public const String GAUSS_ERFC_INV_DESC		= "Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
-		public const String ULP_DESC				= "Unit in The Last Place - ulp(0.1)";
-		public const String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
-		public const String NDIG10_DESC				= "Number of digits in numeral system with base 10";
-		public const String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
-		public const String ARCSEC_DESC				= "Inverse trigonometric secant";
-		public const String ARCCSC_DESC				= "Inverse trigonometric cosecant";
-		public const String GAMMA_DESC				= "Gamma special function Γ(s)";
-		public const String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
-		public const String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
-		public const String SGN_GAMMA_DESC			= "Signum of Gamma special function, Γ(s)";
-		public const String LOG_GAMMA_DESC			= "Log Gamma special function, lnΓ(s)";
-		public const String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)";
-		public const String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
-		public const String RND_STUDENT_T_DESC		= "Random variable - Student's t-distribution";
-		public const String RND_CHI2_DESC			= "Random variable - Chi-squared distribution";
-		/*
+        public static String SIN_DESC = ParserSymbol.NA;
+        public static String COS_DESC = ParserSymbol.NA;
+        public static String TAN_DESC = ParserSymbol.NA;
+        public static String CTAN_DESC = ParserSymbol.NA;
+        public static String SEC_DESC = ParserSymbol.NA;
+        public static String COSEC_DESC = ParserSymbol.NA;
+        public static String ASIN_DESC = ParserSymbol.NA;
+        public static String ACOS_DESC = ParserSymbol.NA;
+        public static String ATAN_DESC = ParserSymbol.NA;
+        public static String ACTAN_DESC = ParserSymbol.NA;
+        public static String LN_DESC = ParserSymbol.NA;
+        public static String LOG2_DESC = ParserSymbol.NA;
+        public static String LOG10_DESC = ParserSymbol.NA;
+        public static String RAD_DESC = ParserSymbol.NA;
+        public static String EXP_DESC = ParserSymbol.NA;
+        public static String SQRT_DESC = ParserSymbol.NA;
+        public static String SINH_DESC = ParserSymbol.NA;
+        public static String COSH_DESC = ParserSymbol.NA;
+        public static String TANH_DESC = ParserSymbol.NA;
+        public static String COTH_DESC = ParserSymbol.NA;
+        public static String SECH_DESC = ParserSymbol.NA;
+        public static String CSCH_DESC = ParserSymbol.NA;
+        public static String DEG_DESC = ParserSymbol.NA;
+        public static String ABS_DESC = ParserSymbol.NA;
+        public static String SGN_DESC = ParserSymbol.NA;
+        public static String FLOOR_DESC = ParserSymbol.NA;
+        public static String CEIL_DESC = ParserSymbol.NA;
+        public static String NOT_DESC = ParserSymbol.NA;
+        public static String ARSINH_DESC = ParserSymbol.NA;
+        public static String ARCOSH_DESC = ParserSymbol.NA;
+        public static String ARTANH_DESC = ParserSymbol.NA;
+        public static String ARCOTH_DESC = ParserSymbol.NA;
+        public static String ARSECH_DESC = ParserSymbol.NA;
+        public static String ARCSCH_DESC = ParserSymbol.NA;
+        public static String SA_DESC = ParserSymbol.NA;
+        public static String SINC_DESC = ParserSymbol.NA;
+        public static String BELL_NUMBER_DESC = ParserSymbol.NA;
+        public static String LUCAS_NUMBER_DESC = ParserSymbol.NA;
+        public static String FIBONACCI_NUMBER_DESC = ParserSymbol.NA;
+        public static String HARMONIC_NUMBER_DESC = ParserSymbol.NA;
+        public static String IS_PRIME_DESC = ParserSymbol.NA;
+        public static String PRIME_COUNT_DESC = ParserSymbol.NA;
+        public static String EXP_INT_DESC = ParserSymbol.NA;
+        public static String LOG_INT_DESC = ParserSymbol.NA;
+        public static String OFF_LOG_INT_DESC = ParserSymbol.NA;
+        public static String GAUSS_ERF_DESC = ParserSymbol.NA;
+        public static String GAUSS_ERFC_DESC = ParserSymbol.NA;
+        public static String GAUSS_ERF_INV_DESC = ParserSymbol.NA;
+        public static String GAUSS_ERFC_INV_DESC = ParserSymbol.NA;
+        public static String ULP_DESC = ParserSymbol.NA;
+        public static String ISNAN_DESC = ParserSymbol.NA;
+        public static String NDIG10_DESC = ParserSymbol.NA;
+        public static String NFACT_DESC = ParserSymbol.NA;
+        public static String ARCSEC_DESC = ParserSymbol.NA;
+        public static String ARCCSC_DESC = ParserSymbol.NA;
+        public static String GAMMA_DESC = ParserSymbol.NA;
+        public static String LAMBERT_W0_DESC = ParserSymbol.NA;
+        public static String LAMBERT_W1_DESC = ParserSymbol.NA;
+        public static String SGN_GAMMA_DESC = ParserSymbol.NA;
+        public static String LOG_GAMMA_DESC = ParserSymbol.NA;
+        public static String DI_GAMMA_DESC = ParserSymbol.NA;
+        public static String PARAM_DESC = ParserSymbol.NA;
+        public static String RND_STUDENT_T_DESC = ParserSymbol.NA;
+        public static String RND_CHI2_DESC = ParserSymbol.NA;
+        /*
 		 * UnaryFunction - tokens description.
 		 */
-		public const String SIN_SINCE 				= mXparser.NAMEv10;
+        public const String SIN_SINCE 				= mXparser.NAMEv10;
 		public const String COS_SINCE 				= mXparser.NAMEv10;
 		public const String TAN_SINCE				= mXparser.NAMEv10;
 		public const String CTAN_SINCE 				= mXparser.NAMEv10;

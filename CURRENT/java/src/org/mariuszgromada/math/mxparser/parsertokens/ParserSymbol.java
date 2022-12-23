@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        5.2.0    2022-12-09
+ * @(#)ParserSymbol.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -402,8 +402,8 @@ public final class ParserSymbol {
 	/*
 	 * ParserSymbol - token type id.
 	 */
-	public static final int TYPE_ID 						= 20;
-	public static final String TYPE_DESC					= "Parser Symbol";
+	public static final int TYPE_ID = 20;
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * ParserSymbol - tokens id.
 	 */
@@ -443,11 +443,14 @@ public final class ParserSymbol {
 	/*
 	 * ParserSymbol - tokens description.
 	 */
-	public static final String LEFT_PARENTHESES_DESC 		= "Left parentheses";
-	public static final String RIGHT_PARENTHESES_DESC		= "Right parentheses";
-	public static final String COMMA_DESC					= "Comma (function parameters)";
-	public static final String SEMI_DESC					= "Semicolon (function parameters)";
-	public static final String BLANK_DESC					= "Blank (whitespace) character";
+	static final String NA = "<NA>";
+	public static String LEFT_PARENTHESES_DESC = ParserSymbol.NA;
+	public static String RIGHT_PARENTHESES_DESC = ParserSymbol.NA;
+	public static String COMMA_DESC = ParserSymbol.NA;
+	public static String SEMI_DESC = ParserSymbol.NA;
+	public static String BLANK_DESC = ParserSymbol.NA;
+	public static String UNICODE_MATH_DESC = ParserSymbol.NA;
+
 	public static final String NUMBER_DESC					= "Decimal number";
 	public static final String NUMBER_REG_DESC				= "Regular expression for decimal numbers";
 	public static final String NUMBER_DESC_INT				= "Integer numbers";
@@ -457,7 +460,9 @@ public final class ParserSymbol {
 	public static final String NUMBER_DESC_SCI				= "Decimal numbers in scientific notation";
 	public static final String NUMBER_DESC_FRAC				= "Fractions";
 	public static final String NUMBER_DESC_OTH_BASE			= "Numbers in other numeral bases";
-	public static final String UNICODE_MATH					= " - unicode math symbol";
+
+
+
 	/*
 	 * ParserSymbol - since.
 	 */

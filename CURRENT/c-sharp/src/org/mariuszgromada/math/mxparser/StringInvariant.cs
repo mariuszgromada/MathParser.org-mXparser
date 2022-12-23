@@ -1,5 +1,5 @@
-/*
- * @(#)StringInvariant.cs        5.2.0    2022-12-09
+﻿/*
+ * @(#)StringInvariant.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -238,5 +238,190 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String LONG_RIGHT_ARROW = "--->";
         internal static readonly String LONG_RIGHT_ARROW_SPACE = LONG_RIGHT_ARROW + SPACE;
         internal static readonly String RIGHT_ARROW_SPACE = RIGHT_ARROW + SPACE;
+        // -------------------------------------------------
+        internal const String METER_UNIT = "[m]";
+        internal const String SQUARE_METER_UNIT = "[m²]";
+        internal const String CUBIC_METER_UNIT = "[m³]";
+        internal const String SECOND_UNIT = "[s]";
+        internal const String KILOGRAM_UNIT = "[kg]";
+        internal const String BIT_UNIT = "[bit]";
+        internal const String JOULE_UNIT = "[J]";
+        internal const String RADIAN_UNIT = "[rad]";
+        internal const String METER_DEFINITION = "(m=1)";
+        internal const String SECOND_DEFINITION = "(s=1)";
+        internal const String KILOGRAM_DEFINITION = "(kg=1)";
+        internal const String BIT_DEFINITION = "(bit=1)";
+        internal const String RADIAN_DEFINITION = "(rad=1)";
+        internal const String TRUE_DEFINITION = "(true=1)";
+        internal const String FALSE_DEFINITION = "(false=0)";
+        // -------------------------------------------------
+        internal const String METER_PER_SECOND_UNIT = "[m/s]";
+        internal const String METER_PER_SECOND_SQUARED_UNIT = "[m/s²]";
+        // -------------------------------------------------
+        internal const String TRUE_AND_FALSE_DEFINITION = "(true=1, false=1)";
+        internal const String METER_AND_SECOND_DEFINITION = "(m=1, s=1)";
+        internal const String METER_AND_KILOGRAM_AND_SECOND_DEFINITION = "(m=1, kg=1, s=1)";
+        // -------------------------------------------------
+        internal const String NORMAL_NMS_SYMBOL = "N(μ,σ)";
+        internal const String NORMAL_N01_SYMBOL = "N(0,1)";
+        internal const String UNIFORM_UAB_SYMBOL = "U(a,b)";
+        internal const String UNIFORM_UDAB_SYMBOL = "U{a,b}";
+        internal const String UNIFORM_U01_SYMBOL = "U(0,1)";
+        internal const String BETA_XY_SYMBOL = "B(x,y)";
+        internal const String LOG_BETA_XY_SYMBOL = "lnB(x,y)";
+        internal const String INCOMPLETE_BETA_XAB_SYMBOL = "B(x,a,b)";
+        internal const String REGULARIZED_INCOMPLETE_BETA_XAB_SYMBOL = "I(x,a,b)";
+        internal const String GAMMA_S_SYMBOL = "Γ(s)";
+        internal const String LOWER_GAMMA_SX_SYMBOL = "γ(s,x)";
+        internal const String UPPER_GAMMA_SX_SYMBOL = "Γ(s,x)";
+        internal const String REGULARIZED_GAMMA_P_SX_SYMBOL = "P(s,x)";
+        internal const String REGULARIZED_GAMMA_Q_SX_SYMBOL = "Q(s,x)";
+        internal const String LOG_GAMMA_S_SYMBOL = "lnΓ(s)";
+        internal const String DIGAMMA_X_SYMBOL = "ψ(x)";
+        internal const String EXPONENTIAL_INTEGRAL_X_SYMBOL = "Ei(x)";
+        internal const String LOGARITHMIC_INTEGRAL_X_SYMBOL = "li(x)";
+        internal const String LOGARITHMIC_INTEGRAL_2_SYMBOL = "li(2)";
+        internal const String OFFSET_LOGARITHMIC_INTEGRAL_X_SYMBOL = "Li(x)";
+        internal const String GAUSS_ERROR_X_SYMBOL = "erf(x)";
+        internal const String INVERSE_GAUSS_ERROR_Y_SYMBOL = "erf⁻¹(y)";
+        internal const String GAUSS_ERROR_COMPLEMENTARY_X_SYMBOL = "erfc(x)";
+        internal const String INVERSE_GAUSS_ERROR_COMPLEMENTARY_Y_SYMBOL = "erfc⁻¹(x)";
+        internal const String LAMBERT_W0_X_SYMBOL = "W₀(x)";
+        internal const String LAMBERT_W_1_X_SYMBOL = "W₋₁(x)";
+        internal const String PRIME_COUNTING_N_SYMBOL = "π(n)";
+        // -------------------------------------------------
+        internal const String PI_SYMBOL = "π";
+        internal const String E_SYMBOL = "e";
+        internal const String MASCHERONI_SYMBOL = "γ";
+        internal const String GOLDEN_RATIO_SYMBOL = "φ";
+        internal const String PLASTICS_SYMBOL = "ρ";
+        internal const String EMBREE_TREFETHEN_SYMBOL = "β*";
+        internal const String FEIGENBAUM_DELTA_SYMBOL = "δ";
+        internal const String FEIGENBAUM_ALPHA_SYMBOL = "α";
+        internal const String MEISSEL_MERTEENS_SYMBOL = "M₁, B₁";
+        internal const String BRAUN_TWIN_PRIME_SYMBOL = "B₂";
+        internal const String BRAUN_PRIME_QUADR_SYMBOL = "B₄";
+        internal const String TWIN_PRIME_SYMBOL = "∏₂";
+        internal const String BRUIJN_NEWMAN_SYMBOL = "Λ";
+        internal const String CATALAN_SYMBOL = "G";
+        internal const String LANDAU_RAMANUJAN_SYMBOL = "b";
+        internal const String VISWANATH_SYMBOL = "V";
+        internal const String LEGENDRE_SYMBOL = "B";
+        internal const String RAMANUJAN_SOLDNER_SYMBOL = "μ";
+        internal const String ERDOS_BORWEIN_SYMBOL = "E";
+        internal const String BERNSTEIN_SYMBOL = "β";
+        internal const String GAUSS_KUZMIN_WIRSING_SYMBOL = "λ";
+        internal const String HAFNER_SARNAK_MCCURLEY_SYMBOL = "σ";
+        internal const String GOLOMB_DICKMAN_SYMBOL = "λ";
+        internal const String CAHEN_SYMBOL = "C";
+        internal const String LENGYEL_SYMBOL = "Λ";
+        internal const String APERY_SYMBOL = "ζ(3)";
+        internal const String MILLS_SYMBOL = "A";
+        internal const String BACKHOUSE_SYMBOL = "B";
+        internal const String PORTER_SYMBOL = "C";
+        internal const String NIVEN_SYMBOL = "C";
+        internal const String SIERPINSKI_SYMBOL = "K";
+        internal const String KHINCHIN_SYMBOL = "K₀";
+        internal const String FRANSEN_ROBINSON_SYMBOL = "F";
+        internal const String LANDAU_SYMBOL = "L";
+        internal const String PARABOLIC_SYMBOL = "P";
+        internal const String OMEGA_SYMBOL = "Ω";
+        internal const String MRB_SYMBOL = "S";
+        internal const String GOMPERTZ_SYMBOL = "δ";
+        internal const String LIGHT_SPEED_SYMBOL = "c";
+        internal const String GRAVITATIONAL_CONSTANT_SYMBOL = "G";
+        internal const String GRAVIT_ACC_EARTH_SYMBOL = "g";
+        internal const String PLANCK_CONSTANT_SYMBOL = "h";
+        internal const String PLANCK_CONSTANT_REDUCED_SYMBOL = "ħ";
+        internal const String PLANCK_LENGTH_SYMBOL = "lᵖ";
+        internal const String PLANCK_MASS_SYMBOL = "mᵖ";
+        internal const String PLANCK_TIME_SYMBOL = "tᵖ";
+        internal const String LIGHT_YEAR_SYMBOL = "ly";
+        internal const String ASTRONOMICAL_UNIT_SYMBOL = "au, AU";
+        internal const String PARSEC_SYMBOL = "pc";
+        internal const String KILOPARSEC_SYMBOL = "kpc";
+        internal const String EARTH_MASS_SYMBOL = "M⊕";
+        internal const String EARTH_RADIUS_EQUATORIAL_SYMBOL = "Rª⊕";
+        internal const String EARTH_RADIUS_POLAR_SYMBOL = "Rᵇ⊕";
+        internal const String EARTH_RADIUS_MEAN_SYMBOL = "R⊕";
+        internal const String SOLAR_RADIUS_SYMBOL = "R☉";
+        internal const String SOLAR_MASS_SYMBOL = "M☉";
+        // -------------------------------------------------
+        internal const String SUM_SYMBOL = "Σ";
+        internal const String PROD_SYMBOL = "∏";
+        internal const String INT_SYMBOL = "∫";
+        internal const String DER_SYMBOL = "∂";
+        internal const String DER_LEFT_SYMBOL = "∂-";
+        internal const String DER_RIGHT_SYMBOL = "∂+";
+        internal const String DERN_SYMBOL = "∂ⁿ";
+        internal const String FORW_DIFF_SYMBOL = "∆";
+        internal const String BACKW_DIFF_SYMBOL = "∇";
+        // -------------------------------------------------
+        internal const String SOLVE_SYMBOL = "f(x)=0";
+        internal const String AND_SYMBOL = "AND";
+        internal const String NAND_SYMBOL = "NAND";
+        internal const String OR_SYMBOL = "OR";
+        internal const String NOR_SYMBOL = "NOR";
+        internal const String XOR_SYMBOL = "XOR";
+        internal const String IMP_SYMBOL = "IMP";
+        internal const String CIMP_SYMBOL = "CIMP";
+        internal const String NIMP_SYMBOL = "NIMP";
+        internal const String CNIMP_SYMBOL = "CNIMP";
+        internal const String EQV_SYMBOL = "EQV";
+        // -------------------------------------------------
+        internal const String RANDOM_VARIABLE_INT1_SYMBOL = "U{-10¹,10¹}";
+        internal const String RANDOM_VARIABLE_INT2_SYMBOL = "U{-10²,10²}";
+        internal const String RANDOM_VARIABLE_INT3_SYMBOL = "U{-10³,10³}";
+        internal const String RANDOM_VARIABLE_INT4_SYMBOL = "U{-10⁴,10⁴}";
+        internal const String RANDOM_VARIABLE_INT5_SYMBOL = "U{-10⁵,10⁵}";
+        internal const String RANDOM_VARIABLE_INT6_SYMBOL = "U{-10⁶,10⁶}";
+        internal const String RANDOM_VARIABLE_INT7_SYMBOL = "U{-10⁷,10⁷}";
+        internal const String RANDOM_VARIABLE_INT8_SYMBOL = "U{-10⁸,10⁸}";
+        internal const String RANDOM_VARIABLE_INT9_SYMBOL = "U{-10⁹,10⁹}";
+
+        internal const String RANDOM_VARIABLE_NAT0_1_SYMBOL = "U{0,10¹}";
+        internal const String RANDOM_VARIABLE_NAT0_2_SYMBOL = "U{0,10²}";
+        internal const String RANDOM_VARIABLE_NAT0_3_SYMBOL = "U{0,10³}";
+        internal const String RANDOM_VARIABLE_NAT0_4_SYMBOL = "U{0,10⁴}";
+        internal const String RANDOM_VARIABLE_NAT0_5_SYMBOL = "U{0,10⁵}";
+        internal const String RANDOM_VARIABLE_NAT0_6_SYMBOL = "U{0,10⁶}";
+        internal const String RANDOM_VARIABLE_NAT0_7_SYMBOL = "U{0,10⁷}";
+        internal const String RANDOM_VARIABLE_NAT0_8_SYMBOL = "U{0,10⁸}";
+        internal const String RANDOM_VARIABLE_NAT0_9_SYMBOL = "U{0,10⁹}";
+
+        internal const String RANDOM_VARIABLE_NAT1_1_SYMBOL = "U{1,10¹}";
+        internal const String RANDOM_VARIABLE_NAT1_2_SYMBOL = "U{1,10²}";
+        internal const String RANDOM_VARIABLE_NAT1_3_SYMBOL = "U{1,10³}";
+        internal const String RANDOM_VARIABLE_NAT1_4_SYMBOL = "U{1,10⁴}";
+        internal const String RANDOM_VARIABLE_NAT1_5_SYMBOL = "U{1,10⁵}";
+        internal const String RANDOM_VARIABLE_NAT1_6_SYMBOL = "U{1,10⁶}";
+        internal const String RANDOM_VARIABLE_NAT1_7_SYMBOL = "U{1,10⁷}";
+        internal const String RANDOM_VARIABLE_NAT1_8_SYMBOL = "U{1,10⁸}";
+        internal const String RANDOM_VARIABLE_NAT1_9_SYMBOL = "U{1,10⁹}";
+        // -------------------------------------------------
+        internal const String UNIT_PERC_SYMBOL = "= 0.01";
+        internal const String UNIT_PROMIL_SYMBOL = "= 0.001";
+        internal const String UNIT_YOTTA_SYMBOL = "= 10²⁴";
+        internal const String UNIT_ZETTA_SYMBOL = "= 10²¹";
+        internal const String UNIT_EXA_SYMBOL = "= 10¹⁸";
+        internal const String UNIT_PETA_SYMBOL = "= 10¹⁵";
+        internal const String UNIT_TERA_SYMBOL = "= 10¹²";
+        internal const String UNIT_GIGA_SYMBOL = "= 10⁹";
+        internal const String UNIT_MEGA_SYMBOL = "= 10⁶";
+        internal const String UNIT_KILO_SYMBOL = "= 10³";
+        internal const String UNIT_HECTO_SYMBOL = "= 10²";
+        internal const String UNIT_DECA_SYMBOL = "= 10";
+        internal const String UNIT_DECI_SYMBOL = "= 10⁻¹";
+        internal const String UNIT_CENTI_SYMBOL = "= 10⁻²";
+        internal const String UNIT_MILLI_SYMBOL = "= 10⁻³";
+        internal const String UNIT_MICRO_SYMBOL = "= 10⁻⁶";
+        internal const String UNIT_NANO_SYMBOL = "= 10⁻⁹";
+        internal const String UNIT_PICO_SYMBOL = "= 10⁻¹²";
+        internal const String UNIT_FEMTO_SYMBOL = "= 10⁻¹⁵";
+        internal const String UNIT_ATTO_SYMBOL = "= 10⁻¹⁸";
+        internal const String UNIT_ZEPTO_SYMBOL = "= 10⁻²¹";
+        internal const String UNIT_YOCTO_SYMBOL = "= 10⁻²⁴";
+        // -------------------------------------------------
+        internal const String SEPARATOR = " - ";
     }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        5.0.4    2022-05-22
+ * @(#)Operator.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class Operator {
 	/*
 	 * Operator - token type id.
 	 */
-	public static final int TYPE_ID 				= 1;
-	public static final String TYPE_DESC			= "Operator";
+	public static final int TYPE_ID = 1;
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * Operator - tokens id.
 	 */
@@ -258,18 +258,18 @@ public final class Operator {
 	/*
 	 * Operator - tokens description.
 	 */
-	public static final String PLUS_DESC 			= "Addition";
-	public static final String MINUS_DESC 			= "Subtraction";
-	public static final String MULTIPLY_DESC 		= "Multiplication";
-	public static final String DIVIDE_DESC 			= "Division";
-	public static final String POWER_DESC 			= "Exponentiation";
-	public static final String FACT_DESC			= "Factorial";
-	public static final String MOD_DESC				= "Modulo function";
-	public static final String PERC_DESC			= "Percentage";
-	public static final String TETRATION_DESC		= "Tetration (hyper-4, power tower, exponential tower)";
-	public static final String SQUARE_ROOT_DESC		= "Square root function represented as unary left operator";
-	public static final String CUBE_ROOT_DESC		= "Cube root function represented as unary left operator";
-	public static final String FOURTH_ROOT_DESC		= "Fourth root function represented as unary left operator";
+	public static String PLUS_DESC = ParserSymbol.NA;
+	public static String MINUS_DESC = ParserSymbol.NA;
+	public static String MULTIPLY_DESC = ParserSymbol.NA;
+	public static String DIVIDE_DESC = ParserSymbol.NA;
+	public static String POWER_DESC = ParserSymbol.NA;
+	public static String FACT_DESC = ParserSymbol.NA;
+	public static String MOD_DESC = ParserSymbol.NA;
+	public static String PERC_DESC = ParserSymbol.NA;
+	public static String TETRATION_DESC = ParserSymbol.NA;
+	public static String SQUARE_ROOT_DESC = ParserSymbol.NA;
+	public static String CUBE_ROOT_DESC = ParserSymbol.NA;
+	public static String FOURTH_ROOT_DESC = ParserSymbol.NA;
 	/*
 	 * Operator - since.
 	 */

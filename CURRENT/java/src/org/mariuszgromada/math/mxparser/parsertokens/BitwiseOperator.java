@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.java        5.0.4    2022-05-22
+ * @(#)BitwiseOperator.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class BitwiseOperator {
 	/*
 	 * BitwiseOperator - token type id.
 	 */
 	public static final int TYPE_ID 				= 11;
-	public static final String TYPE_DESC			= "Bitwise Operator";
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * BitwiseOperator - tokens id.
 	 */
@@ -232,12 +232,12 @@ public final class BitwiseOperator {
 	/*
 	 * BitwiseOperator - tokens description.
 	 */
-	public static final String COMPL_DESC			= "Bitwise unary complement";
-	public static final String AND_DESC				= "Bitwise AND";
-	public static final String XOR_DESC				= "Bitwise exclusive OR";
-	public static final String OR_DESC				= "Bitwise inclusive OR";
-	public static final String LEFT_SHIFT_DESC		= "Signed left shift";
-	public static final String RIGHT_SHIFT_DESC		= "Signed right shift";
+	public static String COMPL_DESC = ParserSymbol.NA;
+	public static String AND_DESC = ParserSymbol.NA;
+	public static String XOR_DESC = ParserSymbol.NA;
+	public static String OR_DESC = ParserSymbol.NA;
+	public static String LEFT_SHIFT_DESC = ParserSymbol.NA;
+	public static String RIGHT_SHIFT_DESC = ParserSymbol.NA;
 	/*
 	 * BitwiseOperator - tokens since.
 	 */

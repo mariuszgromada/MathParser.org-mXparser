@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Operator.cs        5.0.4    2022-05-22
+ * @(#)Operator.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Operator {
@@ -202,11 +202,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * Operator - token type id.
 		 */
 		public const int TYPE_ID				= 1;
-		public const String TYPE_DESC			= "Operator";
-		/*
+        public static String TYPE_DESC = ParserSymbol.NA;
+        /*
 		 * Operator - tokens id.
 		 */
-		public const int PLUS_ID				= 1;
+        public const int PLUS_ID				= 1;
 		public const int MINUS_ID				= 2;
 		public const int MULTIPLY_ID			= 3;
 		public const int DIVIDE_ID				= 4;
@@ -256,25 +256,25 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String SQUARE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(SQUARE_ROOT_STR);
 		public static readonly String CUBE_ROOT_SYN			= SyntaxStringBuilder.unaryLeftOperator(CUBE_ROOT_STR);
 		public static readonly String FOURTH_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(FOURTH_ROOT_STR);
-		/*
+        /*
 		 * Operator - tokens description.
 		 */
-		public const String PLUS_DESC 			= "Addition";
-		public const String MINUS_DESC 			= "Subtraction";
-		public const String MULTIPLY_DESC 		= "Multiplication";
-		public const String DIVIDE_DESC 		= "Division";
-		public const String POWER_DESC 			= "Exponentiation";
-		public const String FACT_DESC			= "Factorial";
-		public const String MOD_DESC			= "Modulo function";
-        public const String PERC_DESC			= "Percentage";
-		public const String TETRATION_DESC		= "Tetration (hyper-4, power tower, exponential tower)";
-		public const String SQUARE_ROOT_DESC	= "Square root function represented as unary left operator";
-		public const String CUBE_ROOT_DESC		= "Cube root function represented as unary left operator";
-		public const String FOURTH_ROOT_DESC	= "Fourth root function represented as unary left operator";
-		/*
+        public static String PLUS_DESC = ParserSymbol.NA;
+        public static String MINUS_DESC = ParserSymbol.NA;
+        public static String MULTIPLY_DESC = ParserSymbol.NA;
+        public static String DIVIDE_DESC = ParserSymbol.NA;
+        public static String POWER_DESC = ParserSymbol.NA;
+        public static String FACT_DESC = ParserSymbol.NA;
+        public static String MOD_DESC = ParserSymbol.NA;
+        public static String PERC_DESC = ParserSymbol.NA;
+        public static String TETRATION_DESC = ParserSymbol.NA;
+        public static String SQUARE_ROOT_DESC = ParserSymbol.NA;
+        public static String CUBE_ROOT_DESC = ParserSymbol.NA;
+        public static String FOURTH_ROOT_DESC = ParserSymbol.NA;
+        /*
 		 * Operator - since.
 		 */
-		public const String PLUS_SINCE 			= mXparser.NAMEv10;
+        public const String PLUS_SINCE 			= mXparser.NAMEv10;
 		public const String MINUS_SINCE 		= mXparser.NAMEv10;
 		public const String MULTIPLY_SINCE 		= mXparser.NAMEv10;
 		public const String MULTIPLY_SINCE_UNI_1= mXparser.NAMEv50;

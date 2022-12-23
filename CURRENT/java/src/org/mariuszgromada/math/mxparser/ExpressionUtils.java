@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        5.2.0    2022-12-17
+ * @(#)ExpressionUtils.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,11 +180,9 @@
  */
 package org.mariuszgromada.math.mxparser;
 
-import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -247,7 +245,7 @@ final class ExpressionUtils {
     }
     static void addKeyWordUnicode(String wordString, String wordDescription, int wordId, String wordSyntax, String wordSince, int wordTypeId, boolean unicodeKeyWordsEnabled, List<KeyWord> keyWordsList) {
         if (unicodeKeyWordsEnabled)
-            addKeyWord(wordString, wordDescription + ParserSymbol.UNICODE_MATH, wordId, wordSyntax, wordSince, wordTypeId, keyWordsList);
+            addKeyWord(wordString, wordDescription + ParserSymbol.UNICODE_MATH_DESC, wordId, wordSyntax, wordSince, wordTypeId, keyWordsList);
     }
 
     static final List<KeyWord> baseKeyWordsListParUdfUni111 = makeParserKeyWords(true, true, true);
@@ -600,7 +598,7 @@ final class ExpressionUtils {
             addKeyWord(ConstantValue.PLASTIC_STR, ConstantValue.PLASTIC_DESC, ConstantValue.PLASTIC_ID, ConstantValue.PLASTIC_SYN, ConstantValue.PLASTIC_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             addKeyWord(ConstantValue.EMBREE_TREFETHEN_STR, ConstantValue.EMBREE_TREFETHEN_DESC, ConstantValue.EMBREE_TREFETHEN_ID, ConstantValue.EMBREE_TREFETHEN_SYN, ConstantValue.EMBREE_TREFETHEN_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             addKeyWord(ConstantValue.FEIGENBAUM_DELTA_STR, ConstantValue.FEIGENBAUM_DELTA_DESC, ConstantValue.FEIGENBAUM_DELTA_ID, ConstantValue.FEIGENBAUM_DELTA_SYN, ConstantValue.FEIGENBAUM_DELTA_SINCE, ConstantValue.TYPE_ID, keyWordsList);
-            addKeyWord(ConstantValue.FEIGENBAUM_ALFA_STR, ConstantValue.FEIGENBAUM_ALFA_DESC, ConstantValue.FEIGENBAUM_ALFA_ID, ConstantValue.FEIGENBAUM_ALFA_SYN, ConstantValue.FEIGENBAUM_ALFA_SINCE, ConstantValue.TYPE_ID, keyWordsList);
+            addKeyWord(ConstantValue.FEIGENBAUM_ALPHA_STR, ConstantValue.FEIGENBAUM_ALPHA_DESC, ConstantValue.FEIGENBAUM_ALPHA_ID, ConstantValue.FEIGENBAUM_ALPHA_SYN, ConstantValue.FEIGENBAUM_ALPHA_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             addKeyWord(ConstantValue.TWIN_PRIME_STR, ConstantValue.TWIN_PRIME_DESC, ConstantValue.TWIN_PRIME_ID, ConstantValue.TWIN_PRIME_SYN, ConstantValue.TWIN_PRIME_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             addKeyWord(ConstantValue.MEISSEL_MERTEENS_STR, ConstantValue.MEISSEL_MERTEENS_DESC, ConstantValue.MEISSEL_MERTEENS_ID, ConstantValue.MEISSEL_MERTEENS_SYN, ConstantValue.MEISSEL_MERTEENS_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             addKeyWord(ConstantValue.BRAUN_TWIN_PRIME_STR, ConstantValue.BRAUN_TWIN_PRIME_DESC, ConstantValue.BRAUN_TWIN_PRIME_ID, ConstantValue.BRAUN_TWIN_PRIME_SYN, ConstantValue.BRAUN_TWIN_PRIME_SINCE, ConstantValue.TYPE_ID, keyWordsList);

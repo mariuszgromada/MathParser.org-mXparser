@@ -1,5 +1,5 @@
 /*
- * @(#)Function1Arg.java        5.0.4    2022-05-22
+ * @(#)Function1Arg.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class Function1Arg {
 	/*
 	 * UnaryFunction - token type id.
 	 */
 	public static final int TYPE_ID 					= 4;
-	public static final String TYPE_DESC				= "Unary Function";
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * UnaryFunction - tokens id.
 	 */
@@ -490,70 +490,70 @@ public final class Function1Arg {
 	/*
 	 * UnaryFunction - tokens description.
 	 */
-	public static final String SIN_DESC 				= "Trigonometric sine function";
-	public static final String COS_DESC 				= "Trigonometric cosine function";
-	public static final String TAN_DESC					= "Trigonometric tangent function";
-	public static final String CTAN_DESC 				= "Trigonometric cotangent function";
-	public static final String SEC_DESC 				= "Trigonometric secant function";
-	public static final String COSEC_DESC 				= "Trigonometric cosecant function";
-	public static final String ASIN_DESC 				= "Inverse trigonometric sine function";
-	public static final String ACOS_DESC 				= "Inverse trigonometric cosine function";
-	public static final String ATAN_DESC 				= "Inverse trigonometric tangent function";
-	public static final String ACTAN_DESC 				= "Inverse trigonometric cotangent function";
-	public static final String LN_DESC 					= "Natural logarithm function (base e)";
-	public static final String LOG2_DESC 				= "Binary logarithm function (base 2)";
-	public static final String LOG10_DESC 				= "Common logarithm function (base 10)";
-	public static final String RAD_DESC 				= "Degrees to radians function";
-	public static final String EXP_DESC 				= "Exponential function";
-	public static final String SQRT_DESC 				= "Squre root function";
-	public static final String SINH_DESC 				= "Hyperbolic sine function";
-	public static final String COSH_DESC 				= "Hyperbolic cosine function";
-	public static final String TANH_DESC 				= "Hyperbolic tangent function";
-	public static final String COTH_DESC 				= "Hyperbolic cotangent function";
-	public static final String SECH_DESC 				= "Hyperbolic secant function";
-	public static final String CSCH_DESC 				= "Hyperbolic cosecant function";
-	public static final String DEG_DESC 				= "Radians to degrees function";
-	public static final String ABS_DESC 				= "Absolut value function";
-	public static final String SGN_DESC					= "Signum function";
-	public static final String FLOOR_DESC				= "Floor function";
-	public static final String CEIL_DESC				= "Ceiling function";
-	public static final String NOT_DESC					= "Negation function";
-	public static final String ARSINH_DESC				= "Inverse hyperbolic sine function";
-	public static final String ARCOSH_DESC				= "Inverse hyperbolic cosine function";
-	public static final String ARTANH_DESC				= "Inverse hyperbolic tangent function";
-	public static final String ARCOTH_DESC				= "Inverse hyperbolic cotangent function";
-	public static final String ARSECH_DESC				= "Inverse hyperbolic secant function";
-	public static final String ARCSCH_DESC				= "Inverse hyperbolic cosecant function";
-	public static final String SA_DESC					= "Sinc function (normalized)";
-	public static final String SINC_DESC				= "Sinc function (unnormalized)";
-	public static final String BELL_NUMBER_DESC			= "Bell number";
-	public static final String LUCAS_NUMBER_DESC		= "Lucas number";
-	public static final String FIBONACCI_NUMBER_DESC	= "Fibonacci number";
-	public static final String HARMONIC_NUMBER_DESC		= "Harmonic number";
-	public static final String IS_PRIME_DESC			= "Prime number test (is number a prime?)";
-	public static final String PRIME_COUNT_DESC			= "Prime-counting function - Pi(x)";
-	public static final String EXP_INT_DESC				= "Exponential integral function (non-elementary special function) - usage example: Ei(x)";
-	public static final String LOG_INT_DESC				= "Logarithmic integral function (non-elementary special function) - usage example: li(x)";
-	public static final String OFF_LOG_INT_DESC			= "Offset logarithmic integral function (non-elementary special function) - usage example: Li(x)";
-	public static final String GAUSS_ERF_DESC			= "Gauss error function (non-elementary special function) - usage example: 2 + erf(x)";
-	public static final String GAUSS_ERFC_DESC			= "Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)";
-	public static final String GAUSS_ERF_INV_DESC		= "Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)";
-	public static final String GAUSS_ERFC_INV_DESC		= "Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)";
-	public static final String ULP_DESC					= "Unit in The Last Place - ulp(0.1)";
-	public static final String ISNAN_DESC				= "Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)";
-	public static final String NDIG10_DESC				= "Number of digits in numeral system with base 10";
-	public static final String NFACT_DESC				= "Prime decomposition - number of distinct prime factors";
-	public static final String ARCSEC_DESC				= "Inverse trigonometric secant";
-	public static final String ARCCSC_DESC				= "Inverse trigonometric cosecant";
-	public static final String GAMMA_DESC				= "Gamma special function Γ(s)";
-	public static final String LAMBERT_W0_DESC			= "Lambert-W special function, principal branch 0, also called the omega function or product logarithm";
-	public static final String LAMBERT_W1_DESC			= "Lambert-W special function, branch -1, also called the omega function or product logarithm";
-	public static final String SGN_GAMMA_DESC			= "Signum of Gamma special function, Γ(s)";
-	public static final String LOG_GAMMA_DESC			= "Log Gamma special function, lnΓ(s)";
-	public static final String DI_GAMMA_DESC			= "Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)";
-	public static final String PARAM_DESC				= "Automatically generated function for user defined functions, returns function parameter value at index 'i'";
-	public static final String RND_STUDENT_T_DESC		= "Random variable - Student's t-distribution";
-	public static final String RND_CHI2_DESC			= "Random variable - Chi-squared distribution";
+	public static String SIN_DESC = ParserSymbol.NA;
+	public static String COS_DESC = ParserSymbol.NA;
+	public static String TAN_DESC = ParserSymbol.NA;
+	public static String CTAN_DESC = ParserSymbol.NA;
+	public static String SEC_DESC = ParserSymbol.NA;
+	public static String COSEC_DESC = ParserSymbol.NA;
+	public static String ASIN_DESC = ParserSymbol.NA;
+	public static String ACOS_DESC = ParserSymbol.NA;
+	public static String ATAN_DESC = ParserSymbol.NA;
+	public static String ACTAN_DESC = ParserSymbol.NA;
+	public static String LN_DESC = ParserSymbol.NA;
+	public static String LOG2_DESC = ParserSymbol.NA;
+	public static String LOG10_DESC = ParserSymbol.NA;
+	public static String RAD_DESC = ParserSymbol.NA;
+	public static String EXP_DESC = ParserSymbol.NA;
+	public static String SQRT_DESC = ParserSymbol.NA;
+	public static String SINH_DESC = ParserSymbol.NA;
+	public static String COSH_DESC = ParserSymbol.NA;
+	public static String TANH_DESC = ParserSymbol.NA;
+	public static String COTH_DESC = ParserSymbol.NA;
+	public static String SECH_DESC = ParserSymbol.NA;
+	public static String CSCH_DESC = ParserSymbol.NA;
+	public static String DEG_DESC = ParserSymbol.NA;
+	public static String ABS_DESC = ParserSymbol.NA;
+	public static String SGN_DESC = ParserSymbol.NA;
+	public static String FLOOR_DESC = ParserSymbol.NA;
+	public static String CEIL_DESC = ParserSymbol.NA;
+	public static String NOT_DESC = ParserSymbol.NA;
+	public static String ARSINH_DESC = ParserSymbol.NA;
+	public static String ARCOSH_DESC = ParserSymbol.NA;
+	public static String ARTANH_DESC = ParserSymbol.NA;
+	public static String ARCOTH_DESC = ParserSymbol.NA;
+	public static String ARSECH_DESC = ParserSymbol.NA;
+	public static String ARCSCH_DESC = ParserSymbol.NA;
+	public static String SA_DESC = ParserSymbol.NA;
+	public static String SINC_DESC = ParserSymbol.NA;
+	public static String BELL_NUMBER_DESC = ParserSymbol.NA;
+	public static String LUCAS_NUMBER_DESC = ParserSymbol.NA;
+	public static String FIBONACCI_NUMBER_DESC = ParserSymbol.NA;
+	public static String HARMONIC_NUMBER_DESC = ParserSymbol.NA;
+	public static String IS_PRIME_DESC = ParserSymbol.NA;
+	public static String PRIME_COUNT_DESC = ParserSymbol.NA;
+	public static String EXP_INT_DESC = ParserSymbol.NA;
+	public static String LOG_INT_DESC = ParserSymbol.NA;
+	public static String OFF_LOG_INT_DESC = ParserSymbol.NA;
+	public static String GAUSS_ERF_DESC = ParserSymbol.NA;
+	public static String GAUSS_ERFC_DESC = ParserSymbol.NA;
+	public static String GAUSS_ERF_INV_DESC = ParserSymbol.NA;
+	public static String GAUSS_ERFC_INV_DESC = ParserSymbol.NA;
+	public static String ULP_DESC = ParserSymbol.NA;
+	public static String ISNAN_DESC = ParserSymbol.NA;
+	public static String NDIG10_DESC = ParserSymbol.NA;
+	public static String NFACT_DESC = ParserSymbol.NA;
+	public static String ARCSEC_DESC = ParserSymbol.NA;
+	public static String ARCCSC_DESC = ParserSymbol.NA;
+	public static String GAMMA_DESC = ParserSymbol.NA;
+	public static String LAMBERT_W0_DESC = ParserSymbol.NA;
+	public static String LAMBERT_W1_DESC = ParserSymbol.NA;
+	public static String SGN_GAMMA_DESC = ParserSymbol.NA;
+	public static String LOG_GAMMA_DESC = ParserSymbol.NA;
+	public static String DI_GAMMA_DESC = ParserSymbol.NA;
+	public static String PARAM_DESC = ParserSymbol.NA;
+	public static String RND_STUDENT_T_DESC = ParserSymbol.NA;
+	public static String RND_CHI2_DESC = ParserSymbol.NA;
 	/*
 	 * UnaryFunction - tokens description.
 	 */

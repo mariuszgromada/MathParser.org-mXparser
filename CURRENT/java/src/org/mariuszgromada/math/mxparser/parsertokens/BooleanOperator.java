@@ -1,5 +1,5 @@
 /*
- * @(#)BooleanOperator.java        5.0.4    2022-05-22
+ * @(#)BooleanOperator.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class BooleanOperator {
 	/*
 	 * BooleanOperator - token type id.
 	 */
 	public static final int TYPE_ID 				= 2;
-	public static final String TYPE_DESC			= "Boolean Operator";
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * BooleanOperator - tokens id.
 	 */
@@ -305,17 +305,18 @@ public final class BooleanOperator {
 	/*
 	 * BooleanOperator - tokens description.
 	 */
-	public static final String AND_DESC				= "Logical conjunction (AND)";
-	public static final String OR_DESC				= "Logical disjunction (OR)";
-	public static final String NEG_DESC				= "Negation";
-	public static final String NAND_DESC			= "NAND - Sheffer stroke";
-	public static final String NOR_DESC				= "Logical NOR";
-	public static final String XOR_DESC				= "Exclusive or (XOR)";
-	public static final String IMP_DESC				= "Implication (IMP)";
-	public static final String CIMP_DESC			= "Converse implication (CIMP)";
-	public static final String NIMP_DESC			= "Material nonimplication (NIMP)";
-	public static final String CNIMP_DESC			= "Converse nonimplication (CNIMP)";
-	public static final String EQV_DESC				= "Logical biconditional (EQV)";
+	public static String AND_DESC = ParserSymbol.NA;
+	public static String OR_DESC = ParserSymbol.NA;
+	public static String NEG_DESC = ParserSymbol.NA;
+	public static String NAND_DESC = ParserSymbol.NA;
+	public static String NOR_DESC = ParserSymbol.NA;
+	public static String XOR_DESC = ParserSymbol.NA;
+	public static String IMP_DESC = ParserSymbol.NA;
+	public static String CIMP_DESC = ParserSymbol.NA;
+	public static String NIMP_DESC = ParserSymbol.NA;
+	public static String CNIMP_DESC = ParserSymbol.NA;
+	public static String EQV_DESC = ParserSymbol.NA;
+
 	/*
 	 * BooleanOperator - since.
 	 */

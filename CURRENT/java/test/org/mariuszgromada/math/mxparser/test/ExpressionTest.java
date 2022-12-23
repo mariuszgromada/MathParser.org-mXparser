@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.java        5.1.1    2022-11-22
+ * @(#)ExpressionTest.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ import static org.mariuszgromada.math.mxparser.mathcollection.MathConstants.PI;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.1
+ * @version        5.2.0
  *
  */
 public final class ExpressionTest {
@@ -2127,7 +2127,7 @@ public final class ExpressionTest {
                 2.50290787509589282228390287321821578 + /*Feigenbaumconstant*/
                 0.66016181584686957392781211001455577 + /*Twinprimeconstant*/
                 0.26149721284764278375542683860869585 + /*Meissel-Mertensconstant*/
-                1.9021605823 + /*Brun'sconstantfortwinpr imes*/
+                1.902160583104 + /*Brun'sconstantfortwinpr imes*/
                 0.8705883800 + /*Brun'sconstantforprimequadruplets*/
                 -2.7E-9 + /*deBruijn-Newmanconstant*/
                 0.91596559417721901505460351493238411 + /*Catalan'sconstant*/
@@ -2154,10 +2154,10 @@ public final class ExpressionTest {
                 2.58498175957925321706589358738317116 + /*Sierpiński'sconstant*/
                 2.68545200106530644530971483548179569 + /*Khinchin'sconstant*/
                 2.80777024202851936522150118655777293 + /*Fransén-Robinsonconstant*/
-                0.5 + /*Landau'sconstant*/
+                0.5432589653429767 + /*Landau'sconstant*/
                 2.29558714939263807403429804918949039 + /*Parabolicconstant*/
                 0.56714329040978387299996866221035555 + /*Omegaconstant*/
-                0.187859 + /*MRBconstant*/
+                0.18785964246206712024851793405427 + /*MRBconstant*/
                 1.045163780117492784844588889194613136522615578151 + /* l2(2) */
                 0.596347362323194074341078499369279376074 /* Gompertz Constant */
                 ;

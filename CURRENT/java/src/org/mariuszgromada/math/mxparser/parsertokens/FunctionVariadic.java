@@ -1,5 +1,5 @@
 /*
- * @(#)FunctionVariadic.java        5.0.4    2022-05-22
+ * @(#)FunctionVariadic.java        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,14 +194,14 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class FunctionVariadic {
 	/*
 	 * FunctionVariadic - token type id.
 	 */
-	public static final int TYPE_ID 					= 7;
-	public static final String TYPE_DESC				= "Variadic Function";
+	public static final int TYPE_ID = 7;
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/*
 	 * FunctionVariadic - tokens id.
 	 */
@@ -283,29 +283,29 @@ public final class FunctionVariadic {
 	/*
 	 * FunctionVariadic - tokens description.
 	 */
-	public static final String IFF_DESC 				= "If function";
-	public static final String MIN_DESC 				= "Minimum function";
-	public static final String MAX_DESC 				= "Maximum function";
-	public static final String CONT_FRAC_DESC			= "Continued fraction";
-	public static final String CONT_POL_DESC			= "Continued polynomial";
-	public static final String GCD_DESC					= "Greatest common divisor";
-	public static final String LCM_DESC					= "Least common multiple";
-	public static final String SUM_DESC					= "Summation operator";
-	public static final String PROD_DESC				= "Multiplication";
-	public static final String AVG_DESC					= "Mean / average value";
-	public static final String VAR_DESC					= "Bias-corrected sample variance";
-	public static final String STD_DESC					= "Bias-corrected sample standard deviation";
-	public static final String RND_LIST_DESC			= "Random number from given list of numbers";
-	public static final String COALESCE_DESC			= "Returns the first non-NaN value";
-	public static final String OR_DESC					= "Logical disjunction (OR) - variadic";
-	public static final String AND_DESC					= "Logical conjunction (AND) - variadic";
-	public static final String XOR_DESC					= "Exclusive or (XOR) - variadic";
-	public static final String ARGMIN_DESC				= "Arguments / indices of the minima";
-	public static final String ARGMAX_DESC				= "Arguments / indices of the maxima";
-	public static final String MEDIAN_DESC				= "The sample median";
-	public static final String MODE_DESC				= "Mode - the value that appears most often";
-	public static final String BASE_DESC				= "Returns number in given numeral system base represented by list of digits";
-	public static final String NDIST_DESC				= "Number of distinct values";
+	public static String IFF_DESC = ParserSymbol.NA;
+	public static String MIN_DESC = ParserSymbol.NA;
+	public static String MAX_DESC = ParserSymbol.NA;
+	public static String CONT_FRAC_DESC = ParserSymbol.NA;
+	public static String CONT_POL_DESC = ParserSymbol.NA;
+	public static String GCD_DESC = ParserSymbol.NA;
+	public static String LCM_DESC = ParserSymbol.NA;
+	public static String SUM_DESC = ParserSymbol.NA;
+	public static String PROD_DESC = ParserSymbol.NA;
+	public static String AVG_DESC = ParserSymbol.NA;
+	public static String VAR_DESC = ParserSymbol.NA;
+	public static String STD_DESC = ParserSymbol.NA;
+	public static String RND_LIST_DESC = ParserSymbol.NA;
+	public static String COALESCE_DESC = ParserSymbol.NA;
+	public static String OR_DESC = ParserSymbol.NA;
+	public static String AND_DESC = ParserSymbol.NA;
+	public static String XOR_DESC = ParserSymbol.NA;
+	public static String ARGMIN_DESC = ParserSymbol.NA;
+	public static String ARGMAX_DESC = ParserSymbol.NA;
+	public static String MEDIAN_DESC = ParserSymbol.NA;
+	public static String MODE_DESC = ParserSymbol.NA;
+	public static String BASE_DESC = ParserSymbol.NA;
+	public static String NDIST_DESC = ParserSymbol.NA;
 	/*
 	 * FunctionVariadic - since.
 	 */
