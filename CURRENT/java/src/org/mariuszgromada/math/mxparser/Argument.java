@@ -352,13 +352,18 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 */
 	public Argument(String argumentDefinitionString, PrimitiveElement...elements) {
 		super(Argument.TYPE_ID);
-		if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp) ) {
+		argumentBodyType = BODY_RUNTIME;
+		setSilentMode();
+		description = StringInvariant.EMPTY;
+		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 			argumentName = argumentDefinitionString;
 			argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentType = FREE_ARGUMENT;
 			argumentExpression = new Expression(elements);
 			argumentExpression.setDescription(argumentName);
-		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
+			return;
+		}
+		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpr = new Expression(headEqBody.bodyStr);
@@ -376,7 +381,9 @@ public class Argument extends PrimitiveElement implements Serializable {
 				argumentType = DEPENDENT_ARGUMENT;
 			}
 			argumentExpression.setDescription(argumentName);
-		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
+			return;
+		}
+		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
 			argumentExpression = new Expression(headEqBody.bodyStr, elements);
@@ -384,15 +391,12 @@ public class Argument extends PrimitiveElement implements Serializable {
 			argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentType = DEPENDENT_ARGUMENT;
 			n = new Argument(headEqBody.headTokens.get(2).tokenStr);
-		} else {
-			argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentType = FREE_ARGUMENT;
-			argumentExpression = new Expression();
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinition(argumentDefinitionString) );
+			return;
 		}
-		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
-		description = StringInvariant.EMPTY;
+		argumentValue = ARGUMENT_INITIAL_VALUE;
+		argumentType = FREE_ARGUMENT;
+		argumentExpression = new Expression();
+		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinition(argumentDefinitionString) );
 	}
 	/**
 	 * Default constructor - creates argument based on the argument definition string.
@@ -410,13 +414,18 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 */
 	public Argument(String argumentDefinitionString, boolean forceDependent, PrimitiveElement...elements) {
 		super(Argument.TYPE_ID);
-		if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp) ) {
+		argumentBodyType = BODY_RUNTIME;
+		setSilentMode();
+		description = StringInvariant.EMPTY;
+		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 			argumentName = argumentDefinitionString;
 			argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentType = FREE_ARGUMENT;
 			argumentExpression = new Expression(elements);
 			argumentExpression.setDescription(argumentName);
-		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
+			return;
+		}
+		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
 			Expression bodyExpr = new Expression(headEqBody.bodyStr);
@@ -428,7 +437,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 				bodyExpr.setDescription(StringInvariant.INTERNAL);
 				bodyExpr.setForwardErrorMessage(false);
 				double bodyValue = bodyExpr.calculate();
-				if ( (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS) && (bodyValue != Double.NaN) ) {
+				if (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS && bodyValue != Double.NaN) {
 					argumentExpression = new Expression();
 					argumentValue = bodyValue;
 					argumentType = FREE_ARGUMENT;
@@ -440,7 +449,9 @@ public class Argument extends PrimitiveElement implements Serializable {
 				}
 			}
 			argumentExpression.setDescription(headEqBody.headStr);
-		} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
+			return;
+		}
+		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
 			argumentName = headEqBody.headTokens.get(0).tokenStr;
 			argumentExpression = new Expression(headEqBody.bodyStr, elements);
@@ -448,15 +459,12 @@ public class Argument extends PrimitiveElement implements Serializable {
 			argumentValue = ARGUMENT_INITIAL_VALUE;
 			argumentType = DEPENDENT_ARGUMENT;
 			n = new Argument(headEqBody.headTokens.get(2).tokenStr);
-		} else {
-			argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentType = FREE_ARGUMENT;
-			argumentExpression = new Expression();
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinition(argumentDefinitionString));
+			return;
 		}
-		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
-		description = StringInvariant.EMPTY;
+		argumentValue = ARGUMENT_INITIAL_VALUE;
+		argumentType = FREE_ARGUMENT;
+		argumentExpression = new Expression();
+		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinition(argumentDefinitionString));
 	}
 	/**
 	 * Constructor - creates free argument.
@@ -468,17 +476,17 @@ public class Argument extends PrimitiveElement implements Serializable {
 		super(Argument.TYPE_ID);
 		argumentExpression = new Expression();
 		argumentExpression.setDescription(argumentName);
-		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
-			this.argumentName = argumentName;
-			this.argumentValue = argumentValue;
-			argumentType = FREE_ARGUMENT;
-		} else {
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-		}
 		argumentBodyType = BODY_RUNTIME;
 		setSilentMode();
 		description = StringInvariant.EMPTY;
+		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+			this.argumentName = argumentName;
+			this.argumentValue = argumentValue;
+			argumentType = FREE_ARGUMENT;
+			return;
+		}
+		this.argumentValue = ARGUMENT_INITIAL_VALUE;
+		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
 	}
 	/**
 	 * Constructor for argument definition based on
@@ -492,18 +500,18 @@ public class Argument extends PrimitiveElement implements Serializable {
 		super(Argument.TYPE_ID);
 		argumentExpression = new Expression();
 		argumentExpression.setDescription(argumentName);
-		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
+		setSilentMode();
+		description = StringInvariant.EMPTY;
+		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.argumentName = argumentName;
 			this.argumentExtension = argumentExtension;
 			argumentType = FREE_ARGUMENT;
 			argumentBodyType = BODY_EXTENDED;
-		} else {
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-			argumentBodyType = BODY_RUNTIME;
+			return;
 		}
-		setSilentMode();
-		description = StringInvariant.EMPTY;
+		this.argumentValue = ARGUMENT_INITIAL_VALUE;
+		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+		argumentBodyType = BODY_RUNTIME;
 	}
 	/**
 	 * Constructor - creates dependent argument(with hidden
@@ -519,21 +527,21 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 */
 	public Argument(String argumentName, String argumentExpressionString, PrimitiveElement... elements) {
 		super(Argument.TYPE_ID);
-		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
+		argumentBodyType = BODY_RUNTIME;
+		setSilentMode();
+		description = StringInvariant.EMPTY;
+		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.argumentName = argumentName;
 			argumentValue=ARGUMENT_INITIAL_VALUE;
 			argumentExpression = new Expression(argumentExpressionString, elements);
 			argumentExpression.setDescription(argumentName);
 			argumentType = DEPENDENT_ARGUMENT;
-		} else {
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression = new Expression();
-			argumentExpression.setDescription(argumentName);
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+			return;
 		}
-		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
-		description = StringInvariant.EMPTY;
+		this.argumentValue = ARGUMENT_INITIAL_VALUE;
+		argumentExpression = new Expression();
+		argumentExpression.setDescription(argumentName);
+		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
 	}
 	/**
 	 * Sets argument description.
@@ -598,11 +606,12 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * @param      argumentName        the argument name
 	 */
 	public void setArgumentName(String argumentName) {
-		if ( mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp) ) {
+		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.argumentName = argumentName;
 			setExpressionModifiedFlags();
+			return;
 		}
-		else if (argumentExpression != null)
+		if (argumentExpression != null)
 			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
 	}
 	/**
@@ -686,8 +695,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 		if (argumentBodyType == BODY_EXTENDED) return Argument.NO_SYNTAX_ERRORS;
 		if (argumentType == FREE_ARGUMENT)
 			return Argument.NO_SYNTAX_ERRORS;
-		else
-			return argumentExpression.checkSyntax();
+		return argumentExpression.checkSyntax();
 	}
 	/**
 	 * Returns error message after checking the syntax
@@ -723,8 +731,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 			return argumentExtension.getArgumentValue();
 		if (argumentType == FREE_ARGUMENT)
 			return argumentValue;
-		else
-			return argumentExpression.calculate(calcStepsRegister);
+		return argumentExpression.calculate(calcStepsRegister);
 	}
 	/**
 	 * Adds user defined elements (such as: Arguments, Constants, Functions)
