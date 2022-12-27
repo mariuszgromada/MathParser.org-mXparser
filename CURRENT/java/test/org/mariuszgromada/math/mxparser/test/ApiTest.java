@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.1.0    2022-11-11
+ * @(#)SyntaxTest.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -203,7 +203,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.0
+ * @version        5.2.0
  *
  */
 public final class ApiTest {
@@ -4358,7 +4358,7 @@ public final class ApiTest {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "Disabled serialization: deserializeFromFile";
-        TestCommonTools.consolePrintTestApiStart(177, testDescr);
+        TestCommonTools.consolePrintTestApiStart(178, testDescr);
         Argument x = new Argument("x = 5");
         String tmpPath = System.getProperty("java.io.tmpdir");
         File tmpDir = new File(tmpPath);
@@ -4376,6 +4376,78 @@ public final class ApiTest {
             ex.printStackTrace();
         }
         SerializationUtils.disableBinarySerialization();
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0179() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Check all descriptions of keywords - lengths";
+        TestCommonTools.consolePrintTestApiStart(179, testDescr);
+        List<KeyWord> keywords = mXparser.getKeyWords();
+        for (KeyWord kw : keywords)
+            if (kw.description.length() <= 5) {
+                testResult = false;
+                break;
+            }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0180() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Check all descriptions of keywords - type description";
+        TestCommonTools.consolePrintTestApiStart(180, testDescr);
+        List<KeyWord> keywords = mXparser.getKeyWords();
+        for (KeyWord kw : keywords)
+            if (!kw.description.toLowerCase().contains(mXparser.getTokenTypeDescription(kw.wordTypeId).toLowerCase())) {
+                mXparser.consolePrintln(mXparser.getTokenTypeDescription(kw.wordTypeId));
+                mXparser.consolePrintHelp(kw.description);
+                testResult = false;
+                break;
+            }
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0181() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Check all parser token types - descriptions";
+        TestCommonTools.consolePrintTestApiStart(181, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        if (BinaryRelation.TYPE_DESC.equals(stringResources.BINARY_RELATION)
+                && BitwiseOperator.TYPE_DESC.equals(stringResources.BITWISE_OPERATOR)
+                && BooleanOperator.TYPE_DESC.equals(stringResources.BOOLEAN_OPERATOR)
+                && CalculusOperator.TYPE_DESC.equals(stringResources.CALCULUS_OPERATOR)
+                && ConstantValue.TYPE_DESC.equals(stringResources.CONSTANT_VALUE)
+                && Function1Arg.TYPE_DESC.equals(stringResources.FUNCTION_1_ARG)
+                && Function2Arg.TYPE_DESC.equals(stringResources.FUNCTION_2_ARG)
+                && Function3Arg.TYPE_DESC.equals(stringResources.FUNCTION_3_ARG)
+                && FunctionVariadic.TYPE_DESC.equals(stringResources.FUNCTION_VARIADIC)
+                && Operator.TYPE_DESC.equals(stringResources.OPERATOR)
+                && ParserSymbol.TYPE_DESC.equals(stringResources.PARSER_SYMBOL)
+                && RandomVariable.TYPE_DESC.equals(stringResources.RANDOM_VARIABLE)
+                && Unit.TYPE_DESC.equals(stringResources.UNIT)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0182() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Check all user defined token types - descriptions";
+        TestCommonTools.consolePrintTestApiStart(182, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        if (Argument.TYPE_DESC.equals(stringResources.USER_DEFINED_ARGUMENT)
+                && Constant.TYPE_DESC.equals(stringResources.USER_DEFINED_CONSTANT)
+                && Expression.TYPE_DESC.equals(stringResources.USER_DEFINED_EXPRESSION)
+                && Function.TYPE_DESC.equals(stringResources.USER_DEFINED_FUNCTION)
+                && RecursiveArgument.TYPE_DESC_RECURSIVE.equals(stringResources.USER_DEFINED_RECURSIVE_ARGUMENT)
+        ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }

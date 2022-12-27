@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.cs        5.2.0    2022-12-09
+ * @(#)Argument.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -267,8 +267,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Argument type id for the definition of key words
 		 * known by the parser.
 		 */
-		public const int TYPE_ID					= 101;
-		public static readonly String TYPE_DESC		= StringResources.USER_DEFINED_ARGUMENT;
+		public const int TYPE_ID = 101;
+		public static String TYPE_DESC = ParserSymbol.NA;
 		/**
 		 * Argument with body based on the value or expression string.
 		 *
@@ -331,10 +331,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *=================================================
 		 */
 		private static String buildErrorMessageInvalidArgumentName(String argumentName) {
-			return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(argumentName, StringResources.INVALID_ARGUMENT_NAME, StringInvariant.ARGUMENT_NAME_EXAMPLES);
+			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentName, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_NAME, StringInvariant.ARGUMENT_NAME_EXAMPLES);
 		}
 		private static String buildErrorMessageInvalidArgumentDefinition(String argumentDefinitionString) {
-			return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringResources.INVALID_ARGUMENT_DEFINITION, StringInvariant.ARGUMENT_DEFINITION_EXAMPLES);
+			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.ARGUMENT_DEFINITION_EXAMPLES);
 		}
 		/**
 		 * Default constructor - creates argument based on the argument definition string.

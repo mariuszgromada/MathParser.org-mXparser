@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ApiTest.cs        5.1.0    2022-11-11
+ * @(#)ApiTest.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -4359,7 +4359,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = commentTestDescriptionAsMockup("Disabled serialization: deserializeFromFile");
-			TestCommonTools.consolePrintTestApiStart(177, testDescr);
+			TestCommonTools.consolePrintTestApiStart(178, testDescr);
 			Argument x = new Argument("x = 5");
 			try {
                 String filePath = Path.GetTempFileName();
@@ -4377,6 +4377,78 @@ namespace org.mariuszgromada.math.mxparser.test {
 			SerializationUtils.disableBinarySerialization();
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0179() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = true;
+			String testDescr = "Check all descriptions of keywords - lengths";
+			TestCommonTools.consolePrintTestApiStart(179, testDescr);
+			List<KeyWord> keywords = mXparser.getKeyWords();
+			foreach (KeyWord kw in keywords)
+				if (kw.description.Length <= 5) {
+					testResult = false;
+					break;
+				}
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0180() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = true;
+			String testDescr = "Check all descriptions of keywords - type description";
+			TestCommonTools.consolePrintTestApiStart(180, testDescr);
+			List<KeyWord> keywords = mXparser.getKeyWords();
+			foreach (KeyWord kw in keywords)
+				if (!kw.description.ToLower().Contains(mXparser.getTokenTypeDescription(kw.wordTypeId).ToLower())) {
+					mXparser.consolePrintln(mXparser.getTokenTypeDescription(kw.wordTypeId));
+					mXparser.consolePrintHelp(kw.description);
+					testResult = false;
+					break;
+				}
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0181() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Check all parser token types - descriptions";
+			TestCommonTools.consolePrintTestApiStart(181, testDescr);
+			StringResources stringResources = StringModel.getStringResources();
+			if (BinaryRelation.TYPE_DESC.Equals(stringResources.BINARY_RELATION)
+					&& BitwiseOperator.TYPE_DESC.Equals(stringResources.BITWISE_OPERATOR)
+					&& BooleanOperator.TYPE_DESC.Equals(stringResources.BOOLEAN_OPERATOR)
+					&& CalculusOperator.TYPE_DESC.Equals(stringResources.CALCULUS_OPERATOR)
+					&& ConstantValue.TYPE_DESC.Equals(stringResources.CONSTANT_VALUE)
+					&& Function1Arg.TYPE_DESC.Equals(stringResources.FUNCTION_1_ARG)
+					&& Function2Arg.TYPE_DESC.Equals(stringResources.FUNCTION_2_ARG)
+					&& Function3Arg.TYPE_DESC.Equals(stringResources.FUNCTION_3_ARG)
+					&& FunctionVariadic.TYPE_DESC.Equals(stringResources.FUNCTION_VARIADIC)
+					&& Operator.TYPE_DESC.Equals(stringResources.OPERATOR)
+					&& ParserSymbol.TYPE_DESC.Equals(stringResources.PARSER_SYMBOL)
+					&& RandomVariable.TYPE_DESC.Equals(stringResources.RANDOM_VARIABLE)
+					&& Unit.TYPE_DESC.Equals(stringResources.UNIT)
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0182() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "Check all user defined token types - descriptions";
+			TestCommonTools.consolePrintTestApiStart(182, testDescr);
+			StringResources stringResources = StringModel.getStringResources();
+			if (Argument.TYPE_DESC.Equals(stringResources.USER_DEFINED_ARGUMENT)
+					&& Constant.TYPE_DESC.Equals(stringResources.USER_DEFINED_CONSTANT)
+					&& Expression.TYPE_DESC.Equals(stringResources.USER_DEFINED_EXPRESSION)
+					&& Function.TYPE_DESC.Equals(stringResources.USER_DEFINED_FUNCTION)
+					&& RecursiveArgument.TYPE_DESC_RECURSIVE.Equals(stringResources.USER_DEFINED_RECURSIVE_ARGUMENT)
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
 		}
 		public static bool testCanonicalString(String expStr, String expResStr, params String[] elements) {
             mXparser.consolePrintln();

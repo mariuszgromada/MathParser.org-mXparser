@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2022-12-09
+ * @(#)mXparser.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1155,28 +1155,27 @@ public final class mXparser {
 	 * @return String representing token type description.
 	 */
 	public static String getTokenTypeDescription(int tokenTypeId) {
-		String type = StringInvariant.EMPTY;
 		switch (tokenTypeId) {
-			case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-			case ParserSymbol.NUMBER_TYPE_ID: type = "Number"; break;
-			case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
-			case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
-			case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
-			case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
-			case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
-			case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
-			case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
-			case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
-			case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
-			case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
-			case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-			case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
-			case Function.TYPE_ID: type = Function.TYPE_DESC; break;
-			case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
-			case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
-			case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
+			case ParserSymbol.TYPE_ID: return ParserSymbol.TYPE_DESC;
+			case ParserSymbol.NUMBER_TYPE_ID: return StringModel.STRING_RESOURCES.NUMBER;
+			case Operator.TYPE_ID: return Operator.TYPE_DESC;
+			case BooleanOperator.TYPE_ID: return BooleanOperator.TYPE_DESC;
+			case BinaryRelation.TYPE_ID: return BinaryRelation.TYPE_DESC;
+			case Function1Arg.TYPE_ID: return Function1Arg.TYPE_DESC;
+			case Function2Arg.TYPE_ID: return Function2Arg.TYPE_DESC;
+			case Function3Arg.TYPE_ID: return Function3Arg.TYPE_DESC;
+			case FunctionVariadic.TYPE_ID: return FunctionVariadic.TYPE_DESC;
+			case CalculusOperator.TYPE_ID: return CalculusOperator.TYPE_DESC;
+			case RandomVariable.TYPE_ID: return RandomVariable.TYPE_DESC;
+			case ConstantValue.TYPE_ID: return ConstantValue.TYPE_DESC;
+			case Argument.TYPE_ID: return Argument.TYPE_DESC;
+			case RecursiveArgument.TYPE_ID_RECURSIVE: return RecursiveArgument.TYPE_DESC_RECURSIVE;
+			case Function.TYPE_ID: return Function.TYPE_DESC;
+			case Constant.TYPE_ID: return Constant.TYPE_DESC;
+			case Unit.TYPE_ID: return Unit.TYPE_DESC;
+			case BitwiseOperator.TYPE_ID: return BitwiseOperator.TYPE_DESC;
 		}
-		return type;
+		return StringInvariant.EMPTY;
 	}
 	/**
 	 * Converts integer number to hex string (plain text)

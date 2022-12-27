@@ -94,6 +94,7 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" Link="src\org\mariuszgromada\math\mxparser\syntaxchecker\TokenMgrError.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\SerializationUtils.cs" Link="src\org\mariuszgromada\math\mxparser\SerializationUtils.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringInvariant.cs" Link="src\org\mariuszgromada\math\mxparser\StringInvariant.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringModel.cs" Link="src\org\mariuszgromada\math\mxparser\StringModel.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResources.cs" Link="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringUtils.cs" Link="src\org\mariuszgromada\math\mxparser\StringUtils.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs" Link="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />

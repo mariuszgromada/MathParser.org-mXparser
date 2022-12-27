@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        5.2.0    2022-12-23
+ * @(#)ExpressionUtils.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1138,7 +1138,7 @@ final class ExpressionUtils {
      * @return     The help content.
      */
     static String getHelp(String word, List<KeyWord> keyWordsList) {
-        String helpStr = StringResources.HELP_CONTENT
+        String helpStr = StringModel.STRING_RESOURCES.HELP_CONTENT
                 + StringInvariant.COLON
                 + StringInvariant.NEW_LINE
                 + StringInvariant.NEW_LINE
@@ -1146,11 +1146,11 @@ final class ExpressionUtils {
         helpStr = helpStr
                 + StringUtils.getLeftSpaces("12345","#")
                 + "  "
-                + StringUtils.getRightSpaces("01234567890123456789", StringResources.KEYWORD)
-                + StringUtils.getRightSpaces("                        ",StringResources.TYPE)
-                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", StringResources.SYNTAX)
-                + StringUtils.getRightSpaces("012345", StringResources.SINCE)
-                + StringResources.DESCRIPTION
+                + StringUtils.getRightSpaces("01234567890123456789", StringModel.STRING_RESOURCES.KEYWORD)
+                + StringUtils.getRightSpaces("                        ", StringModel.STRING_RESOURCES.TYPE)
+                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", StringModel.STRING_RESOURCES.SYNTAX)
+                + StringUtils.getRightSpaces("012345", StringModel.STRING_RESOURCES.SINCE)
+                + StringModel.STRING_RESOURCES.DESCRIPTION
                 + StringInvariant.NEW_LINE
                 ;
         helpStr = helpStr
@@ -1170,28 +1170,8 @@ final class ExpressionUtils {
         String line;
         for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
             KeyWord keyWord = keyWordsList.get(keyWordIndex);
-            type = StringInvariant.EMPTY;
+            type = mXparser.getTokenTypeDescription(keyWord.wordTypeId);
             kw = keyWord.wordString;
-            switch (keyWord.wordTypeId) {
-                case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-                case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = StringResources.NUMBER; break;
-                case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
-                case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
-                case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
-                case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
-                case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
-                case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
-                case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
-                case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
-                case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
-                case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
-                case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-                case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
-                case Function.TYPE_ID: type = Function.TYPE_DESC; break;
-                case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
-                case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
-                case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
-            }
             line = StringUtils.getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + StringInvariant.DOT_SPACE +
                     StringUtils.getRightSpaces("01234567890123456789", kw) + StringUtils.getRightSpaces("                        ",StringInvariant.LOWER + type + StringInvariant.GREATER)
                     + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + StringUtils.getRightSpaces("012345", keyWord.since) +  keyWord.description + StringInvariant.NEW_LINE;
@@ -1253,12 +1233,12 @@ final class ExpressionUtils {
     static void showTokens(List<Token> tokensList) {
         String maxStr = "TokenTypeId";
         mXparser.consolePrintln(" --------------------");
-        mXparser.consolePrintln("| " + StringResources.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
+        mXparser.consolePrintln("| " + StringModel.STRING_RESOURCES.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
         mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
         mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
         mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
         if (tokensList == null) {
-            mXparser.consolePrintln(StringResources.NULL_TOKENS_LIST);
+            mXparser.consolePrintln(StringModel.STRING_RESOURCES.NULL_TOKENS_LIST);
             return;
         }
         int tokensNumber = tokensList.size();

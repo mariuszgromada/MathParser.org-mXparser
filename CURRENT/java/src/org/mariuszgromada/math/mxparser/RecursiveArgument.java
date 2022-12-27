@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.java        5.2.0    2022-12-09
+ * @(#)RecursiveArgument.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -237,8 +237,8 @@ public class RecursiveArgument extends Argument implements Serializable {
 	/**
 	 * Type identifier for recursive arguments.
 	 */
-	public static final int TYPE_ID_RECURSIVE			= 102;
-	public static final String TYPE_DESC_RECURSIVE		= StringResources.USER_DEFINED_RECURSIVE_ARGUMENT;
+	public static final int TYPE_ID_RECURSIVE = 102;
+	public static String TYPE_DESC_RECURSIVE = ParserSymbol.NA;
 	/**
 	 * Base values
 	 */
@@ -291,7 +291,7 @@ public class RecursiveArgument extends Argument implements Serializable {
 		}
 	}
 	private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
-		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringResources.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
+		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
 	}
 	/**
 	 * Constructor - creates argument based on the argument definition string.

@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        5.2.0    2022-12-23
+ * @(#)ParserSymbol.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -434,7 +434,7 @@ public final class ParserSymbol {
 	/*
 	 * ParserSymbol - tokens description.
 	 */
-	static final String NA = "<NA>";
+	public static final String NA = "<NA>";
 	public static String LEFT_PARENTHESES_DESC = ParserSymbol.NA;
 	public static String RIGHT_PARENTHESES_DESC = ParserSymbol.NA;
 	public static String COMMA_DESC = ParserSymbol.NA;

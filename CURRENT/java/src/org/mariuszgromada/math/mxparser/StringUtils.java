@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2022-12-17
+ * @(#)StringUtils.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,9 +180,6 @@
  */
 package org.mariuszgromada.math.mxparser;
 
-import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
-import org.mariuszgromada.math.mxparser.parsertokens.Token;
-
 /**
  * A class containing all string utils.
  *
@@ -229,10 +226,10 @@ final class StringUtils {
     }
     static String stringConcatenateMaxLength(String str1, String str2, int maxLength) {
         if (str1.length() + str2.length() > maxLength)
-            if (str1.contains(StringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED))
+            if (str1.contains(StringModel.STRING_RESOURCES.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED))
                 return str1;
             else
-                return str1 + StringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED + StringInvariant.NEW_LINE;
+                return str1 + StringModel.STRING_RESOURCES.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED + StringInvariant.NEW_LINE;
         else
             return str1 + str2;
     }

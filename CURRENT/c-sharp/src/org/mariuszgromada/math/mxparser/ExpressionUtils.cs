@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        5.2.0    2022-12-23
+ * @(#)ExpressionUtils.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1136,7 +1136,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     The help content.
 		 */
 		internal static String getHelp(String word, List<KeyWord> keyWordsList) {
-			String helpStr = StringResources.HELP_CONTENT
+			String helpStr = StringModel.STRING_RESOURCES.HELP_CONTENT
                 + StringInvariant.COLON
                 + StringInvariant.NEW_LINE
                 + StringInvariant.NEW_LINE
@@ -1168,27 +1168,8 @@ namespace org.mariuszgromada.math.mxparser {
 				KeyWord keyWord = keyWordsList[keyWordIndex];
 				type = StringInvariant.EMPTY;
 				kw = keyWord.wordString;
-				switch (keyWord.wordTypeId) {
-				case ParserSymbol.TYPE_ID: type = ParserSymbol.TYPE_DESC; break;
-				case ParserSymbol.NUMBER_TYPE_ID: type = StringResources.NUMBER; kw = StringResources.NUMBER; break;
-                    case Operator.TYPE_ID: type = Operator.TYPE_DESC; break;
-				case BooleanOperator.TYPE_ID: type = BooleanOperator.TYPE_DESC; break;
-				case BinaryRelation.TYPE_ID: type = BinaryRelation.TYPE_DESC; break;
-				case Function1Arg.TYPE_ID: type = Function1Arg.TYPE_DESC; break;
-				case Function2Arg.TYPE_ID: type = Function2Arg.TYPE_DESC; break;
-				case Function3Arg.TYPE_ID: type = Function3Arg.TYPE_DESC; break;
-				case FunctionVariadic.TYPE_ID: type = FunctionVariadic.TYPE_DESC; break;
-				case CalculusOperator.TYPE_ID: type = CalculusOperator.TYPE_DESC; break;
-				case RandomVariable.TYPE_ID: type = RandomVariable.TYPE_DESC; break;
-				case ConstantValue.TYPE_ID: type = ConstantValue.TYPE_DESC; break;
-				case Argument.TYPE_ID: type = Argument.TYPE_DESC; break;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: type = RecursiveArgument.TYPE_DESC_RECURSIVE; break;
-				case Function.TYPE_ID: type = Function.TYPE_DESC; break;
-				case Constant.TYPE_ID: type = Constant.TYPE_DESC; break;
-				case Unit.TYPE_ID: type = Unit.TYPE_DESC; break;
-				case BitwiseOperator.TYPE_ID: type = BitwiseOperator.TYPE_DESC; break;
-				}
-				line = StringUtils.getLeftSpaces("12345", (keyWordIndex + 1).ToString()) + StringInvariant.DOT_SPACE +
+                type = mXparser.getTokenTypeDescription(keyWord.wordTypeId);
+                line = StringUtils.getLeftSpaces("12345", (keyWordIndex + 1).ToString()) + StringInvariant.DOT_SPACE +
                 StringUtils.getRightSpaces("01234567890123456789", kw) + StringUtils.getRightSpaces("                        ", StringInvariant.LOWER + type + StringInvariant.GREATER)
 				+ StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + StringUtils.getRightSpaces("012345", keyWord.since) + keyWord.description + StringInvariant.NEW_LINE;
 				if (line.ToLower().Contains(word.ToLower())) {
@@ -1249,12 +1230,12 @@ namespace org.mariuszgromada.math.mxparser {
 		internal static void showTokens(List<Token> tokensList) {
 			String maxStr = "TokenTypeId";
 			mXparser.consolePrintln(" --------------------");
-			mXparser.consolePrintln("| " + StringResources.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
+			mXparser.consolePrintln("| " + StringModel.STRING_RESOURCES.EXPRESSION_TOKENS + StringInvariant.COLON + " |");
 			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 			mXparser.consolePrintln("|    TokenIdx |       Token |        KeyW |     TokenId | TokenTypeId |  TokenLevel |  TokenValue |   LooksLike |");
 			mXparser.consolePrintln(" ---------------------------------------------------------------------------------------------------------------");
 			if (tokensList == null) {
-				mXparser.consolePrintln(StringResources.NULL_TOKENS_LIST);
+				mXparser.consolePrintln(StringModel.STRING_RESOURCES.NULL_TOKENS_LIST);
 				return;
 			}
 			int tokensNumber = tokensList.Count;

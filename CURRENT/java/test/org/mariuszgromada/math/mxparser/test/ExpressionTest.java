@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.java        5.2.0    2022-12-23
+ * @(#)ExpressionTest.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -22651,6 +22651,44 @@ public final class ExpressionTest {
         double value = testExp.calculate();
         double reg = 1 + 1 * 10 + mXparser.VERSION_PATCH * 100 + mXparser.VERSION_MINOR * 10000 + mXparser.VERSION_MAJOR * 1000000;
         if (MathFunctions.abs(reg - value) <= 1e-14)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1380() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        String expStr = "x";
+        TestCommonTools.consolePrintTestExprStart(1380, expStr);
+        Argument x = new Argument("x = 2*x");
+        x.addArguments(x);
+        Expression testExp = new Expression(expStr,x);
+        mXparser.setMaxAllowedRecursionDepth(15);
+        double value = testExp.calculate();
+        double reg = Double.NaN;
+        String errorMessage = testExp.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (Double.isNaN(value) && errorMessage.contains(stringResources.RECURSION_CALLS_COUNTER_EXCEEDED))
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1381() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        String expStr = "x";
+        TestCommonTools.consolePrintTestExprStart(1381, expStr);
+        Argument x = new Argument("x = x+x");
+        x.addArguments(x);
+        Expression testExp = new Expression(expStr,x);
+        mXparser.setMaxAllowedRecursionDepth(15);
+        double value = testExp.calculate();
+        double reg = Double.NaN;
+        String errorMessage = testExp.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (Double.isNaN(value) && errorMessage.contains(stringResources.RECURSION_CALLS_COUNTER_EXCEEDED))
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);

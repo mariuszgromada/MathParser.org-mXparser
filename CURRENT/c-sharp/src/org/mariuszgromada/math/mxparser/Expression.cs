@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.2.0    2022-12-17
+ * @(#)Expression.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -226,8 +226,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Expression type id
 		 */
-		public const int TYPE_ID					= 100;
-		public static readonly String TYPE_DESC		= StringResources.USER_DEFINED_EXPRESSION;
+		public const int TYPE_ID = 100;
+		public static String TYPE_DESC = ParserSymbol.NA;
         /**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
@@ -565,7 +565,7 @@ namespace org.mariuszgromada.math.mxparser {
 				internalClone = false;
 				expressionWasModified = true;
 				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-                errorMessage = StringResources.SYNTAX_STATUS_UNKNOWN;
+                errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
                 foreach (Expression e in relatedExpressionsList)
 					e.setExpressionModifiedFlag();
 				recursionCallPending = false;
@@ -4506,7 +4506,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallsCounter = 0;
 			if (expressionString.Length == 0) {
 	    		syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-                errorMessage = StringResources.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
+                errorMessage = StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
                 return syntax;
 			}
 			cleanExpressionString();
@@ -4515,7 +4515,7 @@ namespace org.mariuszgromada.math.mxparser {
 				syn.checkSyntax();
 			} catch (Exception e) {
 				syntax = SYNTAX_ERROR;
-                errorMessage = StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e);
+                errorMessage = StringModel.STRING_RESOURCES.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringModel.buildErrorMessageFromException(e);
             }
 			return syntax;
 		}
@@ -4587,7 +4587,7 @@ namespace org.mariuszgromada.math.mxparser {
 			return false;
 		}
 		private void registerFinalSyntaxAlreadyCheckedNorErrors(String recursionInfoLevel) {
-			errorMessage = StringResources.startErrorMassage(recursionInfoLevel, StringResources.ALREADY_CHECKED_NO_ERRORS);
+			errorMessage = StringModel.startErrorMassage(recursionInfoLevel, StringModel.STRING_RESOURCES.ALREADY_CHECKED_NO_ERRORS);
 			recursionCallPending = false;
 
 		}
@@ -4595,22 +4595,22 @@ namespace org.mariuszgromada.math.mxparser {
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			recursionCallPending = false;
 			expressionWasModified = false;
-			errorMessage = StringResources.startErrorMassage(recursionInfoLevel, StringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS);
+			errorMessage = StringModel.startErrorMassage(recursionInfoLevel, StringModel.STRING_RESOURCES.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS);
 		}
 		private void registerFinalSyntaxExpressionStringIsEmpty(String recursionInfoLevel) {
-			errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.EXPRESSION_STRING_IS_EMPTY);
+			errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY);
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			recursionCallPending = false;
 		}
 		private void registerSyntaxLexicalError(String recursionInfoLevel, Exception e) {
-			errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringResources.buildErrorMessageFromException(e));
+			errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringModel.buildErrorMessageFromException(e));
 		}
 		private void registerFinalSyntax(String recursionInfoLevel, bool syntax) {
 			if (syntax == NO_SYNTAX_ERRORS) {
-				errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.NO_ERRORS_DETECTED);
+				errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED);
 				expressionWasModified = false;
 			} else {
-				errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.ERRORS_HAVE_BEEN_FOUND);
+				errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ERRORS_HAVE_BEEN_FOUND);
 				expressionWasModified = true;
 			}
 			syntaxStatus = syntax;
@@ -4618,11 +4618,11 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private void registerPartialSyntaxStartingSyntaxCheck(String recursionInfoLevel) {
 			recursionCallPending = true;
-			errorMessage = StringResources.startErrorMassage(recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK);
+			errorMessage = StringModel.startErrorMassage(recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK);
 		}
 		private bool checkPartialSyntaxImpliedMultiplication(String recursionInfoLevel) {
 			if (!impliedMultiplicationMode && impliedMultiplicationError) {
-				errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE);
+				errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE);
 				return SYNTAX_ERROR;
 			}
 			return NO_SYNTAX_ERRORS;
@@ -4634,7 +4634,7 @@ namespace org.mariuszgromada.math.mxparser {
 				kw1 = keyWordsList[kwId-1].wordString;
 				kw2 = keyWordsList[kwId].wordString;
 				if ( kw1.Equals(kw2) ) {
-					errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.buildErrorMessageKeyword(StringResources.DUPLICATED_KEYWORD, kw1));
+					errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.buildErrorMessageKeyword(StringModel.STRING_RESOURCES.DUPLICATED_KEYWORD, kw1));
 					return SYNTAX_ERROR;
                 }
 			}
@@ -4647,12 +4647,12 @@ namespace org.mariuszgromada.math.mxparser {
 			Argument arg = getArgument(token.tokenId);
 
 			if (getParametersNumber(tokenIndex) >= 0 ) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			if (arg.getArgumentBodyType() == Argument.BODY_EXTENDED) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, tokenInfoMessage);
 				return NO_SYNTAX_ERRORS;
 			}
 
@@ -4661,7 +4661,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			if (arg.argumentExpression != this && !arg.argumentExpression.recursionCallPending) {
 				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 				return syntaxRec;
 			}
 
@@ -4674,13 +4674,13 @@ namespace org.mariuszgromada.math.mxparser {
 			Argument arg = getArgument(token.tokenId);
 
 			if (getParametersNumber(tokenIndex) != 1 ) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			if ( (arg.argumentExpression != this) && !arg.argumentExpression.recursionCallPending) {
 				bool syntaxRec = arg.argumentExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(arg.argumentExpression.expressionString), false);
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, tokenInfoMessage, arg.argumentExpression.errorMessage);
 				return syntaxRec;
 			}
 
@@ -4698,9 +4698,9 @@ namespace org.mariuszgromada.math.mxparser {
 			if (!calculusToken) {
 
 				if (!impliedMultiplicationMode && mXparser.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfoMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfoMessage);
 				else
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.INVALID_TOKEN, tokenInfoMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN, tokenInfoMessage);
 
 				return SYNTAX_ERROR;
 			}
@@ -4717,12 +4717,12 @@ namespace org.mariuszgromada.math.mxparser {
 			int fpar = fun.getParametersNumber();
 
 			if (npar <= 0) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			if (!fun.isVariadic && fpar != npar) {
-				errorMessage = StringResources.addErrorMassage(errorMessage, recursionInfoLevel, StringResources.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, fpar, npar, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, fpar, npar, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4735,9 +4735,9 @@ namespace org.mariuszgromada.math.mxparser {
 					syntaxRec = fun.functionExpression.checkSyntax(recursionInfoLevel + StringInvariant.RIGHT_ARROW_SPACE + StringUtils.surroundSquareBrackets(token.tokenStr) + StringInvariant.SPACE_EQUAL_SPACE + StringUtils.surroundSquareBracketsAddSpace(fun.functionExpression.expressionString), true);
 
 				if (fun.isVariadic)
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
 				else
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, tokenInfoMessage, fun.functionExpression.errorMessage);
 
 				return syntaxRec;
 			}
@@ -4749,7 +4749,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (getParametersNumber(tokenIndex) >= 0) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.CONSTANT_WAS_EXPECTED, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.CONSTANT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4760,7 +4760,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (getParametersNumber(tokenIndex) >= 0) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.USER_CONSTANT_WAS_EXPECTED, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.USER_CONSTANT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4771,7 +4771,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (getParametersNumber(tokenIndex) != 1) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.UNARY_FUNCTION_EXPECTS_1_PARAMETER, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4782,7 +4782,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (getParametersNumber(tokenIndex) != 2) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4793,7 +4793,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (getParametersNumber(tokenIndex) != 3) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4804,7 +4804,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (paramsNumber < 2 || paramsNumber > 5) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4812,7 +4812,7 @@ namespace org.mariuszgromada.math.mxparser {
 				FunctionParameter argParam = funParams[1];
 
 				if (!checkIfKnownArgument(argParam)) {
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
 					return SYNTAX_ERROR;
 				}
 
@@ -4824,11 +4824,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 				int errors = checkCalculusParameter(stackElement.tokenStr);
 				if (errors > 0) {
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
 					return SYNTAX_ERROR;
 				}
 				if ( !checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam) ) {
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
 					return SYNTAX_ERROR;
 				}
 			}
@@ -4840,13 +4840,13 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (paramsNumber != 3 && paramsNumber != 5) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			FunctionParameter argParam = funParams[2];
 			if (!checkIfKnownArgument(argParam)) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4857,7 +4857,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (paramsNumber !=4) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4867,12 +4867,12 @@ namespace org.mariuszgromada.math.mxparser {
 
 			int errors = checkCalculusParameter(stackElement.tokenStr);
 			if (errors > 0) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			if (!checkIfKnownArgument(argParam) && !checkIfUnknownToken(argParam)) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4889,7 +4889,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (paramsNumber != 4 && paramsNumber != 5) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ITERATED_OPERATOR_EXPECTS_4_OR_5_CALCULUS_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4899,11 +4899,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 			int errors = checkCalculusParameter(stackElement.tokenStr);
 			if (errors > 0) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 			if (!checkIfKnownArgument(indexParam) && !checkIfUnknownToken(indexParam)) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4914,13 +4914,13 @@ namespace org.mariuszgromada.math.mxparser {
 				return NO_SYNTAX_ERRORS;
 
 			if (paramsNumber != 2 && paramsNumber != 3) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			FunctionParameter xParam = funParams[1];
 			if (!checkIfKnownArgument(xParam)) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
@@ -4933,13 +4933,13 @@ namespace org.mariuszgromada.math.mxparser {
 			int paramsNumber = getParametersNumber(tokenIndex);
 
 			if (paramsNumber < 1) {
-				errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
+				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, tokenInfoMessage);
 				return SYNTAX_ERROR;
 			}
 
 			if (token.tokenId == FunctionVariadic.IFF_ID) {
 				if (paramsNumber % 2 != 0 || paramsNumber < 2) {
-					errorMessage = StringResources.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringResources.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenInfoMessage);
+					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, tokenInfoMessage);
 					return SYNTAX_ERROR;
 				}
 			}
@@ -4958,11 +4958,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 			bool syntax = NO_SYNTAX_ERRORS;
 
-			syntax = syntax && checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
-			syntax = syntax && checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
-			syntax = syntax && checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
-			syntax = syntax && checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
-			syntax = syntax && checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams);
+			syntax = checkInternalSyntaxCalculusOperatorDerivative(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
+			syntax = checkInternalSyntaxCalculusOperatorDerivativeNth(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
+			syntax = checkInternalSyntaxCalculusOperatorIntegralSolve(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
+			syntax = checkInternalSyntaxCalculusOperatorIterated(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
+			syntax = checkInternalSyntaxCalculusOperatorForwardBackwardDiff(recursionInfoLevel, token, tokenInfoMessage, syntaxStack, paramsNumber, funParams) && syntax;
 
 			return syntax;
 		}
@@ -5001,8 +5001,8 @@ namespace org.mariuszgromada.math.mxparser {
 				syn.checkSyntax();
 				tokenizeExpressionString();
 
-				syntax = syntax && checkPartialSyntaxImpliedMultiplication(recursionInfoLevel);
-				syntax = syntax && checkPartialSyntaxDuplicatedKeywords(recursionInfoLevel);
+				syntax = checkPartialSyntaxImpliedMultiplication(recursionInfoLevel) && syntax;
+				syntax = checkPartialSyntaxDuplicatedKeywords(recursionInfoLevel) && syntax;
 
 				int tokensNumber = initialTokens.Count;
 				Stack<SyntaxStackElement> syntaxStack = new Stack<SyntaxStackElement>();
@@ -5010,19 +5010,19 @@ namespace org.mariuszgromada.math.mxparser {
 
 				for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 					Token token = initialTokens[tokenIndex];
-					String tokenInfoMessage = StringResources.buildTokenString(token.tokenStr, tokenIndex);
+					String tokenInfoMessage = StringModel.buildTokenString(token.tokenStr, tokenIndex);
 
-                    syntax = syntax && checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-                    syntax = syntax && checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-                    syntax = syntax && checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack);
-                    syntax = syntax && checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-					syntax = syntax && checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-					syntax = syntax && checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-					syntax = syntax && checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-					syntax = syntax && checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-					syntax = syntax && checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
-					syntax = syntax && checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, syntaxStack);
-					syntax = syntax && checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage);
+                    syntax = checkPartialSyntaxUserDefinedArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+                    syntax = checkPartialSyntaxUserDefinedRecursiveArgument(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+                    syntax = checkPartialSyntaxInvalidToken(recursionInfoLevel, token, tokenInfoMessage, syntaxStack) && syntax;
+                    syntax = checkPartialSyntaxUserDefinedFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+					syntax = checkPartialSyntaxBuiltinConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+					syntax = checkPartialSyntaxUserDefinedConstant(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+					syntax = checkPartialSyntaxUnaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+					syntax = checkPartialSyntaxBinaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+					syntax = checkPartialSyntaxTernaryFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
+					syntax = checkPartialSyntaxCalculusOperator(recursionInfoLevel, tokenIndex, token, tokenInfoMessage, syntaxStack) && syntax;
+					syntax = checkPartialSyntaxVariadicFunction(recursionInfoLevel, tokenIndex, token, tokenInfoMessage) && syntax;
 
 					performSyntaxStackPopIfEndOfSectionLevel(token, syntaxStack);
 				}
@@ -5043,8 +5043,8 @@ namespace org.mariuszgromada.math.mxparser {
 			return calculate(null);
 		}
 		private void registerErrorWhileCalculate(String errorMessageToAdd) {
-			errorMessage = StringResources.addErrorMassageNoLevel(errorMessage, errorMessageToAdd, description, expressionString);
-			errorMessageCalculate = StringResources.addErrorMassageNoLevel(errorMessageCalculate, errorMessageToAdd, description, expressionString);
+			errorMessage = StringModel.addErrorMassageNoLevel(errorMessage, errorMessageToAdd, description, expressionString);
+			errorMessageCalculate = StringModel.addErrorMassageNoLevel(errorMessageCalculate, errorMessageToAdd, description, expressionString);
 		}
 		/**
 		 * Calculates the expression value and registers all the calculation steps
@@ -5059,7 +5059,7 @@ namespace org.mariuszgromada.math.mxparser {
 			try {
 				return calculateInternal(calcStepsRegister);
 			} catch (Exception e) {
-                registerErrorWhileCalculate(StringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringUtils.trimNotNull(e.Message));
+                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringUtils.trimNotNull(e.Message));
                 return Double.NaN;
 			}
 		}
@@ -5069,7 +5069,7 @@ namespace org.mariuszgromada.math.mxparser {
 			if (verboseMode) {
                 printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
                 printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
-                printSystemInfo(StringResources.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
+                printSystemInfo(StringModel.STRING_RESOURCES.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
                 showArguments();
 			}
 			/*
@@ -5081,7 +5081,7 @@ namespace org.mariuszgromada.math.mxparser {
 				syntaxStatus = checkSyntax();
 			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
 				if (verboseMode)
-                    printSystemInfo(StringResources.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
+                    printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
                 /*
 				 * Recursive counter to avoid infinite loops in expressions
 				 * created in they way showed in below examples
@@ -5117,9 +5117,9 @@ namespace org.mariuszgromada.math.mxparser {
 			 * if nothing to calculate return Double.NaN
 			 */
 			if (tokensList.Count == 0) {
-                registerErrorWhileCalculate(StringResources.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
+                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
                 if (verboseMode)
-                    printSystemInfo(StringResources.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
+                    printSystemInfo(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
                 recursionCallsCounter = 0;
 				return Double.NaN;
 			}
@@ -5140,9 +5140,9 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
                 if (verboseMode)
-                    printSystemInfo(StringResources.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
+                    printSystemInfo(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
                 recursionCallsCounter--;
-                registerErrorWhileCalculate(StringResources.RECURSION_CALLS_COUNTER_EXCEEDED);
+                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED);
                 return Double.NaN;
 			}
 			recursionCallsCounter++;
@@ -5168,7 +5168,7 @@ namespace org.mariuszgromada.math.mxparser {
             int emptyLoopCounter = 0, loopCounter = 0;
             /* While exist token which needs to bee evaluated */
             if (verboseMode)
-                printSystemInfo(StringResources.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
+                printSystemInfo(StringModel.STRING_RESOURCES.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
 
             CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
 			String stepDescription = StringInvariant.EMPTY;
@@ -5191,7 +5191,7 @@ namespace org.mariuszgromada.math.mxparser {
 					calcStepsRegister.calcStepRecords.Add(stepRecord);
 				}
 				if (mXparser.isCurrentCalculationCancelled()) {
-                    registerErrorWhileCalculate(StringResources.CANCEL_REQUEST_FINISHING);
+                    registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
                     return Double.NaN;
 				}
 				tokensNumber = tokensList.Count;
@@ -5246,7 +5246,7 @@ namespace org.mariuszgromada.math.mxparser {
 						else if (token.tokenTypeId == RandomVariable.TYPE_ID) RANDOM_VARIABLE(tokenIndex);
 					}
 					if (lPos < 0) {
-                        registerErrorWhileCalculate(StringResources.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
+                        registerErrorWhileCalculate(StringModel.STRING_RESOURCES.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
                         return Double.NaN;
 					}
 					/*
@@ -5287,7 +5287,7 @@ namespace org.mariuszgromada.math.mxparser {
 							tokenIndex++;
 						rPos = tokenIndex - 1;
 						if (verboseMode) {
-                            printSystemInfo(StringResources.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
+                            printSystemInfo(StringModel.STRING_RESOURCES.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
                             showParsing(lPos, rPos);
 						}
 						/* if no calculus operations were found
@@ -5419,22 +5419,22 @@ namespace org.mariuszgromada.math.mxparser {
 
 				if (verboseMode) {
 					showParsing(0, tokensList.Count - 1);
-                    printSystemInfo(StringInvariant.SPACE + StringResources.DONE + StringInvariant.NEW_LINE, NO_EXP_STR);
+                    printSystemInfo(StringInvariant.SPACE + StringModel.STRING_RESOURCES.DONE + StringInvariant.NEW_LINE, NO_EXP_STR);
                 }
 
 				if (tokensList.Count == tokensNumber) emptyLoopCounter++;
 				else emptyLoopCounter = 0;
 
 				if (emptyLoopCounter > 10) {
-                    registerErrorWhileCalculate(StringResources.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN);
+                    registerErrorWhileCalculate(StringModel.STRING_RESOURCES.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN);
                     return Double.NaN;
 				}
 
 			} while (tokensList.Count > 1);
 
 			if (verboseMode) {
-                printSystemInfo(StringResources.CALCULATED_VALUE + StringInvariant.COLON_SPACE + tokensList[0].tokenValue + StringInvariant.NEW_LINE, WITH_EXP_STR);
-                printSystemInfo(StringResources.EXITING + StringInvariant.NEW_LINE, WITH_EXP_STR);
+                printSystemInfo(StringModel.STRING_RESOURCES.CALCULATED_VALUE + StringInvariant.COLON_SPACE + tokensList[0].tokenValue + StringInvariant.NEW_LINE, WITH_EXP_STR);
+                printSystemInfo(StringModel.STRING_RESOURCES.EXITING + StringInvariant.NEW_LINE, WITH_EXP_STR);
                 printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
             }
             long endTime = mXparser.currentTimeMillis();

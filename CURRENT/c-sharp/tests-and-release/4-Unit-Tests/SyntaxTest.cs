@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.2.0    2022-12-09
+ * @(#)SyntaxTest.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 
 using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.mariuszgromada.math.mxparser;
 
@@ -1422,8 +1423,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1438,8 +1440,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1454,8 +1457,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1470,8 +1474,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1486,8 +1491,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f", f);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1502,9 +1508,10 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("f(1,2,3)", f);
 			bool reg = true;
 			bool syn = e.checkSyntax();
-			if (
-			(!msg.Contains("Pattern does not match")) &&
-			(reg == syn)
+            StringResources stringResources = StringModel.getStringResources();
+            if (
+				(!msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH)) &&
+				(reg == syn)
 			)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
@@ -1521,8 +1528,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1537,8 +1545,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1553,8 +1562,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1569,8 +1579,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1585,8 +1596,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1601,10 +1613,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = true;
 			bool syn = e.checkSyntax();
-			if (
-			(msg.IndexOf("Invalid argument definition") == -1) &&
-			(reg == syn) &&
-			(e.calculate() == 6)
+            StringResources stringResources = StringModel.getStringResources();
+            if (
+				(!msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION)) &&
+				(reg == syn) &&
+				(e.calculate() == 6)
 			)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
@@ -1621,8 +1634,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1637,10 +1651,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = true;
 			bool syn = e.checkSyntax();
-			if (
-			(msg.IndexOf("Invalid argument definition") == -1) &&
-			(reg == syn) &&
-			(e.calculate() == 8)
+            StringResources stringResources = StringModel.getStringResources();
+            if (
+				(!msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION)) &&
+				(reg == syn) &&
+				(e.calculate() == 8)
 			)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
@@ -1657,8 +1672,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument definition"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1673,8 +1689,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x(1)", x);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid argument name"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_ARGUMENT_NAME) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1689,8 +1706,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1705,8 +1723,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1721,8 +1740,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1737,8 +1757,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1753,8 +1774,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1769,10 +1791,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = true;
 			bool syn = e.checkSyntax();
-			if (
-			(!msg.Contains("Pattern does not match")) &&
-			(reg == syn) &&
-			(e.calculate() == 6)
+            StringResources stringResources = StringModel.getStringResources();
+            if (
+				(!msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH)) &&
+				(reg == syn) &&
+				(e.calculate() == 6)
 			)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
@@ -1789,8 +1812,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Pattern does not match"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -1805,10 +1829,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("x", c1);
 			bool reg = true;
 			bool syn = e.checkSyntax();
-			if (
-			(!msg.Contains("Pattern does not match")) &&
-			(reg == syn) &&
-			(e.calculate() == 8)
+            StringResources stringResources = StringModel.getStringResources();
+            if (
+				(!msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH)) &&
+				(reg == syn) &&
+				(e.calculate() == 8)
 			)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
@@ -1825,8 +1850,9 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression("1fa", c1);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (msg.Contains("Invalid constant name"))
-				testResult = true;
+            StringResources stringResources = StringModel.getStringResources();
+            if (msg.Contains(stringResources.INVALID_CONSTANT_NAME) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+                testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
 		}
@@ -4826,7 +4852,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i, 1, 10, xpi*2)";
-			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			TestCommonTools.consolePrintTestSynStart(314, expStr);
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
@@ -4840,7 +4866,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i, 1, 10, 2*pix)";
-			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			TestCommonTools.consolePrintTestSynStart(315, expStr);
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
@@ -4854,11 +4880,1120 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i, 1, 10, pix*2)";
-			TestCommonTools.consolePrintTestSynStart(313, expStr);
+			TestCommonTools.consolePrintTestSynStart(316, expStr);
 			Expression e = new Expression(expStr);
 			bool syn = e.checkSyntax();
 			bool reg = false;
 			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0317() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ALREADY_CHECKED_NO_ERRORS";
+			String expStr = "2+2";
+			TestCommonTools.consolePrintTestSynStart(317, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			e.checkSyntax();
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ALREADY_CHECKED_NO_ERRORS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0318() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS";
+			String expStr = "f(2,2)";
+			TestCommonTools.consolePrintTestSynStart(318, testDescr + " " + expStr);
+			Function f = new Function("f", new FunExt());
+			Expression e = new Expression(expStr, f);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0319() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS";
+			String expStr = "g(2,2,2) + f(2,2)";
+			TestCommonTools.consolePrintTestSynStart(319, testDescr + " " + expStr);
+			Function f = new Function("f", new FunExt());
+			Function g = new Function("g(x,y,z)=z*f(x,y)", f);
+			Expression e = new Expression(expStr, g, f);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0320() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "EXPRESSION_STRING_IS_EMPTY";
+			String expStr = "";
+			TestCommonTools.consolePrintTestSynStart(320, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.EXPRESSION_STRING_IS_EMPTY))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0321() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE";
+			String expStr = "sin(pi)2";
+			TestCommonTools.consolePrintTestSynStart(321, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0322() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "INVALID_TOKEN";
+			String expStr = "2.5sisn(pi)";
+			TestCommonTools.consolePrintTestSynStart(322, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0323() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR";
+			String expStr = "2.5sisn(pi)";
+			TestCommonTools.consolePrintTestSynStart(323, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0324() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORD";
+			String expStr = "sin(pi)";
+			TestCommonTools.consolePrintTestSynStart(324, testDescr + " " + expStr);
+			Argument pi = new Argument("pi=3");
+			Expression e = new Expression(expStr, pi);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORD))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0325() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE + ARGUMENT_WAS_EXPECTED";
+			String expStr = "2+x(3)";
+			TestCommonTools.consolePrintTestSynStart(325, testDescr + " " + expStr);
+			Argument x = new Argument("x=3");
+			Expression e = new Expression(expStr, x);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE) && errorMessage.Contains(stringResources.ARGUMENT_WAS_EXPECTED))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0326() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT";
+			String expStr = "2*y";
+			TestCommonTools.consolePrintTestSynStart(326, testDescr + " " + expStr);
+			Argument x = new Argument("x=3");
+			Argument y = new Argument("y = 2*x", x);
+			Expression e = new Expression(expStr, y);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0327() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS";
+			String expStr = "2*x";
+			TestCommonTools.consolePrintTestSynStart(327, testDescr + " " + expStr);
+			Argument x = new Argument("x", new PiMultArgExt());
+			Expression e = new Expression(expStr, x);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0328() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER";
+			String expStr = "2*a";
+			TestCommonTools.consolePrintTestSynStart(328, testDescr + " " + expStr);
+			RecursiveArgument a = new RecursiveArgument("a(n) = n*a(n-1)");
+			a.addBaseCase(1, 1);
+			Expression e = new Expression(expStr, a);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0329() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT";
+			String expStr = "2+a(2)";
+			TestCommonTools.consolePrintTestSynStart(329, testDescr + " " + expStr);
+			RecursiveArgument a = new RecursiveArgument("a(n) = n*a(n-1)");
+			a.addBaseCase(1, 1);
+			Expression e = new Expression(expStr, a);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0330() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT";
+			String expStr = "2*f";
+			TestCommonTools.consolePrintTestSynStart(330, testDescr + " " + expStr);
+			Function f = new Function("f(x,y) = 2*x+3*y");
+			Expression e = new Expression(expStr, f);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0331() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION";
+			String expStr = "2*f(1,2,3,4)";
+			TestCommonTools.consolePrintTestSynStart(331, testDescr + " " + expStr);
+			Function f = new Function("f(x,y) = 2*x+3*y");
+			Expression e = new Expression(expStr, f);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0332() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION";
+			String expStr = "2*f(1,2)";
+			TestCommonTools.consolePrintTestSynStart(332, testDescr + " " + expStr);
+			Function f = new Function("f(...) = [npar]");
+			Expression e = new Expression(expStr, f);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0333() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE + USER_CONSTANT_WAS_EXPECTED";
+			String expStr = "2+a(3)";
+			TestCommonTools.consolePrintTestSynStart(333, testDescr + " " + expStr);
+			Constant a = new Constant("a = 2");
+			Expression e = new Expression(expStr, a);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE) && errorMessage.Contains(stringResources.USER_CONSTANT_WAS_EXPECTED))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0334() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "UNARY_FUNCTION_EXPECTS_1_PARAMETER";
+			String expStr = "sin(1,2)";
+			TestCommonTools.consolePrintTestSynStart(334, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.UNARY_FUNCTION_EXPECTS_1_PARAMETER))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0335() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "BINARY_FUNCTION_EXPECTS_2_PARAMETERS";
+			String expStr = "C(1)";
+			TestCommonTools.consolePrintTestSynStart(335, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.BINARY_FUNCTION_EXPECTS_2_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0336() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "TERNARY_FUNCTION_EXPECTS_3_PARAMETERS";
+			String expStr = "if(1,2)";
+			TestCommonTools.consolePrintTestSynStart(336, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0337() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED";
+			String expStr = "2*min";
+			TestCommonTools.consolePrintTestSynStart(337, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0338() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS";
+			String expStr = "2*der(1)";
+			TestCommonTools.consolePrintTestSynStart(338, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0339() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS";
+			String expStr = "2*der(1,2,3,4,5,6)";
+			TestCommonTools.consolePrintTestSynStart(339, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0340() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "der(sin(x), x)";
+			TestCommonTools.consolePrintTestSynStart(340, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0341() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "sum(pi, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(341, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0342() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "2*int(sin(pi), pi, 1, 10)";
+			TestCommonTools.consolePrintTestSynStart(342, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0343() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "2*solve(sin(pi), pi, 1, 10)";
+			TestCommonTools.consolePrintTestSynStart(343, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0344() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "prod(pi, 1, 10, pi)";
+			TestCommonTools.consolePrintTestSynStart(344, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0345() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "mini(pi, 1, 10, pi)";
+			TestCommonTools.consolePrintTestSynStart(345, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0346() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "maxi(pi, 1, 10, pi)";
+			TestCommonTools.consolePrintTestSynStart(346, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0347() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "vari(pi, 1, 10, pi)";
+			TestCommonTools.consolePrintTestSynStart(347, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0348() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "avg(pi, 1, 10, pi)";
+			TestCommonTools.consolePrintTestSynStart(348, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0349() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION";
+			String expStr = "stdi(pi, 1, 10, pi)";
+			TestCommonTools.consolePrintTestSynStart(349, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0350() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "sum(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(350, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0351() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "int(2, 2+x, 1, 10)";
+			TestCommonTools.consolePrintTestSynStart(351, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0352() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "solve(2, 2+x, 1, 10)";
+			TestCommonTools.consolePrintTestSynStart(352, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0353() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "prod(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(353, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0354() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "mini(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(354, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0355() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "maxi(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(355, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0356() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "vari(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(356, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0357() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "avg(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(357, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0358() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION + INVALID_TOKEN";
+			String expStr = "stdi(2+x, 1, 10, pi*2)";
+			TestCommonTools.consolePrintTestSynStart(358, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ONE_TOKEN_WAS_EXPECTED_IN_THE_CALCULUS_OPERATOR_INVOCATION) && errorMessage.Contains(stringResources.INVALID_TOKEN))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0359() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS";
+			String expStr = "dern(1, 2)*2";
+			TestCommonTools.consolePrintTestSynStart(359, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0360() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS";
+			String expStr = "dern(1, 2, 3, 4)*2";
+			TestCommonTools.consolePrintTestSynStart(360, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0361() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS";
+			String expStr = "dern(1, 2, 3, 4, 5, 6)*2";
+			TestCommonTools.consolePrintTestSynStart(361, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.NTH_ORDER_DERIVATIVE_OPERATOR_EXPECTS_3_OR_5_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0362() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION";
+			String expStr = "dern(sin(pi), 2, pi)*2";
+			TestCommonTools.consolePrintTestSynStart(362, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0363() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS";
+			String expStr = "2*int(1,2)";
+			TestCommonTools.consolePrintTestSynStart(363, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0364() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS";
+			String expStr = "2*solve(1,2)";
+			TestCommonTools.consolePrintTestSynStart(364, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.INTEGRAL_SOLVE_OPERATOR_EXPECTS_4_CALCULUS_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0365() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS";
+			String expStr = "diff(sin(x))";
+			TestCommonTools.consolePrintTestSynStart(365, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0366() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS";
+			String expStr = "difb(sin(x))";
+			TestCommonTools.consolePrintTestSynStart(366, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0367() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS";
+			String expStr = "diff(sin(x),2,3,4)";
+			TestCommonTools.consolePrintTestSynStart(367, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0368() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS";
+			String expStr = "difb(sin(x),2,3,4)";
+			TestCommonTools.consolePrintTestSynStart(368, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0369() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED";
+			String expStr = "diff(sin(2), pi, 2)";
+			TestCommonTools.consolePrintTestSynStart(369, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0370() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED";
+			String expStr = "difb(sin(2), pi, 2)";
+			TestCommonTools.consolePrintTestSynStart(370, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0371() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "LEXICAL_ERROR_HAS_BEEN_FOUND + ERRORS_HAVE_BEEN_FOUND + WAS_EXPECTING";
+			String expStr = "sin(";
+			TestCommonTools.consolePrintTestSynStart(371, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND) && errorMessage.Contains(stringResources.ERRORS_HAVE_BEEN_FOUND) && errorMessage.Contains(stringResources.WAS_EXPECTING))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0372() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "NO_ERRORS_DETECTED";
+			String expStr = "sin(pi)";
+			TestCommonTools.consolePrintTestSynStart(372, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.NO_ERRORS_DETECTED))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0373() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "ERRORS_HAVE_BEEN_FOUND";
+			String expStr = "sin(2,3)";
+			TestCommonTools.consolePrintTestSynStart(373, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.ERRORS_HAVE_BEEN_FOUND))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0374() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "Function name    1fa";
+			TestCommonTools.consolePrintTestSynStart(374, expStr);
+			Function f = new Function("1fa","2*x", "x");
+			String msg = f.getErrorMessage();
+			Expression e = new Expression("f(1)", f);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_FUNCTION_NAME) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0375() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "x()=y+z";
+			TestCommonTools.consolePrintTestSynStart(375, expStr);
+			Constant x = new Constant(expStr);
+			String msg = x.getErrorMessage();
+			Expression e = new Expression("x", x);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0376() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "x(1,2,3)=y+z";
+			TestCommonTools.consolePrintTestSynStart(376, expStr);
+			Constant x = new Constant(expStr);
+			String msg = x.getErrorMessage();
+			Expression e = new Expression("x", x);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0377() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "x(=y+z";
+			TestCommonTools.consolePrintTestSynStart(377, expStr);
+			Constant x = new Constant(expStr);
+			String msg = x.getErrorMessage();
+			Expression e = new Expression("x", x);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0378() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "f=y+z";
+			TestCommonTools.consolePrintTestSynStart(378, expStr);
+			Function f = new Function(expStr);
+			String msg = f.getErrorMessage();
+			Expression e = new Expression("f", f);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0379() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "f()=y+z";
+			TestCommonTools.consolePrintTestSynStart(379, expStr);
+			Function f = new Function(expStr);
+			String msg = f.getErrorMessage();
+			Expression e = new Expression("f", f);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0380() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String expStr = "f(1,2,3)=y+z";
+			TestCommonTools.consolePrintTestSynStart(380, expStr);
+			Function f = new Function(expStr);
+			String msg = f.getErrorMessage();
+			Expression e = new Expression("f", f);
+			bool reg = false;
+			bool syn = e.checkSyntax();
+			StringResources stringResources = StringModel.getStringResources();
+			if (msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);

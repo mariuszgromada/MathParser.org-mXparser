@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)StringUtils.cs        5.2.0    2022-12-17
+ * @(#)StringUtils.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -229,10 +229,10 @@ namespace org.mariuszgromada.math.mxparser {
         }
         internal static String stringConcatenateMaxLength(String str1, String str2, int maxLength) {
             if (str1.Length + str2.Length > maxLength)
-                if (str1.Contains(StringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED))
+                if (str1.Contains(StringModel.STRING_RESOURCES.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED))
                     return str1;
                 else
-                    return str1 + StringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED + StringInvariant.NEW_LINE;
+                    return str1 + StringModel.STRING_RESOURCES.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED + StringInvariant.NEW_LINE;
             else
                 return str1 + str2;
         }

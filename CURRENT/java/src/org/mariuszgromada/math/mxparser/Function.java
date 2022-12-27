@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.2.0    2022-12-09
+ * @(#)Function.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -244,8 +244,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	/**
 	 * Function type id identifier
 	 */
-	public static final int TYPE_ID			= 103;
-	public static final String TYPE_DESC	= StringResources.USER_DEFINED_FUNCTION;
+	public static final int TYPE_ID = 103;
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/**
 	 * Function with body based on the expression string.
 	 *
@@ -310,13 +310,13 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *=================================================
 	 */
 	private static String buildErrorMessageInvalidFunctionName(String functionName) {
-		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(functionName, StringResources.INVALID_FUNCTION_NAME, StringInvariant.FUNCTION_NAME_EXAMPLES);
+		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(functionName, StringModel.STRING_RESOURCES.INVALID_FUNCTION_NAME, StringInvariant.FUNCTION_NAME_EXAMPLES);
 	}
 	private static String buildErrorMessageInvalidFunctionDefinitionString(String functionDefinitionString) {
-		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(functionDefinitionString, StringResources.INVALID_FUNCTION_DEFINITION, StringInvariant.FUNCTION_DEFINITION_EXAMPLES);
+		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(functionDefinitionString, StringModel.STRING_RESOURCES.INVALID_FUNCTION_DEFINITION, StringInvariant.FUNCTION_DEFINITION_EXAMPLES);
 	}
 	private static String buildErrorMessageIncorrectNumberOfFunctionParameters(String functionName, int expectedNumberOfParameters, int providedNumberOfParameters) {
-		return StringResources.buildErrorMessageIncorrectNumberOfParameters(functionName, StringResources.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, expectedNumberOfParameters, providedNumberOfParameters);
+		return StringModel.buildErrorMessageIncorrectNumberOfParameters(functionName, StringModel.STRING_RESOURCES.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, expectedNumberOfParameters, providedNumberOfParameters);
 	}
 	/**
 	 * Constructor - creates function from function name

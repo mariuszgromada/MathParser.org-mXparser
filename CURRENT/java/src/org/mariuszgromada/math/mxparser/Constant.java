@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        5.2.0    2022-12-09
+ * @(#)Constant.java        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -227,14 +227,13 @@ public class Constant extends PrimitiveElement implements Serializable {
 	/**
 	 * Type identifier for constants
 	 */
-	public static final int TYPE_ID				= 104;
-	public static final String TYPE_DESC		= StringResources.USER_DEFINED_CONSTANT;
+	public static final int TYPE_ID = 104;
+	public static String TYPE_DESC = ParserSymbol.NA;
 	/**
 	 * Status of the Expression syntax
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
 	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-	private static final String NO_SYNTAX_ERROR_MSG = StringResources.NO_ERRORS_DETECTED;
 	/**
 	 * Name of the constant
 	 */
@@ -264,10 +263,10 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 */
 	private String errorMessage;
 	private static String buildErrorMessageInvalidConstantName(String constantName) {
-		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(constantName, StringResources.INVALID_CONSTANT_NAME, StringInvariant.CONSTANT_NAME_EXAMPLES);
+		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(constantName, StringModel.STRING_RESOURCES.INVALID_CONSTANT_NAME, StringInvariant.CONSTANT_NAME_EXAMPLES);
 	}
 	private static String buildErrorMessageInvalidConstantDefinitionString(String constantDefinitionString) {
-		return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(constantDefinitionString, StringResources.INVALID_CONSTANT_DEFINITION, StringInvariant.CONSTANT_DEFINITION_EXAMPLES);
+		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(constantDefinitionString, StringModel.STRING_RESOURCES.INVALID_CONSTANT_DEFINITION, StringInvariant.CONSTANT_DEFINITION_EXAMPLES);
 	}
 	/**
 	 * Constructor - creates constant with a given name and given value
@@ -285,7 +284,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			this.constantValue = constantValue;
 			description = StringInvariant.EMPTY;
 			syntaxStatus = NO_SYNTAX_ERRORS;
-			errorMessage = NO_SYNTAX_ERROR_MSG;
+			errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			errorMessage = buildErrorMessageInvalidConstantName(constantName);
@@ -309,7 +308,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			this.constantValue = constantValue;
 			this.description = description;
 			syntaxStatus = NO_SYNTAX_ERRORS;
-			errorMessage = NO_SYNTAX_ERROR_MSG;
+			errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
 		} else {
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			errorMessage = buildErrorMessageInvalidConstantName(constantName);

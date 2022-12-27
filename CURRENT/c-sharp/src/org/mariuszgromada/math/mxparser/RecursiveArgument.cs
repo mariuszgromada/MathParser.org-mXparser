@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cs        5.2.0    2022-12-09
+ * @(#)RecursiveArgument.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -235,8 +235,8 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Type identifier for recursive arguments.
 		 */
-		public const int TYPE_ID_RECURSIVE					= 102;
-		public static readonly String TYPE_DESC_RECURSIVE	= StringResources.USER_DEFINED_RECURSIVE_ARGUMENT;
+		public const int TYPE_ID_RECURSIVE = 102;
+		public static String TYPE_DESC_RECURSIVE = ParserSymbol.NA;
         /**
 		 * Base values
 		 */
@@ -287,7 +287,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 		}
 		private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
-			return StringResources.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringResources.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
+			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
 		}
 		/**
 		 * Constructor - creates argument based on the argument definition string.

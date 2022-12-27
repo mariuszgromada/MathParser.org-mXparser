@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ParserSymbol.cs        5.2.0    2022-12-23
+ * @(#)ParserSymbol.cs        5.2.0    2022-12-27
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -438,7 +438,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		/*
 		 * ParserSymbol - tokens description.
 		 */
-		internal const String NA = "<NA>";
+		public const String NA = "<NA>";
 		public static String LEFT_PARENTHESES_DESC = ParserSymbol.NA;
 		public static String RIGHT_PARENTHESES_DESC = ParserSymbol.NA;
 		public static String COMMA_DESC = ParserSymbol.NA;
