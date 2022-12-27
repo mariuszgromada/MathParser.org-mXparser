@@ -491,9 +491,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      expression          the expression
 		 */
 		internal void addRelatedExpression(Expression expression) {
-			if ((expression != null) && (expression != this))
-				if ( !relatedExpressionsList.Contains(expression))
-					relatedExpressionsList.Add(expression);
+			if (expression == null || expression == this)
+				return;
+			if (!relatedExpressionsList.Contains(expression))
+				relatedExpressionsList.Add(expression);
 		}
 		/**
 		 * Removes related expression
@@ -559,17 +560,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * to all related expressions.
 		 */
 		internal void setExpressionModifiedFlag() {
-			if (!recursionCallPending) {
-				recursionCallPending = true;
-				recursionCallsCounter = 0;
-				internalClone = false;
-				expressionWasModified = true;
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-                errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
-                foreach (Expression e in relatedExpressionsList)
-					e.setExpressionModifiedFlag();
-				recursionCallPending = false;
-			}
+			if (recursionCallPending)
+				return;
+			recursionCallPending = true;
+			recursionCallsCounter = 0;
+			internalClone = false;
+			expressionWasModified = true;
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
+			foreach (Expression e in relatedExpressionsList)
+				e.setExpressionModifiedFlag();
+			recursionCallPending = false;
 		}
 		/**
 		 * Common variables while expression initializing
@@ -959,11 +960,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param forward If true then message is being forwarded.
 		 */
 		internal void setForwardErrorMessage(bool forward) {
-			if (forward != forwardErrorMessage) {
-				errorMessage = StringInvariant.EMPTY;
-				errorMessageCalculate = StringInvariant.EMPTY;
-				forwardErrorMessage = forward;
-			}
+			if (forward == forwardErrorMessage)
+				return;
+			errorMessage = StringInvariant.EMPTY;
+			errorMessageCalculate = StringInvariant.EMPTY;
+			forwardErrorMessage = forward;
 		}
 		/**
 		 * Gets computing time.
@@ -984,12 +985,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void addDefinitions(params PrimitiveElement[] elements) {
 			foreach (PrimitiveElement e in elements) {
-				if (e != null) {
-					int elementTypeId = e.getMyTypeId();
-					if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
-					else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
-					else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
-					else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) addArguments((Argument)e);
+				if (e == null) continue;
+				switch (e.getMyTypeId()) {
+					case Argument.TYPE_ID: addArguments((Argument)e); break;
+					case Constant.TYPE_ID: addConstants((Constant)e); break;
+					case Function.TYPE_ID: addFunctions((Function)e); break;
+					case RecursiveArgument.TYPE_ID_RECURSIVE: addArguments((Argument)e); break;
 				}
 			}
 		}
@@ -1004,12 +1005,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void removeDefinitions(params PrimitiveElement[] elements) {
 			foreach (PrimitiveElement e in elements) {
-				if (e != null) {
-					int elementTypeId = e.getMyTypeId();
-					if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
-					else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
-					else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
-					else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) removeArguments((Argument)e);
+				if (e == null) continue;
+				switch (e.getMyTypeId()) {
+					case Argument.TYPE_ID: removeArguments((Argument)e); break;
+					case Constant.TYPE_ID: removeConstants((Constant)e); break;
+					case Function.TYPE_ID: removeFunctions((Function)e); break;
+					case RecursiveArgument.TYPE_ID_RECURSIVE: removeArguments((Argument)e); break;
 				}
 			}
 		}
@@ -1028,511 +1029,505 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void addArguments(params Argument[] arguments) {
-				foreach (Argument arg in arguments) {
-					if (arg != null) {
-						argumentsList.Add(arg);
-						arg.addRelatedExpression(this);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Enables to define the arguments (associated with
-			 * the expression) based on the given arguments names.
-			 *
-			 * @param      argumentsNames      the arguments names (variadic)
-			 *                                 comma separated list
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public void defineArguments(params String[] argumentsNames) {
-				foreach (String argName in argumentsNames) {
-					Argument arg = new Argument(argName);
-					arg.addRelatedExpression(this);
-					argumentsList.Add(arg);
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Enables to define the argument (associated with the expression)
-			 * based on the argument name and the argument value.
-			 *
-			 * @param      argumentName        the argument name
-			 * @param      argumentValue       the argument value
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public void defineArgument(String argumentName, double argumentValue) {
-				Argument arg = new Argument(argumentName, argumentValue);
+			foreach (Argument arg in arguments) {
+                if (arg == null) continue;
+                argumentsList.Add(arg);
+                if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME)
+                    arg.addRelatedExpression(this);
+            }
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Enables to define the arguments (associated with
+		 * the expression) based on the given arguments names.
+		 *
+		 * @param      argumentsNames      the arguments names (variadic)
+		 *                                 comma separated list
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public void defineArguments(params String[] argumentsNames) {
+			foreach (String argName in argumentsNames) {
+				Argument arg = new Argument(argName);
 				arg.addRelatedExpression(this);
 				argumentsList.Add(arg);
-				setExpressionModifiedFlag();
 			}
-			/**
-			 * Gets argument index from the expression.
-			 *
-			 * @param      argumentName        the argument name
-			 *
-			 * @return     The argument index if the argument name was found,
-			 *             otherwise returns Argument.NOT_FOUND
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public int getArgumentIndex(String argumentName) {
-				int argumentsNumber = argumentsList.Count;
-				if (argumentsNumber == 0)
-					return NOT_FOUND;
-
-				for (int argumentIndex = 0; argumentIndex < argumentsNumber; argumentIndex++)
-					if (argumentsList[argumentIndex].getArgumentName().Equals(argumentName))
-						return argumentIndex;
-
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Enables to define the argument (associated with the expression)
+		 * based on the argument name and the argument value.
+		 *
+		 * @param      argumentName        the argument name
+		 * @param      argumentValue       the argument value
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public void defineArgument(String argumentName, double argumentValue) {
+			Argument arg = new Argument(argumentName, argumentValue);
+			arg.addRelatedExpression(this);
+			argumentsList.Add(arg);
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Gets argument index from the expression.
+		 *
+		 * @param      argumentName        the argument name
+		 *
+		 * @return     The argument index if the argument name was found,
+		 *             otherwise returns Argument.NOT_FOUND
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public int getArgumentIndex(String argumentName) {
+			int argumentsNumber = argumentsList.Count;
+			if (argumentsNumber == 0)
 				return NOT_FOUND;
-			}
-			/**
-			 * Gets argument from the expression.
-			 *
-			 *
-			 * @param      argumentName        the argument name
-			 *
-			 * @return     The argument if the argument name was found,
-			 *             otherwise returns null.
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public Argument getArgument(String argumentName) {
+
+			for (int argumentIndex = 0; argumentIndex < argumentsNumber; argumentIndex++)
+				if (argumentsList[argumentIndex].getArgumentName().Equals(argumentName))
+					return argumentIndex;
+
+			return NOT_FOUND;
+		}
+		/**
+		 * Gets argument from the expression.
+		 *
+		 *
+		 * @param      argumentName        the argument name
+		 *
+		 * @return     The argument if the argument name was found,
+		 *             otherwise returns null.
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public Argument getArgument(String argumentName) {
+			int argumentIndex = getArgumentIndex(argumentName);
+			if (argumentIndex == NOT_FOUND)
+				return null;
+			return argumentsList[argumentIndex];
+		}
+		/**
+		 * Gets argument from the expression.
+		 *
+		 * @param      argumentIndex       the argument index
+		 *
+		 * @return     Argument if the argument index is between 0 and
+		 *             the last available argument index (getArgumentsNumber()-1),
+		 *             otherwise returns null.
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public Argument getArgument(int argumentIndex) {
+			if (argumentIndex < 0 || argumentIndex >= argumentsList.Count)
+				return null;
+			return argumentsList[argumentIndex];
+		}
+		/**
+		 * Gets number of arguments associated with the expression.
+		 *
+		 * @return     The number of arguments (int >= 0)
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public int getArgumentsNumber() {
+			return argumentsList.Count;
+		}
+		/**
+		 * Sets argument value.
+		 *
+		 * @param      argumentName        the argument name
+		 * @param      argumentValue       the argument value
+		 */
+		public void setArgumentValue(String argumentName, double argumentValue) {
+			int argumentIndex = getArgumentIndex(argumentName);
+			if (argumentIndex != NOT_FOUND)
+				argumentsList[argumentIndex].setArgumentValue(argumentValue);
+		}
+		/**
+		 * Gets argument vale.
+		 *
+		 * @param      argumentName        the argument name
+		 *
+		 * @return     Argument value if argument name was found,
+		 *             otherwise return Double.NaN.
+		 */
+		public double getArgumentValue(String argumentName) {
+			int argumentIndex = getArgumentIndex(argumentName);
+			if (argumentIndex != NOT_FOUND)
+				return argumentsList[argumentIndex].getArgumentValue();
+			return Double.NaN;
+		}
+		/**
+		 * Removes first occurrences of the arguments
+		 * associated with the expression.
+		 *
+		 * @param      argumentsNames      the arguments names
+		 *                                 (variadic parameters) comma separated
+		 *                                 list
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public void removeArguments(params String[] argumentsNames) {
+			foreach (String argumentName in argumentsNames) {
 				int argumentIndex = getArgumentIndex(argumentName);
 				if (argumentIndex == NOT_FOUND)
-					return null;
-				else
-					return argumentsList[argumentIndex];
+					continue;
+				Argument arg = argumentsList[argumentIndex];
+				arg.removeRelatedExpression(this);
+				argumentsList.RemoveAt(argumentIndex);
 			}
-			/**
-			 * Gets argument from the expression.
-			 *
-			 * @param      argumentIndex       the argument index
-			 *
-			 * @return     Argument if the argument index is between 0 and
-			 *             the last available argument index (getArgumentsNumber()-1),
-			 *             otherwise returns null.
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public Argument getArgument(int argumentIndex) {
-				if ( (argumentIndex < 0) || (argumentIndex >= argumentsList.Count) )
-					return null;
-				else
-					return argumentsList[argumentIndex];
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Removes first occurrences of the arguments
+		 * associated with the expression.
+		 *
+		 * @param      arguments           the arguments (variadic parameters)
+		 *                                 comma separated list
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public void removeArguments(params Argument[] arguments) {
+			foreach (Argument argument in arguments) {
+				if (argument == null)
+					continue;
+				argumentsList.Remove(argument);
+				argument.removeRelatedExpression(this);
 			}
-			/**
-			 * Gets number of arguments associated with the expression.
-			 *
-			 * @return     The number of arguments (int >= 0)
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public int getArgumentsNumber() {
-				return argumentsList.Count;
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Removes all arguments associated with the expression.
+		 *
+		 * @see        Argument
+		 * @see        RecursiveArgument
+		 */
+		public void removeAllArguments() {
+			foreach (Argument arg in argumentsList)
+				arg.removeRelatedExpression(this);
+			argumentsList.Clear();
+			setExpressionModifiedFlag();
+		}
+		/*=================================================
+		 *
+		 * Constants handling API
+		 *
+		 *=================================================
+		 */
+		/**
+		 * Adds constants (variadic parameters) to the expression definition.
+		 *
+		 * @param      constants           the constants
+		 *                                 (comma separated list)
+		 *
+		 * @see        Constant
+		 */
+		public void addConstants(params Constant[] constants) {
+			foreach (Constant constant in constants) {
+				if (constant == null)
+					continue;
+				constantsList.Add(constant);
+				constant.addRelatedExpression(this);
 			}
-			/**
-			 * Sets argument value.
-			 *
-			 * @param      argumentName        the argument name
-			 * @param      argumentValue       the argument value
-			 */
-			public void setArgumentValue(String argumentName, double argumentValue) {
-				int argumentIndex = getArgumentIndex(argumentName);
-				if (argumentIndex != NOT_FOUND)
-					argumentsList[argumentIndex].setArgumentValue(argumentValue);
-			}
-			/**
-			 * Gets argument vale.
-			 *
-			 * @param      argumentName        the argument name
-			 *
-			 * @return     Argument value if argument name was found,
-			 *             otherwise return Double.NaN.
-			 */
-			public double getArgumentValue(String argumentName) {
-				int argumentIndex = getArgumentIndex(argumentName);
-				if (argumentIndex != NOT_FOUND)
-					return argumentsList[argumentIndex].getArgumentValue();
-				else
-					return Double.NaN;
-			}
-			/**
-			 * Removes first occurrences of the arguments
-			 * associated with the expression.
-			 *
-			 * @param      argumentsNames      the arguments names
-			 *                                 (variadic parameters) comma separated
-			 *                                 list
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public void removeArguments(params String[] argumentsNames) {
-				foreach (String argumentName in argumentsNames) {
-					int argumentIndex = getArgumentIndex(argumentName);
-					if (argumentIndex != NOT_FOUND) {
-						Argument arg = argumentsList[argumentIndex];
-						arg.removeRelatedExpression(this);
-						argumentsList.RemoveAt(argumentIndex);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Removes first occurrences of the arguments
-			 * associated with the expression.
-			 *
-			 * @param      arguments           the arguments (variadic parameters)
-			 *                                 comma separated list
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public void removeArguments(params Argument[] arguments) {
-				foreach (Argument argument in arguments) {
-					if (argument != null) {
-						argumentsList.Remove(argument);
-						argument.removeRelatedExpression(this);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Removes all arguments associated with the expression.
-			 *
-			 * @see        Argument
-			 * @see        RecursiveArgument
-			 */
-			public void removeAllArguments() {
-				foreach (Argument arg in argumentsList)
-					arg.removeRelatedExpression(this);
-				argumentsList.Clear();
-				setExpressionModifiedFlag();
-			}
-			/*=================================================
-			 *
-			 * Constants handling API
-			 *
-			 *=================================================
-			 */
-			/**
-			 * Adds constants (variadic parameters) to the expression definition.
-			 *
-			 * @param      constants           the constants
-			 *                                 (comma separated list)
-			 *
-			 * @see        Constant
-			 */
-			public void addConstants(params Constant[] constants) {
-				foreach (Constant constant in constants) {
-					if (constant != null) {
-						constantsList.Add(constant);
-						constant.addRelatedExpression(this);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Enables to define the constant (associated with
-			 * the expression) based on the constant name and
-			 * constant value.
-			 *
-			 * @param      constantName        the constant name
-			 * @param      constantValue       the constant value
-			 *
-			 * @see        Constant
-			 */
-			public void defineConstant(String constantName, double constantValue) {
-				Constant c = new Constant(constantName, constantValue);
-				c.addRelatedExpression(this);
-				constantsList.Add(c);
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Gets constant index associated with the expression.
-			 *
-			 * @param      constantName        the constant name
-			 *
-			 * @return     Constant index if constant name was found,
-			 *             otherwise return Constant.NOT_FOUND.
-			 *
-			 * @see        Constant
-			 */
-			public int getConstantIndex(String constantName) {
-				int constantsNumber = constantsList.Count;
-				if (constantsNumber == 0)
-					return NOT_FOUND;
-
-				for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++)
-					if (constantsList[constantIndex].getConstantName().Equals(constantName))
-	                    return constantIndex;
-
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Enables to define the constant (associated with
+		 * the expression) based on the constant name and
+		 * constant value.
+		 *
+		 * @param      constantName        the constant name
+		 * @param      constantValue       the constant value
+		 *
+		 * @see        Constant
+		 */
+		public void defineConstant(String constantName, double constantValue) {
+			Constant c = new Constant(constantName, constantValue);
+			c.addRelatedExpression(this);
+			constantsList.Add(c);
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Gets constant index associated with the expression.
+		 *
+		 * @param      constantName        the constant name
+		 *
+		 * @return     Constant index if constant name was found,
+		 *             otherwise return Constant.NOT_FOUND.
+		 *
+		 * @see        Constant
+		 */
+		public int getConstantIndex(String constantName) {
+			int constantsNumber = constantsList.Count;
+			if (constantsNumber == 0)
 				return NOT_FOUND;
-			}
-			/**
-			 * Gets constant associated with the expression.
-			 *
-			 * @param      constantName        the constant name
-			 *
-			 * @return     Constant if constant name was found,
-			 *             otherwise return null.
-			 *
-			 * @see        Constant
-			 */
-			public Constant getConstant(String constantName) {
+
+			for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++)
+				if (constantsList[constantIndex].getConstantName().Equals(constantName))
+                    return constantIndex;
+
+			return NOT_FOUND;
+		}
+		/**
+		 * Gets constant associated with the expression.
+		 *
+		 * @param      constantName        the constant name
+		 *
+		 * @return     Constant if constant name was found,
+		 *             otherwise return null.
+		 *
+		 * @see        Constant
+		 */
+		public Constant getConstant(String constantName) {
+			int constantIndex = getConstantIndex(constantName);
+			if (constantIndex == NOT_FOUND)
+				return null;
+			else
+				return constantsList[constantIndex];
+		}
+		/**
+		 * Gets constant associated with the expression.
+		 *
+		 * @param      constantIndex       the constant index
+		 *
+		 * @return     Constant if the constantIndex is between
+		 *             0 and the last available constant index
+		 *             (getConstantsNumber() - 1),
+		 *             otherwise it returns null.
+		 *
+		 * @see        Constant
+		 */
+		public Constant getConstant(int constantIndex) {
+			if (constantIndex < 0 || constantIndex >= constantsList.Count)
+				return null;
+			return constantsList[constantIndex];
+		}
+		/**
+		 * Gets number of constants associated with the expression.
+		 *
+		 * @return     number of constants (int >= 0)
+		 *
+		 * @see        Constant
+		 */
+		public int getConstantsNumber() {
+			return constantsList.Count;
+		}
+		/**
+		 * Removes first occurrences of the constants
+		 * associated with the expression.
+		 *
+		 * @param      constantsNames      the constants names (variadic parameters)
+		 *                                 comma separated list
+		 *
+		 * @see        Constant
+		 */
+		public void removeConstants(params String[] constantsNames) {
+			foreach (String constantName in constantsNames) {
 				int constantIndex = getConstantIndex(constantName);
 				if (constantIndex == NOT_FOUND)
-					return null;
-				else
-					return constantsList[constantIndex];
+                    continue;
+				Constant c = constantsList[constantIndex];
+				c.removeRelatedExpression(this);
+				constantsList.RemoveAt(constantIndex);
 			}
-			/**
-			 * Gets constant associated with the expression.
-			 *
-			 * @param      constantIndex       the constant index
-			 *
-			 * @return     Constant if the constantIndex is between
-			 *             0 and the last available constant index
-			 *             (getConstantsNumber() - 1),
-			 *             otherwise it returns null.
-			 *
-			 * @see        Constant
-			 */
-			public Constant getConstant(int constantIndex) {
-				if ( (constantIndex < 0) || (constantIndex >= constantsList.Count) )
-					return null;
-				else
-					return constantsList[constantIndex];
-			}
-			/**
-			 * Gets number of constants associated with the expression.
-			 *
-			 * @return     number of constants (int >= 0)
-			 *
-			 * @see        Constant
-			 */
-			public int getConstantsNumber() {
-				return constantsList.Count;
-			}
-			/**
-			 * Removes first occurrences of the constants
-			 * associated with the expression.
-			 *
-			 * @param      constantsNames      the constants names (variadic parameters)
-			 *                                 comma separated list
-			 *
-			 * @see        Constant
-			 */
-			public void removeConstants(params String[] constantsNames) {
-				foreach (String constantName in constantsNames) {
-					int constantIndex = getConstantIndex(constantName);
-					if (constantIndex != NOT_FOUND) {
-						Constant c = constantsList[constantIndex];
-						c.removeRelatedExpression(this);
-						constantsList.RemoveAt( constantIndex );
-					}
-				}
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Removes first occurrences of the constants
+		 * associated with the expression
+		 *
+		 * @param      constants           the constants (variadic parameters)
+		 *                                 comma separated list
+		 *
+		 * @see        Constant
+		 */
+		public void removeConstants(params Constant[] constants) {
+			foreach (Constant constant in constants) {
+				if (constant == null)
+                    continue;
+				constantsList.Remove(constant);
+				constant.removeRelatedExpression(this);
 				setExpressionModifiedFlag();
 			}
-			/**
-			 * Removes first occurrences of the constants
-			 * associated with the expression
-			 *
-			 * @param      constants           the constants (variadic parameters)
-			 *                                 comma separated list
-			 *
-			 * @see        Constant
-			 */
-			public void removeConstants(params Constant[] constants) {
-				foreach (Constant constant in constants) {
-					if (constant != null) {
-						constantsList.Remove(constant);
-						constant.removeRelatedExpression(this);
-						setExpressionModifiedFlag();
-					}
-				}
-			}
-			/**
-			 * Removes all constants
-			 * associated with the expression
-			 *
-			 * @see        Constant
-			 */
-			public void removeAllConstants() {
-				foreach (Constant c in constantsList)
-					c.removeRelatedExpression(this);
-				constantsList.Clear();
-				setExpressionModifiedFlag();
-			}
-			/*=================================================
-			 *
-			 * Functions handling API
-			 *
-			 *=================================================
-			 */
-			/**
-			 * Adds functions (variadic parameters) to the expression definition.
-			 *
-			 * @param      functions           the functions
-			 *                                 (variadic parameters) comma separated list
-			 *
-			 * @see        Function
-			 */
-			public void addFunctions(params Function[] functions) {
-				foreach (Function f in functions) {
-					if (f != null) {
-						functionsList.Add(f);
-						if (f.getFunctionBodyType() == Function.BODY_RUNTIME)
-							f.addRelatedExpression(this);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Enables to define the function (associated with
-			 * the expression) based on the function name,
-			 * function expression string and arguments names (variadic parameters).
-			 *
-			 * @param      functionName                  the function name
-			 * @param      functionExpressionString      the expression string
-			 * @param      argumentsNames                the function arguments names
-			 *                                           (variadic parameters)
-			 *                                           comma separated list
-			 *
-			 * @see        Function
-			 */
-			public void defineFunction(String functionName, String  functionExpressionString,
-					params String[] argumentsNames) {
-				Function f = new Function(functionName, functionExpressionString, argumentsNames);
+		}
+		/**
+		 * Removes all constants
+		 * associated with the expression
+		 *
+		 * @see        Constant
+		 */
+		public void removeAllConstants() {
+			foreach (Constant c in constantsList)
+				c.removeRelatedExpression(this);
+			constantsList.Clear();
+			setExpressionModifiedFlag();
+		}
+		/*=================================================
+		 *
+		 * Functions handling API
+		 *
+		 *=================================================
+		 */
+		/**
+		 * Adds functions (variadic parameters) to the expression definition.
+		 *
+		 * @param      functions           the functions
+		 *                                 (variadic parameters) comma separated list
+		 *
+		 * @see        Function
+		 */
+		public void addFunctions(params Function[] functions) {
+			foreach (Function f in functions) {
+				if (f == null)
+                    continue;
 				functionsList.Add(f);
-				f.addRelatedExpression(this);
-				setExpressionModifiedFlag();
+				if (f.getFunctionBodyType() == Function.BODY_RUNTIME)
+					f.addRelatedExpression(this);
 			}
-			/**
-			 * Gets index of function associated with the expression.
-			 *
-			 * @param      functionName        the function name
-			 *
-			 * @return     Function index if function name was found,
-			 *             otherwise returns Function.NOT_FOUND
-			 *
-			 * @see        Function
-			 */
-			public int getFunctionIndex(String functionName) {
-				int functionsNumber = functionsList.Count;
-				if (functionsNumber == 0)
-					return NOT_FOUND;
-
-				for (int functionIndex = 0; functionIndex < functionsNumber; functionIndex++)
-					if (functionsList[functionIndex].getFunctionName().Equals(functionName))
-						return functionIndex;
-
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Enables to define the function (associated with
+		 * the expression) based on the function name,
+		 * function expression string and arguments names (variadic parameters).
+		 *
+		 * @param      functionName                  the function name
+		 * @param      functionExpressionString      the expression string
+		 * @param      argumentsNames                the function arguments names
+		 *                                           (variadic parameters)
+		 *                                           comma separated list
+		 *
+		 * @see        Function
+		 */
+		public void defineFunction(String functionName, String  functionExpressionString,
+				params String[] argumentsNames) {
+			Function f = new Function(functionName, functionExpressionString, argumentsNames);
+			functionsList.Add(f);
+			f.addRelatedExpression(this);
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Gets index of function associated with the expression.
+		 *
+		 * @param      functionName        the function name
+		 *
+		 * @return     Function index if function name was found,
+		 *             otherwise returns Function.NOT_FOUND
+		 *
+		 * @see        Function
+		 */
+		public int getFunctionIndex(String functionName) {
+			int functionsNumber = functionsList.Count;
+			if (functionsNumber == 0)
 				return NOT_FOUND;
-			}
-			/**
-			 * Gets function associated with the expression.
-			 *
-			 * @param      functionName        the function name
-			 *
-			 * @return     Function if function name was found,
-			 *             otherwise returns null.
-			 *
-			 * @see        Function
-			 */
-			public Function getFunction(String functionName) {
+
+			for (int functionIndex = 0; functionIndex < functionsNumber; functionIndex++)
+				if (functionsList[functionIndex].getFunctionName().Equals(functionName))
+					return functionIndex;
+
+			return NOT_FOUND;
+		}
+		/**
+		 * Gets function associated with the expression.
+		 *
+		 * @param      functionName        the function name
+		 *
+		 * @return     Function if function name was found,
+		 *             otherwise returns null.
+		 *
+		 * @see        Function
+		 */
+		public Function getFunction(String functionName) {
+			int functionIndex = getFunctionIndex(functionName);
+			if (functionIndex == NOT_FOUND)
+				return null;
+			return functionsList[functionIndex];
+		}
+		/**
+		 * Gets function associated with the expression.
+		 *
+		 * @param      functionIndex the function index
+		 *
+		 * @return     Function if function index is between 0 and
+		 *             the last available function index (getFunctionsNumber()-1),
+		 *             otherwise returns null.
+		 *
+		 * @see        Function
+		 */
+		public Function getFunction(int functionIndex) {
+			if (functionIndex < 0 || functionIndex >= functionsList.Count)
+				return null;
+			return functionsList[functionIndex];
+		}
+		/**
+		 * Gets number of functions associated with the expression.
+		 *
+		 * @return     number of functions (int >= 0)
+		 *
+		 * @see        Function
+		 */
+		public int getFunctionsNumber() {
+			return functionsList.Count;
+		}
+		/**
+		 * Removes first occurrences of the functions
+		 * associated with the expression.
+		 *
+		 * @param      functionsNames      the functions names (variadic parameters)
+		 *                                 comma separated list
+		 *
+		 * @see        Function
+		 */
+		public void removeFunctions(params String[] functionsNames) {
+			foreach (String functionName in functionsNames) {
 				int functionIndex = getFunctionIndex(functionName);
 				if (functionIndex == NOT_FOUND)
-					return null;
-				else
-					return functionsList[functionIndex];
+                    continue;
+				Function f = functionsList[functionIndex];
+				f.removeRelatedExpression(this);
+				functionsList.Remove(f);
 			}
-			/**
-			 * Gets function associated with the expression.
-			 *
-			 * @param      functionIndex the function index
-			 *
-			 * @return     Function if function index is between 0 and
-			 *             the last available function index (getFunctionsNumber()-1),
-			 *             otherwise returns null.
-			 *
-			 * @see        Function
-			 */
-			public Function getFunction(int functionIndex) {
-				if ( (functionIndex < 0) || (functionIndex >= functionsList.Count) )
-					return null;
-				else
-					return functionsList[functionIndex];
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Removes first occurrences of the functions
+		 * associated with the expression.
+		 *
+		 * @param      functions           the functions (variadic parameters)
+		 *                                 comma separated list.
+		 *
+		 * @see        Function
+		 */
+		public void removeFunctions(params Function[] functions) {
+			foreach (Function function in functions) {
+				if (function == null)
+                    continue;
+				function.removeRelatedExpression(this);
+				functionsList.Remove(function);
 			}
-			/**
-			 * Gets number of functions associated with the expression.
-			 *
-			 * @return     number of functions (int >= 0)
-			 *
-			 * @see        Function
-			 */
-			public int getFunctionsNumber() {
-				return functionsList.Count;
-			}
-			/**
-			 * Removes first occurrences of the functions
-			 * associated with the expression.
-			 *
-			 * @param      functionsNames      the functions names (variadic parameters)
-			 *                                 comma separated list
-			 *
-			 * @see        Function
-			 */
-			public void removeFunctions(params String[] functionsNames) {
-				foreach (String functionName in functionsNames) {
-					int functionIndex = getFunctionIndex(functionName);
-					if (functionIndex != NOT_FOUND) {
-						Function f = functionsList[functionIndex];
-						f.removeRelatedExpression(this);
-						functionsList.Remove(f);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Removes first occurrences of the functions
-			 * associated with the expression.
-			 *
-			 * @param      functions           the functions (variadic parameters)
-			 *                                 comma separated list.
-			 *
-			 * @see        Function
-			 */
-			public void removeFunctions(params Function[] functions) {
-				foreach (Function function in functions) {
-					if (function != null) {
-						function.removeRelatedExpression(this);
-						functionsList.Remove(function);
-					}
-				}
-				setExpressionModifiedFlag();
-			}
-			/**
-			 * Removes all functions
-			 * associated with the expression.
-			 *
-			 * @see        Function
-			 */
-			public void removeAllFunctions() {
-				foreach (Function f in functionsList)
-					f.removeRelatedExpression(this);
-				functionsList.Clear();
-				setExpressionModifiedFlag();
-			}
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Removes all functions
+		 * associated with the expression.
+		 *
+		 * @see        Function
+		 */
+		public void removeAllFunctions() {
+			foreach (Function f in functionsList)
+				f.removeRelatedExpression(this);
+			functionsList.Clear();
+			setExpressionModifiedFlag();
+		}
 		/*=================================================
 		 *
 		 * Common methods (supporting calculations)

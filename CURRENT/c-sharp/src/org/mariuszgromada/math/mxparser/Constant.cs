@@ -280,14 +280,14 @@ namespace org.mariuszgromada.math.mxparser {
 				description = StringInvariant.EMPTY;
 				syntaxStatus = NO_SYNTAX_ERRORS;
 				errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
-			} else {
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = buildErrorMessageInvalidConstantName(constantName);
-            }
+				return;
+			}
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 		}
 		/**
 		 * Constructor - creates constant with a given name and given value.
-		 * Additionally description is being set.
+		 * Additionally, description is being set.
 		 *
 		 * @param      constantName        the constant name
 		 * @param      constantValue       the constant value
@@ -301,11 +301,10 @@ namespace org.mariuszgromada.math.mxparser {
 				this.description = description;
 				syntaxStatus = NO_SYNTAX_ERRORS;
 				errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
+				return;
 			}
-			else {
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = buildErrorMessageInvalidConstantName(constantName);
-            }
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 		}
 		/**
 		 * Constructor for function definition in natural math language,
@@ -328,8 +327,10 @@ namespace org.mariuszgromada.math.mxparser {
 				constantValue = bodyExpression.calculate();
 				syntaxStatus = bodyExpression.getSyntaxStatus();
 				errorMessage = bodyExpression.getErrorMessage();
+				return;
 			}
-			else errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
+            syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+            errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
         }
 		/**
 		 * Gets constant name
@@ -349,10 +350,10 @@ namespace org.mariuszgromada.math.mxparser {
 			if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				this.constantName = constantName;
 				setExpressionModifiedFlags();
-			} else {
-				syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-				errorMessage = buildErrorMessageInvalidConstantName(constantName);
-            }
+				return;
+			}
+			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 		}
 		/**
 		 * Sets constant value
@@ -409,9 +410,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      expression          the related expression.
 		 */
 		internal void addRelatedExpression(Expression expression) {
-			if (expression != null)
-				if ( !relatedExpressionsList.Contains(expression) )
-					relatedExpressionsList.Add(expression);
+			if (expression == null)
+				return;
+			if (!relatedExpressionsList.Contains(expression))
+				relatedExpressionsList.Add(expression);
 		}
 		/**
 		 * Removes related expression.

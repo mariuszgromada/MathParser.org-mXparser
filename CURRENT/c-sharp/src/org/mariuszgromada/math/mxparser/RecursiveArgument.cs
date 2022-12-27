@@ -254,14 +254,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      indexName                     index argument name
 		 */
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName) : base(argumentName, recursiveExpressionString) {
-			if (argumentName.Equals(this.getArgumentName())) {
-				this.argumentType = RECURSIVE_ARGUMENT;
-				baseValues = new List<Double>();
-				this.n = new Argument(indexName);
-				base.argumentExpression.addArguments(n);
-				base.argumentExpression.addArguments(this);
-				recursiveCounter = -1;
-			}
+			if (!argumentName.Equals(this.getArgumentName()))
+				return;
+			this.argumentType = RECURSIVE_ARGUMENT;
+			baseValues = new List<Double>();
+			this.n = new Argument(indexName);
+			base.argumentExpression.addArguments(n);
+			base.argumentExpression.addArguments(this);
+			recursiveCounter = -1;
 		}
 		/**
 		 * Constructor - creates recursive argument.
@@ -276,15 +276,15 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Argument
 		 */
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements) : base(argumentName, recursiveExpressionString) {
-			if (argumentName.Equals(this.getArgumentName())) {
-				this.argumentType = RECURSIVE_ARGUMENT;
-				baseValues = new List<Double>();
-				this.n = n;
-				base.argumentExpression.addArguments(n);
-				base.argumentExpression.addArguments(this);
-				base.argumentExpression.addDefinitions(elements);
-				recursiveCounter = -1;
-			}
+			if (!argumentName.Equals(this.getArgumentName()))
+				return;
+			this.argumentType = RECURSIVE_ARGUMENT;
+			baseValues = new List<Double>();
+			this.n = n;
+			base.argumentExpression.addArguments(n);
+			base.argumentExpression.addArguments(this);
+			base.argumentExpression.addDefinitions(elements);
+			recursiveCounter = -1;
 		}
 		private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
@@ -316,10 +316,10 @@ namespace org.mariuszgromada.math.mxparser {
 				base.argumentExpression.addArguments(base.n);
 				base.argumentExpression.addArguments(this);
 				base.argumentExpression.addDefinitions(elements);
-			} else {
-				base.argumentExpression = new Expression();
-				base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
-            }
+				return;
+			}
+			base.argumentExpression = new Expression();
+			base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
 		}
 		/**
 		 * Adds base case
@@ -336,8 +336,9 @@ namespace org.mariuszgromada.math.mxparser {
 				for (int i = recSize; i < index; i++)
 					baseValues.Add( Double.NaN );
 				baseValues.Add(value);
-			} else
-				baseValues[index] = value;
+				return;
+			}
+			baseValues[index] = value;
 		}
 		/**
 		 * Clears all based cases and stored calculated values

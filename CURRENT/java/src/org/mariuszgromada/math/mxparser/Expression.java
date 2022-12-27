@@ -514,10 +514,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      expression          the expression
 	 */
 	void addRelatedExpression(Expression expression) {
-		if (expression != null && expression != this) {
-			if (!relatedExpressionsList.contains(expression))
-				relatedExpressionsList.add(expression);
-		}
+		if (expression == null || expression == this)
+			return;
+		if (!relatedExpressionsList.contains(expression))
+			relatedExpressionsList.add(expression);
 	}
 	/**
 	 * Removes related expression
@@ -583,17 +583,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * to all related expressions.
 	 */
 	void setExpressionModifiedFlag() {
-		if (!recursionCallPending) {
-			recursionCallPending = true;
-			recursionCallsCounter = 0;
-			internalClone = false;
-			expressionWasModified = true;
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
-			for (Expression e : relatedExpressionsList)
-				e.setExpressionModifiedFlag();
-			recursionCallPending = false;
-		}
+		if (recursionCallPending)
+			return;
+		recursionCallPending = true;
+		recursionCallsCounter = 0;
+		internalClone = false;
+		expressionWasModified = true;
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
+		for (Expression e : relatedExpressionsList)
+			e.setExpressionModifiedFlag();
+		recursionCallPending = false;
 	}
 	/**
 	 * Common variables while expression initializing
@@ -992,11 +992,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param forward If true then message is being forwarded.
 	 */
 	void setForwardErrorMessage(boolean forward) {
-		if (forward != forwardErrorMessage) {
-			errorMessage = StringInvariant.EMPTY;
-			errorMessageCalculate = StringInvariant.EMPTY;
-			forwardErrorMessage = forward;
-		}
+		if (forward == forwardErrorMessage)
+			return;
+		errorMessage = StringInvariant.EMPTY;
+		errorMessageCalculate = StringInvariant.EMPTY;
+		forwardErrorMessage = forward;
 	}
 	/**
 	 * Gets computing time.
@@ -1017,12 +1017,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void addDefinitions(PrimitiveElement... elements) {
 		for (PrimitiveElement e : elements) {
-			if (e != null) {
-				int elementTypeId = e.getMyTypeId();
-				if (elementTypeId == Argument.TYPE_ID) addArguments((Argument)e);
-				else if (elementTypeId == Constant.TYPE_ID) addConstants((Constant)e);
-				else if (elementTypeId == Function.TYPE_ID) addFunctions((Function)e);
-                else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) addArguments((Argument)e);
+			if (e == null) continue;
+			switch (e.getMyTypeId()) {
+				case Argument.TYPE_ID: addArguments((Argument)e); break;
+				case Constant.TYPE_ID: addConstants((Constant)e); break;
+				case Function.TYPE_ID: addFunctions((Function)e); break;
+				case RecursiveArgument.TYPE_ID_RECURSIVE: addArguments((Argument)e); break;
 			}
 		}
 	}
@@ -1037,12 +1037,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void removeDefinitions(PrimitiveElement... elements) {
 		for (PrimitiveElement e : elements) {
-			if (e != null) {
-				int elementTypeId = e.getMyTypeId();
-				if (elementTypeId == Argument.TYPE_ID) removeArguments((Argument)e);
-				else if (elementTypeId == Constant.TYPE_ID) removeConstants((Constant)e);
-				else if (elementTypeId == Function.TYPE_ID) removeFunctions((Function)e);
-                else if (elementTypeId == RecursiveArgument.TYPE_ID_RECURSIVE) removeArguments((Argument)e);
+			if (e == null) continue;
+			switch (e.getMyTypeId()) {
+				case Argument.TYPE_ID: removeArguments((Argument)e); break;
+				case Constant.TYPE_ID: removeConstants((Constant)e); break;
+				case Function.TYPE_ID: removeFunctions((Function)e); break;
+				case RecursiveArgument.TYPE_ID_RECURSIVE: removeArguments((Argument)e); break;
 			}
 		}
 	}
@@ -1062,11 +1062,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void addArguments(Argument... arguments) {
 		for (Argument arg : arguments) {
-			if (arg != null) {
-				argumentsList.add(arg);
-				if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME)
-					arg.addRelatedExpression(this);
-			}
+			if (arg == null) continue;
+			argumentsList.add(arg);
+			if (arg.getArgumentBodyType() == Argument.BODY_RUNTIME)
+				arg.addRelatedExpression(this);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1142,8 +1141,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
 			return null;
-		else
-			return argumentsList.get(argumentIndex);
+		return argumentsList.get(argumentIndex);
 	}
 	/**
 	 * Gets argument from the expression.
@@ -1158,10 +1156,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public Argument getArgument(int argumentIndex) {
-		if ( (argumentIndex < 0) || (argumentIndex >= argumentsList.size()) )
+		if (argumentIndex < 0 || argumentIndex >= argumentsList.size())
 			return null;
-		else
-			return argumentsList.get(argumentIndex);
+		return argumentsList.get(argumentIndex);
 	}
 	/**
 	 * Gets number of arguments associated with the expression.
@@ -1197,8 +1194,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex != NOT_FOUND)
 			return argumentsList.get(argumentIndex).getArgumentValue();
-		else
-			return Double.NaN;
+		return Double.NaN;
 	}
 	/**
 	 * Removes first occurrences of the arguments
@@ -1214,11 +1210,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public void removeArguments(String... argumentsNames) {
 		for (String argumentName : argumentsNames) {
 			int argumentIndex = getArgumentIndex(argumentName);
-			if (argumentIndex != NOT_FOUND) {
-				Argument arg = argumentsList.get(argumentIndex);
-				arg.removeRelatedExpression(this);
-				argumentsList.remove(argumentIndex);
-			}
+			if (argumentIndex == NOT_FOUND)
+				continue;
+			Argument arg = argumentsList.get(argumentIndex);
+			arg.removeRelatedExpression(this);
+			argumentsList.remove(argumentIndex);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1234,10 +1230,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void removeArguments(Argument... arguments) {
 		for (Argument argument : arguments) {
-			if (argument != null) {
-				argumentsList.remove(argument);
-				argument.removeRelatedExpression(this);
-			}
+			if (argument == null)
+				continue;
+			argumentsList.remove(argument);
+			argument.removeRelatedExpression(this);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1269,10 +1265,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void addConstants(Constant... constants) {
 		for (Constant constant : constants) {
-			if (constant != null) {
-				constantsList.add(constant);
-				constant.addRelatedExpression(this);
-			}
+			if (constant == null)
+				continue;
+			constantsList.add(constant);
+			constant.addRelatedExpression(this);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1356,10 +1352,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public Constant getConstant(int constantIndex) {
-		if ( (constantIndex < 0) || (constantIndex >= constantsList.size()) )
+		if (constantIndex < 0 || constantIndex >= constantsList.size())
 			return null;
-		else
-			return constantsList.get(constantIndex);
+		return constantsList.get(constantIndex);
 	}
 	/**
 	 * Gets number of constants associated with the expression.
@@ -1383,11 +1378,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public void removeConstants(String... constantsNames) {
 		for (String constantName : constantsNames) {
 			int constantIndex = getConstantIndex(constantName);
-			if (constantIndex != NOT_FOUND) {
-				Constant c = constantsList.get(constantIndex);
-				c.removeRelatedExpression(this);
-				constantsList.remove( constantIndex );
-			}
+			if (constantIndex == NOT_FOUND)
+				continue;
+			Constant c = constantsList.get(constantIndex);
+			c.removeRelatedExpression(this);
+			constantsList.remove(constantIndex);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1402,11 +1397,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void removeConstants(Constant... constants) {
 		for (Constant constant : constants) {
-			if (constant != null) {
-				constantsList.remove(constant);
-				constant.removeRelatedExpression(this);
-				setExpressionModifiedFlag();
-			}
+			if (constant == null)
+				continue;
+			constantsList.remove(constant);
+			constant.removeRelatedExpression(this);
+			setExpressionModifiedFlag();
 		}
 	}
 	/**
@@ -1437,11 +1432,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void addFunctions(Function... functions) {
 		for (Function f : functions) {
-			if (f != null) {
-				functionsList.add(f);
-				if (f.getFunctionBodyType() == Function.BODY_RUNTIME)
-					f.addRelatedExpression(this);
-			}
+			if (f == null)
+				continue;
+			functionsList.add(f);
+			if (f.getFunctionBodyType() == Function.BODY_RUNTIME)
+				f.addRelatedExpression(this);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1500,8 +1495,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int functionIndex = getFunctionIndex(functionName);
 		if (functionIndex == NOT_FOUND)
 			return null;
-		else
-			return functionsList.get(functionIndex);
+		return functionsList.get(functionIndex);
 	}
 	/**
 	 * Gets function associated with the expression.
@@ -1515,10 +1509,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public Function getFunction(int functionIndex) {
-		if ( (functionIndex < 0) || (functionIndex >= functionsList.size()) )
+		if (functionIndex < 0 || functionIndex >= functionsList.size())
 			return null;
-		else
-			return functionsList.get(functionIndex);
+		return functionsList.get(functionIndex);
 	}
 	/**
 	 * Gets number of functions associated with the expression.
@@ -1542,11 +1535,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public void removeFunctions(String... functionsNames) {
 		for (String functionName : functionsNames) {
 			int functionIndex = getFunctionIndex(functionName);
-			if (functionIndex != NOT_FOUND) {
-				Function f = functionsList.get(functionIndex);
-				f.removeRelatedExpression(this);
-				functionsList.remove(f);
-			}
+			if (functionIndex == NOT_FOUND)
+				continue;
+			Function f = functionsList.get(functionIndex);
+			f.removeRelatedExpression(this);
+			functionsList.remove(f);
 		}
 		setExpressionModifiedFlag();
 	}
@@ -1561,10 +1554,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public void removeFunctions(Function... functions) {
 		for (Function function : functions) {
-			if (function != null) {
-				function.removeRelatedExpression(this);
-				functionsList.remove(function);
-			}
+			if (function == null)
+				continue;
+			function.removeRelatedExpression(this);
+			functionsList.remove(function);
 		}
 		setExpressionModifiedFlag();
 	}

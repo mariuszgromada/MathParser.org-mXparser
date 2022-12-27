@@ -279,20 +279,20 @@ public class Constant extends PrimitiveElement implements Serializable {
 					,double constantValue) {
 		super(Constant.TYPE_ID);
 		relatedExpressionsList = new ArrayList<Expression>();
-		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
+		if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			description = StringInvariant.EMPTY;
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
-		} else {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = buildErrorMessageInvalidConstantName(constantName);
+			return;
 		}
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		errorMessage = buildErrorMessageInvalidConstantName(constantName);
 	}
 	/**
 	 * Constructor - creates constant with a given name and given value.
-	 * Additionally description is being set.
+	 * Additionally, description is being set.
 	 *
 	 * @param      constantName        the constant name
 	 * @param      constantValue       the constant value
@@ -303,16 +303,16 @@ public class Constant extends PrimitiveElement implements Serializable {
 			,String description) {
 		super(Constant.TYPE_ID);
 		relatedExpressionsList = new ArrayList<Expression>();
-		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
+		if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 			this.constantName = constantName;
 			this.constantValue = constantValue;
 			this.description = description;
 			syntaxStatus = NO_SYNTAX_ERRORS;
 			errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
-		} else {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = buildErrorMessageInvalidConstantName(constantName);
+			return;
 		}
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		errorMessage = buildErrorMessageInvalidConstantName(constantName);
 	}
 	/**
 	 * Constructor for function definition in natural math language,
@@ -336,7 +336,10 @@ public class Constant extends PrimitiveElement implements Serializable {
 			constantValue = bodyExpression.calculate();
 			syntaxStatus = bodyExpression.getSyntaxStatus();
 			errorMessage = bodyExpression.getErrorMessage();
-		} else errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
+			return;
+		}
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
 	}
 	/**
 	 * Gets constant name
@@ -353,13 +356,13 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * @param      constantName        the constant name
 	 */
 	public void setConstantName(String constantName) {
-		if ( mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp) ) {
+		if (mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 			this.constantName = constantName;
 			setExpressionModifiedFlags();
-		} else {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = buildErrorMessageInvalidConstantName(constantName);
+			return;
 		}
+		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		errorMessage = buildErrorMessageInvalidConstantName(constantName);
 	}
 	/**
 	 * Sets constant value
@@ -416,9 +419,10 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * @param      expression          the related expression.
 	 */
 	void addRelatedExpression(Expression expression) {
-		if (expression != null)
-			if ( !relatedExpressionsList.contains(expression) )
-				relatedExpressionsList.add(expression);
+		if (expression == null)
+			return;
+		if (!relatedExpressionsList.contains(expression))
+			relatedExpressionsList.add(expression);
 	}
 	/**
 	 * Removes related expression.
