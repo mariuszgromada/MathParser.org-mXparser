@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)StringUtils.cs        5.2.0    2022-12-27
+ * @(#)StringUtils.cs        5.2.0    2022-12-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -442,6 +442,11 @@ namespace org.mariuszgromada.math.mxparser {
 				spc = StringInvariant.SPACE + spc;
 			return str + spc;
 		}
-
+        internal static void consolePrintln() {
+            mXparser.consoleWriteLine();
+        }
+        internal static void consolePrintln(Object o) {
+            mXparser.consoleWriteLine(o);
+        }
     }
 }

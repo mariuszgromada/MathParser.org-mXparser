@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2022-12-27
+ * @(#)StringUtils.java        5.2.0    2022-12-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -432,5 +432,11 @@ final class StringUtils {
         for (int i=0; i<maxStr.length() - str.length(); i++)
             spc = StringInvariant.SPACE + spc;
         return str + spc;
+    }
+    static void consolePrintln() {
+        System.out.println();
+    }
+    static void consolePrintln(Object o) {
+        System.out.println(o);
     }
 }

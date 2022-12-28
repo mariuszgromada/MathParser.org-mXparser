@@ -1151,7 +1151,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Argument clone() {
 			Argument newArg = new Argument(this.argumentName);
-			newArg.argumentExpression = this.argumentExpression;
+			newArg.argumentExpression = this.argumentExpression.clone();
 			newArg.argumentType = this.argumentType;
 			newArg.argumentBodyType = this.argumentBodyType;
 			newArg.argumentValue = this.argumentValue;

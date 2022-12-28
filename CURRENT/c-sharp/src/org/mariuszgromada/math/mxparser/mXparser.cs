@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.0    2022-12-27
+ * @(#)mXparser.cs        5.2.0    2022-12-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1501,21 +1501,21 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		public static void doNothing(Object o) {
 		}
-		private static void consoleWriteLine(Object o) {
+		internal static void consoleWriteLine(Object o) {
 #if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine(o);
 #else
 				Console.WriteLine(o);
 #endif
 		}
-		private static void consoleWriteLine() {
+		internal static void consoleWriteLine() {
 #if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine(StringInvariant.EMPTY);
 #else
 				Console.WriteLine();
 #endif
 		}
-		private static void consoleWrite(Object o) {
+        internal static void consoleWrite(Object o) {
 #if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine(o);
 #else

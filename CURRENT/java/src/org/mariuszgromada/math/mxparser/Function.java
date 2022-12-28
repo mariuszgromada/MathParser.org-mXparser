@@ -685,7 +685,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			int n = paramsList.size();
 			double[] parameters = new double[n];
 			for (int i = 0; i < n; i++)
-			parameters[i] = paramsList.get(i);
+				parameters[i] = paramsList.get(i);
 			return functionExtensionVariadic.calculate(parameters);
 		}
 		return Double.NaN;
