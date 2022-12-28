@@ -204,7 +204,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	[TestClass]
     public class SyntaxTest {
 		[TestMethod]
-		public void TestSyn0000() {
+		public void testSyn0000() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "";
@@ -219,7 +219,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0001() {
+		public void testSyn0001() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "1++";
@@ -234,7 +234,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0002() {
+		public void testSyn0002() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "1+1-";
@@ -249,7 +249,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0003() {
+		public void testSyn0003() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "+-1";
@@ -264,7 +264,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0004() {
+		public void testSyn0004() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "1-(2))";
@@ -278,7 +278,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0005() {
+		public void testSyn0005() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "1id";
@@ -292,7 +292,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0006() {
+		public void testSyn0006() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "(1,2,3)";
@@ -306,7 +306,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0007() {
+		public void testSyn0007() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(1,2,3)";
@@ -320,7 +320,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0008() {
+		public void testSyn0008() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin";
@@ -334,7 +334,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0009() {
+		public void testSyn0009() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin()";
@@ -348,7 +348,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0010() {
+		public void testSyn0010() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "cos(1,2)";
@@ -362,7 +362,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0011() {
+		public void testSyn0011() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "log";
@@ -376,7 +376,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0012() {
+		public void testSyn0012() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "log()";
@@ -390,7 +390,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0013() {
+		public void testSyn0013() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "log(1)";
@@ -404,7 +404,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0014() {
+		public void testSyn0014() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "log(1,2,3)";
@@ -418,7 +418,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0015() {
+		public void testSyn0015() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "if";
@@ -432,7 +432,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0016() {
+		public void testSyn0016() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "if()";
@@ -446,7 +446,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0017() {
+		public void testSyn0017() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "if(1)";
@@ -460,7 +460,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0018() {
+		public void testSyn0018() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "if(1,2)";
@@ -474,7 +474,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0019() {
+		public void testSyn0019() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "if(1,2,3,4)";
@@ -488,7 +488,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0020() {
+		public void testSyn0020() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "pi()";
@@ -502,7 +502,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0021() {
+		public void testSyn0021() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "pi(1)";
@@ -516,7 +516,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0022() {
+		public void testSyn0022() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "[K*]()";
@@ -530,7 +530,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0023() {
+		public void testSyn0023() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "[K*](12)";
@@ -544,7 +544,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0024() {
+		public void testSyn0024() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "min";
@@ -558,7 +558,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0025() {
+		public void testSyn0025() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "min()";
@@ -572,7 +572,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0026() {
+		public void testSyn0026() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "max";
@@ -586,7 +586,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0027() {
+		public void testSyn0027() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "max()";
@@ -600,7 +600,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0028() {
+		public void testSyn0028() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "iff";
@@ -614,7 +614,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0029() {
+		public void testSyn0029() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "iff()";
@@ -628,7 +628,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0030() {
+		public void testSyn0030() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(1)";
@@ -642,7 +642,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0031() {
+		public void testSyn0031() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(1,2,3)";
@@ -656,7 +656,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0032() {
+		public void testSyn0032() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(1,2,3,4,5)";
@@ -670,7 +670,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0033() {
+		public void testSyn0033() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum";
@@ -684,7 +684,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0034() {
+		public void testSyn0034() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum()";
@@ -698,7 +698,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0035() {
+		public void testSyn0035() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(1)";
@@ -712,7 +712,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0036() {
+		public void testSyn0036() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(1,2)";
@@ -726,7 +726,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0037() {
+		public void testSyn0037() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(1,2,3)";
@@ -740,7 +740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0038() {
+		public void testSyn0038() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(1,2,3,4,5,6)";
@@ -754,7 +754,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0039() {
+		public void testSyn0039() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod()";
@@ -768,7 +768,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0040() {
+		public void testSyn0040() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(1)";
@@ -782,7 +782,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0041() {
+		public void testSyn0041() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(1,2)";
@@ -796,7 +796,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0042() {
+		public void testSyn0042() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(1,2,3)";
@@ -810,7 +810,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0043() {
+		public void testSyn0043() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(1,2,3,4,5,6)";
@@ -824,7 +824,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0044() {
+		public void testSyn0044() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(1,2,3,4)";
@@ -838,7 +838,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0045() {
+		public void testSyn0045() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(a*b,2,3,4)";
@@ -852,7 +852,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0046() {
+		public void testSyn0046() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i,1,a,4)";
@@ -866,7 +866,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0047() {
+		public void testSyn0047() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(1,2,3,4)";
@@ -880,7 +880,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0048() {
+		public void testSyn0048() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(a*b,2,3,4)";
@@ -894,7 +894,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0049() {
+		public void testSyn0049() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(i,1,a,4)";
@@ -908,7 +908,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0050() {
+		public void testSyn0050() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int";
@@ -922,7 +922,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0051() {
+		public void testSyn0051() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int()";
@@ -936,7 +936,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0052() {
+		public void testSyn0052() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int(1)";
@@ -950,7 +950,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0053() {
+		public void testSyn0053() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int(1,2)";
@@ -964,7 +964,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0054() {
+		public void testSyn0054() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int(1,2,3)";
@@ -978,7 +978,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0055() {
+		public void testSyn0055() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int(1,2,3,4,5)";
@@ -992,7 +992,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0056() {
+		public void testSyn0056() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 5);
@@ -1007,7 +1007,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0057() {
+		public void testSyn0057() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "int(1,2,0,1)";
@@ -1021,7 +1021,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0058() {
+		public void testSyn0058() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der";
@@ -1035,7 +1035,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0059() {
+		public void testSyn0059() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der()";
@@ -1049,7 +1049,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0060() {
+		public void testSyn0060() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der(1)";
@@ -1063,7 +1063,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0061() {
+		public void testSyn0061() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der(1,2,3)";
@@ -1077,7 +1077,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0062() {
+		public void testSyn0062() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der(1,2,3,4,5)";
@@ -1091,7 +1091,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0063() {
+		public void testSyn0063() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der(1,2)";
@@ -1105,7 +1105,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0064() {
+		public void testSyn0064() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der+";
@@ -1119,7 +1119,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0065() {
+		public void testSyn0065() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der+()";
@@ -1133,7 +1133,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0066() {
+		public void testSyn0066() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der+(1)";
@@ -1147,7 +1147,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0067() {
+		public void testSyn0067() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der+(1,2,3)";
@@ -1161,7 +1161,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0068() {
+		public void testSyn0068() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der+(1,2,3,4,5)";
@@ -1175,7 +1175,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0069() {
+		public void testSyn0069() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der+(1,2)";
@@ -1189,7 +1189,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0070() {
+		public void testSyn0070() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der-";
@@ -1203,7 +1203,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0071() {
+		public void testSyn0071() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der-()";
@@ -1217,7 +1217,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0072() {
+		public void testSyn0072() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der-(1)";
@@ -1231,7 +1231,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0073() {
+		public void testSyn0073() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der-(1,2,3)";
@@ -1245,7 +1245,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0074() {
+		public void testSyn0074() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der-(1,2,3,4,5)";
@@ -1259,7 +1259,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0075() {
+		public void testSyn0075() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der-(1,2)";
@@ -1273,7 +1273,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0076() {
+		public void testSyn0076() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "diff";
@@ -1287,7 +1287,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0077() {
+		public void testSyn0077() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "diff()";
@@ -1301,7 +1301,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0078() {
+		public void testSyn0078() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "diff(1)";
@@ -1315,7 +1315,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0079() {
+		public void testSyn0079() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "diff(1,2,3,4)";
@@ -1329,7 +1329,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0080() {
+		public void testSyn0080() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "diff(1,2)";
@@ -1343,7 +1343,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0081() {
+		public void testSyn0081() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "difb";
@@ -1357,7 +1357,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0082() {
+		public void testSyn0082() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "difb()";
@@ -1371,7 +1371,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0083() {
+		public void testSyn0083() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "difb(1)";
@@ -1385,7 +1385,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0084() {
+		public void testSyn0084() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "difb(1,2,3,4)";
@@ -1399,7 +1399,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0085() {
+		public void testSyn0085() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "difb(1,2)";
@@ -1413,7 +1413,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0086() {
+		public void testSyn0086() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f()=x+y";
@@ -1430,7 +1430,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0087() {
+		public void testSyn0087() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(1,x,y)=x+y";
@@ -1447,7 +1447,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0088() {
+		public void testSyn0088() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(1)=x+y";
@@ -1464,7 +1464,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0089() {
+		public void testSyn0089() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(x,)=x+y";
@@ -1481,7 +1481,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0090() {
+		public void testSyn0090() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(x,  a, x, )=x+y";
@@ -1498,7 +1498,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0091() {
+		public void testSyn0091() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "  f   (x ,   y,    z   )  = x +  y  +z  ";
@@ -1518,7 +1518,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0092() {
+		public void testSyn0092() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x()=y+z";
@@ -1535,7 +1535,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0093() {
+		public void testSyn0093() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(1,a,b)=a+b";
@@ -1552,7 +1552,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0094() {
+		public void testSyn0094() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(1)=a+b";
@@ -1569,7 +1569,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0095() {
+		public void testSyn0095() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(a,)=a+b";
@@ -1586,7 +1586,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0096() {
+		public void testSyn0096() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(a, b, c,)=a+c";
@@ -1603,7 +1603,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0097() {
+		public void testSyn0097() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "  x (  a, b   , c  ) = a+b+c";
@@ -1624,7 +1624,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0098() {
+		public void testSyn0098() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x 5";
@@ -1641,7 +1641,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0099() {
+		public void testSyn0099() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "  x = 5 + 1 + 2";
@@ -1662,7 +1662,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0100() {
+		public void testSyn0100() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(n,m)=n*f(n-1)";
@@ -1679,7 +1679,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0101() {
+		public void testSyn0101() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "RecursiveArgument name    1fa";
@@ -1696,7 +1696,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0102() {
+		public void testSyn0102() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x()=y+z";
@@ -1713,7 +1713,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0103() {
+		public void testSyn0103() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(1,a,b)=a+b";
@@ -1730,7 +1730,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0104() {
+		public void testSyn0104() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(1)=a+b";
@@ -1747,7 +1747,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0105() {
+		public void testSyn0105() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(a,)=a+b";
@@ -1764,7 +1764,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0106() {
+		public void testSyn0106() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x(a, b, c,)=a+c";
@@ -1781,7 +1781,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0107() {
+		public void testSyn0107() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "  x = a+b+c";
@@ -1802,7 +1802,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0108() {
+		public void testSyn0108() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "x 5";
@@ -1819,7 +1819,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0109() {
+		public void testSyn0109() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "  x = 5 + 1 + 2";
@@ -1840,7 +1840,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0110() {
+		public void testSyn0110() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "Constant name    1fa";
@@ -1857,7 +1857,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0111() {
+		public void testSyn0111() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			Function ff = new Function("ff", new FunExt());
@@ -1872,7 +1872,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0112() {
+		public void testSyn0112() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			Function ff = new Function("ff", new FunExt());
@@ -1887,7 +1887,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0113() {
+		public void testSyn0113() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "solve(2*x - 4, x+y, -10, 10)";
@@ -1901,7 +1901,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0114() {
+		public void testSyn0114() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			mXparser.unremoveAllBuiltinTokens();
@@ -1918,7 +1918,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0115() {
+		public void testSyn0115() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			mXparser.unmodifyAllBuiltinTokens();
@@ -1935,7 +1935,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0116() {
+		public void testSyn0116() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			mXparser.unmodifyAllBuiltinTokens();
@@ -1952,7 +1952,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0117() {
+		public void testSyn0117() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			mXparser.setNotToOverrideBuiltinTokens();
@@ -1970,7 +1970,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0118() {
+		public void testSyn0118() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			mXparser.setToOverrideBuiltinTokens();
@@ -1988,7 +1988,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0119() {
+		public void testSyn0119() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "h.1234567890aBcDeF + H.001234567890aBcDeF";
@@ -2002,7 +2002,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0120() {
+		public void testSyn0120() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "o.12345670 + O.0012345670";
@@ -2016,7 +2016,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0121() {
+		public void testSyn0121() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b.101010 + B.000101010";
@@ -2030,7 +2030,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0122() {
+		public void testSyn0122() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "h.1234567890aBcDeFu + y.001234567890aBcDeF";
@@ -2045,7 +2045,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0123() {
+		public void testSyn0123() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "o.123456708 + O.00123456709";
@@ -2060,7 +2060,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0124() {
+		public void testSyn0124() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b.2101010 + B.0001010103";
@@ -2075,7 +2075,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0125() {
+		public void testSyn0125() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b1. + B1.111";
@@ -2089,7 +2089,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0126() {
+		public void testSyn0126() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b1.111 + B1.1101";
@@ -2104,7 +2104,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0127() {
+		public void testSyn0127() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b2.01 + B2.0101";
@@ -2118,7 +2118,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0128() {
+		public void testSyn0128() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b2.012 + B2.0101";
@@ -2133,7 +2133,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0129() {
+		public void testSyn0129() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b3.012 + B3.0012";
@@ -2147,7 +2147,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0130() {
+		public void testSyn0130() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b3.012 + B3.00123";
@@ -2162,7 +2162,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0131() {
+		public void testSyn0131() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b4.0123 + B4.00123";
@@ -2176,7 +2176,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0132() {
+		public void testSyn0132() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b4.01234 + B4.00123";
@@ -2191,7 +2191,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0133() {
+		public void testSyn0133() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b5.01234 + B5.001234";
@@ -2205,7 +2205,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0134() {
+		public void testSyn0134() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b5.012345 + B5.001234";
@@ -2220,7 +2220,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0135() {
+		public void testSyn0135() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b6.012345 + B6.0012345";
@@ -2234,7 +2234,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0136() {
+		public void testSyn0136() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b6.012345 + B6.00123456";
@@ -2249,7 +2249,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0137() {
+		public void testSyn0137() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b7.0123456 + B7.00123456";
@@ -2263,7 +2263,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0138() {
+		public void testSyn0138() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b7.0123456 + B7.001234568";
@@ -2278,7 +2278,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0139() {
+		public void testSyn0139() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b8.01234567 + B8.001234567";
@@ -2292,7 +2292,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0140() {
+		public void testSyn0140() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b8.01234567 + B8.0012345679";
@@ -2307,7 +2307,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0141() {
+		public void testSyn0141() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b9.012345678 + B9.0012345678";
@@ -2321,7 +2321,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0142() {
+		public void testSyn0142() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b9.0123456789 + B9.0012345678";
@@ -2336,7 +2336,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0143() {
+		public void testSyn0143() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b10.0123456789 + B10.00123456789";
@@ -2350,7 +2350,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0144() {
+		public void testSyn0144() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b10.0123456789 + B10.00123456789a";
@@ -2365,7 +2365,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0145() {
+		public void testSyn0145() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b11.0123456789a + B11.00123456789A";
@@ -2379,7 +2379,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0146() {
+		public void testSyn0146() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b11.0123456789a + B11.00123456789Ab";
@@ -2394,7 +2394,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0147() {
+		public void testSyn0147() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b12.0123456789ab + B12.00123456789AB";
@@ -2408,7 +2408,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0148() {
+		public void testSyn0148() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b12.0123456789abC + B12.00123456789AB";
@@ -2423,7 +2423,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0149() {
+		public void testSyn0149() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b13.0123456789abc + B13.00123456789ABC";
@@ -2437,7 +2437,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0150() {
+		public void testSyn0150() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b13.0123456789abc + B13.00123456789ABCd";
@@ -2452,7 +2452,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0151() {
+		public void testSyn0151() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b14.0123456789abcd + B14.00123456789ABCD";
@@ -2466,7 +2466,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0152() {
+		public void testSyn0152() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b14.0123456789abcdE + B14.00123456789ABCD";
@@ -2481,7 +2481,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0153() {
+		public void testSyn0153() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b15.0123456789abcde + B15.00123456789ABCDE";
@@ -2495,7 +2495,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0154() {
+		public void testSyn0154() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b15.0123456789abcde + B15.00123456789ABCDEf";
@@ -2510,7 +2510,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0155() {
+		public void testSyn0155() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b16.0123456789abcdef + B16.00123456789ABCDEF";
@@ -2524,7 +2524,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0156() {
+		public void testSyn0156() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
@@ -2539,7 +2539,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0157() {
+		public void testSyn0157() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b16.0123456789abcdef + B16.00123456789ABCDEF";
@@ -2553,7 +2553,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0158() {
+		public void testSyn0158() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b16.0123456789abcdefg + B16.00123456789ABCDEF";
@@ -2568,7 +2568,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0159() {
+		public void testSyn0159() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFG";
@@ -2582,7 +2582,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0160() {
+		public void testSyn0160() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b17.0123456789abcdefg + B17.00123456789ABCDEFGh";
@@ -2597,7 +2597,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0161() {
+		public void testSyn0161() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b18.0123456789abcdefgh + B18.00123456789ABCDEFGH";
@@ -2611,7 +2611,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0162() {
+		public void testSyn0162() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b18.0123456789abcdefghI + B18.00123456789ABCDEFGH";
@@ -2626,7 +2626,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0163() {
+		public void testSyn0163() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGI";
@@ -2640,7 +2640,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0164() {
+		public void testSyn0164() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b19.0123456789abcdefghi + B19.00123456789ABCDEFGIj";
@@ -2655,7 +2655,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0165() {
+		public void testSyn0165() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b20.0123456789abcdefghij + B20.00123456789ABCDEFGIJ";
@@ -2669,7 +2669,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0166() {
+		public void testSyn0166() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b20.0123456789abcdefghijK + B20.00123456789ABCDEFGIJ";
@@ -2684,7 +2684,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0167() {
+		public void testSyn0167() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJK";
@@ -2698,7 +2698,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0168() {
+		public void testSyn0168() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b21.0123456789abcdefghijk + B21.00123456789ABCDEFGIJKl";
@@ -2713,7 +2713,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0169() {
+		public void testSyn0169() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b22.0123456789abcdefghijkl + B22.00123456789ABCDEFGIJKL";
@@ -2727,7 +2727,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0170() {
+		public void testSyn0170() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b22.0123456789abcdefghijklM + B22.00123456789ABCDEFGIJKL";
@@ -2742,7 +2742,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0171() {
+		public void testSyn0171() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLM";
@@ -2756,7 +2756,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0172() {
+		public void testSyn0172() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b23.0123456789abcdefghijklm + B23.00123456789ABCDEFGIJKLMn";
@@ -2771,7 +2771,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0173() {
+		public void testSyn0173() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b24.0123456789abcdefghijklmn + B24.00123456789ABCDEFGIJKLMN";
@@ -2785,7 +2785,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0174() {
+		public void testSyn0174() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b24.0123456789abcdefghijklmnO + B24.00123456789ABCDEFGIJKLMN";
@@ -2800,7 +2800,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0175() {
+		public void testSyn0175() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNO";
@@ -2814,7 +2814,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0176() {
+		public void testSyn0176() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b25.0123456789abcdefghijklmno + B25.00123456789ABCDEFGIJKLMNOp";
@@ -2829,7 +2829,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0177() {
+		public void testSyn0177() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOP";
@@ -2843,7 +2843,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0178() {
+		public void testSyn0178() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b26.0123456789abcdefghijklmnop + B26.00123456789ABCDEFGIJKLMNOPq";
@@ -2858,7 +2858,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0179() {
+		public void testSyn0179() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b27.0123456789abcdefghijklmnopq + B27.00123456789ABCDEFGIJKLMNOPQ";
@@ -2872,7 +2872,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0180() {
+		public void testSyn0180() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b27.0123456789abcdefghijklmnopqR + B27.00123456789ABCDEFGIJKLMNOPQ";
@@ -2887,7 +2887,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0181() {
+		public void testSyn0181() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQR";
@@ -2901,7 +2901,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0182() {
+		public void testSyn0182() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b28.0123456789abcdefghijklmnopqr + B28.00123456789ABCDEFGIJKLMNOPQRs";
@@ -2916,7 +2916,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0183() {
+		public void testSyn0183() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b29.0123456789abcdefghijklmnopqrs + B29.00123456789ABCDEFGIJKLMNOPQRS";
@@ -2930,7 +2930,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0184() {
+		public void testSyn0184() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b29.0123456789abcdefghijklmnopqrsT + B29.00123456789ABCDEFGIJKLMNOPQRS";
@@ -2945,7 +2945,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0185() {
+		public void testSyn0185() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRST";
@@ -2959,7 +2959,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0186() {
+		public void testSyn0186() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b30.0123456789abcdefghijklmnopqrst + B30.00123456789ABCDEFGIJKLMNOPQRSTu";
@@ -2974,7 +2974,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0187() {
+		public void testSyn0187() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b31.0123456789abcdefghijklmnopqrstu + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
@@ -2988,7 +2988,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0188() {
+		public void testSyn0188() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b31.0123456789abcdefghijklmnopqrstuV + B31.00123456789ABCDEFGIJKLMNOPQRSTU";
@@ -3003,7 +3003,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0189() {
+		public void testSyn0189() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUV";
@@ -3017,7 +3017,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0190() {
+		public void testSyn0190() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b32.0123456789abcdefghijklmnopqrstuv + B32.00123456789ABCDEFGIJKLMNOPQRSTUVw";
@@ -3032,7 +3032,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0191() {
+		public void testSyn0191() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b33.0123456789abcdefghijklmnopqrstuvw + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
@@ -3046,7 +3046,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0192() {
+		public void testSyn0192() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b33.0123456789abcdefghijklmnopqrstuvwX + B33.00123456789ABCDEFGIJKLMNOPQRSTUVW";
@@ -3061,7 +3061,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0193() {
+		public void testSyn0193() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWX";
@@ -3075,7 +3075,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0194() {
+		public void testSyn0194() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b34.0123456789abcdefghijklmnopqrstuvwx + B34.00123456789ABCDEFGIJKLMNOPQRSTUVWXy";
@@ -3090,7 +3090,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0195() {
+		public void testSyn0195() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b35.0123456789abcdefghijklmnopqrstuvwxy + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
@@ -3104,7 +3104,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0196() {
+		public void testSyn0196() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b35.0123456789abcdefghijklmnopqrstuvwxyZ + B35.00123456789ABCDEFGIJKLMNOPQRSTUVWXY";
@@ -3119,7 +3119,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0197() {
+		public void testSyn0197() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyz + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
@@ -3133,7 +3133,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0198() {
+		public void testSyn0198() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyzą + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
@@ -3148,7 +3148,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0199() {
+		public void testSyn0199() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = pi");
@@ -3163,7 +3163,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0200() {
+		public void testSyn0200() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = pi");
@@ -3178,7 +3178,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0201() {
+		public void testSyn0201() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der( sin(x), x , pi )";
@@ -3192,7 +3192,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0202() {
+		public void testSyn0202() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der( sin(x), x , pi )";
@@ -3207,7 +3207,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0203() {
+		public void testSyn0203() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der( sin(x), x , pi, 0.01, 100 )";
@@ -3221,7 +3221,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0204() {
+		public void testSyn0204() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der( sin(x), x , pi, 0.01, 100 )";
@@ -3236,7 +3236,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0205() {
+		public void testSyn0205() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der( sin(x), x )";
@@ -3250,7 +3250,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0206() {
+		public void testSyn0206() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "der( sin(x), x, 0.1, 100 )";
@@ -3264,7 +3264,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0207() {
+		public void testSyn0207() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)+cos(pi)";
@@ -3279,7 +3279,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0208() {
+		public void testSyn0208() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)+cos(pi)";
@@ -3297,7 +3297,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0209() {
+		public void testSyn0209() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)+cos(pi)";
@@ -3317,7 +3317,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0210() {
+		public void testSyn0210() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)+cos(pi)";
@@ -3338,7 +3338,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0211() {
+		public void testSyn0211() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sine(pi)+cosine(pi)";
@@ -3353,7 +3353,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0212() {
+		public void testSyn0212() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sine(pi)+cosine(pi)";
@@ -3371,7 +3371,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0213() {
+		public void testSyn0213() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sine(pi)+cosine(pi)";
@@ -3391,7 +3391,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0214() {
+		public void testSyn0214() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sine(pi)+cosine(pi)";
@@ -3413,7 +3413,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0215() {
+		public void testSyn0215() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sine(pi)+cosine(pi)";
@@ -3434,7 +3434,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0216() {
+		public void testSyn0216() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)";
@@ -3451,7 +3451,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0217() {
+		public void testSyn0217() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)";
@@ -3471,7 +3471,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0218() {
+		public void testSyn0218() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(pi)";
@@ -3492,7 +3492,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0219() {
+		public void testSyn0219() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 + + (180/3)*5";
@@ -3507,7 +3507,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0220() {
+		public void testSyn0220() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 + - (180/3)*5";
@@ -3522,7 +3522,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0221() {
+		public void testSyn0221() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 -  + (180/3)*5";
@@ -3537,7 +3537,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0222() {
+		public void testSyn0222() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "10*(350.0/5) + 60.0 -   - (180/3)*5";
@@ -3552,7 +3552,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0223() {
+		public void testSyn0223() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "10*2_3_5";
@@ -3566,7 +3566,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0224() {
+		public void testSyn0224() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "10*(-2_3_5)";
@@ -3580,7 +3580,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0225() {
+		public void testSyn0225() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "-2_3_5+5_2";
@@ -3594,7 +3594,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0226() {
+		public void testSyn0226() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(-2_3_5+5_2*b5.12)";
@@ -3608,7 +3608,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0227() {
+		public void testSyn0227() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(101_102_103+2653_123*b5.12)";
@@ -3622,7 +3622,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0228() {
+		public void testSyn0228() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2^^3+2^3+2^2^^2";
@@ -3636,7 +3636,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0229() {
+		public void testSyn0229() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "pi^^sin(pi)";
@@ -3650,7 +3650,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0230() {
+		public void testSyn0230() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(x) = (3 + 5*x";
@@ -3665,7 +3665,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0231() {
+		public void testSyn0231() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(x) = (3 + 5*x)";
@@ -3680,7 +3680,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0232() {
+		public void testSyn0232() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "[npar]";
@@ -3694,7 +3694,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0233() {
+		public void testSyn0233() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "par(1)";
@@ -3708,7 +3708,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0234() {
+		public void testSyn0234() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(x) = [npar] + par(1)";
@@ -3723,7 +3723,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0235() {
+		public void testSyn0235() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(...) = [npar] + par(1)";
@@ -3738,7 +3738,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0236() {
+		public void testSyn0236() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "f(... = [npar] + par(1)";
@@ -3753,7 +3753,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0237() {
+		public void testSyn0237() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "{fun-ext-var}";
@@ -3769,7 +3769,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0238() {
+		public void testSyn0238() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			FunExtVar gx = new FunExtVar();
@@ -3786,7 +3786,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0239() {
+		public void testSyn0239() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = ".2";
@@ -3800,7 +3800,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0240() {
+		public void testSyn0240() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "+.2";
@@ -3814,7 +3814,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0241() {
+		public void testSyn0241() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "-.2";
@@ -3828,7 +3828,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0242() {
+		public void testSyn0242() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "-.2^.3";
@@ -3842,7 +3842,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0243() {
+		public void testSyn0243() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = ".2 ^ .3";
@@ -3856,7 +3856,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0244() {
+		public void testSyn0244() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "-2 + 3 - .2 + 1.5 - .2^.3 + (2/.3)";
@@ -3870,7 +3870,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0245() {
+		public void testSyn0245() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			Argument fun = new Argument("fun");
@@ -3887,7 +3887,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0246() {
+		public void testSyn0246() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3)";
@@ -3901,7 +3901,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0247() {
+		public void testSyn0247() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "(3)2";
@@ -3915,7 +3915,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0248() {
+		public void testSyn0248() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3)2";
@@ -3929,7 +3929,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0249() {
+		public void testSyn0249() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3+4)2";
@@ -3943,7 +3943,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0250() {
+		public void testSyn0250() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3+4)2(3)(3)2cos(pi)2sin(pi)2pi";
@@ -3957,7 +3957,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0251() {
+		public void testSyn0251() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "-2(3+4)2(3)(3)-2cos(pi)+2sin(pi)2-pi";
@@ -3971,7 +3971,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0252() {
+		public void testSyn0252() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3+4)2 - 2*(3+4)*2";
@@ -3985,7 +3985,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0253() {
+		public void testSyn0253() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2e-2*e";
@@ -3999,7 +3999,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0254() {
+		public void testSyn0254() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = ".01e-0.01*e";
@@ -4013,7 +4013,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0255() {
+		public void testSyn0255() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "e[h-]sin(.1pi)";
@@ -4027,7 +4027,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0256() {
+		public void testSyn0256() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2[h-]2[h-]2[h-]";
@@ -4041,7 +4041,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0257() {
+		public void testSyn0257() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "[h-](1)";
@@ -4055,7 +4055,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0258() {
+		public void testSyn0258() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "[h-](1,2)";
@@ -4069,7 +4069,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0259() {
+		public void testSyn0259() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
@@ -4083,7 +4083,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0260() {
+		public void testSyn0260() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2.1a2.1e2(.3+0.4).01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
@@ -4098,7 +4098,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0261() {
+		public void testSyn0261() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2.1a2.1e2(.3+0.4)[h-].01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";
@@ -4113,7 +4113,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestSyn0262() {
+		public void testSyn0262() {
 			TestCommonTools.testSynSettingsInit();
 			bool testResult = false;
 			String expStr = "2.1a[h-]2.1e2(.3+0.4)[h-].01(3-2)(3^2)2cos(2.1pi)2sin(1.9pi)0.1pi";

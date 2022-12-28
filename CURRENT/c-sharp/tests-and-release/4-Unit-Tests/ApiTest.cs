@@ -207,7 +207,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	[TestClass]
     public class ApiTest {
 		[TestMethod]
-		public void TestApi0000() {
+		public void testApi0000() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Expression(), getExpressionString()";
@@ -222,7 +222,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0001() {
+		public void testApi0001() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getExpressionString(), getArgumentsNumber()";
@@ -242,7 +242,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0002() {
+		public void testApi0002() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getExpressionString(), getArgumentsNumber(), getFunctionsNumber()";
@@ -266,7 +266,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0003() {
+		public void testApi0003() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getExpressionString(), getArgumentsNumber(), getFunctionsNumber()";
@@ -293,7 +293,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0004() {
+		public void testApi0004() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "setExpressionString(), getExpressionString(), clearExpressionString()";
@@ -339,7 +339,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0005() {
+		public void testApi0005() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "setDescription(), getDescription(), clearDescription()";
@@ -374,7 +374,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0006() {
+		public void testApi0006() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "setVerboseMode(), getVerboseMode(), setSilentMode()";
@@ -411,7 +411,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0007() {
+		public void testApi0007() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getRecursiveMode()";
@@ -432,7 +432,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0008() {
+		public void testApi0008() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Expression(String expressionString)";
@@ -447,7 +447,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0009() {
+		public void testApi0009() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Expression(String expressionString)";
@@ -465,7 +465,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0010() {
+		public void testApi0010() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "addArguments(Argument... arguments), addArguments( List<Argument> argumentsList), defineArguments(String... argumentsNames), defineArgument(String argumentName, double argumentValue)";
@@ -508,7 +508,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0011() {
+		public void testApi0011() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "int getArgumentIndex(String argumentName), Argument getArgument(String argumentName), getArgument(int argumentIndex), getArgumentsNumber()";
@@ -551,7 +551,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0012() {
+		public void testApi0012() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "setArgumentValue(), getArgumentValue()";
@@ -593,7 +593,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0013() {
+		public void testApi0013() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "removeArguments(String... argumentsNames), removeArguments(Argument... arguments), removeAllArguments()";
@@ -645,7 +645,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0014() {
+		public void testApi0014() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "addConstants(Constant... constants), addConstants( List<Constant> constantsList), defineConstant(String constantName, double constantValue)";
@@ -683,7 +683,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0015() {
+		public void testApi0015() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getConstantIndex(String constantName), getConstant(String constantName), getConstant(int constantIndex), getConstantsNumber()";
@@ -720,7 +720,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0016() {
+		public void testApi0016() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "removeConstants(String... constantsNames), removeConstants(Constant... constants), removeAllConstants()";
@@ -767,7 +767,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0017() {
+		public void testApi0017() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "addFunctions(Function... functions), addFunctions( List<Function> functionsList), defineFunction(String functionName, String  functionExpressionString,...";
@@ -805,7 +805,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0018() {
+		public void testApi0018() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getFunctionIndex(String functionName), getFunction(String functionName), getFunction(int functionIndex), getFunctionsNumber()";
@@ -847,7 +847,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0019() {
+		public void testApi0019() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "removeFunctions(String... functionsNames), removeFunctions(Function... functions), removeAllFunctions()";
@@ -898,7 +898,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0020() {
+		public void testApi0020() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "double calculate(), getHelp(), getHelp(String word), getLicense()";
@@ -931,7 +931,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0021() {
+		public void testApi0021() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getCopyOfInitialTokens()";
@@ -984,7 +984,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0022() {
+		public void testApi0022() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Invalid tokens, getCopyOfInitialTokens()";
@@ -1062,7 +1062,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0023() {
+		public void testApi0023() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Function Extension - calculate()";
@@ -1073,7 +1073,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0024() {
+		public void testApi0024() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "FunctionExtension - setArgumentValue - calculate";
@@ -1086,7 +1086,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0025() {
+		public void testApi0025() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "FunctionExtension - parameters";
@@ -1101,7 +1101,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0026() {
+		public void testApi0026() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "FunctionExtension - calculate";
@@ -1114,7 +1114,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0027() {
+		public void testApi0027() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Invalid tokens looks like, getCopyOfInitialTokens()";
@@ -1158,7 +1158,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0028() {
+		public void testApi0028() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "checkSyntax()";
@@ -1172,7 +1172,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0029() {
+		public void testApi0029() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "checkSyntax()";
@@ -1186,7 +1186,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0030() {
+		public void testApi0030() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Tokens to remove, removeBuiltinTokens(), unremoveBuiltinTokens(), getBuiltinTokensToRemove(),";
@@ -1213,7 +1213,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0031() {
+		public void testApi0031() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Tokens to modify, modifyBuiltinToken(), getBuiltinTokensToModify(), getHelp()";
@@ -1258,7 +1258,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0032() {
+		public void testApi0032() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Recursion counter, setMaxAllowedRecursionDepth(), getMaxAllowedRecursionDepth()";
@@ -1273,7 +1273,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0033() {
+		public void testApi0033() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Override built-in tokens, setToOverrideBuiltinTokens(), setNotToOverrideBuiltinTokens(), checkIfsetToOverrideBuiltinTokens()";
@@ -1292,7 +1292,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0034() {
+		public void testApi0034() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getKeyWords()";
@@ -1309,7 +1309,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0035() {
+		public void testApi0035() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getTokenTypeDescription()";
@@ -1337,7 +1337,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0036() {
+		public void testApi0036() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convOthBase2Decimal()";
@@ -1387,7 +1387,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0037() {
+		public void testApi0037() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convOthBase2Decimal() - loop";
@@ -1404,7 +1404,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0038() {
+		public void testApi0038() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convert2Decimal() and other - special cases";
@@ -1439,7 +1439,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0039() {
+		public void testApi0039() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convert2Decimal() - loop";
@@ -1456,7 +1456,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0040() {
+		public void testApi0040() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convert2Decimal() - loop";
@@ -1473,7 +1473,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0041() {
+		public void testApi0041() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convert2Decimal() - loop";
@@ -1490,7 +1490,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0042() {
+		public void testApi0042() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getNumeralSystemBase()";
@@ -1742,7 +1742,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0043() {
+		public void testApi0043() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convOthBase2Decimal()";
@@ -1994,7 +1994,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0044() {
+		public void testApi0044() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convDecimal2OthBase()";
@@ -2079,7 +2079,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0045() {
+		public void testApi0045() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convDecimal2OthBase() - format 0";
@@ -2164,7 +2164,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0046() {
+		public void testApi0046() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convDecimal2OthBase() - format 1";
@@ -2250,7 +2250,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0047() {
+		public void testApi0047() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convDecimal2OthBase() - format 2";
@@ -2336,7 +2336,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0048() {
+		public void testApi0048() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "convOthBase2Decimal() - special cases";
@@ -2358,7 +2358,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0049() {
+		public void testApi0049() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getMissingUserDefinedArguments()";
@@ -2376,7 +2376,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0050() {
+		public void testApi0050() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "getMissingUserDefinedFunctions()";
@@ -2392,7 +2392,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0051() {
+		public void testApi0051() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Default radian / degrees mode";
@@ -2403,7 +2403,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0052() {
+		public void testApi0052() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Set to degrees mode";
@@ -2415,7 +2415,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0053() {
+		public void testApi0053() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Set to degrees mode";
@@ -2427,7 +2427,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0054() {
+		public void testApi0054() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "roundHalfUp";
@@ -2580,7 +2580,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0055() {
+		public void testApi0055() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "To Mixed fraction";
@@ -2628,7 +2628,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0056() {
+		public void testApi0056() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "To fraction";
@@ -2676,7 +2676,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0057() {
+		public void testApi0057() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Variadic user function";
@@ -2693,7 +2693,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0058() {
+		public void testApi0058() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Variadic user function with extension";
@@ -2711,7 +2711,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0059() {
+		public void testApi0059() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Almost int rounding disable / enable";
@@ -2727,7 +2727,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0060() {
+		public void testApi0060() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "StringIndexOutOfBoundsException asking for tokens of empty expression #135";
@@ -2740,7 +2740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0061() {
+		public void testApi0061() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument check syntax #145";
@@ -2752,7 +2752,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0062() {
+		public void testApi0062() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument check syntax #145";
@@ -2764,7 +2764,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0063() {
+		public void testApi0063() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument check syntax #145";
@@ -2776,7 +2776,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0064() {
+		public void testApi0064() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument check syntax #145";
@@ -2789,7 +2789,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0065() {
+		public void testApi0065() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument check syntax #145";
@@ -2806,7 +2806,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0066() {
+		public void testApi0066() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Trigonometric functions special values - compared to Math";
@@ -2828,7 +2828,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0067() {
+		public void testApi0067() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse trigonometric functions special values - compared to Math";
@@ -2870,7 +2870,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0068() {
+		public void testApi0068() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Trigonometric functions special values - compared to MathFunctions";
@@ -2892,7 +2892,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0069() {
+		public void testApi0069() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse trigonometric functions special values - compared to MathFunctions";
@@ -2933,7 +2933,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0070() {
+		public void testApi0070() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Sine test";
@@ -2946,7 +2946,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0071() {
+		public void testApi0071() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Cosine test";
@@ -2959,7 +2959,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0072() {
+		public void testApi0072() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Tangent test";
@@ -2972,7 +2972,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0073() {
+		public void testApi0073() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Cotangent test";
@@ -2985,7 +2985,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0074() {
+		public void testApi0074() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Secant test";
@@ -2998,7 +2998,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0075() {
+		public void testApi0075() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Cosecant test";
@@ -3011,7 +3011,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0076() {
+		public void testApi0076() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse sine test";
@@ -3024,7 +3024,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0077() {
+		public void testApi0077() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse cosine test";
@@ -3037,7 +3037,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0078() {
+		public void testApi0078() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse tangent test";
@@ -3050,7 +3050,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0079() {
+		public void testApi0079() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse ctangent test";
@@ -3066,7 +3066,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0080() {
+		public void testApi0080() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse secant test";
@@ -3079,7 +3079,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0081() {
+		public void testApi0081() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Inverse cosecant test";
@@ -3092,7 +3092,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0082() {
+		public void testApi0082() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument extension test";
@@ -3104,7 +3104,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0083() {
+		public void testApi0083() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument extension test";
@@ -3119,7 +3119,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0084() {
+		public void testApi0084() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Argument extension test";
@@ -3134,7 +3134,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0085() {
+		public void testApi0085() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3146,7 +3146,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0086() {
+		public void testApi0086() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3158,7 +3158,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0087() {
+		public void testApi0087() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3168,7 +3168,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0088() {
+		public void testApi0088() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3178,7 +3178,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0089() {
+		public void testApi0089() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3188,7 +3188,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0090() {
+		public void testApi0090() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3198,7 +3198,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0091() {
+		public void testApi0091() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3208,7 +3208,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0092() {
+		public void testApi0092() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3218,7 +3218,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0093() {
+		public void testApi0093() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3228,7 +3228,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0094() {
+		public void testApi0094() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3238,7 +3238,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0095() {
+		public void testApi0095() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3248,7 +3248,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0096() {
+		public void testApi0096() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3258,7 +3258,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0097() {
+		public void testApi0097() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3268,7 +3268,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0098() {
+		public void testApi0098() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3278,7 +3278,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0099() {
+		public void testApi0099() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3288,7 +3288,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0100() {
+		public void testApi0100() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3298,7 +3298,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0101() {
+		public void testApi0101() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3308,7 +3308,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0102() {
+		public void testApi0102() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3318,7 +3318,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0103() {
+		public void testApi0103() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3328,7 +3328,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0104() {
+		public void testApi0104() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3338,7 +3338,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0105() {
+		public void testApi0105() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3348,7 +3348,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0106() {
+		public void testApi0106() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3359,7 +3359,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0107() {
+		public void testApi0107() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3369,7 +3369,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0108() {
+		public void testApi0108() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3379,7 +3379,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0109() {
+		public void testApi0109() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3389,7 +3389,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0110() {
+		public void testApi0110() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3399,7 +3399,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0111() {
+		public void testApi0111() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3409,7 +3409,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0112() {
+		public void testApi0112() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3419,7 +3419,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0113() {
+		public void testApi0113() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3429,7 +3429,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0114() {
+		public void testApi0114() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3439,7 +3439,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0115() {
+		public void testApi0115() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3449,7 +3449,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0116() {
+		public void testApi0116() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3459,7 +3459,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0117() {
+		public void testApi0117() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3469,7 +3469,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0118() {
+		public void testApi0118() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3479,7 +3479,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0119() {
+		public void testApi0119() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3489,7 +3489,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0120() {
+		public void testApi0120() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3499,7 +3499,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0121() {
+		public void testApi0121() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3509,7 +3509,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0122() {
+		public void testApi0122() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3519,7 +3519,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0123() {
+		public void testApi0123() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3529,7 +3529,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0124() {
+		public void testApi0124() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3539,7 +3539,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0125() {
+		public void testApi0125() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";
@@ -3549,7 +3549,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestApi0126() {
+		public void testApi0126() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "Implied Multiplication & canonical expression string test";

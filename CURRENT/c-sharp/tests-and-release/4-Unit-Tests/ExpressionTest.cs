@@ -205,7 +205,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	[TestClass]
     public class ExpressionTest {
 		[TestMethod]
-		public void TestExpr0000() {
+		public void testExpr0000() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "";
@@ -219,7 +219,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0001() {
+		public void testExpr0001() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2+1";
@@ -233,7 +233,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0002() {
+		public void testExpr0002() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1-2";
@@ -247,7 +247,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0003() {
+		public void testExpr0003() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2*5";
@@ -261,7 +261,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0004() {
+		public void testExpr0004() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "20/4";
@@ -275,7 +275,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0005() {
+		public void testExpr0005() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "-2+22";
@@ -289,7 +289,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0006() {
+		public void testExpr0006() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3-(-5)";
@@ -303,7 +303,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0007() {
+		public void testExpr0007() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "+5-(+7)";
@@ -317,7 +317,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0008() {
+		public void testExpr0008() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "-5+(-7)";
@@ -331,7 +331,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0009() {
+		public void testExpr0009() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "-2*(3-5)+7";
@@ -345,7 +345,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0010() {
+		public void testExpr0010() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "5.5*(2-3 + (5.3-7.89)/2)/2";
@@ -359,7 +359,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0011() {
+		public void testExpr0011() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2-(32-4)/(23+(4)/(5))-(2-4)*(4+6-98.2)+4";
@@ -373,7 +373,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0012() {
+		public void testExpr0012() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2^3";
@@ -387,7 +387,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0013() {
+		public void testExpr0013() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2^(-3)";
@@ -401,7 +401,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0014() {
+		public void testExpr0014() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2^0.7";
@@ -415,7 +415,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0015() {
+		public void testExpr0015() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "4^3^2";
@@ -429,7 +429,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0016() {
+		public void testExpr0016() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(4^3)^2";
@@ -443,7 +443,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0017() {
+		public void testExpr0017() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "0.9^0.8^0.7^0.6^0.5";
@@ -457,7 +457,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0018() {
+		public void testExpr0018() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2=2";
@@ -471,7 +471,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0019() {
+		public void testExpr0019() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2=3";
@@ -485,7 +485,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0020() {
+		public void testExpr0020() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2<>3";
@@ -499,7 +499,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0021() {
+		public void testExpr0021() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2<>2";
@@ -513,7 +513,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0022() {
+		public void testExpr0022() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3>2";
@@ -527,7 +527,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0023() {
+		public void testExpr0023() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2>2";
@@ -541,7 +541,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0024() {
+		public void testExpr0024() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3>2";
@@ -555,7 +555,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0025() {
+		public void testExpr0025() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2<3";
@@ -569,7 +569,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0026() {
+		public void testExpr0026() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2<2";
@@ -583,7 +583,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0027() {
+		public void testExpr0027() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3<2";
@@ -597,7 +597,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0028() {
+		public void testExpr0028() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2>=2";
@@ -611,7 +611,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0029() {
+		public void testExpr0029() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3>=2";
@@ -625,7 +625,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0030() {
+		public void testExpr0030() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1>=2";
@@ -639,7 +639,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0031() {
+		public void testExpr0031() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1<=2";
@@ -653,7 +653,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0032() {
+		public void testExpr0032() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1<=1";
@@ -667,7 +667,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0033() {
+		public void testExpr0033() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1<=0";
@@ -681,7 +681,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0034() {
+		public void testExpr0034() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 & 1";
@@ -695,7 +695,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0035() {
+		public void testExpr0035() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 & -1";
@@ -709,7 +709,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0036() {
+		public void testExpr0036() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 & 0";
@@ -723,7 +723,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0037() {
+		public void testExpr0037() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "0 & 1";
@@ -737,7 +737,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0038() {
+		public void testExpr0038() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "0 & 0";
@@ -751,7 +751,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0039() {
+		public void testExpr0039() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 | -1";
@@ -765,7 +765,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0040() {
+		public void testExpr0040() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "0 | -1";
@@ -779,7 +779,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0041() {
+		public void testExpr0041() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 | 0";
@@ -793,7 +793,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0042() {
+		public void testExpr0042() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "0 | 0";
@@ -807,7 +807,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0043() {
+		public void testExpr0043() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3>2 | 2>3";
@@ -821,7 +821,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0044() {
+		public void testExpr0044() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3>5 | 2>3";
@@ -835,7 +835,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0045() {
+		public void testExpr0045() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "not((3>4) & (2>=2))";
@@ -849,7 +849,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0046() {
+		public void testExpr0046() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "not(-5)";
@@ -863,7 +863,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0047() {
+		public void testExpr0047() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "not(0)";
@@ -877,7 +877,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0048() {
+		public void testExpr0048() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "if(0,1,2)";
@@ -891,7 +891,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0049() {
+		public void testExpr0049() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "if(5,1,2)";
@@ -905,7 +905,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0050() {
+		public void testExpr0050() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n,1,10,n)";
@@ -919,7 +919,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0051() {
+		public void testExpr0051() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(n,1,5,n)";
@@ -933,7 +933,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0052() {
+		public void testExpr0052() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",5);
@@ -948,7 +948,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0053() {
+		public void testExpr0053() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument d = new Argument("d",0.01);
@@ -963,7 +963,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0054() {
+		public void testExpr0054() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -978,7 +978,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0055() {
+		public void testExpr0055() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -993,7 +993,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0056() {
+		public void testExpr0056() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -1008,7 +1008,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0057() {
+		public void testExpr0057() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -1023,7 +1023,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0058() {
+		public void testExpr0058() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -1038,7 +1038,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0059() {
+		public void testExpr0059() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -1053,7 +1053,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0060() {
+		public void testExpr0060() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",1);
@@ -1068,7 +1068,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0061() {
+		public void testExpr0061() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1084,7 +1084,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0062() {
+		public void testExpr0062() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1100,7 +1100,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0063() {
+		public void testExpr0063() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1116,7 +1116,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0064() {
+		public void testExpr0064() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1132,7 +1132,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0065() {
+		public void testExpr0065() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1148,7 +1148,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0066() {
+		public void testExpr0066() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1164,7 +1164,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0067() {
+		public void testExpr0067() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1180,7 +1180,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0068() {
+		public void testExpr0068() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1196,7 +1196,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0069() {
+		public void testExpr0069() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",50);
@@ -1211,7 +1211,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0070() {
+		public void testExpr0070() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(i,2,6,1+1/i)";
@@ -1225,7 +1225,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0071() {
+		public void testExpr0071() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(i,1,6,10)";
@@ -1239,7 +1239,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0072() {
+		public void testExpr0072() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(i,1,6,i,0.5)";
@@ -1256,7 +1256,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0073() {
+		public void testExpr0073() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n,1,5,prod(i,1,n,n*i))";
@@ -1277,7 +1277,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0074() {
+		public void testExpr0074() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n");
@@ -1295,7 +1295,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0075() {
+		public void testExpr0075() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n");
@@ -1312,7 +1312,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0076() {
+		public void testExpr0076() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1327,7 +1327,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0077() {
+		public void testExpr0077() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1343,7 +1343,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0078() {
+		public void testExpr0078() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -1359,7 +1359,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0079() {
+		public void testExpr0079() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",-5);
@@ -1374,7 +1374,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0080() {
+		public void testExpr0080() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",0);
@@ -1389,7 +1389,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0081() {
+		public void testExpr0081() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",0);
@@ -1404,7 +1404,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0082() {
+		public void testExpr0082() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",4);
@@ -1419,7 +1419,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0083() {
+		public void testExpr0083() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",7);
@@ -1435,7 +1435,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0084() {
+		public void testExpr0084() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1451,7 +1451,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0085() {
+		public void testExpr0085() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1467,7 +1467,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0086() {
+		public void testExpr0086() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1483,7 +1483,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0087() {
+		public void testExpr0087() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1499,7 +1499,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0088() {
+		public void testExpr0088() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1515,7 +1515,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0089() {
+		public void testExpr0089() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1530,7 +1530,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0090() {
+		public void testExpr0090() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1545,7 +1545,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0091() {
+		public void testExpr0091() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1560,7 +1560,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0092() {
+		public void testExpr0092() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1578,7 +1578,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0093() {
+		public void testExpr0093() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1594,7 +1594,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0094() {
+		public void testExpr0094() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1610,7 +1610,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0095() {
+		public void testExpr0095() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1626,7 +1626,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0096() {
+		public void testExpr0096() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1642,7 +1642,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0097() {
+		public void testExpr0097() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n",13);
@@ -1658,7 +1658,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0098() {
+		public void testExpr0098() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",3);
@@ -1673,7 +1673,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0099() {
+		public void testExpr0099() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument i = new Argument("i", 5);
@@ -1688,7 +1688,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0100() {
+		public void testExpr0100() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",3);
@@ -1703,7 +1703,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0101() {
+		public void testExpr0101() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("mg", "sin(x)+cos(y)", "x", "y");
@@ -1721,7 +1721,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0102() {
+		public void testExpr0102() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("mg", "sin(x)+cos(y)", "x", "y");
@@ -1737,7 +1737,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0103() {
+		public void testExpr0103() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "x^2", "x");
@@ -1755,7 +1755,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0104() {
+		public void testExpr0104() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1772,7 +1772,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0105() {
+		public void testExpr0105() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1789,7 +1789,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0106() {
+		public void testExpr0106() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1805,7 +1805,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0107() {
+		public void testExpr0107() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1822,7 +1822,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0108() {
+		public void testExpr0108() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument a = new Argument("a",2);
@@ -1841,7 +1841,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0109() {
+		public void testExpr0109() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1859,7 +1859,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0110() {
+		public void testExpr0110() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1875,7 +1875,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0111() {
+		public void testExpr0111() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)", "x");
@@ -1892,7 +1892,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0112() {
+		public void testExpr0112() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "sin(x)^2", "x");
@@ -1909,7 +1909,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0113() {
+		public void testExpr0113() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -1934,7 +1934,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0114() {
+		public void testExpr0114() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f", "ln(x)", "x");
@@ -1954,7 +1954,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0115() {
+		public void testExpr0115() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n");
@@ -1972,7 +1972,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0116() {
+		public void testExpr0116() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n");
@@ -1991,7 +1991,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0117() {
+		public void testExpr0117() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
@@ -2007,7 +2007,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0118() {
+		public void testExpr0118() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n");
@@ -2028,7 +2028,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0119() {
+		public void testExpr0119() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument m = new Argument("m");
@@ -2048,7 +2048,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0120() {
+		public void testExpr0120() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument m = new Argument("m",4);
@@ -2069,7 +2069,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0121() {
+		public void testExpr0121() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function T = new Function("T","if(k>1, 2*x*T(k-1,x)-T(k-2,x), if(k>0, x, 1) )", "k", "x");
@@ -2087,7 +2087,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0122() {
+		public void testExpr0122() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function T1 = new Function("T1","if(k>1, 2*x*T1(k-1,x)-T1(k-2,x), if(k>0, x, 1) )", "k", "x");
@@ -2105,7 +2105,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0123() {
+		public void testExpr0123() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+e+[gam]+[phi]+[PN]+[B*]+[F'd]+[F'a]+[C2]+[M1]+[B2]+[B4]+[BN'L]+[Kat]+[K*]+[K.]+[B'L]+[RS'm]+[EB'e]+[Bern]+[GKW'l]+[HSM's]+[lm]+[Cah]+[Ll]+[AG]+[L*]+[L.]+[Dz3]+[A3n]+[Bh]+[Pt]+[L2]+[Nv]+[Ks]+[Kh]+[FR]+[La]+[P2]+[Om]+[MRB]+[li2]+[EG]";
@@ -2162,7 +2162,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0124() {
+		public void testExpr0124() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument m = new Argument("m",4);
@@ -2182,7 +2182,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0125() {
+		public void testExpr0125() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2==2";
@@ -2196,7 +2196,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0126() {
+		public void testExpr0126() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2 != 3";
@@ -2210,7 +2210,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0127() {
+		public void testExpr0127() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2 ~= 3";
@@ -2224,7 +2224,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0128() {
+		public void testExpr0128() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 && 1";
@@ -2238,7 +2238,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0129() {
+		public void testExpr0129() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 || -1";
@@ -2252,7 +2252,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0130() {
+		public void testExpr0130() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "~1";
@@ -2266,7 +2266,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0131() {
+		public void testExpr0131() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2+~(1-1)!";
@@ -2280,7 +2280,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0132() {
+		public void testExpr0132() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -2295,7 +2295,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0133() {
+		public void testExpr0133() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x",2);
@@ -2310,7 +2310,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0134() {
+		public void testExpr0134() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.00000001);
@@ -2325,7 +2325,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0135() {
+		public void testExpr0135() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sin(0)";
@@ -2339,7 +2339,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0136() {
+		public void testExpr0136() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "cos(0) - 1";
@@ -2353,7 +2353,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0137() {
+		public void testExpr0137() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "tan(0) - 0";
@@ -2367,7 +2367,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0138() {
+		public void testExpr0138() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "tg(0) - 0";
@@ -2381,7 +2381,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0139() {
+		public void testExpr0139() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ctan(pi/2) - 0";
@@ -2395,7 +2395,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0140() {
+		public void testExpr0140() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ctg(pi/2) - 0";
@@ -2409,7 +2409,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0141() {
+		public void testExpr0141() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "cot(pi/2) - 0";
@@ -2423,7 +2423,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0142() {
+		public void testExpr0142() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sec(0) - 1";
@@ -2437,7 +2437,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0143() {
+		public void testExpr0143() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "cosec(pi/2) - 1";
@@ -2451,7 +2451,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0144() {
+		public void testExpr0144() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "csc(pi/2) - 1";
@@ -2465,7 +2465,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0145() {
+		public void testExpr0145() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "asin(0.5) - pi/6";
@@ -2479,7 +2479,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0146() {
+		public void testExpr0146() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arsin(0) - 0";
@@ -2493,7 +2493,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0147() {
+		public void testExpr0147() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcsin(1) - pi/2";
@@ -2507,7 +2507,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0148() {
+		public void testExpr0148() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acos(0) - pi/2";
@@ -2521,7 +2521,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0149() {
+		public void testExpr0149() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcos(0.5) - pi/3";
@@ -2535,7 +2535,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0150() {
+		public void testExpr0150() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccos(-1) - pi";
@@ -2549,7 +2549,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0151() {
+		public void testExpr0151() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "atan(0) - 0";
@@ -2563,7 +2563,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0152() {
+		public void testExpr0152() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arctan(1) - pi/4";
@@ -2577,7 +2577,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0153() {
+		public void testExpr0153() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "atg(1) - pi/4";
@@ -2591,7 +2591,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0154() {
+		public void testExpr0154() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arctg(1) - pi/4";
@@ -2605,7 +2605,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0155() {
+		public void testExpr0155() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "actan(0) - pi/2";
@@ -2619,7 +2619,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0156() {
+		public void testExpr0156() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcctan(1) - pi/4";
@@ -2633,7 +2633,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0157() {
+		public void testExpr0157() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "actg(1) - pi/4";
@@ -2647,7 +2647,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0158() {
+		public void testExpr0158() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcctg(1) - pi/4";
@@ -2661,7 +2661,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0159() {
+		public void testExpr0159() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acot(1) - pi/4";
@@ -2675,7 +2675,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0160() {
+		public void testExpr0160() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccot(1) - pi/4";
@@ -2689,7 +2689,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0161() {
+		public void testExpr0161() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ln(e) - 1";
@@ -2703,7 +2703,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0162() {
+		public void testExpr0162() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ln(e^2) - 2";
@@ -2717,7 +2717,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0163() {
+		public void testExpr0163() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "log2(8) - 3";
@@ -2731,7 +2731,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0164() {
+		public void testExpr0164() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "log10(1000) - 3";
@@ -2745,7 +2745,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0165() {
+		public void testExpr0165() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "rad(180) - pi";
@@ -2759,7 +2759,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0166() {
+		public void testExpr0166() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "exp(2) - e^2";
@@ -2773,7 +2773,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0167() {
+		public void testExpr0167() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sqrt(25) - 5";
@@ -2787,7 +2787,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0168() {
+		public void testExpr0168() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sinh(ln([phi])) - 0.5";
@@ -2801,7 +2801,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0169() {
+		public void testExpr0169() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "cosh(ln([phi])) - 0.5*sqrt(5)";
@@ -2815,7 +2815,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0170() {
+		public void testExpr0170() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "tanh(ln([phi])) - 1/sqrt(5)";
@@ -2829,7 +2829,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0171() {
+		public void testExpr0171() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "tgh(ln([phi])) - 1/sqrt(5)";
@@ -2843,7 +2843,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0172() {
+		public void testExpr0172() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ctanh(ln([phi])) - sqrt(5)";
@@ -2857,7 +2857,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0173() {
+		public void testExpr0173() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "coth(ln([phi])) - sqrt(5)";
@@ -2871,7 +2871,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0174() {
+		public void testExpr0174() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ctgh(ln([phi])) - sqrt(5)";
@@ -2885,7 +2885,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0175() {
+		public void testExpr0175() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sech(ln([phi])) - 1/(0.5*sqrt(5))";
@@ -2899,7 +2899,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0176() {
+		public void testExpr0176() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "csch(ln([phi])) - 2";
@@ -2913,7 +2913,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0177() {
+		public void testExpr0177() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "cosech(ln([phi])) - 2";
@@ -2927,7 +2927,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0178() {
+		public void testExpr0178() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "deg(pi) - 180";
@@ -2941,7 +2941,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0179() {
+		public void testExpr0179() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "abs(-1) - 1";
@@ -2955,7 +2955,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0180() {
+		public void testExpr0180() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sgn(1) - 1";
@@ -2969,7 +2969,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0181() {
+		public void testExpr0181() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sgn(0) - 0";
@@ -2983,7 +2983,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0182() {
+		public void testExpr0182() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "floor(1.2) - 1";
@@ -2997,7 +2997,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0183() {
+		public void testExpr0183() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "floor(1.9) - 1";
@@ -3011,7 +3011,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0184() {
+		public void testExpr0184() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "floor(-1.9) - (-2)";
@@ -3025,7 +3025,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0185() {
+		public void testExpr0185() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ceil(1.2) - 2";
@@ -3039,7 +3039,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0186() {
+		public void testExpr0186() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ceil(1.9) - 2";
@@ -3053,7 +3053,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0187() {
+		public void testExpr0187() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ceil(-1.2) - (-1)";
@@ -3067,7 +3067,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0188() {
+		public void testExpr0188() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "asinh(0.5) - ln([phi])";
@@ -3081,7 +3081,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0189() {
+		public void testExpr0189() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arsinh(0.5) - ln([phi])";
@@ -3095,7 +3095,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0190() {
+		public void testExpr0190() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acosh(0.5*sqrt(5)) - ln([phi])";
@@ -3109,7 +3109,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0191() {
+		public void testExpr0191() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcosh(0.5*sqrt(5)) - ln([phi])";
@@ -3123,7 +3123,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0192() {
+		public void testExpr0192() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccosh(0.5*sqrt(5)) - ln([phi])";
@@ -3137,7 +3137,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0193() {
+		public void testExpr0193() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "atanh(1/sqrt(5)) - ln([phi])";
@@ -3151,7 +3151,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0194() {
+		public void testExpr0194() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arctanh(1/sqrt(5)) - ln([phi])";
@@ -3165,7 +3165,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0195() {
+		public void testExpr0195() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "atgh(1/sqrt(5)) - ln([phi])";
@@ -3179,7 +3179,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0196() {
+		public void testExpr0196() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arctgh(1/sqrt(5)) - ln([phi])";
@@ -3193,7 +3193,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0197() {
+		public void testExpr0197() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "actanh(sqrt(5)) - ln([phi])";
@@ -3207,7 +3207,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0198() {
+		public void testExpr0198() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcctanh(sqrt(5)) - ln([phi])";
@@ -3221,7 +3221,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0199() {
+		public void testExpr0199() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acoth(sqrt(5)) - ln([phi])";
@@ -3235,7 +3235,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0200() {
+		public void testExpr0200() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcoth(sqrt(5)) - ln([phi])";
@@ -3249,7 +3249,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0201() {
+		public void testExpr0201() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccoth(sqrt(5)) - ln([phi])";
@@ -3263,7 +3263,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0202() {
+		public void testExpr0202() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "actgh(sqrt(5)) - ln([phi])";
@@ -3277,7 +3277,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0203() {
+		public void testExpr0203() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcctgh(sqrt(5)) - ln([phi])";
@@ -3291,7 +3291,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0204() {
+		public void testExpr0204() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "asech(1/(0.5*sqrt(5))) - ln([phi])";
@@ -3305,7 +3305,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0205() {
+		public void testExpr0205() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arsech(1/(0.5*sqrt(5))) - ln([phi])";
@@ -3319,7 +3319,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0206() {
+		public void testExpr0206() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcsech(1/(0.5*sqrt(5))) - ln([phi])";
@@ -3333,7 +3333,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0207() {
+		public void testExpr0207() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acsch(2) - ln([phi])";
@@ -3347,7 +3347,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0208() {
+		public void testExpr0208() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcsch(2) - ln([phi])";
@@ -3361,7 +3361,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0209() {
+		public void testExpr0209() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccsch(2) - ln([phi])";
@@ -3375,7 +3375,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0210() {
+		public void testExpr0210() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acosech(2) - ln([phi])";
@@ -3389,7 +3389,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0211() {
+		public void testExpr0211() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcosech(2) - ln([phi])";
@@ -3403,7 +3403,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0212() {
+		public void testExpr0212() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccosech(2) - ln([phi])";
@@ -3417,7 +3417,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0213() {
+		public void testExpr0213() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "log(2,8) - 3";
@@ -3431,7 +3431,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0214() {
+		public void testExpr0214() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "min(2,3) - 2";
@@ -3445,7 +3445,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0215() {
+		public void testExpr0215() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "max(2,3) - 3";
@@ -3459,7 +3459,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0216() {
+		public void testExpr0216() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mod(10,6) - 4";
@@ -3473,7 +3473,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0217() {
+		public void testExpr0217() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "if(1,2,3) - 2";
@@ -3487,7 +3487,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0218() {
+		public void testExpr0218() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "if(0,2,3) - 3";
@@ -3501,7 +3501,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0219() {
+		public void testExpr0219() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(1, 2) - 2";
@@ -3515,7 +3515,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0220() {
+		public void testExpr0220() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(0, 2)";
@@ -3529,7 +3529,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0221() {
+		public void testExpr0221() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(0, 2, 1, 2) - 2";
@@ -3543,7 +3543,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0222() {
+		public void testExpr0222() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(0, 2, 1, 2, 3, 4) - 2";
@@ -3557,7 +3557,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0223() {
+		public void testExpr0223() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(0, 2, 1, 2, 0, 4) - 2";
@@ -3571,7 +3571,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0224() {
+		public void testExpr0224() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(0, 2, 0, 2, 1, 4) - 4";
@@ -3585,7 +3585,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0225() {
+		public void testExpr0225() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "iff(0, 2, 0, 2, 0, 4)";
@@ -3599,7 +3599,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0226() {
+		public void testExpr0226() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3614,7 +3614,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0227() {
+		public void testExpr0227() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3629,7 +3629,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0228() {
+		public void testExpr0228() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3644,7 +3644,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0229() {
+		public void testExpr0229() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n", 10);
@@ -3659,7 +3659,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0230() {
+		public void testExpr0230() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n", 10);
@@ -3675,7 +3675,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0231() {
+		public void testExpr0231() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n", 10);
@@ -3690,7 +3690,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0232() {
+		public void testExpr0232() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument n = new Argument("n", 15);
@@ -3706,7 +3706,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0233() {
+		public void testExpr0233() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr =
@@ -3733,7 +3733,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0234() {
+		public void testExpr0234() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2 + 10#7 + 3";
@@ -3747,7 +3747,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0235() {
+		public void testExpr0235() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 5);
@@ -3762,7 +3762,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0236() {
+		public void testExpr0236() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 5);
@@ -3777,7 +3777,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0237() {
+		public void testExpr0237() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 5);
@@ -3792,7 +3792,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0238() {
+		public void testExpr0238() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 5);
@@ -3807,7 +3807,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0239() {
+		public void testExpr0239() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ConFrac(1,2,3,5,6,7) - ConPol(1,2,3,4,5,6,7) / ConPol(2,3,4,5,6,7)";
@@ -3821,7 +3821,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0240() {
+		public void testExpr0240() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "min(1,2,3,4,5,-5,343,3)";
@@ -3835,7 +3835,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0241() {
+		public void testExpr0241() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "max(1,2,3,4,5,-5,343,3)";
@@ -3849,7 +3849,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0242() {
+		public void testExpr0242() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 0.5);
@@ -3864,7 +3864,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0243() {
+		public void testExpr0243() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument m = new Argument("m", 5);
@@ -3880,7 +3880,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0244() {
+		public void testExpr0244() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3897,7 +3897,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0245() {
+		public void testExpr0245() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3915,7 +3915,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0246() {
+		public void testExpr0246() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3932,7 +3932,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0247() {
+		public void testExpr0247() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", 2);
@@ -3950,7 +3950,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0248() {
+		public void testExpr0248() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function fibr = new Function("fib","if(n>1, fib(n-1)+fib(n-2), if(n>0,1,0))","n");
@@ -3966,7 +3966,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0249() {
+		public void testExpr0249() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function luc = new Function("luc","if(n>1, luc(n-1)+luc(n-2), if(n>0,1,2))","n");
@@ -3982,7 +3982,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0250() {
+		public void testExpr0250() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i,1,10,harm(i)) - sum(i,1,10,sum(k,1,i,1/k))";
@@ -3996,7 +3996,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0251() {
+		public void testExpr0251() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4013,7 +4013,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0252() {
+		public void testExpr0252() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4030,7 +4030,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0253() {
+		public void testExpr0253() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4047,7 +4047,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0254() {
+		public void testExpr0254() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4064,7 +4064,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0255() {
+		public void testExpr0255() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4081,7 +4081,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0256() {
+		public void testExpr0256() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4098,7 +4098,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0257() {
+		public void testExpr0257() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4115,7 +4115,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0258() {
+		public void testExpr0258() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4132,7 +4132,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0259() {
+		public void testExpr0259() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4149,7 +4149,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0260() {
+		public void testExpr0260() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4166,7 +4166,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0261() {
+		public void testExpr0261() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4183,7 +4183,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0262() {
+		public void testExpr0262() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4200,7 +4200,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0263() {
+		public void testExpr0263() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4217,7 +4217,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0264() {
+		public void testExpr0264() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4235,7 +4235,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0265() {
+		public void testExpr0265() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4253,7 +4253,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0266() {
+		public void testExpr0266() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4271,7 +4271,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0267() {
+		public void testExpr0267() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4289,7 +4289,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0268() {
+		public void testExpr0268() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant p = new Constant("p",0);
@@ -4306,7 +4306,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0269() {
+		public void testExpr0269() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "gcd(1)";
@@ -4320,7 +4320,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0270() {
+		public void testExpr0270() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "gcd(12,9)";
@@ -4334,7 +4334,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0271() {
+		public void testExpr0271() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "gcd(12,6,18)";
@@ -4348,7 +4348,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0272() {
+		public void testExpr0272() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "lcm(1)";
@@ -4362,7 +4362,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0273() {
+		public void testExpr0273() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "lcm(12,9)";
@@ -4376,7 +4376,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0274() {
+		public void testExpr0274() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "lcm(12,6,18)";
@@ -4390,7 +4390,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0275() {
+		public void testExpr0275() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i,1,10,harm(i)) - sum(i,1,10,Harm(1,i))";
@@ -4404,7 +4404,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0276() {
+		public void testExpr0276() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1/4*2";
@@ -4418,7 +4418,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0277() {
+		public void testExpr0277() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "n1_geq_2(0)";
@@ -4439,7 +4439,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0278() {
+		public void testExpr0278() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "n2_geq_2(0)";
@@ -4459,7 +4459,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0279() {
+		public void testExpr0279() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "n1_geq_2(0) - n2_geq_2(0)";
@@ -4485,7 +4485,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0280() {
+		public void testExpr0280() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i, 1, 20, IsPrime(i) )";
@@ -4503,7 +4503,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0281() {
+		public void testExpr0281() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -4528,7 +4528,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0282() {
+		public void testExpr0282() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "f1(1,2)-f2(1,2)";
@@ -4545,7 +4545,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0283() {
+		public void testExpr0283() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "a = 5.1, expr = 2*a";
@@ -4561,7 +4561,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0284() {
+		public void testExpr0284() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "a = sin(pi/2), expr = a";
@@ -4577,7 +4577,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0285() {
+		public void testExpr0285() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "fib(n)= fib(n-1)+fib(n-2), fib(10) = ";
@@ -4594,7 +4594,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0286() {
+		public void testExpr0286() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "fib(n) = if(n>1, fib(n-1) + fib(n-2), if(n = 1, 1, 0)), fib(10) = ";
@@ -4609,7 +4609,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0287() {
+		public void testExpr0287() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "5^2 * 7^3 * 11^1 * 67^1 * 49201^1";
@@ -4623,7 +4623,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0288() {
+		public void testExpr0288() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "71^1 * 218549^1 * 6195547^1";
@@ -4637,7 +4637,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0289() {
+		public void testExpr0289() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "min(3,4)+max(-2,-1)";
@@ -4651,7 +4651,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0290() {
+		public void testExpr0290() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(i, 0, 1000, ispr(i) )";
@@ -4665,7 +4665,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0291() {
+		public void testExpr0291() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(50);
@@ -4680,7 +4680,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0292() {
+		public void testExpr0292() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(55);
@@ -4695,7 +4695,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0293() {
+		public void testExpr0293() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(97);
@@ -4710,7 +4710,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0294() {
+		public void testExpr0294() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(99);
@@ -4725,7 +4725,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0295() {
+		public void testExpr0295() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(101);
@@ -4740,7 +4740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0296() {
+		public void testExpr0296() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(999);
@@ -4755,7 +4755,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0297() {
+		public void testExpr0297() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(2000);
@@ -4770,7 +4770,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0298() {
+		public void testExpr0298() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setNoPrimesCache();
@@ -4785,7 +4785,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0299() {
+		public void testExpr0299() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(50);
@@ -4800,7 +4800,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0300() {
+		public void testExpr0300() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(55);
@@ -4815,7 +4815,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0301() {
+		public void testExpr0301() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(97);
@@ -4830,7 +4830,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0302() {
+		public void testExpr0302() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(99);
@@ -4845,7 +4845,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0303() {
+		public void testExpr0303() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(101);
@@ -4860,7 +4860,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0304() {
+		public void testExpr0304() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(999);
@@ -4875,7 +4875,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0305() {
+		public void testExpr0305() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(2000);
@@ -4890,7 +4890,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0306() {
+		public void testExpr0306() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Ei( ln([RS'm]) )";
@@ -4904,7 +4904,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0307() {
+		public void testExpr0307() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "-e*Ei(-1) - [EG]";
@@ -4918,7 +4918,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0308() {
+		public void testExpr0308() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -4961,7 +4961,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0309() {
+		public void testExpr0309() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(x; -11; 11; [gam] + ln(abs(x)) + sum(k, 1, 50, x^k / (k*k!)) - Ei(x), 2)";
@@ -4975,7 +4975,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0310() {
+		public void testExpr0310() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Li(0) + [li2]";
@@ -4989,7 +4989,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0311() {
+		public void testExpr0311() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.initPrimesCache(10000000);
@@ -5004,7 +5004,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0312() {
+		public void testExpr0312() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 100000000");
@@ -5019,7 +5019,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0313() {
+		public void testExpr0313() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function fefe = new Function("fefe(x)=2*x");
@@ -5034,7 +5034,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0314() {
+		public void testExpr0314() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "add(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
@@ -5048,7 +5048,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0315() {
+		public void testExpr0315() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "multi(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
@@ -5062,7 +5062,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0316() {
+		public void testExpr0316() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mean(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
@@ -5076,7 +5076,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0317() {
+		public void testExpr0317() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "var(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
@@ -5090,7 +5090,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0318() {
+		public void testExpr0318() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "std(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)";
@@ -5104,7 +5104,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0319() {
+		public void testExpr0319() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 10, i)";
@@ -5118,7 +5118,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0320() {
+		public void testExpr0320() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "vari(i, 1, 10, i)";
@@ -5132,7 +5132,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0321() {
+		public void testExpr0321() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "stdi(i, 1, 10, i)";
@@ -5146,7 +5146,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0322() {
+		public void testExpr0322() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, -10, 10, i)";
@@ -5160,7 +5160,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0323() {
+		public void testExpr0323() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, -10, 10, i)";
@@ -5174,7 +5174,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0324() {
+		public void testExpr0324() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [Uni])";
@@ -5188,7 +5188,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0325() {
+		public void testExpr0325() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [Uni])";
@@ -5202,7 +5202,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0326() {
+		public void testExpr0326() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 100000, [Uni])";
@@ -5216,7 +5216,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0327() {
+		public void testExpr0327() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "vari(i, 1, 100000, [Uni])";
@@ -5230,7 +5230,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0328() {
+		public void testExpr0328() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "stdi(i, 1, 100000, [Uni])";
@@ -5244,7 +5244,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0329() {
+		public void testExpr0329() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [Int1])";
@@ -5258,7 +5258,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0330() {
+		public void testExpr0330() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [Int1])";
@@ -5272,7 +5272,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0331() {
+		public void testExpr0331() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 100000, [Int1])";
@@ -5286,7 +5286,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0332() {
+		public void testExpr0332() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "vari(i, 1, 100000, [Int1])";
@@ -5300,7 +5300,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0333() {
+		public void testExpr0333() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "stdi(i, 1, 100000, [Int1])";
@@ -5314,7 +5314,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0334() {
+		public void testExpr0334() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [Int2])";
@@ -5328,7 +5328,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0335() {
+		public void testExpr0335() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [Int2])";
@@ -5342,7 +5342,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0336() {
+		public void testExpr0336() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 1000000, [Int3])";
@@ -5356,7 +5356,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0337() {
+		public void testExpr0337() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 1000000, [Int3])";
@@ -5370,7 +5370,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0338() {
+		public void testExpr0338() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int4])";
@@ -5384,7 +5384,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0339() {
+		public void testExpr0339() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int4])";
@@ -5398,7 +5398,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0340() {
+		public void testExpr0340() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int5])";
@@ -5412,7 +5412,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0341() {
+		public void testExpr0341() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int5])";
@@ -5426,7 +5426,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0342() {
+		public void testExpr0342() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int6])";
@@ -5440,7 +5440,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0343() {
+		public void testExpr0343() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int6])";
@@ -5454,7 +5454,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0344() {
+		public void testExpr0344() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int7])";
@@ -5468,7 +5468,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0345() {
+		public void testExpr0345() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int7])";
@@ -5482,7 +5482,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0346() {
+		public void testExpr0346() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int8])";
@@ -5496,7 +5496,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0347() {
+		public void testExpr0347() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int8])";
@@ -5510,7 +5510,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0348() {
+		public void testExpr0348() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int9])";
@@ -5524,7 +5524,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0349() {
+		public void testExpr0349() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int9])";
@@ -5538,7 +5538,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0350() {
+		public void testExpr0350() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Int])";
@@ -5552,7 +5552,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0351() {
+		public void testExpr0351() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Int])";
@@ -5566,7 +5566,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0352() {
+		public void testExpr0352() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [nat1])";
@@ -5580,7 +5580,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0353() {
+		public void testExpr0353() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [nat1])";
@@ -5594,7 +5594,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0354() {
+		public void testExpr0354() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [nat2])";
@@ -5608,7 +5608,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0355() {
+		public void testExpr0355() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [nat2])";
@@ -5622,7 +5622,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0356() {
+		public void testExpr0356() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [nat3])";
@@ -5636,7 +5636,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0357() {
+		public void testExpr0357() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [nat3])";
@@ -5650,7 +5650,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0358() {
+		public void testExpr0358() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 1000000, [nat3])";
@@ -5664,7 +5664,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0359() {
+		public void testExpr0359() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 1000000, [nat3])";
@@ -5678,7 +5678,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0360() {
+		public void testExpr0360() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat4])";
@@ -5692,7 +5692,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0361() {
+		public void testExpr0361() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat4])";
@@ -5706,7 +5706,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0362() {
+		public void testExpr0362() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat5])";
@@ -5720,7 +5720,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0363() {
+		public void testExpr0363() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat5])";
@@ -5734,7 +5734,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0364() {
+		public void testExpr0364() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat6])";
@@ -5748,7 +5748,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0365() {
+		public void testExpr0365() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat6])";
@@ -5762,7 +5762,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0366() {
+		public void testExpr0366() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat7])";
@@ -5776,7 +5776,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0367() {
+		public void testExpr0367() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat7])";
@@ -5790,7 +5790,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0368() {
+		public void testExpr0368() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat8])";
@@ -5804,7 +5804,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0369() {
+		public void testExpr0369() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat8])";
@@ -5818,7 +5818,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0370() {
+		public void testExpr0370() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat9])";
@@ -5832,7 +5832,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0371() {
+		public void testExpr0371() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat9])";
@@ -5846,7 +5846,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0372() {
+		public void testExpr0372() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [nat])";
@@ -5860,7 +5860,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0373() {
+		public void testExpr0373() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [nat])";
@@ -5874,7 +5874,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0374() {
+		public void testExpr0374() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [Nat1])";
@@ -5888,7 +5888,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0375() {
+		public void testExpr0375() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [Nat1])";
@@ -5902,7 +5902,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0376() {
+		public void testExpr0376() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [Nat2])";
@@ -5916,7 +5916,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0377() {
+		public void testExpr0377() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [Nat2])";
@@ -5930,7 +5930,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0378() {
+		public void testExpr0378() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 100000, [Nat3])";
@@ -5944,7 +5944,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0379() {
+		public void testExpr0379() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 100000, [Nat3])";
@@ -5958,7 +5958,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0380() {
+		public void testExpr0380() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 1000000, [Nat3])";
@@ -5972,7 +5972,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0381() {
+		public void testExpr0381() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 1000000, [Nat3])";
@@ -5986,7 +5986,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0382() {
+		public void testExpr0382() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat4])";
@@ -6000,7 +6000,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0383() {
+		public void testExpr0383() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat4])";
@@ -6014,7 +6014,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0384() {
+		public void testExpr0384() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat5])";
@@ -6028,7 +6028,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0385() {
+		public void testExpr0385() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat5])";
@@ -6042,7 +6042,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0386() {
+		public void testExpr0386() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat6])";
@@ -6056,7 +6056,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0387() {
+		public void testExpr0387() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat6])";
@@ -6070,7 +6070,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0388() {
+		public void testExpr0388() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat7])";
@@ -6084,7 +6084,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0389() {
+		public void testExpr0389() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat7])";
@@ -6098,7 +6098,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0390() {
+		public void testExpr0390() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat8])";
@@ -6112,7 +6112,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0391() {
+		public void testExpr0391() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat8])";
@@ -6126,7 +6126,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0392() {
+		public void testExpr0392() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat9])";
@@ -6140,7 +6140,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0393() {
+		public void testExpr0393() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat9])";
@@ -6154,7 +6154,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0394() {
+		public void testExpr0394() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000000, [Nat])";
@@ -6168,7 +6168,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0395() {
+		public void testExpr0395() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000000, [Nat])";
@@ -6182,7 +6182,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0396() {
+		public void testExpr0396() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "int( pUni(x, -1, 3), x, -1, 3)";
@@ -6196,7 +6196,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0397() {
+		public void testExpr0397() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = rUni(-1, 3)");
@@ -6211,7 +6211,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0398() {
+		public void testExpr0398() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = rUni(-1, 3)");
@@ -6226,7 +6226,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0399() {
+		public void testExpr0399() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 1000000, rUni(-1, 3) )";
@@ -6240,7 +6240,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0400() {
+		public void testExpr0400() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 1000000, rUni(-1, 3) )";
@@ -6254,7 +6254,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0401() {
+		public void testExpr0401() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 1000000, pUni( rUni(-10, 10), -1, 3) )";
@@ -6268,7 +6268,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0402() {
+		public void testExpr0402() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 1000000, pUni( rUni(-10, 10), -1, 3) )";
@@ -6282,7 +6282,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0403() {
+		public void testExpr0403() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 1000000, cUni( rUni(-10, 10), -1, 3) )";
@@ -6296,7 +6296,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0404() {
+		public void testExpr0404() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 1000000, cUni( rUni(-10, 10), -1, 3) )";
@@ -6310,7 +6310,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0405() {
+		public void testExpr0405() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = rUni(-2,4)");
@@ -6326,7 +6326,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0406() {
+		public void testExpr0406() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.2, 0)";
@@ -6340,7 +6340,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0407() {
+		public void testExpr0407() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.6, 0)";
@@ -6354,7 +6354,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0408() {
+		public void testExpr0408() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.66, 1)";
@@ -6368,7 +6368,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0409() {
+		public void testExpr0409() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.123456, 5)";
@@ -6382,7 +6382,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0410() {
+		public void testExpr0410() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 1000000, [Nor])";
@@ -6396,7 +6396,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0411() {
+		public void testExpr0411() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "stdi(i, 1, 1000000, [Nor])";
@@ -6410,7 +6410,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0412() {
+		public void testExpr0412() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "vari(i, 1, 1000000, [Nor])";
@@ -6424,7 +6424,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0413() {
+		public void testExpr0413() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 1000000, rNor(1,5) )";
@@ -6438,7 +6438,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0414() {
+		public void testExpr0414() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "stdi(i, 1, 1000000, rNor(3,3) )";
@@ -6452,7 +6452,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0415() {
+		public void testExpr0415() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "vari(i, 1, 1000000, rNor(-10, 5) )";
@@ -6466,7 +6466,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0416() {
+		public void testExpr0416() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "int( pNor(x, 0, 1), x, -10, 0.5) - cNor( 0.5, 0, 1)";
@@ -6480,7 +6480,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0417() {
+		public void testExpr0417() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 0.5");
@@ -6495,7 +6495,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0418() {
+		public void testExpr0418() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "int( pNor(x, 1, 2), x, 0.5, 1.5) - ( cNor(1.5, 1, 2) - cNor(0.5, 1, 2) )";
@@ -6509,7 +6509,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0419() {
+		public void testExpr0419() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = [Nor]");
@@ -6524,7 +6524,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0420() {
+		public void testExpr0420() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = [Uni]");
@@ -6539,7 +6539,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0421() {
+		public void testExpr0421() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = [Nor]");
@@ -6554,7 +6554,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0422() {
+		public void testExpr0422() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = rUni(-10,10)");
@@ -6570,7 +6570,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0423() {
+		public void testExpr0423() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6590,7 +6590,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0424() {
+		public void testExpr0424() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6610,7 +6610,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0425() {
+		public void testExpr0425() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6630,7 +6630,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0426() {
+		public void testExpr0426() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6650,7 +6650,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0427() {
+		public void testExpr0427() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6670,7 +6670,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0428() {
+		public void testExpr0428() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6690,7 +6690,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0429() {
+		public void testExpr0429() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6710,7 +6710,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0430() {
+		public void testExpr0430() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6730,7 +6730,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0431() {
+		public void testExpr0431() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6750,7 +6750,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0432() {
+		public void testExpr0432() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -6770,7 +6770,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0433() {
+		public void testExpr0433() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.125, 2)";
@@ -6784,7 +6784,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0434() {
+		public void testExpr0434() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.135, 2)";
@@ -6798,7 +6798,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0435() {
+		public void testExpr0435() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(2.145, 2)";
@@ -6812,7 +6812,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0436() {
+		public void testExpr0436() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(3.125, 2)";
@@ -6826,7 +6826,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0437() {
+		public void testExpr0437() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(3.135, 2)";
@@ -6840,7 +6840,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0438() {
+		public void testExpr0438() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "round(3.145, 2)";
@@ -6854,7 +6854,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0439() {
+		public void testExpr0439() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "rList(1)";
@@ -6868,7 +6868,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0440() {
+		public void testExpr0440() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "rList(1, 1, 1, 1, 1, 1)";
@@ -6882,7 +6882,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0441() {
+		public void testExpr0441() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "mini(i, 1, 10000, rList(3, 2, 7, 6, 10, 15, 12) )";
@@ -6896,7 +6896,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0442() {
+		public void testExpr0442() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "maxi(i, 1, 10000, rList(3, 2, 7, 6, 10, 15, 12) )";
@@ -6910,7 +6910,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0443() {
+		public void testExpr0443() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -6929,7 +6929,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0444() {
+		public void testExpr0444() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -6948,7 +6948,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0445() {
+		public void testExpr0445() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableUlpRounding();
@@ -6967,7 +6967,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0446() {
+		public void testExpr0446() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -6982,7 +6982,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0447() {
+		public void testExpr0447() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -6997,7 +6997,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0448() {
+		public void testExpr0448() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7012,7 +7012,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0449() {
+		public void testExpr0449() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7027,7 +7027,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0450() {
+		public void testExpr0450() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7042,7 +7042,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0451() {
+		public void testExpr0451() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7057,7 +7057,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0452() {
+		public void testExpr0452() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7072,7 +7072,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0453() {
+		public void testExpr0453() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7087,7 +7087,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0454() {
+		public void testExpr0454() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7102,7 +7102,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0455() {
+		public void testExpr0455() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7117,7 +7117,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0456() {
+		public void testExpr0456() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7132,7 +7132,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0457() {
+		public void testExpr0457() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7147,7 +7147,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0458() {
+		public void testExpr0458() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7162,7 +7162,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0459() {
+		public void testExpr0459() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7177,7 +7177,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0460() {
+		public void testExpr0460() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7192,7 +7192,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0461() {
+		public void testExpr0461() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7207,7 +7207,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0462() {
+		public void testExpr0462() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7222,7 +7222,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0463() {
+		public void testExpr0463() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7237,7 +7237,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0464() {
+		public void testExpr0464() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7252,7 +7252,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0465() {
+		public void testExpr0465() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7267,7 +7267,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0466() {
+		public void testExpr0466() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7282,7 +7282,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0467() {
+		public void testExpr0467() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7297,7 +7297,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0468() {
+		public void testExpr0468() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7312,7 +7312,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0469() {
+		public void testExpr0469() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7327,7 +7327,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0470() {
+		public void testExpr0470() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7342,7 +7342,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0471() {
+		public void testExpr0471() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7357,7 +7357,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0472() {
+		public void testExpr0472() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7372,7 +7372,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0473() {
+		public void testExpr0473() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7387,7 +7387,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0474() {
+		public void testExpr0474() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7402,7 +7402,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0475() {
+		public void testExpr0475() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7417,7 +7417,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0476() {
+		public void testExpr0476() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7432,7 +7432,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0477() {
+		public void testExpr0477() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7447,7 +7447,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0478() {
+		public void testExpr0478() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7462,7 +7462,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0479() {
+		public void testExpr0479() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7477,7 +7477,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0480() {
+		public void testExpr0480() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7492,7 +7492,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0481() {
+		public void testExpr0481() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7507,7 +7507,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0482() {
+		public void testExpr0482() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7522,7 +7522,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0483() {
+		public void testExpr0483() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7537,7 +7537,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0484() {
+		public void testExpr0484() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7552,7 +7552,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0485() {
+		public void testExpr0485() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7567,7 +7567,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0486() {
+		public void testExpr0486() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7582,7 +7582,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0487() {
+		public void testExpr0487() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilon(0.5);
@@ -7597,7 +7597,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0488() {
+		public void testExpr0488() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7612,7 +7612,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0489() {
+		public void testExpr0489() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7627,7 +7627,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0490() {
+		public void testExpr0490() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7642,7 +7642,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0491() {
+		public void testExpr0491() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7657,7 +7657,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0492() {
+		public void testExpr0492() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7672,7 +7672,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0493() {
+		public void testExpr0493() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7687,7 +7687,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0494() {
+		public void testExpr0494() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7702,7 +7702,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0495() {
+		public void testExpr0495() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7717,7 +7717,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0496() {
+		public void testExpr0496() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7732,7 +7732,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0497() {
+		public void testExpr0497() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7747,7 +7747,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0498() {
+		public void testExpr0498() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7762,7 +7762,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0499() {
+		public void testExpr0499() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7777,7 +7777,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0500() {
+		public void testExpr0500() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7792,7 +7792,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0501() {
+		public void testExpr0501() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7807,7 +7807,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0502() {
+		public void testExpr0502() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7822,7 +7822,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0503() {
+		public void testExpr0503() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7837,7 +7837,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0504() {
+		public void testExpr0504() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7852,7 +7852,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0505() {
+		public void testExpr0505() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7867,7 +7867,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0506() {
+		public void testExpr0506() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ulp(0.1)";
@@ -7881,7 +7881,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0507() {
+		public void testExpr0507() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7896,7 +7896,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0508() {
+		public void testExpr0508() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7915,7 +7915,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0509() {
+		public void testExpr0509() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7930,7 +7930,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0510() {
+		public void testExpr0510() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7945,7 +7945,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0511() {
+		public void testExpr0511() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7960,7 +7960,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0512() {
+		public void testExpr0512() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7975,7 +7975,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0513() {
+		public void testExpr0513() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -7990,7 +7990,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0514() {
+		public void testExpr0514() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -8005,7 +8005,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0515() {
+		public void testExpr0515() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -8020,7 +8020,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0516() {
+		public void testExpr0516() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setExactComparison();
@@ -8035,7 +8035,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0517() {
+		public void testExpr0517() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8050,7 +8050,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0518() {
+		public void testExpr0518() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8065,7 +8065,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0519() {
+		public void testExpr0519() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8080,7 +8080,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0520() {
+		public void testExpr0520() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8095,7 +8095,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0521() {
+		public void testExpr0521() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8110,7 +8110,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0522() {
+		public void testExpr0522() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8125,7 +8125,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0523() {
+		public void testExpr0523() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8140,7 +8140,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0524() {
+		public void testExpr0524() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8155,7 +8155,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0525() {
+		public void testExpr0525() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8170,7 +8170,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0526() {
+		public void testExpr0526() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8185,7 +8185,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0527() {
+		public void testExpr0527() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8200,7 +8200,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0528() {
+		public void testExpr0528() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8215,7 +8215,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0529() {
+		public void testExpr0529() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8230,7 +8230,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0530() {
+		public void testExpr0530() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8245,7 +8245,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0531() {
+		public void testExpr0531() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8260,7 +8260,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0532() {
+		public void testExpr0532() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8275,7 +8275,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0533() {
+		public void testExpr0533() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8290,7 +8290,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0534() {
+		public void testExpr0534() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8305,7 +8305,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0535() {
+		public void testExpr0535() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8320,7 +8320,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0536() {
+		public void testExpr0536() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8335,7 +8335,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0537() {
+		public void testExpr0537() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8350,7 +8350,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0538() {
+		public void testExpr0538() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8365,7 +8365,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0539() {
+		public void testExpr0539() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8380,7 +8380,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0540() {
+		public void testExpr0540() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8395,7 +8395,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0541() {
+		public void testExpr0541() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8410,7 +8410,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0542() {
+		public void testExpr0542() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8425,7 +8425,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0543() {
+		public void testExpr0543() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8440,7 +8440,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0544() {
+		public void testExpr0544() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8455,7 +8455,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0545() {
+		public void testExpr0545() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8470,7 +8470,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0546() {
+		public void testExpr0546() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8485,7 +8485,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0547() {
+		public void testExpr0547() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8500,7 +8500,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0548() {
+		public void testExpr0548() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8515,7 +8515,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0549() {
+		public void testExpr0549() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8530,7 +8530,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0550() {
+		public void testExpr0550() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8545,7 +8545,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0551() {
+		public void testExpr0551() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8560,7 +8560,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0552() {
+		public void testExpr0552() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8575,7 +8575,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0553() {
+		public void testExpr0553() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8590,7 +8590,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0554() {
+		public void testExpr0554() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8605,7 +8605,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0555() {
+		public void testExpr0555() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8620,7 +8620,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0556() {
+		public void testExpr0556() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8635,7 +8635,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0557() {
+		public void testExpr0557() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8650,7 +8650,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0558() {
+		public void testExpr0558() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8665,7 +8665,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0559() {
+		public void testExpr0559() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8680,7 +8680,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0560() {
+		public void testExpr0560() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8695,7 +8695,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0561() {
+		public void testExpr0561() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8710,7 +8710,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0562() {
+		public void testExpr0562() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8725,7 +8725,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0563() {
+		public void testExpr0563() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8740,7 +8740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0564() {
+		public void testExpr0564() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8755,7 +8755,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0565() {
+		public void testExpr0565() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8770,7 +8770,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0566() {
+		public void testExpr0566() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8785,7 +8785,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0567() {
+		public void testExpr0567() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8800,7 +8800,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0568() {
+		public void testExpr0568() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8815,7 +8815,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0569() {
+		public void testExpr0569() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8830,7 +8830,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0570() {
+		public void testExpr0570() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8845,7 +8845,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0571() {
+		public void testExpr0571() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8860,7 +8860,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0572() {
+		public void testExpr0572() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8875,7 +8875,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0573() {
+		public void testExpr0573() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8890,7 +8890,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0574() {
+		public void testExpr0574() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8905,7 +8905,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0575() {
+		public void testExpr0575() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8920,7 +8920,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0576() {
+		public void testExpr0576() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8935,7 +8935,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0577() {
+		public void testExpr0577() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8950,7 +8950,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0578() {
+		public void testExpr0578() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8965,7 +8965,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0579() {
+		public void testExpr0579() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8980,7 +8980,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0580() {
+		public void testExpr0580() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -8995,7 +8995,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0581() {
+		public void testExpr0581() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9010,7 +9010,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0582() {
+		public void testExpr0582() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9025,7 +9025,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0583() {
+		public void testExpr0583() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9040,7 +9040,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0584() {
+		public void testExpr0584() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9055,7 +9055,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0585() {
+		public void testExpr0585() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9070,7 +9070,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0586() {
+		public void testExpr0586() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9085,7 +9085,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0587() {
+		public void testExpr0587() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9100,7 +9100,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0588() {
+		public void testExpr0588() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9115,7 +9115,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0589() {
+		public void testExpr0589() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9130,7 +9130,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0590() {
+		public void testExpr0590() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9145,7 +9145,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0591() {
+		public void testExpr0591() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9160,7 +9160,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0592() {
+		public void testExpr0592() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9175,7 +9175,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0593() {
+		public void testExpr0593() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9190,7 +9190,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0594() {
+		public void testExpr0594() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9205,7 +9205,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0595() {
+		public void testExpr0595() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9220,7 +9220,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0596() {
+		public void testExpr0596() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9235,7 +9235,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0597() {
+		public void testExpr0597() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9250,7 +9250,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0598() {
+		public void testExpr0598() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9265,7 +9265,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0599() {
+		public void testExpr0599() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9280,7 +9280,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0600() {
+		public void testExpr0600() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9295,7 +9295,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0601() {
+		public void testExpr0601() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9310,7 +9310,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0602() {
+		public void testExpr0602() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9325,7 +9325,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0603() {
+		public void testExpr0603() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9340,7 +9340,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0604() {
+		public void testExpr0604() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9355,7 +9355,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0605() {
+		public void testExpr0605() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9370,7 +9370,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0606() {
+		public void testExpr0606() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9385,7 +9385,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0607() {
+		public void testExpr0607() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9400,7 +9400,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0608() {
+		public void testExpr0608() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9415,7 +9415,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0609() {
+		public void testExpr0609() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9430,7 +9430,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0610() {
+		public void testExpr0610() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9445,7 +9445,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0611() {
+		public void testExpr0611() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9460,7 +9460,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0612() {
+		public void testExpr0612() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9475,7 +9475,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0613() {
+		public void testExpr0613() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9490,7 +9490,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0614() {
+		public void testExpr0614() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -9508,7 +9508,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0615() {
+		public void testExpr0615() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9523,7 +9523,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0616() {
+		public void testExpr0616() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9538,7 +9538,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0617() {
+		public void testExpr0617() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9553,7 +9553,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0618() {
+		public void testExpr0618() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9569,7 +9569,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0619() {
+		public void testExpr0619() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9584,7 +9584,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0620() {
+		public void testExpr0620() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9600,7 +9600,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0621() {
+		public void testExpr0621() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9617,7 +9617,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0622() {
+		public void testExpr0622() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9632,7 +9632,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0623() {
+		public void testExpr0623() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9647,7 +9647,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0624() {
+		public void testExpr0624() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9662,7 +9662,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0625() {
+		public void testExpr0625() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9677,7 +9677,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0626() {
+		public void testExpr0626() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9692,7 +9692,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0627() {
+		public void testExpr0627() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9707,7 +9707,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0628() {
+		public void testExpr0628() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9722,7 +9722,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0629() {
+		public void testExpr0629() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9737,7 +9737,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0630() {
+		public void testExpr0630() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9752,7 +9752,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0631() {
+		public void testExpr0631() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9767,7 +9767,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0632() {
+		public void testExpr0632() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9786,7 +9786,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0633() {
+		public void testExpr0633() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9805,7 +9805,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0634() {
+		public void testExpr0634() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9821,7 +9821,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0635() {
+		public void testExpr0635() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9838,7 +9838,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0636() {
+		public void testExpr0636() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9860,7 +9860,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0637() {
+		public void testExpr0637() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9875,7 +9875,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0638() {
+		public void testExpr0638() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9890,7 +9890,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0639() {
+		public void testExpr0639() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9905,7 +9905,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0640() {
+		public void testExpr0640() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9920,7 +9920,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0641() {
+		public void testExpr0641() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9935,7 +9935,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0642() {
+		public void testExpr0642() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9950,7 +9950,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0643() {
+		public void testExpr0643() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9965,7 +9965,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0644() {
+		public void testExpr0644() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9980,7 +9980,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0645() {
+		public void testExpr0645() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -9995,7 +9995,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0646() {
+		public void testExpr0646() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10010,7 +10010,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0647() {
+		public void testExpr0647() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10025,7 +10025,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0648() {
+		public void testExpr0648() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10040,7 +10040,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0649() {
+		public void testExpr0649() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10055,7 +10055,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0650() {
+		public void testExpr0650() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10073,7 +10073,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0651() {
+		public void testExpr0651() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10088,7 +10088,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0652() {
+		public void testExpr0652() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10103,7 +10103,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0653() {
+		public void testExpr0653() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10118,7 +10118,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0654() {
+		public void testExpr0654() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10133,7 +10133,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0655() {
+		public void testExpr0655() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10148,7 +10148,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0656() {
+		public void testExpr0656() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10163,7 +10163,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0657() {
+		public void testExpr0657() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10178,7 +10178,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0658() {
+		public void testExpr0658() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10196,7 +10196,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0659() {
+		public void testExpr0659() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10211,7 +10211,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0660() {
+		public void testExpr0660() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10226,7 +10226,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0661() {
+		public void testExpr0661() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10246,7 +10246,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0662() {
+		public void testExpr0662() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10261,7 +10261,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0663() {
+		public void testExpr0663() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10276,7 +10276,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0664() {
+		public void testExpr0664() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10291,7 +10291,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0665() {
+		public void testExpr0665() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10306,7 +10306,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0666() {
+		public void testExpr0666() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10321,7 +10321,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0667() {
+		public void testExpr0667() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10336,7 +10336,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0668() {
+		public void testExpr0668() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10351,7 +10351,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0669() {
+		public void testExpr0669() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10366,7 +10366,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0670() {
+		public void testExpr0670() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10381,7 +10381,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0671() {
+		public void testExpr0671() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10396,7 +10396,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0672() {
+		public void testExpr0672() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10411,7 +10411,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0673() {
+		public void testExpr0673() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10426,7 +10426,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0674() {
+		public void testExpr0674() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10441,7 +10441,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0675() {
+		public void testExpr0675() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10456,7 +10456,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0676() {
+		public void testExpr0676() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10471,7 +10471,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0677() {
+		public void testExpr0677() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10486,7 +10486,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0678() {
+		public void testExpr0678() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10501,7 +10501,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0679() {
+		public void testExpr0679() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10516,7 +10516,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0680() {
+		public void testExpr0680() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10531,7 +10531,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0681() {
+		public void testExpr0681() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10546,7 +10546,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0682() {
+		public void testExpr0682() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10561,7 +10561,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0683() {
+		public void testExpr0683() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10576,7 +10576,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0684() {
+		public void testExpr0684() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10591,7 +10591,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0685() {
+		public void testExpr0685() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10606,7 +10606,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0686() {
+		public void testExpr0686() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10621,7 +10621,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0687() {
+		public void testExpr0687() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10636,7 +10636,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0688() {
+		public void testExpr0688() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10651,7 +10651,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0689() {
+		public void testExpr0689() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10666,7 +10666,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0690() {
+		public void testExpr0690() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10681,7 +10681,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0691() {
+		public void testExpr0691() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10696,7 +10696,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0692() {
+		public void testExpr0692() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10711,7 +10711,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0693() {
+		public void testExpr0693() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10726,7 +10726,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0694() {
+		public void testExpr0694() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10741,7 +10741,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0695() {
+		public void testExpr0695() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10756,7 +10756,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0696() {
+		public void testExpr0696() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10771,7 +10771,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0697() {
+		public void testExpr0697() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10786,7 +10786,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0698() {
+		public void testExpr0698() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10801,7 +10801,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0699() {
+		public void testExpr0699() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10816,7 +10816,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0700() {
+		public void testExpr0700() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10831,7 +10831,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0701() {
+		public void testExpr0701() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10846,7 +10846,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0702() {
+		public void testExpr0702() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10861,7 +10861,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0703() {
+		public void testExpr0703() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10876,7 +10876,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0704() {
+		public void testExpr0704() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10891,7 +10891,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0705() {
+		public void testExpr0705() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10906,7 +10906,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0706() {
+		public void testExpr0706() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10921,7 +10921,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0707() {
+		public void testExpr0707() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10936,7 +10936,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0708() {
+		public void testExpr0708() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10951,7 +10951,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0709() {
+		public void testExpr0709() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10966,7 +10966,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0710() {
+		public void testExpr0710() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10981,7 +10981,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0711() {
+		public void testExpr0711() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -10996,7 +10996,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0712() {
+		public void testExpr0712() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11011,7 +11011,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0713() {
+		public void testExpr0713() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11026,7 +11026,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0714() {
+		public void testExpr0714() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11041,7 +11041,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0715() {
+		public void testExpr0715() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11056,7 +11056,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0716() {
+		public void testExpr0716() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11071,7 +11071,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0717() {
+		public void testExpr0717() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11086,7 +11086,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0718() {
+		public void testExpr0718() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11101,7 +11101,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0719() {
+		public void testExpr0719() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11116,7 +11116,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0720() {
+		public void testExpr0720() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11131,7 +11131,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0721() {
+		public void testExpr0721() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11146,7 +11146,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0722() {
+		public void testExpr0722() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11161,7 +11161,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0723() {
+		public void testExpr0723() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11176,7 +11176,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0724() {
+		public void testExpr0724() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11191,7 +11191,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0725() {
+		public void testExpr0725() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11206,7 +11206,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0726() {
+		public void testExpr0726() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11221,7 +11221,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0727() {
+		public void testExpr0727() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11236,7 +11236,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0728() {
+		public void testExpr0728() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11251,7 +11251,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0729() {
+		public void testExpr0729() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11266,7 +11266,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0730() {
+		public void testExpr0730() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11281,7 +11281,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0731() {
+		public void testExpr0731() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11296,7 +11296,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0732() {
+		public void testExpr0732() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11311,7 +11311,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0733() {
+		public void testExpr0733() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11326,7 +11326,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0734() {
+		public void testExpr0734() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11341,7 +11341,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0735() {
+		public void testExpr0735() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11356,7 +11356,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0736() {
+		public void testExpr0736() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11371,7 +11371,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0737() {
+		public void testExpr0737() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11386,7 +11386,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0738() {
+		public void testExpr0738() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11401,7 +11401,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0739() {
+		public void testExpr0739() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11416,7 +11416,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0740() {
+		public void testExpr0740() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11431,7 +11431,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0741() {
+		public void testExpr0741() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11446,7 +11446,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0742() {
+		public void testExpr0742() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11461,7 +11461,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0743() {
+		public void testExpr0743() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11476,7 +11476,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0744() {
+		public void testExpr0744() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11491,7 +11491,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0745() {
+		public void testExpr0745() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11509,7 +11509,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0746() {
+		public void testExpr0746() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11524,7 +11524,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0747() {
+		public void testExpr0747() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11542,7 +11542,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0748() {
+		public void testExpr0748() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11557,7 +11557,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0749() {
+		public void testExpr0749() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11572,7 +11572,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0750() {
+		public void testExpr0750() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11587,7 +11587,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0751() {
+		public void testExpr0751() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11602,7 +11602,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0752() {
+		public void testExpr0752() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11617,7 +11617,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0753() {
+		public void testExpr0753() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11632,7 +11632,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0754() {
+		public void testExpr0754() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11647,7 +11647,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0755() {
+		public void testExpr0755() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11662,7 +11662,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0756() {
+		public void testExpr0756() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11677,7 +11677,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0757() {
+		public void testExpr0757() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11692,7 +11692,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0758() {
+		public void testExpr0758() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11707,7 +11707,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0759() {
+		public void testExpr0759() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11722,7 +11722,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0760() {
+		public void testExpr0760() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11737,7 +11737,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0761() {
+		public void testExpr0761() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11752,7 +11752,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0762() {
+		public void testExpr0762() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11767,7 +11767,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0763() {
+		public void testExpr0763() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11782,7 +11782,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0764() {
+		public void testExpr0764() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11797,7 +11797,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0765() {
+		public void testExpr0765() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11812,7 +11812,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0766() {
+		public void testExpr0766() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11827,7 +11827,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0767() {
+		public void testExpr0767() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11842,7 +11842,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0768() {
+		public void testExpr0768() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11857,7 +11857,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0769() {
+		public void testExpr0769() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11872,7 +11872,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0770() {
+		public void testExpr0770() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11887,7 +11887,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0771() {
+		public void testExpr0771() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11902,7 +11902,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0772() {
+		public void testExpr0772() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11917,7 +11917,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0773() {
+		public void testExpr0773() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11932,7 +11932,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0774() {
+		public void testExpr0774() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11947,7 +11947,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0775() {
+		public void testExpr0775() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11962,7 +11962,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0776() {
+		public void testExpr0776() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11977,7 +11977,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0777() {
+		public void testExpr0777() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -11992,7 +11992,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0778() {
+		public void testExpr0778() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12007,7 +12007,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0779() {
+		public void testExpr0779() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12022,7 +12022,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0780() {
+		public void testExpr0780() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12039,7 +12039,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0781() {
+		public void testExpr0781() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12056,7 +12056,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0782() {
+		public void testExpr0782() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12073,7 +12073,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0783() {
+		public void testExpr0783() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12090,7 +12090,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0784() {
+		public void testExpr0784() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12107,7 +12107,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0785() {
+		public void testExpr0785() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12124,7 +12124,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0786() {
+		public void testExpr0786() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12141,7 +12141,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0787() {
+		public void testExpr0787() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12158,7 +12158,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0788() {
+		public void testExpr0788() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12174,7 +12174,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0789() {
+		public void testExpr0789() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12190,7 +12190,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0790() {
+		public void testExpr0790() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12206,7 +12206,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0791() {
+		public void testExpr0791() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12222,7 +12222,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0792() {
+		public void testExpr0792() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12238,7 +12238,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0793() {
+		public void testExpr0793() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12254,7 +12254,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0794() {
+		public void testExpr0794() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12270,7 +12270,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0795() {
+		public void testExpr0795() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12286,7 +12286,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0796() {
+		public void testExpr0796() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12302,7 +12302,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0797() {
+		public void testExpr0797() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12318,7 +12318,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0798() {
+		public void testExpr0798() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12334,7 +12334,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0799() {
+		public void testExpr0799() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12350,7 +12350,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0800() {
+		public void testExpr0800() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12366,7 +12366,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0801() {
+		public void testExpr0801() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12382,7 +12382,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0802() {
+		public void testExpr0802() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12398,7 +12398,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0803() {
+		public void testExpr0803() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12414,7 +12414,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0804() {
+		public void testExpr0804() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12430,7 +12430,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0805() {
+		public void testExpr0805() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12446,7 +12446,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0806() {
+		public void testExpr0806() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12462,7 +12462,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0807() {
+		public void testExpr0807() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12478,7 +12478,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0808() {
+		public void testExpr0808() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12494,7 +12494,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0809() {
+		public void testExpr0809() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12510,7 +12510,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0810() {
+		public void testExpr0810() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12529,7 +12529,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0811() {
+		public void testExpr0811() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12545,7 +12545,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0812() {
+		public void testExpr0812() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12561,7 +12561,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0813() {
+		public void testExpr0813() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12577,7 +12577,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0814() {
+		public void testExpr0814() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12593,7 +12593,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0815() {
+		public void testExpr0815() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12609,7 +12609,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0816() {
+		public void testExpr0816() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12625,7 +12625,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0817() {
+		public void testExpr0817() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12641,7 +12641,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0818() {
+		public void testExpr0818() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12657,7 +12657,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0819() {
+		public void testExpr0819() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12673,7 +12673,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0820() {
+		public void testExpr0820() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12689,7 +12689,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0821() {
+		public void testExpr0821() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12706,7 +12706,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0822() {
+		public void testExpr0822() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12723,7 +12723,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0823() {
+		public void testExpr0823() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12740,7 +12740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0824() {
+		public void testExpr0824() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12757,7 +12757,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0825() {
+		public void testExpr0825() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12774,7 +12774,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0826() {
+		public void testExpr0826() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12791,7 +12791,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0827() {
+		public void testExpr0827() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12808,7 +12808,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0828() {
+		public void testExpr0828() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12825,7 +12825,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0829() {
+		public void testExpr0829() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12842,7 +12842,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0830() {
+		public void testExpr0830() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12859,7 +12859,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0831() {
+		public void testExpr0831() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12876,7 +12876,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0832() {
+		public void testExpr0832() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12893,7 +12893,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0833() {
+		public void testExpr0833() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12910,7 +12910,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0834() {
+		public void testExpr0834() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12927,7 +12927,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0835() {
+		public void testExpr0835() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12944,7 +12944,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0836() {
+		public void testExpr0836() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12961,7 +12961,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0837() {
+		public void testExpr0837() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12977,7 +12977,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0838() {
+		public void testExpr0838() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -12993,7 +12993,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0839() {
+		public void testExpr0839() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13009,7 +13009,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0840() {
+		public void testExpr0840() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13025,7 +13025,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0841() {
+		public void testExpr0841() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13041,7 +13041,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0842() {
+		public void testExpr0842() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13057,7 +13057,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0843() {
+		public void testExpr0843() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13073,7 +13073,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0844() {
+		public void testExpr0844() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13089,7 +13089,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0845() {
+		public void testExpr0845() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -13109,7 +13109,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0846() {
+		public void testExpr0846() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13126,7 +13126,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0847() {
+		public void testExpr0847() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13143,7 +13143,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0848() {
+		public void testExpr0848() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13160,7 +13160,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0849() {
+		public void testExpr0849() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13176,7 +13176,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0850() {
+		public void testExpr0850() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13192,7 +13192,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0851() {
+		public void testExpr0851() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13208,7 +13208,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0852() {
+		public void testExpr0852() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13224,7 +13224,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0853() {
+		public void testExpr0853() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13254,7 +13254,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0854() {
+		public void testExpr0854() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13273,7 +13273,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0855() {
+		public void testExpr0855() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13290,7 +13290,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0856() {
+		public void testExpr0856() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13309,7 +13309,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0857() {
+		public void testExpr0857() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13329,7 +13329,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0858() {
+		public void testExpr0858() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13347,7 +13347,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0859() {
+		public void testExpr0859() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13365,7 +13365,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0860() {
+		public void testExpr0860() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13383,7 +13383,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0861() {
+		public void testExpr0861() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13401,7 +13401,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0862() {
+		public void testExpr0862() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13419,7 +13419,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0863() {
+		public void testExpr0863() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13437,7 +13437,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0864() {
+		public void testExpr0864() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13455,7 +13455,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0865() {
+		public void testExpr0865() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13473,7 +13473,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0866() {
+		public void testExpr0866() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13491,7 +13491,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0867() {
+		public void testExpr0867() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13509,7 +13509,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0868() {
+		public void testExpr0868() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13527,7 +13527,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0869() {
+		public void testExpr0869() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13545,7 +13545,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0870() {
+		public void testExpr0870() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13563,7 +13563,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0871() {
+		public void testExpr0871() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13579,7 +13579,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0872() {
+		public void testExpr0872() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13595,7 +13595,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0873() {
+		public void testExpr0873() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13611,7 +13611,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0874() {
+		public void testExpr0874() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13627,7 +13627,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0875() {
+		public void testExpr0875() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13643,7 +13643,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0876() {
+		public void testExpr0876() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13659,7 +13659,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0877() {
+		public void testExpr0877() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13675,7 +13675,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0878() {
+		public void testExpr0878() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13691,7 +13691,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0879() {
+		public void testExpr0879() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13707,7 +13707,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0880() {
+		public void testExpr0880() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13723,7 +13723,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0881() {
+		public void testExpr0881() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13739,7 +13739,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0882() {
+		public void testExpr0882() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13755,7 +13755,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0883() {
+		public void testExpr0883() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13771,7 +13771,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0884() {
+		public void testExpr0884() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13787,7 +13787,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0885() {
+		public void testExpr0885() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13803,7 +13803,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0886() {
+		public void testExpr0886() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13819,7 +13819,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0887() {
+		public void testExpr0887() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13835,7 +13835,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0888() {
+		public void testExpr0888() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13851,7 +13851,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0889() {
+		public void testExpr0889() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13867,7 +13867,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0890() {
+		public void testExpr0890() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13883,7 +13883,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0891() {
+		public void testExpr0891() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13899,7 +13899,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0892() {
+		public void testExpr0892() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13915,7 +13915,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0893() {
+		public void testExpr0893() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13931,7 +13931,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0894() {
+		public void testExpr0894() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13947,7 +13947,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0895() {
+		public void testExpr0895() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13963,7 +13963,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0896() {
+		public void testExpr0896() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13979,7 +13979,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0897() {
+		public void testExpr0897() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -13995,7 +13995,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0898() {
+		public void testExpr0898() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14011,7 +14011,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0899() {
+		public void testExpr0899() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14027,7 +14027,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0900() {
+		public void testExpr0900() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14043,7 +14043,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0901() {
+		public void testExpr0901() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14059,7 +14059,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0902() {
+		public void testExpr0902() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14075,7 +14075,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0903() {
+		public void testExpr0903() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14091,7 +14091,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0904() {
+		public void testExpr0904() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14107,7 +14107,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0905() {
+		public void testExpr0905() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -14126,7 +14126,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0906() {
+		public void testExpr0906() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14142,7 +14142,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0907() {
+		public void testExpr0907() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14158,7 +14158,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0908() {
+		public void testExpr0908() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -14177,7 +14177,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0909() {
+		public void testExpr0909() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14193,7 +14193,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0910() {
+		public void testExpr0910() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -14212,7 +14212,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0911() {
+		public void testExpr0911() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14228,7 +14228,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0912() {
+		public void testExpr0912() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14244,7 +14244,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0913() {
+		public void testExpr0913() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14261,7 +14261,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0914() {
+		public void testExpr0914() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14279,7 +14279,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0915() {
+		public void testExpr0915() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14295,7 +14295,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0916() {
+		public void testExpr0916() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14311,7 +14311,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0917() {
+		public void testExpr0917() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14327,7 +14327,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0918() {
+		public void testExpr0918() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14343,7 +14343,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0919() {
+		public void testExpr0919() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14359,7 +14359,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0920() {
+		public void testExpr0920() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14375,7 +14375,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0921() {
+		public void testExpr0921() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14394,7 +14394,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0922() {
+		public void testExpr0922() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14410,7 +14410,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0923() {
+		public void testExpr0923() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14426,7 +14426,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0924() {
+		public void testExpr0924() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14442,7 +14442,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0925() {
+		public void testExpr0925() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14458,7 +14458,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0926() {
+		public void testExpr0926() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14474,7 +14474,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0927() {
+		public void testExpr0927() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14490,7 +14490,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0928() {
+		public void testExpr0928() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14509,7 +14509,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0929() {
+		public void testExpr0929() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14525,7 +14525,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0930() {
+		public void testExpr0930() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.setEpsilonComparison();
@@ -14541,7 +14541,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0931() {
+		public void testExpr0931() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14563,7 +14563,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0932() {
+		public void testExpr0932() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14585,7 +14585,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0933() {
+		public void testExpr0933() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14607,7 +14607,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0934() {
+		public void testExpr0934() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14626,7 +14626,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0935() {
+		public void testExpr0935() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14645,7 +14645,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0936() {
+		public void testExpr0936() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14664,7 +14664,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0937() {
+		public void testExpr0937() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14683,7 +14683,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0938() {
+		public void testExpr0938() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14702,7 +14702,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0939() {
+		public void testExpr0939() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14721,7 +14721,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0940() {
+		public void testExpr0940() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14740,7 +14740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0941() {
+		public void testExpr0941() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14759,7 +14759,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0942() {
+		public void testExpr0942() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14778,7 +14778,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0943() {
+		public void testExpr0943() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14799,7 +14799,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0944() {
+		public void testExpr0944() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14818,7 +14818,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0945() {
+		public void testExpr0945() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14837,7 +14837,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0946() {
+		public void testExpr0946() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14856,7 +14856,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0947() {
+		public void testExpr0947() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14875,7 +14875,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0948() {
+		public void testExpr0948() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14894,7 +14894,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0949() {
+		public void testExpr0949() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14913,7 +14913,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0950() {
+		public void testExpr0950() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14932,7 +14932,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0951() {
+		public void testExpr0951() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14951,7 +14951,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0952() {
+		public void testExpr0952() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14970,7 +14970,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0953() {
+		public void testExpr0953() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -14991,7 +14991,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0954() {
+		public void testExpr0954() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15007,7 +15007,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0955() {
+		public void testExpr0955() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15026,7 +15026,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0956() {
+		public void testExpr0956() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15045,7 +15045,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0957() {
+		public void testExpr0957() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15064,7 +15064,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0958() {
+		public void testExpr0958() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15083,7 +15083,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0959() {
+		public void testExpr0959() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15102,7 +15102,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0960() {
+		public void testExpr0960() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15121,7 +15121,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0961() {
+		public void testExpr0961() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15140,7 +15140,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0962() {
+		public void testExpr0962() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15159,7 +15159,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0963() {
+		public void testExpr0963() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15178,7 +15178,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0964() {
+		public void testExpr0964() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15197,7 +15197,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0965() {
+		public void testExpr0965() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15216,7 +15216,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0966() {
+		public void testExpr0966() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15235,7 +15235,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0967() {
+		public void testExpr0967() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15254,7 +15254,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0968() {
+		public void testExpr0968() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15273,7 +15273,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0969() {
+		public void testExpr0969() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15292,7 +15292,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0970() {
+		public void testExpr0970() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15311,7 +15311,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0971() {
+		public void testExpr0971() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15335,7 +15335,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0972() {
+		public void testExpr0972() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15354,7 +15354,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0973() {
+		public void testExpr0973() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15376,7 +15376,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0974() {
+		public void testExpr0974() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15398,7 +15398,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0975() {
+		public void testExpr0975() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15417,7 +15417,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0976() {
+		public void testExpr0976() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15436,7 +15436,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0977() {
+		public void testExpr0977() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15455,7 +15455,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0978() {
+		public void testExpr0978() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15474,7 +15474,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0979() {
+		public void testExpr0979() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15493,7 +15493,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0980() {
+		public void testExpr0980() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15512,7 +15512,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0981() {
+		public void testExpr0981() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15536,7 +15536,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0982() {
+		public void testExpr0982() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15555,7 +15555,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0983() {
+		public void testExpr0983() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15574,7 +15574,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0984() {
+		public void testExpr0984() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15593,7 +15593,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0985() {
+		public void testExpr0985() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15612,7 +15612,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0986() {
+		public void testExpr0986() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15631,7 +15631,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0987() {
+		public void testExpr0987() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15647,7 +15647,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0988() {
+		public void testExpr0988() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15663,7 +15663,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0989() {
+		public void testExpr0989() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15679,7 +15679,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0990() {
+		public void testExpr0990() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15695,7 +15695,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0991() {
+		public void testExpr0991() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15711,7 +15711,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0992() {
+		public void testExpr0992() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15727,7 +15727,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0993() {
+		public void testExpr0993() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15743,7 +15743,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0994() {
+		public void testExpr0994() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -15759,7 +15759,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0995() {
+		public void testExpr0995() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15778,7 +15778,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0996() {
+		public void testExpr0996() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15797,7 +15797,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0997() {
+		public void testExpr0997() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15816,7 +15816,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0998() {
+		public void testExpr0998() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15835,7 +15835,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr0999() {
+		public void testExpr0999() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15854,7 +15854,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1000() {
+		public void testExpr1000() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15873,7 +15873,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1001() {
+		public void testExpr1001() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15892,7 +15892,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1002() {
+		public void testExpr1002() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15911,7 +15911,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1003() {
+		public void testExpr1003() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15930,7 +15930,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1004() {
+		public void testExpr1004() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15949,7 +15949,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1005() {
+		public void testExpr1005() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15971,7 +15971,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1006() {
+		public void testExpr1006() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -15990,7 +15990,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1007() {
+		public void testExpr1007() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16009,7 +16009,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1008() {
+		public void testExpr1008() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16028,7 +16028,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1009() {
+		public void testExpr1009() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16047,7 +16047,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1010() {
+		public void testExpr1010() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16066,7 +16066,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1011() {
+		public void testExpr1011() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16085,7 +16085,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1012() {
+		public void testExpr1012() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16104,7 +16104,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1013() {
+		public void testExpr1013() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16123,7 +16123,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1014() {
+		public void testExpr1014() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16142,7 +16142,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1015() {
+		public void testExpr1015() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16161,7 +16161,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1016() {
+		public void testExpr1016() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16180,7 +16180,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1017() {
+		public void testExpr1017() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16199,7 +16199,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1018() {
+		public void testExpr1018() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16218,7 +16218,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1019() {
+		public void testExpr1019() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16242,7 +16242,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1020() {
+		public void testExpr1020() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16261,7 +16261,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1021() {
+		public void testExpr1021() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16283,7 +16283,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1022() {
+		public void testExpr1022() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16302,7 +16302,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1023() {
+		public void testExpr1023() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16321,7 +16321,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1024() {
+		public void testExpr1024() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16340,7 +16340,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1025() {
+		public void testExpr1025() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16359,7 +16359,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1026() {
+		public void testExpr1026() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language (Raspberry Pi Pilot Release)
@@ -16378,7 +16378,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1027() {
+		public void testExpr1027() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16394,7 +16394,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1028() {
+		public void testExpr1028() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16410,7 +16410,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1029() {
+		public void testExpr1029() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16426,7 +16426,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1030() {
+		public void testExpr1030() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16442,7 +16442,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1031() {
+		public void testExpr1031() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16458,7 +16458,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1032() {
+		public void testExpr1032() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16474,7 +16474,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1033() {
+		public void testExpr1033() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16490,7 +16490,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1034() {
+		public void testExpr1034() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16506,7 +16506,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1035() {
+		public void testExpr1035() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16530,7 +16530,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1036() {
+		public void testExpr1036() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16549,7 +16549,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1037() {
+		public void testExpr1037() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16568,7 +16568,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1038() {
+		public void testExpr1038() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16587,7 +16587,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1039() {
+		public void testExpr1039() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16606,7 +16606,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1040() {
+		public void testExpr1040() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16625,7 +16625,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1041() {
+		public void testExpr1041() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16644,7 +16644,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1042() {
+		public void testExpr1042() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16663,7 +16663,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1043() {
+		public void testExpr1043() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16682,7 +16682,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1044() {
+		public void testExpr1044() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16701,7 +16701,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1045() {
+		public void testExpr1045() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16720,7 +16720,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1046() {
+		public void testExpr1046() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16744,7 +16744,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1047() {
+		public void testExpr1047() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16763,7 +16763,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1048() {
+		public void testExpr1048() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16782,7 +16782,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1049() {
+		public void testExpr1049() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16801,7 +16801,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1050() {
+		public void testExpr1050() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16820,7 +16820,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1051() {
+		public void testExpr1051() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16839,7 +16839,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1052() {
+		public void testExpr1052() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16858,7 +16858,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1053() {
+		public void testExpr1053() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16877,7 +16877,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1054() {
+		public void testExpr1054() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16896,7 +16896,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1055() {
+		public void testExpr1055() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16915,7 +16915,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1056() {
+		public void testExpr1056() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16934,7 +16934,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1057() {
+		public void testExpr1057() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16953,7 +16953,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1058() {
+		public void testExpr1058() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -16972,7 +16972,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1059() {
+		public void testExpr1059() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -16988,7 +16988,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1060() {
+		public void testExpr1060() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17007,7 +17007,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1061() {
+		public void testExpr1061() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17023,7 +17023,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1062() {
+		public void testExpr1062() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17042,7 +17042,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1063() {
+		public void testExpr1063() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -17061,7 +17061,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1064() {
+		public void testExpr1064() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17077,7 +17077,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1065() {
+		public void testExpr1065() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n, 1, 10, 1) - 10";
@@ -17092,7 +17092,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1066() {
+		public void testExpr1066() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n, 10, 1, 1) - 10";
@@ -17107,7 +17107,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1067() {
+		public void testExpr1067() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n, 10, 10, 1) - 1";
@@ -17122,7 +17122,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1068() {
+		public void testExpr1068() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(n, 1, 10, 2) - 2^10";
@@ -17137,7 +17137,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1069() {
+		public void testExpr1069() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(n, 10, 1, 2) - 2^10";
@@ -17152,7 +17152,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1070() {
+		public void testExpr1070() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "prod(n, 10, 10, 2) - 2";
@@ -17167,7 +17167,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1071() {
+		public void testExpr1071() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(n, 1, 10, n) - 5.5";
@@ -17182,7 +17182,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1072() {
+		public void testExpr1072() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(n, 10, 1, n) - 5.5";
@@ -17197,7 +17197,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1073() {
+		public void testExpr1073() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(n, 10, 10, 1) - 1";
@@ -17212,7 +17212,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1074() {
+		public void testExpr1074() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(x) = par(0) + par(1) + par(-1) + [npar]");
@@ -17228,7 +17228,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1075() {
+		public void testExpr1075() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(x, y) = par(0) + par(1) + par(2) + par(-1) + par(-2) + [npar]");
@@ -17244,7 +17244,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1076() {
+		public void testExpr1076() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(x1, x2, x3, x4, x5) = prod(i, 1, [npar], par(i) )");
@@ -17260,7 +17260,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1077() {
+		public void testExpr1077() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(x1, x2, x3, x4, x5) = prod(i, 1, [npar], par(-i) )");
@@ -17276,7 +17276,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1078() {
+		public void testExpr1078() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(x1, x2, x3, x4, x5) = prod(i, -1, -[npar], par(i) )");
@@ -17292,7 +17292,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1079() {
+		public void testExpr1079() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(...) = maxi(i, 1, [npar], par(i) )");
@@ -17308,7 +17308,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1080() {
+		public void testExpr1080() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(...) = sum(i, 1, par(0), sum(k, 1, [npar], par(i) + par(k)) )");
@@ -17324,7 +17324,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1081() {
+		public void testExpr1081() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("f(...) = iff( [npar]>5, f(par(1),par(2),par(3),par(4),par(5)); [npar]=5, par(5)*f(par(1),par(2),par(3),par(4)); [npar]=4, par(4)*f(par(1),par(2),par(3)); [npar]=3, par(3)*f(par(1),par(2)); [npar]=2, par(2)*f(par(1)); [npar]=1, par(1) )");
@@ -17340,7 +17340,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1082() {
+		public void testExpr1082() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("sumv(...) = sum( i, 1, [npar], par(i) )");
@@ -17356,7 +17356,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1083() {
+		public void testExpr1083() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("multiv(...) = prod( i, 1, [npar], par(i) )");
@@ -17372,7 +17372,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1084() {
+		public void testExpr1084() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("meanv(...) = avg( i, 1, [npar], par(i) )");
@@ -17388,7 +17388,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1085() {
+		public void testExpr1085() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("varv(...) = vari( i, 1, [npar], par(i) )");
@@ -17404,7 +17404,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1086() {
+		public void testExpr1086() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("stdv(...) = stdi( i, 1, [npar], par(i) )");
@@ -17420,7 +17420,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1087() {
+		public void testExpr1087() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("minv(...) = mini( i, 1, [npar], par(i) )");
@@ -17436,7 +17436,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1088() {
+		public void testExpr1088() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Function f = new Function("maxv(...) = maxi( i, 1, [npar], par(i) )");
@@ -17452,7 +17452,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1089() {
+		public void testExpr1089() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			FunExtVar fx = new FunExtVar();
@@ -17469,7 +17469,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1090() {
+		public void testExpr1090() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17488,7 +17488,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1091() {
+		public void testExpr1091() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17507,7 +17507,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1092() {
+		public void testExpr1092() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17524,7 +17524,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1093() {
+		public void testExpr1093() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableUlpRounding();
@@ -17541,7 +17541,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1094() {
+		public void testExpr1094() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n, -10, 10, sum(k, 0, abs(n), C(n,k) ) ) - sum(n, -10, 10, sum(k, 0, abs(n), nCk(n,k) ) )";
@@ -17555,7 +17555,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1095() {
+		public void testExpr1095() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(n, -10, 10, sum(k, 0, abs(n), nPk(n,k) ) ) - sum(n, -10, 10, sum(k, 0, abs(n), nCk(n,k) * k! ) )";
@@ -17569,7 +17569,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1096() {
+		public void testExpr1096() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17593,7 +17593,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1097() {
+		public void testExpr1097() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17617,7 +17617,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1098() {
+		public void testExpr1098() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17641,7 +17641,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1099() {
+		public void testExpr1099() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17665,7 +17665,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1100() {
+		public void testExpr1100() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17689,7 +17689,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1101() {
+		public void testExpr1101() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17713,7 +17713,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1102() {
+		public void testExpr1102() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17737,7 +17737,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1103() {
+		public void testExpr1103() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17761,7 +17761,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1104() {
+		public void testExpr1104() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17785,7 +17785,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1105() {
+		public void testExpr1105() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17809,7 +17809,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1106() {
+		public void testExpr1106() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17830,7 +17830,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1107() {
+		public void testExpr1107() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "( isNaN( Beta(-1, 10 ) ) - [true] ) + ( isNaN( Beta(10, -1 ) ) - [true] )";
@@ -17844,7 +17844,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1108() {
+		public void testExpr1108() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "( isNaN( Beta(0, 10 ) ) - [true] ) + ( isNaN( Beta(10, 0 ) ) - [true] )";
@@ -17858,7 +17858,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1109() {
+		public void testExpr1109() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "( isNaN( Beta([NaN], 10 ) ) - [true] ) + ( isNaN( Beta(10, [NaN] ) ) - [true] )";
@@ -17872,7 +17872,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1110() {
+		public void testExpr1110() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(x, 1, 10,  sum(y, 1, 10, der( Beta(x, y), x, x) - Beta(x,y) * ( diGamma(x) - diGamma(x+y) ) , 0.1), 0.1)";
@@ -17886,7 +17886,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1111() {
+		public void testExpr1111() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17907,7 +17907,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1112() {
+		public void testExpr1112() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17931,7 +17931,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1113() {
+		public void testExpr1113() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17952,7 +17952,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1114() {
+		public void testExpr1114() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -17976,7 +17976,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1115() {
+		public void testExpr1115() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18000,7 +18000,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1116() {
+		public void testExpr1116() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18021,7 +18021,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1117() {
+		public void testExpr1117() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18042,7 +18042,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1118() {
+		public void testExpr1118() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18063,7 +18063,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1119() {
+		public void testExpr1119() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18084,7 +18084,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1120() {
+		public void testExpr1120() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18105,7 +18105,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1121() {
+		public void testExpr1121() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18126,7 +18126,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1122() {
+		public void testExpr1122() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18147,7 +18147,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1123() {
+		public void testExpr1123() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18168,7 +18168,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1124() {
+		public void testExpr1124() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18189,7 +18189,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1125() {
+		public void testExpr1125() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			/* Wolfram Language 11.0.1 Engine for Linux ARM (32-bit)
@@ -18213,7 +18213,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1126() {
+		public void testExpr1126() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18234,7 +18234,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1127() {
+		public void testExpr1127() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18252,7 +18252,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1128() {
+		public void testExpr1128() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18270,7 +18270,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1129() {
+		public void testExpr1129() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18288,7 +18288,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1130() {
+		public void testExpr1130() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18306,7 +18306,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1131() {
+		public void testExpr1131() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18324,7 +18324,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1132() {
+		public void testExpr1132() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18342,7 +18342,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1133() {
+		public void testExpr1133() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18360,7 +18360,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1134() {
+		public void testExpr1134() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18378,7 +18378,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1135() {
+		public void testExpr1135() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18399,7 +18399,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1136() {
+		public void testExpr1136() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18420,7 +18420,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1137() {
+		public void testExpr1137() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18436,7 +18436,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1138() {
+		public void testExpr1138() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18452,7 +18452,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1139() {
+		public void testExpr1139() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18468,7 +18468,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1140() {
+		public void testExpr1140() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18484,7 +18484,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1141() {
+		public void testExpr1141() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18500,7 +18500,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1142() {
+		public void testExpr1142() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18516,7 +18516,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1143() {
+		public void testExpr1143() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18532,7 +18532,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1144() {
+		public void testExpr1144() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18548,7 +18548,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1145() {
+		public void testExpr1145() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18564,7 +18564,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1146() {
+		public void testExpr1146() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18580,7 +18580,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1147() {
+		public void testExpr1147() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18596,7 +18596,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1148() {
+		public void testExpr1148() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18612,7 +18612,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1149() {
+		public void testExpr1149() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18628,7 +18628,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1150() {
+		public void testExpr1150() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18644,7 +18644,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1151() {
+		public void testExpr1151() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18660,7 +18660,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1152() {
+		public void testExpr1152() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18676,7 +18676,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1153() {
+		public void testExpr1153() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18692,7 +18692,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1154() {
+		public void testExpr1154() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18708,7 +18708,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1155() {
+		public void testExpr1155() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18724,7 +18724,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1156() {
+		public void testExpr1156() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18740,7 +18740,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1157() {
+		public void testExpr1157() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18756,7 +18756,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1158() {
+		public void testExpr1158() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18772,7 +18772,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1159() {
+		public void testExpr1159() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18788,7 +18788,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1160() {
+		public void testExpr1160() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18804,7 +18804,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1161() {
+		public void testExpr1161() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18820,7 +18820,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1162() {
+		public void testExpr1162() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18837,7 +18837,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1163() {
+		public void testExpr1163() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.enableAlmostIntRounding();
@@ -18854,7 +18854,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1164() {
+		public void testExpr1164() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18873,7 +18873,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1165() {
+		public void testExpr1165() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18892,7 +18892,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1166() {
+		public void testExpr1166() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18911,7 +18911,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1167() {
+		public void testExpr1167() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18930,7 +18930,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1168() {
+		public void testExpr1168() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18949,7 +18949,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1169() {
+		public void testExpr1169() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18968,7 +18968,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1170() {
+		public void testExpr1170() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -18987,7 +18987,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1171() {
+		public void testExpr1171() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19006,7 +19006,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1172() {
+		public void testExpr1172() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19025,7 +19025,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1173() {
+		public void testExpr1173() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19044,7 +19044,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1174() {
+		public void testExpr1174() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19063,7 +19063,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1175() {
+		public void testExpr1175() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19082,7 +19082,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1176() {
+		public void testExpr1176() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19101,7 +19101,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1177() {
+		public void testExpr1177() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19120,7 +19120,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1178() {
+		public void testExpr1178() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19139,7 +19139,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1179() {
+		public void testExpr1179() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19158,7 +19158,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1180() {
+		public void testExpr1180() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19177,7 +19177,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1181() {
+		public void testExpr1181() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19199,7 +19199,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1182() {
+		public void testExpr1182() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19221,7 +19221,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1183() {
+		public void testExpr1183() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19243,7 +19243,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1184() {
+		public void testExpr1184() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19265,7 +19265,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1185() {
+		public void testExpr1185() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19284,7 +19284,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1186() {
+		public void testExpr1186() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19303,7 +19303,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1187() {
+		public void testExpr1187() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19325,7 +19325,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1188() {
+		public void testExpr1188() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19347,7 +19347,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1189() {
+		public void testExpr1189() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19369,7 +19369,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1190() {
+		public void testExpr1190() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			bool tmp = mXparser.checkIfCanonicalRounding();
@@ -19391,7 +19391,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1191() {
+		public void testExpr1191() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19410,7 +19410,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1192() {
+		public void testExpr1192() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19430,7 +19430,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1193() {
+		public void testExpr1193() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19450,7 +19450,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1194() {
+		public void testExpr1194() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19470,7 +19470,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1195() {
+		public void testExpr1195() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19490,7 +19490,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1196() {
+		public void testExpr1196() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19510,7 +19510,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1197() {
+		public void testExpr1197() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19530,7 +19530,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1198() {
+		public void testExpr1198() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19550,7 +19550,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1199() {
+		public void testExpr1199() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19570,7 +19570,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1200() {
+		public void testExpr1200() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19590,7 +19590,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1201() {
+		public void testExpr1201() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19610,7 +19610,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1202() {
+		public void testExpr1202() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19630,7 +19630,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1203() {
+		public void testExpr1203() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19650,7 +19650,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1204() {
+		public void testExpr1204() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19670,7 +19670,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1205() {
+		public void testExpr1205() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19690,7 +19690,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1206() {
+		public void testExpr1206() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19710,7 +19710,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1207() {
+		public void testExpr1207() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19730,7 +19730,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1208() {
+		public void testExpr1208() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19750,7 +19750,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1209() {
+		public void testExpr1209() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19770,7 +19770,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1210() {
+		public void testExpr1210() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19790,7 +19790,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1211() {
+		public void testExpr1211() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19810,7 +19810,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1212() {
+		public void testExpr1212() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19830,7 +19830,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1213() {
+		public void testExpr1213() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19850,7 +19850,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1214() {
+		public void testExpr1214() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19870,7 +19870,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1215() {
+		public void testExpr1215() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19890,7 +19890,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1216() {
+		public void testExpr1216() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19910,7 +19910,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1217() {
+		public void testExpr1217() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19930,7 +19930,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1218() {
+		public void testExpr1218() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19950,7 +19950,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1219() {
+		public void testExpr1219() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19970,7 +19970,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1220() {
+		public void testExpr1220() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -19990,7 +19990,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1221() {
+		public void testExpr1221() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -20010,7 +20010,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1222() {
+		public void testExpr1222() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -20030,7 +20030,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1223() {
+		public void testExpr1223() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -20050,7 +20050,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1224() {
+		public void testExpr1224() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			mXparser.disableAlmostIntRounding();
@@ -20070,7 +20070,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1225() {
+		public void testExpr1225() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0 & 1) | (1 & 1) | 1 & 0";
@@ -20084,7 +20084,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1226() {
+		public void testExpr1226() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 | 0 & 0";
@@ -20098,7 +20098,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1227() {
+		public void testExpr1227() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1 | ~1 --> ~0 & 1";
@@ -20112,7 +20112,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1228() {
+		public void testExpr1228() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 20");
@@ -20127,7 +20127,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1229() {
+		public void testExpr1229() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 20");
@@ -20142,7 +20142,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1230() {
+		public void testExpr1230() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 20");
@@ -20157,7 +20157,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1231() {
+		public void testExpr1231() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 20");
@@ -20172,7 +20172,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1232() {
+		public void testExpr1232() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 20");
@@ -20187,7 +20187,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1233() {
+		public void testExpr1233() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x", new PiMultArgExt());
@@ -20202,7 +20202,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1234() {
+		public void testExpr1234() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3) - 2*(3)";
@@ -20216,7 +20216,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1235() {
+		public void testExpr1235() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(3)2 - (3)*2";
@@ -20230,7 +20230,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1236() {
+		public void testExpr1236() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2(3)2 - 2*(3)*2";
@@ -20244,7 +20244,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1237() {
+		public void testExpr1237() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "4×2";
@@ -20258,7 +20258,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1238() {
+		public void testExpr1238() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "4⨉2";
@@ -20272,7 +20272,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1239() {
+		public void testExpr1239() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "4∙2";
@@ -20286,7 +20286,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1240() {
+		public void testExpr1240() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "4÷2";
@@ -20300,7 +20300,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1241() {
+		public void testExpr1241() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "10+¬1";
@@ -20314,7 +20314,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1242() {
+		public void testExpr1242() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1∧0";
@@ -20328,7 +20328,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1243() {
+		public void testExpr1243() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1∨0";
@@ -20342,7 +20342,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1244() {
+		public void testExpr1244() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(1~∧1) + (1¬&1) + (1¬&&1) + (1¬/\\1) + (1¬∧1) + (1⊼1)";
@@ -20356,7 +20356,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1245() {
+		public void testExpr1245() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0~∨0) + (0¬|0) + (0¬||0) + (0¬\\/0) + (0¬∨0) + (0⊽0)";
@@ -20370,7 +20370,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1246() {
+		public void testExpr1246() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0⊻0) + (0⊻1) + (1⊻0) + (1⊻1)";
@@ -20384,7 +20384,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1247() {
+		public void testExpr1247() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0⇍1) + (1⇍1)";
@@ -20398,7 +20398,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1248() {
+		public void testExpr1248() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0⇐0) + (0⇐1) + (1⇐0)";
@@ -20412,7 +20412,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1249() {
+		public void testExpr1249() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0⇒0) + (0⇒1) + (1⇒0)";
@@ -20426,7 +20426,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1250() {
+		public void testExpr1250() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(1⇏0) + (1⇏1)";
@@ -20440,7 +20440,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1251() {
+		public void testExpr1251() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(0⇔0) + (1⇔1)";
@@ -20454,7 +20454,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1252() {
+		public void testExpr1252() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(1≠2)+(1≠1)";
@@ -20468,7 +20468,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1253() {
+		public void testExpr1253() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(1≤2)+(1≤1)+(2≤1)";
@@ -20482,7 +20482,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1254() {
+		public void testExpr1254() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(1⋜2)+(1⋜1)+(2⋜1)";
@@ -20496,7 +20496,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1255() {
+		public void testExpr1255() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(2≥1)+(2≥2)+(1≥2)";
@@ -20510,7 +20510,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1256() {
+		public void testExpr1256() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "(2⋝1)+(2⋝2)+(1⋝2)";
@@ -20524,7 +20524,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1257() {
+		public void testExpr1257() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "√4+√(6+3)+√16*2";
@@ -20538,7 +20538,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1258() {
+		public void testExpr1258() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∛1+∛(6+2)+∛27*2";
@@ -20552,7 +20552,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1259() {
+		public void testExpr1259() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∜1+∜(14+2)+∜81*2";
@@ -20566,7 +20566,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1260() {
+		public void testExpr1260() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+π+ℼ";
@@ -20580,7 +20580,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1261() {
+		public void testExpr1261() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "e+ℯ+ⅇ";
@@ -20594,7 +20594,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1262() {
+		public void testExpr1262() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∑(i, 1, 10, i) + Σ(i, 11, 20, i)";
@@ -20608,7 +20608,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1263() {
+		public void testExpr1263() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∏(i, 1, 3, i) + ℿ(i, 4, 6, i) + Π(i, 7, 9, i)";
@@ -20622,7 +20622,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1264() {
+		public void testExpr1264() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2*∫( √abs(x^2-1), x, -1, 1)";
@@ -20636,7 +20636,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1265() {
+		public void testExpr1265() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∂(x^2, x, 2)";
@@ -20650,7 +20650,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1266() {
+		public void testExpr1266() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∂+( abs(x), x, 0)";
@@ -20664,7 +20664,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1267() {
+		public void testExpr1267() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∂-( abs(x), x, 0)";
@@ -20678,7 +20678,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1268() {
+		public void testExpr1268() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 2");
@@ -20693,7 +20693,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1269() {
+		public void testExpr1269() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Argument x = new Argument("x = 2");
@@ -20708,7 +20708,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1270() {
+		public void testExpr1270() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "α+β+γ+δ+ε";
@@ -20728,7 +20728,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1271() {
+		public void testExpr1271() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ζ+η+θ+ι+κ";
@@ -20748,7 +20748,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1272() {
+		public void testExpr1272() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "λ+μ+ν+ξ+ο";
@@ -20768,7 +20768,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1273() {
+		public void testExpr1273() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "π+ρ+ς+σ+τ";
@@ -20788,7 +20788,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1274() {
+		public void testExpr1274() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "υ+φ+χ+ψ+ω";
@@ -20808,7 +20808,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1275() {
+		public void testExpr1275() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Α+Β+Γ+Δ+Ε";
@@ -20828,7 +20828,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1276() {
+		public void testExpr1276() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Ζ+Η+Θ+Ι+Κ";
@@ -20848,7 +20848,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1277() {
+		public void testExpr1277() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Λ+Μ+Ν+Ξ+Ο";
@@ -20868,7 +20868,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1278() {
+		public void testExpr1278() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Π+Ρ+Σ+Τ+Υ";
@@ -20888,7 +20888,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1279() {
+		public void testExpr1279() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Φ+Χ+Ψ+Ω+∑";
@@ -20908,7 +20908,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1280() {
+		public void testExpr1280() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∏+ℿ+∆+∇+∫";
@@ -20928,7 +20928,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1281() {
+		public void testExpr1281() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ℼ+ℇ+ⅇ+ℯ+∂";
@@ -20948,7 +20948,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1282() {
+		public void testExpr1282() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "α(1,2,3,4)";
@@ -20964,7 +20964,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1283() {
+		public void testExpr1283() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "α(1,2,3,4) + β(1,2,3,4)";
@@ -20981,7 +20981,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1284() {
+		public void testExpr1284() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ζ(1,2,3,4) + η(1,2,3,4)";
@@ -20998,7 +20998,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1285() {
+		public void testExpr1285() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "λ(1,2,3,4) + μ(1,2,3,4)";
@@ -21015,7 +21015,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1286() {
+		public void testExpr1286() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "π(1,2,3,4) + ρ(1,2,3,4)";
@@ -21032,7 +21032,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1287() {
+		public void testExpr1287() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "υ(1,2,3,4) + φ(1,2,3,4)";
@@ -21049,7 +21049,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1288() {
+		public void testExpr1288() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Α(1,2,3,4) + Β(1,2,3,4)";
@@ -21066,7 +21066,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1289() {
+		public void testExpr1289() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Ζ(1,2,3,4) + Η(1,2,3,4)";
@@ -21083,7 +21083,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1290() {
+		public void testExpr1290() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Λ(1,2,3,4) + Μ(1,2,3,4)";
@@ -21100,7 +21100,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1291() {
+		public void testExpr1291() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Π(1,2,3,4) + Ρ(1,2,3,4)";
@@ -21117,7 +21117,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1292() {
+		public void testExpr1292() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Φ(1,2,3,4) + Χ(1,2,3,4)";
@@ -21134,7 +21134,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1293() {
+		public void testExpr1293() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∏(1,2,3,4) + ℿ(1,2,3,4)";
@@ -21151,7 +21151,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1294() {
+		public void testExpr1294() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "ℼ(1,2,3,4) + ℇ(1,2,3,4)";
@@ -21168,7 +21168,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1295() {
+		public void testExpr1295() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "[α]+[β]+[γ]+[δ]+[ε]+[ζ]+[η]+[θ]+[ι]+[κ]+[λ]+[μ]+[ν]+[ξ]+[ο]+[π]+[ρ]+[ς]+[σ]+[τ]+[υ]+[φ]+[χ]+[ψ]+[ω]+[Α]+[Β]+[Γ]+[Δ]+[Ε]+[Ζ]+[Η]+[Θ]+[Ι]+[Κ]+[Λ]+[Μ]+[Ν]+[Ξ]+[Ο]+[Π]+[Ρ]+[Σ]+[Τ]+[Υ]+[Φ]+[Χ]+[Ψ]+[Ω]+[∑]+[∏]+[ℿ]+[∆]+[∇]+[∫]+[ℼ]+[ℇ]+[ⅇ]+[ℯ]+[∂]";
@@ -21243,7 +21243,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1296() {
+		public void testExpr1296() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "√√16";
@@ -21257,7 +21257,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1297() {
+		public void testExpr1297() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "√√√256";
@@ -21271,7 +21271,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1298() {
+		public void testExpr1298() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∛∛-19683";
@@ -21285,7 +21285,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1299() {
+		public void testExpr1299() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∛∛∛-7625597484987";
@@ -21299,7 +21299,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1300() {
+		public void testExpr1300() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+pi√pi";
@@ -21313,7 +21313,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1301() {
+		public void testExpr1301() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+pi√pipi";
@@ -21327,7 +21327,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1302() {
+		public void testExpr1302() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+pi∛pi";
@@ -21341,7 +21341,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1303() {
+		public void testExpr1303() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+pi∛pipi";
@@ -21355,7 +21355,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1304() {
+		public void testExpr1304() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+pi∜pi";
@@ -21369,7 +21369,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1305() {
+		public void testExpr1305() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi+pi∜pipi";
@@ -21383,7 +21383,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1306() {
+		public void testExpr1306() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∜∜65536";
@@ -21397,7 +21397,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1307() {
+		public void testExpr1307() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "∜∜∜445.791568452592";
@@ -21411,7 +21411,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1308() {
+		public void testExpr1308() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "pi√pi";
@@ -21425,7 +21425,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1309() {
+		public void testExpr1309() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2pi√pi";
@@ -21439,7 +21439,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1310() {
+		public void testExpr1310() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2pi√√pi";
@@ -21453,7 +21453,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1311() {
+		public void testExpr1311() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2pi√√2pi";
@@ -21467,7 +21467,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1312() {
+		public void testExpr1312() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "lg(100)";
@@ -21481,7 +21481,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1313() {
+		public void testExpr1313() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[9]:= SetPrecision[Sum[PDF[StudentTDistribution[1], x], {x, -10, 10, 0.02}], 20]
@@ -21500,7 +21500,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1314() {
+		public void testExpr1314() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[10]:= SetPrecision[Sum[PDF[StudentTDistribution[2], x], {x, -10, 10, 0.02}], 20]
@@ -21519,7 +21519,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1315() {
+		public void testExpr1315() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[11]:= SetPrecision[Sum[PDF[StudentTDistribution[3], x], {x, -10, 10, 0.02}], 20]
@@ -21538,7 +21538,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1316() {
+		public void testExpr1316() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[12]:= SetPrecision[Sum[PDF[StudentTDistribution[4], x], {x, -10, 10, 0.02}], 20]
@@ -21557,7 +21557,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1317() {
+		public void testExpr1317() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[13]:= SetPrecision[Sum[PDF[StudentTDistribution[5], x], {x, -10, 10, 0.02}], 20]
@@ -21576,7 +21576,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1318() {
+		public void testExpr1318() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[17]:= SetPrecision[Sum[PDF[StudentTDistribution[7], x], {x, -10, 10, 0.02}], 20]
@@ -21595,7 +21595,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1319() {
+		public void testExpr1319() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[16]:= SetPrecision[Sum[PDF[StudentTDistribution[10], x], {x, -10, 10, 0.02}], 20]
@@ -21614,7 +21614,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1320() {
+		public void testExpr1320() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[18]:= SetPrecision[Sum[PDF[StudentTDistribution[3.5], x], {x, -10, 10, 0.02}], 20]
@@ -21633,7 +21633,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1321() {
+		public void testExpr1321() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[3]:= SetPrecision[Sum[CDF[StudentTDistribution[1], x], {x, -4, 2, 0.02}], 20]
@@ -21652,7 +21652,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1322() {
+		public void testExpr1322() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[4]:= SetPrecision[Sum[CDF[StudentTDistribution[2], x], {x, -4, 2, 0.02}], 20]
@@ -21671,7 +21671,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1323() {
+		public void testExpr1323() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[5]:= SetPrecision[Sum[CDF[StudentTDistribution[3], x], {x, -4, 2, 0.02}], 20]
@@ -21690,7 +21690,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1324() {
+		public void testExpr1324() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[6]:= SetPrecision[Sum[CDF[StudentTDistribution[4], x], {x, -4, 2, 0.02}], 20]
@@ -21709,7 +21709,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1325() {
+		public void testExpr1325() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[7]:= SetPrecision[Sum[CDF[StudentTDistribution[5], x], {x, -4, 2, 0.02}], 20]
@@ -21728,7 +21728,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1326() {
+		public void testExpr1326() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[8]:= SetPrecision[Sum[CDF[StudentTDistribution[7], x], {x, -4, 2, 0.02}], 20]
@@ -21747,7 +21747,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1327() {
+		public void testExpr1327() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[9]:= SetPrecision[Sum[CDF[StudentTDistribution[10], x], {x, -4, 2, 0.02}], 20]
@@ -21766,7 +21766,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1328() {
+		public void testExpr1328() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[10]:= SetPrecision[Sum[CDF[StudentTDistribution[3.5], x], {x, -4, 2, 0.02}], 20]
@@ -21785,7 +21785,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1329() {
+		public void testExpr1329() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(v, 2, 10, int( pStud(x, v), x, -3, 1) - ( cStud(1, v) - cStud(-3, v)), 0.5)";
@@ -21799,7 +21799,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1330() {
+		public void testExpr1330() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[11]:= SetPrecision[Sum[CDF[StudentTDistribution[6], x], {x, -4, 2, 0.02}], 20]
@@ -21818,7 +21818,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1331() {
+		public void testExpr1331() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[12]:= SetPrecision[Sum[PDF[StudentTDistribution[6], x], {x, -10, 10, 0.02}], 20]
@@ -21837,7 +21837,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1332() {
+		public void testExpr1332() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[20]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[1], p], {p, 0.01, 0.3, 0.01}], 20]
@@ -21856,7 +21856,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1333() {
+		public void testExpr1333() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[21]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[2], p], {p, 0.31, 0.6, 0.01}], 20]
@@ -21875,7 +21875,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1334() {
+		public void testExpr1334() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[22]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[3], p], {p, 0.61, 0.99, 0.01}], 20]
@@ -21894,7 +21894,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1335() {
+		public void testExpr1335() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[23]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[4], p], {p, 0.01, 0.3, 0.01}], 20]
@@ -21913,7 +21913,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1336() {
+		public void testExpr1336() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[24]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[5], p], {p, 0.31, 0.6, 0.01}], 20]
@@ -21932,7 +21932,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1337() {
+		public void testExpr1337() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[25]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[6], p], {p, 0.61, 0.99, 0.01}], 20]
@@ -21951,7 +21951,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1338() {
+		public void testExpr1338() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[26]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[7], p], {p, 0.01, 0.3, 0.01}], 20]
@@ -21970,7 +21970,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1339() {
+		public void testExpr1339() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[27]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[10], p], {p, 0.31, 0.6, 0.01}], 20]
@@ -21989,7 +21989,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1340() {
+		public void testExpr1340() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[28]:= SetPrecision[Sum[InverseCDF[StudentTDistribution[3.5], p], {p, 0.61, 0.99, 0.01}], 20]
@@ -22008,7 +22008,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1341() {
+		public void testExpr1341() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 200000, rStud(10))";
@@ -22022,7 +22022,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1342() {
+		public void testExpr1342() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "vari(i, 1, 200000, rStud(10))";
@@ -22036,7 +22036,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1343() {
+		public void testExpr1343() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[12]:= SetPrecision[Sum[PDF[ChiSquareDistribution[1], x], {x, 0.1, 10, 0.02}], 20]
@@ -22055,7 +22055,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1344() {
+		public void testExpr1344() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[13]:= SetPrecision[Sum[PDF[ChiSquareDistribution[2], x], {x, 0.1, 10, 0.02}], 20]
@@ -22074,7 +22074,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1345() {
+		public void testExpr1345() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[14]:= SetPrecision[Sum[PDF[ChiSquareDistribution[3], x], {x, 0.1, 10, 0.02}], 20]
@@ -22093,7 +22093,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1346() {
+		public void testExpr1346() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[15]:= SetPrecision[Sum[PDF[ChiSquareDistribution[10], x], {x, 0.1, 10, 0.02}], 20]
@@ -22112,7 +22112,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1347() {
+		public void testExpr1347() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[16]:= SetPrecision[Sum[CDF[ChiSquareDistribution[1], x], {x, 0.1, 10, 0.02}], 20]
@@ -22131,7 +22131,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1348() {
+		public void testExpr1348() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[17]:= SetPrecision[Sum[CDF[ChiSquareDistribution[2], x], {x, 0.1, 10, 0.02}], 20]
@@ -22150,7 +22150,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1349() {
+		public void testExpr1349() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[18]:= SetPrecision[Sum[CDF[ChiSquareDistribution[3], x], {x, 0.1, 10, 0.02}], 20]
@@ -22169,7 +22169,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1350() {
+		public void testExpr1350() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[19]:= SetPrecision[Sum[CDF[ChiSquareDistribution[10], x], {x, 0.1, 10, 0.02}], 20]
@@ -22188,7 +22188,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1351() {
+		public void testExpr1351() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[21]:= SetPrecision[Sum[InverseCDF[ChiSquareDistribution[1], p], {p, 0.1, 0.9, 0.02}], 20]
@@ -22207,7 +22207,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1352() {
+		public void testExpr1352() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[22]:= SetPrecision[Sum[InverseCDF[ChiSquareDistribution[2], p], {p, 0.1, 0.9, 0.02}], 20]
@@ -22226,7 +22226,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1353() {
+		public void testExpr1353() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[23]:= SetPrecision[Sum[InverseCDF[ChiSquareDistribution[3], p], {p, 0.1, 0.9, 0.02}], 20]
@@ -22245,7 +22245,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1354() {
+		public void testExpr1354() {
 			/*
 			Wolfram 12.3 / Raspberry Pi
 			In[24]:= SetPrecision[Sum[InverseCDF[ChiSquareDistribution[10], p], {p, 0.1, 0.9, 0.02}], 20]
@@ -22264,7 +22264,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1355() {
+		public void testExpr1355() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "avg(i, 1, 100000, rChi2(10))";
@@ -22278,7 +22278,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1356() {
+		public void testExpr1356() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "1^1!^2^^2!^^2!^^92^B32.252cerf^9292";
@@ -22292,7 +22292,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1357() {
+		public void testExpr1357() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "6^^6^^2.116^B18.08";
@@ -22306,7 +22306,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1358() {
+		public void testExpr1358() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "3!<=3^2^9^92^9~&2";
@@ -22320,7 +22320,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1359() {
+		public void testExpr1359() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "2^2^^2^2^^2^2^^2222∛2^9^92^92^^0=2^9^92^9^2^2^9^92^92^^0=222^22^^2^9^9<--2^92^^0<2^9^92^9^2^2^9^92^92^^0=2^9^92^92";
@@ -22334,7 +22334,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1360() {
+		public void testExpr1360() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "Bell(999999*9999999)";
@@ -22348,7 +22348,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1361() {
+		public void testExpr1361() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "0.035%";
@@ -22362,7 +22362,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1362() {
+		public void testExpr1362() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "asin(sin(30.5))";
@@ -22377,7 +22377,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1363() {
+		public void testExpr1363() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "acos(cos(30.5))";
@@ -22392,7 +22392,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1364() {
+		public void testExpr1364() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "atan(tan(30.5))";
@@ -22407,7 +22407,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1365() {
+		public void testExpr1365() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "actan(ctan(30.5))";
@@ -22422,7 +22422,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1366() {
+		public void testExpr1366() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arcsec(sec(30.5))";
@@ -22437,7 +22437,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1367() {
+		public void testExpr1367() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "arccsc(csc(30.5))";
@@ -22452,7 +22452,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1368() {
+		public void testExpr1368() {
 			/*
 			Mathematica 13.1.0 Kernel for Linux ARM (32-bit) / Raspberry Pi
 			In[5]:= SetPrecision[  Sum[   Sum[     Sum[    PDF[FRatioDistribution[d1, d2], x], {x, 0.1, 5, 0.02}    ], {d1, 1, 101, 1}     ], {d2, 1, 101, 1}   ], 20]
@@ -22471,7 +22471,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1369() {
+		public void testExpr1369() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant d1 = new Constant("d1 = rUnid(3, 100)");
@@ -22493,7 +22493,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1370() {
+		public void testExpr1370() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(d2, 1, 101, sum(d1, 1, 101, sum(x, 0.2, 5, der( cFSned(x, d1, d2), x, x) - pFSned(x, d1, d2), 0.2)))";
@@ -22507,7 +22507,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1371() {
+		public void testExpr1371() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant d1 = new Constant("d1 = rUnid(3, 100)");
@@ -22529,7 +22529,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1372() {
+		public void testExpr1372() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant d1 = new Constant("d1 = rUnid(3, 100)");
@@ -22549,7 +22549,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1373() {
+		public void testExpr1373() {
 			/*
 			Mathematica 13.1.0 Kernel for Linux ARM (32-bit) / Raspberry Pi
 			In[6]:= SetPrecision[  Sum[   Sum[     Sum[    CDF[FRatioDistribution[d1, d2], x], {x, 0.1, 5, 0.02}    ], {d1, 1, 101, 1}     ], {d2, 1, 101, 1}   ], 20]
@@ -22568,7 +22568,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1374() {
+		public void testExpr1374() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			String expStr = "sum(d1, 1, 100, sum(d2, 1, 100, sum(p, 0.01, 0.99, cFSned( qFSned(p, d1, d2), d1, d2) , 0.01) ) )";
@@ -22582,7 +22582,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1375() {
+		public void testExpr1375() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant d1 = new Constant("d1 = rUnid(3, 100)");
@@ -22606,7 +22606,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1376() {
+		public void testExpr1376() {
 			/*
 			Mathematica 13.1.0 Kernel for Linux ARM (32-bit) / Raspberry Pi
 			In[10]:= SetPrecision[  Sum[   Sum[     Sum[    InverseCDF[FRatioDistribution[d1, d2], p], {p, 0.01, 0.99, 0.01}    ], {d1, 1, 101, 1}     ], {d2, 1, 101, 1}   ], 20]
@@ -22625,7 +22625,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1377() {
+		public void testExpr1377() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant d1 = new Constant("d1 = rUnid(50, 100)");
@@ -22645,7 +22645,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
-		public void TestExpr1378() {
+		public void testExpr1378() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
 			Constant d1 = new Constant("d1 = rUnid(30, 70)");
