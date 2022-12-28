@@ -1164,9 +1164,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public double getArgumentValue(String argumentName) {
 			int argumentIndex = getArgumentIndex(argumentName);
-			if (argumentIndex != NOT_FOUND)
-				return argumentsList[argumentIndex].getArgumentValue();
-			return Double.NaN;
+			if (argumentIndex == NOT_FOUND)
+                return Double.NaN;
+            return argumentsList[argumentIndex].getArgumentValue();
 		}
 		/**
 		 * Removes first occurrences of the arguments
@@ -1848,32 +1848,31 @@ namespace org.mariuszgromada.math.mxparser {
 			int lPpos = pos+1;
 			if (lPpos == initialTokens.Count)
 				return -1;
-			if (initialTokens[lPpos].tokenTypeId == ParserSymbol.TYPE_ID && initialTokens[lPpos].tokenId == ParserSymbol.LEFT_PARENTHESES_ID) {
-				int tokenLevel = initialTokens[lPpos].tokenLevel;
-				/*
-				 * Evaluate right parenthesis position
-				 */
-				int endPos = lPpos+1;
-				while (	!(initialTokens[endPos].tokenTypeId == ParserSymbol.TYPE_ID
-						&& initialTokens[endPos].tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
-						&& initialTokens[endPos].tokenLevel ==  tokenLevel) )
-					endPos++;
-				if (endPos == lPpos + 1)
-					return 0;
-				/*
-				 * Evaluate number of parameters by
-				 * counting number of ',' between parenthesis
-				 */
-				int numberOfCommas = 0;
-				for (int p = lPpos; p < endPos; p++) {
-					Token token = initialTokens[p];
-					if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID && token.tokenLevel == tokenLevel)
-						numberOfCommas++;
-				}
-				return numberOfCommas + 1;
-			} else {
+			if (initialTokens[lPpos].tokenTypeId != ParserSymbol.TYPE_ID || initialTokens[lPpos].tokenId != ParserSymbol.LEFT_PARENTHESES_ID)
 				return -1;
+
+			int tokenLevel = initialTokens[lPpos].tokenLevel;
+			/*
+			 * Evaluate right parenthesis position
+			 */
+			int endPos = lPpos+1;
+			while (	!(initialTokens[endPos].tokenTypeId == ParserSymbol.TYPE_ID
+					&& initialTokens[endPos].tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
+					&& initialTokens[endPos].tokenLevel ==  tokenLevel) )
+				endPos++;
+			if (endPos == lPpos + 1)
+				return 0;
+			/*
+			 * Evaluate number of parameters by
+			 * counting number of ',' between parenthesis
+			 */
+			int numberOfCommas = 0;
+			for (int p = lPpos; p < endPos; p++) {
+				Token token = initialTokens[p];
+				if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID && token.tokenLevel == tokenLevel)
+					numberOfCommas++;
 			}
+			return numberOfCommas + 1;
 		}
 		/**
 		 * Gets / returns argument representing given argument name. If
@@ -1899,12 +1898,12 @@ namespace org.mariuszgromada.math.mxparser {
 				argumentsList.Add(argParam.argument);
 				argParam.index = argumentsList.Count-1;
 				argParam.presence = NOT_FOUND;
-			} else {
-				argParam.initialValue = argParam.argument.argumentValue;
-				argParam.initialType = argParam.argument.argumentType;
-				argParam.argument.argumentValue = argParam.argument.getArgumentValue();
-				argParam.argument.argumentType = Argument.FREE_ARGUMENT;
+                return argParam;
 			}
+			argParam.initialValue = argParam.argument.argumentValue;
+			argParam.initialType = argParam.argument.argumentType;
+			argParam.argument.argumentValue = argParam.argument.getArgumentValue();
+			argParam.argument.argumentType = Argument.FREE_ARGUMENT;
 			return argParam;
 		}
 		/**
@@ -1913,12 +1912,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argParam            the argument parameter.
 		 */
 		private void clearParamArgument(ArgumentParameter argParam) {
-			if (argParam.presence == NOT_FOUND)
+			if (argParam.presence == NOT_FOUND) {
 				argumentsList.RemoveAt(argParam.index);
-			else {
-				argParam.argument.argumentValue = argParam.initialValue;
-				argParam.argument.argumentType = argParam.initialType;
+				return;
 			}
+			argParam.argument.argumentValue = argParam.initialValue;
+			argParam.argument.argumentType = argParam.initialType;
 		}
 		/*=================================================
 		 *
@@ -4023,8 +4022,7 @@ namespace org.mariuszgromada.math.mxparser {
 				if (derParams.Count == 4) {
 					epsParam = derParams[2];
 					maxStepsParam = derParams[3];
-				}
-				else {
+				} else {
 					epsParam = derParams[3];
 					maxStepsParam = derParams[4];
 				}
@@ -4040,12 +4038,10 @@ namespace org.mariuszgromada.math.mxparser {
 			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
 				double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, general);
-			}
-			else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
+			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
 				double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, left);
-			}
-			else {
+			} else {
 				double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, right);
 			}
@@ -5727,14 +5723,14 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int i = 0; i < keyWordsList.Count; i++) {
 				KeyWord kw = keyWordsList[i];
 
-				if (	(kw.wordTypeId == Function1Arg.TYPE_ID) ||
-						(kw.wordTypeId == Function2Arg.TYPE_ID) ||
-						(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-						(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
-						(kw.wordTypeId == CalculusOperator.TYPE_ID) ||
-						(kw.wordTypeId == ConstantValue.TYPE_ID) ||
-						(kw.wordTypeId == RandomVariable.TYPE_ID) ||
-						(kw.wordTypeId == Unit.TYPE_ID)	) {
+				if (	kw.wordTypeId == Function1Arg.TYPE_ID ||
+						kw.wordTypeId == Function2Arg.TYPE_ID ||
+						kw.wordTypeId == Function3Arg.TYPE_ID ||
+						kw.wordTypeId == FunctionVariadic.TYPE_ID ||
+						kw.wordTypeId == CalculusOperator.TYPE_ID ||
+						kw.wordTypeId == ConstantValue.TYPE_ID ||
+						kw.wordTypeId == RandomVariable.TYPE_ID ||
+						kw.wordTypeId == Unit.TYPE_ID	) {
 
 					if (toRemove)
 						if (mXparser.tokensToRemove.Contains(kw.wordString))
@@ -5744,16 +5740,17 @@ namespace org.mariuszgromada.math.mxparser {
 					String wordDescription;
 					String wordSyntax;
 					if (toModify) {
-						foreach (TokenModification tm in mXparser.tokensToModify)
-							if (tm.currentToken.Equals(kw.wordString)) {
-								wordString = tm.newToken;
-								wordDescription = kw.description;
-								if (tm.newTokenDescription != null)
-									wordDescription = tm.newTokenDescription;
-								wordSyntax = kw.syntax.Replace(tm.currentToken, tm.newToken);
-								KeyWord newKw = new KeyWord(wordString, wordDescription, kw.wordId, wordSyntax, kw.since, kw.wordTypeId);
-								keyWordsList[i] = newKw;
-							}
+						foreach (TokenModification tm in mXparser.tokensToModify) {
+							if (!tm.currentToken.Equals(kw.wordString))
+								continue;
+							wordString = tm.newToken;
+							wordDescription = kw.description;
+							if (tm.newTokenDescription != null)
+								wordDescription = tm.newTokenDescription;
+							wordSyntax = kw.syntax.Replace(tm.currentToken, tm.newToken);
+							KeyWord newKw = new KeyWord(wordString, wordDescription, kw.wordId, wordSyntax, kw.since, kw.wordTypeId);
+							keyWordsList[i] = newKw;
+						}
 					}
 				}
 
@@ -5768,39 +5765,39 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Final validation of keywords
 		 */
 		private void validateParserKeyWords() {
-			if (mXparser.overrideBuiltinTokens) {
-				/*
-				 * Building list of user defined tokens
-				 */
-				List<String> userDefinedTokens = new List<String>();
-				foreach (Argument arg in argumentsList)
-					userDefinedTokens.Add( arg.getArgumentName() );
-                foreach (Function fun in functionsList)
-					userDefinedTokens.Add( fun.getFunctionName() );
-                foreach (Constant cons in constantsList)
-					userDefinedTokens.Add( cons.getConstantName() );
-				/*
-				 * If no user defined tokens then exit
-				 */
-				if (userDefinedTokens.Count == 0) return;
-				/*
-				 * Building list of built-in tokens to remove
-				 */
-				List<KeyWord> keyWordsToOverride = new List<KeyWord>();
-                foreach (KeyWord kw in keyWordsList)
-					if (userDefinedTokens.Contains(kw.wordString))
-						keyWordsToOverride.Add(kw);
-				/*
-				 * If nothing to remove then exit
-				 */
-				if (keyWordsToOverride.Count == 0) return;
-                /*
-				 * Performing final override
-				 */
-                foreach (KeyWord kw in keyWordsToOverride)
-					keyWordsList.Remove(kw);
-			}
+			if (!mXparser.overrideBuiltinTokens)
+				return;
 
+			/*
+			 * Building list of user defined tokens
+			 */
+			List<String> userDefinedTokens = new List<String>();
+			foreach (Argument arg in argumentsList)
+				userDefinedTokens.Add( arg.getArgumentName() );
+			foreach (Function fun in functionsList)
+				userDefinedTokens.Add( fun.getFunctionName() );
+			foreach (Constant cons in constantsList)
+				userDefinedTokens.Add( cons.getConstantName() );
+			/*
+			 * If no user defined tokens then exit
+			 */
+			if (userDefinedTokens.Count == 0) return;
+			/*
+			 * Building list of built-in tokens to remove
+			 */
+			List<KeyWord> keyWordsToOverride = new List<KeyWord>();
+			foreach (KeyWord kw in keyWordsList)
+				if (userDefinedTokens.Contains(kw.wordString))
+					keyWordsToOverride.Add(kw);
+			/*
+			 * If nothing to remove then exit
+			 */
+			if (keyWordsToOverride.Count == 0) return;
+			/*
+			 * Performing final override
+			 */
+			foreach (KeyWord kw in keyWordsToOverride)
+				keyWordsList.Remove(kw);
 		}
 
 		/**
@@ -6726,9 +6723,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void copyInitialTokens() {
 			tokensList = new List<Token>();
-			foreach (Token token in initialTokens) {
+			foreach (Token token in initialTokens)
 				tokensList.Add(token.clone());
-			}
 		}
 		/**
 		 * Tokenizes expression string and returns tokens list,
@@ -6901,7 +6897,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal Expression clone() {
 			Expression newExp = new Expression(this);
-			if ( (initialTokens != null) && (initialTokens.Count > 0) )
+			if (initialTokens != null && initialTokens.Count > 0)
 				newExp.initialTokens = createInitialTokens(0, initialTokens.Count-1, initialTokens);
 			return newExp;
 		}

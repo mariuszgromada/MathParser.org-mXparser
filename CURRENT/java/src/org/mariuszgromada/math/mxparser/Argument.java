@@ -476,14 +476,14 @@ public class Argument extends PrimitiveElement implements Serializable {
 		argumentExpression.setDescription(argumentName);
 		argumentBodyType = BODY_RUNTIME;
 		description = StringInvariant.EMPTY;
-		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-			this.argumentName = argumentName;
-			this.argumentValue = argumentValue;
-			argumentType = FREE_ARGUMENT;
+		if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
 			return;
 		}
-		this.argumentValue = ARGUMENT_INITIAL_VALUE;
-		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+		this.argumentName = argumentName;
+		this.argumentValue = argumentValue;
+		argumentType = FREE_ARGUMENT;
 	}
 	/**
 	 * Constructor for argument definition based on
@@ -498,16 +498,16 @@ public class Argument extends PrimitiveElement implements Serializable {
 		argumentExpression = new Expression();
 		argumentExpression.setDescription(argumentName);
 		description = StringInvariant.EMPTY;
-		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-			this.argumentName = argumentName;
-			this.argumentExtension = argumentExtension;
-			argumentType = FREE_ARGUMENT;
-			argumentBodyType = BODY_EXTENDED;
+		if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+			argumentBodyType = BODY_RUNTIME;
 			return;
 		}
-		this.argumentValue = ARGUMENT_INITIAL_VALUE;
-		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-		argumentBodyType = BODY_RUNTIME;
+		this.argumentName = argumentName;
+		this.argumentExtension = argumentExtension;
+		argumentType = FREE_ARGUMENT;
+		argumentBodyType = BODY_EXTENDED;
 	}
 	/**
 	 * Constructor - creates dependent argument(with hidden
@@ -525,18 +525,18 @@ public class Argument extends PrimitiveElement implements Serializable {
 		super(Argument.TYPE_ID);
 		argumentBodyType = BODY_RUNTIME;
 		description = StringInvariant.EMPTY;
-		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-			this.argumentName = argumentName;
-			argumentValue=ARGUMENT_INITIAL_VALUE;
-			argumentExpression = new Expression(argumentExpressionString, elements);
+		if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+			this.argumentValue = ARGUMENT_INITIAL_VALUE;
+			argumentExpression = new Expression();
 			argumentExpression.setDescription(argumentName);
-			argumentType = DEPENDENT_ARGUMENT;
+			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
 			return;
 		}
-		this.argumentValue = ARGUMENT_INITIAL_VALUE;
-		argumentExpression = new Expression();
+		this.argumentName = argumentName;
+		argumentValue=ARGUMENT_INITIAL_VALUE;
+		argumentExpression = new Expression(argumentExpressionString, elements);
 		argumentExpression.setDescription(argumentName);
-		argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+		argumentType = DEPENDENT_ARGUMENT;
 	}
 	/**
 	 * Sets argument description.
@@ -1170,7 +1170,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	@Override
 	public Argument clone() {
 		Argument newArg = new Argument(this.argumentName);
-		newArg.argumentExpression = this.argumentExpression;
+		newArg.argumentExpression = this.argumentExpression.clone();
 		newArg.argumentType = this.argumentType;
 		newArg.argumentBodyType = this.argumentBodyType;
 		newArg.argumentValue = this.argumentValue;

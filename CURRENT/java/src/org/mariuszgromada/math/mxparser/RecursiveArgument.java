@@ -314,17 +314,17 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 */
 	public RecursiveArgument(String argumentDefinitionString, PrimitiveElement... elements) {
 		super(argumentDefinitionString);
-		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
-			this.argumentType = RECURSIVE_ARGUMENT;
-			baseValues = new ArrayList<Double>();
-			recursiveCounter = -1;
-			super.argumentExpression.addArguments(super.n);
-			super.argumentExpression.addArguments(this);
-			super.argumentExpression.addDefinitions(elements);
+		if (!mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
+			super.argumentExpression = new Expression();
+			super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
 			return;
 		}
-		super.argumentExpression = new Expression();
-		super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
+		this.argumentType = RECURSIVE_ARGUMENT;
+		baseValues = new ArrayList<Double>();
+		recursiveCounter = -1;
+		super.argumentExpression.addArguments(super.n);
+		super.argumentExpression.addArguments(this);
+		super.argumentExpression.addDefinitions(elements);
 	}
 	/**
 	 * Adds base case
@@ -334,16 +334,16 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 */
 	public void addBaseCase(int index, double value) {
 		int recSize = baseValues.size();
-		if (index > recSize-1) {
-			/*
-			 * Expand base values array if necessary
-			 */
-			for (int i = recSize; i < index; i++)
-				baseValues.add(Double.NaN);
-			baseValues.add(value);
+		if (index < recSize) {
+			baseValues.set(index, value);
 			return;
 		}
-		baseValues.set(index, value);
+		/*
+		 * Expand base values array if necessary
+		 */
+		for (int i = recSize; i < index; i++)
+			baseValues.add(Double.NaN);
+		baseValues.add(value);
 	}
 	/**
 	 * Clears all based cases and stored calculated values
@@ -371,63 +371,7 @@ public class RecursiveArgument extends Argument implements Serializable {
 		 * Count recursive calls
 		 */
 		recursiveCounter++;
-		if (recursiveCounter <= startingIndex && idx <= startingIndex) {
-			/*
-			 * if recursive counter is still lower than starting index
-			 * and current index is not increasing
-			 */
-			if (idx >= 0 && idx < recSize && !Double.isNaN(baseValues.get(idx).doubleValue())) {
-				/*
-				 * decrease recursive counter and return value
-				 * if recursive value for the current index was already
-				 * calculated and remembered in the base values table
-				 */
-				recursiveCounter--;
-				return baseValues.get(idx).doubleValue();
-			}  else if (idx >= 0) {
-				/*
-				 * value is to be calculated by the recursive calls
-				 */
-				/*
-				 * Set n to the current index
-				 */
-				n.setArgumentValue(idx);
-				/*
-				 * create new expression
-				 */
-				Expression newExp = new Expression(
-						super.argumentExpression.expressionString
-						,super.argumentExpression.argumentsList
-						,super.argumentExpression.functionsList
-						,super.argumentExpression.constantsList
-						,Expression.INTERNAL
-						,super.argumentExpression.UDFExpression
-						,super.argumentExpression.UDFVariadicParamsAtRunTime);
-				newExp.setDescription(super.getArgumentName());
-				if (super.getVerboseMode())
-					newExp.setVerboseMode();
-				/*
-				 * perform recursive call
-				 */
-				double value = newExp.calculate();
-				/*
-				 * remember calculated in the base values array
-				 */
-				addBaseCase(idx, value);
-				/*
-				 * decrease recursive counter and return value
-				 */
-				recursiveCounter--;
-				return value;
-			} else {
-				/*
-				 * decrease recursive counter and
-				 * return Double.NaN for negative index call
-				 */
-				recursiveCounter--;
-				return Double.NaN;
-			}
-		} else {
+		if (recursiveCounter > startingIndex || idx > startingIndex) {
 			/* stop never ending loop
 			 * decrease recursive counter and
 			 * return Double.NaN
@@ -435,5 +379,61 @@ public class RecursiveArgument extends Argument implements Serializable {
 			recursiveCounter--;
 			return Double.NaN;
 		}
+
+		/*
+		 * if recursive counter is still lower than starting index
+		 * and current index is not increasing
+		 */
+		if (idx >= 0 && idx < recSize && !Double.isNaN(baseValues.get(idx).doubleValue())) {
+			/*
+			 * decrease recursive counter and return value
+			 * if recursive value for the current index was already
+			 * calculated and remembered in the base values table
+			 */
+			recursiveCounter--;
+			return baseValues.get(idx).doubleValue();
+		}
+		if (idx < 0) {
+			/*
+			 * decrease recursive counter and
+			 * return Double.NaN for negative index call
+			 */
+			recursiveCounter--;
+			return Double.NaN;
+		}
+		/*
+		 * value is to be calculated by the recursive calls
+		 */
+		/*
+		 * Set n to the current index
+		 */
+		n.setArgumentValue(idx);
+		/*
+		 * create new expression
+		 */
+		Expression newExp = new Expression(
+				super.argumentExpression.expressionString
+				,super.argumentExpression.argumentsList
+				,super.argumentExpression.functionsList
+				,super.argumentExpression.constantsList
+				,Expression.INTERNAL
+				,super.argumentExpression.UDFExpression
+				,super.argumentExpression.UDFVariadicParamsAtRunTime);
+		newExp.setDescription(super.getArgumentName());
+		if (super.getVerboseMode())
+			newExp.setVerboseMode();
+		/*
+		 * perform recursive call
+		 */
+		double value = newExp.calculate();
+		/*
+		 * remember calculated in the base values array
+		 */
+		addBaseCase(idx, value);
+		/*
+		 * decrease recursive counter and return value
+		 */
+		recursiveCounter--;
+		return value;
 	}
 }

@@ -471,14 +471,14 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentExpression = new Expression();
             argumentBodyType = BODY_RUNTIME;
             description = StringInvariant.EMPTY;
-            if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-				this.argumentName = argumentName;
-				this.argumentValue = argumentValue;
-				argumentType = FREE_ARGUMENT;
-				return;
+            if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+                this.argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+                return;
 			}
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+            this.argumentName = argumentName;
+            this.argumentValue = argumentValue;
+            argumentType = FREE_ARGUMENT;
 		}
 		/**
 		 * Constructor for argument definition based on
@@ -492,16 +492,16 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentExpression = new Expression();
             argumentExpression.setDescription(argumentName);
             description = StringInvariant.EMPTY;
-            if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-				this.argumentName = argumentName;
-				this.argumentExtension = argumentExtension;
-				argumentType = FREE_ARGUMENT;
-				argumentBodyType = BODY_EXTENDED;
-				return;
+            if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+                this.argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+                argumentBodyType = BODY_RUNTIME;
+                return;
 			}
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-			argumentBodyType = BODY_RUNTIME;
+            this.argumentName = argumentName;
+            this.argumentExtension = argumentExtension;
+            argumentType = FREE_ARGUMENT;
+            argumentBodyType = BODY_EXTENDED;
 		}
 		/**
 		 * Constructor - creates dependent argument(with hidden
@@ -518,17 +518,17 @@ namespace org.mariuszgromada.math.mxparser {
 		public Argument(String argumentName, String argumentExpressionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
             argumentBodyType = BODY_RUNTIME;
             description = StringInvariant.EMPTY;
-            if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-				this.argumentName = argumentName;
-				argumentValue = ARGUMENT_INITIAL_VALUE;
-				argumentExpression = new Expression(argumentExpressionString, elements);
-				argumentExpression.setDescription(argumentName);
-				argumentType = DEPENDENT_ARGUMENT;
-				return;
+            if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
+                this.argumentValue = ARGUMENT_INITIAL_VALUE;
+                argumentExpression = new Expression();
+                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+                return;
 			}
-			this.argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentExpression = new Expression();
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+            this.argumentName = argumentName;
+            argumentValue = ARGUMENT_INITIAL_VALUE;
+            argumentExpression = new Expression(argumentExpressionString, elements);
+            argumentExpression.setDescription(argumentName);
+            argumentType = DEPENDENT_ARGUMENT;
 		}
 		/**
 		 * Sets argument description.

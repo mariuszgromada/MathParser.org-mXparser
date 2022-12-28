@@ -309,17 +309,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    Argument
 		 */
 		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString) {
-			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
-				this.argumentType = RECURSIVE_ARGUMENT;
-				baseValues = new List<Double>();
-				recursiveCounter = -1;
-				base.argumentExpression.addArguments(base.n);
-				base.argumentExpression.addArguments(this);
-				base.argumentExpression.addDefinitions(elements);
-				return;
+			if (!mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
+                base.argumentExpression = new Expression();
+                base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
+                return;
 			}
-			base.argumentExpression = new Expression();
-			base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
+            this.argumentType = RECURSIVE_ARGUMENT;
+            baseValues = new List<Double>();
+            recursiveCounter = -1;
+            base.argumentExpression.addArguments(base.n);
+            base.argumentExpression.addArguments(this);
+            base.argumentExpression.addDefinitions(elements);
 		}
 		/**
 		 * Adds base case
@@ -329,16 +329,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void addBaseCase(int index, double value) {
 			int recSize = baseValues.Count;
-			if (index > recSize-1) {
-				/*
-				 * Expand base values array if necessary
-				 */
-				for (int i = recSize; i < index; i++)
-					baseValues.Add( Double.NaN );
-				baseValues.Add(value);
+			if (index < recSize) {
+                baseValues[index] = value;
 				return;
-			}
-			baseValues[index] = value;
+            }
+			/*
+			 * Expand base values array if necessary
+			 */
+			for (int i = recSize; i < index; i++)
+				baseValues.Add( Double.NaN );
+			baseValues.Add(value);
 		}
 		/**
 		 * Clears all based cases and stored calculated values
@@ -366,70 +366,69 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Count recursive calls
 			 */
 			recursiveCounter++;
-			if (recursiveCounter <= startingIndex && idx <= startingIndex) {
-				/*
-				 * if recursive counter is still lower than starting index
-				 * and current index is not increasing
-				 */
-				if (idx >= 0 && idx < recSize && !Double.IsNaN(baseValues[idx])) {
-					/*
-					 * decrease recursive counter and return value
-					 * if recursive value for the current index was already
-					 * calculated and remembered in the base values table
-					 */
-					recursiveCounter--;
-					return baseValues[idx];
-				} else if (idx >= 0) {
-					/*
-					 * value is to be calculated by the recursive calls
-					 */
-					/*
-					 * Set n to the current index
-					 */
-					n.setArgumentValue(idx);
-					/*
-					 * create new expression
-					 */
-					Expression newExp = new Expression(
-							base.argumentExpression.expressionString
-							,base.argumentExpression.argumentsList
-							,base.argumentExpression.functionsList
-							,base.argumentExpression.constantsList
-							,Expression.INTERNAL
-							,base.argumentExpression.UDFExpression
-							,base.argumentExpression.UDFVariadicParamsAtRunTime);
-					newExp.setDescription(base.getArgumentName());
-					if (base.getVerboseMode())
-						newExp.setVerboseMode();
-					/*
-					 * perform recursive call
-					 */
-					double value = newExp.calculate();
-					/*
-					 * remember calculated in the base values array
-					 */
-					addBaseCase(idx, value);
-					/*
-					 * decrease recursive counter and return value
-					 */
-					recursiveCounter--;
-					return value;
-				} else {
-					/*
-					 * decrease recursive counter and
-					 * return Double.NaN for negative index call
-					 */
-					recursiveCounter--;
-					return Double.NaN;
-				}
-			} else {
-				/* stop never ending loop
+			if (recursiveCounter > startingIndex || idx > startingIndex) {
+                /* stop never ending loop
 				 * decrease recursive counter and
 				 * return Double.NaN
 				 */
+                recursiveCounter--;
+                return Double.NaN;
+            }
+			/*
+			 * if recursive counter is still lower than starting index
+			 * and current index is not increasing
+			 */
+			if (idx >= 0 && idx < recSize && !Double.IsNaN(baseValues[idx])) {
+				/*
+				 * decrease recursive counter and return value
+				 * if recursive value for the current index was already
+				 * calculated and remembered in the base values table
+				 */
 				recursiveCounter--;
-				return Double.NaN;
+				return baseValues[idx];
 			}
+			if (idx < 0) {
+                /*
+				 * decrease recursive counter and
+				 * return Double.NaN for negative index call
+				 */
+                recursiveCounter--;
+                return Double.NaN;
+            }
+			/*
+			 * value is to be calculated by the recursive calls
+			 */
+			/*
+			 * Set n to the current index
+			 */
+			n.setArgumentValue(idx);
+			/*
+			 * create new expression
+			 */
+			Expression newExp = new Expression(
+					base.argumentExpression.expressionString
+					,base.argumentExpression.argumentsList
+					,base.argumentExpression.functionsList
+					,base.argumentExpression.constantsList
+					,Expression.INTERNAL
+					,base.argumentExpression.UDFExpression
+					,base.argumentExpression.UDFVariadicParamsAtRunTime);
+			newExp.setDescription(base.getArgumentName());
+			if (base.getVerboseMode())
+				newExp.setVerboseMode();
+			/*
+			 * perform recursive call
+			 */
+			double value = newExp.calculate();
+			/*
+			 * remember calculated in the base values array
+			 */
+			addBaseCase(idx, value);
+			/*
+			 * decrease recursive counter and return value
+			 */
+			recursiveCounter--;
+			return value;
 		}
 	}
 }

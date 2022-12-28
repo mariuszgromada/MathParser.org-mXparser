@@ -1196,9 +1196,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public double getArgumentValue(String argumentName) {
 		int argumentIndex = getArgumentIndex(argumentName);
-		if (argumentIndex != NOT_FOUND)
-			return argumentsList.get(argumentIndex).getArgumentValue();
-		return Double.NaN;
+		if (argumentIndex == NOT_FOUND)
+			return Double.NaN;
+		return argumentsList.get(argumentIndex).getArgumentValue();
 	}
 	/**
 	 * Removes first occurrences of the arguments
@@ -1893,32 +1893,31 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int lPpos = pos+1;
 		if (lPpos == initialTokens.size())
 			return -1;
-		if (initialTokens.get(lPpos).tokenTypeId == ParserSymbol.TYPE_ID && initialTokens.get(lPpos).tokenId == ParserSymbol.LEFT_PARENTHESES_ID) {
-			int tokenLevel = initialTokens.get(lPpos).tokenLevel;
-			/*
-			 * Evaluate right parenthesis position
-			 */
-			int endPos = lPpos+1;
-			while (	!(initialTokens.get(endPos).tokenTypeId == ParserSymbol.TYPE_ID
-					&& initialTokens.get(endPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
-					&& initialTokens.get(endPos).tokenLevel ==  tokenLevel) )
-				endPos++;
-			if (endPos == lPpos + 1)
-				return 0;
-			/*
-			 * Evaluate number of parameters by
-			 * counting number of ',' between parenthesis
-			 */
-			int numberOfCommas = 0;
-			for (int p = lPpos; p < endPos; p++) {
-				Token token = initialTokens.get(p);
-				if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID && token.tokenLevel == tokenLevel)
-					numberOfCommas++;
-			}
-			return numberOfCommas + 1;
-		} else {
+		if (initialTokens.get(lPpos).tokenTypeId != ParserSymbol.TYPE_ID || initialTokens.get(lPpos).tokenId != ParserSymbol.LEFT_PARENTHESES_ID)
 			return -1;
+
+		int tokenLevel = initialTokens.get(lPpos).tokenLevel;
+		/*
+		 * Evaluate right parenthesis position
+		 */
+		int endPos = lPpos+1;
+		while (	!(initialTokens.get(endPos).tokenTypeId == ParserSymbol.TYPE_ID
+				&& initialTokens.get(endPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
+				&& initialTokens.get(endPos).tokenLevel ==  tokenLevel) )
+			endPos++;
+		if (endPos == lPpos + 1)
+			return 0;
+		/*
+		 * Evaluate number of parameters by
+		 * counting number of ',' between parenthesis
+		 */
+		int numberOfCommas = 0;
+		for (int p = lPpos; p < endPos; p++) {
+			Token token = initialTokens.get(p);
+			if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID && token.tokenLevel == tokenLevel)
+				numberOfCommas++;
 		}
+		return numberOfCommas + 1;
 	}
 	/**
 	 * Gets / returns argument representing given argument name. If
@@ -1944,12 +1943,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 			argumentsList.add(argParam.argument);
 			argParam.index = argumentsList.size()-1;
 			argParam.presence = NOT_FOUND;
-		} else {
-			argParam.initialValue = argParam.argument.argumentValue;
-			argParam.initialType = argParam.argument.argumentType;
-			argParam.argument.argumentValue = argParam.argument.getArgumentValue();
-			argParam.argument.argumentType = Argument.FREE_ARGUMENT;
+			return argParam;
 		}
+		argParam.initialValue = argParam.argument.argumentValue;
+		argParam.initialType = argParam.argument.argumentType;
+		argParam.argument.argumentValue = argParam.argument.getArgumentValue();
+		argParam.argument.argumentType = Argument.FREE_ARGUMENT;
 		return argParam;
 	}
 	/**
@@ -1958,12 +1957,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      argParam            the argument parameter.
 	 */
 	private void clearParamArgument(ArgumentParameter argParam) {
-		if (argParam.presence == NOT_FOUND)
+		if (argParam.presence == NOT_FOUND) {
 			argumentsList.remove(argParam.index);
-		else {
-			argParam.argument.argumentValue = argParam.initialValue;
-			argParam.argument.argumentType = argParam.initialType;
+			return;
 		}
+		argParam.argument.argumentValue = argParam.initialValue;
+		argParam.argument.argumentType = argParam.initialType;
 	}
 	/*=================================================
 	 *
@@ -3143,7 +3142,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double value = Double.NaN;
 		double x = getTokenValue(pos+1);
 		int npar = UDFVariadicParamsAtRunTime.size();
-		if ( (!Double.isNaN(x)) && (x != Double.POSITIVE_INFINITY) && (x != Double.NEGATIVE_INFINITY) ) {
+		if (!Double.isNaN(x) && x != Double.POSITIVE_INFINITY && x != Double.NEGATIVE_INFINITY) {
 			int i = (int)MathFunctions.integerPart(x);
 			if (i == 0) {
 				value = npar;
@@ -5758,14 +5757,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 		for (int i = 0; i < keyWordsList.size(); i++) {
 			KeyWord kw = keyWordsList.get(i);
 
-			if (	(kw.wordTypeId == Function1Arg.TYPE_ID) ||
-					(kw.wordTypeId == Function2Arg.TYPE_ID) ||
-					(kw.wordTypeId == Function3Arg.TYPE_ID) ||
-					(kw.wordTypeId == FunctionVariadic.TYPE_ID) ||
-					(kw.wordTypeId == CalculusOperator.TYPE_ID) ||
-					(kw.wordTypeId == ConstantValue.TYPE_ID) ||
-					(kw.wordTypeId == RandomVariable.TYPE_ID) ||
-					(kw.wordTypeId == Unit.TYPE_ID)	) {
+			if (	kw.wordTypeId == Function1Arg.TYPE_ID ||
+					kw.wordTypeId == Function2Arg.TYPE_ID ||
+					kw.wordTypeId == Function3Arg.TYPE_ID ||
+					kw.wordTypeId == FunctionVariadic.TYPE_ID ||
+					kw.wordTypeId == CalculusOperator.TYPE_ID ||
+					kw.wordTypeId == ConstantValue.TYPE_ID ||
+					kw.wordTypeId == RandomVariable.TYPE_ID ||
+					kw.wordTypeId == Unit.TYPE_ID ) {
 
 				if (toRemove)
 					if (mXparser.tokensToRemove.contains(kw.wordString))
@@ -5775,16 +5774,17 @@ public class Expression extends PrimitiveElement implements Serializable {
 				String wordDescription;
 				String wordSyntax;
 				if (toModify) {
-					for (TokenModification tm :	mXparser.tokensToModify)
-						if (tm.currentToken.equals(kw.wordString)) {
-							wordString = tm.newToken;
-							wordDescription = kw.description;
-							if (tm.newTokenDescription != null)
-								wordDescription = tm.newTokenDescription;
-							wordSyntax = kw.syntax.replace(tm.currentToken, tm.newToken);
-							KeyWord newKw = new KeyWord(wordString, wordDescription, kw.wordId, wordSyntax, kw.since, kw.wordTypeId);
-							keyWordsList.set(i, newKw);
-						}
+					for (TokenModification tm :	mXparser.tokensToModify) {
+						if (!tm.currentToken.equals(kw.wordString))
+							continue;
+						wordString = tm.newToken;
+						wordDescription = kw.description;
+						if (tm.newTokenDescription != null)
+							wordDescription = tm.newTokenDescription;
+						wordSyntax = kw.syntax.replace(tm.currentToken, tm.newToken);
+						KeyWord newKw = new KeyWord(wordString, wordDescription, kw.wordId, wordSyntax, kw.since, kw.wordTypeId);
+						keyWordsList.set(i, newKw);
+					}
 				}
 			}
 
@@ -5799,39 +5799,39 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Final validation of keywords
 	 */
 	private void validateParserKeyWords() {
-		if (mXparser.overrideBuiltinTokens) {
-			/*
-			 * Building list of user defined tokens
-			 */
-			List<String> userDefinedTokens = new ArrayList<String>();
-			for (Argument arg : argumentsList)
-				userDefinedTokens.add( arg.getArgumentName() );
-			for (Function fun : functionsList)
-				userDefinedTokens.add( fun.getFunctionName() );
-			for (Constant cons : constantsList)
-				userDefinedTokens.add( cons.getConstantName() );
-			/*
-			 * If no user defined tokens then exit
-			 */
-			if (userDefinedTokens.isEmpty()) return;
-			/*
-			 * Building list of built-in tokens to remove
-			 */
-			List<KeyWord> keyWordsToOverride = new ArrayList<KeyWord>();
-			for (KeyWord kw : keyWordsList)
-				if (userDefinedTokens.contains(kw.wordString))
-					keyWordsToOverride.add(kw);
-			/*
-			 * If nothing to remove then exit
-			 */
-			if (keyWordsToOverride.isEmpty()) return;
-			/*
-			 * Performing final override
-			 */
-			for (KeyWord kw : keyWordsToOverride)
-				keyWordsList.remove(kw);
-		}
+		if (!mXparser.overrideBuiltinTokens)
+			return;
 
+		/*
+		 * Building list of user defined tokens
+		 */
+		List<String> userDefinedTokens = new ArrayList<String>();
+		for (Argument arg : argumentsList)
+			userDefinedTokens.add( arg.getArgumentName() );
+		for (Function fun : functionsList)
+			userDefinedTokens.add( fun.getFunctionName() );
+		for (Constant cons : constantsList)
+			userDefinedTokens.add( cons.getConstantName() );
+		/*
+		 * If no user defined tokens then exit
+		 */
+		if (userDefinedTokens.isEmpty()) return;
+		/*
+		 * Building list of built-in tokens to remove
+		 */
+		List<KeyWord> keyWordsToOverride = new ArrayList<KeyWord>();
+		for (KeyWord kw : keyWordsList)
+			if (userDefinedTokens.contains(kw.wordString))
+				keyWordsToOverride.add(kw);
+		/*
+		 * If nothing to remove then exit
+		 */
+		if (keyWordsToOverride.isEmpty()) return;
+		/*
+		 * Performing final override
+		 */
+		for (KeyWord kw : keyWordsToOverride)
+			keyWordsList.remove(kw);
 	}
 	/**
 	 * Method used in case of implied multiplication, where x2x can be understood as x2*x
@@ -6741,9 +6741,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void copyInitialTokens() {
 		tokensList = new ArrayList<Token>();
-		for (Token token : initialTokens) {
+		for (Token token : initialTokens)
 			tokensList.add(token.clone());
-		}
 	}
 	/**
 	 * Tokenizes expression string and returns tokens list,
@@ -6917,7 +6916,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	@Override
 	protected Expression clone() {
 		Expression newExp = new Expression(this);
-		if ( (initialTokens != null) && (initialTokens.size() > 0) )
+		if (initialTokens != null && initialTokens.size() > 0)
 			newExp.initialTokens = createInitialTokens(0, initialTokens.size()-1, initialTokens);
 		return newExp;
 	}
