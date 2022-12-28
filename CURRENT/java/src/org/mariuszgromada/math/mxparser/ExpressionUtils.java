@@ -280,8 +280,8 @@ final class ExpressionUtils {
     }
     private static void makeParserKeyWords(boolean parserKeyWordsOnly, boolean UDFExpression, boolean unicodeKeyWordsEnabled, List<KeyWord> keyWordsList) {
         /*
-         * Operators keywords
-         */
+    	 * Operators keywords
+    	 */
         addKeyWord(Operator.PLUS_STR, Operator.PLUS_DESC, Operator.PLUS_ID, Operator.PLUS_SYN, Operator.PLUS_SINCE, Operator.TYPE_ID, keyWordsList);
         addKeyWord(Operator.MINUS_STR, Operator.MINUS_DESC, Operator.MINUS_ID, Operator.MINUS_SYN, Operator.MINUS_SINCE, Operator.TYPE_ID, keyWordsList);
         addKeyWord(Operator.MULTIPLY_STR, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN, Operator.MULTIPLY_SINCE, Operator.TYPE_ID, keyWordsList);
@@ -299,8 +299,8 @@ final class ExpressionUtils {
         addKeyWordUnicode(Operator.CUBE_ROOT_STR, Operator.CUBE_ROOT_DESC, Operator.CUBE_ROOT_ID, Operator.CUBE_ROOT_SYN, Operator.CUBE_ROOT_SINCE, Operator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         addKeyWordUnicode(Operator.FOURTH_ROOT_STR, Operator.FOURTH_ROOT_DESC, Operator.FOURTH_ROOT_ID, Operator.FOURTH_ROOT_SYN, Operator.FOURTH_ROOT_SINCE, Operator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         /*
-         * Boolean operators keywords
-         */
+    	 * Boolean operators keywords
+    	 */
         addKeyWord(BooleanOperator.NEG_STR, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.NEG_SYN, BooleanOperator.NEG_SINCE, BooleanOperator.TYPE_ID, keyWordsList);
         addKeyWordUnicode(BooleanOperator.NEG_STR_UNI_1, BooleanOperator.NEG_DESC, BooleanOperator.NEG_ID, BooleanOperator.NEG_SYN_UNI_1, BooleanOperator.NEG_SINCE_UNI_1, BooleanOperator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         addKeyWord(BooleanOperator.AND_STR, BooleanOperator.AND_DESC, BooleanOperator.AND_ID, BooleanOperator.AND_SYN, BooleanOperator.AND_SINCE, BooleanOperator.TYPE_ID, keyWordsList);
@@ -342,8 +342,8 @@ final class ExpressionUtils {
         addKeyWord(BooleanOperator.EQV_STR, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.EQV_SYN, BooleanOperator.EQV_SINCE, BooleanOperator.TYPE_ID, keyWordsList);
         addKeyWordUnicode(BooleanOperator.EQV_STR_UNI_1, BooleanOperator.EQV_DESC, BooleanOperator.EQV_ID, BooleanOperator.EQV_SYN_UNI_1, BooleanOperator.EQV_SINCE_UNI_1, BooleanOperator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         /*
-         * Binary relations keywords
-         */
+    	 * Binary relations keywords
+    	 */
         addKeyWord(BinaryRelation.EQ_STR, BinaryRelation.EQ_DESC, BinaryRelation.EQ_ID, BinaryRelation.EQ_SYN, BinaryRelation.EQ_SINCE, BinaryRelation.TYPE_ID, keyWordsList);
         addKeyWord(BinaryRelation.EQ1_STR, BinaryRelation.EQ_DESC, BinaryRelation.EQ_ID, BinaryRelation.EQ1_SYN, BinaryRelation.EQ_SINCE, BinaryRelation.TYPE_ID, keyWordsList);
         addKeyWord(BinaryRelation.NEQ_STR, BinaryRelation.NEQ_DESC, BinaryRelation.NEQ_ID, BinaryRelation.NEQ_SYN, BinaryRelation.NEQ_SINCE, BinaryRelation.TYPE_ID, keyWordsList);
@@ -360,8 +360,8 @@ final class ExpressionUtils {
         addKeyWordUnicode(BinaryRelation.GEQ_STR_UNI_2, BinaryRelation.GEQ_DESC, BinaryRelation.GEQ_ID, BinaryRelation.GEQ_SYN_UNI_2, BinaryRelation.GEQ_SINCE_UNI_2, BinaryRelation.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         if (!parserKeyWordsOnly) {
             /*
-             * 1 arg functions keywords
-             */
+        	 * 1 arg functions keywords
+        	 */
             addKeyWord(Function1Arg.SIN_STR, Function1Arg.SIN_DESC, Function1Arg.SIN_ID, Function1Arg.SIN_SYN, Function1Arg.SIN_SINCE, Function1Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function1Arg.COS_STR, Function1Arg.COS_DESC, Function1Arg.COS_ID, Function1Arg.COS_SYN, Function1Arg.COS_SINCE, Function1Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function1Arg.TAN_STR, Function1Arg.TAN_DESC, Function1Arg.TAN_ID, Function1Arg.TAN_SYN, Function1Arg.TAN_SINCE, Function1Arg.TYPE_ID, keyWordsList);
@@ -468,8 +468,8 @@ final class ExpressionUtils {
             addKeyWord(Function1Arg.RND_STUDENT_T_STR, Function1Arg.RND_STUDENT_T_DESC, Function1Arg.RND_STUDENT_T_ID, Function1Arg.RND_STUDENT_T_SYN, Function1Arg.RND_STUDENT_T_SINCE, Function1Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function1Arg.RND_CHI2_STR, Function1Arg.RND_CHI2_DESC, Function1Arg.RND_CHI2_ID, Function1Arg.RND_CHI2_SYN, Function1Arg.RND_CHI2_SINCE, Function1Arg.TYPE_ID, keyWordsList);
             /*
-             * 2 args functions keywords
-             */
+        	 * 2 args functions keywords
+        	 */
             addKeyWord(Function2Arg.LOG_STR, Function2Arg.LOG_DESC, Function2Arg.LOG_ID, Function2Arg.LOG_SYN, Function2Arg.LOG_SINCE, Function2Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function2Arg.MOD_STR, Function2Arg.MOD_DESC, Function2Arg.MOD_ID, Function2Arg.MOD_SYN, Function2Arg.MOD_SINCE, Function2Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function2Arg.BINOM_COEFF_STR, Function2Arg.BINOM_COEFF_DESC, Function2Arg.BINOM_COEFF_ID, Function2Arg.BINOM_COEFF_SYN, Function2Arg.BINOM_COEFF_SINCE, Function2Arg.TYPE_ID, keyWordsList);
@@ -508,8 +508,8 @@ final class ExpressionUtils {
             addKeyWord(Function2Arg.QNT_CHI2_STR, Function2Arg.QNT_CHI2_DESC, Function2Arg.QNT_CHI2_ID, Function2Arg.QNT_CHI2_SYN, Function2Arg.QNT_CHI2_SINCE, Function2Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function2Arg.RND_F_SNEDECOR_STR, Function2Arg.RND_F_SNEDECOR_DESC, Function2Arg.RND_F_SNEDECOR_ID, Function2Arg.RND_F_SNEDECOR_SYN, Function2Arg.RND_F_SNEDECOR_SINCE, Function2Arg.TYPE_ID, keyWordsList);
             /*
-             * 3 args functions keywords
-             */
+        	 * 3 args functions keywords
+        	 */
             addKeyWord(Function3Arg.IF_STR, Function3Arg.IF_DESC, Function3Arg.IF_CONDITION_ID, Function3Arg.IF_SYN, Function3Arg.IF_SINCE, Function3Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function3Arg.CHI_STR, Function3Arg.CHI_DESC, Function3Arg.CHI_ID, Function3Arg.CHI_SYN, Function3Arg.CHI_SINCE, Function3Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function3Arg.CHI_LR_STR, Function3Arg.CHI_LR_DESC, Function3Arg.CHI_LR_ID, Function3Arg.CHI_LR_SYN, Function3Arg.CHI_LR_SINCE, Function3Arg.TYPE_ID, keyWordsList);
@@ -529,8 +529,8 @@ final class ExpressionUtils {
             addKeyWord(Function3Arg.CDF_F_SNEDECOR_STR, Function3Arg.CDF_F_SNEDECOR_DESC, Function3Arg.CDF_F_SNEDECOR_ID, Function3Arg.CDF_F_SNEDECOR_SYN, Function3Arg.CDF_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID, keyWordsList);
             addKeyWord(Function3Arg.QNT_F_SNEDECOR_STR, Function3Arg.QNT_F_SNEDECOR_DESC, Function3Arg.QNT_F_SNEDECOR_ID, Function3Arg.QNT_F_SNEDECOR_SYN, Function3Arg.QNT_F_SNEDECOR_SINCE, Function3Arg.TYPE_ID, keyWordsList);
             /*
-             * Variadic functions as keywords
-             */
+        	 * Variadic functions as keywords
+        	 */
             addKeyWord(FunctionVariadic.IFF_STR, FunctionVariadic.IFF_DESC, FunctionVariadic.IFF_ID, FunctionVariadic.IFF_SYN, FunctionVariadic.IFF_SINCE, FunctionVariadic.TYPE_ID, keyWordsList);
             addKeyWord(FunctionVariadic.MIN_STR, FunctionVariadic.MIN_DESC, FunctionVariadic.MIN_ID, FunctionVariadic.MIN_SYN, FunctionVariadic.MIN_SINCE, FunctionVariadic.TYPE_ID, keyWordsList);
             addKeyWord(FunctionVariadic.MAX_STR, FunctionVariadic.MAX_DESC, FunctionVariadic.MAX_ID, FunctionVariadic.MAX_SYN, FunctionVariadic.MAX_SINCE, FunctionVariadic.TYPE_ID, keyWordsList);
@@ -555,8 +555,8 @@ final class ExpressionUtils {
             addKeyWord(FunctionVariadic.BASE_STR, FunctionVariadic.BASE_DESC, FunctionVariadic.BASE_ID, FunctionVariadic.BASE_SYN, FunctionVariadic.BASE_SINCE, FunctionVariadic.TYPE_ID, keyWordsList);
             addKeyWord(FunctionVariadic.NDIST_STR, FunctionVariadic.NDIST_DESC, FunctionVariadic.NDIST_ID, FunctionVariadic.NDIST_SYN, FunctionVariadic.NDIST_SINCE, FunctionVariadic.TYPE_ID, keyWordsList);
             /*
-             * Calculus keywords
-             */
+        	 * Calculus keywords
+        	 */
             addKeyWord(CalculusOperator.SUM_STR, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN, CalculusOperator.SUM_SINCE, CalculusOperator.TYPE_ID, keyWordsList);
             addKeyWordUnicode(CalculusOperator.SUM_STR_UNI_1, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN_UNI_1, CalculusOperator.SUM_SINCE_UNI_1, CalculusOperator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
             addKeyWordUnicode(CalculusOperator.SUM_STR_UNI_2, CalculusOperator.SUM_DESC, CalculusOperator.SUM_ID, CalculusOperator.SUM_SYN_UNI_2, CalculusOperator.SUM_SINCE_UNI_2, CalculusOperator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
@@ -585,8 +585,8 @@ final class ExpressionUtils {
             addKeyWord(CalculusOperator.MAX_STR, CalculusOperator.MAX_DESC, CalculusOperator.MAX_ID, CalculusOperator.MAX_SYN, CalculusOperator.MAX_SINCE, CalculusOperator.TYPE_ID, keyWordsList);
             addKeyWord(CalculusOperator.SOLVE_STR, CalculusOperator.SOLVE_DESC, CalculusOperator.SOLVE_ID, CalculusOperator.SOLVE_SYN, CalculusOperator.SOLVE_SINCE, CalculusOperator.TYPE_ID, keyWordsList);
             /*
-             * Constants keywords
-             */
+        	 * Constants keywords
+        	 */
             addKeyWord(ConstantValue.PI_STR, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN, ConstantValue.PI_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             addKeyWordUnicode(ConstantValue.PI_STR_UNI_1, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN_UNI_1, ConstantValue.PI_SINCE_UNI_1, ConstantValue.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
             addKeyWordUnicode(ConstantValue.PI_STR_UNI_2, ConstantValue.PI_DESC, ConstantValue.PI_ID, ConstantValue.PI_SYN_UNI_2, ConstantValue.PI_SINCE_UNI_2, ConstantValue.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
@@ -685,8 +685,8 @@ final class ExpressionUtils {
             /* other */
             addKeyWord(ConstantValue.NAN_STR, ConstantValue.NAN_DESC, ConstantValue.NAN_ID, ConstantValue.NAN_SYN, ConstantValue.NAN_SINCE, ConstantValue.TYPE_ID, keyWordsList);
             /*
-             * Random variables
-             */
+        	 * Random variables
+        	 */
             addKeyWord(RandomVariable.UNIFORM_STR, RandomVariable.UNIFORM_DESC, RandomVariable.UNIFORM_ID, RandomVariable.UNIFORM_SYN, RandomVariable.UNIFORM_SINCE, RandomVariable.TYPE_ID, keyWordsList);
             addKeyWord(RandomVariable.INT_STR, RandomVariable.INT_DESC, RandomVariable.INT_ID, RandomVariable.INT_SYN, RandomVariable.INT_SINCE, RandomVariable.TYPE_ID, keyWordsList);
             addKeyWord(RandomVariable.INT1_STR, RandomVariable.INT1_DESC, RandomVariable.INT1_ID, RandomVariable.INT1_SYN, RandomVariable.INT1_SINCE, RandomVariable.TYPE_ID, keyWordsList);
@@ -720,8 +720,8 @@ final class ExpressionUtils {
             addKeyWord(RandomVariable.NAT1_9_STR, RandomVariable.NAT1_9_DESC, RandomVariable.NAT1_9_ID, RandomVariable.NAT1_9_SYN, RandomVariable.NAT1_9_SINCE, RandomVariable.TYPE_ID, keyWordsList);
             addKeyWord(RandomVariable.NOR_STR, RandomVariable.NOR_DESC, RandomVariable.NOR_ID, RandomVariable.NOR_SYN, RandomVariable.NOR_SINCE, RandomVariable.TYPE_ID, keyWordsList);
             /*
-             * BiteWise Operators
-             */
+        	 * BiteWise Operators
+        	 */
             addKeyWord(BitwiseOperator.COMPL_STR, BitwiseOperator.COMPL_DESC, BitwiseOperator.COMPL_ID, BitwiseOperator.COMPL_SYN, BitwiseOperator.COMPL_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             addKeyWord(BitwiseOperator.AND_STR, BitwiseOperator.AND_DESC, BitwiseOperator.AND_ID, BitwiseOperator.AND_SYN, BitwiseOperator.AND_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             addKeyWord(BitwiseOperator.XOR_STR, BitwiseOperator.XOR_DESC, BitwiseOperator.XOR_ID, BitwiseOperator.XOR_SYN, BitwiseOperator.XOR_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
@@ -729,8 +729,8 @@ final class ExpressionUtils {
             addKeyWord(BitwiseOperator.LEFT_SHIFT_STR, BitwiseOperator.LEFT_SHIFT_DESC, BitwiseOperator.LEFT_SHIFT_ID, BitwiseOperator.LEFT_SHIFT_SYN, BitwiseOperator.LEFT_SHIFT_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             addKeyWord(BitwiseOperator.RIGHT_SHIFT_STR, BitwiseOperator.RIGHT_SHIFT_DESC, BitwiseOperator.RIGHT_SHIFT_ID, BitwiseOperator.RIGHT_SHIFT_SYN, BitwiseOperator.RIGHT_SHIFT_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             /*
-             * Units
-             */
+        	 * Units
+        	 */
             addKeyWord(Unit.PERC_STR, Unit.PERC_DESC, Unit.PERC_ID, Unit.PERC_SYN, Unit.PERC_SINCE, Unit.TYPE_ID, keyWordsList);
             addKeyWord(Unit.PROMIL_STR, Unit.PROMIL_DESC, Unit.PROMIL_ID, Unit.PROMIL_SYN, Unit.PROMIL_SINCE, Unit.TYPE_ID, keyWordsList);
             /* Metric prefixes */
@@ -851,8 +851,8 @@ final class ExpressionUtils {
             if (UDFExpression) addUDFSpecificParserKeyWords(keyWordsList);
         }
         /*
-         * Other parser symbols keywords
-         */
+    	 * Other parser symbols keywords
+    	 */
         addKeyWord(ParserSymbol.LEFT_PARENTHESES_STR, ParserSymbol.LEFT_PARENTHESES_DESC, ParserSymbol.LEFT_PARENTHESES_ID, ParserSymbol.LEFT_PARENTHESES_SYN, ParserSymbol.LEFT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
         addKeyWord(ParserSymbol.RIGHT_PARENTHESES_STR, ParserSymbol.RIGHT_PARENTHESES_DESC, ParserSymbol.RIGHT_PARENTHESES_ID, ParserSymbol.RIGHT_PARENTHESES_SYN, ParserSymbol.RIGHT_PARENTHESES_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
         addKeyWord(ParserSymbol.COMMA_STR, ParserSymbol.COMMA_DESC, ParserSymbol.COMMA_ID, ParserSymbol.COMMA_SYN, ParserSymbol.COMMA_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
@@ -861,15 +861,15 @@ final class ExpressionUtils {
         addKeyWord(ParserSymbol.BLANK_STR, ParserSymbol.BLANK_DESC, ParserSymbol.BLANK_ID, ParserSymbol.BLANK_SYN, ParserSymbol.BLANK_SINCE, ParserSymbol.TYPE_ID, keyWordsList);
     }
     /**
-     * Returns list of the functions parameters.
-     *
-     * @param      pos                 the function position
-     * @param      tokensList          the tokens list
-     *
-     * @return     the list of function parameters
-     *
-     * @see        FunctionParameter
-     */
+	 * Returns list of the functions parameters.
+	 *
+	 * @param      pos                 the function position
+	 * @param      tokensList          the tokens list
+	 *
+	 * @return     the list of function parameters
+	 *
+	 * @see        FunctionParameter
+	 */
     static List<FunctionParameter> getFunctionParameters(int pos, List<Token> tokensList) {
         List<FunctionParameter> functionParameters = new ArrayList<FunctionParameter>();
         int cPos = pos+2;
@@ -911,9 +911,9 @@ final class ExpressionUtils {
         return functionParameters;
     }
     /**
-     * Cleans "--" case
-     * considering defined parser keywords "-->", "<--"
-     */
+	 * Cleans "--" case
+	 * considering defined parser keywords "-->", "<--"
+	 */
     private static String cleanMinusMinus(String expressionString) {
         String expressionStringCleaned = expressionString;
         if (expressionStringCleaned.length() >= 2) {
@@ -954,8 +954,8 @@ final class ExpressionUtils {
         return expressionStringCleaned;
     }
     /**
-     * Cleans blanks and other cases like "++', "+-", "-+"", "--"
-     */
+	 * Cleans blanks and other cases like "++', "+-", "-+"", "--"
+	 */
     static String cleanExpressionString(String expressionString, boolean attemptToFixExpStrEnabled) {
         StringBuilder expressionStringCleanedBuilder = new StringBuilder();
         if (expressionString == null) return StringInvariant.EMPTY;
@@ -1017,14 +1017,14 @@ final class ExpressionUtils {
     private static final String UNITCONST = "unit/const";
     private static final String ERROR = "error";
     /**
-     * Tokenizes expression string and returns tokens list,
-     * including: string, type, level.
-     *
-     * @return Copy of initial tokens.
-     *
-     * @see Token
-     * @see mXparser#consolePrintTokens(List)
-     */
+	 * Tokenizes expression string and returns tokens list,
+	 * including: string, type, level.
+	 *
+	 * @return Copy of initial tokens.
+	 *
+	 * @see Token
+	 * @see mXparser#consolePrintTokens(List)
+	 */
     static List<Token> getCopyOfInitialTokens(String expressionString, List<Token> initialTokens) {
         List<Token> tokensListCopy = new ArrayList<Token>();
         if (expressionString.length() == 0) return tokensListCopy;
@@ -1052,13 +1052,13 @@ final class ExpressionUtils {
     }
 
     /**
-     * Returns missing user defined arguments names, i.e.
-     * sin(x) + cos(y) where x and y are not defined
-     * function will return x and y.
-     *
-     * @return Array of missing user defined arguments names
-     * - distinct strings.
-     */
+	 * Returns missing user defined arguments names, i.e.
+	 * sin(x) + cos(y) where x and y are not defined
+	 * function will return x and y.
+	 *
+	 * @return Array of missing user defined arguments names
+	 * - distinct strings.
+	 */
     static String[] getMissingUserDefinedArguments(List<Token> tokens) {
         List<String> missingArguments = new ArrayList<String>();
         for (Token t : tokens)
@@ -1072,13 +1072,13 @@ final class ExpressionUtils {
         return missArgs;
     }
     /**
-     * Returns missing user defined units names, i.e.
-     * 2*[w] + [q] where [w] and [q] are not defined
-     * function will return [w] and [q].
-     *
-     * @return Array of missing user defined units names
-     * - distinct strings.
-     */
+	 * Returns missing user defined units names, i.e.
+	 * 2*[w] + [q] where [w] and [q] are not defined
+	 * function will return [w] and [q].
+	 *
+	 * @return Array of missing user defined units names
+	 * - distinct strings.
+	 */
     static String[] getMissingUserDefinedUnits(List<Token> tokens) {
         List<String> missingUnits = new ArrayList<String>();
         for (Token t : tokens)
@@ -1092,13 +1092,13 @@ final class ExpressionUtils {
         return missUnits;
     }
     /**
-     * Returns missing user defined functions names, i.e.
-     * sin(x) + fun(x,y) where fun is not defined
-     * function will return fun.
-     *
-     * @return Array of missing user defined functions names
-     * - distinct strings.
-     */
+	 * Returns missing user defined functions names, i.e.
+	 * sin(x) + fun(x,y) where fun is not defined
+	 * function will return fun.
+	 *
+	 * @return Array of missing user defined functions names
+	 * - distinct strings.
+	 */
     static String[] getMissingUserDefinedFunctions(List<Token> tokens) {
         List<String> missingFunctions = new ArrayList<String>();
         for (Token t : tokens)
@@ -1131,12 +1131,12 @@ final class ExpressionUtils {
         mXparser.consolePrintln(" -------------------------------------------");
     }
     /**
-     * Searching help content.
-     *
-     * @param      word                searching keyword
-     *
-     * @return     The help content.
-     */
+	 * Searching help content.
+	 *
+	 * @param      word                searching keyword
+	 *
+	 * @return     The help content.
+	 */
     static String getHelp(String word, List<KeyWord> keyWordsList) {
         String helpStr = StringModel.STRING_RESOURCES.HELP_CONTENT
                 + StringInvariant.COLON
@@ -1182,9 +1182,9 @@ final class ExpressionUtils {
         return helpStr;
     }
     /**
-     * Shows parsing (verbose mode purposes).
-     *
-     */
+	 * Shows parsing (verbose mode purposes).
+	 *
+	 */
     static void showParsing(int lPos, int rPos, List<Token> tokensList) {
         mXparser.consolePrint(StringInvariant.LONG_RIGHT_ARROW_SPACE);
         for (int i=lPos; i<=rPos; i++) {
@@ -1197,19 +1197,19 @@ final class ExpressionUtils {
         mXparser.consolePrint(StringInvariant.DOTS_SPACE);
     }
     /**
-     * Returns list of keywords known to the parser
-     *
-     * @param query Give any string to filter list of keywords against this string.
-     *              User more precise syntax: str=tokenString, desc=tokenDescription,
-     *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
-     *              to narrow the result.
-     *
-     * @return      List of keywords known to the parser filter against query string.
-     *
-     * @see KeyWord
-     * @see KeyWord#wordTypeId
-     * @see Expression#getHelp(String)
-     */
+	 * Returns list of keywords known to the parser
+	 *
+	 * @param query Give any string to filter list of keywords against this string.
+	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
+	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+	 *              to narrow the result.
+	 *
+	 * @return      List of keywords known to the parser filter against query string.
+	 *
+	 * @see KeyWord
+	 * @see KeyWord#wordTypeId
+	 * @see Expression#getHelp(String)
+	 */
     static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
         List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
         java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
@@ -1228,8 +1228,8 @@ final class ExpressionUtils {
         return kwyWordsToReturn;
     }
     /*
-     * show tokens
-     */
+	 * show tokens
+	 */
     static void showTokens(List<Token> tokensList) {
         String maxStr = "TokenTypeId";
         mXparser.consolePrintln(" --------------------");
@@ -1297,8 +1297,8 @@ final class ExpressionUtils {
         return result;
     }
     /**
-     * Evaluates tokens levels
-     */
+	 * Evaluates tokens levels
+	 */
     static void evaluateTokensLevels(List<Token> initialTokens) {
         int tokenLevel = 0;
         Stack<TokenStackElement> tokenStack =  new Stack<TokenStackElement>();

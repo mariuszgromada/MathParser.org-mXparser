@@ -3860,12 +3860,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Summation operator (SIGMA by)
-     * sum(i,m,n,f(i),b) --> sum f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * sum(i,m,n,f(i),b) --> sum f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void SUM(int pos) {
@@ -3879,12 +3879,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Product operator (SIGMA by)
-     * pord(i,m,n,f(i),b) --> prod f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * pord(i,m,n,f(i),b) --> prod f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void PROD(int pos) {
@@ -3898,12 +3898,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Minimum value - iterative operator
-     * mini(i,m,n,f(i),b) --> min f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * mini(i,m,n,f(i),b) --> min f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void MIN(int pos) {
@@ -3917,12 +3917,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Maximum value - iterative operator
-     * maxi(i,m,n,f(i),b) --> max f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * maxi(i,m,n,f(i),b) --> max f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void MAX(int pos) {
@@ -3936,12 +3936,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Average function value - iterative operator
-     * avg(i,m,n,f(i),b) --> avg f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * avg(i,m,n,f(i),b) --> avg f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void AVG(int pos) {
@@ -3955,12 +3955,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Variance from sample function values - iterative operator
-     * vari(i,m,n,f(i),b) --> var f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * vari(i,m,n,f(i),b) --> var f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void VAR(int pos) {
@@ -3974,12 +3974,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	/**
 	 * Standard deviation from sample function values - iterative operator
-     * stdi(i,m,n,f(i),b) --> std f(i) from i=m to i=n by delta
-     * i - index (argument)
-     * m, n - numbers or expressions
-     * f(i) - function string
-     * by delta
-     *
+	 * stdi(i,m,n,f(i),b) --> std f(i) from i=m to i=n by delta
+	 * i - index (argument)
+	 * m, n - numbers or expressions
+	 * f(i) - function string
+	 * by delta
+	 *
 	 * @param      pos                 the token position
 	 */
 	private void STD(int pos) {
