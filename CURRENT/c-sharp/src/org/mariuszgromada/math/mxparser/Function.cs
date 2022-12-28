@@ -326,8 +326,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        PrimitiveElement
 		 * @see        Expression
 		 */
-		public Function(String functionName
-						,String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
+		public Function(String functionName, String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
 				functionExpression = new Expression(functionExpressionString, elements);
@@ -357,9 +356,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see        Expression
 		 */
-		public Function(String functionName
-						,String  functionExpressionString
-						,params String[] argumentsNames ) : base(Function.TYPE_ID) {
+		public Function(String functionName, String  functionExpressionString ,params String[] argumentsNames ) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.functionName = functionName;
 				functionExpression = new Expression(functionExpressionString);
@@ -518,7 +515,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void setFunction(String functionDefinitionString, params PrimitiveElement[] elements) {
 			parametersNumber = 0;
-			if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
+			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);

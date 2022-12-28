@@ -353,7 +353,6 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public Argument(String argumentDefinitionString, PrimitiveElement...elements) {
 		super(Argument.TYPE_ID);
 		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
 		description = StringInvariant.EMPTY;
 		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 			argumentName = argumentDefinitionString;
@@ -415,7 +414,6 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public Argument(String argumentDefinitionString, boolean forceDependent, PrimitiveElement...elements) {
 		super(Argument.TYPE_ID);
 		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
 		description = StringInvariant.EMPTY;
 		if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 			argumentName = argumentDefinitionString;
@@ -477,7 +475,6 @@ public class Argument extends PrimitiveElement implements Serializable {
 		argumentExpression = new Expression();
 		argumentExpression.setDescription(argumentName);
 		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
 		description = StringInvariant.EMPTY;
 		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.argumentName = argumentName;
@@ -500,7 +497,6 @@ public class Argument extends PrimitiveElement implements Serializable {
 		super(Argument.TYPE_ID);
 		argumentExpression = new Expression();
 		argumentExpression.setDescription(argumentName);
-		setSilentMode();
 		description = StringInvariant.EMPTY;
 		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.argumentName = argumentName;
@@ -528,7 +524,6 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public Argument(String argumentName, String argumentExpressionString, PrimitiveElement... elements) {
 		super(Argument.TYPE_ID);
 		argumentBodyType = BODY_RUNTIME;
-		setSilentMode();
 		description = StringInvariant.EMPTY;
 		if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.argumentName = argumentName;

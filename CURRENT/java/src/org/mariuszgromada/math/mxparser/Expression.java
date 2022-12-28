@@ -546,9 +546,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public String getErrorMessage() {
 		int length = errorMessage.length();
 
-		if (length > 0)
-			if (errorMessage.endsWith(StringInvariant.NEW_LINE))
-				return errorMessage.substring(0, length - StringInvariant.NEW_LINE.length());
+		if (length == 0)
+			return errorMessage;
+
+		if (errorMessage.endsWith(StringInvariant.NEW_LINE))
+			return errorMessage.substring(0, length - StringInvariant.NEW_LINE.length());
 
 		return errorMessage;
 	}
@@ -608,6 +610,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		internalClone = false;
 		forwardErrorMessage = true;
 		parserKeyWordsOnly = false;
+		verboseMode = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 		attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
@@ -715,6 +718,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		internalClone = false;
 		forwardErrorMessage = true;
 		parserKeyWordsOnly = false;
+		verboseMode = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 		attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
@@ -1336,8 +1340,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int constantIndex = getConstantIndex(constantName);
 		if (constantIndex == NOT_FOUND)
 			return null;
-		else
-			return constantsList.get(constantIndex);
+		return constantsList.get(constantIndex);
 	}
 	/**
 	 * Gets constant associated with the expression.
@@ -1600,7 +1603,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return;
 		}
 
-		if ((Double.isNaN(number)) || (Double.isInfinite(number))) {
+		if (Double.isNaN(number) || Double.isInfinite(number)) {
 			token.tokenValue = number;
 			return;
 		}
@@ -1761,9 +1764,9 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * Evaluate right parenthesis position
 		 */
 		int rPos = lPos+1;
-		while (	!(	( tokensList.get(rPos).tokenTypeId == ParserSymbol.TYPE_ID )
-			&&	( tokensList.get(rPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID )
-			&&	( tokensList.get(rPos).tokenLevel ==  tokensList.get(lPos).tokenLevel)	)	)
+		while ( !(tokensList.get(rPos).tokenTypeId == ParserSymbol.TYPE_ID
+				&& tokensList.get(rPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
+				&& tokensList.get(rPos).tokenLevel ==  tokensList.get(lPos).tokenLevel) )
 			rPos++;
 		for (int p = rPos; p >= lPos; p--)
 			tokensList.remove(p);
@@ -1811,27 +1814,27 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * Evaluate 1 comma position on the same level
 		 */
 		int c1Pos = lPos+1;
-		while (	!(	( tokensList.get(c1Pos).tokenTypeId == ParserSymbol.TYPE_ID )
-			&&	( tokensList.get(c1Pos).tokenId == ParserSymbol.COMMA_ID )
-			&&	( tokensList.get(c1Pos).tokenLevel ==  ifLevel)	)	)
+		while ( !(tokensList.get(c1Pos).tokenTypeId == ParserSymbol.TYPE_ID
+				&& tokensList.get(c1Pos).tokenId == ParserSymbol.COMMA_ID
+				&& tokensList.get(c1Pos).tokenLevel ==  ifLevel) )
 			c1Pos++;
 		/*
 		 * Evaluate 2 comma position on the same level
 		 */
 		int c2Pos = c1Pos+1;
-		while (	!(	( tokensList.get(c2Pos).tokenTypeId == ParserSymbol.TYPE_ID )
-			&&	( tokensList.get(c2Pos).tokenId == ParserSymbol.COMMA_ID )
-			&&	( tokensList.get(c2Pos).tokenLevel ==  ifLevel)	)	)
+		while (	!(tokensList.get(c2Pos).tokenTypeId == ParserSymbol.TYPE_ID
+				&& tokensList.get(c2Pos).tokenId == ParserSymbol.COMMA_ID
+				&& tokensList.get(c2Pos).tokenLevel ==  ifLevel) )
 			c2Pos++;
 		/*
 		 * Evaluate right parenthesis position
 		 */
 		int rPos = c2Pos+1;
-		while (	!(	( tokensList.get(rPos).tokenTypeId == ParserSymbol.TYPE_ID )
-			&&	( tokensList.get(rPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID )
-			&&	( tokensList.get(rPos).tokenLevel ==  ifLevel)	)	)
+		while (	!(tokensList.get(rPos).tokenTypeId == ParserSymbol.TYPE_ID
+				&& tokensList.get(rPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
+				&& tokensList.get(rPos).tokenLevel ==  ifLevel) )
 			rPos++;
-		if ( !Double.isNaN(ifCondition) ) {
+		if (!Double.isNaN(ifCondition)) {
 			if (ifCondition != 0) {
 				setToNumber(c2Pos+1, Double.NaN);
 				tokensList.get(c2Pos+1).tokenLevel = ifLevel;
@@ -1872,9 +1875,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 * @return     tokens list representing requested subexpression.
 	 */
-	private List<Token> createInitialTokens(int startPos,
-			int endPos,
-			List<Token> tokensList) {
+	private List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
 		List<Token> tokens = new ArrayList<Token>();
 		Token t;
 		for (int p = startPos; p<= endPos; p++) {
@@ -1892,15 +1893,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int lPpos = pos+1;
 		if (lPpos == initialTokens.size())
 			return -1;
-		if ( (initialTokens.get(lPpos).tokenTypeId == ParserSymbol.TYPE_ID) && (initialTokens.get(lPpos).tokenId == ParserSymbol.LEFT_PARENTHESES_ID) ) {
+		if (initialTokens.get(lPpos).tokenTypeId == ParserSymbol.TYPE_ID && initialTokens.get(lPpos).tokenId == ParserSymbol.LEFT_PARENTHESES_ID) {
 			int tokenLevel = initialTokens.get(lPpos).tokenLevel;
 			/*
 			 * Evaluate right parenthesis position
 			 */
 			int endPos = lPpos+1;
-			while (	!(	( initialTokens.get(endPos).tokenTypeId == ParserSymbol.TYPE_ID )
-				&&	( initialTokens.get(endPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID )
-				&&	( initialTokens.get(endPos).tokenLevel ==  tokenLevel)	)	)
+			while (	!(initialTokens.get(endPos).tokenTypeId == ParserSymbol.TYPE_ID
+					&& initialTokens.get(endPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
+					&& initialTokens.get(endPos).tokenLevel ==  tokenLevel) )
 				endPos++;
 			if (endPos == lPpos + 1)
 				return 0;
@@ -1911,7 +1912,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			int numberOfCommas = 0;
 			for (int p = lPpos; p < endPos; p++) {
 				Token token = initialTokens.get(p);
-				if ( (token.tokenTypeId == ParserSymbol.TYPE_ID) && (token.tokenId == ParserSymbol.COMMA_ID) && (token.tokenLevel == tokenLevel) )
+				if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID && token.tokenLevel == tokenLevel)
 					numberOfCommas++;
 			}
 			return numberOfCommas + 1;
@@ -2218,7 +2219,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 
 		Token a = tokensList.get(pos-1);
-		if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
+		if (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
 			if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue + b.tokenValue, true);
 			else opSetDecreaseRemove(pos, MathFunctions.plus(a.tokenValue, b.tokenValue), true);
 		else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
@@ -2243,7 +2244,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 
 		Token a = tokensList.get(pos-1);
-		if ( (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID))
+		if (a.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID)
 			if (disableRounding) opSetDecreaseRemove(pos, a.tokenValue - b.tokenValue, true);
 			else opSetDecreaseRemove(pos, MathFunctions.minus(a.tokenValue, b.tokenValue), true);
 		else if (b.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
@@ -3192,11 +3193,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 			pn++;
 			Token t = tokensList.get(pn);
 			isNumber = false;
-			if ( (t.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) && (t.tokenId == ParserSymbol.NUMBER_ID) ) {
+			if (t.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && t.tokenId == ParserSymbol.NUMBER_ID) {
 				isNumber = true;
 				numbers.add(t.tokenValue);
 			}
-			if ( (pn == lastIndex) || (!isNumber) )
+			if (pn == lastIndex || !isNumber)
 				end = true;
 		} while (!end);
 		return numbers;
@@ -3546,7 +3547,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				iffExp.setVerboseMode();
 			iffCon = true;
 			iffValue = iffExp.calculate();
-			if ( (iffValue == 0) || (Double.isNaN(iffValue)) ) {
+			if (iffValue == 0 || Double.isNaN(iffValue)) {
 					paramNumber += 2;
 					iffCon = false;
 					if (paramNumber < parametersNumber)
@@ -4033,13 +4034,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * der( f(x), x )
 		 * der( f(x), x, eps, maxsteps )
 		 */
-		if ( (derParams.size() == 2) || (derParams.size() == 4) )
+		if (derParams.size() == 2 || derParams.size() == 4)
 			x0 = x.argument.getArgumentValue();
 		/*
 		 * der( f(x), x, x0 )
 		 * der( f(x), x, x0, eps, maxsteps )
 		 */
-		if ( (derParams.size() == 3) || (derParams.size() == 5) ) {
+		if (derParams.size() == 3 || derParams.size() == 5) {
 			FunctionParameter x0Param = derParams.get(2);
 			if (x.presence == Argument.NOT_FOUND)
 				updateMissingTokens(x0Param.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
@@ -4052,7 +4053,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * der( f(x), x, eps, maxsteps )
 		 * der( f(x), x, x0, eps, maxsteps )
 		 */
-		if ( (derParams.size() == 4) || (derParams.size() == 5) ) {
+		if (derParams.size() == 4 || derParams.size() == 5) {
 			FunctionParameter epsParam;
 			FunctionParameter maxStepsParam;
 			if (derParams.size() == 4) {
@@ -5945,15 +5946,15 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int tokenStrLength = token.tokenStr.length();
 		/* find dot position */
 		if (tokenStrLength >= 2) {
-			if ( token.tokenStr.charAt(1) == '.' )
+			if (token.tokenStr.charAt(1) == '.')
 				dotPos = 1;
 		}
-		if ( (dotPos == 0) && (tokenStrLength >= 3) ) {
-			if ( token.tokenStr.charAt(2) == '.' )
+		if (dotPos == 0 && tokenStrLength >= 3) {
+			if (token.tokenStr.charAt(2) == '.')
 				dotPos = 2;
 		}
-		if ( (dotPos == 0) && (tokenStrLength >= 4) ) {
-			if ( token.tokenStr.charAt(3) == '.' )
+		if (dotPos == 0 && tokenStrLength >= 4) {
+			if (token.tokenStr.charAt(3) == '.')
 				dotPos = 3;
 		}
 		if (dotPos == 0) return false;
@@ -5963,7 +5964,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (tokenStrLength > dotPos+1) numberLiteral = token.tokenStr.substring(dotPos+1);
 		int numeralSystemBase = ExpressionUtils.getNumeralSystemBaseFromBaseInd(baseInd);
 		/* if base was found, perform conversion */
-		if ( (numeralSystemBase > 0) && (numeralSystemBase <= 36) ) {
+		if (numeralSystemBase > 0 && numeralSystemBase <= 36) {
 			double tokenValue = NumberTheory.convOthBase2Decimal(numberLiteral, numeralSystemBase);
 			if (Double.isNaN(tokenValue))
 				return false;

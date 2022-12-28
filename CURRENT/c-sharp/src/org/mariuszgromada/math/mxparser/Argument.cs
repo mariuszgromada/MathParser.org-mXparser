@@ -351,7 +351,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Argument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
             argumentBodyType = BODY_RUNTIME;
-            setSilentMode();
             description = StringInvariant.EMPTY;
             if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 				argumentName = argumentDefinitionString;
@@ -412,7 +411,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Argument(String argumentDefinitionString, bool forceDependent, params PrimitiveElement[] elements)  : base(Argument.TYPE_ID) {
             argumentBodyType = BODY_RUNTIME;
-            setSilentMode();
             description = StringInvariant.EMPTY;
             if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 				argumentName = argumentDefinitionString;
@@ -472,7 +470,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public Argument(String argumentName, double argumentValue) : base(Argument.TYPE_ID) {
 			argumentExpression = new Expression();
             argumentBodyType = BODY_RUNTIME;
-            setSilentMode();
             description = StringInvariant.EMPTY;
             if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.argumentName = argumentName;
@@ -494,7 +491,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public Argument(String argumentName, ArgumentExtension argumentExtension) : base(Argument.TYPE_ID) {
 			argumentExpression = new Expression();
             argumentExpression.setDescription(argumentName);
-            setSilentMode();
             description = StringInvariant.EMPTY;
             if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.argumentName = argumentName;
@@ -521,7 +517,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Argument(String argumentName, String argumentExpressionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
             argumentBodyType = BODY_RUNTIME;
-            setSilentMode();
             description = StringInvariant.EMPTY;
             if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
 				this.argumentName = argumentName;

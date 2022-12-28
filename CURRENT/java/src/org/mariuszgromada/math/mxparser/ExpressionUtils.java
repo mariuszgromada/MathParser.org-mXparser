@@ -225,7 +225,7 @@ final class ExpressionUtils {
             int paramsNum = fun.getParametersNumber();
             for (int i = 0; i < paramsNum; i++) {
                 syntax = syntax + fun.getParameterName(i);
-                if ( (paramsNum > 1) && (i < paramsNum - 1) )
+                if (paramsNum > 1 && i < paramsNum - 1)
                     syntax = syntax + ",";
             }
             syntax = syntax + ")";
@@ -1062,8 +1062,8 @@ final class ExpressionUtils {
     static String[] getMissingUserDefinedArguments(List<Token> tokens) {
         List<String> missingArguments = new ArrayList<String>();
         for (Token t : tokens)
-            if ( t.looksLike.equals(ARGUMENT) )
-                if ( !missingArguments.contains(t.tokenStr) )
+            if (t.looksLike.equals(ARGUMENT))
+                if (!missingArguments.contains(t.tokenStr))
                     missingArguments.add(t.tokenStr);
         int n = missingArguments.size();
         String[] missArgs = new String[n];
@@ -1082,8 +1082,8 @@ final class ExpressionUtils {
     static String[] getMissingUserDefinedUnits(List<Token> tokens) {
         List<String> missingUnits = new ArrayList<String>();
         for (Token t : tokens)
-            if ( t.looksLike.equals(UNITCONST) )
-                if ( !missingUnits.contains(t.tokenStr) )
+            if (t.looksLike.equals(UNITCONST))
+                if (!missingUnits.contains(t.tokenStr))
                     missingUnits.add(t.tokenStr);
         int n = missingUnits.size();
         String[] missUnits = new String[n];
@@ -1102,8 +1102,8 @@ final class ExpressionUtils {
     static String[] getMissingUserDefinedFunctions(List<Token> tokens) {
         List<String> missingFunctions = new ArrayList<String>();
         for (Token t : tokens)
-            if ( t.looksLike.equals(FUNCTION) )
-                if ( !missingFunctions.contains(t.tokenStr) )
+            if (t.looksLike.equals(FUNCTION))
+                if (!missingFunctions.contains(t.tokenStr))
                     missingFunctions.add(t.tokenStr);
         int n = missingFunctions.size();
         String[] missFun = new String[n];
@@ -1306,13 +1306,13 @@ final class ExpressionUtils {
         if (initialTokens.size() > 0)
             for (int tokenIndex = 0; tokenIndex < initialTokens.size(); tokenIndex++) {
                 Token token = initialTokens.get(tokenIndex);
-                if (	( token.tokenTypeId == Function1Arg.TYPE_ID ) ||
-                        ( token.tokenTypeId == Function2Arg.TYPE_ID ) ||
-                        ( token.tokenTypeId == Function3Arg.TYPE_ID )	||
-                        ( token.tokenTypeId == Function.TYPE_ID )	||
-                        ( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
-                        ( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
-                        ( token.tokenTypeId == FunctionVariadic.TYPE_ID )
+                if (	token.tokenTypeId == Function1Arg.TYPE_ID ||
+                        token.tokenTypeId == Function2Arg.TYPE_ID ||
+                        token.tokenTypeId == Function3Arg.TYPE_ID ||
+                        token.tokenTypeId == Function.TYPE_ID ||
+                        token.tokenTypeId == CalculusOperator.TYPE_ID ||
+                        token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ||
+                        token.tokenTypeId == FunctionVariadic.TYPE_ID
                 ) {
                     tokenLevel++;
                     precedingFunction = true;

@@ -489,11 +489,11 @@ public final class mXparser {
 	 * @return             Array of function values
 	 */
 	public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
-		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
+		if (Double.isNaN(delta) || Double.isNaN(from) || Double.isNaN(to) || delta == 0)
 			return null;
 		int n = 0;
 		double[] values;
-		if ( (to >= from) && (delta > 0) ) {
+		if (to >= from && delta > 0) {
 			for (double i = from; i < to; i+=delta)
 				n++;
 			n++;
@@ -504,7 +504,7 @@ public final class mXparser {
 				j++;
 			}
 			values[j] = getFunctionValue(f, index, to);
-		} else if ( (to <= from) && (delta < 0) ) {
+		} else if (to <= from && delta < 0) {
 			for (double i = from; i > to; i+=delta)
 				n++;
 			n++;
@@ -1430,7 +1430,7 @@ public final class mXparser {
 	 */
 	public static void consolePrintln(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(StringInvariant.EMPTY))) {
+			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.equals(StringInvariant.EMPTY)) {
 				System.out.print(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
@@ -1459,7 +1459,7 @@ public final class mXparser {
 	 */
 	public static void consolePrintln() {
 		synchronized (CONSOLE_OUTPUT) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(StringInvariant.EMPTY))) {
+			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.equals(StringInvariant.EMPTY)) {
 				System.out.print(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}
@@ -1476,7 +1476,7 @@ public final class mXparser {
 	 */
 	public static void consolePrint(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
-			if ((CONSOLE_ROW_NUMBER == 1) && (CONSOLE_OUTPUT.equals(StringInvariant.EMPTY))) {
+			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.equals(StringInvariant.EMPTY)) {
 				System.out.print(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT = CONSOLE_PREFIX;
 			}

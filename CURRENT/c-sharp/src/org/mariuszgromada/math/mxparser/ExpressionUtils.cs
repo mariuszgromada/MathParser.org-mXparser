@@ -224,7 +224,7 @@ namespace org.mariuszgromada.math.mxparser {
                 int paramsNum = fun.getParametersNumber();
                 for (int i = 0; i < paramsNum; i++) {
                     syntax = syntax + fun.getParameterName(i);
-                    if ( (paramsNum > 1) && (i < paramsNum - 1) )
+                    if (paramsNum > 1 && i < paramsNum - 1)
                         syntax = syntax + ",";
                 }
                 syntax = syntax + ")";
@@ -1059,8 +1059,8 @@ namespace org.mariuszgromada.math.mxparser {
 		internal static String[] getMissingUserDefinedArguments(List<Token> tokens) {
 			List<String> missingArguments = new List<String>();
 			foreach (Token t in tokens)
-				if ( t.looksLike.Equals(ARGUMENT) )
-					if ( !missingArguments.Contains(t.tokenStr) )
+				if (t.looksLike.Equals(ARGUMENT))
+					if (!missingArguments.Contains(t.tokenStr))
 						missingArguments.Add(t.tokenStr);
 			int n = missingArguments.Count;
 			String[] missArgs = new String[n];
@@ -1079,8 +1079,8 @@ namespace org.mariuszgromada.math.mxparser {
         internal static String[] getMissingUserDefinedUnits(List<Token> tokens) {
 			List<String> missingUnits = new List<String>();
 			foreach (Token t in tokens)
-				if ( t.looksLike.Equals(UNITCONST) )
-					if ( !missingUnits.Contains(t.tokenStr) )
+				if (t.looksLike.Equals(UNITCONST))
+					if (!missingUnits.Contains(t.tokenStr))
 						missingUnits.Add(t.tokenStr);
 			int n = missingUnits.Count;
 			String[] missUnits = new String[n];
@@ -1099,8 +1099,8 @@ namespace org.mariuszgromada.math.mxparser {
         internal static String[] getMissingUserDefinedFunctions(List<Token> tokens) {
 			List<String> missingFunctions = new List<String>();
 			foreach (Token t in tokens)
-				if ( t.looksLike.Equals(FUNCTION) )
-					if ( !missingFunctions.Contains(t.tokenStr) )
+				if (t.looksLike.Equals(FUNCTION))
+					if (!missingFunctions.Contains(t.tokenStr))
 						missingFunctions.Add(t.tokenStr);
 			int n = missingFunctions.Count;
 			String[] missFun = new String[n];
@@ -1303,13 +1303,13 @@ namespace org.mariuszgromada.math.mxparser {
 			if (initialTokens.Count > 0)
 				for (int tokenIndex = 0; tokenIndex < initialTokens.Count; tokenIndex++) {
 					Token token = initialTokens[tokenIndex];
-					if (	( token.tokenTypeId == Function1Arg.TYPE_ID ) ||
-							( token.tokenTypeId == Function2Arg.TYPE_ID ) ||
-							( token.tokenTypeId == Function3Arg.TYPE_ID )	||
-							( token.tokenTypeId == Function.TYPE_ID )	||
-							( token.tokenTypeId == CalculusOperator.TYPE_ID ) ||
-							( token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ) ||
-							( token.tokenTypeId == FunctionVariadic.TYPE_ID )
+					if (	token.tokenTypeId == Function1Arg.TYPE_ID ||
+							token.tokenTypeId == Function2Arg.TYPE_ID ||
+							token.tokenTypeId == Function3Arg.TYPE_ID ||
+							token.tokenTypeId == Function.TYPE_ID ||
+							token.tokenTypeId == CalculusOperator.TYPE_ID ||
+							token.tokenTypeId == RecursiveArgument.TYPE_ID_RECURSIVE ||
+							token.tokenTypeId == FunctionVariadic.TYPE_ID
 							) {
 						tokenLevel++;
 						precedingFunction = true;

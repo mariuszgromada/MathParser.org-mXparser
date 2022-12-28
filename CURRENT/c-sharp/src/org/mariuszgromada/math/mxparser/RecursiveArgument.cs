@@ -366,12 +366,12 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Count recursive calls
 			 */
 			recursiveCounter++;
-			if ((recursiveCounter <= startingIndex) && (idx <= startingIndex)) {
+			if (recursiveCounter <= startingIndex && idx <= startingIndex) {
 				/*
 				 * if recursive counter is still lower than starting index
 				 * and current index is not increasing
 				 */
-				if ((idx >= 0) && (idx < recSize) && (!Double.IsNaN( baseValues[idx] )) ) {
+				if (idx >= 0 && idx < recSize && !Double.IsNaN(baseValues[idx])) {
 					/*
 					 * decrease recursive counter and return value
 					 * if recursive value for the current index was already

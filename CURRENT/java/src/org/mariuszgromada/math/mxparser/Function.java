@@ -329,8 +329,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        PrimitiveElement
 	 * @see        Expression
 	 */
-	public Function(String functionName
-					,String  functionExpressionString, PrimitiveElement... elements) {
+	public Function(String functionName, String  functionExpressionString, PrimitiveElement... elements) {
 		super(Function.TYPE_ID);
 		if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.functionName = functionName;
@@ -361,9 +360,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *
 	 * @see        Expression
 	 */
-	public Function(String functionName
-					,String  functionExpressionString
-					,String... argumentsNames) {
+	public Function(String functionName, String  functionExpressionString, String... argumentsNames) {
 		super(Function.TYPE_ID);
 		if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
 			this.functionName = functionName;
