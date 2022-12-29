@@ -3,11 +3,6 @@
     <module name="mxparser-java" />
     <extension name="coverage" sample_coverage="false">
       <pattern>
-        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.regressiontesting.*" />
-        <option name="ENABLED" value="true" />
-        <option name="INCLUDE" value="false" />
-      </pattern>
-      <pattern>
         <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Tutorial" />
         <option name="ENABLED" value="true" />
         <option name="INCLUDE" value="false" />
@@ -222,6 +217,106 @@
       </pattern>
       <pattern>
         <option name="PATTERN" value="org.mariuszgromada.math.mxparser.syntaxchecker.TokenMgrError" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.CalcStepRecord" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.CalcStepsRegister" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.ExpressionUtils" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.License" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.PrimitiveElement" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.SerializationUtils" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.StringInvariant" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.StringModel" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.StringResources" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.StringUtils" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.ArgumentParameter" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.DescKwLenComparator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.FunctionParameter" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.HeadEqBody" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.IterativeOperatorParameters" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.KwStrComparator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.SyntaxStackElement" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.TokenModification" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.TokenPart" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.TokenStackElement" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.FunctionExtension" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.FunctionExtensionVariadic" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.ArgumentExtension" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.AstronomicalConstants" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.PhysicalConstants" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

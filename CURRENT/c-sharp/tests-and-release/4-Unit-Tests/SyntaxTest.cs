@@ -5891,7 +5891,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_FUNCTION_NAME) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_FUNCTION_NAME) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5908,7 +5908,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5925,7 +5925,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5942,7 +5942,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5959,7 +5959,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5976,7 +5976,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5993,7 +5993,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
-			if (msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+			if (syn == reg && msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);

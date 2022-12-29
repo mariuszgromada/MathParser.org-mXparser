@@ -5888,7 +5888,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_FUNCTION_NAME) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_FUNCTION_NAME) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -5905,7 +5905,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -5922,7 +5922,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -5939,7 +5939,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_CONSTANT_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -5956,7 +5956,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -5973,7 +5973,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -5990,7 +5990,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         StringResources stringResources = StringModel.getStringResources();
-        if (msg.contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
+        if (syn == reg && msg.contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.contains(stringResources.PATTERN_EXAMPLES))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
