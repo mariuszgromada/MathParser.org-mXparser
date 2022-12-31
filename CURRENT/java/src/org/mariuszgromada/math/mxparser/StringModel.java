@@ -202,6 +202,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.TokenMgrError;
 public final class StringModel {
     static final StringResources DEFAULT_STRING_RESOURCES = new StringResources();
     static StringResources STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
+    static final boolean LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.setLanguageSpecificDescriptions();
     /**
      * Sets a user-specific text resource object.
      * Using this object, you can provide your own text model or your own translations.
@@ -748,8 +749,6 @@ public final class StringModel {
         setLanguageSpecificDescriptionsUserDefinedElements();
         return true;
     }
-
-    static boolean LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = setLanguageSpecificDescriptions();
 
     /**
      * Displays the user-defined text resources used

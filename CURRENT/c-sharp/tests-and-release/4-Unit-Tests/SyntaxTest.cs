@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.2.0    2022-12-27
+ * @(#)SyntaxTest.cs        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1611,14 +1611,10 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Argument x = new Argument(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
 			String msg = x.getErrorMessage();
 			Expression e = new Expression("x", x);
-			bool reg = true;
+			bool reg = false;
 			bool syn = e.checkSyntax();
-            StringResources stringResources = StringModel.getStringResources();
-            if (
-				(!msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION)) &&
-				(reg == syn) &&
-				(e.calculate() == 6)
-			)
+			StringResources stringResources = StringModel.getStringResources();
+			if ((reg == syn) && (msg.Contains(stringResources.INVALID_ARGUMENT_DEFINITION)))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -5994,6 +5990,88 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool syn = e.checkSyntax();
 			StringResources stringResources = StringModel.getStringResources();
 			if (syn == reg && msg.Contains(stringResources.INVALID_FUNCTION_DEFINITION) && msg.Contains(stringResources.PATTERN_DOES_NOT_MATCH) && msg.Contains(stringResources.PATTERN_EXAMPLES))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0381() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Argument forceDependent = true - #1";
+			String expStr = "x";
+			TestCommonTools.consolePrintTestSynStart(380, testDescr + " " + expStr);
+			Argument x = new Argument(expStr, true);
+			Expression e = new Expression("x", x);
+			bool reg = true;
+			bool syn = e.checkSyntax();
+			if (syn == reg && x.getArgumentName().Equals("x") && x.getArgumentType() == Argument.FREE_ARGUMENT)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0382() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Argument forceDependent = true - #2";
+			String expStr = "x = 2";
+			TestCommonTools.consolePrintTestSynStart(381, testDescr + " " + expStr);
+			Argument x = new Argument(expStr, true);
+			Expression e = new Expression("x", x);
+			bool reg = true;
+			bool syn = e.checkSyntax();
+			if (syn == reg && x.getArgumentName().Equals("x") && x.getArgumentType() == Argument.DEPENDENT_ARGUMENT && x.getArgumentValue() == 2)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0383() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Argument forceDependent = false - #1";
+			String expStr = "x = 2";
+			TestCommonTools.consolePrintTestSynStart(382, testDescr + " " + expStr);
+			Argument x = new Argument(expStr, false);
+			Expression e = new Expression("x", x);
+			bool reg = true;
+			bool syn = e.checkSyntax();
+			if (syn == reg && x.getArgumentName().Equals("x") && x.getArgumentType() == Argument.FREE_ARGUMENT && x.getArgumentValue() == 2)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0384() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Argument forceDependent = false - #2";
+			String expStr = "x = 2*y";
+			TestCommonTools.consolePrintTestSynStart(383, testDescr + " " + expStr);
+			Argument y = new Argument("y = 1");
+			Argument x = new Argument(expStr, false, y);
+			Expression e = new Expression("x", x);
+			bool reg = true;
+			bool syn = e.checkSyntax();
+			if (syn == reg && x.getArgumentName().Equals("x") && x.getArgumentType() == Argument.DEPENDENT_ARGUMENT && x.getArgumentValue() == 2)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0385() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Argument forceDependent = true - #3";
+			String expStr = "x( = 2)";
+			TestCommonTools.consolePrintTestSynStart(384, testDescr + " " + expStr);
+			Argument x = new Argument(expStr);
+			Expression e = new Expression("x", x);
+			bool reg = false;
+			bool syn = x.checkSyntax();
+			mXparser.consolePrintln(x.getErrorMessage() + " = " + syn);
+			if (syn == reg)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);

@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.2.0    2022-12-27
+ * @(#)Function.java        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1301,11 +1301,10 @@ public class Function extends PrimitiveElement implements Serializable {
 	void checkRecursiveMode() {
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
-		List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
-		functionExpression.disableRecursiveMode();
-		if (functionExpressionTokens == null)
+		if (functionExpression.initialTokens == null)
 			return;
-		for (Token t : functionExpressionTokens)
+		functionExpression.disableRecursiveMode();
+		for (Token t : functionExpression.initialTokens)
 			if (t.tokenStr.equals(functionName)) {
 				functionExpression.setRecursiveMode();
 				break;

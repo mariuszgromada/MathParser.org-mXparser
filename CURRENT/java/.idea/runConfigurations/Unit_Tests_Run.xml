@@ -319,6 +319,10 @@
         <option name="PATTERN" value="org.mariuszgromada.math.mxparser.mathcollection.PhysicalConstants" />
         <option name="ENABLED" value="true" />
       </pattern>
+      <pattern>
+        <option name="PATTERN" value="org.mariuszgromada.math.mxparser.KwTypeComparator" />
+        <option name="ENABLED" value="true" />
+      </pattern>
     </extension>
     <option name="PACKAGE_NAME" value="org.mariuszgromada.math.mxparser.test" />
     <option name="MAIN_CLASS_NAME" value="" />

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2022-12-27
+ * @(#)mXparser.java        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -794,6 +794,7 @@ public final class mXparser {
 	 */
 	public static void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 		MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
+		Argument.refreshMaxAllowedRecursionDepth();
 	}
 	/**
 	 * Internal limit to avoid infinite loops while calculating

@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cs        5.2.0    2022-12-27
+ * @(#)RecursiveArgument.cs        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -308,7 +308,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 * @see    Argument
 		 */
-		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString) {
+		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(true, argumentDefinitionString) {
 			if (!mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
                 base.argumentExpression = new Expression();
                 base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));

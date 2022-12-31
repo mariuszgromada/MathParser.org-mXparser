@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        5.2.0    2022-12-27
+ * @(#)Function.cs        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1283,11 +1283,10 @@ namespace org.mariuszgromada.math.mxparser {
 		internal void checkRecursiveMode() {
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
-			List<Token> functionExpressionTokens = functionExpression.getInitialTokens();
-			functionExpression.disableRecursiveMode();
-			if (functionExpressionTokens == null)
+			if (functionExpression.initialTokens == null)
 				return;
-			foreach (Token t in functionExpressionTokens)
+			functionExpression.disableRecursiveMode();
+			foreach (Token t in functionExpression.initialTokens)
 				if (t.tokenStr.Equals(functionName)) {
 					functionExpression.setRecursiveMode();
 					break;

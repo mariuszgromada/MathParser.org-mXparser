@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.2.0    2022-12-27
+ * @(#)ExpressionTest.cs        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -2175,10 +2175,13 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression testExp = new Expression(expStr, x,k );
 			testExp.addDefinitions(H);
 			bool syn1 = testExp.checkSyntax();
-			m.setArgumentName("m");
-			if ((syn1) && (testExp.getSyntaxStatus() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN))
+			m.setArgumentName("m1");
+			bool syn2 = testExp.getSyntaxStatus();
+			if ((syn1) && (!syn2))
 				testResult = true;
-			mXparser.consolePrint(testExp.getErrorMessage() + " reg ... " + "Syntax status unknown." + " --> ");
+			double value= 0; if (syn2)  value = 1;
+			double reg = 0;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]

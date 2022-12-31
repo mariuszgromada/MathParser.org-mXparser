@@ -202,6 +202,7 @@ namespace org.mariuszgromada.math.mxparser {
     public sealed class StringModel {
         internal static readonly StringResources DEFAULT_STRING_RESOURCES = new StringResources();
         internal static StringResources STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
+        internal static readonly bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.setLanguageSpecificDescriptions();
         /**
          * Sets a user-specific text resource object.
          * Using this object, you can provide your own text model or your own translations.
@@ -731,7 +732,7 @@ namespace org.mariuszgromada.math.mxparser {
             RecursiveArgument.TYPE_DESC_RECURSIVE = STRING_RESOURCES.USER_DEFINED_RECURSIVE_ARGUMENT;
         }
 
-        static bool setLanguageSpecificDescriptions() {
+        internal static bool setLanguageSpecificDescriptions() {
             setLanguageSpecificDescriptionsBinaryRelation();
             setLanguageSpecificDescriptionsBitwiseOperator();
             setLanguageSpecificDescriptionsBooleanOperator();
@@ -748,9 +749,6 @@ namespace org.mariuszgromada.math.mxparser {
             setLanguageSpecificDescriptionsUserDefinedElements();
             return true;
         }
-
-
-        internal static bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = setLanguageSpecificDescriptions();
 
         /**
          * Displays the user-defined text resources used

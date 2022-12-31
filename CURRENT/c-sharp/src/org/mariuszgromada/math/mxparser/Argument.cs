@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.cs        5.2.0    2022-12-27
+ * @(#)Argument.cs        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -244,6 +244,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 		/**
+		 * Syntax error in the dependent argument definition.
+		 */
+		public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+		/**
 		 * Double.NaN as initial value of the argument.
 		 */
 		public const double ARGUMENT_INITIAL_VALUE = Double.NaN;
@@ -289,7 +293,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see Argument#BODY_EXTENDED
 		 * @see Argument#getArgumentBodyType()
 		 */
-		private int argumentBodyType;
+		private int argumentBodyType = BODY_RUNTIME;
 		/**
 		 * Argument extension (body based in code)
 		 *
@@ -311,30 +315,68 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private String argumentName = StringInvariant.EMPTY;
 		/**
+		 * Syntax status registered on argument definition:
+		 * - constructor, set name, ...
+		 */
+		private bool syntaxStatusDefinition = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		/**
+		 * Error Message registered on argument definition:
+		 * - constructor, set name, ...
+		 */
+		private String errorMessageDefinition = StringInvariant.EMPTY;
+		/**
 		 * Argument type (free, dependent)
 		 */
-		internal int argumentType;
+		internal int argumentType = FREE_ARGUMENT;
 		/**
 		 * Argument value (for free arguments).
 		 */
-		internal double argumentValue;
+		internal double argumentValue = ARGUMENT_INITIAL_VALUE;
 		/**
 		 * Index argument.
 		 *
 		 * @see RecursiveArgument
 		 */
 		protected Argument n;
-		/*=================================================
+        /**
+         * Internal counter to avoid infinite loops while calculating
+         * expression defined in the way showed by below examples
+         *
+         * Argument x = new Argument("x = 2*x");
+         * x.addDefinitions(x);
+         */
+        private int recursionCallsCounter = 0;
+		// 2 more vs Expression as to reach Expression.calculate()
+		// from Argument.getArgumentValue() requires additional steps
+		static int MAX_RECURSION_CALLS = mXparser.MAX_RECURSION_CALLS + 2;
+		internal static void refreshMaxAllowedRecursionDepth() {
+            // 2 more vs Expression as to reach Expression.calculate()
+            // from Argument.getArgumentValue() requires additional steps
+            MAX_RECURSION_CALLS = mXparser.MAX_RECURSION_CALLS + 2;
+		}
+        /*=================================================
 		 *
 		 * Constructors
 		 *
 		 *=================================================
 		 */
-		private static String buildErrorMessageInvalidArgumentName(String argumentName) {
+        private static String buildErrorMessageInvalidArgumentName(String argumentName) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentName, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_NAME, StringInvariant.ARGUMENT_NAME_EXAMPLES);
 		}
 		private static String buildErrorMessageInvalidArgumentDefinition(String argumentDefinitionString) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.ARGUMENT_DEFINITION_EXAMPLES);
+		}
+		private void registerNoSyntaxErrorInArgumentDefinition() {
+			syntaxStatusDefinition = NO_SYNTAX_ERRORS;
+			errorMessageDefinition = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION;
+			if (argumentExpression == null)
+				argumentExpression = new Expression();
+		}
+		private void registerSyntaxErrorInArgumentDefinition(String errorMessage) {
+			syntaxStatusDefinition = SYNTAX_ERROR;
+			errorMessageDefinition = errorMessage;
+			if (argumentExpression == null)
+				argumentExpression = new Expression();
 		}
 		/**
 		 * Default constructor - creates argument based on the argument definition string.
@@ -350,51 +392,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
 		public Argument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
-            argumentBodyType = BODY_RUNTIME;
-            description = StringInvariant.EMPTY;
-            if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
-				argumentName = argumentDefinitionString;
-				argumentValue = ARGUMENT_INITIAL_VALUE;
-				argumentType = FREE_ARGUMENT;
-				argumentExpression = new Expression(elements);
-                argumentExpression.setDescription(argumentName);
-                return;
-            }
-			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
-				argumentName = headEqBody.headTokens[0].tokenStr;
-				Expression bodyExpr = new Expression(headEqBody.bodyStr);
-                bodyExpr.setDescription(StringInvariant.INTERNAL);
-                bodyExpr.setForwardErrorMessage(false);
-                double bodyValue = bodyExpr.calculate();
-				if (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS && bodyValue != Double.NaN) {
-					argumentExpression = new Expression();
-					argumentValue = bodyValue;
-					argumentType = FREE_ARGUMENT;
-				} else {
-					argumentExpression = bodyExpr;
-                    bodyExpr.setForwardErrorMessage(true);
-                    addDefinitions(elements);
-					argumentType = DEPENDENT_ARGUMENT;
-				}
-                argumentExpression.setDescription(argumentName);
-                return;
-            }
-			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
-				argumentName = headEqBody.headTokens[0].tokenStr;
-				argumentExpression = new Expression(headEqBody.bodyStr, elements);
-				argumentExpression.setDescription(headEqBody.headStr);
-				argumentValue = ARGUMENT_INITIAL_VALUE;
-				argumentType = DEPENDENT_ARGUMENT;
-				n = new Argument(headEqBody.headTokens[2].tokenStr);
-                return;
-            }
-			argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentType = FREE_ARGUMENT;
-			argumentExpression = new Expression();
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinition(argumentDefinitionString));
-		}
+            analyzeArgumentDefinitionString(false, false, argumentDefinitionString, elements);
+        }
 		/**
 		 * Default constructor - creates argument based on the argument definition string.
 		 *
@@ -409,57 +408,76 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      forceDependent   If true parser will try to create dependent argument
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
-		public Argument(String argumentDefinitionString, bool forceDependent, params PrimitiveElement[] elements)  : base(Argument.TYPE_ID) {
-            argumentBodyType = BODY_RUNTIME;
-            description = StringInvariant.EMPTY;
-            if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
-				argumentName = argumentDefinitionString;
-				argumentValue = ARGUMENT_INITIAL_VALUE;
-				argumentType = FREE_ARGUMENT;
-				argumentExpression = new Expression(elements);
-                argumentExpression.setDescription(argumentName);
-                return;
-            }
-			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+		public Argument(String argumentDefinitionString, bool forceDependent, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
+            analyzeArgumentDefinitionString(false, forceDependent, argumentDefinitionString, elements);
+        }
+		/**
+		 * Package level  constructor used by RecursiveArgument class
+		 *
+		 * @param isRecursive
+		 * @param argumentDefinitionString
+		 * @param elements
+		 *
+		 * @see RecursiveArgument
+		 */
+		internal Argument(bool isRecursive, String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
+			analyzeArgumentDefinitionString(isRecursive, false, argumentDefinitionString, elements);
+		}
+		/**
+		 * Argument definition in one string logic
+		 *
+		 * @param isRecursive
+		 * @param forceDependent
+		 * @param argumentDefinitionString
+		 * @param elements
+		 */
+		private void analyzeArgumentDefinitionString(bool isRecursive, bool forceDependent, String argumentDefinitionString, params PrimitiveElement[] elements) {
+			if (argumentDefinitionString == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
+			}
+			if (elements == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+				return;
+			}
+			String argumentDefinitionStringTrim = argumentDefinitionString.Trim();
+			if (mXparser.regexMatch(argumentDefinitionStringTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				argumentName = argumentDefinitionStringTrim;
+				registerNoSyntaxErrorInArgumentDefinition();
+				return;
+			}
+			if (mXparser.regexMatch(argumentDefinitionStringTrim, ParserSymbol.constArgDefStrRegExp)) {
+				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionStringTrim);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				Expression bodyExpr = new Expression(headEqBody.bodyStr);
-				if (forceDependent) {
+				bodyExpr.setDescription(StringInvariant.INTERNAL);
+				bodyExpr.setForwardErrorMessage(false);
+				double bodyValue = bodyExpr.calculate();
+				if (!forceDependent && bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS && !Double.IsNaN(bodyValue)) {
+					argumentExpression = new Expression();
+					argumentValue = bodyValue;
+					argumentType = FREE_ARGUMENT;
+				} else {
 					argumentExpression = bodyExpr;
+					bodyExpr.setForwardErrorMessage(true);
 					addDefinitions(elements);
 					argumentType = DEPENDENT_ARGUMENT;
-				} else {
-                    bodyExpr.setDescription(StringInvariant.INTERNAL);
-                    bodyExpr.setForwardErrorMessage(false);
-                    double bodyValue = bodyExpr.calculate();
-					if (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS && bodyValue != Double.NaN) {
-						argumentExpression = new Expression();
-						argumentValue = bodyValue;
-						argumentType = FREE_ARGUMENT;
-					} else {
-						argumentExpression = bodyExpr;
-                        bodyExpr.setForwardErrorMessage(true);
-                        addDefinitions(elements);
-						argumentType = DEPENDENT_ARGUMENT;
-					}
 				}
-                argumentExpression.setDescription(headEqBody.headStr);
-                return;
-            }
-			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+				argumentExpression.setDescription(argumentName);
+				registerNoSyntaxErrorInArgumentDefinition();
+				return;
+			}
+			if (isRecursive && mXparser.regexMatch(argumentDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
+				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionStringTrim);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				argumentExpression = new Expression(headEqBody.bodyStr, elements);
 				argumentExpression.setDescription(headEqBody.headStr);
-				argumentValue = ARGUMENT_INITIAL_VALUE;
 				argumentType = DEPENDENT_ARGUMENT;
 				n = new Argument(headEqBody.headTokens[2].tokenStr);
-                return;
-            }
-			argumentValue = ARGUMENT_INITIAL_VALUE;
-			argumentType = FREE_ARGUMENT;
-			argumentExpression = new Expression();
-			argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinition(argumentDefinitionString));
+				registerNoSyntaxErrorInArgumentDefinition();
+				return;
+			}
+			registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentDefinition(argumentDefinitionStringTrim));
 		}
 		/**
 		 * Constructor - creates free argument.
@@ -468,17 +486,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argumentValue  the argument value
 		 */
 		public Argument(String argumentName, double argumentValue) : base(Argument.TYPE_ID) {
-			argumentExpression = new Expression();
-            argumentBodyType = BODY_RUNTIME;
-            description = StringInvariant.EMPTY;
-            if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-                this.argumentValue = ARGUMENT_INITIAL_VALUE;
-                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-                return;
+			if (argumentName == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.argumentName = argumentName;
-            this.argumentValue = argumentValue;
-            argumentType = FREE_ARGUMENT;
+			String argumentNameTrim = argumentName.Trim();
+			if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+				return;
+			}
+			this.argumentName = argumentNameTrim;
+			this.argumentValue = argumentValue;
+			registerNoSyntaxErrorInArgumentDefinition();
 		}
 		/**
 		 * Constructor for argument definition based on
@@ -489,19 +508,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param argumentExtension  Your own source code
 		 */
 		public Argument(String argumentName, ArgumentExtension argumentExtension) : base(Argument.TYPE_ID) {
-			argumentExpression = new Expression();
-            argumentExpression.setDescription(argumentName);
-            description = StringInvariant.EMPTY;
-            if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-                this.argumentValue = ARGUMENT_INITIAL_VALUE;
-                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-                argumentBodyType = BODY_RUNTIME;
-                return;
+			if (argumentName == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.argumentName = argumentName;
-            this.argumentExtension = argumentExtension;
-            argumentType = FREE_ARGUMENT;
-            argumentBodyType = BODY_EXTENDED;
+			if (argumentExtension == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
+				return;
+			}
+			String argumentNameTrim = argumentName.Trim();
+			if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+				return;
+			}
+			this.argumentName = argumentNameTrim;
+			this.argumentExtension = argumentExtension;
+			argumentBodyType = BODY_EXTENDED;
+			registerNoSyntaxErrorInArgumentDefinition();
 		}
 		/**
 		 * Constructor - creates dependent argument(with hidden
@@ -516,19 +539,25 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        PrimitiveElement
 		 */
 		public Argument(String argumentName, String argumentExpressionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID) {
-            argumentBodyType = BODY_RUNTIME;
-            description = StringInvariant.EMPTY;
-            if (!mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-                this.argumentValue = ARGUMENT_INITIAL_VALUE;
-                argumentExpression = new Expression();
-                argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
-                return;
+			if (argumentName == null || argumentExpressionString == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.argumentName = argumentName;
-            argumentValue = ARGUMENT_INITIAL_VALUE;
-            argumentExpression = new Expression(argumentExpressionString, elements);
-            argumentExpression.setDescription(argumentName);
-            argumentType = DEPENDENT_ARGUMENT;
+			if (elements == null) {
+				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+				return;
+			}
+			String argumentNameTrim = argumentName.Trim();
+			if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+				return;
+			}
+			String argumentExpressionStringTrim = argumentExpressionString.Trim();
+			this.argumentName = argumentNameTrim;
+			argumentExpression = new Expression(argumentExpressionStringTrim, elements);
+			argumentExpression.setDescription(argumentNameTrim);
+			argumentType = DEPENDENT_ARGUMENT;
+			registerNoSyntaxErrorInArgumentDefinition();
 		}
 		/**
 		 * Sets argument description.
@@ -582,7 +611,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     Computing time in seconds.
 		 */
 		public double getComputingTime() {
-			return argumentExpression.getComputingTime();
+			if (argumentType == DEPENDENT_ARGUMENT)
+				return argumentExpression.getComputingTime();
+			return 0;
 		}
 		/**
 		 * Sets (modifies) argument name.
@@ -593,13 +624,21 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argumentName        the argument name
 		 */
 		public void setArgumentName(String argumentName) {
-			if (mXparser.regexMatch(argumentName, ParserSymbol.nameOnlyTokenRegExp)) {
-				this.argumentName = argumentName;
-				setExpressionModifiedFlags();
+			if (argumentName == null) {
+				if (!syntaxStatusDefinition)
+					registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 				return;
 			}
-			if (argumentExpression != null)
-				argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentName(argumentName));
+			String argumentNameTrim = argumentName.Trim();
+			if (this.argumentName.Equals(argumentNameTrim))
+				return;
+			if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+				return;
+			}
+			this.argumentName = argumentNameTrim;
+			setExpressionModifiedFlags();
+			registerNoSyntaxErrorInArgumentDefinition();
         }
 		/**
 		 * Sets argument expression string.
@@ -613,9 +652,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Expression
 		 */
 		public void setArgumentExpressionString(String argumentExpressionString) {
-			argumentExpression.setExpressionString(argumentExpressionString);
-			if (argumentType == FREE_ARGUMENT)
-				argumentType = DEPENDENT_ARGUMENT;
+			if (argumentExpressionString == null) {
+				if (!syntaxStatusDefinition)
+					registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
+			}
+			String argumentExpressionStringTrim = argumentExpressionString.Trim();
+			argumentExpression.setExpressionString(argumentExpressionStringTrim);
+			argumentType = DEPENDENT_ARGUMENT;
 			argumentBodyType = BODY_RUNTIME;
 		}
 		/**
@@ -652,10 +696,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param  argumentValue       the value of argument
 		 */
 		public void setArgumentValue(double argumentValue) {
-			if (argumentType == DEPENDENT_ARGUMENT) {
-				argumentType = FREE_ARGUMENT;
-				argumentExpression.setExpressionString(StringInvariant.EMPTY);
-			}
+			argumentType = FREE_ARGUMENT;
 			argumentBodyType = BODY_RUNTIME;
 			this.argumentValue = argumentValue;
 		}
@@ -679,9 +720,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 *            Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN
 		 */
 		public bool checkSyntax() {
-			if (argumentBodyType == BODY_EXTENDED) return Argument.NO_SYNTAX_ERRORS;
+			if (!syntaxStatusDefinition)
+				return SYNTAX_ERROR;
+			if (argumentName.Length == 0)
+				return SYNTAX_ERROR;
+			if (argumentBodyType == BODY_EXTENDED) {
+				if (argumentExtension == null)
+					return SYNTAX_ERROR;
+				return NO_SYNTAX_ERRORS;
+			}
 			if (argumentType == FREE_ARGUMENT)
-				return Argument.NO_SYNTAX_ERRORS;
+				return NO_SYNTAX_ERRORS;
 			return argumentExpression.checkSyntax();
 		}
 		/**
@@ -690,7 +739,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     Error message as string.
 		 */
 		public String getErrorMessage() {
-			return argumentExpression.getErrorMessage();
+			if (!syntaxStatusDefinition)
+				return errorMessageDefinition;
+			if (argumentName.Length == 0)
+				return errorMessageDefinition;
+			if (argumentBodyType == BODY_EXTENDED && argumentExtension == null)
+				return errorMessageDefinition;
+			if (argumentType == FREE_ARGUMENT)
+				return errorMessageDefinition;
+			String argumentExpressionErrorMessage = argumentExpression.getErrorMessage();
+			if (errorMessageDefinition.Length > 0 && argumentExpressionErrorMessage.Length == 0)
+				return errorMessageDefinition;
+			return argumentExpressionErrorMessage;
 		}
 		/**
 		 * Gets argument value.
@@ -714,12 +774,21 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public double getArgumentValue(CalcStepsRegister calcStepsRegister) {
 			CalcStepsRegister.setUserArgument(calcStepsRegister, this);
+			if (!syntaxStatusDefinition)
+				return Double.NaN;
 			if (argumentBodyType == BODY_EXTENDED)
 				return argumentExtension.getArgumentValue();
 			if (argumentType == FREE_ARGUMENT)
 				return argumentValue;
-			return argumentExpression.calculate(calcStepsRegister);
-		}
+			recursionCallsCounter++;
+			if (recursionCallsCounter >= MAX_RECURSION_CALLS) {
+				recursionCallsCounter--;
+				return Double.NaN;
+			}
+			double value = argumentExpression.calculate(calcStepsRegister);
+			recursionCallsCounter--;
+			return value;
+        }
 		/**
 		 * Adds user defined elements (such as: Arguments, Constants, Functions)
 		 * to the argument expressions.
@@ -729,6 +798,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see PrimitiveElement
 		 */
 		public void addDefinitions(params PrimitiveElement[] elements) {
+			if (elements == null)
+				return;
 			argumentExpression.addDefinitions(elements);
 		}
 		/**
@@ -740,6 +811,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see PrimitiveElement
 		 */
 		public void removeDefinitions(params PrimitiveElement[] elements) {
+			if (elements == null)
+				return;
 			argumentExpression.removeDefinitions(elements);
 		}
 		/*=================================================
@@ -758,6 +831,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void addArguments(params Argument[] arguments) {
+			if (arguments == null)
+				return;
 			argumentExpression.addArguments(arguments);
 		}
 		/**
@@ -771,6 +846,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void defineArguments(params String[] argumentsNames) {
+			if (argumentsNames == null)
+				return;
 			argumentExpression.defineArguments(argumentsNames);
 		}
 		/**
@@ -784,6 +861,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void defineArgument(String argumentName, double argumentValue) {
+			if (argumentName == null)
+				return;
 			argumentExpression.defineArgument(argumentName, argumentValue);
 		}
 		/**
@@ -798,6 +877,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getArgumentIndex(String argumentName) {
+			if (argumentName == null)
+				return NOT_FOUND;
 			return argumentExpression.getArgumentIndex(argumentName);
 		}
 		/**
@@ -813,6 +894,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public Argument getArgument(String argumentName) {
+			if (argumentName == null)
+				return null;
 			return argumentExpression.getArgument(argumentName);
 		}
 		/**
@@ -828,6 +911,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public Argument getArgument(int argumentIndex) {
+			if (argumentIndex < 0)
+				return null;
 			return argumentExpression.getArgument(argumentIndex);
 		}
 		/**
@@ -839,6 +924,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getArgumentsNumber() {
+			if (argumentType != DEPENDENT_ARGUMENT)
+				return 0;
 			return argumentExpression.getArgumentsNumber();
 		}
 		/**
@@ -853,6 +940,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeArguments(params String[] argumentsNames) {
+			if (argumentsNames == null)
+				return;
 			argumentExpression.removeArguments(argumentsNames);
 		}
 		/**
@@ -866,6 +955,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeArguments(params Argument[] arguments) {
+			if (arguments == null)
+				return;
 			argumentExpression.removeArguments(arguments);
 		}
 		/**
@@ -893,7 +984,21 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void addConstants(params Constant[] constants) {
+			if (constants == null)
+				return;
 			argumentExpression.addConstants(constants);
+		}
+		/**
+		 * Adds constants to the argument expression definition.
+		 *
+		 * @param      constantsList       the list of constants
+		 *
+		 * @see        Constant
+		 */
+		public void addConstants(List<Constant> constantsList) {
+			if (constantsList == null)
+				return;
+			argumentExpression.addConstants(constantsList);
 		}
 		/**
 		 * Enables to define the constant (associated with
@@ -906,6 +1011,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void defineConstant(String constantName, double constantValue) {
+			if (constantName == null)
+				return;
 			argumentExpression.defineConstant(constantName, constantValue);
 		}
 		/**
@@ -919,6 +1026,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public int getConstantIndex(String constantName) {
+			if (constantName == null)
+				return NOT_FOUND;
 			return argumentExpression.getConstantIndex(constantName);
 		}
 		/**
@@ -932,6 +1041,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public Constant getConstant(String constantName) {
+			if (constantName == null)
+				return null;
 			return argumentExpression.getConstant(constantName);
 		}
 		/**
@@ -947,6 +1058,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public Constant getConstant(int constantIndex) {
+			if (constantIndex < 0)
+				return null;
 			return argumentExpression.getConstant(constantIndex);
 		}
 		/**
@@ -957,6 +1070,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public int getConstantsNumber() {
+			if (argumentType != DEPENDENT_ARGUMENT)
+				return 0;
 			return argumentExpression.getConstantsNumber();
 		}
 		/**
@@ -969,6 +1084,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeConstants(params String[] constantsNames) {
+			if (constantsNames == null)
+				return;
 			argumentExpression.removeConstants(constantsNames);
 		}
 		/**
@@ -981,6 +1098,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeConstants(params Constant[] constants) {
+			if (constants == null)
+				return;
 			argumentExpression.removeConstants(constants);
 		}
 		/**
@@ -1008,6 +1127,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void addFunctions(params Function[] functions) {
+			if (functions == null)
+				return;
 			argumentExpression.addFunctions(functions);
 		}
 		/**
@@ -1023,8 +1144,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see        Function
 		 */
-		public void defineFunction(String functionName, String  functionExpressionString,
-				params String[] argumentsNames) {
+		public void defineFunction(String functionName, String  functionExpressionString, params String[] argumentsNames) {
+			if (functionName == null || functionExpressionString == null || argumentsNames == null)
+				return;
 			argumentExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 		}
 		/**
@@ -1038,6 +1160,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public int getFunctionIndex(String functionName) {
+			if (functionName == null)
+				return -1;
 			return argumentExpression.getFunctionIndex(functionName);
 		}
 		/**
@@ -1051,6 +1175,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public Function getFunction(String functionName) {
+			if (functionName == null)
+				return null;
 			return argumentExpression.getFunction(functionName);
 		}
 		/**
@@ -1065,6 +1191,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public Function getFunction(int functionIndex) {
+			if (functionIndex < 0)
+				return null;
 			return argumentExpression.getFunction(functionIndex);
 		}
 		/**
@@ -1075,6 +1203,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public int getFunctionsNumber() {
+			if (argumentType != DEPENDENT_ARGUMENT)
+				return 0;
 			return argumentExpression.getFunctionsNumber();
 		}
 		/**
@@ -1087,6 +1217,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeFunctions(params String[] functionsNames) {
+			if (functionsNames == null)
+				return;
 			argumentExpression.removeFunctions(functionsNames);
 		}
 		/**
@@ -1099,6 +1231,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeFunctions(params Function[] functions) {
+			if (functions == null)
+				return;
 			argumentExpression.removeFunctions(functions);
 		}
 		/**
@@ -1123,6 +1257,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Expression
 		 */
 		internal void addRelatedExpression(Expression expression) {
+			if (expression == null)
+				return;
 			argumentExpression.addRelatedExpression(expression);
 		}
 		/**
@@ -1133,6 +1269,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Expression
 		 */
 		internal void removeRelatedExpression(Expression expression) {
+			if (expression == null)
+				return;
 			argumentExpression.removeRelatedExpression(expression);
 		}
 		/**
@@ -1151,7 +1289,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Argument clone() {
 			Argument newArg = new Argument(this.argumentName);
-			newArg.argumentExpression = this.argumentExpression.clone();
+			newArg.syntaxStatusDefinition = this.syntaxStatusDefinition;
+			newArg.errorMessageDefinition = this.errorMessageDefinition;
+			newArg.argumentExpression = this.argumentExpression;
 			newArg.argumentType = this.argumentType;
 			newArg.argumentBodyType = this.argumentBodyType;
 			newArg.argumentValue = this.argumentValue;

@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.2.0    2022-12-27
+ * @(#)Expression.cs        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -296,7 +296,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *    - token value (if token is a number)
 		 *    - token level - key information regarding sequence (order) of further parsing
 		 */
-		private List<Token> initialTokens;
+		internal List<Token> initialTokens;
 		/**
 		 * List of string tokens that should not be considered
 		 * while seeking for optional implied multiplication.
@@ -340,7 +340,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * if true then new tokenizing is required
 		 * (the initialTokens list needs to be updated)
 		 */
-		private bool expressionWasModified;
+		internal bool expressionWasModified;
 		/**
 		 * If recursive mode is on the recursive calls are permitted.
 		 * It mean there will be no null pointer exceptions
@@ -569,8 +569,8 @@ namespace org.mariuszgromada.math.mxparser {
 			internalClone = false;
 			expressionWasModified = true;
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-			errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
-			foreach (Expression e in relatedExpressionsList)
+			errorMessage = StringInvariant.EMPTY;
+            foreach (Expression e in relatedExpressionsList)
 				e.setExpressionModifiedFlag();
 			recursionCallPending = false;
 		}
@@ -1241,6 +1241,20 @@ namespace org.mariuszgromada.math.mxparser {
 					continue;
 				constantsList.Add(constant);
 				constant.addRelatedExpression(this);
+			}
+			setExpressionModifiedFlag();
+		}
+		/**
+		 * Adds constants to the expression definition.
+		 *
+		 * @param      constantsList       the list of constants
+		 *
+		 * @see        Constant
+		 */
+		public void addConstants(List<Constant> constantsList) {
+			foreach (Constant c in constantsList) {
+                this.constantsList.Add(c);
+                c.addRelatedExpression(this);
 			}
 			setExpressionModifiedFlag();
 		}
@@ -5051,7 +5065,14 @@ namespace org.mariuszgromada.math.mxparser {
 			try {
 				return calculateInternal(calcStepsRegister);
 			} catch (Exception e) {
-                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringUtils.trimNotNull(e.Message));
+				registerErrorWhileCalculate(
+						StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
+								+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
+								+ StringInvariant.COLON_SPACE
+								+ StringUtils.getSimpleName(e)
+								+ StringInvariant.COLON_SPACE
+								+ StringUtils.trimNotNull(e.Message)
+				);
                 return Double.NaN;
 			}
 		}

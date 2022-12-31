@@ -203,6 +203,8 @@ import java.util.Stack;
  * @see            Expression
  */
 final class ExpressionUtils {
+    static final boolean LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.LANGUAGE_SPECIFIC_DESCRIPTIONS_SET;
+
     static void addUDFSpecificParserKeyWords(List<KeyWord> keyWordsList) {
         addKeyWord(Function1Arg.PARAM_STR, Function1Arg.PARAM_DESC, Function1Arg.PARAM_ID, Function1Arg.PARAM_SYN, Function1Arg.PARAM_SINCE, Function1Arg.TYPE_ID, keyWordsList);
         addKeyWord(ConstantValue.NPAR_STR, ConstantValue.NPAR_DESC, ConstantValue.NPAR_ID, ConstantValue.NPAR_SYN, ConstantValue.NPAR_SINCE, ConstantValue.TYPE_ID, keyWordsList);

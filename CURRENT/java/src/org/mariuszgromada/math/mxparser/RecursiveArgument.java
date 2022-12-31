@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.java        5.2.0    2022-12-27
+ * @(#)RecursiveArgument.java        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -313,7 +313,7 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 * @see    Argument
 	 */
 	public RecursiveArgument(String argumentDefinitionString, PrimitiveElement... elements) {
-		super(argumentDefinitionString);
+		super(true, argumentDefinitionString);
 		if (!mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
 			super.argumentExpression = new Expression();
 			super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));

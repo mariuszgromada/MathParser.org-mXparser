@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        5.2.0    2022-12-28
+ * @(#)StringResources.java        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -206,6 +206,10 @@ public class StringResources {
     // -------------------------------------------------
     static final String DEFAULT_STARTING_SYNTAX_CHECK = "Starting syntax check...";
     static final String DEFAULT_NO_ERRORS_DETECTED = "No errors detected.";
+    static final String DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION = "No errors detected in argument definition.";
+    static final String DEFAULT_NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION = "No errors detected in recursive argument definition.";
+    static final String DEFAULT_NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION = "No errors detected in function definition.";
+    static final String DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION = "No errors detected in function definition.";
     static final String DEFAULT_LEXICAL_ERROR_HAS_BEEN_FOUND = "A lexical error has been found.";
     static final String DEFAULT_ERRORS_HAVE_BEEN_FOUND = "Errors have been found.";
     static final String DEFAULT_ALREADY_CHECKED_NO_ERRORS = "The syntax has already been checked - no errors detected.";
@@ -234,6 +238,9 @@ public class StringResources {
     // -------------------------------------------------
     static final String DEFAULT_FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS = "User-defined function with extended body - no errors by assumption.";
     static final String DEFAULT_ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS = "User-defined argument with extended body - no errors by assumption.";
+    static final String DEFAULT_PROVIDED_EXTENSION_IS_NULL = "Provided extension is null.";
+    static final String DEFAULT_PROVIDED_STRING_IS_NULL = "Provided string is null.";
+    static final String DEFAULT_PROVIDED_ELEMENTS_ARE_NULL = "Provided elements are null.";
     static final String DEFAULT_MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE = "Possibly missing multiplication operator - try implied multiplication mode.";
     // -------------------------------------------------
     static final String DEFAULT_STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT = "Starting syntax check of the dependent user-defined argument.";
@@ -793,6 +800,22 @@ public class StringResources {
      */
     public String NO_ERRORS_DETECTED = DEFAULT_NO_ERRORS_DETECTED;
     /**
+     * Default String = "No errors detected in argument definition."
+     */
+    public String NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION;
+    /**
+     * Default String = "No errors detected in recursive argument definition."
+     */
+    public String NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION;
+    /**
+     * Default String = "No errors detected in function definition."
+     */
+    public String NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
+    /**
+     * Default String = "No errors detected in constant definition."
+     */
+    public String NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION = DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION;
+    /**
      * Default String = "A lexical error has been found."
      */
     public String LEXICAL_ERROR_HAS_BEEN_FOUND = DEFAULT_LEXICAL_ERROR_HAS_BEEN_FOUND;
@@ -895,6 +918,18 @@ public class StringResources {
      * Default String = "User-defined argument with extended body - no errors by assumption."
      */
     public String ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS = DEFAULT_ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS;
+    /**
+     * Default String = "Provided extension is null."
+     */
+    public String PROVIDED_EXTENSION_IS_NULL = DEFAULT_PROVIDED_EXTENSION_IS_NULL;
+    /**
+     * Default String = "Provided string is null."
+     */
+    public String PROVIDED_STRING_IS_NULL = DEFAULT_PROVIDED_STRING_IS_NULL;
+    /**
+     * Default String = "Provided elements are null."
+     */
+    public String PROVIDED_ELEMENTS_ARE_NULL = DEFAULT_PROVIDED_ELEMENTS_ARE_NULL;
     /**
      * Default String = "Possibly missing multiplication operator - try implied multiplication mode."
      */
@@ -2964,6 +2999,10 @@ public class StringResources {
         StringUtils.consolePrintln("// -------------------------------------------------");
         printCurrentVsDefault("STARTING_SYNTAX_CHECK", stringResources.STARTING_SYNTAX_CHECK, DEFAULT_STARTING_SYNTAX_CHECK, printDefault);
         printCurrentVsDefault("NO_ERRORS_DETECTED", stringResources.NO_ERRORS_DETECTED, DEFAULT_NO_ERRORS_DETECTED, printDefault);
+        printCurrentVsDefault("NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION", stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION, DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION, printDefault);
+        printCurrentVsDefault("NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION", stringResources.NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION, DEFAULT_NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION, printDefault);
+        printCurrentVsDefault("NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION", stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION, DEFAULT_NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION, printDefault);
+        printCurrentVsDefault("NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION", stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION, DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION, printDefault);
         printCurrentVsDefault("LEXICAL_ERROR_HAS_BEEN_FOUND", stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND, DEFAULT_LEXICAL_ERROR_HAS_BEEN_FOUND, printDefault);
         printCurrentVsDefault("ERRORS_HAVE_BEEN_FOUND", stringResources.ERRORS_HAVE_BEEN_FOUND, DEFAULT_ERRORS_HAVE_BEEN_FOUND, printDefault);
         printCurrentVsDefault("ALREADY_CHECKED_NO_ERRORS", stringResources.ALREADY_CHECKED_NO_ERRORS, DEFAULT_ALREADY_CHECKED_NO_ERRORS, printDefault);
@@ -2992,6 +3031,9 @@ public class StringResources {
         StringUtils.consolePrintln("// -------------------------------------------------");
         printCurrentVsDefault("FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS", stringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS, DEFAULT_FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS, printDefault);
         printCurrentVsDefault("ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS", stringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, DEFAULT_ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, printDefault);
+        printCurrentVsDefault("PROVIDED_EXTENSION_IS_NULL", stringResources.PROVIDED_EXTENSION_IS_NULL, DEFAULT_PROVIDED_EXTENSION_IS_NULL, printDefault);
+        printCurrentVsDefault("PROVIDED_STRING_IS_NULL", stringResources.PROVIDED_STRING_IS_NULL, DEFAULT_PROVIDED_STRING_IS_NULL, printDefault);
+        printCurrentVsDefault("PROVIDED_ELEMENTS_ARE_NULL", stringResources.PROVIDED_ELEMENTS_ARE_NULL, DEFAULT_PROVIDED_ELEMENTS_ARE_NULL, printDefault);
         printCurrentVsDefault("MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE", stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE, DEFAULT_MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");
         printCurrentVsDefault("STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT", stringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, DEFAULT_STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, printDefault);

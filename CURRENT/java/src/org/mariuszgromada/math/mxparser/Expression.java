@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2022-12-27
+ * @(#)Expression.java        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -319,7 +319,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *    - token value (if token is a number)
 	 *    - token level - key information regarding sequence (order) of further parsing
 	 */
-	private List<Token> initialTokens;
+	List<Token> initialTokens;
 	/**
 	 * List of string tokens that should not be considered
 	 * while seeking for optional implied multiplication.
@@ -363,7 +363,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * if true then new tokenizing is required
 	 * (the initialTokens list needs to be updated)
 	 */
-	private boolean expressionWasModified;
+	boolean expressionWasModified;
 	/**
 	 * If recursive mode is on the recursive calls are permitted.
 	 * It means there will be no null pointer exceptions
@@ -592,7 +592,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		internalClone = false;
 		expressionWasModified = true;
 		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		errorMessage = StringModel.STRING_RESOURCES.SYNTAX_STATUS_UNKNOWN;
+		errorMessage = StringInvariant.EMPTY;
 		for (Expression e : relatedExpressionsList)
 			e.setExpressionModifiedFlag();
 		recursionCallPending = false;
@@ -1283,10 +1283,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 * @see        Constant
 	 */
-	public void addConstants( List<Constant> constantsList) {
-		this.constantsList.addAll( constantsList );
-		for (Constant c : constantsList)
+	public void addConstants(List<Constant> constantsList) {
+		for (Constant c : constantsList) {
+			this.constantsList.add(c);
 			c.addRelatedExpression(this);
+		}
 		setExpressionModifiedFlag();
 	}
 	/**
@@ -5086,7 +5087,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 		try {
 			return calculateInternal(calcStepsRegister);
 		} catch (Throwable e) {
-			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE + StringInvariant.SPACE + StringUtils.trimNotNull(e.getMessage()));
+			registerErrorWhileCalculate(
+					StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
+							+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
+							+ StringInvariant.COLON_SPACE
+							+ e.getClass().getSimpleName()
+							+ StringInvariant.COLON_SPACE
+							+ StringUtils.trimNotNull(e.getMessage())
+			);
 			return Double.NaN;
 		}
 	}

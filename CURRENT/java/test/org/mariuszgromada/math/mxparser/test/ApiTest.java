@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2022-12-27
+ * @(#)SyntaxTest.java        5.2.0    2022-12-31
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 package org.mariuszgromada.math.mxparser.test;
 
+import com.sun.beans.editors.DoubleEditor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mariuszgromada.math.mxparser.*;
@@ -188,6 +189,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.*;
 
 import java.io.File;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -4451,6 +4453,867 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0183() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Check all user defined token types - descriptions";
+        TestCommonTools.consolePrintTestApiStart(183, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        if (Argument.TYPE_DESC.equals(stringResources.USER_DEFINED_ARGUMENT)
+                && Constant.TYPE_DESC.equals(stringResources.USER_DEFINED_CONSTANT)
+                && Expression.TYPE_DESC.equals(stringResources.USER_DEFINED_EXPRESSION)
+                && Function.TYPE_DESC.equals(stringResources.USER_DEFINED_FUNCTION)
+                && RecursiveArgument.TYPE_DESC_RECURSIVE.equals(stringResources.USER_DEFINED_RECURSIVE_ARGUMENT)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0184() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, PrimitiveElement...elements) - argumentDefinitionString == null, elements == null";
+        TestCommonTools.consolePrintTestApiStart(184, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument(null);
+        Argument[] x = null;
+        Argument b = new Argument("b", x);
+        if (
+                !a.checkSyntax()
+                && a.getErrorMessage().contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !b.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0185() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, PrimitiveElement...elements) - nameOnlyTokenRegExp";
+        TestCommonTools.consolePrintTestApiStart(185, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a");
+        Argument b = new Argument("   b   ");
+        if (
+                a.getArgumentName().equals("a")
+                && a.checkSyntax()
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.getArgumentName().equals("b")
+                && b.checkSyntax()
+                && b.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0186() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, PrimitiveElement...elements) - constArgDefStrRegExp";
+        TestCommonTools.consolePrintTestApiStart(186, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a = 2*4");
+        Argument b = new Argument("   b    = 2*a   ");
+        Argument c = new Argument("   c    = 2*a   ");
+        c.addArguments(a);
+        if (
+                a.getArgumentName().equals("a")
+                && a.checkSyntax()
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getArgumentValue() == 8
+                && a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.getArgumentName().equals("b")
+                && b.getArgumentExpressionString().equals("2*a")
+                && b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.getArgumentType() == Argument.DEPENDENT_ARGUMENT
+                && !b.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.INVALID_TOKEN)
+                && !b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && c.getArgumentName().equals("c")
+                && c.checkSyntax()
+                && c.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED)
+                ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0187() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, PrimitiveElement...elements) - incorrect definition string";
+        TestCommonTools.consolePrintTestApiStart(187, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a+2");
+        Argument b = new Argument("b( = 2   ");
+        Argument c = new Argument("   c(x) = 2*x   ");
+        if (
+                !a.checkSyntax()
+                && a.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_DEFINITION)
+                && a.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && a.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !b.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_DEFINITION)
+                && b.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && b.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !c.checkSyntax()
+                && c.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_DEFINITION)
+                && c.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && c.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0188() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, boolean forceDependent, PrimitiveElement...elements) - argumentDefinitionString == null, elements == null";
+        TestCommonTools.consolePrintTestApiStart(188, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument(null, true);
+        Argument[] x = null;
+        Argument b = new Argument("b", true, x);
+        if (
+                !a.checkSyntax()
+                && a.getErrorMessage().contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !b.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0189() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, boolean forceDependent, PrimitiveElement...elements) - nameOnlyTokenRegExp";
+        TestCommonTools.consolePrintTestApiStart(189, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a", true);
+        Argument b = new Argument("   b   ", true);
+        if (
+                a.getArgumentName().equals("a")
+                && a.checkSyntax()
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.getArgumentName().equals("b")
+                && b.checkSyntax()
+                && b.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0190() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentDefinitionString, boolean forceDependent, PrimitiveElement...elements)";
+        TestCommonTools.consolePrintTestApiStart(190, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a = 2", false);
+        Argument b = new Argument("b = 2", true);
+        if (
+                a.getArgumentName().equals("a")
+                && a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && a.checkSyntax()
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.getArgumentName().equals("b")
+                && b.checkSyntax()
+                && b.getArgumentType() == Argument.DEPENDENT_ARGUMENT
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0191() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, double argumentValue) - argumentName = null";
+        TestCommonTools.consolePrintTestApiStart(191, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument(null,2);
+        if (a.getErrorMessage().contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !a.checkSyntax()
+                && a.getArgumentName().length() == 0
+                && Double.isNaN(a.getArgumentValue())
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+            ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0192() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, double argumentValue) - invalid argumentName";
+        TestCommonTools.consolePrintTestApiStart(192, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("1",2);
+        Argument b = new Argument("x()",2);
+        Argument c = new Argument("x(1)",2);
+        Argument d = new Argument("x = ",2);
+        Argument e = new Argument("1+x",2);
+        Argument f = new Argument("1x",2);
+        if (a.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && a.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && a.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !a.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && b.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && b.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !b.checkSyntax()
+                && c.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && c.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && c.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !c.checkSyntax()
+                && d.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && d.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && d.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !d.checkSyntax()
+                && e.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && e.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && e.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !e.checkSyntax()
+                && f.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && f.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && f.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !f.checkSyntax()
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0193() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, double argumentValue)";
+        TestCommonTools.consolePrintTestApiStart(193, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a",1);
+        Argument a1 = new Argument("a1",2);
+        Argument a1b = new Argument("a1b",3);
+        Argument x = new Argument("   x ",4);
+        if (
+                a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && a.checkSyntax()
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && a.getArgumentName().equals("a")
+                && a.getArgumentValue() == 1
+                && a1.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && a1.checkSyntax()
+                && a1.getArgumentType() == Argument.FREE_ARGUMENT
+                && a1.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && a1.getArgumentName().equals("a1")
+                && a1.getArgumentValue() == 2
+                && a1b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && a1b.checkSyntax()
+                && a1b.getArgumentType() == Argument.FREE_ARGUMENT
+                && a1b.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && a1b.getArgumentName().equals("a1b")
+                && a1b.getArgumentValue() == 3
+                && x.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && x.checkSyntax()
+                && x.getArgumentType() == Argument.FREE_ARGUMENT
+                && x.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && x.getArgumentName().equals("x")
+                && x.getArgumentValue() == 4
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0194() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, ArgumentExtension argumentExtension) - argumentName = null, argumentExtension = null";
+        TestCommonTools.consolePrintTestApiStart(194, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument(null,new PiMultArgExt());
+        PiMultArgExt nullExtension = null;
+        Argument b = new Argument("b", nullExtension);
+        if (
+                a.getErrorMessage().contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !a.checkSyntax()
+                && a.getArgumentName().length() == 0
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && Double.isNaN(a.getArgumentValue())
+                && b.getErrorMessage().contains(stringResources.PROVIDED_EXTENSION_IS_NULL)
+                && !b.checkSyntax()
+                && b.getArgumentName().length() == 0
+                && b.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && Double.isNaN(b.getArgumentValue())
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0195() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, ArgumentExtension argumentExtension) - invalid argumentName";
+        TestCommonTools.consolePrintTestApiStart(195, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        PiMultArgExt piMultArgExt = new PiMultArgExt();
+        Argument a = new Argument("1", piMultArgExt);
+        Argument b = new Argument("x()", piMultArgExt);
+        Argument c = new Argument("x(1)", piMultArgExt);
+        Argument d = new Argument("x = ", piMultArgExt);
+        Argument e = new Argument("1+x", piMultArgExt);
+        Argument f = new Argument("1x", piMultArgExt);
+        if (a.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && a.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && a.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !a.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && b.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && b.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !b.checkSyntax()
+                && c.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && c.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && c.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !c.checkSyntax()
+                && d.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && d.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && d.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !d.checkSyntax()
+                && e.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && e.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && e.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !e.checkSyntax()
+                && f.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && f.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && f.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !f.checkSyntax()
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0196() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, ArgumentExtension argumentExtension)";
+        TestCommonTools.consolePrintTestApiStart(196, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a",new PiMultArgExt());
+        Argument b = new Argument("  b ",new PiMultArgExt());
+        if (
+                a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && a.checkSyntax()
+                && a.getArgumentName().equals("a")
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getArgumentBodyType() == Argument.BODY_EXTENDED
+                && b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.checkSyntax()
+                && b.getArgumentName().equals("b")
+                && b.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getArgumentBodyType() == Argument.BODY_EXTENDED
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0197() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, String argumentExpressionString, PrimitiveElement... elements) - argumentName = null, argumentExpressionString = null, elements = null";
+        TestCommonTools.consolePrintTestApiStart(197, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        String nullString = null;
+        Argument[] nullElements = null;
+        Argument a = new Argument(nullString, "2+3");
+        Argument b = new Argument("b", nullString);
+        Argument c = new Argument("b", "2+3", nullElements);
+        if (
+                a.getErrorMessage().contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !a.checkSyntax()
+                && a.getArgumentName().length() == 0
+                && a.getArgumentType() == Argument.FREE_ARGUMENT
+                && a.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && Double.isNaN(a.getArgumentValue())
+                && b.getErrorMessage().contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !b.checkSyntax()
+                && b.getArgumentName().length() == 0
+                && b.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && Double.isNaN(b.getArgumentValue())
+                && c.getErrorMessage().contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL)
+                && !c.checkSyntax()
+                && c.getArgumentName().length() == 0
+                && c.getArgumentType() == Argument.FREE_ARGUMENT
+                && c.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && Double.isNaN(c.getArgumentValue())
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0198() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, String argumentExpressionString, PrimitiveElement... elements) - invalid argumentName";
+        TestCommonTools.consolePrintTestApiStart(198, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("1", "2+3");
+        Argument b = new Argument("x()", "2+3");
+        Argument c = new Argument("x(1)", "2+3");
+        Argument d = new Argument("x = ", "2+3");
+        Argument e = new Argument("1+x", "2+3");
+        Argument f = new Argument("1x", "2+3");
+        if (a.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && a.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && a.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !a.checkSyntax()
+                && b.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && b.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && b.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !b.checkSyntax()
+                && c.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && c.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && c.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !c.checkSyntax()
+                && d.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && d.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && d.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !d.checkSyntax()
+                && e.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && e.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && e.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !e.checkSyntax()
+                && f.getErrorMessage().contains(stringResources.INVALID_ARGUMENT_NAME)
+                && f.getErrorMessage().contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && f.getErrorMessage().contains(stringResources.PATTERN_EXAMPLES)
+                && !f.checkSyntax()
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0199() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument(String argumentName, ArgumentExtension argumentExtension)";
+        TestCommonTools.consolePrintTestApiStart(199, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        Argument a = new Argument("a","2+3");
+        Argument b = new Argument("  b ","2*3");
+        if (a.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && a.checkSyntax()
+                && a.getArgumentName().equals("a")
+                && a.getArgumentType() == Argument.DEPENDENT_ARGUMENT
+                && a.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && a.getArgumentValue() == 5
+                && b.getErrorMessage().contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && b.checkSyntax()
+                && b.getArgumentName().equals("b")
+                && b.getArgumentType() == Argument.DEPENDENT_ARGUMENT
+                && b.getArgumentBodyType() == Argument.BODY_RUNTIME
+                && b.getArgumentValue() == 6
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0200() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - setDescription, getDescription";
+        TestCommonTools.consolePrintTestApiStart(200, testDescr);
+        Argument a = new Argument("a = 2");
+        a.setDescription("b");
+        if (a.getDescription().equals("b"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0201() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - setVerboseMode, setSilentMode, getVerboseMode";
+        TestCommonTools.consolePrintTestApiStart(201, testDescr);
+        Argument a = new Argument("a", "2+3");
+        a.setVerboseMode();
+        boolean v1 = a.getVerboseMode();
+        a.setSilentMode();
+        boolean v2 = a.getVerboseMode();
+        if (v1 & !v2)
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0202() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Expression API - error while calculate - behaviour test";
+        TestCommonTools.consolePrintTestApiStart(202, testDescr);
+        Argument x = new Argument("x = if(isNaN(x) || x> 3, 100, x/2)");
+        x.addArguments(x);
+        String e1 = x.getErrorMessage();
+        boolean syn = x.checkSyntax();
+        String e2 = x.getErrorMessage();
+        double v = x.getArgumentValue();
+        String e3 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (e1.contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION)
+                && syn
+                && e2.contains(stringResources.NO_ERRORS_DETECTED)
+                && Double.isNaN(v)
+                && e3.contains(stringResources.RECURSION_CALLS_COUNTER_EXCEEDED)
+                && e3.contains(stringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE)
+                && e3.contains(stringResources.EXCEPTION)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0203() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public getComputingTime()";
+        TestCommonTools.consolePrintTestApiStart(203, testDescr);
+        Argument a = new Argument("a", 2);
+        Argument b = new Argument("b", "sum(i, 1, 200000, i)");
+        a.getArgumentValue();
+        b.getArgumentValue();
+        if (a.getComputingTime() == 0 && b.getComputingTime() > 0)
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0204() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public void setArgumentName(String argumentName)";
+        TestCommonTools.consolePrintTestApiStart(204, testDescr);
+        Argument a = new Argument("a", 2);
+        a.setArgumentName(null);
+        Argument b = new Argument("1a2", 2);
+        b.setArgumentName(null);
+        Argument c = new Argument("1a2", 2);
+        c.setArgumentName("c");
+        c.setArgumentValue(2);
+        Argument d = new Argument("d", 2);
+        d.setArgumentName("1a2");
+        if (a.getArgumentName().equals("a")
+                && a.checkSyntax()
+                && b.getArgumentName().length() == 0
+                && c.getArgumentName().equals("c")
+                && c.getArgumentValue() == 2
+                && d.getArgumentName().equals("d")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0205() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public void setArgumentExpressionString(String argumentExpressionString)";
+        TestCommonTools.consolePrintTestApiStart(205, testDescr);
+        Argument a = new Argument("a = 2");
+        a.setArgumentExpressionString("2+3");
+        Argument b = new Argument("b = 2");
+        b.setArgumentExpressionString(null);
+        if (a.getArgumentType() == Argument.DEPENDENT_ARGUMENT
+                && a.getArgumentValue() == 5
+                && a.getArgumentExpressionString().equals("2+3")
+                && b.getArgumentType() == Argument.FREE_ARGUMENT
+                && b.getArgumentValue() == 2
+                && b.getArgumentExpressionString().equals("")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0206() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public void addDefinitions(PrimitiveElement... elements), public void addArguments(Argument... arguments)";
+        TestCommonTools.consolePrintTestApiStart(206, testDescr);
+        Argument x = new Argument("x = a + b + f(4)");
+        Argument a = new Argument("a = 2");
+        Constant b = new Constant("b = 3");
+        Function f = new Function("f(x) = x");
+        Argument[] nullElements = null;
+        double v1 = x.getArgumentValue();
+        String msg1 = x.getErrorMessage() ;
+        x.addDefinitions(nullElements);
+        x.addDefinitions(a, b, f);
+        double v2 = x.getArgumentValue();
+        String msg2 = x.getErrorMessage();
+        x.removeDefinitions(a, b, f);
+        x.removeDefinitions(nullElements);
+        double v3 = x.getArgumentValue();
+        String msg3 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (Double.isNaN(v1)
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'f'") && !msg1.contains("[f]")
+                && v2 == 9
+                && msg2.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg2.contains("'a'") && !msg2.contains("'b'") && msg2.contains("'f'") && msg2.contains("[f]")
+                && Double.isNaN(v3)
+                && msg3.contains(stringResources.INVALID_TOKEN)
+                && msg3.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg3.contains("'a'") && msg3.contains("'b'") && msg3.contains("'f'") && !msg3.contains("[f]")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0207() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - add/remove Arguments, add/remove Constants, add/remove Functions - objects";
+        TestCommonTools.consolePrintTestApiStart(207, testDescr);
+        Argument x = new Argument("x = a + b + f(4)");
+        Argument a = new Argument("a = 2");
+        Constant b = new Constant("b = 3");
+        Function f = new Function("f(x) = x");
+        Argument[] nullArg = null;
+        Constant[] nullConst = null;
+        Function[] nullFun = null;
+        double v1 = x.getArgumentValue();
+        String msg1 = x.getErrorMessage() ;
+        x.addArguments(a);
+        x.addArguments(nullArg);
+        x.addConstants(b);
+        x.addConstants(nullConst);
+        x.addFunctions(f);
+        x.addFunctions(nullFun);
+        double v2 = x.getArgumentValue();
+        String msg2 = x.getErrorMessage();
+        x.removeArguments(a);
+        x.removeArguments(nullArg);
+        x.removeConstants(b);
+        x.removeConstants(nullConst);
+        x.removeFunctions(f);
+        x.removeFunctions(nullFun);
+        double v3 = x.getArgumentValue();
+        String msg3 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (Double.isNaN(v1)
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'f'") && !msg1.contains("[f]")
+                && v2 == 9
+                && msg2.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg2.contains("'a'") && !msg2.contains("'b'") && msg2.contains("'f'") && msg2.contains("[f]")
+                && Double.isNaN(v3)
+                && msg3.contains(stringResources.INVALID_TOKEN)
+                && msg3.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg3.contains("'a'") && msg3.contains("'b'") && msg3.contains("'f'") && !msg3.contains("[f]")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0208() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - addConstants(List<Constant> constantsList) / getConstantIndex / getConstant / getConstantsNumber / removeAllConstants";
+        TestCommonTools.consolePrintTestApiStart(208, testDescr);
+        Argument x = new Argument("x = a + b + c + d");
+        Constant a = new Constant("a = 1");
+        Constant b = new Constant("b = 2");
+        Constant c = new Constant("c = 3");
+        Constant d = new Constant("d = 4");
+        List<Constant> constList = new ArrayList<Constant>();
+        constList.add(a);
+        constList.add(b);
+        constList.add(c);
+        constList.add(d);
+
+        boolean syn1 = x.checkSyntax();
+        String msg1 = x.getErrorMessage();
+        int nconst1 = x.getConstantsNumber();
+        int apos0 = x.getConstantIndex(null);
+        int apos1 = x.getConstantIndex("a");
+        Constant afound1 = x.getConstant(apos1);
+        Constant afound11 = x.getConstant(null);
+
+        x.addConstants(constList);
+
+        boolean syn2 = x.checkSyntax();
+        String msg2 = x.getErrorMessage();
+        int nconst2 = x.getConstantsNumber();
+        int apos2 = x.getConstantIndex("a");
+        Constant afound2 = x.getConstant(apos2);
+        Constant afound21 = x.getConstant("a");
+
+        x.removeAllConstants();
+
+        boolean syn3 = x.checkSyntax();
+        String msg3 = x.getErrorMessage();
+        int nconst3 = x.getConstantsNumber();
+        int apos3 = x.getConstantIndex("a");
+        Constant afound3 = x.getConstant(apos3);
+        Constant afound31 = x.getConstant("a");
+
+        StringResources stringResources = StringModel.getStringResources();
+        if (!syn1
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'c'") && msg1.contains("'d'")
+                && nconst1 == 0 && apos0 == -1
+                && afound1 == null & afound11 == null
+                && syn2
+                && msg2.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg2.contains("'a'") && !msg2.contains("'b'") && !msg2.contains("'c'") && !msg2.contains("'d'")
+                && nconst2 == 4 && apos2 == 0
+                && afound2 == afound21 && afound2.getConstantName().equals("a")
+                && !syn3
+                && msg3.contains(stringResources.INVALID_TOKEN)
+                && msg3.contains("'a'") && msg3.contains("'b'") && msg3.contains("'c'") && msg3.contains("'d'")
+                && nconst3 == 0 && apos3 == -1
+                && afound3 == null & afound31 == null
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0209() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - defineArguments(String... argumentsNames / getArgumentIndex(String argumentName) / getArgument(String argumentName) / getArgument(int argumentIndex) / getArgumentsNumber() / removeAllArguments()";
+        TestCommonTools.consolePrintTestApiStart(209, testDescr);
+        Argument x = new Argument("x = a+b+c+d+e+f");
+        String[] nullStr = null;
+        x.defineArguments(nullStr);
+        boolean syn1 = x.checkSyntax();
+        String msg1 = x.getErrorMessage();
+        int narg1 = x.getArgumentsNumber();
+        int apos0 = x.getArgumentIndex(null);
+        int apos1 = x.getArgumentIndex("a");
+        Argument afound1 = x.getArgument(apos1);
+        Argument afound11 = x.getArgument("a");
+        x.defineArguments("c", "a", "b");
+        boolean syn2 = x.checkSyntax();
+        String msg2 = x.getErrorMessage();
+        int narg2 = x.getArgumentsNumber();
+        int apos2 = x.getArgumentIndex("a");
+        Argument afound2 = x.getArgument(apos2);
+        Argument afound21 = x.getArgument("a");
+        x.defineArguments(nullStr);
+        x.defineArguments("d", "f");
+        boolean syn3 = x.checkSyntax();
+        String msg3 = x.getErrorMessage();
+        int narg3 = x.getArgumentsNumber();
+        int apos3 = x.getArgumentIndex("a");
+        Argument afound3 = x.getArgument(apos3);
+        Argument afound31 = x.getArgument("a");
+        x.removeAllArguments();
+        x.defineArguments(nullStr);
+        boolean syn4 = x.checkSyntax();
+        String msg4 = x.getErrorMessage();
+        int narg4 = x.getArgumentsNumber();
+        int apos4 = x.getArgumentIndex("a");
+        Argument afound4 = x.getArgument(apos4);
+        Argument afound41 = x.getArgument("a");
+        StringResources stringResources = StringModel.getStringResources();
+        if (!syn1
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'c'") && msg1.contains("'d'") && msg1.contains("'f'")
+                && narg1 == 0 && apos0 == -1 && apos1 == -1
+                && afound1 == null && afound11 == null
+                && !syn2
+                && msg2.contains(stringResources.INVALID_TOKEN)
+                && msg2.contains("'d'") && msg2.contains("'f'")
+                && narg2 == 3 && apos2 == 1
+                && afound2 == afound21 && afound2.getArgumentName().equals("a")
+                && syn3
+                && msg3.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg3.contains("'a'") && !msg3.contains("'b'") && !msg3.contains("'c'") && !msg3.contains("'d'") && !msg3.contains("'f'")
+                && narg3 == 5 && apos3 == 1
+                && afound3 == afound31 && afound3.getArgumentName().equals("a")
+                && !syn4
+                && msg4.contains(stringResources.INVALID_TOKEN)
+                && msg4.contains("'a'") && msg4.contains("'b'") && msg4.contains("'c'") && msg4.contains("'d'") && msg4.contains("'f'")
+                && narg4 == 0 && apos4 == -1
+                && afound4 == null && afound41 == null
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testApi0210() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - defineArguments(String... getFunctionIndex / getFunction / getFunctionsNumber / removeAllFunctions";
+        TestCommonTools.consolePrintTestApiStart(210, testDescr);
+        Argument x = new Argument("x = a(1)+b(2)+c(3)+d(4)");
+        Function a = new Function("a(x) = x");
+        Function b = new Function("b(x) = x");
+        Function c = new Function("c(x) = x");
+        Function d = new Function("d(x) = x");
+        int nfun0 = x.getFunctionsNumber();
+        x.addFunctions(a, b, c, d);
+        boolean syn1 = x.checkSyntax();
+        String msg1 = x.getErrorMessage();
+        int nfun1 = x.getFunctionsNumber();
+        Function n1 = x.getFunction(null);
+        Function n2 = x.getFunction(-1);
+        Function f = x.getFunction("f");
+        int bpos = x.getFunctionIndex("b");
+        Function b1 = x.getFunction(bpos);
+        x.removeAllFunctions();
+        int nfun2 = x.getFunctionsNumber();
+        boolean syn2 = x.checkSyntax();
+        String msg2 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (nfun0 == 0
+                && syn1
+                && msg1.contains(stringResources.NO_ERRORS_DETECTED)
+                && nfun1 == 4
+                && n1 == null
+                && n2 == null
+                && f == null
+                && bpos == 1
+                && b1 == b
+                && nfun2 == 0
+                && !syn2
+                && msg2.contains(stringResources.INVALID_TOKEN)
+                && msg2.contains("'a'") && msg2.contains("'b'") && msg2.contains("'c'") && msg2.contains("'d'")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0211() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - public Argument clone()";
+        TestCommonTools.consolePrintTestApiStart(211, testDescr);
+        Argument xx = new Argument("x = a(1)+b(2)+c(3)+d(4)");
+        Function a = new Function("a(x) = x");
+        Function b = new Function("b(x) = x");
+        Function c = new Function("c(x) = x");
+        Function d = new Function("d(x) = x");
+        Argument xc = xx.clone();
+        if (xx.getArgumentName().equals(xc.getArgumentName())
+                && xx.getArgumentExpressionString().equals(xc.getArgumentExpressionString())
+                && xx.getDescription().equals(xc.getDescription())
+                && xx.getArgumentType() == xc.getArgumentType()
+                && xx.getArgumentBodyType() == xc.getArgumentBodyType()
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();
         mXparser.consolePrintln("------ expStr = " + expStr);
