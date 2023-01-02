@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.0.4    2022-05-22
+ * @(#)Miscellaneous.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -290,6 +290,19 @@ class PiMultArgExt implements ArgumentExtension {
         return new PiMultArgExt();
     }
 }
+
+class LongComputingArgExt implements ArgumentExtension {
+    public double getArgumentValue() {
+        int j = 0;
+        for (int i = 0; i < 1000000; i++)
+            j += 1;
+        return j;
+    }
+    public LongComputingArgExt clone() {
+        return new LongComputingArgExt();
+    }
+}
+
 /**
  * Example of implementation
  * FunctionExtension interface
@@ -325,6 +338,36 @@ class FunExt implements FunctionExtension {
         return new FunExt(x, y);
     }
 }
+
+class LongComputingFunExt implements FunctionExtension {
+    double n;
+    LongComputingFunExt() {
+        n = Double.NaN;
+    }
+    LongComputingFunExt(double n) {
+        this.n = n;
+    }
+    public int getParametersNumber() {
+        return 1;
+    }
+    public void setParameterValue(int parameterIndex, double parameterValue) {
+        if (parameterIndex == 0) n = parameterValue;
+    }
+    public String getParameterName(int parameterIndex) {
+        if (parameterIndex == 0) return "n";
+        return "";
+    }
+    public double calculate() {
+        double sum = 0;
+        for (int i = 1; i <= n; i++)
+            sum += i;
+        return sum;
+    }
+    public LongComputingFunExt clone() {
+        return new LongComputingFunExt(n);
+    }
+}
+
 /**
  * Example of implementation
  * FunctionExtensionVariadic interface
@@ -341,5 +384,20 @@ class FunExtVar implements FunctionExtensionVariadic {
     }
     public FunExtVar clone() {
         return new FunExtVar();
+    }
+}
+
+
+class LongComputingFunExtVar implements FunctionExtensionVariadic {
+    public double calculate(double... parameters) {
+        if (parameters == null) return Double.NaN;
+        if (parameters.length == 0) return Double.NaN;
+        double result = 0;
+        for (int i = 1; i <= parameters[0]; i++)
+            result += i;
+        return result;
+    }
+    public LongComputingFunExtVar clone() {
+        return new LongComputingFunExtVar();
     }
 }

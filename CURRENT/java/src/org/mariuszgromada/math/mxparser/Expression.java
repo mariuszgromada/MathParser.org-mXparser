@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2022-12-31
+ * @(#)Expression.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -271,7 +271,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = true;
 	public static final boolean SYNTAX_ERROR = false;
-	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = false;
+	private static final boolean SYNTAX_STATUS_UNKNOWN = false;
+
+	@Deprecated
+	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 	/**
 	 * Expression string (for example: "sin(x)+cos(y)")
 	 */
@@ -358,7 +361,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	/**
 	 * Keeps computing time
 	 */
-	private double computingTime;
+	double computingTime;
 	/**
 	 * if true then new tokenizing is required
 	 * (the initialTokens list needs to be updated)
@@ -396,7 +399,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 * Please referet to the:
 	 *    - NO_SYNTAX_ERRORS
-	 *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
+	 *    - SYNTAX_ERROR
+	 *    - SYNTAX_STATUS_UNKNOWN
 	 */
 	private boolean syntaxStatus;
 	/**
@@ -591,7 +595,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		recursionCallsCounter = 0;
 		internalClone = false;
 		expressionWasModified = true;
-		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		syntaxStatus = SYNTAX_STATUS_UNKNOWN;
 		errorMessage = StringInvariant.EMPTY;
 		for (Expression e : relatedExpressionsList)
 			e.setExpressionModifiedFlag();
@@ -4533,7 +4537,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean syntax = NO_SYNTAX_ERRORS;
 		recursionCallsCounter = 0;
 		if (expressionString.length() == 0) {
-	    	syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	    	syntax = SYNTAX_ERROR;
 			errorMessage = StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
 			return syntax;
 		}
@@ -4628,7 +4632,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	private void registerFinalSyntaxExpressionStringIsEmpty(String recursionInfoLevel) {
 		errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY);
-		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		syntaxStatus = SYNTAX_ERROR;
 		recursionCallPending = false;
 	}
 	private void registerSyntaxLexicalError(String recursionInfoLevel, Throwable e) {
@@ -5023,7 +5027,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		cleanExpressionString();
 		if (expressionStringCleaned.length() == 0) {
 			registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
-			return SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			return SYNTAX_ERROR;
 		}
 		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
 	    try {
@@ -5114,7 +5118,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
 				syntaxStatus = checkSyntax();
-		if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+		if (syntaxStatus == SYNTAX_ERROR) {
 			if (verboseMode)
 				printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
 			/*
@@ -6458,7 +6462,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * Clearing expression string from spaces
 		 */
-		if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) cleanExpressionString();
+		if (syntaxStatus == SYNTAX_ERROR || syntaxStatus == SYNTAX_STATUS_UNKNOWN) cleanExpressionString();
 		String newExpressionString = expressionStringCleaned;
 		/*
 		 * words list and tokens list

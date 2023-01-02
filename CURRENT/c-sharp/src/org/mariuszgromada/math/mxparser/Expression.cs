@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.2.0    2022-12-31
+ * @(#)Expression.cs        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -248,7 +248,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public const bool NO_SYNTAX_ERRORS = true;
         public const bool SYNTAX_ERROR = false;
+		[Obsolete]
         public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = false;
+        private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
         /**
 		 * Expression string (for example: "sin(x)+cos(y)")
 		 */
@@ -335,7 +337,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Keeps computing time
 		 */
-		private double computingTime;
+		internal double computingTime;
 		/**
 		 * if true then new tokenizing is required
 		 * (the initialTokens list needs to be updated)
@@ -368,14 +370,15 @@ namespace org.mariuszgromada.math.mxparser {
 		internal bool disableRounding;
 		internal const bool DISABLE_ROUNDING = true;
 		internal const bool KEEP_ROUNDING_SETTINGS = false;
-		/**
+        /**
 		 * Status of the expression syntax
 		 *
 		 * Please referet to the:
 		 *    - NO_SYNTAX_ERRORS
-		 *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
+		 *    - SYNTAX_ERROR
+		 *    - SYNTAX_STATUS_UNKNOWN
 		 */
-		private bool syntaxStatus;
+        private bool syntaxStatus;
 		/**
 		 * Message after checking the syntax
 		 */
@@ -568,7 +571,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursionCallsCounter = 0;
 			internalClone = false;
 			expressionWasModified = true;
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			syntaxStatus = SYNTAX_STATUS_UNKNOWN;
 			errorMessage = StringInvariant.EMPTY;
             foreach (Expression e in relatedExpressionsList)
 				e.setExpressionModifiedFlag();
@@ -4511,7 +4514,7 @@ namespace org.mariuszgromada.math.mxparser {
 			bool syntax = NO_SYNTAX_ERRORS;
 			recursionCallsCounter = 0;
 			if (expressionString.Length == 0) {
-	    		syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	    		syntax = SYNTAX_ERROR;
                 errorMessage = StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
                 return syntax;
 			}
@@ -4605,7 +4608,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private void registerFinalSyntaxExpressionStringIsEmpty(String recursionInfoLevel) {
 			errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY);
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			syntaxStatus = SYNTAX_ERROR;
 			recursionCallPending = false;
 		}
 		private void registerSyntaxLexicalError(String recursionInfoLevel, Exception e) {
@@ -5000,7 +5003,7 @@ namespace org.mariuszgromada.math.mxparser {
             cleanExpressionString();
             if (expressionStringCleaned.Length == 0) {
 				registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
-				return SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+				return SYNTAX_ERROR;
 			}
 			syntaxchecker.SyntaxChecker syn = new syntaxchecker.SyntaxChecker(new MemoryStream(Encoding.UTF8.GetBytes(expressionStringCleaned)));
 			try {
@@ -5034,7 +5037,7 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 			} catch (Exception e) {
                 registerSyntaxLexicalError(recursionInfoLevel, e);
-                syntax = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+				syntax = SYNTAX_ERROR;
             }
 			registerFinalSyntax(recursionInfoLevel, syntax);
 			return syntax;
@@ -5092,7 +5095,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
 				syntaxStatus = checkSyntax();
-			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) {
+			if (syntaxStatus == SYNTAX_ERROR) {
 				if (verboseMode)
                     printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
                 /*
@@ -6452,7 +6455,7 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Clearing expression string from spaces
 			 */
-			if (syntaxStatus == SYNTAX_ERROR_OR_STATUS_UNKNOWN) cleanExpressionString();
+			if (syntaxStatus == SYNTAX_ERROR || syntaxStatus == SYNTAX_STATUS_UNKNOWN) cleanExpressionString();
 			String newExpressionString = expressionStringCleaned;
 			/*
 			 * words list and tokens list

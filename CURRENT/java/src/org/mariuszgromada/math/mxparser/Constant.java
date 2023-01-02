@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        5.2.0    2022-12-27
+ * @(#)Constant.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -233,7 +233,11 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * Status of the Expression syntax
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
-	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	public static final boolean SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+	private static final boolean SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
+
+	@Deprecated
+	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 	/**
 	 * Name of the constant
 	 */
@@ -241,7 +245,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	/**
 	 * COnstant value
 	 */
-	private double constantValue;
+	private double constantValue = Double.NaN;
 	/**
 	 * Constant description
 	 */
@@ -255,13 +259,13 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 *
 	 * Please referet to the:
 	 *    - NO_SYNTAX_ERRORS
-	 *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
+	 *    - SYNTAX_ERROR
 	 */
 	private boolean syntaxStatus;
 	/**
 	 * Message after checking the syntax
 	 */
-	private String errorMessage;
+	private String errorMessage = StringInvariant.EMPTY;
 	private static String buildErrorMessageInvalidConstantName(String constantName) {
 		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(constantName, StringModel.STRING_RESOURCES.INVALID_CONSTANT_NAME, StringInvariant.CONSTANT_NAME_EXAMPLES);
 	}
@@ -279,7 +283,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 		super(Constant.TYPE_ID);
 		relatedExpressionsList = new ArrayList<Expression>();
 		if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			syntaxStatus = SYNTAX_ERROR;
 			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 			return;
 		}
@@ -301,7 +305,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 		super(Constant.TYPE_ID);
 		relatedExpressionsList = new ArrayList<Expression>();
 		if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			syntaxStatus = SYNTAX_ERROR;
 			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 			return;
 		}
@@ -324,10 +328,9 @@ public class Constant extends PrimitiveElement implements Serializable {
 	public Constant(String constantDefinitionString, PrimitiveElement...elements) {
 		super(Constant.TYPE_ID);
 		description = StringInvariant.EMPTY;
-		syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 		relatedExpressionsList = new ArrayList<Expression>();
 		if (!mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp)) {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			syntaxStatus = SYNTAX_ERROR;
 			errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
 			return;
 		}
@@ -354,7 +357,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 */
 	public void setConstantName(String constantName) {
 		if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+			syntaxStatus = SYNTAX_ERROR;
 			errorMessage = buildErrorMessageInvalidConstantName(constantName);
 			return;
 		}
@@ -404,7 +407,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 * Gets syntax status of the expression.
 	 *
 	 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
-	 *             Const.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
+	 *             Const.SYNTAX_ERROR when syntax error was found or
 	 *             syntax status is unknown
 	 */
 	public boolean getSyntaxStatus() {

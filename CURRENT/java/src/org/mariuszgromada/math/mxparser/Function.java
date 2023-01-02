@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.2.0    2022-12-31
+ * @(#)Function.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -234,9 +234,16 @@ public class Function extends PrimitiveElement implements Serializable {
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
 	/**
+	 * Syntax error in the dependent function definition.
+	 */
+	public static final boolean SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+	private static final boolean SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
+
+	/**
 	 * Syntax error in the function or syntax status unknown.
 	 */
-	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	@Deprecated
+	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 	/**
 	 * When function was not found
 	 */
@@ -266,7 +273,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see Function#BODY_EXTENDED
 	 * @see Function#getFunctionBodyType()
 	 */
-	private int functionBodyType;
+	private int functionBodyType = BODY_RUNTIME;
 	/**
 	 * function expression
 	 */
@@ -276,17 +283,27 @@ public class Function extends PrimitiveElement implements Serializable {
 	 */
 	private String functionName = StringInvariant.EMPTY;
 	/**
+	 * Syntax status registered on argument definition:
+	 * - constructor, set name, ...
+	 */
+	private boolean syntaxStatusDefinition = SYNTAX_STATUS_UNKNOWN;
+	/**
+	 * Error Message registered on function definition:
+	 * - constructor, set name, ...
+	 */
+	private String errorMessageDefinition = StringInvariant.EMPTY;
+	/**
 	 * function description
 	 */
 	private String description = StringInvariant.EMPTY;
 	/**
 	 * Indicates whether UDF is variadic
 	 */
-	boolean isVariadic;
+	boolean isVariadic = false;
 	/**
 	 * The number of function parameters
 	 */
-	private int parametersNumber;
+	private int parametersNumber = 0;
 	/**
 	 * Function extension (body based in code)
 	 *
@@ -303,6 +320,10 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see Function#Function(String, FunctionExtension)
 	 */
 	private FunctionExtensionVariadic functionExtensionVariadic;
+	/**
+	 * Keeps computing time
+	 */
+	double computingTime = 0;
 	/*=================================================
 	 *
 	 * Constructors
@@ -318,6 +339,16 @@ public class Function extends PrimitiveElement implements Serializable {
 	private static String buildErrorMessageIncorrectNumberOfFunctionParameters(String functionName, int expectedNumberOfParameters, int providedNumberOfParameters) {
 		return StringModel.buildErrorMessageIncorrectNumberOfParameters(functionName, StringModel.STRING_RESOURCES.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, expectedNumberOfParameters, providedNumberOfParameters);
 	}
+	private void registerNoSyntaxErrorInDefinition() {
+		syntaxStatusDefinition = NO_SYNTAX_ERRORS;
+		errorMessageDefinition = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
+		addFunctions(this);
+	}
+	private void registerSyntaxErrorInDefinition(String errorMessage) {
+		syntaxStatusDefinition = SYNTAX_ERROR;
+		errorMessageDefinition = errorMessage;
+		functionExpression = new Expression(StringInvariant.EMPTY);
+	}
 	/**
 	 * Constructor - creates function from function name
 	 * and function expression string.
@@ -329,25 +360,27 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        PrimitiveElement
 	 * @see        Expression
 	 */
-	public Function(String functionName, String  functionExpressionString, PrimitiveElement... elements) {
+	public Function(String functionName, String functionExpressionString, PrimitiveElement... elements) {
 		super(Function.TYPE_ID);
-		if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-			parametersNumber = 0;
-			description = StringInvariant.EMPTY;
-			functionExpression = new Expression(StringInvariant.EMPTY);
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-			functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
+		if (functionName == null || functionExpressionString == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
-		this.functionName = functionName;
-		functionExpression = new Expression(functionExpressionString, elements);
-		functionExpression.setDescription(functionName);
+		if (elements == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+			return;
+		}
+		String functionNameTrim = functionName.trim();
+		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+			return;
+		}
+		String functionExpressionStringTrim = functionExpressionString.trim();
+		this.functionName = functionNameTrim;
+		functionExpression = new Expression(functionExpressionStringTrim, elements);
+		functionExpression.setDescription(functionNameTrim);
 		functionExpression.UDFExpression = true;
-		isVariadic = false;
-		parametersNumber = 0;
-		description = StringInvariant.EMPTY;
-		functionBodyType = BODY_RUNTIME;
-		addFunctions(this);
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Constructor - creates function from function name,
@@ -360,27 +393,35 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *
 	 * @see        Expression
 	 */
-	public Function(String functionName, String  functionExpressionString, String... argumentsNames) {
+	public Function(String functionName, String functionExpressionString, String... argumentsNames) {
 		super(Function.TYPE_ID);
-		if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-			parametersNumber = 0;
-			description = StringInvariant.EMPTY;
-			functionExpression = new Expression(StringInvariant.EMPTY);
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-			functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
+		if (functionName == null || functionExpressionString == null || argumentsNames == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
-		this.functionName = functionName;
-		functionExpression = new Expression(functionExpressionString);
-		functionExpression.setDescription(functionName);
+		String functionNameTrim = functionName.trim();
+		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+			return;
+		}
+		String functionExpressionStringTrim = functionExpressionString.trim();
+		this.functionName = functionNameTrim;
+		functionExpression = new Expression(functionExpressionStringTrim);
+		functionExpression.setDescription(functionNameTrim);
 		functionExpression.UDFExpression = true;
-		isVariadic = false;
 		for (String argName : argumentsNames)
 			functionExpression.addArguments(new Argument(argName));
 		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-		description = StringInvariant.EMPTY;
-		functionBodyType = BODY_RUNTIME;
-		addFunctions(this);
+		registerNoSyntaxErrorInDefinition();
+	}
+	private void addHeadTokensArguments(List<Token> headTokens) {
+		if (headTokens.size() <= 1)
+			return;
+		for (int i = 1; i < headTokens.size(); i++) {
+			Token t = headTokens.get(i);
+			if (t.tokenTypeId != ParserSymbol.TYPE_ID)
+				functionExpression.addArguments(new Argument(t.tokenStr));
+		}
 	}
 	/**
 	 * Constructor for function definition in natural math language,
@@ -398,44 +439,38 @@ public class Function extends PrimitiveElement implements Serializable {
 	 */
 	public Function(String functionDefinitionString, PrimitiveElement... elements) {
 		super(Function.TYPE_ID);
-		parametersNumber = 0;
-		if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
-			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+		if (functionDefinitionString == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+			return;
+		}
+		if (elements == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+			return;
+		}
+		String functionDefinitionStringTrim = functionDefinitionString.trim();
+		if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
+			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 			functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
-			isVariadic = false;
-			if (headEqBody.headTokens.size() > 1) {
-				Token t;
-				for (int i = 1; i < headEqBody.headTokens.size(); i++) {
-					t = headEqBody.headTokens.get(i);
-					if (t.tokenTypeId != ParserSymbol.TYPE_ID)
-						functionExpression.addArguments(new Argument(t.tokenStr));
-				}
-			}
+			addHeadTokensArguments(headEqBody.headTokens);
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-			description = StringInvariant.EMPTY;
-			functionBodyType = BODY_RUNTIME;
-			addFunctions(this);
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
-		if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
-			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+		if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionVariadicDefStrRegExp)) {
+			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 			functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
 			isVariadic = true;
 			parametersNumber = -1;
-			description = StringInvariant.EMPTY;
-			functionBodyType = BODY_RUNTIME;
-			addFunctions(this);
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
-		functionExpression = new Expression();
-		functionExpression.setDescription(functionDefinitionString);
-		functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
+		registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionStringTrim));
 	}
 	/**
 	 * Constructor for function definition based on
@@ -447,21 +482,26 @@ public class Function extends PrimitiveElement implements Serializable {
 	 */
 	public Function(String functionName, FunctionExtension functionExtension) {
 		super(Function.TYPE_ID);
-		if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-			parametersNumber = 0;
-			description = StringInvariant.EMPTY;
-			functionExpression = new Expression(StringInvariant.EMPTY);
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+		if (functionName == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
-		this.functionName = functionName;
+		if (functionExtension == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
+			return;
+		}
+		String functionNameTrim = functionName.trim();
+		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+			return;
+		}
+		this.functionName = functionNameTrim;
 		functionExpression = new Expression(StringInvariant.BODY_EXTENDED);
-		functionExpression.setDescription(functionName);
-		isVariadic = false;
+		functionExpression.setDescription(functionNameTrim);
 		parametersNumber = functionExtension.getParametersNumber();
-		description = StringInvariant.EMPTY;
 		this.functionExtension = functionExtension;
 		functionBodyType = BODY_EXTENDED;
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Constructor for function definition based on
@@ -473,21 +513,27 @@ public class Function extends PrimitiveElement implements Serializable {
 	 */
 	public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) {
 		super(Function.TYPE_ID);
-		if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-			parametersNumber = 0;
-			description = StringInvariant.EMPTY;
-			functionExpression = new Expression(StringInvariant.EMPTY);
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+		if (functionName == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
-		this.functionName = functionName;
+		if (functionExtensionVariadic == null) {
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
+			return;
+		}
+		String functionNameTrim = functionName.trim();
+		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+			return;
+		}
+		this.functionName = functionNameTrim;
 		functionExpression = new Expression(StringInvariant.BODY_EXTENDED_VARIADIC);
-		functionExpression.setDescription(functionName);
+		functionExpression.setDescription(functionNameTrim);
 		isVariadic = true;
 		parametersNumber = -1;
-		description = StringInvariant.EMPTY;
 		this.functionExtensionVariadic = functionExtensionVariadic;
 		functionBodyType = BODY_EXTENDED;
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Private constructor used for function cloning.
@@ -503,6 +549,8 @@ public class Function extends PrimitiveElement implements Serializable {
 		functionExpression = function.functionExpression.clone();
 		functionBodyType = function.functionBodyType;
 		isVariadic = function.isVariadic;
+		syntaxStatusDefinition = function.syntaxStatusDefinition;
+		errorMessageDefinition = function.errorMessageDefinition;
 		if (functionBodyType == BODY_EXTENDED) {
 			if (function.functionExtension != null) functionExtension = function.functionExtension.clone();
 			if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
@@ -522,8 +570,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see    PrimitiveElement
 	 *
 	 */
+	@Deprecated
 	public void setFunction(String functionDefinitionString, PrimitiveElement... elements) {
-		parametersNumber = 0;
 		if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
@@ -531,18 +579,11 @@ public class Function extends PrimitiveElement implements Serializable {
 			functionExpression.setDescription(headEqBody.headStr);
 			functionExpression.UDFExpression = true;
 			isVariadic = false;
-			if (headEqBody.headTokens.size() > 1) {
-				Token t;
-				for (int i = 1; i < headEqBody.headTokens.size(); i++) {
-					t = headEqBody.headTokens.get(i);
-					if (t.tokenTypeId != ParserSymbol.TYPE_ID)
-						functionExpression.addArguments(new Argument(t.tokenStr));
-				}
-			}
+			addHeadTokensArguments(headEqBody.headTokens);
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			description = StringInvariant.EMPTY;
 			functionBodyType = BODY_RUNTIME;
-			addFunctions(this);
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
 		if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
@@ -555,12 +596,10 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = -1;
 			description = StringInvariant.EMPTY;
 			functionBodyType = BODY_RUNTIME;
-			addFunctions(this);
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
-		functionExpression = new Expression();
-		functionExpression.setDescription(functionDefinitionString);
-		functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
+		registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
 	}
 	/**
 	 * Sets function description.
@@ -568,6 +607,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @param      description         the function description
 	 */
 	public void setDescription(String description) {
+		if (description == null)
+			return;
 		this.description = description;
 	}
 	/**
@@ -600,12 +641,23 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @param      functionName        the function name
 	 */
 	public void setFunctionName(String functionName) {
-		if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
+		if (functionName == null) {
+			if (!syntaxStatusDefinition)
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
-		this.functionName = functionName;
+		String functionNameTrim = functionName.trim();
+		if (this.functionName.equals(functionNameTrim))
+			return;
+		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!syntaxStatusDefinition)
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+			return;
+		}
+		this.functionName = functionNameTrim;
+		registerNoSyntaxErrorInDefinition();
 		setExpressionModifiedFlags();
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Sets value of function argument (function parameter).
@@ -615,6 +667,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @param      argumentValue   the argument value
 	 */
 	public void setArgumentValue(int argumentIndex, double argumentValue) {
+		if (argumentIndex < 0 || argumentIndex >= parametersNumber)
+			return;
 		if (isVariadic)
 			return;
 		if (functionBodyType == BODY_RUNTIME)
@@ -633,13 +687,22 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * Checks function syntax
 	 *
 	 * @return     syntax status: Function.NO_SYNTAX_ERRORS,
-	 *                            Function.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+	 *                            Function.SYNTAX_ERROR
 	 *
 	 */
 	public boolean checkSyntax() {
-		boolean syntaxStatus = Function.NO_SYNTAX_ERRORS;
-		if (functionBodyType != BODY_EXTENDED)
-			syntaxStatus = functionExpression.checkSyntax();
+		if (!syntaxStatusDefinition)
+			return SYNTAX_ERROR;
+		if (functionName.length() == 0)
+			return SYNTAX_ERROR;
+		if (functionBodyType == BODY_EXTENDED) {
+			if (!isVariadic && functionExtension == null)
+				return SYNTAX_ERROR;
+			if (isVariadic && functionExtensionVariadic == null)
+				return SYNTAX_ERROR;
+			return NO_SYNTAX_ERRORS;
+		}
+		boolean syntaxStatus = functionExpression.checkSyntax();
 		checkRecursiveMode();
 		return syntaxStatus;
 	}
@@ -649,14 +712,26 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @return     Error message as string.
 	 */
 	public String getErrorMessage() {
-		return functionExpression.getErrorMessage();
+		if (!syntaxStatusDefinition)
+			return errorMessageDefinition;
+		if (functionName.length() == 0)
+			return errorMessageDefinition;
+		if (functionBodyType == BODY_EXTENDED) {
+			if (!isVariadic && functionExtension == null)
+				return errorMessageDefinition;
+			if (isVariadic && functionExtensionVariadic == null)
+				return errorMessageDefinition;
+		}
+		String functionExpressionErrorMessage = functionExpression.getErrorMessage();
+		if (errorMessageDefinition.length() > 0 && functionExpressionErrorMessage.length() == 0)
+			return errorMessageDefinition;
+		return functionExpressionErrorMessage;
 	}
 	/**
 	 * clone method
 	 */
 	protected Function clone() {
-		Function newFunction = new Function(this);
-		return newFunction;
+		return new Function(this);
 	}
 	/**
 	 * Calculates function value
@@ -676,19 +751,31 @@ public class Function extends PrimitiveElement implements Serializable {
 	 */
 	public double calculate(CalcStepsRegister calcStepsRegister) {
 		CalcStepsRegister.setUserFunction(calcStepsRegister, this);
-		if (functionBodyType == BODY_RUNTIME)
-			return functionExpression.calculate(calcStepsRegister);
-		if (!isVariadic)
-			return functionExtension.calculate();
+		computingTime = 0;
+		if (!syntaxStatusDefinition)
+			return Double.NaN;
+		double value = Double.NaN;
+		if (functionBodyType == BODY_RUNTIME) {
+			value = functionExpression.calculate(calcStepsRegister);
+			computingTime = functionExpression.computingTime;
+			return value;
+		}
+		long startTime = System.currentTimeMillis();
+		if (!isVariadic) {
+			value = functionExtension.calculate();
+			computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+			return value;
+		}
 		List<Double> paramsList = functionExpression.UDFVariadicParamsAtRunTime;
 		if (paramsList != null) {
 			int n = paramsList.size();
 			double[] parameters = new double[n];
 			for (int i = 0; i < n; i++)
 				parameters[i] = paramsList.get(i);
-			return functionExtensionVariadic.calculate(parameters);
+			value = functionExtensionVariadic.calculate(parameters);
 		}
-		return Double.NaN;
+		computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+		return value;
 	}
 	/**
 	 * Calculates function value
@@ -698,34 +785,50 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @return     function value as double.
 	 */
 	public double calculate(double... parameters) {
+		computingTime = 0;
+		if (!syntaxStatusDefinition)
+			return Double.NaN;
 		if (parameters == null)
 			return Double.NaN;
 		if (parameters.length == 0)
 			return Double.NaN;
 
+		long startTime = System.currentTimeMillis();
 		functionExpression.UDFVariadicParamsAtRunTime = new ArrayList<Double>();
 		for (double x : parameters)
 			functionExpression.UDFVariadicParamsAtRunTime.add(x);
 
+		double value = Double.NaN;
 		if (isVariadic) {
-			if (functionBodyType == BODY_RUNTIME)
-				return functionExpression.calculate();
-			return functionExtensionVariadic.calculate(parameters);
+			if (functionBodyType == BODY_RUNTIME) {
+				value =  functionExpression.calculate();
+				computingTime = functionExpression.computingTime;
+				return value;
+			}
+			value = functionExtensionVariadic.calculate(parameters);
+			computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+			return value;
 		}
 
 		if (parameters.length != this.getParametersNumber()) {
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), parameters.length));
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), parameters.length));
 			return Double.NaN;
 		}
 
 		if (functionBodyType == BODY_RUNTIME) {
 			for (int p = 0; p < parameters.length; p++)
 				setArgumentValue(p, parameters[p]);
-			return functionExpression.calculate();
+			value = functionExpression.calculate();
+			computingTime = functionExpression.computingTime;
+			return value;
 		}
+
 		for (int p = 0; p < parameters.length; p++)
 			functionExtension.setParameterValue(p, parameters[p]);
-		return functionExtension.calculate();
+
+		value = functionExtension.calculate();
+		computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+		return value;
 	}
 	/**
 	 * Calculates function value
@@ -735,11 +838,15 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @return     function value as double
 	 */
 	public double calculate(Argument... arguments) {
+		computingTime = 0;
+		if (!syntaxStatusDefinition)
+			return Double.NaN;
 		if (arguments == null)
 			return Double.NaN;
 		if (arguments.length == 0)
 			return Double.NaN;
 
+		long startTime = System.currentTimeMillis();
 		double[] parameters;
 		functionExpression.UDFVariadicParamsAtRunTime = new ArrayList<Double>();
 		parameters = new double[arguments.length];
@@ -749,25 +856,37 @@ public class Function extends PrimitiveElement implements Serializable {
 			functionExpression.UDFVariadicParamsAtRunTime.add(x);
 			parameters[i] = x;
 		}
+
+		double value = Double.NaN;
 		if (isVariadic) {
-			if (functionBodyType == BODY_RUNTIME)
-				return functionExpression.calculate();
-			return functionExtensionVariadic.calculate(parameters);
+			if (functionBodyType == BODY_RUNTIME) {
+				value = functionExpression.calculate();
+				computingTime = functionExpression.computingTime;
+				return value;
+			}
+			value = functionExtensionVariadic.calculate(parameters);
+			computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+			return value;
 		}
 
 		if (arguments.length != this.getParametersNumber()) {
-			functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), arguments.length));
+			functionExpression.setSyntaxStatus(SYNTAX_ERROR, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), arguments.length));
 			return Double.NaN;
 		}
 
 		if (functionBodyType == BODY_RUNTIME) {
 			for (int p = 0; p < arguments.length; p++)
 				setArgumentValue(p, arguments[p].getArgumentValue());
-			return functionExpression.calculate();
+			value = functionExpression.calculate();
+			computingTime = functionExpression.computingTime;
+			return value;
 		}
 		for (int p = 0; p < arguments.length; p++)
 			functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
-		return functionExtension.calculate();
+
+		value = functionExtension.calculate();
+		computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+		return value;
 	}
 	/**
 	 * Adds user defined elements (such as: Arguments, Constants, Functions)
@@ -779,6 +898,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see PrimitiveElement
 	 */
 	public void addDefinitions(PrimitiveElement... elements) {
+		if (elements == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.addDefinitions(elements);
 	}
@@ -792,6 +913,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see PrimitiveElement
 	 */
 	public void removeDefinitions(PrimitiveElement... elements) {
+		if (elements == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.removeDefinitions(elements);
 	}
@@ -819,10 +942,12 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public void addArguments(Argument... arguments) {
+		if (arguments == null)
+			return;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
 		functionExpression.addArguments(arguments);
-		parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+		//parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 	}
 	/**
 	 * Enables to define the arguments (associated with
@@ -835,6 +960,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public void defineArguments(String... argumentsNames) {
+		if (argumentsNames == null)
+			return;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
 		functionExpression.defineArguments(argumentsNames);
@@ -851,6 +978,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public void defineArgument(String argumentName, double argumentValue) {
+		if (argumentName == null)
+			return;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
 		functionExpression.defineArgument(argumentName, argumentValue);
@@ -868,6 +997,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public int getArgumentIndex(String argumentName) {
+		if (argumentName == null)
+			return -1;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return -1;
 		return functionExpression.getArgumentIndex(argumentName);
@@ -885,6 +1016,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public Argument getArgument(String argumentName) {
+		if (argumentName == null)
+			return null;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return null;
 		return functionExpression.getArgument(argumentName);
@@ -902,6 +1035,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public Argument getArgument(int argumentIndex) {
+		if (argumentIndex < 0)
+			return null;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return null;
 		return functionExpression.getArgument(argumentIndex);
@@ -928,6 +1063,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *                                 (lower number might be specified).
 	 */
 	public void setParametersNumber(int parametersNumber) {
+		if (parametersNumber < 0)
+			return;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
 		this.parametersNumber = parametersNumber;
@@ -942,7 +1079,12 @@ public class Function extends PrimitiveElement implements Serializable {
 	public String getParameterName(int parameterIndex) {
 		if (parameterIndex < 0) return StringInvariant.EMPTY;
 		if (parameterIndex >= parametersNumber) return StringInvariant.EMPTY;
-		if (functionBodyType == BODY_RUNTIME) return getArgument(parameterIndex).getArgumentName();
+		if (functionBodyType == BODY_RUNTIME) {
+			Argument x = getArgument(parameterIndex);
+			if (x == null)
+				return StringInvariant.EMPTY;
+			return x.getArgumentName();
+		}
 		if (functionBodyType == BODY_EXTENDED) return this.functionExtension.getParameterName(parameterIndex);
 		return StringInvariant.EMPTY;
 	}
@@ -971,6 +1113,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public void removeArguments(String... argumentsNames) {
+		if (argumentsNames == null)
+			return;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
 		functionExpression.removeArguments(argumentsNames);
@@ -987,6 +1131,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        RecursiveArgument
 	 */
 	public void removeArguments(Argument... arguments) {
+		if (arguments == null)
+			return;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return;
 		functionExpression.removeArguments(arguments);
@@ -1020,6 +1166,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public void addConstants(Constant... constants) {
+		if (constants == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.addConstants(constants);
 	}
@@ -1031,6 +1179,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public void addConstants(List<Constant> constantsList) {
+		if (constantsList == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.addConstants(constantsList);
 	}
@@ -1045,6 +1195,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public void defineConstant(String constantName, double constantValue) {
+		if (constantName == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.defineConstant(constantName, constantValue);
 	}
@@ -1059,6 +1211,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public int getConstantIndex(String constantName) {
+		if (constantName == null)
+			return -1;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return -1;
 		return functionExpression.getConstantIndex(constantName);
@@ -1074,6 +1228,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public Constant getConstant(String constantName) {
+		if (constantName == null)
+			return null;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return null;
 		return functionExpression.getConstant(constantName);
@@ -1091,6 +1247,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public Constant getConstant(int constantIndex) {
+		if (constantIndex < 0)
+			return null;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return null;
 		return functionExpression.getConstant(constantIndex);
@@ -1117,6 +1275,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public void removeConstants(String... constantsNames) {
+		if (constantsNames == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.removeConstants(constantsNames);
 	}
@@ -1130,6 +1290,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Constant
 	 */
 	public void removeConstants(Constant... constants) {
+		if (constants == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.removeConstants(constants);
 	}
@@ -1159,6 +1321,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public void addFunctions(Function... functions) {
+		if (functions == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.addFunctions(functions);
 	}
@@ -1175,7 +1339,9 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *
 	 * @see        Function
 	 */
-	public void defineFunction(String functionName, String  functionExpressionString, String... argumentsNames) {
+	public void defineFunction(String functionName, String functionExpressionString, String... argumentsNames) {
+		if (functionName == null || functionExpressionString == null || argumentsNames == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 	}
@@ -1190,6 +1356,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public int getFunctionIndex(String functionName) {
+		if (functionName == null)
+			return -1;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return -1;
 		return functionExpression.getFunctionIndex(functionName);
@@ -1205,6 +1373,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public Function getFunction(String functionName) {
+		if (functionName == null)
+			return null;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return null;
 		return functionExpression.getFunction(functionName);
@@ -1221,6 +1391,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public Function getFunction(int functionIndex) {
+		if (functionIndex < 0)
+			return null;
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return null;
 		return functionExpression.getFunction(functionIndex);
@@ -1235,7 +1407,11 @@ public class Function extends PrimitiveElement implements Serializable {
 	public int getFunctionsNumber() {
 		if (functionBodyType != Function.BODY_RUNTIME)
 			return 0;
-		return functionExpression.getFunctionsNumber();
+		int recursiveThisCorrection = 0;
+		for (Function f : functionExpression.functionsList)
+			if (this == f)
+				recursiveThisCorrection++;
+		return functionExpression.getFunctionsNumber() - recursiveThisCorrection;
 	}
 	/**
 	 * Removes first occurrences of the functions
@@ -1247,6 +1423,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public void removeFunctions(String... functionsNames) {
+		if (functionsNames == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.removeFunctions(functionsNames);
 	}
@@ -1260,6 +1438,8 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @see        Function
 	 */
 	public void removeFunctions(Function... functions) {
+		if (functions == null)
+			return;
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.removeFunctions(functions);
 	}
@@ -1326,7 +1506,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * @return     computing time in seconds.
 	 */
 	public double getComputingTime() {
-		return functionExpression.getComputingTime();
+		return computingTime;
 	}
 	/**
 	 * Adds related expression.

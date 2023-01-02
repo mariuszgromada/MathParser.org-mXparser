@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.0    2022-12-31
+ * @(#)mXparser.cs        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1399,7 +1399,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param decimalNumber    Decimal number
 		 * @param numeralSystemBase       Numeral system base between 1 and 36
 		 * @return           Number literal representing decimal number in
-		 *                   given numeral numeral system. Digits
+		 *                   given numeral system. Digits
 		 *                   0:0, 1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8,
 		 *                   9:9, 10:A, 11:B, 12:C, 13:D, 14:E, 15:F, 16:G,
 		 *                   17:H, 18:I, 19:J, 20:K, 21:L, 22:M, 23:N, 24:O,
@@ -1422,7 +1422,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                   where xx is the numeral system base specification.
 		 *
 		 * @return           Number literal representing decimal number in
-		 *                   given numeral numeral system.
+		 *                   given numeral system.
 		 *
 		 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
 		 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.

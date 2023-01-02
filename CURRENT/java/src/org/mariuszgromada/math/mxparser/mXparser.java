@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2022-12-31
+ * @(#)mXparser.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1346,7 +1346,7 @@ public final class mXparser {
 	 *                   where xx is the numeral system base specification.
 	 *
 	 * @return           Number literal representing decimal number in
-	 *                   given numeral numeral system.
+	 *                   given numeral system.
 	 *
 	 * Base format: b1. b2. b. b3. b4. b5. b6. b7. b8. o. b9. b10. b11. b12.
 	 * b13. b14. b15. b16. h. b17. b18. b19. b20. b21. b22. b23. b24. b25. b26.

@@ -5313,7 +5313,764 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0212() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public Function(String functionName, String functionExpressionString, PrimitiveElement... elements)";
+        TestCommonTools.consolePrintTestApiStart(212, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        String nullStr = null;
+        Argument[] nullElements = null;
+        Constant c = new Constant("c = 1");
+        Function f1 = new Function(nullStr, "2+3", nullElements);
+        Function f2 = new Function("f", nullStr, nullElements);
+        Function f3 = new Function("f", "2+3", nullElements);
+        Function f4 = new Function("1f", "2+3", c);
+        Function f5 = new Function("f1(", "2+3", c);
+        Function f6 = new Function("  f   ", "  2+3 ", c);
+        boolean syn1 = f1.checkSyntax(); String msg1 = f1.getErrorMessage();
+        boolean syn2 = f2.checkSyntax(); String msg2 = f2.getErrorMessage();
+        boolean syn3 = f3.checkSyntax(); String msg3 = f3.getErrorMessage();
+        String msg4 = f4.getErrorMessage(); boolean syn4 = f4.checkSyntax();
+        String msg5 = f5.getErrorMessage(); boolean syn5 = f5.checkSyntax();
+        String msg6 = f6.getErrorMessage(); boolean syn6 = f6.checkSyntax();
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn2 && msg2.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn3 && msg3.contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL)
+                && !syn4 && msg4.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg4.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg4.contains(stringResources.PATTERN_EXAMPLES)
+                && !syn5 && msg5.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg5.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg5.contains(stringResources.PATTERN_EXAMPLES)
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION)
+                && f6.getFunctionName().equals("f")
+                && f6.getFunctionExpressionString().equals("2+3")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0213() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - Function(String functionName, String  functionExpressionString, String... argumentsNames)";
+        TestCommonTools.consolePrintTestApiStart(213, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        String nullStr = null;
+        Argument[] nullElements = null;
+        Function f1 = new Function(nullStr, "2+3", nullElements);
+        Function f2 = new Function("f", nullStr, nullElements);
+        Function f3 = new Function("f", "2+3", nullElements);
+        Function f4 = new Function("1f", "2+3*x", "x");
+        Function f5 = new Function("f1( ", "2+3*x", "x");
+        Function f6 = new Function("  f   ", "  2+3*x  ", "x");
+        boolean syn1 = f1.checkSyntax(); String msg1 = f1.getErrorMessage();
+        boolean syn2 = f2.checkSyntax(); String msg2 = f2.getErrorMessage();
+        boolean syn3 = f3.checkSyntax(); String msg3 = f3.getErrorMessage();
+        String msg4 = f4.getErrorMessage(); boolean syn4 = f4.checkSyntax();
+        String msg5 = f5.getErrorMessage(); boolean syn5 = f5.checkSyntax();
+        String msg6 = f6.getErrorMessage(); boolean syn6 = f6.checkSyntax();
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn2 && msg2.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn3 && msg3.contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL)
+                && !syn4 && msg4.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg4.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg4.contains(stringResources.PATTERN_EXAMPLES)
+                && !syn5 && msg5.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg5.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg5.contains(stringResources.PATTERN_EXAMPLES)
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION)
+                && f6.getFunctionName().equals("f")
+                && f6.getFunctionExpressionString().equals("2+3*x")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0214() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public Function(String functionDefinitionString, PrimitiveElement... elements)";
+        TestCommonTools.consolePrintTestApiStart(214, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        String nullStr = null;
+        Argument[] nullElements = null;
+        Constant c = new Constant("c = 1");
+        Function f1 = new Function(nullStr, c);
+        Function f2 = new Function("f(x) = 2", nullElements);
+        Function f3 = new Function(nullStr, nullElements);
+        Function f4 = new Function("f = 2+3*x", c);
+        Function f5 = new Function(" 2+3*x", c);
+        Function f6 = new Function("  f(x)   =   2+3*x   ", c);
+        Function f7 = new Function("  f(...)   =   [npar]   ", c);
+        boolean syn1 = f1.checkSyntax(); String msg1 = f1.getErrorMessage();
+        boolean syn2 = f2.checkSyntax(); String msg2 = f2.getErrorMessage();
+        boolean syn3 = f3.checkSyntax(); String msg3 = f3.getErrorMessage();
+        String msg4 = f4.getErrorMessage(); boolean syn4 = f4.checkSyntax();
+        String msg5 = f5.getErrorMessage(); boolean syn5 = f5.checkSyntax();
+        String msg6 = f6.getErrorMessage(); boolean syn6 = f6.checkSyntax();
+        String msg7 = f7.getErrorMessage(); boolean syn7 = f7.checkSyntax();
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn2 && msg2.contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL)
+                && !syn3 && msg3.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn4 && msg4.contains(stringResources.INVALID_FUNCTION_DEFINITION)
+                && msg4.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg4.contains(stringResources.PATTERN_EXAMPLES)
+                && !syn5 && msg5.contains(stringResources.INVALID_FUNCTION_DEFINITION)
+                && msg5.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg5.contains(stringResources.PATTERN_EXAMPLES)
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION)
+                && f6.getFunctionName().equals("f")
+                && f6.getFunctionExpressionString().equals("2+3*x")
+                && syn7 && msg7.contains(stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION)
+                && f7.getFunctionName().equals("f")
+                && f7.getFunctionExpressionString().equals("[npar]")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0215() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public Function(String functionName, FunctionExtension functionExtension)";
+        TestCommonTools.consolePrintTestApiStart(215, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        String nullStr = null;
+        FunExt funExtNull = null;
+        FunExt funExt = new FunExt();
+        Function f1 = new Function(nullStr, funExt);
+        Function f2 = new Function("f", funExtNull);
+        Function f3 = new Function(nullStr, funExtNull);
+        Function f4 = new Function("1f", funExt);
+        Function f5 = new Function("f1(", funExt);
+        Function f6 = new Function("f", funExt);
+        boolean syn1 = f1.checkSyntax(); String msg1 = f1.getErrorMessage();
+        boolean syn2 = f2.checkSyntax(); String msg2 = f2.getErrorMessage();
+        boolean syn3 = f3.checkSyntax(); String msg3 = f3.getErrorMessage();
+        String msg4 = f4.getErrorMessage(); boolean syn4 = f4.checkSyntax();
+        String msg5 = f5.getErrorMessage(); boolean syn5 = f5.checkSyntax();
+        String msg6 = f6.getErrorMessage(); boolean syn6 = f6.checkSyntax();
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn2 && msg2.contains(stringResources.PROVIDED_EXTENSION_IS_NULL)
+                && !syn3 && msg3.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn4 && msg4.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg4.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg4.contains(stringResources.PATTERN_EXAMPLES)
+                && !syn5 && msg5.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg5.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg5.contains(stringResources.PATTERN_EXAMPLES)
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION)
+                && f6.getFunctionName().equals("f")
+                && f6.getFunctionBodyType() == Function.BODY_EXTENDED
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0216() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) + checkSyntax + getErrorMessage";
+        TestCommonTools.consolePrintTestApiStart(216, testDescr);
+        StringResources stringResources = StringModel.getStringResources();
+        String nullStr = null;
+        FunExtVar funExtNull = null;
+        FunExtVar funExt = new FunExtVar();
+        Function f1 = new Function(nullStr, funExt);
+        Function f2 = new Function("f", funExtNull);
+        Function f3 = new Function(nullStr, funExtNull);
+        Function f4 = new Function("1f", funExt);
+        Function f5 = new Function("f1(", funExt);
+        Function f6 = new Function("f", funExt);
+        boolean syn1 = f1.checkSyntax(); String msg1 = f1.getErrorMessage();
+        boolean syn2 = f2.checkSyntax(); String msg2 = f2.getErrorMessage();
+        boolean syn3 = f3.checkSyntax(); String msg3 = f3.getErrorMessage();
+        String msg4 = f4.getErrorMessage(); boolean syn4 = f4.checkSyntax();
+        String msg5 = f5.getErrorMessage(); boolean syn5 = f5.checkSyntax();
+        String msg6 = f6.getErrorMessage(); boolean syn6 = f6.checkSyntax();
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn2 && msg2.contains(stringResources.PROVIDED_EXTENSION_IS_NULL)
+                && !syn3 && msg3.contains(stringResources.PROVIDED_STRING_IS_NULL)
+                && !syn4 && msg4.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg4.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg4.contains(stringResources.PATTERN_EXAMPLES)
+                && !syn5 && msg5.contains(stringResources.INVALID_FUNCTION_NAME)
+                && msg5.contains(stringResources.PATTERN_DOES_NOT_MATCH)
+                && msg5.contains(stringResources.PATTERN_EXAMPLES)
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION)
+                && f6.getFunctionName().equals("f")
+                && f6.getFunctionBodyType() == Function.BODY_EXTENDED
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0217() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - setDescription /  setFunctionName / getDescription / getFunctionName / getFunctionExpressionString / getFunctionBodyType";
+        TestCommonTools.consolePrintTestApiStart(217, testDescr);
+        Function f = new Function("f(x,y) = 2*x+3*y");
+        f.setDescription("This is a new description");
+        f.setFunctionName("g");
+        f.setFunctionName("1g");
+        f.setFunctionName(null);
+        f.setDescription(null);
+        if (f.getDescription().equals("This is a new description")
+                && f.getFunctionName().equals("g")
+                && f.getFunctionExpressionString().equals("2*x+3*y")
+                && f.getFunctionBodyType() == Function.BODY_RUNTIME
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0218() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public double calculate(double... parameters) + getComputingTime";
+        TestCommonTools.consolePrintTestApiStart(218, testDescr);
+        Function fErr = new Function("f = 2+3");
+        Function f = new Function("f(n) = sum(i, 1, n, i)");
+        Function fVar = new Function("f(...) = sum(i, 1, par(1), i)");
+        Function fExt = new Function("f", new LongComputingFunExt());
+        Function fExtVar = new Function("f", new LongComputingFunExtVar());
+        double range = 1000000;
+        double result = 0;
+        for (int i = 1; i <= range; i++)
+            result += i;
+        double[] nullParams = null;
+        double[] zerLengthParams = new double[0];
 
+        double dErr = fErr.calculate(range); double tErr = fErr.getComputingTime();
+        double dNullParams = f.calculate(nullParams); double tNullParams = f.getComputingTime();
+        double dZerLengthParams = f.calculate(zerLengthParams); double tZerLengthParams = f.getComputingTime();
+        double df = f.calculate(range); double tf = f.getComputingTime();
+        double dfVar = fVar.calculate(range); double tfVar = fVar.getComputingTime();
+        double dfExt = fExt.calculate(range); double tfExt = fExt.getComputingTime();
+        double dfExtVar = fExtVar.calculate(range); double tfExtVar = fExtVar.getComputingTime();
+
+        if (Double.isNaN(dErr) && tErr == 0
+                && Double.isNaN(dNullParams) && tNullParams == 0
+                && Double.isNaN(dZerLengthParams)  && tZerLengthParams == 0
+                && df == result && tf > 0
+                && dfVar == result && tfVar > 0
+                && dfExt == result && tfExt > 0
+                && dfExtVar == result && tfExtVar > 0
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0219() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public calculate(Argument... arguments) + getComputingTime";
+        TestCommonTools.consolePrintTestApiStart(219, testDescr);
+        Function fErr = new Function("f = 2+3");
+        Function f = new Function("f(n) = sum(i, 1, n, i)");
+        Function fVar = new Function("f(...) = sum(i, 1, par(1), i)");
+        Function fExt = new Function("f", new LongComputingFunExt());
+        Function fExtVar = new Function("f", new LongComputingFunExtVar());
+        Argument range = new Argument("range = 1000000");
+        double result = 0;
+        double drange = range.getArgumentValue();
+        for (int i = 1; i <= drange; i++)
+            result += i;
+        Argument[] nullParams = null;
+        Argument[] zerLengthParams = new Argument[0];
+
+        double dErr = fErr.calculate(range); double tErr = fErr.getComputingTime();
+        double dNullParams = f.calculate(nullParams); double tNullParams = f.getComputingTime();
+        double dZerLengthParams = f.calculate(zerLengthParams); double tZerLengthParams = f.getComputingTime();
+        double df = f.calculate(range); double tf = f.getComputingTime();
+        double dfVar = fVar.calculate(range); double tfVar = fVar.getComputingTime();
+        double dfExt = fExt.calculate(range); double tfExt = fExt.getComputingTime();
+        double dfExtVar = fExtVar.calculate(range); double tfExtVar = fExtVar.getComputingTime();
+
+        if (Double.isNaN(dErr) && tErr == 0
+                && Double.isNaN(dNullParams) && tNullParams == 0
+                && Double.isNaN(dZerLengthParams)  && tZerLengthParams == 0
+                && df == result && tf > 0
+                && dfVar == result && tfVar > 0
+                && dfExt == result && tfExt > 0
+                && dfExtVar == result && tfExtVar > 0
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0220() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - calculate(CalcStepsRegister calcStepsRegister) + getComputingTime";
+        TestCommonTools.consolePrintTestApiStart(220, testDescr);
+        Argument range = new Argument("range = 1000000");
+        Function fErr = new Function("f = 2+3");
+        Function f = new Function("f(n) = sum(i, 1, n, i)");
+        Expression e = new Expression("f(range)", range, f);
+        Function fVar = new Function("f(...) = sum(i, 1, par(1), i)");
+        Expression eVar = new Expression("f(range)", range, fVar);
+        Function fExt = new Function("f", new LongComputingFunExt());
+        Expression eExt = new Expression("f(range)", range, fExt);
+        Function fExtVar = new Function("f", new LongComputingFunExtVar());
+        Expression eExtVar = new Expression("f(range)", range, fExtVar);
+        double result = 0;
+        double drange =  range.getArgumentValue();
+        for (int i = 1; i <= drange; i++)
+            result += i;
+        CalcStepsRegister calcStepsRegister = null;
+
+        double dErr = fErr.calculate(calcStepsRegister); double tErr = fErr.getComputingTime();
+        double df = e.calculate(calcStepsRegister); double tf = f.getComputingTime();
+        double dfVar = eVar.calculate(calcStepsRegister); double tfVar = fVar.getComputingTime();
+        double dfExt = eExt.calculate(calcStepsRegister); double tfExt = fExt.getComputingTime();
+        double dfExtVar = eExtVar.calculate(calcStepsRegister); double tfExtVar = fExtVar.getComputingTime();
+
+        if (Double.isNaN(dErr) && tErr == 0
+                && df == result && tf > 0
+                && dfVar == result && tfVar > 0
+                && dfExt == result && tfExt > 0
+                && dfExtVar == result && tfExtVar > 0
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0221() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - setArgumentValue";
+        TestCommonTools.consolePrintTestApiStart(221, testDescr);
+        Function fErr = new Function("f = 2+3");
+        Function f = new Function("f(n) = sum(i, 1, n, i)");
+        Function fVar = new Function("f(...) = sum(i, 1, par(1), i)");
+        Function fExt = new Function("f", new LongComputingFunExt());
+        Function fExtVar = new Function("f", new LongComputingFunExtVar());
+        double range = 1000000;
+        double result = 0;
+        for (int i = 1; i <= range; i++)
+            result += i;
+
+        fErr.setArgumentValue(0, 1);
+        f.setArgumentValue(0, range);
+        f.setArgumentValue(-1, -1);
+        f.setArgumentValue(10, 10);
+        fVar.setArgumentValue(0, range);
+        fVar.setArgumentValue(-1, -1);
+        fVar.setArgumentValue(10, 10);
+        fExt.setArgumentValue(0, range);
+        fExt.setArgumentValue(-1, -1);
+        fExt.setArgumentValue(10, 10);
+        fExtVar.setArgumentValue(0, range);
+        fExtVar.setArgumentValue(-1, -1);
+        fExtVar.setArgumentValue(10, 10);
+
+        double df = f.calculate();
+        double dfVar = fVar.calculate();
+        double dfExt = fExt.calculate();
+        double dfExtVar = fExtVar.calculate(range);
+
+        if (df == result
+                && Double.isNaN(dfVar)
+                && dfExt == result
+                && dfExtVar == result
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0222() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - setVerboseMode, setSilentMode, getVerboseMode";
+        TestCommonTools.consolePrintTestApiStart(222, testDescr);
+        Function a = new Function("a", "2+3", "x");
+        a.setVerboseMode();
+        boolean v1 = a.getVerboseMode();
+        a.setSilentMode();
+        boolean v2 = a.getVerboseMode();
+        if (v1 & !v2)
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0223() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - public void addDefinitions(PrimitiveElement... elements), public void addArguments(Argument... arguments)";
+        TestCommonTools.consolePrintTestApiStart(206, testDescr);
+        Function x = new Function("x(n) = a + b + f(n)");
+        Argument a = new Argument("a = 2");
+        Constant b = new Constant("b = 3");
+        Function f = new Function("f(x) = x");
+        Argument[] nullElements = null;
+        double v1 = x.calculate(4);
+        String msg1 = x.getErrorMessage() ;
+        x.addDefinitions(nullElements);
+        x.addDefinitions(a, b, f);
+        double v2 = x.calculate(4);
+        String msg2 = x.getErrorMessage();
+        x.removeDefinitions(a, b, f);
+        x.removeDefinitions(nullElements);
+        double v3 = x.calculate(4);
+        String msg3 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (Double.isNaN(v1)
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'f'") && !msg1.contains("[f]")
+                && v2 == 9
+                && msg2.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg2.contains("'a'") && !msg2.contains("'b'") && msg2.contains("'f'") && msg2.contains("[f]")
+                && Double.isNaN(v3)
+                && msg3.contains(stringResources.INVALID_TOKEN)
+                && msg3.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg3.contains("'a'") && msg3.contains("'b'") && msg3.contains("'f'") && !msg3.contains("[f]")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0224() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - add/remove Arguments, add/remove Constants, add/remove Functions - objects";
+        TestCommonTools.consolePrintTestApiStart(224, testDescr);
+        Function x = new Function("x(n) = a + b + f(n)");
+        Argument a = new Argument("a = 2");
+        Constant b = new Constant("b = 3");
+        Function f = new Function("f(x) = x");
+        Argument[] nullArg = null;
+        Constant[] nullConst = null;
+        Function[] nullFun = null;
+        double v1 = x.calculate(4);
+        String msg1 = x.getErrorMessage() ;
+        x.addArguments(a);
+        x.addArguments(nullArg);
+        x.addConstants(b);
+        x.addConstants(nullConst);
+        x.addFunctions(f);
+        x.addFunctions(nullFun);
+        double v2 = x.calculate(4);
+        String msg2 = x.getErrorMessage();
+        x.removeArguments(a);
+        x.removeArguments(nullArg);
+        x.removeConstants(b);
+        x.removeConstants(nullConst);
+        x.removeFunctions(f);
+        x.removeFunctions(nullFun);
+        double v3 = x.calculate(4);
+        String msg3 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (Double.isNaN(v1)
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'f'") && !msg1.contains("[f]")
+                && v2 == 9
+                && msg2.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg2.contains("'a'") && !msg2.contains("'b'") && msg2.contains("'f'") && msg2.contains("[f]")
+                && Double.isNaN(v3)
+                && msg3.contains(stringResources.INVALID_TOKEN)
+                && msg3.contains(stringResources.ERRORS_HAVE_BEEN_FOUND)
+                && msg3.contains("'a'") && msg3.contains("'b'") && msg3.contains("'f'") && !msg3.contains("[f]")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0225() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - addConstants(List<Constant> constantsList) / getConstantIndex / getConstant / getConstantsNumber / removeAllConstants";
+        TestCommonTools.consolePrintTestApiStart(225, testDescr);
+        Function x = new Function("x(n) = a + b + c + d");
+        Constant a = new Constant("a = 1");
+        Constant b = new Constant("b = 2");
+        Constant c = new Constant("c = 3");
+        Constant d = new Constant("d = 4");
+        List<Constant> constList = new ArrayList<Constant>();
+        constList.add(a);
+        constList.add(b);
+        constList.add(c);
+        constList.add(d);
+
+        boolean syn1 = x.checkSyntax();
+        String msg1 = x.getErrorMessage();
+        int nconst1 = x.getConstantsNumber();
+        int apos0 = x.getConstantIndex(null);
+        int apos1 = x.getConstantIndex("a");
+        Constant afound1 = x.getConstant(apos1);
+        Constant afound11 = x.getConstant(null);
+
+        x.addConstants(constList);
+
+        boolean syn2 = x.checkSyntax();
+        String msg2 = x.getErrorMessage();
+        int nconst2 = x.getConstantsNumber();
+        int apos2 = x.getConstantIndex("a");
+        Constant afound2 = x.getConstant(apos2);
+        Constant afound21 = x.getConstant("a");
+
+        x.removeAllConstants();
+
+        boolean syn3 = x.checkSyntax();
+        String msg3 = x.getErrorMessage();
+        int nconst3 = x.getConstantsNumber();
+        int apos3 = x.getConstantIndex("a");
+        Constant afound3 = x.getConstant(apos3);
+        Constant afound31 = x.getConstant("a");
+
+        StringResources stringResources = StringModel.getStringResources();
+        if (!syn1
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'c'") && msg1.contains("'d'")
+                && nconst1 == 0 && apos0 == -1
+                && afound1 == null & afound11 == null
+                && syn2
+                && msg2.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg2.contains("'a'") && !msg2.contains("'b'") && !msg2.contains("'c'") && !msg2.contains("'d'")
+                && nconst2 == 4 && apos2 == 0
+                && afound2 == afound21 && afound2.getConstantName().equals("a")
+                && !syn3
+                && msg3.contains(stringResources.INVALID_TOKEN)
+                && msg3.contains("'a'") && msg3.contains("'b'") && msg3.contains("'c'") && msg3.contains("'d'")
+                && nconst3 == 0 && apos3 == -1
+                && afound3 == null & afound31 == null
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0226() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - defineArguments(String... argumentsNames) / getArgumentIndex(String argumentName) / getArgument(String argumentName) / getArgument(int argumentIndex) / getArgumentsNumber() / removeAllArguments()";
+        TestCommonTools.consolePrintTestApiStart(226, testDescr);
+        Function x = new Function("x(n) = a+b+c+d+e+f");
+        String[] nullStr = null;
+        x.defineArguments(nullStr);
+        boolean syn1 = x.checkSyntax();
+        String msg1 = x.getErrorMessage();
+        int narg1 = x.getArgumentsNumber();
+        int apos0 = x.getArgumentIndex(null);
+        int apos1 = x.getArgumentIndex("a");
+        Argument afound1 = x.getArgument(apos1);
+        Argument afound11 = x.getArgument("a");
+        x.defineArguments("c", "a", "b");
+        boolean syn2 = x.checkSyntax();
+        String msg2 = x.getErrorMessage();
+        int narg2 = x.getArgumentsNumber();
+        int apos2 = x.getArgumentIndex("a");
+        Argument afound2 = x.getArgument(apos2);
+        Argument afound21 = x.getArgument("a");
+        x.defineArguments(nullStr);
+        x.defineArguments("d", "f");
+        boolean syn3 = x.checkSyntax();
+        String msg3 = x.getErrorMessage();
+        int narg3 = x.getArgumentsNumber();
+        int apos3 = x.getArgumentIndex("a");
+        Argument afound3 = x.getArgument(apos3);
+        Argument afound31 = x.getArgument("a");
+        x.removeAllArguments();
+        x.defineArguments(nullStr);
+        boolean syn4 = x.checkSyntax();
+        String msg4 = x.getErrorMessage();
+        int narg4 = x.getArgumentsNumber();
+        int apos4 = x.getArgumentIndex("a");
+        Argument afound4 = x.getArgument(apos4);
+        Argument afound41 = x.getArgument("a");
+        StringResources stringResources = StringModel.getStringResources();
+        if (!syn1
+                && msg1.contains(stringResources.INVALID_TOKEN)
+                && msg1.contains("'a'") && msg1.contains("'b'") && msg1.contains("'c'") && msg1.contains("'d'") && msg1.contains("'f'")
+                && narg1 == 1 && apos0 == -1 && apos1 == -1
+                && afound1 == null && afound11 == null
+                && !syn2
+                && msg2.contains(stringResources.INVALID_TOKEN)
+                && msg2.contains("'d'") && msg2.contains("'f'")
+                && narg2 == 4 && apos2 == 2
+                && afound2 == afound21 && afound2.getArgumentName().equals("a")
+                && syn3
+                && msg3.contains(stringResources.NO_ERRORS_DETECTED)
+                && !msg3.contains("'a'") && !msg3.contains("'b'") && !msg3.contains("'c'") && !msg3.contains("'d'") && !msg3.contains("'f'")
+                && narg3 == 6 && apos3 == 2
+                && afound3 == afound31 && afound3.getArgumentName().equals("a")
+                && !syn4
+                && msg4.contains(stringResources.INVALID_TOKEN)
+                && msg4.contains("'a'") && msg4.contains("'b'") && msg4.contains("'c'") && msg4.contains("'d'") && msg4.contains("'f'")
+                && narg4 == 0 && apos4 == -1
+                && afound4 == null && afound41 == null
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0227() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - defineArguments(String... getFunctionIndex / getFunction / getFunctionsNumber / removeAllFunctions";
+        TestCommonTools.consolePrintTestApiStart(227, testDescr);
+        Function x = new Function("x(n) = a(1)+b(2)+c(3)+d(4)");
+        Function a = new Function("a(x) = x");
+        Function b = new Function("b(x) = x");
+        Function c = new Function("c(x) = x");
+        Function d = new Function("d(x) = x");
+        int nfun0 = x.getFunctionsNumber();
+        x.addFunctions(a, b, c, d);
+        boolean syn1 = x.checkSyntax();
+        String msg1 = x.getErrorMessage();
+        int nfun1 = x.getFunctionsNumber();
+        Function n1 = x.getFunction(null);
+        Function n2 = x.getFunction(-1);
+        Function f = x.getFunction("f");
+        int bpos = x.getFunctionIndex("b");
+        Function b1 = x.getFunction(bpos);
+        x.removeAllFunctions();
+        int nfun2 = x.getFunctionsNumber();
+        boolean syn2 = x.checkSyntax();
+        String msg2 = x.getErrorMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (nfun0 == 0
+                && syn1
+                && msg1.contains(stringResources.NO_ERRORS_DETECTED)
+                && nfun1 == 4
+                && n1 == null
+                && n2 == null
+                && f == null
+                && bpos == 2
+                && b1 == b
+                && nfun2 == 0
+                && !syn2
+                && msg2.contains(stringResources.INVALID_TOKEN)
+                && msg2.contains("'a'") && msg2.contains("'b'") && msg2.contains("'c'") && msg2.contains("'d'")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0228() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - getRecursiveMode";
+        TestCommonTools.consolePrintTestApiStart(228, testDescr);
+        Function f1 = new Function("f1(n) = if(n > 1; n*f1(n-1); 1)");
+        Function f2 = new Function("f2(n) = if(n > 1; n*sin(n-1); 1)");
+        boolean syn1 = f1.checkSyntax();
+        boolean syn2 = f2.checkSyntax();
+        if (syn1 && syn2 && f1.getRecursiveMode() && !f2.getRecursiveMode())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0229() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - getParametersNumber / setParametersNumber / getParameterName";
+        TestCommonTools.consolePrintTestApiStart(229, testDescr);
+        Function f1 = new Function("f1(x) = 2*x");
+        Function f2 = new Function("f2(x,y) = x+y");
+        Function f3 = new Function("f3(...) = [npar]");
+        Function f4 = new Function("f4", new FunExt());
+        Function f5 = new Function("f4", new FunExtVar());
+        Function f6 = new Function("f6(x,y) = x+y");
+        int n1 = f1.getParametersNumber();
+        f1.calculate(1,2,3,4,5);
+        int n11 = f1.getParametersNumber();
+        int n2 = f2.getParametersNumber();
+        f2.calculate(1,2,3,4,5);
+        int n21 = f2.getParametersNumber();
+        int n3 = f3.getParametersNumber();
+        f3.calculate(1,2,3,4,5);
+        int n31 = f3.getParametersNumber();
+        int n4 = f4.getParametersNumber();
+        f4.calculate(1,2,3,4,5);
+        int n41 = f4.getParametersNumber();
+        int n5 = f5.getParametersNumber();
+        f5.calculate(1,2,3,4,5);
+        int n51 = f5.getParametersNumber();
+
+        int n6 = f6.getParametersNumber();
+        f6.setParametersNumber(-1);
+        int n61 = f6.getParametersNumber();
+        f6.setParametersNumber(3);
+        int n62 = f6.getParametersNumber();
+
+        String x1 = f1.getParameterName(0);
+        String x11 = f1.getParameterName(-1);
+        String x12 = f1.getParameterName(10);
+
+        String x2 = f2.getParameterName(0);
+        String x21 = f2.getParameterName(1);
+        String x22 = f2.getParameterName(10);
+
+        String x3 = f3.getParameterName(0);
+        String x31 = f3.getParameterName(-1);
+        String x32 = f3.getParameterName(10);
+
+        String x4 = f4.getParameterName(1);
+        String x41 = f4.getParameterName(-1);
+        String x42 = f4.getParameterName(10);
+
+        String x5 = f5.getParameterName(1);
+        String x51 = f5.getParameterName(-1);
+        String x52 = f5.getParameterName(10);
+
+        if (n1 == 1 && n11 == 1
+                && n2 == 2 && n21 == 2
+                && n3 == -1 && n31 == 5
+                && n4 == 2 && n41 == 2
+                && n5 == -1 && n51 == 5
+                && n6 == 2 && n61 == 2 && n62 == 3
+                && x1.equals("x") && x11.equals("") && x12.equals("")
+                && x2.equals("x") && x21.equals("y") && x22.equals("")
+                && x3.equals("") && x31.equals("") && x32.equals("")
+                && x4.equals("y") && x41.equals("") && x42.equals("")
+                && x5.equals("") && x51.equals("") && x52.equals("")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0230() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "console print always true test - just for API use & test coverage";
+        TestCommonTools.consolePrintTestApiStart(229, testDescr);
+        mXparser.consolePrintln("test");
+        mXparser.consolePrintln();
+        mXparser.consolePrint("test");
+        mXparser.consolePrintHelp();
+        mXparser.consolePrintLicense();
+        mXparser.consolePrintSettings();
+        mXparser.consolePrintSettings("aaa");
+        String[] str = new String[2]; str[0] = "a"; str[1] = "b";
+        mXparser.consolePrintln(str);
+        mXparser.consolePrintHelp("sin");
+        Expression e = new Expression("2+2");
+        mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+        e.consolePrintCopyOfInitialTokens();
+        StringModel.getStringResources().print();
+        StringModel.getStringResources().printInitSrc();
+        StringModel.print();
+        StringModel.printDescriptions();
+        License.consolePrintLicense();
+        mXparser.resetConsoleOutput();
+        mXparser.setConsolePrefix("aaa");
+        mXparser.setDefaultConsolePrefix();
+        mXparser.setConsoleOutputPrefix("aaa");
+        mXparser.setDefaultConsoleOutputPrefix();
+        CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+        calcStepsRegister.consolePrint();
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();
         mXparser.consolePrintln("------ expStr = " + expStr);

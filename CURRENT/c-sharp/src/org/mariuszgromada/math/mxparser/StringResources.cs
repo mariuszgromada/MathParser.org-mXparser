@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        5.2.0    2022-12-31
+ * @(#)StringResources.cs        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -217,8 +217,8 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_SYNTAX_STATUS_UNKNOWN = "The syntax status is unknown.";
         internal const String DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX = "There is a problem with expression syntax.";
         // -------------------------------------------------
-        internal const String DEFAULT_AT_INDEX = "at index";
         internal const String DEFAULT_ENCOUNTERED = "Encountered";
+        internal const String DEFAULT_AT_INDEX = "at index";
         internal const String DEFAULT_WAS_EXPECTING = "Was expecting";
         internal const String DEFAULT_WAS_EXPECTING_ONE_OF = "Was expecting one of";
         internal const String DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED = "An unexpected exception was encountered. Probably a parser error - please report it.";
@@ -838,13 +838,13 @@ namespace org.mariuszgromada.math.mxparser {
         public String PROBLEM_WITH_EXPRESSION_SYNTAX = DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX;
         // -------------------------------------------------
         /**
-         * Default String = "at index"
-         */
-        public String AT_INDEX = DEFAULT_AT_INDEX;
-        /**
          * Default String = "Encountered"
          */
         public String ENCOUNTERED = DEFAULT_ENCOUNTERED;
+        /**
+         * Default String = "at index"
+         */
+        public String AT_INDEX = DEFAULT_AT_INDEX;
         /**
          * Default String = "Was expecting"
          */
@@ -3010,8 +3010,8 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("SYNTAX_STATUS_UNKNOWN", stringResources.SYNTAX_STATUS_UNKNOWN, DEFAULT_SYNTAX_STATUS_UNKNOWN, printDefault);
             printCurrentVsDefault("PROBLEM_WITH_EXPRESSION_SYNTAX", stringResources.PROBLEM_WITH_EXPRESSION_SYNTAX, DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX, printDefault);
             StringUtils.consolePrintln("// -------------------------------------------------");
-            printCurrentVsDefault("AT_INDEX", stringResources.AT_INDEX, DEFAULT_AT_INDEX, printDefault);
             printCurrentVsDefault("ENCOUNTERED", stringResources.ENCOUNTERED, DEFAULT_ENCOUNTERED, printDefault);
+            printCurrentVsDefault("AT_INDEX", stringResources.AT_INDEX, DEFAULT_AT_INDEX, printDefault);
             printCurrentVsDefault("WAS_EXPECTING", stringResources.WAS_EXPECTING, DEFAULT_WAS_EXPECTING, printDefault);
             printCurrentVsDefault("WAS_EXPECTING_ONE_OF", stringResources.WAS_EXPECTING_ONE_OF, DEFAULT_WAS_EXPECTING_ONE_OF, printDefault);
             printCurrentVsDefault("UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED", stringResources.UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED, DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED, printDefault);

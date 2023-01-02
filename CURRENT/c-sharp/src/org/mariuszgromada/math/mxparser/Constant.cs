@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        5.2.0    2022-12-27
+ * @(#)Constant.cs        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -230,7 +230,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Status of the Expression syntax
 		 */
         public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
-		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+        public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+        private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
+
+        [Obsolete]
+        public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
         /**
 		 * Name of the constant
 		 */
@@ -238,7 +242,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * COnstant value
 		 */
-		private double constantValue;
+		private double constantValue = Double.NaN;
 		/**
 		 * Constant description
 		 */
@@ -247,18 +251,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Dependent expression list
 		 */
 		private List<Expression> relatedExpressionsList;
-		/**
+        /**
 		 * Status of the expression syntax
 		 *
 		 * Please referet to the:
 		 *    - NO_SYNTAX_ERRORS
-		 *    - SYNTAX_ERROR_OR_STATUS_UNKNOWN
+		 *    - SYNTAX_ERROR
+		 *    - SYNTAX_STATUS_UNKNOWN
 		 */
-		private bool syntaxStatus;
+        private bool syntaxStatus;
 		/**
 		 * Message after checking the syntax
 		 */
-		private String errorMessage;
+		private String errorMessage = StringInvariant.EMPTY;
 		private static String buildErrorMessageInvalidConstantName(String constantName) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(constantName, StringModel.STRING_RESOURCES.INVALID_CONSTANT_NAME, StringInvariant.CONSTANT_NAME_EXAMPLES);
 		}
@@ -275,7 +280,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public Constant(String constantName, double constantValue) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
 			if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                syntaxStatus = SYNTAX_ERROR;
                 errorMessage = buildErrorMessageInvalidConstantName(constantName);
                 return;
 			}
@@ -296,7 +301,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public Constant(String constantName, double constantValue, String description) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
 			if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                syntaxStatus = SYNTAX_ERROR;
                 errorMessage = buildErrorMessageInvalidConstantName(constantName);
                 return;
 			}
@@ -318,10 +323,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
 			description = StringInvariant.EMPTY;
-			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			relatedExpressionsList = new List<Expression>();
 			if (!mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp)) {
-                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                syntaxStatus = SYNTAX_ERROR;
                 errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
                 return;
 			}
@@ -348,7 +352,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public void setConstantName(String constantName) {
 			if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-                syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+                syntaxStatus = SYNTAX_ERROR;
                 errorMessage = buildErrorMessageInvalidConstantName(constantName);
                 return;
 			}
@@ -398,7 +402,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Gets syntax status of the expression.
 		 *
 		 * @return     Constant.NO_SYNTAX_ERRORS if there are no syntax errors,
-		 *             ConstantValue.SYNTAX_ERROR_OR_STATUS_UNKNOWN when syntax error was found or
+		 *             ConstantValue.SYNTAX_ERROR when syntax error was found or
 		 *             syntax status is unknown
 		 */
 		public bool getSyntaxStatus() {

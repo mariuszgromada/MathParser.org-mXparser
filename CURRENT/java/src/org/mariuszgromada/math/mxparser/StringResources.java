@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        5.2.0    2022-12-31
+ * @(#)StringResources.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -216,8 +216,8 @@ public class StringResources {
     static final String DEFAULT_SYNTAX_STATUS_UNKNOWN = "The syntax status is unknown.";
     static final String DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX = "There is a problem with expression syntax.";
     // -------------------------------------------------
-    static final String DEFAULT_AT_INDEX = "at index";
     static final String DEFAULT_ENCOUNTERED = "Encountered";
+    static final String DEFAULT_AT_INDEX = "at index";
     static final String DEFAULT_WAS_EXPECTING = "Was expecting";
     static final String DEFAULT_WAS_EXPECTING_ONE_OF = "Was expecting one of";
     static final String DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED = "An unexpected exception was encountered. Probably a parser error - please report it.";
@@ -837,13 +837,13 @@ public class StringResources {
     public String PROBLEM_WITH_EXPRESSION_SYNTAX = DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX;
     // -------------------------------------------------
     /**
-     * Default String = "at index"
-     */
-    public String AT_INDEX = DEFAULT_AT_INDEX;
-    /**
      * Default String = "Encountered"
      */
     public String ENCOUNTERED = DEFAULT_ENCOUNTERED;
+    /**
+     * Default String = "at index"
+     */
+    public String AT_INDEX = DEFAULT_AT_INDEX;
     /**
      * Default String = "Was expecting"
      */
@@ -3009,8 +3009,8 @@ public class StringResources {
         printCurrentVsDefault("SYNTAX_STATUS_UNKNOWN", stringResources.SYNTAX_STATUS_UNKNOWN, DEFAULT_SYNTAX_STATUS_UNKNOWN, printDefault);
         printCurrentVsDefault("PROBLEM_WITH_EXPRESSION_SYNTAX", stringResources.PROBLEM_WITH_EXPRESSION_SYNTAX, DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");
-        printCurrentVsDefault("AT_INDEX", stringResources.AT_INDEX, DEFAULT_AT_INDEX, printDefault);
         printCurrentVsDefault("ENCOUNTERED", stringResources.ENCOUNTERED, DEFAULT_ENCOUNTERED, printDefault);
+        printCurrentVsDefault("AT_INDEX", stringResources.AT_INDEX, DEFAULT_AT_INDEX, printDefault);
         printCurrentVsDefault("WAS_EXPECTING", stringResources.WAS_EXPECTING, DEFAULT_WAS_EXPECTING, printDefault);
         printCurrentVsDefault("WAS_EXPECTING_ONE_OF", stringResources.WAS_EXPECTING_ONE_OF, DEFAULT_WAS_EXPECTING_ONE_OF, printDefault);
         printCurrentVsDefault("UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED", stringResources.UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED, DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED, printDefault);

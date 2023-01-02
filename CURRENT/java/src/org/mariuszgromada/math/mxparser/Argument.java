@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.java        5.2.0    2022-12-31
+ * @(#)Argument.java        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -214,7 +214,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  * the argument with the expression, function or dependent/recursive argument
  * its name will be recognized by the parser as reserved key word.
  * It means that it could not be the same as any other key word known
- * by the parser for this particular expression. Parser is case sensitive.
+ * by the parser for this particular expression. Parser is case-sensitive.
  *
  *
  * @author         <b>Mariusz Gromada</b><br>
@@ -244,11 +244,17 @@ public class Argument extends PrimitiveElement implements Serializable {
 	/**
 	 * Syntax error in the dependent argument definition.
 	 */
-	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	public static final boolean SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+	/**
+	 * Syntax unknown in the dependent argument definition.
+	 */
+	private static final boolean SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
+
 	/**
 	 * Syntax error in the dependent argument definition.
 	 */
-	public static final boolean SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+	@Deprecated
+	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 	/**
 	 * Double.NaN as initial value of the argument.
 	 */
@@ -320,7 +326,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * Syntax status registered on argument definition:
 	 * - constructor, set name, ...
 	 */
-	private boolean syntaxStatusDefinition = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+	private boolean syntaxStatusDefinition = SYNTAX_STATUS_UNKNOWN;
 	/**
 	 * Error Message registered on argument definition:
 	 * - constructor, set name, ...
@@ -348,6 +354,10 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * x.addDefinitions(x);
 	 */
 	private int recursionCallsCounter = 0;
+	/**
+	 * Keeps computing time
+	 */
+	double computingTime = 0;
 	// 2 more vs Expression as to reach Expression.calculate()
 	// from Argument.getArgumentValue() requires additional steps
 	static int MAX_RECURSION_CALLS = mXparser.MAX_RECURSION_CALLS + 2;
@@ -368,13 +378,13 @@ public class Argument extends PrimitiveElement implements Serializable {
 	private static String buildErrorMessageInvalidArgumentDefinition(String argumentDefinitionString) {
 		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.ARGUMENT_DEFINITION_EXAMPLES);
 	}
-	private void registerNoSyntaxErrorInArgumentDefinition() {
+	private void registerNoSyntaxErrorInDefinition() {
 		syntaxStatusDefinition = NO_SYNTAX_ERRORS;
 		errorMessageDefinition = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION;
 		if (argumentExpression == null)
 			argumentExpression = new Expression();
 	}
-	private void registerSyntaxErrorInArgumentDefinition(String errorMessage) {
+	private void registerSyntaxErrorInDefinition(String errorMessage) {
 		syntaxStatusDefinition = SYNTAX_ERROR;
 		errorMessageDefinition = errorMessage;
 		if (argumentExpression == null)
@@ -438,17 +448,17 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 */
 	private void analyzeArgumentDefinitionString(boolean isRecursive, boolean forceDependent, String argumentDefinitionString, PrimitiveElement...elements) {
 		if (argumentDefinitionString == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
 		if (elements == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
 			return;
 		}
 		String argumentDefinitionStringTrim = argumentDefinitionString.trim();
 		if (mXparser.regexMatch(argumentDefinitionStringTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			argumentName = argumentDefinitionStringTrim;
-			registerNoSyntaxErrorInArgumentDefinition();
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
 		if (mXparser.regexMatch(argumentDefinitionStringTrim, ParserSymbol.constArgDefStrRegExp)) {
@@ -469,7 +479,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 				argumentType = DEPENDENT_ARGUMENT;
 			}
 			argumentExpression.setDescription(argumentName);
-			registerNoSyntaxErrorInArgumentDefinition();
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
 		if (isRecursive && mXparser.regexMatch(argumentDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
@@ -479,10 +489,10 @@ public class Argument extends PrimitiveElement implements Serializable {
 			argumentExpression.setDescription(headEqBody.headStr);
 			argumentType = DEPENDENT_ARGUMENT;
 			n = new Argument(headEqBody.headTokens.get(2).tokenStr);
-			registerNoSyntaxErrorInArgumentDefinition();
+			registerNoSyntaxErrorInDefinition();
 			return;
 		}
-		registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentDefinition(argumentDefinitionStringTrim));
+		registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentDefinition(argumentDefinitionStringTrim));
 	}
 	/**
 	 * Constructor - creates free argument.
@@ -493,17 +503,17 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public Argument(String argumentName, double argumentValue) {
 		super(Argument.TYPE_ID);
 		if (argumentName == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
 		String argumentNameTrim = argumentName.trim();
 		if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
-			registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}
 		this.argumentName = argumentNameTrim;
 		this.argumentValue = argumentValue;
-		registerNoSyntaxErrorInArgumentDefinition();
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Constructor for argument definition based on
@@ -516,22 +526,22 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public Argument(String argumentName, ArgumentExtension argumentExtension) {
 		super(Argument.TYPE_ID);
 		if (argumentName == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
 		if (argumentExtension == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
 			return;
 		}
 		String argumentNameTrim = argumentName.trim();
 		if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
-			registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}
 		this.argumentName = argumentNameTrim;
 		this.argumentExtension = argumentExtension;
 		argumentBodyType = BODY_EXTENDED;
-		registerNoSyntaxErrorInArgumentDefinition();
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Constructor - creates dependent argument(with hidden
@@ -548,16 +558,16 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public Argument(String argumentName, String argumentExpressionString, PrimitiveElement... elements) {
 		super(Argument.TYPE_ID);
 		if (argumentName == null || argumentExpressionString == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
 		if (elements == null) {
-			registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
 			return;
 		}
 		String argumentNameTrim = argumentName.trim();
 		if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
-			registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}
 		String argumentExpressionStringTrim = argumentExpressionString.trim();
@@ -565,7 +575,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 		argumentExpression = new Expression(argumentExpressionStringTrim, elements);
 		argumentExpression.setDescription(argumentNameTrim);
 		argumentType = DEPENDENT_ARGUMENT;
-		registerNoSyntaxErrorInArgumentDefinition();
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Sets argument description.
@@ -573,6 +583,8 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * @param      description         the argument description.
 	 */
 	public void setDescription(String description) {
+		if (description == null)
+			return;
 		this.description = description;
 	}
 	/**
@@ -607,11 +619,15 @@ public class Argument extends PrimitiveElement implements Serializable {
 	/**
 	 * Gets recursive mode status
 	 *
-	 * @return      true if recursive mode is enabled,
+	 * @return      true if recursive mode is enabled (RecursiveArgument),
 	 *              otherwise returns false
+	 *
+	 * @see RecursiveArgument
 	 */
 	public boolean getRecursiveMode() {
-		return argumentExpression.getRecursiveMode();
+		if (argumentType == RECURSIVE_ARGUMENT)
+			return true;
+		return false;
 	}
 	/**
 	 * Gets computing time
@@ -619,9 +635,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * @return     Computing time in seconds.
 	 */
 	public double getComputingTime() {
-		if (argumentType == DEPENDENT_ARGUMENT)
-			return argumentExpression.getComputingTime();
-		return 0;
+		return computingTime;
 	}
 	/**
 	 * Sets (modifies) argument name.
@@ -634,19 +648,19 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public void setArgumentName(String argumentName) {
 		if (argumentName == null) {
 			if (!syntaxStatusDefinition)
-				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
 		String argumentNameTrim = argumentName.trim();
 		if (this.argumentName.equals(argumentNameTrim))
 			return;
 		if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
-			registerSyntaxErrorInArgumentDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}
 		this.argumentName = argumentNameTrim;
 		setExpressionModifiedFlags();
-		registerNoSyntaxErrorInArgumentDefinition();
+		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Sets argument expression string.
@@ -662,7 +676,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public void setArgumentExpressionString(String argumentExpressionString) {
 		if (argumentExpressionString == null) {
 			if (!syntaxStatusDefinition)
-				registerSyntaxErrorInArgumentDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
 		}
 		String argumentExpressionStringTrim = argumentExpressionString.trim();
@@ -725,7 +739,8 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * Checks argument syntax
 	 *
 	 * @return    syntax status: Argument.NO_SYNTAX_ERRORS,
-	 *            Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+	 *            Argument.SYNTAX_ERROR
+	 *
 	 */
 	public boolean checkSyntax() {
 		if (!syntaxStatusDefinition)
@@ -782,19 +797,30 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 */
 	public double getArgumentValue(CalcStepsRegister calcStepsRegister) {
 		CalcStepsRegister.setUserArgument(calcStepsRegister, this);
+		computingTime = 0;
+
 		if (!syntaxStatusDefinition)
 			return Double.NaN;
-		if (argumentBodyType == BODY_EXTENDED)
-			return argumentExtension.getArgumentValue();
+
+		double value;
+		if (argumentBodyType == BODY_EXTENDED) {
+			long startTime = System.currentTimeMillis();
+			value = argumentExtension.getArgumentValue();
+			computingTime = (System.currentTimeMillis() - startTime)/1000.0;
+			return value;
+		}
+
 		if (argumentType == FREE_ARGUMENT)
 			return argumentValue;
+
 		recursionCallsCounter++;
 		if (recursionCallsCounter >= MAX_RECURSION_CALLS) {
 			recursionCallsCounter--;
 			return Double.NaN;
 		}
-		double value = argumentExpression.calculate(calcStepsRegister);
+		value = argumentExpression.calculate(calcStepsRegister);
 		recursionCallsCounter--;
+		computingTime = argumentExpression.computingTime;
 		return value;
 	}
 	/**

@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.1.0    2022-11-11
+ * @(#)Miscellaneous.cs        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -275,6 +275,35 @@ namespace org.mariuszgromada.math.mxparser.test {
 
     /**
 	 * Example of implementation
+	 * ArgumentExtension interface
+	 * @see ArgumentExtension
+	 */
+    [Serializable]
+	internal class PiMultArgExt : ArgumentExtension {
+		private int multiple = 0;
+		public double getArgumentValue() {
+			multiple++;
+			return  MathConstants.PI * multiple;
+		}
+		public ArgumentExtension clone() {
+			return new PiMultArgExt();
+		}
+	}
+
+    internal class LongComputingArgExt : ArgumentExtension {
+        public double getArgumentValue() {
+            int j = 0;
+            for (int i = 0; i < 1000000; i++)
+                j += 1;
+            return j;
+        }
+        public ArgumentExtension clone() {
+            return new LongComputingArgExt();
+        }
+    }
+
+    /**
+	 * Example of implementation
 	 * FunctionExtension interface
 	 * @see FunctionExtension
 	 */
@@ -309,6 +338,37 @@ namespace org.mariuszgromada.math.mxparser.test {
 			return new FunExt(x, y);
 		}
 	}
+
+    internal class LongComputingFunExt : FunctionExtension {
+        double n;
+        internal LongComputingFunExt() {
+            n = Double.NaN;
+        }
+        internal LongComputingFunExt(double n) {
+            this.n = n;
+        }
+        public int getParametersNumber() {
+            return 1;
+        }
+        public void setParameterValue(int parameterIndex, double parameterValue) {
+            if (parameterIndex == 0) n = parameterValue;
+        }
+        public String getParameterName(int parameterIndex) {
+            if (parameterIndex == 0) return "n";
+            return "";
+        }
+        public double calculate() {
+            double sum = 0;
+            for (int i = 1; i <= n; i++)
+                sum += i;
+            return sum;
+        }
+        public FunctionExtension clone() {
+            return new LongComputingFunExt(n);
+        }
+    }
+
+
     /**
 	 * Example of implementation
 	 * FunctionExtensionVariadic interface
@@ -328,21 +388,19 @@ namespace org.mariuszgromada.math.mxparser.test {
 			return new FunExtVar();
 		}
 	}
-    /**
-	 * Example of implementation
-	 * ArgumentExtension interface
-	 * @see ArgumentExtension
-	 */
-    [Serializable]
-	internal class PiMultArgExt : ArgumentExtension {
-		private int multiple = 0;
-		public double getArgumentValue() {
-			multiple++;
-			return  MathConstants.PI * multiple;
-		}
-		public ArgumentExtension clone() {
-			return new PiMultArgExt();
-		}
-	}
+
+    internal class LongComputingFunExtVar : FunctionExtensionVariadic {
+        public double calculate(params double[] parameters) {
+            if (parameters == null) return Double.NaN;
+            if (parameters.Length == 0) return Double.NaN;
+            double result = 0;
+            for (int i = 1; i <= parameters[0]; i++)
+                result += i;
+            return result;
+        }
+        public FunctionExtensionVariadic clone() {
+            return new LongComputingFunExtVar();
+        }
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        5.2.0    2022-12-31
+ * @(#)Function.cs        5.2.0    2023-01-02
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -230,9 +230,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 * No syntax errors in the function.
 		 */
 		public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
+        /**
+		 * Syntax error in the function or syntax status unknown.
+		 */
+        /**
+		 * Syntax error in the dependent function definition.
+		 */
+        public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
+        private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
+
 		/**
 		 * Syntax error in the function or syntax status unknown.
 		 */
+		[Obsolete]
 		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 		/**
 		 * When function was not found
@@ -263,7 +273,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see Function#BODY_EXTENDED
 		 * @see Function#getFunctionBodyType()
 		 */
-		private int functionBodyType;
+		private int functionBodyType = BODY_RUNTIME;
 		/**
 		 * function expression
 		 */
@@ -272,18 +282,28 @@ namespace org.mariuszgromada.math.mxparser {
 		 * function name
 		 */
 		private String functionName = StringInvariant.EMPTY;
-		/**
+        /**
+         * Syntax status registered on argument definition:
+         * - constructor, set name, ...
+         */
+        private bool syntaxStatusDefinition = SYNTAX_STATUS_UNKNOWN;
+        /**
+         * Error Message registered on function definition:
+         * - constructor, set name, ...
+         */
+        private String errorMessageDefinition = StringInvariant.EMPTY;
+        /**
 		 * function description
 		 */
 		private String description = StringInvariant.EMPTY;
 		/**
 		 * Indicates whether UDF is variadic
 		 */
-		internal bool isVariadic;
+		internal bool isVariadic = false;
 		/**
 		 * The number of function parameters
 		 */
-		private int parametersNumber;
+		private int parametersNumber = 0;
 		/**
 		 * Function extension (body based in code)
 		 *
@@ -300,13 +320,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see Function#Function(String, FunctionExtension)
 		 */
 		private FunctionExtensionVariadic functionExtensionVariadic;
-		/*=================================================
+        /**
+         * Keeps computing time
+         */
+        double computingTime = 0;
+        /*=================================================
 		 *
 		 * Constructors
 		 *
 		 *=================================================
 		 */
-		private static String buildErrorMessageInvalidFunctionName(String functionName) {
+        private static String buildErrorMessageInvalidFunctionName(String functionName) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(functionName, StringModel.STRING_RESOURCES.INVALID_FUNCTION_NAME, StringInvariant.FUNCTION_NAME_EXAMPLES);
 		}
 		private static String buildErrorMessageInvalidFunctionDefinitionString(String functionDefinitionString) {
@@ -314,6 +338,16 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private static String buildErrorMessageIncorrectNumberOfFunctionParameters(String functionName, int expectedNumberOfParameters, int providedNumberOfParameters) {
 			return StringModel.buildErrorMessageIncorrectNumberOfParameters(functionName, StringModel.STRING_RESOURCES.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, expectedNumberOfParameters, providedNumberOfParameters);
+		}
+		private void registerNoSyntaxErrorInDefinition() {
+			syntaxStatusDefinition = NO_SYNTAX_ERRORS;
+			errorMessageDefinition = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
+			addFunctions(this);
+		}
+		private void registerSyntaxErrorInDefinition(String errorMessage) {
+			syntaxStatusDefinition = SYNTAX_ERROR;
+			errorMessageDefinition = errorMessage;
+			functionExpression = new Expression(StringInvariant.EMPTY);
 		}
 		/**
 		 * Constructor - creates function from function name
@@ -326,24 +360,26 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        PrimitiveElement
 		 * @see        Expression
 		 */
-		public Function(String functionName, String  functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
-			if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-                parametersNumber = 0;
-                description = StringInvariant.EMPTY;
-                functionExpression = new Expression(StringInvariant.EMPTY);
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-                functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
-                return;
+		public Function(String functionName, String functionExpressionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
+			if (functionName == null || functionExpressionString == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.functionName = functionName;
-            functionExpression = new Expression(functionExpressionString, elements);
-            functionExpression.setDescription(functionName);
-            functionExpression.UDFExpression = true;
-            isVariadic = false;
-            parametersNumber = 0;
-            description = StringInvariant.EMPTY;
-            functionBodyType = BODY_RUNTIME;
-            addFunctions(this);
+			if (elements == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+				return;
+			}
+			String functionNameTrim = functionName.Trim();
+			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+				return;
+			}
+			String functionExpressionStringTrim = functionExpressionString.Trim();
+			this.functionName = functionNameTrim;
+			functionExpression = new Expression(functionExpressionStringTrim, elements);
+			functionExpression.setDescription(functionNameTrim);
+			functionExpression.UDFExpression = true;
+			registerNoSyntaxErrorInDefinition();
 		}
 		/**
 		 * Constructor - creates function from function name,
@@ -356,26 +392,34 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see        Expression
 		 */
-		public Function(String functionName, String  functionExpressionString ,params String[] argumentsNames ) : base(Function.TYPE_ID) {
-			if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-                parametersNumber = 0;
-                description = StringInvariant.EMPTY;
-                functionExpression = new Expression(StringInvariant.EMPTY);
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-                functionExpression.setDescription(functionName + StringInvariant.COMMA_SPACE + functionExpressionString);
-                return;
+		public Function(String functionName, String functionExpressionString ,params String[] argumentsNames ) : base(Function.TYPE_ID) {
+			if (functionName == null || functionExpressionString == null || argumentsNames == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.functionName = functionName;
-            functionExpression = new Expression(functionExpressionString);
-            functionExpression.setDescription(functionName);
-            functionExpression.UDFExpression = true;
-            isVariadic = false;
-            foreach (String argName in argumentsNames)
-                functionExpression.addArguments(new Argument(argName));
-            parametersNumber = argumentsNames.Length - countRecursiveArguments();
-            description = StringInvariant.EMPTY;
-            functionBodyType = BODY_RUNTIME;
-            addFunctions(this);
+			String functionNameTrim = functionName.Trim();
+			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+				return;
+			}
+			String functionExpressionStringTrim = functionExpressionString.Trim();
+			this.functionName = functionNameTrim;
+			functionExpression = new Expression(functionExpressionStringTrim);
+			functionExpression.setDescription(functionNameTrim);
+			functionExpression.UDFExpression = true;
+			foreach (String argName in argumentsNames)
+				functionExpression.addArguments(new Argument(argName));
+			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			registerNoSyntaxErrorInDefinition();
+		}
+		private void addHeadTokensArguments(List<Token> headTokens) {
+			if (headTokens.Count <= 1)
+				return;
+			for (int i = 1; i < headTokens.Count; i++) {
+				Token t = headTokens[i];
+				if (t.tokenTypeId != ParserSymbol.TYPE_ID)
+					functionExpression.addArguments(new Argument(t.tokenStr));
+			}
 		}
 		/**
 		 * Constructor for function definition in natural math language,
@@ -393,43 +437,38 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Function(String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			parametersNumber = 0;
-			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			if (functionDefinitionString == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
+			}
+			if (elements == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+				return;
+			}
+			String functionDefinitionStringTrim = functionDefinitionString.Trim();
+			if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
+				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 				functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
-				isVariadic = false;
-				if (headEqBody.headTokens.Count > 1) {
-					Token t;
-					for (int i = 1; i < headEqBody.headTokens.Count; i++) {
-						t = headEqBody.headTokens[i];
-						if (t.tokenTypeId != ParserSymbol.TYPE_ID)
-							functionExpression.addArguments(new Argument(t.tokenStr));
-					}
-				}
+				addHeadTokensArguments(headEqBody.headTokens);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
-				description = StringInvariant.EMPTY;
-				functionBodyType = BODY_RUNTIME;
-				addFunctions(this);
+				registerNoSyntaxErrorInDefinition();
 				return;
 			}
-			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+			if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionVariadicDefStrRegExp)) {
+				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 				functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
 				isVariadic = true;
 				parametersNumber = -1;
-				description = StringInvariant.EMPTY;
-				functionBodyType = BODY_RUNTIME;
-				addFunctions(this);
+				registerNoSyntaxErrorInDefinition();
 				return;
 			}
-			functionExpression = new Expression();
-			functionExpression.setDescription(functionDefinitionString);
-			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionStringTrim));
 		}
 		/**
 		 * Constructor for function definition based on
@@ -440,21 +479,26 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param functionExtension  Your own source code
 		 */
 		public Function(String functionName, FunctionExtension functionExtension) : base(Function.TYPE_ID) {
-			if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-                parametersNumber = 0;
-                description = StringInvariant.EMPTY;
-                functionExpression = new Expression(StringInvariant.EMPTY);
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-                return;
+			if (functionName == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.functionName = functionName;
-            functionExpression = new Expression(StringInvariant.BODY_EXTENDED);
-            functionExpression.setDescription(functionName);
-            isVariadic = false;
-            parametersNumber = functionExtension.getParametersNumber();
-            description = StringInvariant.EMPTY;
-            this.functionExtension = functionExtension;
-            functionBodyType = BODY_EXTENDED;
+			if (functionExtension == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
+				return;
+			}
+			String functionNameTrim = functionName.Trim();
+			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+				return;
+			}
+			this.functionName = functionNameTrim;
+			functionExpression = new Expression(StringInvariant.BODY_EXTENDED);
+			functionExpression.setDescription(functionNameTrim);
+			parametersNumber = functionExtension.getParametersNumber();
+			this.functionExtension = functionExtension;
+			functionBodyType = BODY_EXTENDED;
+			registerNoSyntaxErrorInDefinition();
 		}
 		/**
 		 * Constructor for function definition based on
@@ -465,21 +509,27 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param functionExtensionVariadic  Your own source code
 		 */
 		public Function(String functionName, FunctionExtensionVariadic functionExtensionVariadic) : base(Function.TYPE_ID) {
-			if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-                parametersNumber = 0;
-                description = StringInvariant.EMPTY;
-                functionExpression = new Expression(StringInvariant.EMPTY);
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-                return;
+			if (functionName == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.functionName = functionName;
-            functionExpression = new Expression(StringInvariant.BODY_EXTENDED_VARIADIC);
-            functionExpression.setDescription(functionName);
-            isVariadic = true;
-            parametersNumber = -1;
-            description = StringInvariant.EMPTY;
-            this.functionExtensionVariadic = functionExtensionVariadic;
-            functionBodyType = BODY_EXTENDED;
+			if (functionExtensionVariadic == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_EXTENSION_IS_NULL);
+				return;
+			}
+			String functionNameTrim = functionName.Trim();
+			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+				return;
+			}
+			this.functionName = functionNameTrim;
+			functionExpression = new Expression(StringInvariant.BODY_EXTENDED_VARIADIC);
+			functionExpression.setDescription(functionNameTrim);
+			isVariadic = true;
+			parametersNumber = -1;
+			this.functionExtensionVariadic = functionExtensionVariadic;
+			functionBodyType = BODY_EXTENDED;
+			registerNoSyntaxErrorInDefinition();
 		}
 		/**
 		 * Private constructor used for function cloning.
@@ -494,7 +544,9 @@ namespace org.mariuszgromada.math.mxparser {
 			functionExpression = function.functionExpression.clone();
 			functionBodyType = function.functionBodyType;
 			isVariadic = function.isVariadic;
-			if (functionBodyType == BODY_EXTENDED) {
+            syntaxStatusDefinition = function.syntaxStatusDefinition;
+            errorMessageDefinition = function.errorMessageDefinition;
+            if (functionBodyType == BODY_EXTENDED) {
 				if (function.functionExtension != null) functionExtension = function.functionExtension.clone();
 				if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
 			}
@@ -513,8 +565,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 *
 		 */
+		[Obsolete]
 		public void setFunction(String functionDefinitionString, params PrimitiveElement[] elements) {
-			parametersNumber = 0;
 			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
@@ -522,18 +574,11 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.setDescription(headEqBody.headStr);
 				functionExpression.UDFExpression = true;
 				isVariadic = false;
-				if (headEqBody.headTokens.Count > 1) {
-					Token t;
-					for (int i = 1; i < headEqBody.headTokens.Count; i++) {
-						t = headEqBody.headTokens[i];
-						if (t.tokenTypeId != ParserSymbol.TYPE_ID)
-							functionExpression.addArguments(new Argument(t.tokenStr));
-					}
-				}
+				addHeadTokensArguments(headEqBody.headTokens);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
-				addFunctions(this);
+				registerNoSyntaxErrorInDefinition();
 				return;
 			}
 			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
@@ -546,12 +591,10 @@ namespace org.mariuszgromada.math.mxparser {
 				parametersNumber = -1;
 				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
-				addFunctions(this);
+				registerNoSyntaxErrorInDefinition();
 				return;
 			}
-			functionExpression = new Expression();
-			functionExpression.setDescription(functionDefinitionString);
-			functionExpression.setSyntaxStatus(Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
+			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionDefinitionString(functionDefinitionString));
 		}
 		/**
 		 * Sets function description.
@@ -559,6 +602,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      description         the function description
 		 */
 		public void setDescription(String description) {
+			if (description == null)
+				return;
 			this.description = description;
 		}
 		/**
@@ -591,12 +636,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      functionName        the function name
 		 */
 		public void setFunctionName(String functionName) {
-			if (!mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidFunctionName(functionName));
-                return;
+			if (functionName == null) {
+				if (!syntaxStatusDefinition)
+					registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.functionName = functionName;
-            setExpressionModifiedFlags();
+			String functionNameTrim = functionName.Trim();
+			if (this.functionName.Equals(functionNameTrim))
+				return;
+			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+				if (!syntaxStatusDefinition)
+					registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
+				return;
+			}
+			this.functionName = functionNameTrim;
+			registerNoSyntaxErrorInDefinition();
+			setExpressionModifiedFlags();
+			registerNoSyntaxErrorInDefinition();
         }
 		/**
 		 * Sets value of function argument (function parameter).
@@ -606,6 +662,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      argumentValue   the argument value
 		 */
 		public void setArgumentValue(int argumentIndex, double argumentValue) {
+			if (argumentIndex < 0 || argumentIndex >= parametersNumber)
+				return;
 			if (isVariadic)
 				return;
 			if (functionBodyType == BODY_RUNTIME)
@@ -628,9 +686,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 */
 		public bool checkSyntax() {
-			bool syntaxStatus = Function.NO_SYNTAX_ERRORS;
-			if (functionBodyType != BODY_EXTENDED)
-				syntaxStatus = functionExpression.checkSyntax();
+			if (!syntaxStatusDefinition)
+				return SYNTAX_ERROR;
+			if (functionName.Length == 0)
+				return SYNTAX_ERROR;
+			if (functionBodyType == BODY_EXTENDED) {
+				if (!isVariadic && functionExtension == null)
+					return SYNTAX_ERROR;
+				if (isVariadic && functionExtensionVariadic == null)
+					return SYNTAX_ERROR;
+				return NO_SYNTAX_ERRORS;
+			}
+			bool syntaxStatus = functionExpression.checkSyntax();
 			checkRecursiveMode();
 			return syntaxStatus;
 		}
@@ -640,7 +707,20 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     Error message as string.
 		 */
 		public String getErrorMessage() {
-			return functionExpression.getErrorMessage();
+			if (!syntaxStatusDefinition)
+				return errorMessageDefinition;
+			if (functionName.Length == 0)
+				return errorMessageDefinition;
+			if (functionBodyType == BODY_EXTENDED) {
+				if (!isVariadic && functionExtension == null)
+					return errorMessageDefinition;
+				if (isVariadic && functionExtensionVariadic == null)
+					return errorMessageDefinition;
+			}
+			String functionExpressionErrorMessage = functionExpression.getErrorMessage();
+			if (errorMessageDefinition.Length > 0 && functionExpressionErrorMessage.Length == 0)
+				return errorMessageDefinition;
+			return functionExpressionErrorMessage;
 		}
 		/**
 		 * clone method
@@ -667,19 +747,31 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public double calculate(CalcStepsRegister calcStepsRegister) {
 			CalcStepsRegister.setUserFunction(calcStepsRegister, this);
-			if (functionBodyType == BODY_RUNTIME)
-				return functionExpression.calculate(calcStepsRegister);
-			if (!isVariadic)
-				return functionExtension.calculate();
+			computingTime = 0;
+			if (!syntaxStatusDefinition)
+				return Double.NaN;
+			double value = Double.NaN;
+			if (functionBodyType == BODY_RUNTIME) {
+				value = functionExpression.calculate(calcStepsRegister);
+				computingTime = functionExpression.computingTime;
+				return value;
+			}
+			long startTime = mXparser.currentTimeMillis();
+			if (!isVariadic) {
+				value = functionExtension.calculate();
+				computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
+				return value;
+			}
 			List<Double> paramsList = functionExpression.UDFVariadicParamsAtRunTime;
 			if (paramsList != null) {
 				int n = paramsList.Count;
 				double[] parameters = new double[n];
 				for (int i = 0; i < n; i++)
 					parameters[i] = paramsList[i];
-				return functionExtensionVariadic.calculate(parameters);
+				value = functionExtensionVariadic.calculate(parameters);
 			}
-			return Double.NaN;
+			computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
+			return value;
 		}
 		/**
 		 * Calculates function value
@@ -689,33 +781,50 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     function value as double.
 		 */
 		public double calculate(params double[] parameters) {
-            if (parameters == null)
-                return Double.NaN;
-            if (parameters.Length == 0)
-                return Double.NaN;
+			computingTime = 0;
+			if (!syntaxStatusDefinition)
+				return Double.NaN;
+			if (parameters == null)
+				return Double.NaN;
+			if (parameters.Length == 0)
+				return Double.NaN;
+
+			long startTime = mXparser.currentTimeMillis();
 			functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
 			foreach (double x in parameters)
 				functionExpression.UDFVariadicParamsAtRunTime.Add(x);
 
+			double value = Double.NaN;
 			if (isVariadic) {
-				if (functionBodyType == BODY_RUNTIME)
-					return functionExpression.calculate();
-				return functionExtensionVariadic.calculate(parameters);
+				if (functionBodyType == BODY_RUNTIME) {
+					value =  functionExpression.calculate();
+					computingTime = functionExpression.computingTime;
+					return value;
+				}
+				value = functionExtensionVariadic.calculate(parameters);
+				computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
+				return value;
 			}
 
 			if (parameters.Length != this.getParametersNumber()) {
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), parameters.Length));
-                return Double.NaN;
-            }
+				functionExpression.setSyntaxStatus(SYNTAX_ERROR, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), parameters.Length));
+				return Double.NaN;
+			}
 
 			if (functionBodyType == BODY_RUNTIME) {
 				for (int p = 0; p < parameters.Length; p++)
 					setArgumentValue(p, parameters[p]);
-				return functionExpression.calculate();
+				value = functionExpression.calculate();
+				computingTime = functionExpression.computingTime;
+				return value;
 			}
+
 			for (int p = 0; p < parameters.Length; p++)
 				functionExtension.setParameterValue(p, parameters[p]);
-			return functionExtension.calculate();
+
+			value = functionExtension.calculate();
+			computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
+			return value;
 		}
 		/**
 		 * Calculates function value
@@ -725,12 +834,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     function value as double
 		 */
 		public double calculate(params Argument[] arguments) {
-            if (arguments == null)
-                return Double.NaN;
-            if (arguments.Length == 0)
-                return Double.NaN;
+			computingTime = 0;
+			if (!syntaxStatusDefinition)
+				return Double.NaN;
+			if (arguments == null)
+				return Double.NaN;
+			if (arguments.Length == 0)
+				return Double.NaN;
 
-            double[] parameters;
+			long startTime = mXparser.currentTimeMillis();
+			double[] parameters;
 			functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
 			parameters = new double[arguments.Length];
 			double x;
@@ -740,25 +853,36 @@ namespace org.mariuszgromada.math.mxparser {
 				parameters[i] = x;
 			}
 
+			double value = Double.NaN;
 			if (isVariadic) {
-				if (functionBodyType == BODY_RUNTIME)
-					return functionExpression.calculate();
-				return functionExtensionVariadic.calculate(parameters);
+				if (functionBodyType == BODY_RUNTIME) {
+					value = functionExpression.calculate();
+					computingTime = functionExpression.computingTime;
+					return value;
+				}
+				value = functionExtensionVariadic.calculate(parameters);
+				computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
+				return value;
 			}
 
 			if (arguments.Length != this.getParametersNumber()) {
-                functionExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), arguments.Length));
-                return Double.NaN;
-            }
+				functionExpression.setSyntaxStatus(SYNTAX_ERROR, buildErrorMessageIncorrectNumberOfFunctionParameters(functionName, getParametersNumber(), arguments.Length));
+				return Double.NaN;
+			}
 
 			if (functionBodyType == BODY_RUNTIME) {
 				for (int p = 0; p < arguments.Length; p++)
 					setArgumentValue(p, arguments[p].getArgumentValue());
-				return functionExpression.calculate();
+				value = functionExpression.calculate();
+				computingTime = functionExpression.computingTime;
+				return value;
 			}
 			for (int p = 0; p < arguments.Length; p++)
 				functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
-			return functionExtension.calculate();
+
+			value = functionExtension.calculate();
+			computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
+			return value;
 		}
 		/**
 		 * Adds user defined elements (such as: Arguments, Constants, Functions)
@@ -770,6 +894,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see PrimitiveElement
 		 */
 		public void addDefinitions(params PrimitiveElement[] elements) {
+			if (elements == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addDefinitions(elements);
 		}
@@ -783,6 +909,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see PrimitiveElement
 		 */
 		public void removeDefinitions(params PrimitiveElement[] elements) {
+			if (elements == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeDefinitions(elements);
 		}
@@ -810,10 +938,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void addArguments(params Argument[] arguments) {
+			if (arguments == null)
+				return;
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
 			functionExpression.addArguments(arguments);
-			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
+			//parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 		}
 		/**
 		 * Enables to define the arguments (associated with
@@ -826,6 +956,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void defineArguments(params String[] argumentsNames) {
+			if (argumentsNames == null)
+				return;
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
 			functionExpression.defineArguments(argumentsNames);
@@ -842,6 +974,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void defineArgument(String argumentName, double argumentValue) {
+			if (argumentName == null)
+				return;
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
 			functionExpression.defineArgument(argumentName, argumentValue);
@@ -859,6 +993,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public int getArgumentIndex(String argumentName) {
+			if (argumentName == null)
+				return -1;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return -1;
             return functionExpression.getArgumentIndex(argumentName);
@@ -876,6 +1012,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public Argument getArgument(String argumentName) {
+			if (argumentName == null)
+				return null;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return null;
             return functionExpression.getArgument(argumentName);
@@ -893,6 +1031,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public Argument getArgument(int argumentIndex) {
+			if (argumentIndex < 0)
+				return null;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return null;
             return functionExpression.getArgument(argumentIndex);
@@ -919,6 +1059,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                                 (lower number might be specified).
 		 */
         public void setParametersNumber(int parametersNumber) {
+			if (parametersNumber < 0)
+				return;
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
 			this.parametersNumber = parametersNumber;
@@ -933,7 +1075,12 @@ namespace org.mariuszgromada.math.mxparser {
 		public String getParameterName(int parameterIndex) {
 			if (parameterIndex < 0) return StringInvariant.EMPTY;
 			if (parameterIndex >= parametersNumber) return StringInvariant.EMPTY;
-			if (functionBodyType == BODY_RUNTIME) return getArgument(parameterIndex).getArgumentName();
+			if (functionBodyType == BODY_RUNTIME) {
+				Argument x = getArgument(parameterIndex);
+				if (x == null)
+					return StringInvariant.EMPTY;
+				return x.getArgumentName();
+			}
 			if (functionBodyType == BODY_EXTENDED) return this.functionExtension.getParameterName(parameterIndex);
 			return StringInvariant.EMPTY;
 		}
@@ -962,6 +1109,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeArguments(params String[] argumentsNames) {
+			if (argumentsNames == null)
+				return;
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
 			functionExpression.removeArguments(argumentsNames);
@@ -978,6 +1127,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        RecursiveArgument
 		 */
 		public void removeArguments(params Argument[] arguments) {
+			if (arguments == null)
+				return;
 			if (functionBodyType != Function.BODY_RUNTIME)
 				return;
 			functionExpression.removeArguments(arguments);
@@ -1011,8 +1162,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void addConstants(params Constant[] constants) {
+			if (constants == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addConstants(constants);
+		}
+		/**
+		 * Adds constants to the function expression definition.
+		 *
+		 * @param      constantsList       the list of constants
+		 *
+		 * @see        Constant
+		 */
+		public void addConstants(List<Constant> constantsList) {
+			if (constantsList == null)
+				return;
+			if (functionBodyType == Function.BODY_RUNTIME)
+				functionExpression.addConstants(constantsList);
 		}
 		/**
 		 * Enables to define the constant (associated with
@@ -1025,6 +1191,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void defineConstant(String constantName, double constantValue) {
+			if (constantName == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.defineConstant(constantName, constantValue);
 		}
@@ -1039,6 +1207,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public int getConstantIndex(String constantName) {
+			if (constantName == null)
+				return -1;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return -1;
             return functionExpression.getConstantIndex(constantName);
@@ -1054,6 +1224,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public Constant getConstant(String constantName) {
+			if (constantName == null)
+				return null;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return null;
             return functionExpression.getConstant(constantName);
@@ -1071,6 +1243,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public Constant getConstant(int constantIndex) {
+			if (constantIndex < 0)
+				return null;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return null;
             return functionExpression.getConstant(constantIndex);
@@ -1097,6 +1271,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeConstants(params String[] constantsNames) {
+			if (constantsNames == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeConstants(constantsNames);
 		}
@@ -1110,6 +1286,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeConstants(params Constant[] constants) {
+			if (constants == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeConstants(constants);
 		}
@@ -1120,7 +1298,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Constant
 		 */
 		public void removeAllConstants() {
-			functionExpression.removeAllConstants();
+            if (functionBodyType == Function.BODY_RUNTIME)
+                functionExpression.removeAllConstants();
 		}
 		/*=================================================
 		 *
@@ -1138,6 +1317,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void addFunctions(params Function[] functions) {
+			if (functions == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.addFunctions(functions);
 		}
@@ -1155,6 +1336,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void defineFunction(String functionName, String  functionExpressionString, params String[] argumentsNames) {
+			if (functionName == null || functionExpressionString == null || argumentsNames == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
 		}
@@ -1169,6 +1352,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public int getFunctionIndex(String functionName) {
+			if (functionName == null)
+				return -1;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return -1;
             return functionExpression.getFunctionIndex(functionName);
@@ -1184,6 +1369,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public Function getFunction(String functionName) {
+			if (functionName == null)
+				return null;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return null;
             return functionExpression.getFunction(functionName);
@@ -1200,6 +1387,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public Function getFunction(int functionIndex) {
+			if (functionIndex < 0)
+				return null;
 			if (functionBodyType != Function.BODY_RUNTIME)
                 return null;
             return functionExpression.getFunction(functionIndex);
@@ -1213,8 +1402,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public int getFunctionsNumber() {
 			if (functionBodyType != Function.BODY_RUNTIME)
-                return 0;
-            return functionExpression.getFunctionsNumber();
+				return 0;
+			int recursiveThisCorrection = 0;
+			foreach (Function f in functionExpression.functionsList)
+				if (this == f)
+					recursiveThisCorrection++;
+			return functionExpression.getFunctionsNumber() - recursiveThisCorrection;
 		}
 		/**
 		 * Removes first occurrences of the functions
@@ -1226,6 +1419,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeFunctions(params String[] functionsNames) {
+			if (functionsNames == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeFunctions(functionsNames);
 		}
@@ -1239,6 +1434,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Function
 		 */
 		public void removeFunctions(params Function[] functions) {
+			if (functions == null)
+				return;
 			if (functionBodyType == Function.BODY_RUNTIME)
 				functionExpression.removeFunctions(functions);
 		}
@@ -1308,8 +1505,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     computing time in seconds.
 		 */
 		public double getComputingTime() {
-			return functionExpression.getComputingTime();
-		}
+			return computingTime;
+
+        }
 		/**
 		 * Adds related expression.
 		 *
