@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.2.0    2023-01-02
+ * @(#)Miscellaneous.cs        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -400,6 +400,14 @@ namespace org.mariuszgromada.math.mxparser.test {
         }
         public FunctionExtensionVariadic clone() {
             return new LongComputingFunExtVar();
+        }
+    }
+
+    internal class LongTest {
+        public Expression e = new Expression("sum(i, 1, 1000000000000, 0)");
+        public double v = 0;
+        public void run() {
+            v = e.calculate();
         }
     }
 

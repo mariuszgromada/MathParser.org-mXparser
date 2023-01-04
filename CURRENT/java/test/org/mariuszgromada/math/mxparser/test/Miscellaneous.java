@@ -401,3 +401,12 @@ class LongComputingFunExtVar implements FunctionExtensionVariadic {
         return new LongComputingFunExtVar();
     }
 }
+
+class LongTest implements Runnable {
+    public Expression e = new Expression("sum(i, 1, 1000000000000, 0)");
+    public double v = 0;
+    @Override
+    public void run() {
+        v = e.calculate();
+    }
+}

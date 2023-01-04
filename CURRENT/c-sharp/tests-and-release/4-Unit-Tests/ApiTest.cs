@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)ApiTest.cs        5.2.0    2023-01-02
+ * @(#)ApiTest.cs        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -182,6 +182,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.parsertokens;
@@ -6037,7 +6038,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
 			String testDescr = "console print always true test - just for API use & test coverage";
-			TestCommonTools.consolePrintTestApiStart(229, testDescr);
+			TestCommonTools.consolePrintTestApiStart(230, testDescr);
 			mXparser.consolePrintln("test");
 			mXparser.consolePrintln();
 			mXparser.consolePrint("test");
@@ -6045,11 +6046,19 @@ namespace org.mariuszgromada.math.mxparser.test {
 			mXparser.consolePrintLicense();
 			mXparser.consolePrintSettings();
 			mXparser.consolePrintSettings("aaa");
-			String[] str = new String[2]; str[0] = "a"; str[1] = "b";
-			mXparser.consolePrintln(str);
+			String[] strArray = new String[2]; strArray[0] = "a"; strArray[1] = "b";
+			String[] nullStrArray = null;
+			mXparser.consolePrintln(strArray);
+			mXparser.consolePrintln(nullStrArray);
 			mXparser.consolePrintHelp("sin");
-			Expression e = new Expression("2+2");
+			Argument x = new Argument("x = 2");
+			Constant c = new Constant("c  = 3");
+			Function f = new Function("f(x,y,z)=x*y*z");
+			RecursiveArgument r = new RecursiveArgument("r(n) = n*r(n-1)");
+			r.addBaseCase(1,1);
+			Expression e = new Expression("2+2 + x + c + f(1,2,3) + r(5)", x, c, f, r);
 			mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+			mXparser.consolePrintln(e.getCopyOfInitialTokens());
 			e.consolePrintCopyOfInitialTokens();
 			StringModel.getStringResources().print();
 			StringModel.getStringResources().printInitSrc();
@@ -6062,10 +6071,133 @@ namespace org.mariuszgromada.math.mxparser.test {
 			mXparser.setConsoleOutputPrefix("aaa");
 			mXparser.setDefaultConsoleOutputPrefix();
 			CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+			e.setVerboseMode();
+			e.calculate(calcStepsRegister);
+			e.setSilentMode();
 			calcStepsRegister.consolePrint();
 			testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0231() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "mXparser API - consolePrintln / consolePrintln / resetConsoleOutput / getConsoleOutput / setConsoleOutputPrefix";
+			TestCommonTools.consolePrintTestApiStart(231, testDescr);
+			mXparser.resetConsoleOutput();
+			String cleanA = mXparser.getConsoleOutput();
+			mXparser.setConsoleOutputPrefix("TEST A: ");
+			mXparser.consolePrintln("A1");
+			mXparser.consolePrintln("A2");
+			String testA = mXparser.getConsoleOutput();
+			mXparser.setConsoleOutputPrefix("TEST B: ");
+			mXparser.consolePrint("B1");
+			mXparser.consolePrintln("B2");
+			String testB = mXparser.getConsoleOutput();
+			mXparser.resetConsoleOutput();
+			String cleanB = mXparser.getConsoleOutput();
+			mXparser.setDefaultConsoleOutputPrefix();
+			mXparser.consolePrintln("C1");
+			mXparser.consolePrintln("C2");
+			String testC = mXparser.getConsoleOutput();
+			mXparser.resetConsoleOutput();
+			String cleanC = mXparser.getConsoleOutput();
+
+			String newLine = Environment.NewLine;
+
+			String resultA =
+					"TEST A: A1" + newLine +
+					"TEST A: A2" + newLine +
+					"TEST A: "
+					;
+
+			String resultB =
+					"TEST A: A1" + newLine +
+					"TEST A: A2" + newLine +
+					"TEST A: B1B2" + newLine +
+					"TEST B: "
+					;
+
+			String defaultPrefix = "[mXparser-v." + mXparser.VERSION + "] ";
+			String resultC =
+					defaultPrefix + "C1" + newLine +
+					defaultPrefix + "C2" + newLine +
+					defaultPrefix
+					;
+
+			if (testA.Equals(resultA) && cleanA.Length == 0
+					&& testB.Equals(resultB) && cleanB.Length == 0
+					&& testC.Equals(resultC) && cleanC.Length == 0
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+		   Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0232() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "mXparser API - getLicense";
+			TestCommonTools.consolePrintTestApiStart(232, testDescr);
+			String license1 = License.geTermsOfAgreement();
+			String license2 = License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
+			String license3 = mXparser.LICENSE;
+			String license4 = mXparser.getLicense();
+
+			if (license1.Equals(license2) && license1.Equals(license3) && license1.Equals(license4))
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+		   Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0233() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "mXparser API - mXparser.cancelCurrentCalculation / wait / resetCancelCurrentCalculationFlag";
+			TestCommonTools.consolePrintTestApiStart(233, testDescr);
+			mXparser.resetCancelCurrentCalculationFlag();
+			bool isCancelled0 = mXparser.isCurrentCalculationCancelled();
+
+			LongTest runner = new LongTest();
+			Thread thread = new Thread(runner.run);
+			bool isAlive0 = thread.IsAlive;
+			thread.Start();
+			mXparser.wait(300);
+
+			bool isCancelled1 = mXparser.isCurrentCalculationCancelled();
+			bool isAlive1 = thread.IsAlive;
+			double v1 = runner.v;
+			mXparser.wait(1000);
+
+			bool isCancelled2 = mXparser.isCurrentCalculationCancelled();
+			bool isAlive2 = thread.IsAlive;
+			double v2 = runner.v;
+			mXparser.wait(1000);
+
+			double v3 = runner.v;
+			bool isCancelled3 = mXparser.isCurrentCalculationCancelled();
+			bool isAlive3 = thread.IsAlive;
+			mXparser.cancelCurrentCalculation();
+
+			mXparser.wait(1000);
+			bool isCancelled4 = mXparser.isCurrentCalculationCancelled();
+			bool isAlive4 = thread.IsAlive;
+			double v4 = runner.v;
+
+			mXparser.resetCancelCurrentCalculationFlag();
+			bool isCancelled5 = mXparser.isCurrentCalculationCancelled();
+			bool isAlive5 = thread.IsAlive;
+
+			if (!isCancelled0 && !isAlive0
+					&& !isCancelled1 && v1 == 0 && isAlive1
+					&& !isCancelled2 && v2 == 0 && isAlive2
+					&& !isCancelled3 && v3 == 0 && isAlive3
+					&& isCancelled4  && Double.IsNaN(v4) && !isAlive4
+					&& !isCancelled5 && !isAlive5
+			)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+		   Assert.IsTrue(testResult);
 		}
 		public static bool testCanonicalString(String expStr, String expResStr, params String[] elements) {
             mXparser.consolePrintln();

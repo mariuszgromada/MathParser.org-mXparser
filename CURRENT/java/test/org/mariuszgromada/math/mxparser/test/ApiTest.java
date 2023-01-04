@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2022-12-31
+ * @(#)SyntaxTest.java        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6041,7 +6041,7 @@ public final class ApiTest {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
         String testDescr = "console print always true test - just for API use & test coverage";
-        TestCommonTools.consolePrintTestApiStart(229, testDescr);
+        TestCommonTools.consolePrintTestApiStart(230, testDescr);
         mXparser.consolePrintln("test");
         mXparser.consolePrintln();
         mXparser.consolePrint("test");
@@ -6049,11 +6049,19 @@ public final class ApiTest {
         mXparser.consolePrintLicense();
         mXparser.consolePrintSettings();
         mXparser.consolePrintSettings("aaa");
-        String[] str = new String[2]; str[0] = "a"; str[1] = "b";
-        mXparser.consolePrintln(str);
+        String[] strArray = new String[2]; strArray[0] = "a"; strArray[1] = "b";
+        String[] nullStrArray = null;
+        mXparser.consolePrintln(strArray);
+        mXparser.consolePrintln(nullStrArray);
         mXparser.consolePrintHelp("sin");
-        Expression e = new Expression("2+2");
+        Argument x = new Argument("x = 2");
+        Constant c = new Constant("c  = 3");
+        Function f = new Function("f(x,y,z)=x*y*z");
+        RecursiveArgument r = new RecursiveArgument("r(n) = n*r(n-1)");
+        r.addBaseCase(1,1);
+        Expression e = new Expression("2+2 + x + c + f(1,2,3) + r(5)", x, c, f, r);
         mXparser.consolePrintTokens(e.getCopyOfInitialTokens());
+        mXparser.consolePrintln(e.getCopyOfInitialTokens());
         e.consolePrintCopyOfInitialTokens();
         StringModel.getStringResources().print();
         StringModel.getStringResources().printInitSrc();
@@ -6066,8 +6074,131 @@ public final class ApiTest {
         mXparser.setConsoleOutputPrefix("aaa");
         mXparser.setDefaultConsoleOutputPrefix();
         CalcStepsRegister calcStepsRegister = new CalcStepsRegister();
+        e.setVerboseMode();
+        e.calculate(calcStepsRegister);
+        e.setSilentMode();
         calcStepsRegister.consolePrint();
         testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0231() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - consolePrintln / consolePrintln / resetConsoleOutput / getConsoleOutput / setConsoleOutputPrefix";
+        TestCommonTools.consolePrintTestApiStart(231, testDescr);
+        mXparser.resetConsoleOutput();
+        String cleanA = mXparser.getConsoleOutput();
+        mXparser.setConsoleOutputPrefix("TEST A: ");
+        mXparser.consolePrintln("A1");
+        mXparser.consolePrintln("A2");
+        String testA = mXparser.getConsoleOutput();
+        mXparser.setConsoleOutputPrefix("TEST B: ");
+        mXparser.consolePrint("B1");
+        mXparser.consolePrintln("B2");
+        String testB = mXparser.getConsoleOutput();
+        mXparser.resetConsoleOutput();
+        String cleanB = mXparser.getConsoleOutput();
+        mXparser.setDefaultConsoleOutputPrefix();
+        mXparser.consolePrintln("C1");
+        mXparser.consolePrintln("C2");
+        String testC = mXparser.getConsoleOutput();
+        mXparser.resetConsoleOutput();
+        String cleanC = mXparser.getConsoleOutput();
+
+        String newLine = System.lineSeparator();
+
+        String resultA =
+                "TEST A: A1" + newLine +
+                "TEST A: A2" + newLine +
+                "TEST A: "
+                ;
+
+        String resultB =
+                "TEST A: A1" + newLine +
+                "TEST A: A2" + newLine +
+                "TEST A: B1B2" + newLine +
+                "TEST B: "
+                ;
+
+        String defaultPrefix = "[mXparser-v." + mXparser.VERSION + "] ";
+        String resultC =
+                defaultPrefix + "C1" + newLine +
+                defaultPrefix + "C2" + newLine +
+                defaultPrefix
+                ;
+
+        if (testA.equals(resultA) && cleanA.length() == 0
+                && testB.equals(resultB) && cleanB.length() == 0
+                && testC.equals(resultC) && cleanC.length() == 0
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0232() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getLicense";
+        TestCommonTools.consolePrintTestApiStart(232, testDescr);
+        String license1 = License.geTermsOfAgreement();
+        String license2 = License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
+        String license3 = mXparser.LICENSE;
+        String license4 = mXparser.getLicense();
+
+        if (license1.equals(license2) && license1.equals(license3) && license1.equals(license4))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0233() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - mXparser.cancelCurrentCalculation / wait / resetCancelCurrentCalculationFlag";
+        TestCommonTools.consolePrintTestApiStart(233, testDescr);
+        mXparser.resetCancelCurrentCalculationFlag();
+        boolean isCancelled0 = mXparser.isCurrentCalculationCancelled();
+
+        LongTest runner = new LongTest();
+        Thread thread = new Thread(runner);
+        boolean isAlive0 = thread.isAlive();
+        thread.start();
+        mXparser.wait(300);
+
+        boolean isCancelled1 = mXparser.isCurrentCalculationCancelled();
+        boolean isAlive1 = thread.isAlive();
+        double v1 = runner.v;
+        mXparser.wait(1000);
+
+        boolean isCancelled2 = mXparser.isCurrentCalculationCancelled();
+        boolean isAlive2 = thread.isAlive();
+        double v2 = runner.v;
+        mXparser.wait(1000);
+
+        double v3 = runner.v;
+        boolean isCancelled3 = mXparser.isCurrentCalculationCancelled();
+        boolean isAlive3 = thread.isAlive();
+        mXparser.cancelCurrentCalculation();
+
+        mXparser.wait(1000);
+        boolean isCancelled4 = mXparser.isCurrentCalculationCancelled();
+        boolean isAlive4 = thread.isAlive();
+        double v4 = runner.v;
+
+        mXparser.resetCancelCurrentCalculationFlag();
+        boolean isCancelled5 = mXparser.isCurrentCalculationCancelled();
+        boolean isAlive5 = thread.isAlive();
+
+        if (!isCancelled0 && !isAlive0
+                && !isCancelled1 && v1 == 0 && isAlive1
+                && !isCancelled2 && v2 == 0 && isAlive2
+                && !isCancelled3 && v3 == 0 && isAlive3
+                && isCancelled4 && Double.isNaN(v4) && !isAlive4
+                && !isCancelled5 && !isAlive5
+        )
+            testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }

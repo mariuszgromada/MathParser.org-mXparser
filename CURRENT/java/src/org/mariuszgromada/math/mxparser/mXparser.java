@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2023-01-02
+ * @(#)mXparser.java        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -251,7 +251,7 @@ public final class mXparser {
 	 * @see #consolePrintln(Object)
 	 * @see #consolePrint(Object)
 	 */
-	private static volatile String CONSOLE_OUTPUT = StringInvariant.EMPTY;
+	private static volatile StringBuilder CONSOLE_OUTPUT = new StringBuilder();
 	private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 	private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 	private static volatile int CONSOLE_ROW_NUMBER = 1;
@@ -1424,6 +1424,13 @@ public final class mXparser {
 	public static String toMixedFractionString(double value) {
 		return NumberTheory.toMixedFractionString(value);
 	}
+	private static void initConsoleOutput() {
+		if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.length() == 0) {
+			System.out.print(CONSOLE_PREFIX);
+			CONSOLE_OUTPUT.setLength(0);
+			CONSOLE_OUTPUT.append(CONSOLE_OUTPUT_PREFIX);
+		}
+	}
 	/**
 	 * Prints object.toString to the Console + new line
 	 *
@@ -1431,14 +1438,13 @@ public final class mXparser {
 	 */
 	public static void consolePrintln(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
-			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.equals(StringInvariant.EMPTY)) {
-				System.out.print(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_PREFIX;
-			}
+			initConsoleOutput();
 			System.out.println(o);
 			CONSOLE_ROW_NUMBER++;
 			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
+			CONSOLE_OUTPUT.append(o);
+			CONSOLE_OUTPUT.append(StringInvariant.NEW_LINE);
+			CONSOLE_OUTPUT.append(CONSOLE_OUTPUT_PREFIX);
 		}
 	}
 	/**
@@ -1460,14 +1466,12 @@ public final class mXparser {
 	 */
 	public static void consolePrintln() {
 		synchronized (CONSOLE_OUTPUT) {
-			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.equals(StringInvariant.EMPTY)) {
-				System.out.print(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_PREFIX;
-			}
+			initConsoleOutput();
 			System.out.println();
 			CONSOLE_ROW_NUMBER++;
 			System.out.print(CONSOLE_PREFIX);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
+			CONSOLE_OUTPUT.append(StringInvariant.NEW_LINE);
+			CONSOLE_OUTPUT.append(CONSOLE_OUTPUT_PREFIX);
 		}
 	}
 	/**
@@ -1477,12 +1481,9 @@ public final class mXparser {
 	 */
 	public static void consolePrint(Object o) {
 		synchronized (CONSOLE_OUTPUT) {
-			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.equals(StringInvariant.EMPTY)) {
-				System.out.print(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_PREFIX;
-			}
+			initConsoleOutput();
 			System.out.print(o);
-			CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
+			CONSOLE_OUTPUT.append(o);
 		}
 	}
 	public static void consolePrintSettings(String prefix) {
@@ -1517,7 +1518,7 @@ public final class mXparser {
 	 */
 	public static void resetConsoleOutput() {
 		synchronized (CONSOLE_OUTPUT) {
-			CONSOLE_OUTPUT = StringInvariant.EMPTY;
+			CONSOLE_OUTPUT.setLength(0);
 			CONSOLE_ROW_NUMBER = 1;
 		}
 	}
@@ -1569,7 +1570,7 @@ public final class mXparser {
 	 * @see mXparser#resetConsoleOutput()
 	 */
 	public static String getConsoleOutput() {
-		return CONSOLE_OUTPUT;
+		return CONSOLE_OUTPUT.toString();
 	}
 	/**
 	 * General mXparser expression help
@@ -1702,15 +1703,14 @@ public final class mXparser {
 	/**
 	 * Waits given number of milliseconds
 	 *
-	 * @param n Number of milliseconds
+	 * @param timeMillis Number of milliseconds
 	 */
-	public static void wait (int n){
-        long t0,t1;
-        t0=System.currentTimeMillis();
-        do{
-            t1=System.currentTimeMillis();
-        }
-        while (t1-t0<n);
+	public static void wait (int timeMillis){
+		try {
+			Thread.sleep(timeMillis);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Method give a signal to other methods to cancel current calculation. This is a flag,

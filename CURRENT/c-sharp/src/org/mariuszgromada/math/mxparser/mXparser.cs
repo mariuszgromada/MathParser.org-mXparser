@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.0    2023-01-02
+ * @(#)mXparser.cs        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -185,6 +185,8 @@ using System.Globalization;
 
 using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.parsertokens;
+using System.Text;
+using System.Threading;
 
 [assembly: CLSCompliant(true)]
 namespace org.mariuszgromada.math.mxparser {
@@ -325,7 +327,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see #consolePrintln(Object)
 		 * @see #consolePrint(Object)
 		 */
-		private static volatile String CONSOLE_OUTPUT = StringInvariant.EMPTY;
+		private static volatile StringBuilder CONSOLE_OUTPUT = new StringBuilder();
 		private static volatile String CONSOLE_PREFIX = "[mXparser-v." + VERSION + "] ";
 		private static volatile String CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 		private static volatile int CONSOLE_ROW_NUMBER = 1;
@@ -1500,7 +1502,19 @@ namespace org.mariuszgromada.math.mxparser {
 		public static String toMixedFractionString(double value) {
 			return NumberTheory.toMixedFractionString(value);
 		}
-		public static void doNothing(Object o) {
+		internal static void clearConsoleOutput() {
+#if NET35
+			CONSOLE_OUTPUT.Remove(0, CONSOLE_OUTPUT.Length);
+#else
+            CONSOLE_OUTPUT.Clear();
+#endif
+        }
+        private static void initConsoleOutput() {
+			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.Length == 0) {
+				Console.Write(CONSOLE_PREFIX);
+				clearConsoleOutput();
+                CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
+			}
 		}
 		internal static void consoleWriteLine(Object o) {
 #if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
@@ -1530,15 +1544,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln(Object o) {
 			lock (CONSOLE_OUTPUT) {
-				if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.Equals(StringInvariant.EMPTY)) {
-					consoleWrite(CONSOLE_PREFIX);
-					CONSOLE_OUTPUT = CONSOLE_PREFIX;
-				}
-				consoleWriteLine(o);
+                initConsoleOutput();
+                consoleWriteLine(o);
 				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_OUTPUT + o + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
-			}
+                CONSOLE_OUTPUT.Append(o);
+                CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
+                CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
+            }
 		}
 		/**
 		 * Prints array of strings
@@ -1559,15 +1572,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln() {
 			lock (CONSOLE_OUTPUT) {
-				if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.Equals(StringInvariant.EMPTY)) {
-					consoleWrite(CONSOLE_PREFIX);
-					CONSOLE_OUTPUT = CONSOLE_PREFIX;
-				}
-				consoleWriteLine();
+                initConsoleOutput();
+                consoleWriteLine();
 				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-				CONSOLE_OUTPUT = CONSOLE_OUTPUT + StringInvariant.NEW_LINE + CONSOLE_OUTPUT_PREFIX;
-			}
+                CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
+                CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
+            }
 		}
 		/**
 		 * Prints object.toString to the Console, no new line
@@ -1576,13 +1587,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrint(Object o) {
 			lock (CONSOLE_OUTPUT) {
-				if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.Equals(StringInvariant.EMPTY)) {
-					consoleWrite(CONSOLE_PREFIX);
-					CONSOLE_OUTPUT = CONSOLE_PREFIX;
-				}
-				consoleWrite(o);
-				CONSOLE_OUTPUT = CONSOLE_OUTPUT + o;
-			}
+                initConsoleOutput();
+                consoleWrite(o);
+                CONSOLE_OUTPUT.Append(o);
+            }
 		}
 		public static void consolePrintSettings(String prefix) {
             mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
@@ -1615,8 +1623,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void resetConsoleOutput() {
 			lock (CONSOLE_OUTPUT) {
-				CONSOLE_OUTPUT = StringInvariant.EMPTY;
-				CONSOLE_ROW_NUMBER = 1;
+                clearConsoleOutput();
+                CONSOLE_ROW_NUMBER = 1;
 			}
 		}
 		/**
@@ -1665,7 +1673,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#resetConsoleOutput();
 		 */
 		public static String getConsoleOutput() {
-			return CONSOLE_OUTPUT;
+			return CONSOLE_OUTPUT.ToString();
 		}
 		/**
 		 * General mXparser expression help
@@ -1798,14 +1806,10 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Waits given number of milliseconds
 		 *
-		 * @param n Number of milliseconds
+		 * @param timeMillis Number of milliseconds
 		 */
-		public static void wait(int n) {
-			long t0, t1;
-			t0 = DateTime.Now.Millisecond;
-			do {
-				t1 = DateTime.Now.Millisecond;
-			} while (t1 - t0 < n);
+		public static void wait (int timeMillis){
+			Thread.Sleep(timeMillis);
 		}
 		/**
 		 * Method give a signal to other methods to cancel current calculation. This is a flag,
