@@ -6475,6 +6475,46 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
+        [TestMethod]
+        public void testApi0238() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "License API";
+			TestCommonTools.consolePrintTestApiStart(238, testDescr);
+
+			License.iConfirmNonCommercialUse("INFIMA1");
+            bool useType1 = License.checkIfUseTypeConfirmed();
+			String msg1 = License.getUseTypeConfirmationMessage();
+			String err1 = License.getErrorMessage();
+
+			License.iConfirmCommercialUse("INFIMA2");
+            bool useType2 = License.checkIfUseTypeConfirmed();
+			String msg2 = License.getUseTypeConfirmationMessage();
+			String err2 = License.getErrorMessage();
+
+			License.iConfirmNonCommercialUse("INFIMA3");
+            bool useType3 = License.checkIfUseTypeConfirmed();
+			String msg3 = License.getUseTypeConfirmationMessage();
+			String err3 = License.getErrorMessage();
+
+			License.iConfirmCommercialUse("INFI");
+            bool useType4 = License.checkIfUseTypeConfirmed();
+			String msg4 = License.getUseTypeConfirmationMessage();
+			String err4 = License.getErrorMessage();
+
+			StringResources stringResources = StringModel.getStringResources();
+			String warning = "WARNING";
+			String nonCommercial = "confirmed the non-commercial";
+
+			if (useType1 && useType2 && useType3 && useType4
+					&& msg1.Contains("INFIMA1") && msg2.Contains("INFIMA1") && msg3.Contains("INFIMA1") && msg4.Contains("INFIMA1")
+					&& err1.Length == 0 && err2.Contains(warning) && err3.Contains(warning) && err4.Contains(warning)
+					&& msg1.Contains(nonCommercial) && msg2.Contains(nonCommercial) && msg3.Contains(nonCommercial) && msg4.Contains(nonCommercial)
+			)
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
 		public static bool testCanonicalString(String expStr, String expResStr, params String[] elements) {
             mXparser.consolePrintln();
             mXparser.consolePrintln("------ expStr = " + expStr);

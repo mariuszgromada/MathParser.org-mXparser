@@ -6478,6 +6478,46 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0238() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "License API";
+        TestCommonTools.consolePrintTestApiStart(238, testDescr);
+
+        License.iConfirmNonCommercialUse("INFIMA1");
+        boolean useType1 = License.checkIfUseTypeConfirmed();
+        String msg1 = License.getUseTypeConfirmationMessage();
+        String err1 = License.getErrorMessage();
+
+        License.iConfirmCommercialUse("INFIMA2");
+        boolean useType2 = License.checkIfUseTypeConfirmed();
+        String msg2 = License.getUseTypeConfirmationMessage();
+        String err2 = License.getErrorMessage();
+
+        License.iConfirmNonCommercialUse("INFIMA3");
+        boolean useType3 = License.checkIfUseTypeConfirmed();
+        String msg3 = License.getUseTypeConfirmationMessage();
+        String err3 = License.getErrorMessage();
+
+        License.iConfirmCommercialUse("INFI");
+        boolean useType4 = License.checkIfUseTypeConfirmed();
+        String msg4 = License.getUseTypeConfirmationMessage();
+        String err4 = License.getErrorMessage();
+
+        StringResources stringResources = StringModel.getStringResources();
+        String warning = "WARNING";
+        String nonCommercial = "confirmed the non-commercial";
+
+        if (useType1 && useType2 && useType3 && useType4
+                && msg1.contains("INFIMA1") && msg2.contains("INFIMA1") && msg3.contains("INFIMA1") && msg4.contains("INFIMA1")
+                && err1.length() == 0 && err2.contains(warning) && err3.contains(warning) && err4.contains(warning)
+                && msg1.contains(nonCommercial) && msg2.contains(nonCommercial) && msg3.contains(nonCommercial) && msg4.contains(nonCommercial)
+        )
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
 
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();

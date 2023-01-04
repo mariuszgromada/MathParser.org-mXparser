@@ -1,5 +1,5 @@
 /*
- * @(#)License.java        5.1.1    2022-11-20
+ * @(#)License.java        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -195,7 +195,7 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.1.1
+ * @version        5.2.0
  *
  * @see #iConfirmNonCommercialUse(String)
  * @see #iConfirmCommercialUse(String)
@@ -346,11 +346,27 @@ public class License {
 	 *
 	 * @return   Confirmation message in case commercial or non-commercial user type has been
 	 *           confirmed and signed. Otherwise, returns error / warning message.
+	 *
+	 * @see #iConfirmNonCommercialUse(String)
+	 * @see #iConfirmNonCommercialUse(String)
 	 */
 	public static String getUseTypeConfirmationMessage() {
 		if (!checkIfUseTypeConfirmed())
 			return errorMessage;
 		return message;
+	}
+	/**
+	 * Information about the problem encountered when calling methods:
+	 * License.iConfirmNonCommercialUse(...), License.iConfirmCommercialUse(...)
+	 *
+	 * @return Error message if an error occurred,
+	 *         empty string if no error.
+	 *
+	 * @see #iConfirmNonCommercialUse(String)
+	 * @see #iConfirmNonCommercialUse(String)
+	 */
+	public static String getErrorMessage() {
+		return errorMessage;
 	}
 	/**
 	 * Return the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
