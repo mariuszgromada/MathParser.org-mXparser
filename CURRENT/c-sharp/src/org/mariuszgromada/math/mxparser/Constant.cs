@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        5.2.0    2023-01-02
+ * @(#)Constant.cs        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -270,6 +270,14 @@ namespace org.mariuszgromada.math.mxparser {
 		private static String buildErrorMessageInvalidConstantDefinitionString(String constantDefinitionString) {
 			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(constantDefinitionString, StringModel.STRING_RESOURCES.INVALID_CONSTANT_DEFINITION, StringInvariant.CONSTANT_DEFINITION_EXAMPLES);
 		}
+		private void registerNoSyntaxErrorInDefinition() {
+			syntaxStatus = NO_SYNTAX_ERRORS;
+			this.errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION;
+		}
+		private void registerSyntaxErrorInDefinition(String errorMessage) {
+			syntaxStatus = SYNTAX_ERROR;
+			this.errorMessage = errorMessage;
+		}
 		/**
 		 * Constructor - creates constant with a given name and given value
 		 *
@@ -279,16 +287,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Constant(String constantName, double constantValue) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
-			if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-                syntaxStatus = SYNTAX_ERROR;
-                errorMessage = buildErrorMessageInvalidConstantName(constantName);
-                return;
+			if (constantName == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.constantName = constantName;
-            this.constantValue = constantValue;
-            description = StringInvariant.EMPTY;
-            syntaxStatus = NO_SYNTAX_ERRORS;
-            errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
+			String constantNameTrim = constantName.Trim();
+			if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
+				return;
+			}
+			this.constantName = constantNameTrim;
+			this.constantValue = constantValue;
+			registerNoSyntaxErrorInDefinition();
 		}
 		/**
 		 * Constructor - creates constant with a given name and given value.
@@ -300,16 +310,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public Constant(String constantName, double constantValue, String description) : base(Constant.TYPE_ID) {
 			relatedExpressionsList = new List<Expression>();
-			if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-                syntaxStatus = SYNTAX_ERROR;
-                errorMessage = buildErrorMessageInvalidConstantName(constantName);
-                return;
+			if (constantName == null || description == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.constantName = constantName;
-            this.constantValue = constantValue;
-            this.description = description;
-            syntaxStatus = NO_SYNTAX_ERRORS;
-            errorMessage = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED;
+			String constantNameTrim = constantName.Trim();
+			if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
+				return;
+			}
+			this.constantName = constantNameTrim;
+			this.constantValue = constantValue;
+			this.description = description;
+			registerNoSyntaxErrorInDefinition();
 		}
 		/**
 		 * Constructor for function definition in natural math language,
@@ -324,17 +337,25 @@ namespace org.mariuszgromada.math.mxparser {
 		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
 			description = StringInvariant.EMPTY;
 			relatedExpressionsList = new List<Expression>();
-			if (!mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp)) {
-                syntaxStatus = SYNTAX_ERROR;
-                errorMessage = buildErrorMessageInvalidConstantDefinitionString(constantDefinitionString);
-                return;
+			if (constantDefinitionString == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
-            constantName = headEqBody.headTokens[0].tokenStr;
-            Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
-            constantValue = bodyExpression.calculate();
-            syntaxStatus = bodyExpression.getSyntaxStatus();
-            errorMessage = bodyExpression.getErrorMessage();
+			if (elements == null) {
+				registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_ELEMENTS_ARE_NULL);
+				return;
+			}
+			String constantDefinitionStringTrim = constantDefinitionString.Trim();
+			if (!mXparser.regexMatch(constantDefinitionStringTrim, ParserSymbol.constUnitgDefStrRegExp)) {
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantDefinitionString(constantDefinitionStringTrim));
+				return;
+			}
+			HeadEqBody headEqBody = new HeadEqBody(constantDefinitionStringTrim);
+			constantName = headEqBody.headTokens[0].tokenStr;
+			Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
+			constantValue = bodyExpression.calculate();
+			syntaxStatus = bodyExpression.getSyntaxStatus();
+			errorMessage = bodyExpression.getErrorMessage();
         }
 		/**
 		 * Gets constant name
@@ -351,13 +372,22 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      constantName        the constant name
 		 */
 		public void setConstantName(String constantName) {
-			if (!mXparser.regexMatch(constantName, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
-                syntaxStatus = SYNTAX_ERROR;
-                errorMessage = buildErrorMessageInvalidConstantName(constantName);
-                return;
+			if (constantName == null) {
+				if (!syntaxStatus)
+					registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
+				return;
 			}
-            this.constantName = constantName;
-            setExpressionModifiedFlags();
+			String constantNameTrim = constantName.Trim();
+			if (this.constantName.Equals(constantNameTrim))
+				return;
+			if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+				if (!syntaxStatus)
+					registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
+				return;
+			}
+			this.constantName = constantNameTrim;
+			setExpressionModifiedFlags();
+			registerNoSyntaxErrorInDefinition();
 		}
 		/**
 		 * Sets constant value
@@ -388,6 +418,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      description         the constant description
 		 */
 		public void setDescription(String description) {
+			if (description == null)
+				return;
 			this.description = description;
 		}
 		/**

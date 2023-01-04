@@ -6202,6 +6202,283 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0234() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Constant API - public Constant(String constantName, double constantValue)";
+        TestCommonTools.consolePrintTestApiStart(234, testDescr);
+        mXparser.resetCancelCurrentCalculationFlag();
+        String nullStr = null;
+        Constant c1 = new Constant(nullStr, 1);
+        Constant c2 = new Constant("1a", 1);
+        Constant c3 = new Constant("2+3", 1);
+        Constant c4 = new Constant("f(1)", 1);
+        Constant c5 = new Constant("a", 1);
+        Constant c6 = new Constant("a1", 2);
+        Constant c7 = new Constant(" [a1]   ", 3);
+
+        String msg1 = c1.getErrorMessage();
+        String msg2 = c2.getErrorMessage();
+        String msg3 = c3.getErrorMessage();
+        String msg4 = c4.getErrorMessage();
+        String msg5 = c5.getErrorMessage();
+        String msg6 = c6.getErrorMessage();
+        String msg7 = c7.getErrorMessage();
+
+        boolean syn1 = c1.getSyntaxStatus();
+        boolean syn2 = c2.getSyntaxStatus();
+        boolean syn3 = c3.getSyntaxStatus();
+        boolean syn4 = c4.getSyntaxStatus();
+        boolean syn5 = c5.getSyntaxStatus();
+        boolean syn6 = c6.getSyntaxStatus();
+        boolean syn7 = c7.getSyntaxStatus();
+
+        String n1 = c1.getConstantName();
+        String n2 = c2.getConstantName();
+        String n3 = c3.getConstantName();
+        String n4 = c4.getConstantName();
+        String n5 = c5.getConstantName();
+        String n6 = c6.getConstantName();
+        String n7 = c7.getConstantName();
+
+        double v1 = c1.getConstantValue();
+        double v2 = c2.getConstantValue();
+        double v3 = c3.getConstantValue();
+        double v4 = c4.getConstantValue();
+        double v5 = c5.getConstantValue();
+        double v6 = c6.getConstantValue();
+        double v7 = c7.getConstantValue();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL) && Double.isNaN(v1) && n1.equals("")
+                && !syn2 && msg2.contains(stringResources.INVALID_CONSTANT_NAME) && Double.isNaN(v2) && n2.equals("")
+                && !syn3 && msg3.contains(stringResources.INVALID_CONSTANT_NAME) && Double.isNaN(v3) && n3.equals("")
+                && !syn4 && msg4.contains(stringResources.INVALID_CONSTANT_NAME) && Double.isNaN(v4) && n4.equals("")
+                && syn5 && msg5.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v5 == 1 && n5.equals("a")
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v6 == 2 && n6.equals("a1")
+                && syn7 && msg7.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v7 == 3 && n7.equals("[a1]")
+        )
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0235() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Constant API - public Constant(String constantName, double constantValue, String description)";
+        TestCommonTools.consolePrintTestApiStart(235, testDescr);
+        mXparser.resetCancelCurrentCalculationFlag();
+        String nullStr = null;
+        String description = "test description";
+        Constant c1 = new Constant(nullStr, 1, description);
+        Constant c2 = new Constant("a", 1, nullStr);
+        Constant c3 = new Constant("2+3", 1, description);
+        Constant c4 = new Constant("f(1)", 1, description);
+        Constant c5 = new Constant("a", 1, description);
+        Constant c6 = new Constant("a1", 2, description);
+        Constant c7 = new Constant(" [a1]   ", 3, description);
+
+        String msg1 = c1.getErrorMessage();
+        String msg2 = c2.getErrorMessage();
+        String msg3 = c3.getErrorMessage();
+        String msg4 = c4.getErrorMessage();
+        String msg5 = c5.getErrorMessage();
+        String msg6 = c6.getErrorMessage();
+        String msg7 = c7.getErrorMessage();
+
+        boolean syn1 = c1.getSyntaxStatus();
+        boolean syn2 = c2.getSyntaxStatus();
+        boolean syn3 = c3.getSyntaxStatus();
+        boolean syn4 = c4.getSyntaxStatus();
+        boolean syn5 = c5.getSyntaxStatus();
+        boolean syn6 = c6.getSyntaxStatus();
+        boolean syn7 = c7.getSyntaxStatus();
+
+        String n1 = c1.getConstantName();
+        String n2 = c2.getConstantName();
+        String n3 = c3.getConstantName();
+        String n4 = c4.getConstantName();
+        String n5 = c5.getConstantName();
+        String n6 = c6.getConstantName();
+        String n7 = c7.getConstantName();
+
+        String d1 = c1.getDescription();
+        String d2 = c2.getDescription();
+        String d3 = c3.getDescription();
+        String d4 = c4.getDescription();
+        String d5 = c5.getDescription();
+        String d6 = c6.getDescription();
+        String d7 = c7.getDescription();
+
+        double v1 = c1.getConstantValue();
+        double v2 = c2.getConstantValue();
+        double v3 = c3.getConstantValue();
+        double v4 = c4.getConstantValue();
+        double v5 = c5.getConstantValue();
+        double v6 = c6.getConstantValue();
+        double v7 = c7.getConstantValue();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL) && Double.isNaN(v1) && n1.equals("") && d1.equals("")
+                && !syn2 && msg2.contains(stringResources.PROVIDED_STRING_IS_NULL) && Double.isNaN(v2) && n2.equals("") && d2.equals("")
+                && !syn3 && msg3.contains(stringResources.INVALID_CONSTANT_NAME) && Double.isNaN(v3) && n3.equals("") && d3.equals("")
+                && !syn4 && msg4.contains(stringResources.INVALID_CONSTANT_NAME) && Double.isNaN(v4) && n4.equals("") && d4.equals("")
+                && syn5 && msg5.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v5 == 1 && n5.equals("a") && d5.equals(description)
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v6 == 2 && n6.equals("a1") && d6.equals(description)
+                && syn7 && msg7.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v7 == 3 && n7.equals("[a1]") && d7.equals(description)
+        )
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0236() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Constant API - public Constant(String constantDefinitionString, PrimitiveElement...elements)";
+        TestCommonTools.consolePrintTestApiStart(236, testDescr);
+        mXparser.resetCancelCurrentCalculationFlag();
+        String nullStr = null;
+        Argument[] nullParams = null;
+        Constant x = new Constant("x", 4);
+        Constant c1 = new Constant(nullStr, x);
+        Constant c2 = new Constant("a", nullParams);
+        Constant c3 = new Constant("2+3", x);
+        Constant c4 = new Constant("f(1)", x);
+        Constant c5 = new Constant("a = 2*x", x);
+        Constant c6 = new Constant("a1 = 3*x", x);
+        Constant c7 = new Constant(" [a1]   =   4*x  ", x);
+
+        String msg1 = c1.getErrorMessage();
+        String msg2 = c2.getErrorMessage();
+        String msg3 = c3.getErrorMessage();
+        String msg4 = c4.getErrorMessage();
+        String msg5 = c5.getErrorMessage();
+        String msg6 = c6.getErrorMessage();
+        String msg7 = c7.getErrorMessage();
+
+        boolean syn1 = c1.getSyntaxStatus();
+        boolean syn2 = c2.getSyntaxStatus();
+        boolean syn3 = c3.getSyntaxStatus();
+        boolean syn4 = c4.getSyntaxStatus();
+        boolean syn5 = c5.getSyntaxStatus();
+        boolean syn6 = c6.getSyntaxStatus();
+        boolean syn7 = c7.getSyntaxStatus();
+
+        String n1 = c1.getConstantName();
+        String n2 = c2.getConstantName();
+        String n3 = c3.getConstantName();
+        String n4 = c4.getConstantName();
+        String n5 = c5.getConstantName();
+        String n6 = c6.getConstantName();
+        String n7 = c7.getConstantName();
+
+        double v1 = c1.getConstantValue();
+        double v2 = c2.getConstantValue();
+        double v3 = c3.getConstantValue();
+        double v4 = c4.getConstantValue();
+        double v5 = c5.getConstantValue();
+        double v6 = c6.getConstantValue();
+        double v7 = c7.getConstantValue();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (!syn1 && msg1.contains(stringResources.PROVIDED_STRING_IS_NULL) && Double.isNaN(v1) && n1.equals("")
+                && !syn2 && msg2.contains(stringResources.PROVIDED_ELEMENTS_ARE_NULL) && Double.isNaN(v2) && n2.equals("")
+                && !syn3 && msg3.contains(stringResources.INVALID_CONSTANT_DEFINITION) && Double.isNaN(v3) && n3.equals("")
+                && !syn4 && msg4.contains(stringResources.INVALID_CONSTANT_DEFINITION) && Double.isNaN(v4) && n4.equals("")
+                && syn5 && msg5.contains(stringResources.NO_ERRORS_DETECTED) && v5 == 8 && n5.equals("a")
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED) && v6 == 12 && n6.equals("a1")
+                && syn7 && msg7.contains(stringResources.NO_ERRORS_DETECTED) && v7 == 16 && n7.equals("[a1]")
+        )
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0237() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Constant API - setConstantName / setConstantValue / setDescription";
+        TestCommonTools.consolePrintTestApiStart(237, testDescr);
+        mXparser.resetCancelCurrentCalculationFlag();
+        String nullStr = null;
+        Constant x = new Constant("x", 4);
+        Constant c1 = new Constant(nullStr, x);
+        Constant c2 = new Constant("1a", 1);
+        Constant c3 = new Constant("2+3", x);
+        Constant c4 = new Constant("f(1)", x);
+        Constant c5 = new Constant("a = 2*x", x);
+        Constant c6 = new Constant("a1 = 3*x", x);
+        Constant c7 = new Constant(" [a1]   =   4*x  ", x);
+
+        c1.setConstantName("[c1]");
+        c2.setConstantName("c2");
+        c3.setConstantName("c3");
+        c4.setConstantName("c4");
+        c5.setConstantName(nullStr);
+        c6.setConstantName("a1");
+        c7.setConstantName("1a");
+
+        c1.setConstantValue(1);
+        c2.setConstantValue(2);
+        c3.setConstantValue(3);
+        c4.setConstantValue(4);
+        c5.setConstantValue(5);
+        c6.setConstantValue(6);
+        c7.setConstantValue(7);
+
+        String msg1 = c1.getErrorMessage();
+        String msg2 = c2.getErrorMessage();
+        String msg3 = c3.getErrorMessage();
+        String msg4 = c4.getErrorMessage();
+        String msg5 = c5.getErrorMessage();
+        String msg6 = c6.getErrorMessage();
+        String msg7 = c7.getErrorMessage();
+
+        boolean syn1 = c1.getSyntaxStatus();
+        boolean syn2 = c2.getSyntaxStatus();
+        boolean syn3 = c3.getSyntaxStatus();
+        boolean syn4 = c4.getSyntaxStatus();
+        boolean syn5 = c5.getSyntaxStatus();
+        boolean syn6 = c6.getSyntaxStatus();
+        boolean syn7 = c7.getSyntaxStatus();
+
+        String n1 = c1.getConstantName();
+        String n2 = c2.getConstantName();
+        String n3 = c3.getConstantName();
+        String n4 = c4.getConstantName();
+        String n5 = c5.getConstantName();
+        String n6 = c6.getConstantName();
+        String n7 = c7.getConstantName();
+
+        double v1 = c1.getConstantValue();
+        double v2 = c2.getConstantValue();
+        double v3 = c3.getConstantValue();
+        double v4 = c4.getConstantValue();
+        double v5 = c5.getConstantValue();
+        double v6 = c6.getConstantValue();
+        double v7 = c7.getConstantValue();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (syn1 && msg1.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v1 == 1 && n1.equals("[c1]")
+                && syn2 && msg2.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v2 == 2 && n2.equals("c2")
+                && syn3 && msg3.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v3 == 3 && n3.equals("c3")
+                && syn4 && msg4.contains(stringResources.NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION) && v4 == 4 && n4.equals("c4")
+                && syn5 && msg5.contains(stringResources.NO_ERRORS_DETECTED) && v5 == 5 && n5.equals("a")
+                && syn6 && msg6.contains(stringResources.NO_ERRORS_DETECTED) && v6 == 6 && n6.equals("a1")
+                && syn7 && msg7.contains(stringResources.NO_ERRORS_DETECTED) && v7 == 7 && n7.equals("[a1]")
+        )
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();
         mXparser.consolePrintln("------ expStr = " + expStr);

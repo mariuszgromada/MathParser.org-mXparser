@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.java        5.2.0    2023-01-02
+ * @(#)Argument.java        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -655,7 +655,8 @@ public class Argument extends PrimitiveElement implements Serializable {
 		if (this.argumentName.equals(argumentNameTrim))
 			return;
 		if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
-			registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+			if (!syntaxStatusDefinition)
+				registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 			return;
 		}
 		this.argumentName = argumentNameTrim;

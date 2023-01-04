@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.cs        5.2.0    2023-01-02
+ * @(#)Argument.cs        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -644,7 +644,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (this.argumentName.Equals(argumentNameTrim))
 				return;
 			if (!mXparser.regexMatch(argumentNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
-				registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
+                if (!syntaxStatusDefinition)
+                    registerSyntaxErrorInDefinition(buildErrorMessageInvalidArgumentName(argumentNameTrim));
 				return;
 			}
 			this.argumentName = argumentNameTrim;
