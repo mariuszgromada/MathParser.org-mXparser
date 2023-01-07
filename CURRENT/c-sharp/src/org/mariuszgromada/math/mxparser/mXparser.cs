@@ -441,7 +441,10 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Empty expression for general help purposes.
 		 */
-		internal static volatile Expression mXparserExp = new Expression();
+		internal static volatile Expression HELP_EXPRESSION = new Expression();
+		internal static void refreshHelp() {
+			HELP_EXPRESSION = new Expression();
+		}
 		/**
 		 * Initialization of prime numbers cache.
 		 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -913,14 +916,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void enableImpliedMultiplicationMode() {
 			impliedMultiplicationMode = true;
-			mXparserExp.enableImpliedMultiplicationMode();
+			HELP_EXPRESSION.enableImpliedMultiplicationMode();
 		}
 		/**
 		 * Disables implied multiplication
 		 */
 		public static void disableImpliedMultiplicationMode() {
 			impliedMultiplicationMode = false;
-			mXparserExp.disableImpliedMultiplicationMode();
+			HELP_EXPRESSION.disableImpliedMultiplicationMode();
 		}
 		/**
 		 * Gets implied multiplication status
@@ -939,7 +942,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void enableUnicodeBuiltinKeyWordsMode() {
 			unicodeKeyWordsEnabled = true;
-			mXparserExp.enableUnicodeBuiltinKeyWordsMode();
+			HELP_EXPRESSION.enableUnicodeBuiltinKeyWordsMode();
 		}
 		/**
 		 * Disables unicode built-in parser keywords, this flag
@@ -949,7 +952,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void disableUnicodeBuiltinKeyWordsMode() {
 			unicodeKeyWordsEnabled = false;
-			mXparserExp.disableUnicodeBuiltinKeyWordsMode();
+			HELP_EXPRESSION.disableUnicodeBuiltinKeyWordsMode();
 		}
 		/**
 		 * Gets unicode built-in parser keywords mode
@@ -1658,8 +1661,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return String with all general help content
 		 */
 		public static String getHelp() {
-			lock (mXparserExp) {
-				return mXparserExp.getHelp();
+			lock (HELP_EXPRESSION) {
+				return HELP_EXPRESSION.getHelp();
 			}
 		}
 		/**
@@ -1669,22 +1672,22 @@ namespace org.mariuszgromada.math.mxparser {
 		 * lines containing given keyword
 		 */
 		public static String getHelp(String word) {
-			lock (mXparserExp) {
-				return mXparserExp.getHelp(word);
+			lock (HELP_EXPRESSION) {
+				return HELP_EXPRESSION.getHelp(word);
 			}
 		}
 		/**
 		 * Prints all help content.
 		 */
 		public static void consolePrintHelp() {
-			consoleWriteLine(getHelp());
+            consolePrintln(getHelp());
 		}
 		/**
 		 * Prints filtered help content.
 		 * @param word      Keyword.
 		 */
 		public static void consolePrintHelp(String word) {
-			consoleWriteLine(getHelp(word));
+            consolePrintln(getHelp(word));
 		}
 		/**
 		 * Returns list of keywords known to the parser
@@ -1696,8 +1699,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#getHelp()
 		 */
 		public static List<KeyWord> getKeyWords() {
-			lock (mXparserExp) {
-				return mXparserExp.getKeyWords();
+			lock (HELP_EXPRESSION) {
+				return HELP_EXPRESSION.getKeyWords();
 			}
 		}
 		/**
@@ -1715,8 +1718,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see mXparser#getHelp(String)
 		 */
 		public static List<KeyWord> getKeyWords(String query) {
-			lock (mXparserExp) {
-				return mXparserExp.getKeyWords(query);
+			lock (HELP_EXPRESSION) {
+				return HELP_EXPRESSION.getKeyWords(query);
 			}
 		}
 		/**

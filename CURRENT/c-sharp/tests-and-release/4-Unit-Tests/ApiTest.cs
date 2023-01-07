@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @(#)ApiTest.cs        5.2.0    2023-01-04
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
@@ -6512,6 +6512,63 @@ namespace org.mariuszgromada.math.mxparser.test {
 					&& msg1.Contains(nonCommercial) && msg2.Contains(nonCommercial) && msg3.Contains(nonCommercial) && msg4.Contains(nonCommercial)
 			)
 				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+        [TestMethod]
+        public void testApi0239() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "StringModel / StringResources API";
+			TestCommonTools.consolePrintTestApiStart(239, testDescr);
+			TestStringResources testStringResources = new TestStringResources();
+			TestStringResources nullStringResources = null;
+			StringResources stringResources1 = StringModel.getStringResources();
+			StringModel.setStringResources(nullStringResources);
+			StringResources stringResources2 = StringModel.getStringResources();
+			StringModel.setStringResources(testStringResources);
+			StringResources stringResources3 = StringModel.getStringResources();
+			mXparser.resetConsoleOutput();
+			mXparser.consolePrintHelp();
+			String help1 = mXparser.getConsoleOutput();
+			StringModel.setDefaultStringResources();
+			StringResources stringResources4 = StringModel.getStringResources();
+			mXparser.resetConsoleOutput();
+			mXparser.consolePrintHelp();
+			String help2 = mXparser.getConsoleOutput();
+
+			if (stringResources1 == stringResources2
+					&& stringResources3 == testStringResources
+					&& stringResources4 != testStringResources
+					&& !help1.Equals(help2)
+
+					&& help1.Contains(testStringResources.HELP_CONTENT)
+					&& !help2.Contains(testStringResources.HELP_CONTENT)
+					&& !help1.Contains(stringResources4.HELP_CONTENT)
+					&& help2.Contains(stringResources4.HELP_CONTENT)
+
+					&& help1.Contains(testStringResources.KEYWORD)
+					&& !help2.Contains(testStringResources.KEYWORD)
+					&& !help1.Contains(stringResources4.KEYWORD)
+					&& help2.Contains(stringResources4.KEYWORD)
+
+					&& help1.Contains(testStringResources.SYNTAX)
+					&& !help2.Contains(testStringResources.SYNTAX)
+					&& !help1.Contains(stringResources4.SYNTAX)
+					&& help2.Contains(stringResources4.SYNTAX)
+
+					&& help1.Contains(testStringResources.NUMBER_LITERAL)
+					&& !help2.Contains(testStringResources.NUMBER_LITERAL)
+					&& !help1.Contains(stringResources4.NUMBER_LITERAL)
+					&& help2.Contains(stringResources4.NUMBER_LITERAL)
+
+					&& help1.Contains(testStringResources.DESCRIPTION)
+					&& !help2.Contains(testStringResources.DESCRIPTION)
+					&& !help1.Contains(stringResources4.DESCRIPTION)
+					&& help2.Contains(stringResources4.DESCRIPTION)
+
+					&& !testStringResources.USER_LANGUAGE.Equals(stringResources4.USER_LANGUAGE)
+			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
             Assert.IsTrue(testResult);
 		}

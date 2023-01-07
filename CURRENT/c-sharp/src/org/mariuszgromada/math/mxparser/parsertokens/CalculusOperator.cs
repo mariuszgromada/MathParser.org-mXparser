@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @(#)CalculusOperator.cs        5.2.0    2022-12-23
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22

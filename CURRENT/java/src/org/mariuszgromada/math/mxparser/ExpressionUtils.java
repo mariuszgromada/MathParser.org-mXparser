@@ -250,14 +250,14 @@ final class ExpressionUtils {
             addKeyWord(wordString, wordDescription + ParserSymbol.UNICODE_MATH_DESC, wordId, wordSyntax, wordSince, wordTypeId, keyWordsList);
     }
 
-    static final List<KeyWord> baseKeyWordsListParUdfUni111 = makeParserKeyWords(true, true, true);
-    static final List<KeyWord> baseKeyWordsListParUdfUni110 = makeParserKeyWords(true, true, false);
-    static final List<KeyWord> baseKeyWordsListParUdfUni101 = makeParserKeyWords(true, false, true);
-    static final List<KeyWord> baseKeyWordsListParUdfUni100 = makeParserKeyWords(true, false, false);
-    static final List<KeyWord> baseKeyWordsListParUdfUni011 = makeParserKeyWords(false, true, true);
-    static final List<KeyWord> baseKeyWordsListParUdfUni010 = makeParserKeyWords(false, true, false);
-    static final List<KeyWord> baseKeyWordsListParUdfUni001 = makeParserKeyWords(false, false, true);
-    static final List<KeyWord> baseKeyWordsListParUdfUni000 = makeParserKeyWords(false, false, false);
+    static List<KeyWord> baseKeyWordsListParUdfUni111;
+    static List<KeyWord> baseKeyWordsListParUdfUni110;
+    static List<KeyWord> baseKeyWordsListParUdfUni101;
+    static List<KeyWord> baseKeyWordsListParUdfUni100;
+    static List<KeyWord> baseKeyWordsListParUdfUni011;
+    static List<KeyWord> baseKeyWordsListParUdfUni010;
+    static List<KeyWord> baseKeyWordsListParUdfUni001;
+    static List<KeyWord> baseKeyWordsListParUdfUni000;
 
     static void addParserKeyWords(boolean parserKeyWordsOnly, boolean UDFExpression, boolean unicodeKeyWordsEnabled, List<KeyWord> keyWordsList) {
         List<KeyWord> baseKeyWordsList = getBaseKeyWordsList(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled);
@@ -273,6 +273,17 @@ final class ExpressionUtils {
         if (!parserKeyWordsOnly && UDFExpression && !unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni010;
         if (!parserKeyWordsOnly && !UDFExpression && unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni001;
         return baseKeyWordsListParUdfUni000;
+    }
+
+    static void makeAllParserKeyWords() {
+        baseKeyWordsListParUdfUni111 = makeParserKeyWords(true, true, true);
+        baseKeyWordsListParUdfUni110 = makeParserKeyWords(true, true, false);
+        baseKeyWordsListParUdfUni101 = makeParserKeyWords(true, false, true);
+        baseKeyWordsListParUdfUni100 = makeParserKeyWords(true, false, false);
+        baseKeyWordsListParUdfUni011 = makeParserKeyWords(false, true, true);
+        baseKeyWordsListParUdfUni010 = makeParserKeyWords(false, true, false);
+        baseKeyWordsListParUdfUni001 = makeParserKeyWords(false, false, true);
+        baseKeyWordsListParUdfUni000 = makeParserKeyWords(false, false, false);
     }
 
     static List<KeyWord> makeParserKeyWords(boolean parserKeyWordsOnly, boolean UDFExpression, boolean unicodeKeyWordsEnabled) {

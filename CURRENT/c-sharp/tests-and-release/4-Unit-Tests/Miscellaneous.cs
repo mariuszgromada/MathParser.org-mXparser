@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.2.0    2023-01-04
+ * @(#)Miscellaneous.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -411,4 +411,18 @@ namespace org.mariuszgromada.math.mxparser.test {
         }
     }
 
+    internal class TestStringResources : StringResources {
+        public TestStringResources() {
+            USER_LANGUAGE = "Polish";
+            NUMBER_LITERAL = "Literał liczbowy";
+            NUMBER = "Liczba";
+            HELP_CONTENT = "Pomoc";
+            KEYWORD = "Słowo kluczowe";
+            TYPE = "Typ";
+            SYNTAX = "Składnia";
+            SINCE = "Od";
+            DESCRIPTION = "Opis";
+            OPERATOR_MULTIPLY = "Mnożenie";
+        }
+    }
 }

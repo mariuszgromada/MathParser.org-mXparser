@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @(#)StringUtils.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22

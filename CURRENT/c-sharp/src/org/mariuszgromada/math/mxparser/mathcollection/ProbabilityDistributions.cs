@@ -810,13 +810,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Probability distribution function - Snedecor's F distribution (F-distribution or F-ratio,
-		 * also known as Fisher–Snedecor distribution)
+		 * also known as Fisherâ€“Snedecor distribution)
 		 *
 		 * @param x     Real value
 		 * @param d1    Number of degrees of freedom - 1
 		 * @param d2    Number of degrees of freedom - 2
 		 * @return      Returns the PDF of Snedecor's F distribution (F-distribution or F-ratio,
-		 * also known as Fisher–Snedecor distribution)
+		 * also known as Fisherâ€“Snedecor distribution)
 		 */
 		public static double pdfSnedecordF(double x, double d1, double d2) {
 			if (Double.IsNaN(x)) return Double.NaN;
@@ -838,13 +838,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Cumulative distribution function - Snedecor's F distribution (F-distribution or F-ratio,
-		 * also known as Fisher–Snedecor distribution)
+		 * also known as Fisherâ€“Snedecor distribution)
 		 *
 		 * @param x     Real value
 		 * @param d1    Number of degrees of freedom - 1
 		 * @param d2    Number of degrees of freedom - 2
 		 * @return      Returns the CDF of Snedecor's F distribution (F-distribution or F-ratio,
-		 *              also known as Fisher–Snedecor distribution)
+		 *              also known as Fisherâ€“Snedecor distribution)
 		 */
 		public static double cdfSnedecordF(double x, double d1, double d2) {
 			if (Double.IsNaN(x)) return Double.NaN;
@@ -864,13 +864,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Quantile function (Inverse cumulative distribution function) - Snedecor's F distribution (F-distribution
-		 * or F-ratio, also known as Fisher–Snedecor distribution)
+		 * or F-ratio, also known as Fisherâ€“Snedecor distribution)
 		 *
 		 * @param p     Probability
 		 * @param d1    Number of degrees of freedom - 1
 		 * @param d2    Number of degrees of freedom - 2
 		 * @return      Returns the quantile of Snedecor's F distribution (F-distribution or F-ratio,
-		 *              also known as Fisher–Snedecor distribution)
+		 *              also known as Fisherâ€“Snedecor distribution)
 		 */
 		public static double qntSnedecordF(double p, double d1, double d2) {
 			if (Double.IsNaN(p)) return Double.NaN;
@@ -891,12 +891,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		}
 		/**
 		 * Pseudo-random number from Snedecor's F distribution (F-distribution or F-ratio,
-		 * also known as Fisher–Snedecor distribution)
+		 * also known as Fisherâ€“Snedecor distribution)
 		 *
 		 * @param d1    Number of degrees of freedom - 1
 		 * @param d2    Number of degrees of freedom - 2
 		 * @return      Returns Pseudo-random number from Snedecor's F distribution (F-distribution
-		 *              or F-ratio, also known as Fisher–Snedecor distribution)
+		 *              or F-ratio, also known as Fisherâ€“Snedecor distribution)
 		 */
 		public static double rndSnedecordF(double d1, double d2) {
 			if (Double.IsNaN(d1)) return Double.NaN;

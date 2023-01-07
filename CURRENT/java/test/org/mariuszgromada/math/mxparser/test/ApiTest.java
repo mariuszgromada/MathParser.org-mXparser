@@ -6518,7 +6518,63 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0239() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringModel / StringResources API";
+        TestCommonTools.consolePrintTestApiStart(239, testDescr);
+        TestStringResources testStringResources = new TestStringResources();
+        TestStringResources nullStringResources = null;
+        StringResources stringResources1 = StringModel.getStringResources();
+        StringModel.setStringResources(nullStringResources);
+        StringResources stringResources2 = StringModel.getStringResources();
+        StringModel.setStringResources(testStringResources);
+        StringResources stringResources3 = StringModel.getStringResources();
+        mXparser.resetConsoleOutput();
+        mXparser.consolePrintHelp();
+        String help1 = mXparser.getConsoleOutput();
+        StringModel.setDefaultStringResources();
+        StringResources stringResources4 = StringModel.getStringResources();
+        mXparser.resetConsoleOutput();
+        mXparser.consolePrintHelp();
+        String help2 = mXparser.getConsoleOutput();
 
+        if (stringResources1 == stringResources2
+                && stringResources3 == testStringResources
+                && stringResources4 != testStringResources
+                && !help1.equals(help2)
+
+                && help1.contains(testStringResources.HELP_CONTENT)
+                && !help2.contains(testStringResources.HELP_CONTENT)
+                && !help1.contains(stringResources4.HELP_CONTENT)
+                && help2.contains(stringResources4.HELP_CONTENT)
+
+                && help1.contains(testStringResources.KEYWORD)
+                && !help2.contains(testStringResources.KEYWORD)
+                && !help1.contains(stringResources4.KEYWORD)
+                && help2.contains(stringResources4.KEYWORD)
+
+                && help1.contains(testStringResources.SYNTAX)
+                && !help2.contains(testStringResources.SYNTAX)
+                && !help1.contains(stringResources4.SYNTAX)
+                && help2.contains(stringResources4.SYNTAX)
+
+                && help1.contains(testStringResources.NUMBER_LITERAL)
+                && !help2.contains(testStringResources.NUMBER_LITERAL)
+                && !help1.contains(stringResources4.NUMBER_LITERAL)
+                && help2.contains(stringResources4.NUMBER_LITERAL)
+
+                && help1.contains(testStringResources.DESCRIPTION)
+                && !help2.contains(testStringResources.DESCRIPTION)
+                && !help1.contains(stringResources4.DESCRIPTION)
+                && help2.contains(stringResources4.DESCRIPTION)
+
+                && !testStringResources.USER_LANGUAGE.equals(stringResources4.USER_LANGUAGE)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();
         mXparser.consolePrintln("------ expStr = " + expStr);

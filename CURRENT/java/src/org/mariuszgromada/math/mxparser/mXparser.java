@@ -183,24 +183,11 @@ package org.mariuszgromada.math.mxparser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 import org.mariuszgromada.math.mxparser.mathcollection.*;
-import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
-import org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator;
-import org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator;
-import org.mariuszgromada.math.mxparser.parsertokens.CalculusOperator;
-import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
-import org.mariuszgromada.math.mxparser.parsertokens.Function1Arg;
-import org.mariuszgromada.math.mxparser.parsertokens.Function2Arg;
-import org.mariuszgromada.math.mxparser.parsertokens.Function3Arg;
-import org.mariuszgromada.math.mxparser.parsertokens.FunctionVariadic;
 import org.mariuszgromada.math.mxparser.parsertokens.KeyWord;
-import org.mariuszgromada.math.mxparser.parsertokens.Operator;
-import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
-import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
 import org.mariuszgromada.math.mxparser.parsertokens.Token;
-import org.mariuszgromada.math.mxparser.parsertokens.Unit;
+
 /**
  * mXparser class provides usefull methods when parsing, calculating or
  * parameters transforming.
@@ -362,7 +349,10 @@ public final class mXparser {
 	/**
 	 * Empty expression for general help purposes.
 	 */
-	static volatile Expression mXparserExp = new Expression();
+	static volatile Expression HELP_EXPRESSION = new Expression();
+	static void refreshHelp() {
+		HELP_EXPRESSION = new Expression();
+	}
 	/**
 	 * Initialization of prime numbers cache.
 	 * Cache size according to {@link PrimesCache#DEFAULT_MAX_NUM_IN_CACHE}
@@ -832,14 +822,14 @@ public final class mXparser {
 	 */
 	public static void enableImpliedMultiplicationMode() {
 		impliedMultiplicationMode = true;
-		mXparserExp.enableImpliedMultiplicationMode();
+		HELP_EXPRESSION.enableImpliedMultiplicationMode();
 	}
 	/**
 	 * Disables implied multiplication
 	 */
 	public static void disableImpliedMultiplicationMode() {
 		impliedMultiplicationMode = false;
-		mXparserExp.disableImpliedMultiplicationMode();
+		HELP_EXPRESSION.disableImpliedMultiplicationMode();
 	}
 	/**
 	 * Gets implied multiplication status
@@ -858,7 +848,7 @@ public final class mXparser {
 	 */
 	public static void enableUnicodeBuiltinKeyWordsMode() {
 		unicodeKeyWordsEnabled = true;
-		mXparserExp.enableUnicodeBuiltinKeyWordsMode();
+		HELP_EXPRESSION.enableUnicodeBuiltinKeyWordsMode();
 	}
 	/**
 	 * Disables unicode built-in parser keywords, this flag
@@ -868,7 +858,7 @@ public final class mXparser {
 	 */
 	public static void disableUnicodeBuiltinKeyWordsMode() {
 		unicodeKeyWordsEnabled = false;
-		mXparserExp.disableUnicodeBuiltinKeyWordsMode();
+		HELP_EXPRESSION.disableUnicodeBuiltinKeyWordsMode();
 	}
 	/**
 	 * Gets unicode built-in parser keywords mode
@@ -1552,8 +1542,8 @@ public final class mXparser {
 	 * @return String with all general help content
 	 */
 	public static String getHelp() {
-		synchronized (mXparserExp) {
-			return mXparserExp.getHelp();
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelp();
 		}
 	}
 	/**
@@ -1563,22 +1553,22 @@ public final class mXparser {
 	 * lines containing given keyword
 	 */
 	public static String getHelp(String word) {
-		synchronized (mXparserExp) {
-			return mXparserExp.getHelp(word);
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelp(word);
 		}
 	}
 	/**
 	 * Prints all help content.
 	 */
 	public static void consolePrintHelp() {
-		System.out.println(getHelp());
+		consolePrintln(getHelp());
 	}
 	/**
 	 * Prints filtered help content.
 	 * @param word      Keyword.
 	 */
 	public static void consolePrintHelp(String word) {
-		System.out.println(getHelp(word));
+		consolePrintln(getHelp(word));
 	}
 	/**
 	 * Returns list of keywords known to the parser
@@ -1590,8 +1580,8 @@ public final class mXparser {
 	 * @see mXparser#getHelp()
 	 */
 	public static List<KeyWord> getKeyWords() {
-		synchronized (mXparserExp) {
-			return mXparserExp.getKeyWords();
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getKeyWords();
 		}
 	}
 	/**
@@ -1609,8 +1599,8 @@ public final class mXparser {
 	 * @see mXparser#getHelp(String)
 	 */
 	public static List<KeyWord> getKeyWords(String query) {
-		synchronized (mXparserExp) {
-			return mXparserExp.getKeyWords(query);
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getKeyWords(query);
 		}
 	}
 	/**

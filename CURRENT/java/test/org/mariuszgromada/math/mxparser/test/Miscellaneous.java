@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.2.0    2023-01-02
+ * @(#)Miscellaneous.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -408,5 +408,20 @@ class LongTest implements Runnable {
     @Override
     public void run() {
         v = e.calculate();
+    }
+}
+
+class TestStringResources extends StringResources {
+    TestStringResources() {
+        USER_LANGUAGE = "Polish";
+        NUMBER_LITERAL = "Literał liczbowy";
+        NUMBER = "Liczba";
+        HELP_CONTENT = "Pomoc";
+        KEYWORD = "Słowo kluczowe";
+        TYPE = "Typ";
+        SYNTAX = "Składnia";
+        SINCE = "Od";
+        DESCRIPTION = "Opis";
+        OPERATOR_MULTIPLY = "Mnożenie";
     }
 }

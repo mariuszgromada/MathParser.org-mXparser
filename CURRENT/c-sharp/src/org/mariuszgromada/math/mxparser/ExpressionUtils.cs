@@ -248,14 +248,14 @@ namespace org.mariuszgromada.math.mxparser {
                 addKeyWord(wordString, wordDescription + ParserSymbol.UNICODE_MATH_DESC, wordId, wordSyntax, wordSince, wordTypeId, keyWordsList);
         }
 
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni111 = makeParserKeyWords(true, true, true);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni110 = makeParserKeyWords(true, true, false);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni101 = makeParserKeyWords(true, false, true);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni100 = makeParserKeyWords(true, false, false);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni011 = makeParserKeyWords(false, true, true);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni010 = makeParserKeyWords(false, true, false);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni001 = makeParserKeyWords(false, false, true);
-        static readonly List<KeyWord> baseKeyWordsListParUdfUni000 = makeParserKeyWords(false, false, false);
+        static List<KeyWord> baseKeyWordsListParUdfUni111;
+        static List<KeyWord> baseKeyWordsListParUdfUni110;
+        static List<KeyWord> baseKeyWordsListParUdfUni101;
+        static List<KeyWord> baseKeyWordsListParUdfUni100;
+        static List<KeyWord> baseKeyWordsListParUdfUni011;
+        static List<KeyWord> baseKeyWordsListParUdfUni010;
+        static List<KeyWord> baseKeyWordsListParUdfUni001;
+        static List<KeyWord> baseKeyWordsListParUdfUni000;
 
         internal static void addParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled, List<KeyWord> keyWordsList) {
             List<KeyWord> baseKeyWordsList = getBaseKeyWordsList(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled);
@@ -271,6 +271,17 @@ namespace org.mariuszgromada.math.mxparser {
             if (!parserKeyWordsOnly && UDFExpression && !unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni010;
             if (!parserKeyWordsOnly && !UDFExpression && unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni001;
             return baseKeyWordsListParUdfUni000;
+        }
+
+        internal static void makeAllParserKeyWords() {
+            baseKeyWordsListParUdfUni111 = makeParserKeyWords(true, true, true);
+            baseKeyWordsListParUdfUni110 = makeParserKeyWords(true, true, false);
+            baseKeyWordsListParUdfUni101 = makeParserKeyWords(true, false, true);
+            baseKeyWordsListParUdfUni100 = makeParserKeyWords(true, false, false);
+            baseKeyWordsListParUdfUni011 = makeParserKeyWords(false, true, true);
+            baseKeyWordsListParUdfUni010 = makeParserKeyWords(false, true, false);
+            baseKeyWordsListParUdfUni001 = makeParserKeyWords(false, false, true);
+            baseKeyWordsListParUdfUni000 = makeParserKeyWords(false, false, false);
         }
 
         static List<KeyWord> makeParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled) {
@@ -1145,10 +1156,11 @@ namespace org.mariuszgromada.math.mxparser {
             helpStr = helpStr
                 + StringUtils.getLeftSpaces("12345", "#")
                 + "  "
-                + StringUtils.getRightSpaces("01234567890123456789", "keyword")
-                + StringUtils.getRightSpaces("                        ", "type")
-                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", "syntax")
-                + StringUtils.getRightSpaces("012345", "since") + "description"
+                + StringUtils.getRightSpaces("01234567890123456789", StringModel.STRING_RESOURCES.KEYWORD)
+                + StringUtils.getRightSpaces("                        ", StringModel.STRING_RESOURCES.TYPE)
+                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", StringModel.STRING_RESOURCES.SYNTAX)
+                + StringUtils.getRightSpaces("012345", StringModel.STRING_RESOURCES.SINCE)
+                + StringModel.STRING_RESOURCES.DESCRIPTION
                 + StringInvariant.NEW_LINE
                 ;
 			helpStr = helpStr

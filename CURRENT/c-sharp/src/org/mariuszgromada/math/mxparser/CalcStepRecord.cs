@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @(#)CalcStepRecord.cs        5.1.0    2022-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22

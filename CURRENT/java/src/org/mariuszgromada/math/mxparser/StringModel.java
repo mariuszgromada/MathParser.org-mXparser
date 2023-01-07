@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.java        5.2.0    2022-12-28
+ * @(#)StringModel.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -216,6 +216,15 @@ public final class StringModel {
     public static void setStringResources(StringResources stringResources) {
         if (stringResources == null) return;
         STRING_RESOURCES = stringResources;
+        setLanguageSpecificDescriptions();
+    }
+    /**
+     * Sets default string resources.
+     *
+     * @see StringResources
+     */
+    public static void setDefaultStringResources() {
+        STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
         setLanguageSpecificDescriptions();
     }
     /**
@@ -747,6 +756,8 @@ public final class StringModel {
         setLanguageSpecificDescriptionsRandomVariable();
         setLanguageSpecificDescriptionsUnit();
         setLanguageSpecificDescriptionsUserDefinedElements();
+        ExpressionUtils.makeAllParserKeyWords();
+        mXparser.refreshHelp();
         return true;
     }
 
