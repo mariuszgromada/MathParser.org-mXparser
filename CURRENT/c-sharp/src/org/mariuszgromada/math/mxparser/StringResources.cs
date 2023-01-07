@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        5.2.0    2023-01-02
+ * @(#)StringResources.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -614,7 +614,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_FUNCTION_2_ARG_WORPITZKY_NUMBER = "Worpitzky number";
         internal const String DEFAULT_FUNCTION_2_ARG_EULER_NUMBER = "Euler number";
         internal const String DEFAULT_FUNCTION_2_ARG_KRONECKER_DELTA = "Kronecker delta";
-        internal const String DEFAULT_FUNCTION_2_ARG_EULER_POLYNOMIAL = "EulerPol";
+        internal const String DEFAULT_FUNCTION_2_ARG_EULER_POLYNOMIAL = "Euler polynomial";
         internal const String DEFAULT_FUNCTION_2_ARG_HARMONIC_NUMBER = "Harmonic number";
         internal const String DEFAULT_FUNCTION_2_ARG_ROUND = "Half-up rounding";
         internal const String DEFAULT_FUNCTION_2_ARG_NDIG = "Number of digits representing the number in numeral system with given base";

@@ -2068,7 +2068,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double value;
 		try {
 			value = function.calculate(calcStepsRegister);
-		} catch(StackOverflowError soe){
+		} catch (StackOverflowError soe) {
 			value = Double.NaN;
 			errorMessage = StringUtils.trimNotNull(soe.getMessage());
 		}

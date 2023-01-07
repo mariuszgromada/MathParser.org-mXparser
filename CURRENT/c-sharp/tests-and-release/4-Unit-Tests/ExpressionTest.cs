@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.2.0    2022-12-31
+ * @(#)ExpressionTest.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -22719,6 +22719,309 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
             Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1382() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "+(2)";
+			TestCommonTools.consolePrintTestExprStart(1382, expStr);
+			Expression testExp = new Expression(expStr);
+			testExp.disableAttemptToFixExpStrMode();
+			double value = testExp.calculate();
+			double reg = 2;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1383() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "-(2)";
+			TestCommonTools.consolePrintTestExprStart(1383, expStr);
+			Expression testExp = new Expression(expStr);
+			testExp.disableAttemptToFixExpStrMode();
+			double value = testExp.calculate();
+			double reg = -2;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1384() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "if( abs( 10*x^9 - der(x^10, x, 0.0000002, 20000) ) < abs( 10*x^9 - der(x^10, x) ) ; 1; 0)";
+			TestCommonTools.consolePrintTestExprStart(1384, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 1;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1385() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "if( abs( 10*x^9 - der(x^10, x, 0.1, 2) ) > abs( 10*x^9 - der(x^10, x) ) ; 1; 0)";
+			TestCommonTools.consolePrintTestExprStart(1385, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 1;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1386() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "if( abs( 10*2^9 - der(x^10, x, 2, 0.0000002, 20000) ) < abs( 10*2^9 - der(x^10, x, 2) ) ; 1; 0)";
+			TestCommonTools.consolePrintTestExprStart(1386, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1387() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "if( abs( 10*2^9 - der(x^10, x, 2, 0.1, 2) ) > abs( 10*2^9 - der(x^10, x, 2) ) ; 1; 0)";
+			TestCommonTools.consolePrintTestExprStart(1387, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1388() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "KDelta(0,0)";
+			TestCommonTools.consolePrintTestExprStart(1388, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1389() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "KDelta(0,1)";
+			TestCommonTools.consolePrintTestExprStart(1389, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1390() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "sum(i, 1, 100, sum(j, 1, 100, KDelta(i,j)*i*j ) ) - sum(k, 1, 100, k^2)";
+			TestCommonTools.consolePrintTestExprStart(1390, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1391() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(0, x) - 1";
+			TestCommonTools.consolePrintTestExprStart(1391, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1392() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(1, x) - (x - 1_2)";
+			TestCommonTools.consolePrintTestExprStart(1392, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1393() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(2, x) - (x^2 - x)";
+			TestCommonTools.consolePrintTestExprStart(1393, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1394() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(3, x) - (x^3 - 3_2x^2 + 1_4)";
+			TestCommonTools.consolePrintTestExprStart(1394, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1395() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(4, x) - (x^4 - 2x^3 + x)";
+			TestCommonTools.consolePrintTestExprStart(1395, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1396() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(5, x) - (x^5 - 5_2x^4 + 5_2x^2 - 1_2)";
+			TestCommonTools.consolePrintTestExprStart(1396, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1397() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(6, x) - (x^6 - 3x^5 + 5x^3 - 3x)";
+			TestCommonTools.consolePrintTestExprStart(1397, expStr);
+			Argument x = new Argument("x = 2");
+			Expression testExp = new Expression(expStr, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1398() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(n, x + y) - sum(k, 0, n, C(n,k) EulerPol(n-k, x) y^k )";
+			TestCommonTools.consolePrintTestExprStart(1398, expStr);
+			Argument x = new Argument("x = 2");
+			Argument y = new Argument("y = 4");
+			Argument n = new Argument("n = 8");
+			Expression testExp = new Expression(expStr, n, x, y);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1399() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "der(EulerPol(n, x), x)  - n*EulerPol(n-1, x)";
+			TestCommonTools.consolePrintTestExprStart(1399, expStr);
+			Argument x = new Argument("x = 2");
+			Argument n = new Argument("n = 7");
+			Expression testExp = new Expression(expStr, n, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-4)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1400() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "EulerPol(n, x+1) + EulerPol(n, x) - 2x^n";
+			TestCommonTools.consolePrintTestExprStart(1400, expStr);
+			Argument x = new Argument("x = 2");
+			Argument n = new Argument("n = 7");
+			Expression testExp = new Expression(expStr, n, x);
+			double value = testExp.calculate();
+			double reg = 0;
+			StringResources stringResources = StringModel.getStringResources();
+			if (MathFunctions.abs(reg - value) <= 1e-14)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
 		}
 	}
 }

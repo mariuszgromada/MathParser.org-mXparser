@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        5.2.0    2023-01-02
+ * @(#)StringResources.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -613,7 +613,7 @@ public class StringResources {
     static final String DEFAULT_FUNCTION_2_ARG_WORPITZKY_NUMBER = "Worpitzky number";
     static final String DEFAULT_FUNCTION_2_ARG_EULER_NUMBER = "Euler number";
     static final String DEFAULT_FUNCTION_2_ARG_KRONECKER_DELTA = "Kronecker delta";
-    static final String DEFAULT_FUNCTION_2_ARG_EULER_POLYNOMIAL = "EulerPol";
+    static final String DEFAULT_FUNCTION_2_ARG_EULER_POLYNOMIAL = "Euler polynomial";
     static final String DEFAULT_FUNCTION_2_ARG_HARMONIC_NUMBER = "Harmonic number";
     static final String DEFAULT_FUNCTION_2_ARG_ROUND = "Half-up rounding";
     static final String DEFAULT_FUNCTION_2_ARG_NDIG = "Number of digits representing the number in numeral system with given base";

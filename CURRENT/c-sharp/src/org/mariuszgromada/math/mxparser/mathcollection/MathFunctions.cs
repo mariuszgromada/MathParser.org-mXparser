@@ -1063,18 +1063,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double eulerPolynomial(int m, double x) {
 			if (Double.IsNaN(x))
 				return Double.NaN;
-			double result = Double.NaN;
+			double sumTotal = Double.NaN;
 			if (m >= 0) {
-				result = 0;
+				sumTotal = 0;
 				for (int n = 0; n <= m; n++) {
+					double sumPartial = 0;
 					for (int k = 0; k <= n; k++) {
-						result += Math.Pow(-1, k) * binomCoeff(n, k) * Math.Pow(x + k, m);
+						sumPartial += Math.Pow(-1, k) * binomCoeff(n, k) * Math.Pow(x+k, m);
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 					}
-					result /= Math.Pow(2, n);
+					sumPartial /= Math.Pow(2, n);
+					sumTotal += sumPartial;
 				}
 			}
-			return result;
+			return sumTotal;
 		}
 		/**
 		 * Euler polynomial
@@ -1088,7 +1090,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double eulerPolynomial(double m, double x) {
 			if (Double.IsNaN(m) || Double.IsNaN(x))
 				return Double.NaN;
-			return eulerPolynomial( (int)Math.Round(m), (int)Math.Round(x) );
+			return eulerPolynomial( (int)Math.Round(m), x);
 		}
 		/**
 		 * Characteristic function x in (a,b)

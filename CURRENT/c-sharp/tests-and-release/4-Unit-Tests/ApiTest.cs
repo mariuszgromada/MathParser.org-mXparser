@@ -6720,7 +6720,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 
 			String nullFilePath = null;
 			String zerLengthPath = "";
-			String wrongFilePath = "X:/XYZ";
+			String wrongFilePath = "X:\\XYZ";
 			String tmpPath = Path.GetTempPath();
 
 			Argument nullFilePathExecuted = SerializationUtils.deserializeFromFile<Argument>(nullFilePath);
