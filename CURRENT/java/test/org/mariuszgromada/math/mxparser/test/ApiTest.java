@@ -6575,6 +6575,198 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0240() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "SerializationUtils API - enable / disable / isEnabled / status / message";
+        TestCommonTools.consolePrintTestApiStart(240, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+        boolean statusEnabled = SerializationUtils.checkLastOperationWasSuccessful();
+        boolean isEnabled = SerializationUtils.isBinarySerializationEnabled();
+        String msgEnabled = SerializationUtils.getLastOperationMessage();
+        SerializationUtils.disableBinarySerialization();
+        boolean isDisabled = !SerializationUtils.isBinarySerializationEnabled();
+        boolean statusDisabled = SerializationUtils.checkLastOperationWasSuccessful();
+        String msgDisabled = SerializationUtils.getLastOperationMessage();
+        StringResources stringResources = StringModel.getStringResources();
+        if (isEnabled && isDisabled
+                && statusEnabled && statusDisabled
+                && msgEnabled.contains(stringResources.INFO_BINARY_SERIALIZATION_ENABLED)
+                && msgDisabled.contains(stringResources.INFO_BINARY_SERIALIZATION_DISABLED)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0241() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "SerializationUtils API - serializeToFile / nullFilePath + zerLengthPath + nullObject + wrongFilePath";
+        TestCommonTools.consolePrintTestApiStart(241, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+        String nullFilePath = null;
+        String zerLengthPath = "";
+        Argument nullObject = null;
+        Argument x = new Argument("x");
+        String wrongFilePath = "X:/XYZ";
+        String tmpPath = System.getProperty("java.io.tmpdir");
+
+        boolean nullFilePathExecuted = SerializationUtils.serializeToFile(x, nullFilePath);
+        String nullFilePathMsg = SerializationUtils.getLastOperationMessage();
+        boolean nullFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        boolean zerLengthPathExecuted = SerializationUtils.serializeToFile(x, zerLengthPath);
+        String zerLengthPathPathMsg = SerializationUtils.getLastOperationMessage();
+        boolean zerLengthPathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        boolean nullObjectExecuted = SerializationUtils.serializeToFile(nullObject, tmpPath);
+        String nullObjectPathMsg = SerializationUtils.getLastOperationMessage();
+        boolean nullObjectStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        boolean wrongFilePathExecuted = SerializationUtils.serializeToFile(x, wrongFilePath);
+        String wrongFilePathPathMsg = SerializationUtils.getLastOperationMessage();
+        boolean wrongFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        SerializationUtils.disableBinarySerialization();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (!nullFilePathExecuted
+                && !nullFilePathStatus
+                && nullFilePathMsg.contains(stringResources.ERROR_NULL_FILE_PATH)
+
+                && !zerLengthPathExecuted
+                && !zerLengthPathStatus
+                && zerLengthPathPathMsg.contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+
+                && !nullObjectExecuted
+                && !nullObjectStatus
+                && nullObjectPathMsg.contains(stringResources.ERROR_NULL_OBJECT)
+
+                && !wrongFilePathExecuted
+                && !wrongFilePathStatus
+                && wrongFilePathPathMsg.contains(stringResources.INFO_EXCEPTION)
+
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0242() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "SerializationUtils API - serializeToBytes / nullObject";
+        TestCommonTools.consolePrintTestApiStart(242, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+        Argument nullObject = null;
+
+        byte[] nullObjectExecuted = SerializationUtils.serializeToBytes(nullObject);
+        String nullObjectPathMsg = SerializationUtils.getLastOperationMessage();
+        boolean nullObjectStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        SerializationUtils.disableBinarySerialization();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (nullObjectExecuted == null
+                && !nullObjectStatus
+                && nullObjectPathMsg.contains(stringResources.ERROR_NULL_OBJECT)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0243() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "SerializationUtils API - deserializeFromBytes / deserializeFromString + nullData";
+        TestCommonTools.consolePrintTestApiStart(243, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+        byte[] nullData = null;
+        String nullStr = null;
+
+        Argument nullDataX = SerializationUtils.deserializeFromBytes(nullData);
+        String nullDataMsg = SerializationUtils.getLastOperationMessage();
+        boolean nullDataStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        Argument nullStrX = SerializationUtils.deserializeFromString(nullStr);
+        String nullStrMsg = SerializationUtils.getLastOperationMessage();
+        boolean nullStrStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+
+        SerializationUtils.disableBinarySerialization();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (nullDataX == null
+                && !nullDataStatus
+                && nullDataMsg.contains(stringResources.ERROR_NULL_DATA)
+
+                && nullStrX == null
+                && !nullStrStatus
+                && nullStrMsg.contains(stringResources.ERROR_NULL_DATA)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0244() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "SerializationUtils API - deserializeFromFile / nullFilePath + zerLengthPath + nullObject + wrongFilePath";
+        TestCommonTools.consolePrintTestApiStart(244, testDescr);
+        SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+        String nullFilePath = null;
+        String zerLengthPath = "";
+        String wrongFilePath = "X:/XYZ";
+        String tmpPath = System.getProperty("java.io.tmpdir");
+
+        Argument nullFilePathExecuted = SerializationUtils.deserializeFromFile(nullFilePath);
+        String nullFilePathMsg = SerializationUtils.getLastOperationMessage();
+        boolean nullFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        Argument zerLengthPathExecuted = SerializationUtils.deserializeFromFile(zerLengthPath);
+        String zerLengthPathPathMsg = SerializationUtils.getLastOperationMessage();
+        boolean zerLengthPathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        Argument notAFileExecuted = SerializationUtils.deserializeFromFile(tmpPath);
+        String notAFilePathMsg = SerializationUtils.getLastOperationMessage();
+        boolean notAFileStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+        Argument wrongFilePathExecuted = SerializationUtils.deserializeFromFile(wrongFilePath);
+        String wrongFilePathPathMsg = SerializationUtils.getLastOperationMessage();
+        boolean wrongFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+
+        SerializationUtils.disableBinarySerialization();
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (nullFilePathExecuted == null
+                && !nullFilePathStatus
+                && nullFilePathMsg.contains(stringResources.ERROR_NULL_FILE_PATH)
+
+                && zerLengthPathExecuted == null
+                && !zerLengthPathStatus
+                && zerLengthPathPathMsg.contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+
+                && notAFileExecuted == null
+                && !notAFileStatus
+                && notAFilePathMsg.contains(stringResources.ERROR_IS_NOT_A_FILE)
+
+                && wrongFilePathExecuted == null
+                && !wrongFilePathStatus
+                && wrongFilePathPathMsg.contains(stringResources.ERROR_FILE_NOT_EXISTS)
+
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();
         mXparser.consolePrintln("------ expStr = " + expStr);

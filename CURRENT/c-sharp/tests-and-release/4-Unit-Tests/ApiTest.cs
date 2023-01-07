@@ -6572,6 +6572,199 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
             Assert.IsTrue(testResult);
 		}
+        [TestMethod]
+        public void testApi0240() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "SerializationUtils API enable / disable / isEnabled / status / message";
+			TestCommonTools.consolePrintTestApiStart(240, testDescr);
+			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+			bool statusEnabled = SerializationUtils.checkLastOperationWasSuccessful();
+			bool isEnabled = SerializationUtils.isBinarySerializationEnabled();
+			String msgEnabled = SerializationUtils.getLastOperationMessage();
+			SerializationUtils.disableBinarySerialization();
+			bool isDisabled = !SerializationUtils.isBinarySerializationEnabled();
+			bool statusDisabled = SerializationUtils.checkLastOperationWasSuccessful();
+			String msgDisabled = SerializationUtils.getLastOperationMessage();
+			StringResources stringResources = StringModel.getStringResources();
+			if (isEnabled && isDisabled
+					&& statusEnabled && statusDisabled
+					&& msgEnabled.Contains(stringResources.INFO_BINARY_SERIALIZATION_ENABLED)
+					&& msgDisabled.Contains(stringResources.INFO_BINARY_SERIALIZATION_DISABLED)
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0241() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "SerializationUtils API - serializeToFile / nullFilePath + zerLengthPath + nullObject + wrongFilePath";
+			TestCommonTools.consolePrintTestApiStart(241, testDescr);
+			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+			String nullFilePath = null;
+			String zerLengthPath = "";
+			Argument nullObject = null;
+			Argument x = new Argument("x");
+			String wrongFilePath = "X:/XYZ";
+			String tmpPath = Path.GetTempPath();
+
+			bool nullFilePathExecuted = SerializationUtils.serializeToFile(x, nullFilePath);
+			String nullFilePathMsg = SerializationUtils.getLastOperationMessage();
+			bool nullFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			bool zerLengthPathExecuted = SerializationUtils.serializeToFile(x, zerLengthPath);
+			String zerLengthPathPathMsg = SerializationUtils.getLastOperationMessage();
+			bool zerLengthPathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			bool nullObjectExecuted = SerializationUtils.serializeToFile(nullObject, tmpPath);
+			String nullObjectPathMsg = SerializationUtils.getLastOperationMessage();
+			bool nullObjectStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			bool wrongFilePathExecuted = SerializationUtils.serializeToFile(x, wrongFilePath);
+			String wrongFilePathPathMsg = SerializationUtils.getLastOperationMessage();
+			bool wrongFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			SerializationUtils.disableBinarySerialization();
+
+			StringResources stringResources = StringModel.getStringResources();
+
+			if (!nullFilePathExecuted
+					&& !nullFilePathStatus
+					&& nullFilePathMsg.Contains(stringResources.ERROR_NULL_FILE_PATH)
+
+					&& !zerLengthPathExecuted
+					&& !zerLengthPathStatus
+					&& zerLengthPathPathMsg.Contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+
+					&& !nullObjectExecuted
+					&& !nullObjectStatus
+					&& nullObjectPathMsg.Contains(stringResources.ERROR_NULL_OBJECT)
+
+					&& !wrongFilePathExecuted
+					&& !wrongFilePathStatus
+					&& wrongFilePathPathMsg.Contains(stringResources.INFO_EXCEPTION)
+
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0242() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "SerializationUtils API - serializeToBytes / nullObject";
+			TestCommonTools.consolePrintTestApiStart(242, testDescr);
+			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+			Argument nullObject = null;
+
+			byte[] nullObjectExecuted = SerializationUtils.serializeToBytes(nullObject);
+			String nullObjectPathMsg = SerializationUtils.getLastOperationMessage();
+			bool nullObjectStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			SerializationUtils.disableBinarySerialization();
+
+			StringResources stringResources = StringModel.getStringResources();
+
+			if (nullObjectExecuted == null
+					&& !nullObjectStatus
+					&& nullObjectPathMsg.Contains(stringResources.ERROR_NULL_OBJECT)
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0243() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "SerializationUtils API - deserializeFromBytes / deserializeFromString + nullData";
+			TestCommonTools.consolePrintTestApiStart(243, testDescr);
+			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+			byte[] nullData = null;
+			String nullStr = null;
+
+			Argument nullDataX = SerializationUtils.deserializeFromBytes<Argument>(nullData);
+			String nullDataMsg = SerializationUtils.getLastOperationMessage();
+			bool nullDataStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			Argument nullStrX = SerializationUtils.deserializeFromString<Argument>(nullStr);
+			String nullStrMsg = SerializationUtils.getLastOperationMessage();
+			bool nullStrStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+
+			SerializationUtils.disableBinarySerialization();
+
+			StringResources stringResources = StringModel.getStringResources();
+
+			if (nullDataX == null
+					&& !nullDataStatus
+					&& nullDataMsg.Contains(stringResources.ERROR_NULL_DATA)
+
+					&& nullStrX == null
+					&& !nullStrStatus
+					&& nullStrMsg.Contains(stringResources.ERROR_NULL_DATA)
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0244() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "SerializationUtils API - deserializeFromFile / nullFilePath + zerLengthPath + nullObject + wrongFilePath";
+			TestCommonTools.consolePrintTestApiStart(244, testDescr);
+			SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
+
+			String nullFilePath = null;
+			String zerLengthPath = "";
+			String wrongFilePath = "X:/XYZ";
+			String tmpPath = Path.GetTempPath();
+
+			Argument nullFilePathExecuted = SerializationUtils.deserializeFromFile<Argument>(nullFilePath);
+			String nullFilePathMsg = SerializationUtils.getLastOperationMessage();
+			bool nullFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			Argument zerLengthPathExecuted = SerializationUtils.deserializeFromFile<Argument>(zerLengthPath);
+			String zerLengthPathPathMsg = SerializationUtils.getLastOperationMessage();
+			bool zerLengthPathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			Argument notAFileExecuted = SerializationUtils.deserializeFromFile<Argument>(tmpPath);
+			String notAFilePathMsg = SerializationUtils.getLastOperationMessage();
+			bool notAFileStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+			Argument wrongFilePathExecuted = SerializationUtils.deserializeFromFile<Argument>(wrongFilePath);
+			String wrongFilePathPathMsg = SerializationUtils.getLastOperationMessage();
+			bool wrongFilePathStatus = SerializationUtils.checkLastOperationWasSuccessful();
+
+
+			SerializationUtils.disableBinarySerialization();
+
+			StringResources stringResources = StringModel.getStringResources();
+
+			if (nullFilePathExecuted == null
+					&& !nullFilePathStatus
+					&& nullFilePathMsg.Contains(stringResources.ERROR_NULL_FILE_PATH)
+
+					&& zerLengthPathExecuted == null
+					&& !zerLengthPathStatus
+					&& zerLengthPathPathMsg.Contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+
+					&& notAFileExecuted == null
+					&& !notAFileStatus
+					&& notAFilePathMsg.Contains(stringResources.ERROR_IS_NOT_A_FILE)
+
+					&& wrongFilePathExecuted == null
+					&& !wrongFilePathStatus
+					&& wrongFilePathPathMsg.Contains(stringResources.ERROR_FILE_NOT_EXISTS)
+
+			) testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+		}
+
 		public static bool testCanonicalString(String expStr, String expResStr, params String[] elements) {
             mXparser.consolePrintln();
             mXparser.consolePrintln("------ expStr = " + expStr);
