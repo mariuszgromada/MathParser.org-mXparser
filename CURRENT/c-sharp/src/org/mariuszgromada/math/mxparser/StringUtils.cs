@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)StringUtils.cs        5.2.0    2022-12-28
+ * @(#)StringUtils.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -179,6 +179,8 @@
  * - online store: https://payhip.com/infima
  */
 using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using org.mariuszgromada.math.mxparser;
 
 namespace org.mariuszgromada.math.mxparser {
@@ -198,7 +200,19 @@ namespace org.mariuszgromada.math.mxparser {
      *
      * @version        5.2.0
      */
-    internal sealed class StringUtils {
+    public sealed class StringUtils {
+		/**
+		 * Function used to introduce some compatibility
+		 * between JAVA and C# while regexp matching.
+		 *
+		 * @param str         String
+		 * @param pattern     Pattern (regexp)
+		 *
+		 * @return            True if pattern matches entirely, False otherwise
+		 */
+		public static bool regexMatch(String str, String pattern){
+			return Regex.IsMatch(str, "^(" + pattern + ")$");
+		}
         internal static String surroundBrackets(String str) {
             return StringInvariant.LEFT_BRACKET + str + StringInvariant.RIGHT_BRACKET;
         }
@@ -448,5 +462,83 @@ namespace org.mariuszgromada.math.mxparser {
         internal static void consolePrintln(Object o) {
             mXparser.consoleWriteLine(o);
         }
+		/**
+		 * Converts integer number to hex string (plain text)
+		 *
+		 * @param number   Integer number
+		 * @return         Hex string (i.e. FF23)
+		 */
+		public static String numberToHexString(int number) {
+			return number.ToString("X");
+		}
+		/**
+		 * Converts long number to hex string (plain text)
+		 *
+		 * @param number   Long number
+		 * @return         Hex string (i.e. FF23)
+		 */
+		public static String numberToHexString(long number) {
+			return number.ToString("X");
+		}
+		/**
+		 * Converts (long)double number to hex string (plain text)
+		 *
+		 * @param number   Double number
+		 * @return         Hex string (i.e. FF23)
+		 */
+		public static String numberToHexString(double number) {
+			return numberToHexString((long)number);
+		}
+		/**
+		 * Converts hex string into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex string.
+		 *
+		 * @param hexString   Hex string (i.e. 48656C6C6F)
+		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
+		public static String hexString2AsciiString(String hexString) {
+			String hexByteStr;
+			int hexByteInt;
+			String asciiString = StringInvariant.EMPTY;
+			for (int i = 0; i < hexString.Length; i += 2) {
+				hexByteStr = hexString.Substring(i, 2);
+				hexByteInt = int.Parse(hexByteStr, NumberStyles.HexNumber);
+				asciiString = asciiString + (char)hexByteInt;
+			}
+			return asciiString;
+		}
+		/**
+		 * Converts number into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex representation
+		 * of the original number
+		 *
+		 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
+		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
+		public static String numberToAsciiString(int number) {
+			return hexString2AsciiString(numberToHexString(number));
+		}
+		/**
+		 * Converts number into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex representation
+		 * of the original number
+		 *
+		 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
+		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
+		public static String numberToAsciiString(long number) {
+			return hexString2AsciiString(numberToHexString(number));
+		}
+		/**
+		 * Converts (long)double number into ASCII string, where each letter is
+		 * represented by two hex digits (byte) from the hex representation
+		 * of the original number casted to long type.
+		 *
+		 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
+		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 */
+		public static String numberToAsciiString(double number) {
+			return hexString2AsciiString(numberToHexString(number));
+		}
     }
 }

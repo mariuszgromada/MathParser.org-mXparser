@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        5.0.4    2022-05-22
+ * @(#)NumberTheory.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -187,6 +187,7 @@ import java.util.List;
 
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
+import org.mariuszgromada.math.mxparser.StringUtils;
 import org.mariuszgromada.math.mxparser.mXparser;
 import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
 import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
@@ -204,7 +205,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class NumberTheory {
 	public static final long DEFAULT_TO_FRACTION_INIT_SEARCH_SIZE = 10000;
@@ -357,7 +358,7 @@ public final class NumberTheory {
 	 * @param initOrder     Array to be swapped together with sorted array
 	 * @param leftIndex     Starting left index.
 	 * @param rightIndex    Starting right index.
-	 * @return              Initial ordering swapped according to sorting order.
+	 * @return              Initial ordering swapped according to sort order.
 	 */
 	private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
 		int i = leftIndex;
@@ -395,7 +396,7 @@ public final class NumberTheory {
 	 * Array sort - ascending - quick sort algorithm.
 	 * @param array  Array to be sorted
 	 * @return       Sorts array and additionally returns
-	 *               initial ordering swapped according to sorting order.
+	 *               initial ordering swapped according to sort order.
 	 */
 	public static int[] sortAsc(double[] array) {
 		if (array == null) return null;
@@ -532,7 +533,7 @@ public final class NumberTheory {
 		}
 		if (!returnOrderByDescFreqAndAscOrigPos) return distValFinal;
 		/*
-		 * This will be numeral system with base maxBase
+		 * This will be numeral system with base maxBase,
 		 * so we need to increment with 1 to have digits interpretation
 		 * for 0 ... maxBase - 1
 		 */
@@ -971,29 +972,29 @@ public final class NumberTheory {
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.add(BigDecimal.valueOf(fval));
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.add(BigDecimal.valueOf(fval));
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.add(BigDecimal.valueOf(fval));
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.add(BigDecimal.valueOf(fval));
 				}
 			} else if (from == to) {
-				fval = mXparser.getFunctionValue(f, index, from);
+				fval = MathFunctions.getFunctionValue(f, index, from);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 				dresult = dresult.add(BigDecimal.valueOf(fval));
 			}
@@ -1003,29 +1004,29 @@ public final class NumberTheory {
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result += fval;
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result += fval;
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result += fval;
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result += fval;
 				}
 			} else if (from == to) {
-				fval = mXparser.getFunctionValue(f, index, from);
+				fval = MathFunctions.getFunctionValue(f, index, from);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 				result += fval;
 			}
@@ -1056,29 +1057,29 @@ public final class NumberTheory {
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.multiply(BigDecimal.valueOf(fval));
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.multiply(BigDecimal.valueOf(fval));
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.multiply(BigDecimal.valueOf(fval));
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					dresult = dresult.multiply(BigDecimal.valueOf(fval));
 				}
 			} else if (from == to) {
-				fval = mXparser.getFunctionValue(f, index, from);
+				fval = MathFunctions.getFunctionValue(f, index, from);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 				dresult = dresult.multiply(BigDecimal.valueOf(fval));
 			}
@@ -1088,29 +1089,29 @@ public final class NumberTheory {
 			if ( (to >= from) && (delta > 0) ) {
 				for (i = from; i < to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result *= fval;
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result *= fval;
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				for (i = from; i > to; i+=delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					fval = mXparser.getFunctionValue(f, index, i);
+					fval = MathFunctions.getFunctionValue(f, index, i);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result *= fval;
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
-					fval = mXparser.getFunctionValue(f, index, to);
+					fval = MathFunctions.getFunctionValue(f, index, to);
 					if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 					result *= fval;
 				}
 			} else if (from == to) {
-				fval = mXparser.getFunctionValue(f, index, from);
+				fval = MathFunctions.getFunctionValue(f, index, from);
 				if (Double.isNaN(fval) || Double.isInfinite(fval)) return Double.NaN;
 				result *= fval;
 			}
@@ -1139,21 +1140,21 @@ public final class NumberTheory {
 		if ( (to >= from) && (delta > 0) ) {
 			for (double i = from; i < to; i+=delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				v = mXparser.getFunctionValue(f, index, i);
+				v = MathFunctions.getFunctionValue(f, index, i);
 				if (v < min) min = v;
 			}
-			v = mXparser.getFunctionValue(f, index, to);
+			v = MathFunctions.getFunctionValue(f, index, to);
 			if (v < min) min = v;
 		} else if ( (to <= from) && (delta < 0) ) {
 			for (double i = from; i > to; i+=delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				v = mXparser.getFunctionValue(f, index, i);
+				v = MathFunctions.getFunctionValue(f, index, i);
 				if (v < min) min = v;
 			}
-			v = mXparser.getFunctionValue(f, index, to);
+			v = MathFunctions.getFunctionValue(f, index, to);
 			if (v < min) min = v;
 		} else if (from == to)
-			min = mXparser.getFunctionValue(f, index, from);
+			min = MathFunctions.getFunctionValue(f, index, from);
 		return min;
 	}
 	/**
@@ -1178,21 +1179,21 @@ public final class NumberTheory {
 		if ( (to >= from) && (delta > 0) ) {
 			for (double i = from; i < to; i+=delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				v = mXparser.getFunctionValue(f, index, i);
+				v = MathFunctions.getFunctionValue(f, index, i);
 				if (v > max) max = v;
 			}
-			v = mXparser.getFunctionValue(f, index, to);
+			v = MathFunctions.getFunctionValue(f, index, to);
 			if (v > max) max = v;
 		} else if ( (to <= from) && (delta < 0) ) {
 			for (double i = from; i > to; i+=delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				v = mXparser.getFunctionValue(f, index, i);
+				v = MathFunctions.getFunctionValue(f, index, i);
 				if (v > max) max = v;
 			}
-			v = mXparser.getFunctionValue(f, index, to);
+			v = MathFunctions.getFunctionValue(f, index, to);
 			if (v > max) max = v;
 		} else if (from == to)
-			max = mXparser.getFunctionValue(f, index, from);
+			max = MathFunctions.getFunctionValue(f, index, from);
 		return max;
 	}
     /**
@@ -1403,7 +1404,7 @@ public final class NumberTheory {
 	 */
 	public static int getNumeralSystemBase(String numberLiteral) {
 		for (int b = 0; b <= 36; b++)
-			if (mXparser.regexMatch(numberLiteral, getRegExpForNumeralSystem(b)))
+			if (StringUtils.regexMatch(numberLiteral, getRegExpForNumeralSystem(b)))
 				return b;
 		return -1;
 	}

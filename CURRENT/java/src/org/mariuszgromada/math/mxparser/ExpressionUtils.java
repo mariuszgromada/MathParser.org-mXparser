@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        5.2.0    2022-12-27
+ * @(#)ExpressionUtils.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1035,9 +1035,9 @@ final class ExpressionUtils {
         for (int i = 0; i < initialTokens.size(); i++) {
             token =  initialTokens.get(i);
             if (token.tokenTypeId == Token.NOT_MATCHED) {
-                if (mXparser.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+                if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
                     token.looksLike = UNITCONST;
-                } else if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+                } else if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
                     token.looksLike = ARGUMENT;
                     if (i < initialTokens.size()-1) {
                         Token tokenNext = initialTokens.get(i+1);
@@ -1172,7 +1172,7 @@ final class ExpressionUtils {
         String line;
         for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
             KeyWord keyWord = keyWordsList.get(keyWordIndex);
-            type = mXparser.getTokenTypeDescription(keyWord.wordTypeId);
+            type = Token.getTokenTypeDescription(keyWord.wordTypeId);
             kw = keyWord.wordString;
             line = StringUtils.getLeftSpaces("12345",Integer.toString(keyWordIndex+1)) + StringInvariant.DOT_SPACE +
                     StringUtils.getRightSpaces("01234567890123456789", kw) + StringUtils.getRightSpaces("                        ",StringInvariant.LOWER + type + StringInvariant.GREATER)

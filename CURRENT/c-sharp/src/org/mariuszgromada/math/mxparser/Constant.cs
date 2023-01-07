@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        5.2.0    2023-01-04
+ * @(#)Constant.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -227,14 +227,20 @@ namespace org.mariuszgromada.math.mxparser {
 		public const int TYPE_ID = 104;
 		public static String TYPE_DESC = ParserSymbol.NA;
         /**
-		 * Status of the Expression syntax
+		 * Status of the syntax - no syntax error
 		 */
         public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
+		/**
+		 * Status of the syntax - syntax error
+		 */
         public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
-        private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
-
-        [Obsolete]
-        public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
+		/**
+		 * Status of the syntax - syntax error
+		 *
+		 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
+		 */
+        [Obsolete("Planned to be removed, use SYNTAX_ERROR instead")]
+        public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
         /**
 		 * Name of the constant
 		 */
@@ -292,7 +298,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String constantNameTrim = constantName.Trim();
-			if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+			if (!StringUtils.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
 				return;
 			}
@@ -315,7 +321,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String constantNameTrim = constantName.Trim();
-			if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+			if (!StringUtils.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
 				return;
 			}
@@ -346,7 +352,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String constantDefinitionStringTrim = constantDefinitionString.Trim();
-			if (!mXparser.regexMatch(constantDefinitionStringTrim, ParserSymbol.constUnitgDefStrRegExp)) {
+			if (!StringUtils.regexMatch(constantDefinitionStringTrim, ParserSymbol.constUnitgDefStrRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantDefinitionString(constantDefinitionStringTrim));
 				return;
 			}
@@ -380,7 +386,7 @@ namespace org.mariuszgromada.math.mxparser {
 			String constantNameTrim = constantName.Trim();
 			if (this.constantName.Equals(constantNameTrim))
 				return;
-			if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+			if (!StringUtils.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 				if (!syntaxStatus)
 					registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
 				return;

@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        5.0.7    2022-08-16
+ * @(#)MathFunctions.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.7
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -2648,5 +2648,69 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
 			return false;
 		}
+
+		/**
+		 * Calculates function f(x0) (given as expression) assigning Argument x = x0;
+		 *
+		 *
+		 * @param      f                   the expression
+		 * @param      x                   the argument
+		 * @param      x0                  the argument value
+		 *
+		 * @return     f.calculate()
+		 *
+		 * @see        Expression
+		 */
+		public static double getFunctionValue(Expression f, Argument x, double x0) {
+			x.setArgumentValue(x0);
+			return f.calculate();
+		}
+
+		/**
+		 * Returns array of double values of the function f(i)
+		 * calculated on the range: i = from to i = to by step = delta
+		 *
+		 * @param f            Function expression
+		 * @param index        Index argument
+		 * @param from         'from' value
+		 * @param to           'to' value
+		 * @param delta        'delta' step definition
+		 * @return             Array of function values
+		 */
+		public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
+			if (Double.IsNaN(delta) || Double.IsNaN(from) || Double.IsNaN(to) || delta == 0)
+				return null;
+			int n = 0;
+			double[] values;
+			if (to >= from && delta > 0) {
+				for (double i = from; i < to; i += delta)
+					n++;
+				n++;
+				values = new double[n];
+				int j = 0;
+				for (double i = from; i < to; i += delta) {
+					values[j] = getFunctionValue(f, index, i);
+					j++;
+				}
+				values[j] = getFunctionValue(f, index, to);
+			} else if (to <= from && delta < 0) {
+				for (double i = from; i > to; i += delta)
+					n++;
+				n++;
+				values = new double[n];
+				int j = 0;
+				for (double i = from; i > to; i += delta) {
+					values[j] = getFunctionValue(f, index, i);
+					j++;
+				}
+				values[j] = getFunctionValue(f, index, to);
+			} else if (from == to) {
+				n = 1;
+				values = new double[n];
+				values[0] = getFunctionValue(f, index, from);
+			} else values = null;
+			return values;
+		}
+
 	}
 }

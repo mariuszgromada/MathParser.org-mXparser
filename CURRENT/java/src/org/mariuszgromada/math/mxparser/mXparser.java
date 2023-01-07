@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2023-01-04
+ * @(#)mXparser.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -185,10 +185,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import org.mariuszgromada.math.mxparser.mathcollection.BinaryRelations;
-import org.mariuszgromada.math.mxparser.mathcollection.NumberTheory;
-import org.mariuszgromada.math.mxparser.mathcollection.PrimesCache;
-import org.mariuszgromada.math.mxparser.mathcollection.ProbabilityDistributions;
+import org.mariuszgromada.math.mxparser.mathcollection.*;
 import org.mariuszgromada.math.mxparser.parsertokens.BinaryRelation;
 import org.mariuszgromada.math.mxparser.parsertokens.BitwiseOperator;
 import org.mariuszgromada.math.mxparser.parsertokens.BooleanOperator;
@@ -456,10 +453,12 @@ public final class mXparser {
 	 * @return     f.calculate()
 	 *
 	 * @see        Expression
+	 *
+	 * @deprecated Planned to be removed, use {@link MathFunctions#getFunctionValue(Expression, Argument, double)} instead
 	 */
+	@Deprecated
 	public static double getFunctionValue(Expression f, Argument x, double x0) {
-		x.setArgumentValue(x0);
-		return f.calculate();
+		return MathFunctions.getFunctionValue(f, x, x0);
 	}
 	/**
 	 * Converts List of double to double[]
@@ -487,40 +486,12 @@ public final class mXparser {
 	 * @param to           'to' value
 	 * @param delta        'delta' step definition
 	 * @return             Array of function values
+	 *
+	 * @deprecated Planned to be removed, use {@link MathFunctions#getFunctionValues(Expression, Argument, double, double, double)} instead
 	 */
+	@Deprecated
 	public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
-		if (Double.isNaN(delta) || Double.isNaN(from) || Double.isNaN(to) || delta == 0)
-			return null;
-		int n = 0;
-		double[] values;
-		if (to >= from && delta > 0) {
-			for (double i = from; i < to; i+=delta)
-				n++;
-			n++;
-			values = new double[n];
-			int j = 0;
-			for (double i = from; i < to; i+=delta) {
-				values[j] = getFunctionValue(f, index, i);
-				j++;
-			}
-			values[j] = getFunctionValue(f, index, to);
-		} else if (to <= from && delta < 0) {
-			for (double i = from; i > to; i+=delta)
-				n++;
-			n++;
-			values = new double[n];
-			int j = 0;
-			for (double i = from; i > to; i+=delta) {
-				values[j] = getFunctionValue(f, index, i);
-				j++;
-			}
-			values[j] = getFunctionValue(f, index, to);
-		} else if (from == to) {
-			n = 1;
-			values = new double[n];
-			values[0] = getFunctionValue(f, index, from);
-		} else values = null;
-		return values;
+		return MathFunctions.getFunctionValues(f, index, from, to, delta);
 	}
 	/**
 	 * Modifies random generator used by the ProbabilityDistributions class.
@@ -542,15 +513,19 @@ public final class mXparser {
 	/**
 	 * Sets comparison mode to EPSILON.
 	 * @see BinaryRelations
+	 * @see #setEpsilon(double)
 	 */
 	public static void setEpsilonComparison() {
 		BinaryRelations.setEpsilonComparison();
 	}
 	/**
-	 * Sets epsilon value.
+	 * Sets epsilon value used in the EPSILON comparison mode and
+	 * the almost integer rounding mode.
+	 *
 	 * @param epsilon   Epsilon value (grater than 0).
 	 *
 	 * @see #setEpsilonComparison()
+	 * @see #enableAlmostIntRounding()
 	 * @see BinaryRelations
 	 */
 	public static void setEpsilon(double epsilon) {
@@ -560,6 +535,7 @@ public final class mXparser {
 	 * Sets default epsilon value.
 	 *
 	 * @see #setEpsilonComparison()
+	 * @see #enableAlmostIntRounding()
 	 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
 	 * @see BinaryRelations
 	 */
@@ -571,6 +547,7 @@ public final class mXparser {
 	 * @return  Returns current epsilon value.
 	 *
 	 * @see #setEpsilonComparison()
+	 * @see #enableAlmostIntRounding()
 	 * @see BinaryRelations
 	 */
 	public static double getEpsilon() {
@@ -581,6 +558,7 @@ public final class mXparser {
 	 * @return  True if epsilon mode is active, otherwise returns false.
 	 * @see #setEpsilonComparison()
 	 * @see #setExactComparison()
+	 * @see #enableAlmostIntRounding()
 	 * @see BinaryRelations
 	 */
 	public static boolean checkIfEpsilonMode() {
@@ -599,12 +577,12 @@ public final class mXparser {
 	/**
 	 * Enables ULP rounding.
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default this option is
+	 * to minimize misleading results. By default, this option is
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
 	 */
@@ -614,14 +592,14 @@ public final class mXparser {
 	/**
 	 * Disables ULP rounding.
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent ULP rounding
 	 * to minimize misleading results. By default this option is
 	 * enabled resulting in automatic rounding only in some cases.
-	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
 	 */
 	public static void disableUlpRounding() {
 		ulpRounding = false;
@@ -629,14 +607,14 @@ public final class mXparser {
 	/**
 	 * Enables / disables ULP rounding.
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent ULP rounding
 	 * to minimize misleading results. By default this option is
 	 * enabled resulting in automatic rounding only in some cases.
-	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
 	 *
 	 * @param ulpRoundingState    True to enable, false to disable
 	 */
@@ -645,7 +623,7 @@ public final class mXparser {
 	}
 	/**
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
@@ -662,12 +640,12 @@ public final class mXparser {
 	/**
 	 * Enables canonical rounding.
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent canonical rounding
-	 * to minimize misleading results. By default this option is
+	 * to minimize misleading results. By default, this option is
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 2.5 - 2.2 = 0.3
 	 */
@@ -677,12 +655,12 @@ public final class mXparser {
 	/**
 	 * Disables canonical rounding.
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent canonical rounding
-	 * to minimize misleading results. By default this option is
+	 * to minimize misleading results. By default, this option is
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 2.5 - 2.2 = 0.3
 	 */
@@ -692,14 +670,14 @@ public final class mXparser {
 	/**
 	 * Enables / disables canonical rounding.
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent ULP rounding
-	 * to minimize misleading results. By default this option is
+	 * to minimize misleading results. By default, this option is
 	 * enabled resulting in automatic rounding only in some cases.
-	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+	 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
 	 *
 	 * @param canonicalRoundingState    True to enable, false to disable
 	 */
@@ -708,12 +686,12 @@ public final class mXparser {
 	}
 	/**
 	 * Double floating-point precision arithmetic causes
-	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+	 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 	 * additionally doubles are having a lot of advantages
 	 * providing flexible number representation regardless of
 	 * number size. mXparser is fully based on double numbers
 	 * and that is why is providing intelligent canonical rounding
-	 * to minimize misleading results. By default this option is
+	 * to minimize misleading results. By default, this option is
 	 * enabled resulting in automatic rounding only in some cases.
 	 * Using this mode 2.5 - 2.2 = 0.3
 	 *
@@ -788,7 +766,7 @@ public final class mXparser {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 *
-	 * Currently does not affect properly defined recursive mode.
+	 * Currently, does not affect properly defined recursive mode.
 	 *
 	 * @param maxAllowedRecursionDepth  Maximum number of allowed recursion calls
 	 */
@@ -810,7 +788,7 @@ public final class mXparser {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 *
-	 * Currently does not affect properly defined recursive mode.
+	 * Currently, does not affect properly defined recursive mode.
 	 *
 	 * @return Max allowed recursion calls
 	 */
@@ -1154,56 +1132,48 @@ public final class mXparser {
 	 *
 	 * @param tokenTypeId Token type id
 	 * @return String representing token type description.
+	 *
+	 * @deprecated Planned to be removed, use {@link Token#getTokenTypeDescription(int)} instead
 	 */
+	@Deprecated
 	public static String getTokenTypeDescription(int tokenTypeId) {
-		switch (tokenTypeId) {
-			case ParserSymbol.TYPE_ID: return ParserSymbol.TYPE_DESC;
-			case ParserSymbol.NUMBER_TYPE_ID: return StringModel.STRING_RESOURCES.NUMBER;
-			case Operator.TYPE_ID: return Operator.TYPE_DESC;
-			case BooleanOperator.TYPE_ID: return BooleanOperator.TYPE_DESC;
-			case BinaryRelation.TYPE_ID: return BinaryRelation.TYPE_DESC;
-			case Function1Arg.TYPE_ID: return Function1Arg.TYPE_DESC;
-			case Function2Arg.TYPE_ID: return Function2Arg.TYPE_DESC;
-			case Function3Arg.TYPE_ID: return Function3Arg.TYPE_DESC;
-			case FunctionVariadic.TYPE_ID: return FunctionVariadic.TYPE_DESC;
-			case CalculusOperator.TYPE_ID: return CalculusOperator.TYPE_DESC;
-			case RandomVariable.TYPE_ID: return RandomVariable.TYPE_DESC;
-			case ConstantValue.TYPE_ID: return ConstantValue.TYPE_DESC;
-			case Argument.TYPE_ID: return Argument.TYPE_DESC;
-			case RecursiveArgument.TYPE_ID_RECURSIVE: return RecursiveArgument.TYPE_DESC_RECURSIVE;
-			case Function.TYPE_ID: return Function.TYPE_DESC;
-			case Constant.TYPE_ID: return Constant.TYPE_DESC;
-			case Unit.TYPE_ID: return Unit.TYPE_DESC;
-			case BitwiseOperator.TYPE_ID: return BitwiseOperator.TYPE_DESC;
-		}
-		return StringInvariant.EMPTY;
+		return Token.getTokenTypeDescription(tokenTypeId);
 	}
 	/**
 	 * Converts integer number to hex string (plain text)
 	 *
 	 * @param number   Integer number
 	 * @return         Hex string (i.e. FF23)
+	 * 
+	 * @deprecated Planned to be removed, use {@link StringUtils#numberToHexString(int)} instead
 	 */
+	@Deprecated
 	public static String numberToHexString(int number) {
-		return Integer.toHexString(number);
+		return StringUtils.numberToHexString(number);
 	}
 	/**
 	 * Converts long number to hex string (plain text)
 	 *
 	 * @param number   Long number
 	 * @return         Hex string (i.e. FF23)
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#numberToHexString(long)} instead
 	 */
+	@Deprecated
 	public static String numberToHexString(long number) {
-		return Long.toHexString(number);
+		return StringUtils.numberToHexString(number);
 	}
 	/**
 	 * Converts (long)double number to hex string (plain text)
 	 *
 	 * @param number   Double number
 	 * @return         Hex string (i.e. FF23)
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#numberToHexString(double)} instead
 	 */
+	@Deprecated
 	public static String numberToHexString(double number) {
-		return numberToHexString((long)number);
+		return StringUtils.numberToHexString(number);
 	}
 	/**
 	 * Converts hex string into ASCII string, where each letter is
@@ -1211,17 +1181,12 @@ public final class mXparser {
 	 *
 	 * @param hexString   Hex string (i.e. 48656C6C6F)
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#hexString2AsciiString(String)} instead
 	 */
+	@Deprecated
 	public static String hexString2AsciiString(String hexString) {
-		String hexByteStr;
-		int hexByteInt;
-		String asciiString = StringInvariant.EMPTY;
-		for (int i = 0; i < hexString.length(); i+=2) {
-			hexByteStr = hexString.substring(i, i+2);
-			hexByteInt = Integer.parseInt(hexByteStr, 16);
-			asciiString = asciiString + (char)hexByteInt;
-		}
-		return asciiString;
+		return StringUtils.hexString2AsciiString(hexString);
 	}
 	/**
 	 * Converts number into ASCII string, where each letter is
@@ -1230,9 +1195,12 @@ public final class mXparser {
 	 *
 	 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#numberToAsciiString(int)} instead
 	 */
+	@Deprecated
 	public static String numberToAsciiString(int number) {
-		return hexString2AsciiString( numberToHexString(number) );
+		return StringUtils.numberToAsciiString(number);
 	}
 	/**
 	 * Converts number into ASCII string, where each letter is
@@ -1241,20 +1209,26 @@ public final class mXparser {
 	 *
 	 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#numberToAsciiString(long)} instead
 	 */
+	@Deprecated
 	public static String numberToAsciiString(long number) {
-		return hexString2AsciiString( numberToHexString(number) );
+		return StringUtils.numberToAsciiString(number);
 	}
 	/**
 	 * Converts (long)double number into ASCII string, where each letter is
 	 * represented by two hex digits (byte) from the hex representation
-	 * of the original number casted to long type.
+	 * of the original number cast to long type.
 	 *
 	 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
 	 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#numberToAsciiString(double)} instead
 	 */
+	@Deprecated
 	public static String numberToAsciiString(double number) {
-		return hexString2AsciiString( numberToHexString(number) );
+		return StringUtils.numberToAsciiString(number);
 	}
 	/**
 	 * Other base (base between 1 and 36) number literal conversion to decimal number.
@@ -1647,9 +1621,12 @@ public final class mXparser {
 	 * @param pattern     Pattern (regexp)
 	 *
 	 * @return            True if pattern matches entirely, False otherwise
+	 *
+	 * @deprecated Planned to be removed, use {@link StringUtils#regexMatch(String, String)} instead
 	 */
+	@Deprecated
     public static boolean regexMatch(String str, String pattern){
-        return Pattern.matches(pattern, str);
+        return StringUtils.regexMatch(str, pattern);
     }
     /**
 	 * Prints tokens to the console.

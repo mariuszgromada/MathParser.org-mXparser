@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        5.2.0    2023-01-04
+ * @(#)Constant.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -230,12 +230,18 @@ public class Constant extends PrimitiveElement implements Serializable {
 	public static final int TYPE_ID = 104;
 	public static String TYPE_DESC = ParserSymbol.NA;
 	/**
-	 * Status of the Expression syntax
+	 * Status of the syntax - no syntax error
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
+	/**
+	 * Status of the syntax - syntax error
+	 */
 	public static final boolean SYNTAX_ERROR = Expression.SYNTAX_ERROR;
-	private static final boolean SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
-
+	/**
+	 * Status of the syntax - syntax error
+	 *
+	 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
+	 */
 	@Deprecated
 	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
 	/**
@@ -295,7 +301,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String constantNameTrim = constantName.trim();
-		if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+		if (!StringUtils.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
 			return;
 		}
@@ -319,7 +325,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String constantNameTrim = constantName.trim();
-		if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+		if (!StringUtils.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
 			return;
 		}
@@ -350,7 +356,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String constantDefinitionStringTrim = constantDefinitionString.trim();
-		if (!mXparser.regexMatch(constantDefinitionStringTrim, ParserSymbol.constUnitgDefStrRegExp)) {
+		if (!StringUtils.regexMatch(constantDefinitionStringTrim, ParserSymbol.constUnitgDefStrRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantDefinitionString(constantDefinitionStringTrim));
 			return;
 		}
@@ -384,7 +390,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 		String constantNameTrim = constantName.trim();
 		if (this.constantName.equals(constantNameTrim))
 			return;
-		if (!mXparser.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
+		if (!StringUtils.regexMatch(constantNameTrim, ParserSymbol.nameOnlyTokenOptBracketsRegExp)) {
 			if (!syntaxStatus)
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidConstantName(constantNameTrim));
 			return;

@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.cs        5.0.4    2022-05-22
+ * @(#)Calculus.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class Calculus {
@@ -221,9 +221,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double integralTrapezoid(Expression f, Argument x, double a, double b,
 				double eps, int maxSteps) {
 			double h = 0.5 * (b-a);
-			double fa = mXparser.getFunctionValue(f, x, a);
-			double fb = mXparser.getFunctionValue(f, x, b);
-			double fah = mXparser.getFunctionValue(f, x, a + h);
+			double fa = MathFunctions.getFunctionValue(f, x, a);
+			double fb = MathFunctions.getFunctionValue(f, x, b);
+			double fah = MathFunctions.getFunctionValue(f, x, a + h);
 			double ft;
 			double s = fa + fb + 2 * fah;
 			double intF = s * h * 0.5;
@@ -237,7 +237,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				intFprev = intF;
 				for (j = 1; j <= n; j++) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					ft = mXparser.getFunctionValue(f, x, t);
+					ft = MathFunctions.getFunctionValue(f, x, t);
 					s += 2 * ft;
 					t += h;
 				}
@@ -279,19 +279,19 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				dx = START_DX;
 			double dy = 0.0;
 			if ( (derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE) ) {
-				y0 = mXparser.getFunctionValue(f, x, x0);
-				dy = mXparser.getFunctionValue(f, x, x0+dx) - y0;
+				y0 = MathFunctions.getFunctionValue(f, x, x0);
+				dy = MathFunctions.getFunctionValue(f, x, x0+dx) - y0;
 				derF = dy/dx;
 			} else
-				derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
+				derF = ( MathFunctions.getFunctionValue(f, x, x0+dx) - MathFunctions.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
 			do {
 				derFprev = derF;
 				dx = dx/2.0;
 				if ( (derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE) ) {
-					dy = mXparser.getFunctionValue(f, x, x0+dx) - y0;
+					dy = MathFunctions.getFunctionValue(f, x, x0+dx) - y0;
 					derF = dy/dx;
 				} else
-					derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
+					derF = ( MathFunctions.getFunctionValue(f, x, x0+dx) - MathFunctions.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
 				error = Math.Abs(derF - derFprev);
 				step++;
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
@@ -325,10 +325,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double derF = 0;
 			if (derType == RIGHT_DERIVATIVE)
 				for (int i = 1; i <= n; i++)
-					derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0+i*dx);
+					derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0+i*dx);
 			else
 				for (int i = 1; i <= n; i++)
-					derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0-i*dx);
+					derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0-i*dx);
 			derF = derF / Math.Pow(dx, n);
 			do {
 				derFprev = derF;
@@ -336,10 +336,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				derF = 0;
 				if (derType == RIGHT_DERIVATIVE)
 					for (int i = 1; i <= n; i++)
-						derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0+i*dx);
+						derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0+i*dx);
 				else
 					for (int i = 1; i <= n; i++)
-						derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0-i*dx);
+						derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0-i*dx);
 				derF = derF / Math.Pow(dx, n);
 				error = Math.Abs(derF - derFprev);
 				step++;
@@ -363,7 +363,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
 			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0 + 1) - mXparser.getFunctionValue(f, x, x0);
+			double delta = MathFunctions.getFunctionValue(f, x, x0 + 1) - MathFunctions.getFunctionValue(f, x, x0);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -404,7 +404,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
 			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0) - mXparser.getFunctionValue(f, x, x0 - 1);
+			double delta = MathFunctions.getFunctionValue(f, x, x0) - MathFunctions.getFunctionValue(f, x, x0 - 1);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -446,7 +446,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
 			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0 + h) - mXparser.getFunctionValue(f, x, x0);
+			double delta = MathFunctions.getFunctionValue(f, x, x0 + h) - MathFunctions.getFunctionValue(f, x, x0);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -489,7 +489,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
 			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0) - mXparser.getFunctionValue(f, x, x0 - h);
+			double delta = MathFunctions.getFunctionValue(f, x, x0) - MathFunctions.getFunctionValue(f, x, x0 - h);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -537,8 +537,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				a = b;
 				b = tmp;
 			}
-			fa = mXparser.getFunctionValue(f, x, a);
-			fb = mXparser.getFunctionValue(f, x, b);
+			fa = MathFunctions.getFunctionValue(f, x, a);
+			fb = MathFunctions.getFunctionValue(f, x, b);
 			/*
 			 * If already root then no need to solve
 			 */
@@ -559,8 +559,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						ap = bp;
 						bp = tmp;
 					}
-					fa = mXparser.getFunctionValue(f, x, ap);
-					fb = mXparser.getFunctionValue(f, x, bp);
+					fa = MathFunctions.getFunctionValue(f, x, ap);
+					fb = MathFunctions.getFunctionValue(f, x, bp);
 					if (MathFunctions.abs(fa) <= eps) return ap;
 					if (MathFunctions.abs(fb) <= eps) return bp;
 					if (fa * fb < 0) {
@@ -575,7 +575,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			c = a;
 			d = c;
-			fc = mXparser.getFunctionValue(f, x, c);
+			fc = MathFunctions.getFunctionValue(f, x, c);
 			if (MathFunctions.abs(fa) < MathFunctions.abs(fb)) {
 				tmp = a;
 				a = b;
@@ -604,7 +604,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					mflag = true;
 				} else
 					mflag = true;
-				fs = mXparser.getFunctionValue(f, x, s);
+				fs = MathFunctions.getFunctionValue(f, x, s);
 				d = c;
 				c = b;
 				fc = fb;

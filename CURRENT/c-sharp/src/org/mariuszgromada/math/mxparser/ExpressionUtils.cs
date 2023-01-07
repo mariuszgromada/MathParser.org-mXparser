@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        5.2.0    2022-12-27
+ * @(#)ExpressionUtils.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1032,9 +1032,9 @@ namespace org.mariuszgromada.math.mxparser {
 			for (int i = 0; i < initialTokens.Count; i++) {
 				token = initialTokens[i];
 				if (token.tokenTypeId == Token.NOT_MATCHED) {
-					if (mXparser.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
+					if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.unitOnlyTokenRegExp)) {
 						token.looksLike = UNITCONST;
-					} else if (mXparser.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
+					} else if (StringUtils.regexMatch(token.tokenStr, ParserSymbol.nameOnlyTokenRegExp)) {
 						token.looksLike = ARGUMENT;
 						if (i < initialTokens.Count - 1) {
 							Token tokenNext = initialTokens[i + 1];
@@ -1169,7 +1169,7 @@ namespace org.mariuszgromada.math.mxparser {
 				KeyWord keyWord = keyWordsList[keyWordIndex];
 				type = StringInvariant.EMPTY;
 				kw = keyWord.wordString;
-                type = mXparser.getTokenTypeDescription(keyWord.wordTypeId);
+                type = Token.getTokenTypeDescription(keyWord.wordTypeId);
                 line = StringUtils.getLeftSpaces("12345", (keyWordIndex + 1).ToString()) + StringInvariant.DOT_SPACE +
                 StringUtils.getRightSpaces("01234567890123456789", kw) + StringUtils.getRightSpaces("                        ", StringInvariant.LOWER + type + StringInvariant.GREATER)
 				+ StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + StringUtils.getRightSpaces("012345", keyWord.since) + keyWord.description + StringInvariant.NEW_LINE;

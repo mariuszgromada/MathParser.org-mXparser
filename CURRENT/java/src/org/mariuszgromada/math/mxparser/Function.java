@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.2.0    2023-01-02
+ * @(#)Function.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -230,20 +230,21 @@ public class Function extends PrimitiveElement implements Serializable {
 	private static final int serialClassID = 3;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
 	/**
-	 * No syntax errors in the function.
+	 * Status of the syntax - no syntax error
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
 	/**
-	 * Syntax error in the dependent function definition.
+	 * Status of the syntax - syntax error or syntax status unknown
 	 */
 	public static final boolean SYNTAX_ERROR = Expression.SYNTAX_ERROR;
-	private static final boolean SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
-
 	/**
-	 * Syntax error in the function or syntax status unknown.
+	 * Status of the syntax - syntax error or syntax status unknown
+	 *
+	 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
 	 */
 	@Deprecated
 	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
+	private static final boolean SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
 	/**
 	 * When function was not found
 	 */
@@ -371,7 +372,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String functionNameTrim = functionName.trim();
-		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+		if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 			return;
 		}
@@ -400,7 +401,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String functionNameTrim = functionName.trim();
-		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+		if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 			return;
 		}
@@ -448,7 +449,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String functionDefinitionStringTrim = functionDefinitionString.trim();
-		if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
+		if (StringUtils.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 			functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -459,7 +460,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			registerNoSyntaxErrorInDefinition();
 			return;
 		}
-		if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionVariadicDefStrRegExp)) {
+		if (StringUtils.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionVariadicDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 			functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -491,7 +492,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String functionNameTrim = functionName.trim();
-		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+		if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 			return;
 		}
@@ -522,7 +523,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			return;
 		}
 		String functionNameTrim = functionName.trim();
-		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+		if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 			return;
 		}
@@ -569,10 +570,12 @@ public class Function extends PrimitiveElement implements Serializable {
 	 *
 	 * @see    PrimitiveElement
 	 *
+	 * @deprecated Planned to be removed, use {@link #addFunctions(Function...)}, {@link #addDefinitions(PrimitiveElement...)} instead
+	 *
 	 */
 	@Deprecated
 	public void setFunction(String functionDefinitionString, PrimitiveElement... elements) {
-		if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
+		if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -586,7 +589,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			registerNoSyntaxErrorInDefinition();
 			return;
 		}
-		if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
+		if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
 			HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 			this.functionName = headEqBody.headTokens.get(0).tokenStr;
 			functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -649,7 +652,7 @@ public class Function extends PrimitiveElement implements Serializable {
 		String functionNameTrim = functionName.trim();
 		if (this.functionName.equals(functionNameTrim))
 			return;
-		if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+		if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 			if (!syntaxStatusDefinition)
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 			return;

@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2022-12-28
+ * @(#)StringUtils.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,8 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import java.util.regex.Pattern;
+
 /**
  * A class containing all string utils.
  *
@@ -195,7 +197,20 @@ package org.mariuszgromada.math.mxparser;
  *
  * @version        5.2.0
  */
-final class StringUtils {
+public final class StringUtils {
+    /**
+     * Function used to introduce some compatibility
+     * between JAVA and C# while regexp matching.
+     *
+     * @param str         String
+     * @param pattern     Pattern (regexp)
+     *
+     * @return            True if pattern matches entirely, False otherwise
+     */
+    public static boolean regexMatch(String str, String pattern){
+        return Pattern.matches(pattern, str);
+    }
+
     static String surroundBrackets(String str) {
         return StringInvariant.LEFT_BRACKET + str + StringInvariant.RIGHT_BRACKET;
     }
@@ -438,5 +453,83 @@ final class StringUtils {
     }
     static void consolePrintln(Object o) {
         System.out.println(o);
+    }
+    /**
+     * Converts integer number to hex string (plain text)
+     *
+     * @param number   Integer number
+     * @return         Hex string (i.e. FF23)
+     */
+    public static String numberToHexString(int number) {
+        return Integer.toHexString(number);
+    }
+    /**
+     * Converts long number to hex string (plain text)
+     *
+     * @param number   Long number
+     * @return         Hex string (i.e. FF23)
+     */
+    public static String numberToHexString(long number) {
+        return Long.toHexString(number);
+    }
+    /**
+     * Converts (long)double number to hex string (plain text)
+     *
+     * @param number   Double number
+     * @return         Hex string (i.e. FF23)
+     */
+    public static String numberToHexString(double number) {
+        return numberToHexString((long)number);
+    }
+    /**
+     * Converts hex string into ASCII string, where each letter is
+     * represented by two hex digits (byte) from the hex string.
+     *
+     * @param hexString   Hex string (i.e. 48656C6C6F)
+     * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+     */
+    public static String hexString2AsciiString(String hexString) {
+        String hexByteStr;
+        int hexByteInt;
+        String asciiString = StringInvariant.EMPTY;
+        for (int i = 0; i < hexString.length(); i+=2) {
+            hexByteStr = hexString.substring(i, i+2);
+            hexByteInt = Integer.parseInt(hexByteStr, 16);
+            asciiString = asciiString + (char)hexByteInt;
+        }
+        return asciiString;
+    }
+    /**
+     * Converts number into ASCII string, where each letter is
+     * represented by two hex digits (byte) from the hex representation
+     * of the original number
+     *
+     * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
+     * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+     */
+    public static String numberToAsciiString(int number) {
+        return hexString2AsciiString( numberToHexString(number) );
+    }
+    /**
+     * Converts number into ASCII string, where each letter is
+     * represented by two hex digits (byte) from the hex representation
+     * of the original number
+     *
+     * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
+     * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+     */
+    public static String numberToAsciiString(long number) {
+        return hexString2AsciiString( numberToHexString(number) );
+    }
+    /**
+     * Converts (long)double number into ASCII string, where each letter is
+     * represented by two hex digits (byte) from the hex representation
+     * of the original number cast to long type.
+     *
+     * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
+     * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+     */
+    public static String numberToAsciiString(double number) {
+        return hexString2AsciiString( numberToHexString(number) );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.0    2023-01-04
+ * @(#)mXparser.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -213,13 +213,13 @@ namespace org.mariuszgromada.math.mxparser {
 	 */
 	[CLSCompliant(true)]
 	public sealed class mXparser {
-        /**
+		/**
 		 * mXparser version
 		 */
-        public const int VERSION_MAJOR = 5;
-        public const int VERSION_MINOR = 2;
-        public const int VERSION_PATCH = 0;
-        public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
+		public const int VERSION_MAJOR = 5;
+		public const int VERSION_MINOR = 2;
+		public const int VERSION_PATCH = 0;
+		public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 		public const String VERSION_CODE_NAME = "Orion";
 		public static readonly String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET48
@@ -313,13 +313,13 @@ namespace org.mariuszgromada.math.mxparser {
 #elif PCL
 		public const String BUIT_FOR = ".NET PCL";
 #else
-        public const String BUIT_FOR = ".NET";
+		public const String BUIT_FOR = ".NET";
 #endif
-        /**
+		/**
 		 * FOUND / NOT_FOUND
 		 * used for matching purposes
 		 */
-        internal const int NOT_FOUND = -1;
+		internal const int NOT_FOUND = -1;
 		internal const int FOUND = 0;
 		/**
 		 * Console output string  for below methods
@@ -349,7 +349,7 @@ namespace org.mariuszgromada.math.mxparser {
 		internal volatile static bool ulpRounding = false;
 		/**
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different than 0.3
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is different from 0.3
 		 *
 		 * mXparser provides intelligent canonical rounding to avoid majority
 		 * of this errors.
@@ -379,19 +379,19 @@ namespace org.mariuszgromada.math.mxparser {
 		 * g.addDefinitions(f);
 		 */
 		internal volatile static int MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
-        /**
-         * The maximum error message length in expression
-         */
-        internal volatile static int ERROR_MESSAGE_MAXIMUM_LENGTH = 10000;
-        /**
-         * The maximum number of expected tokens presented
-         * in error message when lexical error was encountered
-         */
-        internal volatile static int ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS = 5;
-        /**
+		/**
+		 * The maximum error message length in expression
+		 */
+		internal volatile static int ERROR_MESSAGE_MAXIMUM_LENGTH = 10000;
+		/**
+		 * The maximum number of expected tokens presented
+		 * in error message when lexical error was encountered
+		 */
+		internal volatile static int ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS = 5;
+		/**
 		 * List of built-in tokens to remove.
 		 */
-        internal volatile static List<String> tokensToRemove = new List<String>();
+		internal volatile static List<String> tokensToRemove = new List<String>();
 		/**
 		 * List of built-in tokens to modify
 		 */
@@ -536,10 +536,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     f.calculate()
 		 *
 		 * @see        Expression
+		 *
+		 * @deprecated Planned to be removed, use {@link MathFunctions#getFunctionValue(Expression, Argument, double)} instead
 		 */
-		public static double getFunctionValue(Expression f, Argument x, double x0) {
-			x.setArgumentValue(x0);
-			return f.calculate();
+		[Obsolete("Planned to be removed, use MathFunctions.getFunctionValue(Expression, Argument, double)")]
+		public static double dgetFunctionValue(Expression f, Argument x, double x0) {
+			return MathFunctions.getFunctionValue(f, x, x0);
 		}
 		/**
 		 * Converts List of double to double[]
@@ -567,40 +569,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param to           'to' value
 		 * @param delta        'delta' step definition
 		 * @return             Array of function values
+		 *
+		 * @deprecated Planned to be removed, use {@link MathFunctions#getFunctionValues(Expression, Argument, double, double, double)} instead
 		 */
-		public static double[] getFunctionValues(Expression f, Argument index, double from, double to, double delta) {
-			if (Double.IsNaN(delta) || Double.IsNaN(from) || Double.IsNaN(to) || delta == 0)
-				return null;
-			int n = 0;
-			double[] values;
-			if (to >= from && delta > 0) {
-				for (double i = from; i < to; i += delta)
-					n++;
-				n++;
-				values = new double[n];
-				int j = 0;
-				for (double i = from; i < to; i += delta) {
-					values[j] = getFunctionValue(f, index, i);
-					j++;
-				}
-				values[j] = getFunctionValue(f, index, to);
-			} else if (to <= from && delta < 0) {
-				for (double i = from; i > to; i += delta)
-					n++;
-				n++;
-				values = new double[n];
-				int j = 0;
-				for (double i = from; i > to; i += delta) {
-					values[j] = getFunctionValue(f, index, i);
-					j++;
-				}
-				values[j] = getFunctionValue(f, index, to);
-			} else if (from == to) {
-				n = 1;
-				values = new double[n];
-				values[0] = getFunctionValue(f, index, from);
-			} else values = null;
-			return values;
+		[Obsolete("Planned to be removed, use MathFunctions.getFunctionValues(Expression, Argument, double, double, double) instead")]
+		public static double[] dgetFunctionValues(Expression f, Argument index, double from, double to, double delta) {
+			return MathFunctions.getFunctionValues(f, index, from, to, delta);
 		}
 		/**
 		 * Modifies random generator used by the ProbabilityDistributions class.
@@ -622,15 +596,19 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Sets comparison mode to EPSILON.
 		 * @see BinaryRelations
+		 * @see #setEpsilon(double)
 		 */
 		public static void setEpsilonComparison() {
 			BinaryRelations.setEpsilonComparison();
 		}
 		/**
-		 * Sets epsilon value.
+		 * Sets epsilon value used in the EPSILON comparison mode and
+		 * the almost integer rounding mode.
+		 * 
 		 * @param epsilon   Epsilon value (grater than 0).
 		 *
 		 * @see #setEpsilonComparison()
+		 * @see #enableAlmostIntRounding()
 		 * @see BinaryRelations
 		 */
 		public static void setEpsilon(double epsilon) {
@@ -640,6 +618,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Sets default epsilon value.
 		 *
 		 * @see #setEpsilonComparison()
+		 * @see #enableAlmostIntRounding()
 		 * @see BinaryRelations#DEFAULT_COMPARISON_EPSILON
 		 * @see BinaryRelations
 		 */
@@ -651,6 +630,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return  Returns current epsilon value.
 		 *
 		 * @see #setEpsilonComparison()
+		 * @see #enableAlmostIntRounding()
 		 * @see BinaryRelations
 		 */
 		public static double getEpsilon() {
@@ -661,6 +641,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return  True if epsilon mode is active, otherwise returns false.
 		 * @see #setEpsilonComparison()
 		 * @see #setExactComparison()
+		 * @see #enableAlmostIntRounding()
 		 * @see BinaryRelations
 		 */
 		public static bool checkIfEpsilonMode() {
@@ -679,12 +660,12 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Enables ULP rounding.
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent ULP rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
 		 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
 		 */
@@ -694,14 +675,14 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Disables ULP rounding.
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent ULP rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
-		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
 		 */
 		public static void disableUlpRounding() {
 			ulpRounding = false;
@@ -709,14 +690,14 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Enables / disables ULP rounding.
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent ULP rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
-		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
 		 *
 		 * @param ulpRoundingState    True to enable, false to disable
 		 */
@@ -725,12 +706,12 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent ULP rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
 		 * Using this mode 0.1 + 0.1 + 0.1 = 0.3
 		 *
@@ -742,12 +723,12 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Enables canonical rounding.
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent canonical rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
 		 * Using this mode 2.5 - 2.2 = 0.3
 		 */
@@ -757,12 +738,12 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Disables canonical rounding.
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent canonical rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
 		 * Using this mode 2.5 - 2.2 = 0.3
 		 */
@@ -772,14 +753,14 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Enables / disables canonical rounding.
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent ULP rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
-		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different than 0.3.
+		 * Disabling this mode 0.1 + 0.1 + 0.1 will be slightly different from 0.3.
 		 *
 		 * @param canonicalRoundingState    True to enable, false to disable
 		 */
@@ -788,12 +769,12 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		/**
 		 * Double floating-point precision arithmetic causes
-		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different than 0.3,
+		 * rounding problems, i.e. 0.1 + 0.1 + 0.1 is slightly different from 0.3,
 		 * additionally doubles are having a lot of advantages
 		 * providing flexible number representation regardless of
 		 * number size. mXparser is fully based on double numbers
 		 * and that is why is providing intelligent canonical rounding
-		 * to minimize misleading results. By default this option is
+		 * to minimize misleading results. By default, this option is
 		 * enabled resulting in automatic rounding only in some cases.
 		 * Using this mode 2.5 - 2.2 = 0.3
 		 *
@@ -868,14 +849,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 *
-		 * Currently does not affect properly defined recursive mode.
+		 * Currently, does not affect properly defined recursive mode.
 		 *
 		 * @param maxAllowedRecursionDepth
 		 */
 		public static void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 			MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
-            Argument.refreshMaxAllowedRecursionDepth();
-        }
+			Argument.refreshMaxAllowedRecursionDepth();
+		}
 		/**
 		 * Internal limit to avoid infinite loops while calculating
 		 * expression defined in the way shown by below examples.
@@ -890,7 +871,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 *
-		 * Currently does not affect properly defined recursive mode.
+		 * Currently, does not affect properly defined recursive mode.
 		 */
 		public static int getMaxAllowedRecursionDepth() {
 			return MAX_RECURSION_CALLS;
@@ -1232,56 +1213,48 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param tokenTypeId Token type id
 		 * @return String representing token type description.
+		 *
+		 * @deprecated Planned to be removed, use {@link Token#getTokenTypeDescription(int)} instead
 		 */
+		[Obsolete("Planned to be removed, use Token.getTokenTypeDescription(int) instead")]
 		public static String getTokenTypeDescription(int tokenTypeId) {
-			switch (tokenTypeId) {
-				case ParserSymbol.TYPE_ID: return ParserSymbol.TYPE_DESC;
-				case ParserSymbol.NUMBER_TYPE_ID: return StringModel.STRING_RESOURCES.NUMBER;
-				case Operator.TYPE_ID: return Operator.TYPE_DESC;
-				case BooleanOperator.TYPE_ID: return BooleanOperator.TYPE_DESC;
-				case BinaryRelation.TYPE_ID: return BinaryRelation.TYPE_DESC;
-				case Function1Arg.TYPE_ID: return Function1Arg.TYPE_DESC;
-				case Function2Arg.TYPE_ID: return Function2Arg.TYPE_DESC;
-				case Function3Arg.TYPE_ID: return Function3Arg.TYPE_DESC;
-				case FunctionVariadic.TYPE_ID: return FunctionVariadic.TYPE_DESC;
-				case CalculusOperator.TYPE_ID: return CalculusOperator.TYPE_DESC;
-				case RandomVariable.TYPE_ID: return RandomVariable.TYPE_DESC;
-				case ConstantValue.TYPE_ID: return ConstantValue.TYPE_DESC;
-				case Argument.TYPE_ID: return Argument.TYPE_DESC;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: return RecursiveArgument.TYPE_DESC_RECURSIVE;
-				case Function.TYPE_ID: return Function.TYPE_DESC;
-				case Constant.TYPE_ID: return Constant.TYPE_DESC;
-				case Unit.TYPE_ID: return Unit.TYPE_DESC;
-				case BitwiseOperator.TYPE_ID: return BitwiseOperator.TYPE_DESC;
-			}
-			return StringInvariant.EMPTY;
+			return Token.getTokenTypeDescription(tokenTypeId);
 		}
 		/**
 		 * Converts integer number to hex string (plain text)
 		 *
 		 * @param number   Integer number
 		 * @return         Hex string (i.e. FF23)
+		 * 
+		 * @deprecated Planned to be removed, use {@link StringUtils#numberToHexString(int)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.numberToHexString(int) instead")]
 		public static String numberToHexString(int number) {
-			return number.ToString("X");
+			return StringUtils.numberToHexString(number);
 		}
 		/**
 		 * Converts long number to hex string (plain text)
 		 *
 		 * @param number   Long number
 		 * @return         Hex string (i.e. FF23)
+		 * 
+		 * @deprecated Planned to be removed, use {@link StringUtils#numberToHexString(long)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.numberToHexString(long) instead")]
 		public static String numberToHexString(long number) {
-			return number.ToString("X");
+			return StringUtils.numberToHexString(number);
 		}
 		/**
 		 * Converts (long)double number to hex string (plain text)
 		 *
 		 * @param number   Double number
 		 * @return         Hex string (i.e. FF23)
+		 * 
+		 * @deprecated Planned to be removed, use {@link StringUtils#numberToHexString(double)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.numberToHexString(double) instead")]
 		public static String numberToHexString(double number) {
-			return numberToHexString((long)number);
+			return StringUtils.numberToHexString(number);
 		}
 		/**
 		 * Converts hex string into ASCII string, where each letter is
@@ -1289,17 +1262,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param hexString   Hex string (i.e. 48656C6C6F)
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 *
+		 * @deprecated Planned to be removed, use {@link StringUtils#hexString2AsciiString(String)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.hexString2AsciiString(String)")]
 		public static String hexString2AsciiString(String hexString) {
-			String hexByteStr;
-			int hexByteInt;
-			String asciiString = StringInvariant.EMPTY;
-			for (int i = 0; i < hexString.Length; i += 2) {
-				hexByteStr = hexString.Substring(i, 2);
-				hexByteInt = int.Parse(hexByteStr, NumberStyles.HexNumber);
-				asciiString = asciiString + (char)hexByteInt;
-			}
-			return asciiString;
+			return StringUtils.hexString2AsciiString(hexString);
 		}
 		/**
 		 * Converts number into ASCII string, where each letter is
@@ -1308,9 +1276,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param number   Integer number (i.e. 310939249775 = '48656C6C6F')
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 *
+		 * @deprecated Planned to be removed, use {@link StringUtils#numberToAsciiString(int)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.numberToAsciiString(int) instead")]
 		public static String numberToAsciiString(int number) {
-			return hexString2AsciiString(numberToHexString(number));
+			return StringUtils.numberToAsciiString(number);
 		}
 		/**
 		 * Converts number into ASCII string, where each letter is
@@ -1319,9 +1290,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param number   Long number (i.e. 310939249775 = '48656C6C6F')
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 *
+		 * @deprecated Planned to be removed, use {@link StringUtils#numberToAsciiString(long)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.numberToAsciiString(long) instead")]
 		public static String numberToAsciiString(long number) {
-			return hexString2AsciiString(numberToHexString(number));
+			return StringUtils.numberToAsciiString(number);
 		}
 		/**
 		 * Converts (long)double number into ASCII string, where each letter is
@@ -1330,9 +1304,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param number   Double number (i.e. 310939249775 = '48656C6C6F')
 		 * @return         ASCII string (i.e. '48656C6C6F' = 'Hello')
+		 *
+		 * @deprecated Planned to be removed, use {@link StringUtils#numberToAsciiString(double)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.numberToAsciiString(double) instead")]
 		public static String numberToAsciiString(double number) {
-			return hexString2AsciiString(numberToHexString(number));
+			return StringUtils.numberToAsciiString(number);
 		}
 		/**
 		 * Other base (base between 1 and 36) number literal conversion to decimal number.
@@ -1506,14 +1483,14 @@ namespace org.mariuszgromada.math.mxparser {
 #if NET35
 			CONSOLE_OUTPUT.Remove(0, CONSOLE_OUTPUT.Length);
 #else
-            CONSOLE_OUTPUT.Clear();
+			CONSOLE_OUTPUT.Clear();
 #endif
-        }
-        private static void initConsoleOutput() {
+		}
+		private static void initConsoleOutput() {
 			if (CONSOLE_ROW_NUMBER == 1 && CONSOLE_OUTPUT.Length == 0) {
 				Console.Write(CONSOLE_PREFIX);
 				clearConsoleOutput();
-                CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
+				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
 			}
 		}
 		internal static void consoleWriteLine(Object o) {
@@ -1530,7 +1507,7 @@ namespace org.mariuszgromada.math.mxparser {
 				Console.WriteLine();
 #endif
 		}
-        internal static void consoleWrite(Object o) {
+		internal static void consoleWrite(Object o) {
 #if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
 				System.Diagnostics.Debug.WriteLine(o);
 #else
@@ -1544,14 +1521,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln(Object o) {
 			lock (CONSOLE_OUTPUT) {
-                initConsoleOutput();
-                consoleWriteLine(o);
+				initConsoleOutput();
+				consoleWriteLine(o);
 				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-                CONSOLE_OUTPUT.Append(o);
-                CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
-                CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
-            }
+				CONSOLE_OUTPUT.Append(o);
+				CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
+				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
+    		}
 		}
 		/**
 		 * Prints array of strings
@@ -1572,13 +1549,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrintln() {
 			lock (CONSOLE_OUTPUT) {
-                initConsoleOutput();
-                consoleWriteLine();
+				initConsoleOutput();
+				consoleWriteLine();
 				CONSOLE_ROW_NUMBER++;
 				consoleWrite(CONSOLE_PREFIX);
-                CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
-                CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
-            }
+				CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
+				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
+    		}
 		}
 		/**
 		 * Prints object.toString to the Console, no new line
@@ -1587,16 +1564,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void consolePrint(Object o) {
 			lock (CONSOLE_OUTPUT) {
-                initConsoleOutput();
-                consoleWrite(o);
-                CONSOLE_OUTPUT.Append(o);
-            }
+				initConsoleOutput();
+				consoleWrite(o);
+				CONSOLE_OUTPUT.Append(o);
+    		}
 		}
 		public static void consolePrintSettings(String prefix) {
-            mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
-            mXparser.consolePrintln(prefix + "mXparser.BUIT_FOR = " + mXparser.BUIT_FOR);
-            mXparser.consolePrintln(prefix + "Environment.Version = " + Environment.Version);
-            mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
+			mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
+			mXparser.consolePrintln(prefix + "mXparser.BUIT_FOR = " + mXparser.BUIT_FOR);
+			mXparser.consolePrintln(prefix + "Environment.Version = " + Environment.Version);
+			mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
 			mXparser.consolePrintln(prefix + "checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
 			mXparser.consolePrintln(prefix + "checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
 			mXparser.consolePrintln(prefix + "checkIfRadiansMode = " + mXparser.checkIfRadiansMode());
@@ -1623,8 +1600,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public static void resetConsoleOutput() {
 			lock (CONSOLE_OUTPUT) {
-                clearConsoleOutput();
-                CONSOLE_ROW_NUMBER = 1;
+				clearConsoleOutput();
+				CONSOLE_ROW_NUMBER = 1;
 			}
 		}
 		/**
@@ -1750,9 +1727,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pattern     Pattern (regexp)
 		 *
 		 * @return            True if pattern matches entirely, False otherwise
+		 *
+		 * @deprecated Planned to be removed, use {@link StringUtils#regexMatch(String, String)} instead
 		 */
+		[Obsolete("Planned to be removed, use StringUtils.regexMatch(String, String) instead")]
 		public static bool regexMatch(String str, String pattern){
-			return Regex.IsMatch(str, "^(" + pattern + ")$");
+			return StringUtils.regexMatch(str, pattern);
 		}
 		/**
 		 * Prints tokens to the console.
@@ -1850,6 +1830,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv43 = "4.3";
 		public const String NAMEv44 = "4.4";
 		public const String NAMEv50 = "5.0";
-        public const String NAMEv51 = "5.1";
+		public const String NAMEv51 = "5.1";
     }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2023-01-02
+ * @(#)Expression.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -267,14 +267,21 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private static final boolean WITH_EXP_STR = true;
 	private static final boolean NO_EXP_STR = false;
 	/**
-	 * Status of the Expression syntax
+	 * Status of the syntax - no syntax error
 	 */
 	public static final boolean NO_SYNTAX_ERRORS = true;
+	/**
+	 * Status of the syntax - syntax error or syntax status unknown
+	 */
 	public static final boolean SYNTAX_ERROR = false;
-	private static final boolean SYNTAX_STATUS_UNKNOWN = false;
-
+	/**
+	 * Status of the syntax - syntax error or syntax status unknown
+	 *
+	 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
+	 */
 	@Deprecated
 	public static final boolean SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
+	private static final boolean SYNTAX_STATUS_UNKNOWN = false;
 	/**
 	 * Expression string (for example: "sin(x)+cos(y)")
 	 */
@@ -4730,7 +4737,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		if (!calculusToken) {
 
-			if (!impliedMultiplicationMode && mXparser.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
+			if (!impliedMultiplicationMode && StringUtils.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfoMessage);
 			else
 				errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN, tokenInfoMessage);
@@ -6035,7 +6042,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private boolean checkFraction(Token token) {
 		if (token.tokenStr.length() < 3) return false;
-		if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
+		if (!StringUtils.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
 		addFractionToken(token);
 		return true;
 	}
@@ -6260,19 +6267,19 @@ public class Expression extends PrimitiveElement implements Serializable {
 				substr = token.tokenStr.substring(lPos, rPos);
 				//  Longest possible decimal checking
 				if (canStartDecimal) {
-					decimalFound = mXparser.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
+					decimalFound = StringUtils.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
 					if (decimalFound)
 						break;
 				}
 				//  Longest possible fraction checking
 				if (canStartFraction) {
-					fractionFound = mXparser.regexMatch(substr, ParserSymbol.FRACTION);
+					fractionFound = StringUtils.regexMatch(substr, ParserSymbol.FRACTION);
 					if (fractionFound)
 						break;
 				}
 				//  Longest possible other numeral base checking
 				if (canStartOtherNumberBase) {
-					otherNumberBaseFound = mXparser.regexMatch(substr, ParserSymbol.BASE_OTHER_REG_EXP);
+					otherNumberBaseFound = StringUtils.regexMatch(substr, ParserSymbol.BASE_OTHER_REG_EXP);
 					if (otherNumberBaseFound)
 						break;
 				}
@@ -6305,7 +6312,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				tokenPart = new TokenPart();
 				tokenPart.str = substr;
 				if (decimalFound) {
-					if (mXparser.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
+					if (StringUtils.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
 					else tokenPart.type = TokenPart.DECIMAL;
 				}
 
@@ -6520,7 +6527,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 					 * Checking if substring represents number
 					 */
 					String str = newExpressionString.substring(pos, i+1);
-					if (mXparser.regexMatch(str, ParserSymbol.DECIMAL_REG_EXP))  numEnd = i;
+					if (StringUtils.regexMatch(str, ParserSymbol.DECIMAL_REG_EXP))  numEnd = i;
 				}
 			}
 			/*

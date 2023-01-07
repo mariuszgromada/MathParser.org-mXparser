@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.java        5.2.0    2022-12-31
+ * @(#)RecursiveArgument.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -248,6 +248,17 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 */
 	private int recursiveCounter;
 	private int startingIndex;
+	private void initRecursiveArgument() {
+		argumentType = RECURSIVE_ARGUMENT;
+		baseValues = new ArrayList<Double>();
+		recursiveCounter = -1;
+		argumentExpression.addArguments(n);
+		argumentExpression.addArguments(this);
+	}
+	private void initRecursiveArgument(PrimitiveElement... elements) {
+		initRecursiveArgument();
+		argumentExpression.addDefinitions(elements);
+	}
 	/**
 	 * Constructor - creates recursive argument.
 	 *
@@ -257,14 +268,10 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 */
 	public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName) {
 		super(argumentName, recursiveExpressionString);
-		if (!argumentName.equals(this.getArgumentName()))
+		if (!syntaxStatusDefinition)
 			return;
-		this.argumentType = RECURSIVE_ARGUMENT;
-		baseValues = new ArrayList<Double>();
-		this.n = new Argument(indexName);
-		super.argumentExpression.addArguments(n);
-		super.argumentExpression.addArguments(this);
-		recursiveCounter = -1;
+		n = new Argument(indexName);
+		initRecursiveArgument();
 	}
 	/**
 	 * Constructor - creates recursive argument.
@@ -280,18 +287,10 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 */
 	public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, PrimitiveElement... elements) {
 		super(argumentName, recursiveExpressionString);
-		if (!argumentName.equals(this.getArgumentName()))
+		if (!syntaxStatusDefinition)
 			return;
-		this.argumentType = RECURSIVE_ARGUMENT;
-		baseValues = new ArrayList<Double>();
 		this.n = n;
-		super.argumentExpression.addArguments(n);
-		super.argumentExpression.addArguments(this);
-		super.argumentExpression.addDefinitions(elements);
-		recursiveCounter = -1;
-	}
-	private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
-		return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
+		initRecursiveArgument(elements);
 	}
 	/**
 	 * Constructor - creates argument based on the argument definition string.
@@ -314,17 +313,9 @@ public class RecursiveArgument extends Argument implements Serializable {
 	 */
 	public RecursiveArgument(String argumentDefinitionString, PrimitiveElement... elements) {
 		super(true, argumentDefinitionString);
-		if (!mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
-			super.argumentExpression = new Expression();
-			super.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
+		if (!syntaxStatusDefinition)
 			return;
-		}
-		this.argumentType = RECURSIVE_ARGUMENT;
-		baseValues = new ArrayList<Double>();
-		recursiveCounter = -1;
-		super.argumentExpression.addArguments(super.n);
-		super.argumentExpression.addArguments(this);
-		super.argumentExpression.addDefinitions(elements);
+		initRecursiveArgument(elements);
 	}
 	/**
 	 * Adds base case

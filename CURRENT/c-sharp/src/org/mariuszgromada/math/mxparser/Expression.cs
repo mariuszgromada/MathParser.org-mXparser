@@ -1,5 +1,5 @@
 ﻿/*
- * @(#)Expression.cs        5.2.0    2023-01-02
+ * @(#)Expression.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -243,12 +243,20 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private const bool WITH_EXP_STR = true;
 		private const bool NO_EXP_STR = false;
-		/**
-		 * Status of the Expression syntax
+        /**
+		 * Status of the syntax - no syntax error
 		 */
-		public const bool NO_SYNTAX_ERRORS = true;
+        public const bool NO_SYNTAX_ERRORS = true;
+        /**
+         * Status of the syntax - syntax error or syntax status unknown
+         */
         public const bool SYNTAX_ERROR = false;
-		[Obsolete]
+		/**
+		 * Status of the syntax - syntax error or syntax status unknown
+		 *
+		 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
+		 */
+		[Obsolete("Planned to be removed, use SYNTAX_ERROR instead")]
         public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = false;
         private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
         /**
@@ -4706,7 +4714,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			if (!calculusToken) {
 
-				if (!impliedMultiplicationMode && mXparser.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
+				if (!impliedMultiplicationMode && StringUtils.regexMatch(token.tokenStr, ParserSymbol.NUMBER_NAME_IMPL_MULTI_REG_EXP))
 					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, tokenInfoMessage);
 				else
 					errorMessage = StringModel.addErrorMassageTokenString(errorMessage, recursionInfoLevel, StringModel.STRING_RESOURCES.INVALID_TOKEN, tokenInfoMessage);
@@ -5015,7 +5023,6 @@ namespace org.mariuszgromada.math.mxparser {
 
 				int tokensNumber = initialTokens.Count;
 				Stack<SyntaxStackElement> syntaxStack = new Stack<SyntaxStackElement>();
-				SyntaxStackElement stackElement;
 
 				for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 					Token token = initialTokens[tokenIndex];
@@ -6015,7 +6022,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private bool checkFraction(Token token) {
 			if (token.tokenStr.Length < 3) return false;
-			if (!mXparser.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
+			if (!StringUtils.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
 			addFractionToken(token);
 			return true;
 		}
@@ -6250,19 +6257,19 @@ namespace org.mariuszgromada.math.mxparser {
 					substr = token.tokenStr.Substring(lPos, rPos - lPos);
 					//  Longest possible decimal checking
 					if (canStartDecimal) {
-						decimalFound = mXparser.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
+						decimalFound = StringUtils.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
 						if (decimalFound)
 							break;
 					}
 					//  Longest possible fraction checking
 					if (canStartFraction) {
-						fractionFound = mXparser.regexMatch(substr, ParserSymbol.FRACTION);
+						fractionFound = StringUtils.regexMatch(substr, ParserSymbol.FRACTION);
 						if (fractionFound)
 							break;
 					}
 					//  Longest possible other numeral base checking
 					if (canStartOtherNumberBase) {
-						otherNumberBaseFound = mXparser.regexMatch(substr, ParserSymbol.BASE_OTHER_REG_EXP);
+						otherNumberBaseFound = StringUtils.regexMatch(substr, ParserSymbol.BASE_OTHER_REG_EXP);
 						if (otherNumberBaseFound)
 							break;
 					}
@@ -6296,7 +6303,7 @@ namespace org.mariuszgromada.math.mxparser {
 					tokenPart = new TokenPart();
 					tokenPart.str = substr;
 					if (decimalFound) {
-						if (mXparser.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
+						if (StringUtils.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
 						else tokenPart.type = TokenPart.DECIMAL;
 					}
 

@@ -1,5 +1,5 @@
 /*
- * @(#)Statistics.java        5.0.4    2022-05-22
+ * @(#)Statistics.java        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -197,7 +197,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.0.0
+ * @version        5.2.0
  */
 public final class Statistics {
 	/**
@@ -223,28 +223,28 @@ public final class Statistics {
 			double i;
 			for (i = from; i < to; i+=delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				sum += mXparser.getFunctionValue(f, index, i);
+				sum += MathFunctions.getFunctionValue(f, index, i);
 				n++;
 			}
 			if ( delta - (i - to) > 0.5 * delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				sum += mXparser.getFunctionValue(f, index, to);
+				sum += MathFunctions.getFunctionValue(f, index, to);
 				n++;
 			}
 		} else if ( (to <= from) && (delta < 0) ) {
 			double i;
 			for (i = from; i > to; i+=delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				sum += mXparser.getFunctionValue(f, index, i);
+				sum += MathFunctions.getFunctionValue(f, index, i);
 				n++;
 			}
 			if ( -delta - (to - i) > -0.5 * delta) {
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				sum += mXparser.getFunctionValue(f, index, to);
+				sum += MathFunctions.getFunctionValue(f, index, to);
 				n++;
 			}
 		} else if (from == to)
-			return mXparser.getFunctionValue(f, index, from);
+			return MathFunctions.getFunctionValue(f, index, from);
 		return sum / n;
 	}
 	/**
@@ -264,7 +264,7 @@ public final class Statistics {
 	public static double var(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
-		return var( mXparser.getFunctionValues(f, index, from, to, delta) );
+		return var( MathFunctions.getFunctionValues(f, index, from, to, delta) );
 	}
 	/**
 	 * Bias-corrected standard deviation from sample function values - iterative operator.
@@ -283,7 +283,7 @@ public final class Statistics {
 	public static double std(Expression f, Argument index, double from, double to, double delta) {
 		if ( (Double.isNaN(delta) ) || (Double.isNaN(from) ) || (Double.isNaN(to) ) || (delta == 0) )
 			return Double.NaN;
-		return std( mXparser.getFunctionValues(f, index, from, to, delta) );
+		return std( MathFunctions.getFunctionValues(f, index, from, to, delta) );
 	}
 	/**
 	 * Sample average.

@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cs        5.2.0    2022-12-31
+ * @(#)RecursiveArgument.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -246,6 +246,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private int recursiveCounter;
 		private int startingIndex;
+		private void initRecursiveArgument() {
+			argumentType = RECURSIVE_ARGUMENT;
+			baseValues = new List<Double>();
+			recursiveCounter = -1;
+			argumentExpression.addArguments(n);
+			argumentExpression.addArguments(this);
+		}
+		private void initRecursiveArgument(params PrimitiveElement[] elements) {
+			initRecursiveArgument();
+			argumentExpression.addDefinitions(elements);
+		}
 		/**
 		 * Constructor - creates recursive argument.
 		 *
@@ -254,14 +265,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      indexName                     index argument name
 		 */
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName) : base(argumentName, recursiveExpressionString) {
-			if (!argumentName.Equals(this.getArgumentName()))
+			if (!syntaxStatusDefinition)
 				return;
-			this.argumentType = RECURSIVE_ARGUMENT;
-			baseValues = new List<Double>();
-			this.n = new Argument(indexName);
-			base.argumentExpression.addArguments(n);
-			base.argumentExpression.addArguments(this);
-			recursiveCounter = -1;
+			n = new Argument(indexName);
+			initRecursiveArgument();
 		}
 		/**
 		 * Constructor - creates recursive argument.
@@ -276,18 +283,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Argument
 		 */
 		public RecursiveArgument(String argumentName, String recursiveExpressionString, Argument n, params PrimitiveElement[] elements) : base(argumentName, recursiveExpressionString) {
-			if (!argumentName.Equals(this.getArgumentName()))
+			if (!syntaxStatusDefinition)
 				return;
-			this.argumentType = RECURSIVE_ARGUMENT;
-			baseValues = new List<Double>();
 			this.n = n;
-			base.argumentExpression.addArguments(n);
-			base.argumentExpression.addArguments(this);
-			base.argumentExpression.addDefinitions(elements);
-			recursiveCounter = -1;
-		}
-		private static String buildErrorMessageInvalidArgumentDefinitionString(String argumentDefinitionString) {
-			return StringModel.buildErrorMessagePatternDoesNotMatchWithExamples(argumentDefinitionString, StringModel.STRING_RESOURCES.INVALID_ARGUMENT_DEFINITION, StringInvariant.RECURSIVE_ARGUMENT_DEFINITION_EXAMPLES);
+			initRecursiveArgument(elements);
 		}
 		/**
 		 * Constructor - creates argument based on the argument definition string.
@@ -309,17 +308,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    Argument
 		 */
 		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(true, argumentDefinitionString) {
-			if (!mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
-                base.argumentExpression = new Expression();
-                base.argumentExpression.setSyntaxStatus(SYNTAX_ERROR_OR_STATUS_UNKNOWN, buildErrorMessageInvalidArgumentDefinitionString(argumentDefinitionString));
-                return;
-			}
-            this.argumentType = RECURSIVE_ARGUMENT;
-            baseValues = new List<Double>();
-            recursiveCounter = -1;
-            base.argumentExpression.addArguments(base.n);
-            base.argumentExpression.addArguments(this);
-            base.argumentExpression.addDefinitions(elements);
+			if (!syntaxStatusDefinition)
+				return;
+			initRecursiveArgument(elements);
 		}
 		/**
 		 * Adds base case

@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        5.0.4    2022-05-22
+ * @(#)NumberTheory.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -196,7 +196,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class NumberTheory {
@@ -350,7 +350,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param initOrder     Array to be swapped together with sorted array
 		 * @param leftIndex     Starting left index.
 		 * @param rightIndex    Starting right index.
-		 * @return              Initial ordering swapped according to sorting order.
+		 * @return              Initial ordering swapped according to sort order.
 		 */
 		private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
 			int i = leftIndex;
@@ -387,7 +387,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Array sort - ascending - quick sort algorithm.
 		 * @param array  Array to be sorted
 		 * @return       Sorts array and additionally returns
-		 *               initial ordering swapped according to sorting order.
+		 *               initial ordering swapped according to sort order.
 		 */
 		public static int[] sortAsc(double[] array) {
 			if (array == null) return null;
@@ -525,7 +525,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			if (!returnOrderByDescFreqAndAscOrigPos) return distValFinal;
 			/*
-			 * This will be numeral system with base maxBase
+			 * This will be numeral system with base maxBase,
 			 * so we need to increment with 1 to have digits interpretation
 			 * for 0 ... maxBase - 1
 			 */
@@ -1039,29 +1039,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 				} else if (from == to) {
-					opRes.fval = mXparser.getFunctionValue(f, index, from);
+					opRes.fval = MathFunctions.getFunctionValue(f, index, from);
 					if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 					opRes.add();
 				}
@@ -1072,29 +1072,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
+					fval = MathFunctions.getFunctionValue(f, index, from);
 					if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 					result += fval;
 				}
@@ -1124,12 +1124,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 
@@ -1137,17 +1137,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 					}
 				} else if (from == to) {
-					opRes.fval = mXparser.getFunctionValue(f, index, from);
+					opRes.fval = MathFunctions.getFunctionValue(f, index, from);
 					if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 					opRes.multiply();
 				}
@@ -1158,29 +1158,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
 						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						fval = MathFunctions.getFunctionValue(f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = MathFunctions.getFunctionValue(f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
+					fval = MathFunctions.getFunctionValue(f, index, from);
 					if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 					result *= fval;
 				}
@@ -1210,21 +1210,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ((to >= from) && (delta > 0)) {
 				for (double i = from; i < to; i += delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					v = MathFunctions.getFunctionValue(f, index, i);
 					if (v < min) min = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = MathFunctions.getFunctionValue(f, index, to);
 				if (v < min) min = v;
 			} else if ((to <= from) && (delta < 0)) {
 				for (double i = from; i > to; i += delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					v = MathFunctions.getFunctionValue(f, index, i);
 					if (v < min) min = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = MathFunctions.getFunctionValue(f, index, to);
 				if (v < min) min = v;
 			} else if (from == to)
-				min = mXparser.getFunctionValue(f, index, from);
+				min = MathFunctions.getFunctionValue(f, index, from);
 			return min;
 		}
 		/**
@@ -1249,21 +1249,21 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ((to >= from) && (delta > 0)) {
 				for (double i = from; i < to; i += delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					v = MathFunctions.getFunctionValue(f, index, i);
 					if (v > max) max = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = MathFunctions.getFunctionValue(f, index, to);
 				if (v > max) max = v;
 			} else if ((to <= from) && (delta < 0)) {
 				for (double i = from; i > to; i += delta) {
 					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					v = MathFunctions.getFunctionValue(f, index, i);
 					if (v > max) max = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = MathFunctions.getFunctionValue(f, index, to);
 				if (v > max) max = v;
 			} else if (from == to)
-				max = mXparser.getFunctionValue(f, index, from);
+				max = MathFunctions.getFunctionValue(f, index, from);
 			return max;
 		}
 		/**
@@ -1474,7 +1474,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static int getNumeralSystemBase(String numberLiteral) {
 			for (int b = 0; b <= 36; b++)
-				if (mXparser.regexMatch(numberLiteral, getRegExpForNumeralSystem(b)))
+				if (StringUtils.regexMatch(numberLiteral, getRegExpForNumeralSystem(b)))
 					return b;
 			return -1;
 		}

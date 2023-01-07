@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cs        5.2.0    2023-01-02
+ * @(#)Function.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -226,28 +226,26 @@ namespace org.mariuszgromada.math.mxparser {
 	 */
 	[CLSCompliant(true), Serializable]
 	public class Function : PrimitiveElement {
-		/**
-		 * No syntax errors in the function.
-		 */
-		public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
         /**
-		 * Syntax error in the function or syntax status unknown.
+		 * Status of the syntax - no syntax error
 		 */
+        public const bool NO_SYNTAX_ERRORS = Expression.NO_SYNTAX_ERRORS;
         /**
-		 * Syntax error in the dependent function definition.
+		 * Status of the syntax - syntax error or syntax status unknown.
 		 */
         public const bool SYNTAX_ERROR = Expression.SYNTAX_ERROR;
-        private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
-
 		/**
-		 * Syntax error in the function or syntax status unknown.
+		 * Status of the syntax - syntax error or syntax status unknown
+		 *
+		 * @deprecated Planned to be removed, use {@link #SYNTAX_ERROR} instead
 		 */
-		[Obsolete]
-		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN;
-		/**
+		[Obsolete("Planned to be removed, use SYNTAX_ERROR instead")]
+		public const bool SYNTAX_ERROR_OR_STATUS_UNKNOWN = SYNTAX_ERROR;
+        private const bool SYNTAX_STATUS_UNKNOWN = SYNTAX_ERROR;
+        /**
 		 * When function was not found
 		 */
-		public const int NOT_FOUND = Expression.NOT_FOUND;
+        public const int NOT_FOUND = Expression.NOT_FOUND;
 		/**
 		 * Function type id identifier
 		 */
@@ -370,7 +368,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String functionNameTrim = functionName.Trim();
-			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 				return;
 			}
@@ -398,7 +396,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String functionNameTrim = functionName.Trim();
-			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 				return;
 			}
@@ -446,7 +444,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String functionDefinitionStringTrim = functionDefinitionString.Trim();
-			if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
+			if (StringUtils.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 				functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -457,7 +455,7 @@ namespace org.mariuszgromada.math.mxparser {
 				registerNoSyntaxErrorInDefinition();
 				return;
 			}
-			if (mXparser.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionVariadicDefStrRegExp)) {
+			if (StringUtils.regexMatch(functionDefinitionStringTrim, ParserSymbol.functionVariadicDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionStringTrim);
 				functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -488,7 +486,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String functionNameTrim = functionName.Trim();
-			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 				return;
 			}
@@ -518,7 +516,7 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			}
 			String functionNameTrim = functionName.Trim();
-			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 				registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 				return;
 			}
@@ -567,7 +565,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		[Obsolete]
 		public void setFunction(String functionDefinitionString, params PrimitiveElement[] elements) {
-			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
+			if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -581,7 +579,7 @@ namespace org.mariuszgromada.math.mxparser {
 				registerNoSyntaxErrorInDefinition();
 				return;
 			}
-			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
+			if (StringUtils.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp)) {
 				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
@@ -644,7 +642,7 @@ namespace org.mariuszgromada.math.mxparser {
 			String functionNameTrim = functionName.Trim();
 			if (this.functionName.Equals(functionNameTrim))
 				return;
-			if (!mXparser.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
+			if (!StringUtils.regexMatch(functionNameTrim, ParserSymbol.nameOnlyTokenRegExp)) {
 				if (!syntaxStatusDefinition)
 					registerSyntaxErrorInDefinition(buildErrorMessageInvalidFunctionName(functionName));
 				return;
