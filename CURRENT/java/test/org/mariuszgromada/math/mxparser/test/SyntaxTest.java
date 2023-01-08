@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2022-12-31
+ * @(#)SyntaxTest.java        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6069,6 +6069,42 @@ public final class SyntaxTest {
         boolean syn = x.checkSyntax();
         mXparser.consolePrintln(x.getErrorMessage() + " = " + syn);
         if (syn == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0386() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE";
+        String expStr = "2 pi*sin(pi)";
+        TestCommonTools.consolePrintTestSynStart(386, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        e.disableImpliedMultiplicationMode();
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0387() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication with blank spaces";
+        String expStr = "2 pi*sin(pi)";
+        TestCommonTools.consolePrintTestSynStart(387, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        e.enableImpliedMultiplicationMode();
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        5.2.0    2023-01-07
+ * @(#)Expression.cs        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6050,8 +6050,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 			}
 			else if (precedingToken.isSpecialTokenName()) {
@@ -6063,8 +6062,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 			}
 			else if (token.isLeftParenthesis()) {
@@ -6074,8 +6072,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 				// '2(' case
 				if (precedingToken.isNumber()) {
@@ -6083,8 +6080,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 				// 'e(', 'pi(' cases
 				if (precedingToken.isIdentifier()) {
@@ -6092,8 +6088,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 			} else if (precedingToken.isRightParenthesis()) {
 				// ')2', ')h.1212', ')1_2_3' cases
@@ -6102,8 +6097,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 				// ')x', ')sin(x)', ')[sdf]' cases
 				if (!token.isParameterSeparator() &&
@@ -6114,8 +6108,7 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
 				}
 			} else if (token.isUnicodeRootOperator()) {
 				/* Unicode root operator */
@@ -6127,8 +6120,24 @@ namespace org.mariuszgromada.math.mxparser {
 						initialTokens.Add(Token.makeMultiplyToken());
 						initialTokens.Add(token);
 						return;
-					}
-					else impliedMultiplicationError = true;
+					} else impliedMultiplicationError = true;
+				}
+			} else if (!token.isLeftParenthesis()
+					&& !token.isRightParenthesis()
+					&& !token.isBinaryOperator()
+					&& !token.isParameterSeparator()
+					&& !token.isUnaryRightOperator()) {
+				/* Blank support: '2 x', 'n x', 'n sin(x)' */
+				if (!precedingToken.isLeftParenthesis() &&
+						!precedingToken.isRightParenthesis() &&
+						!precedingToken.isBinaryOperator() &&
+						!precedingToken.isParameterSeparator() &&
+						!precedingToken.isUnaryLeftOperator()) {
+					if (impliedMultiplicationMode) {
+						initialTokens.Add(Token.makeMultiplyToken());
+						initialTokens.Add(token);
+						return;
+					} else impliedMultiplicationError = true;
 				}
 			}
 			/* End: Implied Multiplication related part*/

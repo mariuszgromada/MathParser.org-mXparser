@@ -456,7 +456,7 @@ public final class Calculus {
 	 * @param      h                   the difference
 	 * @param      x                   the argument name
 	 *
-	 * @return     Forward difference(h) value calculated at at the current value of the argument x.
+	 * @return     Forward difference(h) value calculated at the current value of the argument x.
 	 *
 	 * @see        Expression
 	 * @see        Argument
@@ -499,7 +499,7 @@ public final class Calculus {
 	 * @param      h                   the difference
 	 * @param      x                   the argument name
 	 *
-	 * @return     Backward difference(h) value calculated at at the current value of the argument x.
+	 * @return     Backward difference(h) value calculated at the current value of the argument x.
 	 *
 	 * @see        Expression
 	 * @see        Argument

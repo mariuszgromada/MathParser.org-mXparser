@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2023-01-04
+ * @(#)SyntaxTest.java        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6764,6 +6764,56 @@ public final class ApiTest {
                 && wrongFilePathPathMsg.contains(stringResources.ERROR_FILE_NOT_EXISTS)
 
         ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0245() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(245, testDescr);
+        testResult = testCanonicalString("2 x", "2*x");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0246() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(246, testDescr);
+        testResult = testCanonicalString("x 2 ", "x*2");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0247() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(247, testDescr);
+        testResult = testCanonicalString("2 x sin(x) ", "2*x*sin(x)");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0248() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(248, testDescr);
+        testResult = testCanonicalString("  (  2+3)  n x sin(  x )   ", "(2+3)*n*x*sin(x)");
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0249() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Implied Multiplication & canonical expression string test";
+        TestCommonTools.consolePrintTestApiStart(249, testDescr);
+        testResult = testCanonicalString("-  (-2+3)  -n -x sin(  -  x   )   ", "-(-2+3)-n-x*sin(-x)");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }

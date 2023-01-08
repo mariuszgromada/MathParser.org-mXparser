@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2023-01-07
+ * @(#)Expression.java        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6131,6 +6131,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 		} else if (token.isUnicodeRootOperator()) {
 			/* Unicode root operator */
 			if (!precedingToken.isLeftParenthesis() &&
+					!precedingToken.isBinaryOperator() &&
+					!precedingToken.isParameterSeparator() &&
+					!precedingToken.isUnaryLeftOperator()) {
+				if (impliedMultiplicationMode) {
+					initialTokens.add(Token.makeMultiplyToken());
+					initialTokens.add(token);
+					return;
+				} else impliedMultiplicationError = true;
+			}
+		} else if (!token.isLeftParenthesis()
+				&& !token.isRightParenthesis()
+				&& !token.isBinaryOperator()
+				&& !token.isParameterSeparator()
+				&& !token.isUnaryRightOperator()) {
+			/* Blank support: '2 x', 'n x', 'n sin(x)' */
+			if (!precedingToken.isLeftParenthesis() &&
+					!precedingToken.isRightParenthesis() &&
 					!precedingToken.isBinaryOperator() &&
 					!precedingToken.isParameterSeparator() &&
 					!precedingToken.isUnaryLeftOperator()) {

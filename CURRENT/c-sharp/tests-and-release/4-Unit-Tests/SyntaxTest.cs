@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.2.0    2022-12-31
+ * @(#)SyntaxTest.cs        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -6072,6 +6072,42 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool syn = x.checkSyntax();
 			mXparser.consolePrintln(x.getErrorMessage() + " = " + syn);
 			if (syn == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0386() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE";
+			String expStr = "2 pi*sin(pi)";
+			TestCommonTools.consolePrintTestSynStart(386, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			e.disableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = false;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE))
+				testResult = true;
+			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testSyn0387() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Implied Multiplication with blank spaces";
+			String expStr = "2 pi*sin(pi)";
+			TestCommonTools.consolePrintTestSynStart(387, testDescr + " " + expStr);
+			Expression e = new Expression(expStr);
+			e.enableImpliedMultiplicationMode();
+			bool syn = e.checkSyntax();
+			bool reg = true;
+			StringResources stringResources = StringModel.getStringResources();
+			String errorMessage = e.getErrorMessage();
+			if (syn == reg && errorMessage.Contains(stringResources.NO_ERRORS_DETECTED))
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
