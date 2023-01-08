@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        5.2.0    2023-01-07
+ * @(#)StringResources.java        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -324,17 +324,16 @@ public class StringResources {
     static final String DEFAULT_DESCRIPTION_SHORT = "descr";
     static final String DEFAULT_STEP = "step";
     // -------------------------------------------------
-    static final String DEFAULT_INFO_SERIALIZATION_PERFORMED = "Serialization has been performed:";
-    static final String DEFAULT_INFO_DESERIALIZATION_PERFORMED = "Deserialization has been performed:";
-    static final String DEFAULT_ERROR_NULL_OBJECT = "Null object passed in the parameter.";
-    static final String DEFAULT_ERROR_NULL_FILE_PATH = "Null file passed in the parameter.";
-    static final String DEFAULT_ERROR_FILE_PATH_ZERO_LENGTH = "The file path does not contain any characters.";
-    static final String DEFAULT_ERROR_IS_NOT_A_FILE = "The file path is not a file:";
-    static final String DEFAULT_ERROR_FILE_NOT_EXISTS = "The file path does not exits:";
-    static final String DEFAULT_ERROR_NULL_DATA = "Null data passed in the parameter.";
-    static final String DEFAULT_INFO_EXCEPTION = "Exception: ";
-    static final String DEFAULT_INFO_BINARY_SERIALIZATION_ENABLED = "Binary serialization is enabled. Use it only in a conscious and limited way.";
-    static final String DEFAULT_INFO_BINARY_SERIALIZATION_DISABLED = "Binary serialization is disabled. You can enable it if you are aware of security risks.";
+    static final String DEFAULT_SERIALIZATION_PERFORMED = "Serialization has been performed:";
+    static final String DEFAULT_DESERIALIZATION_PERFORMED = "Deserialization has been performed:";
+    static final String DEFAULT_NULL_OBJECT_PROVIDED = "Null object passed in the parameter.";
+    static final String DEFAULT_NULL_FILE_PATH_PROVIDED = "Null file passed in the parameter.";
+    static final String DEFAULT_FILE_PATH_ZERO_LENGTH_PROVIDED = "The file path does not contain any characters.";
+    static final String DEFAULT_FILE_PATH_IS_NOT_A_FILE = "The file path is not a file:";
+    static final String DEFAULT_FILE_PATH_NOT_EXISTS = "The file path does not exist:";
+    static final String DEFAULT_NULL_DATA_PROVIDED = "Null data passed in the parameter.";
+    static final String DEFAULT_BINARY_SERIALIZATION_ENABLED = "Binary serialization is enabled. Use it only in a conscious and limited way.";
+    static final String DEFAULT_BINARY_SERIALIZATION_DISABLED = "Binary serialization is disabled. You can enable it if you are aware of security risks.";
     // -------------------------------------------------
     static final String DEFAULT_USER_DEFINED_EXPRESSION = "User defined expression";
     static final String DEFAULT_USER_DEFINED_ARGUMENT = "User defined argument";
@@ -1226,47 +1225,43 @@ public class StringResources {
     /**
      * Default String = "Serialization has been performed:"
      */
-    public String INFO_SERIALIZATION_PERFORMED = DEFAULT_INFO_SERIALIZATION_PERFORMED;
+    public String SERIALIZATION_PERFORMED = DEFAULT_SERIALIZATION_PERFORMED;
     /**
      * Default String = "Deserialization has been performed:"
      */
-    public String INFO_DESERIALIZATION_PERFORMED = DEFAULT_INFO_DESERIALIZATION_PERFORMED;
+    public String DESERIALIZATION_PERFORMED = DEFAULT_DESERIALIZATION_PERFORMED;
     /**
      * Default String = "Null object passed in the parameter."
      */
-    public String ERROR_NULL_OBJECT = DEFAULT_ERROR_NULL_OBJECT;
+    public String NULL_OBJECT_PROVIDED = DEFAULT_NULL_OBJECT_PROVIDED;
     /**
      * Default String = "Null file passed in the parameter."
      */
-    public String ERROR_NULL_FILE_PATH = DEFAULT_ERROR_NULL_FILE_PATH;
+    public String NULL_FILE_PATH_PROVIDED = DEFAULT_NULL_FILE_PATH_PROVIDED;
     /**
      * Default String = "The file path does not contain any characters."
      */
-    public String ERROR_FILE_PATH_ZERO_LENGTH = DEFAULT_ERROR_FILE_PATH_ZERO_LENGTH;
+    public String FILE_PATH_ZERO_LENGTH_PROVIDED = DEFAULT_FILE_PATH_ZERO_LENGTH_PROVIDED;
     /**
      * Default String = "The file path is not a file:"
      */
-    public String ERROR_IS_NOT_A_FILE = DEFAULT_ERROR_IS_NOT_A_FILE;
+    public String FILE_PATH_IS_NOT_A_FILE = DEFAULT_FILE_PATH_IS_NOT_A_FILE;
     /**
-     * Default String = "The file path does not exits:"
+     * Default String = "The file path does not exist:"
      */
-    public String ERROR_FILE_NOT_EXISTS = DEFAULT_ERROR_FILE_NOT_EXISTS;
+    public String FILE_PATH_NOT_EXISTS = DEFAULT_FILE_PATH_NOT_EXISTS;
     /**
      * Default String = "Null data passed in the parameter."
      */
-    public String ERROR_NULL_DATA = DEFAULT_ERROR_NULL_DATA;
-    /**
-     * Default String = "Exception: "
-     */
-    public String INFO_EXCEPTION = DEFAULT_INFO_EXCEPTION;
+    public String NULL_DATA_PROVIDED = DEFAULT_NULL_DATA_PROVIDED;
     /**
      * Default String = "Binary serialization is enabled. Use it only in a conscious and limited way."
      */
-    public String INFO_BINARY_SERIALIZATION_ENABLED = DEFAULT_INFO_BINARY_SERIALIZATION_ENABLED;
+    public String BINARY_SERIALIZATION_ENABLED = DEFAULT_BINARY_SERIALIZATION_ENABLED;
     /**
      * Default String = "Binary serialization is disabled. You can enable it if you are aware of security risks."
      */
-    public String INFO_BINARY_SERIALIZATION_DISABLED = DEFAULT_INFO_BINARY_SERIALIZATION_DISABLED;
+    public String BINARY_SERIALIZATION_DISABLED = DEFAULT_BINARY_SERIALIZATION_DISABLED;
     // -------------------------------------------------
     /**
      * Default String = "User defined expression"
@@ -3117,17 +3112,16 @@ public class StringResources {
         printCurrentVsDefault("DESCRIPTION_SHORT", stringResources.DESCRIPTION_SHORT, DEFAULT_DESCRIPTION_SHORT, printDefault);
         printCurrentVsDefault("STEP", stringResources.STEP, DEFAULT_STEP, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");
-        printCurrentVsDefault("INFO_SERIALIZATION_PERFORMED", stringResources.INFO_SERIALIZATION_PERFORMED, DEFAULT_INFO_SERIALIZATION_PERFORMED, printDefault);
-        printCurrentVsDefault("INFO_DESERIALIZATION_PERFORMED", stringResources.INFO_DESERIALIZATION_PERFORMED, DEFAULT_INFO_DESERIALIZATION_PERFORMED, printDefault);
-        printCurrentVsDefault("ERROR_NULL_OBJECT", stringResources.ERROR_NULL_OBJECT, DEFAULT_ERROR_NULL_OBJECT, printDefault);
-        printCurrentVsDefault("ERROR_NULL_FILE_PATH", stringResources.ERROR_NULL_FILE_PATH, DEFAULT_ERROR_NULL_FILE_PATH, printDefault);
-        printCurrentVsDefault("ERROR_FILE_PATH_ZERO_LENGTH", stringResources.ERROR_FILE_PATH_ZERO_LENGTH, DEFAULT_ERROR_FILE_PATH_ZERO_LENGTH, printDefault);
-        printCurrentVsDefault("ERROR_IS_NOT_A_FILE", stringResources.ERROR_IS_NOT_A_FILE, DEFAULT_ERROR_IS_NOT_A_FILE, printDefault);
-        printCurrentVsDefault("ERROR_FILE_NOT_EXISTS", stringResources.ERROR_FILE_NOT_EXISTS, DEFAULT_ERROR_FILE_NOT_EXISTS, printDefault);
-        printCurrentVsDefault("ERROR_NULL_DATA", stringResources.ERROR_NULL_DATA, DEFAULT_ERROR_NULL_DATA, printDefault);
-        printCurrentVsDefault("INFO_EXCEPTION", stringResources.INFO_EXCEPTION, DEFAULT_INFO_EXCEPTION, printDefault);
-        printCurrentVsDefault("INFO_BINARY_SERIALIZATION_ENABLED", stringResources.INFO_BINARY_SERIALIZATION_ENABLED, DEFAULT_INFO_BINARY_SERIALIZATION_ENABLED, printDefault);
-        printCurrentVsDefault("INFO_BINARY_SERIALIZATION_DISABLED", stringResources.INFO_BINARY_SERIALIZATION_DISABLED, DEFAULT_INFO_BINARY_SERIALIZATION_DISABLED, printDefault);
+        printCurrentVsDefault("SERIALIZATION_PERFORMED", stringResources.SERIALIZATION_PERFORMED, DEFAULT_SERIALIZATION_PERFORMED, printDefault);
+        printCurrentVsDefault("DESERIALIZATION_PERFORMED", stringResources.DESERIALIZATION_PERFORMED, DEFAULT_DESERIALIZATION_PERFORMED, printDefault);
+        printCurrentVsDefault("NULL_OBJECT_PROVIDED", stringResources.NULL_OBJECT_PROVIDED, DEFAULT_NULL_OBJECT_PROVIDED, printDefault);
+        printCurrentVsDefault("NULL_FILE_PATH_PROVIDED", stringResources.NULL_FILE_PATH_PROVIDED, DEFAULT_NULL_FILE_PATH_PROVIDED, printDefault);
+        printCurrentVsDefault("FILE_PATH_ZERO_LENGTH_PROVIDED", stringResources.FILE_PATH_ZERO_LENGTH_PROVIDED, DEFAULT_FILE_PATH_ZERO_LENGTH_PROVIDED, printDefault);
+        printCurrentVsDefault("FILE_PATH_IS_NOT_A_FILE", stringResources.FILE_PATH_IS_NOT_A_FILE, DEFAULT_FILE_PATH_IS_NOT_A_FILE, printDefault);
+        printCurrentVsDefault("FILE_PATH_NOT_EXISTS", stringResources.FILE_PATH_NOT_EXISTS, DEFAULT_FILE_PATH_NOT_EXISTS, printDefault);
+        printCurrentVsDefault("NULL_DATA_PROVIDED", stringResources.NULL_DATA_PROVIDED, DEFAULT_NULL_DATA_PROVIDED, printDefault);
+        printCurrentVsDefault("BINARY_SERIALIZATION_ENABLED", stringResources.BINARY_SERIALIZATION_ENABLED, DEFAULT_BINARY_SERIALIZATION_ENABLED, printDefault);
+        printCurrentVsDefault("BINARY_SERIALIZATION_DISABLED", stringResources.BINARY_SERIALIZATION_DISABLED, DEFAULT_BINARY_SERIALIZATION_DISABLED, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");
         printCurrentVsDefault("USER_DEFINED_EXPRESSION", stringResources.USER_DEFINED_EXPRESSION, DEFAULT_USER_DEFINED_EXPRESSION, printDefault);
         printCurrentVsDefault("USER_DEFINED_ARGUMENT", stringResources.USER_DEFINED_ARGUMENT, DEFAULT_USER_DEFINED_ARGUMENT, printDefault);

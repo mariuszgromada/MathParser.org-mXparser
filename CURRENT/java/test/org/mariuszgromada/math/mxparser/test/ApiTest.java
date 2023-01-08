@@ -180,7 +180,6 @@
  */
 package org.mariuszgromada.math.mxparser.test;
 
-import com.sun.beans.editors.DoubleEditor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mariuszgromada.math.mxparser.*;
@@ -6592,8 +6591,8 @@ public final class ApiTest {
         StringResources stringResources = StringModel.getStringResources();
         if (isEnabled && isDisabled
                 && statusEnabled && statusDisabled
-                && msgEnabled.contains(stringResources.INFO_BINARY_SERIALIZATION_ENABLED)
-                && msgDisabled.contains(stringResources.INFO_BINARY_SERIALIZATION_DISABLED)
+                && msgEnabled.contains(stringResources.BINARY_SERIALIZATION_ENABLED)
+                && msgDisabled.contains(stringResources.BINARY_SERIALIZATION_DISABLED)
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -6635,19 +6634,19 @@ public final class ApiTest {
 
         if (!nullFilePathExecuted
                 && !nullFilePathStatus
-                && nullFilePathMsg.contains(stringResources.ERROR_NULL_FILE_PATH)
+                && nullFilePathMsg.contains(stringResources.NULL_FILE_PATH_PROVIDED)
 
                 && !zerLengthPathExecuted
                 && !zerLengthPathStatus
-                && zerLengthPathPathMsg.contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+                && zerLengthPathPathMsg.contains(stringResources.FILE_PATH_ZERO_LENGTH_PROVIDED)
 
                 && !nullObjectExecuted
                 && !nullObjectStatus
-                && nullObjectPathMsg.contains(stringResources.ERROR_NULL_OBJECT)
+                && nullObjectPathMsg.contains(stringResources.NULL_OBJECT_PROVIDED)
 
                 && !wrongFilePathExecuted
                 && !wrongFilePathStatus
-                && wrongFilePathPathMsg.contains(stringResources.INFO_EXCEPTION)
+                && wrongFilePathPathMsg.contains(stringResources.EXCEPTION)
 
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -6673,7 +6672,7 @@ public final class ApiTest {
 
         if (nullObjectExecuted == null
                 && !nullObjectStatus
-                && nullObjectPathMsg.contains(stringResources.ERROR_NULL_OBJECT)
+                && nullObjectPathMsg.contains(stringResources.NULL_OBJECT_PROVIDED)
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -6704,11 +6703,11 @@ public final class ApiTest {
 
         if (nullDataX == null
                 && !nullDataStatus
-                && nullDataMsg.contains(stringResources.ERROR_NULL_DATA)
+                && nullDataMsg.contains(stringResources.NULL_DATA_PROVIDED)
 
                 && nullStrX == null
                 && !nullStrStatus
-                && nullStrMsg.contains(stringResources.ERROR_NULL_DATA)
+                && nullStrMsg.contains(stringResources.NULL_DATA_PROVIDED)
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -6749,19 +6748,19 @@ public final class ApiTest {
 
         if (nullFilePathExecuted == null
                 && !nullFilePathStatus
-                && nullFilePathMsg.contains(stringResources.ERROR_NULL_FILE_PATH)
+                && nullFilePathMsg.contains(stringResources.NULL_FILE_PATH_PROVIDED)
 
                 && zerLengthPathExecuted == null
                 && !zerLengthPathStatus
-                && zerLengthPathPathMsg.contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+                && zerLengthPathPathMsg.contains(stringResources.FILE_PATH_ZERO_LENGTH_PROVIDED)
 
                 && notAFileExecuted == null
                 && !notAFileStatus
-                && notAFilePathMsg.contains(stringResources.ERROR_IS_NOT_A_FILE)
+                && notAFilePathMsg.contains(stringResources.FILE_PATH_IS_NOT_A_FILE)
 
                 && wrongFilePathExecuted == null
                 && !wrongFilePathStatus
-                && wrongFilePathPathMsg.contains(stringResources.ERROR_FILE_NOT_EXISTS)
+                && wrongFilePathPathMsg.contains(stringResources.FILE_PATH_NOT_EXISTS)
 
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);

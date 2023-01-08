@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.cs        5.2.0    2023-01-07
+ * @(#)StringModel.cs        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1357,7 +1357,7 @@ namespace org.mariuszgromada.math.mxparser {
 
         internal static String buildErrorMessageFromException(Exception e) {
             if (e == null)
-                return STRING_RESOURCES.ERROR_NULL_OBJECT;
+                return STRING_RESOURCES.NULL_OBJECT_PROVIDED;
 
             if (e is ParseException)
                     return buildErrorMessageFromParseException((ParseException) e);

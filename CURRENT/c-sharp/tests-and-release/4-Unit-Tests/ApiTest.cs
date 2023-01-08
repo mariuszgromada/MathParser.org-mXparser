@@ -6589,8 +6589,8 @@ namespace org.mariuszgromada.math.mxparser.test {
 			StringResources stringResources = StringModel.getStringResources();
 			if (isEnabled && isDisabled
 					&& statusEnabled && statusDisabled
-					&& msgEnabled.Contains(stringResources.INFO_BINARY_SERIALIZATION_ENABLED)
-					&& msgDisabled.Contains(stringResources.INFO_BINARY_SERIALIZATION_DISABLED)
+					&& msgEnabled.Contains(stringResources.BINARY_SERIALIZATION_ENABLED)
+					&& msgDisabled.Contains(stringResources.BINARY_SERIALIZATION_DISABLED)
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
             Assert.IsTrue(testResult);
@@ -6632,19 +6632,19 @@ namespace org.mariuszgromada.math.mxparser.test {
 
 			if (!nullFilePathExecuted
 					&& !nullFilePathStatus
-					&& nullFilePathMsg.Contains(stringResources.ERROR_NULL_FILE_PATH)
+					&& nullFilePathMsg.Contains(stringResources.NULL_FILE_PATH_PROVIDED)
 
 					&& !zerLengthPathExecuted
 					&& !zerLengthPathStatus
-					&& zerLengthPathPathMsg.Contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+					&& zerLengthPathPathMsg.Contains(stringResources.FILE_PATH_ZERO_LENGTH_PROVIDED)
 
 					&& !nullObjectExecuted
 					&& !nullObjectStatus
-					&& nullObjectPathMsg.Contains(stringResources.ERROR_NULL_OBJECT)
+					&& nullObjectPathMsg.Contains(stringResources.NULL_OBJECT_PROVIDED)
 
 					&& !wrongFilePathExecuted
 					&& !wrongFilePathStatus
-					&& wrongFilePathPathMsg.Contains(stringResources.INFO_EXCEPTION)
+					&& wrongFilePathPathMsg.Contains(stringResources.EXCEPTION)
 
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -6670,7 +6670,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 
 			if (nullObjectExecuted == null
 					&& !nullObjectStatus
-					&& nullObjectPathMsg.Contains(stringResources.ERROR_NULL_OBJECT)
+					&& nullObjectPathMsg.Contains(stringResources.NULL_OBJECT_PROVIDED)
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
@@ -6701,11 +6701,11 @@ namespace org.mariuszgromada.math.mxparser.test {
 
 			if (nullDataX == null
 					&& !nullDataStatus
-					&& nullDataMsg.Contains(stringResources.ERROR_NULL_DATA)
+					&& nullDataMsg.Contains(stringResources.NULL_DATA_PROVIDED)
 
 					&& nullStrX == null
 					&& !nullStrStatus
-					&& nullStrMsg.Contains(stringResources.ERROR_NULL_DATA)
+					&& nullStrMsg.Contains(stringResources.NULL_DATA_PROVIDED)
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
@@ -6746,19 +6746,19 @@ namespace org.mariuszgromada.math.mxparser.test {
 
 			if (nullFilePathExecuted == null
 					&& !nullFilePathStatus
-					&& nullFilePathMsg.Contains(stringResources.ERROR_NULL_FILE_PATH)
+					&& nullFilePathMsg.Contains(stringResources.NULL_FILE_PATH_PROVIDED)
 
 					&& zerLengthPathExecuted == null
 					&& !zerLengthPathStatus
-					&& zerLengthPathPathMsg.Contains(stringResources.ERROR_FILE_PATH_ZERO_LENGTH)
+					&& zerLengthPathPathMsg.Contains(stringResources.FILE_PATH_ZERO_LENGTH_PROVIDED)
 
 					&& notAFileExecuted == null
 					&& !notAFileStatus
-					&& notAFilePathMsg.Contains(stringResources.ERROR_IS_NOT_A_FILE)
+					&& notAFilePathMsg.Contains(stringResources.FILE_PATH_IS_NOT_A_FILE)
 
 					&& wrongFilePathExecuted == null
 					&& !wrongFilePathStatus
-					&& wrongFilePathPathMsg.Contains(stringResources.ERROR_FILE_NOT_EXISTS)
+					&& wrongFilePathPathMsg.Contains(stringResources.FILE_PATH_NOT_EXISTS)
 
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);

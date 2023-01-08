@@ -1,5 +1,5 @@
 /*
- * @(#)SerializationUtils.java        5.2.0    2022-12-27
+ * @(#)SerializationUtils.java        5.2.0    2023-01-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -247,7 +247,7 @@ public final class SerializationUtils {
     public static void enableBinarySerializationIamAwareOfSecurityRisks() {
         binarySerializationEnabled = true;
         lastOperationWasSuccessful = true;
-        logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_ENABLED);
+        logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_ENABLED);
     }
     /**
      * Disables binary serialization done by the SerializationUtils.
@@ -273,7 +273,7 @@ public final class SerializationUtils {
     public static void disableBinarySerialization() {
         binarySerializationEnabled = false;
         lastOperationWasSuccessful = true;
-        logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_DISABLED);
+        logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
     }
     /**
      * Returns whether binary serialization done by SerializationUtils is enabled by.
@@ -392,11 +392,11 @@ public final class SerializationUtils {
     public static byte[] serializeToBytes(Serializable objectToSerialize) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_DISABLED);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
             return null;
         }
         if (objectToSerialize == null) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_NULL_OBJECT);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_OBJECT_PROVIDED);
             return null;
         }
         try {
@@ -407,11 +407,11 @@ public final class SerializationUtils {
                 oos.writeObject(objectToSerialize);
                 oos.close();
             }
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(objectToSerialize));
+            logLastOperationMessage(StringModel.STRING_RESOURCES.SERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(objectToSerialize));
             lastOperationWasSuccessful = true;
             return baos.toByteArray();
         } catch (Exception e) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_EXCEPTION + StringInvariant.SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
+            logLastOperationMessage(StringModel.STRING_RESOURCES.EXCEPTION + StringInvariant.COLON_SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
             return null;
         }
     }
@@ -479,19 +479,19 @@ public final class SerializationUtils {
     public static boolean serializeToFile(Serializable objectToSerialize, String filePath) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_DISABLED);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
             return false;
         }
         if (filePath == null) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_NULL_FILE_PATH);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_FILE_PATH_PROVIDED);
             return false;
         }
         if (filePath.length() == 0) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_FILE_PATH_ZERO_LENGTH);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.FILE_PATH_ZERO_LENGTH_PROVIDED);
             return false;
         }
         if (objectToSerialize == null) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_NULL_OBJECT);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_OBJECT_PROVIDED);
             return false;
         }
         File file = new File(filePath);
@@ -502,11 +502,11 @@ public final class SerializationUtils {
                 oos.writeObject(objectToSerialize);
                 oos.close();
             }
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_SERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(objectToSerialize) + StringInvariant.COLON_SPACE + filePath);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.SERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(objectToSerialize) + StringInvariant.COLON_SPACE + filePath);
             lastOperationWasSuccessful = true;
             return true;
         } catch (Exception e) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_EXCEPTION + StringInvariant.SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
+            logLastOperationMessage(StringModel.STRING_RESOURCES.EXCEPTION + StringInvariant.COLON_SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
             return false;
         }
     }
@@ -539,11 +539,11 @@ public final class SerializationUtils {
     public static <T> T deserializeFromBytes(byte[] data) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_DISABLED);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
             return null;
         }
         if (data == null) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_NULL_DATA);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_DATA_PROVIDED);
             return null;
         }
         try {
@@ -553,10 +553,10 @@ public final class SerializationUtils {
             T deserializedObject = (T) ois.readObject();
             ois.close();
             lastOperationWasSuccessful = true;
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(deserializedObject));
+            logLastOperationMessage(StringModel.STRING_RESOURCES.DESERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(deserializedObject));
             return deserializedObject;
         } catch (Exception e) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_EXCEPTION + StringInvariant.SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
+            logLastOperationMessage(StringModel.STRING_RESOURCES.EXCEPTION + StringInvariant.COLON_SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
             return null;
         }
     }
@@ -589,11 +589,11 @@ public final class SerializationUtils {
     public static <T> T deserializeFromString(String data) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_DISABLED);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
             return null;
         }
         if (data == null) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_NULL_DATA);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_DATA_PROVIDED);
             return null;
         }
         return deserializeFromBytes(Base64.getDecoder().decode(data));
@@ -627,24 +627,24 @@ public final class SerializationUtils {
     public static <T> T deserializeFromFile(String filePath) {
         lastOperationWasSuccessful = false;
         if (!binarySerializationEnabled) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_BINARY_SERIALIZATION_DISABLED);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.BINARY_SERIALIZATION_DISABLED);
             return null;
         }
         if (filePath == null) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_NULL_FILE_PATH);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_FILE_PATH_PROVIDED);
             return null;
         }
         if (filePath.length() == 0) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_FILE_PATH_ZERO_LENGTH);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.FILE_PATH_ZERO_LENGTH_PROVIDED);
             return null;
         }
         File file = new File(filePath);
         if (!file.exists()) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_FILE_NOT_EXISTS + StringInvariant.SPACE + filePath);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.FILE_PATH_NOT_EXISTS + StringInvariant.SPACE + filePath);
             return null;
         }
         if (!file.isFile()) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_IS_NOT_A_FILE + StringInvariant.SPACE + filePath);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.FILE_PATH_IS_NOT_A_FILE + StringInvariant.SPACE + filePath);
             return null;
         }
         try {
@@ -654,10 +654,10 @@ public final class SerializationUtils {
             T deserializedObject = (T) ois.readObject();
             ois.close();
             lastOperationWasSuccessful = true;
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_DESERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(deserializedObject) + StringInvariant.COLON_SPACE + filePath);
+            logLastOperationMessage(StringModel.STRING_RESOURCES.DESERIALIZATION_PERFORMED + StringInvariant.SPACE + getSimpleName(deserializedObject) + StringInvariant.COLON_SPACE + filePath);
             return deserializedObject;
         } catch (Exception e) {
-            logLastOperationMessage(StringModel.STRING_RESOURCES.INFO_EXCEPTION + StringInvariant.SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
+            logLastOperationMessage(StringModel.STRING_RESOURCES.EXCEPTION + StringInvariant.COLON_SPACE + getSimpleName(e) + StringInvariant.COLON_SPACE + e.getMessage());
             return null;
         }
     }
