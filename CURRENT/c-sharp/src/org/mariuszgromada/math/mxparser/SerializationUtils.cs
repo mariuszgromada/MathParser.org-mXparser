@@ -1,5 +1,5 @@
 /*
- * @(#)SerializationUtils.cs        5.2.0    2022-12-27
+ * @(#)SerializationUtils.cs        5.2.0    2023-01-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -657,12 +657,12 @@ namespace org.mariuszgromada.math.mxparser {
                 logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_FILE_PATH_ZERO_LENGTH);
                 return default(T);
             }
-            if (!File.Exists(filePath)) {
-                logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_FILE_NOT_EXISTS + StringInvariant.SPACE + filePath);
-                return default(T);
-            }
             if (Directory.Exists(filePath)) {
                 logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_IS_NOT_A_FILE + StringInvariant.SPACE + filePath);
+                return default(T);
+            }
+            if (!File.Exists(filePath)) {
+                logLastOperationMessage(StringModel.STRING_RESOURCES.ERROR_FILE_NOT_EXISTS + StringInvariant.SPACE + filePath);
                 return default(T);
             }
             try {
