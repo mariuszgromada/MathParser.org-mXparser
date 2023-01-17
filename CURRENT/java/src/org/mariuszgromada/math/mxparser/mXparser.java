@@ -1812,9 +1812,9 @@ public final class mXparser {
 	 *
 	 * @return One string value containing all the help. String in Json format.
 	 */
-	public static String getHelpAsJason() {
+	public static String getHelpAsJson() {
 		synchronized (HELP_EXPRESSION) {
-			return HELP_EXPRESSION.getHelpAsJason();
+			return HELP_EXPRESSION.getHelpAsJson();
 		}
 	}
 	/**
@@ -1831,9 +1831,9 @@ public final class mXparser {
 	 *
 	 * @return One string value containing all the help. String in Json format.
 	 */
-	public static String getHelpAsJason(String query) {
+	public static String getHelpAsJson(String query) {
 		synchronized (HELP_EXPRESSION) {
-			return HELP_EXPRESSION.getHelpAsJason(query);
+			return HELP_EXPRESSION.getHelpAsJson(query);
 		}
 	}
 	/**
@@ -1844,9 +1844,9 @@ public final class mXparser {
 	 *
 	 * @return One string value containing all the help. String in Json format.
 	 */
-	public static String getHelpAsJason(boolean addCaption, String caption) {
+	public static String getHelpAsJson(boolean addCaption, String caption) {
 		synchronized (HELP_EXPRESSION) {
-			return HELP_EXPRESSION.getHelpAsJason(addCaption, caption);
+			return HELP_EXPRESSION.getHelpAsJson(addCaption, caption);
 		}
 	}
 	/**
@@ -1866,9 +1866,9 @@ public final class mXparser {
 	 *
 	 * @return One string value containing all the help. String in Json format.
 	 */
-	public static String getHelpAsJason(String query, boolean addCaption, String caption) {
+	public static String getHelpAsJson(String query, boolean addCaption, String caption) {
 		synchronized (HELP_EXPRESSION) {
-			return HELP_EXPRESSION.getHelpAsJason(query, addCaption, caption);
+			return HELP_EXPRESSION.getHelpAsJson(query, addCaption, caption);
 		}
 	}
 	/**

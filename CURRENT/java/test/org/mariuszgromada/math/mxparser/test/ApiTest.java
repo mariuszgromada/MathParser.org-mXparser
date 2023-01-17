@@ -9064,10 +9064,10 @@ public final class ApiTest {
     public void testApi0301() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason()";
+        String testDescr = "mXparser API - getHelpAsJson()";
         TestCommonTools.consolePrintTestApiStart(301, testDescr);
         int elementsNumber = mXparser.getKeyWords().size();
-        String help = mXparser.getHelpAsJason();
+        String help = mXparser.getHelpAsJson();
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9124,10 +9124,10 @@ public final class ApiTest {
     public void testApi0302() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = '')";
+        String testDescr = "mXparser API - getHelpAsJson(addCaption = true, caption = '')";
         TestCommonTools.consolePrintTestApiStart(302, testDescr);
         int elementsNumber = mXparser.getKeyWords().size();
-        String help = mXparser.getHelpAsJason(true, "");
+        String help = mXparser.getHelpAsJson(true, "");
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9184,11 +9184,11 @@ public final class ApiTest {
     public void testApi0303() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = 'This is a caption')";
+        String testDescr = "mXparser API - getHelpAsJson(addCaption = true, caption = 'This is a caption')";
         TestCommonTools.consolePrintTestApiStart(303, testDescr);
         String captionText = "This is a caption";
         int elementsNumber = mXparser.getKeyWords().size();
-        String help = mXparser.getHelpAsJason(true, captionText);
+        String help = mXparser.getHelpAsJson(true, captionText);
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9245,11 +9245,11 @@ public final class ApiTest {
     public void testApi0304() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(addCaption = false, caption = 'This is a caption')";
+        String testDescr = "mXparser API - getHelpAsJson(addCaption = false, caption = 'This is a caption')";
         TestCommonTools.consolePrintTestApiStart(304, testDescr);
         String captionText = "This is a caption";
         int elementsNumber = mXparser.getKeyWords().size();
-        String help = mXparser.getHelpAsJason(false, captionText);
+        String help = mXparser.getHelpAsJson(false, captionText);
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9306,11 +9306,11 @@ public final class ApiTest {
     public void testApi0305() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(query)";
+        String testDescr = "mXparser API - getHelpAsJson(query)";
         TestCommonTools.consolePrintTestApiStart(305, testDescr);
         String query = "sine";
         int elementsNumber = mXparser.getKeyWords(query).size();
-        String help = mXparser.getHelpAsJason(query);
+        String help = mXparser.getHelpAsJson(query);
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9368,11 +9368,11 @@ public final class ApiTest {
     public void testApi0306() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(query, addCaption = true, caption = '')";
+        String testDescr = "mXparser API - getHelpAsJson(query, addCaption = true, caption = '')";
         TestCommonTools.consolePrintTestApiStart(306, testDescr);
         String query = "sine";
         int elementsNumber = mXparser.getKeyWords(query).size();
-        String help = mXparser.getHelpAsJason(query, true, "");
+        String help = mXparser.getHelpAsJson(query, true, "");
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9430,12 +9430,12 @@ public final class ApiTest {
     public void testApi0307() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(query, addCaption = true, caption = 'This is a caption')";
+        String testDescr = "mXparser API - getHelpAsJson(query, addCaption = true, caption = 'This is a caption')";
         TestCommonTools.consolePrintTestApiStart(307, testDescr);
         String captionText = "This is a caption";
         String query = "sine";
         int elementsNumber = mXparser.getKeyWords(query).size();
-        String help = mXparser.getHelpAsJason(query, true, captionText);
+        String help = mXparser.getHelpAsJson(query, true, captionText);
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();
@@ -9493,12 +9493,12 @@ public final class ApiTest {
     public void testApi0308() {
         TestCommonTools.testApiSettingsInit();
         boolean testResult = false;
-        String testDescr = "mXparser API - getHelpAsJason(query, addCaption = false, caption = 'This is a caption')";
+        String testDescr = "mXparser API - getHelpAsJson(query, addCaption = false, caption = 'This is a caption')";
         TestCommonTools.consolePrintTestApiStart(308, testDescr);
         String captionText = "This is a caption";
         String query = "sine";
         int elementsNumber = mXparser.getKeyWords(query).size();
-        String help = mXparser.getHelpAsJason(query, false, captionText);
+        String help = mXparser.getHelpAsJson(query, false, captionText);
         int linesNumber = StringUtils.countLines(help);
 
         StringResources stringResources = StringModel.getStringResources();

@@ -7091,8 +7091,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public String getHelpAsJason() {
-			return getHelpAsJason(StringInvariant.EMPTY);
+		public String getHelpAsJson() {
+			return getHelpAsJson(StringInvariant.EMPTY);
 		}
 		/**
 		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
@@ -7108,8 +7108,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public String getHelpAsJason(String query) {
-			return getHelpAsJason(query, true, StringInvariant.EMPTY);
+		public String getHelpAsJson(String query) {
+			return getHelpAsJson(query, true, StringInvariant.EMPTY);
 		}
 		/**
 		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
@@ -7119,9 +7119,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public String getHelpAsJason(bool addCaption, String caption) {
+		public String getHelpAsJson(bool addCaption, String caption) {
 			initParserKeyWords();
-			return ExpressionUtils.getHelpAsJason(keyWordsList, addCaption, StringInvariant.EMPTY, caption);
+			return ExpressionUtils.getHelpAsJson(keyWordsList, addCaption, StringInvariant.EMPTY, caption);
 		}
 		/**
 		 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
@@ -7140,9 +7140,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public String getHelpAsJason(String query, bool addCaption, String caption) {
+		public String getHelpAsJson(String query, bool addCaption, String caption) {
 			initParserKeyWords();
-			return ExpressionUtils.getHelpAsJason(keyWordsList, addCaption, query, caption);
+			return ExpressionUtils.getHelpAsJson(keyWordsList, addCaption, query, caption);
 		}
 		/**
 		 * Returns list of keywords known to the parser

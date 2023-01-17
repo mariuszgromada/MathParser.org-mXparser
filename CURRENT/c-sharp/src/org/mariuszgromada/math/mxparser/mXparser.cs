@@ -1931,9 +1931,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public static String getHelpAsJason() {
+		public static String getHelpAsJson() {
 			lock (HELP_EXPRESSION) {
-				return HELP_EXPRESSION.getHelpAsJason();
+				return HELP_EXPRESSION.getHelpAsJson();
 			}
 		}
 		/**
@@ -1950,9 +1950,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public static String getHelpAsJason(String query) {
+		public static String getHelpAsJson(String query) {
 			lock (HELP_EXPRESSION) {
-				return HELP_EXPRESSION.getHelpAsJason(query);
+				return HELP_EXPRESSION.getHelpAsJson(query);
 			}
 		}
 		/**
@@ -1963,9 +1963,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public static String getHelpAsJason(bool addCaption, String caption) {
+		public static String getHelpAsJson(bool addCaption, String caption) {
 			lock (HELP_EXPRESSION) {
-				return HELP_EXPRESSION.getHelpAsJason(addCaption, caption);
+				return HELP_EXPRESSION.getHelpAsJson(addCaption, caption);
 			}
 		}
 		/**
@@ -1985,9 +1985,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return One string value containing all the help. String in Json format.
 		 */
-		public static String getHelpAsJason(String query, bool addCaption, String caption) {
+		public static String getHelpAsJson(String query, bool addCaption, String caption) {
 			lock (HELP_EXPRESSION) {
-				return HELP_EXPRESSION.getHelpAsJason(query, addCaption, caption);
+				return HELP_EXPRESSION.getHelpAsJson(query, addCaption, caption);
 			}
 		}
 		/**

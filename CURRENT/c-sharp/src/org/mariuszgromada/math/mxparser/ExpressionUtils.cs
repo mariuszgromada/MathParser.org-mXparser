@@ -1281,7 +1281,7 @@ namespace org.mariuszgromada.math.mxparser {
                     ;
         }
 
-        private static void buildJasonRows(List<KeyWord> keyWordsList, StringBuilder stringBuilder) {
+        private static void buildJsonRows(List<KeyWord> keyWordsList, StringBuilder stringBuilder) {
             StringResources stringResources = StringModel.getStringResources();
             int n = 0;
             foreach (KeyWord kw in keyWordsList) {
@@ -1377,7 +1377,7 @@ namespace org.mariuszgromada.math.mxparser {
             return StringUtils.cleanNewLineAtTheEnd(result.ToString());
         }
 
-        internal static String getHelpAsJason(List<KeyWord> keyWordsList, bool addCaption, String query, String caption) {
+        internal static String getHelpAsJson(List<KeyWord> keyWordsList, bool addCaption, String query, String caption) {
             StringResources stringResources = StringModel.getStringResources();
             List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
             StringBuilder result = new StringBuilder();
@@ -1394,7 +1394,7 @@ namespace org.mariuszgromada.math.mxparser {
                 if (keyWordsResult.Count > 0)
                     result.Append(StringInvariant.COMMA);
             }
-            buildJasonRows(keyWordsResult, result);
+            buildJsonRows(keyWordsResult, result);
             StringUtils.stringBuilderPartsAppend(result
                     ,StringInvariant.NEW_LINE
                     ,StringInvariant.RIGHT_SQUARE_BRACKET

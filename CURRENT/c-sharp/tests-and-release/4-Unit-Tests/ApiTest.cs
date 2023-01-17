@@ -9065,7 +9065,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String testDescr = "mXparser API - getHelpAsJason()";
 			TestCommonTools.consolePrintTestApiStart(301, testDescr);
 			int elementsNumber = mXparser.getKeyWords().Count;
-			String help = mXparser.getHelpAsJason();
+			String help = mXparser.getHelpAsJson();
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9125,7 +9125,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = '')";
 			TestCommonTools.consolePrintTestApiStart(302, testDescr);
 			int elementsNumber = mXparser.getKeyWords().Count;
-			String help = mXparser.getHelpAsJason(true, "");
+			String help = mXparser.getHelpAsJson(true, "");
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9186,7 +9186,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiStart(303, testDescr);
 			String captionText = "This is a caption";
 			int elementsNumber = mXparser.getKeyWords().Count;
-			String help = mXparser.getHelpAsJason(true, captionText);
+			String help = mXparser.getHelpAsJson(true, captionText);
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9247,7 +9247,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiStart(304, testDescr);
 			String captionText = "This is a caption";
 			int elementsNumber = mXparser.getKeyWords().Count;
-			String help = mXparser.getHelpAsJason(false, captionText);
+			String help = mXparser.getHelpAsJson(false, captionText);
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9308,7 +9308,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiStart(305, testDescr);
 			String query = "sine";
 			int elementsNumber = mXparser.getKeyWords(query).Count;
-			String help = mXparser.getHelpAsJason(query);
+			String help = mXparser.getHelpAsJson(query);
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9370,7 +9370,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiStart(306, testDescr);
 			String query = "sine";
 			int elementsNumber = mXparser.getKeyWords(query).Count;
-			String help = mXparser.getHelpAsJason(query, true, "");
+			String help = mXparser.getHelpAsJson(query, true, "");
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9433,7 +9433,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String captionText = "This is a caption";
 			String query = "sine";
 			int elementsNumber = mXparser.getKeyWords(query).Count;
-			String help = mXparser.getHelpAsJason(query, true, captionText);
+			String help = mXparser.getHelpAsJson(query, true, captionText);
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();
@@ -9496,7 +9496,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String captionText = "This is a caption";
 			String query = "sine";
 			int elementsNumber = mXparser.getKeyWords(query).Count;
-			String help = mXparser.getHelpAsJason(query, false, captionText);
+			String help = mXparser.getHelpAsJson(query, false, captionText);
 			int linesNumber = StringUtils.countLines(help);
 
 			StringResources stringResources = StringModel.getStringResources();

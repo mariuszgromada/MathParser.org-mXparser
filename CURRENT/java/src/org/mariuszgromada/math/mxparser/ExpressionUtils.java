@@ -1285,7 +1285,7 @@ final class ExpressionUtils {
                 ;
     }
 
-    private static void buildJasonRows(List<KeyWord> keyWordsList, StringBuilder stringBuilder) {
+    private static void buildJsonRows(List<KeyWord> keyWordsList, StringBuilder stringBuilder) {
         StringResources stringResources = StringModel.getStringResources();
         int n = 0;
         for (KeyWord kw : keyWordsList) {
@@ -1381,7 +1381,7 @@ final class ExpressionUtils {
         return StringUtils.cleanNewLineAtTheEnd(result.toString());
     }
 
-    static String getHelpAsJason(List<KeyWord> keyWordsList, boolean addCaption, String query, String caption) {
+    static String getHelpAsJson(List<KeyWord> keyWordsList, boolean addCaption, String query, String caption) {
         StringResources stringResources = StringModel.getStringResources();
         List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
         StringBuilder result = new StringBuilder();
@@ -1398,7 +1398,7 @@ final class ExpressionUtils {
             if (keyWordsResult.size() > 0)
                 result.append(StringInvariant.COMMA);
         }
-        buildJasonRows(keyWordsResult, result);
+        buildJsonRows(keyWordsResult, result);
         StringUtils.stringBuilderPartsAppend(result
                 ,StringInvariant.NEW_LINE
                 ,StringInvariant.RIGHT_SQUARE_BRACKET
