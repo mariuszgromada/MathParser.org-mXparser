@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2023-01-08
+ * @(#)SyntaxTest.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -328,13 +328,13 @@ public final class ApiTest {
         if (	s1.equals("c2+a1")
                 && s2.equals("")
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
                 && syn4 == Expression.NO_SYNTAX_ERRORS
                 && syn5 == Expression.NO_SYNTAX_ERRORS
-                && syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
-                && syn7 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
-                && syn8 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn6 == Expression.SYNTAX_ERROR
+                && syn7 == Expression.SYNTAX_ERROR
+                && syn8 == Expression.SYNTAX_ERROR
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -497,13 +497,13 @@ public final class ApiTest {
                 && e.getConstantsNumber() == 0
                 && e.getFunctionsNumber() == 0
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
-                && syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn4 == Expression.SYNTAX_ERROR
                 && syn5 == Expression.NO_SYNTAX_ERRORS
-                && syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn6 == Expression.SYNTAX_ERROR
                 && syn7 == Expression.NO_SYNTAX_ERRORS
-                && syn8 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn8 == Expression.SYNTAX_ERROR
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -636,11 +636,11 @@ public final class ApiTest {
                 && n4-n5 == 2
                 && n6 == 0
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
-                && syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn4 == Expression.SYNTAX_ERROR
                 && syn5 == Expression.NO_SYNTAX_ERRORS
-                && syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn6 == Expression.SYNTAX_ERROR
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -674,10 +674,10 @@ public final class ApiTest {
                 && e.getConstantsNumber() == 5
                 && e.getFunctionsNumber() == 0
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
-                && syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
-                && syn5 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn4 == Expression.SYNTAX_ERROR
+                && syn5 == Expression.SYNTAX_ERROR
                 && syn6 == Expression.NO_SYNTAX_ERRORS
         )
             testResult = true;
@@ -758,11 +758,11 @@ public final class ApiTest {
                 && n4-n5 == 2
                 && n6 == 0
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
-                && syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn4 == Expression.SYNTAX_ERROR
                 && syn5 == Expression.NO_SYNTAX_ERRORS
-                && syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn6 == Expression.SYNTAX_ERROR
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -796,11 +796,11 @@ public final class ApiTest {
                 && e.getConstantsNumber() == 0
                 && e.getFunctionsNumber() == 7
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
-                && syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn4 == Expression.SYNTAX_ERROR
                 && syn5 == Expression.NO_SYNTAX_ERRORS
-                && syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn6 == Expression.SYNTAX_ERROR
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -889,11 +889,11 @@ public final class ApiTest {
                 && n4-n5 == 2
                 && n6 == 0
                 && syn1 == Expression.NO_SYNTAX_ERRORS
-                && syn2 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn2 == Expression.SYNTAX_ERROR
                 && syn3 == Expression.NO_SYNTAX_ERRORS
-                && syn4 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn4 == Expression.SYNTAX_ERROR
                 && syn5 == Expression.NO_SYNTAX_ERRORS
-                && syn6 == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN
+                && syn6 == Expression.SYNTAX_ERROR
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -1167,7 +1167,7 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(28, testDescr);
         Expression e = new Expression("1+2+3+(4+5)+a+b");
         if (
-                (e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+                (e.checkSyntax() == Expression.SYNTAX_ERROR) &&
                         (e.checkLexSyntax() == Expression.NO_SYNTAX_ERRORS)
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -1181,8 +1181,8 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(29, testDescr);
         Expression e = new Expression("1+2+3+(4+5)+a)+b");
         if (
-                (e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
-                        (e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+                (e.checkSyntax() == Expression.SYNTAX_ERROR) &&
+                        (e.checkLexSyntax() == Expression.SYNTAX_ERROR)
         ) testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -1316,23 +1316,23 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "getTokenTypeDescription()";
         TestCommonTools.consolePrintTestApiStart(35, testDescr);
-        if (	(mXparser.getTokenTypeDescription(BinaryRelation.TYPE_ID).equals(BinaryRelation.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(BitwiseOperator.TYPE_ID).equals(BitwiseOperator.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(BooleanOperator.TYPE_ID).equals(BooleanOperator.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(CalculusOperator.TYPE_ID).equals(CalculusOperator.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(ConstantValue.TYPE_ID).equals(ConstantValue.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Function1Arg.TYPE_ID).equals(Function1Arg.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Function2Arg.TYPE_ID).equals(Function2Arg.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Function3Arg.TYPE_ID).equals(Function3Arg.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(FunctionVariadic.TYPE_ID).equals(FunctionVariadic.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Operator.TYPE_ID).equals(Operator.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(ParserSymbol.TYPE_ID).equals(ParserSymbol.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(RandomVariable.TYPE_ID).equals(RandomVariable.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Unit.TYPE_ID).equals(Unit.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Argument.TYPE_ID).equals(Argument.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(Constant.TYPE_ID).equals(Constant.TYPE_DESC)) &&
-                (mXparser.getTokenTypeDescription(RecursiveArgument.TYPE_ID_RECURSIVE).equals(RecursiveArgument.TYPE_DESC_RECURSIVE)) &&
-                (mXparser.getTokenTypeDescription(Function.TYPE_ID).equals(Function.TYPE_DESC))
+        if (	(Token.getTokenTypeDescription(BinaryRelation.TYPE_ID).equals(BinaryRelation.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(BitwiseOperator.TYPE_ID).equals(BitwiseOperator.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(BooleanOperator.TYPE_ID).equals(BooleanOperator.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(CalculusOperator.TYPE_ID).equals(CalculusOperator.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(ConstantValue.TYPE_ID).equals(ConstantValue.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Function1Arg.TYPE_ID).equals(Function1Arg.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Function2Arg.TYPE_ID).equals(Function2Arg.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Function3Arg.TYPE_ID).equals(Function3Arg.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(FunctionVariadic.TYPE_ID).equals(FunctionVariadic.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Operator.TYPE_ID).equals(Operator.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(ParserSymbol.TYPE_ID).equals(ParserSymbol.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(RandomVariable.TYPE_ID).equals(RandomVariable.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Unit.TYPE_ID).equals(Unit.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Argument.TYPE_ID).equals(Argument.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(Constant.TYPE_ID).equals(Constant.TYPE_DESC)) &&
+                (Token.getTokenTypeDescription(RecursiveArgument.TYPE_ID_RECURSIVE).equals(RecursiveArgument.TYPE_DESC_RECURSIVE)) &&
+                (Token.getTokenTypeDescription(Function.TYPE_ID).equals(Function.TYPE_DESC))
         )
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
@@ -2772,7 +2772,7 @@ public final class ApiTest {
         String testDescr = "Argument check syntax #145";
         TestCommonTools.consolePrintTestApiStart(63, testDescr);
         Argument x = new Argument("AAAAA = y*730000000");
-        if (x.checkSyntax() == Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+        if (x.checkSyntax() == Argument.SYNTAX_ERROR)
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -4403,8 +4403,8 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiStart(180, testDescr);
         List<KeyWord> keywords = mXparser.getKeyWords();
         for (KeyWord kw : keywords)
-            if (!kw.description.toLowerCase().contains(mXparser.getTokenTypeDescription(kw.wordTypeId).toLowerCase())) {
-                mXparser.consolePrintln(mXparser.getTokenTypeDescription(kw.wordTypeId));
+            if (!kw.description.toLowerCase().contains(Token.getTokenTypeDescription(kw.wordTypeId).toLowerCase())) {
+                mXparser.consolePrintln(Token.getTokenTypeDescription(kw.wordTypeId));
                 mXparser.consolePrintHelp(kw.description);
                 testResult = false;
                 break;
@@ -6544,10 +6544,10 @@ public final class ApiTest {
                 && stringResources4 != testStringResources
                 && !help1.equals(help2)
 
-                && help1.contains(testStringResources.HELP_CONTENT)
-                && !help2.contains(testStringResources.HELP_CONTENT)
-                && !help1.contains(stringResources4.HELP_CONTENT)
-                && help2.contains(stringResources4.HELP_CONTENT)
+                && help1.contains(testStringResources.ALL_HELP_CONTENT)
+                && !help2.contains(testStringResources.ALL_HELP_CONTENT)
+                && !help1.contains(stringResources4.ALL_HELP_CONTENT)
+                && help2.contains(stringResources4.ALL_HELP_CONTENT)
 
                 && help1.contains(testStringResources.KEYWORD)
                 && !help2.contains(testStringResources.KEYWORD)
@@ -6815,6 +6815,2745 @@ public final class ApiTest {
         testResult = testCanonicalString("-  (-2+3)  -n -x sin(  -  x   )   ", "-(-2+3)-n-x*sin(-x)");
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0250() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsCsv()";
+        TestCommonTools.consolePrintTestApiStart(250, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsCsv();
+        int linesNumber = StringUtils.countLines(help);
+        String quote = "\"";
+        String dlm = ";";
+        String quoteDlm = quote + dlm + quote;
+        int dlmOccurrences = StringUtils.countOccurrences(help, quoteDlm);
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 1
+                && elementsNumber > 500
+                && dlmOccurrences == linesNumber * 4
+                && help.contains(quote + stringResources.KEYWORD + quote)
+                && help.contains(quote + stringResources.TYPE + quote)
+                && help.contains(quote + stringResources.SYNTAX + quote)
+                && help.contains(quote + stringResources.SINCE + quote)
+                && help.contains(quote + stringResources.DESCRIPTION + quote)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0251() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsCsv(query)";
+        TestCommonTools.consolePrintTestApiStart(251, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsCsv(query);
+        int linesNumber = StringUtils.countLines(help);
+        String quote = "\"";
+        String dlm = ";";
+        String quoteDlm = quote + dlm + quote;
+        int dlmOccurrences = StringUtils.countOccurrences(help, quoteDlm);
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber +1
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && dlmOccurrences == linesNumber * 4
+                && help.contains(quote + stringResources.KEYWORD + quote)
+                && help.contains(quote + stringResources.TYPE + quote)
+                && help.contains(quote + stringResources.SYNTAX + quote)
+                && help.contains(quote + stringResources.SINCE + quote)
+                && help.contains(quote + stringResources.DESCRIPTION + quote)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0252() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsCsv(asjfdkasjfdhkjhkasfdlkh)";
+        TestCommonTools.consolePrintTestApiStart(252, testDescr);
+        String query = "asjfdkasjfdhkjhkasfdlkh";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsCsv(query);
+        int linesNumber = StringUtils.countLines(help);
+        String quote = "\"";
+        String dlm = ";";
+        String quoteDlm = quote + dlm + quote;
+        int dlmOccurrences = StringUtils.countOccurrences(help, quoteDlm);
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber +1
+                && elementsNumber == 0
+                && dlmOccurrences == linesNumber * 4
+                && help.contains(quote + stringResources.KEYWORD + quote)
+                && help.contains(quote + stringResources.TYPE + quote)
+                && help.contains(quote + stringResources.SYNTAX + quote)
+                && help.contains(quote + stringResources.SINCE + quote)
+                && help.contains(quote + stringResources.DESCRIPTION + quote)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0253() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsCsv(null)";
+        TestCommonTools.consolePrintTestApiStart(253, testDescr);
+        String query = null;
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsCsv(query);
+        int linesNumber = StringUtils.countLines(help);
+        String quote = "\"";
+        String dlm = ";";
+        String quoteDlm = quote + dlm + quote;
+        int dlmOccurrences = StringUtils.countOccurrences(help, quoteDlm);
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber +1
+                && elementsNumber > 500
+                && dlmOccurrences == linesNumber * 4
+                && help.contains(quote + stringResources.KEYWORD + quote)
+                && help.contains(quote + stringResources.TYPE + quote)
+                && help.contains(quote + stringResources.SYNTAX + quote)
+                && help.contains(quote + stringResources.SINCE + quote)
+                && help.contains(quote + stringResources.DESCRIPTION + quote)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0254() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsCsv(quote, delimiter, addHeader)";
+        TestCommonTools.consolePrintTestApiStart(254, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String quote = "''";
+        String dlm = ";;";
+        String quoteDlm = quote + dlm + quote;
+        String help = mXparser.getHelpAsCsv(quote, dlm, false);
+        int linesNumber = StringUtils.countLines(help);
+        int dlmOccurrences = StringUtils.countOccurrences(help, quoteDlm);
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber
+                && elementsNumber > 500
+                && dlmOccurrences == linesNumber * 4
+                && !help.contains(quote + stringResources.KEYWORD + quote)
+                && !help.contains(quote + stringResources.TYPE + quote)
+                && !help.contains(quote + stringResources.SYNTAX + quote)
+                && !help.contains(quote + stringResources.SINCE + quote)
+                && !help.contains(quote + stringResources.DESCRIPTION + quote)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0255() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsCsv(query, quote, delimiter, addHeader)";
+        TestCommonTools.consolePrintTestApiStart(255, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String quote = "''";
+        String dlm = ";;";
+        String quoteDlm = quote + dlm + quote;
+        String help = mXparser.getHelpAsCsv(query, quote, dlm, true);
+        int linesNumber = StringUtils.countLines(help);
+        int dlmOccurrences = StringUtils.countOccurrences(help, quoteDlm);
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 1
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && dlmOccurrences == linesNumber * 4
+                && help.contains(quote + stringResources.KEYWORD + quote)
+                && help.contains(quote + stringResources.TYPE + quote)
+                && help.contains(quote + stringResources.SYNTAX + quote)
+                && help.contains(quote + stringResources.SINCE + quote)
+                && help.contains(quote + stringResources.DESCRIPTION + quote)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0256() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable()";
+        TestCommonTools.consolePrintTestApiStart(256, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsHtmlTable();
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+        String cssClass = "class=\"";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 6
+                && elementsNumber > 500
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementsNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0257() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(sine)";
+        TestCommonTools.consolePrintTestApiStart(257, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsHtmlTable(query);
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+        String cssClass = "class=\"";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 6
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0258() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(asjfdkasjfdhkjhkasfdlkh)";
+        TestCommonTools.consolePrintTestApiStart(258, testDescr);
+        String query = "asjfdkasjfdhkjhkasfdlkh";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsHtmlTable(query);
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+        String cssClass = "class=\"";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 6
+                && elementNumber == 0
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0259() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(addHeader = true, addCaption = true, addFigure = true, caption = '', cssClass = '')";
+        TestCommonTools.consolePrintTestApiStart(259, testDescr);
+        int elementNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsHtmlTable(true, true, true, "", "");
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+        String cssClass = "class=\"";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 8
+                && elementNumber > 500
+                && figureLeftOccurrences == 1
+                && figcaptionLeftOccurrences == 1
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0260() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(addHeader = true, addCaption = true, addFigure = true, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(260, testDescr);
+        int elementNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(true, true, true, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String figureLeft = "<figure " + cssClass + ">";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 8
+                && elementNumber > 500
+                && figureLeftOccurrences == 1
+                && figcaptionLeftOccurrences == 1
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 1
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0261() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(addHeader = true, addCaption = true, addFigure = false, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(261, testDescr);
+        int elementNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(true, true, false, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table " + cssClass + ">";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 6
+                && elementNumber > 500
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 1
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0262() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(addHeader = false, addCaption = true, addFigure = false, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(262, testDescr);
+        int elementNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(false, true, false, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table " + cssClass + ">";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 5
+                && elementNumber > 500
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 0
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 1
+                && !help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && !help.contains(thLeft + stringResources.TYPE + thRight)
+                && !help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && !help.contains(thLeft + stringResources.SINCE + thRight)
+                && !help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0263() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(addHeader = false, addCaption = false, addFigure = false, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(263, testDescr);
+        int elementNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(false, false, false, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table " + cssClass + ">";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 4
+                && elementNumber > 500
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 0
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 0
+                && !help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && !help.contains(thLeft + stringResources.TYPE + thRight)
+                && !help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && !help.contains(thLeft + stringResources.SINCE + thRight)
+                && !help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0264() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(addHeader = false, addCaption = false, addFigure = true, caption = 'This is a caption', cssClass = '')";
+        TestCommonTools.consolePrintTestApiStart(264, testDescr);
+        int elementNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelpAsHtmlTable(false, false, true, captionText, "");
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 6
+                && elementNumber > 500
+                && figureLeftOccurrences == 1
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 0
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && captionTextOccurrences == 0
+                && !help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && !help.contains(thLeft + stringResources.TYPE + thRight)
+                && !help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && !help.contains(thLeft + stringResources.SINCE + thRight)
+                && !help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0265() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(query, addHeader = true, addCaption = true, addFigure = true, caption = '', cssClass = '')";
+        TestCommonTools.consolePrintTestApiStart(265, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsHtmlTable(query, true, true, true, "", "");
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+        String cssClass = "class=\"";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 8
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 1
+                && figcaptionLeftOccurrences == 1
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0266() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(query, addHeader = true, addCaption = true, addFigure = true, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(266, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(query, true, true, true, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String figureLeft = "<figure " + cssClass + ">";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 8
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 1
+                && figcaptionLeftOccurrences == 1
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 1
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0267() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(query, addHeader = true, addCaption = true, addFigure = false, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(267, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(query, true, true, false, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table " + cssClass + ">";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 6
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 5
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 1
+                && help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && help.contains(thLeft + stringResources.TYPE + thRight)
+                && help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && help.contains(thLeft + stringResources.SINCE + thRight)
+                && help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0268() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(query, addHeader = false, addCaption = true, addFigure = false, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(268, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(query, false, true, false, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table " + cssClass + ">";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 5
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 1
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 0
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 1
+                && !help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && !help.contains(thLeft + stringResources.TYPE + thRight)
+                && !help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && !help.contains(thLeft + stringResources.SINCE + thRight)
+                && !help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0269() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(query, addHeader = false, addCaption = false, addFigure = false, caption = 'This is a caption', cssClass = 'wp-1')";
+        TestCommonTools.consolePrintTestApiStart(269, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String cssClassText = "wp-1";
+        String help = mXparser.getHelpAsHtmlTable(query, false, false, false, captionText, cssClassText);
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"" + cssClassText + "\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table " + cssClass + ">";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 4
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 0
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 0
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 1
+                && captionTextOccurrences == 0
+                && !help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && !help.contains(thLeft + stringResources.TYPE + thRight)
+                && !help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && !help.contains(thLeft + stringResources.SINCE + thRight)
+                && !help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0270() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable(query, addHeader = false, addCaption = false, addFigure = true, caption = 'This is a caption', cssClass = '')";
+        TestCommonTools.consolePrintTestApiStart(270, testDescr);
+        String query = "sine";
+        int elementNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelpAsHtmlTable(query, false, false, true, captionText, "");
+        int linesNumber = StringUtils.countLines(help);
+
+        String cssClass = "class=\"";
+        String tdLeft = "<td>";
+        String tdRight = "</td>";
+        String thLeft = "<th>";
+        String thRight = "</th>";
+        String tableLeft = "<table>";
+        String tableRight = "</table>";
+        String tbodyLeft = "<tbody>";
+        String tbodyRight = "</tbody>";
+        String captionLeft = "<caption>";
+        String captionRight = "</caption>";
+        String figureLeft = "<figure>";
+        String figureRight = "</figure>";
+        String figcaptionLeft = "<figcaption>";
+        String figcaptionRight = "</figcaption>";
+
+        int tdLeftOccurrences = StringUtils.countOccurrences(help, tdLeft);
+        int tdRightOccurrences = StringUtils.countOccurrences(help, tdRight);
+        int thLeftOccurrences = StringUtils.countOccurrences(help, thLeft);
+        int thRightOccurrences = StringUtils.countOccurrences(help, thRight);
+        int tableLeftOccurrences = StringUtils.countOccurrences(help, tableLeft);
+        int tableRightOccurrences = StringUtils.countOccurrences(help, tableRight);
+        int tbodyLeftOccurrences = StringUtils.countOccurrences(help, tbodyLeft);
+        int tbodyRightOccurrences = StringUtils.countOccurrences(help, tbodyRight);
+        int captionLeftOccurrences = StringUtils.countOccurrences(help, captionLeft);
+        int captionRightOccurrences = StringUtils.countOccurrences(help, captionRight);
+        int figureLeftOccurrences = StringUtils.countOccurrences(help, figureLeft);
+        int figureRightOccurrences = StringUtils.countOccurrences(help, figureRight);
+        int figcaptionLeftOccurrences = StringUtils.countOccurrences(help, figcaptionLeft);
+        int figcaptionRightOccurrences = StringUtils.countOccurrences(help, figcaptionRight);
+        int cssClassOccurrences = StringUtils.countOccurrences(help, cssClass);
+        int captionTextOccurrences = StringUtils.countOccurrences(help, captionText);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementNumber + 6
+                && elementNumber > 5
+                && elementNumber < 100
+                && figureLeftOccurrences == 1
+                && figcaptionLeftOccurrences == 0
+                && tableLeftOccurrences == 1
+                && captionLeftOccurrences == 0
+                && tbodyLeftOccurrences == 1
+                && thLeftOccurrences == 0
+                && tdLeftOccurrences == elementNumber * 5
+                && tdLeftOccurrences == tdRightOccurrences
+                && thLeftOccurrences == thRightOccurrences
+                && tableLeftOccurrences == tableRightOccurrences
+                && tbodyLeftOccurrences == tbodyRightOccurrences
+                && captionLeftOccurrences == captionRightOccurrences
+                && figureLeftOccurrences == figureRightOccurrences
+                && figcaptionLeftOccurrences == figcaptionRightOccurrences
+                && cssClassOccurrences == 0
+                && captionTextOccurrences == 0
+                && !help.contains(thLeft + stringResources.KEYWORD + thRight)
+                && !help.contains(thLeft + stringResources.TYPE + thRight)
+                && !help.contains(thLeft + stringResources.SYNTAX + thRight)
+                && !help.contains(thLeft + stringResources.SINCE + thRight)
+                && !help.contains(thLeft + stringResources.DESCRIPTION + thRight)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0271() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsHtmlTable() - check clean for HTML";
+        TestCommonTools.consolePrintTestApiStart(271, testDescr);
+        String help = mXparser.getHelpAsHtmlTable();
+
+        String ampPure = "&";
+        String ampHtml = "&amp;";
+        String ltPure = "<";
+        String ltHtml = "&lt;";
+        String gtPure = ">";
+        String gtHtml = "&gt;";
+
+        int ampPureOccurrences = StringUtils.countOccurrences(help, ampPure);
+        int ampHtmlOccurrences = StringUtils.countOccurrences(help, ampHtml);
+        int ltPureOccurrences = StringUtils.countOccurrences(help, ltPure);
+        int ltHtmlOccurrences = StringUtils.countOccurrences(help, ltHtml);
+        int gtPureOccurrences = StringUtils.countOccurrences(help, gtPure);
+        int gtHtmlRightOccurrences = StringUtils.countOccurrences(help, gtHtml);
+
+        int deltaLtGtureOccurrences = Math.abs(ltPureOccurrences - gtPureOccurrences);
+
+        if (deltaLtGtureOccurrences == 0
+                && ampPureOccurrences == ampHtmlOccurrences + ltHtmlOccurrences + gtHtmlRightOccurrences
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0272() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable()";
+        TestCommonTools.consolePrintTestApiStart(272, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable());
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 500
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0273() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(sine)";
+        TestCommonTools.consolePrintTestApiStart(273, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(query));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0274() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(asjfdkasjfdhkjhkasfdlkh)";
+        TestCommonTools.consolePrintTestApiStart(274, testDescr);
+        String query = "asjfdkasjfdhkjhkasfdlkh";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(query));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber == 0
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0275() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(addHeader = true, addCaption = true, caption = '')";
+        TestCommonTools.consolePrintTestApiStart(275, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(true, true, ""));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 500
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0276() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(addHeader = true, addCaption = true, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(276, testDescr);
+        String captionText = "This is a caption";
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(true, true, captionText));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 500
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0277() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(addHeader = true, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(277, testDescr);
+        String captionText = "This is a caption";
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(true, false, captionText));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 2
+                && elementsNumber > 500
+                && captionStartOccurrences == 0
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0278() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(addHeader = false, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(278, testDescr);
+        String captionText = "This is a caption";
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(false, false, captionText));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 2
+                && elementsNumber > 500
+                && captionStartOccurrences == 0
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && !help.contains(dlm + stringResources.KEYWORD + dlm)
+                && !help.contains(dlm + stringResources.TYPE + dlm)
+                && !help.contains(dlm + stringResources.SYNTAX + dlm)
+                && !help.contains(dlm + stringResources.SINCE + dlm)
+                && !help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0279() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(query, addHeader = true, addCaption = true, caption = '')";
+        TestCommonTools.consolePrintTestApiStart(279, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(query,true, true, ""));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0280() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(query, addHeader = true, addCaption = true, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(280, testDescr);
+        String captionText = "This is a caption";
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(query, true, true, captionText));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionStartOccurrences == 1
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0281() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(query, addHeader = true, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(281, testDescr);
+        String captionText = "This is a caption";
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(query, true, false, captionText));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 2
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionStartOccurrences == 0
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0282() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable(addHeader = false, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(282, testDescr);
+        String captionText = "This is a caption";
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = cleanMarkdownBackslash(mXparser.getHelpAsMarkdownTable(query, false, false, captionText));
+        int linesNumber = StringUtils.countLines(help);
+
+        String captionStart = "### ";
+        String headLeft = "|---";
+        String headRight = "---|";
+        String dlm = "|";
+
+        int captionStartOccurrences = StringUtils.countOccurrences(help, captionStart);
+        int headLeftOccurrences = StringUtils.countOccurrences(help, headLeft);
+        int headRightOccurrences = StringUtils.countOccurrences(help, headRight);
+        int dlmOccurrences = StringUtils.countOccurrences(help, dlm);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (linesNumber == elementsNumber + 2
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionStartOccurrences == 0
+                && headLeftOccurrences == 5
+                && dlmOccurrences == (elementsNumber + 2) * 6
+                && headLeftOccurrences == headRightOccurrences
+                && !help.contains(dlm + stringResources.KEYWORD + dlm)
+                && !help.contains(dlm + stringResources.TYPE + dlm)
+                && !help.contains(dlm + stringResources.SYNTAX + dlm)
+                && !help.contains(dlm + stringResources.SINCE + dlm)
+                && !help.contains(dlm + stringResources.DESCRIPTION + dlm)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0283() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsMarkdownTable() - check clean for MD";
+        TestCommonTools.consolePrintTestApiStart(283, testDescr);
+        String help = mXparser.getHelpAsMarkdownTable();
+        int elementsNumber = mXparser.getKeyWords().size();
+
+        String pipePure = "|";
+        String pipeMd = "\\|";
+        String backslashMdPipe = "\\\\|";
+
+        int pipePureOccurrences = StringUtils.countOccurrences(help, pipePure);
+        int pipeMdOccurrences = StringUtils.countOccurrences(help, pipeMd);
+        int backslashMdPipeOccurrences = StringUtils.countOccurrences(help, backslashMdPipe);
+
+        if (pipePureOccurrences == (elementsNumber + 2) * 6 + (pipeMdOccurrences - backslashMdPipeOccurrences)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0284() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp()";
+        TestCommonTools.consolePrintTestApiStart(284, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelp();
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 500
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0285() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(addHeader = true, addCaption = true, caption = '')";
+        TestCommonTools.consolePrintTestApiStart(285, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelp(true, true, "");
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 500
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0286() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(addHeader = true, addCaption = true, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(286, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelp(true, true, captionText);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 500
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0287() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(addHeader = true, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(287, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelp(true, false, captionText);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 2
+                && elementsNumber > 500
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0288() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(addHeader = false, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(288, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelp(false, false, captionText);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber
+                && elementsNumber > 500
+                && !help.contains(dlm + stringResources.KEYWORD + dlm)
+                && !help.contains(dlm + stringResources.TYPE + dlm)
+                && !help.contains(dlm + stringResources.SYNTAX + dlm)
+                && !help.contains(dlm + stringResources.SINCE + dlm)
+                && !help.contains(dlm + stringResources.DESCRIPTION)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0289() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(query)";
+        TestCommonTools.consolePrintTestApiStart(289, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelp(query);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0290() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(query, addHeader = true, addCaption = true, caption = '')";
+        TestCommonTools.consolePrintTestApiStart(290, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelp(query, true, true, "");
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0291() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(query, addHeader = true, addCaption = true, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(291, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelp(query, true, true, captionText);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0292() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(query, addHeader = true, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(292, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelp(query, true, false, captionText);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber + 2
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && help.contains(dlm + stringResources.KEYWORD + dlm)
+                && help.contains(dlm + stringResources.TYPE + dlm)
+                && help.contains(dlm + stringResources.SYNTAX + dlm)
+                && help.contains(dlm + stringResources.SINCE + dlm)
+                && help.contains(dlm + stringResources.DESCRIPTION)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0293() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelp(query, addHeader = false, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(293, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String captionText = "This is a caption";
+        String help = mXparser.getHelp(query, false, false, captionText);
+        int linesNumber = StringUtils.countLines(help);
+        StringResources stringResources = StringModel.getStringResources();
+        String dlm = " ";
+        if (linesNumber == elementsNumber
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && !help.contains(dlm + stringResources.KEYWORD + dlm)
+                && !help.contains(dlm + stringResources.TYPE + dlm)
+                && !help.contains(dlm + stringResources.SYNTAX + dlm)
+                && !help.contains(dlm + stringResources.SINCE + dlm)
+                && !help.contains(dlm + stringResources.DESCRIPTION)
+                && !help.contains(captionText)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0294() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: key=";
+        TestCommonTools.consolePrintTestApiStart(294, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("key=").size();
+        int tagNumber1 = mXparser.getKeyWords("key").size();
+        int tagNumber2 = mXparser.getKeyWords("key=s").size();
+        int tagNumber3 = mXparser.getKeyWords("key=sin").size();
+        int tagNumber2ref = mXparser.getKeyWords("s").size();
+        int tagNumber3ref = mXparser.getKeyWords("sin").size();
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && tagNumber2 > 0
+                && tagNumber3 > 0
+                && tagNumber2 > tagNumber3
+                && tagNumber2ref > tagNumber3ref
+                && tagNumber2ref > tagNumber2
+                && tagNumber3ref > tagNumber3
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0295() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: desc=";
+        TestCommonTools.consolePrintTestApiStart(295, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("desc=").size();
+        int tagNumber1 = mXparser.getKeyWords("desc").size();
+        int tagNumber2 = mXparser.getKeyWords("desc=s").size();
+        int tagNumber3 = mXparser.getKeyWords("desc=sin").size();
+        int tagNumber2ref = mXparser.getKeyWords("s").size();
+        int tagNumber3ref = mXparser.getKeyWords("sin").size();
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && tagNumber2 > 0
+                && tagNumber3 > 0
+                && tagNumber2 > tagNumber3
+                && tagNumber2ref > tagNumber3ref
+                && tagNumber2ref > tagNumber2
+                && tagNumber3ref > tagNumber3
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0296() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: syn=";
+        TestCommonTools.consolePrintTestApiStart(296, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("syn=").size();
+        int tagNumber1 = mXparser.getKeyWords("syn").size();
+        int tagNumber2 = mXparser.getKeyWords("syn=s").size();
+        int tagNumber3 = mXparser.getKeyWords("syn=sin").size();
+        int tagNumber2ref = mXparser.getKeyWords("s").size();
+        int tagNumber3ref = mXparser.getKeyWords("sin").size();
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && tagNumber2 > 0
+                && tagNumber3 > 0
+                && tagNumber2 > tagNumber3
+                && tagNumber2ref > tagNumber3ref
+                && tagNumber2ref > tagNumber2
+                && tagNumber3ref > tagNumber3
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0297() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: since=";
+        TestCommonTools.consolePrintTestApiStart(297, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("since=").size();
+        int tagNumber1 = mXparser.getKeyWords("since").size();
+        int tagNumber2 = mXparser.getKeyWords("since=4").size();
+        int tagNumber3 = mXparser.getKeyWords("since=4.1").size();
+        int tagNumber2ref = mXparser.getKeyWords("4").size();
+        int tagNumber3ref = mXparser.getKeyWords("4.1").size();
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && tagNumber2 > 0
+                && tagNumber3 > 0
+                && tagNumber2 > tagNumber3
+                && tagNumber2ref > tagNumber3ref
+                && tagNumber2ref > tagNumber2
+                && tagNumber3ref > tagNumber3
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0298() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: type=";
+        TestCommonTools.consolePrintTestApiStart(298, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("type=").size();
+        int tagNumber1 = mXparser.getKeyWords("type").size();
+        int tagNumber2 = mXparser.getKeyWords("type=b").size();
+        int tagNumber3 = mXparser.getKeyWords("type=binary").size();
+        int tagNumber2ref = mXparser.getKeyWords("b").size();
+        int tagNumber3ref = mXparser.getKeyWords("binary").size();
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && tagNumber2 > 0
+                && tagNumber3 > 0
+                && tagNumber2 > tagNumber3
+                && tagNumber2ref > tagNumber3ref
+                && tagNumber2ref > tagNumber2
+                && tagNumber3ref > tagNumber3
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0299() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: type=";
+        TestCommonTools.consolePrintTestApiStart(299, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("typeid=").size();
+        int tagNumber1 = mXparser.getKeyWords("typeid").size();
+        int tagNumber2 = mXparser.getKeyWords("type=binary relation").size();
+        int tagNumber3 = mXparser.getKeyWords("typeid=3").size();
+        int tagNumber2ref = mXparser.getKeyWords("b").size();
+        int tagNumber3ref = mXparser.getKeyWords("binary").size();
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && tagNumber2 > 0
+                && tagNumber3 > 0
+                && tagNumber2 == tagNumber3
+                && tagNumber2ref > tagNumber3ref
+                && tagNumber2ref > tagNumber2
+                && tagNumber3ref > tagNumber3
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0300() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getKeyWords(query) - advanced search tag: keyid=";
+        TestCommonTools.consolePrintTestApiStart(300, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        int tagNumber0 = mXparser.getKeyWords("keyid=").size();
+        int tagNumber1 = mXparser.getKeyWords("keyid").size();
+        String keyStr = mXparser.getKeyWords("keyid=" + Unit.SECOND_ARC_ID).get(0).wordString;
+
+        if (tagNumber0 == 0
+                && tagNumber1 < elementsNumber
+                && keyStr.equals(Unit.SECOND_ARC_STR)
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0301() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason()";
+        TestCommonTools.consolePrintTestApiStart(301, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsJason();
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 3
+                && elementsNumber > 500
+                && captionOccurrences == 1
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5 + 1
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0302() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = '')";
+        TestCommonTools.consolePrintTestApiStart(302, testDescr);
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsJason(true, "");
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 3
+                && elementsNumber > 500
+                && captionOccurrences == 1
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5 + 1
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && help.contains(stringResources.ALL_HELP_CONTENT)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0303() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(303, testDescr);
+        String captionText = "This is a caption";
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsJason(true, captionText);
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 3
+                && elementsNumber > 500
+                && captionOccurrences == 1
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5 + 1
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && help.contains(captionText)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0304() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(304, testDescr);
+        String captionText = "This is a caption";
+        int elementsNumber = mXparser.getKeyWords().size();
+        String help = mXparser.getHelpAsJason(false, captionText);
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 2
+                && elementsNumber > 500
+                && captionOccurrences == 0
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && !help.contains(captionText)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0305() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(query)";
+        TestCommonTools.consolePrintTestApiStart(305, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsJason(query);
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionOccurrences == 1
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5 + 1
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0306() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(query, addCaption = true, caption = '')";
+        TestCommonTools.consolePrintTestApiStart(306, testDescr);
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsJason(query, true, "");
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionOccurrences == 1
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5 + 1
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && help.contains(stringResources.HELP_CONTENT_LIMITED_TO_QUERY)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0307() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(query, addCaption = true, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(307, testDescr);
+        String captionText = "This is a caption";
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsJason(query, true, captionText);
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 3
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionOccurrences == 1
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5 + 1
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && help.contains(captionText)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0308() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser API - getHelpAsJason(query, addCaption = false, caption = 'This is a caption')";
+        TestCommonTools.consolePrintTestApiStart(308, testDescr);
+        String captionText = "This is a caption";
+        String query = "sine";
+        int elementsNumber = mXparser.getKeyWords(query).size();
+        String help = mXparser.getHelpAsJason(query, false, captionText);
+        int linesNumber = StringUtils.countLines(help);
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        String q = "\"";
+        String qs = q + ":";
+
+        String caption = q + stringResources.CAPTION + qs;
+        String keyword = q + stringResources.KEYWORD + qs;
+        String type = q + stringResources.TYPE + qs;
+        String syntax = q + stringResources.SYNTAX + qs;
+        String since = q + stringResources.SINCE + qs;
+        String description = q + stringResources.DESCRIPTION + qs;
+        String recordStart = "  {";
+        String recordEnd1 = q + " },";
+        String recordEnd2 = "  }";
+        String keyColon = qs + " ";
+        String partEnd = q + ",";
+        String partEndCorrection = q + ": " + q + "," + q;
+
+        int captionOccurrences = StringUtils.countOccurrences(help, caption);
+        int keywordOccurrences = StringUtils.countOccurrences(help, keyword);
+        int typeRightOccurrences = StringUtils.countOccurrences(help, type);
+        int syntaxOccurrences = StringUtils.countOccurrences(help, syntax);
+        int sinceOccurrences = StringUtils.countOccurrences(help, since);
+        int descriptionOccurrences = StringUtils.countOccurrences(help, description);
+        int recordStartOccurrences = StringUtils.countOccurrences(help, recordStart);
+        int recordEnd1Occurrences = StringUtils.countOccurrences(help, recordEnd1);
+        int recordEnd2Occurrences = StringUtils.countOccurrences(help, recordEnd2);
+        int keyColonOccurrences = StringUtils.countOccurrences(help, keyColon);
+        int partEndOccurrences = StringUtils.countOccurrences(help, partEnd);
+        int partEndCorrectionOccurrences = StringUtils.countOccurrences(help, partEndCorrection);
+
+        if (linesNumber == elementsNumber * 7 + 2
+                && elementsNumber > 5
+                && elementsNumber < 100
+                && captionOccurrences == 0
+                && keywordOccurrences == elementsNumber
+                && typeRightOccurrences == elementsNumber
+                && syntaxOccurrences == elementsNumber
+                && sinceOccurrences == elementsNumber
+                && descriptionOccurrences == elementsNumber
+                && keyColonOccurrences == elementsNumber * 5
+                && partEndOccurrences - partEndCorrectionOccurrences == elementsNumber * 4
+                && recordStartOccurrences == recordEnd1Occurrences + recordEnd2Occurrences
+                && !help.contains(captionText)
+                && help.startsWith("[")
+                && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    public static String cleanMarkdownBackslash(String str) {
+        return str.replace("\\\\", "").replace("\\|", "");
     }
     public static boolean testCanonicalString(String expStr, String expResStr, String... elements) {
         mXparser.consolePrintln();

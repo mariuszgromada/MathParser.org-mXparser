@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        5.2.0    2023-01-07
+ * @(#)ExpressionUtils.cs        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1140,62 +1140,352 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			mXparser.consolePrintln(" -------------------------------------------");
 		}
-		/**
-		 * Searching help content.
-		 *
-		 * @param      word                searching keyword
-		 *
-		 * @return     The help content.
-		 */
-		internal static String getHelp(String word, List<KeyWord> keyWordsList) {
-			String helpStr = StringModel.STRING_RESOURCES.HELP_CONTENT
-                + StringInvariant.COLON
-                + StringInvariant.NEW_LINE
-                + StringInvariant.NEW_LINE
-                ;
-            helpStr = helpStr
-                + StringUtils.getLeftSpaces("12345", "#")
-                + "  "
-                + StringUtils.getRightSpaces("01234567890123456789", StringModel.STRING_RESOURCES.KEYWORD)
-                + StringUtils.getRightSpaces("                        ", StringModel.STRING_RESOURCES.TYPE)
-                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", StringModel.STRING_RESOURCES.SYNTAX)
-                + StringUtils.getRightSpaces("012345", StringModel.STRING_RESOURCES.SINCE)
-                + StringModel.STRING_RESOURCES.DESCRIPTION
-                + StringInvariant.NEW_LINE
-                ;
-			helpStr = helpStr
-                + StringUtils.getLeftSpaces("12345", "-")
-                + "  "
-                + StringUtils.getRightSpaces("01234567890123456789", "--------")
-                + StringUtils.getRightSpaces("                        ", "----")
-                + StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", "------")
-                + StringUtils.getRightSpaces("012345", "-----") + "-----------"
-                + StringInvariant.NEW_LINE
-                ;
 
-			keyWordsList.Sort( new KwTypeComparator() );
-			int keyWordsNumber = keyWordsList.Count;
-			String type, kw;
-			String line;
-			for (int keyWordIndex=0; keyWordIndex<keyWordsNumber; keyWordIndex++){
-				KeyWord keyWord = keyWordsList[keyWordIndex];
-				type = StringInvariant.EMPTY;
-				kw = keyWord.wordString;
-                type = Token.getTokenTypeDescription(keyWord.wordTypeId);
-                line = StringUtils.getLeftSpaces("12345", (keyWordIndex + 1).ToString()) + StringInvariant.DOT_SPACE +
-                StringUtils.getRightSpaces("01234567890123456789", kw) + StringUtils.getRightSpaces("                        ", StringInvariant.LOWER + type + StringInvariant.GREATER)
-				+ StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax) + StringUtils.getRightSpaces("012345", keyWord.since) + keyWord.description + StringInvariant.NEW_LINE;
-				if (line.ToLower().Contains(word.ToLower())) {
-					helpStr = helpStr + line;
-				}
-			}
-			return helpStr;
-		}
-		/**
+        /*
+         * =============================================================
+         * Help EXPORT
+         */
+
+        internal static String getHelp(String query, List<KeyWord> keyWordsList, bool addHeader, bool addCaption, String caption) {
+            StringBuilder helpStr = new StringBuilder();
+
+            if (addCaption)
+                helpStr.Append(selectCaption(query, caption));
+
+            if (addHeader) {
+                if (addCaption)
+                    helpStr.Append(StringInvariant.NEW_LINE);
+
+                StringUtils.stringBuilderPartsAppend(helpStr
+                        ,StringUtils.getLeftSpaces("12345", "#  ")
+                        ,StringUtils.getRightSpaces("01234567890123456789", StringModel.STRING_RESOURCES.KEYWORD)
+                        ,StringUtils.getRightSpaces("                        ", StringModel.STRING_RESOURCES.TYPE)
+                        ,StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", StringModel.STRING_RESOURCES.SYNTAX)
+                        ,StringUtils.getRightSpaces("012345", StringModel.STRING_RESOURCES.SINCE)
+                        ,StringModel.STRING_RESOURCES.DESCRIPTION
+                        ,StringInvariant.NEW_LINE);
+
+                StringUtils.stringBuilderPartsAppend(helpStr
+                        ,StringUtils.getLeftSpaces("12345", "-  ")
+                        ,StringUtils.getRightSpaces("01234567890123456789", "--------")
+                        ,StringUtils.getRightSpaces("                        ", "----")
+                        ,StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", "------")
+                        ,StringUtils.getRightSpaces("012345", "-----")
+                        ,"-----------");
+            }
+
+            List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
+            int id = 0;
+            foreach (KeyWord keyWord in keyWordsResult) {
+                id++;
+                String type = Token.getTokenTypeDescription(keyWord.wordTypeId);
+                String kw = keyWord.wordString;
+                if (id > 1 || addCaption || addHeader)
+                    helpStr.Append(StringInvariant.NEW_LINE);
+                StringUtils.stringBuilderPartsAppend(helpStr
+                        ,StringUtils.getLeftSpaces("12345",id + StringInvariant.DOT_SPACE)
+                        ,StringUtils.getRightSpaces("01234567890123456789", kw)
+                        ,StringUtils.getRightSpaces("                        ",StringInvariant.LOWER + type + StringInvariant.GREATER)
+                        ,StringUtils.getRightSpaces("0123456789012345678901234567890123456789012345", keyWord.syntax)
+                        ,StringUtils.getRightSpaces("012345", keyWord.since)
+                        ,keyWord.description);
+            }
+            return helpStr.ToString();
+        }
+        internal static String getHelp(String query, List<KeyWord> keyWordsList) {
+            return getHelp(query, keyWordsList, true, true, "");
+        }
+
+        internal static String getHelpAsCsv(List<KeyWord> keyWordsList, String quote, String delimiter, bool addHeader, String query) {
+            List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
+            StringResources stringResources = StringModel.getStringResources();
+            StringBuilder result = new StringBuilder();
+
+            if (addHeader)
+                StringUtils.stringBuilderPartsAppendDelimited(quote, delimiter, result
+                        ,stringResources.KEYWORD
+                        ,stringResources.TYPE
+                        ,stringResources.SYNTAX
+                        ,stringResources.SINCE
+                        ,stringResources.DESCRIPTION
+                );
+
+            int n = 0;
+            foreach (KeyWord kw in keyWordsResult) {
+                n++;
+                StringUtils.stringBuilderPartsAppendDelimitedRow(quote, delimiter, addHeader || n > 1, result
+                        ,kw.wordString
+                        ,Token.getTokenTypeDescription(kw.wordTypeId)
+                        ,kw.syntax
+                        ,kw.since
+                        ,kw.description
+                );
+            }
+            return StringUtils.cleanNewLineAtTheEnd(result.ToString());
+        }
+
+        private static void buildHtmlTableRows(List<KeyWord> keyWordsList, bool addHeader, StringBuilder stringBuilder) {
+            StringResources stringResources = StringModel.getStringResources();
+            if (addHeader)
+                StringUtils.stringBuilderPartsAppendHtmlTableHead(stringBuilder
+                        ,stringResources.KEYWORD
+                        ,stringResources.TYPE
+                        ,stringResources.SYNTAX
+                        ,stringResources.SINCE
+                        ,stringResources.DESCRIPTION
+                );
+
+            int n = 0;
+            foreach (KeyWord kw in keyWordsList) {
+                n++;
+                StringUtils.stringBuilderPartsAppendHtmlTableRow(stringBuilder
+                        ,kw.wordString
+                        ,Token.getTokenTypeDescription(kw.wordTypeId)
+                        ,kw.syntax
+                        ,kw.since
+                        ,kw.description
+                );
+            }
+        }
+
+        private static void buildMarkdownTableRows(List<KeyWord> keyWordsList, bool addHeader, StringBuilder stringBuilder) {
+            StringResources stringResources = StringModel.getStringResources();
+            StringUtils.stringBuilderPartsAppendMarkdownTableHead(
+                    addHeader
+                    ,stringBuilder
+                    ,stringResources.KEYWORD
+                    ,stringResources.TYPE
+                    ,stringResources.SYNTAX
+                    ,stringResources.SINCE
+                    ,stringResources.DESCRIPTION
+                );
+
+            int n = 0;
+            foreach (KeyWord kw in keyWordsList) {
+                n++;
+                StringUtils.stringBuilderPartsAppendMarkdownTableRow(
+                        stringBuilder
+                        ,kw.wordString
+                        ,Token.getTokenTypeDescription(kw.wordTypeId)
+                        ,kw.syntax
+                        ,kw.since
+                        ,kw.description
+                );
+            }
+        }
+
+        private static String makeJsonKeyValuePair(String key, String value) {
+            return StringUtils.surroundQuote(key)
+                    + StringInvariant.COLON_SPACE
+                    + StringUtils.surroundQuote(value)
+                    ;
+        }
+
+        private static void buildJasonRows(List<KeyWord> keyWordsList, StringBuilder stringBuilder) {
+            StringResources stringResources = StringModel.getStringResources();
+            int n = 0;
+            foreach (KeyWord kw in keyWordsList) {
+                n++;
+                if (n > 1) stringBuilder.Append(StringInvariant.COMMA);
+                StringUtils.stringBuilderPartsAppendJsonRow(
+                        stringBuilder
+                        ,makeJsonKeyValuePair(stringResources.KEYWORD, kw.wordString)
+                        ,makeJsonKeyValuePair(stringResources.TYPE, Token.getTokenTypeDescription(kw.wordTypeId))
+                        ,makeJsonKeyValuePair(stringResources.SYNTAX, kw.syntax)
+                        ,makeJsonKeyValuePair(stringResources.SINCE, kw.since)
+                        ,makeJsonKeyValuePair(stringResources.DESCRIPTION, kw.description)
+                );
+            }
+        }
+
+        private static String buildHelpCaption(String query) {
+            StringResources stringResources = StringModel.getStringResources();
+            if (query.Length > 0)
+                return stringResources.HELP_CONTENT_LIMITED_TO_QUERY + StringInvariant.COLON_SPACE + StringUtils.surroundApostrophe(query);
+
+            return stringResources.ALL_HELP_CONTENT;
+        }
+
+        private static String selectCaption(String query, String caption) {
+            if (caption == null || caption.Length == 0)
+                return buildHelpCaption(query);
+
+            return caption;
+        }
+
+        private static String makeCssClassDef(String cssClass) {
+            return " class=" + StringUtils.surroundQuote(cssClass);
+        }
+
+        internal static String getHelpAsHtmlTable(
+                List<KeyWord> keyWordsList
+                ,bool addHeader
+                ,bool addCaption
+                ,bool addFigure
+                ,String query
+                ,String caption
+                ,String cssClass
+        ) {
+            List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
+            StringBuilder result = new StringBuilder();
+
+            String cssClassDef = StringInvariant.EMPTY;
+            String captionText = selectCaption(query, caption);
+
+            if (cssClass != null && cssClass.Length > 0)
+                cssClassDef = makeCssClassDef(cssClass);
+
+            if (addFigure)
+                StringUtils.stringBuilderLinesAppend(result, "<figure" + cssClassDef + ">", "<table>");
+            else {
+                StringUtils.stringBuilderLinesAppend(result, "<table" + cssClassDef + ">");
+                if (addCaption)
+                    StringUtils.stringBuilderLinesAppend(result, "<caption>" + captionText + "</caption>");
+            }
+
+            StringUtils.stringBuilderLinesAppend(result,"<tbody>");
+            buildHtmlTableRows(keyWordsResult, addHeader, result);
+            StringUtils.stringBuilderLinesAppend(result, "</tbody>", "</table>");
+
+            if (addFigure) {
+                if (addCaption)
+                    StringUtils.stringBuilderLinesAppend(result, "<figcaption>" + captionText + "</figcaption>");
+                StringUtils.stringBuilderLinesAppend(result, "</figure>");
+            }
+
+            return StringUtils.cleanNewLineAtTheEnd(result.ToString());
+        }
+        internal static String getHelpAsHtmlTable(List<KeyWord> keyWordsList, bool addHeadline, String query) {
+            return getHelpAsHtmlTable(keyWordsList, addHeadline, true, false, query, "", "");
+        }
+
+
+        internal static String getHelpAsMarkdownTable(List<KeyWord> keyWordsList, String query) {
+            return getHelpAsMarkdownTable(keyWordsList, true, true, query, "");
+        }
+
+
+        internal static String getHelpAsMarkdownTable(List<KeyWord> keyWordsList, bool addHeader, bool addCaption, String query, String caption) {
+            List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
+            StringBuilder result = new StringBuilder();
+
+            if (addCaption)
+                StringUtils.stringBuilderLinesAppend(result, "### " + selectCaption(query, caption));
+
+            buildMarkdownTableRows(keyWordsResult, addHeader, result);
+
+            return StringUtils.cleanNewLineAtTheEnd(result.ToString());
+        }
+
+        internal static String getHelpAsJason(List<KeyWord> keyWordsList, bool addCaption, String query, String caption) {
+            StringResources stringResources = StringModel.getStringResources();
+            List<KeyWord> keyWordsResult = getKeyWords(query, keyWordsList);
+            StringBuilder result = new StringBuilder();
+            result.Append(StringInvariant.LEFT_SQUARE_BRACKET);
+
+            if (addCaption) {
+                StringUtils.stringBuilderPartsAppend(result,
+                        StringInvariant.NEW_LINE
+                        ,StringUtils.JSON_ROW_INDENTATION_TAG
+                        ,StringInvariant.LEFT_CURLY_BRACKET + StringInvariant.SPACE
+                                + makeJsonKeyValuePair(stringResources.CAPTION, selectCaption(query, caption))
+                                + StringInvariant.SPACE + StringInvariant.RIGHT_CURLY_BRACKET
+                );
+                if (keyWordsResult.Count > 0)
+                    result.Append(StringInvariant.COMMA);
+            }
+            buildJasonRows(keyWordsResult, result);
+            StringUtils.stringBuilderPartsAppend(result
+                    ,StringInvariant.NEW_LINE
+                    ,StringInvariant.RIGHT_SQUARE_BRACKET
+            );
+            return result.ToString();
+        }
+
+        private const String KEY_ADVANCED_SEARCH_TAG = "key=";
+        private const String DESC_ADVANCED_SEARCH_TAG = "desc=";
+        private const String SYN_ADVANCED_SEARCH_TAG = "syn=";
+        private const String SINCE_ADVANCED_SEARCH_TAG = "since=";
+        private const String KEYID_ADVANCED_SEARCH_TAG = "keyid=";
+        private const String TYPEID_ADVANCED_SEARCH_TAG = "typeid=";
+        private const String TYPE_ADVANCED_SEARCH_TAG = "type=";
+
+        private static String buildHelpSearchLine(KeyWord kw, bool advancedSearch) {
+            if (advancedSearch)
+                return KEY_ADVANCED_SEARCH_TAG + kw.wordString + StringInvariant.SPACE +
+                        DESC_ADVANCED_SEARCH_TAG + kw.description + StringInvariant.SPACE +
+                        SYN_ADVANCED_SEARCH_TAG + kw.syntax + StringInvariant.SPACE +
+                        SINCE_ADVANCED_SEARCH_TAG + kw.since + StringInvariant.SPACE +
+                        KEYID_ADVANCED_SEARCH_TAG + kw.wordId + StringInvariant.SPACE +
+                        TYPEID_ADVANCED_SEARCH_TAG + kw.wordTypeId + StringInvariant.SPACE +
+                        TYPE_ADVANCED_SEARCH_TAG + Token.getTokenTypeDescription(kw.wordTypeId)
+                        ;
+            return kw.wordString + StringInvariant.SPACE +
+                   kw.description + StringInvariant.SPACE +
+                   kw.syntax + StringInvariant.SPACE +
+                   kw.since + StringInvariant.SPACE +
+                   kw.wordId + StringInvariant.SPACE +
+                   kw.wordTypeId + StringInvariant.SPACE +
+                   Token.getTokenTypeDescription(kw.wordTypeId)
+                    ;
+        }
+        private static bool containsAdvancedSearchTag(String query, String tag) {
+            return query.StartsWith(tag) && query.Length > tag.Length;
+        }
+        private static bool checkIfAdvancedSearch(String query) {
+            if (query == null) return false;
+            if (query.Length < 5) return false;
+            if (!query.Contains("=")) return false;
+
+            if (containsAdvancedSearchTag(query, TYPE_ADVANCED_SEARCH_TAG)) return true;
+            if (containsAdvancedSearchTag(query, KEY_ADVANCED_SEARCH_TAG)) return true;
+            if (containsAdvancedSearchTag(query, DESC_ADVANCED_SEARCH_TAG)) return true;
+            if (containsAdvancedSearchTag(query, SYN_ADVANCED_SEARCH_TAG)) return true;
+            if (containsAdvancedSearchTag(query, SINCE_ADVANCED_SEARCH_TAG)) return true;
+            if (containsAdvancedSearchTag(query, KEYID_ADVANCED_SEARCH_TAG)) return true;
+            if (containsAdvancedSearchTag(query, TYPEID_ADVANCED_SEARCH_TAG)) return true;
+
+            return false;
+        }
+        /**
+	     * Returns list of keywords known to the parser
+	     *
+	     * @param query Give any string to filter list of keywords against this string.
+	     *              User more precise syntax: str=tokenString, desc=tokenDescription,
+	     *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
+	     *              to narrow the result.
+	     *
+	     * @return      List of keywords known to the parser filter against query string.
+	     *
+	     * @see KeyWord
+	     * @see KeyWord#wordTypeId
+	     * @see Expression#getHelp(String)
+	     */
+        internal static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
+            List<KeyWord> kwyWordsToReturn = new List<KeyWord>();
+            keyWordsList.Sort(new KwTypeComparator());
+            String queryLower = "";
+            if (query != null)
+                queryLower = query.ToLower();
+
+            String searchLine;
+            bool advancedSearch = checkIfAdvancedSearch(query);
+            foreach (KeyWord kw in keyWordsList) {
+                searchLine = buildHelpSearchLine(kw, advancedSearch);
+                if (queryLower.Length == 0 || searchLine.ToLower().Contains(queryLower))
+                    kwyWordsToReturn.Add(kw);
+            }
+            return kwyWordsToReturn;
+        }
+
+        /*
+         * =============================================================
+         */
+        /**
 		 * Shows parsing (verbose mode purposes).
 		 *
 		 */
-		internal static void showParsing(int lPos, int rPos, List<Token> tokensList) {
+        internal static void showParsing(int lPos, int rPos, List<Token> tokensList) {
 			mXparser.consolePrint(StringInvariant.LONG_RIGHT_ARROW_SPACE);
 			for (int i=lPos; i<=rPos; i++) {
 				Token token = tokensList[i];
@@ -1205,37 +1495,6 @@ namespace org.mariuszgromada.math.mxparser {
 					mXparser.consolePrint(token.tokenStr + StringInvariant.SPACE);
 			}
 			mXparser.consolePrint(StringInvariant.DOTS_SPACE);
-		}
-		/**
-		 * Returns list of keywords known to the parser
-		 *
-		 * @param query Give any string to filter list of keywords against this string.
-		 *              User more precise syntax: str=tokenString, desc=tokenDescription,
-		 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
-		 *              to narrow the result.
-		 *
-		 * @return      List of keywords known to the parser filter against query string.
-		 *
-		 * @see KeyWord
-		 * @see KeyWord#wordTypeId
-		 * @see Expression#getHelp(String)
-		 */
-		internal static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
-			List<KeyWord> kwyWordsToReturn = new List<KeyWord>();
-            keyWordsList.Sort(new KwTypeComparator());
-			String line;
-			foreach (KeyWord kw in keyWordsList) {
-				line = 	"str=" + kw.wordString + StringInvariant.SPACE +
-						"desc=" + kw.description + StringInvariant.SPACE +
-						"syn=" + kw.syntax + StringInvariant.SPACE +
-						"sin=" + kw.since + StringInvariant.SPACE +
-						"wid=" + kw.wordId + StringInvariant.SPACE +
-						"tid=" + kw.wordTypeId
-						;
-				if ( (line.ToLower().IndexOf(query.ToLower()) >= 0) )
-					kwyWordsToReturn.Add(kw);
-			}
-			return kwyWordsToReturn;
 		}
 		/*
 		 * show tokens

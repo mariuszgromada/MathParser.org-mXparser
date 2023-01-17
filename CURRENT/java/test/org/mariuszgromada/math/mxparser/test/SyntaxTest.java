@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2023-01-08
+ * @(#)SyntaxTest.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1874,7 +1874,7 @@ public final class SyntaxTest {
         Expression e = new Expression(expStr, ff);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+        if (syn == Expression.SYNTAX_ERROR)
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1888,7 +1888,7 @@ public final class SyntaxTest {
         Expression e = new Expression(expStr);
         boolean reg = false;
         boolean syn = e.checkSyntax();
-        if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+        if (syn == Expression.SYNTAX_ERROR)
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1905,7 +1905,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         mXparser.unremoveAllBuiltinTokens();
-        if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+        if (syn == Expression.SYNTAX_ERROR)
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
@@ -1922,7 +1922,7 @@ public final class SyntaxTest {
         boolean reg = false;
         boolean syn = e.checkSyntax();
         mXparser.unmodifyAllBuiltinTokens();
-        if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+        if (syn == Expression.SYNTAX_ERROR)
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);

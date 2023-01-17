@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2023-01-07
+ * @(#)StringUtils.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 package org.mariuszgromada.math.mxparser;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -454,6 +455,240 @@ public final class StringUtils {
     static void consolePrintln(Object o) {
         System.out.println(o);
     }
+    static String cleanForHtml(String text) {
+        return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+    }
+    static String cleanForMarkdown(String text) {
+        return text.replace("\\", "\\\\").replace("|", "\\|");
+    }
+    static String cleanForJson(String text) {
+        return text.replace("\\", "\\\\");
+    }
+    static void stringBuilderPartsAppend(StringBuilder stringBuilder, String... partsToAppend) {
+        for (String part : partsToAppend) {
+            stringBuilder.append(part);
+        }
+    }
+    static void stringBuilderLinesAppend(StringBuilder stringBuilder, String... linesToAppend) {
+        for (String line : linesToAppend) {
+            stringBuilder.append(line);
+            stringBuilder.append(StringInvariant.NEW_LINE);
+        }
+    }
+    static void stringBuilderPartsAppendDelimited(
+            String partTagLeft
+            ,String partTagRight
+            ,String delimiter
+            ,boolean clearForHtml
+            ,boolean clearForMarkdown
+            ,boolean clearForJson
+            ,StringBuilder stringBuilder
+            ,String... partsToAppend
+    ) {
+        int n = 0;
+        for (String part : partsToAppend) {
+            n++;
+            if (n > 1) stringBuilder.append(delimiter);
+            stringBuilder.append(partTagLeft);
+
+            String partFinal = part;
+            if (clearForHtml)
+                partFinal = cleanForHtml(partFinal);
+            if (clearForMarkdown)
+                partFinal = cleanForMarkdown(partFinal);
+
+            if (clearForJson)
+                partFinal = cleanForJson(partFinal);
+
+            stringBuilder.append(partFinal);
+
+            stringBuilder.append(partTagRight);
+        }
+    }
+    static void stringBuilderPartsAppendDelimited(String partQuote, String delimiter, StringBuilder stringBuilder, String... partsToAppend) {
+        stringBuilderPartsAppendDelimited(partQuote, partQuote, delimiter, false, false, false, stringBuilder, partsToAppend);
+    }
+    static void stringBuilderPartsAppendDelimitedRow(
+            String partTagLeft
+            ,String partTagRight
+            ,String delimiter
+            ,String rowBeforeTag
+            ,String rowAfterTag
+            ,boolean clearForHtml
+            ,boolean clearForMarkdown
+            ,boolean clearForJson
+            ,StringBuilder stringBuilder
+            ,String... partsToAppend
+    ) {
+        boolean tagBefore = rowBeforeTag == null || rowBeforeTag.length() > 0;
+        boolean tagAfter = rowAfterTag == null || rowAfterTag.length() > 0;
+
+        if (tagBefore) stringBuilder.append(rowBeforeTag);
+        stringBuilderPartsAppendDelimited(partTagLeft, partTagRight, delimiter, clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+        if (tagAfter) stringBuilder.append(rowAfterTag);
+    }
+    static void stringBuilderPartsAppendDelimitedRow(
+            String partQuote
+            ,String delimiter
+            ,boolean newLineBefore
+            ,boolean clearForHtml
+            ,boolean clearForMarkdown
+            ,boolean clearForJson
+            ,StringBuilder stringBuilder
+            ,String... partsToAppend
+    ) {
+        if (newLineBefore)
+            stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, StringInvariant.NEW_LINE, "", clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+        else
+            stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, "", "", clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+    }
+    static void stringBuilderPartsAppendDelimitedRow(
+            String partQuote
+            ,String delimiter
+            ,boolean newLineBefore
+            ,StringBuilder stringBuilder
+            ,String... partsToAppend
+    ) {
+        stringBuilderPartsAppendDelimitedRow(partQuote, delimiter, newLineBefore, false, false, false, stringBuilder, partsToAppend);
+    }
+
+    private static final String HTML_TD_START_TAG = "<td>";
+    private static final String HTML_TD_END_TAG = "</td>";
+    private static final String HTML_TH_START_TAG = "<th>";
+    private static final String HTML_TH_END_TAG = "</th>";
+    private static final String HTML_TR_START_TAG = "<tr>";
+    private static final String HTML_TR_END_TAG = "</tr>" + StringInvariant.NEW_LINE;
+
+    static void stringBuilderPartsAppendHtmlTableRow(StringBuilder stringBuilder, String... partsToAppend) {
+        stringBuilderPartsAppendDelimitedRow(
+                HTML_TD_START_TAG
+                ,HTML_TD_END_TAG
+                ,StringInvariant.EMPTY
+                , HTML_TR_START_TAG
+                ,HTML_TR_END_TAG
+                ,true
+                ,false
+                ,false
+                ,stringBuilder
+                ,partsToAppend
+        );
+    }
+
+    static void stringBuilderPartsAppendHtmlTableHead(StringBuilder stringBuilder, String... partsToAppend) {
+        stringBuilderPartsAppendDelimitedRow(
+                HTML_TH_START_TAG
+                ,HTML_TH_END_TAG
+                ,StringInvariant.EMPTY
+                ,HTML_TR_START_TAG
+                ,HTML_TR_END_TAG
+                ,true
+                ,false
+                ,false
+                ,stringBuilder
+                ,partsToAppend);
+    }
+    private static final String MARKDOWN_DELIMITER = "|";
+    private static final String MARKDOWN_ROW_BEFORE_TAG = "|";
+    private static final String MARKDOWN_ROW_AFTER_TAG = "|" + StringInvariant.NEW_LINE;
+    private static final String MARKDOWN_HEADER_TAG = "---";
+    static void stringBuilderPartsAppendMarkdownTableRow(StringBuilder stringBuilder, String... partsToAppend) {
+        stringBuilderPartsAppendDelimitedRow(
+                StringInvariant.EMPTY
+                ,StringInvariant.EMPTY
+                ,MARKDOWN_DELIMITER
+                ,MARKDOWN_ROW_BEFORE_TAG
+                ,MARKDOWN_ROW_AFTER_TAG
+                ,false
+                ,true
+                ,false
+                ,stringBuilder
+                ,partsToAppend
+        );
+    }
+
+    static void stringBuilderPartsAppendMarkdownTableHead(boolean addHeader, StringBuilder stringBuilder, String... partsToAppend) {
+        if (!addHeader) {
+            String[] mdTableEmptyHeader = new String[partsToAppend.length];
+            Arrays.fill(mdTableEmptyHeader, "   ");
+            stringBuilderPartsAppendDelimitedRow(
+                    StringInvariant.EMPTY
+                    ,StringInvariant.EMPTY
+                    ,MARKDOWN_DELIMITER
+                    ,MARKDOWN_ROW_BEFORE_TAG
+                    ,MARKDOWN_ROW_AFTER_TAG
+                    ,false
+                    ,false
+                    ,false
+                    ,stringBuilder
+                    ,mdTableEmptyHeader
+            );
+        } else
+            stringBuilderPartsAppendDelimitedRow(
+                    StringInvariant.EMPTY
+                    ,StringInvariant.EMPTY
+                    ,MARKDOWN_DELIMITER
+                    ,MARKDOWN_ROW_BEFORE_TAG
+                    ,MARKDOWN_ROW_AFTER_TAG
+                    ,false
+                    ,true
+                    ,false
+                    ,stringBuilder
+                    ,partsToAppend
+            );
+
+        String[] mdTableStructure = new String[partsToAppend.length];
+        Arrays.fill(mdTableStructure, MARKDOWN_HEADER_TAG);
+        stringBuilderPartsAppendDelimitedRow(
+                StringInvariant.EMPTY
+                ,StringInvariant.EMPTY
+                ,MARKDOWN_DELIMITER
+                ,MARKDOWN_ROW_BEFORE_TAG
+                ,MARKDOWN_ROW_AFTER_TAG
+                ,false
+                ,false
+                ,false
+                ,stringBuilder
+                ,mdTableStructure
+        );
+    }
+
+    static final String JSON_ROW_INDENTATION_TAG = "  ";
+    private static final String JSON_PART_INDENTATION_TAG = JSON_ROW_INDENTATION_TAG + JSON_ROW_INDENTATION_TAG;
+    private static final String JSON_ROW_BEFORE_TAG = StringInvariant.NEW_LINE
+            + JSON_ROW_INDENTATION_TAG
+            + StringInvariant.LEFT_CURLY_BRACKET
+            + StringInvariant.NEW_LINE
+            ;
+    private static final String JSON_ROW_AFTER_TAG = StringInvariant.NEW_LINE
+                    + JSON_ROW_INDENTATION_TAG
+                    + StringInvariant.RIGHT_CURLY_BRACKET
+            ;
+    private static final String JSON_PART_DELIMITER = StringInvariant.COMMA + StringInvariant.NEW_LINE;
+    static void stringBuilderPartsAppendJsonRow(StringBuilder stringBuilder, String... partsToAppend) {
+        stringBuilderPartsAppendDelimitedRow(
+                JSON_PART_INDENTATION_TAG
+                ,StringInvariant.EMPTY
+                ,JSON_PART_DELIMITER
+                ,JSON_ROW_BEFORE_TAG
+                ,JSON_ROW_AFTER_TAG
+                ,false
+                ,false
+                ,true
+                ,stringBuilder
+                ,partsToAppend
+        );
+    }
+    static String cleanNewLineAtTheEnd(String str) {
+        int length = str.length();
+
+        if (length == 0)
+            return str;
+
+        if (str.endsWith(StringInvariant.NEW_LINE))
+            return str.substring(0, length - StringInvariant.NEW_LINE.length());
+
+        return str;
+    }
     /**
      * Converts integer number to hex string (plain text)
      *
@@ -531,5 +766,17 @@ public final class StringUtils {
      */
     public static String numberToAsciiString(double number) {
         return hexString2AsciiString( numberToHexString(number) );
+    }
+    public static int countOccurrences(String str, String toFind) {
+        if (str == null || toFind == null) return -1;
+        int strLen = str.length();
+        int toFindLen = toFind.length();
+        if (strLen == 0 || toFindLen == 0 || toFindLen > strLen) return 0;
+        return (strLen - str.replace(toFind, StringInvariant.EMPTY).length()) / toFindLen;
+    }
+    public static int countLines(String text) {
+        if (text == null) return -1;
+        if (text.length() == 0) return 0;
+        return countOccurrences(text, StringInvariant.NEW_LINE) + 1;
     }
 }

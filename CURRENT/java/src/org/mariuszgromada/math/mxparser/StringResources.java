@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        5.2.0    2023-01-08
+ * @(#)StringResources.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -301,7 +301,6 @@ public class StringResources {
     static final String DEFAULT_EXITING = "Exiting.";
     static final String DEFAULT_DONE = "done.";
     // -------------------------------------------------
-    static final String DEFAULT_HELP_CONTENT = "Help content";
     static final String DEFAULT_KEYWORD = "Keyword";
     static final String DEFAULT_SYNTAX = "Syntax";
     static final String DEFAULT_NUMBER = "Number";
@@ -340,6 +339,10 @@ public class StringResources {
     static final String DEFAULT_USER_DEFINED_CONSTANT = "User defined constant";
     static final String DEFAULT_USER_DEFINED_FUNCTION = "User defined function";
     static final String DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT = "User defined recursive argument";
+    // -------------------------------------------------
+    static final String DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY = "Help content limited to query";
+    static final String DEFAULT_ALL_HELP_CONTENT = "All help content.";
+    static final String DEFAULT_CAPTION = "Caption";
     // -------------------------------------------------
     static final String DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS = "SECURITY WARNING:" + StringInvariant.NEW_LINE
                     + "Deserializing data from an untrusted source can introduce security vulnerabilities" + StringInvariant.NEW_LINE
@@ -1137,10 +1140,6 @@ public class StringResources {
     public String DONE = DEFAULT_DONE;
     // -------------------------------------------------
     /**
-     * Default String = "Help content"
-     */
-    public String HELP_CONTENT = DEFAULT_HELP_CONTENT;
-    /**
      * Default String = "Keyword"
      */
     public String KEYWORD = DEFAULT_KEYWORD;
@@ -1283,6 +1282,19 @@ public class StringResources {
      * Default String = "User defined recursive argument"
      */
     public String USER_DEFINED_RECURSIVE_ARGUMENT = DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT;
+    // -------------------------------------------------
+    /**
+     * Default String = "Help content limited to query"
+     */
+    public String HELP_CONTENT_LIMITED_TO_QUERY = DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY;
+    /**
+     * Default String = "All help content."
+     */
+    public String ALL_HELP_CONTENT = DEFAULT_ALL_HELP_CONTENT;
+    /**
+     * Default String = "Caption"
+     */
+    public String CAPTION = DEFAULT_CAPTION;
     // -------------------------------------------------
     /**
      * Default String = "Deserializing data from an untrusted source can introduce security vulnerabilities to your application."
@@ -2987,7 +2999,6 @@ public class StringResources {
         }
         currentValueNew = quoteString(currentValue);
         StringUtils.consolePrintln(nameStr + " = [VAL]" + currentValueNew + " [DEF]" + defaultValueNew);
-        return;
     }
     private static void printResources(StringResources stringResources, boolean printDefault) {
         printCurrentVsDefault("USER_LANGUAGE", stringResources.USER_LANGUAGE, DEFAULT_USER_LANGUAGE, printDefault);
@@ -3089,7 +3100,6 @@ public class StringResources {
         printCurrentVsDefault("EXITING", stringResources.EXITING, DEFAULT_EXITING, printDefault);
         printCurrentVsDefault("DONE", stringResources.DONE, DEFAULT_DONE, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");
-        printCurrentVsDefault("HELP_CONTENT", stringResources.HELP_CONTENT, DEFAULT_HELP_CONTENT, printDefault);
         printCurrentVsDefault("KEYWORD", stringResources.KEYWORD, DEFAULT_KEYWORD, printDefault);
         printCurrentVsDefault("SYNTAX", stringResources.SYNTAX, DEFAULT_SYNTAX, printDefault);
         printCurrentVsDefault("NUMBER", stringResources.NUMBER, DEFAULT_NUMBER, printDefault);
@@ -3128,6 +3138,10 @@ public class StringResources {
         printCurrentVsDefault("USER_DEFINED_CONSTANT", stringResources.USER_DEFINED_CONSTANT, DEFAULT_USER_DEFINED_CONSTANT, printDefault);
         printCurrentVsDefault("USER_DEFINED_FUNCTION", stringResources.USER_DEFINED_FUNCTION, DEFAULT_USER_DEFINED_FUNCTION, printDefault);
         printCurrentVsDefault("USER_DEFINED_RECURSIVE_ARGUMENT", stringResources.USER_DEFINED_RECURSIVE_ARGUMENT, DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT, printDefault);
+        StringUtils.consolePrintln("// -------------------------------------------------");
+        printCurrentVsDefault("HELP_CONTENT_LIMITED_TO_QUERY", stringResources.HELP_CONTENT_LIMITED_TO_QUERY, DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY, printDefault);
+        printCurrentVsDefault("ALL_HELP_CONTENT", stringResources.ALL_HELP_CONTENT, DEFAULT_ALL_HELP_CONTENT, printDefault);
+        printCurrentVsDefault("CAPTION", stringResources.CAPTION, DEFAULT_CAPTION, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");
         printCurrentVsDefault("WARNING_BINARY_SERIALIZATION_SECURITY_RISKS", stringResources.WARNING_BINARY_SERIALIZATION_SECURITY_RISKS, DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS, printDefault);
         StringUtils.consolePrintln("// -------------------------------------------------");

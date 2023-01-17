@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.java        5.2.0    2022-12-23
+ * @(#)StringInvariant.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -217,6 +217,8 @@ final class StringInvariant {
     static final String RIGHT_SQUARE_BRACKET_SPACE = RIGHT_SQUARE_BRACKET + SPACE;
     static final String LEFT_BRACKET = "(";
     static final String RIGHT_BRACKET = ")";
+    static final String LEFT_CURLY_BRACKET = "{";
+    static final String RIGHT_CURLY_BRACKET = "}";
     static final String EQUAL = "=";
     static final String SPACE_EQUAL_SPACE = SPACE + EQUAL + SPACE;
     static final String COLON = ":";

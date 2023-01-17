@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.cs        5.2.0    2022-12-23
+ * @(#)StringInvariant.cs        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -221,6 +221,8 @@ namespace org.mariuszgromada.math.mxparser {
         internal static readonly String RIGHT_SQUARE_BRACKET_SPACE = RIGHT_SQUARE_BRACKET + SPACE;
         internal const String LEFT_BRACKET = "(";
         internal const String RIGHT_BRACKET = ")";
+        internal const String LEFT_CURLY_BRACKET = "{";
+        internal const String RIGHT_CURLY_BRACKET = "}";
         internal const String EQUAL = "=";
         internal static readonly String SPACE_EQUAL_SPACE = SPACE + EQUAL + SPACE;
         internal const String COLON = ":";

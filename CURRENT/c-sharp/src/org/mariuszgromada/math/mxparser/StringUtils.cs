@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.cs        5.2.0    2023-01-07
+ * @(#)StringUtils.cs        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 using System;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using org.mariuszgromada.math.mxparser;
 
@@ -462,6 +463,243 @@ namespace org.mariuszgromada.math.mxparser {
         internal static void consolePrintln(Object o) {
             mXparser.consoleWriteLine(o);
         }
+        internal static String cleanForHtml(String text) {
+            return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+        }
+        internal static String cleanForMarkdown(String text) {
+            return text.Replace("\\", "\\\\").Replace("|", "\\|");
+        }
+        internal static String cleanForJson(String text) {
+            return text.Replace("\\", "\\\\");
+        }
+        internal static void stringBuilderPartsAppend(StringBuilder stringBuilder, params String[] partsToAppend) {
+            foreach (String part in partsToAppend) {
+                stringBuilder.Append(part);
+            }
+        }
+        internal static void stringBuilderLinesAppend(StringBuilder stringBuilder, params String[] linesToAppend) {
+            foreach (String line in linesToAppend) {
+                stringBuilder.Append(line);
+                stringBuilder.Append(StringInvariant.NEW_LINE);
+            }
+        }
+        internal static void stringBuilderPartsAppendDelimited(
+                String partTagLeft
+                ,String partTagRight
+                ,String delimiter
+                ,bool clearForHtml
+                ,bool clearForMarkdown
+                ,bool clearForJson
+                ,StringBuilder stringBuilder
+                ,params String[] partsToAppend
+        ) {
+            int n = 0;
+            foreach (String part in partsToAppend) {
+                n++;
+                if (n > 1) stringBuilder.Append(delimiter);
+                stringBuilder.Append(partTagLeft);
+
+                String partFinal = part;
+                if (clearForHtml)
+                    partFinal = cleanForHtml(partFinal);
+                if (clearForMarkdown)
+                    partFinal = cleanForMarkdown(partFinal);
+
+                if (clearForJson)
+                    partFinal = cleanForJson(partFinal);
+
+                stringBuilder.Append(partFinal);
+
+                stringBuilder.Append(partTagRight);
+            }
+        }
+        internal static void stringBuilderPartsAppendDelimited(String partQuote, String delimiter, StringBuilder stringBuilder, params String[] partsToAppend) {
+            stringBuilderPartsAppendDelimited(partQuote, partQuote, delimiter, false, false, false, stringBuilder, partsToAppend);
+        }
+        internal static void stringBuilderPartsAppendDelimitedRow(
+                String partTagLeft
+                ,String partTagRight
+                ,String delimiter
+                ,String rowBeforeTag
+                ,String rowAfterTag
+                ,bool clearForHtml
+                ,bool clearForMarkdown
+                ,bool clearForJson
+                ,StringBuilder stringBuilder
+                ,params String[] partsToAppend
+        ) {
+            bool tagBefore = rowBeforeTag == null || rowBeforeTag.Length > 0;
+            bool tagAfter = rowAfterTag == null || rowAfterTag.Length > 0;
+
+            if (tagBefore) stringBuilder.Append(rowBeforeTag);
+            stringBuilderPartsAppendDelimited(partTagLeft, partTagRight, delimiter, clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+            if (tagAfter) stringBuilder.Append(rowAfterTag);
+        }
+        internal static void stringBuilderPartsAppendDelimitedRow(
+                String partQuote
+                ,String delimiter
+                ,bool newLineBefore
+                ,bool clearForHtml
+                ,bool clearForMarkdown
+                ,bool clearForJson
+                ,StringBuilder stringBuilder
+                ,params String[] partsToAppend
+        ) {
+            if (newLineBefore)
+                stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, StringInvariant.NEW_LINE, "", clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+            else
+                stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, "", "", clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+        }
+        internal static void stringBuilderPartsAppendDelimitedRow(
+                String partQuote
+                ,String delimiter
+                ,bool newLineBefore
+                ,StringBuilder stringBuilder
+                ,params String[] partsToAppend
+        ) {
+            stringBuilderPartsAppendDelimitedRow(partQuote, delimiter, newLineBefore, false, false, false, stringBuilder, partsToAppend);
+        }
+
+        private const String HTML_TD_START_TAG = "<td>";
+        private const String HTML_TD_END_TAG = "</td>";
+        private const String HTML_TH_START_TAG = "<th>";
+        private const String HTML_TH_END_TAG = "</th>";
+        private const String HTML_TR_START_TAG = "<tr>";
+        private static readonly String HTML_TR_END_TAG = "</tr>" + StringInvariant.NEW_LINE;
+
+        internal static void stringBuilderPartsAppendHtmlTableRow(StringBuilder stringBuilder, params String[] partsToAppend) {
+            stringBuilderPartsAppendDelimitedRow(
+                    HTML_TD_START_TAG
+                    ,HTML_TD_END_TAG
+                    ,StringInvariant.EMPTY
+                    , HTML_TR_START_TAG
+                    ,HTML_TR_END_TAG
+                    ,true
+                    ,false
+                    ,false
+                    ,stringBuilder
+                    ,partsToAppend
+            );
+        }
+
+        internal static void stringBuilderPartsAppendHtmlTableHead(StringBuilder stringBuilder, params String[] partsToAppend) {
+            stringBuilderPartsAppendDelimitedRow(
+                    HTML_TH_START_TAG
+                    ,HTML_TH_END_TAG
+                    ,StringInvariant.EMPTY
+                    ,HTML_TR_START_TAG
+                    ,HTML_TR_END_TAG
+                    ,true
+                    ,false
+                    ,false
+                    ,stringBuilder
+                    ,partsToAppend);
+        }
+        private const String MARKDOWN_DELIMITER = "|";
+        private const String MARKDOWN_ROW_BEFORE_TAG = "|";
+        private static readonly String MARKDOWN_ROW_AFTER_TAG = "|" + StringInvariant.NEW_LINE;
+        private const String MARKDOWN_HEADER_TAG = "---";
+        internal static void stringBuilderPartsAppendMarkdownTableRow(StringBuilder stringBuilder, params String[] partsToAppend) {
+            stringBuilderPartsAppendDelimitedRow(
+                    StringInvariant.EMPTY
+                    ,StringInvariant.EMPTY
+                    ,MARKDOWN_DELIMITER
+                    ,MARKDOWN_ROW_BEFORE_TAG
+                    ,MARKDOWN_ROW_AFTER_TAG
+                    ,false
+                    ,true
+                    ,false
+                    ,stringBuilder
+                    ,partsToAppend
+            );
+        }
+
+        internal static void stringBuilderPartsAppendMarkdownTableHead(bool addHeader, StringBuilder stringBuilder, params String[] partsToAppend) {
+            if (!addHeader) {
+                String[] mdTableEmptyHeader = new String[partsToAppend.Length];
+                for (int i = 0; i < mdTableEmptyHeader.Length; i++)
+                    mdTableEmptyHeader[i] = "   ";
+                stringBuilderPartsAppendDelimitedRow(
+                        StringInvariant.EMPTY
+                        ,StringInvariant.EMPTY
+                        ,MARKDOWN_DELIMITER
+                        ,MARKDOWN_ROW_BEFORE_TAG
+                        ,MARKDOWN_ROW_AFTER_TAG
+                        ,false
+                        ,false
+                        ,false
+                        ,stringBuilder
+                        ,mdTableEmptyHeader
+                );
+            } else
+                stringBuilderPartsAppendDelimitedRow(
+                        StringInvariant.EMPTY
+                        ,StringInvariant.EMPTY
+                        ,MARKDOWN_DELIMITER
+                        ,MARKDOWN_ROW_BEFORE_TAG
+                        ,MARKDOWN_ROW_AFTER_TAG
+                        ,false
+                        ,true
+                        ,false
+                        ,stringBuilder
+                        ,partsToAppend
+                );
+
+            String[] mdTableStructure = new String[partsToAppend.Length];
+            for (int i = 0; i < mdTableStructure.Length; i++)
+                mdTableStructure[i] = MARKDOWN_HEADER_TAG;
+
+            stringBuilderPartsAppendDelimitedRow(
+                    StringInvariant.EMPTY
+                    ,StringInvariant.EMPTY
+                    ,MARKDOWN_DELIMITER
+                    ,MARKDOWN_ROW_BEFORE_TAG
+                    ,MARKDOWN_ROW_AFTER_TAG
+                    ,false
+                    ,false
+                    ,false
+                    ,stringBuilder
+                    ,mdTableStructure
+            );
+        }
+
+        internal const String JSON_ROW_INDENTATION_TAG = "  ";
+        private static readonly String JSON_PART_INDENTATION_TAG = JSON_ROW_INDENTATION_TAG + JSON_ROW_INDENTATION_TAG;
+        private static readonly String JSON_ROW_BEFORE_TAG = StringInvariant.NEW_LINE
+                + JSON_ROW_INDENTATION_TAG
+                + StringInvariant.LEFT_CURLY_BRACKET
+                + StringInvariant.NEW_LINE
+                ;
+        private static readonly String JSON_ROW_AFTER_TAG = StringInvariant.NEW_LINE
+                        + JSON_ROW_INDENTATION_TAG
+                        + StringInvariant.RIGHT_CURLY_BRACKET
+                ;
+        private static readonly String JSON_PART_DELIMITER = StringInvariant.COMMA + StringInvariant.NEW_LINE;
+        internal static void stringBuilderPartsAppendJsonRow(StringBuilder stringBuilder, params String[] partsToAppend) {
+            stringBuilderPartsAppendDelimitedRow(
+                    JSON_PART_INDENTATION_TAG
+                    ,StringInvariant.EMPTY
+                    ,JSON_PART_DELIMITER
+                    ,JSON_ROW_BEFORE_TAG
+                    ,JSON_ROW_AFTER_TAG
+                    ,false
+                    ,false
+                    ,true
+                    ,stringBuilder
+                    ,partsToAppend
+            );
+        }
+        internal static String cleanNewLineAtTheEnd(String str) {
+            int length = str.Length;
+
+            if (length == 0)
+                return str;
+
+            if (str.EndsWith(StringInvariant.NEW_LINE))
+                return str.Substring(0, length - StringInvariant.NEW_LINE.Length);
+
+            return str;
+        }
 		/**
 		 * Converts integer number to hex string (plain text)
 		 *
@@ -540,5 +778,17 @@ namespace org.mariuszgromada.math.mxparser {
 		public static String numberToAsciiString(double number) {
 			return hexString2AsciiString(numberToHexString(number));
 		}
+        public static int countOccurrences(String str, String toFind) {
+            if (str == null || toFind == null) return -1;
+            int strLen = str.Length;
+            int toFindLen = toFind.Length;
+            if (strLen == 0 || toFindLen == 0 || toFindLen > strLen) return 0;
+            return (strLen - str.Replace(toFind, StringInvariant.EMPTY).Length) / toFindLen;
+        }
+        public static int countLines(String text) {
+            if (text == null) return -1;
+            if (text.Length == 0) return 0;
+            return countOccurrences(text, StringInvariant.NEW_LINE) + 1;
+        }
     }
 }

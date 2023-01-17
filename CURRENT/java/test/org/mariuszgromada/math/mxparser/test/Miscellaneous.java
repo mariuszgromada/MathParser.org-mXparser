@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.2.0    2023-01-07
+ * @(#)Miscellaneous.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -416,7 +416,7 @@ class TestStringResources extends StringResources {
         USER_LANGUAGE = "Polish";
         NUMBER_LITERAL = "Literał liczbowy";
         NUMBER = "Liczba";
-        HELP_CONTENT = "Pomoc";
+        ALL_HELP_CONTENT = "Pomoc";
         KEYWORD = "Słowo kluczowe";
         TYPE = "Typ";
         SYNTAX = "Składnia";

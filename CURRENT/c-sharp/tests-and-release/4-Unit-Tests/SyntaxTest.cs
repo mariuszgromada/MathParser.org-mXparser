@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        5.2.0    2023-01-08
+ * @(#)SyntaxTest.cs        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1877,7 +1877,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression(expStr, ff);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			if (syn == Expression.SYNTAX_ERROR)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1891,7 +1891,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Expression e = new Expression(expStr);
 			bool reg = false;
 			bool syn = e.checkSyntax();
-			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			if (syn == Expression.SYNTAX_ERROR)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1908,7 +1908,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			mXparser.unremoveAllBuiltinTokens();
-			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			if (syn == Expression.SYNTAX_ERROR)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
@@ -1925,7 +1925,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool reg = false;
 			bool syn = e.checkSyntax();
 			mXparser.unmodifyAllBuiltinTokens();
-			if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			if (syn == Expression.SYNTAX_ERROR)
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);

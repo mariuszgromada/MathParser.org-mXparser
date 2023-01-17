@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2023-01-07
+ * @(#)mXparser.java        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -337,7 +337,7 @@ public final class mXparser {
 	 * "-+" changed to "-"
 	 * "--" changed to "-"
 	 */
-	static boolean attemptToFixExpStrEnabled = true;
+	static volatile boolean attemptToFixExpStrEnabled = true;
 	/**
 	 * Options changeset
 	 */
@@ -1534,12 +1534,14 @@ public final class mXparser {
 	 * @see mXparser#resetConsoleOutput()
 	 */
 	public static String getConsoleOutput() {
-		return CONSOLE_OUTPUT.toString();
+		synchronized (HELP_EXPRESSION) {
+			return CONSOLE_OUTPUT.toString();
+		}
 	}
 	/**
-	 * General mXparser expression help
+	 * Returns detailed user help on the syntax of mathematical expressions.
 	 *
-	 * @return String with all general help content
+	 * @return One string value containing all the help.
 	 */
 	public static String getHelp() {
 		synchronized (HELP_EXPRESSION) {
@@ -1547,14 +1549,326 @@ public final class mXparser {
 		}
 	}
 	/**
-	 * General mXparser expression help - in-line keyword searching
-	 * @param   word    Keyword to be searched
-	 * @return  String with all help content
-	 * lines containing given keyword
+	 * Returns detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @return One string value containing all the help.
 	 */
-	public static String getHelp(String word) {
+	public static String getHelp(String query) {
 		synchronized (HELP_EXPRESSION) {
-			return HELP_EXPRESSION.getHelp(word);
+			return HELP_EXPRESSION.getHelp(query);
+		}
+	}
+	/**
+	 * Returns detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param addHeader Indicator whether to add a header.
+	 * @param addCaption Indicator whether to add caption.
+	 * @param caption If a non-standard caption is to be added, any string other than ""
+	 * will replace the standard caption with the one specified by the user.
+	 *
+	 * @return One string value containing all the help.
+	 */
+	public static String getHelp(boolean addHeader, boolean addCaption, String caption) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelp(addHeader, addCaption, caption);
+		}
+	}
+	/**
+	 * Returns detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @param addHeader Indicator whether to add a header.
+	 * @param addCaption Indicator whether to add caption.
+	 * @param caption If a non-standard caption is to be added, any string other than ""
+	 *
+	 * @return One string value containing all the help.
+	 */
+	public static String getHelp(String query, boolean addHeader, boolean addCaption, String caption) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelp(query, addHeader, addCaption, caption);
+		}
+	}
+	/**
+	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @return One string value in CSV format containing all the help.
+	 */
+	public static String getHelpAsCsv() {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsCsv();
+		}
+	}
+	/**
+	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @return One string value in CSV format containing all the help.
+	 */
+	public static String getHelpAsCsv(String query) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsCsv(query);
+		}
+	}
+	/**
+	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @param quote Text qualifier.
+	 * @param delimiter Delimiter.
+	 * @param addHeader Indicator whether to add a header.
+	 *
+	 * @return One string value in CSV format containing all the help.
+	 */
+	public static String getHelpAsCsv(String quote, String delimiter, boolean addHeader) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsCsv(quote, delimiter, addHeader);
+		}
+	}
+	/**
+	 * Returns (as CSV) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @param quote Text qualifier.
+	 * @param delimiter Delimiter.
+	 * @param addHeader Indicator whether to add a header.
+	 *
+	 * @return One string value in CSV format containing all the help.
+	 */
+	public static String getHelpAsCsv(String query, String quote, String delimiter, boolean addHeader) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsCsv(query, quote, delimiter, addHeader);
+		}
+	}
+	/**
+	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @return One string value containing all the help. String in HTML table format.
+	 */
+	public static String getHelpAsHtmlTable() {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsHtmlTable();
+		}
+	}
+	/**
+	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @return One string value containing all the help. String in HTML table format.
+	 */
+	public static String getHelpAsHtmlTable(String query) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsHtmlTable(query);
+		}
+	}
+	/**
+	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @param addHeader Indicator whether to add a header.
+	 * @param addCaption Indicator whether to add caption.
+	 * @param addFigure Indicator whether to add a FIGURE tag.
+	 * @param caption If a non-standard caption is to be added, use any string other than "".
+	 * @param cssClass If CSS class is to be added, use any string other than "".
+	 *
+	 * @return One string value containing all the help. String in HTML table format.
+	 */
+	public static String getHelpAsHtmlTable(boolean addHeader, boolean addCaption, boolean addFigure, String caption, String cssClass) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsHtmlTable(addHeader, addCaption, addFigure, caption, cssClass);
+		}
+	}
+	/**
+	 * Returns (as HTML table) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @param addHeader Indicator whether to add a header.
+	 * @param addCaption Indicator whether to add caption.
+	 * @param addFigure Indicator whether to add a FIGURE tag.
+	 * @param caption If a non-standard caption is to be added, use any string other than "".
+	 * @param cssClass If CSS class is to be added, use any string other than "".
+	 *
+	 * @return One string value containing all the help. String in HTML table format.
+	 */
+	public static String getHelpAsHtmlTable(String query, boolean addHeader, boolean addCaption, boolean addFigure, String caption, String cssClass) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsHtmlTable(query, addHeader, addCaption, addFigure, caption, cssClass);
+		}
+	}
+	/**
+	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @return One string value containing all the help. String in Markdown table format.
+	 */
+	public static String getHelpAsMarkdownTable() {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsMarkdownTable();
+		}
+	}
+	/**
+	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+
+	 * @return One string value containing all the help. String in Markdown table format.
+	 */
+	public static String getHelpAsMarkdownTable(String query) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsMarkdownTable(query);
+		}
+	}
+	/**
+	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @param addHeader Indicator whether to add a header.
+	 * @param addCaption Indicator whether to add caption.
+	 * @param caption If a non-standard caption is to be added, use any string other than "".
+	 *
+	 * @return One string value containing all the help. String in Markdown table format.
+	 */
+	public static String getHelpAsMarkdownTable(boolean addHeader, boolean addCaption, String caption) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsMarkdownTable(addHeader, addCaption, caption);
+		}
+	}
+	/**
+	 * Returns (as Markdown table) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @param addHeader Indicator whether to add a header.
+	 * @param addCaption Indicator whether to add caption.
+	 * @param caption If a non-standard caption is to be added, use any string other than "".
+	 *
+	 * @return One string value containing all the help. String in Markdown table format.
+	 */
+	public static String getHelpAsMarkdownTable(String query, boolean addHeader, boolean addCaption, String caption) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsMarkdownTable(query, addHeader, addCaption, caption);
+		}
+	}
+	/**
+	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @return One string value containing all the help. String in Json format.
+	 */
+	public static String getHelpAsJason() {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsJason();
+		}
+	}
+	/**
+	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @return One string value containing all the help. String in Json format.
+	 */
+	public static String getHelpAsJason(String query) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsJason(query);
+		}
+	}
+	/**
+	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
+	 *
+	 * @param addCaption Indicator whether to add caption.
+	 * @param caption If a non-standard caption is to be added, use any string other than "".
+	 *
+	 * @return One string value containing all the help. String in Json format.
+	 */
+	public static String getHelpAsJason(boolean addCaption, String caption) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsJason(addCaption, caption);
+		}
+	}
+	/**
+	 * Returns (as Json) detailed user help on the syntax of mathematical expressions.
+	 * Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
+	 *
+	 * @param addCaption Indicator whether to add caption.
+	 * @param caption If a non-standard caption is to be added, use any string other than "".
+	 *
+	 * @return One string value containing all the help. String in Json format.
+	 */
+	public static String getHelpAsJason(String query, boolean addCaption, String caption) {
+		synchronized (HELP_EXPRESSION) {
+			return HELP_EXPRESSION.getHelpAsJason(query, addCaption, caption);
 		}
 	}
 	/**
@@ -1564,11 +1878,18 @@ public final class mXparser {
 		consolePrintln(getHelp());
 	}
 	/**
-	 * Prints filtered help content.
-	 * @param word      Keyword.
+	 * Prints filtered help content. Allows simple and advanced searches.
+	 *
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
 	 */
-	public static void consolePrintHelp(String word) {
-		consolePrintln(getHelp(word));
+	public static void consolePrintHelp(String query) {
+		consolePrintln(getHelp(query));
 	}
 	/**
 	 * Returns list of keywords known to the parser
@@ -1585,12 +1906,15 @@ public final class mXparser {
 		}
 	}
 	/**
-	 * Returns list of keywords known to the parser
+	 * Returns list of keywords known to the parser. Allows simple and advanced searches.
 	 *
-	 * @param query Give any string to filter list of keywords against this string.
-	 *              User more precise syntax: str=tokenString, desc=tokenDescription,
-	 *              syn=TokenSyntax, sin=tokenSince, wid=wordId, tid=wordTypeId
-	 *              to narrow the result.
+	 * @param query For a simple search, simply enter a word (e.g.: "sine").
+	 * Advanced search is also possible, please use one of the tags below:
+	 * "key=" - keyword (e.g.: "key=sin"), "desc=" - description (e.g.: "desc=trigonometric"),
+	 *  "syn=" - syntax (e.g.: "syn=sin"), "type=" - type (e.g.: "type=unit"),
+	 * "since=" - since (e.g.: "since=4.1"), "typeid=" - please refer to parser tokens
+	 * (e.g.: "typeid=3"), "keyid=" - please refer to parser tokens (e.g.: "keyid=1004").
+	 * Only one tag can be used per search.
 	 *
 	 * @return      List of keywords known to the parser filter against query string.
 	 *
@@ -1722,4 +2046,5 @@ public final class mXparser {
 	public static final String NAMEv44 = "4.4";
 	public static final String NAMEv50 = "5.0";
 	public static final String NAMEv51 = "5.1";
+	public static final String NAMEv52 = "5.2";
 }

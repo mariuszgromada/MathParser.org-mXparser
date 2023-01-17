@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        5.2.0    2023-01-08
+ * @(#)StringResources.cs        5.2.0    2023-01-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -302,7 +302,6 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_EXITING = "Exiting.";
         internal const String DEFAULT_DONE = "done.";
         // -------------------------------------------------
-        internal const String DEFAULT_HELP_CONTENT = "Help content";
         internal const String DEFAULT_KEYWORD = "Keyword";
         internal const String DEFAULT_SYNTAX = "Syntax";
         internal const String DEFAULT_NUMBER = "Number";
@@ -341,6 +340,10 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_USER_DEFINED_CONSTANT = "User defined constant";
         internal const String DEFAULT_USER_DEFINED_FUNCTION = "User defined function";
         internal const String DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT = "User defined recursive argument";
+        // -------------------------------------------------
+        internal const String DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY = "Help content limited to query";
+        internal const String DEFAULT_ALL_HELP_CONTENT = "All help content.";
+        internal const String DEFAULT_CAPTION = "Caption";
         // -------------------------------------------------
         internal static readonly String DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS = "SECURITY WARNING:" + StringInvariant.NEW_LINE
                         + "Deserializing data from an untrusted source can introduce security vulnerabilities" + StringInvariant.NEW_LINE
@@ -1138,10 +1141,6 @@ namespace org.mariuszgromada.math.mxparser {
         public String DONE = DEFAULT_DONE;
         // -------------------------------------------------
         /**
-         * Default String = "Help content"
-         */
-        public String HELP_CONTENT = DEFAULT_HELP_CONTENT;
-        /**
          * Default String = "Keyword"
          */
         public String KEYWORD = DEFAULT_KEYWORD;
@@ -1284,6 +1283,19 @@ namespace org.mariuszgromada.math.mxparser {
          * Default String = "User defined recursive argument"
          */
         public String USER_DEFINED_RECURSIVE_ARGUMENT = DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT;
+        // -------------------------------------------------
+        /**
+         * Default String = "Help content limited to query"
+         */
+        public String HELP_CONTENT_LIMITED_TO_QUERY = DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY;
+        /**
+         * Default String = "All help content."
+         */
+        public String ALL_HELP_CONTENT = DEFAULT_ALL_HELP_CONTENT;
+        /**
+         * Default String = "Caption"
+         */
+        public String CAPTION = DEFAULT_CAPTION;
         // -------------------------------------------------
         /**
          * Default String = "Deserializing data from an untrusted source can introduce security vulnerabilities to your application."
@@ -2988,7 +3000,6 @@ namespace org.mariuszgromada.math.mxparser {
             }
             currentValueNew = quoteString(currentValue);
             StringUtils.consolePrintln(nameStr + " = [VAL]" + currentValueNew + " [DEF]" + defaultValueNew);
-            return;
         }
         private static void printResources(StringResources stringResources, bool printDefault) {
             printCurrentVsDefault("USER_LANGUAGE", stringResources.USER_LANGUAGE, DEFAULT_USER_LANGUAGE, printDefault);
@@ -3090,7 +3101,6 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("EXITING", stringResources.EXITING, DEFAULT_EXITING, printDefault);
             printCurrentVsDefault("DONE", stringResources.DONE, DEFAULT_DONE, printDefault);
             StringUtils.consolePrintln("// -------------------------------------------------");
-            printCurrentVsDefault("HELP_CONTENT", stringResources.HELP_CONTENT, DEFAULT_HELP_CONTENT, printDefault);
             printCurrentVsDefault("KEYWORD", stringResources.KEYWORD, DEFAULT_KEYWORD, printDefault);
             printCurrentVsDefault("SYNTAX", stringResources.SYNTAX, DEFAULT_SYNTAX, printDefault);
             printCurrentVsDefault("NUMBER", stringResources.NUMBER, DEFAULT_NUMBER, printDefault);
@@ -3129,6 +3139,10 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("USER_DEFINED_CONSTANT", stringResources.USER_DEFINED_CONSTANT, DEFAULT_USER_DEFINED_CONSTANT, printDefault);
             printCurrentVsDefault("USER_DEFINED_FUNCTION", stringResources.USER_DEFINED_FUNCTION, DEFAULT_USER_DEFINED_FUNCTION, printDefault);
             printCurrentVsDefault("USER_DEFINED_RECURSIVE_ARGUMENT", stringResources.USER_DEFINED_RECURSIVE_ARGUMENT, DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT, printDefault);
+            StringUtils.consolePrintln("// -------------------------------------------------");
+            printCurrentVsDefault("HELP_CONTENT_LIMITED_TO_QUERY", stringResources.HELP_CONTENT_LIMITED_TO_QUERY, DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY, printDefault);
+            printCurrentVsDefault("ALL_HELP_CONTENT", stringResources.ALL_HELP_CONTENT, DEFAULT_ALL_HELP_CONTENT, printDefault);
+            printCurrentVsDefault("CAPTION", stringResources.CAPTION, DEFAULT_CAPTION, printDefault);
             StringUtils.consolePrintln("// -------------------------------------------------");
             printCurrentVsDefault("WARNING_BINARY_SERIALIZATION_SECURITY_RISKS", stringResources.WARNING_BINARY_SERIALIZATION_SECURITY_RISKS, DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS, printDefault);
             StringUtils.consolePrintln("// -------------------------------------------------");
