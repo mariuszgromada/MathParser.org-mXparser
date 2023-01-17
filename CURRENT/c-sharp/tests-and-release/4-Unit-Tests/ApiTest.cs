@@ -9062,7 +9062,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0301() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason()";
+			String testDescr = "mXparser API - getHelpAsJson()";
 			TestCommonTools.consolePrintTestApiStart(301, testDescr);
 			int elementsNumber = mXparser.getKeyWords().Count;
 			String help = mXparser.getHelpAsJson();
@@ -9122,7 +9122,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0302() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = '')";
+			String testDescr = "mXparser API - getHelpAsJson(addCaption = true, caption = '')";
 			TestCommonTools.consolePrintTestApiStart(302, testDescr);
 			int elementsNumber = mXparser.getKeyWords().Count;
 			String help = mXparser.getHelpAsJson(true, "");
@@ -9182,7 +9182,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0303() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(addCaption = true, caption = 'This is a caption')";
+			String testDescr = "mXparser API - getHelpAsJson(addCaption = true, caption = 'This is a caption')";
 			TestCommonTools.consolePrintTestApiStart(303, testDescr);
 			String captionText = "This is a caption";
 			int elementsNumber = mXparser.getKeyWords().Count;
@@ -9243,7 +9243,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0304() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(addCaption = false, caption = 'This is a caption')";
+			String testDescr = "mXparser API - getHelpAsJson(addCaption = false, caption = 'This is a caption')";
 			TestCommonTools.consolePrintTestApiStart(304, testDescr);
 			String captionText = "This is a caption";
 			int elementsNumber = mXparser.getKeyWords().Count;
@@ -9304,7 +9304,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0305() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(query)";
+			String testDescr = "mXparser API - getHelpAsJson(query)";
 			TestCommonTools.consolePrintTestApiStart(305, testDescr);
 			String query = "sine";
 			int elementsNumber = mXparser.getKeyWords(query).Count;
@@ -9366,7 +9366,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0306() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(query, addCaption = true, caption = '')";
+			String testDescr = "mXparser API - getHelpAsJson(query, addCaption = true, caption = '')";
 			TestCommonTools.consolePrintTestApiStart(306, testDescr);
 			String query = "sine";
 			int elementsNumber = mXparser.getKeyWords(query).Count;
@@ -9428,7 +9428,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0307() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(query, addCaption = true, caption = 'This is a caption')";
+			String testDescr = "mXparser API - getHelpAsJson(query, addCaption = true, caption = 'This is a caption')";
 			TestCommonTools.consolePrintTestApiStart(307, testDescr);
 			String captionText = "This is a caption";
 			String query = "sine";
@@ -9491,7 +9491,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 		public void testApi0308() {
 			TestCommonTools.testApiSettingsInit();
 			bool testResult = false;
-			String testDescr = "mXparser API - getHelpAsJason(query, addCaption = false, caption = 'This is a caption')";
+			String testDescr = "mXparser API - getHelpAsJson(query, addCaption = false, caption = 'This is a caption')";
 			TestCommonTools.consolePrintTestApiStart(308, testDescr);
 			String captionText = "This is a caption";
 			String query = "sine";
