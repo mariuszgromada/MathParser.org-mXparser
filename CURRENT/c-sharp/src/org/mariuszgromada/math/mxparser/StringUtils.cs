@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.cs        5.2.0    2023-01-17
+ * @(#)StringUtils.cs        5.2.0    2023-01-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -462,6 +462,12 @@ namespace org.mariuszgromada.math.mxparser {
         }
         internal static void consolePrintln(Object o) {
             mXparser.consoleWriteLine(o);
+        }
+        internal static void errorPrintln() {
+            Console.Error.WriteLine();
+        }
+        internal static void errorPrintln(Object o) {
+            Console.Error.WriteLine(o);
         }
         internal static String cleanForHtml(String text) {
             return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");

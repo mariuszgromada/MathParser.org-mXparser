@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2023-01-17
+ * @(#)StringUtils.java        5.2.0    2023-01-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -454,6 +454,12 @@ public final class StringUtils {
     }
     static void consolePrintln(Object o) {
         System.out.println(o);
+    }
+    static void errorPrintln() {
+        System.err.println();
+    }
+    static void errorPrintln(Object o) {
+        System.err.println(o);
     }
     static String cleanForHtml(String text) {
         return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");

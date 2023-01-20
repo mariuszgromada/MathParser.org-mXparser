@@ -1,5 +1,5 @@
 /*
- * @(#)License.java        5.2.0    2023-01-07
+ * @(#)License.java        5.2.0    2023-01-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -227,7 +227,7 @@ public class License {
 	}
 	private static void setErrorMessage(MessageType type, String errorMessage) {
 		License.errorMessage = type + ": " + errorMessage;
-		mXparser.consolePrintln(License.errorMessage);
+		StringUtils.errorPrintln(License.errorMessage);
 	}
 	private static void setMessageConfirmedCommercial() {
 		message = "You \"" + signature + "\" have confirmed the commercial use according to the License.geTermsOfAgreement(). Thank you.";
