@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        5.2.0    2023-01-17
+ * @(#)Expression.cs        5.2.0    2023-01-20
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -2030,13 +2030,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double value;
 			try {
 				value = function.calculate(calcStepsRegister);
-			} catch (
-				#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETCOREAPP1_0 || NETCOREAPP1_1
-					Exception
-				#else
-					StackOverflowException
-				#endif
-			soe) {
+			} catch (StackOverflowException soe) {
 				value = Double.NaN;
 				errorMessage = StringUtils.trimNotNull(soe.Message);
 			}

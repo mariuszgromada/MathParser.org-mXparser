@@ -6,11 +6,7 @@ using System.IO;
 
 public class SyntaxCheckerTokenManager : SyntaxCheckerConstants
 {
-#if PCL || NETSTANDARD
-		public System.IO.TextWriter debugStream = new System.IO.StreamWriter(new System.IO.MemoryStream());
-#else
-        public System.IO.TextWriter debugStream = new System.IO.StreamWriter(System.Console.OpenStandardError());
-#endif
+  public System.IO.TextWriter debugStream = new System.IO.StreamWriter(System.Console.OpenStandardError());
   public  void setDebugStream(System.IO.TextWriter ds) { debugStream = ds; }
 private int jjStopStringLiteralDfa_0(int pos, long active0, ulong active1, long active2)
 {

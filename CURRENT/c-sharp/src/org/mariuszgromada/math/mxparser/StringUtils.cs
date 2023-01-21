@@ -458,10 +458,10 @@ namespace org.mariuszgromada.math.mxparser {
 			return str + spc;
 		}
         internal static void consolePrintln() {
-            mXparser.consoleWriteLine();
+            Console.WriteLine();
         }
         internal static void consolePrintln(Object o) {
-            mXparser.consoleWriteLine(o);
+            Console.WriteLine(o);
         }
         internal static void errorPrintln() {
             Console.Error.WriteLine();

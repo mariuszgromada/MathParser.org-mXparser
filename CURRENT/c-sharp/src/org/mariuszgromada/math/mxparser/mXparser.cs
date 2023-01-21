@@ -1496,27 +1496,6 @@ namespace org.mariuszgromada.math.mxparser {
 				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
 			}
 		}
-		internal static void consoleWriteLine(Object o) {
-#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
-				System.Diagnostics.Debug.WriteLine(o);
-#else
-				Console.WriteLine(o);
-#endif
-		}
-		internal static void consoleWriteLine() {
-#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
-				System.Diagnostics.Debug.WriteLine(StringInvariant.EMPTY);
-#else
-				Console.WriteLine();
-#endif
-		}
-		internal static void consoleWrite(Object o) {
-#if PCL || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2
-				System.Diagnostics.Debug.WriteLine(o);
-#else
-				Console.Write(o);
-#endif
-		}
 		/**
 		 * Prints object.toString to the Console + new line
 		 *
@@ -1525,9 +1504,9 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void consolePrintln(Object o) {
 			lock (CONSOLE_OUTPUT) {
 				initConsoleOutput();
-				consoleWriteLine(o);
+                Console.WriteLine(o);
 				CONSOLE_ROW_NUMBER++;
-				consoleWrite(CONSOLE_PREFIX);
+                Console.Write(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT.Append(o);
 				CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
 				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
@@ -1553,9 +1532,9 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void consolePrintln() {
 			lock (CONSOLE_OUTPUT) {
 				initConsoleOutput();
-				consoleWriteLine();
+				Console.WriteLine();
 				CONSOLE_ROW_NUMBER++;
-				consoleWrite(CONSOLE_PREFIX);
+				Console.Write(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
 				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
     		}
@@ -1568,7 +1547,7 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void consolePrint(Object o) {
 			lock (CONSOLE_OUTPUT) {
 				initConsoleOutput();
-				consoleWrite(o);
+				Console.Write(o);
 				CONSOLE_OUTPUT.Append(o);
     		}
 		}
