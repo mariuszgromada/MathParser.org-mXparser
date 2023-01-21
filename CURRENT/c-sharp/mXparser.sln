@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1-Current-Dev", "1-Current-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2-Release-Net-Stand-Core", "tests-and-release\2-Release-Net-Stand-Core\2-Release-Net-Stand-Core.csproj", "{0EB53F5E-2047-40D1-A469-C77430F4E1DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4-Unit-Tests", "tests-and-release\4-Unit-Tests\4-Unit-Tests.csproj", "{AF2CEA7A-E6C3-4D07-9F64-7B109CDE1A2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4-Unit-Tests-Core", "tests-and-release\4-Unit-Tests-Core\4-Unit-Tests-Core.csproj", "{AF2CEA7A-E6C3-4D07-9F64-7B109CDE1A2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5-Working-Tests", "tests-and-release\5-Working-Tests\5-Working-Tests.csproj", "{C5A387F5-7E16-4DB5-8517-6DB1B55B5D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "7-Working-Tests", "tests-and-release\7-Working-Tests\7-Working-Tests.csproj", "{C5A387F5-7E16-4DB5-8517-6DB1B55B5D9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
