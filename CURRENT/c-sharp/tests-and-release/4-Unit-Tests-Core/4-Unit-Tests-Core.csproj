@@ -9,13 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\2-Release-Net-Stand-Core\2-Release-Net-Stand-Core.csproj" />
+    <ProjectReference Include="..\8-Lib-Test-Core\8-Lib-Test-Core.csproj" />
   </ItemGroup>
 
 </Project>

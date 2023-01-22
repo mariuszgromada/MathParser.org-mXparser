@@ -1,41 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net35;net40;net45;net461;net47;net48;netstandard2.0;netstandard2.1;netcoreapp2.0;netcoreapp3.1;net50;net60</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
-    <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>5.2.0</Version>
-    <AssemblyVersion>5.2.0.0</AssemblyVersion>
-    <FileVersion>5.2.0.0</FileVersion>
-    <Authors>Mariusz Gromada - MathParser.org</Authors>
-    <Company>Mariusz Gromada - MathParser.org</Company>
-    <Product>mXparser</Product>
-    <Description>A flexible mathematical expressions parser for JAVA and C# .NET</Description>
-    <Copyright>Copyright © Mariusz Gromada 2010 - 2022</Copyright>
-    <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageProjectUrl>https://mathparser.org</PackageProjectUrl>
-    <PackageIconUrl></PackageIconUrl>
-    <RepositoryUrl>https://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
-    <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>v.5.1 Libris</PackageReleaseNotes>
-    <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\pfx-keys\mariuszgromada.org.pfx</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;RELEASE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs" Link="src\org\mariuszgromada\math\mxparser\Argument.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Constant.cs" Link="src\org\mariuszgromada\math\mxparser\Constant.cs" />
@@ -104,10 +74,5 @@
     <Folder Include="src\org\mariuszgromada\math\mxparser\syntaxchecker\" />
     <Folder Include="src\org\mariuszgromada\math\mxparser\parsertokens\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+
 </Project>
