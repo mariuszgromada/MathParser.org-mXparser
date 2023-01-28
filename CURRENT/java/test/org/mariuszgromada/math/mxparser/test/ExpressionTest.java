@@ -4623,7 +4623,7 @@ public final class ExpressionTest {
         String expStr = "5^2 * 7^3 * 11^1 * 67^1 * 49201^1";
         TestCommonTools.consolePrintTestExprStart(287, expStr);
         Expression testExp = new Expression(expStr);
-        String hello = mXparser.numberToAsciiString(testExp.calculate());
+        String hello = StringUtils.numberToAsciiString(testExp.calculate());
         String regHello = "Hello";
         if ( regHello.equals(hello) )
             testResult = true;
@@ -4637,7 +4637,7 @@ public final class ExpressionTest {
         String expStr = "71^1 * 218549^1 * 6195547^1";
         TestCommonTools.consolePrintTestExprStart(288, expStr);
         Expression testExp = new Expression(expStr);
-        String world = mXparser.numberToAsciiString(testExp.calculate());
+        String world = StringUtils.numberToAsciiString(testExp.calculate());
         String regWorld = "World!";
         if ( regWorld.equals(world) )
             testResult = true;

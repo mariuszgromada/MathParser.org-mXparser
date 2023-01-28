@@ -385,14 +385,14 @@ public class RecursiveArgument extends Argument implements Serializable {
 		 * if recursive counter is still lower than starting index
 		 * and current index is not increasing
 		 */
-		if (idx >= 0 && idx < recSize && !Double.isNaN(baseValues.get(idx).doubleValue())) {
+		if (idx >= 0 && idx < recSize && !Double.isNaN(baseValues.get(idx))) {
 			/*
 			 * decrease recursive counter and return value
 			 * if recursive value for the current index was already
 			 * calculated and remembered in the base values table
 			 */
 			recursiveCounter--;
-			return baseValues.get(idx).doubleValue();
+			return baseValues.get(idx);
 		}
 		if (idx < 0) {
 			/*

@@ -1038,10 +1038,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 		for (PrimitiveElement e : elements) {
 			if (e == null) continue;
 			switch (e.getMyTypeId()) {
-				case Argument.TYPE_ID: addArguments((Argument)e); break;
-				case Constant.TYPE_ID: addConstants((Constant)e); break;
-				case Function.TYPE_ID: addFunctions((Function)e); break;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: addArguments((Argument)e); break;
+				case Argument.TYPE_ID:
+				case RecursiveArgument.TYPE_ID_RECURSIVE:
+					addArguments((Argument)e);
+					break;
+				case Constant.TYPE_ID:
+					addConstants((Constant)e);
+					break;
+				case Function.TYPE_ID:
+					addFunctions((Function)e);
+					break;
 			}
 		}
 	}
@@ -1058,10 +1064,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 		for (PrimitiveElement e : elements) {
 			if (e == null) continue;
 			switch (e.getMyTypeId()) {
-				case Argument.TYPE_ID: removeArguments((Argument)e); break;
-				case Constant.TYPE_ID: removeConstants((Constant)e); break;
-				case Function.TYPE_ID: removeFunctions((Function)e); break;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: removeArguments((Argument)e); break;
+				case Argument.TYPE_ID:
+				case RecursiveArgument.TYPE_ID_RECURSIVE:
+					removeArguments((Argument)e);
+					break;
+				case Constant.TYPE_ID:
+					removeConstants((Constant)e);
+					break;
+				case Function.TYPE_ID:
+					removeFunctions((Function)e);
+					break;
 			}
 		}
 	}
@@ -3402,8 +3414,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void RND_VAR_UNIFORM_DISCR(int pos) {
-		int a = (int)getTokenValue(pos+1);
-		int b = (int)getTokenValue(pos+2);
+		double a = getTokenValue(pos+1);
+		double b = getTokenValue(pos+2);
 		f2SetDecreaseRemove(pos, ProbabilityDistributions.rndInteger(a, b, ProbabilityDistributions.randomGenerator) );
 	}
 	/**
@@ -3615,7 +3627,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		double result = ifFalse;
 		if (ifCondition != 0)
 			result = ifTrue;
-		if (ifCondition == Double.NaN)
+		if (Double.isNaN(ifCondition))
 			result = Double.NaN;
 		f3SetDecreaseRemove(pos, result );
 	}
@@ -4603,9 +4615,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (param.tokens.size() > 1)
 			return false;
 		Token t = param.tokens.get(0);
-		if (t.tokenTypeId != Argument.TYPE_ID)
-			return false;
-		return true;
+		return t.tokenTypeId == Argument.TYPE_ID;
 	}
 	/**
 	 * Checks if token is uknown
@@ -4619,16 +4629,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (param.tokens.size() > 1)
 			return false;
 		Token t = param.tokens.get(0);
-		if (t.tokenTypeId != ConstantValue.NaN)
-			return false;
-		return true;
+		return t.tokenTypeId == ConstantValue.NaN;
 	}
 	// ======================================================
 	// Syntax checking logic
 	private boolean syntaxIsAlreadyCheckedNorErrors() {
-		if (!expressionWasModified && syntaxStatus == NO_SYNTAX_ERRORS && optionsChangesetNumber == mXparser.optionsChangesetNumber)
-			return true;
-		return false;
+		return !expressionWasModified && syntaxStatus == NO_SYNTAX_ERRORS && optionsChangesetNumber == mXparser.optionsChangesetNumber;
 	}
 	private void registerFinalSyntaxAlreadyCheckedNorErrors(String recursionInfoLevel) {
 		errorMessage = StringModel.startErrorMassage(recursionInfoLevel, StringModel.STRING_RESOURCES.ALREADY_CHECKED_NO_ERRORS);
@@ -5879,23 +5885,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (tokenMinus2.tokenTypeId == CalculusOperator.TYPE_ID) {
 				switch (tokenMinus2.tokenId) {
 					case CalculusOperator.SUM_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.PROD_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.AVG_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.VAR_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.STD_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.MIN_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.MAX_ID:
 						argumentNameFound = true;
 						break;
@@ -5908,26 +5902,12 @@ public class Expression extends PrimitiveElement implements Serializable {
 			if (tokenMinus4.tokenTypeId == CalculusOperator.TYPE_ID) {
 				switch (tokenMinus4.tokenId) {
 					case CalculusOperator.INT_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.DER_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.DER_LEFT_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.DER_RIGHT_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.DERN_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.FORW_DIFF_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.BACKW_DIFF_ID:
-						argumentNameFound = true;
-						break;
 					case CalculusOperator.SOLVE_ID:
 						argumentNameFound = true;
 						break;
@@ -6006,9 +5986,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void addFractionToken(Token token) {
 		int underscore1stPos = token.tokenStr.indexOf('_');
 		int underscore2ndPos = token.tokenStr.indexOf('_', underscore1stPos + 1);
-		boolean mixedFraction = false;
-		if (underscore2ndPos > 0)
-			mixedFraction = true;
+		boolean mixedFraction = underscore2ndPos > 0;
 		double fractionValue;
 		if (mixedFraction) {
 			String wholeStr = token.tokenStr.substring(0, underscore1stPos);
@@ -6426,7 +6404,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (token.tokenTypeId == Argument.TYPE_ID) {
 			token.tokenValue = argumentsList.get(token.tokenId).argumentValue;
 		} else if (token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID) {
-			token.tokenValue = Double.valueOf(token.tokenStr);
+			token.tokenValue = Double.parseDouble(token.tokenStr);
 			token.keyWord = ParserSymbol.NUMBER_STR;
 		} else if (token.tokenTypeId == Token.NOT_MATCHED) {
 			boolean alternativeMatchFound = checkArgumentNameInCalculusOperator(token);

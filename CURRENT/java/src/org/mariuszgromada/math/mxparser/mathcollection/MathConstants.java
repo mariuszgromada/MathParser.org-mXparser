@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.java        5.2.0    2022-12-23
+ * @(#)MathConstants.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -443,7 +443,7 @@ public final class MathConstants {
 	 * Returns constant value, where constant is represented by the
 	 * token id in the ConstantValue class
 	 *
-	 * @param constantValueId
+	 * @param constantValueId Please refer to the ConstantValue class.
 	 * @return Returns constant value if id is known, otherwise Double.NaN is returned.
 	 *
 	 * @see ConstantValue

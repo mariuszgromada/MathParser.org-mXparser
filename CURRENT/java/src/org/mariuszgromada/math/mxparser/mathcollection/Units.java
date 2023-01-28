@@ -180,7 +180,6 @@
  */
 package org.mariuszgromada.math.mxparser.mathcollection;
 
-import org.mariuszgromada.math.mxparser.parsertokens.ConstantValue;
 import org.mariuszgromada.math.mxparser.parsertokens.Unit;
 
 /**

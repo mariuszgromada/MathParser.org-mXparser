@@ -1,5 +1,5 @@
 /*
- * @(#)KeyWord.cs        5.1.0    2022-11-11
+ * @(#)KeyWord.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.0
      */
     [CLSCompliant(true), Serializable]
     public class KeyWord {
@@ -248,12 +248,13 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static bool isFunctionForm(KeyWord kw) {
 			if (kw == null) return false;
 			switch (kw.wordTypeId) {
-				case Function1Arg.TYPE_ID: return true;
-				case Function2Arg.TYPE_ID: return true;
-				case Function3Arg.TYPE_ID: return true;
-				case FunctionVariadic.TYPE_ID: return true;
-				case Function.TYPE_ID: return true;
-				case RecursiveArgument.TYPE_ID_RECURSIVE: return true;
+				case Function1Arg.TYPE_ID:
+				case Function2Arg.TYPE_ID:
+				case Function3Arg.TYPE_ID:
+				case FunctionVariadic.TYPE_ID:
+				case Function.TYPE_ID:
+				case RecursiveArgument.TYPE_ID_RECURSIVE:
+					return true;
 				default: return false;
 			}
 		}

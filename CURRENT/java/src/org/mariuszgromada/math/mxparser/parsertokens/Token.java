@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        5.2.0    2023-01-07
+ * @(#)Token.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -276,10 +276,7 @@ public class Token implements Serializable {
 	 * otherwise returns false
 	 */
 	public boolean isLeftParenthesis() {
-		if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.LEFT_PARENTHESES_ID)
-			return true;
-		else
-			return false;
+		return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.LEFT_PARENTHESES_ID;
 	}
 	/**
 	 * Verification if the token is a right parenthesis.
@@ -288,10 +285,7 @@ public class Token implements Serializable {
 	 * otherwise returns false
 	 */
 	public boolean isRightParenthesis() {
-		if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
-			return true;
-		else
-			return false;
+		return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.RIGHT_PARENTHESES_ID;
 	}
 	/**
 	 * Verification if the token is an identifier.
@@ -300,13 +294,10 @@ public class Token implements Serializable {
 	 * otherwise returns false
 	 */
 	public boolean isIdentifier() {
-		if (	tokenTypeId == Constant.TYPE_ID ||
+		return tokenTypeId == Constant.TYPE_ID ||
 				tokenTypeId == ConstantValue.TYPE_ID ||
 				tokenTypeId == Unit.TYPE_ID ||
-				tokenTypeId == Argument.TYPE_ID )
-			return true;
-		else
-			return false;
+				tokenTypeId == Argument.TYPE_ID;
 	}
 	/**
 	 * Verification if the token is a binary operator.
@@ -321,12 +312,11 @@ public class Token implements Serializable {
 		if (tokenTypeId == BitwiseOperator.TYPE_ID) return true;
 		if (tokenTypeId == BooleanOperator.TYPE_ID) return true;
 		if (tokenTypeId == Operator.TYPE_ID) {
-			if (	tokenId != Operator.SQUARE_ROOT_ID
+			return tokenId != Operator.SQUARE_ROOT_ID
 					&& tokenId != Operator.CUBE_ROOT_ID
 					&& tokenId != Operator.FOURTH_ROOT_ID
 					&& tokenId != Operator.FACT_ID
-					&& tokenId != Operator.PERC_ID
-			)  return true;
+					&& tokenId != Operator.PERC_ID;
 		}
 		return false;
 	}
@@ -337,10 +327,7 @@ public class Token implements Serializable {
 	 * otherwise returns false
 	 */
 	public boolean isParameterSeparator() {
-		if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.COMMA_ID)
-			return true;
-		else
-			return false;
+		return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.COMMA_ID;
 	}
 	/**
 	 * Verification if the token is a number.
@@ -349,10 +336,7 @@ public class Token implements Serializable {
 	 * otherwise returns false
 	 */
 	public boolean isNumber() {
-		if (tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && tokenId == ParserSymbol.NUMBER_ID)
-			return true;
-		else
-			return false;
+		return tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && tokenId == ParserSymbol.NUMBER_ID;
 	}
 	/**
 	 * Verification if the token is represented by a special name in the form [...].
@@ -362,8 +346,7 @@ public class Token implements Serializable {
 	 */
 	public boolean isSpecialTokenName() {
 		if (tokenStr.length() == 0) return false;
-		if (tokenStr.charAt(0) == '[') return true;
-		else return false;
+		return tokenStr.charAt(0) == '[';
 	}
 	/**
 	 * Verification if the token represents unicode root operator

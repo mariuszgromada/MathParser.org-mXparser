@@ -1,5 +1,5 @@
 /*
- * @(#)MathConstants.cs        5.2.0    2022-12-23
+ * @(#)MathConstants.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -439,16 +439,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Not-a-Number
 		 */
 		public const double NOT_A_NUMBER = Double.NaN;
-		/**
+        /**
 		 * Returns constant value, where constant is represented by the
 		 * token id in the ConstantValue class
 		 * 
-		 * @param constantValueId
+		 * @param constantValueId Please refer to the ConstantValue class.
 		 * @return Returns constant value if id is known, otherwise Double.NaN is returned.
 		 * 
 		 * @see ConstantValue
 		 */
-		public static double getConstantValue(int constantValueId) {
+        public static double getConstantValue(int constantValueId) {
 			switch (constantValueId) {
 				case ConstantValue.PI_ID: return MathConstants.PI;
 				case ConstantValue.EULER_ID: return MathConstants.E;

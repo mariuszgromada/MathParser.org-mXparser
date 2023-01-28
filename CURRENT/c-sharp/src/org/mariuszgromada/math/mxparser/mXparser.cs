@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.0    2023-01-17
+ * @(#)mXparser.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:

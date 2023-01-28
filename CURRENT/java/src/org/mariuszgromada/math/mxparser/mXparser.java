@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.0    2023-01-17
+ * @(#)mXparser.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -463,7 +463,7 @@ public final class mXparser {
 		int size = numbers.size();
 		double[] newNumbers = new double[size];
 		for (int i = 0; i < size; i++)
-			newNumbers[i] = numbers.get(i).doubleValue();
+			newNumbers[i] = numbers.get(i);
 		return newNumbers;
 	}
 	/**

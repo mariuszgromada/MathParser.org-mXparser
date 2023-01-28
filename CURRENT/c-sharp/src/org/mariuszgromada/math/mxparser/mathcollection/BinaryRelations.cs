@@ -1,5 +1,5 @@
 /*
- * @(#)BinaryRelations.cs        5.0.4    2022-05-22
+ * @(#)BinaryRelations.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BinaryRelations {
@@ -297,8 +297,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see #DEFAULT_COMPARISON_EPSILON
 		 */
 		public static bool isEqualOrAlmost(double a, double b) {
-			if (Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-			else return false;
+			return Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
 		/**
 		 * Inequality relation.

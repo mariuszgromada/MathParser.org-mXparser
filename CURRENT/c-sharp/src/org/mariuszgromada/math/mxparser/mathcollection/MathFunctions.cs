@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        5.2.0    2023-01-07
+ * @(#)MathFunctions.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -635,18 +635,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static double Stirling1Number(int n, int k, int recursionCall) {
 			if (recursionCall > MAX_RECURSION_CALLS)
 				return Double.NaN;
-			if (k > n)
-				return 0;
+			if (k > n) return 0;
 			if (n == 0)
-				if (k == 0)
-					return 1;
-				else
-					return 0;
-			if (k == 0)
-				if (n == 0)
-					return 1;
-				else
-					return 0;
+				if (k == 0) return 1;
+				else return 0;
+			if (k == 0) return 0;
+
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			double s1 = Stirling1Number(n - 1, k, recursionCall + 1);
 			if (Double.IsNaN(s1))
@@ -690,18 +684,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static double Stirling2Number(int n, int k, int recursionCall) {
 			if (recursionCall > MAX_RECURSION_CALLS)
 				return Double.NaN;
-			if (k > n)
-				return 0;
+			if (k > n) return 0;
 			if (n == 0)
-				if (k == 0)
-					return 1;
-				else
-					return 0;
-			if (k == 0)
-				if (n == 0)
-					return 1;
-				else
-					return 0;
+				if (k == 0) return 1;
+				else return 0;
+			if (k == 0) return 0;
+
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 			double s1 = Stirling2Number(n - 1, k, recursionCall + 1);
 			if (Double.IsNaN(s1))
@@ -737,7 +725,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double worpitzkyNumber(int n, int k) {
 			double result = Double.NaN;
-			if ( (n >= 0) && (k >= 0) && (k <= n) ){
+			if (k >= 0 && k <= n) {
 				result = 0;
 				for (int v = 0; v <= k; v++) {
 					result += Math.Pow(-1, v + k) * Math.Pow(v + 1, n) * binomCoeff(k, v);
@@ -1187,8 +1175,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static bool isAlmostInt(double a) {
 			double aint = Math.Round(a);
-			if (abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-			else return false;
+            return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
 		private static double shorterResult(decimal dr, double r) {
 			if (Double.IsNaN(r)) return Double.NaN;
@@ -1309,8 +1296,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public static double power(double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
-			if (Double.IsInfinity(a)) Math.Pow(a, b);
-			if (Double.IsInfinity(b)) Math.Pow(a, b);
+			if (Double.IsInfinity(a)) return Math.Pow(a, b);
+			if (Double.IsInfinity(b)) return Math.Pow(a, b);
 			double babs = Math.Abs(b);
 			double bint = Math.Round(babs);
 			if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON && babs < int.MaxValue && -babs > int.MinValue) {
@@ -1345,8 +1332,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return    Returns root of a number. If calculation is not possible Double.NaN is returned.
 		 */
 		public static double root(double n, double x) {
-			if (Double.IsNaN(n) || Double.IsNaN(n)) return Double.NaN;
-			if (Double.IsInfinity(n) || Double.IsInfinity(n)) return Double.NaN;
+			if (Double.IsNaN(n) || Double.IsNaN(x)) return Double.NaN;
+			if (Double.IsInfinity(n) || Double.IsInfinity(x)) return Double.NaN;
 			if (n < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 			if (abs(n) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
 				if (abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
@@ -2610,7 +2597,6 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static double coalesce(double[] values) {
 			if (values == null) return Double.NaN;
-			if (values.Length == 0) return Double.NaN;
 			foreach (double v in values) {
 				if (!Double.IsNaN(v)) return v;
 				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
@@ -2631,8 +2617,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNegativeInfinity(x)) return false;
 			if (x < 0) x = -x;
 			double round = Math.Round(x);
-			if (Math.Abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-			else return false;
+			return Math.Abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
 		/**
 		 * Check whether two double values are almost equal.
@@ -2647,8 +2632,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(a)) return false;
 			if (Double.IsNaN(b)) return false;
 			if (a == b) return true;
-			if (Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-			return false;
+			return Math.Abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
 
 		/**

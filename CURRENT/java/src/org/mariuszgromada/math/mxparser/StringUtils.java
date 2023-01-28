@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        5.2.0    2023-01-20
+ * @(#)StringUtils.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -431,23 +431,23 @@ public final class StringUtils {
         if (pos >= len) return false;
         return str.charAt(pos) == '(';
     }
+    static String repeatString(String str, int times) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < times; i++)
+            result.append(str);
+        return result.toString();
+    }
     /*
      * Text adjusting.
      */
     static String getLeftSpaces(String maxStr, String str) {
-        String spc = StringInvariant.EMPTY;
-        for (int i=0; i<maxStr.length() - str.length(); i++)
-            spc = spc + StringInvariant.SPACE;
-        return spc + str;
+        return repeatString(StringInvariant.SPACE, maxStr.length() - str.length()) + str;
     }
     /*
      * Text adjusting.
      */
     static String getRightSpaces(String maxStr, String str) {
-        String spc = StringInvariant.EMPTY;
-        for (int i=0; i<maxStr.length() - str.length(); i++)
-            spc = StringInvariant.SPACE + spc;
-        return str + spc;
+        return str + repeatString(StringInvariant.SPACE, maxStr.length() - str.length());
     }
     static void consolePrintln() {
         System.out.println();

@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cs        5.2.0    2023-01-07
+ * @(#)NumberTheory.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -181,6 +181,7 @@
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
@@ -344,15 +345,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			return maxIndex + 1;
 		}
-		/**
-		 * Sorting array - ascending - quick sort algorithm.
+        /**
+		 * Sorting array - ascending - quick sort algorithm. Initial ordering swapped according to sort order.
 		 * @param array         Array to be sorted
 		 * @param initOrder     Array to be swapped together with sorted array
 		 * @param leftIndex     Starting left index.
 		 * @param rightIndex    Starting right index.
-		 * @return              Initial ordering swapped according to sort order.
 		 */
-		private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
+        private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
 			int i = leftIndex;
 			int j = rightIndex;
 			double x = array[(leftIndex + rightIndex) / 2];
@@ -615,7 +615,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             otherwise returns Double.NaN.
 		 */
 		public static double gcd(double a, double b) {
-			if (Double.IsNaN(a) || Double.IsNaN(a))
+			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
 			if (a < 0) a = -a;
 			if (b < 0) b = -b;
@@ -715,7 +715,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             otherwise returns Double.NaN.
 		 */
 		public static double lcm(double a, double b) {
-			if (Double.IsNaN(a) || Double.IsNaN(a))
+			if (Double.IsNaN(a) || Double.IsNaN(b))
 				return Double.NaN;
 			a = MathFunctions.floor(MathFunctions.abs(a));
 			b = MathFunctions.floor(MathFunctions.abs(b));
@@ -1580,11 +1580,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				else return Double.NaN;
 			}
 			double decValue = 0;
-			int digit;
-			for (int i = 0; i < length; i++) {
-				digit = digits[i];
+			foreach (int digit in digits) {
 				if (numeralSystemBase > 1) {
-					if ((digit >= 0) && (digit < numeralSystemBase)) decValue = numeralSystemBase * decValue + digit;
+					if (digit >= 0 && digit < numeralSystemBase) decValue = numeralSystemBase * decValue + digit;
 					else return Double.NaN;
 				}
 				else {

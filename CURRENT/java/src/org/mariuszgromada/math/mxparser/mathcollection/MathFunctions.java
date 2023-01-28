@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.java        5.2.0    2023-01-07
+ * @(#)MathFunctions.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -501,7 +501,7 @@ public final class MathFunctions {
 	public static double binomCoeff(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
-		return binomCoeff(n, (long)Math.round(k) );
+		return binomCoeff(n, Math.round(k));
 	}
 	/**
 	 * Generalized coefficient returning number of k permutations
@@ -541,7 +541,7 @@ public final class MathFunctions {
 	public static double numberOfPermutations(double n, double k) {
 		if (Double.isNaN(n) || Double.isNaN(k))
 			return Double.NaN;
-		return numberOfPermutations(n, (long)Math.round(k) );
+		return numberOfPermutations(n, Math.round(k));
 	}
 	/**
 	 * Bernoulli numbers
@@ -599,18 +599,12 @@ public final class MathFunctions {
 	private static double Stirling1Number(int n, int k, int recursionCall) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double.NaN;
-		if (k > n)
-			return 0;
+		if (k > n) return 0;
 		if (n == 0)
-			if (k == 0)
-				return 1;
-			else
-				return 0;
-		if (k == 0)
-			if (n == 0)
-				return 1;
-			else
-				return 0;
+			if (k == 0) return 1;
+			else return 0;
+		if (k == 0) return 0;
+
 		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		double s1 = Stirling1Number(n - 1, k, recursionCall + 1);
 		if (Double.isNaN(s1))
@@ -654,18 +648,12 @@ public final class MathFunctions {
 	private static double Stirling2Number(int n, int k, int recursionCall) {
 		if (recursionCall > MAX_RECURSION_CALLS)
 			return Double.NaN;
-		if (k > n)
-			return 0;
+		if (k > n) return 0;
 		if (n == 0)
-			if (k == 0)
-				return 1;
-			else
-				return 0;
-		if (k == 0)
-			if (n == 0)
-				return 1;
-			else
-				return 0;
+			if (k == 0) return 1;
+			else return 0;
+		if (k == 0) return 0;
+
 		if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
 		double s1 = Stirling2Number(n - 1, k, recursionCall + 1);
 		if (Double.isNaN(s1))
@@ -700,7 +688,7 @@ public final class MathFunctions {
 	 */
 	public static double worpitzkyNumber(int n, int k) {
 		double result = Double.NaN;
-		if ( (n >= 0) && (k >= 0) && (k <= n) ){
+		if (k >= 0 && k <= n) {
 			result = 0;
 			for (int v = 0; v <= k; v++) {
 				result += Math.pow(-1, v+k) * Math.pow(v+1, n) * binomCoeff(k, v);
@@ -1149,8 +1137,7 @@ public final class MathFunctions {
 	 */
 	public static boolean isAlmostInt(double a) {
 		double aint = Math.round(a);
-		if (abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-		else return false;
+		return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 	}
 	/**
 	 * Applies the integer exponent to the base a
@@ -1189,8 +1176,8 @@ public final class MathFunctions {
 	public static double power(double a, double b) {
 		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
-		if (Double.isInfinite(a)) Math.pow(a, b);
-		if (Double.isInfinite(b)) Math.pow(a, b);
+		if (Double.isInfinite(a)) return Math.pow(a, b);
+		if (Double.isInfinite(b)) return Math.pow(a, b);
 		double babs = Math.abs(b);
 		double bint = Math.round(babs);
 		if ( MathFunctions.abs(babs - bint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON
@@ -1226,8 +1213,8 @@ public final class MathFunctions {
 	 * @return    Returns root of a number. If calculation is not possible Double.NaN is returned.
 	 */
 	public static double root(double n, double x) {
-		if (Double.isNaN(n) || Double.isNaN(n)) return Double.NaN;
-		if (Double.isInfinite(n) || Double.isInfinite(n)) return Double.NaN;
+		if (Double.isNaN(n) || Double.isNaN(x)) return Double.NaN;
+		if (Double.isInfinite(n) || Double.isInfinite(x)) return Double.NaN;
 		if (n < -BinaryRelations.DEFAULT_COMPARISON_EPSILON) return Double.NaN;
 		if (abs(n) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) {
 			if (abs(x) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return 0;
@@ -1985,10 +1972,10 @@ public final class MathFunctions {
  	public static double roundHalfUp(double value, int places) {
  		if (Double.isNaN(value)) return Double.NaN;
 		if (places < 0) return Double.NaN;
- 		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
- 		if (value == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
- 		if (value == 0) return 0;
- 		double sign = 1;
+		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
+		if (value == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
+		if (value == 0) return 0;
+		double sign = 1;
  		double origValue = value;
  		if (value < 0) {
  			sign = -1;
@@ -2017,10 +2004,10 @@ public final class MathFunctions {
  	public static double roundDown(double value, int places) {
  		if (Double.isNaN(value)) return Double.NaN;
 		if (places < 0) return Double.NaN;
- 		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
- 		if (value == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
- 		if (value == 0) return 0;
- 		double sign = 1;
+		if (value == Double.NEGATIVE_INFINITY) return Double.NEGATIVE_INFINITY;
+		if (value == Double.POSITIVE_INFINITY) return Double.POSITIVE_INFINITY;
+		if (value == 0) return 0;
+		double sign = 1;
  		double origValue = value;
  		if (value < 0) {
  			sign = -1;
@@ -2488,7 +2475,6 @@ public final class MathFunctions {
 	 */
 	public static double coalesce(double[] values) {
 		if (values == null) return Double.NaN;
-		if (values.length == 0) return Double.NaN;
 		for (double v : values) {
 			if (!Double.isNaN(v)) return v;
 			if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
@@ -2509,8 +2495,7 @@ public final class MathFunctions {
 		if (x == Double.NEGATIVE_INFINITY) return false;
 		if (x < 0) x = -x;
 		double round = Math.round(x);
-		if (Math.abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-		else return false;
+		return Math.abs(x - round) < BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 	}
 	/**
 	 * Check whether two double values are almost equal.
@@ -2525,8 +2510,7 @@ public final class MathFunctions {
 		if (Double.isNaN(a)) return false;
 		if (Double.isNaN(b)) return false;
 		if (a == b) return true;
-		if (Math.abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON) return true;
-		return false;
+		return Math.abs(a - b) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 	}
 	/**
 	 * Calculates function f(x0) (given as expression) assigning Argument x = x0;

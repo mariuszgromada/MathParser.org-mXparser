@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.java        5.2.0    2022-12-17
+ * @(#)ProbabilityDistributions.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -186,7 +186,6 @@ import org.mariuszgromada.math.mxparser.Constant;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.mariuszgromada.math.mxparser.mXparser;
 import org.mariuszgromada.math.mxparser.parsertokens.RandomVariable;
-import org.mariuszgromada.math.mxparser.parsertokens.Unit;
 
 /**
  * ProbabilityDistributions - random number generators, PDF - Probability Distribution Functions,
@@ -224,8 +223,7 @@ public final class ProbabilityDistributions {
 		if (Double.isNaN(b)) return Double.NaN;
 		if (b < a) return Double.NaN;
 		if (a == b) return a;
-		double r = a + rnd.nextDouble() * (b - a);
-		return r;
+		return a + rnd.nextDouble() * (b - a);
 	}
 	/**
 	 * Random number from dUniform Continuous distribution over interval [a, b).
@@ -339,13 +337,25 @@ public final class ProbabilityDistributions {
 	 *                otherwise returns random number.
 	 */
 	public static double rndInteger(int a, int b, Random rnd) {
-		if (Double.isNaN(a)) return Double.NaN;
-		if (Double.isNaN(b)) return Double.NaN;
 		if (b < a) return Double.NaN;
 		if (a == b) return a;
 		int n = (b - a) + 1;
-		int r = a + rnd.nextInt(n);
-		return r;
+		return a + rnd.nextInt(n);
+	}
+	/**
+	 * Random number from Uniform Discrete distribution.
+	 * over set interval (a, a+1, ..., b-1, b).
+	 *
+	 * @param a       Interval limit - left / lower.
+	 * @param b       Interval limit - right / upper.
+	 * @param rnd     Random number generator.
+	 * @return        Double.NaN if a or b is null, or b is lower than a -
+	 *                otherwise returns random number.
+	 */
+	public static double rndInteger(double a, double b, Random rnd) {
+		if (Double.isNaN(a)) return Double.NaN;
+		if (Double.isNaN(b)) return Double.NaN;
+		return rndInteger((int) a, (int) b, rnd);
 	}
 	/**
 	 * Random number from Uniform Discrete distribution.
@@ -917,7 +927,7 @@ public final class ProbabilityDistributions {
 	 * Returns random variable value, where random variable is represented by the
 	 * token id in the RandomVariable class
 	 *
-	 * @param randomVariableId
+	 * @param randomVariableId Please refer to RandomVariable class.
 	 * @return Returns random variable value if id is known, otherwise Double.NaN is returned.
 	 *
 	 * @see RandomVariable

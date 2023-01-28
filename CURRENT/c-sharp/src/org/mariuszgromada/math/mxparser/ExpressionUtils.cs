@@ -221,15 +221,16 @@ namespace org.mariuszgromada.math.mxparser {
             int functionsNumber = functionsList.Count;
             for (int functionIndex = 0; functionIndex<functionsNumber; functionIndex++) {
                 Function fun = functionsList[functionIndex];
-                String syntax = fun.getFunctionName() + "(";
+                StringBuilder syntax = new StringBuilder(fun.getFunctionName());
+                syntax.Append("(");
                 int paramsNum = fun.getParametersNumber();
                 for (int i = 0; i < paramsNum; i++) {
-                    syntax = syntax + fun.getParameterName(i);
+                    syntax.Append(fun.getParameterName(i));
                     if (paramsNum > 1 && i < paramsNum - 1)
-                        syntax = syntax + ",";
+                        syntax.Append(",");
                 }
-                syntax = syntax + ")";
-                addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax, "", Function.TYPE_ID, keyWordsList);
+                syntax.Append(")");
+                addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax.ToString(), "", Function.TYPE_ID, keyWordsList);
             }
         }
         internal static void addConstantsKeyWords(List<Constant> constantsList, List<KeyWord> keyWordsList) {
@@ -259,8 +260,7 @@ namespace org.mariuszgromada.math.mxparser {
 
         internal static void addParserKeyWords(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled, List<KeyWord> keyWordsList) {
             List<KeyWord> baseKeyWordsList = getBaseKeyWordsList(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled);
-            foreach (KeyWord kw in baseKeyWordsList)
-                keyWordsList.Add(kw);
+            keyWordsList.AddRange(baseKeyWordsList);
         }
         static List<KeyWord> getBaseKeyWordsList(bool parserKeyWordsOnly, bool UDFExpression, bool unicodeKeyWordsEnabled) {
             if (parserKeyWordsOnly && UDFExpression && unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni111;
@@ -1545,8 +1545,8 @@ namespace org.mariuszgromada.math.mxparser {
         internal static String tokensListToString(List<Token> tokensList) {
 			if (tokensList == null) return StringInvariant.EMPTY;
 			if (tokensList.Count == 0) return StringInvariant.EMPTY;
-			String result = StringInvariant.EMPTY;
-			for (int i = 0; i < tokensList.Count; i++) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < tokensList.Count; i++) {
 				Token t0 = null;
 				Token t1 = tokensList[i];
 				if (i > 0) t0 = tokensList[i-1];
@@ -1559,11 +1559,11 @@ namespace org.mariuszgromada.math.mxparser {
 						!t0.isUnicodeRootOperator() &&
 						!t0.isRightParenthesis())
 						if (t1.isNumber())
-							result = result + StringInvariant.SPACE;
-				result = result + tokenToString(t1);
+							result.Append(StringInvariant.SPACE);
+				result.Append(tokenToString(t1));
 			}
 
-			return result;
+			return result.ToString();
 		}
 		/**
 		 * Evaluates tokens levels

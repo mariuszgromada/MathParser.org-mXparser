@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValueTrigonometric.cs        5.0.4    2022-05-22
+ * @(#)SpecialValueTrigonometric.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -194,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        5.2.0
 	 */
 	[CLSCompliant(true)]
 	public class SpecialValueTrigonometric {
@@ -520,7 +520,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			xradFrom = xrad - EPSILON;
 			xradTo = xrad + EPSILON;
 
-			/**
+			/*
 			 * Adding values to the special values lists of inverse trigonometric functions
 			 */
 			if ((-MathConstants.PIBY2 - EPSILON <= xrad) && (xrad <= MathConstants.PIBY2 + EPSILON)) {
@@ -533,7 +533,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 
 
-			/**
+			/*
 			 * Adding values to the special values lists of inverse trigonometric functions
 			 */
 			if ((-EPSILON <= xrad) && (xrad <= MathConstants.PI + EPSILON)) {

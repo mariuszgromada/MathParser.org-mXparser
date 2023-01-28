@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cs        5.2.0    2023-01-07
+ * @(#)Token.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -248,8 +248,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 				if (tokenId == BooleanOperator.NEG_ID) return true;
 			}
 			if (tokenTypeId == BitwiseOperator.TYPE_ID) {
-				if (tokenId == BitwiseOperator.COMPL_ID) return true;
-			}
+                if (tokenId == BitwiseOperator.COMPL_ID) return true;
+            }
 			return false;
 		}
 		/**
@@ -272,11 +272,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isLeftParenthesis() {
-			if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.LEFT_PARENTHESES_ID)
-				return true;
-			else
-				return false;
-		}
+            return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.LEFT_PARENTHESES_ID;
+        }
 		/**
 		 * Verification if the token is a right parenthesis.
 		 *
@@ -284,11 +281,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isRightParenthesis() {
-			if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
-				return true;
-			else
-				return false;
-		}
+            return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.RIGHT_PARENTHESES_ID;
+        }
 		/**
 		 * Verification if the token is an identifier.
 		 *
@@ -296,13 +290,10 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isIdentifier() {
-			if (tokenTypeId == Constant.TYPE_ID ||
+			return tokenTypeId == Constant.TYPE_ID ||
 					tokenTypeId == ConstantValue.TYPE_ID ||
 					tokenTypeId == Unit.TYPE_ID ||
-					tokenTypeId == Argument.TYPE_ID)
-				return true;
-			else
-				return false;
+					tokenTypeId == Argument.TYPE_ID;
 		}
 		/**
 		 * Verification if the token is a binary operator.
@@ -317,12 +308,11 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 			if (tokenTypeId == BitwiseOperator.TYPE_ID) return true;
 			if (tokenTypeId == BooleanOperator.TYPE_ID) return true;
 			if (tokenTypeId == Operator.TYPE_ID) {
-				if (	tokenId != Operator.SQUARE_ROOT_ID
+				return tokenId != Operator.SQUARE_ROOT_ID
 						&& tokenId != Operator.CUBE_ROOT_ID
 						&& tokenId != Operator.FOURTH_ROOT_ID
 						&& tokenId != Operator.FACT_ID
-						&& tokenId != Operator.PERC_ID
-				)  return true;
+						&& tokenId != Operator.PERC_ID;
 			}
 			return false;
 		}
@@ -333,11 +323,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isParameterSeparator() {
-			if (tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.COMMA_ID)
-				return true;
-			else
-				return false;
-		}
+			return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.COMMA_ID;
+        }
 		/**
 		 * Verification if the token is a number.
 		 *
@@ -345,11 +332,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 * otherwise returns false
 		 */
 		public bool isNumber() {
-			if (tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && tokenId == ParserSymbol.NUMBER_ID)
-				return true;
-			else
-				return false;
-		}
+            return tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && tokenId == ParserSymbol.NUMBER_ID;
+        }
 		/**
 		 * Verification if the token is represented by a special name in the form [...].
 		 *
@@ -358,8 +342,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
 		public bool isSpecialTokenName() {
 			if (tokenStr.Length == 0) return false;
-			if (tokenStr[0] == '[') return true;
-			else return false;
+			return tokenStr[0] == '[';
 		}
 		/**
 		 * Verification if the token represents unicode root operator

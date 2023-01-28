@@ -1006,10 +1006,16 @@ namespace org.mariuszgromada.math.mxparser {
 			foreach (PrimitiveElement e in elements) {
 				if (e == null) continue;
 				switch (e.getMyTypeId()) {
-					case Argument.TYPE_ID: addArguments((Argument)e); break;
-					case Constant.TYPE_ID: addConstants((Constant)e); break;
-					case Function.TYPE_ID: addFunctions((Function)e); break;
-					case RecursiveArgument.TYPE_ID_RECURSIVE: addArguments((Argument)e); break;
+					case Argument.TYPE_ID:
+                    case RecursiveArgument.TYPE_ID_RECURSIVE:
+						addArguments((Argument)e);
+						break;
+                    case Constant.TYPE_ID:
+						addConstants((Constant)e);
+						break;
+					case Function.TYPE_ID:
+						addFunctions((Function)e);
+						break;
 				}
 			}
 		}
@@ -1026,10 +1032,16 @@ namespace org.mariuszgromada.math.mxparser {
 			foreach (PrimitiveElement e in elements) {
 				if (e == null) continue;
 				switch (e.getMyTypeId()) {
-					case Argument.TYPE_ID: removeArguments((Argument)e); break;
-					case Constant.TYPE_ID: removeConstants((Constant)e); break;
-					case Function.TYPE_ID: removeFunctions((Function)e); break;
-					case RecursiveArgument.TYPE_ID_RECURSIVE: removeArguments((Argument)e); break;
+					case Argument.TYPE_ID:
+                    case RecursiveArgument.TYPE_ID_RECURSIVE:
+						removeArguments((Argument)e);
+						break;
+                    case Constant.TYPE_ID:
+						removeConstants((Constant)e);
+						break;
+					case Function.TYPE_ID:
+						removeFunctions((Function)e);
+						break;
 				}
 			}
 		}
@@ -3373,8 +3385,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void RND_VAR_UNIFORM_DISCR(int pos) {
-			int a = (int)getTokenValue(pos + 1);
-			int b = (int)getTokenValue(pos + 2);
+			double a = getTokenValue(pos + 1);
+			double b = getTokenValue(pos + 2);
 			f2SetDecreaseRemove(pos, ProbabilityDistributions.rndInteger(a, b, ProbabilityDistributions.randomGenerator));
 		}
 		/**
@@ -3586,7 +3598,7 @@ namespace org.mariuszgromada.math.mxparser {
 			double result = ifFalse;
 			if (ifCondition != 0)
 				result = ifTrue;
-			if (ifCondition == Double.NaN)
+			if (Double.IsNaN(ifCondition))
 				result = Double.NaN;
 			f3SetDecreaseRemove(pos, result );
 		}
@@ -4574,10 +4586,8 @@ namespace org.mariuszgromada.math.mxparser {
 			if (param.tokens.Count > 1)
 				return false;
 			Token t = param.tokens[0];
-			if (t.tokenTypeId != Argument.TYPE_ID)
-				return false;
-			return true;
-		}
+            return t.tokenTypeId == Argument.TYPE_ID;
+        }
 		/**
 		 * Checks if token is uknown
 		 *
@@ -4590,17 +4600,13 @@ namespace org.mariuszgromada.math.mxparser {
 			if (param.tokens.Count > 1)
 				return false;
 			Token t = param.tokens[0];
-			if (t.tokenTypeId != ConstantValue.NaN)
-				return false;
-			return true;
-		}
+            return t.tokenTypeId == ConstantValue.NaN;
+        }
         // ======================================================
         // Syntax checking logic
         private bool syntaxIsAlreadyCheckedNorErrors() {
-            if (!expressionWasModified && syntaxStatus == NO_SYNTAX_ERRORS && optionsChangesetNumber == mXparser.optionsChangesetNumber)
-                return true;
-			return false;
-		}
+            return !expressionWasModified && syntaxStatus == NO_SYNTAX_ERRORS && optionsChangesetNumber == mXparser.optionsChangesetNumber;
+        }
 		private void registerFinalSyntaxAlreadyCheckedNorErrors(String recursionInfoLevel) {
 			errorMessage = StringModel.startErrorMassage(recursionInfoLevel, StringModel.STRING_RESOURCES.ALREADY_CHECKED_NO_ERRORS);
 			recursionCallPending = false;
@@ -5852,23 +5858,11 @@ namespace org.mariuszgromada.math.mxparser {
 				if (tokenMinus2.tokenTypeId == CalculusOperator.TYPE_ID) {
 					switch (tokenMinus2.tokenId) {
 						case CalculusOperator.SUM_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.PROD_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.AVG_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.VAR_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.STD_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.MIN_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.MAX_ID:
 							argumentNameFound = true;
 							break;
@@ -5881,26 +5875,12 @@ namespace org.mariuszgromada.math.mxparser {
 				if (tokenMinus4.tokenTypeId == CalculusOperator.TYPE_ID) {
 					switch (tokenMinus4.tokenId) {
 						case CalculusOperator.INT_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.DER_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.DER_LEFT_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.DER_RIGHT_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.DERN_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.FORW_DIFF_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.BACKW_DIFF_ID:
-							argumentNameFound = true;
-							break;
 						case CalculusOperator.SOLVE_ID:
 							argumentNameFound = true;
 							break;
@@ -5979,9 +5959,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void addFractionToken(Token token) {
 			int underscore1stPos = token.tokenStr.IndexOf('_');
 			int underscore2ndPos = token.tokenStr.IndexOf('_', underscore1stPos + 1);
-			bool mixedFraction = false;
-			if (underscore2ndPos > 0)
-				mixedFraction = true;
+			bool mixedFraction = underscore2ndPos > 0;
 			double fractionValue;
 			if (mixedFraction) {
 				String wholeStr = token.tokenStr.Substring(0, underscore1stPos);

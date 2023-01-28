@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.cs        5.2.0    2023-01-08
+ * @(#)StringModel.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1314,7 +1314,7 @@ namespace org.mariuszgromada.math.mxparser {
 
             bool[] expectedTokenAdded = new bool[pe.tokenImage.Length];
             int numberOfExpectedTokensAdded = 0;
-            String expectedTokens = StringInvariant.EMPTY;
+            StringBuilder expectedTokens = new StringBuilder();
 
             for (int i = 0; i < pe.expectedTokenSequences.Length; i++) {
                 int numberOfTokensInSequence = pe.expectedTokenSequences[i].Length;
@@ -1322,14 +1322,18 @@ namespace org.mariuszgromada.math.mxparser {
                     int expectedTokenIndex = (int)pe.expectedTokenSequences[i][0];
                     if (!expectedTokenAdded[expectedTokenIndex]) {
                         if (numberOfExpectedTokensAdded == mXparser.ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS) {
-                            expectedTokens += StringInvariant.AND_CONTINUE;
+                            expectedTokens.Append(StringInvariant.AND_CONTINUE);
                             numberOfExpectedTokensAdded++;
                             break;
                         }
                         String expectedTokenImage = pe.tokenImage[expectedTokenIndex];
-                        expectedTokens += StringInvariant.NEW_LINE + StringInvariant.TAB_AS_SPACES + expectedTokenImage;
-                        if (pe.expectedTokenSequences[i][numberOfTokensInSequence - 1] != 0)
-                            expectedTokens += StringInvariant.SPACE + StringInvariant.DOTS;
+                        expectedTokens.Append(StringInvariant.NEW_LINE);
+                        expectedTokens.Append(StringInvariant.TAB_AS_SPACES);
+                        expectedTokens.Append(expectedTokenImage);
+                        if (pe.expectedTokenSequences[i][numberOfTokensInSequence - 1] != 0) {
+                            expectedTokens.Append(StringInvariant.SPACE);
+                            expectedTokens.Append(StringInvariant.DOTS);
+                        }
                         expectedTokenAdded[expectedTokenIndex] = true;
                         numberOfExpectedTokensAdded++;
                     }

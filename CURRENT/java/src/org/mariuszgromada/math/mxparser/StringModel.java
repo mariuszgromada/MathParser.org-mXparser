@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.java        5.2.0    2023-01-08
+ * @(#)StringModel.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1315,22 +1315,26 @@ public final class StringModel {
 
         boolean[] expectedTokenAdded = new boolean[pe.tokenImage.length];
         int numberOfExpectedTokensAdded = 0;
-        String expectedTokens = StringInvariant.EMPTY;
+        StringBuilder expectedTokens = new StringBuilder();
 
         for (int i = 0; i < pe.expectedTokenSequences.length; i++) {
             int numberOfTokensInSequence = pe.expectedTokenSequences[i].length;
             if (numberOfTokensInSequence > 0) {
-                int expectedTokenIndex = (int)pe.expectedTokenSequences[i][0];
+                int expectedTokenIndex = pe.expectedTokenSequences[i][0];
                 if (!expectedTokenAdded[expectedTokenIndex]) {
                     if (numberOfExpectedTokensAdded == mXparser.ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS) {
-                        expectedTokens += StringInvariant.AND_CONTINUE;
+                        expectedTokens.append(StringInvariant.AND_CONTINUE);
                         numberOfExpectedTokensAdded++;
                         break;
                     }
                     String expectedTokenImage = pe.tokenImage[expectedTokenIndex];
-                    expectedTokens += StringInvariant.NEW_LINE + StringInvariant.TAB_AS_SPACES + expectedTokenImage;
-                    if (pe.expectedTokenSequences[i][numberOfTokensInSequence - 1] != 0)
-                        expectedTokens += StringInvariant.SPACE + StringInvariant.DOTS;
+                    expectedTokens.append(StringInvariant.NEW_LINE);
+                    expectedTokens.append(StringInvariant.TAB_AS_SPACES);
+                    expectedTokens.append(expectedTokenImage);
+                    if (pe.expectedTokenSequences[i][numberOfTokensInSequence - 1] != 0) {
+                        expectedTokens.append(StringInvariant.SPACE);
+                        expectedTokens.append(StringInvariant.DOTS);
+                    }
                     expectedTokenAdded[expectedTokenIndex] = true;
                     numberOfExpectedTokensAdded++;
                 }

@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        5.2.0    2023-01-07
+ * @(#)NumberTheory.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -353,12 +353,11 @@ public final class NumberTheory {
 		return maxIndex + 1;
 	}
 	/**
-	 * Sorting array - ascending - quick sort algorithm.
+	 * Sorting array - ascending - quick sort algorithm. Initial ordering swapped according to sort order.
 	 * @param array         Array to be sorted
 	 * @param initOrder     Array to be swapped together with sorted array
 	 * @param leftIndex     Starting left index.
 	 * @param rightIndex    Starting right index.
-	 * @return              Initial ordering swapped according to sort order.
 	 */
 	private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
 		int i = leftIndex;
@@ -623,7 +622,7 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static double gcd(double a, double b) {
-		if ( Double.isNaN(a) || Double.isNaN(a) )
+		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		if (a < 0) a = -a;
 		if (b < 0) b = -b;
@@ -722,7 +721,7 @@ public final class NumberTheory {
 	 *             otherwise returns Double.NaN.
 	 */
 	public static double lcm(double a, double b) {
-		if ( Double.isNaN(a) || Double.isNaN(a) )
+		if (Double.isNaN(a) || Double.isNaN(b))
 			return Double.NaN;
 		a = MathFunctions.floor( MathFunctions.abs(a) );
 		b = MathFunctions.floor( MathFunctions.abs(b) );
@@ -1508,11 +1507,9 @@ public final class NumberTheory {
 			else return Double.NaN;
 		}
 		double decValue = 0;
-		int digit;
-		for (int i = 0; i < length; i++ ) {
-			digit = digits[i];
+		for (int digit : digits) {
 			if (numeralSystemBase > 1) {
-				if ( (digit >= 0) && (digit < numeralSystemBase) ) decValue = numeralSystemBase * decValue + digit;
+				if (digit >= 0 && digit < numeralSystemBase) decValue = numeralSystemBase * decValue + digit;
 				else return Double.NaN;
 			} else {
 				if (digit == 1) decValue = numeralSystemBase * decValue + digit;
@@ -2387,7 +2384,7 @@ public final class NumberTheory {
 		/*
 		 * Initial search
 		 */
- 		double numerator;
+		double numerator;
  		double denominator;
  		double gcd;
 		double valueDecimal = value - valueInt;

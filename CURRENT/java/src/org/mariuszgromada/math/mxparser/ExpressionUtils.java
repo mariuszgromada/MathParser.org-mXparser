@@ -223,15 +223,16 @@ final class ExpressionUtils {
         int functionsNumber = functionsList.size();
         for (int functionIndex = 0; functionIndex<functionsNumber; functionIndex++) {
             Function fun = functionsList.get(functionIndex);
-            String syntax = fun.getFunctionName() + "(";
+            StringBuilder syntax = new StringBuilder(fun.getFunctionName());
+            syntax.append("(");
             int paramsNum = fun.getParametersNumber();
             for (int i = 0; i < paramsNum; i++) {
-                syntax = syntax + fun.getParameterName(i);
+                syntax.append(fun.getParameterName(i));
                 if (paramsNum > 1 && i < paramsNum - 1)
-                    syntax = syntax + ",";
+                    syntax.append(",");
             }
-            syntax = syntax + ")";
-            addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax, "", Function.TYPE_ID, keyWordsList);
+            syntax.append(")");
+            addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax.toString(), "", Function.TYPE_ID, keyWordsList);
         }
     }
     static void addConstantsKeyWords(List<Constant> constantsList, List<KeyWord> keyWordsList) {
@@ -261,8 +262,7 @@ final class ExpressionUtils {
 
     static void addParserKeyWords(boolean parserKeyWordsOnly, boolean UDFExpression, boolean unicodeKeyWordsEnabled, List<KeyWord> keyWordsList) {
         List<KeyWord> baseKeyWordsList = getBaseKeyWordsList(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled);
-        for (KeyWord kw : baseKeyWordsList)
-            keyWordsList.add(kw);
+        keyWordsList.addAll(baseKeyWordsList);
     }
     static List<KeyWord> getBaseKeyWordsList(boolean parserKeyWordsOnly, boolean UDFExpression, boolean unicodeKeyWordsEnabled) {
         if (parserKeyWordsOnly && UDFExpression && unicodeKeyWordsEnabled) return baseKeyWordsListParUdfUni111;
@@ -1550,7 +1550,7 @@ final class ExpressionUtils {
     static String tokensListToString(List<Token> tokensList) {
         if (tokensList == null) return StringInvariant.EMPTY;
         if (tokensList.size() == 0) return StringInvariant.EMPTY;
-        String result = StringInvariant.EMPTY;
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < tokensList.size(); i++) {
             Token t0 = null;
             Token t1 = tokensList.get(i);
@@ -1564,11 +1564,11 @@ final class ExpressionUtils {
                         !t0.isUnicodeRootOperator() &&
                         !t0.isRightParenthesis())
                     if (t1.isNumber())
-                        result = result + StringInvariant.SPACE;
-            result = result + tokenToString(t1);
+                        result.append(StringInvariant.SPACE);
+            result.append(tokenToString(t1));
         }
 
-        return result;
+        return result.toString();
     }
     /**
 	 * Evaluates tokens levels
