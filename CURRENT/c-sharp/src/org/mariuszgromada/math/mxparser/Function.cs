@@ -766,7 +766,8 @@ namespace org.mariuszgromada.math.mxparser {
 				computingTime = functionExpression.computingTime;
 				return value;
 			}
-			long startTime = mXparser.currentTimeMillis();
+            License.checkLicense();
+            long startTime = mXparser.currentTimeMillis();
 			if (!isVariadic) {
 				value = functionExtension.calculate();
 				computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;

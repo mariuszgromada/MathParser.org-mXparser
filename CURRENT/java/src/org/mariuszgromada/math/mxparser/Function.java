@@ -776,6 +776,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			computingTime = functionExpression.computingTime;
 			return value;
 		}
+		License.checkLicense();
 		long startTime = System.currentTimeMillis();
 		if (!isVariadic) {
 			value = functionExtension.calculate();
@@ -1557,7 +1558,6 @@ public class Function extends PrimitiveElement implements Serializable {
 			cloneCache.clearCloneInProgress(this);
 			cloneCache.cacheFunctionClone(this, functionClone);
 		}
-		//functionClone.addFunctions(functionClone);
 		return functionClone;
 	}
 	Function cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {

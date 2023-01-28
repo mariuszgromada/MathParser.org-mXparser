@@ -839,6 +839,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 
 		double value;
 		if (argumentBodyType == BODY_EXTENDED) {
+			License.checkLicense();
 			long startTime = System.currentTimeMillis();
 			value = argumentExtension.getArgumentValue();
 			computingTime = (System.currentTimeMillis() - startTime)/1000.0;

@@ -826,7 +826,8 @@ namespace org.mariuszgromada.math.mxparser {
 
 			double value;
 			if (argumentBodyType == BODY_EXTENDED) {
-				long startTime = mXparser.currentTimeMillis();
+                License.checkLicense();
+                long startTime = mXparser.currentTimeMillis();
 				value = argumentExtension.getArgumentValue();
 				computingTime = (mXparser.currentTimeMillis() - startTime)/1000.0;
 				return value;

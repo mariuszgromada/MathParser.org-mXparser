@@ -5076,7 +5076,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *             otherwise returns Double.NaN.
 		 */
 		public double calculate(CalcStepsRegister calcStepsRegister) {
-			try {
+            License.checkLicense();
+            try {
 				return calculateInternal(calcStepsRegister);
 			} catch (Exception e) {
 				registerErrorWhileCalculate(

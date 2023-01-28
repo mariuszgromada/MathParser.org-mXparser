@@ -5105,6 +5105,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *             otherwise returns Double.NaN.
 	 */
 	public double calculate(CalcStepsRegister calcStepsRegister) {
+		License.checkLicense();
 		try {
 			return calculateInternal(calcStepsRegister);
 		} catch (Throwable e) {
