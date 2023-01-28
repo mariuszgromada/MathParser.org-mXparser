@@ -1,11 +1,11 @@
 /*
- * @(#)MathConstants.java        5.2.0    2023-01-28
+ * @(#)MathConstants.java        5.2.0    2023-01-29
  *
- * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
+ * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
  * - https://mathparser.org/mxparser-license
  *
- * AUTHOR: Copyright 2010 - 2022 Mariusz Gromada - All rights reserved
+ * AUTHOR: Copyright 2010 - 2023 Mariusz Gromada - All rights reserved
  * PUBLISHER: INFIMA - https://payhip.com/infima
  *
  * SOFTWARE means source code and/or binary form and/or documentation.
@@ -121,6 +121,11 @@
  *
  * ADDITIONAL CLARIFICATION ON WORKSTATION
  *
+ * The number of workstations does not relate to the final distribution of
+ * your end-product to your end-users. In typical cases the number of
+ * workstations is a way to measure the scale of the process of design
+ * and/or development and/or creation and/or manufacturing of your product.
+ *
  * A workstation is a device, a remote device, or a virtual device, used by
  * you, your employees, or other entities to whom you have commissioned the
  * tasks. For example, the number of workstations may refer to the number
@@ -130,7 +135,7 @@
  * distribute to your end-users.
  *
  * By purchasing the COMMERCIAL LICENSE, you only pay for the number of
- * workstations, while the number of copies of your final product
+ * workstations, while the number of copies/users of your final product
  * (delivered to your end-users) is not limited.
  *
  * UPGRADE POLICY
