@@ -439,7 +439,7 @@ namespace org.mariuszgromada.math.mxparser {
 			recursiveCounter--;
 			return value;
 		}
-		internal RecursiveArgument cloneForThreadSafeInternal(CloneCache cloneCache) {
+        new internal RecursiveArgument cloneForThreadSafeInternal(CloneCache cloneCache) {
 			RecursiveArgument recursiveArgumentClone = (RecursiveArgument) cloneCache.getArgumentClone(this);
 			if (recursiveArgumentClone == null) {
 				cloneCache.cacheCloneInProgress(this);
@@ -449,7 +449,7 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 			return recursiveArgumentClone;
 		}
-        internal RecursiveArgument cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {
+        new internal RecursiveArgument cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {
 			RecursiveArgument recursiveArgumentClone = cloneForThreadSafeInternal(cloneCache);
 			recursiveArgumentClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
 			return recursiveArgumentClone;
@@ -464,7 +464,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return Cloned object.
 		 */
-		public RecursiveArgument cloneForThreadSafe() {
+		new public RecursiveArgument cloneForThreadSafe() {
 			CloneCache cloneCache = new CloneCache();
 			RecursiveArgument recursiveArgumentClone = cloneForThreadSafeInternal(cloneCache);
 			cloneCache.addAllAtTheEndElements();

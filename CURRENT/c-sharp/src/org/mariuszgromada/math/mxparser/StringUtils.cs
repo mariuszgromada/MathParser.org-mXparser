@@ -460,7 +460,6 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Text adjusting.
 		 */
         internal static String getRightSpaces(String maxStr, String str) {
-			String spc = StringInvariant.EMPTY;
             return str + repeatString(StringInvariant.SPACE, maxStr.Length - str.Length);
         }
         internal static void consolePrintln() {
