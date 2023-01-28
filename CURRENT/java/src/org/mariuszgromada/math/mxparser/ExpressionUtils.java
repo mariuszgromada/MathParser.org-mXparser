@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        5.2.0    2023-01-17
+ * @(#)ExpressionUtils.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1655,5 +1655,49 @@ final class ExpressionUtils {
         if (baseInd.equals("b35")) return 35;
         if (baseInd.equals("b36")) return 36;
         return 0;
+    }
+    static List<Argument> cloneForThreadSafeArgumenstList(Expression relatedExpressionThatInitiatedClone, List<Argument> argumentsListToClone, CloneCache cloneCache) {
+        List<Argument> argumentListClone = new ArrayList<Argument>();
+        for (int i = 0; i < argumentsListToClone.size(); i++) {
+            Argument arg = argumentsListToClone.get(i);
+            if (cloneCache.isCloneInProgress(arg)) {
+                argumentListClone.add(null);
+                cloneCache.cacheArgumentToAddCloneAtTheEnd(argumentListClone, arg, i);
+                continue;
+            }
+            Argument argClone;
+            if (arg.getArgumentType() == Argument.RECURSIVE_ARGUMENT)
+                argClone = ((RecursiveArgument)arg).cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache);
+            else
+                argClone = arg.cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache);
+            argumentListClone.add(argClone);
+        }
+        return argumentListClone;
+    }
+    static List<Function> cloneForThreadSafeFunctionsList(Expression relatedExpressionThatInitiatedClone, List<Function> functionsListToClone, CloneCache cloneCache) {
+        List<Function> functionListClone = new ArrayList<Function>();
+        for (int i = 0; i < functionsListToClone.size(); i++) {
+            Function fun = functionsListToClone.get(i);
+            if (cloneCache.isCloneInProgress(fun)) {
+                functionListClone.add(null);
+                cloneCache.cacheFunctionToAddCloneAtTheEnd(functionListClone, fun, i);
+                continue;
+            }
+            functionListClone.add(fun.cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache));
+        }
+        return functionListClone;
+    }
+    static List<Constant> cloneForThreadSafeConstantsList(Expression relatedExpressionThatInitiatedClone, List<Constant> constantsListToClone, CloneCache cloneCache) {
+        List<Constant> constantListClone = new ArrayList<Constant>();
+        for (int i = 0; i < constantsListToClone.size(); i++) {
+            Constant con = constantsListToClone.get(i);
+            if (cloneCache.isCloneInProgress(con)) {
+                constantListClone.add(null);
+                cloneCache.cacheConstantToAddCloneAtTheEnd(constantListClone, con, i);
+                continue;
+            }
+            constantListClone.add(con.cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache));
+        }
+        return constantListClone;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2023-01-17
+ * @(#)SyntaxTest.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -180,6 +180,7 @@
  */
 package org.mariuszgromada.math.mxparser.test;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mariuszgromada.math.mxparser.*;
@@ -9547,6 +9548,323 @@ public final class ApiTest {
                 && !help.contains(captionText)
                 && help.startsWith("[")
                 && help.endsWith("]")
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0309() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Argument API - cloneThreadSafe()";
+        TestCommonTools.consolePrintTestApiStart(309, testDescr);
+
+        Function f = new Function("f(x) = x^2");
+        Constant c = new Constant("c = 3");
+        Argument a = new Argument("a = 2");
+        a.setDescription("Clone");
+        Argument b = new Argument("b = 2*a + f(c-c)", a, f, c);
+        Argument bc = b.cloneForThreadSafe();
+        Argument ac = bc.getArgument("a");
+
+        String a_n1 = a.getArgumentName(); String b_n1 = b.getArgumentName();
+        String ac_n1 = ac.getArgumentName(); String bc_n1 = bc.getArgumentName();
+
+        double a_v1 = a.getArgumentValue(); double b_v1 = b.getArgumentValue();
+        double ac_v1 = ac.getArgumentValue(); double bc_v1 = bc.getArgumentValue();
+
+        a.setArgumentValue(3);
+        double a_v2 = a.getArgumentValue(); double b_v2 = b.getArgumentValue();
+        double ac_v2 = ac.getArgumentValue(); double bc_v2 = bc.getArgumentValue();
+
+        ac.setArgumentValue(4);
+        double a_v3 = a.getArgumentValue(); double b_v3 = b.getArgumentValue();
+        double ac_v3 = ac.getArgumentValue(); double bc_v3 = bc.getArgumentValue();
+
+        a.setArgumentName("b");
+        String a_n2 = a.getArgumentName(); String b_n2 = b.getArgumentName();
+        String ac_n2 = ac.getArgumentName(); String bc_n2 = bc.getArgumentName();
+
+        boolean a_s1 = a.checkSyntax(); boolean b_s1 = b.checkSyntax();
+        String a_m1 = a.getErrorMessage(); String b_m1 = b.getErrorMessage();
+        boolean ac_s1 = ac.checkSyntax(); boolean bc_s1 = bc.checkSyntax();
+        String ac_m1 = ac.getErrorMessage(); String bc_m1 = bc.getErrorMessage();
+
+        ac.setArgumentName("c");
+        String a_n3 = a.getArgumentName(); String b_n3 = b.getArgumentName();
+        String ac_n3 = ac.getArgumentName(); String bc_n3 = bc.getArgumentName();
+
+        boolean a_s2 = a.checkSyntax(); boolean b_s2 = b.checkSyntax();
+        String a_m2 = a.getErrorMessage(); String b_m2 = b.getErrorMessage();
+        boolean ac_s2 = ac.checkSyntax(); boolean bc_s2 = bc.checkSyntax();
+        String ac_m2 = ac.getErrorMessage(); String bc_m2 = bc.getErrorMessage();
+
+
+        StringResources stringResources = StringModel.getStringResources();
+
+        if (a != ac && b != bc
+                && a.getDescription().equals("Clone")
+                && ac.getDescription().equals("Clone")
+                && a.getArgumentType() == ac.getArgumentType()
+                && b.getArgumentType() == bc.getArgumentType()
+                && a.getArgumentBodyType() == ac.getArgumentBodyType()
+                && b.getArgumentBodyType() == bc.getArgumentBodyType()
+                && a_n1.equals(ac_n1)
+                && b_n1.equals(bc_n1)
+
+                && a_v1 == 2 && b_v1 == 4
+                && ac_v1 == 2 && bc_v1 == 4
+
+                && a_v2 == 3 && b_v2 == 6
+                && ac_v2 == 2 && bc_v2 == 4
+
+                && a_v3 == 3 && b_v3 == 6
+                && ac_v3 == 4 && bc_v3 == 8
+
+                && a_s1 && !b_s1
+                && a_m1.contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION) && b_m1.contains(stringResources.INVALID_TOKEN)
+                && ac_s1 && bc_s1
+                && ac_m1.contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION) && bc_m1.contains(stringResources.ALREADY_CHECKED_NO_ERRORS)
+                && !a_n2.equals(ac_n2)
+                && b_n2.equals(bc_n2)
+
+                && a_s2 && !b_s2
+                && a_m2.contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION) && b_m2.contains(stringResources.INVALID_TOKEN)
+                && ac_s2 && !bc_s2
+                && ac_m2.contains(stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION) && bc_m2.contains(stringResources.INVALID_TOKEN)
+                && !a_n3.equals(ac_n3)
+                && b_n3.equals(bc_n3)
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0310() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Constant API - cloneThreadSafe()";
+        TestCommonTools.consolePrintTestApiStart(310, testDescr);
+
+        Constant a = new Constant("a = 3");
+        a.setDescription("Clone");
+        Expression e = new Expression("a*a", a);
+        Constant ac = a.cloneForThreadSafe();
+
+        String a_n1 = a.getConstantName(); String ac_n1 = ac.getConstantName();
+        double a_v1 = a.getConstantValue(); double ac_v1 = ac.getConstantValue();
+        a.setConstantName("b");
+        a.setConstantValue(4);
+        String a_n2 = a.getConstantName(); String ac_n2 = ac.getConstantName();
+        double a_v2 = a.getConstantValue(); double ac_v2 = ac.getConstantValue();
+        ac.setConstantName("c");
+        ac.setConstantValue(5);
+        String a_n3 = a.getConstantName(); String ac_n3 = ac.getConstantName();
+        double a_v3 = a.getConstantValue(); double ac_v3 = ac.getConstantValue();
+
+        if (a != ac
+                && a.getDescription().equals("Clone")
+                && ac.getDescription().equals("Clone")
+                && a_n1.equals("a") && ac_n1.equals("a")
+                && a_v1 == 3 && ac_v1 == 3
+                && a_n2.equals("b") && ac_n2.equals("a")
+                && a_v2 == 4 && ac_v2 == 3
+                && a_n3.equals("b") && ac_n3.equals("c")
+                && a_v3 == 4 && ac_v3 == 5
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0311() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "RecursiveArgument API - cloneThreadSafe()";
+        TestCommonTools.consolePrintTestApiStart(311, testDescr);
+
+        Constant c = new Constant("c = 2");
+        Constant a = new Constant("a = 2");
+        Function g = new Function("g(x,y) = x - y");
+
+        RecursiveArgument f = new RecursiveArgument("fib(n) = fib(n-1)+fib(n-2) + g(c,a)", c, a, g);
+        f.addBaseCase(0, 0);
+        f.addBaseCase(1, 1);
+        f.setDescription("Clone");
+
+        String f_n1 = f.getArgumentName(); double f_v1 = f.getArgumentValue(6);
+        RecursiveArgument fc = f.cloneForThreadSafe();
+        String fc_n1 = fc.getArgumentName(); double fc_v1 = fc.getArgumentValue(6);
+        double f_v2 = f.getArgumentValue(8); double fc_v2 = fc.getArgumentValue(8);
+        double f_v3 = f.getArgumentValue(19); double fc_v3 = fc.getArgumentValue(19);
+
+        if (f != fc
+                && f.getDescription().equals("Clone")
+                && fc.getDescription().equals("Clone")
+                && f_n1.equals("fib") && fc_n1.equals("fib")
+                && f_v1 == 8 && fc_v1 == 8
+                && f_v2 == 21 && fc_v2 == 21
+                && f_v3 == 4181 && fc_v3 == 4181
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0312() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Function API - cloneThreadSafe()";
+        TestCommonTools.consolePrintTestApiStart(312, testDescr);
+
+        Constant a = new Constant("a = 0.001");
+        Function s = new Function("s(x) = if( abs(x) < a, x, 2*s(x/2)*c(x/2) )", a);
+        Function c = new Function("c(x) = if( abs(x) < a, 1, c(x/2)^2-s(x/2)^2 )", a);
+        s.addDefinitions(c);
+        c.addDefinitions(s);
+        s.setDescription("Clone");
+        c.setDescription("Clone");
+        a.setDescription("Clone");
+
+        double s_v1 = s.calculate(MathConstants.PIBY2); double c_v1 = c.calculate(MathConstants.PIBY2);
+        Function sc = s.cloneForThreadSafe();
+        Function cc = c.cloneForThreadSafe();
+        double sc_v1 = sc.calculate(MathConstants.PIBY2); double cc_v1 = cc.calculate(MathConstants.PIBY2);
+
+        double s_v2 = s.calculate(MathConstants.PI); double c_v2 = c.calculate(MathConstants.PI);
+        double sc_v2 = sc.calculate(MathConstants.PI); double cc_v2 = cc.calculate(MathConstants.PI);
+
+        Function sc_c = sc.getFunction("c");
+        Function sc_c_s = sc_c.getFunction("s");
+        Constant sc_a = sc.getConstant("a");
+        Constant sc_c_a = sc_c.getConstant("a");
+
+        Function cc_s = cc.getFunction("s");
+        Function cc_s_c = cc_s.getFunction("c");
+        Constant cc_a = cc.getConstant("a");
+        Constant cc_s_a = cc_s.getConstant("a");
+
+        if (s != sc && c != cc
+                && s_v1 == sc_v1
+                && c_v1 == cc_v1
+                && s_v2 == sc_v2
+                && c_v2 == cc_v2
+                && sc == sc_c_s
+                && cc == cc_s_c
+                && sc_a == sc_c_a
+                && cc_a == cc_s_a
+                && s.getDescription().equals("Clone")
+                && c.getDescription().equals("Clone")
+                && a.getDescription().equals("Clone")
+                && sc.getDescription().equals("Clone")
+                && cc.getDescription().equals("Clone")
+                && sc_a.getDescription().equals("Clone")
+                && cc_a.getDescription().equals("Clone")
+                && s.getFunctionName().equals("s")
+                && c.getFunctionName().equals("c")
+                && a.getConstantName().equals("a")
+                && sc.getFunctionName().equals("s")
+                && cc.getFunctionName().equals("c")
+                && sc_a.getConstantName().equals("a")
+                && cc_a.getConstantName().equals("a")
+        ) testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0313() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Expression API - cloneThreadSafe()";
+        TestCommonTools.consolePrintTestApiStart(313, testDescr);
+
+        Constant a = new Constant("a = 3");
+        Argument x = new Argument("x = 2");
+        Argument y = new Argument("y = x^a + a^2", x, a);
+        Function f = new Function("f(x) = 2*x + a", a);
+        Function g = new Function("g(x,y) = f(x) + f(y)", f);
+        RecursiveArgument fib = new RecursiveArgument("fib(n) = fib(n-1)+fib(n-2) + a", a);
+        fib.addBaseCase(0, 0);
+        fib.addBaseCase(1, 1);
+        Expression e = new Expression("y+g(2,3) + fib(10) + f(x) + f(a)", g, y, fib, f, x, a);
+
+        double e_v1 = e.calculate();
+        Expression ec = e.cloneForThreadSafe();
+        double ec_v1 = ec.calculate();
+
+        Argument y1 = ec.getArgument("y");
+        Argument x1 = ec.getArgument("x");
+        Argument fib1 = ec.getArgument("fib");
+        Function g1 = ec.getFunction("g");
+        Function f1 = ec.getFunction("f");
+        Constant a1 = ec.getConstant("a");
+
+        Function f2 = g1.getFunction("f");
+        Constant a2 = fib1.getConstant("a");
+
+        Constant a3 = f1.getConstant("a");
+        Argument x2 = y1.getArgument("x");
+        Constant a4 = y1.getConstant("a");
+
+        boolean s1 = ec.getSyntaxStatus();
+        boolean p1 = e.getSyntaxStatus();
+        a1.setConstantName("b");
+        boolean s2 = ec.getSyntaxStatus();
+        boolean p2 = e.getSyntaxStatus();
+        a1.setConstantName("c");
+        boolean s3 = ec.checkSyntax();
+        boolean p3 = e.checkSyntax();
+        a1.setConstantName("a");
+        boolean s4 = ec.checkSyntax();
+        boolean p4 = e.checkSyntax();
+        boolean s5 = ec.getSyntaxStatus();
+        boolean p5 = e.getSyntaxStatus();
+
+        x1.setArgumentName("z");
+        boolean s6 = ec.getSyntaxStatus();
+        boolean p6 = e.getSyntaxStatus();
+        boolean s7 = ec.checkSyntax();
+        boolean p7 = e.checkSyntax();
+        x1.setArgumentName("x");
+        boolean s8 = ec.checkSyntax();
+        boolean p8 = e.checkSyntax();
+        boolean s9 = ec.getSyntaxStatus();
+        boolean p9 = e.getSyntaxStatus();
+        String n1 = f1.getFunctionName();
+        f1.setFunctionName("ff");
+        boolean s10 = ec.getSyntaxStatus();
+        boolean p10 = e.getSyntaxStatus();
+        boolean s11 = ec.checkSyntax();
+        boolean p11 = e.checkSyntax();
+        f1.setFunctionName("f");
+        String n2 = f1.getFunctionName();
+        boolean s12 = ec.checkSyntax();
+        boolean p12 = e.checkSyntax();
+        double e_v2 = e.calculate();
+        double ec_v2 = ec.calculate();
+        if (e != ec
+                && e_v1 == ec_v1
+                && a != a1
+                && a1 == a2
+                && a1 == a3
+                && a1 == a4
+                && x != x1
+                && x1 == x2
+                && f != f1
+                && f1 == f2
+                && y != y1
+                && fib != fib1
+                && s1 && p1
+                && !s2 && p2
+                && !s3 && p3
+                && s4 && p4
+                && s5 && p5
+                && !s6 && p6
+                && !s7 && p7
+                && s8 && p8
+                && s9 && p9
+                && !s10 && p10
+                && !s11 && p11
+                && s12 && p12
+                && e_v2 == ec_v2
         ) testResult = true;
 
         TestCommonTools.consolePrintTestApiEnd(testResult);

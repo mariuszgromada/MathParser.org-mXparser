@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.cs        5.2.0    2023-01-07
+ * @(#)Constant.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -246,7 +246,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
         private String constantName = StringInvariant.EMPTY;
 		/**
-		 * COnstant value
+		 * Constant value
 		 */
 		private double constantValue = Double.NaN;
 		/**
@@ -363,6 +363,17 @@ namespace org.mariuszgromada.math.mxparser {
 			syntaxStatus = bodyExpression.getSyntaxStatus();
 			errorMessage = bodyExpression.getErrorMessage();
         }
+		/*
+		 * Private constructor used for cloning
+		 */	
+		private Constant(Constant constantToClone) : base(Constant.TYPE_ID) {
+			constantName = constantToClone.constantName;
+			constantValue = constantToClone.constantValue;
+			description = constantToClone.description;
+			syntaxStatus = constantToClone.syntaxStatus;
+			errorMessage = constantToClone.errorMessage;
+			relatedExpressionsList = new List<Expression>();
+		}
 		/**
 		 * Gets constant name
 		 *
@@ -472,6 +483,38 @@ namespace org.mariuszgromada.math.mxparser {
 		void setExpressionModifiedFlags() {
 			foreach (Expression e in relatedExpressionsList)
 				e.setExpressionModifiedFlag();
+		}
+		internal Constant cloneForThreadSafeInternal(CloneCache cloneCache) {
+			Constant constantClone = cloneCache.getConstantClone(this);
+			if (constantClone == null) {
+				cloneCache.cacheCloneInProgress(this);
+				constantClone = new Constant(this);
+				cloneCache.clearCloneInProgress(this);
+				cloneCache.cacheConstantClone(this, constantClone);
+			}
+			return constantClone;
+		}
+        internal Constant cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {
+			Constant constantClone = cloneForThreadSafeInternal(cloneCache);
+			constantClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
+			return constantClone;
+		}
+		/**
+		 * Creates a completely independent 1-1 clone that can be safely used
+		 * by a separate thread. If the cloned element contains references
+		 * to other elements (e.g. arguments, functions, constants),
+		 * then they will also be cloned and the newly created element will
+		 * contain references to the corresponding clones.
+		 * Important - the API allows you to extract all these clones.
+		 *
+		 * @return Cloned object.
+		 */
+		public Constant cloneForThreadSafe() {
+			CloneCache cloneCache = new CloneCache();
+			Constant constantClone = cloneForThreadSafeInternal(cloneCache);
+			cloneCache.addAllAtTheEndElements();
+			cloneCache.clearCache();
+			return constantClone;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2023-01-17
+ * @(#)Expression.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -765,39 +765,51 @@ public class Expression extends PrimitiveElement implements Serializable {
 		relatedExpressionsList = new ArrayList<Expression>();
 		setExpressionModifiedFlag();
 	}
-	/**
+	/*
 	 * Private constructor - expression cloning.
-	 *
-	 * @param      expression          the base expression
 	 */
-	private Expression(Expression expression) {
+	private Expression(Expression expressionToClone, boolean isThreadSafeClone, CloneCache cloneCache) {
 		super(Expression.TYPE_ID);
-		expressionString = expression.expressionString;
-		expressionStringCleaned = expression.expressionStringCleaned;
-		description = expression.description;
-		argumentsList = expression.argumentsList;
-		functionsList = expression.functionsList;
-		constantsList = expression.constantsList;
-		keyWordsList = expression.keyWordsList;
-		relatedExpressionsList = expression.relatedExpressionsList;
-		computingTime = 0;
-		expressionWasModified = expression.expressionWasModified;
-		recursiveMode = expression.recursiveMode;
-		verboseMode = expression.verboseMode;
-		impliedMultiplicationMode = expression.impliedMultiplicationMode;
-		syntaxStatus = expression.syntaxStatus;
-		errorMessage = expression.errorMessage;
-		errorMessageCalculate = expression.errorMessageCalculate;
-		recursionCallPending = expression.recursionCallPending;
-		recursionCallsCounter = expression.recursionCallsCounter;
-		parserKeyWordsOnly = expression.parserKeyWordsOnly;
-		unicodeKeyWordsEnabled = expression.unicodeKeyWordsEnabled;
-		attemptToFixExpStrEnabled = expression.attemptToFixExpStrEnabled;
-		disableRounding = expression.disableRounding;
-		UDFExpression = expression.UDFExpression;
-		UDFVariadicParamsAtRunTime = expression.UDFVariadicParamsAtRunTime;
-		forwardErrorMessage = expression.forwardErrorMessage;
+
+		expressionString = expressionToClone.expressionString;
+		expressionStringCleaned = expressionToClone.expressionStringCleaned;
+		description = expressionToClone.description;
+		computingTime = expressionToClone.computingTime;
+		expressionWasModified = expressionToClone.expressionWasModified;
+		recursiveMode = expressionToClone.recursiveMode;
+		verboseMode = expressionToClone.verboseMode;
+		impliedMultiplicationMode = expressionToClone.impliedMultiplicationMode;
+		impliedMultiplicationError = expressionToClone.impliedMultiplicationError;
+		disableRounding = expressionToClone.disableRounding;
+		syntaxStatus = expressionToClone.syntaxStatus;
+		errorMessage = expressionToClone.errorMessage;
+		errorMessageCalculate = expressionToClone.errorMessageCalculate;
+		recursionCallPending = expressionToClone.recursionCallPending;
+		recursionCallsCounter = expressionToClone.recursionCallsCounter;
+		parserKeyWordsOnly = expressionToClone.parserKeyWordsOnly;
+		unicodeKeyWordsEnabled = expressionToClone.unicodeKeyWordsEnabled;
+		attemptToFixExpStrEnabled = expressionToClone.attemptToFixExpStrEnabled;
+		UDFExpression = expressionToClone.UDFExpression;
+		forwardErrorMessage = expressionToClone.forwardErrorMessage;
+		optionsChangesetNumber = expressionToClone.optionsChangesetNumber;
+		keyWordsList = expressionToClone.keyWordsList;
+		UDFVariadicParamsAtRunTime = expressionToClone.UDFVariadicParamsAtRunTime;
+		neverParseForImpliedMultiplication = expressionToClone.neverParseForImpliedMultiplication;
+
+		if (isThreadSafeClone) {
+			internalClone = expressionToClone.internalClone;
+			relatedExpressionsList = new ArrayList<Expression>();
+			argumentsList = ExpressionUtils.cloneForThreadSafeArgumenstList(this, expressionToClone.argumentsList, cloneCache);
+			functionsList = ExpressionUtils.cloneForThreadSafeFunctionsList(this, expressionToClone.functionsList, cloneCache);
+			constantsList = ExpressionUtils.cloneForThreadSafeConstantsList(this, expressionToClone.constantsList, cloneCache);
+			return;
+		}
+
 		internalClone = true;
+		argumentsList = expressionToClone.argumentsList;
+		functionsList = expressionToClone.functionsList;
+		constantsList = expressionToClone.constantsList;
+		relatedExpressionsList = expressionToClone.relatedExpressionsList;
 	}
 	/**
 	 * Sets (modifies expression) expression string.
@@ -7237,9 +7249,38 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	@Override
 	protected Expression clone() {
-		Expression newExp = new Expression(this);
+		Expression newExp = new Expression(this, false, null);
 		if (initialTokens != null && initialTokens.size() > 0)
 			newExp.initialTokens = createInitialTokens(0, initialTokens.size()-1, initialTokens);
 		return newExp;
+	}
+	Expression cloneForThreadSafeInternal(CloneCache cloneCache) {
+		Expression expressionClone = cloneCache.getExpressionClone(this);
+		if (expressionClone == null) {
+			cloneCache.cacheCloneInProgress(this);
+			expressionClone = new Expression(this, true, cloneCache);
+			if (initialTokens != null && initialTokens.size() > 0)
+				expressionClone.initialTokens = createInitialTokens(0, initialTokens.size()-1, initialTokens);
+			cloneCache.clearCloneInProgress(this);
+			cloneCache.cacheExpressionClone(this, expressionClone);
+		}
+		return expressionClone;
+	}
+	/**
+	 * Creates a completely independent 1-1 clone that can be safely used
+	 * by a separate thread. If the cloned element contains references
+	 * to other elements (e.g. arguments, functions, constants),
+	 * then they will also be cloned and the newly created element will
+	 * contain references to the corresponding clones.
+	 * Important - the API allows you to extract all these clones.
+	 *
+	 * @return Cloned object.
+	 */
+	public Expression cloneForThreadSafe() {
+		CloneCache cloneCache = new CloneCache();
+		Expression expressionClone = cloneForThreadSafeInternal(cloneCache);
+		cloneCache.addAllAtTheEndElements();
+		cloneCache.clearCache();
+		return expressionClone;
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        5.2.0    2023-01-07
+ * @(#)Function.java        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -325,6 +325,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * Keeps computing time
 	 */
 	double computingTime = 0;
+	private boolean thisAlreadyAdded = false;
 	/*=================================================
 	 *
 	 * Constructors
@@ -343,7 +344,10 @@ public class Function extends PrimitiveElement implements Serializable {
 	private void registerNoSyntaxErrorInDefinition() {
 		syntaxStatusDefinition = NO_SYNTAX_ERRORS;
 		errorMessageDefinition = StringModel.STRING_RESOURCES.NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
-		addFunctions(this);
+		if (!thisAlreadyAdded) {
+			addFunctions(this);
+			thisAlreadyAdded = true;
+		}
 	}
 	private void registerSyntaxErrorInDefinition(String errorMessage) {
 		syntaxStatusDefinition = SYNTAX_ERROR;
@@ -539,23 +543,33 @@ public class Function extends PrimitiveElement implements Serializable {
 	/**
 	 * Private constructor used for function cloning.
 	 *
-	 * @param      function            the function, which is going
+	 * @param      functionToClone     the function, which is going
 	 *                                 to be cloned.
 	 */
-	private Function(Function function) {
+	private Function(Function functionToClone, boolean isThreadSafeClone, CloneCache cloneCache) {
 		super(Function.TYPE_ID);
-		functionName = function.functionName;
-		description = function.description;
-		parametersNumber = function.parametersNumber;
-		functionExpression = function.functionExpression.clone();
-		functionBodyType = function.functionBodyType;
-		isVariadic = function.isVariadic;
-		syntaxStatusDefinition = function.syntaxStatusDefinition;
-		errorMessageDefinition = function.errorMessageDefinition;
-		if (functionBodyType == BODY_EXTENDED) {
-			if (function.functionExtension != null) functionExtension = function.functionExtension.clone();
-			if (function.functionExtensionVariadic != null) functionExtensionVariadic = function.functionExtensionVariadic.clone();
+
+		functionBodyType = functionToClone.functionBodyType;
+		functionName = functionToClone.functionName;
+		syntaxStatusDefinition = functionToClone.syntaxStatusDefinition;
+		errorMessageDefinition = functionToClone.errorMessageDefinition;
+		description = functionToClone.description;
+		isVariadic = functionToClone.isVariadic;
+		parametersNumber = functionToClone.parametersNumber;
+		computingTime = functionToClone.computingTime;
+		thisAlreadyAdded = functionToClone.thisAlreadyAdded;
+
+		if (functionToClone.functionExtension != null)
+			functionExtension = functionToClone.functionExtension.clone();
+		if (functionToClone.functionExtensionVariadic != null)
+			functionExtensionVariadic = functionToClone.functionExtensionVariadic.clone();
+
+		if (isThreadSafeClone) {
+			functionExpression = functionToClone.functionExpression.cloneForThreadSafeInternal(cloneCache);
+			return;
 		}
+
+		functionExpression = functionToClone.functionExpression.clone();
 	}
 	/**
 	 * Constructor for function definition in natural math language,
@@ -660,7 +674,6 @@ public class Function extends PrimitiveElement implements Serializable {
 		this.functionName = functionNameTrim;
 		registerNoSyntaxErrorInDefinition();
 		setExpressionModifiedFlags();
-		registerNoSyntaxErrorInDefinition();
 	}
 	/**
 	 * Sets value of function argument (function parameter).
@@ -734,7 +747,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	 * clone method
 	 */
 	protected Function clone() {
-		return new Function(this);
+		return new Function(this, false, null);
 	}
 	/**
 	 * Calculates function value
@@ -1535,5 +1548,38 @@ public class Function extends PrimitiveElement implements Serializable {
 	void setExpressionModifiedFlags() {
 		if (functionBodyType == Function.BODY_RUNTIME)
 			functionExpression.setExpressionModifiedFlag();
+	}
+	Function cloneForThreadSafeInternal(CloneCache cloneCache) {
+		Function functionClone = cloneCache.getFunctionClone(this);
+		if (functionClone == null) {
+			cloneCache.cacheCloneInProgress(this);
+			functionClone = new Function(this, true, cloneCache);
+			cloneCache.clearCloneInProgress(this);
+			cloneCache.cacheFunctionClone(this, functionClone);
+		}
+		//functionClone.addFunctions(functionClone);
+		return functionClone;
+	}
+	Function cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {
+		Function functionClone = cloneForThreadSafeInternal(cloneCache);
+		functionClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
+		return functionClone;
+	}
+	/**
+	 * Creates a completely independent 1-1 clone that can be safely used
+	 * by a separate thread. If the cloned element contains references
+	 * to other elements (e.g. arguments, functions, constants),
+	 * then they will also be cloned and the newly created element will
+	 * contain references to the corresponding clones.
+	 * Important - the API allows you to extract all these clones.
+	 *
+	 * @return Cloned object.
+	 */
+	public Function cloneForThreadSafe() {
+		CloneCache cloneCache = new CloneCache();
+		Function functionClone = cloneForThreadSafeInternal(cloneCache);
+		cloneCache.addAllAtTheEndElements();
+		cloneCache.clearCache();
+		return functionClone;
 	}
 }

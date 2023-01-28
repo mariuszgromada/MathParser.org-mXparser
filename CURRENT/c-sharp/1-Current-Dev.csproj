@@ -78,6 +78,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\Argument.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\CalcStepRecord.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\CalcStepsRegister.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\CloneCache.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Constant.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Expression.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\ExpressionUtils.cs" />

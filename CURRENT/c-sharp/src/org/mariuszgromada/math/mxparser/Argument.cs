@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.cs        5.2.0    2023-01-07
+ * @(#)Argument.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -573,6 +573,33 @@ namespace org.mariuszgromada.math.mxparser {
 			argumentExpression.setDescription(argumentNameTrim);
 			argumentType = DEPENDENT_ARGUMENT;
 			registerNoSyntaxErrorInDefinition();
+		}
+		/*
+		 * Internal constructor used for cloning 
+		 */
+		internal Argument(Argument argumentToClone, bool isThreadSafeClone, CloneCache cloneCache) : base(Argument.TYPE_ID) {
+			argumentBodyType = argumentToClone.argumentBodyType;
+			description = argumentToClone.description;
+			argumentName = argumentToClone.argumentName;
+			syntaxStatusDefinition = argumentToClone.syntaxStatusDefinition;
+			errorMessageDefinition = argumentToClone.errorMessageDefinition;
+			argumentType = argumentToClone.argumentType;
+			argumentValue = argumentToClone.argumentValue;
+			recursionCallsCounter = argumentToClone.recursionCallsCounter;
+			computingTime = argumentToClone.computingTime;
+			if (argumentToClone.argumentExtension != null)
+				argumentExtension = argumentToClone.argumentExtension.clone();
+
+			if (isThreadSafeClone) {
+				if (argumentToClone.argumentExpression != null)
+					argumentExpression = argumentToClone.argumentExpression.cloneForThreadSafeInternal(cloneCache);
+				if (argumentToClone.n != null)
+					n = argumentToClone.n.cloneForThreadSafeInternal(cloneCache);
+				return;
+			}
+
+			argumentExpression = argumentToClone.argumentExpression;
+			n = argumentToClone.n;
 		}
 		/**
 		 * Sets argument description.
@@ -1317,18 +1344,39 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     clone of the argument.
 		 */
 		public Argument clone() {
-			Argument newArg = new Argument(this.argumentName);
-			newArg.syntaxStatusDefinition = this.syntaxStatusDefinition;
-			newArg.errorMessageDefinition = this.errorMessageDefinition;
-			newArg.argumentExpression = this.argumentExpression;
-			newArg.argumentType = this.argumentType;
-			newArg.argumentBodyType = this.argumentBodyType;
-			newArg.argumentValue = this.argumentValue;
-			newArg.description = this.description;
-			newArg.n = this.n;
-			if (this.argumentExtension != null) newArg.argumentExtension = argumentExtension.clone();
-			else newArg.argumentExtension = null;
-			return newArg;
+			return new Argument(this, false, null);
+		}
+        internal Argument cloneForThreadSafeInternal(CloneCache cloneCache) {
+			Argument argumentClone = cloneCache.getArgumentClone(this);
+			if (argumentClone == null) {
+				cloneCache.cacheCloneInProgress(this);
+				argumentClone = new Argument(this, true, cloneCache);
+				cloneCache.clearCloneInProgress(this);
+				cloneCache.cacheArgumentClone(this, argumentClone);
+			}
+			return argumentClone;
+		}
+        internal Argument cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {
+			Argument argumentClone = cloneForThreadSafeInternal(cloneCache);
+			argumentClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
+			return argumentClone;
+		}
+		/**
+		 * Creates a completely independent 1-1 clone that can be safely used
+		 * by a separate thread. If the cloned element contains references
+		 * to other elements (e.g. arguments, functions, constants),
+		 * then they will also be cloned and the newly created element will
+		 * contain references to the corresponding clones.
+		 * Important - the API allows you to extract all these clones.
+		 *
+		 * @return Cloned object.
+		 */
+		public Argument cloneForThreadSafe() {
+			CloneCache cloneCache = new CloneCache();
+			Argument argumentClone = cloneForThreadSafeInternal(cloneCache);
+			cloneCache.addAllAtTheEndElements();
+			cloneCache.clearCache();
+			return argumentClone;
 		}
 	}
 }

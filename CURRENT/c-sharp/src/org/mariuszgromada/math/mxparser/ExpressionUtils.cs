@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        5.2.0    2023-01-17
+ * @(#)ExpressionUtils.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -1650,6 +1650,50 @@ namespace org.mariuszgromada.math.mxparser {
             if (baseInd.Equals("b35")) return 35;
             if (baseInd.Equals("b36")) return 36;
             return 0;
+        }
+        internal static List<Argument> cloneForThreadSafeArgumenstList(Expression relatedExpressionThatInitiatedClone, List<Argument> argumentsListToClone, CloneCache cloneCache) {
+            List<Argument> argumentListClone = new List<Argument>();
+            for (int i = 0; i < argumentsListToClone.Count; i++) {
+                Argument arg = argumentsListToClone[i];
+                if (cloneCache.isCloneInProgress(arg)) {
+                    argumentListClone.Add(null);
+                    cloneCache.cacheArgumentToAddCloneAtTheEnd(argumentListClone, arg, i);
+                    continue;
+                }
+                Argument argClone;
+                if (arg.getArgumentType() == Argument.RECURSIVE_ARGUMENT)
+                    argClone = ((RecursiveArgument)arg).cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache);
+                else
+                    argClone = arg.cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache);
+                argumentListClone.Add(argClone);
+            }
+            return argumentListClone;
+        }
+        internal static List<Function> cloneForThreadSafeFunctionsList(Expression relatedExpressionThatInitiatedClone, List<Function> functionsListToClone, CloneCache cloneCache) {
+            List<Function> functionListClone = new List<Function>();
+            for (int i = 0; i < functionsListToClone.Count; i++) {
+                Function fun = functionsListToClone[i];
+                if (cloneCache.isCloneInProgress(fun)) {
+                    functionListClone.Add(null);
+                    cloneCache.cacheFunctionToAddCloneAtTheEnd(functionListClone, fun, i);
+                    continue;
+                }
+                functionListClone.Add(fun.cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache));
+            }
+            return functionListClone;
+        }
+        internal static List<Constant> cloneForThreadSafeConstantsList(Expression relatedExpressionThatInitiatedClone, List<Constant> constantsListToClone, CloneCache cloneCache) {
+            List<Constant> constantListClone = new List<Constant>();
+            for (int i = 0; i < constantsListToClone.Count; i++) {
+                Constant con = constantsListToClone[i];
+                if (cloneCache.isCloneInProgress(con)) {
+                    constantListClone.Add(null);
+                    cloneCache.cacheConstantToAddCloneAtTheEnd(constantListClone, con, i);
+                    continue;
+                }
+                constantListClone.Add(con.cloneForThreadSafeInternal(relatedExpressionThatInitiatedClone, cloneCache));
+            }
+            return constantListClone;
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.cs        5.2.0    2023-01-07
+ * @(#)RecursiveArgument.cs        5.2.0    2023-01-28
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2022-05-22
  * The most up-to-date license is available at the below link:
@@ -312,6 +312,15 @@ namespace org.mariuszgromada.math.mxparser {
 				return;
 			initRecursiveArgument(elements);
 		}
+		/*
+		 * Private constructor used for cloning
+		 */
+		private RecursiveArgument(RecursiveArgument recursiveArgumentToClone, CloneCache cloneCache) : base(recursiveArgumentToClone, true, cloneCache) {
+			baseValues = new List<Double>();
+			baseValues.AddRange(recursiveArgumentToClone.baseValues);
+			recursiveCounter = recursiveArgumentToClone.recursiveCounter;
+			startingIndex = recursiveArgumentToClone.startingIndex;
+		}
 		/**
 		 * Adds base case
 		 *
@@ -392,6 +401,10 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Set n to the current index
 			 */
+			if (n == null) {
+				recursiveCounter--;
+				return Double.NaN;
+			}
 			n.setArgumentValue(idx);
 			/*
 			 * create new expression
@@ -420,6 +433,38 @@ namespace org.mariuszgromada.math.mxparser {
 			 */
 			recursiveCounter--;
 			return value;
+		}
+		internal RecursiveArgument cloneForThreadSafeInternal(CloneCache cloneCache) {
+			RecursiveArgument recursiveArgumentClone = (RecursiveArgument) cloneCache.getArgumentClone(this);
+			if (recursiveArgumentClone == null) {
+				cloneCache.cacheCloneInProgress(this);
+				recursiveArgumentClone = new RecursiveArgument(this, cloneCache);
+				cloneCache.clearCloneInProgress(this);
+				cloneCache.cacheArgumentClone(this, recursiveArgumentClone);
+			}
+			return recursiveArgumentClone;
+		}
+        internal RecursiveArgument cloneForThreadSafeInternal(Expression relatedExpressionThatInitiatedClone, CloneCache cloneCache) {
+			RecursiveArgument recursiveArgumentClone = cloneForThreadSafeInternal(cloneCache);
+			recursiveArgumentClone.addRelatedExpression(relatedExpressionThatInitiatedClone);
+			return recursiveArgumentClone;
+		}
+		/**
+		 * Creates a completely independent 1-1 clone that can be safely used
+		 * by a separate thread. If the cloned element contains references
+		 * to other elements (e.g. arguments, functions, constants),
+		 * then they will also be cloned and the newly created element will
+		 * contain references to the corresponding clones.
+		 * Important - the API allows you to extract all these clones.
+		 *
+		 * @return Cloned object.
+		 */
+		public RecursiveArgument cloneForThreadSafe() {
+			CloneCache cloneCache = new CloneCache();
+			RecursiveArgument recursiveArgumentClone = cloneForThreadSafeInternal(cloneCache);
+			cloneCache.addAllAtTheEndElements();
+			cloneCache.clearCache();
+			return recursiveArgumentClone;
 		}
 	}
 }
