@@ -210,7 +210,7 @@ public class License {
 	private static String message = StringInvariant.EMPTY;
 	private static String errorMessage = StringInvariant.EMPTY;
 	private static final String ERROR_NOT_CONFIRMED = "The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License.geTermsOfAgreement().";
-	private static final int MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 10;
+	private static final int MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 5;
 	private static int numberOfWarningDisplay = 0;
 	private static void displayWarning() {
 		numberOfWarningDisplay++;
@@ -219,6 +219,9 @@ public class License {
 		StringUtils.errorPrintln();
 		StringUtils.errorPrintln("MathParser.org-mXparser License WARNING:");
 		StringUtils.errorPrintln(ERROR_NOT_CONFIRMED);
+		StringUtils.errorPrintln("Please call one of the following methods:");
+		StringUtils.errorPrintln("   License.iConfirmNonCommercialUse(...)");
+		StringUtils.errorPrintln("   License.iConfirmCommercialUse(...)");
 		StringUtils.errorPrintln("Read more at:");
 		StringUtils.errorPrintln("   https://mathparser.org");
 		StringUtils.errorPrintln("   https://mathparser.org/mxparser-tutorial/confirming-non-commercial-commercial-use");
@@ -407,7 +410,7 @@ public class License {
 	 */
 	public static final String MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT =
 		"mXparser - version " + mXparser.VERSION + "\n"
-		+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-06\n"
+		+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29\n"
 		+ "The most up-to-date license is available at the below link:\n"
 		+ "- https://mathparser.org/mxparser-license\n"
 		+ "\n"
@@ -536,7 +539,7 @@ public class License {
 		+ "distribute to your end-users.\n"
 		+ "\n"
 		+ "By purchasing the COMMERCIAL LICENSE, you only pay for the number of\n"
-		+ "workstations, while the number of copies of your final product\n"
+		+ "workstations, while the number of copies/users of your final product\n"
 		+ "(delivered to your end-users) is not limited.\n"
 		+ "\n"
 		+ "UPGRADE POLICY\n"

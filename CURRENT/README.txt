@@ -14,6 +14,22 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** https://scalarmath.org/ ***
 
+v.5.2.0 (2023-01-29): Orion - Improvement and standardization of descriptions and messages.
+                      Definition of your own translations. Exporting help in multiple formats.
+                      Clones for thread safe.
+					  
+     * Improvement and standardization of built-in elements description: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/290
+     * Improvement and standardization of error messages: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/286
+     * Definition of your own translations: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/294
+     * Help content in the CSV format: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/277
+     * Help content in the HTML format: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/276
+     * Help content in the Markdown format: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/275
+     * Help content in the JSON format: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/274
+     * Clones for thread safe: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/293
+     * Bug fixed #291 Euler polynomial function producing wrong results: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/291
+     * Bug fixed #292 Implied Multiplication bug when blank character separates: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/292
+     * Bug fixed #283 Unnecessary newline at the end in getErrorMessage(): https://github.com/mariuszgromada/MathParser.org-mXparser/issues/283
+     * Bug fixed #284 Unnecessary space in function expression string returned by getErrorMessage(): https://github.com/mariuszgromada/MathParser.org-mXparser/issues/284
 
 v.5.1.0 (2022-11-13): Libris - Serialization Support + Additional Probability Distributions
      * Serialization support: #207 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/207
