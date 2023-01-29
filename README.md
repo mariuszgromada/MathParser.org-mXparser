@@ -577,622 +577,621 @@ mXparser provides a rich collection of built-in math functions, math expressions
 |Number|Fraction|Number literal as fraction| 1_2 , 2_3_4, 172_345, 345_172 |4.3|
 
 ## Operators
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| + |Operator|Addition|a + b|1.0|
-| - |Operator|Subtraction|a - b|1.0|
-| * |Operator|Multiplication|a * b|1.0|
-| × |Operator|Multiplication - unicode math symbol|a × b|5.0|
-| ⨉ |Operator|Multiplication - unicode math symbol|a ⨉ b|5.0|
-| ∙ |Operator|Multiplication - unicode math symbol|a ∙ b|5.0|
-| / |Operator|Division|a / b|1.0|
-| ÷ |Operator|Division - unicode math symbol|a ÷ b|5.0|
-| ^ |Operator|Exponentiation|a^b|1.0|
-| ! |Operator|Factorial|n!|1.0|
-| # |Operator|Modulo function|a # b|1.0|
-| % |Operator|Percentage|n%|4.1|
-| ^^ |Operator|Tetration (hyper-4, power tower, exponential tower)|a^^b|4.2|
-| √ |Operator|Square root function represented as unary left operator - unicode math symbol|√x|5.0|
-| ∛ |Operator|Cube root function represented as unary left operator - unicode math symbol|∛x|5.0|
-| ∜ |Operator|Fourth root function represented as unary left operator - unicode math symbol|∜x|5.0|
+|+|Operator|a + b|1.0|Addition - Operator|
+|-|Operator|a - b|1.0|Subtraction - Operator|
+|*|Operator|a * b|1.0|Multiplication - Operator|
+|×|Operator|a × b|5.0|Multiplication - Operator - Unicode math symbol|
+|⨉|Operator|a ⨉ b|5.0|Multiplication - Operator - Unicode math symbol|
+|∙|Operator|a ∙ b|5.0|Multiplication - Operator - Unicode math symbol|
+|/|Operator|a / b|1.0|Division - Operator|
+|÷|Operator|a ÷ b|5.0|Division - Operator - Unicode math symbol|
+|^|Operator|a^b|1.0|Exponentiation - Operator|
+|!|Operator|n!|1.0|Factorial - Operator|
+|#|Operator|a # b|1.0|Modulo - Operator|
+|%|Operator|n%|4.1|Percentage - Operator|
+|^^|Operator|a^^b|4.2|Tetration (hyper-4, power tower, exponential tower) - Operator|
+|√|Operator|√x|5.0|Square root - Operator - Unicode math symbol|
+|∛|Operator|∛x|5.0|Cube root - Operator - Unicode math symbol|
+|∜|Operator|∜x|5.0|Fourth root - Operator - Unicode math symbol|
 
 ## Boolean Operators
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| & |Boolean Operator|Logical conjunction (AND)|p & q|1.0|
-| ∧ |Boolean Operator|Logical conjunction (AND) - unicode math symbol|p ∧ q|5.0|
-| && |Boolean Operator|Logical conjunction (AND)|p && q|1.0|
-| /\\ |Boolean Operator|Logical conjunction (AND)|p /\\ q|1.0|
-| ⊼ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ⊼ q|5.0|
-| ~& |Boolean Operator|NAND - Sheffer stroke|p ~& q|1.0|
-| ~∧ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ~∧ q|5.0|
-| ¬& |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬& q|5.0|
-| ¬∧ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬∧ q|5.0|
-| ~&& |Boolean Operator|NAND - Sheffer stroke|p ~&& q|1.0|
-| ~/\\ |Boolean Operator|NAND - Sheffer stroke|p ~/\\ q|1.0|
-| ¬&& |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬&& q|5.0|
-| ¬/\\ |Boolean Operator|NAND - Sheffer stroke - unicode math symbol|p ¬/\\ q|5.0|
-| \| |Boolean Operator|Logical disjunction (OR)|p \| q|1.0|
-| ∨ |Boolean Operator|Logical disjunction (OR) - unicode math symbol|p ∨ q|5.0|
-| \|\| |Boolean Operator|Logical disjunction (OR)|p \|\| q|1.0|
-| \\/ |Boolean Operator|Logical disjunction (OR)|p \\/ q|1.0|
-| ⊽ |Boolean Operator|Logical NOR - unicode math symbol|p ⊽ q|5.0|
-| ~\| |Boolean Operator|Logical NOR|p ~\| q|1.0|
-| ~∨ |Boolean Operator|Logical NOR - unicode math symbol|p ~∨ q|5.0|
-| ¬\| |Boolean Operator|Logical NOR - unicode math symbol|p ¬\| q|5.0|
-| ¬∨ |Boolean Operator|Logical NOR - unicode math symbol|p ¬∨ q|5.0|
-| ~\|\| |Boolean Operator|Logical NOR|p ~\|\| q|1.0|
-| ~\\/ |Boolean Operator|Logical NOR|p ~\\/ q|1.0|
-| ¬\|\| |Boolean Operator|Logical NOR - unicode math symbol|p ¬\|\| q|5.0|
-| ¬\\/ |Boolean Operator|Logical NOR - unicode math symbol|p ¬\\/ q|5.0|
-| ⊻ |Boolean Operator|Exclusive or (XOR) - unicode math symbol|p ⊻ q|5.0|
-| (+) |Boolean Operator|Exclusive or (XOR)|p (+) q|1.0|
-| ⇒ |Boolean Operator|Implication (IMP) - unicode math symbol|p ⇒ q|5.0|
-| --> |Boolean Operator|Implication (IMP)|p --> q|1.0|
-| ⇐ |Boolean Operator|Converse implication (CIMP) - unicode math symbol|p ⇐ q|5.0|
-| <-- |Boolean Operator|Converse implication (CIMP)|p <-- q|1.0|
-| ⇏ |Boolean Operator|Material nonimplication (NIMP) - unicode math symbol|p ⇏ q|5.0|
-| -/> |Boolean Operator|Material nonimplication (NIMP)|p -/> q|1.0|
-| ⇍ |Boolean Operator|Converse nonimplication (CNIMP) - unicode math symbol|p ⇍ q|5.0|
-| </- |Boolean Operator|Converse nonimplication (CNIMP)|p </- q|1.0|
-| ⇔ |Boolean Operator|Logical biconditional (EQV) - unicode math symbol|p ⇔ q|5.0|
-| <-> |Boolean Operator|Logical biconditional (EQV)|p <-> q|1.0|
-| ~ |Boolean Operator|Negation|~p|1.0|
-| ¬ |Boolean Operator|Negation - unicode math symbol|¬p|5.0|
+|&|Boolean operator|p & q|1.0|Logical conjunction AND - Boolean operator|
+|∧|Boolean operator|p ∧ q|5.0|Logical conjunction AND - Boolean operator - Unicode math symbol|
+|&&|Boolean operator|p && q|1.0|Logical conjunction AND - Boolean operator|
+|/\\ |Boolean operator|p /\\ q|1.0|Logical conjunction AND - Boolean operator|
+|⊼|Boolean operator|p ⊼ q|5.0|Sheffer stroke NAND - Boolean operator - Unicode math symbol|
+|~&|Boolean operator|p ~& q|1.0|Sheffer stroke NAND - Boolean operator|
+|~∧|Boolean operator|p ~∧ q|5.0|Sheffer stroke NAND - Boolean operator - Unicode math symbol|
+|¬&|Boolean operator|p ¬& q|5.0|Sheffer stroke NAND - Boolean operator - Unicode math symbol|
+|¬∧|Boolean operator|p ¬∧ q|5.0|Sheffer stroke NAND - Boolean operator - Unicode math symbol|
+|~&&|Boolean operator|p ~&& q|1.0|Sheffer stroke NAND - Boolean operator|
+|~/\\ |Boolean operator|p ~/\\ q|1.0|Sheffer stroke NAND - Boolean operator|
+|¬&&|Boolean operator|p ¬&& q|5.0|Sheffer stroke NAND - Boolean operator - Unicode math symbol|
+|¬/\\ |Boolean operator|p ¬/\\ q|5.0|Sheffer stroke NAND - Boolean operator - Unicode math symbol|
+|\||Boolean operator|p \| q|1.0|Logical disjunction OR - Boolean operator|
+|∨|Boolean operator|p ∨ q|5.0|Logical disjunction OR - Boolean operator - Unicode math symbol|
+|\|\||Boolean operator|p \|\| q|1.0|Logical disjunction OR - Boolean operator|
+|\\/|Boolean operator|p \\/ q|1.0|Logical disjunction OR - Boolean operator|
+|⊽|Boolean operator|p ⊽ q|5.0|Logical not or (joint denial) NOR - Boolean operator - Unicode math symbol|
+|~\||Boolean operator|p ~\| q|1.0|Logical not or (joint denial) NOR - Boolean operator|
+|~∨|Boolean operator|p ~∨ q|5.0|Logical not or (joint denial) NOR - Boolean operator - Unicode math symbol|
+|¬\||Boolean operator|p ¬\| q|5.0|Logical not or (joint denial) NOR - Boolean operator - Unicode math symbol|
+|¬∨|Boolean operator|p ¬∨ q|5.0|Logical not or (joint denial) NOR - Boolean operator - Unicode math symbol|
+|~\|\||Boolean operator|p ~\|\| q|1.0|Logical not or (joint denial) NOR - Boolean operator|
+|~\\/|Boolean operator|p ~\\/ q|1.0|Logical not or (joint denial) NOR - Boolean operator|
+|¬\|\||Boolean operator|p ¬\|\| q|5.0|Logical not or (joint denial) NOR - Boolean operator - Unicode math symbol|
+|¬\\/|Boolean operator|p ¬\\/ q|5.0|Logical not or (joint denial) NOR - Boolean operator - Unicode math symbol|
+|⊻|Boolean operator|p ⊻ q|5.0|Exclusive or XOR - Boolean operator - Unicode math symbol|
+|(+)|Boolean operator|p (+) q|1.0|Exclusive or XOR - Boolean operator|
+|⇒|Boolean operator|p ⇒ q|5.0|Implication IMP - Boolean operator - Unicode math symbol|
+|-->|Boolean operator|p --> q|1.0|Implication IMP - Boolean operator|
+|⇐|Boolean operator|p ⇐ q|5.0|Converse implication CIMP - Boolean operator - Unicode math symbol|
+|<--|Boolean operator|p <-- q|1.0|Converse implication CIMP - Boolean operator|
+|⇏|Boolean operator|p ⇏ q|5.0|Material nonimplication NIMP - Boolean operator - Unicode math symbol|
+|-/>|Boolean operator|p -/> q|1.0|Material nonimplication NIMP - Boolean operator|
+|⇍|Boolean operator|p ⇍ q|5.0|Converse nonimplication CNIMP - Boolean operator - Unicode math symbol|
+|</-|Boolean operator|p </- q|1.0|Converse nonimplication CNIMP - Boolean operator|
+|⇔|Boolean operator|p ⇔ q|5.0|Logical biconditional EQV - Boolean operator - Unicode math symbol|
+|<->|Boolean operator|p <-> q|1.0|Logical biconditional EQV - Boolean operator|
+|~|Boolean operator|~p|1.0|Negation - Boolean operator|
+|¬|Boolean operator|¬p|5.0|Negation - Boolean operator - Unicode math symbol|
 
 ## Bitwise Operators
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| @~ |Bitwise Operator|Bitwise unary complement|@~a|4.0|
-| @& |Bitwise Operator|Bitwise AND|a @& b|4.0|
-| @^ |Bitwise Operator|Bitwise exclusive OR|a @^ b|4.0|
-| @\| |Bitwise Operator|Bitwise inclusive OR|a @\| b|4.0|
-| @<< |Bitwise Operator|Signed left shift|a @<< b|4.0|
-| @>> |Bitwise Operator|Signed right shift|a @>> b|4.0|
+|@~|Bitwise operator|@~a|4.0|Bitwise unary complement - Bitwise operator|
+|@&|Bitwise operator|a @& b|4.0|Bitwise and AND - Bitwise operator|
+|@^|Bitwise operator|a @^ b|4.0|Bitwise exclusive or XOR - Bitwise operator|
+|@\||Bitwise operator|a @\| b|4.0|Bitwise inclusive or OR - Bitwise operator|
+|@<<|Bitwise operator|a @<< b|4.0|Signed left shift - Bitwise operator|
+|@>>|Bitwise operator|a @>> b|4.0|Signed right shift - Bitwise operator|
 
 ## Binary Relations
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| = |Binary Relation|Equality|a = b|1.0|
-| == |Binary Relation|Equality|a == b|1.0|
-| ≠ |Binary Relation|Inequation - unicode math symbol|a ≠ b|5.0|
-| <> |Binary Relation|Inequation|a <> b|1.0|
-| ~= |Binary Relation|Inequation|a ~= b|1.0|
-| != |Binary Relation|Inequation|a != b|1.0|
-| < |Binary Relation|Lower than|a < b|1.0|
-| > |Binary Relation|Greater than|a > b|1.0|
-| ≤ |Binary Relation|Lower or equal - unicode math symbol|a ≤ b|5.0|
-| ⋜ |Binary Relation|Lower or equal - unicode math symbol|a ⋜ b|5.0|
-| <= |Binary Relation|Lower or equal|a <= b|1.0|
-| ≥ |Binary Relation|Greater or equal - unicode math symbol|a ≥ b|5.0|
-| ⋝ |Binary Relation|Greater or equal - unicode math symbol|a ⋝ b|5.0|
-| >= |Binary Relation|Greater or equal|a >= b|1.0|
+|=|Binary relation|a = b|1.0|Equality - Binary relation|
+|==|Binary relation|a == b|1.0|Equality - Binary relation|
+|≠|Binary relation|a ≠ b|5.0|Inequation - Binary relation - Unicode math symbol|
+|<>|Binary relation|a <> b|1.0|Inequation - Binary relation|
+|~=|Binary relation|a ~= b|1.0|Inequation - Binary relation|
+|!=|Binary relation|a != b|1.0|Inequation - Binary relation|
+|<|Binary relation|a < b|1.0|Lower than - Binary relation|
+|>|Binary relation|a > b|1.0|Greater than - Binary relation|
+|≤|Binary relation|a ≤ b|5.0|Lower or equal - Binary relation - Unicode math symbol|
+|⋜|Binary relation|a ⋜ b|5.0|Lower or equal - Binary relation - Unicode math symbol|
+|<=|Binary relation|a <= b|1.0|Lower or equal - Binary relation|
+|≥|Binary relation|a ≥ b|5.0|Greater or equal - Binary relation - Unicode math symbol|
+|⋝|Binary relation|a ⋝ b|5.0|Greater or equal - Binary relation - Unicode math symbol|
+|>=|Binary relation|a >= b|1.0|Greater or equal - Binary relation|
 
 ## Unary Functions
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| sin |Unary Function|Trigonometric sine function|sin(x)|1.0|
-| cos |Unary Function|Trigonometric cosine function|cos(x)|1.0|
-| tg |Unary Function|Trigonometric tangent function|tg(x)|1.0|
-| tan |Unary Function|Trigonometric tangent function|tan(x)|1.0|
-| ctg |Unary Function|Trigonometric cotangent function|ctg(x)|1.0|
-| cot |Unary Function|Trigonometric cotangent function|cot(x)|1.0|
-| ctan |Unary Function|Trigonometric cotangent function|ctan(x)|1.0|
-| sec |Unary Function|Trigonometric secant function|sec(x)|1.0|
-| csc |Unary Function|Trigonometric cosecant function|csc(x)|1.0|
-| cosec |Unary Function|Trigonometric cosecant function|cosec(x)|1.0|
-| asin |Unary Function|Inverse trigonometric sine function|asin(x)|1.0|
-| arsin |Unary Function|Inverse trigonometric sine function|arsin(x)|1.0|
-| arcsin |Unary Function|Inverse trigonometric sine function|arcsin(x)|1.0|
-| acos |Unary Function|Inverse trigonometric cosine function|acos(x)|1.0|
-| arcos |Unary Function|Inverse trigonometric cosine function|arcos(x)|1.0|
-| arccos |Unary Function|Inverse trigonometric cosine function|arccos(x)|1.0|
-| atg |Unary Function|Inverse trigonometric tangent function|atg(x)|1.0|
-| atan |Unary Function|Inverse trigonometric tangent function|atan(x)|1.0|
-| arctg |Unary Function|Inverse trigonometric tangent function|arctg(x)|1.0|
-| arctan |Unary Function|Inverse trigonometric tangent function|arctan(x)|1.0|
-| actg |Unary Function|Inverse trigonometric cotangent function|actg(x)|1.0|
-| acot |Unary Function|Inverse trigonometric cotangent function|acot(x)|1.0|
-| actan |Unary Function|Inverse trigonometric cotangent function|actan(x)|1.0|
-| arcctg |Unary Function|Inverse trigonometric cotangent function|arcctg(x)|1.0|
-| arccot |Unary Function|Inverse trigonometric cotangent function|arccot(x)|1.0|
-| arcctan |Unary Function|Inverse trigonometric cotangent function|arcctan(x)|1.0|
-| ln |Unary Function|Natural logarithm function (base e)|ln(x)|1.0|
-| log2 |Unary Function|Binary logarithm function (base 2)|log2(x)|1.0|
-| lg |Unary Function|Common logarithm function (base 10)|lg(x)|5.0|
-| log10 |Unary Function|Common logarithm function (base 10)|log10(x)|1.0|
-| rad |Unary Function|Degrees to radians function|rad(x)|1.0|
-| exp |Unary Function|Exponential function|exp(x)|1.0|
-| sqrt |Unary Function|Squre root function|sqrt(x)|1.0|
-| sinh |Unary Function|Hyperbolic sine function|sinh(x)|1.0|
-| cosh |Unary Function|Hyperbolic cosine function|cosh(x)|1.0|
-| tgh |Unary Function|Hyperbolic tangent function|tgh(x)|1.0|
-| tanh |Unary Function|Hyperbolic tangent function|tanh(x)|1.0|
-| coth |Unary Function|Hyperbolic cotangent function|coth(x)|1.0|
-| ctgh |Unary Function|Hyperbolic cotangent function|ctgh(x)|1.0|
-| ctanh |Unary Function|Hyperbolic cotangent function|ctanh(x)|1.0|
-| sech |Unary Function|Hyperbolic secant function|sech(x)|1.0|
-| csch |Unary Function|Hyperbolic cosecant function|csch(x)|1.0|
-| cosech |Unary Function|Hyperbolic cosecant function|cosech(x)|1.0|
-| deg |Unary Function|Radians to degrees function|deg(x)|1.0|
-| abs |Unary Function|Absolut value function|abs(x)|1.0|
-| sgn |Unary Function|Signum function|sgn(x)|1.0|
-| floor |Unary Function|Floor function|floor(x)|1.0|
-| ceil |Unary Function|Ceiling function|ceil(x)|1.0|
-| not |Unary Function|Negation function|not(x)|1.0|
-| asinh |Unary Function|Inverse hyperbolic sine function|asinh(x)|1.0|
-| arsinh |Unary Function|Inverse hyperbolic sine function|arsinh(x)|1.0|
-| arcsinh |Unary Function|Inverse hyperbolic sine function|arcsinh(x)|1.0|
-| acosh |Unary Function|Inverse hyperbolic cosine function|acosh(x)|1.0|
-| arcosh |Unary Function|Inverse hyperbolic cosine function|arcosh(x)|1.0|
-| arccosh |Unary Function|Inverse hyperbolic cosine function|arccosh(x)|1.0|
-| atgh |Unary Function|Inverse hyperbolic tangent function|atgh(x)|1.0|
-| atanh |Unary Function|Inverse hyperbolic tangent function|atanh(x)|1.0|
-| arctgh |Unary Function|Inverse hyperbolic tangent function|arctgh(x)|1.0|
-| arctanh |Unary Function|Inverse hyperbolic tangent function|arctanh(x)|1.0|
-| acoth |Unary Function|Inverse hyperbolic cotangent function|acoth(x)|1.0|
-| actgh |Unary Function|Inverse hyperbolic cotangent function|actgh(x)|1.0|
-| actanh |Unary Function|Inverse hyperbolic cotangent function|actanh(x)|1.0|
-| arcoth |Unary Function|Inverse hyperbolic cotangent function|arcoth(x)|1.0|
-| arccoth |Unary Function|Inverse hyperbolic cotangent function|arccoth(x)|1.0|
-| arcctgh |Unary Function|Inverse hyperbolic cotangent function|arcctgh(x)|1.0|
-| arcctanh |Unary Function|Inverse hyperbolic cotangent function|arcctanh(x)|1.0|
-| asech |Unary Function|Inverse hyperbolic secant function|asech(x)|1.0|
-| arsech |Unary Function|Inverse hyperbolic secant function|arsech(x)|1.0|
-| arcsech |Unary Function|Inverse hyperbolic secant function|arcsech(x)|1.0|
-| acsch |Unary Function|Inverse hyperbolic cosecant function|acsch(x)|1.0|
-| arcsch |Unary Function|Inverse hyperbolic cosecant function|arcsch(x)|1.0|
-| arccsch |Unary Function|Inverse hyperbolic cosecant function|arccsch(x)|1.0|
-| acosech |Unary Function|Inverse hyperbolic cosecant function|acosech(x)|1.0|
-| arcosech |Unary Function|Inverse hyperbolic cosecant function|arcosech(x)|1.0|
-| arccosech |Unary Function|Inverse hyperbolic cosecant function|arccosech(x)|1.0|
-| Sa |Unary Function|Sinc function (normalized)|Sa(x)|1.0|
-| sinc |Unary Function|Sinc function (normalized)|sinc(x)|1.0|
-| Sinc |Unary Function|Sinc function (unnormalized)|Sinc(x)|1.0|
-| Bell |Unary Function|Bell number|Bell(n)|1.0|
-| Luc |Unary Function|Lucas number|Luc(n)|1.0|
-| Fib |Unary Function|Fibonacci number|Fib(n)|1.0|
-| harm |Unary Function|Harmonic number|harm(n)|1.0|
-| ispr |Unary Function|Prime number test (is number a prime?)|ispr(n)|2.3|
-| Pi |Unary Function|Prime-counting function - Pi(x)|Pi(n)|2.3|
-| Ei |Unary Function|Exponential integral function (non-elementary special function) - usage example: Ei(x)|Ei(x)|2.3|
-| li |Unary Function|Logarithmic integral function (non-elementary special function) - usage example: li(x)|li(x)|2.3|
-| Li |Unary Function|Offset logarithmic integral function (non-elementary special function) - usage example: Li(x)|Li(x)|2.3|
-| erf |Unary Function|Gauss error function (non-elementary special function) - usage example: 2 + erf(x)|erf(x)|3.0|
-| erfc |Unary Function|Gauss complementary error function (non-elementary special function) - usage example: 1 - erfc(x)|erfc(x)|3.0|
-| erfInv |Unary Function|Inverse Gauss error function (non-elementary special function) - usage example: erfInv(x)|erfInv(x)|3.0|
-| erfcInv |Unary Function|Inverse Gauss complementary error function (non-elementary special function) - usage example: erfcInv(x)|erfcInv(x)|3.0|
-| ulp |Unary Function|Unit in The Last Place - ulp(0.1)|ulp(x)|3.0|
-| isNaN |Unary Function|Returns true = 1 if value is a Not-a-Number (NaN), false = 0 otherwise - usage example: isNaN(x)|isNaN(x)|4.1|
-| ndig10 |Unary Function|Number of digits in numeral system with base 10|ndig10(x)|4.1|
-| nfact |Unary Function|Prime decomposition - number of distinct prime factors|nfact(x)|4.1|
-| arcsec |Unary Function|Inverse trigonometric secant|arcsec(x)|4.1|
-| arccsc |Unary Function|Inverse trigonometric cosecant|arccsc(x)|4.1|
-| Gamma |Unary Function|Gamma special function Γ(s)|Gamma(x)|4.2|
-| LambW0 |Unary Function|Lambert-W special function, principal branch 0, also called the omega function or product logarithm|LambW0(x)|4.2|
-| LambW1 |Unary Function|Lambert-W special function, branch -1, also called the omega function or product logarithm|LambW1(x)|4.2|
-| sgnGamma |Unary Function|Signum of Gamma special function, Γ(s)|sgnGamma(x)|4.2|
-| logGamma |Unary Function|Log Gamma special function, lnΓ(s)|logGamma(x)|4.2|
-| diGamma |Unary Function|Digamma function as the logarithmic derivative of the Gamma special function, ψ(x)|diGamma(x)|4.2|
-| rStud |Unary Function|Random variable - Student's t-distribution|rStud(v)|5.0|
-| rChi2 |Unary Function|Random variable - Chi-squared distribution|rChi2(k)|5.0|
+|sin|Unary function|sin(x)|1.0|Trigonometric sine - Unary function|
+|cos|Unary function|cos(x)|1.0|Trigonometric cosine - Unary function|
+|tg|Unary function|tg(x)|1.0|Trigonometric tangent - Unary function|
+|tan|Unary function|tan(x)|1.0|Trigonometric tangent - Unary function|
+|ctg|Unary function|ctg(x)|1.0|Trigonometric cotangent - Unary function|
+|cot|Unary function|cot(x)|1.0|Trigonometric cotangent - Unary function|
+|ctan|Unary function|ctan(x)|1.0|Trigonometric cotangent - Unary function|
+|sec|Unary function|sec(x)|1.0|Trigonometric secant - Unary function|
+|csc|Unary function|csc(x)|1.0|Trigonometric cosecant - Unary function|
+|cosec|Unary function|cosec(x)|1.0|Trigonometric cosecant - Unary function|
+|asin|Unary function|asin(x)|1.0|Inverse trigonometric sine - Unary function|
+|arsin|Unary function|arsin(x)|1.0|Inverse trigonometric sine - Unary function|
+|arcsin|Unary function|arcsin(x)|1.0|Inverse trigonometric sine - Unary function|
+|acos|Unary function|acos(x)|1.0|Inverse trigonometric cosine - Unary function|
+|arcos|Unary function|arcos(x)|1.0|Inverse trigonometric cosine - Unary function|
+|arccos|Unary function|arccos(x)|1.0|Inverse trigonometric cosine - Unary function|
+|atg|Unary function|atg(x)|1.0|Inverse trigonometric tangent - Unary function|
+|atan|Unary function|atan(x)|1.0|Inverse trigonometric tangent - Unary function|
+|arctg|Unary function|arctg(x)|1.0|Inverse trigonometric tangent - Unary function|
+|arctan|Unary function|arctan(x)|1.0|Inverse trigonometric tangent - Unary function|
+|actg|Unary function|actg(x)|1.0|Inverse trigonometric cotangent - Unary function|
+|acot|Unary function|acot(x)|1.0|Inverse trigonometric cotangent - Unary function|
+|actan|Unary function|actan(x)|1.0|Inverse trigonometric cotangent - Unary function|
+|arcctg|Unary function|arcctg(x)|1.0|Inverse trigonometric cotangent - Unary function|
+|arccot|Unary function|arccot(x)|1.0|Inverse trigonometric cotangent - Unary function|
+|arcctan|Unary function|arcctan(x)|1.0|Inverse trigonometric cotangent - Unary function|
+|ln|Unary function|ln(x)|1.0|Natural logarithm (base e) - Unary function|
+|log2|Unary function|log2(x)|1.0|Binary logarithm (base 2) - Unary function|
+|lg|Unary function|lg(x)|5.0|Common logarithm (base 10) - Unary function|
+|log10|Unary function|log10(x)|1.0|Common logarithm (base 10) - Unary function|
+|rad|Unary function|rad(x)|1.0|Degrees to radians - Unary function|
+|exp|Unary function|exp(x)|1.0|Exponential - Unary function|
+|sqrt|Unary function|sqrt(x)|1.0|Squre root - Unary function|
+|sinh|Unary function|sinh(x)|1.0|Hyperbolic sine - Unary function|
+|cosh|Unary function|cosh(x)|1.0|Hyperbolic cosine - Unary function|
+|tgh|Unary function|tgh(x)|1.0|Hyperbolic tangent - Unary function|
+|tanh|Unary function|tanh(x)|1.0|Hyperbolic tangent - Unary function|
+|coth|Unary function|coth(x)|1.0|Hyperbolic cotangent - Unary function|
+|ctgh|Unary function|ctgh(x)|1.0|Hyperbolic cotangent - Unary function|
+|ctanh|Unary function|ctanh(x)|1.0|Hyperbolic cotangent - Unary function|
+|sech|Unary function|sech(x)|1.0|Hyperbolic secant - Unary function|
+|csch|Unary function|csch(x)|1.0|Hyperbolic cosecant - Unary function|
+|cosech|Unary function|cosech(x)|1.0|Hyperbolic cosecant - Unary function|
+|deg|Unary function|deg(x)|1.0|Radians to degrees - Unary function|
+|abs|Unary function|abs(x)|1.0|Absolut value - Unary function|
+|sgn|Unary function|sgn(x)|1.0|Signum - Unary function|
+|floor|Unary function|floor(x)|1.0|Floor - Unary function|
+|ceil|Unary function|ceil(x)|1.0|Ceiling - Unary function|
+|not|Unary function|not(x)|1.0|Negation - Unary function|
+|asinh|Unary function|asinh(x)|1.0|Inverse hyperbolic sine - Unary function|
+|arsinh|Unary function|arsinh(x)|1.0|Inverse hyperbolic sine - Unary function|
+|arcsinh|Unary function|arcsinh(x)|1.0|Inverse hyperbolic sine - Unary function|
+|acosh|Unary function|acosh(x)|1.0|Inverse hyperbolic cosine - Unary function|
+|arcosh|Unary function|arcosh(x)|1.0|Inverse hyperbolic cosine - Unary function|
+|arccosh|Unary function|arccosh(x)|1.0|Inverse hyperbolic cosine - Unary function|
+|atgh|Unary function|atgh(x)|1.0|Inverse hyperbolic tangent - Unary function|
+|atanh|Unary function|atanh(x)|1.0|Inverse hyperbolic tangent - Unary function|
+|arctgh|Unary function|arctgh(x)|1.0|Inverse hyperbolic tangent - Unary function|
+|arctanh|Unary function|arctanh(x)|1.0|Inverse hyperbolic tangent - Unary function|
+|acoth|Unary function|acoth(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|actgh|Unary function|actgh(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|actanh|Unary function|actanh(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|arcoth|Unary function|arcoth(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|arccoth|Unary function|arccoth(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|arcctgh|Unary function|arcctgh(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|arcctanh|Unary function|arcctanh(x)|1.0|Inverse hyperbolic cotangent - Unary function|
+|asech|Unary function|asech(x)|1.0|Inverse hyperbolic secant - Unary function|
+|arsech|Unary function|arsech(x)|1.0|Inverse hyperbolic secant - Unary function|
+|arcsech|Unary function|arcsech(x)|1.0|Inverse hyperbolic secant - Unary function|
+|acsch|Unary function|acsch(x)|1.0|Inverse hyperbolic cosecant - Unary function|
+|arcsch|Unary function|arcsch(x)|1.0|Inverse hyperbolic cosecant - Unary function|
+|arccsch|Unary function|arccsch(x)|1.0|Inverse hyperbolic cosecant - Unary function|
+|acosech|Unary function|acosech(x)|1.0|Inverse hyperbolic cosecant - Unary function|
+|arcosech|Unary function|arcosech(x)|1.0|Inverse hyperbolic cosecant - Unary function|
+|arccosech|Unary function|arccosech(x)|1.0|Inverse hyperbolic cosecant - Unary function|
+|Sa|Unary function|Sa(x)|1.0|Sinc (normalized) - Unary function|
+|sinc|Unary function|sinc(x)|1.0|Sinc (normalized) - Unary function|
+|Sinc|Unary function|Sinc(x)|1.0|Sinc (unnormalized) - Unary function|
+|Bell|Unary function|Bell(n)|1.0|Bell number - Unary function|
+|Luc|Unary function|Luc(n)|1.0|Lucas number - Unary function|
+|Fib|Unary function|Fib(n)|1.0|Fibonacci number - Unary function|
+|harm|Unary function|harm(n)|1.0|Harmonic number - Unary function|
+|ispr|Unary function|ispr(n)|2.3|Prime number test (is number a prime?) - Unary function|
+|Pi|Unary function|Pi(n)|2.3|Prime-counting π(n) - Unary function|
+|Ei|Unary function|Ei(x)|2.3|Exponential integral - Special function Ei(x) - Unary function|
+|li|Unary function|li(x)|2.3|Logarithmic integral - Special function li(x) - Unary function|
+|Li|Unary function|Li(x)|2.3|Offset logarithmic integral - Special function Li(x) - Unary function|
+|erf|Unary function|erf(x)|3.0|Gauss error - Special function erf(x) - Unary function|
+|erfc|Unary function|erfc(x)|3.0|Gauss complementary error - Special function erfc(x) - Unary function|
+|erfInv|Unary function|erfInv(x)|3.0|Inverse Gauss error - Special function erf⁻¹(y) - Unary function|
+|erfcInv|Unary function|erfcInv(x)|3.0|Inverse Gauss complementary error - Special function erfc⁻¹(x) - Unary function|
+|ulp|Unary function|ulp(x)|3.0|Unit in The Last Place - Unary function|
+|isNaN|Unary function|isNaN(x)|4.1|Returns true if value is a Not-a-Number (NaN), false otherwise (true=1, false=1) - Unary function|
+|ndig10|Unary function|ndig10(x)|4.1|Number of digits in numeral system with base 10 - Unary function|
+|nfact|Unary function|nfact(x)|4.1|Prime decomposition - number of distinct prime factors - Unary function|
+|arcsec|Unary function|arcsec(x)|4.1|Inverse trigonometric secant - Unary function|
+|arccsc|Unary function|arccsc(x)|4.1|Inverse trigonometric cosecant - Unary function|
+|Gamma|Unary function|Gamma(x)|4.2|Gamma - Special function Γ(s) - Unary function|
+|LambW0|Unary function|LambW0(x)|4.2|Lambert-W, principal branch 0, also called the omega or product logarithm - Special function W₀(x) - Unary function|
+|LambW1|Unary function|LambW1(x)|4.2|Lambert-W, branch -1, also called the omega or product logarithm - Special function W₋₁(x) - Unary function|
+|sgnGamma|Unary function|sgnGamma(x)|4.2|Signum of Gamma - Special function Γ(s) - Unary function|
+|logGamma|Unary function|logGamma(x)|4.2|Log Gamma - Special function lnΓ(s) - Unary function|
+|diGamma|Unary function|diGamma(x)|4.2|Digamma as the logarithmic derivative of the Gamma - Special function ψ(x) - Unary function|
+|rStud|Unary function|rStud(v)|5.0|Random variable - Student's t-distribution - Unary function|
+|rChi2|Unary function|rChi2(k)|5.0|Random variable - Chi-squared distribution - Unary function|
 
 ## Binary Functions
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| log |Binary Function|Logarithm function|log(a, b)|1.0|
-| mod |Binary Function|Modulo function|mod(a, b)|1.0|
-| C |Binary Function|Binomial coefficient function, number of k-combinations that can be drawn from n-elements set|C(n, k)|1.0|
-| nCk |Binary Function|Binomial coefficient function, number of k-combinations that can be drawn from n-elements set|nCk(n, k)|4.2|
-| Bern |Binary Function|Bernoulli numbers|Bern(m, n)|1.0|
-| Stirl1 |Binary Function|Stirling numbers of the first kind|Stirl1(n, k)|1.0|
-| Stirl2 |Binary Function|Stirling numbers of the second kind|Stirl2(n, k)|1.0|
-| Worp |Binary Function|Worpitzky number|Worp(n, k)|1.0|
-| Euler |Binary Function|Euler number|Euler(n, k)|1.0|
-| KDelta |Binary Function|Kronecker delta|KDelta(i, j)|1.0|
-| EulerPol |Binary Function|EulerPol|EulerPol(m, x)|1.0|
-| Harm |Binary Function|Harmonic number|Harm(x, n)|1.0|
-| rUni |Binary Function|Random variable - Uniform continuous distribution U(a,b), usage example: 2*rUni(2,10)|rUni(a, b)|3.0|
-| rUnid |Binary Function|Random variable - Uniform discrete distribution U{a,b}, usage example: 2*rUnid(2,100)|rUnid(a, b)|3.0|
-| round |Binary Function|Half-up rounding, usage examples: round(2.2, 0) = 2, round(2.6, 0) = 3, round(2.66,1) = 2.7|round(x, n)|3.0|
-| rNor |Binary Function|Random variable - Normal distribution N(m,s) m - mean, s - stddev, usage example: 3*rNor(0,1)|rNor(mean, stdv)|3.0|
-| ndig |Binary Function|Number of digits representing the number in numeral system with given base|ndig(number, base)|4.1|
-| dig10 |Binary Function|Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system|dig10(num, pos)|4.1|
-| factval |Binary Function|Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value|factval(number, factorid)|4.1|
-| factexp |Binary Function|Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value|factexp(number, factorid)|4.1|
-| root |Binary Function|N-th order root of a number|root(rootorder, number)|4.1|
-| GammaL |Binary Function|Lower incomplete gamma special function, γ(s,x)|GammaL(s, x)|4.2|
-| GammaU |Binary Function|Upper incomplete Gamma special function, Γ(s,x)|GammaU(s, x)|4.2|
-| GammaP |Binary Function|Lower regularized P gamma special function, P(s,x)|GammaP(s, x)|4.2|
-| GammaRegL |Binary Function|Lower regularized P gamma special function, P(s,x)|GammaRegL(s, x)|4.2|
-| GammaQ |Binary Function|Upper regularized Q Gamma special function, Q(s,x)|GammaQ(s, x)|4.2|
-| GammaRegU |Binary Function|Upper regularized Q Gamma special function, Q(s,x)|GammaRegU(s, x)|4.2|
-| nPk |Binary Function|Number of k-permutations that can be drawn from n-elements set|nPk(n, k)|4.2|
-| Beta |Binary Function|The Beta special function B(x,y), also called the Euler integral of the first kind|Beta(x, y)|4.2|
-| logBeta |Binary Function|The Log Beta special function ln B(x,y), also called the Log Euler integral of the first kind, ln B(x,y)|logBeta(x, y)|4.2|
-| pStud |Binary Function|Probability distribution function - Student's t-distribution|pStud(x, v)|5.0|
-| cStud |Binary Function|Cumulative distribution function - Student's t-distribution|cStud(x, v)|5.0|
-| qStud |Binary Function|Quantile function (inverse cumulative distribution function) - Student's t-distribution|qStud(p, v)|5.0|
-| pChi2 |Binary Function|Probability distribution function - Chi-squared distribution|pChi2(x, k)|5.0|
-| cChi2 |Binary Function|Cumulative distribution function - Chi-squared distribution|cChi2(x, k)|5.0|
-| qChi2 |Binary Function|Quantile function (inverse cumulative distribution function) - Chi-squared distribution|qChi2(p, k)|5.0|
+|log|Binary function|log(a, b)|1.0|Logarithm - Binary function|
+|mod|Binary function|mod(a, b)|1.0|Modulo - Binary function|
+|C|Binary function|C(n, k)|1.0|Binomial coefficient, number of k-combinations that can be drawn from n-elements set - Binary function|
+|nCk|Binary function|nCk(n, k)|4.2|Binomial coefficient, number of k-combinations that can be drawn from n-elements set - Binary function|
+|Bern|Binary function|Bern(m, n)|1.0|Bernoulli numbers - Binary function|
+|Stirl1|Binary function|Stirl1(n, k)|1.0|Stirling numbers of the first kind - Binary function|
+|Stirl2|Binary function|Stirl2(n, k)|1.0|Stirling numbers of the second kind - Binary function|
+|Worp|Binary function|Worp(n, k)|1.0|Worpitzky number - Binary function|
+|Euler|Binary function|Euler(n, k)|1.0|Euler number - Binary function|
+|KDelta|Binary function|KDelta(i, j)|1.0|Kronecker delta - Binary function|
+|EulerPol|Binary function|EulerPol(m, x)|1.0|Euler polynomial - Binary function|
+|Harm|Binary function|Harm(x, n)|1.0|Harmonic number - Binary function|
+|rUni|Binary function|rUni(a, b)|3.0|Random variable - Uniform continuous distribution U(a,b) - Binary function|
+|rUnid|Binary function|rUnid(a, b)|3.0|Random variable - Uniform discrete distribution U{a,b} - Binary function|
+|round|Binary function|round(x, n)|3.0|Half-up rounding - Binary function|
+|rNor|Binary function|rNor(mean, stdv)|3.0|Random variable - Normal distribution N(μ,σ) - Binary function|
+|ndig|Binary function|ndig(number, base)|4.1|Number of digits representing the number in numeral system with given base - Binary function|
+|dig10|Binary function|dig10(num, pos)|4.1|Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - base 10 numeral system - Binary function|
+|factval|Binary function|factval(number, factorid)|4.1|Prime decomposition - factor value at position between 1 ... nfact(n) - ascending order by factor value - Binary function|
+|factexp|Binary function|factexp(number, factorid)|4.1|Prime decomposition - factor exponent / multiplicity at position between 1 ... nfact(n) - ascending order by factor value - Binary function|
+|root|Binary function|root(rootorder, number)|4.1|N-th order root of a number - Binary function|
+|GammaL|Binary function|GammaL(s, x)|4.2|Lower incomplete gamma - Special function γ(s,x) - Binary function|
+|GammaU|Binary function|GammaU(s, x)|4.2|Upper incomplete Gamma - Special function Γ(s,x) - Binary function|
+|GammaP|Binary function|GammaP(s, x)|4.2|Lower regularized P gamma - Special function P(s,x) - Binary function|
+|GammaRegL|Binary function|GammaRegL(s, x)|4.2|Lower regularized P gamma - Special function P(s,x) - Binary function|
+|GammaQ|Binary function|GammaQ(s, x)|4.2|Upper regularized Q Gamma - Special function Q(s,x) - Binary function|
+|GammaRegU|Binary function|GammaRegU(s, x)|4.2|Upper regularized Q Gamma - Special function Q(s,x) - Binary function|
+|nPk|Binary function|nPk(n, k)|4.2|Number of k-permutations that can be drawn from n-elements set - Binary function|
+|Beta|Binary function|Beta(x, y)|4.2|The Beta, also called the Euler integral of the first kind - Special function B(x,y) - Binary function|
+|logBeta|Binary function|logBeta(x, y)|4.2|The Log Beta, also called the Log Euler integral of the first kind - Special function lnB(x,y) - Binary function|
+|pStud|Binary function|pStud(x, v)|5.0|Student's t-distribution - Probability distribution function - Binary function|
+|cStud|Binary function|cStud(x, v)|5.0|Student's t-distribution - Cumulative distribution function - Binary function|
+|qStud|Binary function|qStud(p, v)|5.0|Student's t-distribution - Quantile function (inverse cumulative distribution function) - Binary function|
+|pChi2|Binary function|pChi2(x, k)|5.0|Chi-squared distribution - Probability distribution function - Binary function|
+|cChi2|Binary function|cChi2(x, k)|5.0|Chi-squared distribution - Cumulative distribution function - Binary function|
+|qChi2|Binary function|qChi2(p, k)|5.0|Chi-squared distribution - Quantile function (inverse cumulative distribution function) - Binary function|
+|rFSned|Binary function|rFSned(d1, d2)|5.1|Random variable - Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Binary function|
 
 ## 3-args Functions
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| if |3-args Function|If function|if(cond, expr-if-true, expr-if-false)|1.0|
-| chi |3-args Function|Characteristic function for x in (a,b)|chi(x, a, b)|1.0|
-| CHi |3-args Function|Characteristic function for x in [a,b]|CHi(x, a, b)|1.0|
-| Chi |3-args Function|Characteristic function for x in [a,b)|Chi(x, a, b)|1.0|
-| cHi |3-args Function|Characteristic function for x in (a,b]|cHi(x, a, b)|1.0|
-| pUni |3-args Function|Probability distribution function - Uniform continuous distribution U(a,b)|pUni(x, a, b)|3.0|
-| cUni |3-args Function|Cumulative distribution function - Uniform continuous distribution U(a,b)|cUni(a, a, b)|3.0|
-| qUni |3-args Function|Quantile function (inverse cumulative distribution function) - Uniform continuous distribution U(a,b)|qUni(q, a, b)|3.0|
-| pNor |3-args Function|Probability distribution function - Normal distribution N(m,s)|pNor(x, mean, stdv)|3.0|
-| cNor |3-args Function|Cumulative distribution function - Normal distribution N(m,s)|cNor(x, mean, stdv)|3.0|
-| qNor |3-args Function|Quantile function (inverse cumulative distribution function)|qNor(q, mean, stdv)|3.0|
-| dig |3-args Function|Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base|dig(num, pos, base)|4.1|
-| BetaInc |3-args Function|The incomplete beta special function B(x; a, b), also called the incomplete Euler integral of the first kind|BetaInc(x, a, b)|4.2|
-| BetaI |3-args Function|The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind|BetaI(x, a, b)|4.2|
-| BetaReg |3-args Function|The regularized incomplete beta (or regularized beta) special function I(x; a, b), also called the regularized incomplete Euler integral of the first kind|BetaReg(x, a, b)|4.2|
+|if|Ternary function|if(cond, expr-if-true, expr-if-false)|1.0|If - Ternary function|
+|chi|Ternary function|chi(x, a, b)|1.0|Characteristic function for x in (a,b) - Ternary function|
+|CHi|Ternary function|CHi(x, a, b)|1.0|Characteristic function for x in [a,b] - Ternary function|
+|Chi|Ternary function|Chi(x, a, b)|1.0|Characteristic function for x in [a,b) - Ternary function|
+|cHi|Ternary function|cHi(x, a, b)|1.0|Characteristic function for x in (a,b] - Ternary function|
+|pUni|Ternary function|pUni(x, a, b)|3.0|Uniform continuous distribution - Probability distribution function U(a,b) - Ternary function|
+|cUni|Ternary function|cUni(a, a, b)|3.0|Uniform continuous distribution - Cumulative distribution function U(a,b) - Ternary function|
+|qUni|Ternary function|qUni(q, a, b)|3.0|Uniform continuous distribution - Quantile function (inverse cumulative distribution function) U(a,b) - Ternary function|
+|pNor|Ternary function|pNor(x, mean, stdv)|3.0|Normal distribution - Probability distribution function N(μ,σ) - Ternary function|
+|cNor|Ternary function|cNor(x, mean, stdv)|3.0|Normal distribution - Cumulative distribution function N(μ,σ) - Ternary function|
+|qNor|Ternary function|qNor(q, mean, stdv)|3.0|Normal distribution - Quantile function (inverse cumulative distribution function) N(μ,σ) - Ternary function|
+|dig|Ternary function|dig(num, pos, base)|4.1|Digit at position 1 ... n (left -> right) or 0 ... -(n-1) (right -> left) - numeral system with given base - Ternary function|
+|BetaInc|Ternary function|BetaInc(x, a, b)|4.2|The incomplete Beta, also called the incomplete Euler integral of the first kind - Special function B(x,a,b) - Ternary function|
+|BetaI|Ternary function|BetaI(x, a, b)|4.2|The regularized incomplete Beta (or regularized beta), also called the regularized incomplete Euler integral of the first kind - Special function I(x,a,b) - Ternary function|
+|BetaReg|Ternary function|BetaReg(x, a, b)|4.2|The regularized incomplete Beta (or regularized beta), also called the regularized incomplete Euler integral of the first kind - Special function I(x,a,b) - Ternary function|
+|pFSned|Ternary function|pFSned(x, d1, d2)|5.1|Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Probability distribution function - Ternary function|
+|cFSned|Ternary function|cFSned(x, d1, d2)|5.1|Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Cumulative distribution function - Ternary function|
+|qFSned|Ternary function|qFSned(p, d1, d2)|5.1|Snedecor's F distribution (F-distribution or F-ratio, also known as Fisher–Snedecor distribution) - Quantile function (inverse cumulative distribution function) - Ternary function|
 
 ## Variadic Functions
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| iff |Variadic Function|If function|iff(cond-1, expr-1; ... ; cond-n, expr-n)|1.0|
-| min |Variadic Function|Minimum function|min(a1, ..., an)|1.0|
-| max |Variadic Function|Maximum function|max(a1, ..., an)|1.0|
-| ConFrac |Variadic Function|Continued fraction|ConFrac(a1, ..., an)|1.0|
-| ConPol |Variadic Function|Continued polynomial|ConPol(a1, ..., an)|1.0|
-| gcd |Variadic Function|Greatest common divisor|gcd(a1, ..., an)|1.0|
-| lcm |Variadic Function|Least common multiple|lcm(a1, ..., an)|1.0|
-| add |Variadic Function|Summation operator|add(a1, ..., an)|2.4|
-| multi |Variadic Function|Multiplication|multi(a1, ..., an)|2.4|
-| mean |Variadic Function|Mean / average value|mean(a1, ..., an)|2.4|
-| var |Variadic Function|Bias-corrected sample variance|var(a1, ..., an)|2.4|
-| std |Variadic Function|Bias-corrected sample standard deviation|std(a1, ..., an)|2.4|
-| rList |Variadic Function|Random number from given list of numbers|rList(a1, ..., an)|3.0|
-| coalesce |Variadic Function|Returns the first non-NaN value|coalesce(a1, ..., an)|4.1|
-| or |Variadic Function|Logical disjunction (OR) - variadic|or(a1, ..., an)|4.1|
-| and |Variadic Function|Logical conjunction (AND) - variadic|and(a1, ..., an)|4.1|
-| xor |Variadic Function|Exclusive or (XOR) - variadic|xor(a1, ..., an)|4.1|
-| argmin |Variadic Function|Arguments / indices of the minima|argmin(a1, ..., an)|4.1|
-| argmax |Variadic Function|Arguments / indices of the maxima|argmax(a1, ..., an)|4.1|
-| med |Variadic Function|The sample median|med(a1, ..., an)|4.1|
-| mode |Variadic Function|Mode - the value that appears most often|mode(a1, ..., an)|4.1|
-| base |Variadic Function|Returns number in given numeral system base represented by list of digits|base(b, d1, ..., dn)|4.1|
-| ndist |Variadic Function|Number of distinct values|ndist(v1, ..., vn)|4.1|
+|iff|Variadic function|iff(cond-1, expr-1; ... ; cond-n, expr-n)|1.0|If function - Variadic function|
+|min|Variadic function|min(a1, ..., an)|1.0|Minimum - Variadic function|
+|max|Variadic function|max(a1, ..., an)|1.0|Maximum - Variadic function|
+|ConFrac|Variadic function|ConFrac(a1, ..., an)|1.0|Continued fraction - Variadic function|
+|ConPol|Variadic function|ConPol(a1, ..., an)|1.0|Continued polynomial - Variadic function|
+|gcd|Variadic function|gcd(a1, ..., an)|1.0|Greatest common divisor - Variadic function|
+|lcm|Variadic function|lcm(a1, ..., an)|1.0|Least common multiple - Variadic function|
+|add|Variadic function|add(a1, ..., an)|2.4|Summation - Variadic function|
+|multi|Variadic function|multi(a1, ..., an)|2.4|Multiplication - Variadic function|
+|mean|Variadic function|mean(a1, ..., an)|2.4|Mean / average value - Variadic function|
+|var|Variadic function|var(a1, ..., an)|2.4|Bias-corrected sample variance - Variadic function|
+|std|Variadic function|std(a1, ..., an)|2.4|Bias-corrected sample standard deviation - Variadic function|
+|rList|Variadic function|rList(a1, ..., an)|3.0|Random number from a given list of numbers - Variadic function|
+|coalesce|Variadic function|coalesce(a1, ..., an)|4.1|Returns the first non-NaN value - Variadic function|
+|or|Variadic function|or(a1, ..., an)|4.1|Logical disjunction (OR) - variadic - Variadic function|
+|and|Variadic function|and(a1, ..., an)|4.1|Logical conjunction (AND) - variadic - Variadic function|
+|xor|Variadic function|xor(a1, ..., an)|4.1|Exclusive or (XOR) - variadic - Variadic function|
+|argmin|Variadic function|argmin(a1, ..., an)|4.1|Arguments / indices of the minima - Variadic function|
+|argmax|Variadic function|argmax(a1, ..., an)|4.1|Arguments / indices of the maxima - Variadic function|
+|med|Variadic function|med(a1, ..., an)|4.1|The sample median - Variadic function|
+|mode|Variadic function|mode(a1, ..., an)|4.1|Mode - the value that appears most often - Variadic function|
+|base|Variadic function|base(b, d1, ..., dn)|4.1|Returns number in given numeral system base represented by list of digits - Variadic function|
+|ndist|Variadic function|ndist(v1, ..., vn)|4.1|Number of distinct values - Variadic function|
 
 ## Calculus Operators / Iterated Operators
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| ∑ |Calculus Operator|Summation operator - SIGMA - unicode math symbol|∑(i, from, to, expr, <by>)|5.0|
-| Σ |Calculus Operator|Summation operator - SIGMA - unicode math symbol|Σ(i, from, to, expr, <by>)|5.0|
-| sum |Calculus Operator|Summation operator - SIGMA|sum(i, from, to, expr, <by>)|1.0|
-| ∏ |Calculus Operator|Product operator - PI - unicode math symbol|∏(i, from, to, expr, <by>)|5.0|
-| ℿ |Calculus Operator|Product operator - PI - unicode math symbol|ℿ(i, from, to, expr, <by>)|5.0|
-| Π |Calculus Operator|Product operator - PI - unicode math symbol|Π(i, from, to, expr, <by>)|5.0|
-| prod |Calculus Operator|Product operator - PI|prod(i, from, to, expr, <by>)|1.0|
-| ∫ |Calculus Operator|Definite integral operator - unicode math symbol|∫(expr, arg, from, to)|5.0|
-| int |Calculus Operator|Definite integral operator|int(expr, arg, from, to)|1.0|
-| ∂ |Calculus Operator|Derivative operator - unicode math symbol|∂(expr, arg, <point>)|5.0|
-| der |Calculus Operator|Derivative operator|der(expr, arg, <point>)|1.0|
-| ∂- |Calculus Operator|Left derivative operator - unicode math symbol|∂-(expr, arg, <point>)|5.0|
-| der- |Calculus Operator|Left derivative operator|der-(expr, arg, <point>)|1.0|
-| ∂+ |Calculus Operator|Right derivative operator - unicode math symbol|∂+(expr, arg, <point>)|5.0|
-| der+ |Calculus Operator|Right derivative operator|der+(expr, arg, <point>)|1.0|
-| dern |Calculus Operator|n-th derivative operator|dern(expr, n, arg)|1.0|
-| ∆ |Calculus Operator|Forward difference operator - unicode math symbol|∆(expr, arg, <delta>)|5.0|
-| Δ |Calculus Operator|Forward difference operator - unicode math symbol|Δ(expr, arg, <delta>)|5.0|
-| diff |Calculus Operator|Forward difference operator|diff(expr, arg, <delta>)|1.0|
-| ∇ |Calculus Operator|Backward difference operator - unicode math symbol|∇(expr, arg, <delta>)|5.0|
-| difb |Calculus Operator|Backward difference operator|difb(expr, arg, <delta>)|1.0|
-| avg |Calculus Operator|Average operator|avg(i, from, to, expr, <by>)|2.4|
-| vari |Calculus Operator|Bias-corrected sample variance operator|vari(i, from, to, expr, <by>)|2.4|
-| stdi |Calculus Operator|Bias-corrected sample standard deviation operator|stdi(i, from, to, expr, <by>)|2.4|
-| mini |Calculus Operator|Minimum value|mini(i, from, to, expr, <by>)|2.4|
-| maxi |Calculus Operator|Maximum value|maxi(i, from, to, expr, <by>)|2.4|
-| solve |Calculus Operator|f(x) = 0 equation solving, function root finding|solve(expr, arg, from, to)|4.0|
+|∑|Calculus operator|∑(i, from, to, expr, <by>)|5.0|Summation SIGMA - Iterated operator Σ - Calculus operator - Unicode math symbol|
+|Σ|Calculus operator|Σ(i, from, to, expr, <by>)|5.0|Summation SIGMA - Iterated operator Σ - Calculus operator - Unicode math symbol|
+|sum|Calculus operator|sum(i, from, to, expr, <by>)|1.0|Summation SIGMA - Iterated operator Σ - Calculus operator|
+|∏|Calculus operator|∏(i, from, to, expr, <by>)|5.0|Product PI - Iterated operator ∏ - Calculus operator - Unicode math symbol|
+|ℿ|Calculus operator|ℿ(i, from, to, expr, <by>)|5.0|Product PI - Iterated operator ∏ - Calculus operator - Unicode math symbol|
+|Π|Calculus operator|Π(i, from, to, expr, <by>)|5.0|Product PI - Iterated operator ∏ - Calculus operator - Unicode math symbol|
+|prod|Calculus operator|prod(i, from, to, expr, <by>)|1.0|Product PI - Iterated operator ∏ - Calculus operator|
+|∫|Calculus operator|∫(expr, arg, from, to)|5.0|Definite integral ∫ - Calculus operator - Unicode math symbol|
+|int|Calculus operator|int(expr, arg, from, to)|1.0|Definite integral ∫ - Calculus operator|
+|∂|Calculus operator|∂(expr, arg, <point>)|5.0|Derivative ∂ - Calculus operator - Unicode math symbol|
+|der|Calculus operator|der(expr, arg, <point>)|1.0|Derivative ∂ - Calculus operator|
+|∂-|Calculus operator|∂-(expr, arg, <point>)|5.0|Left derivative ∂- - Calculus operator - Unicode math symbol|
+|der-|Calculus operator|der-(expr, arg, <point>)|1.0|Left derivative ∂- - Calculus operator|
+|∂+|Calculus operator|∂+(expr, arg, <point>)|5.0|Right derivative ∂+ - Calculus operator - Unicode math symbol|
+|der+|Calculus operator|der+(expr, arg, <point>)|1.0|Right derivative ∂+ - Calculus operator|
+|dern|Calculus operator|dern(expr, n, arg)|1.0|n-th derivative ∂ⁿ - Calculus operator|
+|∆|Calculus operator|∆(expr, arg, <delta>)|5.0|Forward difference ∆ - Calculus operator - Unicode math symbol|
+|Δ|Calculus operator|Δ(expr, arg, <delta>)|5.0|Forward difference ∆ - Calculus operator - Unicode math symbol|
+|diff|Calculus operator|diff(expr, arg, <delta>)|1.0|Forward difference ∆ - Calculus operator|
+|∇|Calculus operator|∇(expr, arg, <delta>)|5.0|Backward difference ∇ - Calculus operator - Unicode math symbol|
+|difb|Calculus operator|difb(expr, arg, <delta>)|1.0|Backward difference ∇ - Calculus operator|
+|avg|Calculus operator|avg(i, from, to, expr, <by>)|2.4|Average - Iterated operator - Calculus operator|
+|vari|Calculus operator|vari(i, from, to, expr, <by>)|2.4|Bias-corrected sample variance - Iterated operator - Calculus operator|
+|stdi|Calculus operator|stdi(i, from, to, expr, <by>)|2.4|Bias-corrected sample standard deviation - Iterated operator - Calculus operator|
+|mini|Calculus operator|mini(i, from, to, expr, <by>)|2.4|Minimum value - Iterated operator - Calculus operator|
+|maxi|Calculus operator|maxi(i, from, to, expr, <by>)|2.4|Maximum value - Iterated operator - Calculus operator|
+|solve|Calculus operator|solve(expr, arg, from, to)|4.0|Equation solving (root finding) f(x)=0 - Calculus operator|
 
 
 ## Random Variables
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [Uni] |Random Variable|Random variable - Uniform continuous distribution U(0,1)|[Uni]|3.0|
-| [Int] |Random Variable|Random variable - random integer|[Int]|3.0|
-| [Int1] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^1, 10^1}|[Int1]|3.0|
-| [Int2] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^2, 10^2}|[Int2]|3.0|
-| [Int3] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^3, 10^3}|[Int3]|3.0|
-| [Int4] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^4, 10^4}|[Int4]|3.0|
-| [Int5] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^5, 10^5}|[Int5]|3.0|
-| [Int6] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^6, 10^6}|[Int6]|3.0|
-| [Int7] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^7, 10^7}|[Int7]|3.0|
-| [Int8] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^8, 10^8}|[Int8]|3.0|
-| [Int9] |Random Variable|Random variable - random integer - Uniform discrete distribution U{-10^9, 10^9}|[Int9]|3.0|
-| [nat] |Random Variable|Random variable - random natural number including 0|[nat]|3.0|
-| [nat1] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^1}|[nat1]|3.0|
-| [nat2] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^2}|[nat2]|3.0|
-| [nat3] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^3}|[nat3]|3.0|
-| [nat4] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^4}|[nat4]|3.0|
-| [nat5] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^5}|[nat5]|3.0|
-| [nat6] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^6}|[nat6]|3.0|
-| [nat7] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^7}|[nat7]|3.0|
-| [nat8] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^8}|[nat8]|3.0|
-| [nat9] |Random Variable|Random variable - random natural number including 0 - Uniform discrete distribution U{0, 10^9}|[nat9]|3.0|
-| [Nat] |Random Variable|Random variable - random natural number|[Nat]|3.0|
-| [Nat1] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^1}|[Nat1]|3.0|
-| [Nat2] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^2}|[Nat2]|3.0|
-| [Nat3] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^3}|[Nat3]|3.0|
-| [Nat4] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^4}|[Nat4]|3.0|
-| [Nat5] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^5}|[Nat5]|3.0|
-| [Nat6] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^6}|[Nat6]|3.0|
-| [Nat7] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^7}|[Nat7]|3.0|
-| [Nat8] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^8}|[Nat8]|3.0|
-| [Nat9] |Random Variable|Random variable - random natural number - Uniform discrete distribution U{1, 10^9}|[Nat9]|3.0|
-| [Nor] |Random Variable|Random variable - Normal distribution N(0,1)|[Nor]|3.0|
+|[Uni]|Random variable|[Uni]|3.0|Uniform continuous distribution U(0,1) - Random variable|
+|[Int]|Random variable|[Int]|3.0|Random integer - Random variable|
+|[Int1]|Random variable|[Int1]|3.0|Uniform discrete distribution - Random integer U{-10¹,10¹} - Random variable|
+|[Int2]|Random variable|[Int2]|3.0|Uniform discrete distribution - Random integer U{-10²,10²} - Random variable|
+|[Int3]|Random variable|[Int3]|3.0|Uniform discrete distribution - Random integer U{-10³,10³} - Random variable|
+|[Int4]|Random variable|[Int4]|3.0|Uniform discrete distribution - Random integer U{-10⁴,10⁴} - Random variable|
+|[Int5]|Random variable|[Int5]|3.0|Uniform discrete distribution - Random integer U{-10⁵,10⁵} - Random variable|
+|[Int6]|Random variable|[Int6]|3.0|Uniform discrete distribution - Random integer U{-10⁶,10⁶} - Random variable|
+|[Int7]|Random variable|[Int7]|3.0|Uniform discrete distribution - Random integer U{-10⁷,10⁷} - Random variable|
+|[Int8]|Random variable|[Int8]|3.0|Uniform discrete distribution - Random integer U{-10⁸,10⁸} - Random variable|
+|[Int9]|Random variable|[Int9]|3.0|Uniform discrete distribution - Random integer U{-10⁹,10⁹} - Random variable|
+|[nat]|Random variable|[nat]|3.0|Random natural number including 0 - Random variable|
+|[nat1]|Random variable|[nat1]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10¹} - Random variable|
+|[nat2]|Random variable|[nat2]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10²} - Random variable|
+|[nat3]|Random variable|[nat3]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10³} - Random variable|
+|[nat4]|Random variable|[nat4]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10⁴} - Random variable|
+|[nat5]|Random variable|[nat5]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10⁵} - Random variable|
+|[nat6]|Random variable|[nat6]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10⁶} - Random variable|
+|[nat7]|Random variable|[nat7]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10⁷} - Random variable|
+|[nat8]|Random variable|[nat8]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10⁸} - Random variable|
+|[nat9]|Random variable|[nat9]|3.0|Uniform discrete distribution - Random natural number including 0 U{0,10⁹} - Random variable|
+|[Nat]|Random variable|[Nat]|3.0|Random natural number - Random variable|
+|[Nat1]|Random variable|[Nat1]|3.0|Uniform discrete distribution - Random natural number U{1,10¹} - Random variable|
+|[Nat2]|Random variable|[Nat2]|3.0|Uniform discrete distribution - Random natural number U{1,10²} - Random variable|
+|[Nat3]|Random variable|[Nat3]|3.0|Uniform discrete distribution - Random natural number U{1,10³} - Random variable|
+|[Nat4]|Random variable|[Nat4]|3.0|Uniform discrete distribution - Random natural number U{1,10⁴} - Random variable|
+|[Nat5]|Random variable|[Nat5]|3.0|Uniform discrete distribution - Random natural number U{1,10⁵} - Random variable|
+|[Nat6]|Random variable|[Nat6]|3.0|Uniform discrete distribution - Random natural number U{1,10⁶} - Random variable|
+|[Nat7]|Random variable|[Nat7]|3.0|Uniform discrete distribution - Random natural number U{1,10⁷} - Random variable|
+|[Nat8]|Random variable|[Nat8]|3.0|Uniform discrete distribution - Random natural number U{1,10⁸} - Random variable|
+|[Nat9]|Random variable|[Nat9]|3.0|Uniform discrete distribution - Random natural number U{1,10⁹} - Random variable|
+|[Nor]|Random variable|[Nor]|3.0|Normal distribution N(0,1) - Random variable|
 
 ## Mathematical Constants
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| π |Constant Value|Pi, Archimedes' constant or Ludolph's number - unicode math symbol|π|5.0|
-| ℼ |Constant Value|Pi, Archimedes' constant or Ludolph's number - unicode math symbol|ℼ|5.0|
-| pi |Constant Value|Pi, Archimedes' constant or Ludolph's number|pi|1.0|
-| e |Constant Value|Napier's constant, or Euler's number, base of Natural logarithm|e|1.0|
-| ℯ |Constant Value|Napier's constant, or Euler's number, base of Natural logarithm - unicode math symbol|ℯ|5.0|
-| ⅇ |Constant Value|Napier's constant, or Euler's number, base of Natural logarithm - unicode math symbol|ⅇ|5.0|
-| [gam] |Constant Value|Euler-Mascheroni constant|[gam]|1.0|
-| [phi] |Constant Value|Golden ratio|[phi]|1.0|
-| [PN] |Constant Value|Plastic constant|[PN]|1.0|
-| [B*] |Constant Value|Embree-Trefethen constant|[B*]|1.0|
-| [F'd] |Constant Value|Feigenbaum constant alfa|[F'd]|1.0|
-| [F'a] |Constant Value|Feigenbaum constant delta|[F'a]|1.0|
-| [C2] |Constant Value|Twin prime constant|[C2]|1.0|
-| [M1] |Constant Value|Meissel-Mertens constant|[M1]|1.0|
-| [B2] |Constant Value|Brun's constant for twin primes|[B2]|1.0|
-| [B4] |Constant Value|Brun's constant for prime quadruplets|[B4]|1.0|
-| [BN'L] |Constant Value|de Bruijn-Newman constant|[BN'L]|1.0|
-| [Kat] |Constant Value|Catalan's constant|[Kat]|1.0|
-| [K*] |Constant Value|Landau-Ramanujan constant|[K*]|1.0|
-| [K.] |Constant Value|Viswanath's constant|[K.]|1.0|
-| [B'L] |Constant Value|Legendre's constant|[B'L]|1.0|
-| [RS'm] |Constant Value|Ramanujan-Soldner constant|[RS'm]|1.0|
-| [EB'e] |Constant Value|Erdos-Borwein constant|[EB'e]|1.0|
-| [Bern] |Constant Value|Bernstein's constant|[Bern]|1.0|
-| [GKW'l] |Constant Value|Gauss-Kuzmin-Wirsing constant|[GKW'l]|1.0|
-| [HSM's] |Constant Value|Hafner-Sarnak-McCurley constant|[HSM's]|1.0|
-| [lm] |Constant Value|Golomb-Dickman constant|[lm]|1.0|
-| [Cah] |Constant Value|Cahen's constant|[Cah]|1.0|
-| [Ll] |Constant Value|Laplace limit|[Ll]|1.0|
-| [AG] |Constant Value|Alladi-Grinstead constant|[AG]|1.0|
-| [L*] |Constant Value|Lengyel's constant|[L*]|1.0|
-| [L.] |Constant Value|Levy's constant|[L.]|1.0|
-| [Dz3] |Constant Value|Apery's constant|[Dz3]|1.0|
-| [A3n] |Constant Value|Mills' constant|[A3n]|1.0|
-| [Bh] |Constant Value|Backhouse's constant|[Bh]|1.0|
-| [Pt] |Constant Value|Porter's constant|[Pt]|1.0|
-| [L2] |Constant Value|Lieb's square ice constant|[L2]|1.0|
-| [Nv] |Constant Value|Niven's constant|[Nv]|1.0|
-| [Ks] |Constant Value|Sierpinski's constant|[Ks]|1.0|
-| [Kh] |Constant Value|Khinchin's constant|[Kh]|1.0|
-| [FR] |Constant Value|Fransen-Robinson constant|[FR]|1.0|
-| [La] |Constant Value|Landau's constant|[La]|1.0|
-| [P2] |Constant Value|Parabolic constant|[P2]|1.0|
-| [Om] |Constant Value|Omega constant|[Om]|1.0|
-| [MRB] |Constant Value|MRB constant|[MRB]|1.0|
-| [li2] |Constant Value|li(2) - Logarithmic integral function at x=2|[li2]|2.3|
-| [EG] |Constant Value|Gompertz constant|[EG]|2.3|
+|π|Constant value|π|5.0|Pi, Archimedes' or Ludolph's number - Mathematical constant π - Constant value - Unicode math symbol|
+|ℼ|Constant value|ℼ|5.0|Pi, Archimedes' or Ludolph's number - Mathematical constant π - Constant value - Unicode math symbol|
+|pi|Constant value|pi|1.0|Pi, Archimedes' or Ludolph's number - Mathematical constant π - Constant value|
+|e|Constant value|e|1.0|Napier's or Euler's number (base of Natural logarithm) - Mathematical constant e - Constant value|
+|ℯ|Constant value|ℯ|5.0|Napier's or Euler's number (base of Natural logarithm) - Mathematical constant e - Constant value - Unicode math symbol|
+|ⅇ|Constant value|ⅇ|5.0|Napier's or Euler's number (base of Natural logarithm) - Mathematical constant e - Constant value - Unicode math symbol|
+|[gam]|Constant value|[gam]|1.0|Euler-Mascheroni constant - Mathematical constant γ - Constant value|
+|[phi]|Constant value|[phi]|1.0|Golden ratio - Mathematical constant φ - Constant value|
+|[PN]|Constant value|[PN]|1.0|Plastic constant - Mathematical constant ρ - Constant value|
+|[B*]|Constant value|[B*]|1.0|Embree-Trefethen constant - Mathematical constant β* - Constant value|
+|[F'd]|Constant value|[F'd]|1.0|Feigenbaum delta constant - Mathematical constant δ - Constant value|
+|[F'a]|Constant value|[F'a]|1.0|Feigenbaum alpha constant - Mathematical constant α - Constant value|
+|[C2]|Constant value|[C2]|1.0|Twin prime constant - Mathematical constant ∏₂ - Constant value|
+|[M1]|Constant value|[M1]|1.0|Meissel-Mertens constant - Mathematical constant M₁, B₁ - Constant value|
+|[B2]|Constant value|[B2]|1.0|Brun's constant for twin primes - Mathematical constant B₂ - Constant value|
+|[B4]|Constant value|[B4]|1.0|Brun's constant for prime quadruplets - Mathematical constant B₄ - Constant value|
+|[BN'L]|Constant value|[BN'L]|1.0|de Bruijn-Newman constant - Mathematical constant Λ - Constant value|
+|[Kat]|Constant value|[Kat]|1.0|Catalan's constant - Mathematical constant G - Constant value|
+|[K*]|Constant value|[K*]|1.0|Landau-Ramanujan constant - Mathematical constant b - Constant value|
+|[K.]|Constant value|[K.]|1.0|Viswanath's constant - Mathematical constant V - Constant value|
+|[B'L]|Constant value|[B'L]|1.0|Legendre's constant - Mathematical constant B - Constant value|
+|[RS'm]|Constant value|[RS'm]|1.0|Ramanujan-Soldner constant - Mathematical constant μ - Constant value|
+|[EB'e]|Constant value|[EB'e]|1.0|Erdos-Borwein constant - Mathematical constant E - Constant value|
+|[Bern]|Constant value|[Bern]|1.0|Bernstein's constant - Mathematical constant β - Constant value|
+|[GKW'l]|Constant value|[GKW'l]|1.0|Gauss-Kuzmin-Wirsing constant - Mathematical constant λ - Constant value|
+|[HSM's]|Constant value|[HSM's]|1.0|Hafner-Sarnak-McCurley constant - Mathematical constant σ - Constant value|
+|[lm]|Constant value|[lm]|1.0|Golomb-Dickman constant - Mathematical constant λ - Constant value|
+|[Cah]|Constant value|[Cah]|1.0|Cahen's constant - Mathematical constant C - Constant value|
+|[Ll]|Constant value|[Ll]|1.0|Laplace limit constant - Mathematical constant - Constant value|
+|[AG]|Constant value|[AG]|1.0|Alladi-Grinstead constant - Mathematical constant - Constant value|
+|[L*]|Constant value|[L*]|1.0|Lengyel's constant - Mathematical constant Λ - Constant value|
+|[L.]|Constant value|[L.]|1.0|Levy's constant - Mathematical constant - Constant value|
+|[Dz3]|Constant value|[Dz3]|1.0|Apery's constant - Mathematical constant ζ(3) - Constant value|
+|[A3n]|Constant value|[A3n]|1.0|Mills' constant - Mathematical constant A - Constant value|
+|[Bh]|Constant value|[Bh]|1.0|Backhouse's constant - Mathematical constant B - Constant value|
+|[Pt]|Constant value|[Pt]|1.0|Porter's constant - Mathematical constant C - Constant value|
+|[L2]|Constant value|[L2]|1.0|Lieb's square ice constant - Mathematical constant - Constant value|
+|[Nv]|Constant value|[Nv]|1.0|Niven's constant - Mathematical constant C - Constant value|
+|[Ks]|Constant value|[Ks]|1.0|Sierpinski's constant - Mathematical constant K - Constant value|
+|[Kh]|Constant value|[Kh]|1.0|Khinchin's constant - Mathematical constant K₀ - Constant value|
+|[FR]|Constant value|[FR]|1.0|Fransen-Robinson constant - Mathematical constant F - Constant value|
+|[La]|Constant value|[La]|1.0|Landau's constant - Mathematical constant L - Constant value|
+|[P2]|Constant value|[P2]|1.0|Parabolic constant - Mathematical constant P - Constant value|
+|[Om]|Constant value|[Om]|1.0|Omega constant - Mathematical constant Ω - Constant value|
+|[MRB]|Constant value|[MRB]|1.0|MRB constant - Mathematical constant S - Constant value|
+|[li2]|Constant value|[li2]|2.3|Logarithmic integral at point 2 - Mathematical constant li(2) - Constant value|
+|[EG]|Constant value|[EG]|2.3|Gompertz constant - Mathematical constant δ - Constant value|
 
 ## Physical Constant
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [c] |Constant Value|\<Physical Constant\> Light speed in vacuum [m/s] (m=1, s=1)|[c]|4.0|
-| [G.] |Constant Value|\<Physical Constant\> Gravitational constant (m=1, kg=1, s=1)]|[G.]|4.0|
-| [g] |Constant Value|\<Physical Constant\> Gravitational acceleration on Earth [m/s^2] (m=1, s=1)|[g]|4.0|
-| [hP] |Constant Value|\<Physical Constant\> Planck constant (m=1, kg=1, s=1)|[hP]|4.0|
-| [h-] |Constant Value|\<Physical Constant\> Reduced Planck constant / Dirac constant (m=1, kg=1, s=1)]|[h-]|4.0|
-| [lP] |Constant Value|\<Physical Constant\> Planck length [m] (m=1)|[lP]|4.0|
-| [mP] |Constant Value|\<Physical Constant\> Planck mass [kg] (kg=1)|[mP]|4.0|
-| [tP] |Constant Value|\<Physical Constant\> Planck time [s] (s=1)|[tP]|4.0|
-| [true] |Constant Value|Boolean True represented as double, [true] = 1|[true]|4.1|
-| [false] |Constant Value|Boolean False represented as double, [false] = 0|[false]|4.1|
-| [NaN] |Constant Value|Not-a-Number|[NaN]|4.1|
+|[c]|Constant value|[c]|4.0|Light speed in vacuum - Physical constant c [m/s] (m=1, s=1) - Constant value|
+|[G.]|Constant value|[G.]|4.0|Gravitational constant - Physical constant G (m=1, kg=1, s=1) - Constant value|
+|[g]|Constant value|[g]|4.0|Gravitational acceleration on Earth - Physical constant g [m/s²] (m=1, s=1) - Constant value|
+|[hP]|Constant value|[hP]|4.0|Planck constant - Physical constant h (m=1, kg=1, s=1) - Constant value|
+|[h-]|Constant value|[h-]|4.0|Reduced Planck constant (Dirac constant) - Physical constant ħ (m=1, kg=1, s=1) - Constant value|
+|[lP]|Constant value|[lP]|4.0|Planck length - Physical constant lᵖ [m] (m=1) - Constant value|
+|[mP]|Constant value|[mP]|4.0|Planck mass - Physical constant mᵖ [kg] (kg=1) - Constant value|
+|[tP]|Constant value|[tP]|4.0|Planck time - Physical constant tᵖ [s] (s=1) - Constant value|
 
 ## Astronomical Constant
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [ly] |Constant Value|\<Astronomical Constant\> Light year [m] (m=1)|[ly]|4.0|
-| [au] |Constant Value|\<Astronomical Constant\> Astronomical unit [m] (m=1)|[au]|4.0|
-| [pc] |Constant Value|\<Astronomical Constant\> Parsec [m] (m=1)|[pc]|4.0|
-| [kpc] |Constant Value|\<Astronomical Constant\> Kiloparsec [m] (m=1)|[kpc]|4.0|
-| [Earth-R-eq] |Constant Value|\<Astronomical Constant\> Earth equatorial radius [m] (m=1)|[Earth-R-eq]|4.0|
-| [Earth-R-po] |Constant Value|\<Astronomical Constant\> Earth polar radius [m] (m=1)|[Earth-R-po]|4.0|
-| [Earth-R] |Constant Value|\<Astronomical Constant\> Earth mean radius (m=1)|[Earth-R]|4.0|
-| [Earth-M] |Constant Value|\<Astronomical Constant\> Earth mass [kg] (kg=1)|[Earth-M]|4.0|
-| [Earth-D] |Constant Value|\<Astronomical Constant\> Earth-Sun distance - semi major axis [m] (m=1)|[Earth-D]|4.0|
-| [Moon-R] |Constant Value|\<Astronomical Constant\> Moon mean radius [m] (m=1)|[Moon-R]|4.0|
-| [Moon-M] |Constant Value|\<Astronomical Constant\> Moon mass [kg] (kg=1)|[Moon-M]|4.0|
-| [Moon-D] |Constant Value|\<Astronomical Constant\> Moon-Earth distance - semi major axis [m] (m=1)|[Moon-D]|4.0|
-| [Solar-R] |Constant Value|\<Astronomical Constant\> Solar mean radius [m] (m=1)|[Solar-R]|4.0|
-| [Solar-M] |Constant Value|\<Astronomical Constant\> Solar mass [kg] (kg=1)|[Solar-M]|4.0|
-| [Mercury-R] |Constant Value|\<Astronomical Constant\> Mercury mean radius [m] (m=1)|[Mercury-R]|4.0|
-| [Mercury-M] |Constant Value|\<Astronomical Constant\> Mercury mass [kg] (kg=1)|[Mercury-M]|4.0|
-| [Mercury-D] |Constant Value|\<Astronomical Constant\> Mercury-Sun distance - semi major axis [m] (m=1)|[Mercury-D]|4.0|
-| [Venus-R] |Constant Value|\<Astronomical Constant\> Venus mean radius [m] (m=1)|[Venus-R]|4.0|
-| [Venus-M] |Constant Value|\<Astronomical Constant\> Venus mass [kg] (kg=1)|[Venus-M]|4.0|
-| [Venus-D] |Constant Value|\<Astronomical Constant\> Venus-Sun distance - semi major axis [m] (m=1)|[Venus-D]|4.0|
-| [Mars-R] |Constant Value|\<Astronomical Constant\> Mars mean radius [m] (m=1)|[Mars-R]|4.0|
-| [Mars-M] |Constant Value|\<Astronomical Constant\> Mars mass [kg] (kg=1)|[Mars-M]|4.0|
-| [Mars-D] |Constant Value|\<Astronomical Constant\> Mars-Sun distance - semi major axis [m] (m=1)|[Mars-D]|4.0|
-| [Jupiter-R] |Constant Value|\<Astronomical Constant\> Jupiter mean radius [m] (m=1)|[Jupiter-R]|4.0|
-| [Jupiter-M] |Constant Value|\<Astronomical Constant\> Jupiter mass [kg] (kg=1)|[Jupiter-M]|4.0|
-| [Jupiter-D] |Constant Value|\<Astronomical Constant\> Jupiter-Sun distance - semi major axis [m] (m=1)|[Jupiter-D]|4.0|
-| [Saturn-R] |Constant Value|\<Astronomical Constant\> Saturn mean radius [m] (m=1)|[Saturn-R]|4.0|
-| [Saturn-M] |Constant Value|\<Astronomical Constant\> Saturn mass [kg] (kg=1)|[Saturn-M]|4.0|
-| [Saturn-D] |Constant Value|\<Astronomical Constant\> Saturn-Sun distance - semi major axis [m] (m=1)|[Saturn-D]|4.0|
-| [Uranus-R] |Constant Value|\<Astronomical Constant\> Uranus mean radius [m] (m=1)|[Uranus-R]|4.0|
-| [Uranus-M] |Constant Value|\<Astronomical Constant\> Uranus mass [kg] (kg=1)|[Uranus-M]|4.0|
-| [Uranus-D] |Constant Value|\<Astronomical Constant\> Uranus-Sun distance - semi major axis [m] (m=1)|[Uranus-D]|4.0|
-| [Neptune-R] |Constant Value|\<Astronomical Constant\> Neptune mean radius [m] (m=1)|[Neptune-R]|4.0|
-| [Neptune-M] |Constant Value|\<Astronomical Constant\> Neptune mass [kg] (kg=1)|[Neptune-M]|4.0|
-| [Neptune-D] |Constant Value|\<Astronomical Constant\> Neptune-Sun distance - semi major axis [m] (m=1)|[Neptune-D]|4.0|
+|[ly]|Constant value|[ly]|4.0|Light year - Astronomical constant ly [m] (m=1) - Constant value|
+|[au]|Constant value|[au]|4.0|Astronomical unit - Astronomical constant au, AU [m] (m=1) - Constant value|
+|[pc]|Constant value|[pc]|4.0|Parsec - Astronomical constant pc [m] (m=1) - Constant value|
+|[kpc]|Constant value|[kpc]|4.0|Kiloparsec - Astronomical constant kpc [m] (m=1) - Constant value|
+|[Earth-R-eq]|Constant value|[Earth-R-eq]|4.0|Earth equatorial radius - Astronomical constant Rª⊕ [m] (m=1) - Constant value|
+|[Earth-R-po]|Constant value|[Earth-R-po]|4.0|Earth polar radius - Astronomical constant Rᵇ⊕ [m] (m=1) - Constant value|
+|[Earth-R]|Constant value|[Earth-R]|4.0|Earth mean radius - Astronomical constant R⊕ (m=1) - Constant value|
+|[Earth-M]|Constant value|[Earth-M]|4.0|Earth mass - Astronomical constant M⊕ [kg] (kg=1) - Constant value|
+|[Earth-D]|Constant value|[Earth-D]|4.0|Earth-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Moon-R]|Constant value|[Moon-R]|4.0|Moon mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Moon-M]|Constant value|[Moon-M]|4.0|Moon mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Moon-D]|Constant value|[Moon-D]|4.0|Moon-Earth distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Solar-R]|Constant value|[Solar-R]|4.0|Solar mean radius - Astronomical constant R☉ [m] (m=1) - Constant value|
+|[Solar-M]|Constant value|[Solar-M]|4.0|Solar mass - Astronomical constant M☉ [kg] (kg=1) - Constant value|
+|[Mercury-R]|Constant value|[Mercury-R]|4.0|Mercury mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Mercury-M]|Constant value|[Mercury-M]|4.0|Mercury mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Mercury-D]|Constant value|[Mercury-D]|4.0|Mercury-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Venus-R]|Constant value|[Venus-R]|4.0|Venus mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Venus-M]|Constant value|[Venus-M]|4.0|Venus mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Venus-D]|Constant value|[Venus-D]|4.0|Venus-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Mars-R]|Constant value|[Mars-R]|4.0|Mars mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Mars-M]|Constant value|[Mars-M]|4.0|Mars mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Mars-D]|Constant value|[Mars-D]|4.0|Mars-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Jupiter-R]|Constant value|[Jupiter-R]|4.0|Jupiter mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Jupiter-M]|Constant value|[Jupiter-M]|4.0|Jupiter mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Jupiter-D]|Constant value|[Jupiter-D]|4.0|Jupiter-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Saturn-R]|Constant value|[Saturn-R]|4.0|Saturn mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Saturn-M]|Constant value|[Saturn-M]|4.0|Saturn mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Saturn-D]|Constant value|[Saturn-D]|4.0|Saturn-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Uranus-R]|Constant value|[Uranus-R]|4.0|Uranus mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Uranus-M]|Constant value|[Uranus-M]|4.0|Uranus mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Uranus-D]|Constant value|[Uranus-D]|4.0|Uranus-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
+|[Neptune-R]|Constant value|[Neptune-R]|4.0|Neptune mean radius - Astronomical constant [m] (m=1) - Constant value|
+|[Neptune-M]|Constant value|[Neptune-M]|4.0|Neptune mass - Astronomical constant [kg] (kg=1) - Constant value|
+|[Neptune-D]|Constant value|[Neptune-D]|4.0|Neptune-Sun distance - Astronomical constant - Semi major axis [m] (m=1) - Constant value|
 
 ## Metric prefixes
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [%] |Unit|\<Ratio, Fraction\> Percentage = 0.01|[%]|4.0|
-| [%%] |Unit|\<Ratio, Fraction\> Promil, Per mille = 0.001|[%%]|4.0|
-| [Y] |Unit|\<Metric Constant\> Septillion / Yotta = 10^24|[Y]|4.0|
-| [sept] |Unit|\<Metric Constant\> Septillion / Yotta = 10^24|[sept]|4.0|
-| [Z] |Unit|\<Metric Constant\> Sextillion / Zetta = 10^21|[Z]|4.0|
-| [sext] |Unit|\<Metric Constant\> Sextillion / Zetta = 10^21|[sext]|4.0|
-| [E] |Unit|\<Metric Constant\> Quintillion / Exa = 10^18|[E]|4.0|
-| [quint] |Unit|\<Metric Constant\> Quintillion / Exa = 10^18|[quint]|4.0|
-| [P] |Unit|\<Metric Constant\> Quadrillion / Peta = 10^15|[P]|4.0|
-| [quad] |Unit|\<Metric Constant\> Quadrillion / Peta = 10^15|[quad]|4.0|
-| [T] |Unit|\<Metric Constant\> Trillion / Tera = 10^12|[T]|4.0|
-| [tril] |Unit|\<Metric Constant\> Trillion / Tera = 10^12|[tril]|4.0|
-| [G] |Unit|\<Metric Constant\> Billion / Giga = 10^9|[G]|4.0|
-| [bil] |Unit|\<Metric Constant\> Billion / Giga = 10^9|[bil]|4.0|
-| [M] |Unit|\<Metric Constant\> Million / Mega = 10^6|[M]|4.0|
-| [mil] |Unit|\<Metric Constant\> Million / Mega = 10^6|[mil]|4.0|
-| [k] |Unit|\<Metric Constant\> Thousand / Kilo = 10^3|[k]|4.0|
-| [th] |Unit|\<Metric Constant\> Thousand / Kilo = 10^3|[th]|4.0|
-| [hund] |Unit|\<Metric Constant\> Hundred / Hecto = 10^2|[hund]|4.0|
-| [hecto] |Unit|\<Metric Constant\> Hundred / Hecto = 10^2|[hecto]|4.0|
-| [ten] |Unit|\<Metric Constant\> Ten / Deca = 10|[ten]|4.0|
-| [deca] |Unit|\<Metric Constant\> Ten / Deca = 10|[deca]|4.0|
-| [deci] |Unit|\<Metric Constant\> Tenth / Deci = 0.1|[deci]|4.0|
-| [centi] |Unit|\<Metric Constant\> Hundredth / Centi = 0.01|[centi]|4.0|
-| [milli] |Unit|\<Metric Constant\> Thousandth / Milli = 0.001|[milli]|4.0|
-| [mic] |Unit|\<Metric Constant\> Millionth / Micro = 10^-6|[mic]|4.0|
-| [n] |Unit|\<Metric Constant\> Billionth / Nano = 10^-9|[n]|4.0|
-| [p] |Unit|\<Metric Constant\> Trillionth / Pico = 10^-12|[p]|4.0|
-| [f] |Unit|\<Metric Constant\> Quadrillionth / Femto = 10^-15|[f]|4.0|
-| [a] |Unit|\<Metric Constant\> Quintillionth / Atoo = 10^-18|[a]|4.0|
-| [z] |Unit|\<Metric Constant\> Sextillionth / Zepto = 10^-21|[z]|4.0|
-| [y] |Unit|\<Metric Constant\> Septillionth / Yocto = 10^-24|[y]|4.0|
+|[Y]|Unit|[Y]|4.0|Septillion / Yotta - Metric prefix = 10²⁴ - Dimensionless unit|
+|[sept]|Unit|[sept]|4.0|Septillion / Yotta - Metric prefix = 10²⁴ - Dimensionless unit|
+|[Z]|Unit|[Z]|4.0|Sextillion / Zetta - Metric prefix = 10²¹ - Dimensionless unit|
+|[sext]|Unit|[sext]|4.0|Sextillion / Zetta - Metric prefix = 10²¹ - Dimensionless unit|
+|[E]|Unit|[E]|4.0|Quintillion / Exa - Metric prefix = 10¹⁸ - Dimensionless unit|
+|[quint]|Unit|[quint]|4.0|Quintillion / Exa - Metric prefix = 10¹⁸ - Dimensionless unit|
+|[P]|Unit|[P]|4.0|Quadrillion / Peta - Metric prefix = 10¹⁵ - Dimensionless unit|
+|[quad]|Unit|[quad]|4.0|Quadrillion / Peta - Metric prefix = 10¹⁵ - Dimensionless unit|
+|[T]|Unit|[T]|4.0|Trillion / Tera - Metric prefix = 10¹² - Dimensionless unit|
+|[tril]|Unit|[tril]|4.0|Trillion / Tera - Metric prefix = 10¹² - Dimensionless unit|
+|[G]|Unit|[G]|4.0|Billion / Giga - Metric prefix = 10⁹ - Dimensionless unit|
+|[bil]|Unit|[bil]|4.0|Billion / Giga - Metric prefix = 10⁹ - Dimensionless unit|
+|[M]|Unit|[M]|4.0|Million / Mega - Metric prefix = 10⁶ - Dimensionless unit|
+|[mil]|Unit|[mil]|4.0|Million / Mega - Metric prefix = 10⁶ - Dimensionless unit|
+|[k]|Unit|[k]|4.0|Thousand / Kilo - Metric prefix = 10³ - Dimensionless unit|
+|[th]|Unit|[th]|4.0|Thousand / Kilo - Metric prefix = 10³ - Dimensionless unit|
+|[hund]|Unit|[hund]|4.0|Hundred / Hecto - Metric prefix = 10² - Dimensionless unit|
+|[hecto]|Unit|[hecto]|4.0|Hundred / Hecto - Metric prefix = 10² - Dimensionless unit|
+|[ten]|Unit|[ten]|4.0|Ten / Deca - Metric prefix = 10 - Dimensionless unit|
+|[deca]|Unit|[deca]|4.0|Ten / Deca - Metric prefix = 10 - Dimensionless unit|
+|[deci]|Unit|[deci]|4.0|Tenth / Deci - Metric prefix = 10⁻¹ - Dimensionless unit|
+|[centi]|Unit|[centi]|4.0|Hundredth / Centi - Metric prefix = 10⁻² - Dimensionless unit|
+|[milli]|Unit|[milli]|4.0|Thousandth / Milli - Metric prefix = 10⁻³ - Dimensionless unit|
+|[mic]|Unit|[mic]|4.0|Millionth / Micro - Metric prefix = 10⁻⁶ - Dimensionless unit|
+|[n]|Unit|[n]|4.0|Billionth / Nano - Metric prefix = 10⁻⁹ - Dimensionless unit|
+|[p]|Unit|[p]|4.0|Trillionth / Pico - Metric prefix = 10⁻¹² - Dimensionless unit|
+|[f]|Unit|[f]|4.0|Quadrillionth / Femto - Metric prefix = 10⁻¹⁵ - Dimensionless unit|
+|[a]|Unit|[a]|4.0|Quintillionth / Atoo - Metric prefix = 10⁻¹⁸ - Dimensionless unit|
+|[z]|Unit|[z]|4.0|Sextillionth / Zepto - Metric prefix = 10⁻²¹ - Dimensionless unit|
+|[y]|Unit|[y]|4.0|Septillionth / Yocto - Metric prefix = 10⁻²⁴ - Dimensionless unit|
 
 ## Units of length
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [m] |Unit|\<Unit of length\> Metre / Meter (m=1)|[m]|4.0|
-| [km] |Unit|\<Unit of length\> Kilometre / Kilometer (m=1)|[km]|4.0|
-| [cm] |Unit|\<Unit of length\> Centimetre / Centimeter (m=1)|[cm]|4.0|
-| [mm] |Unit|\<Unit of length\> Millimetre / Millimeter (m=1)|[mm]|4.0|
-| [inch] |Unit|\<Unit of length\> Inch (m=1)|[inch]|4.0|
-| [yd] |Unit|\<Unit of length\> Yard (m=1)|[yd]|4.0|
-| [ft] |Unit|\<Unit of length\> Feet (m=1)|[ft]|4.0|
-| [mile] |Unit|\<Unit of length\> Mile (m=1)|[mile]|4.0|
-| [nmi] |Unit|\<Unit of length\> Nautical mile (m=1)|[nmi]|4.0|
+|[m]|Unit|[m]|4.0|Meter - Unit of length [m] (m=1) - Unit|
+|[km]|Unit|[km]|4.0|Kilometer - Unit of length [m] (m=1) - Unit|
+|[cm]|Unit|[cm]|4.0|Centimeter - Unit of length [m] (m=1) - Unit|
+|[mm]|Unit|[mm]|4.0|Millimeter - Unit of length [m] (m=1) - Unit|
+|[inch]|Unit|[inch]|4.0|Inch - Unit of length [m] (m=1) - Unit|
+|[yd]|Unit|[yd]|4.0|Yard - Unit of length [m] (m=1) - Unit|
+|[ft]|Unit|[ft]|4.0|Feet - Unit of length [m] (m=1) - Unit|
+|[mile]|Unit|[mile]|4.0|Mile - Unit of length [m] (m=1) - Unit|
+|[nmi]|Unit|[nmi]|4.0|Nautical mile - Unit of length [m] (m=1) - Unit|
 
 ## Units of area
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [m2] |Unit|\<Unit of area\> Square metre / Square meter (m=1)|[m2]|4.0|
-| [cm2] |Unit|\<Unit of area\> Square centimetre / Square centimeter (m=1)|[cm2]|4.0|
-| [mm2] |Unit|\<Unit of area\> Square millimetre / Square millimeter (m=1)|[mm2]|4.0|
-| [are] |Unit|\<Unit of area\> Are (m=1)|[are]|4.0|
-| [ha] |Unit|\<Unit of area\> Hectare (m=1)|[ha]|4.0|
-| [acre] |Unit|\<Unit of area\> Acre (m=1)|[acre]|4.0|
-| [km2] |Unit|\<Unit of area\> Square kilometre / Square kilometer (m=1)|[km2]|4.0|
+|[m2]|Unit|[m2]|4.0|Square meter - Unit of area [m²] (m=1) - Unit|
+|[cm2]|Unit|[cm2]|4.0|Square centimeter - Unit of area [m²] (m=1) - Unit|
+|[mm2]|Unit|[mm2]|4.0|Square millimeter - Unit of area [m²] (m=1) - Unit|
+|[are]|Unit|[are]|4.0|Are - Unit of area [m²] (m=1) - Unit|
+|[ha]|Unit|[ha]|4.0|Hectare - Unit of area [m²] (m=1) - Unit|
+|[acre]|Unit|[acre]|4.0|Acre - Unit of area [m²] (m=1) - Unit|
+|[km2]|Unit|[km2]|4.0|Square kilometer - Unit of area [m²] (m=1) - Unit|
 
 ## Units of volume
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [mm3] |Unit|\<Unit of volume\> Cubic millimetre / Cubic millimeter (m=1)|[mm3]|4.0|
-| [cm3] |Unit|\<Unit of volume\> Cubic centimetre / Cubic centimeter (m=1)|[cm3]|4.0|
-| [m3] |Unit|\<Unit of volume\> Cubic metre / Cubic meter (m=1)|[m3]|4.0|
-| [km3] |Unit|\<Unit of volume\> Cubic kilometre / Cubic kilometer (m=1)|[km3]|4.0|
-| [ml] |Unit|\<Unit of volume\> Millilitre / Milliliter (m=1)|[ml]|4.0|
-| [l] |Unit|\<Unit of volume\> Litre / Liter (m=1)|[l]|4.0|
-| [gall] |Unit|\<Unit of volume\> Gallon (m=1)|[gall]|4.0|
-| [pint] |Unit|\<Unit of volume\> Pint (m=1)|[pint]|4.0|
+|[mm3]|Unit|[mm3]|4.0|Cubic millimeter - Unit of volume [m³] (m=1) - Unit|
+|[cm3]|Unit|[cm3]|4.0|Cubic centimeter - Unit of volume [m³] (m=1) - Unit|
+|[m3]|Unit|[m3]|4.0|Cubic meter - Unit of volume [m³] (m=1) - Unit|
+|[km3]|Unit|[km3]|4.0|Cubic kilometer - Unit of volume [m³] (m=1) - Unit|
+|[ml]|Unit|[ml]|4.0|Milliliter - Unit of volume [m³] (m=1) - Unit|
+|[l]|Unit|[l]|4.0|Liter - Unit of volume [m³] (m=1) - Unit|
+|[gall]|Unit|[gall]|4.0|Gallon - Unit of volume [m³] (m=1) - Unit|
+|[pint]|Unit|[pint]|4.0|Pint - Unit of volume [m³] (m=1) - Unit|
 
 ## Units of time
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [s] |Unit|\<Unit of time\> Second (s=1)|[s]|4.0|
-| [ms] |Unit|\<Unit of time\> Millisecond (s=1)|[ms]|4.0|
-| [min] |Unit|\<Unit of time\> Minute (s=1)|[min]|4.0|
-| [h] |Unit|\<Unit of time\> Hour (s=1)|[h]|4.0|
-| [day] |Unit|\<Unit of time\> Day (s=1)|[day]|4.0|
-| [week] |Unit|\<Unit of time\> Week (s=1)|[week]|4.0|
-| [yearj] |Unit|\<Unit of time\> Julian year = 365.25 days (s=1)|[yearj]|4.0|
+|[s]|Unit|[s]|4.0|Second - Unit of time [s] (s=1) - Unit|
+|[ms]|Unit|[ms]|4.0|Millisecond - Unit of time [s] (s=1) - Unit|
+|[min]|Unit|[min]|4.0|Minute - Unit of time [s] (s=1) - Unit|
+|[h]|Unit|[h]|4.0|Hour - Unit of time [s] (s=1) - Unit|
+|[day]|Unit|[day]|4.0|Day - Unit of time [s] (s=1) - Unit|
+|[week]|Unit|[week]|4.0|Week - Unit of time [s] (s=1) - Unit|
+|[yearj]|Unit|[yearj]|4.0|Julian year = 365.25 days - Unit of time [s] (s=1) - Unit|
 
 ## Units of mass
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [kg] |Unit|\<Unit of mass\> Kilogram (kg=1)|[kg]|4.0|
-| [gr] |Unit|\<Unit of mass\> Gram (kg=1)|[gr]|4.0|
-| [mg] |Unit|\<Unit of mass\> Milligram (kg=1)|[mg]|4.0|
-| [dag] |Unit|\<Unit of mass\> Decagram (kg=1)|[dag]|4.0|
-| [t] |Unit|\<Unit of mass\> Tonne (kg=1)|[t]|4.0|
-| [oz] |Unit|\<Unit of mass\> Ounce (kg=1)|[oz]|4.0|
-| [lb] |Unit|\<Unit of mass\> Pound (kg=1)|[lb]|4.0|
+|[kg]|Unit|[kg]|4.0|Kilogram - Unit of mass [kg] (kg=1) - Unit|
+|[gr]|Unit|[gr]|4.0|Gram - Unit of mass [kg] (kg=1) - Unit|
+|[mg]|Unit|[mg]|4.0|Milligram - Unit of mass [kg] (kg=1) - Unit|
+|[dag]|Unit|[dag]|4.0|Decagram - Unit of mass [kg] (kg=1) - Unit|
+|[t]|Unit|[t]|4.0|Tonne - Unit of mass [kg] (kg=1) - Unit|
+|[oz]|Unit|[oz]|4.0|Ounce - Unit of mass [kg] (kg=1) - Unit|
+|[lb]|Unit|[lb]|4.0|Pound - Unit of mass [kg] (kg=1) - Unit|
 
 ## Units of information
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [b] |Unit|\<Unit of information\> Bit (bit=1)|[b]|4.0|
-| [kb] |Unit|\<Unit of information\> Kilobit (bit=1)|[kb]|4.0|
-| [Mb] |Unit|\<Unit of information\> Megabit (bit=1)|[Mb]|4.0|
-| [Gb] |Unit|\<Unit of information\> Gigabit (bit=1)|[Gb]|4.0|
-| [Tb] |Unit|\<Unit of information\> Terabit (bit=1)|[Tb]|4.0|
-| [Pb] |Unit|\<Unit of information\> Petabit (bit=1)|[Pb]|4.0|
-| [Eb] |Unit|\<Unit of information\> Exabit (bit=1)|[Eb]|4.0|
-| [Zb] |Unit|\<Unit of information\> Zettabit (bit=1)|[Zb]|4.0|
-| [Yb] |Unit|\<Unit of information\> Yottabit (bit=1)|[Yb]|4.0|
-| [B] |Unit|\<Unit of information\> Byte (bit=1)|[B]|4.0|
-| [kB] |Unit|\<Unit of information\> Kilobyte (bit=1)|[kB]|4.0|
-| [MB] |Unit|\<Unit of information\> Megabyte (bit=1)|[MB]|4.0|
-| [GB] |Unit|\<Unit of information\> Gigabyte (bit=1)|[GB]|4.0|
-| [TB] |Unit|\<Unit of information\> Terabyte (bit=1)|[TB]|4.0|
-| [PB] |Unit|\<Unit of information\> Petabyte (bit=1)|[PB]|4.0|
-| [EB] |Unit|\<Unit of information\> Exabyte (bit=1)|[EB]|4.0|
-| [ZB] |Unit|\<Unit of information\> Zettabyte (bit=1)|[ZB]|4.0|
-| [YB] |Unit|\<Unit of information\> Yottabyte (bit=1)|[YB]|4.0|
+|[b]|Unit|[b]|4.0|Bit - Unit of information [bit] (bit=1) - Unit|
+|[kb]|Unit|[kb]|4.0|Kilobit - Unit of information [bit] (bit=1) - Unit|
+|[Mb]|Unit|[Mb]|4.0|Megabit - Unit of information [bit] (bit=1) - Unit|
+|[Gb]|Unit|[Gb]|4.0|Gigabit - Unit of information [bit] (bit=1) - Unit|
+|[Tb]|Unit|[Tb]|4.0|Terabit - Unit of information [bit] (bit=1) - Unit|
+|[Pb]|Unit|[Pb]|4.0|Petabit - Unit of information [bit] (bit=1) - Unit|
+|[Eb]|Unit|[Eb]|4.0|Exabit - Unit of information [bit] (bit=1) - Unit|
+|[Zb]|Unit|[Zb]|4.0|Zettabit - Unit of information [bit] (bit=1) - Unit|
+|[Yb]|Unit|[Yb]|4.0|Yottabit - Unit of information [bit] (bit=1) - Unit|
+|[B]|Unit|[B]|4.0|Byte - Unit of information [bit] (bit=1) - Unit|
+|[kB]|Unit|[kB]|4.0|Kilobyte - Unit of information [bit] (bit=1) - Unit|
+|[MB]|Unit|[MB]|4.0|Megabyte - Unit of information [bit] (bit=1) - Unit|
+|[GB]|Unit|[GB]|4.0|Gigabyte - Unit of information [bit] (bit=1) - Unit|
+|[TB]|Unit|[TB]|4.0|Terabyte - Unit of information [bit] (bit=1) - Unit|
+|[PB]|Unit|[PB]|4.0|Petabyte - Unit of information [bit] (bit=1) - Unit|
+|[EB]|Unit|[EB]|4.0|Exabyte - Unit of information [bit] (bit=1) - Unit|
+|[ZB]|Unit|[ZB]|4.0|Zettabyte - Unit of information [bit] (bit=1) - Unit|
+|[YB]|Unit|[YB]|4.0|Yottabyte - Unit of information [bit] (bit=1) - Unit|
 
 ## Units of energy
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [J] |Unit|\<Unit of energy\> Joule (m=1, kg=1, s=1)|[J]|4.0|
-| [eV] |Unit|\<Unit of energy\> Electronovolt (m=1, kg=1, s=1)|[eV]|4.0|
-| [keV] |Unit|\<Unit of energy\> Kiloelectronovolt (m=1, kg=1, s=1)|[keV]|4.0|
-| [MeV] |Unit|\<Unit of energy\> Megaelectronovolt (m=1, kg=1, s=1)|[MeV]|4.0|
-| [GeV] |Unit|\<Unit of energy\> Gigaelectronovolt (m=1, kg=1, s=1)|[GeV]|4.0|
-| [TeV] |Unit|\<Unit of energy\> Teraelectronovolt (m=1, kg=1, s=1)|[TeV]|4.0|
+|[J]|Unit|[J]|4.0|Joule - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
+|[eV]|Unit|[eV]|4.0|Electronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
+|[keV]|Unit|[keV]|4.0|Kiloelectronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
+|[MeV]|Unit|[MeV]|4.0|Megaelectronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
+|[GeV]|Unit|[GeV]|4.0|Gigaelectronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
+|[TeV]|Unit|[TeV]|4.0|Teraelectronovolt - Unit of energy [J] (m=1, kg=1, s=1) - Unit|
 
 ## Units of speed
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [m/s] |Unit|\<Unit of speed\> Metre / Meter per second (m=1, s=1)|[m/s]|4.0|
-| [km/h] |Unit|\<Unit of speed\> Kilometre / Kilometer per hour (m=1, s=1)|[km/h]|4.0|
-| [mi/h] |Unit|\<Unit of speed\> Mile per hour (m=1, s=1)|[mi/h]|4.0|
-| [knot] |Unit|\<Unit of speed\> Knot (m=1, s=1)|[knot]|4.0|
+|[m/s]|Unit|[m/s]|4.0|Meter per second - Unit of speed [m/s] (m=1, s=1) - Unit|
+|[km/h]|Unit|[km/h]|4.0|Kilometer per hour - Unit of speed [m/s] (m=1, s=1) - Unit|
+|[mi/h]|Unit|[mi/h]|4.0|Mile per hour - Unit of speed [m/s] (m=1, s=1) - Unit|
+|[knot]|Unit|[knot]|4.0|Knot - Unit of speed [m/s] (m=1, s=1) - Unit|
 
 ## Units of acceleration
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [m/s2] |Unit|\<Unit of acceleration\> Metre / Meter per square second (m=1, s=1)|[m/s2]|4.0|
-| [km/h2] |Unit|\<Unit of acceleration\> Kilometre / Kilometer per square hour (m=1, s=1)|[km/h2]|4.0|
-| [mi/h2] |Unit|\<Unit of acceleration\> Mile per square hour (m=1, s=1)|[mi/h2]|4.0|
+|[m/s2]|Unit|[m/s2]|4.0|Meter per square second - Unit of acceleration [m/s²] (m=1, s=1) - Unit|
+|[km/h2]|Unit|[km/h2]|4.0|Kilometer per square hour - Unit of acceleration [m/s²] (m=1, s=1) - Unit|
+|[mi/h2]|Unit|[mi/h2]|4.0|Mile per square hour - Unit of acceleration [m/s²] (m=1, s=1) - Unit|
 
 ## Units of angle
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| [rad] |Unit|\<Unit of angle\> Radian (rad=1)|[rad]|4.0|
-| [deg] |Unit|\<Unit of angle\> Degree of arc (rad=1)|[deg]|4.0|
-| ['] |Unit|\<Unit of angle\> Minute of arc (rad=1)|[']|4.0|
-| [''] |Unit|\<Unit of angle\> Second of arc (rad=1)|['']|4.0|
+|[rad]|Unit|[rad]|4.0|Radian - Unit of angle [rad] (rad=1) - Unit|
+|[deg]|Unit|[deg]|4.0|Degree of arc - Unit of angle [rad] (rad=1) - Unit|
+|[']|Unit|[']|4.0|Minute of arc - Unit of angle [rad] (rad=1) - Unit|
+|['']|Unit|['']|4.0|Second of arc - Unit of angle [rad] (rad=1) - Unit|
 
 ## Other parser symbols
-|Key word|Category|Description|Example|Since|
+|Keyword|Type|Syntax|Since|Description|
 |---|---|---|---|---|
-| ( |Parser Symbol|Left parentheses|( ... )|1.0|
-| ) |Parser Symbol|Right parentheses|( ... )|1.0|
-| , |Parser Symbol|Comma (function parameters)|(a1, ... ,an)|1.0|
-| ; |Parser Symbol|Semicolon (function parameters)|(a1; ... ;an)|1.0|
-|   |Parser Symbol|Blank (whitespace) character| |4.2|
+|(|Parser symbol|( ... )|1.0|Left parentheses - Parser symbol|
+|)|Parser symbol|( ... )|1.0|Right parentheses - Parser symbol|
+|,|Parser symbol|(a1, ... ,an)|1.0|Comma (function parameters) - Parser symbol|
+|;|Parser symbol|(a1; ... ;an)|1.0|Semicolon (function parameters) - Parser symbol|
+| |Parser symbol| |4.2|Blank (whitespace) character - Parser symbol|
 
 # Did you find mXparser useful? If yes:
 * please consider donation: **[DONATION](https://mathparser.org/donate/)**
