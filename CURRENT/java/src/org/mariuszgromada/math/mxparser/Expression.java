@@ -335,6 +335,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *    - token level - key information regarding sequence (order) of further parsing
 	 */
 	List<Token> initialTokens;
+	private CompilationDetails initialCompilationDetails;
 	/**
 	 * List of string tokens that should not be considered
 	 * while seeking for optional implied multiplication.
@@ -357,6 +358,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * element - the result of all calculations.
 	 */
 	private List<Token> tokensList;
+	private CompilationDetails compilationDetails;
 	/**
 	 * List of related expressions, for example when
 	 * user defined function is used in the expression
@@ -705,9 +707,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      functionsList       the functions list
 	 * @param      constantsList       the constants list
 	 */
-	Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
-			List<Function> functionsList, List<Constant> constantsList, boolean disableUlpRounding,
-			boolean UDFExpression, List<Double> UDFVariadicParamsAtRunTime) {
+	Expression(
+			String expressionString
+			,List<Token> initialTokens
+			,List<Argument> argumentsList
+			,List<Function> functionsList
+			,List<Constant> constantsList
+			,boolean disableUlpRounding
+			,boolean UDFExpression
+			,List<Double> UDFVariadicParamsAtRunTime
+	) {
 		super(Expression.TYPE_ID);
 		this.expressionString = expressionString;
 		this.initialTokens = initialTokens;
@@ -5125,6 +5134,25 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return Double.NaN;
 		}
 	}
+	public static long msStart = 0;
+	public static long msSum = 0;
+	private String makeStepDescription() {
+		String stepDescription;
+		if (description.trim().length() > 0) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
+		else stepDescription = expressionString.trim();
+		return stepDescription;
+	}
+	private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int loopCounter, String stepDescription) {
+		CalcStepRecord stepRecord = new CalcStepRecord();
+		stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
+		stepRecord.numberGroupWithin = loopCounter;
+		stepRecord.description = stepDescription;
+		stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
+		stepRecord.type = calcStepsRegister.stepType;
+		if (loopCounter == 1)
+			stepRecord.firstInGroup = true;
+		calcStepsRegister.calcStepRecords.add(stepRecord);
+	}
 	private double calculateInternal(CalcStepsRegister calcStepsRegister) {
 		computingTime = 0;
 		long startTime = System.currentTimeMillis();
@@ -5222,6 +5250,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int commaPos, lParPos, rParPos, bitwisePos;
 		int bitwiseComplPos;
 		int tokensNumber, maxPartLevel;
+		boolean maxPartLevelNotInterrupted;
 		int lPos, rPos;
 		int tokenIndex, pos, p;
 		Token token, tokenL, tokenR;
@@ -5234,30 +5263,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
 		String stepDescription = StringInvariant.EMPTY;
-		if (calcStepsRegister != null) {
-			if (description.trim().length() > 0) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
-			else stepDescription = expressionString.trim();
-		}
+		if (calcStepsRegister != null)
+			stepDescription = makeStepDescription();
+
 		CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 		do {
 			loopCounter++;
-			if (calcStepsRegister != null) {
-				CalcStepRecord stepRecord = new CalcStepRecord();
-				stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
-				stepRecord.numberGroupWithin = loopCounter;
-				stepRecord.description = stepDescription;
-				stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
-				stepRecord.type = calcStepsRegister.stepType;
-				if (loopCounter == 1)
-					stepRecord.firstInGroup = true;
-				calcStepsRegister.calcStepRecords.add(stepRecord);
-			}
+			if (calcStepsRegister != null)
+				registerCalculationStepRecord(calcStepsRegister, loopCounter, stepDescription);
+
 			if (mXparser.isCurrentCalculationCancelled()) {
 				registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
 				return Double.NaN;
 			}
+
 			tokensNumber = tokensList.size();
 			maxPartLevel = -1;
+			maxPartLevelNotInterrupted = false;
 			lPos = -1; rPos = -1;
 			/*
 			 * initializing tokens types positions
@@ -5274,7 +5296,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			bitwiseComplPos = -1;
 			/* calculus or if or iff operations ... */
 			p = -1;
-			do {
+			if (compilationDetails.containsCalcOrIf) do {
 				p++;
 				token = tokensList.get(p);
 				if (token.tokenTypeId == CalculusOperator.TYPE_ID) calculusPos = p;
@@ -5285,10 +5307,19 @@ public class Expression extends PrimitiveElement implements Serializable {
 				/* Find start index of the tokens with the highest level */
 				for (tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++) {
 					token = tokensList.get(tokenIndex);
+
 					if (token.tokenLevel > maxPartLevel) {
 						maxPartLevel = tokensList.get(tokenIndex).tokenLevel;
 						lPos = tokenIndex;
+						maxPartLevelNotInterrupted = true;
 					}
+
+					if (token.tokenLevel < maxPartLevel)
+						maxPartLevelNotInterrupted = false;
+
+					if (maxPartLevelNotInterrupted && token.tokenLevel == maxPartLevel)
+						rPos = tokenIndex;
+
 					if (token.tokenTypeId == Argument.TYPE_ID) {
 						argument = argumentsList.get( tokensList.get(tokenIndex).tokenId );
 						/*
@@ -5342,12 +5373,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 						}
 					} while (depArgFound);
 				} else {
-					tokenIndex = lPos;
-					/* Find end index of the tokens with the highest level */
-					while (tokenIndex < tokensNumber && maxPartLevel == tokensList.get(tokenIndex).tokenLevel)
-						tokenIndex++;
-
-					rPos = tokenIndex - 1;
 					if (verboseMode) {
 						printSystemInfo(StringModel.STRING_RESOURCES.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
 						showParsing(lPos,rPos);
@@ -6756,17 +6781,49 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * Evaluate tokens levels
 		 *
-		 * token level identifies the sequance of parsing
+		 * token level identifies the sequence of parsing
 		 */
 		ExpressionUtils.evaluateTokensLevels(initialTokens);
 	}
+	private void prepareInitialTokensListInfo() {
+		initialCompilationDetails = new CompilationDetails();
+		for (Token token : initialTokens) {
+			if (token.tokenTypeId == CalculusOperator.TYPE_ID) {
+				initialCompilationDetails.containsCalcOrIf = true;
+				break;
+			}
+
+			if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID) {
+				initialCompilationDetails.containsCalcOrIf = true;
+				break;
+			}
+
+			if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID) {
+				initialCompilationDetails.containsCalcOrIf = true;
+				break;
+			}
+		}
+	}
+
+	private void copyInitialTokensListInfo() {
+		if (compilationDetails == null)
+			compilationDetails = new CompilationDetails();
+
+		compilationDetails.containsCalcOrIf = initialCompilationDetails.containsCalcOrIf;
+	}
+
 	/**
-	 * copy initial tokens lito to tokens list
+	 * copy initial tokens list to tokens list
 	 */
 	private void copyInitialTokens() {
+		if (initialCompilationDetails == null)
+			prepareInitialTokensListInfo();
+
 		tokensList = new ArrayList<Token>();
 		for (Token token : initialTokens)
 			tokensList.add(token.clone());
+
+		copyInitialTokensListInfo();
 	}
 	/**
 	 * Tokenizes expression string and returns tokens list,

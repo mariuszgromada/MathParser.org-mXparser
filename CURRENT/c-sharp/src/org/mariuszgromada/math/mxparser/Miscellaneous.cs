@@ -433,4 +433,9 @@ namespace org.mariuszgromada.math.mxparser {
 		internal int type;
 		internal KeyWord keyWord;
 	}
+
+    [Serializable]
+    internal class CompilationDetails {
+		internal bool containsCalcOrIf = false;
+	}
 }

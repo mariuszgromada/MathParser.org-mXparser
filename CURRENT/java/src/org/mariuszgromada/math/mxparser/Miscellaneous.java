@@ -303,6 +303,7 @@ class TokenStackElement implements Serializable {
 	int tokenLevel;
 	boolean precedingFunction;
 }
+
 class SyntaxStackElement implements Serializable {
 	private static final int serialClassID = 84;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
@@ -446,4 +447,11 @@ class TokenPart implements Serializable {
 	String str;
 	int type;
 	KeyWord keyWord;
+}
+
+
+class CompilationDetails implements Serializable {
+	private static final int serialClassID = 91;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
+	boolean containsCalcOrIf = false;
 }

@@ -312,6 +312,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *    - token level - key information regarding sequence (order) of further parsing
 		 */
 		internal List<Token> initialTokens;
+        private CompilationDetails initialCompilationDetails;
 		/**
 		 * List of string tokens that should not be considered
 		 * while seeking for optional implied multiplication.
@@ -334,6 +335,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * element - the result of all calculations.
 		 */
 		private List<Token> tokensList;
+        private CompilationDetails compilationDetails;
 		/**
 		 * List of related expressions, for example when
 		 * user defined function is used in the expression
@@ -679,9 +681,17 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      functionsList       the functions list
 		 * @param      constantsList       the constants list
 		 */
-		internal Expression(String expressionString, List<Token> initialTokens, List<Argument> argumentsList,
-				List<Function> functionsList, List<Constant> constantsList, bool disableUlpRounding,
-				bool UDFExpression, List<Double> UDFVariadicParamsAtRunTime) : base(Expression.TYPE_ID) {
+		internal Expression(
+			String expressionString
+			,List<Token> initialTokens
+			,List<Argument> argumentsList
+			,List<Function> functionsList
+			,List<Constant> constantsList
+			,bool disableUlpRounding
+			,bool UDFExpression
+			,List<Double> UDFVariadicParamsAtRunTime
+		) : base(Expression.TYPE_ID)
+		{
 			this.expressionString = expressionString;
 			this.initialTokens = initialTokens;
 			this.argumentsList = argumentsList;
@@ -5096,6 +5106,23 @@ namespace org.mariuszgromada.math.mxparser {
                 return Double.NaN;
 			}
 		}
+		private String makeStepDescription() {
+			String stepDescription;
+			if (description.Trim().Length > 0) stepDescription = description.Trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.Trim();
+			else stepDescription = expressionString.Trim();
+			return stepDescription;
+		}
+		private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int loopCounter, String stepDescription) {
+			CalcStepRecord stepRecord = new CalcStepRecord();
+			stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
+			stepRecord.numberGroupWithin = loopCounter;
+			stepRecord.description = stepDescription;
+			stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
+			stepRecord.type = calcStepsRegister.stepType;
+			if (loopCounter == 1)
+				stepRecord.firstInGroup = true;
+			calcStepsRegister.calcStepRecords.Add(stepRecord);
+		}
 		private double calculateInternal(CalcStepsRegister calcStepsRegister) {
 			computingTime = 0;
 			long startTime = mXparser.currentTimeMillis();
@@ -5193,6 +5220,7 @@ namespace org.mariuszgromada.math.mxparser {
             int commaPos, lParPos, rParPos, bitwisePos;
             int bitwiseComplPos;
             int tokensNumber, maxPartLevel;
+            bool maxPartLevelNotInterrupted;
             int lPos, rPos;
             int tokenIndex, pos, p;
             Token token, tokenL, tokenR;
@@ -5205,30 +5233,22 @@ namespace org.mariuszgromada.math.mxparser {
 
             CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
 			String stepDescription = StringInvariant.EMPTY;
-			if (calcStepsRegister != null) {
-				if (description.Trim().Length > 0)stepDescription = description.Trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.Trim();
-				else stepDescription = expressionString.Trim();
-			}
-			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
+			if (calcStepsRegister != null)
+                stepDescription = makeStepDescription();
+
+            CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 			do {
 				loopCounter++;
-				if (calcStepsRegister != null) {
-					CalcStepRecord stepRecord = new CalcStepRecord();
-					stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
-					stepRecord.numberGroupWithin = loopCounter;
-					stepRecord.description = stepDescription;
-					stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
-					stepRecord.type = calcStepsRegister.stepType;
-					if (loopCounter == 1)
-						stepRecord.firstInGroup = true;
-					calcStepsRegister.calcStepRecords.Add(stepRecord);
-				}
-				if (mXparser.isCurrentCalculationCancelled()) {
+				if (calcStepsRegister != null)
+                    registerCalculationStepRecord(calcStepsRegister, loopCounter, stepDescription);
+
+                if (mXparser.isCurrentCalculationCancelled()) {
                     registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
                     return Double.NaN;
 				}
 				tokensNumber = tokensList.Count;
 				maxPartLevel = -1;
+                maxPartLevelNotInterrupted = false;
 				lPos = -1; rPos = -1;
                 /*
 				 * initializing tokens types positions
@@ -5245,7 +5265,7 @@ namespace org.mariuszgromada.math.mxparser {
                 bitwiseComplPos = -1;
                 /* calculus or if or iff operations ... */
                 p = -1;
-				do {
+				if (compilationDetails.containsCalcOrIf) do {
 					p++;
 					token = tokensList[p];
 					if (token.tokenTypeId == CalculusOperator.TYPE_ID) calculusPos = p;
@@ -5259,7 +5279,15 @@ namespace org.mariuszgromada.math.mxparser {
 						if (token.tokenLevel > maxPartLevel) {
 							maxPartLevel = tokensList[tokenIndex].tokenLevel;
 							lPos = tokenIndex;
-						}
+                            maxPartLevelNotInterrupted = true;
+                        }
+
+						if (token.tokenLevel < maxPartLevel)
+							maxPartLevelNotInterrupted = false;
+
+						if (maxPartLevelNotInterrupted && token.tokenLevel == maxPartLevel)
+							rPos = tokenIndex;
+
 						if (token.tokenTypeId == Argument.TYPE_ID) {
 							argument = argumentsList[ tokensList[tokenIndex].tokenId ];
 							/*
@@ -5314,11 +5342,6 @@ namespace org.mariuszgromada.math.mxparser {
 						} while (depArgFound);
 					}
 					else {
-						tokenIndex = lPos;
-						/* Find end index of the tokens with the highest level */
-						while (tokenIndex < tokensNumber && maxPartLevel == tokensList[tokenIndex].tokenLevel)
-							tokenIndex++;
-						rPos = tokenIndex - 1;
 						if (verboseMode) {
                             printSystemInfo(StringModel.STRING_RESOURCES.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
                             showParsing(lPos, rPos);
@@ -6736,17 +6759,50 @@ namespace org.mariuszgromada.math.mxparser {
 			/*
 			 * Evaluate tokens levels
 			 *
-			 * token level identifies the sequance of parsing
+			 * token level identifies the sequence of parsing
 			 */
 			ExpressionUtils.evaluateTokensLevels(initialTokens);
 		}
+
+		private void prepareInitialTokensListInfo() {
+			initialCompilationDetails = new CompilationDetails();
+			foreach (Token token in initialTokens) {
+				if (token.tokenTypeId == CalculusOperator.TYPE_ID) {
+					initialCompilationDetails.containsCalcOrIf = true;
+					break;
+				}
+
+				if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID) {
+					initialCompilationDetails.containsCalcOrIf = true;
+					break;
+				}
+
+				if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID) {
+					initialCompilationDetails.containsCalcOrIf = true;
+					break;
+				}
+			}
+		}
+
+		private void copyInitialTokensListInfo() {
+			if (compilationDetails == null)
+				compilationDetails = new CompilationDetails();
+
+			compilationDetails.containsCalcOrIf = initialCompilationDetails.containsCalcOrIf;
+		}
+
 		/**
 		 * copy initial tokens lito to tokens list
 		 */
 		private void copyInitialTokens() {
+			if (initialCompilationDetails == null)
+				prepareInitialTokensListInfo();
+
 			tokensList = new List<Token>();
 			foreach (Token token in initialTokens)
 				tokensList.Add(token.clone());
+
+			copyInitialTokensListInfo();
 		}
 		/**
 		 * Tokenizes expression string and returns tokens list,
