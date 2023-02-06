@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.2.0    2023-01-29
+ * @(#)Miscellaneous.cs        5.2.1    2023-02-05
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -436,6 +436,56 @@ namespace org.mariuszgromada.math.mxparser {
 
     [Serializable]
     internal class CompilationDetails {
-		internal bool containsCalcOrIf = false;
+        internal bool containsCalculus = false;
+        internal bool containsIf = false;
+        internal List<CompiledElement> compiledElements;
+	}
+
+    [Serializable]
+    internal class CompiledElement {
+        internal enum ToCall {
+			FREE_ARGUMENT
+			,CONSTANT
+			,UNIT
+			,USER_CONSTANT
+			,RANDOM_VARIABLE
+			,DEPENDENT_ARGUMENT
+			,calculusCalc
+			,IF_CONDITION
+			,IFF
+			,RECURSIVE_ARGUMENT
+			,variadicFunCalc
+			,f3ArgCalc
+			,f2ArgCalc
+			,f1ArgCalc
+			,USER_FUNCTION
+			,TETRATION
+			,POWER
+			,FACT
+			,PERC
+			,MODULO
+			,NEG
+			,rootOperCalc
+			,BITWISE_COMPL
+			,MULTIPLY
+			,DIVIDE
+			,MINUS
+			,PLUS
+			,NEQ
+			,EQ
+			,LT
+			,GT
+			,LEQ
+			,GEQ
+			,COMMA
+			,bolCalc
+			,bitwiseCalc
+			,PARENTHESES
+		}
+
+        internal ToCall toCall;
+        internal int position1;
+        internal int position2;
+
 	}
 }

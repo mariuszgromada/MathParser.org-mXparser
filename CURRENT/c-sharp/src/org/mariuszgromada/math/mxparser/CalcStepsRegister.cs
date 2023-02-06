@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.cs        5.2.0    2023-01-29
+ * @(#)CalcStepsRegister.cs        5.2.1    2023-02-06
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -185,6 +185,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace org.mariuszgromada.math.mxparser {
     /**
@@ -202,7 +203,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        5.2.0
+     * @version        5.2.1
      *
      * @see CalcStepRecord
      * @see Expression
@@ -251,27 +252,29 @@ namespace org.mariuszgromada.math.mxparser {
          * Prints this step register to the console.
          */
         public void consolePrint() {
-            if (calcStepRecords.Count == 0) {
+            consolePrint(this);
+        }
+        private static void consolePrint(CalcStepsRegister calcStepsRegister) {
+            if (calcStepsRegister.calcStepRecords.Count == 0) {
                 mXparser.consolePrintln(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_IS_EMPTY);
                 return;
             }
             mXparser.consolePrint(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_FOR + StringInvariant.SPACE);
             bool toPrintEq = false;
-            if (argumentNameStart.Length > 0) {
-                mXparser.consolePrint(StringModel.STRING_RESOURCES.ARGUMENT + StringInvariant.SPACE + argumentNameStart);
+            if (calcStepsRegister.argumentNameStart.Length > 0) {
+                mXparser.consolePrint(StringModel.STRING_RESOURCES.ARGUMENT + StringInvariant.SPACE + calcStepsRegister.argumentNameStart);
                 toPrintEq = true;
             }
-            if (functionNameStart.Length > 0) {
-                mXparser.consolePrint(StringModel.STRING_RESOURCES.FUNCTION + StringInvariant.SPACE + functionNameStart);
+            if (calcStepsRegister.functionNameStart.Length > 0) {
+                mXparser.consolePrint(StringModel.STRING_RESOURCES.FUNCTION + StringInvariant.SPACE + calcStepsRegister.functionNameStart);
                 toPrintEq = true;
             }
             if (toPrintEq)
                 mXparser.consolePrint(StringInvariant.SPACE_EQUAL_SPACE);
             else
                 mXparser.consolePrint(StringModel.STRING_RESOURCES.EXPRESSION + StringInvariant.SPACE);
-            mXparser.consolePrintln(expressionStringStart + ", result = " + result);
-            mXparser.consolePrintln(expressionStringStart + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.RESULT + StringInvariant.SPACE_EQUAL_SPACE + result);
-            foreach (CalcStepRecord stepRecord in calcStepRecords)
+            mXparser.consolePrintln(calcStepsRegister.expressionStringStart + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.RESULT + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.result);
+            foreach (CalcStepRecord stepRecord in calcStepsRegister.calcStepRecords)
                 mXparser.consolePrintln(
                         StringModel.STRING_RESOURCES.GROUP_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.numberGroup
                         + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.NUMBER_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.numberGroupWithin
@@ -281,7 +284,78 @@ namespace org.mariuszgromada.math.mxparser {
                         + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.DESCRIPTION_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.description
                         + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.STEP + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.content
                 );
-            mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + computingTime + " s.");
+            mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.computingTime + " s.");
+        }
+        public String ToString() {
+            return toString(this);
+        }
+        private static String toString(CalcStepsRegister calcStepsRegister) {
+            if (calcStepsRegister.calcStepRecords.Count == 0)
+                return StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_IS_EMPTY;
+            StringBuilder output = new StringBuilder();
+            output.Append(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_FOR);
+            output.Append(StringInvariant.SPACE);
+            bool toPrintEq = false;
+            if (calcStepsRegister.argumentNameStart.Length > 0) {
+                output.Append(StringModel.STRING_RESOURCES.ARGUMENT);
+                output.Append(StringInvariant.SPACE);
+                output.Append(calcStepsRegister.argumentNameStart);
+                toPrintEq = true;
+            }
+            if (calcStepsRegister.functionNameStart.Length > 0) {
+                output.Append(StringModel.STRING_RESOURCES.FUNCTION);
+                output.Append(StringInvariant.SPACE);
+                output.Append(calcStepsRegister.functionNameStart);
+                toPrintEq = true;
+            }
+            if (toPrintEq)
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+            else {
+                output.Append(StringModel.STRING_RESOURCES.EXPRESSION);
+                output.Append(StringInvariant.SPACE);
+            }
+            output.Append(calcStepsRegister.expressionStringStart);
+            output.Append(StringInvariant.COMMA_SPACE);
+            output.Append(StringModel.STRING_RESOURCES.RESULT);
+            output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.Append(calcStepsRegister.result);
+            foreach (CalcStepRecord stepRecord in calcStepsRegister.calcStepRecords) {
+                output.Append(StringInvariant.NEW_LINE);
+                output.Append(StringModel.STRING_RESOURCES.GROUP_SHORT);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.numberGroup);
+
+                output.Append(StringInvariant.COMMA_SPACE);
+                output.Append(StringModel.STRING_RESOURCES.NUMBER_SHORT);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.numberGroupWithin);
+
+                output.Append(StringInvariant.COMMA_SPACE);
+                output.Append(StringModel.STRING_RESOURCES.FIRST);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.firstInGroup);
+
+                output.Append(StringInvariant.COMMA_SPACE);
+                output.Append(StringModel.STRING_RESOURCES.LAST);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.lastInGroup);
+
+                output.Append(StringInvariant.COMMA_SPACE);
+                output.Append(StringModel.STRING_RESOURCES.TYPE);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.type);
+
+                output.Append(StringInvariant.COMMA_SPACE);
+                output.Append(StringModel.STRING_RESOURCES.DESCRIPTION_SHORT);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.description);
+
+                output.Append(StringInvariant.COMMA_SPACE);
+                output.Append(StringModel.STRING_RESOURCES.STEP);
+                output.Append(StringInvariant.SPACE_EQUAL_SPACE);
+                output.Append(stepRecord.content);
+            }
+            return output.ToString();
         }
         internal bool isStartSet = false;
         internal int stepNumberGroup = 0;

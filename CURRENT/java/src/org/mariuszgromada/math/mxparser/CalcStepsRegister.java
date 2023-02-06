@@ -253,26 +253,29 @@ public class CalcStepsRegister implements Serializable {
      * Prints this step register to the console.
      */
     public void consolePrint() {
-        if (calcStepRecords.size() == 0) {
+        consolePrint(this);
+    }
+    private static void consolePrint(CalcStepsRegister calcStepsRegister) {
+        if (calcStepsRegister.calcStepRecords.size() == 0) {
             mXparser.consolePrintln(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_IS_EMPTY);
             return;
         }
         mXparser.consolePrint(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_FOR + StringInvariant.SPACE);
         boolean toPrintEq = false;
-        if (argumentNameStart.length() > 0) {
-            mXparser.consolePrint(StringModel.STRING_RESOURCES.ARGUMENT + StringInvariant.SPACE + argumentNameStart);
+        if (calcStepsRegister.argumentNameStart.length() > 0) {
+            mXparser.consolePrint(StringModel.STRING_RESOURCES.ARGUMENT + StringInvariant.SPACE + calcStepsRegister.argumentNameStart);
             toPrintEq = true;
         }
-        if (functionNameStart.length() > 0) {
-            mXparser.consolePrint(StringModel.STRING_RESOURCES.FUNCTION + StringInvariant.SPACE + functionNameStart);
+        if (calcStepsRegister.functionNameStart.length() > 0) {
+            mXparser.consolePrint(StringModel.STRING_RESOURCES.FUNCTION + StringInvariant.SPACE + calcStepsRegister.functionNameStart);
             toPrintEq = true;
         }
         if (toPrintEq)
             mXparser.consolePrint(StringInvariant.SPACE_EQUAL_SPACE);
         else
             mXparser.consolePrint(StringModel.STRING_RESOURCES.EXPRESSION + StringInvariant.SPACE);
-        mXparser.consolePrintln(expressionStringStart + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.RESULT + StringInvariant.SPACE_EQUAL_SPACE + result);
-        for (CalcStepRecord stepRecord : calcStepRecords)
+        mXparser.consolePrintln(calcStepsRegister.expressionStringStart + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.RESULT + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.result);
+        for (CalcStepRecord stepRecord : calcStepsRegister.calcStepRecords)
             mXparser.consolePrintln(
                     StringModel.STRING_RESOURCES.GROUP_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.numberGroup
                     + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.NUMBER_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.numberGroupWithin
@@ -282,7 +285,79 @@ public class CalcStepsRegister implements Serializable {
                     + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.DESCRIPTION_SHORT + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.description
                     + StringInvariant.COMMA_SPACE + StringModel.STRING_RESOURCES.STEP + StringInvariant.SPACE_EQUAL_SPACE + stepRecord.content
             );
-        mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + computingTime + " s.");
+        mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.computingTime + " s.");
+    }
+    @Override
+    public String toString() {
+        return toString(this);
+    }
+    private static String toString(CalcStepsRegister calcStepsRegister) {
+        if (calcStepsRegister.calcStepRecords.size() == 0)
+            return StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_IS_EMPTY;
+        StringBuilder output = new StringBuilder();
+        output.append(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_FOR);
+        output.append(StringInvariant.SPACE);
+        boolean toPrintEq = false;
+        if (calcStepsRegister.argumentNameStart.length() > 0) {
+            output.append(StringModel.STRING_RESOURCES.ARGUMENT);
+            output.append(StringInvariant.SPACE);
+            output.append(calcStepsRegister.argumentNameStart);
+            toPrintEq = true;
+        }
+        if (calcStepsRegister.functionNameStart.length() > 0) {
+            output.append(StringModel.STRING_RESOURCES.FUNCTION);
+            output.append(StringInvariant.SPACE);
+            output.append(calcStepsRegister.functionNameStart);
+            toPrintEq = true;
+        }
+        if (toPrintEq)
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+        else {
+            output.append(StringModel.STRING_RESOURCES.EXPRESSION);
+            output.append(StringInvariant.SPACE);
+        }
+        output.append(calcStepsRegister.expressionStringStart);
+        output.append(StringInvariant.COMMA_SPACE);
+        output.append(StringModel.STRING_RESOURCES.RESULT);
+        output.append(StringInvariant.SPACE_EQUAL_SPACE);
+        output.append(calcStepsRegister.result);
+        for (CalcStepRecord stepRecord : calcStepsRegister.calcStepRecords) {
+            output.append(StringInvariant.NEW_LINE);
+            output.append(StringModel.STRING_RESOURCES.GROUP_SHORT);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.numberGroup);
+
+            output.append(StringInvariant.COMMA_SPACE);
+            output.append(StringModel.STRING_RESOURCES.NUMBER_SHORT);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.numberGroupWithin);
+
+            output.append(StringInvariant.COMMA_SPACE);
+            output.append(StringModel.STRING_RESOURCES.FIRST);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.firstInGroup);
+
+            output.append(StringInvariant.COMMA_SPACE);
+            output.append(StringModel.STRING_RESOURCES.LAST);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.lastInGroup);
+
+            output.append(StringInvariant.COMMA_SPACE);
+            output.append(StringModel.STRING_RESOURCES.TYPE);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.type);
+
+            output.append(StringInvariant.COMMA_SPACE);
+            output.append(StringModel.STRING_RESOURCES.DESCRIPTION_SHORT);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.description);
+
+            output.append(StringInvariant.COMMA_SPACE);
+            output.append(StringModel.STRING_RESOURCES.STEP);
+            output.append(StringInvariant.SPACE_EQUAL_SPACE);
+            output.append(stepRecord.content);
+        }
+        return output.toString();
     }
     boolean isStartSet = false;
     int stepNumberGroup = 0;

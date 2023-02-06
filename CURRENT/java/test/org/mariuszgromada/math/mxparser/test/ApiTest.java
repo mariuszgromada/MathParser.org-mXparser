@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2023-01-29
+ * @(#)SyntaxTest.java        5.2.1    2023-02-05
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -209,7 +209,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        5.2.1
  *
  */
 public final class ApiTest {
@@ -3865,7 +3865,7 @@ public final class ApiTest {
         if (!e.getExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
         if (calcStepsRegister.argumentNameStart.length() > 0) testResult = false;
         if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
-        if (calcStepsRegister.calcStepRecords.size() != 5)  testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 4)  testResult = false;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3882,7 +3882,7 @@ public final class ApiTest {
         if (!x.getArgumentName().equals(calcStepsRegister.argumentNameStart)) testResult = false;
         if (!x.getArgumentExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
         if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
-        if (calcStepsRegister.calcStepRecords.size() != 5)  testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 4)  testResult = false;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3898,7 +3898,7 @@ public final class ApiTest {
         if (!f.getFunctionName().equals(calcStepsRegister.functionNameStart)) testResult = false;
         if (!f.getFunctionExpressionString().trim().equals(calcStepsRegister.expressionStringStart)) testResult = false;
         if (calcStepsRegister.argumentNameStart.length() > 0) testResult = false;
-        if (calcStepsRegister.calcStepRecords.size() != 5)  testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 4)  testResult = false;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -3919,7 +3919,7 @@ public final class ApiTest {
         if (!e.getExpressionString().equals(calcStepsRegister.expressionStringStart)) testResult = false;
         if (calcStepsRegister.argumentNameStart.length() > 0) testResult = false;
         if (calcStepsRegister.functionNameStart.length() > 0) testResult = false;
-        if (calcStepsRegister.calcStepRecords.size() != 72)  testResult = false;
+        if (calcStepsRegister.calcStepRecords.size() != 60)  testResult = false;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
@@ -9874,6 +9874,126 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
+    @Test
+    public void testApi0314() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String exprStr = "(2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) - (2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) + (2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) * 345 * ((897 - 323)/ 23)";
+        String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+        TestCommonTools.consolePrintTestApiStart(314, testDescr);
+        CalcStepsRegister r1 = new CalcStepsRegister();
+        CalcStepsRegister r2 = new CalcStepsRegister();
+        CalcStepsRegister r3 = new CalcStepsRegister();
+        Expression e = new Expression(exprStr);
+        double v1 = e.calculate(r1);
+        double v2 = e.calculate(r2);
+        double v3 = e.calculate(r3);
+
+        if ( v1 == v2
+                && v1 == v3
+                && r1.calcStepRecords.size() == r2.calcStepRecords.size()
+                && r1.calcStepRecords.size() == r3.calcStepRecords.size()
+                && r1.toString().equals(r2.toString())
+                && r1.toString().equals(r3.toString())
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0315() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String exprStr = "f(x,y)+z+(x*y)/z";
+        String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+        TestCommonTools.consolePrintTestApiStart(315, testDescr);
+        CalcStepsRegister r1 = new CalcStepsRegister();
+        CalcStepsRegister r2 = new CalcStepsRegister();
+        CalcStepsRegister r3 = new CalcStepsRegister();
+
+        Argument x = new Argument("x", "2*rList(2,2,2,2,2)");
+        Argument y = new Argument("y = 2*x", x);
+        Argument z = new Argument("z = 3*y/x", x, y);
+        Function f = new Function("f(a,b) = a*b");
+
+        Expression e = new Expression(exprStr, x, y, z, f);
+        double v1 = e.calculate(r1);
+        double v2 = e.calculate(r2);
+        double v3 = e.calculate(r3);
+
+        if ( v1 == v2
+                && v1 == v3
+                && r1.calcStepRecords.size() == r2.calcStepRecords.size()
+                && r1.calcStepRecords.size() == r3.calcStepRecords.size()
+                && r1.toString().equals(r2.toString())
+                && r1.toString().equals(r3.toString())
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0316() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String exprStr = "f(a,b) = g(a,b) * a*b";
+        String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+        TestCommonTools.consolePrintTestApiStart(316, testDescr);
+        CalcStepsRegister r1 = new CalcStepsRegister();
+        CalcStepsRegister r2 = new CalcStepsRegister();
+        CalcStepsRegister r3 = new CalcStepsRegister();
+
+        Function g = new Function("g(a,b) = a*b");
+        Function f = new Function("f(a,b) = g(a,b) * a*b", g);
+
+        f.setArgumentValue(0, 1);
+        f.setArgumentValue(1, 1);
+        double v1 = f.calculate(r1);
+        double v2 = f.calculate(r2);
+        double v3 = f.calculate(r3);
+
+        if ( v1 == v2
+                && v1 == v3
+                && r1.calcStepRecords.size() == r2.calcStepRecords.size()
+                && r1.calcStepRecords.size() == r3.calcStepRecords.size()
+                && r1.toString().equals(r2.toString())
+                && r1.toString().equals(r3.toString())
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0317() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String exprStr = "z = 3*y/x";
+        String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+        TestCommonTools.consolePrintTestApiStart(317, testDescr);
+        CalcStepsRegister r1 = new CalcStepsRegister();
+        CalcStepsRegister r2 = new CalcStepsRegister();
+        CalcStepsRegister r3 = new CalcStepsRegister();
+
+        Argument x = new Argument("x", "2*rList(2,2,2,2,2)");
+        Argument y = new Argument("y = 2*x", x);
+        Argument z = new Argument("z = 3*y/x", x, y);
+
+        double v1 = z.getArgumentValue(r1);
+        double v2 = z.getArgumentValue(r2);
+        double v3 = z.getArgumentValue(r3);
+
+        if ( v1 == v2
+                && v1 == v3
+                && r1.calcStepRecords.size() == r2.calcStepRecords.size()
+                && r1.calcStepRecords.size() == r3.calcStepRecords.size()
+                && r1.toString().equals(r2.toString())
+                && r1.toString().equals(r3.toString())
+        ) testResult = true;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+
     public static String cleanMarkdownBackslash(String str) {
         return str.replace("\\\\", "").replace("\\|", "");
     }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        5.2.0    2023-01-29
+ * @(#)Expression.cs        5.2.1    2023-02-05
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -219,7 +219,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        5.2.1
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -394,10 +394,11 @@ namespace org.mariuszgromada.math.mxparser {
 		 *    - SYNTAX_STATUS_UNKNOWN
 		 */
         private bool syntaxStatus;
-		/**
+		private bool isFullyCompiled;
+        /**
 		 * Message after checking the syntax
 		 */
-		private String errorMessage;
+        private String errorMessage;
         /**
          * Optional message from calculate method
          */
@@ -565,6 +566,11 @@ namespace org.mariuszgromada.math.mxparser {
 			this.syntaxStatus = syntaxStatus;
 			this.errorMessage = errorMessage;
 			this.expressionWasModified = false;
+			markAsNotFullyCompiled();
+        }
+        internal void markAsNotFullyCompiled() {
+			isFullyCompiled = false;
+			initialCompilationDetails = null;
 		}
 		/**
 		 * Sets expression status to modified
@@ -579,6 +585,7 @@ namespace org.mariuszgromada.math.mxparser {
 			internalClone = false;
 			expressionWasModified = true;
 			syntaxStatus = SYNTAX_STATUS_UNKNOWN;
+			markAsNotFullyCompiled();
 			errorMessage = StringInvariant.EMPTY;
             foreach (Expression e in relatedExpressionsList)
 				e.setExpressionModifiedFlag();
@@ -598,6 +605,8 @@ namespace org.mariuszgromada.math.mxparser {
             forwardErrorMessage = true;
             parserKeyWordsOnly = false;
             verboseMode = false;
+			syntaxStatus = false;
+			isFullyCompiled = false;
             impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 			unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 			attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
@@ -700,6 +709,7 @@ namespace org.mariuszgromada.math.mxparser {
 			relatedExpressionsList = new List<Expression>();
 			expressionWasModified = false;
 			syntaxStatus = NO_SYNTAX_ERRORS;
+			isFullyCompiled = false;
             description = StringInvariant.INTERNAL;
             errorMessage = StringInvariant.EMPTY;
             errorMessageCalculate = StringInvariant.EMPTY;
@@ -767,6 +777,7 @@ namespace org.mariuszgromada.math.mxparser {
 			impliedMultiplicationError = expressionToClone.impliedMultiplicationError;
 			disableRounding = expressionToClone.disableRounding;
 			syntaxStatus = expressionToClone.syntaxStatus;
+			isFullyCompiled = expressionToClone.isFullyCompiled;
 			errorMessage = expressionToClone.errorMessage;
 			errorMessageCalculate = expressionToClone.errorMessageCalculate;
 			recursionCallPending = expressionToClone.recursionCallPending;
@@ -1987,6 +1998,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void FREE_ARGUMENT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FREE_ARGUMENT, pos);
 			Argument argument = argumentsList[ tokensList[pos].tokenId ];
 			bool argumentVerboseMode = argument.getVerboseMode();
 			if (verboseMode)
@@ -2002,6 +2014,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      calcStepsRegister   steps register
 		 */
 		private void DEPENDENT_ARGUMENT(int pos, CalcStepsRegister calcStepsRegister) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DEPENDENT_ARGUMENT, pos);
 			Argument argument = argumentsList[ tokensList[pos].tokenId ];
 			bool argumentVerboseMode = argument.getVerboseMode();
 			if (verboseMode)
@@ -2040,6 +2053,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      calcStepsRegister   steps register
 		 */
 		private void USER_FUNCTION(int pos, CalcStepsRegister calcStepsRegister) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.USER_FUNCTION, pos);
 			Function function;
 			Function fun = functionsList[ tokensList[pos].tokenId ];
 			if (fun.getRecursiveMode()) {
@@ -2096,6 +2110,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void USER_CONSTANT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.USER_CONSTANT, pos);
 			Constant constant = constantsList[ tokensList[pos].tokenId ];
 			setToNumber(pos, constant.getConstantValue());
 		}
@@ -2105,6 +2120,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void RECURSIVE_ARGUMENT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RECURSIVE_ARGUMENT, pos);
 			double index = tokensList[pos+1].tokenValue;
 			RecursiveArgument argument = (RecursiveArgument)argumentsList[ tokensList[pos].tokenId ];
 			bool argumentVerboseMode = argument.getVerboseMode();
@@ -2125,6 +2141,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void CONSTANT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.CONSTANT, pos);
 			double constValue = Double.NaN;
             int constantValueId = tokensList[pos].tokenId;
             if (constantValueId == ConstantValue.NPAR_ID)
@@ -2139,6 +2156,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void UNIT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.UNIT, pos);
             setToNumber(pos, Units.getUnitValue(tokensList[pos].tokenId));
         }
 		/**
@@ -2147,6 +2165,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void RANDOM_VARIABLE(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RANDOM_VARIABLE, pos);
             setToNumber(pos, ProbabilityDistributions.getRandomVariableValue(tokensList[pos].tokenId));
         }
 		/**
@@ -2164,6 +2183,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void TETRATION(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.TETRATION, pos);
 			double a = getTokenValue(pos - 1);
 			double n = getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, MathFunctions.tetration(a, n), true);
@@ -2174,6 +2194,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void POWER(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.POWER, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, MathFunctions.power(a, b), true);
@@ -2184,6 +2205,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void MODULO(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MODULO, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, MathFunctions.mod(a, b) );
@@ -2194,6 +2216,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void DIVIDE(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DIVIDE, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			if (disableRounding) {
@@ -2209,6 +2232,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void MULTIPLY(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MULTIPLY, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			if (disableRounding) opSetDecreaseRemove(pos, a * b, true);
@@ -2220,6 +2244,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void PLUS(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PLUS, pos);
 			Token b = tokensList[pos+1];
 
 			if (pos == 0) {
@@ -2245,6 +2270,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void MINUS(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MINUS, pos);
 			Token b = tokensList[pos+1];
 
 			if (pos == 0) {
@@ -2372,6 +2398,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void NEG(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NEG, pos);
 			double a = getTokenValue(pos+1);
 			setToNumber(pos, BooleanAlgebra.not(a) );
 			tokensList.RemoveAt(pos+1);
@@ -2382,6 +2409,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void EQ(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.EQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.eq(a, b) );
@@ -2392,6 +2420,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void NEQ(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NEQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.neq(a, b) );
@@ -2402,6 +2431,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void LT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.LT, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.lt(a, b) );
@@ -2412,6 +2442,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void GT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.GT, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.gt(a, b) );
@@ -2422,6 +2453,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void LEQ(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.LEQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.leq(a, b) );
@@ -2432,6 +2464,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void GEQ(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.GEQ, pos);
 			double a = getTokenValue(pos-1);
 			double b = getTokenValue(pos+1);
 			opSetDecreaseRemove(pos, BinaryRelations.geq(a, b) );
@@ -2472,6 +2505,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void BITWISE_COMPL(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.BITWISE_COMPL, pos);
 			long a = (long)getTokenValue(pos + 1);
 			setToNumber(pos, ~a);
 			tokensList.RemoveAt(pos + 1);
@@ -2961,6 +2995,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void FACT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FACT, pos);
 			double a = getTokenValue(pos-1);
 			setToNumber(pos, MathFunctions.factorial(a));
 			tokensList.RemoveAt(pos-1);
@@ -2972,6 +3007,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void PERC(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PERC, pos);
 			double a = getTokenValue(pos - 1);
 			setToNumber(pos, MathFunctions.multiply(a, Units.PERC));
 			tokensList.RemoveAt(pos - 1);
@@ -3520,7 +3556,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void IF_CONDITION(int pos) {
-			/*
+            if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.IF_CONDITION, pos);
+            /*
 			 * Get condition string
 			 * 1st parameter
 			 * The goal is to avoid calculation
@@ -3528,7 +3565,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Example: If(1=1, 2, sin(3) ) - here sin(3) does not
 			 * require to be calculated.
 			 */
-			List<FunctionParameter> ifParams = ExpressionUtils.getFunctionParameters(pos, tokensList);
+            List<FunctionParameter> ifParams = ExpressionUtils.getFunctionParameters(pos, tokensList);
 			FunctionParameter ifParam = ifParams[0];
 			Expression ifExp = new Expression(ifParam.paramStr, ifParam.tokens, argumentsList, functionsList, constantsList, KEEP_ROUNDING_SETTINGS, UDFExpression, UDFVariadicParamsAtRunTime);
 			if (verboseMode)
@@ -3541,6 +3578,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void IFF(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.IFF, pos);
 			/*
 			 * Get condition string
 			 * 1st parameter
@@ -4517,6 +4555,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos token index (position)
 		 */
 		private void COMMA(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.COMMA, pos);
 			tokensList.RemoveAt(pos);
 		}
 		/**
@@ -4527,6 +4566,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param rPos    roght token index (position)
 		 */
 		private void PARENTHESES(int lPos, int rPos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PARENTHESES, lPos, rPos);
 			for (int p = lPos; p <= rPos; p++)
 				tokensList[p].tokenLevel--;
 			tokensList.RemoveAt(rPos);
@@ -4728,7 +4768,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			bool calculusToken = false;
 			foreach (SyntaxStackElement e in syntaxStack)
-				if ( e.tokenStr.Equals(token.tokenStr) )
+				if (e.tokenStr.Equals(token.tokenStr))
 					calculusToken = true;
 
 			if (!calculusToken) {
@@ -5112,139 +5152,75 @@ namespace org.mariuszgromada.math.mxparser {
 			else stepDescription = expressionString.Trim();
 			return stepDescription;
 		}
-		private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int loopCounter, String stepDescription) {
+		private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription) {
 			CalcStepRecord stepRecord = new CalcStepRecord();
 			stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
-			stepRecord.numberGroupWithin = loopCounter;
+			stepRecord.numberGroupWithin = stepsRegisteredCounter;
 			stepRecord.description = stepDescription;
 			stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
 			stepRecord.type = calcStepsRegister.stepType;
-			if (loopCounter == 1)
+
+			if (stepsRegisteredCounter == 1)
 				stepRecord.firstInGroup = true;
+
 			calcStepsRegister.calcStepRecords.Add(stepRecord);
 		}
-		private double calculateInternal(CalcStepsRegister calcStepsRegister) {
-			computingTime = 0;
-			long startTime = mXparser.currentTimeMillis();
-			if (verboseMode) {
-                printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
-                printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
-                printSystemInfo(StringModel.STRING_RESOURCES.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
-                showArguments();
+		private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription, Double result) {
+			CalcStepRecord stepRecord = new CalcStepRecord();
+			stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
+			stepRecord.numberGroupWithin = stepsRegisteredCounter;
+			stepRecord.description = stepDescription;
+			stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
+			stepRecord.type = calcStepsRegister.stepType;
+			stepRecord.lastInGroup = true;
+			calcStepsRegister.calcStepRecords.Add(stepRecord);
+			calcStepsRegister.stepNumberGroup--;
+			if (calcStepsRegister.stepNumberGroup == 0) {
+				calcStepsRegister.result = result;
+				calcStepsRegister.computingTime = computingTime;
+				calcStepsRegister.errorMessage = errorMessage;
 			}
+		}
+		private int calculateFirstAndFullyCompile(CalcStepsRegister calcStepsRegister, String stepDescription) {
 			/*
-			 * check expression syntax and
-			 * evaluate expression string tokens
-			 *
-			 */
-			if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
-				syntaxStatus = checkSyntax();
-			if (syntaxStatus == SYNTAX_ERROR) {
-				if (verboseMode)
-                    printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
-                /*
-				 * Recursive counter to avoid infinite loops in expressions
-				 * created in they way showed in below examples
-				 *
-				 * Argument x = new Argument("x = 2*y");
-				 * Argument y = new Argument("y = 2*x");
-				 * x.addDefinitions(y);
-				 * y.addDefinitions(x);
-				 *
-				 * Function f = new Function("f(x) = 2*g(x)");
-				 * Function g = new Function("g(x) = 2*f(x)");
-				 * f.addDefinitions(g);
-				 * g.addDefinitions(f);
-				 *
-				 */
-                recursionCallsCounter = 0;
-				return Double.NaN;
-			}
-			/*
-			 * Building initial tokens only if this is first recursion call
-			 * or we have expression clone, helps to solve problem with
-			 * definitions similar to the below example
-			 *
-			 *
-			 * Function f = new Function("f(x) = 2*g(x)");
-			 * Function g = new Function("g(x) = 2*f(x)");
-			 * f.addDefinitions(g);
-			 * g.addDefinitions(f);
-			 */
-			if (recursionCallsCounter == 0 || internalClone)
-				copyInitialTokens();
-			/*
-			 * if nothing to calculate return Double.NaN
-			 */
-			if (tokensList.Count == 0) {
-                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
-                if (verboseMode)
-                    printSystemInfo(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
-                recursionCallsCounter = 0;
-				return Double.NaN;
-			}
-			/*
-			 * Incrementing recursive counter to avoid infinite loops in expressions
-			 * created in they way showed in below examples
-			 *
-			 * Argument x = new Argument("x = 2*y");
-			 * Argument y = new Argument("y = 2*x");
-			 * x.addDefinitions(y);
-			 * y.addDefinitions(x);
-			 *
-			 * Function f = new Function("f(x) = 2*g(x)");
-			 * Function g = new Function("g(x) = 2*f(x)");
-			 * f.addDefinitions(g);
-			 * g.addDefinitions(f);
-			 *
-			 */
-			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
-                if (verboseMode)
-                    printSystemInfo(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
-                recursionCallsCounter--;
-                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED);
-                return Double.NaN;
-			}
-			recursionCallsCounter++;
-            /*
 			 * position for particular tokens types
 			 */
-            int calculusPos, ifPos, iffPos, variadicFunPos;
-            int depArgPos, recArgPos, f3ArgPos, f2ArgPos;
-            int f1ArgPos, userFunPos, plusPos, minusPos;
-            int multiplyPos, dividePos, powerPos, tetrationPos;
-            int powerNum, factPos, modPos, percPos;
-            int negPos, rootOperGroupPos, andGroupPos, orGroupPos;
-            int implGroupPos, bolPos, eqPos, neqPos;
-            int ltPos, gtPos, leqPos, geqPos;
-            int commaPos, lParPos, rParPos, bitwisePos;
-            int bitwiseComplPos;
-            int tokensNumber, maxPartLevel;
-            bool maxPartLevelNotInterrupted;
-            int lPos, rPos;
-            int tokenIndex, pos, p;
-            Token token, tokenL, tokenR;
-            Argument argument;
-            List<int> commas = null;
-            int emptyLoopCounter = 0, loopCounter = 0;
-            /* While exist token which needs to bee evaluated */
-            if (verboseMode)
-                printSystemInfo(StringModel.STRING_RESOURCES.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
+			int calculusPos, ifPos, iffPos, variadicFunPos;
+			int depArgPos, recArgPos, f3ArgPos, f2ArgPos;
+			int f1ArgPos, userFunPos, plusPos, minusPos;
+			int multiplyPos, dividePos, powerPos, tetrationPos;
+			int powerNum, factPos, modPos, percPos;
+			int negPos, rootOperGroupPos, andGroupPos, orGroupPos;
+			int implGroupPos, bolPos, eqPos, neqPos;
+			int ltPos, gtPos, leqPos, geqPos;
+			int commaPos, lParPos, rParPos, bitwisePos;
+			int bitwiseComplPos;
+			int tokensNumber, maxPartLevel;
+			bool maxPartLevelNotInterrupted;
+			bool depArgFound;
+			int lPos, rPos;
+			int tokenIndex, pos, p;
+			Token token, tokenL, tokenR;
+			Argument argument;
+			List<int> commas = null;
+			int emptyLoopCounter = 0;
+			bool storeStepsInRegister = true;
+			int stepsRegisteredCounter = 0;
+			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 
-            CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
-			String stepDescription = StringInvariant.EMPTY;
-			if (calcStepsRegister != null)
-                stepDescription = makeStepDescription();
+			/* While exist token which needs to bee evaluated */
+            do
+            {
+				if (storeStepsInRegister && calcStepsRegister != null) {
+					stepsRegisteredCounter++;
+					registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
+				}
 
-            CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
-			do {
-				loopCounter++;
-				if (calcStepsRegister != null)
-                    registerCalculationStepRecord(calcStepsRegister, loopCounter, stepDescription);
+				storeStepsInRegister = true;
 
                 if (mXparser.isCurrentCalculationCancelled()) {
                     registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
-                    return Double.NaN;
+                    return -1;
 				}
 				tokensNumber = tokensList.Count;
 				maxPartLevel = -1;
@@ -5265,7 +5241,7 @@ namespace org.mariuszgromada.math.mxparser {
                 bitwiseComplPos = -1;
                 /* calculus or if or iff operations ... */
                 p = -1;
-				if (compilationDetails.containsCalcOrIf) do {
+				if (compilationDetails.containsCalculus || compilationDetails.containsIf) do {
 					p++;
 					token = tokensList[p];
 					if (token.tokenTypeId == CalculusOperator.TYPE_ID) calculusPos = p;
@@ -5308,7 +5284,7 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 					if (lPos < 0) {
                         registerErrorWhileCalculate(StringModel.STRING_RESOURCES.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
-                        return Double.NaN;
+                        return -1;
 					}
 					/*
 					 * If dependent argument was found then dependent arguments
@@ -5322,7 +5298,6 @@ namespace org.mariuszgromada.math.mxparser {
 					 * y.addDefinitions(x);
 					 */
 					if (depArgPos >= 0) {
-						bool depArgFound;
 						do {
 							depArgFound = false;
 							int currentTokensNumber = tokensList.Count;
@@ -5335,11 +5310,16 @@ namespace org.mariuszgromada.math.mxparser {
                                     continue;
 								if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
 								DEPENDENT_ARGUMENT(tokenIndex, calcStepsRegister);
-								if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+								if (calcStepsRegister != null) {
+									calcStepsRegister.stepType = stepTypePrev;
+									stepsRegisteredCounter++;
+									registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
+								}
 								depArgFound = true;
 								break;
 							}
 						} while (depArgFound);
+						storeStepsInRegister = false;
 					}
 					else {
 						if (verboseMode) {
@@ -5466,12 +5446,16 @@ namespace org.mariuszgromada.math.mxparser {
 				else if (commaPos >= 0) {
 					for (int i = commas.Count-1; i >= 0; i--)
 						COMMA(commas[i]);
+					storeStepsInRegister = false;
 				} else if (andGroupPos >= 0) bolCalc(andGroupPos);
 				else if (orGroupPos >= 0) bolCalc(orGroupPos);
 				else if (implGroupPos >= 0) bolCalc(implGroupPos);
 				else if (bolPos >= 0) bolCalc(bolPos);
 				else if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
-				else if (lParPos >= 0 && rParPos > lParPos) PARENTHESES(lParPos,rParPos);
+				else if (lParPos >= 0 && rParPos > lParPos) {
+					PARENTHESES(lParPos,rParPos);
+					storeStepsInRegister = false;
+				}
 
 				if (verboseMode) {
 					showParsing(0, tokensList.Count - 1);
@@ -5483,19 +5467,210 @@ namespace org.mariuszgromada.math.mxparser {
 
 				if (emptyLoopCounter > 10) {
                     registerErrorWhileCalculate(StringModel.STRING_RESOURCES.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN);
-                    return Double.NaN;
+                    return -1;
 				}
 
 			} while (tokensList.Count > 1);
+
+			if (!compilationDetails.containsIf)
+				isFullyCompiled = true;
+
+			return stepsRegisteredCounter;
+		}
+
+		private int applySequenceFromCompilation(CalcStepsRegister calcStepsRegister, String stepDescription) {
+			int stepsRegisteredCounter = 0;
+			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
+			bool storeStepsInRegister = true;
+			foreach (CompiledElement compiledElement in initialCompilationDetails.compiledElements) {
+				if (storeStepsInRegister && calcStepsRegister != null) {
+					stepsRegisteredCounter++;
+					registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
+				}
+
+				storeStepsInRegister = true;
+				int pos = compiledElement.position1;
+				switch (compiledElement.toCall) {
+					case CompiledElement.ToCall.FREE_ARGUMENT:
+						FREE_ARGUMENT(pos);
+						storeStepsInRegister = false;
+						break;
+					case CompiledElement.ToCall.CONSTANT:
+						CONSTANT(pos);
+						storeStepsInRegister = false;
+						break;
+					case CompiledElement.ToCall.UNIT:
+						UNIT(pos);
+						storeStepsInRegister = false;
+						break;
+					case CompiledElement.ToCall.USER_CONSTANT:
+						USER_CONSTANT(pos);
+						storeStepsInRegister = false;
+						break;
+					case CompiledElement.ToCall.RANDOM_VARIABLE:
+						RANDOM_VARIABLE(pos);
+						storeStepsInRegister = false;
+						break;
+					case CompiledElement.ToCall.DEPENDENT_ARGUMENT:
+						if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
+						DEPENDENT_ARGUMENT(pos, calcStepsRegister);
+						if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+						break;
+					case CompiledElement.ToCall.calculusCalc: calculusCalc(pos); break;
+					case CompiledElement.ToCall.IF_CONDITION: IF_CONDITION(pos); break;
+					case CompiledElement.ToCall.IFF: IFF(pos); break;
+					case CompiledElement.ToCall.RECURSIVE_ARGUMENT: RECURSIVE_ARGUMENT(pos); break;
+					case CompiledElement.ToCall.variadicFunCalc: variadicFunCalc(pos); break;
+					case CompiledElement.ToCall.f3ArgCalc: f3ArgCalc(pos); break;
+					case CompiledElement.ToCall.f2ArgCalc: f2ArgCalc(pos); break;
+					case CompiledElement.ToCall.f1ArgCalc: f1ArgCalc(pos); break;
+					case CompiledElement.ToCall.USER_FUNCTION:
+						if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
+						USER_FUNCTION(pos, calcStepsRegister);
+						if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+						break;
+					case CompiledElement.ToCall.TETRATION: TETRATION(pos); break;
+					case CompiledElement.ToCall.POWER: POWER(pos); break;
+					case CompiledElement.ToCall.FACT: FACT(pos); break;
+					case CompiledElement.ToCall.PERC: PERC(pos); break;
+					case CompiledElement.ToCall.MODULO: MODULO(pos); break;
+					case CompiledElement.ToCall.NEG: NEG(pos); break;
+					case CompiledElement.ToCall.rootOperCalc: rootOperCalc(pos); break;
+					case CompiledElement.ToCall.BITWISE_COMPL: BITWISE_COMPL(pos); break;
+					case CompiledElement.ToCall.MULTIPLY: MULTIPLY(pos); break;
+					case CompiledElement.ToCall.DIVIDE: DIVIDE(pos); break;
+					case CompiledElement.ToCall.MINUS: MINUS(pos); break;
+					case CompiledElement.ToCall.PLUS: PLUS(pos); break;
+					case CompiledElement.ToCall.NEQ: NEQ(pos); break;
+					case CompiledElement.ToCall.EQ: EQ(pos); break;
+					case CompiledElement.ToCall.LT: LT(pos); break;
+					case CompiledElement.ToCall.GT: GT(pos); break;
+					case CompiledElement.ToCall.LEQ: LEQ(pos); break;
+					case CompiledElement.ToCall.GEQ: GEQ(pos); break;
+					case CompiledElement.ToCall.COMMA:
+						COMMA(pos);
+						storeStepsInRegister = false;
+						break;
+					case CompiledElement.ToCall.bolCalc: bolCalc(pos); break;
+					case CompiledElement.ToCall.bitwiseCalc: bitwiseCalc(pos); break;
+					case CompiledElement.ToCall.PARENTHESES:
+						PARENTHESES(compiledElement.position1, compiledElement.position2);
+						storeStepsInRegister = false;
+						break;
+				}
+			}
+			return stepsRegisteredCounter;
+		}
+		private double calculateInternal(CalcStepsRegister calcStepsRegister) {
+			computingTime = 0;
+			long startTime = mXparser.currentTimeMillis();
+			if (verboseMode) {
+                printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
+                printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
+                printSystemInfo(StringModel.STRING_RESOURCES.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
+                showArguments();
+			}
+			/*
+			 * check expression syntax and
+			 * evaluate expression string tokens
+			 *
+			 */
+			if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
+				syntaxStatus = checkSyntax();
+			if (syntaxStatus == SYNTAX_ERROR) {
+				if (verboseMode)
+                    printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
+                /*
+				 * Recursive counter to avoid infinite loops in expressions
+				 * created in they way showed in below examples
+				 *
+				 * Argument x = new Argument("x = 2*y");
+				 * Argument y = new Argument("y = 2*x");
+				 * x.addDefinitions(y);
+				 * y.addDefinitions(x);
+				 *
+				 * Function f = new Function("f(x) = 2*g(x)");
+				 * Function g = new Function("g(x) = 2*f(x)");
+				 * f.addDefinitions(g);
+				 * g.addDefinitions(f);
+				 *
+				 */
+                recursionCallsCounter = 0;
+				return Double.NaN;
+			}
+			/*
+			 * Building initial tokens only if this is first recursion call
+			 * or we have expression clone, helps to solve problem with
+			 * definitions similar to the below example
+			 *
+			 *
+			 * Function f = new Function("f(x) = 2*g(x)");
+			 * Function g = new Function("g(x) = 2*f(x)");
+			 * f.addDefinitions(g);
+			 * g.addDefinitions(f);
+			 */
+			if (recursionCallsCounter == 0 || internalClone)
+				copyInitialTokens();
+			/*
+			 * if nothing to calculate return Double.NaN
+			 */
+			if (tokensList.Count == 0) {
+                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
+                if (verboseMode)
+                    printSystemInfo(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
+                recursionCallsCounter = 0;
+				return Double.NaN;
+			}
+			/*
+			 * Incrementing recursive counter to avoid infinite loops in expressions
+			 * created in they way showed in below examples
+			 *
+			 * Argument x = new Argument("x = 2*y");
+			 * Argument y = new Argument("y = 2*x");
+			 * x.addDefinitions(y);
+			 * y.addDefinitions(x);
+			 *
+			 * Function f = new Function("f(x) = 2*g(x)");
+			 * Function g = new Function("g(x) = 2*f(x)");
+			 * f.addDefinitions(g);
+			 * g.addDefinitions(f);
+			 *
+			 */
+			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
+                if (verboseMode)
+                    printSystemInfo(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
+                recursionCallsCounter--;
+                registerErrorWhileCalculate(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED);
+                return Double.NaN;
+			}
+			recursionCallsCounter++;
+
+            if (verboseMode)
+                printSystemInfo(StringModel.STRING_RESOURCES.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
+
+            CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
+			String stepDescription = StringInvariant.EMPTY;
+			if (calcStepsRegister != null)
+                stepDescription = makeStepDescription();
+
+			int stepsRegisteredCounter;
+            if (isFullyCompiled) {
+				stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
+			} else {
+				stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
+				if (stepsRegisteredCounter < 0) return Double.NaN;
+			}
 
 			if (verboseMode) {
                 printSystemInfo(StringModel.STRING_RESOURCES.CALCULATED_VALUE + StringInvariant.COLON_SPACE + tokensList[0].tokenValue + StringInvariant.NEW_LINE, WITH_EXP_STR);
                 printSystemInfo(StringModel.STRING_RESOURCES.EXITING + StringInvariant.NEW_LINE, WITH_EXP_STR);
                 printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
             }
+
             long endTime = mXparser.currentTimeMillis();
 			computingTime = (endTime - startTime) / 1000.0;
 			recursionCallsCounter--;
+
 			double result = tokensList[0].tokenValue;
 			if (!disableRounding) {
 				if (mXparser.almostIntRounding) {
@@ -5506,29 +5681,34 @@ namespace org.mariuszgromada.math.mxparser {
 			}
 
 			if (calcStepsRegister != null) {
-				CalcStepRecord stepRecord = new CalcStepRecord();
-				stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
-				stepRecord.numberGroupWithin = loopCounter;
-				stepRecord.description = stepDescription;
-				stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
-				stepRecord.type = calcStepsRegister.stepType;
-				stepRecord.lastInGroup = true;
-				calcStepsRegister.calcStepRecords.Add(stepRecord);
-				calcStepsRegister.stepNumberGroup--;
-				if (calcStepsRegister.stepNumberGroup == 0) {
-					calcStepsRegister.result = result;
-					calcStepsRegister.computingTime = computingTime;
-					calcStepsRegister.errorMessage = errorMessage;
-				}
+				stepsRegisteredCounter++;
+				registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription, result);
 			}
 
+			if (!compilationDetails.containsIf)
+				isFullyCompiled = true;
+
 			return result;
+		}
+		private void registerCompiledElement(CompiledElement.ToCall toCall, int position) {
+			CompiledElement compiledElement = new CompiledElement();
+			compiledElement.toCall = toCall;
+			compiledElement.position1 = position;
+			initialCompilationDetails.compiledElements.Add(compiledElement);
+		}
+		private void registerCompiledElement(CompiledElement.ToCall toCall, int position1, int position2) {
+			CompiledElement compiledElement = new CompiledElement();
+			compiledElement.toCall = toCall;
+			compiledElement.position1 = position1;
+			compiledElement.position2 = position2;
+			initialCompilationDetails.compiledElements.Add(compiledElement);
 		}
 		/**
 		 * Calculates unary function
 		 * @param pos    token position
 		 */
 		private void f1ArgCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f1ArgCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case Function1Arg.SIN_ID: SIN(pos); break;
 			case Function1Arg.COS_ID: COS(pos); break;
@@ -5601,6 +5781,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos   Token position
 		 */
 		private void f2ArgCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f2ArgCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case Function2Arg.LOG_ID: LOG(pos); break;
 			case Function2Arg.MOD_ID: MOD(pos); break;
@@ -5643,6 +5824,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos   Token position
 		 */
 		private void f3ArgCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f3ArgCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case Function3Arg.IF_ID: IF(pos); break;
 			case Function3Arg.CHI_ID: CHI(pos); break;
@@ -5668,6 +5850,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos   Token position
 		 */
 		private void variadicFunCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.variadicFunCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case FunctionVariadic.IFF_ID: IFF(pos); break;
 			case FunctionVariadic.MIN_ID: MIN_VARIADIC(pos); break;
@@ -5699,6 +5882,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos
 		 */
 		private void calculusCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.calculusCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case CalculusOperator.SUM_ID: SUM(pos); break;
 			case CalculusOperator.PROD_ID: PROD(pos); break;
@@ -5722,6 +5906,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos
 		 */
 		private void rootOperCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.rootOperCalc, pos);
 			switch (tokensList[pos].tokenId) {
 				case Operator.SQUARE_ROOT_ID: SQUARE_ROOT_OPERATOR(pos); break;
 				case Operator.CUBE_ROOT_ID: CUBE_ROOT_OPERATOR(pos); break;
@@ -5733,6 +5918,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos
 		 */
 		private void bolCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.bolCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case BooleanOperator.AND_ID: AND(pos); break;
 			case BooleanOperator.CIMP_ID: CIMP(pos); break;
@@ -5751,6 +5937,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param pos
 		 */
 		private void bitwiseCalc(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.bitwiseCalc, pos);
 			switch (tokensList[pos].tokenId) {
 			case BitwiseOperator.AND_ID: BITWISE_AND(pos); break;
 			case BitwiseOperator.OR_ID: BITWISE_OR(pos); break;
@@ -6764,45 +6951,40 @@ namespace org.mariuszgromada.math.mxparser {
 			ExpressionUtils.evaluateTokensLevels(initialTokens);
 		}
 
-		private void prepareInitialTokensListInfo() {
-			initialCompilationDetails = new CompilationDetails();
-			foreach (Token token in initialTokens) {
-				if (token.tokenTypeId == CalculusOperator.TYPE_ID) {
-					initialCompilationDetails.containsCalcOrIf = true;
-					break;
-				}
-
-				if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID) {
-					initialCompilationDetails.containsCalcOrIf = true;
-					break;
-				}
-
-				if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID) {
-					initialCompilationDetails.containsCalcOrIf = true;
-					break;
-				}
+        /**
+		 * copy initial tokens list to tokens list and prepares initial compilation details
+		 */
+        private void copyInitialTokens() {
+			bool prepareInitialTokensListInfo = false;
+			if (initialCompilationDetails == null) {
+				initialCompilationDetails = new CompilationDetails();
+				initialCompilationDetails.compiledElements = new List<CompiledElement>();
+				prepareInitialTokensListInfo = true;
 			}
-		}
 
-		private void copyInitialTokensListInfo() {
+			tokensList = new List<Token>();
+
+			if (prepareInitialTokensListInfo) {
+				foreach (Token token in initialTokens) {
+					tokensList.Add(token.clone());
+					if (token.tokenTypeId == CalculusOperator.TYPE_ID)
+						initialCompilationDetails.containsCalculus = true;
+					else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID)
+						initialCompilationDetails.containsIf = true;
+					else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID)
+						initialCompilationDetails.containsIf = true;
+				}
+			} else {
+				foreach (Token token in initialTokens)
+					tokensList.Add(token.clone());
+			}
+
 			if (compilationDetails == null)
 				compilationDetails = new CompilationDetails();
 
-			compilationDetails.containsCalcOrIf = initialCompilationDetails.containsCalcOrIf;
-		}
-
-		/**
-		 * copy initial tokens lito to tokens list
-		 */
-		private void copyInitialTokens() {
-			if (initialCompilationDetails == null)
-				prepareInitialTokensListInfo();
-
-			tokensList = new List<Token>();
-			foreach (Token token in initialTokens)
-				tokensList.Add(token.clone());
-
-			copyInitialTokensListInfo();
+			compilationDetails.containsCalculus = initialCompilationDetails.containsCalculus;
+			compilationDetails.containsIf = initialCompilationDetails.containsIf;
+			compilationDetails.compiledElements = initialCompilationDetails.compiledElements;
 		}
 		/**
 		 * Tokenizes expression string and returns tokens list,
@@ -7269,8 +7451,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		internal Expression clone() {
 			Expression newExp = new Expression(this, false, null);
-            if (initialTokens != null && initialTokens.Count > 0)
+            if (initialTokens != null && initialTokens.Count > 0) {
 				newExp.initialTokens = createInitialTokens(0, initialTokens.Count-1, initialTokens);
+				newExp.initialCompilationDetails = initialCompilationDetails;
+            }
 			return newExp;
 		}
         internal Expression cloneForThreadSafeInternal(CloneCache cloneCache) {
@@ -7278,8 +7462,10 @@ namespace org.mariuszgromada.math.mxparser {
 			if (expressionClone == null) {
 				cloneCache.cacheCloneInProgress(this);
 				expressionClone = new Expression(this, true, cloneCache);
-				if (initialTokens != null && initialTokens.Count > 0)
+				if (initialTokens != null && initialTokens.Count > 0) {
 					expressionClone.initialTokens = createInitialTokens(0, initialTokens.Count-1, initialTokens);
+                    expressionClone.initialCompilationDetails = initialCompilationDetails;
+                }
 				cloneCache.clearCloneInProgress(this);
 				cloneCache.cacheExpressionClone(this, expressionClone);
 			}

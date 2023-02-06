@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.2.0    2023-01-29
+ * @(#)Miscellaneous.java        5.2.1    2023-02-05
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -449,9 +449,60 @@ class TokenPart implements Serializable {
 	KeyWord keyWord;
 }
 
-
 class CompilationDetails implements Serializable {
 	private static final int serialClassID = 91;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
-	boolean containsCalcOrIf = false;
+	boolean containsCalculus = false;
+	boolean containsIf = false;
+	List<CompiledElement> compiledElements;
+}
+
+class CompiledElement implements Serializable {
+	private static final int serialClassID = 92;
+	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
+
+	enum ToCall {
+		FREE_ARGUMENT
+		,CONSTANT
+		,UNIT
+		,USER_CONSTANT
+		,RANDOM_VARIABLE
+		,DEPENDENT_ARGUMENT
+		,calculusCalc
+		,IF_CONDITION
+		,IFF
+		,RECURSIVE_ARGUMENT
+		,variadicFunCalc
+		,f3ArgCalc
+		,f2ArgCalc
+		,f1ArgCalc
+		,USER_FUNCTION
+		,TETRATION
+		,POWER
+		,FACT
+		,PERC
+		,MODULO
+		,NEG
+		,rootOperCalc
+		,BITWISE_COMPL
+		,MULTIPLY
+		,DIVIDE
+		,MINUS
+		,PLUS
+		,NEQ
+		,EQ
+		,LT
+		,GT
+		,LEQ
+		,GEQ
+		,COMMA
+		,bolCalc
+		,bitwiseCalc
+		,PARENTHESES
+	}
+
+	ToCall toCall;
+	int position1;
+	int position2;
+
 }

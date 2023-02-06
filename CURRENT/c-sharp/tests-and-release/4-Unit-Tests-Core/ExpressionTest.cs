@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.2.0    2023-01-29
+ * @(#)ExpressionTest.cs        5.2.1    2023-02-06
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        5.2.1
 	 *
 	 */
 	[TestClass]
@@ -23027,6 +23027,38 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
+		}
+        [TestMethod]
+        public void testExpr1401() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) - (2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) + (2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) * 345 * ((897 - 323)/ 23)";
+			TestCommonTools.consolePrintTestExprStart(1401, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = testExp.calculate();
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assert.IsTrue(testResult);
+		}
+        [TestMethod]
+        public void testExpr1402() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "f(x,y)+z+(x*y)/z";
+			TestCommonTools.consolePrintTestExprStart(1402, expStr);
+			Argument x = new Argument("x", "2*rList(2,2,2,2,2)");
+			Argument y = new Argument("y = 2*x", x);
+			Argument z = new Argument("z = 3*y/x", x, y);
+			Function f = new Function("f(a,b) = a*b");
+			Expression testExp = new Expression(expStr, x, y, z, f);
+			double value = testExp.calculate();
+			double reg = testExp.calculate();
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assert.IsTrue(testResult);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        5.2.0    2023-01-29
+ * @(#)Expression.java        5.2.1    2023-02-05
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -241,7 +241,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        5.2.1
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -417,6 +417,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *    - SYNTAX_STATUS_UNKNOWN
 	 */
 	private boolean syntaxStatus;
+	private boolean isFullyCompiled;
 	/**
 	 * Message after checking the syntax
 	 */
@@ -588,6 +589,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 		this.syntaxStatus = syntaxStatus;
 		this.errorMessage = errorMessage;
 		this.expressionWasModified = false;
+		markAsNotFullyCompiled();
+	}
+	void markAsNotFullyCompiled() {
+		isFullyCompiled = false;
+		initialCompilationDetails = null;
 	}
 	/**
 	 * Sets expression status to modified
@@ -602,6 +608,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		internalClone = false;
 		expressionWasModified = true;
 		syntaxStatus = SYNTAX_STATUS_UNKNOWN;
+		markAsNotFullyCompiled();
 		errorMessage = StringInvariant.EMPTY;
 		for (Expression e : relatedExpressionsList)
 			e.setExpressionModifiedFlag();
@@ -621,6 +628,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 		forwardErrorMessage = true;
 		parserKeyWordsOnly = false;
 		verboseMode = false;
+		syntaxStatus = false;
+		isFullyCompiled = false;
 		impliedMultiplicationMode = mXparser.impliedMultiplicationMode;
 		unicodeKeyWordsEnabled = mXparser.unicodeKeyWordsEnabled;
 		attemptToFixExpStrEnabled = mXparser.attemptToFixExpStrEnabled;
@@ -726,6 +735,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		relatedExpressionsList = new ArrayList<Expression>();
 		expressionWasModified = false;
 		syntaxStatus = NO_SYNTAX_ERRORS;
+		isFullyCompiled = false;
 		description = StringInvariant.INTERNAL;
 		errorMessage = StringInvariant.EMPTY;
 		errorMessageCalculate = StringInvariant.EMPTY;
@@ -796,6 +806,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		impliedMultiplicationError = expressionToClone.impliedMultiplicationError;
 		disableRounding = expressionToClone.disableRounding;
 		syntaxStatus = expressionToClone.syntaxStatus;
+		isFullyCompiled = expressionToClone.isFullyCompiled;
 		errorMessage = expressionToClone.errorMessage;
 		errorMessageCalculate = expressionToClone.errorMessageCalculate;
 		recursionCallPending = expressionToClone.recursionCallPending;
@@ -2018,6 +2029,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void FREE_ARGUMENT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FREE_ARGUMENT, pos);
 		Argument argument = argumentsList.get( tokensList.get(pos).tokenId);
 		boolean argumentVerboseMode = argument.getVerboseMode();
 		if (verboseMode)
@@ -2032,6 +2044,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void DEPENDENT_ARGUMENT(int pos, CalcStepsRegister calcStepsRegister) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DEPENDENT_ARGUMENT, pos);
 		Argument argument = argumentsList.get( tokensList.get(pos).tokenId);
 		boolean argumentVerboseMode = argument.getVerboseMode();
 		if (verboseMode)
@@ -2069,6 +2082,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void USER_FUNCTION(int pos, CalcStepsRegister calcStepsRegister) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.USER_FUNCTION, pos);
 		Function function;
 		Function fun = functionsList.get( tokensList.get(pos).tokenId );
 		if (fun.getRecursiveMode()) {
@@ -2125,6 +2139,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void USER_CONSTANT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.USER_CONSTANT, pos);
 		Constant constant = constantsList.get( tokensList.get(pos).tokenId );
 		setToNumber(pos, constant.getConstantValue());
 	}
@@ -2134,6 +2149,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void RECURSIVE_ARGUMENT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RECURSIVE_ARGUMENT, pos);
 		double index = tokensList.get(pos+1).tokenValue;
 		RecursiveArgument argument = (RecursiveArgument)argumentsList.get( tokensList.get(pos).tokenId );
 		boolean argumentVerboseMode = argument.getVerboseMode();
@@ -2154,6 +2170,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void CONSTANT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.CONSTANT, pos);
 		double constValue = Double.NaN;
 		int constantValueId = tokensList.get(pos).tokenId;
 		if (constantValueId == ConstantValue.NPAR_ID)
@@ -2168,6 +2185,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void UNIT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.UNIT, pos);
 		setToNumber(pos, Units.getUnitValue(tokensList.get(pos).tokenId));
 	}
 	/**
@@ -2176,6 +2194,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void RANDOM_VARIABLE(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.RANDOM_VARIABLE, pos);
 		setToNumber(pos, ProbabilityDistributions.getRandomVariableValue(tokensList.get(pos).tokenId));
 	}
 	/**
@@ -2193,6 +2212,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void TETRATION(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.TETRATION, pos);
 		double a = getTokenValue(pos-1);
 		double n = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, MathFunctions.tetration(a, n), true);
@@ -2203,6 +2223,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void POWER(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.POWER, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, MathFunctions.power(a, b), true);
@@ -2213,6 +2234,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void MODULO(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MODULO, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, MathFunctions.mod(a, b) );
@@ -2223,6 +2245,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void DIVIDE(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DIVIDE, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		if (disableRounding) {
@@ -2238,6 +2261,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void MULTIPLY(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MULTIPLY, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		if (disableRounding) opSetDecreaseRemove(pos, a * b, true);
@@ -2249,6 +2273,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void PLUS(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PLUS, pos);
 		Token b = tokensList.get(pos+1);
 
 		if (pos == 0) {
@@ -2274,6 +2299,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void MINUS(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.MINUS, pos);
 		Token b = tokensList.get(pos+1);
 
 		if (pos == 0) {
@@ -2401,6 +2427,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void NEG(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NEG, pos);
 		double a = getTokenValue(pos+1);
 		setToNumber(pos, BooleanAlgebra.not(a) );
 		tokensList.remove(pos+1);
@@ -2411,6 +2438,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void EQ(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.EQ, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.eq(a, b) );
@@ -2421,6 +2449,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void NEQ(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.NEQ, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.neq(a, b) );
@@ -2431,6 +2460,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void LT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.LT, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.lt(a, b) );
@@ -2441,6 +2471,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void GT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.GT, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.gt(a, b) );
@@ -2451,6 +2482,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void LEQ(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.LEQ, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.leq(a, b) );
@@ -2461,6 +2493,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void GEQ(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.GEQ, pos);
 		double a = getTokenValue(pos-1);
 		double b = getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, BinaryRelations.geq(a, b) );
@@ -2501,6 +2534,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void BITWISE_COMPL(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.BITWISE_COMPL, pos);
 		long a = (long)getTokenValue(pos+1);
 		setToNumber(pos, ~a);
 		tokensList.remove(pos+1);
@@ -2990,6 +3024,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void FACT(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.FACT, pos);
 		double a = getTokenValue(pos-1);
 		setToNumber(pos, MathFunctions.factorial(a));
 		tokensList.remove(pos-1);
@@ -3001,6 +3036,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void PERC(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PERC, pos);
 		double a = getTokenValue(pos-1);
 		setToNumber(pos, MathFunctions.multiply(a, Units.PERC));
 		tokensList.remove(pos-1);
@@ -3548,6 +3584,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void IF_CONDITION(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.IF_CONDITION, pos);
 		/*
 		 * Get condition string
 		 * 1st parameter
@@ -3569,6 +3606,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      pos                 the token position
 	 */
 	private void IFF(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.IFF, pos);
 		/*
 		 * Get condition string
 		 * 1st parameter
@@ -4544,6 +4582,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos token index (position)
 	 */
 	private void COMMA(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.COMMA, pos);
 		tokensList.remove(pos);
 	}
 	/**
@@ -4554,6 +4593,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param rPos    roght token index (position)
 	 */
 	private void PARENTHESES(int lPos, int rPos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.PARENTHESES, lPos, rPos);
 		for (int p = lPos; p <= rPos; p++)
 			tokensList.get(p).tokenLevel--;
 		tokensList.remove(rPos);
@@ -4756,7 +4796,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		boolean calculusToken = false;
 		for (SyntaxStackElement e : syntaxStack)
-			if ( e.tokenStr.equals(token.tokenStr) )
+			if (e.tokenStr.equals(token.tokenStr))
 				calculusToken = true;
 
 		if (!calculusToken) {
@@ -5142,100 +5182,37 @@ public class Expression extends PrimitiveElement implements Serializable {
 		else stepDescription = expressionString.trim();
 		return stepDescription;
 	}
-	private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int loopCounter, String stepDescription) {
+	private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription) {
 		CalcStepRecord stepRecord = new CalcStepRecord();
 		stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
-		stepRecord.numberGroupWithin = loopCounter;
+		stepRecord.numberGroupWithin = stepsRegisteredCounter;
 		stepRecord.description = stepDescription;
 		stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
 		stepRecord.type = calcStepsRegister.stepType;
-		if (loopCounter == 1)
+
+		if (stepsRegisteredCounter == 1)
 			stepRecord.firstInGroup = true;
+
 		calcStepsRegister.calcStepRecords.add(stepRecord);
 	}
-	private double calculateInternal(CalcStepsRegister calcStepsRegister) {
-		computingTime = 0;
-		long startTime = System.currentTimeMillis();
-		if (verboseMode) {
-			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
-			printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
-			printSystemInfo(StringModel.STRING_RESOURCES.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
-			showArguments();
+	private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription, Double result) {
+		CalcStepRecord stepRecord = new CalcStepRecord();
+		stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
+		stepRecord.numberGroupWithin = stepsRegisteredCounter;
+		stepRecord.description = stepDescription;
+		stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
+		stepRecord.type = calcStepsRegister.stepType;
+		stepRecord.lastInGroup = true;
+		calcStepsRegister.calcStepRecords.add(stepRecord);
+		calcStepsRegister.stepNumberGroup--;
+		if (calcStepsRegister.stepNumberGroup == 0) {
+			calcStepsRegister.result = result;
+			calcStepsRegister.computingTime = computingTime;
+			calcStepsRegister.errorMessage = errorMessage;
 		}
-		/*
-		 * check expression syntax and
-		 * evaluate expression string tokens
-		 *
-		 */
-		if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
-				syntaxStatus = checkSyntax();
-		if (syntaxStatus == SYNTAX_ERROR) {
-			if (verboseMode)
-				printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
-			/*
-			 * Recursive counter to avoid infinite loops in expressions
-			 * created in they way showed in below examples
-			 *
-			 * Argument x = new Argument("x = 2*y");
-			 * Argument y = new Argument("y = 2*x");
-			 * x.addDefinitions(y);
-			 * y.addDefinitions(x);
-			 *
-			 * Function f = new Function("f(x) = 2*g(x)");
-			 * Function g = new Function("g(x) = 2*f(x)");
-			 * f.addDefinitions(g);
-			 * g.addDefinitions(f);
-			 *
-			 */
-			recursionCallsCounter = 0;
-			return Double.NaN;
-		}
-		/*
-		 * Building initial tokens only if this is first recursion call
-		 * or we have expression clone, helps to solve problem with
-		 * definitions similar to the below example
-		 *
-		 *
-		 * Function f = new Function("f(x) = 2*g(x)");
-		 * Function g = new Function("g(x) = 2*f(x)");
-		 * f.addDefinitions(g);
-		 * g.addDefinitions(f);
-		 */
-		if (recursionCallsCounter == 0 || internalClone)
-			copyInitialTokens();
-		/*
-		 * if nothing to calculate return Double.NaN
-		 */
-		if (tokensList.size() == 0) {
-			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
-			if (verboseMode)
-				printSystemInfo(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
-			recursionCallsCounter = 0;
-			return Double.NaN;
-		}
-		/*
-		 * Incrementing recursive counter to avoid infinite loops in expressions
-		 * created in they way showed in below examples
-		 *
-		 * Argument x = new Argument("x = 2*y");
-		 * Argument y = new Argument("y = 2*x");
-		 * x.addDefinitions(y);
-		 * y.addDefinitions(x);
-		 *
-		 * Function f = new Function("f(x) = 2*g(x)");
-		 * Function g = new Function("g(x) = 2*f(x)");
-		 * f.addDefinitions(g);
-		 * g.addDefinitions(f);
-		 *
-		 */
-		if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
-			if (verboseMode)
-				printSystemInfo(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
-			recursionCallsCounter--;
-			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED);
-			return Double.NaN;
-		}
-		recursionCallsCounter++;
+	}
+
+	private int calculateFirstAndFullyCompile(CalcStepsRegister calcStepsRegister, String stepDescription) {
 		/*
 		 * position for particular tokens types
 		 */
@@ -5251,30 +5228,29 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int bitwiseComplPos;
 		int tokensNumber, maxPartLevel;
 		boolean maxPartLevelNotInterrupted;
+		boolean depArgFound;
 		int lPos, rPos;
 		int tokenIndex, pos, p;
 		Token token, tokenL, tokenR;
 		Argument argument;
 		List<Integer> commas = null;
-		int emptyLoopCounter = 0, loopCounter = 0;
-		/* While exist token which needs to bee evaluated */
-		if (verboseMode)
-			printSystemInfo(StringModel.STRING_RESOURCES.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
-
-		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
-		String stepDescription = StringInvariant.EMPTY;
-		if (calcStepsRegister != null)
-			stepDescription = makeStepDescription();
-
+		int emptyLoopCounter = 0;
+		boolean storeStepsInRegister = true;
+		int stepsRegisteredCounter = 0;
 		CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
+
+		/* While exist token which needs to bee evaluated */
 		do {
-			loopCounter++;
-			if (calcStepsRegister != null)
-				registerCalculationStepRecord(calcStepsRegister, loopCounter, stepDescription);
+			if (storeStepsInRegister && calcStepsRegister != null) {
+				stepsRegisteredCounter++;
+				registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
+			}
+
+			storeStepsInRegister = true;
 
 			if (mXparser.isCurrentCalculationCancelled()) {
 				registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
-				return Double.NaN;
+				return -1;
 			}
 
 			tokensNumber = tokensList.size();
@@ -5296,7 +5272,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			bitwiseComplPos = -1;
 			/* calculus or if or iff operations ... */
 			p = -1;
-			if (compilationDetails.containsCalcOrIf) do {
+			if (compilationDetails.containsCalculus || compilationDetails.containsIf) do {
 				p++;
 				token = tokensList.get(p);
 				if (token.tokenTypeId == CalculusOperator.TYPE_ID) calculusPos = p;
@@ -5340,7 +5316,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				}
 				if (lPos < 0) {
 					registerErrorWhileCalculate(StringModel.STRING_RESOURCES.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING);
-					return Double.NaN;
+					return -1;
 				}
 				/*
 				 * If dependent argument was found then dependent arguments
@@ -5354,7 +5330,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 				 * y.addDefinitions(x);
 				 */
 				if (depArgPos >= 0) {
-					boolean depArgFound;
 					do {
 						depArgFound = false;
 						int currentTokensNumber = tokensList.size();
@@ -5367,11 +5342,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 								continue;
 							if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
 							DEPENDENT_ARGUMENT(tokenIndex, calcStepsRegister);
-							if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+							if (calcStepsRegister != null) {
+								calcStepsRegister.stepType = stepTypePrev;
+								stepsRegisteredCounter++;
+								registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
+							}
 							depArgFound = true;
 							break;
 						}
 					} while (depArgFound);
+					storeStepsInRegister = false;
 				} else {
 					if (verboseMode) {
 						printSystemInfo(StringModel.STRING_RESOURCES.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(lPos + StringInvariant.COMMA_SPACE + rPos), WITH_EXP_STR);
@@ -5497,12 +5477,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 			else if (commaPos >= 0) {
 				for (int i = commas.size()-1; i >= 0; i--)
 					COMMA(commas.get(i));
+				storeStepsInRegister = false;
 			} else if (andGroupPos >= 0) bolCalc(andGroupPos);
 			else if (orGroupPos >= 0) bolCalc(orGroupPos);
 			else if (implGroupPos >= 0) bolCalc(implGroupPos);
 			else if (bolPos >= 0) bolCalc(bolPos);
 			else if (bitwisePos >= 0) bitwiseCalc(bitwisePos);
-			else if (lParPos >= 0 && rParPos > lParPos) PARENTHESES(lParPos,rParPos);
+			else if (lParPos >= 0 && rParPos > lParPos) {
+				PARENTHESES(lParPos,rParPos);
+				storeStepsInRegister = false;
+			}
 
 			if (verboseMode) {
 				showParsing(0,tokensList.size()-1);
@@ -5514,18 +5498,208 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 			if (emptyLoopCounter > 10) {
 				registerErrorWhileCalculate(StringModel.STRING_RESOURCES.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN);
-				return Double.NaN;
+				return -1;
 			}
 		} while (tokensList.size() > 1);
+
+		if (!compilationDetails.containsIf)
+			isFullyCompiled = true;
+
+		return stepsRegisteredCounter;
+	}
+	private int applySequenceFromCompilation(CalcStepsRegister calcStepsRegister, String stepDescription) {
+		int stepsRegisteredCounter = 0;
+		CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
+		boolean storeStepsInRegister = true;
+		for (CompiledElement compiledElement : initialCompilationDetails.compiledElements) {
+			if (storeStepsInRegister && calcStepsRegister != null) {
+				stepsRegisteredCounter++;
+				registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
+			}
+
+			storeStepsInRegister = true;
+			int pos = compiledElement.position1;
+			switch (compiledElement.toCall) {
+				case FREE_ARGUMENT:
+					FREE_ARGUMENT(pos);
+					storeStepsInRegister = false;
+					break;
+				case CONSTANT:
+					CONSTANT(pos);
+					storeStepsInRegister = false;
+					break;
+				case UNIT:
+					UNIT(pos);
+					storeStepsInRegister = false;
+					break;
+				case USER_CONSTANT:
+					USER_CONSTANT(pos);
+					storeStepsInRegister = false;
+					break;
+				case RANDOM_VARIABLE:
+					RANDOM_VARIABLE(pos);
+					storeStepsInRegister = false;
+					break;
+				case DEPENDENT_ARGUMENT:
+					if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
+					DEPENDENT_ARGUMENT(pos, calcStepsRegister);
+					if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+					break;
+				case calculusCalc: calculusCalc(pos); break;
+				case IF_CONDITION: IF_CONDITION(pos); break;
+				case IFF: IFF(pos); break;
+				case RECURSIVE_ARGUMENT: RECURSIVE_ARGUMENT(pos); break;
+				case variadicFunCalc: variadicFunCalc(pos); break;
+				case f3ArgCalc: f3ArgCalc(pos); break;
+				case f2ArgCalc: f2ArgCalc(pos); break;
+				case f1ArgCalc: f1ArgCalc(pos); break;
+				case USER_FUNCTION:
+					if (calcStepsRegister != null) stepTypePrev = calcStepsRegister.stepType;
+					USER_FUNCTION(pos, calcStepsRegister);
+					if (calcStepsRegister != null) calcStepsRegister.stepType = stepTypePrev;
+					break;
+				case TETRATION: TETRATION(pos); break;
+				case POWER: POWER(pos); break;
+				case FACT: FACT(pos); break;
+				case PERC: PERC(pos); break;
+				case MODULO: MODULO(pos); break;
+				case NEG: NEG(pos); break;
+				case rootOperCalc: rootOperCalc(pos); break;
+				case BITWISE_COMPL: BITWISE_COMPL(pos); break;
+				case MULTIPLY: MULTIPLY(pos); break;
+				case DIVIDE: DIVIDE(pos); break;
+				case MINUS: MINUS(pos); break;
+				case PLUS: PLUS(pos); break;
+				case NEQ: NEQ(pos); break;
+				case EQ: EQ(pos); break;
+				case LT: LT(pos); break;
+				case GT: GT(pos); break;
+				case LEQ: LEQ(pos); break;
+				case GEQ: GEQ(pos); break;
+				case COMMA:
+					COMMA(pos);
+					storeStepsInRegister = false;
+					break;
+				case bolCalc: bolCalc(pos); break;
+				case bitwiseCalc: bitwiseCalc(pos); break;
+				case PARENTHESES:
+					PARENTHESES(compiledElement.position1, compiledElement.position2);
+					storeStepsInRegister = false;
+					break;
+			}
+		}
+		return stepsRegisteredCounter;
+	}
+	private double calculateInternal(CalcStepsRegister calcStepsRegister) {
+		computingTime = 0;
+		long startTime = System.currentTimeMillis();
+		if (verboseMode) {
+			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
+			printSystemInfo(StringInvariant.NEW_LINE, WITH_EXP_STR);
+			printSystemInfo(StringModel.STRING_RESOURCES.STARTING + StringInvariant.NEW_LINE, WITH_EXP_STR);
+			showArguments();
+		}
+		/*
+		 * check expression syntax and
+		 * evaluate expression string tokens
+		 *
+		 */
+		if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
+				syntaxStatus = checkSyntax();
+		if (syntaxStatus == SYNTAX_ERROR) {
+			if (verboseMode)
+				printSystemInfo(StringModel.STRING_RESOURCES.PROBLEM_WITH_EXPRESSION_SYNTAX + StringInvariant.NEW_LINE, NO_EXP_STR);
+			/*
+			 * Recursive counter to avoid infinite loops in expressions
+			 * created in they way showed in below examples
+			 *
+			 * Argument x = new Argument("x = 2*y");
+			 * Argument y = new Argument("y = 2*x");
+			 * x.addDefinitions(y);
+			 * y.addDefinitions(x);
+			 *
+			 * Function f = new Function("f(x) = 2*g(x)");
+			 * Function g = new Function("g(x) = 2*f(x)");
+			 * f.addDefinitions(g);
+			 * g.addDefinitions(f);
+			 *
+			 */
+			recursionCallsCounter = 0;
+			return Double.NaN;
+		}
+		/*
+		 * Building initial tokens only if this is first recursion call
+		 * or we have expression clone, helps to solve problem with
+		 * definitions similar to the below example
+		 *
+		 *
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 */
+		if (recursionCallsCounter == 0 || internalClone)
+			copyInitialTokens();
+		/*
+		 * if nothing to calculate return Double.NaN
+		 */
+		if (tokensList.size() == 0) {
+			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
+			if (verboseMode)
+				printSystemInfo(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
+			recursionCallsCounter = 0;
+			return Double.NaN;
+		}
+		/*
+		 * Incrementing recursive counter to avoid infinite loops in expressions
+		 * created in they way showed in below examples
+		 *
+		 * Argument x = new Argument("x = 2*y");
+		 * Argument y = new Argument("y = 2*x");
+		 * x.addDefinitions(y);
+		 * y.addDefinitions(x);
+		 *
+		 * Function f = new Function("f(x) = 2*g(x)");
+		 * Function g = new Function("g(x) = 2*f(x)");
+		 * f.addDefinitions(g);
+		 * g.addDefinitions(f);
+		 *
+		 */
+		if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
+			if (verboseMode)
+				printSystemInfo(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
+			recursionCallsCounter--;
+			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED);
+			return Double.NaN;
+		}
+		recursionCallsCounter++;
+
+		if (verboseMode)
+			printSystemInfo(StringModel.STRING_RESOURCES.STARTING_CALCULATION_LOOP + StringInvariant.NEW_LINE, WITH_EXP_STR);
+
+		CalcStepsRegister.stepNumberGroupIncrease(calcStepsRegister, this);
+		String stepDescription = StringInvariant.EMPTY;
+		if (calcStepsRegister != null)
+			stepDescription = makeStepDescription();
+
+		int stepsRegisteredCounter;
+		if (isFullyCompiled) {
+			stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
+		} else {
+			stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
+			if (stepsRegisteredCounter < 0) return Double.NaN;
+		}
 
 		if (verboseMode) {
 			printSystemInfo(StringModel.STRING_RESOURCES.CALCULATED_VALUE + StringInvariant.COLON_SPACE + tokensList.get(0).tokenValue + StringInvariant.NEW_LINE, WITH_EXP_STR);
 			printSystemInfo(StringModel.STRING_RESOURCES.EXITING + StringInvariant.NEW_LINE, WITH_EXP_STR);
 			printSystemInfo(StringInvariant.NEW_LINE, NO_EXP_STR);
 		}
+
 		long endTime = System.currentTimeMillis();
 		computingTime = (endTime - startTime)/1000.0;
 		recursionCallsCounter--;
+
 		double result = tokensList.get(0).tokenValue;
 		if (!disableRounding) {
 			if (mXparser.almostIntRounding) {
@@ -5536,29 +5710,31 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 
 		if (calcStepsRegister != null) {
-			CalcStepRecord stepRecord = new CalcStepRecord();
-			stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
-			stepRecord.numberGroupWithin = loopCounter;
-			stepRecord.description = stepDescription;
-			stepRecord.content = ExpressionUtils.tokensListToString(tokensList);
-			stepRecord.type = calcStepsRegister.stepType;
-			stepRecord.lastInGroup = true;
-			calcStepsRegister.calcStepRecords.add(stepRecord);
-			calcStepsRegister.stepNumberGroup--;
-			if (calcStepsRegister.stepNumberGroup == 0) {
-				calcStepsRegister.result = result;
-				calcStepsRegister.computingTime = computingTime;
-				calcStepsRegister.errorMessage = errorMessage;
-			}
+			stepsRegisteredCounter++;
+			registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription, result);
 		}
 
 		return result;
+	}
+	private void registerCompiledElement(CompiledElement.ToCall toCall, int position) {
+		CompiledElement compiledElement = new CompiledElement();
+		compiledElement.toCall = toCall;
+		compiledElement.position1 = position;
+		initialCompilationDetails.compiledElements.add(compiledElement);
+	}
+	private void registerCompiledElement(CompiledElement.ToCall toCall, int position1, int position2) {
+		CompiledElement compiledElement = new CompiledElement();
+		compiledElement.toCall = toCall;
+		compiledElement.position1 = position1;
+		compiledElement.position2 = position2;
+		initialCompilationDetails.compiledElements.add(compiledElement);
 	}
 	/**
 	 * Calculates unary function
 	 * @param pos    token position
 	 */
 	private void f1ArgCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f1ArgCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case Function1Arg.SIN_ID: SIN(pos); break;
 		case Function1Arg.COS_ID: COS(pos); break;
@@ -5631,6 +5807,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos   Token position
 	 */
 	private void f2ArgCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f2ArgCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case Function2Arg.LOG_ID: LOG(pos); break;
 		case Function2Arg.MOD_ID: MOD(pos); break;
@@ -5673,6 +5850,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos   Token position
 	 */
 	private void f3ArgCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.f3ArgCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case Function3Arg.IF_ID: IF(pos); break;
 		case Function3Arg.CHI_ID: CHI(pos); break;
@@ -5698,6 +5876,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos   Token position
 	 */
 	private void variadicFunCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.variadicFunCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case FunctionVariadic.IFF_ID: IFF(pos); break;
 		case FunctionVariadic.MIN_ID: MIN_VARIADIC(pos); break;
@@ -5729,6 +5908,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos
 	 */
 	private void calculusCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.calculusCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case CalculusOperator.SUM_ID: SUM(pos); break;
 		case CalculusOperator.PROD_ID: PROD(pos); break;
@@ -5752,6 +5932,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos
 	 */
 	private void rootOperCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.rootOperCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 			case Operator.SQUARE_ROOT_ID: SQUARE_ROOT_OPERATOR(pos); break;
 			case Operator.CUBE_ROOT_ID: CUBE_ROOT_OPERATOR(pos); break;
@@ -5763,6 +5944,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos
 	 */
 	private void bolCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.bolCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case BooleanOperator.AND_ID: AND(pos); break;
 		case BooleanOperator.CIMP_ID: CIMP(pos); break;
@@ -5781,6 +5963,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param pos
 	 */
 	private void bitwiseCalc(int pos) {
+		if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.bitwiseCalc, pos);
 		switch (tokensList.get(pos).tokenId) {
 		case BitwiseOperator.AND_ID: BITWISE_AND(pos); break;
 		case BitwiseOperator.OR_ID: BITWISE_OR(pos); break;
@@ -6785,45 +6968,41 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 */
 		ExpressionUtils.evaluateTokensLevels(initialTokens);
 	}
-	private void prepareInitialTokensListInfo() {
-		initialCompilationDetails = new CompilationDetails();
-		for (Token token : initialTokens) {
-			if (token.tokenTypeId == CalculusOperator.TYPE_ID) {
-				initialCompilationDetails.containsCalcOrIf = true;
-				break;
-			}
 
-			if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID) {
-				initialCompilationDetails.containsCalcOrIf = true;
-				break;
-			}
-
-			if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID) {
-				initialCompilationDetails.containsCalcOrIf = true;
-				break;
-			}
+	/**
+	 * copy initial tokens list to tokens list and prepares initial compilation details
+	 */
+	private void copyInitialTokens() {
+		boolean prepareInitialTokensListInfo = false;
+		if (initialCompilationDetails == null) {
+			initialCompilationDetails = new CompilationDetails();
+			initialCompilationDetails.compiledElements = new ArrayList<CompiledElement>();
+			prepareInitialTokensListInfo = true;
 		}
-	}
 
-	private void copyInitialTokensListInfo() {
+		tokensList = new ArrayList<Token>();
+
+		if (prepareInitialTokensListInfo) {
+			for (Token token : initialTokens) {
+				tokensList.add(token.clone());
+				if (token.tokenTypeId == CalculusOperator.TYPE_ID)
+					initialCompilationDetails.containsCalculus = true;
+				else if (token.tokenTypeId == Function3Arg.TYPE_ID && token.tokenId == Function3Arg.IF_CONDITION_ID)
+					initialCompilationDetails.containsIf = true;
+				else if (token.tokenTypeId == FunctionVariadic.TYPE_ID && token.tokenId == FunctionVariadic.IFF_ID)
+					initialCompilationDetails.containsIf = true;
+			}
+		} else {
+			for (Token token : initialTokens)
+				tokensList.add(token.clone());
+		}
+
 		if (compilationDetails == null)
 			compilationDetails = new CompilationDetails();
 
-		compilationDetails.containsCalcOrIf = initialCompilationDetails.containsCalcOrIf;
-	}
-
-	/**
-	 * copy initial tokens list to tokens list
-	 */
-	private void copyInitialTokens() {
-		if (initialCompilationDetails == null)
-			prepareInitialTokensListInfo();
-
-		tokensList = new ArrayList<Token>();
-		for (Token token : initialTokens)
-			tokensList.add(token.clone());
-
-		copyInitialTokensListInfo();
+		compilationDetails.containsCalculus = initialCompilationDetails.containsCalculus;
+		compilationDetails.containsIf = initialCompilationDetails.containsIf;
+		compilationDetails.compiledElements = initialCompilationDetails.compiledElements;
 	}
 	/**
 	 * Tokenizes expression string and returns tokens list,
@@ -7291,8 +7470,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 	@Override
 	protected Expression clone() {
 		Expression newExp = new Expression(this, false, null);
-		if (initialTokens != null && initialTokens.size() > 0)
-			newExp.initialTokens = createInitialTokens(0, initialTokens.size()-1, initialTokens);
+		if (initialTokens != null && initialTokens.size() > 0) {
+			newExp.initialTokens = createInitialTokens(0, initialTokens.size() - 1, initialTokens);
+			newExp.initialCompilationDetails = initialCompilationDetails;
+		}
 		return newExp;
 	}
 	Expression cloneForThreadSafeInternal(CloneCache cloneCache) {
@@ -7300,8 +7481,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (expressionClone == null) {
 			cloneCache.cacheCloneInProgress(this);
 			expressionClone = new Expression(this, true, cloneCache);
-			if (initialTokens != null && initialTokens.size() > 0)
-				expressionClone.initialTokens = createInitialTokens(0, initialTokens.size()-1, initialTokens);
+			if (initialTokens != null && initialTokens.size() > 0) {
+				expressionClone.initialTokens = createInitialTokens(0, initialTokens.size() - 1, initialTokens);
+				expressionClone.initialCompilationDetails = initialCompilationDetails;
+			}
 			cloneCache.clearCloneInProgress(this);
 			cloneCache.cacheExpressionClone(this, expressionClone);
 		}

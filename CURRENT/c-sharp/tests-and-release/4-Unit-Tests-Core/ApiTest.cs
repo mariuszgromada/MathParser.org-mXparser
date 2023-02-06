@@ -206,7 +206,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.1.0
+	 * @version        5.2.1
 	 *
 	 */
 	[TestClass]
@@ -3863,7 +3863,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (!e.getExpressionString().Equals(calcStepsRegister.expressionStringStart)) testResult = false;
 			if (calcStepsRegister.argumentNameStart.Length > 0) testResult = false;
 			if (calcStepsRegister.functionNameStart.Length > 0) testResult = false;
-			if (calcStepsRegister.calcStepRecords.Count != 5)  testResult = false;
+			if (calcStepsRegister.calcStepRecords.Count != 4)  testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -3880,7 +3880,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (!x.getArgumentName().Equals(calcStepsRegister.argumentNameStart)) testResult = false;
 			if (!x.getArgumentExpressionString().Equals(calcStepsRegister.expressionStringStart)) testResult = false;
 			if (calcStepsRegister.functionNameStart.Length > 0) testResult = false;
-			if (calcStepsRegister.calcStepRecords.Count != 5)  testResult = false;
+			if (calcStepsRegister.calcStepRecords.Count != 4)  testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -3896,7 +3896,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (!f.getFunctionName().Equals(calcStepsRegister.functionNameStart)) testResult = false;
 			if (!f.getFunctionExpressionString().Trim().Equals(calcStepsRegister.expressionStringStart)) testResult = false;
 			if (calcStepsRegister.argumentNameStart.Length > 0) testResult = false;
-			if (calcStepsRegister.calcStepRecords.Count != 5)  testResult = false;
+			if (calcStepsRegister.calcStepRecords.Count != 4)  testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -3917,7 +3917,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (!e.getExpressionString().Equals(calcStepsRegister.expressionStringStart)) testResult = false;
 			if (calcStepsRegister.argumentNameStart.Length > 0) testResult = false;
 			if (calcStepsRegister.functionNameStart.Length > 0) testResult = false;
-			if (calcStepsRegister.calcStepRecords.Count != 72)  testResult = false;
+			if (calcStepsRegister.calcStepRecords.Count != 60)  testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
@@ -9872,6 +9872,126 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
+		[TestMethod]
+		public void testApi0314() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String exprStr = "(2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) - (2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) + (2 + 6 - (13 * 24 + 5 / (123 - 364 + 23))) * 345 * ((897 - 323)/ 23)";
+			String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+			TestCommonTools.consolePrintTestApiStart(314, testDescr);
+			CalcStepsRegister r1 = new CalcStepsRegister();
+			CalcStepsRegister r2 = new CalcStepsRegister();
+			CalcStepsRegister r3 = new CalcStepsRegister();
+			Expression e = new Expression(exprStr);
+			double v1 = e.calculate(r1);
+			double v2 = e.calculate(r2);
+			double v3 = e.calculate(r3);
+
+			if ( v1 == v2
+					&& v1 == v3
+					&& r1.calcStepRecords.Count == r2.calcStepRecords.Count
+					&& r1.calcStepRecords.Count == r3.calcStepRecords.Count
+					&& r1.ToString().Equals(r2.ToString())
+					&& r1.ToString().Equals(r3.ToString())
+			) testResult = true;
+
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0315() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String exprStr = "f(x,y)+z+(x*y)/z";
+			String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+			TestCommonTools.consolePrintTestApiStart(315, testDescr);
+			CalcStepsRegister r1 = new CalcStepsRegister();
+			CalcStepsRegister r2 = new CalcStepsRegister();
+			CalcStepsRegister r3 = new CalcStepsRegister();
+
+			Argument x = new Argument("x", "2*rList(2,2,2,2,2)");
+			Argument y = new Argument("y = 2*x", x);
+			Argument z = new Argument("z = 3*y/x", x, y);
+			Function f = new Function("f(a,b) = a*b");
+
+			Expression e = new Expression(exprStr, x, y, z, f);
+			double v1 = e.calculate(r1);
+			double v2 = e.calculate(r2);
+			double v3 = e.calculate(r3);
+
+			if ( v1 == v2
+					&& v1 == v3
+					&& r1.calcStepRecords.Count == r2.calcStepRecords.Count
+					&& r1.calcStepRecords.Count == r3.calcStepRecords.Count
+					&& r1.ToString().Equals(r2.ToString())
+					&& r1.ToString().Equals(r3.ToString())
+			) testResult = true;
+
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0316() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String exprStr = "f(a,b) = g(a,b) * a*b";
+			String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+			TestCommonTools.consolePrintTestApiStart(316, testDescr);
+			CalcStepsRegister r1 = new CalcStepsRegister();
+			CalcStepsRegister r2 = new CalcStepsRegister();
+			CalcStepsRegister r3 = new CalcStepsRegister();
+
+			Function g = new Function("g(a,b) = a*b");
+			Function f = new Function("f(a,b) = g(a,b) * a*b", g);
+
+			f.setArgumentValue(0, 1);
+			f.setArgumentValue(1, 1);
+			double v1 = f.calculate(r1);
+			double v2 = f.calculate(r2);
+			double v3 = f.calculate(r3);
+
+			if ( v1 == v2
+					&& v1 == v3
+					&& r1.calcStepRecords.Count == r2.calcStepRecords.Count
+					&& r1.calcStepRecords.Count == r3.calcStepRecords.Count
+					&& r1.ToString().Equals(r2.ToString())
+					&& r1.ToString().Equals(r3.ToString())
+			) testResult = true;
+
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0317() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String exprStr = "z = 3*y/x";
+			String testDescr = "Expression + CalcStepsRegister + Full Compilation: " + exprStr;
+			TestCommonTools.consolePrintTestApiStart(317, testDescr);
+			CalcStepsRegister r1 = new CalcStepsRegister();
+			CalcStepsRegister r2 = new CalcStepsRegister();
+			CalcStepsRegister r3 = new CalcStepsRegister();
+
+			Argument x = new Argument("x", "2*rList(2,2,2,2,2)");
+			Argument y = new Argument("y = 2*x", x);
+			Argument z = new Argument("z = 3*y/x", x, y);
+
+			double v1 = z.getArgumentValue(r1);
+			double v2 = z.getArgumentValue(r2);
+			double v3 = z.getArgumentValue(r3);
+
+			if ( v1 == v2
+					&& v1 == v3
+					&& r1.calcStepRecords.Count == r2.calcStepRecords.Count
+					&& r1.calcStepRecords.Count == r3.calcStepRecords.Count
+					&& r1.ToString().Equals(r2.ToString())
+					&& r1.ToString().Equals(r3.ToString())
+			) testResult = true;
+
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
+		}
+
 		public static String cleanMarkdownBackslash(String str) {
 			return str.Replace("\\\\", "").Replace("\\|", "");
 		}
