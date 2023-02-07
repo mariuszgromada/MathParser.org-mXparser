@@ -14,6 +14,12 @@
 *** https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro ***
                         *** https://scalarmath.org/ ***
 
+
+v.5.2.1 (2023-03-08): Orion - Performance improvement
+
+     * Performance improvement for calculations in the loop: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/296
+     * Claculation Steps Register fix: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/297
+
 v.5.2.0 (2023-01-29): Orion - Improvement and standardization of descriptions and messages.
                       Definition of your own translations. Exporting help in multiple formats.
                       Clones for thread safe.
