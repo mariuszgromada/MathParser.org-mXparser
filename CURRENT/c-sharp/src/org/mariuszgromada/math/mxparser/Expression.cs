@@ -5209,8 +5209,7 @@ namespace org.mariuszgromada.math.mxparser {
 			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 
 			/* While exist token which needs to bee evaluated */
-            do
-            {
+            do {
 				if (storeStepsInRegister && calcStepsRegister != null) {
 					stepsRegisteredCounter++;
 					registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
@@ -5218,10 +5217,11 @@ namespace org.mariuszgromada.math.mxparser {
 
 				storeStepsInRegister = true;
 
-                if (mXparser.isCurrentCalculationCancelled()) {
+                if (mXparser.cancelCurrentCalculationFlag) {
                     registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
                     return -1;
 				}
+
 				tokensNumber = tokensList.Count;
 				maxPartLevel = -1;
                 maxPartLevelNotInterrupted = false;
@@ -5483,6 +5483,12 @@ namespace org.mariuszgromada.math.mxparser {
 			CalcStepRecord.StepType stepTypePrev = CalcStepRecord.StepType.Unknown;
 			bool storeStepsInRegister = true;
 			foreach (CompiledElement compiledElement in initialCompilationDetails.compiledElements) {
+
+				if (mXparser.cancelCurrentCalculationFlag) {
+					registerErrorWhileCalculate(StringModel.STRING_RESOURCES.CANCEL_REQUEST_FINISHING);
+					return -1;
+				}
+
 				if (storeStepsInRegister && calcStepsRegister != null) {
 					stepsRegisteredCounter++;
 					registerCalculationStepRecord(calcStepsRegister, stepsRegisteredCounter, stepDescription);
@@ -5490,6 +5496,12 @@ namespace org.mariuszgromada.math.mxparser {
 
 				storeStepsInRegister = true;
 				int pos = compiledElement.position1;
+
+				if (verboseMode) {
+					printSystemInfo(StringModel.STRING_RESOURCES.PARSING + StringInvariant.SPACE + StringUtils.surroundBracketsAddSpace(pos + StringInvariant.COMMA_SPACE + pos), WITH_EXP_STR);
+					showParsing(pos,pos);
+				}
+
 				switch (compiledElement.toCall) {
 					case CompiledElement.ToCall.FREE_ARGUMENT:
 						FREE_ARGUMENT(pos);
@@ -5558,6 +5570,12 @@ namespace org.mariuszgromada.math.mxparser {
 						storeStepsInRegister = false;
 						break;
 				}
+
+				if (verboseMode) {
+					showParsing(0,tokensList.Count-1);
+					printSystemInfo(StringInvariant.SPACE + StringModel.STRING_RESOURCES.DONE + StringInvariant.NEW_LINE, NO_EXP_STR);
+				}
+
 			}
 			return stepsRegisteredCounter;
 		}
@@ -5652,6 +5670,9 @@ namespace org.mariuszgromada.math.mxparser {
 			String stepDescription = StringInvariant.EMPTY;
 			if (calcStepsRegister != null)
                 stepDescription = makeStepDescription();
+
+			if (verboseMode)
+				printSystemInfo(StringModel.STRING_RESOURCES.FULLY_COMPILED + StringInvariant.SPACE_EQUAL_SPACE + isFullyCompiled + StringInvariant.NEW_LINE, WITH_EXP_STR);
 
 			int stepsRegisteredCounter;
             if (isFullyCompiled) {

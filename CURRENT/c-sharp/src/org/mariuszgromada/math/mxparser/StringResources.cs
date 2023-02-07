@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        5.2.0    2023-01-29
+ * @(#)StringResources.cs        5.2.1    2023-02-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -201,7 +201,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        5.2.0
+     * @version        5.2.1
      *
      * @see StringModel
      * @see StringModel#setUserLanguage(UserLanguage)
@@ -303,6 +303,7 @@ namespace org.mariuszgromada.math.mxparser {
         // -------------------------------------------------
         internal const String DEFAULT_STARTING = "Starting...";
         internal const String DEFAULT_PARSING = "Parsing";
+        internal const String DEFAULT_FULLY_COMPILED = "Fully compiled";
         internal const String DEFAULT_CALCULATED_VALUE = "Calculated value";
         internal const String DEFAULT_EXITING = "Exiting.";
         internal const String DEFAULT_DONE = "done.";
@@ -1132,6 +1133,10 @@ namespace org.mariuszgromada.math.mxparser {
          * Default String = "Parsing"
          */
         public String PARSING = DEFAULT_PARSING;
+        /**
+         * Default String = "Fully compiled"
+         */
+        public String FULLY_COMPILED = DEFAULT_FULLY_COMPILED;
         /**
          * Default String = "Calculated value"
          */
@@ -3102,6 +3107,7 @@ namespace org.mariuszgromada.math.mxparser {
             StringUtils.consolePrintln("// -------------------------------------------------");
             printCurrentVsDefault("STARTING", stringResources.STARTING, DEFAULT_STARTING, printDefault);
             printCurrentVsDefault("PARSING", stringResources.PARSING, DEFAULT_PARSING, printDefault);
+            printCurrentVsDefault("FULLY_COMPILED", stringResources.FULLY_COMPILED, DEFAULT_FULLY_COMPILED, printDefault);
             printCurrentVsDefault("CALCULATED_VALUE", stringResources.CALCULATED_VALUE, DEFAULT_CALCULATED_VALUE, printDefault);
             printCurrentVsDefault("EXITING", stringResources.EXITING, DEFAULT_EXITING, printDefault);
             printCurrentVsDefault("DONE", stringResources.DONE, DEFAULT_DONE, printDefault);

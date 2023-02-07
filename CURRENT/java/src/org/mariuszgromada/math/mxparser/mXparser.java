@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.1    2023-02-05
+ * @(#)mXparser.java        5.2.1    2023-02-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -350,7 +350,7 @@ public final class mXparser {
 	/**
 	 * Indicator whether to call cancel current calculation
 	 */
-	private static volatile boolean cancelCurrentCalculationFlag = false;
+	static volatile boolean cancelCurrentCalculationFlag = false;
 	/**
 	 * Empty expression for general help purposes.
 	 */

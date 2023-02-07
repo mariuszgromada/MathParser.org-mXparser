@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.1    2023-02-05
+ * @(#)mXparser.cs        5.2.1    2023-02-07
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -442,7 +442,7 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * Indicator whether to call cancel current calculation
 		 */
-		private static volatile bool cancelCurrentCalculationFlag = false;
+		internal static volatile bool cancelCurrentCalculationFlag = false;
 		/**
 		 * Empty expression for general help purposes.
 		 */
