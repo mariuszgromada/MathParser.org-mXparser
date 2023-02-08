@@ -4,19 +4,21 @@
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
 
-# v.5.2.0 (2023-01-29): Orion: Improvement and standardization of descriptions and messages. Definition of your own translations. Exporting help in multiple formats. Clones for thread safe.
-- [**Improvement and standardization of built-in elements description**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/290) 
-- [**Improvement and standardization of error messages**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/286) 
-- [**Definition of your own translations**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/294) 
-- [**Help content in the CSV format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/277) 
-- [**Help content in the HTML format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/276) 
-- [**Help content in the Markdown format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/275) 
-- [**Help content in the JSON format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/274) 
-- [**Clones for thread safe**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/293) 
+## v.5.2.1 (2023-02-08): Orion: Improvement and standardization of descriptions and messages. Definition of your own translations. Exporting help in multiple formats. Clones for thread safe. Performance improvement.
+- [**Improvement and standardization of built-in elements description**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/290), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/validating-string-model/)
+- [**Improvement and standardization of error messages**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/286), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/validating-string-model/)
+- [**Definition of your own translations**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/294), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/configuration-of-your-own-translation/)
+- [**Help content in the CSV format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/277), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/exporting-help-in-the-csv-format/)
+- [**Help content in the HTML format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/276), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/exporting-help-in-the-html-table-format/)
+- [**Help content in the Markdown format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/275), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/exporting-help-in-the-markdown-table-format/)
+- [**Help content in the JSON format**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/274), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/exporting-help-in-the-json-format/)
+- [**Clones for thread safe**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/293), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/cloning-for-thread-safe-operations/)
+- [**Performance improvement for calculations in the loop**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/296), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/validating-string-model/)
 - [**Bug fixed #291 Euler polynomial function producing wrong results**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/291) 
 - [**Bug fixed #292 Implied Multiplication bug when blank character separates**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/292) 
 - [**Bug fixed #283 Unnecessary newline at the end in getErrorMessage()**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/283) 
 - [**Bug fixed #284 Unnecessary space in function expression string returned by getErrorMessage()**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/284) 
+- [**Bug fixed #297 Claculation Steps Register fix - commas / parenthesis / missing parts related to user arguments**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/297)
 
 # v.5.1 Libris: Implied Multiplication, Unicode Math Symbols, Additional Probability Distributions, Calculation Steps Register, Serialization Support
 - [**Implied Multiplication**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/243), click to see [usage example](https://mathparser.org/mxparser-tutorial/implied-multiplication/)
