@@ -118,6 +118,30 @@ COMMERCIAL LICENSE
 
 ADDITIONAL CLARIFICATION ON WORKSTATION
 
+1. An example when you need a license for A SINGLE WORKSTATION:
+Only one developer works on the development of your application. You do
+not additionally use separate environments for testing, i.e. you design,
+create, test and compile your final application on one environment.
+
+2. An example when you need a license for UP TO 5 WORKSTATIONS:
+Two developers are working on the development of your application.
+In addition, one tester conducts its tests in a separate environment.
+You use three workstations in total, so you need a license for up to
+five workstations.
+
+3. An example when you need a license for UP TO 20 WORKSTATIONS:
+Ten developers are working on the development of your application.
+In addition, a five tester conducts its tests in a separate environment.
+You use fifteen workstations in total, so you need a licenses for up to
+twenty workstations.
+
+4. An example when you need A SITE-LICENSE:
+Over several dozen developers and testers work on the development of
+your application using many environments. You have a large and
+multi-disciplinary team involved in creating your solution. Your team
+is growing. You don’t want licensing limitation. The best choice
+would be a site license.
+
 The number of workstations does not relate to the final distribution of
 your end-product to your end-users. In typical cases the number of
 workstations is a way to measure the scale of the process of design
