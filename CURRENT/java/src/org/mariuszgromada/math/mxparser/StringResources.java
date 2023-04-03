@@ -214,7 +214,7 @@ public class StringResources {
     static final String DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION = "No errors detected in argument definition.";
     static final String DEFAULT_NO_ERRORS_DETECTED_IN_RECURSIVE_ARGUMENT_DEFINITION = "No errors detected in recursive argument definition.";
     static final String DEFAULT_NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION = "No errors detected in function definition.";
-    static final String DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION = "No errors detected in function definition.";
+    static final String DEFAULT_NO_ERRORS_DETECTED_IN_CONSTANT_DEFINITION = "No errors detected in constant definition.";
     static final String DEFAULT_LEXICAL_ERROR_HAS_BEEN_FOUND = "A lexical error has been found.";
     static final String DEFAULT_ERRORS_HAVE_BEEN_FOUND = "Errors have been found.";
     static final String DEFAULT_ALREADY_CHECKED_NO_ERRORS = "The syntax has already been checked - no errors detected.";

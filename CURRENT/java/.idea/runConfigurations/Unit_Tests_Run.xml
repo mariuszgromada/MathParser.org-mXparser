@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Unit Tests Run" type="JUnit" factoryName="JUnit">
-    <module name="mxparser-java" />
+    <module name="MathParser.org-mXparser" />
     <extension name="coverage" sample_coverage="false">
       <pattern>
         <option name="PATTERN" value="org.mariuszgromada.math.mxparser.Tutorial" />
