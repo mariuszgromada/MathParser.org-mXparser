@@ -37,19 +37,19 @@
 ## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 5.2.0
+Install-Package MathParser.org-mXparser -Version 5.2.1
 ```
 
 ## Nuget – .NET CLI
 
 ```
-dotnet add package MathParser.org-mXparser --version 5.2.0
+dotnet add package MathParser.org-mXparser --version 5.2.1
 ```
 
 ## Nuget – Package Reference
 
 ```
-<PackageReference Include="MathParser.org-mXparser" Version="5.2.0"/>
+<PackageReference Include="MathParser.org-mXparser" Version="5.2.1"/>
 ```
 
 ## Maven - Dependency
@@ -58,20 +58,20 @@ dotnet add package MathParser.org-mXparser --version 5.2.0
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>5.2.0</version>
+    <version>5.2.1</version>
 </dependency>
 ```
 
 ## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.0'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
 ```
 
 ## Maven – Gradle (Kotlin)
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.0")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
 ```
 
 ## NPM
