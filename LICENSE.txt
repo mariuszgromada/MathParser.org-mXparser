@@ -20,7 +20,7 @@ NON-COMMERCIAL USE means any use or activity where a fee is not charged
 and the purpose is not the sale of a good or service, and the use or
 activity is not intended to produce a profit. NON-COMMERCIAL USE examples:
 
-1. Free Open-Source Software ("FOSS").
+1. Non-commercial Open-Source Software.
 2. Non-commercial use in research, scholarly and education.
 
 COMMERCIAL USE means any use or activity where a fee is charged or the
