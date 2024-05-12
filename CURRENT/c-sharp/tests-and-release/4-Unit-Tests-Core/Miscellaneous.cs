@@ -197,6 +197,15 @@ namespace org.mariuszgromada.math.mxparser.test {
             mXparser.consolePrintSettings(prefix);
         }
 
+#if !NET7_0_OR_GREATER
+        internal const String DUMMY_TEST_STR = "";
+#else
+        internal const String DUMMY_TEST_STR = "A mockup/dummy test, as since .NET70 and higher BinaryFormatter serialization is not supported, therefore it was removed from the mxparser library: ";
+#endif
+
+        internal static String commentTestDescriptionAsMockup(String testDescription) {
+            return DUMMY_TEST_STR + testDescription;
+        }
         internal static void consolePrintOptionsExpression(Expression testExp) {
             mXparser.consolePrintln("------------ OPTIONS AFTER ------------");
             mXparser.consolePrintln("getImpliedMultiplicationMode = " + testExp.checkIfImpliedMultiplicationMode());
