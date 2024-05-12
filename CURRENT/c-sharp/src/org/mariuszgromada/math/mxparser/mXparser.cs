@@ -271,6 +271,8 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String BUIT_FOR = "NETSTANDARD1_1";
 #elif NETSTANDARD1_0
 		public const String BUIT_FOR = "NETSTANDARD1_0";
+#elif NET8_0
+		public const String BUIT_FOR = "NET8_0";
 #elif NET7_0
 		public const String BUIT_FOR = "NET7_0";
 #elif NET6_0
@@ -318,7 +320,7 @@ namespace org.mariuszgromada.math.mxparser {
 #elif PCL
 		public const String BUIT_FOR = ".NET PCL";
 #else
-		public const String BUIT_FOR = ".NET";
+        public const String BUIT_FOR = ".NET";
 #endif
 		/**
 		 * FOUND / NOT_FOUND
