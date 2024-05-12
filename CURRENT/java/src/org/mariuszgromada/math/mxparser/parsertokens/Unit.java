@@ -1,5 +1,5 @@
 /*
- * @(#)Unit.java        5.2.0    2023-01-29
+ * @(#)Unit.java        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.0.0
  */
 public final class Unit {
 	/*
@@ -212,7 +212,7 @@ public final class Unit {
 	 */
 	/* Ratio, Fraction */
 	public static final int PERC_ID					= 1;
-	public static final int PROMIL_ID				= 2;
+	public static final int PERM_ID					= 2;
 	/* Metric prefixes */
 	public static final int YOTTA_ID				= 101;
 	public static final int ZETTA_ID				= 102;
@@ -323,7 +323,7 @@ public final class Unit {
 	 */
 	/* Ratio, Fraction */
 	public static final String PERC_STR					= "[%]";
-	public static final String PROMIL_STR				= "[%%]";
+	public static final String PERM_STR					= "[%%]";
 	/* Metric prefixes */
 	public static final String YOTTA_STR				= "[Y]";
 	public static final String YOTTA_SEPT_STR			= "[sept]";
@@ -443,7 +443,7 @@ public final class Unit {
 	 */
 	/* Ratio, Fraction */
 	public static final String PERC_SYN					= PERC_STR;
-	public static final String PROMIL_SYN				= PROMIL_STR;
+	public static final String PERM_SYN					= PERM_STR;
 	/* Metric prefixes */
 	public static final String YOTTA_SYN				= YOTTA_STR;
 	public static final String YOTTA_SEPT_SYN			= YOTTA_SEPT_STR;
@@ -563,7 +563,7 @@ public final class Unit {
 	 * Unit - tokens description.
 	 */
 	public static String PERC_DESC = ParserSymbol.NA;
-	public static String PROMIL_DESC = ParserSymbol.NA;
+	public static String PERM_DESC = ParserSymbol.NA;
 	public static String YOTTA_DESC = ParserSymbol.NA;
 	public static String ZETTA_DESC = ParserSymbol.NA;
 	public static String EXA_DESC = ParserSymbol.NA;
@@ -662,7 +662,7 @@ public final class Unit {
 	 */
 	/* Ratio, Fraction */
 	public static final String PERC_SINCE					= mXparser.NAMEv40;
-	public static final String PROMIL_SINCE					= mXparser.NAMEv40;
+	public static final String PERM_SINCE					= mXparser.NAMEv40;
 	/* Metric prefixes */
 	public static final String YOTTA_SINCE					= mXparser.NAMEv40;
 	public static final String ZETTA_SINCE					= mXparser.NAMEv40;

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        5.2.1    2023-02-07
+ * @(#)mXparser.java        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -187,6 +187,7 @@ package org.mariuszgromada.math.mxparser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.mariuszgromada.math.mxparser.mathcollection.*;
@@ -207,7 +208,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.1
+ * @version        6.0.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -218,11 +219,11 @@ public final class mXparser {
 	/**
 	 * mXparser version
 	 */
-	public static final int VERSION_MAJOR = 5;
-	public static final int VERSION_MINOR = 2;
-	public static final int VERSION_PATCH = 1;
+	public static final int VERSION_MAJOR = 6;
+	public static final int VERSION_MINOR = 0;
+	public static final int VERSION_PATCH = 0;
 	public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
-	public static final String VERSION_CODE_NAME = "Orion";
+	public static final String VERSION_CODE_NAME = "Picon";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
 	 * Framework used to compile mXparser
@@ -351,6 +352,10 @@ public final class mXparser {
 	 * Indicator whether to call cancel current calculation
 	 */
 	static volatile boolean cancelCurrentCalculationFlag = false;
+	/**
+	 * Indicator whether to select best matching language to OS locale
+	 */
+	static volatile boolean selectBestMatchingLanguage = true;
 	/**
 	 * Empty expression for general help purposes.
 	 */
@@ -906,6 +911,88 @@ public final class mXparser {
 		return attemptToFixExpStrEnabled;
 	}
 	/**
+	 * Option that enables selection of best matching language based on the current OS locale.
+	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+	 * If OS language is not supported, then English is selected.
+	 *
+	 * @see StringModel
+	 * @see StringResources
+	 * @see StringResources#bestMatchingLanguage()
+	 */
+	public static void enableSelectBestMatchingLanguage() {
+		selectBestMatchingLanguage = true;
+		StringModel.setDefaultStringResources();
+	}
+	/**
+	 * Disables mode of selection of best matching language based on the current OS locale.
+	 * Returns to the English language.
+	 *
+	 * @see StringModel
+	 * @see StringResources
+	 * @see StringResources#bestMatchingLanguage()
+	 */
+	public static void disableSelectBestMatchingLanguage() {
+		selectBestMatchingLanguage = false;
+		StringModel.setDefaultEnglishStringResources();
+	}
+	/**
+	 * Checks if mode of selection of best matching language based on the current OS locale is enabled.
+	 *
+	 * @return   True if mode of selection of best matching language is enabled, otherwise false.
+	 *
+	 * @see StringModel
+	 * @see StringResources
+	 * @see StringResources#bestMatchingLanguage()
+	 */
+	public static boolean checkIfSelectBestMatchingLanguage() {
+		return selectBestMatchingLanguage;
+	}
+	/**
+	 * Changes language to the one that best matches provided language code.
+	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+	 * If language code does not belong to the supported language codes
+	 * English language is selected.
+	 *
+	 * @param language     Supported language codes: en, fr, de, it, pl, pt, es.
+	 *
+	 * @see StringModel
+	 * @see StringModel#setStringResources(StringResources)
+	 * @see StringResources
+	 * @see StringResources#bestMatchingLanguage(String)
+	 */
+	public static void changeLanguageTo(String language) {
+		StringModel.setStringResources(StringResources.bestMatchingLanguage(language));
+	}
+	/**
+	 * Changes language to the one that best matches provided language code in locale.
+	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+	 * If language code does not belong to the supported language codes
+	 * English language is selected.
+	 *
+	 * @param locale      Supported locale language codes: en, fr, de, it, pl, pt, es.
+	 *
+	 * @see StringModel
+	 * @see StringModel#setStringResources(StringResources)
+	 * @see StringResources
+	 * @see StringResources#bestMatchingLanguage(Locale)
+	 */
+	public static void changeLanguageTo(Locale locale) {
+		StringModel.setStringResources(StringResources.bestMatchingLanguage(locale));
+	}
+	/**
+	 * Changes language to the one that best matches current OS locale.
+	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+	 * If OS language is not supported, then English is selected.
+	 *
+	 * @see StringModel
+	 * @see StringModel#setStringResources(StringResources)
+	 * @see StringResources
+	 * @see StringResources#bestMatchingLanguage()
+	 */
+	public static void changeLanguageToBestMatching() {
+		StringModel.forceDefaultStringResources();
+	}
+	/**
 	 * Sets initial search size for the toFraction method
 	 *
 	 * @param n initial search size, has to be non-zero positive.
@@ -1120,6 +1207,7 @@ public final class mXparser {
 		enableImpliedMultiplicationMode();
 		enableUnicodeBuiltinKeyWordsMode();
 		enableAttemptToFixExpStrMode();
+		enableSelectBestMatchingLanguage();
 		optionsChangesetNumber++;
 	}
 	/**
@@ -2052,4 +2140,5 @@ public final class mXparser {
 	public static final String NAMEv50 = "5.0";
 	public static final String NAMEv51 = "5.1";
 	public static final String NAMEv52 = "5.2";
+	public static final String NAMEv60 = "6.0";
 }

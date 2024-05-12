@@ -5,20 +5,20 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>5.2.1</Version>
-    <AssemblyVersion>5.2.1.0</AssemblyVersion>
-    <FileVersion>5.2.1.0</FileVersion>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
     <Authors>Mariusz Gromada - MathParser.org</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>mXparser</Product>
     <Description>A flexible mathematical expressions parser for JAVA and C# .NET</Description>
-    <Copyright>Copyright © Mariusz Gromada 2010 - 2023</Copyright>
+    <Copyright>Copyright © Mariusz Gromada 2010 - 2024</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://mathparser.org</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>v.5.1 Libris</PackageReleaseNotes>
+    <PackageReleaseNotes>v.6.0 Picon</PackageReleaseNotes>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
   <PropertyGroup>
@@ -97,6 +97,12 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringInvariant.cs" Link="src\org\mariuszgromada\math\mxparser\StringInvariant.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringModel.cs" Link="src\org\mariuszgromada\math\mxparser\StringModel.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResources.cs" Link="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesPolish.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesPolish.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesPortuguese.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesPortuguese.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesSpanish.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesSpanish.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringUtils.cs" Link="src\org\mariuszgromada\math\mxparser\StringUtils.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs" Link="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
   </ItemGroup>

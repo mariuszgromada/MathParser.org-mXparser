@@ -104,6 +104,12 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringInvariant.cs" Link="src\org\mariuszgromada\math\mxparser\StringInvariant.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringModel.cs" Link="src\org\mariuszgromada\math\mxparser\StringModel.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResources.cs" Link="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesPolish.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesPolish.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesPortuguese.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesPortuguese.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesSpanish.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesSpanish.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringUtils.cs" Link="src\org\mariuszgromada\math\mxparser\StringUtils.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Tutorial.cs" Link="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
   </ItemGroup>

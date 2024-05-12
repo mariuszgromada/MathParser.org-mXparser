@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        5.2.0    2023-01-29
+ * @(#)Miscellaneous.java        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -275,6 +275,7 @@ class TestCommonTools {
     }
     static void testApiSettingsInit() {
         mXparser.setDefaultOptions();
+        mXparser.disableSelectBestMatchingLanguage();
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.1    2023-02-05
+ * @(#)SyntaxTest.java        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -195,6 +195,7 @@ import java.io.File;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Unit tests covering API
@@ -209,7 +210,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.1
+ * @version        6.0.0
  *
  */
 public final class ApiTest {
@@ -9993,7 +9994,585 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
     }
-
+    @Test
+    public void testApi0318() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - French";
+        TestCommonTools.consolePrintTestApiStart(318, testDescr);
+        StringResources French = StringResources.languageFrench();
+        StringModel.setStringResources(French);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("Français"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0319() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - German";
+        TestCommonTools.consolePrintTestApiStart(319, testDescr);
+        StringResources German = StringResources.languageGerman();
+        StringModel.setStringResources(German);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("Deutsch"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0320() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - Italian";
+        TestCommonTools.consolePrintTestApiStart(320, testDescr);
+        StringResources Italian = StringResources.languageItalian();
+        StringModel.setStringResources(Italian);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("Italiano"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0321() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - Polish";
+        TestCommonTools.consolePrintTestApiStart(321, testDescr);
+        StringResources Polish = StringResources.languagePolish();
+        StringModel.setStringResources(Polish);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("Polski"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0322() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - Portuguese";
+        TestCommonTools.consolePrintTestApiStart(322, testDescr);
+        StringResources Portuguese = StringResources.languagePortuguese();
+        StringModel.setStringResources(Portuguese);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("Português"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0323() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - Spanish";
+        TestCommonTools.consolePrintTestApiStart(323, testDescr);
+        StringResources Spanish = StringResources.languageSpanish();
+        StringModel.setStringResources(Spanish);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("Español"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0324() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - English";
+        TestCommonTools.consolePrintTestApiStart(324, testDescr);
+        StringResources English = StringResources.languageEnglish();
+        StringModel.setStringResources(English);
+        String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+        if (userLanguage.equals("English"))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0325() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - English";
+        TestCommonTools.consolePrintTestApiStart(325, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("en");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0326() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - French";
+        TestCommonTools.consolePrintTestApiStart(326, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("fr");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageFrench().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0327() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - German";
+        TestCommonTools.consolePrintTestApiStart(327, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("de");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageGerman().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0328() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - Italian";
+        TestCommonTools.consolePrintTestApiStart(328, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("it");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageItalian().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0329() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - Polish";
+        TestCommonTools.consolePrintTestApiStart(329, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("pl");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePolish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0330() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - Portuguese";
+        TestCommonTools.consolePrintTestApiStart(330, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("pt");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePortuguese().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0331() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - Spanish";
+        TestCommonTools.consolePrintTestApiStart(331, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("es");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageSpanish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0332() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(String) - Not supported";
+        TestCommonTools.consolePrintTestApiStart(332, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage("xyz");
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0333() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - UK";
+        TestCommonTools.consolePrintTestApiStart(333, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.UK);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0334() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - US";
+        TestCommonTools.consolePrintTestApiStart(334, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.US);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0335() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - ENGLISH";
+        TestCommonTools.consolePrintTestApiStart(335, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.ENGLISH);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0336() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - CANADA";
+        TestCommonTools.consolePrintTestApiStart(336, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.CANADA);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0337() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - FRENCH";
+        TestCommonTools.consolePrintTestApiStart(337, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.FRENCH);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageFrench().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0338() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - FRANCE";
+        TestCommonTools.consolePrintTestApiStart(338, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.FRANCE);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageFrench().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0339() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - CANADA_FRENCH";
+        TestCommonTools.consolePrintTestApiStart(339, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.CANADA_FRENCH);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageFrench().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0340() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - GERMAN";
+        TestCommonTools.consolePrintTestApiStart(340, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.GERMAN);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageGerman().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0341() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - GERMANY";
+        TestCommonTools.consolePrintTestApiStart(341, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.GERMANY);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageGerman().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0342() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - ITALIAN";
+        TestCommonTools.consolePrintTestApiStart(342, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.ITALIAN);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageItalian().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0343() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - ITALY";
+        TestCommonTools.consolePrintTestApiStart(343, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(Locale.ITALY);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageItalian().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0344() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - pl-PL";
+        TestCommonTools.consolePrintTestApiStart(344, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("pl", "PL"));
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePolish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0345() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - pt-PT";
+        TestCommonTools.consolePrintTestApiStart(345, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("pt", "PT"));
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePortuguese().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0346() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - pt-BR";
+        TestCommonTools.consolePrintTestApiStart(346, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("pt", "BR"));
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePortuguese().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0347() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - es-ES";
+        TestCommonTools.consolePrintTestApiStart(347, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("es", "ES"));
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageSpanish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0348() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - es-AR";
+        TestCommonTools.consolePrintTestApiStart(348, testDescr);
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("es", "AR"));
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageSpanish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0349() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "StringResources - BestMatchingLanguage(Locale) - no-NO";
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("no", "NO"));
+        TestCommonTools.consolePrintTestApiStart(349, testDescr);
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0350() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - enableSelectBestMatchingLanguage + checkIfSelectBestMatchingLanguage";
+        TestCommonTools.consolePrintTestApiStart(350, testDescr);
+        mXparser.enableSelectBestMatchingLanguage();
+        if (mXparser.checkIfSelectBestMatchingLanguage())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0351() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - disableSelectBestMatchingLanguage + checkIfSelectBestMatchingLanguage";
+        TestCommonTools.consolePrintTestApiStart(351, testDescr);
+        mXparser.disableSelectBestMatchingLanguage();
+        if (!mXparser.checkIfSelectBestMatchingLanguage())
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0352() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - enableSelectBestMatchingLanguage + disableSelectBestMatchingLanguage + enableSelectBestMatchingLanguage";
+        TestCommonTools.consolePrintTestApiStart(352, testDescr);
+        mXparser.enableSelectBestMatchingLanguage();
+        String lang1 = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.disableSelectBestMatchingLanguage();
+        mXparser.enableSelectBestMatchingLanguage();
+        String lang2 = StringModel.getStringResources().USER_LANGUAGE;
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("no", "NO"));
+        mXparser.consolePrintln("USER_LANGUAGE #1 = " + lang1 + ", USER_LANGUAGE #2 = " + lang2);
+        if (lang1.equals(lang2))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0353() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - disableSelectBestMatchingLanguage + enableSelectBestMatchingLanguage + disableSelectBestMatchingLanguage";
+        TestCommonTools.consolePrintTestApiStart(352, testDescr);
+        mXparser.disableSelectBestMatchingLanguage();
+        String lang1 = StringModel.getStringResources().USER_LANGUAGE;
+        mXparser.enableSelectBestMatchingLanguage();
+        mXparser.disableSelectBestMatchingLanguage();
+        String lang2 = StringModel.getStringResources().USER_LANGUAGE;
+        StringResources lang = StringResources.bestMatchingLanguage(new Locale("no", "NO"));
+        mXparser.consolePrintln("USER_LANGUAGE #1 = " + lang1 + ", USER_LANGUAGE #2 = " + lang2);
+        mXparser.consolePrintln();
+        if (lang1.equals(lang2) && lang1.equals(StringResources.languageEnglish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0354() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - changeLanguageTo(String) - pl";
+        TestCommonTools.consolePrintTestApiStart(354, testDescr);
+        mXparser.changeLanguageTo("pl");
+        StringResources lang = StringModel.getStringResources();
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePolish().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0355() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - changeLanguageTo(Locale) - pt-PT";
+        TestCommonTools.consolePrintTestApiStart(355, testDescr);
+        mXparser.changeLanguageTo(new Locale("pt", "PT"));
+        StringResources lang = StringModel.getStringResources();
+        mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+        if (lang.USER_LANGUAGE.equals(StringResources.languagePortuguese().USER_LANGUAGE))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0356() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "mXparser - disableSelectBestMatchingLanguage + changeLanguageToBestMatching";
+        TestCommonTools.consolePrintTestApiStart(356, testDescr);
+        String osLang = Locale.getDefault().getLanguage();
+        boolean isSupportedLanguage = osLang.equals("fr") || osLang.equals("de") || osLang.equals("it") || osLang.equals("pl")  || osLang.equals("pt") || osLang.equals("es");
+        mXparser.disableSelectBestMatchingLanguage();
+        mXparser.changeLanguageToBestMatching();
+        String userLang = StringModel.getStringResources().USER_LANGUAGE;
+        String englishLang = StringResources.languageEnglish().USER_LANGUAGE;
+        mXparser.consolePrintln("OS_LANGUAGE = " + osLang);
+        mXparser.consolePrintln("USER_LANGUAGE = " + userLang);
+        if (isSupportedLanguage && !userLang.equals(englishLang))
+            testResult = true;
+        if (!isSupportedLanguage && userLang.equals(englishLang))
+            testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
     public static String cleanMarkdownBackslash(String str) {
         return str.replace("\\\\", "").replace("\\|", "");
     }

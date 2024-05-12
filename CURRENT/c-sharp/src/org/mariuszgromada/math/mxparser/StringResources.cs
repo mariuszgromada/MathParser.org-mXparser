@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        5.2.1    2023-02-07
+ * @(#)StringResources.cs        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -184,12 +184,17 @@
  * - online store: https://payhip.com/infima
  */
 using System;
+using System.Globalization;
 
 namespace org.mariuszgromada.math.mxparser {
     /**
-     * A class containing definition of default user language
-     * and allowing new user language definition - for instance translation.
-     * Translation can be done via extending this class.
+     * A class containing definition of user (interface) language.
+     * List of available languages:
+     * English, French, German, Italian, Polish, Portuguese, Spanish.
+     *
+     * Class also allows a new user language definition - for instance
+     * user defined translation. Translation can be done via extending
+     * this class.
      *
      * @author         <b>Mariusz Gromada</b><br>
      *                 <a href="https://mathparser.org" target="_blank">MathParser.org - mXparser project page</a><br>
@@ -201,13 +206,160 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        5.2.1
+     * @version        6.0.0
      *
      * @see StringModel
      * @see StringModel#setUserLanguage(UserLanguage)
      * @see StringModel#getUserLanguage()
      */
     public class StringResources {
+        /**
+         * Default translations, currently English
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing Default translations, currently English.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languageDefault() { return new StringResources(); }
+        /**
+         * English translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing English translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languageEnglish() { return new StringResources(); }
+        /**
+         * French translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing French translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languageFrench() { return new StringResourcesFrench(); }
+        /**
+         * German translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing German translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languageGerman() { return new StringResourcesGerman(); }
+        /**
+         * Italian translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing Italian translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languageItalian() { return new StringResourcesItalian(); }
+        /**
+         * Polish translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing Polish translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languagePolish() { return new StringResourcesPolish(); }
+        /**
+         * Portuguese translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing Portuguese translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languagePortuguese() { return new StringResourcesPortuguese(); }
+        /**
+         * Spanish translations
+         *
+         * @return Returns a  new instance of StringResources object
+         * containing Spanish translations.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources languageSpanish() { return new StringResourcesSpanish(); }
+
+        /**
+         * Returns translation that best matches to provided language code.
+         * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+         *
+         * @param language     Supported language codes: en, fr, de, it, pl, pt, es.
+         * @return             Returns translation that matches the language code.
+         *                     If language code does not belong to the supported language codes
+         *                     English translation is returned.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources bestMatchingLanguage(String language) {
+            if (language.Equals("en")) return languageEnglish();
+            if (language.Equals("fr")) return languageFrench();
+            if (language.Equals("de")) return languageGerman();
+            if (language.Equals("it")) return languageItalian();
+            if (language.Equals("pl")) return languagePolish();
+            if (language.Equals("pt")) return languagePortuguese();
+            if (language.Equals("es")) return languageSpanish();
+            return StringResources.languageEnglish(); // Default to English if no match is found
+        }
+
+        /**
+         * Returns translation that best matches to provided locale.
+         * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+         *
+         * @param locale    Supported locale language codes: en, fr, de, it, pl, pt, es.
+         * @return          Returns translation that matches the language code in locale.
+         *                  If language code does not belong to the supported languages
+         *                  English translation is returned.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources bestMatchingLanguage(CultureInfo locale) {
+            String lang = locale.TwoLetterISOLanguageName;
+            return bestMatchingLanguage(lang);
+        }
+
+        /**
+         * Returns translation that best matches to the current system locale.
+         * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+         *
+         * @return          Returns translation that matches the language code in locale.
+         *                  If language code does not belong to the supported languages
+         *                  English translation is returned.
+         *
+         * @see StringModel
+         * @see StringModel#setStringResources(StringResources)
+         * @see StringModel#setDefaultStringResources()
+         */
+        public static StringResources bestMatchingLanguage() {
+            return bestMatchingLanguage(CultureInfo.CurrentCulture);
+        }
+
         internal const String DEFAULT_USER_LANGUAGE = "English";
         // -------------------------------------------------
         internal const String DEFAULT_STARTING_SYNTAX_CHECK = "Starting syntax check...";
@@ -521,7 +673,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS = "Earth-Sun distance";
         internal const String DEFAULT_CONSTANT_VALUE_MOON_RADIUS_MEAN = "Moon mean radius";
         internal const String DEFAULT_CONSTANT_VALUE_MOON_MASS = "Moon mass";
-        internal const String DEFAULT_CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS = "Moon-Earth distance";
+        internal const String DEFAULT_CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS = "Moon-Earth distance";
         internal const String DEFAULT_CONSTANT_VALUE_SOLAR_RADIUS = "Solar mean radius";
         internal const String DEFAULT_CONSTANT_VALUE_SOLAR_MASS = "Solar mass";
         internal const String DEFAULT_CONSTANT_VALUE_MERCURY_RADIUS_MEAN = "Mercury mean radius";
@@ -699,7 +851,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_PARSER_SYMBOL_UNICODE_MATH = " - Unicode math symbol";
         // -------------------------------------------------
         internal const String DEFAULT_DIMENSIONLESS_UNIT_PERC = "Percentage";
-        internal const String DEFAULT_DIMENSIONLESS_UNIT_PROMIL = "Promil, Per mille";
+        internal const String DEFAULT_DIMENSIONLESS_UNIT_PERM = "Per mille";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_YOTTA = "Septillion / Yotta";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_ZETTA = "Sextillion / Zetta";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_EXA = "Quintillion / Exa";
@@ -717,7 +869,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal const String DEFAULT_DIMENSIONLESS_UNIT_NANO = "Billionth / Nano";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_PICO = "Trillionth / Pico";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_FEMTO = "Quadrillionth / Femto";
-        internal const String DEFAULT_DIMENSIONLESS_UNIT_ATTO = "Quintillionth / Atoo";
+        internal const String DEFAULT_DIMENSIONLESS_UNIT_ATTO = "Quintillionth / Atto";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_ZEPTO = "Sextillionth / Zepto";
         internal const String DEFAULT_DIMENSIONLESS_UNIT_YOCTO = "Septillionth / Yocto";
         // -------------------------------------------------
@@ -1903,7 +2055,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * Default String = "Moon-Earth distance"
          */
-        public String CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS;
+        public String CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS = DEFAULT_CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS;
         /**
          * Default String = "Solar mean radius"
          */
@@ -2592,9 +2744,9 @@ namespace org.mariuszgromada.math.mxparser {
          */
         public String DIMENSIONLESS_UNIT_PERC = DEFAULT_DIMENSIONLESS_UNIT_PERC;
         /**
-         * Default String = "Promil, Per mille"
+         * Default String = "Per mille"
          */
-        public String DIMENSIONLESS_UNIT_PROMIL = DEFAULT_DIMENSIONLESS_UNIT_PROMIL;
+        public String DIMENSIONLESS_UNIT_PERM = DEFAULT_DIMENSIONLESS_UNIT_PERM;
         /**
          * Default String = "Septillion / Yotta"
          */
@@ -3011,9 +3163,10 @@ namespace org.mariuszgromada.math.mxparser {
             currentValueNew = quoteString(currentValue);
             StringUtils.consolePrintln(nameStr + " = [VAL]" + currentValueNew + " [DEF]" + defaultValueNew);
         }
+        private const String LINE_BREAK = "// -------------------------------------------------";
         private static void printResources(StringResources stringResources, bool printDefault) {
             printCurrentVsDefault("USER_LANGUAGE", stringResources.USER_LANGUAGE, DEFAULT_USER_LANGUAGE, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("STARTING_SYNTAX_CHECK", stringResources.STARTING_SYNTAX_CHECK, DEFAULT_STARTING_SYNTAX_CHECK, printDefault);
             printCurrentVsDefault("NO_ERRORS_DETECTED", stringResources.NO_ERRORS_DETECTED, DEFAULT_NO_ERRORS_DETECTED, printDefault);
             printCurrentVsDefault("NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION", stringResources.NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION, DEFAULT_NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION, printDefault);
@@ -3025,14 +3178,14 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("ALREADY_CHECKED_NO_ERRORS", stringResources.ALREADY_CHECKED_NO_ERRORS, DEFAULT_ALREADY_CHECKED_NO_ERRORS, printDefault);
             printCurrentVsDefault("SYNTAX_STATUS_UNKNOWN", stringResources.SYNTAX_STATUS_UNKNOWN, DEFAULT_SYNTAX_STATUS_UNKNOWN, printDefault);
             printCurrentVsDefault("PROBLEM_WITH_EXPRESSION_SYNTAX", stringResources.PROBLEM_WITH_EXPRESSION_SYNTAX, DEFAULT_PROBLEM_WITH_EXPRESSION_SYNTAX, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("ENCOUNTERED", stringResources.ENCOUNTERED, DEFAULT_ENCOUNTERED, printDefault);
             printCurrentVsDefault("AT_INDEX", stringResources.AT_INDEX, DEFAULT_AT_INDEX, printDefault);
             printCurrentVsDefault("WAS_EXPECTING", stringResources.WAS_EXPECTING, DEFAULT_WAS_EXPECTING, printDefault);
             printCurrentVsDefault("WAS_EXPECTING_ONE_OF", stringResources.WAS_EXPECTING_ONE_OF, DEFAULT_WAS_EXPECTING_ONE_OF, printDefault);
             printCurrentVsDefault("UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED", stringResources.UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED, DEFAULT_UNEXPECTED_EXCEPTION_WAS_ENCOUNTERED, printDefault);
             printCurrentVsDefault("UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED", stringResources.UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED, DEFAULT_UNEXPECTED_TOKEN_MANAGER_ERROR_WAS_ENCOUNTERED, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("EXPRESSION_STRING_IS_EMPTY", stringResources.EXPRESSION_STRING_IS_EMPTY, DEFAULT_EXPRESSION_STRING_IS_EMPTY, printDefault);
             printCurrentVsDefault("EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS", stringResources.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS, DEFAULT_EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS, printDefault);
             printCurrentVsDefault("DUPLICATED_KEYWORD", stringResources.DUPLICATED_KEYWORD, DEFAULT_DUPLICATED_KEYWORD, printDefault);
@@ -3045,30 +3198,30 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR", stringResources.INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, DEFAULT_INVALID_TOKEN_POSSIBLY_MISSING_MULTIPLICATION_OPERATOR, printDefault);
             printCurrentVsDefault("EXPRESSION_TOKENS", stringResources.EXPRESSION_TOKENS, DEFAULT_EXPRESSION_TOKENS, printDefault);
             printCurrentVsDefault("NULL_TOKENS_LIST", stringResources.NULL_TOKENS_LIST, DEFAULT_NULL_TOKENS_LIST, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS", stringResources.FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS, DEFAULT_FUNCTION_WITH_EXTENDED_BODY_NO_ERRORS, printDefault);
             printCurrentVsDefault("ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS", stringResources.ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, DEFAULT_ARGUMENT_WITH_EXTENDED_BODY_NO_ERRORS, printDefault);
             printCurrentVsDefault("PROVIDED_EXTENSION_IS_NULL", stringResources.PROVIDED_EXTENSION_IS_NULL, DEFAULT_PROVIDED_EXTENSION_IS_NULL, printDefault);
             printCurrentVsDefault("PROVIDED_STRING_IS_NULL", stringResources.PROVIDED_STRING_IS_NULL, DEFAULT_PROVIDED_STRING_IS_NULL, printDefault);
             printCurrentVsDefault("PROVIDED_ELEMENTS_ARE_NULL", stringResources.PROVIDED_ELEMENTS_ARE_NULL, DEFAULT_PROVIDED_ELEMENTS_ARE_NULL, printDefault);
             printCurrentVsDefault("MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE", stringResources.MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE, DEFAULT_MULTIPLICATION_OPERATOR_MISSING_TRY_IMPLIED_MULTIPLICATION_MODE, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT", stringResources.STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, DEFAULT_STARTING_SYNTAX_CHECK_DEPENDENT_ARGUMENT, printDefault);
             printCurrentVsDefault("STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT", stringResources.STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, DEFAULT_STARTING_SYNTAX_CHECK_RECURSIVE_ARGUMENT, printDefault);
             printCurrentVsDefault("STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION", stringResources.STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, DEFAULT_STARTING_SYNTAX_CHECK_USER_DEFINED_FUNCTION, printDefault);
             printCurrentVsDefault("STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION", stringResources.STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, DEFAULT_STARTING_SYNTAX_CHECK_VARIADIC_USER_DEFINED_FUNCTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("ARGUMENT_WAS_EXPECTED", stringResources.ARGUMENT_WAS_EXPECTED, DEFAULT_ARGUMENT_WAS_EXPECTED, printDefault);
             printCurrentVsDefault("RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER", stringResources.RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, DEFAULT_RECURSIVE_ARGUMENT_EXPECTING_1_PARAMETER, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION", stringResources.INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, DEFAULT_INCORRECT_NUMBER_OF_PARAMETERS_IN_USER_DEFINED_FUNCTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS", stringResources.INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, DEFAULT_INCORRECT_NUMBER_OF_FUNCTION_PARAMETERS, printDefault);
             printCurrentVsDefault("EXPECTED", stringResources.EXPECTED, DEFAULT_EXPECTED, printDefault);
             printCurrentVsDefault("PROVIDED", stringResources.PROVIDED, DEFAULT_PROVIDED, printDefault);
             printCurrentVsDefault("USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT", stringResources.USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, DEFAULT_USER_DEFINED_FUNCTION_EXPECTING_AT_LEAST_ONE_ARGUMENT, printDefault);
             printCurrentVsDefault("EXPECTED_EVEN_NUMBER_OF_ARGUMENTS", stringResources.EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, DEFAULT_EXPECTED_EVEN_NUMBER_OF_ARGUMENTS, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("INVALID_FUNCTION_NAME", stringResources.INVALID_FUNCTION_NAME, DEFAULT_INVALID_FUNCTION_NAME, printDefault);
             printCurrentVsDefault("INVALID_ARGUMENT_NAME", stringResources.INVALID_ARGUMENT_NAME, DEFAULT_INVALID_ARGUMENT_NAME, printDefault);
             printCurrentVsDefault("INVALID_CONSTANT_NAME", stringResources.INVALID_CONSTANT_NAME, DEFAULT_INVALID_CONSTANT_NAME, printDefault);
@@ -3077,14 +3230,14 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("INVALID_CONSTANT_DEFINITION", stringResources.INVALID_CONSTANT_DEFINITION, DEFAULT_INVALID_CONSTANT_DEFINITION, printDefault);
             printCurrentVsDefault("PATTERN_DOES_NOT_MATCH", stringResources.PATTERN_DOES_NOT_MATCH, DEFAULT_PATTERN_DOES_NOT_MATCH, printDefault);
             printCurrentVsDefault("PATTERN_EXAMPLES", stringResources.PATTERN_EXAMPLES, DEFAULT_PATTERN_EXAMPLES, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("CONSTANT_WAS_EXPECTED", stringResources.CONSTANT_WAS_EXPECTED, DEFAULT_CONSTANT_WAS_EXPECTED, printDefault);
             printCurrentVsDefault("USER_CONSTANT_WAS_EXPECTED", stringResources.USER_CONSTANT_WAS_EXPECTED, DEFAULT_USER_CONSTANT_WAS_EXPECTED, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("UNARY_FUNCTION_EXPECTS_1_PARAMETER", stringResources.UNARY_FUNCTION_EXPECTS_1_PARAMETER, DEFAULT_UNARY_FUNCTION_EXPECTS_1_PARAMETER, printDefault);
             printCurrentVsDefault("BINARY_FUNCTION_EXPECTS_2_PARAMETERS", stringResources.BINARY_FUNCTION_EXPECTS_2_PARAMETERS, DEFAULT_BINARY_FUNCTION_EXPECTS_2_PARAMETERS, printDefault);
             printCurrentVsDefault("TERNARY_FUNCTION_EXPECTS_3_PARAMETERS", stringResources.TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, DEFAULT_TERNARY_FUNCTION_EXPECTS_3_PARAMETERS, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS", stringResources.DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, DEFAULT_DERIVATIVE_OPERATOR_EXPECTS_2_OR_3_OR_4_OR_5_CALCULUS_PARAMETERS, printDefault);
             printCurrentVsDefault("ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION", stringResources.ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, DEFAULT_ARGUMENT_WAS_EXPECTED_IN_A_DERIVATIVE_OPERATOR_INVOCATION, printDefault);
             printCurrentVsDefault("DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION", stringResources.DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, DEFAULT_DUPLICATED_KEYWORDS_WERE_FOUND_IN_THE_CALCULUS_OPERATOR_INVOCATION, printDefault);
@@ -3095,7 +3248,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS", stringResources.FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, DEFAULT_FORWARD_BACKWARD_DIFFERENCE_EXPECTS_2_OR_3_PARAMETERS, printDefault);
             printCurrentVsDefault("FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED", stringResources.FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, DEFAULT_FORWARD_BACKWARD_DIFFERENCE_ARGUMENT_WAS_EXPECTED, printDefault);
             printCurrentVsDefault("AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED", stringResources.AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, DEFAULT_AT_LEAST_ONE_ARGUMENT_WAS_EXPECTED, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("ERROR_WHILE_EXECUTING_THE_CALCULATE", stringResources.ERROR_WHILE_EXECUTING_THE_CALCULATE, DEFAULT_ERROR_WHILE_EXECUTING_THE_CALCULATE, printDefault);
             printCurrentVsDefault("RECURSION_CALLS_COUNTER_EXCEEDED", stringResources.RECURSION_CALLS_COUNTER_EXCEEDED, DEFAULT_RECURSION_CALLS_COUNTER_EXCEEDED, printDefault);
             printCurrentVsDefault("RECURSION_CALLS_COUNTER", stringResources.RECURSION_CALLS_COUNTER, DEFAULT_RECURSION_CALLS_COUNTER, printDefault);
@@ -3104,14 +3257,14 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING", stringResources.INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING, DEFAULT_INTERNAL_ERROR_STRANGE_TOKEN_LEVEL_FINISHING, printDefault);
             printCurrentVsDefault("FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN", stringResources.FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN, DEFAULT_FATAL_ERROR_DO_NOT_KNOW_WHAT_TO_DO_WITH_THE_ENCOUNTERED_TOKEN, printDefault);
             printCurrentVsDefault("MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED", stringResources.MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED, DEFAULT_MAXIMUM_ERROR_MESSAGE_LENGTH_EXCEEDED, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("STARTING", stringResources.STARTING, DEFAULT_STARTING, printDefault);
             printCurrentVsDefault("PARSING", stringResources.PARSING, DEFAULT_PARSING, printDefault);
             printCurrentVsDefault("FULLY_COMPILED", stringResources.FULLY_COMPILED, DEFAULT_FULLY_COMPILED, printDefault);
             printCurrentVsDefault("CALCULATED_VALUE", stringResources.CALCULATED_VALUE, DEFAULT_CALCULATED_VALUE, printDefault);
             printCurrentVsDefault("EXITING", stringResources.EXITING, DEFAULT_EXITING, printDefault);
             printCurrentVsDefault("DONE", stringResources.DONE, DEFAULT_DONE, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("KEYWORD", stringResources.KEYWORD, DEFAULT_KEYWORD, printDefault);
             printCurrentVsDefault("SYNTAX", stringResources.SYNTAX, DEFAULT_SYNTAX, printDefault);
             printCurrentVsDefault("NUMBER", stringResources.NUMBER, DEFAULT_NUMBER, printDefault);
@@ -3119,7 +3272,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("TYPE", stringResources.TYPE, DEFAULT_TYPE, printDefault);
             printCurrentVsDefault("SINCE", stringResources.SINCE, DEFAULT_SINCE, printDefault);
             printCurrentVsDefault("DESCRIPTION", stringResources.DESCRIPTION, DEFAULT_DESCRIPTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("CALC_STEPS_REGISTER_IS_EMPTY", stringResources.CALC_STEPS_REGISTER_IS_EMPTY, DEFAULT_CALC_STEPS_REGISTER_IS_EMPTY, printDefault);
             printCurrentVsDefault("CALC_STEPS_REGISTER_FOR", stringResources.CALC_STEPS_REGISTER_FOR, DEFAULT_CALC_STEPS_REGISTER_FOR, printDefault);
             printCurrentVsDefault("ARGUMENT", stringResources.ARGUMENT, DEFAULT_ARGUMENT, printDefault);
@@ -3133,7 +3286,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("LAST", stringResources.LAST, DEFAULT_LAST, printDefault);
             printCurrentVsDefault("DESCRIPTION_SHORT", stringResources.DESCRIPTION_SHORT, DEFAULT_DESCRIPTION_SHORT, printDefault);
             printCurrentVsDefault("STEP", stringResources.STEP, DEFAULT_STEP, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("SERIALIZATION_PERFORMED", stringResources.SERIALIZATION_PERFORMED, DEFAULT_SERIALIZATION_PERFORMED, printDefault);
             printCurrentVsDefault("DESERIALIZATION_PERFORMED", stringResources.DESERIALIZATION_PERFORMED, DEFAULT_DESERIALIZATION_PERFORMED, printDefault);
             printCurrentVsDefault("NULL_OBJECT_PROVIDED", stringResources.NULL_OBJECT_PROVIDED, DEFAULT_NULL_OBJECT_PROVIDED, printDefault);
@@ -3144,19 +3297,19 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("NULL_DATA_PROVIDED", stringResources.NULL_DATA_PROVIDED, DEFAULT_NULL_DATA_PROVIDED, printDefault);
             printCurrentVsDefault("BINARY_SERIALIZATION_ENABLED", stringResources.BINARY_SERIALIZATION_ENABLED, DEFAULT_BINARY_SERIALIZATION_ENABLED, printDefault);
             printCurrentVsDefault("BINARY_SERIALIZATION_DISABLED", stringResources.BINARY_SERIALIZATION_DISABLED, DEFAULT_BINARY_SERIALIZATION_DISABLED, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("USER_DEFINED_EXPRESSION", stringResources.USER_DEFINED_EXPRESSION, DEFAULT_USER_DEFINED_EXPRESSION, printDefault);
             printCurrentVsDefault("USER_DEFINED_ARGUMENT", stringResources.USER_DEFINED_ARGUMENT, DEFAULT_USER_DEFINED_ARGUMENT, printDefault);
             printCurrentVsDefault("USER_DEFINED_CONSTANT", stringResources.USER_DEFINED_CONSTANT, DEFAULT_USER_DEFINED_CONSTANT, printDefault);
             printCurrentVsDefault("USER_DEFINED_FUNCTION", stringResources.USER_DEFINED_FUNCTION, DEFAULT_USER_DEFINED_FUNCTION, printDefault);
             printCurrentVsDefault("USER_DEFINED_RECURSIVE_ARGUMENT", stringResources.USER_DEFINED_RECURSIVE_ARGUMENT, DEFAULT_USER_DEFINED_RECURSIVE_ARGUMENT, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("HELP_CONTENT_LIMITED_TO_QUERY", stringResources.HELP_CONTENT_LIMITED_TO_QUERY, DEFAULT_HELP_CONTENT_LIMITED_TO_QUERY, printDefault);
             printCurrentVsDefault("ALL_HELP_CONTENT", stringResources.ALL_HELP_CONTENT, DEFAULT_ALL_HELP_CONTENT, printDefault);
             printCurrentVsDefault("CAPTION", stringResources.CAPTION, DEFAULT_CAPTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("WARNING_BINARY_SERIALIZATION_SECURITY_RISKS", stringResources.WARNING_BINARY_SERIALIZATION_SECURITY_RISKS, DEFAULT_WARNING_BINARY_SERIALIZATION_SECURITY_RISKS, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("BINARY_RELATION", stringResources.BINARY_RELATION, DEFAULT_BINARY_RELATION, printDefault);
             printCurrentVsDefault("BITWISE_OPERATOR", stringResources.BITWISE_OPERATOR, DEFAULT_BITWISE_OPERATOR, printDefault);
             printCurrentVsDefault("BOOLEAN_OPERATOR", stringResources.BOOLEAN_OPERATOR, DEFAULT_BOOLEAN_OPERATOR, printDefault);
@@ -3172,7 +3325,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("UNIT", stringResources.UNIT, DEFAULT_UNIT, printDefault);
             printCurrentVsDefault("DIMENSIONLESS_UNIT", stringResources.DIMENSIONLESS_UNIT, DEFAULT_DIMENSIONLESS_UNIT, printDefault);
             printCurrentVsDefault("ITERATED_OPERATOR", stringResources.ITERATED_OPERATOR, DEFAULT_ITERATED_OPERATOR, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("RATIO_FRACTION", stringResources.RATIO_FRACTION, DEFAULT_RATIO_FRACTION, printDefault);
             printCurrentVsDefault("METRIC_PREFIX", stringResources.METRIC_PREFIX, DEFAULT_METRIC_PREFIX, printDefault);
             printCurrentVsDefault("UNIT_OF_LENGTH", stringResources.UNIT_OF_LENGTH, DEFAULT_UNIT_OF_LENGTH, printDefault);
@@ -3185,44 +3338,44 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("UNIT_OF_SPEED", stringResources.UNIT_OF_SPEED, DEFAULT_UNIT_OF_SPEED, printDefault);
             printCurrentVsDefault("UNIT_OF_ACCELERATION", stringResources.UNIT_OF_ACCELERATION, DEFAULT_UNIT_OF_ACCELERATION, printDefault);
             printCurrentVsDefault("UNIT_OF_ANGLE", stringResources.UNIT_OF_ANGLE, DEFAULT_UNIT_OF_ANGLE, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("PHYSICAL_CONSTANT", stringResources.PHYSICAL_CONSTANT, DEFAULT_PHYSICAL_CONSTANT, printDefault);
             printCurrentVsDefault("ASTRONOMICAL_CONSTANT", stringResources.ASTRONOMICAL_CONSTANT, DEFAULT_ASTRONOMICAL_CONSTANT, printDefault);
             printCurrentVsDefault("MATHEMATICAL_CONSTANT", stringResources.MATHEMATICAL_CONSTANT, DEFAULT_MATHEMATICAL_CONSTANT, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("PROBABILITY_DISTRIBUTION_FUNCTION", stringResources.PROBABILITY_DISTRIBUTION_FUNCTION, DEFAULT_PROBABILITY_DISTRIBUTION_FUNCTION, printDefault);
             printCurrentVsDefault("CUMULATIVE_DISTRIBUTION_FUNCTION", stringResources.CUMULATIVE_DISTRIBUTION_FUNCTION, DEFAULT_CUMULATIVE_DISTRIBUTION_FUNCTION, printDefault);
             printCurrentVsDefault("QUANTILE_FUNCTION", stringResources.QUANTILE_FUNCTION, DEFAULT_QUANTILE_FUNCTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("STUDENTS_T_DISTRIBUTION", stringResources.STUDENTS_T_DISTRIBUTION, DEFAULT_STUDENTS_T_DISTRIBUTION, printDefault);
             printCurrentVsDefault("CHI_SQUARED_DISTRIBUTION", stringResources.CHI_SQUARED_DISTRIBUTION, DEFAULT_CHI_SQUARED_DISTRIBUTION, printDefault);
             printCurrentVsDefault("SNEDECORS_F_DISTRIBUTION", stringResources.SNEDECORS_F_DISTRIBUTION, DEFAULT_SNEDECORS_F_DISTRIBUTION, printDefault);
             printCurrentVsDefault("UNIFORM_CONTINUOUS_DISTRIBUTION", stringResources.UNIFORM_CONTINUOUS_DISTRIBUTION, DEFAULT_UNIFORM_CONTINUOUS_DISTRIBUTION, printDefault);
             printCurrentVsDefault("UNIFORM_DISCRETE_DISTRIBUTION", stringResources.UNIFORM_DISCRETE_DISTRIBUTION, DEFAULT_UNIFORM_DISCRETE_DISTRIBUTION, printDefault);
             printCurrentVsDefault("NORMAL_DISTRIBUTION", stringResources.NORMAL_DISTRIBUTION, DEFAULT_NORMAL_DISTRIBUTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("RANDOM_INTEGER", stringResources.RANDOM_INTEGER, DEFAULT_RANDOM_INTEGER, printDefault);
             printCurrentVsDefault("RANDOM_NATURAL_NUMBER", stringResources.RANDOM_NATURAL_NUMBER, DEFAULT_RANDOM_NATURAL_NUMBER, printDefault);
             printCurrentVsDefault("RANDOM_NATURAL_NUMBER_INCLUDING_0", stringResources.RANDOM_NATURAL_NUMBER_INCLUDING_0, DEFAULT_RANDOM_NATURAL_NUMBER_INCLUDING_0, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("SPECIAL_FUNCTION", stringResources.SPECIAL_FUNCTION, DEFAULT_SPECIAL_FUNCTION, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("SEMI_MAJOR_AXIS", stringResources.SEMI_MAJOR_AXIS, DEFAULT_SEMI_MAJOR_AXIS, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("BINARY_RELATION_EQ", stringResources.BINARY_RELATION_EQ, DEFAULT_BINARY_RELATION_EQ, printDefault);
             printCurrentVsDefault("BINARY_RELATION_NEQ", stringResources.BINARY_RELATION_NEQ, DEFAULT_BINARY_RELATION_NEQ, printDefault);
             printCurrentVsDefault("BINARY_RELATION_LT", stringResources.BINARY_RELATION_LT, DEFAULT_BINARY_RELATION_LT, printDefault);
             printCurrentVsDefault("BINARY_RELATION_GT", stringResources.BINARY_RELATION_GT, DEFAULT_BINARY_RELATION_GT, printDefault);
             printCurrentVsDefault("BINARY_RELATION_LEQ", stringResources.BINARY_RELATION_LEQ, DEFAULT_BINARY_RELATION_LEQ, printDefault);
             printCurrentVsDefault("BINARY_RELATION_GEQ", stringResources.BINARY_RELATION_GEQ, DEFAULT_BINARY_RELATION_GEQ, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("BITWISE_OPERATOR_COMPL", stringResources.BITWISE_OPERATOR_COMPL, DEFAULT_BITWISE_OPERATOR_COMPL, printDefault);
             printCurrentVsDefault("BITWISE_OPERATOR_AND", stringResources.BITWISE_OPERATOR_AND, DEFAULT_BITWISE_OPERATOR_AND, printDefault);
             printCurrentVsDefault("BITWISE_OPERATOR_XOR", stringResources.BITWISE_OPERATOR_XOR, DEFAULT_BITWISE_OPERATOR_XOR, printDefault);
             printCurrentVsDefault("BITWISE_OPERATOR_OR", stringResources.BITWISE_OPERATOR_OR, DEFAULT_BITWISE_OPERATOR_OR, printDefault);
             printCurrentVsDefault("BITWISE_OPERATOR_LEFT_SHIFT", stringResources.BITWISE_OPERATOR_LEFT_SHIFT, DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT, printDefault);
             printCurrentVsDefault("BITWISE_OPERATOR_RIGHT_SHIFT", stringResources.BITWISE_OPERATOR_RIGHT_SHIFT, DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("BOOLEAN_OPERATOR_AND", stringResources.BOOLEAN_OPERATOR_AND, DEFAULT_BOOLEAN_OPERATOR_AND, printDefault);
             printCurrentVsDefault("BOOLEAN_OPERATOR_OR", stringResources.BOOLEAN_OPERATOR_OR, DEFAULT_BOOLEAN_OPERATOR_OR, printDefault);
             printCurrentVsDefault("BOOLEAN_OPERATOR_NEG", stringResources.BOOLEAN_OPERATOR_NEG, DEFAULT_BOOLEAN_OPERATOR_NEG, printDefault);
@@ -3234,7 +3387,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("BOOLEAN_OPERATOR_NIMP", stringResources.BOOLEAN_OPERATOR_NIMP, DEFAULT_BOOLEAN_OPERATOR_NIMP, printDefault);
             printCurrentVsDefault("BOOLEAN_OPERATOR_CNIMP", stringResources.BOOLEAN_OPERATOR_CNIMP, DEFAULT_BOOLEAN_OPERATOR_CNIMP, printDefault);
             printCurrentVsDefault("BOOLEAN_OPERATOR_EQV", stringResources.BOOLEAN_OPERATOR_EQV, DEFAULT_BOOLEAN_OPERATOR_EQV, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("CALCULUS_OPERATOR_SUM", stringResources.CALCULUS_OPERATOR_SUM, DEFAULT_CALCULUS_OPERATOR_SUM, printDefault);
             printCurrentVsDefault("CALCULUS_OPERATOR_PROD", stringResources.CALCULUS_OPERATOR_PROD, DEFAULT_CALCULUS_OPERATOR_PROD, printDefault);
             printCurrentVsDefault("CALCULUS_OPERATOR_INT", stringResources.CALCULUS_OPERATOR_INT, DEFAULT_CALCULUS_OPERATOR_INT, printDefault);
@@ -3250,7 +3403,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("CALCULUS_OPERATOR_MIN", stringResources.CALCULUS_OPERATOR_MIN, DEFAULT_CALCULUS_OPERATOR_MIN, printDefault);
             printCurrentVsDefault("CALCULUS_OPERATOR_MAX", stringResources.CALCULUS_OPERATOR_MAX, DEFAULT_CALCULUS_OPERATOR_MAX, printDefault);
             printCurrentVsDefault("CALCULUS_OPERATOR_SOLVE", stringResources.CALCULUS_OPERATOR_SOLVE, DEFAULT_CALCULUS_OPERATOR_SOLVE, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("CONSTANT_VALUE_PI", stringResources.CONSTANT_VALUE_PI, DEFAULT_CONSTANT_VALUE_PI, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_EULER", stringResources.CONSTANT_VALUE_EULER, DEFAULT_CONSTANT_VALUE_EULER, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_EULER_MASCHERONI", stringResources.CONSTANT_VALUE_EULER_MASCHERONI, DEFAULT_CONSTANT_VALUE_EULER_MASCHERONI, printDefault);
@@ -3313,7 +3466,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS", stringResources.CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS, DEFAULT_CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_MOON_RADIUS_MEAN", stringResources.CONSTANT_VALUE_MOON_RADIUS_MEAN, DEFAULT_CONSTANT_VALUE_MOON_RADIUS_MEAN, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_MOON_MASS", stringResources.CONSTANT_VALUE_MOON_MASS, DEFAULT_CONSTANT_VALUE_MOON_MASS, printDefault);
-            printCurrentVsDefault("CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS", stringResources.CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS, DEFAULT_CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS, printDefault);
+            printCurrentVsDefault("CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS", stringResources.CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS, DEFAULT_CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_SOLAR_RADIUS", stringResources.CONSTANT_VALUE_SOLAR_RADIUS, DEFAULT_CONSTANT_VALUE_SOLAR_RADIUS, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_SOLAR_MASS", stringResources.CONSTANT_VALUE_SOLAR_MASS, DEFAULT_CONSTANT_VALUE_SOLAR_MASS, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_MERCURY_RADIUS_MEAN", stringResources.CONSTANT_VALUE_MERCURY_RADIUS_MEAN, DEFAULT_CONSTANT_VALUE_MERCURY_RADIUS_MEAN, printDefault);
@@ -3341,7 +3494,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("CONSTANT_VALUE_FALSE", stringResources.CONSTANT_VALUE_FALSE, DEFAULT_CONSTANT_VALUE_FALSE, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_NPAR", stringResources.CONSTANT_VALUE_NPAR, DEFAULT_CONSTANT_VALUE_NPAR, printDefault);
             printCurrentVsDefault("CONSTANT_VALUE_NAN", stringResources.CONSTANT_VALUE_NAN, DEFAULT_CONSTANT_VALUE_NAN, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("FUNCTION_1_ARG_SIN", stringResources.FUNCTION_1_ARG_SIN, DEFAULT_FUNCTION_1_ARG_SIN, printDefault);
             printCurrentVsDefault("FUNCTION_1_ARG_COS", stringResources.FUNCTION_1_ARG_COS, DEFAULT_FUNCTION_1_ARG_COS, printDefault);
             printCurrentVsDefault("FUNCTION_1_ARG_TAN", stringResources.FUNCTION_1_ARG_TAN, DEFAULT_FUNCTION_1_ARG_TAN, printDefault);
@@ -3404,7 +3557,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("FUNCTION_1_ARG_LOG_GAMMA", stringResources.FUNCTION_1_ARG_LOG_GAMMA, DEFAULT_FUNCTION_1_ARG_LOG_GAMMA, printDefault);
             printCurrentVsDefault("FUNCTION_1_ARG_DI_GAMMA", stringResources.FUNCTION_1_ARG_DI_GAMMA, DEFAULT_FUNCTION_1_ARG_DI_GAMMA, printDefault);
             printCurrentVsDefault("FUNCTION_1_ARG_PARAM", stringResources.FUNCTION_1_ARG_PARAM, DEFAULT_FUNCTION_1_ARG_PARAM, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("FUNCTION_2_ARG_LOG", stringResources.FUNCTION_2_ARG_LOG, DEFAULT_FUNCTION_2_ARG_LOG, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_MOD", stringResources.FUNCTION_2_ARG_MOD, DEFAULT_FUNCTION_2_ARG_MOD, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_BINOM_COEFF", stringResources.FUNCTION_2_ARG_BINOM_COEFF, DEFAULT_FUNCTION_2_ARG_BINOM_COEFF, printDefault);
@@ -3429,7 +3582,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("FUNCTION_2_ARG_PERMUTATIONS", stringResources.FUNCTION_2_ARG_PERMUTATIONS, DEFAULT_FUNCTION_2_ARG_PERMUTATIONS, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_BETA", stringResources.FUNCTION_2_ARG_BETA, DEFAULT_FUNCTION_2_ARG_BETA, printDefault);
             printCurrentVsDefault("FUNCTION_2_ARG_LOG_BETA", stringResources.FUNCTION_2_ARG_LOG_BETA, DEFAULT_FUNCTION_2_ARG_LOG_BETA, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("FUNCTION_3_ARG_IF", stringResources.FUNCTION_3_ARG_IF, DEFAULT_FUNCTION_3_ARG_IF, printDefault);
             printCurrentVsDefault("FUNCTION_3_ARG_CHI", stringResources.FUNCTION_3_ARG_CHI, DEFAULT_FUNCTION_3_ARG_CHI, printDefault);
             printCurrentVsDefault("FUNCTION_3_ARG_CHI_LR", stringResources.FUNCTION_3_ARG_CHI_LR, DEFAULT_FUNCTION_3_ARG_CHI_LR, printDefault);
@@ -3438,7 +3591,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("FUNCTION_3_ARG_DIGIT", stringResources.FUNCTION_3_ARG_DIGIT, DEFAULT_FUNCTION_3_ARG_DIGIT, printDefault);
             printCurrentVsDefault("FUNCTION_3_ARG_INC_BETA", stringResources.FUNCTION_3_ARG_INC_BETA, DEFAULT_FUNCTION_3_ARG_INC_BETA, printDefault);
             printCurrentVsDefault("FUNCTION_3_ARG_REG_BETA", stringResources.FUNCTION_3_ARG_REG_BETA, DEFAULT_FUNCTION_3_ARG_REG_BETA, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("FUNCTION_VARIADIC_IFF", stringResources.FUNCTION_VARIADIC_IFF, DEFAULT_FUNCTION_VARIADIC_IFF, printDefault);
             printCurrentVsDefault("FUNCTION_VARIADIC_MIN", stringResources.FUNCTION_VARIADIC_MIN, DEFAULT_FUNCTION_VARIADIC_MIN, printDefault);
             printCurrentVsDefault("FUNCTION_VARIADIC_MAX", stringResources.FUNCTION_VARIADIC_MAX, DEFAULT_FUNCTION_VARIADIC_MAX, printDefault);
@@ -3462,7 +3615,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("FUNCTION_VARIADIC_MODE", stringResources.FUNCTION_VARIADIC_MODE, DEFAULT_FUNCTION_VARIADIC_MODE, printDefault);
             printCurrentVsDefault("FUNCTION_VARIADIC_BASE", stringResources.FUNCTION_VARIADIC_BASE, DEFAULT_FUNCTION_VARIADIC_BASE, printDefault);
             printCurrentVsDefault("FUNCTION_VARIADIC_NDIST", stringResources.FUNCTION_VARIADIC_NDIST, DEFAULT_FUNCTION_VARIADIC_NDIST, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("OPERATOR_PLUS", stringResources.OPERATOR_PLUS, DEFAULT_OPERATOR_PLUS, printDefault);
             printCurrentVsDefault("OPERATOR_MINUS", stringResources.OPERATOR_MINUS, DEFAULT_OPERATOR_MINUS, printDefault);
             printCurrentVsDefault("OPERATOR_MULTIPLY", stringResources.OPERATOR_MULTIPLY, DEFAULT_OPERATOR_MULTIPLY, printDefault);
@@ -3475,7 +3628,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("OPERATOR_SQUARE_ROOT", stringResources.OPERATOR_SQUARE_ROOT, DEFAULT_OPERATOR_SQUARE_ROOT, printDefault);
             printCurrentVsDefault("OPERATOR_CUBE_ROOT", stringResources.OPERATOR_CUBE_ROOT, DEFAULT_OPERATOR_CUBE_ROOT, printDefault);
             printCurrentVsDefault("OPERATOR_FOURTH_ROOT", stringResources.OPERATOR_FOURTH_ROOT, DEFAULT_OPERATOR_FOURTH_ROOT, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("PARSER_SYMBOL_LEFT_PARENTHESES", stringResources.PARSER_SYMBOL_LEFT_PARENTHESES, DEFAULT_PARSER_SYMBOL_LEFT_PARENTHESES, printDefault);
             printCurrentVsDefault("PARSER_SYMBOL_RIGHT_PARENTHESES", stringResources.PARSER_SYMBOL_RIGHT_PARENTHESES, DEFAULT_PARSER_SYMBOL_RIGHT_PARENTHESES, printDefault);
             printCurrentVsDefault("PARSER_SYMBOL_COMMA", stringResources.PARSER_SYMBOL_COMMA, DEFAULT_PARSER_SYMBOL_COMMA, printDefault);
@@ -3489,9 +3642,9 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("PARSER_SYMBOL_NUMBER_FRACTIONS", stringResources.PARSER_SYMBOL_NUMBER_FRACTIONS, DEFAULT_PARSER_SYMBOL_NUMBER_FRACTIONS, printDefault);
             printCurrentVsDefault("PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS", stringResources.PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS, DEFAULT_PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS, printDefault);
             printCurrentVsDefault("PARSER_SYMBOL_UNICODE_MATH", stringResources.PARSER_SYMBOL_UNICODE_MATH, DEFAULT_PARSER_SYMBOL_UNICODE_MATH, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("DIMENSIONLESS_UNIT_PERC", stringResources.DIMENSIONLESS_UNIT_PERC, DEFAULT_DIMENSIONLESS_UNIT_PERC, printDefault);
-            printCurrentVsDefault("DIMENSIONLESS_UNIT_PROMIL", stringResources.DIMENSIONLESS_UNIT_PROMIL, DEFAULT_DIMENSIONLESS_UNIT_PROMIL, printDefault);
+            printCurrentVsDefault("DIMENSIONLESS_UNIT_PERM", stringResources.DIMENSIONLESS_UNIT_PERM, DEFAULT_DIMENSIONLESS_UNIT_PERM, printDefault);
             printCurrentVsDefault("DIMENSIONLESS_UNIT_YOTTA", stringResources.DIMENSIONLESS_UNIT_YOTTA, DEFAULT_DIMENSIONLESS_UNIT_YOTTA, printDefault);
             printCurrentVsDefault("DIMENSIONLESS_UNIT_ZETTA", stringResources.DIMENSIONLESS_UNIT_ZETTA, DEFAULT_DIMENSIONLESS_UNIT_ZETTA, printDefault);
             printCurrentVsDefault("DIMENSIONLESS_UNIT_EXA", stringResources.DIMENSIONLESS_UNIT_EXA, DEFAULT_DIMENSIONLESS_UNIT_EXA, printDefault);
@@ -3512,7 +3665,7 @@ namespace org.mariuszgromada.math.mxparser {
             printCurrentVsDefault("DIMENSIONLESS_UNIT_ATTO", stringResources.DIMENSIONLESS_UNIT_ATTO, DEFAULT_DIMENSIONLESS_UNIT_ATTO, printDefault);
             printCurrentVsDefault("DIMENSIONLESS_UNIT_ZEPTO", stringResources.DIMENSIONLESS_UNIT_ZEPTO, DEFAULT_DIMENSIONLESS_UNIT_ZEPTO, printDefault);
             printCurrentVsDefault("DIMENSIONLESS_UNIT_YOCTO", stringResources.DIMENSIONLESS_UNIT_YOCTO, DEFAULT_DIMENSIONLESS_UNIT_YOCTO, printDefault);
-            StringUtils.consolePrintln("// -------------------------------------------------");
+            /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
             printCurrentVsDefault("UNIT_METRE", stringResources.UNIT_METRE, DEFAULT_UNIT_METRE, printDefault);
             printCurrentVsDefault("UNIT_KILOMETRE", stringResources.UNIT_KILOMETRE, DEFAULT_UNIT_KILOMETRE, printDefault);
             printCurrentVsDefault("UNIT_CENTIMETRE", stringResources.UNIT_CENTIMETRE, DEFAULT_UNIT_CENTIMETRE, printDefault);

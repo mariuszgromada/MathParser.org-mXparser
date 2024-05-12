@@ -1,5 +1,5 @@
 /*
- * @(#)ConstantValue.java        5.2.0    2023-01-29
+ * @(#)ConstantValue.java        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.0.0
  */
 public final class ConstantValue {
 	/*
@@ -576,7 +576,7 @@ public final class ConstantValue {
 	public static String EARTH_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
 	public static String MOON_RADIUS_MEAN_DESC = ParserSymbol.NA;
 	public static String MOON_MASS_DESC = ParserSymbol.NA;
-	public static String MONN_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+	public static String MOON_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
 	public static String SOLAR_RADIUS_DESC = ParserSymbol.NA;
 	public static String SOLAR_MASS_DESC = ParserSymbol.NA;
 	public static String MERCURY_RADIUS_MEAN_DESC = ParserSymbol.NA;

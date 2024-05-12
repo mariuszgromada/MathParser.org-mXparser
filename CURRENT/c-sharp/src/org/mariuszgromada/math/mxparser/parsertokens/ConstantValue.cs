@@ -1,5 +1,5 @@
 /*
- * @(#)ConstantValue.cs        5.2.0    2023-01-29
+ * @(#)ConstantValue.cs        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class ConstantValue {
@@ -276,7 +276,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int EARTH_SEMI_MAJOR_AXIS_ID			= 209;
 		public const int MOON_RADIUS_MEAN_ID				= 210;
 		public const int MOON_MASS_ID						= 211;
-		public const int MONN_SEMI_MAJOR_AXIS_ID			= 212;
+		public const int MOO_SEMI_MAJOR_AXIS_ID				= 212;
 		public const int SOLAR_RADIUS_ID					= 213;
 		public const int SOLAR_MASS_ID						= 214;
 		public const int MERCURY_RADIUS_MEAN_ID				= 215;
@@ -577,7 +577,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
         public static String EARTH_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
         public static String MOON_RADIUS_MEAN_DESC = ParserSymbol.NA;
         public static String MOON_MASS_DESC = ParserSymbol.NA;
-        public static String MONN_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
+        public static String MOON_SEMI_MAJOR_AXIS_DESC = ParserSymbol.NA;
         public static String SOLAR_RADIUS_DESC = ParserSymbol.NA;
         public static String SOLAR_MASS_DESC = ParserSymbol.NA;
         public static String MERCURY_RADIUS_MEAN_DESC = ParserSymbol.NA;

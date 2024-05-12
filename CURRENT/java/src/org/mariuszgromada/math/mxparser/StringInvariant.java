@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.java        5.2.0    2023-01-29
+ * @(#)StringInvariant.java        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -198,7 +198,7 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.0.0
  */
 final class StringInvariant {
     static final String EMPTY = "";
@@ -405,7 +405,7 @@ final class StringInvariant {
     static final String RANDOM_VARIABLE_NAT1_9_SYMBOL = "U{1,10⁹}";
     // -------------------------------------------------
     static final String UNIT_PERC_SYMBOL = "= 0.01";
-    static final String UNIT_PROMIL_SYMBOL = "= 0.001";
+    static final String UNIT_PERM_SYMBOL = "= 0.001";
     static final String UNIT_YOTTA_SYMBOL = "= 10²⁴";
     static final String UNIT_ZETTA_SYMBOL = "= 10²¹";
     static final String UNIT_EXA_SYMBOL = "= 10¹⁸";

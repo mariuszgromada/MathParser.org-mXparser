@@ -1,5 +1,5 @@
 /*
- * @(#)Unit.cs        5.2.0    2023-01-29
+ * @(#)Unit.cs        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.0.0
 	 */
 	public sealed class Unit {
 		/*
@@ -212,7 +212,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
         /* Ratio, Fraction */
         public const int PERC_ID				= 1;
-		public const int PROMIL_ID				= 2;
+		public const int PERM_ID				= 2;
 		/* Metric prefixes */
 		public const int YOTTA_ID				= 101;
 		public const int ZETTA_ID				= 102;
@@ -322,7 +322,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
 		/* Ratio, Fraction */
 		public const String PERC_STR				= "[%]";
-		public const String PROMIL_STR				= "[%%]";
+		public const String PERM_STR				= "[%%]";
 		/* Metric prefixes */
 		public const String YOTTA_STR				= "[Y]";
 		public const String YOTTA_SEPT_STR			= "[sept]";
@@ -442,7 +442,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
 		/* Ratio, Fraction */
 		public const String PERC_SYN				= PERC_STR;
-		public const String PROMIL_SYN				= PROMIL_STR;
+		public const String PERM_SYN				= PERM_STR;
 		/* Metric prefixes */
 		public const String YOTTA_SYN				= YOTTA_STR;
 		public const String YOTTA_SEPT_SYN			= YOTTA_SEPT_STR;
@@ -563,7 +563,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
         /* Ratio, Fraction */
         public static String PERC_DESC = ParserSymbol.NA;
-        public static String PROMIL_DESC = ParserSymbol.NA;
+        public static String PERM_DESC = ParserSymbol.NA;
         public static String YOTTA_DESC = ParserSymbol.NA;
         public static String ZETTA_DESC = ParserSymbol.NA;
         public static String EXA_DESC = ParserSymbol.NA;
@@ -662,7 +662,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		 */
         /* Ratio, Fraction */
         public const String PERC_SINCE					= mXparser.NAMEv40;
-		public const String PROMIL_SINCE				= mXparser.NAMEv40;
+		public const String PERM_SINCE					= mXparser.NAMEv40;
 		/* Metric prefixes */
 		public const String YOTTA_SINCE					= mXparser.NAMEv40;
 		public const String YOTTA_SEPT_SINCE			= mXparser.NAMEv40;

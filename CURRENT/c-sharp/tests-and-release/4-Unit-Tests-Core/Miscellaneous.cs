@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.2.0    2023-01-29
+ * @(#)Miscellaneous.cs        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -274,6 +274,7 @@ namespace org.mariuszgromada.math.mxparser.test {
         }
         internal static void testApiSettingsInit() {
             mXparser.setDefaultOptions();
+            mXparser.disableSelectBestMatchingLanguage();
         }
     }
 

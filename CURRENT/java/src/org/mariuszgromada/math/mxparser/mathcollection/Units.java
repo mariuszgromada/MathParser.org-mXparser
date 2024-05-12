@@ -688,7 +688,7 @@ public final class Units {
 	public static double getUnitValue(int unitId) {
 		switch (unitId) {
 			case Unit.PERC_ID: return PERC;
-			case Unit.PROMIL_ID: return PROMIL;
+			case Unit.PERM_ID: return PROMIL;
 			/* Metric prefixes */
 			case Unit.YOTTA_ID: return YOTTA;
 			case Unit.ZETTA_ID: return ZETTA;

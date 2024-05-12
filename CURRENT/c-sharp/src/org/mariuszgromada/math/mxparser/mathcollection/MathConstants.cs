@@ -517,7 +517,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				case ConstantValue.EARTH_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.EARTH_SEMI_MAJOR_AXIS;
 				case ConstantValue.MOON_RADIUS_MEAN_ID: return AstronomicalConstants.MOON_RADIUS_MEAN;
 				case ConstantValue.MOON_MASS_ID: return AstronomicalConstants.MOON_MASS;
-				case ConstantValue.MONN_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.MOON_SEMI_MAJOR_AXIS;
+				case ConstantValue.MOO_SEMI_MAJOR_AXIS_ID: return AstronomicalConstants.MOON_SEMI_MAJOR_AXIS;
 				case ConstantValue.SOLAR_RADIUS_ID: return AstronomicalConstants.SOLAR_RADIUS;
 				case ConstantValue.SOLAR_MASS_ID: return AstronomicalConstants.SOLAR_MASS;
 				case ConstantValue.MERCURY_RADIUS_MEAN_ID: return AstronomicalConstants.MERCURY_RADIUS_MEAN;

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        5.2.1    2023-02-07
+ * @(#)mXparser.cs        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -209,7 +209,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.1
+	 * @version        6.0.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -221,11 +221,11 @@ namespace org.mariuszgromada.math.mxparser {
 		/**
 		 * mXparser version
 		 */
-		public const int VERSION_MAJOR = 5;
-		public const int VERSION_MINOR = 2;
-		public const int VERSION_PATCH = 1;
+		public const int VERSION_MAJOR = 6;
+		public const int VERSION_MINOR = 0;
+		public const int VERSION_PATCH = 0;
 		public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
-		public const String VERSION_CODE_NAME = "Orion";
+		public const String VERSION_CODE_NAME = "Picon";
 		public static readonly String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 #if NET48
 		public const String BUIT_FOR = "NET48";
@@ -443,10 +443,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Indicator whether to call cancel current calculation
 		 */
 		internal static volatile bool cancelCurrentCalculationFlag = false;
-		/**
+        /**
+         * Indicator whether to select best matching language to OS locale
+         */
+        internal static volatile bool selectBestMatchingLanguage = true;
+        /**
 		 * Empty expression for general help purposes.
 		 */
-		internal static volatile Expression HELP_EXPRESSION = new Expression();
+        internal static volatile Expression HELP_EXPRESSION = new Expression();
 		internal static void refreshHelp() {
 			HELP_EXPRESSION = new Expression();
 		}
@@ -1000,6 +1004,88 @@ namespace org.mariuszgromada.math.mxparser {
 			return attemptToFixExpStrEnabled;
 		}
 		/**
+		 * Option that enables selection of best matching language based on the current OS locale.
+		 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+		 * If OS language is not supported, then English is selected.
+		 *
+		 * @see StringModel
+		 * @see StringResources
+		 * @see StringResources#bestMatchingLanguage()
+		 */
+		public static void enableSelectBestMatchingLanguage() {
+			selectBestMatchingLanguage = true;
+			StringModel.setDefaultStringResources();
+		}
+		/**
+		 * Disables mode of selection of best matching language based on the current OS locale.
+		 * Returns to the English language.
+		 *
+		 * @see StringModel
+		 * @see StringResources
+		 * @see StringResources#bestMatchingLanguage()
+		 */
+		public static void disableSelectBestMatchingLanguage() {
+			selectBestMatchingLanguage = false;
+			StringModel.setDefaultEnglishStringResources();
+		}
+		/**
+		 * Checks if mode of selection of best matching language based on the current OS locale is enabled.
+		 *
+		 * @return   True if mode of selection of best matching language is enabled, otherwise false.
+		 *
+		 * @see StringModel
+		 * @see StringResources
+		 * @see StringResources#bestMatchingLanguage()
+		 */
+		public static bool checkIfSelectBestMatchingLanguage() {
+			return selectBestMatchingLanguage;
+		}
+		/**
+		 * Changes language to the one that best matches provided language code.
+		 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+		 * If language code does not belong to the supported language codes
+		 * English language is selected.
+		 *
+		 * @param language     Supported language codes: en, fr, de, it, pl, pt, es.
+		 *
+		 * @see StringModel
+		 * @see StringModel#setStringResources(StringResources)
+		 * @see StringResources
+		 * @see StringResources#bestMatchingLanguage(String)
+		 */
+		public static void changeLanguageTo(String language) {
+			StringModel.setStringResources(StringResources.bestMatchingLanguage(language));
+		}
+		/**
+		 * Changes language to the one that best matches provided language code in locale.
+		 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+		 * If language code does not belong to the supported language codes
+		 * English language is selected.
+		 *
+		 * @param locale      Supported locale language codes: en, fr, de, it, pl, pt, es.
+		 *
+		 * @see StringModel
+		 * @see StringModel#setStringResources(StringResources)
+		 * @see StringResources
+		 * @see StringResources#bestMatchingLanguage(Locale)
+		 */
+		public static void changeLanguageTo(CultureInfo locale) {
+			StringModel.setStringResources(StringResources.bestMatchingLanguage(locale));
+		}
+		/**
+		 * Changes language to the one that best matches current OS locale.
+		 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+		 * If OS language is not supported, then English is selected.
+		 *
+		 * @see StringModel
+		 * @see StringModel#setStringResources(StringResources)
+		 * @see StringResources
+		 * @see StringResources#bestMatchingLanguage()
+		 */
+		public static void changeLanguageToBestMatching() {
+			StringModel.forceDefaultStringResources();
+		}
+		/**
 		 * Sets initial search size for the toFraction method
 		 *
 		 * @param n initial search size, has to be non-zero positive.
@@ -1214,7 +1300,8 @@ namespace org.mariuszgromada.math.mxparser {
 			enableImpliedMultiplicationMode();
 			enableUnicodeBuiltinKeyWordsMode();
 			enableAttemptToFixExpStrMode();
-			optionsChangesetNumber++;
+            enableSelectBestMatchingLanguage();
+            optionsChangesetNumber++;
 		}
 		/**
 		 * Returns token type description.
@@ -2133,5 +2220,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv50 = "5.0";
 		public const String NAMEv51 = "5.1";
 		public const String NAMEv52 = "5.2";
+        public const String NAMEv60 = "6.0";
     }
 }

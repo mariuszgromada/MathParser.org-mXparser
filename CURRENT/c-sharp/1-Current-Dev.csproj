@@ -137,6 +137,12 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringUtils.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesPolish.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesPortuguese.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesSpanish.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

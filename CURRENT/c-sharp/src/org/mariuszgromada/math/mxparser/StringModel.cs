@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.cs        5.2.0    2023-01-29
+ * @(#)StringModel.cs        6.0.0    2024-05-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -202,10 +202,11 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        5.2.0
+     * @version        6.0.0
      */
     public sealed class StringModel {
-        internal static readonly StringResources DEFAULT_STRING_RESOURCES = new StringResources();
+        internal static readonly StringResources DEFAULT_ENGLISH_STRING_RESOURCES = new StringResources();
+        internal static readonly StringResources DEFAULT_STRING_RESOURCES = StringResources.bestMatchingLanguage();
         internal static StringResources STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
         internal static readonly bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.setLanguageSpecificDescriptions();
         /**
@@ -220,6 +221,7 @@ namespace org.mariuszgromada.math.mxparser {
          */
         public static void setStringResources(StringResources stringResources) {
             if (stringResources == null) return;
+            if (STRING_RESOURCES != null && STRING_RESOURCES == stringResources) return;
             STRING_RESOURCES = stringResources;
             setLanguageSpecificDescriptions();
         }
@@ -229,7 +231,32 @@ namespace org.mariuszgromada.math.mxparser {
          * @see StringResources
          */
         public static void setDefaultStringResources() {
+            if (mXparser.selectBestMatchingLanguage) {
+                if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
+                STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
+                setLanguageSpecificDescriptions();
+                return;
+            }
+            if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_ENGLISH_STRING_RESOURCES) return;
+            STRING_RESOURCES = DEFAULT_ENGLISH_STRING_RESOURCES;
+            setLanguageSpecificDescriptions();
+        }
+        /**
+         * Forces to use default string resources
+         */
+        internal static void forceDefaultStringResources() {
+            if (STRING_RESOURCES != null & STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
             STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
+            setLanguageSpecificDescriptions();
+        }
+        /**
+         * Sets default english string resources.
+         *
+         * @see StringResources
+         */
+        public static void setDefaultEnglishStringResources() {
+            if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_ENGLISH_STRING_RESOURCES) return;
+            STRING_RESOURCES = DEFAULT_ENGLISH_STRING_RESOURCES;
             setLanguageSpecificDescriptions();
         }
         /**
@@ -354,7 +381,7 @@ namespace org.mariuszgromada.math.mxparser {
             ConstantValue.EARTH_SEMI_MAJOR_AXIS_DESC = STRING_RESOURCES.CONSTANT_VALUE_EARTH_SEMI_MAJOR_AXIS + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SEPARATOR + STRING_RESOURCES.SEMI_MAJOR_AXIS + StringInvariant.SPACE + StringInvariant.METER_UNIT + StringInvariant.SPACE + StringInvariant.METER_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
             ConstantValue.MOON_RADIUS_MEAN_DESC = STRING_RESOURCES.CONSTANT_VALUE_MOON_RADIUS_MEAN + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SPACE + StringInvariant.METER_UNIT + StringInvariant.SPACE + StringInvariant.METER_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
             ConstantValue.MOON_MASS_DESC = STRING_RESOURCES.CONSTANT_VALUE_MOON_MASS + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SPACE + StringInvariant.KILOGRAM_UNIT + StringInvariant.SPACE + StringInvariant.KILOGRAM_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
-            ConstantValue.MONN_SEMI_MAJOR_AXIS_DESC = STRING_RESOURCES.CONSTANT_VALUE_MONN_SEMI_MAJOR_AXIS + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SEPARATOR + STRING_RESOURCES.SEMI_MAJOR_AXIS + StringInvariant.SPACE + StringInvariant.METER_UNIT + StringInvariant.SPACE + StringInvariant.METER_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
+            ConstantValue.MOON_SEMI_MAJOR_AXIS_DESC = STRING_RESOURCES.CONSTANT_VALUE_MOON_SEMI_MAJOR_AXIS + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SEPARATOR + STRING_RESOURCES.SEMI_MAJOR_AXIS + StringInvariant.SPACE + StringInvariant.METER_UNIT + StringInvariant.SPACE + StringInvariant.METER_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
             ConstantValue.SOLAR_RADIUS_DESC = STRING_RESOURCES.CONSTANT_VALUE_SOLAR_RADIUS + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SPACE + StringInvariant.SOLAR_RADIUS_SYMBOL + StringInvariant.SPACE + StringInvariant.METER_UNIT + StringInvariant.SPACE + StringInvariant.METER_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
             ConstantValue.SOLAR_MASS_DESC = STRING_RESOURCES.CONSTANT_VALUE_SOLAR_MASS + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SPACE + StringInvariant.SOLAR_MASS_SYMBOL + StringInvariant.SPACE + StringInvariant.KILOGRAM_UNIT + StringInvariant.SPACE + StringInvariant.KILOGRAM_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
             ConstantValue.MERCURY_RADIUS_MEAN_DESC = STRING_RESOURCES.CONSTANT_VALUE_MERCURY_RADIUS_MEAN + StringInvariant.SEPARATOR + STRING_RESOURCES.ASTRONOMICAL_CONSTANT + StringInvariant.SPACE + StringInvariant.METER_UNIT + StringInvariant.SPACE + StringInvariant.METER_DEFINITION + StringInvariant.SEPARATOR + STRING_RESOURCES.CONSTANT_VALUE;
@@ -642,7 +669,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal static void setLanguageSpecificDescriptionsUnit() {
             Unit.TYPE_DESC = STRING_RESOURCES.UNIT;
             Unit.PERC_DESC = STRING_RESOURCES.DIMENSIONLESS_UNIT_PERC + StringInvariant.SEPARATOR + STRING_RESOURCES.RATIO_FRACTION + StringInvariant.SPACE + StringInvariant.UNIT_PERC_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.DIMENSIONLESS_UNIT;
-            Unit.PROMIL_DESC = STRING_RESOURCES.DIMENSIONLESS_UNIT_PROMIL + StringInvariant.SEPARATOR + STRING_RESOURCES.RATIO_FRACTION + StringInvariant.SPACE + StringInvariant.UNIT_PROMIL_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.DIMENSIONLESS_UNIT;
+            Unit.PERM_DESC = STRING_RESOURCES.DIMENSIONLESS_UNIT_PERM + StringInvariant.SEPARATOR + STRING_RESOURCES.RATIO_FRACTION + StringInvariant.SPACE + StringInvariant.UNIT_PERM_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.DIMENSIONLESS_UNIT;
             Unit.YOTTA_DESC = STRING_RESOURCES.DIMENSIONLESS_UNIT_YOTTA + StringInvariant.SEPARATOR + STRING_RESOURCES.METRIC_PREFIX + StringInvariant.SPACE + StringInvariant.UNIT_YOTTA_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.DIMENSIONLESS_UNIT;
             Unit.ZETTA_DESC = STRING_RESOURCES.DIMENSIONLESS_UNIT_ZETTA + StringInvariant.SEPARATOR + STRING_RESOURCES.METRIC_PREFIX + StringInvariant.SPACE + StringInvariant.UNIT_ZETTA_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.DIMENSIONLESS_UNIT;
             Unit.EXA_DESC = STRING_RESOURCES.DIMENSIONLESS_UNIT_EXA + StringInvariant.SEPARATOR + STRING_RESOURCES.METRIC_PREFIX + StringInvariant.SPACE + StringInvariant.UNIT_EXA_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.DIMENSIONLESS_UNIT;
@@ -897,7 +924,7 @@ namespace org.mariuszgromada.math.mxparser {
             StringUtils.consolePrintln("ConstantValue.EARTH_SEMI_MAJOR_AXIS_DESC = \"" + ConstantValue.EARTH_SEMI_MAJOR_AXIS_DESC + "\";");
             StringUtils.consolePrintln("ConstantValue.MOON_RADIUS_MEAN_DESC = \"" + ConstantValue.MOON_RADIUS_MEAN_DESC + "\";");
             StringUtils.consolePrintln("ConstantValue.MOON_MASS_DESC = \"" + ConstantValue.MOON_MASS_DESC + "\";");
-            StringUtils.consolePrintln("ConstantValue.MONN_SEMI_MAJOR_AXIS_DESC = \"" + ConstantValue.MONN_SEMI_MAJOR_AXIS_DESC + "\";");
+            StringUtils.consolePrintln("ConstantValue.MOON_SEMI_MAJOR_AXIS_DESC = \"" + ConstantValue.MOON_SEMI_MAJOR_AXIS_DESC + "\";");
             StringUtils.consolePrintln("ConstantValue.SOLAR_RADIUS_DESC = \"" + ConstantValue.SOLAR_RADIUS_DESC + "\";");
             StringUtils.consolePrintln("ConstantValue.SOLAR_MASS_DESC = \"" + ConstantValue.SOLAR_MASS_DESC + "\";");
             StringUtils.consolePrintln("ConstantValue.MERCURY_RADIUS_MEAN_DESC = \"" + ConstantValue.MERCURY_RADIUS_MEAN_DESC + "\";");
@@ -1128,7 +1155,7 @@ namespace org.mariuszgromada.math.mxparser {
             StringUtils.consolePrintln("// -------------------------------------------------");
             StringUtils.consolePrintln("Unit.TYPE_DESC = \"" + Unit.TYPE_DESC + "\";");
             StringUtils.consolePrintln("Unit.PERC_DESC = \"" + Unit.PERC_DESC + "\";");
-            StringUtils.consolePrintln("Unit.PROMIL_DESC = \"" + Unit.PROMIL_DESC + "\";");
+            StringUtils.consolePrintln("Unit.PERM_DESC = \"" + Unit.PERM_DESC + "\";");
             StringUtils.consolePrintln("Unit.YOTTA_DESC = \"" + Unit.YOTTA_DESC + "\";");
             StringUtils.consolePrintln("Unit.ZETTA_DESC = \"" + Unit.ZETTA_DESC + "\";");
             StringUtils.consolePrintln("Unit.EXA_DESC = \"" + Unit.EXA_DESC + "\";");
