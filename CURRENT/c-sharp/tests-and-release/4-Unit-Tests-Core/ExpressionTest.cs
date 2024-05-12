@@ -23059,6 +23059,21 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
             Assert.IsTrue(testResult);
-		}
-	}
+        }
+        [TestMethod]
+        public void testExpr1403()
+        {
+            TestCommonTools.testExprSettingsInit();
+            bool testResult = false;
+            String expStr = "0.0000004566969933 / 36370.51937825058";
+            TestCommonTools.consolePrintTestExprStart(1, expStr);
+            Expression testExp = new Expression(expStr);
+            double value = testExp.calculate();
+            double reg = 0.0000004566969933 / 36370.51937825058;
+            if (value == reg)
+                testResult = true;
+            TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assert.IsTrue(testResult);
+        }
+    }
 }
