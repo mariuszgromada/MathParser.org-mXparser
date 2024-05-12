@@ -105,12 +105,12 @@ public class SimpleCharStream{
            maxNextCharInd += i;
         return;
      }
-     catch(System.IO.IOException e) {
+     catch(System.IO.IOException) {
         --bufpos;
         backup(0);
         if (tokenBegin == -1)
            tokenBegin = bufpos;
-        throw e;
+        throw;
      }
   }
 

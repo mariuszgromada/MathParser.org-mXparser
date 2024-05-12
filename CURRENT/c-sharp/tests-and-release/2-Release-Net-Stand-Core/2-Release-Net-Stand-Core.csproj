@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net35;net40;net45;net461;net47;net48;netstandard2.0;netstandard2.1;netcoreapp2.0;netcoreapp3.1;net50;net60</TargetFrameworks>
+    <TargetFrameworks>net35;net40;net45;net461;net47;net48;netstandard2.0;netstandard2.1;netcoreapp3.1;net50;net60</TargetFrameworks>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>

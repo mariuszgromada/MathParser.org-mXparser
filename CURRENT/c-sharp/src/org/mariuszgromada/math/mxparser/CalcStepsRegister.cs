@@ -286,7 +286,7 @@ namespace org.mariuszgromada.math.mxparser {
                 );
             mXparser.consolePrintln(StringModel.STRING_RESOURCES.COMPUTING_TIME + StringInvariant.SPACE_EQUAL_SPACE + calcStepsRegister.computingTime + " s.");
         }
-        public String ToString() {
+        public override String ToString() {
             return toString(this);
         }
         private static String toString(CalcStepsRegister calcStepsRegister) {
