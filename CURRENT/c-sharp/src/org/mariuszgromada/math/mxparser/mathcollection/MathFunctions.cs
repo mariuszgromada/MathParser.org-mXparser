@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cs        5.2.0    2023-01-29
+ * @(#)MathFunctions.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class MathFunctions {
@@ -212,9 +212,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		private static readonly double DECIMAL_MAX_VALUE = (double)Decimal.MaxValue / 1e17;
 
 		private static int MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
-        private static readonly String DECIMAL_FORMAT = "0." + new String('#', 339);
+		private static readonly String DECIMAL_FORMAT = "0." + new String('#', 339);
 
-        private static void refreshMaxAllowedRecursionDepth() {
+		private static void refreshMaxAllowedRecursionDepth() {
 			MAX_RECURSION_CALLS = mXparser.getMaxAllowedRecursionDepth();
 		}
 
@@ -1180,14 +1180,19 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public static bool isAlmostInt(double a) {
 			double aint = Math.Round(a);
-            return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
+			return abs(a - aint) <= BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		}
 		private static double shorterResult(decimal dr, double r) {
 			if (Double.IsNaN(r)) return Double.NaN;
 			if (Double.IsInfinity(r)) return r;
 			double drd = (double)dr;
+#if !NETFRAMEWORK
 			String drds = drd.ToString(CultureInfo.InvariantCulture);
 			String rs = r.ToString(CultureInfo.InvariantCulture);
+#else
+			String drds = drd.ToString("G17", CultureInfo.InvariantCulture);
+			String rs = r.ToString("G17", CultureInfo.InvariantCulture);
+#endif
 			double res;
 			String sres;
 			if (drds.Length < rs.Length) {
@@ -2561,8 +2566,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (Double.IsNaN(value)) return 0;
 			if (Double.IsInfinity(value)) return 0;
 			if (ulpDecimalDigitsBefore(value) <= 0) return 0;
-			String valueStr = value.ToString(CultureInfo.InvariantCulture);
-			int dotPos = valueStr.IndexOf('.');
+#if !NETFRAMEWORK
+            String valueStr = value.ToString(CultureInfo.InvariantCulture);
+#else
+            String valueStr = value.ToString("G17", CultureInfo.InvariantCulture);
+#endif
+            int dotPos = valueStr.IndexOf('.');
 			if (dotPos >= 0) return valueStr.Length - 1 - dotPos;
 			return 0;
 		}

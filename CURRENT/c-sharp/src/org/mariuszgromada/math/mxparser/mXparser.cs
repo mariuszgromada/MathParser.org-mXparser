@@ -310,17 +310,17 @@ namespace org.mariuszgromada.math.mxparser {
 #elif ANDROID
 		public const String BUIT_FOR = "Xamarin.Android";
 #elif NETFRAMEWORK
-		public const String BUIT_FOR = ".NET Framework";
+		public const String BUIT_FOR = "NETFRAMEWORK";
 #elif NETSTANDARD
-		public const String BUIT_FOR = ".NET Standard";
+		public const String BUIT_FOR = "NETSTANDARD";
 #elif NETCOREAPP
-		public const String BUIT_FOR = ".NET Core";
+		public const String BUIT_FOR = "NETCOREAPP";
 #elif NET
 		public const String BUIT_FOR = "NET";
 #elif PCL
-		public const String BUIT_FOR = ".NET PCL";
+		public const String BUIT_FOR = "PCL";
 #else
-        public const String BUIT_FOR = ".NET";
+		public const String BUIT_FOR = "NET?";
 #endif
 		/**
 		 * FOUND / NOT_FOUND
@@ -445,14 +445,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Indicator whether to call cancel current calculation
 		 */
 		internal static volatile bool cancelCurrentCalculationFlag = false;
-        /**
-         * Indicator whether to select best matching language to OS locale
-         */
-        internal static volatile bool selectBestMatchingLanguage = true;
-        /**
+		/**
+		 * Indicator whether to select best matching language to OS locale
+		 */
+		internal static volatile bool selectBestMatchingLanguage = true;
+		/**
 		 * Empty expression for general help purposes.
 		 */
-        internal static volatile Expression HELP_EXPRESSION = new Expression();
+		internal static volatile Expression HELP_EXPRESSION = new Expression();
 		internal static void refreshHelp() {
 			HELP_EXPRESSION = new Expression();
 		}
@@ -1302,8 +1302,8 @@ namespace org.mariuszgromada.math.mxparser {
 			enableImpliedMultiplicationMode();
 			enableUnicodeBuiltinKeyWordsMode();
 			enableAttemptToFixExpStrMode();
-            enableSelectBestMatchingLanguage();
-            optionsChangesetNumber++;
+			enableSelectBestMatchingLanguage();
+			optionsChangesetNumber++;
 		}
 		/**
 		 * Returns token type description.
@@ -1598,13 +1598,13 @@ namespace org.mariuszgromada.math.mxparser {
 		public static void consolePrintln(Object o) {
 			lock (CONSOLE_OUTPUT) {
 				initConsoleOutput();
-                Console.WriteLine(o);
+				Console.WriteLine(o);
 				CONSOLE_ROW_NUMBER++;
-                Console.Write(CONSOLE_PREFIX);
+				Console.Write(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT.Append(o);
 				CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
 				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
-    		}
+			}
 		}
 		/**
 		 * Prints array of strings
@@ -1631,7 +1631,7 @@ namespace org.mariuszgromada.math.mxparser {
 				Console.Write(CONSOLE_PREFIX);
 				CONSOLE_OUTPUT.Append(StringInvariant.NEW_LINE);
 				CONSOLE_OUTPUT.Append(CONSOLE_OUTPUT_PREFIX);
-    		}
+			}
 		}
 		/**
 		 * Prints object.toString to the Console, no new line
@@ -1643,7 +1643,7 @@ namespace org.mariuszgromada.math.mxparser {
 				initConsoleOutput();
 				Console.Write(o);
 				CONSOLE_OUTPUT.Append(o);
-    		}
+			}
 		}
 		public static void consolePrintSettings(String prefix) {
 			mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
@@ -1661,6 +1661,7 @@ namespace org.mariuszgromada.math.mxparser {
 			mXparser.consolePrintln(prefix + "getMaxNumInPrimesCache = " + mXparser.getMaxNumInPrimesCache());
 			mXparser.consolePrintln(prefix + "getToFractionInitSearchSize = " + mXparser.getToFractionInitSearchSize());
 			mXparser.consolePrintln(prefix + "checkIfsetToOverrideBuiltinTokens = " + mXparser.checkIfsetToOverrideBuiltinTokens());
+			mXparser.consolePrintln(prefix + "checkIfSelectBestMatchingLanguage = " + mXparser.checkIfSelectBestMatchingLanguage());
 		}
 		public static void consolePrintSettings() {
 			consolePrintSettings(StringInvariant.EMPTY);
@@ -2067,14 +2068,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Prints all help content.
 		 */
 		public static void consolePrintHelp() {
-            consolePrintln(getHelp());
+			consolePrintln(getHelp());
 		}
 		/**
 		 * Prints filtered help content.
 		 * @param word      Keyword.
 		 */
 		public static void consolePrintHelp(String word) {
-            consolePrintln(getHelp(word));
+			consolePrintln(getHelp(word));
 		}
 		/**
 		 * Returns list of keywords known to the parser
@@ -2222,6 +2223,6 @@ namespace org.mariuszgromada.math.mxparser {
 		public const String NAMEv50 = "5.0";
 		public const String NAMEv51 = "5.1";
 		public const String NAMEv52 = "5.2";
-        public const String NAMEv60 = "6.0";
-    }
+		public const String NAMEv60 = "6.0";
+	}
 }

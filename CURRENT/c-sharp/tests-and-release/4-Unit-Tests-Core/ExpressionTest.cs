@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        5.2.1    2023-02-06
+ * @(#)ExpressionTest.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.1
+	 * @version        6.0.0
 	 *
 	 */
 	[TestClass]
@@ -23056,6 +23056,21 @@ namespace org.mariuszgromada.math.mxparser.test {
 			double value = testExp.calculate();
 			double reg = testExp.calculate();
 			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assert.IsTrue(testResult);
+		}
+        [TestMethod]
+        public void testExpr1403() {
+			TestCommonTools.testExprSettingsInit();
+			mXparser.enableCanonicalRounding();
+			bool testResult = false;
+			String expStr = "0.0000004566969933 / 36370.51937825058";
+			TestCommonTools.consolePrintTestExprStart(1403, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 1.2556791E-11;
+			if (MathFunctions.abs(reg - value) <= 1e-14)
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
             Assert.IsTrue(testResult);
