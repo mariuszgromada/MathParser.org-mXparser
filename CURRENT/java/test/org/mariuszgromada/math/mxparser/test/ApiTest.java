@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        6.0.0    2024-05-11
+ * @(#)SyntaxTest.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -10573,6 +10573,29 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
         StringModel.setDefaultStringResources();
     }
+    @Test
+    public void testApi0357() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "mXparser - getHelpAsMarkdownTable + case of wrongly escaping pipe in some MD engines |/\\|";
+        TestCommonTools.consolePrintTestApiStart(357, testDescr);
+        String helpString1 = mXparser.getHelpAsMarkdownTable();
+        String helpString2 = mXparser.getHelpAsMarkdownTable("");
+        String helpString3 = mXparser.getHelpAsMarkdownTable(true, true, "caption");
+        String helpString4 = mXparser.getHelpAsMarkdownTable("", true, true, "caption");
+        if (!helpString1.contains("\\\\ |") && helpString1.contains("\\\\|"))
+            testResult = false;
+        if (!helpString2.contains("\\\\ |") && helpString2.contains("\\\\|"))
+            testResult = false;
+        if (!helpString3.contains("\\\\ |") && helpString3.contains("\\\\|"))
+            testResult = false;
+        if (!helpString4.contains("\\\\ |") && helpString4.contains("\\\\|"))
+            testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+
     public static String cleanMarkdownBackslash(String str) {
         return str.replace("\\\\", "").replace("\\|", "");
     }

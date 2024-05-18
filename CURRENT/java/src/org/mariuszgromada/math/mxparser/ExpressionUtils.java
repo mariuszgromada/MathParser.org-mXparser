@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        6.0.0    2024-05-11
+ * @(#)ExpressionUtils.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -1383,7 +1383,7 @@ final class ExpressionUtils {
 
         buildMarkdownTableRows(keyWordsResult, addHeader, result);
 
-        return StringUtils.cleanNewLineAtTheEnd(result.toString());
+        return StringUtils.cleanNewLineAtTheEnd(result.toString()).replace("\\\\|", "\\\\ |");
     }
 
     static String getHelpAsJson(List<KeyWord> keyWordsList, boolean addCaption, String query, String caption) {

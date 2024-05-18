@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.0.0    2024-05-11
+ * @(#)ApiTest.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -10638,6 +10638,28 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
+			StringModel.setDefaultStringResources();
+		}
+        [TestMethod]
+        public void testApi0357() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = true;
+			String testDescr = "mXparser - getHelpAsMarkdownTable + case of wrongly escaping pipe in some MD engines |/\\|";
+			TestCommonTools.consolePrintTestApiStart(357, testDescr);
+			String helpString1 = mXparser.getHelpAsMarkdownTable();
+			String helpString2 = mXparser.getHelpAsMarkdownTable("");
+			String helpString3 = mXparser.getHelpAsMarkdownTable(true, true, "caption");
+			String helpString4 = mXparser.getHelpAsMarkdownTable("", true, true, "caption");
+			if (!helpString1.Contains("\\\\ |") && helpString1.Contains("\\\\|"))
+				testResult = false;
+			if (!helpString2.Contains("\\\\ |") && helpString2.Contains("\\\\|"))
+				testResult = false;
+			if (!helpString3.Contains("\\\\ |") && helpString3.Contains("\\\\|"))
+				testResult = false;
+			if (!helpString4.Contains("\\\\ |") && helpString4.Contains("\\\\|"))
+				testResult = false;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+            Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
 		}
 		public static String cleanMarkdownBackslash(String str) {

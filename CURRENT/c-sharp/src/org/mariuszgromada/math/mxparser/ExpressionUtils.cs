@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        6.0.0    2024-05-11
+ * @(#)ExpressionUtils.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -1379,7 +1379,7 @@ namespace org.mariuszgromada.math.mxparser {
 
             buildMarkdownTableRows(keyWordsResult, addHeader, result);
 
-            return StringUtils.cleanNewLineAtTheEnd(result.ToString());
+            return StringUtils.cleanNewLineAtTheEnd(result.ToString()).Replace("\\\\|", "\\\\ |");
         }
 
         internal static String getHelpAsJson(List<KeyWord> keyWordsList, bool addCaption, String query, String caption) {
