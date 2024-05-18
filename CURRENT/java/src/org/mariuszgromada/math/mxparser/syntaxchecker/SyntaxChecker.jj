@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxChecker.jj        5.2.0    2023-01-29
+ * @(#)SyntaxChecker.jj        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -305,7 +305,7 @@ TOKEN : /* TOKENS */
 | 	< PLUS:					"+"																			>
 | 	< MINUS:				"-"																			>
 | 	< MULTIPLY:				( "*" | "\u00d7" /* × */ | "\u2a09" /* ⨉ */ | "\u2219" /* ∙ */ )			>
-| 	< DIV:					( "/" | "\u00f7" /* ÷ */ )													>
+| 	< DIV:					( "/" | "\u00f7" /* ÷ */ | "\\" | ":" )											>
 | 	< POWER:				"^"																			>
 | 	< TETRATION:			"^^"																		>
 | 	< MODULO:				"#"																			>
@@ -329,7 +329,7 @@ TOKEN : /* TOKENS */
 |   < NAND:					( <NOT><AND> | "\u22bc" /* ⊼ */ )											>
 |   < EQV:  				( "<->"	| "\u21d4" /* ⇔ */ )												>
 |   < NOR:					( <NOT><OR> | "\u22bd" /* ⊽ */ )											>
-|   < BITWISE:				( "@&" | "@^" | "@|" | "@<<" | "@>>" )										>
+|   < BITWISE:				( "@&" | "@~&" | "@^" | "@~^" | "@|" | "@~|" | "@<<" | "@>>" )				>
 | 	< XOR:					( "(+)" | "\u22bb" /* ⊻ */)													>
 |	< IDENTIFIER:			<LETTERS> ( <LETTERS> | <INTEGER> )*  										>
 |	< LEFT_OR_RIGHT_DER:	( "der+" | "der-" | "\u2202+" /* ∂+ */ | "\u2202-" /* ∂- */ ) 				>

@@ -1,5 +1,5 @@
 /*
- * @(#)StringResourcesSpanish.java        6.0.0    2024-05-11
+ * @(#)StringResourcesSpanish.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -424,12 +424,15 @@ class StringResourcesSpanish extends StringResources {
         BINARY_RELATION_LEQ = "Menor o igual que";
         BINARY_RELATION_GEQ = "Mayor o igual que";
         // -------------------------------------------------
-        BITWISE_OPERATOR_COMPL = "Complemento unario a nivel de bits";
-        BITWISE_OPERATOR_AND = "Y a nivel de bits";
-        BITWISE_OPERATOR_XOR = "O exclusivo a nivel de bits";
-        BITWISE_OPERATOR_OR = "O inclusivo a nivel de bits";
-        BITWISE_OPERATOR_LEFT_SHIFT = "Desplazamiento a la izquierda con signo";
-        BITWISE_OPERATOR_RIGHT_SHIFT = "Desplazamiento a la derecha con signo";
+        BITWISE_OPERATOR_COMPL = "Complemento unario a nivel de bits (NOT)";
+        BITWISE_OPERATOR_AND = "Y a nivel de bits (AND)";
+        BITWISE_OPERATOR_XOR = "O exclusivo a nivel de bits (XOR)";
+        BITWISE_OPERATOR_OR = "O inclusivo a nivel de bits (OR)";
+        BITWISE_OPERATOR_LEFT_SHIFT = "Desplazamiento a la izquierda con signo a nivel de bits";
+        BITWISE_OPERATOR_RIGHT_SHIFT = "Desplazamiento a la derecha con signo a nivel de bits";
+        BITWISE_OPERATOR_NAND = "NO Y a nivel de bits (NAND)";
+        BITWISE_OPERATOR_NOR = "NO O a nivel de bits (NOR)";
+        BITWISE_OPERATOR_XNOR = "NO O exclusivo a nivel de bits (XNOR)";
         // -------------------------------------------------
         BOOLEAN_OPERATOR_AND = "Conjunción lógica";
         BOOLEAN_OPERATOR_OR = "Disyunción lógica";
@@ -675,6 +678,7 @@ class StringResourcesSpanish extends StringResources {
         OPERATOR_MINUS = "Resta";
         OPERATOR_MULTIPLY = "Multiplicación";
         OPERATOR_DIVIDE = "División";
+        OPERATOR_DIVIDE_QUOTIENT = "División entera (cociente)";
         OPERATOR_POWER = "Exponenciación";
         OPERATOR_FACT = "Factorial";
         OPERATOR_MOD = "Módulo";

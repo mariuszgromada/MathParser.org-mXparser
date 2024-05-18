@@ -1,5 +1,5 @@
 /*
- * @(#)StringResourcesPolish.cs        6.0.0    2024-05-11
+ * @(#)StringResourcesPolish.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -425,12 +425,15 @@ namespace org.mariuszgromada.math.mxparser {
             BINARY_RELATION_LEQ = "Mniejsze lub równe";
             BINARY_RELATION_GEQ = "Większe lub równe";
             // -------------------------------------------------
-            BITWISE_OPERATOR_COMPL = "Dopełnienie jednoargumentowe bitowe";
-            BITWISE_OPERATOR_AND = "I bitowe";
-            BITWISE_OPERATOR_XOR = "Wykluczające albo bitowe";
-            BITWISE_OPERATOR_OR = "Włącznie albo bitowe";
-            BITWISE_OPERATOR_LEFT_SHIFT = "Przesunięcie w lewo ze znakiem";
-            BITWISE_OPERATOR_RIGHT_SHIFT = "Przesunięcie w prawo ze znakiem";
+            BITWISE_OPERATOR_COMPL = "Bitowe dopełnienie jednoargumentowe (NOT)";
+            BITWISE_OPERATOR_AND = "Bitowe i (AND)";
+            BITWISE_OPERATOR_XOR = "Bitowe wykluczające lub (XOR)";
+            BITWISE_OPERATOR_OR = "Bitowe lub (OR)";
+            BITWISE_OPERATOR_LEFT_SHIFT = "Bitowe przesunięcie w lewo ze znakiem";
+            BITWISE_OPERATOR_RIGHT_SHIFT = "Bitowe przesunięcie w prawo ze znakiem";
+            BITWISE_OPERATOR_NAND = "Bitowe NOT AND (NAND)";
+            BITWISE_OPERATOR_NOR = "Bitowe NOT OR (NOR)";
+            BITWISE_OPERATOR_XNOR = "Bitowe wykluczające NOR (XNOR)";
             // -------------------------------------------------
             BOOLEAN_OPERATOR_AND = "Koniunkcja logiczna";
             BOOLEAN_OPERATOR_OR = "Alternatywa logiczna";
@@ -676,6 +679,7 @@ namespace org.mariuszgromada.math.mxparser {
             OPERATOR_MINUS = "Odejmowanie";
             OPERATOR_MULTIPLY = "Mnożenie";
             OPERATOR_DIVIDE = "Dzielenie";
+            OPERATOR_DIVIDE_QUOTIENT = "Dzielenie całkowitoliczbowe (iloraz)";
             OPERATOR_POWER = "Potęgowanie";
             OPERATOR_FACT = "Silnia";
             OPERATOR_MOD = "Modulo";

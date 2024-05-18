@@ -300,6 +300,20 @@ public final class MathFunctions {
 		}
 	}
 	/**
+	 * Integer division (also called quotient) a / b applying canonical rounding if canonical
+	 * rounding is enabled
+	 *
+	 * @param a  The a parameter
+	 * @param b  The b parameter
+	 * @return   The result of integer division
+	 */
+	public static double divQuotient(double a, double b) {
+		double result = div(a, b);
+		if (Double.isNaN(result) || Double.isInfinite(result)) return result;
+		if (isAlmostInt(result)) return Math.round(result);
+		return Math.floor(result);
+	}
+	/**
 	 * Bell Numbers
 	 *
 	 * @param      n                   the n

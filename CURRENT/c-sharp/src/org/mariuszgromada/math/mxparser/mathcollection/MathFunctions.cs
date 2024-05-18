@@ -334,7 +334,20 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (rErr <= drErr) return r;
 			else return (double)dr;
 		}
-
+		/**
+		 * Integer division (also called quotient) a / b applying canonical rounding if canonical
+		 * rounding is enabled
+		 *
+		 * @param a  The a parameter
+		 * @param b  The b parameter
+		 * @return   The result of integer division
+		 */
+		public static double divQuotient(double a, double b) {
+			double result = div(a, b);
+			if (Double.IsNaN(result) || Double.IsInfinity(result)) return result;
+			if (isAlmostInt(result)) return Math.Round(result);
+			return Math.Floor(result);
+		}
 		/**
 		 * Bell Numbers
 		 *

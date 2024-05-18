@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.cs        5.2.0    2023-01-29
+ * @(#)BitwiseOperator.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.0.0
 	 */
 	[CLSCompliant(true)]
 	public sealed class BitwiseOperator {
@@ -217,6 +217,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const int OR_ID					= 4;
 		public const int LEFT_SHIFT_ID			= 5;
 		public const int RIGHT_SHIFT_ID			= 6;
+		public const int NAND_ID				= 7;
+		public const int NOR_ID					= 8;
+		public const int XNOR_ID				= 9;
 		/*
 		 * BitwiseOperator - tokens key words.
 		 */
@@ -226,6 +229,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String OR_STR				= "@|";
 		public const String LEFT_SHIFT_STR		= "@<<";
 		public const String RIGHT_SHIFT_STR		= "@>>";
+		public const String NAND_STR			= "@~&";
+		public const String NOR_STR				= "@~|";
+		public const String XNOR_STR			= "@~^";
 		/*
 		 * BitwiseOperator - syntax.
 		 */
@@ -235,6 +241,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public static readonly String OR_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(OR_STR);
 		public static readonly String LEFT_SHIFT_SYN	= SyntaxStringBuilder.binaryBitwiseOperator(LEFT_SHIFT_STR);
 		public static readonly String RIGHT_SHIFT_SYN	= SyntaxStringBuilder.binaryBitwiseOperator(RIGHT_SHIFT_STR);
+		public static readonly String NAND_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(NAND_STR);
+		public static readonly String NOR_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(NOR_STR);
+		public static readonly String XNOR_SYN			= SyntaxStringBuilder.binaryBitwiseOperator(XNOR_STR);
         /*
 		 * BitwiseOperator - tokens description.
 		 */
@@ -244,6 +253,9 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
         public static String OR_DESC = ParserSymbol.NA;
         public static String LEFT_SHIFT_DESC = ParserSymbol.NA;
         public static String RIGHT_SHIFT_DESC = ParserSymbol.NA;
+		public static String NAND_DESC = ParserSymbol.NA;
+		public static String NOR_DESC = ParserSymbol.NA;
+		public static String XNOR_DESC = ParserSymbol.NA;
         /*
 		 * BitwiseOperator - tokens since.
 		 */
@@ -253,5 +265,8 @@ namespace org.mariuszgromada.math.mxparser.parsertokens {
 		public const String OR_SINCE			= mXparser.NAMEv40;
 		public const String LEFT_SHIFT_SINCE	= mXparser.NAMEv40;
 		public const String RIGHT_SHIFT_SINCE	= mXparser.NAMEv40;
+		public const String NAND_SINCE			= mXparser.NAMEv60;
+		public const String NOR_SINCE			= mXparser.NAMEv60;
+		public const String XNOR_SINCE			= mXparser.NAMEv60;
 	}
 }

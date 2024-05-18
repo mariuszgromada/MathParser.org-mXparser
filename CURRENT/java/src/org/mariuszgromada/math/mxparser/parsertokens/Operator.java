@@ -1,5 +1,5 @@
 /*
- * @(#)Operator.java        5.2.0    2023-01-29
+ * @(#)Operator.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.0.0
  */
 public final class Operator {
 	/*
@@ -222,6 +222,7 @@ public final class Operator {
 	public static final int SQUARE_ROOT_ID			= 10;
 	public static final int CUBE_ROOT_ID			= 11;
 	public static final int FOURTH_ROOT_ID			= 12;
+	public static final int DIVIDE_QUOTIENT_ID 		= 13;
 	/*
 	 * Operator - tokens key words.
 	 */
@@ -232,6 +233,7 @@ public final class Operator {
 	public static final String MULTIPLY_STR_UNI_2	= "⨉";
 	public static final String MULTIPLY_STR_UNI_3	= "∙";
 	public static final String DIVIDE_STR 			= "/";
+	public static final String DIVIDE_EUROPE_STR 	= ":";
 	public static final String DIVIDE_STR_UNI_1		= "÷";
 	public static final String POWER_STR 			= "^";
 	public static final String FACT_STR 			= "!";
@@ -241,6 +243,7 @@ public final class Operator {
 	public static final String SQUARE_ROOT_STR		= "√";
 	public static final String CUBE_ROOT_STR		= "∛";
 	public static final String FOURTH_ROOT_STR		= "∜";
+	public static final String DIVIDE_QUOTIENT_STR 	= "\\";
 	/*
 	 * Operator - syntax.
 	 */
@@ -251,6 +254,7 @@ public final class Operator {
 	public static final String MULTIPLY_SYN_UNI_2	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_2);
 	public static final String MULTIPLY_SYN_UNI_3	= SyntaxStringBuilder.binaryOperator(MULTIPLY_STR_UNI_3);
 	public static final String DIVIDE_SYN 			= SyntaxStringBuilder.binaryOperator(DIVIDE_STR);
+	public static final String DIVIDE_EUROPE_SYN 	= SyntaxStringBuilder.binaryOperator(DIVIDE_EUROPE_STR);
 	public static final String DIVIDE_SYN_UNI_1		= SyntaxStringBuilder.binaryOperator(DIVIDE_STR_UNI_1);
 	public static final String POWER_SYN 			= SyntaxStringBuilder.binaryOperatorNoSpace(POWER_STR);
 	public static final String FACT_SYN 			= SyntaxStringBuilder.unaryRightOperator(FACT_STR);
@@ -260,6 +264,7 @@ public final class Operator {
 	public static final String SQUARE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(SQUARE_ROOT_STR);
 	public static final String CUBE_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(CUBE_ROOT_STR);
 	public static final String FOURTH_ROOT_SYN		= SyntaxStringBuilder.unaryLeftOperator(FOURTH_ROOT_STR);
+	public static final String DIVIDE_QUOTIENT_SYN	= SyntaxStringBuilder.binaryOperator(DIVIDE_QUOTIENT_STR);
 	/*
 	 * Operator - tokens description.
 	 */
@@ -275,23 +280,26 @@ public final class Operator {
 	public static String SQUARE_ROOT_DESC = ParserSymbol.NA;
 	public static String CUBE_ROOT_DESC = ParserSymbol.NA;
 	public static String FOURTH_ROOT_DESC = ParserSymbol.NA;
+	public static String DIVIDE_QUOTIENT_DESC = ParserSymbol.NA;
 	/*
 	 * Operator - since.
 	 */
-	public static final String PLUS_SINCE 			= mXparser.NAMEv10;
-	public static final String MINUS_SINCE 			= mXparser.NAMEv10;
-	public static final String MULTIPLY_SINCE 		= mXparser.NAMEv10;
-	public static final String MULTIPLY_SINCE_UNI_1	= mXparser.NAMEv50;
-	public static final String MULTIPLY_SINCE_UNI_2	= mXparser.NAMEv50;
-	public static final String MULTIPLY_SINCE_UNI_3	= mXparser.NAMEv50;
-	public static final String DIVIDE_SINCE 		= mXparser.NAMEv10;
-	public static final String DIVIDE_SINCE_UNI_1	= mXparser.NAMEv50;
-	public static final String POWER_SINCE 			= mXparser.NAMEv10;
-	public static final String FACT_SINCE			= mXparser.NAMEv10;
-	public static final String MOD_SINCE			= mXparser.NAMEv10;
-	public static final String PERC_SINCE			= mXparser.NAMEv41;
-	public static final String TETRATION_SINCE		= mXparser.NAMEv42;
-	public static final String SQUARE_ROOT_SINCE	= mXparser.NAMEv50;
-	public static final String CUBE_ROOT_SINCE		= mXparser.NAMEv50;
-	public static final String FOURTH_ROOT_SINCE	= mXparser.NAMEv50;
+	public static final String PLUS_SINCE 				= mXparser.NAMEv10;
+	public static final String MINUS_SINCE 				= mXparser.NAMEv10;
+	public static final String MULTIPLY_SINCE 			= mXparser.NAMEv10;
+	public static final String MULTIPLY_SINCE_UNI_1		= mXparser.NAMEv50;
+	public static final String MULTIPLY_SINCE_UNI_2		= mXparser.NAMEv50;
+	public static final String MULTIPLY_SINCE_UNI_3		= mXparser.NAMEv50;
+	public static final String DIVIDE_SINCE 			= mXparser.NAMEv10;
+	public static final String DIVIDE_SINCE_EUROPE		= mXparser.NAMEv60;
+	public static final String DIVIDE_SINCE_UNI_1		= mXparser.NAMEv50;
+	public static final String POWER_SINCE 				= mXparser.NAMEv10;
+	public static final String FACT_SINCE				= mXparser.NAMEv10;
+	public static final String MOD_SINCE				= mXparser.NAMEv10;
+	public static final String PERC_SINCE				= mXparser.NAMEv41;
+	public static final String TETRATION_SINCE			= mXparser.NAMEv42;
+	public static final String SQUARE_ROOT_SINCE		= mXparser.NAMEv50;
+	public static final String CUBE_ROOT_SINCE			= mXparser.NAMEv50;
+	public static final String FOURTH_ROOT_SINCE		= mXparser.NAMEv50;
+	public static final String DIVIDE_QUOTIENT_SINCE	= mXparser.NAMEv60;
 }

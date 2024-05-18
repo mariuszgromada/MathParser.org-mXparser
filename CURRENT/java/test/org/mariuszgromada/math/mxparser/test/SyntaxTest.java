@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        5.2.0    2023-01-29
+ * @(#)SyntaxTest.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -201,7 +201,7 @@ import org.mariuszgromada.math.mxparser.*;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.0.0
  *
  */
 public final class SyntaxTest {
@@ -6110,6 +6110,516 @@ public final class SyntaxTest {
         StringResources stringResources = StringModel.getStringResources();
         String errorMessage = e.getErrorMessage();
         if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0388() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Division symbol, Central and Eastern Europe";
+        String expStr = "4:2";
+        TestCommonTools.consolePrintTestSynStart(388, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0389() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Division symbol, Central and Eastern Europe";
+        String expStr = "4.0:-2";
+        TestCommonTools.consolePrintTestSynStart(389, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0390() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Division symbol, Central and Eastern Europe";
+        String expStr = "pi:e";
+        TestCommonTools.consolePrintTestSynStart(390, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0391() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Division symbol, Central and Eastern Europe";
+        String expStr = "sin(pi:e)";
+        TestCommonTools.consolePrintTestSynStart(391, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0392() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Division symbol, Central and Eastern Europe";
+        String expStr = "sin(pi:)";
+        TestCommonTools.consolePrintTestSynStart(392, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0393() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Division symbol, Central and Eastern Europe";
+        String expStr = "sin(:e)";
+        TestCommonTools.consolePrintTestSynStart(392, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0394() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NAND";
+        String expStr = "4@~&2";
+        TestCommonTools.consolePrintTestSynStart(394, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0395() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NAND";
+        String expStr = "4.0@~&-2";
+        TestCommonTools.consolePrintTestSynStart(395, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0396() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NAND";
+        String expStr = "pi@~&e";
+        TestCommonTools.consolePrintTestSynStart(396, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0397() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NAND";
+        String expStr = "sin(pi@~&e)";
+        TestCommonTools.consolePrintTestSynStart(397, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0398() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NAND";
+        String expStr = "sin(pi@~&)";
+        TestCommonTools.consolePrintTestSynStart(398, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0399() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NAND";
+        String expStr = "sin(@~&e)";
+        TestCommonTools.consolePrintTestSynStart(399, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0400() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NOR";
+        String expStr = "4@~|2";
+        TestCommonTools.consolePrintTestSynStart(400, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0401() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NOR";
+        String expStr = "4.0@~|-2";
+        TestCommonTools.consolePrintTestSynStart(401, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0402() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NOR";
+        String expStr = "pi@~|e";
+        TestCommonTools.consolePrintTestSynStart(402, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0403() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NOR";
+        String expStr = "sin(pi@~|e)";
+        TestCommonTools.consolePrintTestSynStart(403, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn404() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NOR";
+        String expStr = "sin(pi@~|)";
+        TestCommonTools.consolePrintTestSynStart(404, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0405() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise NOR";
+        String expStr = "sin(@~|e)";
+        TestCommonTools.consolePrintTestSynStart(405, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0406() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise XNOR";
+        String expStr = "4@~^2";
+        TestCommonTools.consolePrintTestSynStart(406, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0407() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise XNOR";
+        String expStr = "4.0@~^-2";
+        TestCommonTools.consolePrintTestSynStart(407, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0408() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise XNOR";
+        String expStr = "pi@~^e";
+        TestCommonTools.consolePrintTestSynStart(408, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0409() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise XNOR";
+        String expStr = "sin(pi@~^e)";
+        TestCommonTools.consolePrintTestSynStart(409, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn410() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise XNOR";
+        String expStr = "sin(pi@~^)";
+        TestCommonTools.consolePrintTestSynStart(410, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0411() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Bitwise XNOR";
+        String expStr = "sin(@~^e)";
+        TestCommonTools.consolePrintTestSynStart(411, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0412() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Integer division";
+        String expStr = "4\\2";
+        TestCommonTools.consolePrintTestSynStart(412, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0413() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Integer division";
+        String expStr = "4.0\\-2";
+        TestCommonTools.consolePrintTestSynStart(413, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0414() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Integer division";
+        String expStr = "pi\\e";
+        TestCommonTools.consolePrintTestSynStart(414, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0415() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Integer division";
+        String expStr = "sin(pi\\e)";
+        TestCommonTools.consolePrintTestSynStart(415, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = true;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.NO_ERRORS_DETECTED))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn416() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Integer division";
+        String expStr = "sin(pi\\)";
+        TestCommonTools.consolePrintTestSynStart(416, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
+            testResult = true;
+        TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testSyn0417() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Integer division";
+        String expStr = "sin(\\e)";
+        TestCommonTools.consolePrintTestSynStart(417, testDescr + " " + expStr);
+        Expression e = new Expression(expStr);
+        boolean syn = e.checkSyntax();
+        boolean reg = false;
+        StringResources stringResources = StringModel.getStringResources();
+        String errorMessage = e.getErrorMessage();
+        if (syn == reg && errorMessage.contains(stringResources.LEXICAL_ERROR_HAS_BEEN_FOUND))
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);

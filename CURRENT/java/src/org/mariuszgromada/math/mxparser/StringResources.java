@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        6.0.0    2024-05-11
+ * @(#)StringResources.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -576,12 +576,15 @@ public class StringResources {
     static final String DEFAULT_BINARY_RELATION_LEQ = "Lower or equal";
     static final String DEFAULT_BINARY_RELATION_GEQ = "Greater or equal";
     // -------------------------------------------------
-    static final String DEFAULT_BITWISE_OPERATOR_COMPL = "Bitwise unary complement";
-    static final String DEFAULT_BITWISE_OPERATOR_AND = "Bitwise and";
-    static final String DEFAULT_BITWISE_OPERATOR_XOR = "Bitwise exclusive or";
-    static final String DEFAULT_BITWISE_OPERATOR_OR = "Bitwise inclusive or";
-    static final String DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT = "Signed left shift";
-    static final String DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT = "Signed right shift";
+    static final String DEFAULT_BITWISE_OPERATOR_COMPL = "Bitwise unary complement (NOT)";
+    static final String DEFAULT_BITWISE_OPERATOR_AND = "Bitwise and (AND)";
+    static final String DEFAULT_BITWISE_OPERATOR_XOR = "Bitwise exclusive or (XOR)";
+    static final String DEFAULT_BITWISE_OPERATOR_OR = "Bitwise inclusive or (OR)";
+    static final String DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT = "Bitwise signed left shift";
+    static final String DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT = "Bitwise signed right shift";
+    static final String DEFAULT_BITWISE_OPERATOR_NAND = "Bitwise not and (NAND)";
+    static final String DEFAULT_BITWISE_OPERATOR_NOR = "Bitwise not or (NOR)";
+    static final String DEFAULT_BITWISE_OPERATOR_XNOR = "Bitwise exclusive NOR (XNOR)";
     // -------------------------------------------------
     static final String DEFAULT_BOOLEAN_OPERATOR_AND = "Logical conjunction";
     static final String DEFAULT_BOOLEAN_OPERATOR_OR = "Logical disjunction";
@@ -827,6 +830,7 @@ public class StringResources {
     static final String DEFAULT_OPERATOR_MINUS = "Subtraction";
     static final String DEFAULT_OPERATOR_MULTIPLY = "Multiplication";
     static final String DEFAULT_OPERATOR_DIVIDE = "Division";
+    static final String DEFAULT_OPERATOR_DIVIDE_QUOTIENT = "Integer division (quotient)";
     static final String DEFAULT_OPERATOR_POWER = "Exponentiation";
     static final String DEFAULT_OPERATOR_FACT = "Factorial";
     static final String DEFAULT_OPERATOR_MOD = "Modulo";
@@ -1674,29 +1678,41 @@ public class StringResources {
     public String BINARY_RELATION_GEQ = DEFAULT_BINARY_RELATION_GEQ;
     // -------------------------------------------------
     /**
-     * Default String = "Bitwise unary complement"
+     * Default String = "Bitwise unary complement (NOT)"
      */
     public String BITWISE_OPERATOR_COMPL = DEFAULT_BITWISE_OPERATOR_COMPL;
     /**
-     * Default String = "Bitwise and"
+     * Default String = "Bitwise and (AND)"
      */
     public String BITWISE_OPERATOR_AND = DEFAULT_BITWISE_OPERATOR_AND;
     /**
-     * Default String = "Bitwise exclusive or"
+     * Default String = "Bitwise exclusive or (XOR)"
      */
     public String BITWISE_OPERATOR_XOR = DEFAULT_BITWISE_OPERATOR_XOR;
     /**
-     * Default String = "Bitwise inclusive or"
+     * Default String = "Bitwise inclusive or (OR)"
      */
     public String BITWISE_OPERATOR_OR = DEFAULT_BITWISE_OPERATOR_OR;
     /**
-     * Default String = "Signed left shift"
+     * Default String = "Bitwise signed left shift"
      */
     public String BITWISE_OPERATOR_LEFT_SHIFT = DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT;
     /**
-     * Default String = "Signed right shift"
+     * Default String = "Bitwise signed right shift"
      */
     public String BITWISE_OPERATOR_RIGHT_SHIFT = DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT;
+    /**
+     * Default String = "Bitwise not and (NAND)"
+     */
+    public String BITWISE_OPERATOR_NAND = DEFAULT_BITWISE_OPERATOR_NAND;
+    /**
+     * Default String = "Bitwise not or (NOR)"
+     */
+    public String BITWISE_OPERATOR_NOR = DEFAULT_BITWISE_OPERATOR_NOR;
+    /**
+     * Default String = "Bitwise exclusive NOR (XNOR)"
+     */
+    public String BITWISE_OPERATOR_XNOR = DEFAULT_BITWISE_OPERATOR_XNOR;
     // -------------------------------------------------
     /**
      * Default String = "Logical conjunction"
@@ -2654,6 +2670,10 @@ public class StringResources {
      */
     public String OPERATOR_DIVIDE = DEFAULT_OPERATOR_DIVIDE;
     /**
+     * Default String = "Integer division (quotient)"
+     */
+    public String OPERATOR_DIVIDE_QUOTIENT = DEFAULT_OPERATOR_DIVIDE_QUOTIENT;
+    /**
      * Default String = "Exponentiation"
      */
     public String OPERATOR_POWER = DEFAULT_OPERATOR_POWER;
@@ -3375,6 +3395,9 @@ public class StringResources {
         printCurrentVsDefault("BITWISE_OPERATOR_OR", stringResources.BITWISE_OPERATOR_OR, DEFAULT_BITWISE_OPERATOR_OR, printDefault);
         printCurrentVsDefault("BITWISE_OPERATOR_LEFT_SHIFT", stringResources.BITWISE_OPERATOR_LEFT_SHIFT, DEFAULT_BITWISE_OPERATOR_LEFT_SHIFT, printDefault);
         printCurrentVsDefault("BITWISE_OPERATOR_RIGHT_SHIFT", stringResources.BITWISE_OPERATOR_RIGHT_SHIFT, DEFAULT_BITWISE_OPERATOR_RIGHT_SHIFT, printDefault);
+        printCurrentVsDefault("BITWISE_OPERATOR_NAND", stringResources.BITWISE_OPERATOR_NAND, DEFAULT_BITWISE_OPERATOR_NAND, printDefault);
+        printCurrentVsDefault("BITWISE_OPERATOR_NOR", stringResources.BITWISE_OPERATOR_NOR, DEFAULT_BITWISE_OPERATOR_NOR, printDefault);
+        printCurrentVsDefault("BITWISE_OPERATOR_XNOR", stringResources.BITWISE_OPERATOR_XNOR, DEFAULT_BITWISE_OPERATOR_XNOR, printDefault);
         /* ------------------------------------------------- */ StringUtils.consolePrintln(LINE_BREAK);
         printCurrentVsDefault("BOOLEAN_OPERATOR_AND", stringResources.BOOLEAN_OPERATOR_AND, DEFAULT_BOOLEAN_OPERATOR_AND, printDefault);
         printCurrentVsDefault("BOOLEAN_OPERATOR_OR", stringResources.BOOLEAN_OPERATOR_OR, DEFAULT_BOOLEAN_OPERATOR_OR, printDefault);
@@ -3620,6 +3643,7 @@ public class StringResources {
         printCurrentVsDefault("OPERATOR_MINUS", stringResources.OPERATOR_MINUS, DEFAULT_OPERATOR_MINUS, printDefault);
         printCurrentVsDefault("OPERATOR_MULTIPLY", stringResources.OPERATOR_MULTIPLY, DEFAULT_OPERATOR_MULTIPLY, printDefault);
         printCurrentVsDefault("OPERATOR_DIVIDE", stringResources.OPERATOR_DIVIDE, DEFAULT_OPERATOR_DIVIDE, printDefault);
+        printCurrentVsDefault("OPERATOR_DIVIDE_QUOTIENT", stringResources.OPERATOR_DIVIDE_QUOTIENT, DEFAULT_OPERATOR_DIVIDE_QUOTIENT, printDefault);
         printCurrentVsDefault("OPERATOR_POWER", stringResources.OPERATOR_POWER, DEFAULT_OPERATOR_POWER, printDefault);
         printCurrentVsDefault("OPERATOR_FACT", stringResources.OPERATOR_FACT, DEFAULT_OPERATOR_FACT, printDefault);
         printCurrentVsDefault("OPERATOR_MOD", stringResources.OPERATOR_MOD, DEFAULT_OPERATOR_MOD, printDefault);

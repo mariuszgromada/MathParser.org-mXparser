@@ -1,5 +1,5 @@
 /*
- * @(#)StringResourcesItalian.java        6.0.0    2024-05-11
+ * @(#)StringResourcesItalian.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -424,12 +424,15 @@ class StringResourcesItalian extends StringResources {
         BINARY_RELATION_LEQ = "Minore o uguale a";
         BINARY_RELATION_GEQ = "Maggiore o uguale a";
         // -------------------------------------------------
-        BITWISE_OPERATOR_COMPL = "Complemento unario bit a bit";
-        BITWISE_OPERATOR_AND = "E bit a bit";
-        BITWISE_OPERATOR_XOR = "O esclusivo bit a bit";
-        BITWISE_OPERATOR_OR = "O inclusivo bit a bit";
-        BITWISE_OPERATOR_LEFT_SHIFT = "Scorrimento a sinistra firmato";
-        BITWISE_OPERATOR_RIGHT_SHIFT = "Scorrimento a destra firmato";
+        BITWISE_OPERATOR_COMPL = "Complemento unario bit a bit (NOT)";
+        BITWISE_OPERATOR_AND = "E bit a bit (AND)";
+        BITWISE_OPERATOR_XOR = "O esclusivo bit a bit (XOR)";
+        BITWISE_OPERATOR_OR = "O inclusivo bit a bit (OR)";
+        BITWISE_OPERATOR_LEFT_SHIFT = "Scorrimento a sinistra firmato bit a bit";
+        BITWISE_OPERATOR_RIGHT_SHIFT = "Scorrimento a destra firmato bit a bit";
+        BITWISE_OPERATOR_NAND = "NOT AND bit a bit (NAND)";
+        BITWISE_OPERATOR_NOR = "NOT OR bit a bit (NOR)";
+        BITWISE_OPERATOR_XNOR = "NOR esclusivo bit a bit (XNOR)";
         // -------------------------------------------------
         BOOLEAN_OPERATOR_AND = "Congiunzione logica";
         BOOLEAN_OPERATOR_OR = "Disgiunzione logica";
@@ -675,6 +678,7 @@ class StringResourcesItalian extends StringResources {
         OPERATOR_MINUS = "Sottrazione";
         OPERATOR_MULTIPLY = "Moltiplicazione";
         OPERATOR_DIVIDE = "Divisione";
+        OPERATOR_DIVIDE_QUOTIENT = "Divisione intera (quoziente)";
         OPERATOR_POWER = "Esponenziazione";
         OPERATOR_FACT = "Fattoriale";
         OPERATOR_MOD = "Modulo";

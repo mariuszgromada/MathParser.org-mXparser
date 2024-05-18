@@ -307,6 +307,8 @@ final class ExpressionUtils {
         addKeyWordUnicode(Operator.MULTIPLY_STR_UNI_2, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN_UNI_2, Operator.MULTIPLY_SINCE_UNI_2, Operator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         addKeyWordUnicode(Operator.MULTIPLY_STR_UNI_3, Operator.MULTIPLY_DESC, Operator.MULTIPLY_ID, Operator.MULTIPLY_SYN_UNI_3, Operator.MULTIPLY_SINCE_UNI_3, Operator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         addKeyWord(Operator.DIVIDE_STR, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_SYN, Operator.DIVIDE_SINCE, Operator.TYPE_ID, keyWordsList);
+        addKeyWord(Operator.DIVIDE_EUROPE_STR, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_EUROPE_SYN, Operator.DIVIDE_SINCE_EUROPE, Operator.TYPE_ID, keyWordsList);
+        addKeyWord(Operator.DIVIDE_QUOTIENT_STR, Operator.DIVIDE_QUOTIENT_DESC, Operator.DIVIDE_QUOTIENT_ID, Operator.DIVIDE_QUOTIENT_SYN, Operator.DIVIDE_QUOTIENT_SINCE, Operator.TYPE_ID, keyWordsList);
         addKeyWordUnicode(Operator.DIVIDE_STR_UNI_1, Operator.DIVIDE_DESC, Operator.DIVIDE_ID, Operator.DIVIDE_SYN_UNI_1, Operator.DIVIDE_SINCE_UNI_1, Operator.TYPE_ID, unicodeKeyWordsEnabled, keyWordsList);
         addKeyWord(Operator.POWER_STR, Operator.POWER_DESC, Operator.POWER_ID, Operator.POWER_SYN, Operator.POWER_SINCE, Operator.TYPE_ID, keyWordsList);
         addKeyWord(Operator.FACT_STR, Operator.FACT_DESC, Operator.FACT_ID, Operator.FACT_SYN, Operator.FACT_SINCE, Operator.TYPE_ID, keyWordsList);
@@ -746,6 +748,9 @@ final class ExpressionUtils {
             addKeyWord(BitwiseOperator.OR_STR, BitwiseOperator.OR_DESC, BitwiseOperator.OR_ID, BitwiseOperator.OR_SYN, BitwiseOperator.OR_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             addKeyWord(BitwiseOperator.LEFT_SHIFT_STR, BitwiseOperator.LEFT_SHIFT_DESC, BitwiseOperator.LEFT_SHIFT_ID, BitwiseOperator.LEFT_SHIFT_SYN, BitwiseOperator.LEFT_SHIFT_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             addKeyWord(BitwiseOperator.RIGHT_SHIFT_STR, BitwiseOperator.RIGHT_SHIFT_DESC, BitwiseOperator.RIGHT_SHIFT_ID, BitwiseOperator.RIGHT_SHIFT_SYN, BitwiseOperator.RIGHT_SHIFT_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
+            addKeyWord(BitwiseOperator.NAND_STR, BitwiseOperator.NAND_DESC, BitwiseOperator.NAND_ID, BitwiseOperator.NAND_SYN, BitwiseOperator.NAND_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
+            addKeyWord(BitwiseOperator.NOR_STR, BitwiseOperator.NOR_DESC, BitwiseOperator.NOR_ID, BitwiseOperator.NOR_SYN, BitwiseOperator.NOR_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
+            addKeyWord(BitwiseOperator.XNOR_STR, BitwiseOperator.XNOR_DESC, BitwiseOperator.XNOR_ID, BitwiseOperator.XNOR_SYN, BitwiseOperator.XNOR_SINCE, BitwiseOperator.TYPE_ID, keyWordsList);
             /*
         	 * Units
         	 */
@@ -1660,6 +1665,21 @@ final class ExpressionUtils {
         if (baseInd.equals("b35")) return 35;
         if (baseInd.equals("b36")) return 36;
         return 0;
+    }
+    static int findNonNegativeMinimum(int a, int b) {
+        int posMin = Integer.MAX_VALUE;
+        if (a >= 0 && a < posMin) posMin = a;
+        if (b >= 0 && b < posMin) posMin = b;
+        if (posMin < Integer.MAX_VALUE) return posMin;
+        return Integer.MIN_VALUE;
+    }
+    static int findNonNegativeMinimum(int a, int b, int c) {
+        int posMin = Integer.MAX_VALUE;
+        if (a >= 0 && a < posMin) posMin = a;
+        if (b >= 0 && b < posMin) posMin = b;
+        if (c >= 0 && c < posMin) posMin = c;
+        if (posMin < Integer.MAX_VALUE) return posMin;
+        return Integer.MIN_VALUE;
     }
     static List<Argument> cloneForThreadSafeArgumenstList(Expression relatedExpressionThatInitiatedClone, List<Argument> argumentsListToClone, CloneCache cloneCache) {
         List<Argument> argumentListClone = new ArrayList<Argument>();

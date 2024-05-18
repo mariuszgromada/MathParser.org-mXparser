@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.cs        5.2.0    2023-01-29
+ * @(#)StringUtils.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -204,7 +204,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        5.2.0
+     * @version        6.0.0
      */
     public sealed class StringUtils {
 		/**
@@ -379,6 +379,7 @@ namespace org.mariuszgromada.math.mxparser {
                 case '@':
                 case ']':
                 case '[':
+                case ':':
                     return false;
             }
             return !isUnicodeOperator(c);
@@ -424,6 +425,7 @@ namespace org.mariuszgromada.math.mxparser {
                 case '!':
                 case '[':
                 case ']':
+                case ':':
                     return true;
             }
             return isUnicodeOperator(c);

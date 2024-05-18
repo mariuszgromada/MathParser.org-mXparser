@@ -10595,7 +10595,198 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
         StringModel.setDefaultStringResources();
     }
+    @Test
+    public void testApi0358() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Bitwise NAND translations";
+        TestCommonTools.consolePrintTestApiStart(358, testDescr);
+        String en = StringResources.languageEnglish().BITWISE_OPERATOR_NAND;
+        String fr = StringResources.languageFrench().BITWISE_OPERATOR_NAND;
+        String de = StringResources.languageGerman().BITWISE_OPERATOR_NAND;
+        String it = StringResources.languageItalian().BITWISE_OPERATOR_NAND;
+        String pl = StringResources.languagePolish().BITWISE_OPERATOR_NAND;
+        String pt = StringResources.languagePortuguese().BITWISE_OPERATOR_NAND;
+        String es = StringResources.languageSpanish().BITWISE_OPERATOR_NAND;
+        if (en.equals(fr)) testResult = false;
+        if (en.equals(de)) testResult = false;
+        if (en.equals(it)) testResult = false;
+        if (en.equals(pl)) testResult = false;
+        if (en.equals(pt)) testResult = false;
+        if (en.equals(es)) testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0359() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Bitwise NOR translations";
+        TestCommonTools.consolePrintTestApiStart(359, testDescr);
+        String en = StringResources.languageEnglish().BITWISE_OPERATOR_NOR;
+        String fr = StringResources.languageFrench().BITWISE_OPERATOR_NOR;
+        String de = StringResources.languageGerman().BITWISE_OPERATOR_NOR;
+        String it = StringResources.languageItalian().BITWISE_OPERATOR_NOR;
+        String pl = StringResources.languagePolish().BITWISE_OPERATOR_NOR;
+        String pt = StringResources.languagePortuguese().BITWISE_OPERATOR_NOR;
+        String es = StringResources.languageSpanish().BITWISE_OPERATOR_NOR;
+        if (en.equals(fr)) testResult = false;
+        if (en.equals(de)) testResult = false;
+        if (en.equals(it)) testResult = false;
+        if (en.equals(pl)) testResult = false;
+        if (en.equals(pt)) testResult = false;
+        if (en.equals(es)) testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0360() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Bitwise XNOR translations";
+        TestCommonTools.consolePrintTestApiStart(360, testDescr);
+        String en = StringResources.languageEnglish().BITWISE_OPERATOR_XNOR;
+        String fr = StringResources.languageFrench().BITWISE_OPERATOR_XNOR;
+        String de = StringResources.languageGerman().BITWISE_OPERATOR_XNOR;
+        String it = StringResources.languageItalian().BITWISE_OPERATOR_XNOR;
+        String pl = StringResources.languagePolish().BITWISE_OPERATOR_XNOR;
+        String pt = StringResources.languagePortuguese().BITWISE_OPERATOR_XNOR;
+        String es = StringResources.languageSpanish().BITWISE_OPERATOR_XNOR;
+        if (en.equals(fr)) testResult = false;
+        if (en.equals(de)) testResult = false;
+        if (en.equals(it)) testResult = false;
+        if (en.equals(pl)) testResult = false;
+        if (en.equals(pt)) testResult = false;
+        if (en.equals(es)) testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0361() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "Integer division translations";
+        TestCommonTools.consolePrintTestApiStart(361, testDescr);
+        String en = StringResources.languageEnglish().OPERATOR_DIVIDE_QUOTIENT;
+        String fr = StringResources.languageFrench().OPERATOR_DIVIDE_QUOTIENT;
+        String de = StringResources.languageGerman().OPERATOR_DIVIDE_QUOTIENT;
+        String it = StringResources.languageItalian().OPERATOR_DIVIDE_QUOTIENT;
+        String pl = StringResources.languagePolish().OPERATOR_DIVIDE_QUOTIENT;
+        String pt = StringResources.languagePortuguese().OPERATOR_DIVIDE_QUOTIENT;
+        String es = StringResources.languageSpanish().OPERATOR_DIVIDE_QUOTIENT;
+        if (en.equals(fr)) testResult = false;
+        if (en.equals(de)) testResult = false;
+        if (en.equals(it)) testResult = false;
+        if (en.equals(pl)) testResult = false;
+        if (en.equals(pt)) testResult = false;
+        if (en.equals(es)) testResult = false;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0362() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "String Resources & Help test: Bitwise NAND";
+        TestCommonTools.consolePrintTestApiStart(362, testDescr);
+        String helpStr = mXparser.getHelpAsCsv("@~&");
 
+        if (!helpStr.contains(BitwiseOperator.NAND_STR)) testResult = false;
+        if (!helpStr.contains(BitwiseOperator.NAND_SINCE)) testResult = false;
+        if (!helpStr.contains(BitwiseOperator.NAND_SYN)) testResult = false;
+
+        StringResources sr = StringModel.getStringResources();
+        if (!helpStr.contains(sr.BITWISE_OPERATOR)) testResult = false;
+        if (!helpStr.contains(sr.BITWISE_OPERATOR_NAND)) testResult = false;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0363() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "String Resources & Help test: Bitwise NOR";
+        TestCommonTools.consolePrintTestApiStart(363, testDescr);
+        String helpStr = mXparser.getHelpAsCsv("@~|");
+
+        if (!helpStr.contains(BitwiseOperator.NOR_STR)) testResult = false;
+        if (!helpStr.contains(BitwiseOperator.NOR_SINCE)) testResult = false;
+        if (!helpStr.contains(BitwiseOperator.NOR_SYN)) testResult = false;
+
+        StringResources sr = StringModel.getStringResources();
+        if (!helpStr.contains(sr.BITWISE_OPERATOR)) testResult = false;
+        if (!helpStr.contains(sr.BITWISE_OPERATOR_NOR)) testResult = false;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0364() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "String Resources & Help test: Bitwise XNOR";
+        TestCommonTools.consolePrintTestApiStart(364, testDescr);
+        String helpStr = mXparser.getHelpAsCsv("@~^");
+
+        if (!helpStr.contains(BitwiseOperator.XNOR_STR)) testResult = false;
+        if (!helpStr.contains(BitwiseOperator.XNOR_SINCE)) testResult = false;
+        if (!helpStr.contains(BitwiseOperator.XNOR_SYN)) testResult = false;
+
+        StringResources sr = StringModel.getStringResources();
+        if (!helpStr.contains(sr.BITWISE_OPERATOR)) testResult = false;
+        if (!helpStr.contains(sr.BITWISE_OPERATOR_XNOR)) testResult = false;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0365() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "String Resources & Help test: Integer division";
+        TestCommonTools.consolePrintTestApiStart(365, testDescr);
+        String helpStr = mXparser.getHelpAsCsv("\\");
+
+        if (!helpStr.contains(Operator.DIVIDE_QUOTIENT_STR)) testResult = false;
+        if (!helpStr.contains(Operator.DIVIDE_QUOTIENT_SINCE)) testResult = false;
+        if (!helpStr.contains(Operator.DIVIDE_QUOTIENT_SYN)) testResult = false;
+
+        StringResources sr = StringModel.getStringResources();
+        if (!helpStr.contains(sr.OPERATOR)) testResult = false;
+        if (!helpStr.contains(sr.OPERATOR_DIVIDE_QUOTIENT)) testResult = false;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0366() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = true;
+        String testDescr = "String Resources & Help test: division central & east europe";
+        TestCommonTools.consolePrintTestApiStart(366, testDescr);
+        String helpStr = mXparser.getHelpAsCsv(":");
+
+        if (!helpStr.contains(Operator.DIVIDE_EUROPE_STR)) testResult = false;
+        if (!helpStr.contains(Operator.DIVIDE_SINCE_EUROPE)) testResult = false;
+        if (!helpStr.contains(Operator.DIVIDE_EUROPE_SYN)) testResult = false;
+
+        StringResources sr = StringModel.getStringResources();
+        if (!helpStr.contains(sr.OPERATOR)) testResult = false;
+        if (!helpStr.contains(sr.OPERATOR_DIVIDE)) testResult = false;
+
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+        StringModel.setDefaultStringResources();
+    }
     public static String cleanMarkdownBackslash(String str) {
         return str.replace("\\\\", "").replace("\\|", "");
     }

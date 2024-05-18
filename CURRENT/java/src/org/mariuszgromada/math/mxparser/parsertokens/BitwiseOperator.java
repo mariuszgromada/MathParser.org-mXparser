@@ -1,5 +1,5 @@
 /*
- * @(#)BitwiseOperator.java        5.2.0    2023-01-29
+ * @(#)BitwiseOperator.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -199,7 +199,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.0.0
  */
 public final class BitwiseOperator {
 	/*
@@ -216,6 +216,9 @@ public final class BitwiseOperator {
 	public static final int OR_ID					= 4;
 	public static final int LEFT_SHIFT_ID			= 5;
 	public static final int RIGHT_SHIFT_ID			= 6;
+	public static final int NAND_ID					= 7;
+	public static final int NOR_ID					= 8;
+	public static final int XNOR_ID					= 9;
 	/*
 	 * BitwiseOperator - tokens key words.
 	 */
@@ -225,6 +228,9 @@ public final class BitwiseOperator {
 	public static final String OR_STR				= "@|";
 	public static final String LEFT_SHIFT_STR		= "@<<";
 	public static final String RIGHT_SHIFT_STR		= "@>>";
+	public static final String NAND_STR				= "@~&";
+	public static final String NOR_STR				= "@~|";
+	public static final String XNOR_STR				= "@~^";
 	/*
 	 * BitwiseOperator - syntax.
 	 */
@@ -234,6 +240,9 @@ public final class BitwiseOperator {
 	public static final String OR_SYN				= SyntaxStringBuilder.binaryBitwiseOperator(OR_STR);
 	public static final String LEFT_SHIFT_SYN		= SyntaxStringBuilder.binaryBitwiseOperator(LEFT_SHIFT_STR);
 	public static final String RIGHT_SHIFT_SYN		= SyntaxStringBuilder.binaryBitwiseOperator(RIGHT_SHIFT_STR);
+	public static final String NAND_SYN				= SyntaxStringBuilder.binaryBitwiseOperator(NAND_STR);
+	public static final String NOR_SYN				= SyntaxStringBuilder.binaryBitwiseOperator(NOR_STR);
+	public static final String XNOR_SYN				= SyntaxStringBuilder.binaryBitwiseOperator(XNOR_STR);
 	/*
 	 * BitwiseOperator - tokens description.
 	 */
@@ -243,6 +252,9 @@ public final class BitwiseOperator {
 	public static String OR_DESC = ParserSymbol.NA;
 	public static String LEFT_SHIFT_DESC = ParserSymbol.NA;
 	public static String RIGHT_SHIFT_DESC = ParserSymbol.NA;
+	public static String NAND_DESC = ParserSymbol.NA;
+	public static String NOR_DESC = ParserSymbol.NA;
+	public static String XNOR_DESC = ParserSymbol.NA;
 	/*
 	 * BitwiseOperator - tokens since.
 	 */
@@ -252,4 +264,7 @@ public final class BitwiseOperator {
 	public static final String OR_SINCE				= mXparser.NAMEv40;
 	public static final String LEFT_SHIFT_SINCE		= mXparser.NAMEv40;
 	public static final String RIGHT_SHIFT_SINCE	= mXparser.NAMEv40;
+	public static final String NAND_SINCE			= mXparser.NAMEv60;
+	public static final String NOR_SINCE			= mXparser.NAMEv60;
+	public static final String XNOR_SINCE			= mXparser.NAMEv60;
 }

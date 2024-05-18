@@ -1,5 +1,5 @@
 /*
- * @(#)StringResourcesGerman.cs        6.0.0    2024-05-11
+ * @(#)StringResourcesGerman.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -428,12 +428,15 @@ namespace org.mariuszgromada.math.mxparser {
             BINARY_RELATION_LEQ = "Kleiner oder gleich";
             BINARY_RELATION_GEQ = "Größer oder gleich";
             // -------------------------------------------------
-            BITWISE_OPERATOR_COMPL = "Bitweise einstellige Komplementbildung";
-            BITWISE_OPERATOR_AND = "Bitweises Und";
-            BITWISE_OPERATOR_XOR = "Bitweises exklusives Oder";
-            BITWISE_OPERATOR_OR = "Bitweises inklusives Oder";
-            BITWISE_OPERATOR_LEFT_SHIFT = "Signierter Linksverschiebung";
-            BITWISE_OPERATOR_RIGHT_SHIFT = "Signierter Rechtsverschiebung";
+            BITWISE_OPERATOR_COMPL = "Bitweise einstellige Komplementbildung (NOT)";
+            BITWISE_OPERATOR_AND = "Bitweises Und (AND)";
+            BITWISE_OPERATOR_XOR = "Bitweises exklusives Oder (XOR)";
+            BITWISE_OPERATOR_OR = "Bitweises inklusives Oder (OR)";
+            BITWISE_OPERATOR_LEFT_SHIFT = "Bitweise Signierter Linksverschiebung";
+            BITWISE_OPERATOR_RIGHT_SHIFT = "Bitweise Signierter Rechtsverschiebung";
+            BITWISE_OPERATOR_NAND = "Bitweises Nicht-Und (NAND)";
+            BITWISE_OPERATOR_NOR = "Bitweises Nicht-Oder (NOR)";
+            BITWISE_OPERATOR_XNOR = "Bitweises exklusives Nicht-Oder (XNOR)";
             // -------------------------------------------------
             BOOLEAN_OPERATOR_AND = "Logische Konjunktion";
             BOOLEAN_OPERATOR_OR = "Logische Disjunktion";
@@ -679,6 +682,7 @@ namespace org.mariuszgromada.math.mxparser {
             OPERATOR_MINUS = "Subtraktion";
             OPERATOR_MULTIPLY = "Multiplikation";
             OPERATOR_DIVIDE = "Division";
+            OPERATOR_DIVIDE_QUOTIENT = "Ganzzahldivision (Quotient)";
             OPERATOR_POWER = "Exponentiation";
             OPERATOR_FACT = "Fakultät";
             OPERATOR_MOD = "Modulo";

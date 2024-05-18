@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        5.2.1    2023-02-05
+ * @(#)Miscellaneous.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -469,6 +469,7 @@ namespace org.mariuszgromada.math.mxparser {
 			,BITWISE_COMPL
 			,MULTIPLY
 			,DIVIDE
+			,DIVIDE_QUOTIENT
 			,MINUS
 			,PLUS
 			,NEQ

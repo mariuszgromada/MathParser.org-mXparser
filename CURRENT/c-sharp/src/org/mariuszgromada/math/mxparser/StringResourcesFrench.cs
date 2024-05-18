@@ -1,5 +1,5 @@
 /*
- * @(#)StringResourcesFrench.cs        6.0.0    2024-05-11
+ * @(#)StringResourcesFrench.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -425,12 +425,15 @@ namespace org.mariuszgromada.math.mxparser {
             BINARY_RELATION_LEQ = "Inférieur ou égal à";
             BINARY_RELATION_GEQ = "Supérieur ou égal à";
             // -------------------------------------------------
-            BITWISE_OPERATOR_COMPL = "Complément unaire bit à bit";
-            BITWISE_OPERATOR_AND = "Et bit à bit";
-            BITWISE_OPERATOR_XOR = "Ou exclusif bit à bit";
-            BITWISE_OPERATOR_OR = "Ou inclusif bit à bit";
-            BITWISE_OPERATOR_LEFT_SHIFT = "Décalage à gauche signé";
-            BITWISE_OPERATOR_RIGHT_SHIFT = "Décalage à droite signé";
+            BITWISE_OPERATOR_COMPL = "Complément unaire bit à bit (NOT)";
+            BITWISE_OPERATOR_AND = "Et bit à bit (AND)";
+            BITWISE_OPERATOR_XOR = "Ou exclusif bit à bit (XOR)";
+            BITWISE_OPERATOR_OR = "Ou inclusif bit à bit (OR)";
+            BITWISE_OPERATOR_LEFT_SHIFT = "Décalage à gauche signé bit à bit";
+            BITWISE_OPERATOR_RIGHT_SHIFT = "Décalage à droite signé bit à bit";
+            BITWISE_OPERATOR_NAND = "Non et bit à bit (NAND)";
+            BITWISE_OPERATOR_NOR = "Non ou bit à bit (NOR)";
+            BITWISE_OPERATOR_XNOR = "Non exclusif ou bit à bit (XNOR)";
             // -------------------------------------------------
             BOOLEAN_OPERATOR_AND = "Conjonction logique";
             BOOLEAN_OPERATOR_OR = "Disjonction logique";
@@ -676,6 +679,7 @@ namespace org.mariuszgromada.math.mxparser {
             OPERATOR_MINUS = "Soustraction";
             OPERATOR_MULTIPLY = "Multiplication";
             OPERATOR_DIVIDE = "Division";
+            OPERATOR_DIVIDE_QUOTIENT = "Division entière (quotient)";
             OPERATOR_POWER = "Exponentiation";
             OPERATOR_FACT = "Factorielle";
             OPERATOR_MOD = "Modulo";

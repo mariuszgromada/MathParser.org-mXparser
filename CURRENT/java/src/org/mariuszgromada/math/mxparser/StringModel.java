@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.java        6.0.0    2024-05-11
+ * @(#)StringModel.java        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -285,6 +285,9 @@ public final class StringModel {
         BitwiseOperator.OR_DESC = STRING_RESOURCES.BITWISE_OPERATOR_OR + StringInvariant.SPACE + StringInvariant.OR_SYMBOL + StringInvariant.SEPARATOR + STRING_RESOURCES.BITWISE_OPERATOR;
         BitwiseOperator.LEFT_SHIFT_DESC = STRING_RESOURCES.BITWISE_OPERATOR_LEFT_SHIFT + StringInvariant.SEPARATOR + STRING_RESOURCES.BITWISE_OPERATOR;
         BitwiseOperator.RIGHT_SHIFT_DESC = STRING_RESOURCES.BITWISE_OPERATOR_RIGHT_SHIFT + StringInvariant.SEPARATOR + STRING_RESOURCES.BITWISE_OPERATOR;
+        BitwiseOperator.NAND_DESC = STRING_RESOURCES.BITWISE_OPERATOR_NAND + StringInvariant.SEPARATOR + STRING_RESOURCES.BITWISE_OPERATOR;
+        BitwiseOperator.NOR_DESC = STRING_RESOURCES.BITWISE_OPERATOR_NOR + StringInvariant.SEPARATOR + STRING_RESOURCES.BITWISE_OPERATOR;
+        BitwiseOperator.XNOR_DESC = STRING_RESOURCES.BITWISE_OPERATOR_XNOR + StringInvariant.SEPARATOR + STRING_RESOURCES.BITWISE_OPERATOR;
     }
     static void setLanguageSpecificDescriptionsBooleanOperator() {
         BooleanOperator.TYPE_DESC = STRING_RESOURCES.BOOLEAN_OPERATOR;
@@ -567,6 +570,7 @@ public final class StringModel {
         Operator.MINUS_DESC = STRING_RESOURCES.OPERATOR_MINUS + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
         Operator.MULTIPLY_DESC = STRING_RESOURCES.OPERATOR_MULTIPLY + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
         Operator.DIVIDE_DESC = STRING_RESOURCES.OPERATOR_DIVIDE + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
+        Operator.DIVIDE_QUOTIENT_DESC = STRING_RESOURCES.OPERATOR_DIVIDE_QUOTIENT + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
         Operator.POWER_DESC = STRING_RESOURCES.OPERATOR_POWER + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
         Operator.FACT_DESC = STRING_RESOURCES.OPERATOR_FACT + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
         Operator.MOD_DESC = STRING_RESOURCES.OPERATOR_MOD + StringInvariant.SEPARATOR + STRING_RESOURCES.OPERATOR;
@@ -831,6 +835,9 @@ public final class StringModel {
         StringUtils.consolePrintln("BitwiseOperator.OR_DESC = \"" + BitwiseOperator.OR_DESC + "\";");
         StringUtils.consolePrintln("BitwiseOperator.LEFT_SHIFT_DESC = \"" + BitwiseOperator.LEFT_SHIFT_DESC + "\";");
         StringUtils.consolePrintln("BitwiseOperator.RIGHT_SHIFT_DESC = \"" + BitwiseOperator.RIGHT_SHIFT_DESC + "\";");
+        StringUtils.consolePrintln("BitwiseOperator.NAND_DESC = \"" + BitwiseOperator.NAND_DESC + "\";");
+        StringUtils.consolePrintln("BitwiseOperator.NOR_DESC = \"" + BitwiseOperator.NOR_DESC + "\";");
+        StringUtils.consolePrintln("BitwiseOperator.XNOR_DESC = \"" + BitwiseOperator.XNOR_DESC + "\";");
         StringUtils.consolePrintln("// -------------------------------------------------");
         StringUtils.consolePrintln("BooleanOperator.TYPE_DESC = \"" + BooleanOperator.TYPE_DESC + "\";");
         StringUtils.consolePrintln("BooleanOperator.AND_DESC = \"" + BooleanOperator.AND_DESC + "\";");
@@ -1103,6 +1110,7 @@ public final class StringModel {
         StringUtils.consolePrintln("Operator.MINUS_DESC = \"" + Operator.MINUS_DESC + "\";");
         StringUtils.consolePrintln("Operator.MULTIPLY_DESC = \"" + Operator.MULTIPLY_DESC + "\";");
         StringUtils.consolePrintln("Operator.DIVIDE_DESC = \"" + Operator.DIVIDE_DESC + "\";");
+        StringUtils.consolePrintln("Operator.DIVIDE_QUOTIENT_DESC = \"" + Operator.DIVIDE_QUOTIENT_DESC + "\";");
         StringUtils.consolePrintln("Operator.POWER_DESC = \"" + Operator.POWER_DESC + "\";");
         StringUtils.consolePrintln("Operator.FACT_DESC = \"" + Operator.FACT_DESC + "\";");
         StringUtils.consolePrintln("Operator.MOD_DESC = \"" + Operator.MOD_DESC + "\";");

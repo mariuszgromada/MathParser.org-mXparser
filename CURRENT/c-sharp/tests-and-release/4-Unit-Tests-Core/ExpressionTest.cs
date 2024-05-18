@@ -23064,6 +23064,7 @@ namespace org.mariuszgromada.math.mxparser.test {
         public void testExpr1403() {
 			TestCommonTools.testExprSettingsInit();
 			mXparser.enableCanonicalRounding();
+			mXparser.disableUlpRounding();
 			bool testResult = false;
 			String expStr = "0.0000004566969933 / 36370.51937825058";
 			TestCommonTools.consolePrintTestExprStart(1403, expStr);
@@ -23074,6 +23075,230 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
             Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1404() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4:2";
+			TestCommonTools.consolePrintTestExprStart(1404, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1405() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4:-2";
+			TestCommonTools.consolePrintTestExprStart(1405, expStr);
+			Expression testExp = new Expression(expStr);
+			testExp.calculate();
+			testExp.calculate();
+			double value = testExp.calculate();
+			double reg = -2;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1406() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "4:-2/2*3";
+			TestCommonTools.consolePrintTestExprStart(1406, expStr);
+			Expression testExp = new Expression(expStr);
+			testExp.calculate();
+			testExp.calculate();
+			double value = testExp.calculate();
+			double reg = -3;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1407() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "7\\3";
+			TestCommonTools.consolePrintTestExprStart(1407, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1408() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "7\\-3";
+			TestCommonTools.consolePrintTestExprStart(1408, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -3;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1409() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "-7\\3";
+			TestCommonTools.consolePrintTestExprStart(1409, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = -3;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1410() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "-7\\-3";
+			TestCommonTools.consolePrintTestExprStart(1410, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1411() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "2*pi\\pi";
+            mXparser.enableCanonicalRounding();
+            mXparser.disableUlpRounding();
+            TestCommonTools.consolePrintTestExprStart(1411, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1412() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "3pi\\pi";
+            mXparser.enableCanonicalRounding();
+            mXparser.disableUlpRounding();
+            TestCommonTools.consolePrintTestExprStart(1412, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = 3;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1413() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(4pi)\\(2pi)";
+			TestCommonTools.consolePrintTestExprStart(1413, expStr);
+			Expression testExp = new Expression(expStr);
+			mXparser.enableCanonicalRounding();
+			mXparser.disableUlpRounding();
+			double value = testExp.calculate();
+			double reg = 2;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1414() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "7\\3*2:4";
+			TestCommonTools.consolePrintTestExprStart(1414, expStr);
+			Expression testExp = new Expression(expStr);
+			testExp.calculate();
+			testExp.calculate();
+			double value = testExp.calculate();
+			double reg = 1;
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1415() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "b.1101@~&b.1001";
+			TestCommonTools.consolePrintTestExprStart(1415, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = ~(0b1101 & 0b1001);
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1416() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "b.1101@~|b.1001";
+			TestCommonTools.consolePrintTestExprStart(1416, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = ~(0b1101 | 0b1001);
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1417() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "b.1101@~^b.1001";
+			TestCommonTools.consolePrintTestExprStart(1417, expStr);
+			Expression testExp = new Expression(expStr);
+			double value = testExp.calculate();
+			double reg = ~(0b1101 ^ 0b1001);
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1418() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			String expStr = "(b.1101@~^b.1001)+(b.1101@~&b.1001)+(b.1101@~|b.1001)";
+			TestCommonTools.consolePrintTestExprStart(1418, expStr);
+			Expression testExp = new Expression(expStr);
+			testExp.calculate();
+			testExp.calculate();
+			double value = testExp.calculate();
+			double reg = (~(0b1101 ^ 0b1001)) + (~(0b1101 & 0b1001)) + (~(0b1101 | 0b1001));
+			if (MathFunctions.abs(reg - value) == 0)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        5.2.1    2023-02-05
+ * @(#)Expression.cs        6.0.0    2024-05-18
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2023-01-29
  * The most up-to-date license is available at the below link:
@@ -195,7 +195,7 @@ using org.mariuszgromada.math.mxparser.parsertokens;
 
 namespace org.mariuszgromada.math.mxparser {
 	/**
-	 * Expression - base class for real expressions definition.
+	 * Expression - base class for real expression definition.
 	 *
 	 * Examples:
 	 * <ul>
@@ -219,7 +219,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.1
+	 * @version        6.0.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -2227,6 +2227,17 @@ namespace org.mariuszgromada.math.mxparser {
 			else opSetDecreaseRemove(pos, MathFunctions.div(a, b), true);
 		}
 		/**
+		 * Integer division handling.
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void DIVIDE_QUOTIENT(int pos) {
+			if (!isFullyCompiled) registerCompiledElement(CompiledElement.ToCall.DIVIDE_QUOTIENT, pos);
+			double a = getTokenValue(pos-1);
+			double b = getTokenValue(pos+1);
+			opSetDecreaseRemove(pos, MathFunctions.divQuotient(a, b), true);
+		}
+		/**
 		 * Multiplication handling.
 		 *
 		 * @param      pos                 the token position
@@ -2539,6 +2550,36 @@ namespace org.mariuszgromada.math.mxparser {
 			long a = (long)getTokenValue(pos - 1);
 			long b = (long)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a ^ b);
+		}
+		/**
+		 * Bitwise NAND
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void BITWISE_NAND(int pos) {
+			long a = (long)getTokenValue(pos-1);
+			long b = (long)getTokenValue(pos+1);
+			opSetDecreaseRemove(pos, ~(a & b));
+		}
+		/**
+		 * Bitwise NOR
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void BITWISE_NOR(int pos) {
+			long a = (long)getTokenValue(pos-1);
+			long b = (long)getTokenValue(pos+1);
+			opSetDecreaseRemove(pos, ~(a | b));
+		}
+		/**
+		 * Bitwise NOR
+		 *
+		 * @param      pos                 the token position
+		 */
+		private void BITWISE_XNOR(int pos) {
+			long a = (long)getTokenValue(pos-1);
+			long b = (long)getTokenValue(pos+1);
+			opSetDecreaseRemove(pos, ~(a ^ b));
 		}
 		/**
 		 * Bitwise LEFT SHIFT
@@ -5188,7 +5229,7 @@ namespace org.mariuszgromada.math.mxparser {
 			int calculusPos, ifPos, iffPos, variadicFunPos;
 			int depArgPos, recArgPos, f3ArgPos, f2ArgPos;
 			int f1ArgPos, userFunPos, plusPos, minusPos;
-			int multiplyPos, dividePos, powerPos, tetrationPos;
+			int multiplyPos, dividePos, divideQuotientPos, powerPos, tetrationPos;
 			int powerNum, factPos, modPos, percPos;
 			int negPos, rootOperGroupPos, andGroupPos, orGroupPos;
 			int implGroupPos, bolPos, eqPos, neqPos;
@@ -5200,6 +5241,7 @@ namespace org.mariuszgromada.math.mxparser {
 			bool depArgFound;
 			int lPos, rPos;
 			int tokenIndex, pos, p;
+			int firstPos;
 			Token token, tokenL, tokenR;
 			Argument argument;
 			List<int> commas = null;
@@ -5232,7 +5274,7 @@ namespace org.mariuszgromada.math.mxparser {
                 calculusPos = -1; ifPos = -1; iffPos = -1; variadicFunPos = -1;
                 recArgPos = -1; depArgPos = -1; f3ArgPos = -1; f2ArgPos = -1;
                 f1ArgPos = -1; userFunPos = -1; plusPos = -1; minusPos = -1;
-                multiplyPos = -1; dividePos = -1; powerPos = -1; tetrationPos = -1;
+                multiplyPos = -1; dividePos = -1; divideQuotientPos = -1; powerPos = -1; tetrationPos = -1;
                 factPos = -1; modPos = -1; percPos = -1; powerNum = 0;
                 negPos = -1; rootOperGroupPos = -1; andGroupPos = -1; orGroupPos = -1;
                 implGroupPos = -1; bolPos = -1; eqPos = -1; neqPos = -1;
@@ -5362,6 +5404,7 @@ namespace org.mariuszgromada.math.mxparser {
 								else if (token.tokenId == Operator.MINUS_ID && minusPos < 0 && rigthIsNumber) minusPos = pos;
 								else if (token.tokenId == Operator.MULTIPLY_ID && multiplyPos < 0 && leftIsNumber && rigthIsNumber) multiplyPos = pos;
 								else if (token.tokenId == Operator.DIVIDE_ID && dividePos < 0 && leftIsNumber && rigthIsNumber) dividePos = pos;
+								else if (token.tokenId == Operator.DIVIDE_QUOTIENT_ID && divideQuotientPos < 0 && leftIsNumber && rigthIsNumber) divideQuotientPos = pos;
 							} else if (token.tokenTypeId == BooleanOperator.TYPE_ID) {
 								if (token.tokenId == BooleanOperator.NEG_ID && negPos < 0 && rigthIsNumber) negPos = pos;
 								else if (leftIsNumber && rigthIsNumber) {
@@ -5423,19 +5466,16 @@ namespace org.mariuszgromada.math.mxparser {
 				else if (negPos >= 0) NEG(negPos);
 				else if (rootOperGroupPos >= 0) rootOperCalc(rootOperGroupPos);
 				else if (bitwiseComplPos >= 0) BITWISE_COMPL(bitwiseComplPos);
-				else if (multiplyPos >= 0 || dividePos >= 0) {
-					if (multiplyPos >= 0 && dividePos >= 0) {
-						if (multiplyPos <= dividePos) MULTIPLY(multiplyPos);
-						else DIVIDE(dividePos);
-					} else if (multiplyPos >= 0) MULTIPLY(multiplyPos);
-					else DIVIDE(dividePos);
+				else if (multiplyPos >= 0 || dividePos >= 0 || divideQuotientPos >= 0) {
+					firstPos = ExpressionUtils.findNonNegativeMinimum(multiplyPos, dividePos, divideQuotientPos);
+					if (multiplyPos == firstPos) MULTIPLY(multiplyPos);
+					else if (dividePos == firstPos) DIVIDE(dividePos);
+					else if (divideQuotientPos == firstPos) DIVIDE_QUOTIENT(divideQuotientPos);
 				} else
 				if (minusPos >= 0 || plusPos >= 0) {
-					if (minusPos >= 0 && plusPos >= 0) {
-						if (minusPos <= plusPos) MINUS(minusPos);
-						else PLUS(plusPos);
-					} else if (minusPos >= 0) MINUS(minusPos);
-					else PLUS(plusPos);
+					firstPos = ExpressionUtils.findNonNegativeMinimum(minusPos, plusPos);
+					if (minusPos == firstPos) MINUS(minusPos);
+					else if (plusPos == firstPos) PLUS(plusPos);
 				} else
 				if (neqPos >= 0) NEQ(neqPos);
 				else if (eqPos >= 0) EQ(eqPos);
@@ -5551,6 +5591,7 @@ namespace org.mariuszgromada.math.mxparser {
 					case CompiledElement.ToCall.BITWISE_COMPL: BITWISE_COMPL(pos); break;
 					case CompiledElement.ToCall.MULTIPLY: MULTIPLY(pos); break;
 					case CompiledElement.ToCall.DIVIDE: DIVIDE(pos); break;
+					case CompiledElement.ToCall.DIVIDE_QUOTIENT: DIVIDE_QUOTIENT(pos); break;
 					case CompiledElement.ToCall.MINUS: MINUS(pos); break;
 					case CompiledElement.ToCall.PLUS: PLUS(pos); break;
 					case CompiledElement.ToCall.NEQ: NEQ(pos); break;
@@ -5963,6 +6004,9 @@ namespace org.mariuszgromada.math.mxparser {
 			case BitwiseOperator.AND_ID: BITWISE_AND(pos); break;
 			case BitwiseOperator.OR_ID: BITWISE_OR(pos); break;
 			case BitwiseOperator.XOR_ID: BITWISE_XOR(pos); break;
+			case BitwiseOperator.NAND_ID: BITWISE_NAND(pos); break;
+			case BitwiseOperator.NOR_ID: BITWISE_NOR(pos); break;
+			case BitwiseOperator.XNOR_ID: BITWISE_XNOR(pos); break;
 			case BitwiseOperator.LEFT_SHIFT_ID: BITWISE_LEFT_SHIFT(pos); break;
 			case BitwiseOperator.RIGHT_SHIFT_ID: BITWISE_RIGHT_SHIFT(pos); break;
 			}
