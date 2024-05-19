@@ -1,8 +1,21 @@
-# MathParser.org-mXparser has been downloaded more than 3,000,000 times!
+# MathParser.org-mXparser has been downloaded more than 3,300,000 times!
 ![mXparser icon](https://mathparser.org/wp-content/uploads/2022/05/MathParser.org-mXparser-icon-small.png)
 [![Subscription-Form](https://mathparser.org/wp-content/uploads/2022/08/mailing_list_subscription_form.png)](https://forms.aweber.com/form/82/2120798082.htm)
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
+
+## v.6.0.0 (2024-05-19): Picon - Translations, New operators
+### Translations: French, German, Italian, Polish, Portuguese, Spanish:
+- https://github.com/mariuszgromada/MathParser.org-mXparser/issues/303 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/304 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/305 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/306 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/307 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/308
+
+### New bitwise operators: NAND, NOR, XNOR
+- https://github.com/mariuszgromada/MathParser.org-mXparser/issues/152
+
+### New operators for division:
+- Used in Central & Eastern Europe ":" : https://github.com/mariuszgromada/MathParser.org-mXparser/issues/318
+- Integer division (quotient): https://github.com/mariuszgromada/MathParser.org-mXparser/issues/285
+
+### New binaries: .NET8, jdk20, jdk21, jdk22
 
 ## v.5.2.1 (2023-02-08): Orion: Improvement and standardization of descriptions and messages. Definition of your own translations. Exporting help in multiple formats. Clones for thread safe. Performance improvement.
 - [**Improvement and standardization of built-in elements description**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/290), click to see [**usage example**](https://mathparser.org/mxparser-tutorial/validating-string-model/)
@@ -37,19 +50,19 @@
 ## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 5.2.1
+Install-Package MathParser.org-mXparser -Version 6.0.0
 ```
 
 ## Nuget – .NET CLI
 
 ```
-dotnet add package MathParser.org-mXparser --version 5.2.1
+dotnet add package MathParser.org-mXparser --version 6.0.0
 ```
 
 ## Nuget – Package Reference
 
 ```
-<PackageReference Include="MathParser.org-mXparser" Version="5.2.1"/>
+<PackageReference Include="MathParser.org-mXparser" Version="6.0.0"/>
 ```
 
 ## Maven - Dependency
@@ -58,20 +71,20 @@ dotnet add package MathParser.org-mXparser --version 5.2.1
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>5.2.1</version>
+    <version>6.0.0</version>
 </dependency>
 ```
 
 ## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.0.0'
 ```
 
 ## Maven – Gradle (Kotlin)
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.0.0")
 ```
 
 ## NPM
