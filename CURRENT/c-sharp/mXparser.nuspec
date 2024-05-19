@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>MathParser.org-mXparser</id>
-    <version>5.2.1</version>
+    <version>6.0.0</version>
     <title>mXparser – Math Expressions Parser / Formula Evaluator library for JAVA Android C# .NET/MONO (.NET Framework, .NET Core, .NET Standard, .NET PCL, Xamarin.Android, Xamarin.iOS) CLS compliant</title>
     <authors>Mariusz Gromada</authors>
     <owners>Mariusz Gromada</owners>
@@ -11,36 +11,41 @@
 	<icon>images\icon.png</icon>
     <description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you find the software useful donation or purchase is something you might consider: https://mathparser.org/donate/ *** Online store: https://payhip.com/INFIMA *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: https://scalarmath.org/ *** MathSpace.pl: https://mathspace.pl/ ***</description>
     <summary>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, "Hello World!" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under the DUAL LICENSE model, that is designed to meet the needs of both Non-Commercial Use as well as Commercial Use.</summary>
-    <releaseNotes>v.5.2 Orion: Orion - Improvement and standardization of descriptions and messages. Definition of your own translations. Exporting help in multiple formats. Clones for thread safe. Performance improvement.</releaseNotes>
-    <copyright>Copyright 2010 - 2023, Mariusz Gromada - MathParser.org</copyright>
+    <releaseNotes>v.6.0 Picon: 1. Translations: French, German, Italian, Polish, Portuguese, Spanish; 2. NET8.0; 3. New operators (bitwise, division);</releaseNotes>
+    <copyright>Copyright 2010 - 2024, Mariusz Gromada - MathParser.org</copyright>
     <tags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom MONO .NET Core Standard PCL Xamarin Android iOS Unary Binary Ternary Quaternary Quinary Senary Septenary Octal Nonary Decimal Undecimal Duodecimal Tridecimal Tetradecimal Pentadecimal Hexadecimal Base_N </tags>
 	<license type="file">LICENSE.txt</license>
 	<repository type="git" url="https://github.com/mariuszgromada/MathParser.org-mXparser" />
 	<dependencies>
 		<group targetFramework=".NETFramework3.5" />
-		<group targetFramework=".NETFramework4.0" />
-		<group targetFramework=".NETFramework4.5" />
-		<group targetFramework=".NETFramework4.6.1" />
-		<group targetFramework=".NETStandard2.0" />
+		<group targetFramework=".NETFramework4.6.2" />
+		<group targetFramework=".NETFramework4.7.2" />
+		<group targetFramework=".NETFramework4.8.1" />
 		<group targetFramework=".NETStandard2.1" />
+		<group targetFramework="netcoreapp3.1" />
 		<group targetFramework="net6.0" />
+		<group targetFramework="net8.0" />
 	</dependencies>
   </metadata>
   <files>
     <file src="..\README.txt" target="" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net35\*.dll" target="lib\net35" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net40\*.dll" target="lib\net40" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net45\*.dll" target="lib\net45" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net461\*.dll" target="lib\net461" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net35\*.dll" target="lib\net35" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net462\*.dll" target="lib\net462" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net472\*.dll" target="lib\net472" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net481\*.dll" target="lib\net481" />
+		
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\netstandard2.1\*.dll" target="lib\netstandard2.1" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\netstandard2.1\*.json" target="lib\netstandard2.1" />
 	
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.0\*.dll" target="lib\netstandard20" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.0\*.json" target="lib\netstandard20" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\netcoreapp3.1\*.dll" target="lib\netcoreapp3.1" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\netcoreapp3.1\*.json" target="lib\netcoreapp3.1" />	
 	
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.1\*.dll" target="lib\netstandard21" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\netstandard2.1\*.json" target="lib\netstandard21" />
-	
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net60\*.dll" target="lib\net6.0" />
-    <file src="tests-and-release\2-Release-Net-Stand-Core\bin\Release\net60\*.json" target="lib\net6.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net60\*.dll" target="lib\net6.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net60\*.json" target="lib\net6.0" />
+
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net80\*.dll" target="lib\net8.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net80\*.json" target="lib\net8.0" />
+
 	
 	<file src="..\..\LICENSE.txt" target="" />
 	

@@ -15,6 +15,26 @@
                         *** https://scalarmath.org/ ***
 
 
+v.6.0.0 (2024-05-19): Picon - Translations, New operators
+
+     * Translations: French, German, Italian, Polish, Portuguese, Spanish:
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/303
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/304
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/305
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/306
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/307
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/308
+
+     * New bitwise operators: NAND, NOR, XNOR
+       - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/152
+
+     * New operators for division:
+       - Used in Central & Eastern Europe ":" : https://github.com/mariuszgromada/MathParser.org-mXparser/issues/318
+       - Integer division (quotient): https://github.com/mariuszgromada/MathParser.org-mXparser/issues/285
+
+     * New binaries: .NET8, jdk20, jdk21, jdk22
+     * Bugs fixed: #310, #298
+
 v.5.2.1 (2023-03-08): Orion - Performance improvement
 
      * Performance improvement for calculations in the loop: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/296
