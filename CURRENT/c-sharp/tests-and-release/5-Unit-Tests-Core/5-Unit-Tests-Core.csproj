@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>unit_tests</RootNamespace>
+    <RootNamespace>UnitTestsCore</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\8-Lib-Test-Core\8-Lib-Test-Core.csproj" />
+    <ProjectReference Include="..\8-Lib-Test\8-Lib-Test.csproj" />
   </ItemGroup>
+
 
 </Project>

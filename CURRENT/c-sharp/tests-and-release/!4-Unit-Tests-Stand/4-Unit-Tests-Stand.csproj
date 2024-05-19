@@ -5,12 +5,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F27011C-A8C6-4E22-B800-903AB584DAA6}</ProjectGuid>
+    <ProjectGuid>{B629A87E-D056-4F2F-883E-F99D0BDFD721}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>_4_Unit_Tests_Net</RootNamespace>
-    <AssemblyName>4-Unit-Tests-Net</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>UnitTestsStand</RootNamespace>
+    <AssemblyName>Unit-Tests-Stand</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -20,6 +20,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,19 +53,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\4-Unit-Tests-Core\ApiTest.cs" Link="ApiTest.cs" />
-    <Compile Include="..\4-Unit-Tests-Core\ExpressionTest.cs" Link="ExpressionTest.cs" />
-    <Compile Include="..\4-Unit-Tests-Core\Miscellaneous.cs" Link="Miscellaneous.cs" />
-    <Compile Include="..\4-Unit-Tests-Core\PerformanceTest.cs" Link="PerformanceTest.cs" />
-    <Compile Include="..\4-Unit-Tests-Core\SyntaxTest.cs" Link="SyntaxTest.cs" />
+    <Compile Include="..\5-Unit-Tests-Core\ApiTest.cs" Link="ApiTest.cs" />
+    <Compile Include="..\5-Unit-Tests-Core\ExpressionTest.cs" Link="ExpressionTest.cs" />
+    <Compile Include="..\5-Unit-Tests-Core\Miscellaneous.cs" Link="Miscellaneous.cs" />
+    <Compile Include="..\5-Unit-Tests-Core\PerformanceTest.cs" Link="PerformanceTest.cs" />
+    <Compile Include="..\5-Unit-Tests-Core\SyntaxTest.cs" Link="SyntaxTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\8-Lib-Test-Net\8-Lib-Test-Net.csproj">
-      <Project>{839fce0c-af8a-48ff-a33c-119775d5e27c}</Project>
-      <Name>8-Lib-Test-Net</Name>
+    <ProjectReference Include="..\8-Lib-Test\8-Lib-Test.csproj">
+      <Project>{bf8ebcba-0b12-4138-ac01-e482f60a997a}</Project>
+      <Name>8-Lib-Test</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

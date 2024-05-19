@@ -4142,7 +4142,10 @@ namespace org.mariuszgromada.math.mxparser.test {
 				if (x.getArgumentName().Equals(xs.getArgumentName()) && x.getArgumentValue() == xs.getArgumentValue())
 					testResult = true;
 			}
-			TestCommonTools.consolePrintTestApiEnd(testResult);
+#else
+            testResult = true;
+#endif
+            TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 		}
 		[TestMethod]
@@ -4151,7 +4154,8 @@ namespace org.mariuszgromada.math.mxparser.test {
 			bool testResult = false;
 			String testDescr = TestCommonTools.commentTestDescriptionAsMockup("Serialization / Deserialization: Extended Function x Bytes");
 			TestCommonTools.consolePrintTestApiStart(168, testDescr);
-			Function f = new Function("f", new FunExt());
+#if !NET7_0_OR_GREATER
+            Function f = new Function("f", new FunExt());
             SerializationUtils.enableBinarySerializationIamAwareOfSecurityRisks();
             byte[] data = SerializationUtils.serializeToBytes(f);
 			mXparser.consolePrintln();

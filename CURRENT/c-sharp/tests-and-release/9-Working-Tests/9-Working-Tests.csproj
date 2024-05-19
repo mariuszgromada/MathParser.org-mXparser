@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <RootNamespace>org.mariuszgromada.math.mxparser</RootNamespace>
   </PropertyGroup>
-    
+
   <ItemGroup>
-    <ProjectReference Include="..\2-Release-Net-Stand-Core\2-Release-Net-Stand-Core.csproj" />
+    <ProjectReference Include="..\8-Lib-Test\8-Lib-Test.csproj" />
   </ItemGroup>
 
 </Project>

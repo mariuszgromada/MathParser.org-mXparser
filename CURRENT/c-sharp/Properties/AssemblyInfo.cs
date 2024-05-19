@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mariusz Gromada, MathParser.org")]
 [assembly: AssemblyProduct("mXparser")]
-[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2010 - 2023")]
+[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2010 - 2024")]
 [assembly: AssemblyTrademark("mXparser")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("5.2.1.0")]
-[assembly: AssemblyFileVersion("5.2.1.0")]
+[assembly: AssemblyVersion("6.0.0.0")]
+[assembly: AssemblyFileVersion("6.0.0.0")]
