@@ -4,16 +4,24 @@
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Android, C# .NET, TypeScript and JavaScript.
 
-## v.6.0.0 (2024-05-19): Picon - Translations, New operators
-### Translations: French, German, Italian, Polish, Portuguese, Spanish:
+## v.6.0.0 (2024-05-19): Translations (French, German, Italian, Polish, Portuguese, Spanish) + New operators
+
+### Translations:
+- [**mXparser in French**](https://mathparser.org/mxparser-tutorial/mxparser-in-french/), 
+- [**mXparser in German**](https://mathparser.org/mxparser-tutorial/mxparser-in-german/), 
+- [**mXparser in Italian**](https://mathparser.org/mxparser-tutorial/mxparser-in-italian/), 
+- [**mXparser in Polish**](https://mathparser.org/mxparser-tutorial/mxparser-in-polish/), 
+- [**mXparser in Portuguese**](https://mathparser.org/mxparser-tutorial/mxparser-in-portuguese/), 
+- [**mXparser in Spanish**](https://mathparser.org/mxparser-tutorial/mxparser-in-spanish/), 
 - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/303 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/304 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/305 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/306 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/307 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/308
 
-### New bitwise operators: NAND, NOR, XNOR
+### New bitwise operators:
+- [**Bitwise NAND, Bitwise NOR, Bitwise XOR**](https://mathparser.org/mxparser-tutorial/bitwise-operators/)
 - https://github.com/mariuszgromada/MathParser.org-mXparser/issues/152
 
-### New operators for division:
-- Used in Central & Eastern Europe ":" : https://github.com/mariuszgromada/MathParser.org-mXparser/issues/318
-- Integer division (quotient): https://github.com/mariuszgromada/MathParser.org-mXparser/issues/285
+### New division operators:
+- [**Central & Eastern Europe ":", Integer division (quotient) "\\"**](https://mathparser.org/mxparser-tutorial/simple-expressions/)
+- https://github.com/mariuszgromada/MathParser.org-mXparser/issues/318 https://github.com/mariuszgromada/MathParser.org-mXparser/issues/285
 
 ### New binaries: .NET8, jdk20, jdk21, jdk22
 
