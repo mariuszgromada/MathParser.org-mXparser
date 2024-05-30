@@ -343,7 +343,7 @@ namespace org.mariuszgromada.math.mxparser {
             KEYWORD = "Słowo kluczowe";
             SYNTAX = "Składnia";
             NUMBER = "Liczba";
-            NUMBER_LITERAL = "Liczba literowa";
+            NUMBER_LITERAL = "Literał liczbowy";
             TYPE = "Typ";
             SINCE = "Od";
             DESCRIPTION = "Opis";
