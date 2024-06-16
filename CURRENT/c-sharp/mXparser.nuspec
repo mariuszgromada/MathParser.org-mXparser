@@ -40,11 +40,11 @@
     <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\netcoreapp3.1\*.dll" target="lib\netcoreapp3.1" />
     <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\netcoreapp3.1\*.json" target="lib\netcoreapp3.1" />	
 	
-    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net60\*.dll" target="lib\net6.0" />
-    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net60\*.json" target="lib\net6.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net6.0\*.dll" target="lib\net6.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net6.0\*.json" target="lib\net6.0" />
 
-    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net80\*.dll" target="lib\net8.0" />
-    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net80\*.json" target="lib\net8.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net8.0\*.dll" target="lib\net8.0" />
+    <file src="tests-and-release\2-Release-NetF-Stand-Core-Net\bin\Release\net8.0\*.json" target="lib\net8.0" />
 
 	
 	<file src="..\..\LICENSE.txt" target="" />
