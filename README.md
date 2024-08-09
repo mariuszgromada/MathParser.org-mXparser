@@ -1,4 +1,4 @@
-# MathParser.org-mXparser has been downloaded more than 3,300,000 times!
+# MathParser.org-mXparser has been downloaded more than 3,500,000 times!
 ![mXparser icon](https://mathparser.org/wp-content/uploads/2022/05/MathParser.org-mXparser-icon-small.png)
 [![Subscription-Form](https://mathparser.org/wp-content/uploads/2022/08/mailing_list_subscription_form.png)](https://forms.aweber.com/form/82/2120798082.htm)
 
