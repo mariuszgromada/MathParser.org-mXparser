@@ -1,5 +1,5 @@
 /*
- * @(#)ParserSymbol.java        6.0.0    2024-05-19
+ * @(#)ParserSymbol.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -231,7 +231,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  */
 public final class ParserSymbol {
 	/*
@@ -415,7 +415,7 @@ public final class ParserSymbol {
 					+ "|" + "\u212f" /* ℯ */
 					+ "|" + "\u2202" /* ∂ */
 			+ ")";
-	public static final String FRACTION							= "(" + INTEGER + "\\_)?" + INTEGER + "\\_" + INTEGER;
+	public static final String FRACTION							= "(" + INTEGER + "_)?" + INTEGER + "_" + INTEGER;
 	public static final String nameOnlyTokenRegExp				= "(" + "([a-zA-Z_])+([a-zA-Z0-9_])*" + "|" + UNICODE_NAME_REG_EXP + ")";
 	public static final String unitOnlyTokenRegExp				= "\\[" + nameOnlyTokenRegExp + "\\]";
 	public static final String nameOnlyTokenOptBracketsRegExp	= "(" +  nameOnlyTokenRegExp + "|" + unitOnlyTokenRegExp + ")";
@@ -472,6 +472,7 @@ public final class ParserSymbol {
 	 * ParserSymbol - tokens description.
 	 */
 	public static final String NA = "<NA>";
+	public static final String EMPTY = "";
 	public static String LEFT_PARENTHESES_DESC = ParserSymbol.NA;
 	public static String RIGHT_PARENTHESES_DESC = ParserSymbol.NA;
 	public static String COMMA_DESC = ParserSymbol.NA;

@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        6.0.0    2024-05-19
+ * @(#)Miscellaneous.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -301,6 +301,9 @@ class IterativeOperatorParameters implements Serializable {
 			deltaParam = functionParameters.get(4);
 			withDelta = true;
 		}
+		from = Double.NaN;
+		to = Double.NaN;
+		delta = Double.NaN;
 	}
 }
 /**
@@ -319,6 +322,7 @@ class ArgumentParameter implements Serializable {
 		initialValue = Double.NaN;
 		initialType = ConstantValue.NaN;
 		presence = Expression.NOT_FOUND;
+		index = ConstantValue.NaN;
 	}
 }
 /**
@@ -334,6 +338,13 @@ class TokenStackElement implements Serializable {
 	int tokenTypeId;
 	int tokenLevel;
 	boolean precedingFunction;
+	TokenStackElement() {
+		tokenIndex = ConstantValue.NaN;
+		tokenId = ConstantValue.NaN;
+		tokenTypeId = ConstantValue.NaN;
+		tokenLevel = ConstantValue.NaN;
+		precedingFunction = false;
+	}
 }
 
 class SyntaxStackElement implements Serializable {
@@ -390,7 +401,6 @@ class DescKwLenComparator implements Comparator<KeyWord>, Serializable {
 /**
 * Comparator for key word list sorting by
 * type of the key word
-*
 */
 class KwTypeComparator implements Comparator<KeyWord>, Serializable {
 	private static final int serialClassID = 87;
@@ -477,10 +487,13 @@ class TokenPart implements Serializable {
 	static final int KNOWN_KEYWORD = 5;
 	static final int UNKNOWN_NAME = 6;
 	String str;
-	int type;
+	int type = ConstantValue.NaN;
 	KeyWord keyWord;
 }
 
+/*
+ * --------------------------------
+ */
 class CompilationDetails implements Serializable {
 	private static final int serialClassID = 91;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
@@ -489,6 +502,9 @@ class CompilationDetails implements Serializable {
 	List<CompiledElement> compiledElements;
 }
 
+/*
+ * --------------------------------
+ */
 class CompiledElement implements Serializable {
 	private static final int serialClassID = 92;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
@@ -532,10 +548,11 @@ class CompiledElement implements Serializable {
 		,bolCalc
 		,bitwiseCalc
 		,PARENTHESES
+		,Null
 	}
 
-	ToCall toCall;
-	int position1;
-	int position2;
+	ToCall toCall = ToCall.Null;
+	int position1 = ConstantValue.NaN;
+	int position2 = ConstantValue.NaN;
 
 }

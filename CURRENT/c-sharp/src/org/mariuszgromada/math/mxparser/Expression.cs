@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.0.0    2024-05-19
+ * @(#)Expression.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -251,7 +251,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.0.0
+	 * @version        6.1.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -314,23 +314,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Argument
 		 * @see        RecursiveArgument
 		 */
-		internal List<Argument> argumentsList;
+		internal List<Argument> argumentsList = null;
 		/**
 		 * List of user defined functions
 		 *
 		 * @see        Function
 		 */
-		internal List<Function> functionsList;
+		internal List<Function> functionsList = null;
 		/**
 		 * List of user defined constants
 		 *
 		 * @see        Constant
 		 */
-		internal List<Constant> constantsList;
+		internal List<Constant> constantsList = null;
 		/**
 		 * List of keywords known by the parser
 		 */
-		private List<KeyWord> keyWordsList;
+		private List<KeyWord> keyWordsList = null;
 		/**
 		 * List of expression tokens (words).
 		 * Token class defines all needed
@@ -343,8 +343,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *    - token value (if token is a number)
 		 *    - token level - key information regarding sequence (order) of further parsing
 		 */
-		internal List<Token> initialTokens;
-        private CompilationDetails initialCompilationDetails;
+		internal List<Token> initialTokens = null;
+        private CompilationDetails initialCompilationDetails = null;
 		/**
 		 * List of string tokens that should not be considered
 		 * while seeking for optional implied multiplication.
@@ -353,7 +353,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * Here x2y should always stay as x2y
 		 */
-		private HashSet<String> neverParseForImpliedMultiplication;
+		private HashSet<String> neverParseForImpliedMultiplication = null;
 		/**
 		 * the initialTokens list keeps unchanged information about
 		 * found tokens.
@@ -366,8 +366,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * At the end of the calculation the tokensList should contain only one
 		 * element - the result of all calculations.
 		 */
-		private List<Token> tokensList;
-        private CompilationDetails compilationDetails;
+		private List<Token> tokensList = null;
+        private CompilationDetails compilationDetails = null;
 		/**
 		 * List of related expressions, for example when
 		 * user defined function is used in the expression
@@ -380,7 +380,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * - recursive arguments
 		 * - user functions
 		 */
-		internal List<Expression> relatedExpressionsList;
+		internal List<Expression> relatedExpressionsList = null;
 		/**
 		 * Keeps computing time
 		 */
@@ -389,18 +389,18 @@ namespace org.mariuszgromada.math.mxparser {
 		 * if true then new tokenizing is required
 		 * (the initialTokens list needs to be updated)
 		 */
-		internal bool expressionWasModified;
+		internal bool expressionWasModified = false;
 		/**
 		 * If recursive mode is on the recursive calls are permitted.
 		 * It mean there will be no null pointer exceptions
 		 * due to expression, and functions cloning.
 		 */
-		internal bool recursiveMode;
+		internal bool recursiveMode = false;
 		/**
 		 * Verbose mode prints processing info
 		 * calls System.out.print* methods
 		 */
-		private bool verboseMode;
+		private bool verboseMode = false;
 		/**
 		 * Implied multiplication mode
 		 */
@@ -414,7 +414,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Internal parameter for calculus expressions
 		 * to avoid decrease in accuracy.
 		 */
-		internal bool disableRounding;
+		internal bool disableRounding = false;
 		internal const bool DISABLE_ROUNDING = true;
 		internal const bool KEEP_ROUNDING_SETTINGS = false;
         /**
@@ -425,16 +425,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 *    - SYNTAX_ERROR
 		 *    - SYNTAX_STATUS_UNKNOWN
 		 */
-        private bool syntaxStatus;
-		private bool isFullyCompiled;
+        private bool syntaxStatus = SYNTAX_ERROR;
+		private bool isFullyCompiled = false;
         /**
 		 * Message after checking the syntax
 		 */
-        private String errorMessage;
+        private String errorMessage = StringInvariant.EMPTY;
         /**
          * Optional message from calculate method
          */
-        private String errorMessageCalculate;
+        private String errorMessageCalculate = StringInvariant.EMPTY;
         private static int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
         /**
 		 * Flag used internally to mark started recursion
@@ -447,7 +447,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see #setExpressionModifiedFlag()
 		 * @see #checkSyntax()
 		 */
-        private bool recursionCallPending;
+        private bool recursionCallPending = false;
 		/**
 		 * Internal counter to avoid infinite loops while calculating
 		 * expression defined in the way showed by below examples
@@ -462,14 +462,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 */
-		private int recursionCallsCounter;
+		private int recursionCallsCounter = 0;
 		/**
 		 * Internal indicator for tokenization process
 		 * if true, then keywords such as constants
 		 * functions etc.. will not be recognized
 		 * during tokenization
 		 */
-		private bool parserKeyWordsOnly;
+		private bool parserKeyWordsOnly = false;
 		/**
 		 * Internal indicator informing hte parser
 		 * that unicode know keywords are enabled
@@ -500,7 +500,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see Function
 		 */
-		internal List<Double> UDFVariadicParamsAtRunTime;
+		internal List<Double> UDFVariadicParamsAtRunTime = null;
 		/**
 		 * Internal indicator for calculation process
 		 * Expression.Calculate() method
@@ -516,7 +516,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * f.addDefinitions(g);
 		 * g.addDefinitions(f);
 		 */
-		private bool internalClone;
+		private bool internalClone = false;
         /**
          * An indicator of whether an error message
          * should be passed from the current expression
@@ -861,7 +861,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return Expression string definition.
 		 */
 		public String getCanonicalExpressionString() {
-			StringBuilder canonicalExpression = new StringBuilder(1000);
+			StringBuilder canonicalExpression = new StringBuilder();
 			foreach (Token t in getCopyOfInitialTokens())
 				canonicalExpression.Append(t.tokenStr);
 			return canonicalExpression.ToString();
@@ -1863,7 +1863,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * left parethesis position
 			 */
 			int lPos = pos+1;
-			int ifLevel =  tokensList[lPos].tokenLevel;
+			int ifLevel = tokensList[lPos].tokenLevel;
 			/*
 			 * Evaluate 1 comma position on the same level
 			 */
@@ -1929,7 +1929,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     tokens list representing requested subexpression.
 		 */
-		private List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
+		private static List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
 			List<Token> tokens = new List<Token>();
 			Token t;
 			for (int p = startPos; p<= endPos; p++) {
@@ -2619,8 +2619,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void BITWISE_LEFT_SHIFT(int pos) {
-			long a = (long)getTokenValue(pos - 1);
-			int b = (int)getTokenValue(pos + 1);
+			int a = (int)getTokenValue(pos - 1);
+            int b = (int)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a << b);
 		}
 		/**
@@ -2629,8 +2629,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      pos                 the token position
 		 */
 		private void BITWISE_RIGHT_SHIFT(int pos) {
-			long a = (long)getTokenValue(pos - 1);
-			int b = (int)getTokenValue(pos + 1);
+            int a = (int)getTokenValue(pos - 1);
+            int b = (int)getTokenValue(pos + 1);
 			opSetDecreaseRemove(pos, a >> b);
 		}
 		/**
@@ -3262,21 +3262,23 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private void UDF_PARAM(int pos) {
 			double value = Double.NaN;
-			double x = getTokenValue(pos+1);
-			int npar = UDFVariadicParamsAtRunTime.Count;
-			if (!Double.IsNaN(x) && !Double.IsPositiveInfinity(x) && !Double.IsNegativeInfinity(x)) {
-				int i = (int)MathFunctions.integerPart(x);
-				if (i == 0) {
-					value = npar;
-				} else if (Math.Abs(i) <= npar) {
-					if (i >= 1) {
-						value = UDFVariadicParamsAtRunTime[i - 1];
-					} else if (i <= -1) {
-						value = UDFVariadicParamsAtRunTime[npar + i];
+            if (UDFVariadicParamsAtRunTime != null) {
+				double x = getTokenValue(pos+1);
+				int npar = UDFVariadicParamsAtRunTime.Count;
+				if (!Double.IsNaN(x) && !Double.IsPositiveInfinity(x) && !Double.IsNegativeInfinity(x)) {
+					int i = (int)MathFunctions.integerPart(x);
+					if (i == 0) {
+						value = npar;
+					} else if (Math.Abs(i) <= npar) {
+						if (i >= 1) {
+							value = UDFVariadicParamsAtRunTime[i - 1];
+						} else if (i <= -1) {
+							value = UDFVariadicParamsAtRunTime[npar + i];
+						}
 					}
 				}
 			}
-			f1SetDecreaseRemove(pos, value );
+			f1SetDecreaseRemove(pos, value);
 		}
 		private void RND_STUDENT_T(int pos) {
 			double v = getTokenValue(pos+1);
@@ -3920,7 +3922,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      tokenId             missing token id
 		 * @param      tokenTypeId         missing token type id
 		 */
-		private void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
+		private static void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
 			foreach (Token t in tokens)
 				if ( (t.tokenTypeId == ConstantValue.NaN) && (t.tokenStr.Equals(keyWord))) {
 					t.keyWord = keyWord;
@@ -3935,7 +3937,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param index      Index parameter of the iterative operator
 		 * @param iterParams     Parameters list of the iterative operator
 		 */
-		private void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters iterParams) {
+		private static void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters iterParams) {
 			if (index.presence == Argument.NOT_FOUND) {
 				updateMissingTokens(iterParams.indexParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID);
 				updateMissingTokens(iterParams.fromParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID);
@@ -4659,9 +4661,10 @@ namespace org.mariuszgromada.math.mxparser {
 		public bool checkLexSyntax() {
 			bool syntax = NO_SYNTAX_ERRORS;
 			recursionCallsCounter = 0;
-			if (expressionString.Length == 0) {
+            cleanExpressionString();
+            if (expressionStringCleaned.Length == 0) {
 	    		syntax = SYNTAX_ERROR;
-                errorMessage = StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
+                registerFinalSyntaxExpressionStringIsEmpty(StringInvariant.EMPTY);
                 return syntax;
 			}
 			cleanExpressionString();
@@ -4670,9 +4673,10 @@ namespace org.mariuszgromada.math.mxparser {
 				syn.checkSyntax();
 			} catch (Exception e) {
 				syntax = SYNTAX_ERROR;
-                errorMessage = StringModel.STRING_RESOURCES.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringModel.buildErrorMessageFromException(e);
+                registerSyntaxLexicalError(StringInvariant.EMPTY, e);
             }
-			return syntax;
+            registerFinalSyntax(StringInvariant.EMPTY, syntax);
+            return syntax;
 		}
 		/**
 		 * Cleans blanks and other cases like "++', "+-", "-+"", "--" 
@@ -4710,7 +4714,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     true if argument is known,
 		 *             otherwise returns false.
 		 */
-		private bool checkIfKnownArgument(FunctionParameter param) {
+		private static bool checkIfKnownArgument(FunctionParameter param) {
 			if (param.tokens.Count > 1)
 				return false;
 			Token t = param.tokens[0];
@@ -4724,7 +4728,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return     true if there is only 1 token with unknown type,
 		 *             otherwise returns false.
 		 */
-		private bool checkIfUnknownToken(FunctionParameter param) {
+		private static bool checkIfUnknownToken(FunctionParameter param) {
 			if (param.tokens.Count > 1)
 				return false;
 			Token t = param.tokens[0];
@@ -4777,11 +4781,10 @@ namespace org.mariuszgromada.math.mxparser {
 			return NO_SYNTAX_ERRORS;
 		}
 		private bool checkPartialSyntaxDuplicatedKeywords(String recursionInfoLevel) {
-			String kw1, kw2;
 			keyWordsList.Sort( new KwStrComparator() );
 			for (int kwId = 1; kwId < keyWordsList.Count; kwId++) {
-				kw1 = keyWordsList[kwId-1].wordString;
-				kw2 = keyWordsList[kwId].wordString;
+                String kw1 = keyWordsList[kwId-1].wordString;
+                String kw2 = keyWordsList[kwId].wordString;
 				if ( kw1.Equals(kw2) ) {
 					errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.buildErrorMessageKeyword(StringModel.STRING_RESOURCES.DUPLICATED_KEYWORD, kw1));
 					return SYNTAX_ERROR;
@@ -5115,7 +5118,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			return syntax;
 		}
-		private void performSyntaxStackPopIfEndOfSectionLevel(Token token, Stack<SyntaxStackElement> syntaxStack) {
+		private static void performSyntaxStackPopIfEndOfSectionLevel(Token token, Stack<SyntaxStackElement> syntaxStack) {
 			if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
 				if (syntaxStack.Count > 0)
 					if (token.tokenLevel == syntaxStack.Peek().tokenLevel)
@@ -5238,7 +5241,7 @@ namespace org.mariuszgromada.math.mxparser {
 
 			calcStepsRegister.calcStepRecords.Add(stepRecord);
 		}
-		private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription, Double result) {
+		private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription, double result) {
 			CalcStepRecord stepRecord = new CalcStepRecord();
 			stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
 			stepRecord.numberGroupWithin = stepsRegisteredCounter;

@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cs        6.0.0    2024-05-19
+ * @(#)StringResources.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -238,7 +238,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        6.0.0
+     * @version        6.1.0
      *
      * @see StringModel
      * @see StringModel#setUserLanguage(UserLanguage)
@@ -248,7 +248,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * Default translations, currently English
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing Default translations, currently English.
          *
          * @see StringModel
@@ -259,7 +259,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * English translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing English translations.
          *
          * @see StringModel
@@ -270,7 +270,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * French translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing French translations.
          *
          * @see StringModel
@@ -281,7 +281,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * German translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing German translations.
          *
          * @see StringModel
@@ -292,7 +292,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * Italian translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing Italian translations.
          *
          * @see StringModel
@@ -303,7 +303,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * Polish translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing Polish translations.
          *
          * @see StringModel
@@ -314,7 +314,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * Portuguese translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing Portuguese translations.
          *
          * @see StringModel
@@ -325,7 +325,7 @@ namespace org.mariuszgromada.math.mxparser {
         /**
          * Spanish translations
          *
-         * @return Returns a  new instance of StringResources object
+         * @return Returns a new instance of StringResources object
          * containing Spanish translations.
          *
          * @see StringModel

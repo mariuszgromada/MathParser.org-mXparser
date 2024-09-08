@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        6.0.0    2024-05-19
+ * @(#)Expression.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -273,7 +273,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.SyntaxChecker;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.0
  *
  * @see            Argument
  * @see            RecursiveArgument
@@ -337,23 +337,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see        Argument
 	 * @see        RecursiveArgument
 	 */
-	List<Argument> argumentsList;
+	List<Argument> argumentsList = null;
 	/**
 	 * List of user defined functions
 	 *
 	 * @see        Function
 	 */
-	List<Function> functionsList;
+	List<Function> functionsList = null;
 	/**
 	 * List of user defined constants
 	 *
 	 * @see        Constant
 	 */
-	List<Constant> constantsList;
+	List<Constant> constantsList = null;
 	/**
 	 * List of keywords known by the parser
 	 */
-	private List<KeyWord> keyWordsList;
+	private List<KeyWord> keyWordsList = null;
 	/**
 	 * List of expression tokens (words).
 	 * Token class defines all needed
@@ -366,8 +366,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *    - token value (if token is a number)
 	 *    - token level - key information regarding sequence (order) of further parsing
 	 */
-	List<Token> initialTokens;
-	private CompilationDetails initialCompilationDetails;
+	List<Token> initialTokens = null;
+	private CompilationDetails initialCompilationDetails = null;
 	/**
 	 * List of string tokens that should not be considered
 	 * while seeking for optional implied multiplication.
@@ -376,7 +376,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 * Here x2y should always stay as x2y
 	 */
-	private Set<String> neverParseForImpliedMultiplication;
+	private Set<String> neverParseForImpliedMultiplication = null;
 	/**
 	 * the initialTokens list keeps unchanged information about
 	 * found tokens.
@@ -389,8 +389,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * At the end of the calculation the tokensList should contain only one
 	 * element - the result of all calculations.
 	 */
-	private List<Token> tokensList;
-	private CompilationDetails compilationDetails;
+	private List<Token> tokensList = null;
+	private CompilationDetails compilationDetails = null;
 	/**
 	 * List of related expressions, for example when
 	 * user defined function is used in the expression
@@ -403,27 +403,27 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * - recursive arguments
 	 * - user functions
 	 */
-	List<Expression> relatedExpressionsList;
+	List<Expression> relatedExpressionsList = null;
 	/**
 	 * Keeps computing time
 	 */
-	double computingTime;
+	double computingTime = 0;
 	/**
 	 * if true then new tokenizing is required
 	 * (the initialTokens list needs to be updated)
 	 */
-	boolean expressionWasModified;
+	boolean expressionWasModified = false;
 	/**
 	 * If recursive mode is on the recursive calls are permitted.
 	 * It means there will be no null pointer exceptions
 	 * due to expression, and functions cloning.
 	 */
-	boolean recursiveMode;
+	boolean recursiveMode = false;
 	/**
 	 * Verbose mode prints processing info
 	 * calls System.out.print* methods
 	 */
-	private boolean verboseMode;
+	private boolean verboseMode = false;
 	/**
 	 * Implied multiplication mode
 	 */
@@ -437,7 +437,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Internal parameter for calculus expressions
 	 * to avoid decrease in accuracy.
 	 */
-	boolean disableRounding;
+	boolean disableRounding = false;
 	static final boolean DISABLE_ROUNDING = true;
 	static final boolean KEEP_ROUNDING_SETTINGS = false;
 	/**
@@ -448,16 +448,16 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *    - SYNTAX_ERROR
 	 *    - SYNTAX_STATUS_UNKNOWN
 	 */
-	private boolean syntaxStatus;
-	private boolean isFullyCompiled;
+	private boolean syntaxStatus = SYNTAX_ERROR;
+	private boolean isFullyCompiled = false;
 	/**
 	 * Message after checking the syntax
 	 */
-	private String errorMessage;
+	private String errorMessage = StringInvariant.EMPTY;
 	/**
 	 * Optional message from calculate method
 	 */
-	private String errorMessageCalculate;
+	private String errorMessageCalculate = StringInvariant.EMPTY;
 	private static int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
 	/**
 	 * Log used internally to mark started recursion
@@ -470,7 +470,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @see #setExpressionModifiedFlag()
 	 * @see #checkSyntax()
 	 */
-	private boolean recursionCallPending;
+	private boolean recursionCallPending = false;
 	/**
 	 * Internal counter to avoid infinite loops while calculating
 	 * expression defined in the way showed by below examples
@@ -485,14 +485,14 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 */
-	private int recursionCallsCounter;
+	private int recursionCallsCounter = 0;
 	/**
 	 * Internal indicator for tokenization process
 	 * if true, then keywords such as constants
 	 * functions etc... will not be recognized
 	 * during tokenization
 	 */
-	private boolean parserKeyWordsOnly;
+	private boolean parserKeyWordsOnly = false;
 	/**
 	 * Internal indicator informing hte parser
 	 * that unicode know keywords are enabled
@@ -523,7 +523,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 * @see Function
 	 */
-	List<Double> UDFVariadicParamsAtRunTime;
+	List<Double> UDFVariadicParamsAtRunTime = null;
 	/**
 	 * Internal indicator for calculation process
 	 * Expression.Calculate() method
@@ -539,7 +539,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 */
-	private boolean internalClone;
+	private boolean internalClone = false;
 	/**
 	 * An indicator of whether an error message
 	 * should be passed from the current expression
@@ -892,7 +892,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return Expression string definition.
 	 */
 	public String getCanonicalExpressionString() {
-		StringBuilder canonicalExpression = new StringBuilder(1000);
+		StringBuilder canonicalExpression = new StringBuilder();
 		for (Token t : getCopyOfInitialTokens())
 			canonicalExpression.append(t.tokenStr);
 		return canonicalExpression.toString();
@@ -1894,7 +1894,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * left parethesis position
 		 */
 		int lPos = pos+1;
-		int ifLevel =  tokensList.get(lPos).tokenLevel;
+		int ifLevel = tokensList.get(lPos).tokenLevel;
 		/*
 		 * Evaluate 1 comma position on the same level
 		 */
@@ -1960,7 +1960,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 *
 	 * @return     tokens list representing requested subexpression.
 	 */
-	private List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
+	private static List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
 		List<Token> tokens = new ArrayList<Token>();
 		Token t;
 		for (int p = startPos; p<= endPos; p++) {
@@ -2649,7 +2649,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void BITWISE_LEFT_SHIFT(int pos) {
 		long a = (long)getTokenValue(pos-1);
-		int b = (int)getTokenValue(pos+1);
+		long b = (long)getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, a << b);
 	}
 	/**
@@ -2659,7 +2659,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void BITWISE_RIGHT_SHIFT(int pos) {
 		long a = (long)getTokenValue(pos-1);
-		int b = (int)getTokenValue(pos+1);
+		long b = (long)getTokenValue(pos+1);
 		opSetDecreaseRemove(pos, a >> b);
 	}
 	/**
@@ -3291,21 +3291,23 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	private void UDF_PARAM(int pos) {
 		double value = Double.NaN;
-		double x = getTokenValue(pos+1);
-		int npar = UDFVariadicParamsAtRunTime.size();
-		if (!Double.isNaN(x) && x != Double.POSITIVE_INFINITY && x != Double.NEGATIVE_INFINITY) {
-			int i = (int)MathFunctions.integerPart(x);
-			if (i == 0) {
-				value = npar;
-			} else if (Math.abs(i) <= npar) {
-				if (i >= 1) {
-					value = UDFVariadicParamsAtRunTime.get(i - 1);
-				} else if (i <= -1) {
-					value = UDFVariadicParamsAtRunTime.get(npar + i);
+		if (UDFVariadicParamsAtRunTime != null) {
+			double x = getTokenValue(pos + 1);
+			int npar = UDFVariadicParamsAtRunTime.size();
+			if (!Double.isNaN(x) && x != Double.POSITIVE_INFINITY && x != Double.NEGATIVE_INFINITY) {
+				int i = (int) MathFunctions.integerPart(x);
+				if (i == 0) {
+					value = npar;
+				} else if (Math.abs(i) <= npar) {
+					if (i >= 1) {
+						value = UDFVariadicParamsAtRunTime.get(i - 1);
+					} else if (i <= -1) {
+						value = UDFVariadicParamsAtRunTime.get(npar + i);
+					}
 				}
 			}
 		}
-		f1SetDecreaseRemove(pos, value );
+		f1SetDecreaseRemove(pos, value);
 	}
 	private void RND_STUDENT_T(int pos) {
 		double v = getTokenValue(pos+1);
@@ -3948,7 +3950,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      tokenId             missing token id
 	 * @param      tokenTypeId         missing token type id
 	 */
-	private void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
+	private static void updateMissingTokens(List<Token> tokens, String keyWord, int tokenId, int tokenTypeId) {
 		for (Token t : tokens)
 			if ( (t.tokenTypeId == ConstantValue.NaN) && (t.tokenStr.equals(keyWord))) {
 				t.keyWord = keyWord;
@@ -3963,7 +3965,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param index      Index parameter of the iterative operator
 	 * @param iterParams     Parameters list of the iterative operator
 	 */
-	private void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters iterParams) {
+	private static void updateMissingTokens(ArgumentParameter index, IterativeOperatorParameters iterParams) {
 		if (index.presence == Argument.NOT_FOUND) {
 			updateMissingTokens(iterParams.indexParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
 			updateMissingTokens(iterParams.fromParam.tokens, iterParams.indexParam.paramStr, index.index, Argument.TYPE_ID );
@@ -4686,19 +4688,20 @@ public class Expression extends PrimitiveElement implements Serializable {
 	public boolean checkLexSyntax() {
 		boolean syntax = NO_SYNTAX_ERRORS;
 		recursionCallsCounter = 0;
-		if (expressionString.length() == 0) {
+		cleanExpressionString();
+		if (expressionStringCleaned.length() == 0) {
 	    	syntax = SYNTAX_ERROR;
-			errorMessage = StringModel.STRING_RESOURCES.EXPRESSION_STRING_IS_EMPTY + StringInvariant.NEW_LINE;
+			registerFinalSyntaxExpressionStringIsEmpty(StringInvariant.EMPTY);
 			return syntax;
 		}
-		cleanExpressionString();
 		SyntaxChecker syn = new SyntaxChecker(new ByteArrayInputStream(expressionStringCleaned.getBytes()));
 	    try {
 	        syn.checkSyntax();
 	    } catch (Throwable e) {
-	    	syntax = SYNTAX_ERROR;
-			errorMessage = StringModel.STRING_RESOURCES.LEXICAL_ERROR_HAS_BEEN_FOUND + StringInvariant.SPACE + StringModel.buildErrorMessageFromException(e);
+			syntax = SYNTAX_ERROR;
+			registerSyntaxLexicalError(StringInvariant.EMPTY, e);
 	    }
+		registerFinalSyntax(StringInvariant.EMPTY, syntax);
 		return syntax;
 	}
 
@@ -4738,7 +4741,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     true if argument is known,
 	 *             otherwise returns false.
 	 */
-	private boolean checkIfKnownArgument(FunctionParameter param) {
+	private static boolean checkIfKnownArgument(FunctionParameter param) {
 		if (param.tokens.size() > 1)
 			return false;
 		Token t = param.tokens.get(0);
@@ -4752,7 +4755,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     true if there is only 1 token with unknown type,
 	 *             otherwise returns false.
 	 */
-	private boolean checkIfUnknownToken(FunctionParameter param) {
+	private static boolean checkIfUnknownToken(FunctionParameter param) {
 		if (param.tokens.size() > 1)
 			return false;
 		Token t = param.tokens.get(0);
@@ -4805,11 +4808,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		return NO_SYNTAX_ERRORS;
 	}
 	private boolean checkPartialSyntaxDuplicatedKeywords(String recursionInfoLevel) {
-		String kw1, kw2;
 		java.util.Collections.sort(keyWordsList, new KwStrComparator() );
 		for (int kwId = 1; kwId < keyWordsList.size(); kwId++) {
-			kw1 = keyWordsList.get(kwId-1).wordString;
-			kw2 = keyWordsList.get(kwId).wordString;
+			String kw1 = keyWordsList.get(kwId-1).wordString;
+			String kw2 = keyWordsList.get(kwId).wordString;
 			if ( kw1.equals(kw2) ) {
 				errorMessage = StringModel.addErrorMassage(errorMessage, recursionInfoLevel, StringModel.buildErrorMessageKeyword(StringModel.STRING_RESOURCES.DUPLICATED_KEYWORD, kw1));
 				return SYNTAX_ERROR;
@@ -5143,7 +5145,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		return syntax;
 	}
-	private void performSyntaxStackPopIfEndOfSectionLevel(Token token, Stack<SyntaxStackElement> syntaxStack) {
+	private static void performSyntaxStackPopIfEndOfSectionLevel(Token token, Stack<SyntaxStackElement> syntaxStack) {
 		if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
 			if (syntaxStack.size() > 0)
 				if (token.tokenLevel == syntaxStack.lastElement().tokenLevel)
@@ -5247,8 +5249,6 @@ public class Expression extends PrimitiveElement implements Serializable {
 			return Double.NaN;
 		}
 	}
-	public static long msStart = 0;
-	public static long msSum = 0;
 	private String makeStepDescription() {
 		String stepDescription;
 		if (description.trim().length() > 0) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
@@ -5268,7 +5268,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		calcStepsRegister.calcStepRecords.add(stepRecord);
 	}
-	private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription, Double result) {
+	private void registerCalculationStepRecord(CalcStepsRegister calcStepsRegister, int stepsRegisteredCounter, String stepDescription, double result) {
 		CalcStepRecord stepRecord = new CalcStepRecord();
 		stepRecord.numberGroup = calcStepsRegister.stepNumberGroup;
 		stepRecord.numberGroupWithin = stepsRegisteredCounter;

@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        6.0.0    2024-05-19
+ * @(#)ExpressionUtils.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,7 @@ import java.util.Stack;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.0
  *
  * @see            Expression
  */
@@ -251,9 +251,9 @@ final class ExpressionUtils {
         for (int argumentIndex = 0; argumentIndex<argumentsNumber; argumentIndex++) {
             Argument arg = argumentsList.get(argumentIndex);
             if (arg.getArgumentType() != Argument.RECURSIVE_ARGUMENT)
-                addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName(), "", Argument.TYPE_ID, keyWordsList);
+                addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName(), StringInvariant.EMPTY, Argument.TYPE_ID, keyWordsList);
             else
-                addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName() + "(n)", "", RecursiveArgument.TYPE_ID_RECURSIVE, keyWordsList);
+                addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName() + "(n)", StringInvariant.EMPTY, RecursiveArgument.TYPE_ID_RECURSIVE, keyWordsList);
         }
     }
     static void addFunctionsKeyWords(List<Function> functionsList, List<KeyWord> keyWordsList) {
@@ -269,14 +269,14 @@ final class ExpressionUtils {
                     syntax.append(",");
             }
             syntax.append(")");
-            addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax.toString(), "", Function.TYPE_ID, keyWordsList);
+            addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax.toString(), StringInvariant.EMPTY, Function.TYPE_ID, keyWordsList);
         }
     }
     static void addConstantsKeyWords(List<Constant> constantsList, List<KeyWord> keyWordsList) {
         int constantsNumber = constantsList.size();
         for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++) {
             Constant c = constantsList.get(constantIndex);
-            addKeyWord(c.getConstantName(), c.getDescription(), constantIndex, c.getConstantName(), "", Constant.TYPE_ID, keyWordsList);
+            addKeyWord(c.getConstantName(), c.getDescription(), constantIndex, c.getConstantName(), StringInvariant.EMPTY, Constant.TYPE_ID, keyWordsList);
         }
     }
 
@@ -1009,7 +1009,7 @@ final class ExpressionUtils {
         return expressionStringCleaned;
     }
     /**
-	 * Cleans blanks and other cases like "++', "+-", "-+"", "--"
+	 * Cleans blanks and other cases like "++', "+-", "-+", "--"
 	 */
     static String cleanExpressionString(String expressionString, boolean attemptToFixExpStrEnabled) {
         StringBuilder expressionStringCleanedBuilder = new StringBuilder();
@@ -1239,7 +1239,7 @@ final class ExpressionUtils {
     }
 
     static String getHelp(String query, List<KeyWord> keyWordsList) {
-        return getHelp(query, keyWordsList, true, true, "");
+        return getHelp(query, keyWordsList, true, true, StringInvariant.EMPTY);
     }
 
     static String getHelpAsCsv(List<KeyWord> keyWordsList, String quote, String delimiter, boolean addHeader, String query) {
@@ -1402,12 +1402,12 @@ final class ExpressionUtils {
         return StringUtils.cleanNewLineAtTheEnd(result.toString());
     }
     static String getHelpAsHtmlTable(List<KeyWord> keyWordsList, boolean addHeadline, String query) {
-        return getHelpAsHtmlTable(keyWordsList, addHeadline, true, false, query, "", "");
+        return getHelpAsHtmlTable(keyWordsList, addHeadline, true, false, query, StringInvariant.EMPTY, StringInvariant.EMPTY);
     }
 
 
     static String getHelpAsMarkdownTable(List<KeyWord> keyWordsList, String query) {
-        return getHelpAsMarkdownTable(keyWordsList, true, true, query, "");
+        return getHelpAsMarkdownTable(keyWordsList, true, true, query, StringInvariant.EMPTY);
     }
 
 
@@ -1510,7 +1510,7 @@ final class ExpressionUtils {
     static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
         List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
         java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
-        String queryLower = "";
+        String queryLower = StringInvariant.EMPTY;
         if (query != null)
             queryLower = query.toLowerCase();
 

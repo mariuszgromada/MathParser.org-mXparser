@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        6.0.0    2024-05-19
+ * @(#)mXparser.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -240,7 +240,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -252,10 +252,10 @@ public final class mXparser {
 	 * mXparser version
 	 */
 	public static final int VERSION_MAJOR = 6;
-	public static final int VERSION_MINOR = 0;
+	public static final int VERSION_MINOR = 1;
 	public static final int VERSION_PATCH = 0;
 	public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
-	public static final String VERSION_CODE_NAME = "Picon";
+	public static final String VERSION_CODE_NAME = "Sagitara";
 	public static final String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;
 	/**
 	 * Framework used to compile mXparser
@@ -1578,7 +1578,6 @@ public final class mXparser {
 	public static void consolePrintSettings(String prefix) {
 		mXparser.consolePrintln(prefix + "mXparser.VERSION = " + mXparser.VERSION);
 		mXparser.consolePrintln(prefix + "mXparser.BUIT_FOR = " + mXparser.BUIT_FOR);
-		mXparser.consolePrintln(prefix + "java.version = " + System.getProperty("java.version"));
 		mXparser.consolePrintln(prefix + "checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
 		mXparser.consolePrintln(prefix + "checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
 		mXparser.consolePrintln(prefix + "checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
@@ -2101,7 +2100,9 @@ public final class mXparser {
 	/**
 	 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT.
 	 */
-	public static final String LICENSE = License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
+	public static final String LICENSE =
+			"mXparser - version " + mXparser.VERSION + "\n"
+			+ License.MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT;
 	/**
 	 * Prints to the console the terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 	 */

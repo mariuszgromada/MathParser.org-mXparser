@@ -1,5 +1,5 @@
 /*
- * @(#)License.cs        6.0.0    2024-05-19
+ * @(#)License.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,7 +234,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.0.0
+	 * @version        6.1.0
 	 *
 	 * @see #iConfirmNonCommercialUse(String)
 	 * @see #iConfirmCommercialUse(String)
@@ -448,8 +448,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * The terms of MathParser.org-mXparser DUAL LICENSE AGREEMENT
 		 */
 		public static readonly String MATHPARSERORG_MXPARSER_DUAL_LICENSE_AGREEMENT =
-			"mXparser - version " + mXparser.VERSION + "\n"
-			+ "MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19\n"
+			"MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19\n"
 			+ "The most up-to-date license is available at the below link:\n"
 			+ "- https://mathparser.org/mxparser-license\n"
 			+ "\n"

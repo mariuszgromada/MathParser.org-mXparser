@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.java        6.0.0    2024-05-19
+ * @(#)CalcStepsRegister.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,7 @@ import java.util.List;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  *
  * @see CalcStepRecord
  * @see Expression
@@ -288,17 +288,17 @@ public class CalcStepsRegister implements Serializable {
         consolePrint(this);
     }
     private static void consolePrint(CalcStepsRegister calcStepsRegister) {
-        if (calcStepsRegister.calcStepRecords.size() == 0) {
+        if (calcStepsRegister.calcStepRecords.isEmpty()) {
             mXparser.consolePrintln(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_IS_EMPTY);
             return;
         }
         mXparser.consolePrint(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_FOR + StringInvariant.SPACE);
         boolean toPrintEq = false;
-        if (calcStepsRegister.argumentNameStart.length() > 0) {
+        if (!calcStepsRegister.argumentNameStart.isEmpty()) {
             mXparser.consolePrint(StringModel.STRING_RESOURCES.ARGUMENT + StringInvariant.SPACE + calcStepsRegister.argumentNameStart);
             toPrintEq = true;
         }
-        if (calcStepsRegister.functionNameStart.length() > 0) {
+        if (!calcStepsRegister.functionNameStart.isEmpty()) {
             mXparser.consolePrint(StringModel.STRING_RESOURCES.FUNCTION + StringInvariant.SPACE + calcStepsRegister.functionNameStart);
             toPrintEq = true;
         }
@@ -324,19 +324,19 @@ public class CalcStepsRegister implements Serializable {
         return toString(this);
     }
     private static String toString(CalcStepsRegister calcStepsRegister) {
-        if (calcStepsRegister.calcStepRecords.size() == 0)
+        if (calcStepsRegister.calcStepRecords.isEmpty())
             return StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_IS_EMPTY;
         StringBuilder output = new StringBuilder();
         output.append(StringModel.STRING_RESOURCES.CALC_STEPS_REGISTER_FOR);
         output.append(StringInvariant.SPACE);
         boolean toPrintEq = false;
-        if (calcStepsRegister.argumentNameStart.length() > 0) {
+        if (!calcStepsRegister.argumentNameStart.isEmpty()) {
             output.append(StringModel.STRING_RESOURCES.ARGUMENT);
             output.append(StringInvariant.SPACE);
             output.append(calcStepsRegister.argumentNameStart);
             toPrintEq = true;
         }
-        if (calcStepsRegister.functionNameStart.length() > 0) {
+        if (!calcStepsRegister.functionNameStart.isEmpty()) {
             output.append(StringModel.STRING_RESOURCES.FUNCTION);
             output.append(StringInvariant.SPACE);
             output.append(calcStepsRegister.functionNameStart);

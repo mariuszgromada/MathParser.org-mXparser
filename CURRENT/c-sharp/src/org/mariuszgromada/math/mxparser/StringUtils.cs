@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.cs        6.0.0    2024-05-19
+ * @(#)StringUtils.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -236,7 +236,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        6.0.0
+     * @version        6.1.0
      */
     public sealed class StringUtils {
 		/**
@@ -488,12 +488,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Text adjusting.
 		 */
         internal static String getLeftSpaces(String maxStr, String str) {
+            if (str.Length >= maxStr.Length) return str;
             return repeatString(StringInvariant.SPACE, maxStr.Length - str.Length) + str;
         }
         /*
 		 * Text adjusting.
 		 */
         internal static String getRightSpaces(String maxStr, String str) {
+            if (str.Length >= maxStr.Length) return str;
             return str + repeatString(StringInvariant.SPACE, maxStr.Length - str.Length);
         }
         internal static void consolePrintln() {
@@ -591,9 +593,9 @@ namespace org.mariuszgromada.math.mxparser {
                 ,params String[] partsToAppend
         ) {
             if (newLineBefore)
-                stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, StringInvariant.NEW_LINE, "", clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+                stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, StringInvariant.NEW_LINE, StringInvariant.EMPTY, clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
             else
-                stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, "", "", clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
+                stringBuilderPartsAppendDelimitedRow(partQuote, partQuote, delimiter, StringInvariant.EMPTY, StringInvariant.EMPTY, clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
         }
         internal static void stringBuilderPartsAppendDelimitedRow(
                 String partQuote

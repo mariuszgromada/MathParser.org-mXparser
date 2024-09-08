@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        6.0.0    2024-05-19
+ * @(#)Token.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,7 +233,7 @@ import java.io.Serializable;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  */
 public class Token implements Serializable {
 	private static final int serialClassID = 92;
@@ -279,126 +279,136 @@ public class Token implements Serializable {
 	 * @return true in case token is unary left operator,
 	 * otherwise returns false
 	 */
-	public boolean isUnaryLeftOperator() {
-		if (tokenTypeId == Operator.TYPE_ID) {
-			if (tokenId == Operator.SQUARE_ROOT_ID) return true;
-			if (tokenId == Operator.CUBE_ROOT_ID) return true;
-			if (tokenId == Operator.FOURTH_ROOT_ID) return true;
+	public static boolean isUnaryLeftOperator(Token token) {
+		if (token.tokenTypeId == Operator.TYPE_ID) {
+			if (token.tokenId == Operator.SQUARE_ROOT_ID) return true;
+			if (token.tokenId == Operator.CUBE_ROOT_ID) return true;
+			if (token.tokenId == Operator.FOURTH_ROOT_ID) return true;
 		}
-		if (tokenTypeId == BooleanOperator.TYPE_ID) {
-			if (tokenId == BooleanOperator.NEG_ID) return true;
+		if (token.tokenTypeId == BooleanOperator.TYPE_ID) {
+			if (token.tokenId == BooleanOperator.NEG_ID) return true;
 		}
-		if (tokenTypeId == BitwiseOperator.TYPE_ID) {
-			if (tokenId == BitwiseOperator.COMPL_ID) return true;
+		if (token.tokenTypeId == BitwiseOperator.TYPE_ID) {
+			if (token.tokenId == BitwiseOperator.COMPL_ID) return true;
 		}
 		return false;
 	}
+	public boolean isUnaryLeftOperator() { return isUnaryLeftOperator(this); }
 	/**
 	 * Verification if the token is a right unary operator.
 	 *
 	 * @return true in case token is unary right operator,
 	 * otherwise returns false
 	 */
-	public boolean isUnaryRightOperator() {
-		if (tokenTypeId == Operator.TYPE_ID) {
-			if (tokenId == Operator.FACT_ID) return true;
-			if (tokenId == Operator.PERC_ID) return true;
+	public static boolean isUnaryRightOperator(Token token) {
+		if (token.tokenTypeId == Operator.TYPE_ID) {
+			if (token.tokenId == Operator.FACT_ID) return true;
+			if (token.tokenId == Operator.PERC_ID) return true;
 		}
 		return false;
 	}
+	public boolean isUnaryRightOperator() { return isUnaryRightOperator(this); }
 	/**
 	 * Verification if the token is a left parenthesis.
 	 *
 	 * @return true in case token is a left parenthesis,
 	 * otherwise returns false
 	 */
-	public boolean isLeftParenthesis() {
-		return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.LEFT_PARENTHESES_ID;
+	public static boolean isLeftParenthesis(Token token) {
+		return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID;
 	}
+	public boolean isLeftParenthesis() { return isLeftParenthesis(this); }
 	/**
 	 * Verification if the token is a right parenthesis.
 	 *
 	 * @return true in case token is a right parenthesis,
 	 * otherwise returns false
 	 */
-	public boolean isRightParenthesis() {
-		return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.RIGHT_PARENTHESES_ID;
+	public static boolean isRightParenthesis(Token token) {
+		return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID;
 	}
+	public boolean isRightParenthesis() { return isRightParenthesis(this); }
 	/**
 	 * Verification if the token is an identifier.
 	 *
 	 * @return true in case token is an identifier,
 	 * otherwise returns false
 	 */
-	public boolean isIdentifier() {
-		return tokenTypeId == Constant.TYPE_ID ||
-				tokenTypeId == ConstantValue.TYPE_ID ||
-				tokenTypeId == Unit.TYPE_ID ||
-				tokenTypeId == Argument.TYPE_ID;
+	public static boolean isIdentifier(Token token) {
+		return token.tokenTypeId == Constant.TYPE_ID ||
+				token.tokenTypeId == ConstantValue.TYPE_ID ||
+				token.tokenTypeId == Unit.TYPE_ID ||
+				token.tokenTypeId == Argument.TYPE_ID;
 	}
+	public boolean isIdentifier() { return isIdentifier(this); };
 	/**
 	 * Verification if the token is a binary operator.
 	 *
 	 * @return true in case token is a binary operator,
 	 * otherwise returns false
 	 */
-	public boolean isBinaryOperator() {
-		if (isUnaryLeftOperator()) return false;
-		if (isUnaryRightOperator()) return false;
-		if (tokenTypeId == BinaryRelation.TYPE_ID) return true;
-		if (tokenTypeId == BitwiseOperator.TYPE_ID) return true;
-		if (tokenTypeId == BooleanOperator.TYPE_ID) return true;
-		if (tokenTypeId == Operator.TYPE_ID) {
-			return tokenId != Operator.SQUARE_ROOT_ID
-					&& tokenId != Operator.CUBE_ROOT_ID
-					&& tokenId != Operator.FOURTH_ROOT_ID
-					&& tokenId != Operator.FACT_ID
-					&& tokenId != Operator.PERC_ID;
+	public static boolean isBinaryOperator(Token token) {
+		if (isUnaryLeftOperator(token)) return false;
+		if (isUnaryRightOperator(token)) return false;
+		if (token.tokenTypeId == BinaryRelation.TYPE_ID) return true;
+		if (token.tokenTypeId == BitwiseOperator.TYPE_ID) return true;
+		if (token.tokenTypeId == BooleanOperator.TYPE_ID) return true;
+		if (token.tokenTypeId == Operator.TYPE_ID) {
+			return token.tokenId != Operator.SQUARE_ROOT_ID
+					&& token.tokenId != Operator.CUBE_ROOT_ID
+					&& token.tokenId != Operator.FOURTH_ROOT_ID
+					&& token.tokenId != Operator.FACT_ID
+					&& token.tokenId != Operator.PERC_ID;
 		}
 		return false;
 	}
+	public boolean isBinaryOperator() { return isBinaryOperator(this); }
 	/**
 	 * Verification if the token is a parameter separator.
 	 *
 	 * @return true in case token is a parameter separator,
 	 * otherwise returns false
 	 */
-	public boolean isParameterSeparator() {
-		return tokenTypeId == ParserSymbol.TYPE_ID && tokenId == ParserSymbol.COMMA_ID;
+	public static boolean isParameterSeparator(Token token) {
+		return token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.COMMA_ID;
 	}
+	public boolean isParameterSeparator() { return isParameterSeparator(this); }
 	/**
 	 * Verification if the token is a number.
 	 *
 	 * @return true in case token is a number,
 	 * otherwise returns false
 	 */
-	public boolean isNumber() {
-		return tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && tokenId == ParserSymbol.NUMBER_ID;
+	public static boolean isNumber(Token token) {
+		return token.tokenTypeId == ParserSymbol.NUMBER_TYPE_ID && token.tokenId == ParserSymbol.NUMBER_ID;
 	}
+	public boolean isNumber() { return isNumber(this); }
 	/**
 	 * Verification if the token is represented by a special name in the form [...].
 	 *
 	 * @return true in case token is represented by a special name in the form [...],
 	 * otherwise returns false
 	 */
-	public boolean isSpecialTokenName() {
-		if (tokenStr.length() == 0) return false;
-		return tokenStr.charAt(0) == '[';
+	public static boolean isSpecialTokenName(Token token) {
+		if (token.tokenStr.length() == 0) return false;
+		return token.tokenStr.charAt(0) == '[';
 	}
+	public boolean isSpecialTokenName() { return isSpecialTokenName(this); }
 	/**
 	 * Verification if the token represents unicode root operator
 	 *
 	 * @return true in case token represents unicode root operator
 	 * otherwise returns false
 	 */
-	public boolean isUnicodeRootOperator() {
-		if (tokenTypeId == Operator.TYPE_ID) {
-			if (tokenId == Operator.SQUARE_ROOT_ID) return true;
-			if (tokenId == Operator.CUBE_ROOT_ID) return true;
-			if (tokenId == Operator.FOURTH_ROOT_ID) return true;
+	public static boolean isUnicodeRootOperator(Token token) {
+		if (token.tokenTypeId == Operator.TYPE_ID) {
+			if (token.tokenId == Operator.SQUARE_ROOT_ID) return true;
+			if (token.tokenId == Operator.CUBE_ROOT_ID) return true;
+			if (token.tokenId == Operator.FOURTH_ROOT_ID) return true;
 		}
 		return false;
 	}
+	public boolean isUnicodeRootOperator() { return isUnicodeRootOperator(this); }
 	/**
 	 * Creates token representing multiplication operator.
 	 *
@@ -444,26 +454,27 @@ public class Token implements Serializable {
 	 * Default constructor
 	 */
 	public Token() {
-		tokenStr = "";
-		keyWord = "";
+		tokenStr = ParserSymbol.EMPTY;
+		keyWord = ParserSymbol.EMPTY;
 		tokenId = NOT_MATCHED;
 		tokenTypeId = NOT_MATCHED;
 		tokenLevel = -1;
 		tokenValue = Double.NaN;
-		looksLike = "";
+		looksLike = ParserSymbol.EMPTY;
 	}
 	/**
 	 * Token cloning.
 	 */
-	public Token clone() {
-		Token token = new Token();
-		token.keyWord = keyWord;
-		token.tokenStr = tokenStr;
-		token.tokenId = tokenId;
-		token.tokenLevel = tokenLevel;
-		token.tokenTypeId = tokenTypeId;
-		token.tokenValue = tokenValue;
-		token.looksLike = looksLike;
-		return token;
+	public static Token clone(Token token) {
+		Token tokenClone = new Token();
+		tokenClone.keyWord = token.keyWord;
+		tokenClone.tokenStr = token.tokenStr;
+		tokenClone.tokenId = token.tokenId;
+		tokenClone.tokenLevel = token.tokenLevel;
+		tokenClone.tokenTypeId = token.tokenTypeId;
+		tokenClone.tokenValue = token.tokenValue;
+		tokenClone.looksLike = token.looksLike;
+		return tokenClone;
 	}
+	public Token clone() { return clone(this); }
 }

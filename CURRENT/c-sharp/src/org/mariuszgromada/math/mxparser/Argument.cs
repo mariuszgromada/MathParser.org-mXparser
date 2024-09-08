@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.cs        6.0.0    2024-05-19
+ * @(#)Argument.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -263,7 +263,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.1.0
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -341,7 +341,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see ArgumentExtension
 		 * @see Argument#Argument(String, ArgumentExtension)
 		 */
-		private ArgumentExtension argumentExtension;
+		private ArgumentExtension argumentExtension = null;
 		/**
 		 * Description of the argument.
 		 */
@@ -350,7 +350,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * Argument expression for dependent and recursive
 		 * arguments.
 		 */
-		internal Expression argumentExpression;
+		internal Expression argumentExpression = null;
 		/**
 		 * Argument name (x, y, arg1, my_argument, etc...)
 		 */
@@ -378,7 +378,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see RecursiveArgument
 		 */
-		protected Argument n;
+		protected Argument n = null;
         /**
          * Internal counter to avoid infinite loops while calculating
          * expression defined in the way showed by below examples

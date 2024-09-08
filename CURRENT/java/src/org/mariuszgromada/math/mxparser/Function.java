@@ -1,5 +1,5 @@
 /*
- * @(#)Function.java        6.0.0    2024-05-19
+ * @(#)Function.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -254,7 +254,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.Token;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -746,7 +746,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	public boolean checkSyntax() {
 		if (!syntaxStatusDefinition)
 			return SYNTAX_ERROR;
-		if (functionName.length() == 0)
+		if (functionName.isEmpty())
 			return SYNTAX_ERROR;
 		if (functionBodyType == BODY_EXTENDED) {
 			if (!isVariadic && functionExtension == null)
@@ -767,7 +767,7 @@ public class Function extends PrimitiveElement implements Serializable {
 	public String getErrorMessage() {
 		if (!syntaxStatusDefinition)
 			return errorMessageDefinition;
-		if (functionName.length() == 0)
+		if (functionName.isEmpty())
 			return errorMessageDefinition;
 		if (functionBodyType == BODY_EXTENDED) {
 			if (!isVariadic && functionExtension == null)
@@ -776,7 +776,7 @@ public class Function extends PrimitiveElement implements Serializable {
 				return errorMessageDefinition;
 		}
 		String functionExpressionErrorMessage = functionExpression.getErrorMessage();
-		if (errorMessageDefinition.length() > 0 && functionExpressionErrorMessage.length() == 0)
+		if (!errorMessageDefinition.isEmpty() && functionExpressionErrorMessage.isEmpty())
 			return errorMessageDefinition;
 		return functionExpressionErrorMessage;
 	}

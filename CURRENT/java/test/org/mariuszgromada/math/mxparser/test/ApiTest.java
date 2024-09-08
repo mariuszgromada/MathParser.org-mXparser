@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        6.0.0    2024-05-19
+ * @(#)SyntaxTest.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -242,7 +242,7 @@ import java.util.Locale;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.0
  *
  */
 public final class ApiTest {
@@ -6184,7 +6184,7 @@ public final class ApiTest {
         String license3 = mXparser.LICENSE;
         String license4 = mXparser.getLicense();
 
-        if (license1.equals(license2) && license1.equals(license3) && license1.equals(license4))
+        if (license1.equals(license2) && license3.contains(license1) && license4.contains(license1))
             testResult = true;
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
@@ -10830,7 +10830,7 @@ public final class ApiTest {
         if (elements != null)
             if (elements.length > 0)
                 for (String str : elements)
-                    e.addArguments(new Argument(str, "0"));
+                    e.addArguments(new Argument(str, 0));
         String canExprStr = e.getCanonicalExpressionString();
         mXparser.consolePrintln("------ canExprStr = " + canExprStr);
         return expResStr.equals(canExprStr);

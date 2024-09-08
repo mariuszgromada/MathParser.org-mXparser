@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValue.cs        6.0.0    2024-05-19
+ * @(#)SpecialValue.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,7 +230,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.0.0
+	 * @version        6.1.0
 	 */
 	[CLSCompliant(true)]
 	public class SpecialValue {
@@ -266,7 +266,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		public SpecialValue(double x, double fv) {
 			this.x = x;
 			this.fv = fv;
-			xFrom = x - EPSILON;
+            fvdeg = Double.NaN;
+            xFrom = x - EPSILON;
 			xTo = x + EPSILON;
 		}
 		/**

@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.0.0    2024-05-19
+ * @(#)ApiTest.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -239,7 +239,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.0.0
+	 * @version        6.1.0
 	 *
 	 */
 	[TestClass]
@@ -6235,8 +6235,8 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String license3 = mXparser.LICENSE;
 			String license4 = mXparser.getLicense();
 
-			if (license1.Equals(license2) && license1.Equals(license3) && license1.Equals(license4))
-				testResult = true;
+            if (license1.Equals(license2) && license3.Contains(license1) && license4.Contains(license1))
+                testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 		   Assert.IsTrue(testResult);
 		}
@@ -10901,7 +10901,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (elements != null)
 				if (elements.Length > 0)
 					foreach (String str in elements)
-						e.addArguments(new Argument(str, "0"));
+						e.addArguments(new Argument(str, 0));
             String canExprStr = e.getCanonicalExpressionString();
             mXparser.consolePrintln("------ canExprStr = " + canExprStr);
             return expResStr.Equals(canExprStr);

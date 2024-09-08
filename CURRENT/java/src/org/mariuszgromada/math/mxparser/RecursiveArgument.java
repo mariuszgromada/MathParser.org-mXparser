@@ -1,5 +1,5 @@
 /*
- * @(#)RecursiveArgument.java        6.0.0    2024-05-19
+ * @(#)RecursiveArgument.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -261,7 +261,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  *
  * @see Argument
  * @see Expression
@@ -279,12 +279,12 @@ public class RecursiveArgument extends Argument implements Serializable {
 	/**
 	 * Base values
 	 */
-	private List<Double> baseValues;
+	private List<Double> baseValues = null;
 	/**
 	 * To avoid never ending loops
 	 */
-	private int recursiveCounter;
-	private int startingIndex;
+	private int recursiveCounter = -1;
+	private int startingIndex = 0;
 	private void initRecursiveArgument() {
 		argumentType = RECURSIVE_ARGUMENT;
 		baseValues = new ArrayList<Double>();

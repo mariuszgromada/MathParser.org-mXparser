@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cs        6.0.0    2024-05-19
+ * @(#)ExpressionUtils.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -236,7 +236,7 @@ namespace org.mariuszgromada.math.mxparser {
      *
      * @see            Expression
      *
-     * @version        6.0.0
+     * @version        6.1.0
      */
     internal sealed class ExpressionUtils {
         internal static readonly bool LANGUAGE_SPECIFIC_DESCRIPTIONS_SET = StringModel.LANGUAGE_SPECIFIC_DESCRIPTIONS_SET;
@@ -249,9 +249,9 @@ namespace org.mariuszgromada.math.mxparser {
             for (int argumentIndex = 0; argumentIndex<argumentsNumber; argumentIndex++) {
                 Argument arg = argumentsList[argumentIndex];
                 if (arg.getArgumentType() != Argument.RECURSIVE_ARGUMENT)
-                    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName(), "", Argument.TYPE_ID, keyWordsList);
+                    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName(), StringInvariant.EMPTY, Argument.TYPE_ID, keyWordsList);
                 else
-                    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName() + "(n)", "", RecursiveArgument.TYPE_ID_RECURSIVE, keyWordsList);
+                    addKeyWord(arg.getArgumentName(),arg.getDescription(), argumentIndex, arg.getArgumentName() + "(n)", StringInvariant.EMPTY, RecursiveArgument.TYPE_ID_RECURSIVE, keyWordsList);
             }
         }
         internal static void addFunctionsKeyWords(List<Function> functionsList, List<KeyWord> keyWordsList) {
@@ -267,14 +267,14 @@ namespace org.mariuszgromada.math.mxparser {
                         syntax.Append(",");
                 }
                 syntax.Append(")");
-                addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax.ToString(), "", Function.TYPE_ID, keyWordsList);
+                addKeyWord(fun.getFunctionName(), fun.getDescription(), functionIndex, syntax.ToString(), StringInvariant.EMPTY, Function.TYPE_ID, keyWordsList);
             }
         }
         internal static void addConstantsKeyWords(List<Constant> constantsList, List<KeyWord> keyWordsList) {
             int constantsNumber = constantsList.Count;
             for (int constantIndex = 0; constantIndex < constantsNumber; constantIndex++) {
                 Constant c = constantsList[constantIndex];
-                addKeyWord(c.getConstantName(), c.getDescription(), constantIndex, c.getConstantName(), "", Constant.TYPE_ID, keyWordsList);
+                addKeyWord(c.getConstantName(), c.getDescription(), constantIndex, c.getConstantName(), StringInvariant.EMPTY, Constant.TYPE_ID, keyWordsList);
             }
         }
 
@@ -1235,7 +1235,7 @@ namespace org.mariuszgromada.math.mxparser {
             return helpStr.ToString();
         }
         internal static String getHelp(String query, List<KeyWord> keyWordsList) {
-            return getHelp(query, keyWordsList, true, true, "");
+            return getHelp(query, keyWordsList, true, true, StringInvariant.EMPTY);
         }
 
         internal static String getHelpAsCsv(List<KeyWord> keyWordsList, String quote, String delimiter, bool addHeader, String query) {
@@ -1398,12 +1398,12 @@ namespace org.mariuszgromada.math.mxparser {
             return StringUtils.cleanNewLineAtTheEnd(result.ToString());
         }
         internal static String getHelpAsHtmlTable(List<KeyWord> keyWordsList, bool addHeadline, String query) {
-            return getHelpAsHtmlTable(keyWordsList, addHeadline, true, false, query, "", "");
+            return getHelpAsHtmlTable(keyWordsList, addHeadline, true, false, query, StringInvariant.EMPTY, StringInvariant.EMPTY);
         }
 
 
         internal static String getHelpAsMarkdownTable(List<KeyWord> keyWordsList, String query) {
-            return getHelpAsMarkdownTable(keyWordsList, true, true, query, "");
+            return getHelpAsMarkdownTable(keyWordsList, true, true, query, StringInvariant.EMPTY);
         }
 
 
@@ -1506,7 +1506,7 @@ namespace org.mariuszgromada.math.mxparser {
         internal static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
             List<KeyWord> kwyWordsToReturn = new List<KeyWord>();
             keyWordsList.Sort(new KwTypeComparator());
-            String queryLower = "";
+            String queryLower = StringInvariant.EMPTY;
             if (query != null)
                 queryLower = query.ToLower();
 

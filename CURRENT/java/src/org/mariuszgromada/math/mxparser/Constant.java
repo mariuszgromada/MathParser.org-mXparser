@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        6.0.0    2024-05-19
+ * @(#)Constant.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -246,7 +246,7 @@ import org.mariuszgromada.math.mxparser.parsertokens.ParserSymbol;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  *
  * @see RecursiveArgument
  * @see Expression
@@ -296,7 +296,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	/**
 	 * Dependent expression list
 	 */
-	private List<Expression> relatedExpressionsList;
+	private List<Expression> relatedExpressionsList = null;
 	/**
 	 * Status of the expression syntax
 	 *
@@ -304,7 +304,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 *    - NO_SYNTAX_ERRORS
 	 *    - SYNTAX_ERROR
 	 */
-	private boolean syntaxStatus;
+	private boolean syntaxStatus = SYNTAX_ERROR;
 	/**
 	 * Message after checking the syntax
 	 */

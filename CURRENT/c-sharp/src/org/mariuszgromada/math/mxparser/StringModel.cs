@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.cs        6.0.0    2024-05-19
+ * @(#)StringModel.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,7 +234,7 @@ namespace org.mariuszgromada.math.mxparser {
      *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
      *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
      *
-     * @version        6.0.0
+     * @version        6.1.0
      */
     public sealed class StringModel {
         internal static readonly StringResources DEFAULT_ENGLISH_STRING_RESOURCES = new StringResources();
@@ -277,7 +277,7 @@ namespace org.mariuszgromada.math.mxparser {
          * Forces to use default string resources
          */
         internal static void forceDefaultStringResources() {
-            if (STRING_RESOURCES != null & STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
+            if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
             STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
             setLanguageSpecificDescriptions();
         }

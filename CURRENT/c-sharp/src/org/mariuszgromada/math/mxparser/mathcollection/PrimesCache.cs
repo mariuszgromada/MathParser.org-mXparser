@@ -1,5 +1,5 @@
 /*
- * @(#)PrimesCache.cs        6.0.0    2024-05-19
+ * @(#)PrimesCache.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,7 +232,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.1.0
 	 */
 	[CLSCompliant(true)]
 	public class PrimesCache {
@@ -347,10 +347,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Default constructor - setting prime cache for a default range if integers
 		 */
 		public PrimesCache() {
+
 			initSuccessful = false;
 			cacheStatus = CACHE_EMPTY;
 			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
-			EratosthenesSieve();
+            computingTime = Double.NaN;
+            EratosthenesSieve();
 			if (initSuccessful) {
 				countPrimes();
 				cacheStatus = CACHING_FINISHED;
@@ -370,7 +372,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				this.maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
 			initSuccessful = false;
 			cacheStatus = CACHE_EMPTY;
-			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
+            computingTime = Double.NaN;
+            maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
 			EratosthenesSieve();
 			if (initSuccessful) {
 				countPrimes();
@@ -415,7 +418,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 */
 		public int primeTest(int n) {
 			if (n <= 1) return IS_NOT_PRIME;
-			if ( (n <= maxNumInCache) && (cacheStatus = CACHING_FINISHED) )
+			if ( (n <= maxNumInCache) && (cacheStatus == CACHING_FINISHED) )
 				if (isPrime[n])
 					return IS_PRIME;
 				else

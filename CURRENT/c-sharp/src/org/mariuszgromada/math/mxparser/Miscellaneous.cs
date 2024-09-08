@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        6.0.0    2024-05-19
+ * @(#)Miscellaneous.cs        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -296,7 +296,10 @@ namespace org.mariuszgromada.math.mxparser {
 				deltaParam = functionParameters[4];
 				withDelta = true;
 			}
-		}
+			from = Double.NaN;
+			to = Double.NaN;
+			delta = Double.NaN;
+        }
 	}
     /**
 	* Handling argument parameters
@@ -313,7 +316,8 @@ namespace org.mariuszgromada.math.mxparser {
 			initialValue = Double.NaN;
 			initialType = ConstantValue.NaN;
 			presence = Expression.NOT_FOUND;
-		}
+            index = ConstantValue.NaN;
+        }
 	}
     /**
 	* Internal token class
@@ -327,6 +331,13 @@ namespace org.mariuszgromada.math.mxparser {
 		internal int tokenTypeId;
 		internal int tokenLevel;
 		internal bool precedingFunction;
+        internal TokenStackElement() {
+			tokenIndex = ConstantValue.NaN;
+			tokenId = ConstantValue.NaN;
+			tokenTypeId = ConstantValue.NaN;
+			tokenLevel = ConstantValue.NaN;
+			precedingFunction = false;
+		}
 	}
     [Serializable]
     internal class SyntaxStackElement {
@@ -462,10 +473,13 @@ namespace org.mariuszgromada.math.mxparser {
 		internal const int KNOWN_KEYWORD = 5;
 		internal const int UNKNOWN_NAME = 6;
 		internal String str;
-		internal int type;
-		internal KeyWord keyWord;
+		internal int type = ConstantValue.NaN;
+        internal KeyWord keyWord;
 	}
 
+    /*
+     * --------------------------------
+     */
     [Serializable]
     internal class CompilationDetails {
         internal bool containsCalculus = false;
@@ -473,6 +487,9 @@ namespace org.mariuszgromada.math.mxparser {
         internal List<CompiledElement> compiledElements;
 	}
 
+    /*
+     * --------------------------------
+     */
     [Serializable]
     internal class CompiledElement {
         internal enum ToCall {
@@ -514,11 +531,12 @@ namespace org.mariuszgromada.math.mxparser {
 			,bolCalc
 			,bitwiseCalc
 			,PARENTHESES
-		}
+			,Null
+        }
 
-        internal ToCall toCall;
-        internal int position1;
-        internal int position2;
+        internal ToCall toCall = ToCall.Null;
+        internal int position1 = ConstantValue.NaN;
+        internal int position2 = ConstantValue.NaN;
 
-	}
+    }
 }

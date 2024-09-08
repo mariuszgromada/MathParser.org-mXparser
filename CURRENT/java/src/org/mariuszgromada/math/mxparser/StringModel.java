@@ -1,5 +1,5 @@
 /*
- * @(#)StringModel.java        6.0.0    2024-05-19
+ * @(#)StringModel.java        6.1.0    2024-09-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,7 +234,7 @@ import org.mariuszgromada.math.mxparser.syntaxchecker.TokenMgrError;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.0
  */
 public final class StringModel {
     static final StringResources DEFAULT_ENGLISH_STRING_RESOURCES = new StringResources();
@@ -277,7 +277,7 @@ public final class StringModel {
      * Forces to use default string resources
      */
     static void forceDefaultStringResources() {
-        if (STRING_RESOURCES != null & STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
+        if (STRING_RESOURCES != null && STRING_RESOURCES == DEFAULT_STRING_RESOURCES) return;
         STRING_RESOURCES = DEFAULT_STRING_RESOURCES;
         setLanguageSpecificDescriptions();
     }
