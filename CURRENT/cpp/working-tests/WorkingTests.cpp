@@ -1,7 +1,5 @@
 #include "org/mariuszgromada/math/mxparser.hpp"
 
-using namespace org::mariuszgromada::math::mxparser;
-
 int main() {
 	ConstantPtr c = new_Constant("c = 2");
 	ArgumentPtr a = new_Argument("a = 2*c", c);

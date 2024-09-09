@@ -314,4 +314,6 @@ CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::Primit
 CEREAL_REGISTER_TYPE(org::mariuszgromada::math::mxparser::RecursiveArgument);
 CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::Argument, org::mariuszgromada::math::mxparser::RecursiveArgument);
 
+using namespace org::mariuszgromada::math::mxparser;
+
 #endif // ORG_MARIUSZGROMADA_MATH_MXPARSER_H
