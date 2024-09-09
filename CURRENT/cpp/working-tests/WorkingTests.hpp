@@ -1,0 +1,6 @@
+#ifndef MXPARSER_WORKING_TESTS_H
+#define MXPARSER_WORKING_TESTS_H
+
+int main();
+
+#endif //MXPARSER_WORKING_TESTS_H

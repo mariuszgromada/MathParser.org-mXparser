@@ -1,0 +1,540 @@
+/*
+ * @(#)SyntaxChecker.jj        6.0.0    2024-06-02
+ *
+ * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
+ * The most up-to-date license is available at the below link:
+ * - https://mathparser.org/mxparser-license
+ *
+ * AUTHOR: Copyright 2010 - 2024 Mariusz Gromada - All rights reserved
+ * PUBLISHER: INFIMA - https://payhip.com/infima
+ *
+ * SOFTWARE means source code and/or binary form and/or documentation.
+ * PRODUCT: MathParser.org-mXparser SOFTWARE
+ * LICENSE: DUAL LICENSE AGREEMENT
+ *
+ * BY INSTALLING, COPYING, OR OTHERWISE USING THE PRODUCT, YOU AGREE TO BE
+ * BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.
+ *
+ * The AUTHOR & PUBLISHER provide the PRODUCT under the DUAL LICENSE AGREEMENT
+ * model designed to meet the needs of both non-commercial use and commercial
+ * use.
+ *
+ * NON-COMMERCIAL USE means any use or activity where a fee is not charged
+ * and the purpose is not the sale of a good or service, and the use or
+ * activity is not intended to produce a profit. Examples of NON-COMMERCIAL USE
+ * include:
+ *
+ * 1. Non-commercial open-source software.
+ * 2. Non-commercial mobile applications.
+ * 3. Non-commercial desktop software.
+ * 4. Non-commercial web applications/solutions.
+ * 5. Non-commercial use in research, scholarly and educational context.
+ *
+ * The above list is non-exhaustive and illustrative only.
+ *
+ * COMMERCIAL USE means any use or activity where a fee is charged or the
+ * purpose is the sale of a good or service, or the use or activity is
+ * intended to produce a profit. COMMERCIAL USE examples:
+ *
+ * 1. OEMs (Original Equipment Manufacturers).
+ * 2. ISVs (Independent Software Vendors).
+ * 3. VARs (Value Added Resellers).
+ * 4. Other distributors that combine and distribute commercially licensed
+ *    software.
+ *
+ * The above list is non-exhaustive and illustrative only.
+ *
+ * IN CASE YOU WANT TO USE THE PRODUCT COMMERCIALLY, YOU MUST PURCHASE THE
+ * APPROPRIATE LICENSE FROM "INFIMA" ONLINE STORE, STORE ADDRESS:
+ *
+ * 1. https://mathparser.org/order-commercial-license
+ * 2. https://payhip.com/infima
+ *
+ * NON-COMMERCIAL LICENSE
+ *
+ * Redistribution and use of the PRODUCT in source and/or binary forms,
+ * with or without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * 1. Redistributions of source code must retain the unmodified content of
+ *    the entire MathParser.org-mXparser DUAL LICENSE AGREEMENT, including
+ *    the definition of NON-COMMERCIAL USE, the definition of COMMERCIAL USE,
+ *    the NON-COMMERCIAL LICENSE conditions, the COMMERCIAL LICENSE conditions,
+ *    and the following DISCLAIMER.
+ * 2. Redistributions in binary form must reproduce the entire content of
+ *    MathParser.org-mXparser DUAL LICENSE AGREEMENT in the documentation
+ *    and/or other materials provided with the distribution, including the
+ *    definition of NON-COMMERCIAL USE, the definition of COMMERCIAL USE, the
+ *    NON-COMMERCIAL LICENSE conditions, the COMMERCIAL LICENSE conditions,
+ *    and the following DISCLAIMER.
+ * 3. Any form of redistribution requires confirmation and signature of
+ *    the NON-COMMERCIAL USE by successfully calling the method:
+ *       License.iConfirmNonCommercialUse(...)
+ *    The method call is used only internally for logging purposes, and
+ *    there is no connection with other external services, and no data is
+ *    sent or collected. The lack of a method call (or its successful call)
+ *    does not affect the operation of the PRODUCT in any way. Please see
+ *    the API documentation.
+ *
+ * COMMERCIAL LICENSE
+ *
+ *  1. Before purchasing a commercial license, the AUTHOR & PUBLISHER allow
+ *     you to download, install, and use up to three copies of the PRODUCT to
+ *     perform integration tests, confirm the quality of the PRODUCT, and
+ *     its suitability. The testing period should be limited to fourteen
+ *     days. Tests should be performed under the test environments conditions
+ *     and not for profit generation.
+ *  2. Provided that you purchased a license from "INFIMA" online store
+ *     (store address: https://mathparser.org/order-commercial-license or
+ *     https://payhip.com/infima), and you comply with all terms and
+ *     conditions below, and you have acknowledged and understood the
+ *     following DISCLAIMER, the AUTHOR & PUBLISHER grant you a nonexclusive
+ *     license with the following rights:
+ *  3. The license is granted only to you, the person or entity that made
+ *     the purchase, identified and confirmed by the data provided during
+ *     the purchase.
+ *  4. If you purchased a license in the "ONE-TIME PURCHASE" model, the
+ *     license is granted only for the PRODUCT version specified in the
+ *     purchase. The upgrade policy gives you additional rights, described
+ *     in the dedicated section below.
+ *  5. If you purchased a license in the "SUBSCRIPTION" model, you may
+ *     install and use any version of the PRODUCT during the subscription
+ *     validity period.
+ *  6. If you purchased a "SINGLE LICENSE" you may install and use the
+ *     PRODUCT on/from one workstation that is located/accessible at/from
+ *     any of your premises.
+ *  7. Additional copies of the PRODUCT may be installed and used on/from
+ *     more than one workstation, limited to the number of workstations
+ *     purchased per order.
+ *  8. If you purchased a "SITE LICENSE", the PRODUCT may be installed
+ *     and used on/from all workstations located/accessible at/from any
+ *     of your premises.
+ *  9. You may incorporate the unmodified PRODUCT into your own products
+ *     and software.
+ * 10. If you purchased a license with the "SOURCE CODE" option, you may
+ *     modify the PRODUCT's source code and incorporate the modified source
+ *     code into your own products and/or software.
+ * 11. Provided that the license validity period has not expired, you may
+ *     distribute your product and/or software with the incorporated
+ *     PRODUCT royalty-free.
+ * 12. You may make copies of the PRODUCT for backup and archival purposes.
+ * 13. Any form of redistribution requires confirmation and signature of
+ *     the COMMERCIAL USE by successfully calling the method:
+ *        License.iConfirmCommercialUse(...)
+ *     The method call is used only internally for logging purposes, and
+ *     there is no connection with other external services, and no data is
+ *     sent or collected. The lack of a method call (or its successful call)
+ *     does not affect the operation of the PRODUCT in any way. Please see
+ *     the API documentation.
+ * 14. The AUTHOR & PUBLISHER reserve all rights not expressly granted to
+ *     you in this agreement.
+ *
+ * ADDITIONAL CLARIFICATION ON WORKSTATION
+ *
+ * A workstation is a device, a remote device, or a virtual device, used by
+ * you, your employees, or other entities to whom you have commissioned
+ * tasks. For example, the number of workstations may refer to the number
+ * of software developers, engineers, architects, scientists, and other
+ * professionals who use the PRODUCT on your behalf. The number of
+ * workstations is not the number of copies of your end-product that you
+ * distribute to your end-users.
+ *
+ * By purchasing the COMMERCIAL LICENSE, you only pay for the number of
+ * workstations, while the number of copies/users of your final product
+ * (delivered to your end-users) is not limited.
+ *
+ * Below are some examples to help you select the right license size:
+ *
+ * Example 1: Single Workstation License
+ * Only one developer works on the development of your application. You do
+ * not use separate environments for testing, meaning you design, create,
+ * test, and compile your final application on one environment. In this
+ * case, you need a license for a single workstation.
+ *
+ * Example 2: Up to 5 Workstations License
+ * Two developers are working on the development of your application.
+ * Additionally, one tester conducts tests in a separate environment.
+ * You use three workstations in total, so you need a license for up to
+ * five workstations.
+ *
+ * Example 3: Up to 20 Workstations License
+ * Ten developers are working on the development of your application.
+ * Additionally, five testers conduct tests in separate environments.
+ * You use fifteen workstations in total, so you need a license for
+ * up to twenty workstations.
+ *
+ * Example 4: Site License
+ * Several dozen developers and testers work on the development of your
+ * application using multiple environments. You have a large,
+ * multi-disciplinary team involved in creating your solution. As your team
+ * is growing and you want to avoid licensing limitations, the best choice
+ * would be a site license.
+ *
+ * UPGRADE POLICY
+ *
+ * The PRODUCT is versioned according to the following convention:
+ *
+ *    [MAJOR].[MINOR].[PATCH]
+ *
+ * 1. COMMERCIAL LICENSE holders can install and use the updated version
+ *    for bug fixes free of charge, i.e. if you have purchased a license
+ *    for the [MAJOR].[MINOR] version (e.g., 5.0), you can freely install
+ *    all releases specified in the [PATCH] version (e.g., 5.0.2).
+ *    The license terms remain unchanged after the update.
+ * 2. COMMERCIAL LICENSE holders for the [MAJOR].[MINOR] version (e.g., 5.0)
+ *    can install and use the updated version [MAJOR].[MINOR + 1] free of
+ *    charge, i.e., plus one release in the [MINOR] range (e.g., 5.1). The
+ *    license terms remain unchanged after the update.
+ * 3. COMMERCIAL LICENSE holders who wish to upgrade their version, but are
+ *    not eligible for the free upgrade, can claim a discount when
+ *    purchasing the upgrade. For this purpose, please contact us via e-mail.
+ *
+ * DISCLAIMER
+ *
+ * THIS PRODUCT IS PROVIDED BY THE AUTHOR & PUBLISHER "AS IS" AND ANY EXPRESS
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL AUTHOR OR PUBLISHER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS PRODUCT, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * THE VIEWS AND CONCLUSIONS CONTAINED IN THE PRODUCT AND DOCUMENTATION ARE
+ * THOSE OF THE AUTHORS AND SHOULD NOT BE INTERPRETED AS REPRESENTING
+ * OFFICIAL POLICIES, EITHER EXPRESSED OR IMPLIED, OF THE AUTHOR OR PUBLISHER.
+ *
+ * CONTACT
+ *
+ * - e-mail: info@mathparser.org
+ * - website: https://mathparser.org
+ * - source code: https://github.com/mariuszgromada/MathParser.org-mXparser
+ * - online store: https://mathparser.org/order-commercial-license
+ * - online store: https://payhip.com/infima
+ */
+
+options {
+	JDK_VERSION = "1.6";
+	OUTPUT_LANGUAGE = "c++";
+	STATIC = false;
+	UNICODE_INPUT = true;
+	LOOKAHEAD = 2;
+}
+
+PARSER_BEGIN(SyntaxChecker)
+
+#include <iostream>
+#include <stdexcept>
+
+using namespace std;
+
+namespace org::mariuszgromada::math::mxparser::syntaxchecker {
+
+class SyntaxChecker {
+public: void checkSyntax() {
+        start();
+    }
+};
+
+} // namespace org::mariuszgromada::math::mxparser::syntaxchecker
+
+PARSER_END(SyntaxChecker)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN : /* TOKENS */
+{
+	< #WHITESPACE: 			( " " | "\t" | "\n" | "\r" )												>
+|	< #LETTER:				["_","a"-"z","A"-"Z"]														>
+| 	< #DIGIT:				["0"-"9"]																	>
+| 	< #DIGIT_B1:			"1"																			>
+| 	< #DIGIT_B2:			["0","1"]																	>
+| 	< #DIGIT_B3:			["0"-"2"]																	>
+| 	< #DIGIT_B4:			["0"-"3"]																	>
+| 	< #DIGIT_B5:			["0"-"4"]																	>
+| 	< #DIGIT_B6:			["0"-"5"]																	>
+| 	< #DIGIT_B7:			["0"-"6"]																	>
+| 	< #DIGIT_B8:			["0"-"7"]																	>
+| 	< #DIGIT_B9:			["0"-"8"]																	>
+| 	< #DIGIT_B10:			["0"-"9"]																	>
+| 	< #DIGIT_B11:			["0"-"9","a","A"]															>
+| 	< #DIGIT_B12:			["0"-"9","a"-"b","A"-"B"]													>
+| 	< #DIGIT_B13:			["0"-"9","a"-"c","A"-"C"]													>
+| 	< #DIGIT_B14:			["0"-"9","a"-"d","A"-"D"]													>
+| 	< #DIGIT_B15:			["0"-"9","a"-"e","A"-"E"]													>
+| 	< #DIGIT_B16:			["0"-"9","a"-"f","A"-"F"]													>
+| 	< #DIGIT_B17:			["0"-"9","a"-"g","A"-"G"]													>
+| 	< #DIGIT_B18:			["0"-"9","a"-"h","A"-"H"]													>
+| 	< #DIGIT_B19:			["0"-"9","a"-"i","A"-"I"]													>
+| 	< #DIGIT_B20:			["0"-"9","a"-"j","A"-"J"]													>
+| 	< #DIGIT_B21:			["0"-"9","a"-"k","A"-"K"]													>
+| 	< #DIGIT_B22:			["0"-"9","a"-"l","A"-"L"]													>
+| 	< #DIGIT_B23:			["0"-"9","a"-"m","A"-"M"]													>
+| 	< #DIGIT_B24:			["0"-"9","a"-"n","A"-"N"]													>
+| 	< #DIGIT_B25:			["0"-"9","a"-"o","A"-"O"]													>
+| 	< #DIGIT_B26:			["0"-"9","a"-"p","A"-"P"]													>
+| 	< #DIGIT_B27:			["0"-"9","a"-"q","A"-"Q"]													>
+| 	< #DIGIT_B28:			["0"-"9","a"-"r","A"-"R"]													>
+| 	< #DIGIT_B29:			["0"-"9","a"-"s","A"-"S"]													>
+| 	< #DIGIT_B30:			["0"-"9","a"-"t","A"-"T"]													>
+| 	< #DIGIT_B31:			["0"-"9","a"-"u","A"-"U"]													>
+| 	< #DIGIT_B32:			["0"-"9","a"-"v","A"-"V"]													>
+| 	< #DIGIT_B33:			["0"-"9","a"-"w","A"-"W"]													>
+| 	< #DIGIT_B34:			["0"-"9","a"-"x","A"-"X"]													>
+| 	< #DIGIT_B35:			["0"-"9","a"-"y","A"-"Y"]													>
+| 	< #DIGIT_B36:			["0"-"9","a"-"z","A"-"Z"]													>
+| 	< #LETTERS:				<LETTER>(<LETTER>)*															>
+|  	< #INTEGER:				<DIGIT>(<DIGIT>)*															>
+|	< #DEC_FRACT:			( <INTEGER> )? "." <INTEGER>												>
+|	< #DEC_FRACT_OR_INT:	( <DEC_FRACT> | <INTEGER> )													>
+|	< DECIMAL:				<DEC_FRACT_OR_INT> ( ( "E" | "e" ) ( "+" | "-" )? <INTEGER> )?				>
+|	< BASE1:				( "b1" | "B1" ) "." (<DIGIT_B1>)*											>
+|	< BASE2:				( "b2" | "B2" ) "." <DIGIT_B2>(<DIGIT_B2>)*									>
+|	< BASE3:				( "b3" | "B3" ) "." <DIGIT_B3>(<DIGIT_B3>)*									>
+|	< BASE4:				( "b4" | "B4" ) "." <DIGIT_B4>(<DIGIT_B4>)*									>
+|	< BASE5:				( "b5" | "B5" ) "." <DIGIT_B5>(<DIGIT_B5>)*									>
+|	< BASE6:				( "b6" | "B6" ) "." <DIGIT_B6>(<DIGIT_B6>)*									>
+|	< BASE7:				( "b7" | "B7" ) "." <DIGIT_B7>(<DIGIT_B7>)*									>
+|	< BASE8:				( "b8" | "B8" ) "." <DIGIT_B8>(<DIGIT_B8>)*									>
+|	< BASE9:				( "b9" | "B9" ) "." <DIGIT_B9>(<DIGIT_B9>)*									>
+|	< BASE10:				( "b10" | "B10" ) "." <DIGIT_B10>(<DIGIT_B10>)*								>
+|	< BASE11:				( "b11" | "B11" ) "." <DIGIT_B11>(<DIGIT_B11>)*								>
+|	< BASE12:				( "b12" | "B12" ) "." <DIGIT_B12>(<DIGIT_B12>)*								>
+|	< BASE13:				( "b13" | "B13" ) "." <DIGIT_B13>(<DIGIT_B13>)*								>
+|	< BASE14:				( "b14" | "B14" ) "." <DIGIT_B14>(<DIGIT_B14>)*								>
+|	< BASE15:				( "b15" | "B15" ) "." <DIGIT_B15>(<DIGIT_B15>)*								>
+|	< BASE16:				( "b16" | "B16" ) "." <DIGIT_B16>(<DIGIT_B16>)*								>
+|	< BASE17:				( "b17" | "B17" ) "." <DIGIT_B17>(<DIGIT_B17>)*								>
+|	< BASE18:				( "b18" | "B18" ) "." <DIGIT_B18>(<DIGIT_B18>)*								>
+|	< BASE19:				( "b19" | "B19" ) "." <DIGIT_B19>(<DIGIT_B19>)*								>
+|	< BASE20:				( "b20" | "B20" ) "." <DIGIT_B20>(<DIGIT_B20>)*								>
+|	< BASE21:				( "b21" | "B21" ) "." <DIGIT_B21>(<DIGIT_B21>)*								>
+|	< BASE22:				( "b22" | "B22" ) "." <DIGIT_B22>(<DIGIT_B22>)*								>
+|	< BASE23:				( "b23" | "B23" ) "." <DIGIT_B23>(<DIGIT_B23>)*								>
+|	< BASE24:				( "b24" | "B24" ) "." <DIGIT_B24>(<DIGIT_B24>)*								>
+|	< BASE25:				( "b25" | "B25" ) "." <DIGIT_B25>(<DIGIT_B25>)*								>
+|	< BASE26:				( "b26" | "B26" ) "." <DIGIT_B26>(<DIGIT_B26>)*								>
+|	< BASE27:				( "b27" | "B27" ) "." <DIGIT_B27>(<DIGIT_B27>)*								>
+|	< BASE28:				( "b28" | "B28" ) "." <DIGIT_B28>(<DIGIT_B28>)*								>
+|	< BASE29:				( "b29" | "B29" ) "." <DIGIT_B29>(<DIGIT_B29>)*								>
+|	< BASE30:				( "b30" | "B30" ) "." <DIGIT_B30>(<DIGIT_B30>)*								>
+|	< BASE31:				( "b31" | "B31" ) "." <DIGIT_B31>(<DIGIT_B31>)*								>
+|	< BASE32:				( "b32" | "B32" ) "." <DIGIT_B32>(<DIGIT_B32>)*								>
+|	< BASE33:				( "b33" | "B33" ) "." <DIGIT_B33>(<DIGIT_B33>)*								>
+|	< BASE34:				( "b34" | "B34" ) "." <DIGIT_B34>(<DIGIT_B34>)*								>
+|	< BASE35:				( "b35" | "B35" ) "." <DIGIT_B35>(<DIGIT_B35>)*								>
+|	< BASE36:				( "b36" | "B36" ) "." <DIGIT_B36>(<DIGIT_B36>)*								>
+|	< BINARY:				( "b" | "B" ) "." <DIGIT_B2>(<DIGIT_B2>)*									>
+|	< OCTAL:				( "o" | "O" ) "." <DIGIT_B8>(<DIGIT_B8>)*									>
+|	< HEXADECIMAL:			( "h" | "H" ) "." <DIGIT_B16>(<DIGIT_B16>)*									>
+|	< FRACTION:				( <INTEGER> "_" )? <INTEGER> "_" <INTEGER>									>
+| 	< LEFT_PAR:				"("																			>
+| 	< RIGHT_PAR:			")"																			>
+| 	< COMMA:				","																			>
+| 	< SEMICOLON:			";"																			>
+| 	< PLUS:					"+"																			>
+| 	< MINUS:				"-"																			>
+| 	< MULTIPLY:				( "*" | "\u00d7" /* × */ | "\u2a09" /* ⨉ */ | "\u2219" /* ∙ */ )			>
+| 	< DIV:					( "/" | "\u00f7" /* ÷ */ | "\\" | ":" )											>
+| 	< POWER:				"^"																			>
+| 	< TETRATION:			"^^"																		>
+| 	< MODULO:				"#"																			>
+| 	< FACTORIAL:			"!"																			>
+| 	< PERCENTAGE:			"%"																			>
+| 	< EQ:					( "=" | "==" )																>
+| 	< NEQ:					( "<>" | "!=" | "~=" | "\u2260" /* ≠ */ )									>
+| 	< LT:					"<"																			>
+| 	< LEQ:					( "<=" | "\u2264" /* ≤ */ | "\u22dc" /* ⋜ */ )								>
+| 	< GT:					">"																			>
+| 	< GEQ:					( ">=" | "\u2265" /* ≥ */ | "\u22dd" /* ⋝ */ )								>
+| 	< OR:					( "|" | "||" | "\\/" | "\u2228" /* ∨ */ )	    							>
+| 	< AND:					( "&" | "&&" | "/\\" | "\u2227" /* ∧ */ )									>
+| 	< NOT:					( "~" | "\u00ac" /* ¬ */ )													>
+| 	< UNICODE_ROOT:			( "\u221a" /* √ */ | "\u221b" /* ∛ */ | "\u221c" /* ∜ */ )					>
+| 	< BITNOT:   			"@~"																		>
+| 	< IMP:					( "-->" | "\u21d2" /* ⇒ */ )											    >
+| 	< CIMP:					( "<--" | "\u21d0" /* ⇐ */  )												>
+| 	< NIMP:					( "-/>" | "\u21cf" /* ⇏ */ )												>
+| 	< CNIMP:				( "</-" | "\u21cd" /* ⇍ */ )												>
+|   < NAND:					( <NOT><AND> | "\u22bc" /* ⊼ */ )											>
+|   < EQV:  				( "<->"	| "\u21d4" /* ⇔ */ )												>
+|   < NOR:					( <NOT><OR> | "\u22bd" /* ⊽ */ )											>
+|   < BITWISE:				( "@&" | "@~&" | "@^" | "@~^" | "@|" | "@~|" | "@<<" | "@>>" )				>
+| 	< XOR:					( "(+)" | "\u22bb" /* ⊻ */)													>
+|	< IDENTIFIER:			<LETTERS> ( <LETTERS> | <INTEGER> )*  										>
+|	< LEFT_OR_RIGHT_DER:	( "der+" | "der-" | "\u2202+" /* ∂+ */ | "\u2202-" /* ∂- */ ) 				>
+|   < UNICODE_NAME:         (
+    "\u03b1" /* α */ |
+    "\u03b2" /* β */ |
+    "\u03b3" /* γ */ |
+    "\u03b4" /* δ */ |
+    "\u03b5" /* ε */ |
+    "\u03b6" /* ζ */ |
+    "\u03b7" /* η */ |
+    "\u03b8" /* θ */ |
+    "\u03b9" /* ι */ |
+    "\u03ba" /* κ */ |
+    "\u03bb" /* λ */ |
+    "\u03bc" /* μ */ |
+    "\u03bd" /* ν */ |
+    "\u03be" /* ξ */ |
+    "\u03bf" /* ο */ |
+    "\u03c0" /* π */ |
+    "\u03c1" /* ρ */ |
+    "\u03c2" /* ς */ |
+    "\u03c3" /* σ */ |
+    "\u03c4" /* τ */ |
+    "\u03c5" /* υ */ |
+    "\u03c6" /* φ */ |
+    "\u03c7" /* χ */ |
+    "\u03c8" /* ψ */ |
+    "\u03c9" /* ω */ |
+    "\u0391" /* Α */ |
+    "\u0392" /* Β */ |
+    "\u0393" /* Γ */ |
+    "\u0394" /* Δ */ |
+    "\u0395" /* Ε */ |
+    "\u0396" /* Ζ */ |
+    "\u0397" /* Η */ |
+    "\u0398" /* Θ */ |
+    "\u0399" /* Ι */ |
+    "\u039a" /* Κ */ |
+    "\u039b" /* Λ */ |
+    "\u039c" /* Μ */ |
+    "\u039d" /* Ν */ |
+    "\u039e" /* Ξ */ |
+    "\u039f" /* Ο */ |
+    "\u03a0" /* Π */ |
+    "\u03a1" /* Ρ */ |
+    "\u03a3" /* Σ */ |
+    "\u03a4" /* Τ */ |
+    "\u03a5" /* Υ */ |
+    "\u03a6" /* Φ */ |
+    "\u03a7" /* Χ */ |
+    "\u03a8" /* Ψ */ |
+    "\u03a9" /* Ω */ |
+    "\u2211" /* ∑ */ |
+    "\u220f" /* ∏ */ |
+    "\u213f" /* ℿ */ |
+    "\u2206" /* ∆ */ |
+    "\u2207" /* ∇ */ |
+    "\u222b" /* ∫ */ |
+    "\u213c" /* ℼ */ |
+    "\u2107" /* ℇ */ |
+    "\u2147" /* ⅇ */ |
+    "\u212f" /* ℯ */ |
+    "\u2202" /* ∂ */
+)   >
+| 	< OTHER_CHAR:			( "`"  | "@" | "#" | "$" | "." | "'" | ":" | ";" | "\\" | "/" | "?" )		>
+}
+
+/*
+ * Lexer logic - grammar
+ */
+void start():{}
+{
+	expression() <EOF> | <EOF >
+}
+
+void expression():{ } 
+{
+	binaryExpression()
+}
+
+void binaryExpression():{ } 
+{
+	unaryRigthExpression() ( binaryOperator() unaryRigthExpression() )* 
+}
+
+void unaryRigthExpression():{}
+{
+	unaryLeftExpression() ( unaryRigthOperator() )?
+}
+
+void unaryLeftExpression():{}
+{
+	( unaryLeftOperator() )? itemExpression()
+}
+
+void binaryOperator():{}
+{
+	<PLUS> | <MINUS> | <MULTIPLY> | <DIV> |	<MODULO> | <POWER> | <TETRATION> | <EQ> | <NEQ> | <GT> | <GEQ> | <LT> | <LEQ> | <OR> | <AND> | <NOR> | <NAND> | <XOR> | <IMP> | <CIMP> | <NIMP> | <CNIMP> | <EQV> | <BITWISE>
+}
+
+void unaryRigthOperator():{}
+{
+	<FACTORIAL> | <PERCENTAGE>
+}
+
+void unaryLeftOperator():{}
+{
+	<NOT> | <BITNOT> | (<UNICODE_ROOT>)+
+}
+
+void itemExpression():{}
+{
+    ( <PLUS> | <MINUS> )? ( itemOrFunctionOptionalImpliedMultiplication()  ( bracketedExpressionOptionalImpliedMultiplication() | (<UNICODE_ROOT>)+ bracketedExpressionOptionalImpliedMultiplication() )? ( itemOrFunctionOptionalImpliedMultiplication() | (<UNICODE_ROOT>)+ itemOrFunctionOptionalImpliedMultiplication() )? | ( bracketedExpressionOptionalImpliedMultiplication() ) ( itemOrFunctionOptionalImpliedMultiplication() | (<UNICODE_ROOT>)+ itemOrFunctionOptionalImpliedMultiplication() )? )+
+}
+
+void bracketedExpressionOptionalImpliedMultiplication():{}
+{
+    bracketedExpression() ( bracketedExpression() | (<UNICODE_ROOT>)+ bracketedExpression() )?
+}
+
+void bracketedExpression():{}
+{
+    <LEFT_PAR> expression() <RIGHT_PAR>
+}
+
+void itemOrFunctionOptionalImpliedMultiplication():{}
+{
+    <DECIMAL> ( itemOrFunctionImpliedMultiplication() | (<UNICODE_ROOT>)+ ( itemOrFunctionImpliedMultiplication() | <DECIMAL> ) )? ( <DECIMAL> | (<UNICODE_ROOT>)+ <DECIMAL> )? | ( itemOrFunctionImpliedMultiplication() ) ( <DECIMAL> | (<UNICODE_ROOT>)+ <DECIMAL> )?
+}
+
+void itemOrFunctionImpliedMultiplication():{}
+{
+	itemOrFunction() ( itemOrFunction() | (<UNICODE_ROOT>)+ ( itemOrFunction() | <DECIMAL> | otherBaseNumber() ) )* | otherBaseNumber()
+}
+
+void itemOrFunction():{}
+{
+	unitOrSpecialConstant() | itemName() ( argumentList() )?
+}
+
+void otherBaseNumber():{}
+{
+	<HEXADECIMAL> | <OCTAL> | <BINARY> | <BASE1> | <BASE2> | <BASE3> | <BASE4> | <BASE5> | <BASE6> | <BASE7> | <BASE8> | <BASE9> | <BASE10> | <BASE11> | <BASE12> | <BASE13> | <BASE14> | <BASE15> | <BASE16> | <BASE17> | <BASE18> | <BASE19> | <BASE20> | <BASE21> | <BASE22> | <BASE23> | <BASE24> | <BASE25> | <BASE26> | <BASE27> | <BASE28> | <BASE29> | <BASE30> | <BASE31> | <BASE32> | <BASE33> | <BASE34> | <BASE35> | <BASE36> | <FRACTION>
+}
+
+void itemName():{}
+{
+	<IDENTIFIER> | <LEFT_OR_RIGHT_DER> | <UNICODE_NAME>
+}
+
+void unitOrSpecialConstant():{}
+{
+	"[%]" | "[%%]" | "[" ( ( <OTHER_CHAR> | <IDENTIFIER> | <UNICODE_NAME> )  ( <NOT> | <MODULO> | <POWER> | <AND> | <MULTIPLY> | <DIV> | <LEFT_PAR> | <RIGHT_PAR> | <MINUS> | <PLUS> | <COMMA> | <OR> | <GT> | <LT> | <DECIMAL> )* )+ "]"
+}
+
+void argumentList():{}
+{
+	<LEFT_PAR> expression() ( ( <COMMA> | <SEMICOLON> ) expression() )* <RIGHT_PAR>
+}
+
+/*
+ * Unexpected and invalid tokens
+ */
+< * > TOKEN : 
+{
+	< INVALID_TOKEN: ( "+" (<WHITESPACE>)* "+" | "-" (<WHITESPACE>)* "-" | "+" (<WHITESPACE>)* "-" | "-" (<WHITESPACE>)* "+" ) >  
+|	< UNEXPECTED_CHAR: ~[] > 
+}
