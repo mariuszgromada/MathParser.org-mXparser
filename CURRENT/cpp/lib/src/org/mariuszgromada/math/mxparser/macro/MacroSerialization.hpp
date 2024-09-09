@@ -237,7 +237,7 @@
 #include <cereal/types/string.hpp>
 #include <cereal/archives/binary.hpp>
 
-#define getSerialVersionUID(classId) classId + DETECTED_PROJECT_VERSION_MAJOR * 1000000 + DETECTED_PROJECT_VERSION_MINOR * 10000 + DETECTED_PROJECT_VERSION_PATCH * 100;
+#define getSerialVersionUID(classId) classId + MXPARSER_BUILD_PROJECT_VERSION_MAJOR * 1000000 + MXPARSER_BUILD_PROJECT_VERSION_MINOR * 10000 + MXPARSER_BUILD_PROJECT_VERSION_PATCH * 100;
 
 #define NVP(ELEMENT) cereal::make_nvp(#ELEMENT, ELEMENT)
 

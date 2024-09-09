@@ -243,9 +243,9 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
-		static constexpr int VERSION_MAJOR = DETECTED_PROJECT_VERSION_MAJOR;
-		static constexpr int VERSION_MINOR = DETECTED_PROJECT_VERSION_MINOR;
-		static constexpr int VERSION_PATCH = DETECTED_PROJECT_VERSION_PATCH;
+		static constexpr int VERSION_MAJOR = MXPARSER_BUILD_PROJECT_VERSION_MAJOR;
+		static constexpr int VERSION_MINOR = MXPARSER_BUILD_PROJECT_VERSION_MINOR;
+		static constexpr int VERSION_PATCH = MXPARSER_BUILD_PROJECT_VERSION_PATCH;
 
 		// ***********************************************************
 
