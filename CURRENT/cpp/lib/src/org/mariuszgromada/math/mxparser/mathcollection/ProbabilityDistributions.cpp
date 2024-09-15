@@ -1,5 +1,5 @@
 /*
- * @(#)ProbabilityDistributions.cpp        6.1.0    2024-09-08
+ * @(#)ProbabilityDistributions.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -394,10 +394,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *                otherwise returns random number.
 	 */
 	API_VISIBLE double ProbabilityDistributions::rndInteger(int a, int b, const RandomPtr &rnd) {
-		if (b < a) return Double::NaN;
-		if (a == b) return a;
-		Long n = (b - a) + 1;
-		return a + rnd->nextInt(n);
+		Long la = CAST_LONG(a);
+		Long lb = CAST_LONG(b);
+		if (lb < la) return Double::NaN;
+		if (la == lb) return a;
+		Long n = (lb - la) + 1;
+		return la + rnd->nextInt(n);
 	}
 
 	/**

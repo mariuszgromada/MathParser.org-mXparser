@@ -1,5 +1,5 @@
 /*
- * @(#)Random.cpp        6.1.0    2024-09-08
+ * @(#)Random.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,14 +235,12 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		makeRandomGenerator();
 	}
 
-	API_VISIBLE int Random::nextInt(Long bound) {
+	API_VISIBLE Long Random::nextInt(Long bound) {
 		Long boundToApply;
 		if (bound >= 0) boundToApply = bound;
 		else boundToApply = -bound;
-		if (boundToApply > Integer::MAX_VALUE) boundToApply = Integer::MAX_VALUE;
-
 		intDistribution->param(std::uniform_int_distribution<Long>::param_type(0, boundToApply - 1));
-		return static_cast<int>((*intDistribution)(*randomGenerator));
+		return (*intDistribution)(*randomGenerator);
 	}
 
 	API_VISIBLE double Random::nextDouble() {
@@ -256,7 +254,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	API_VISIBLE void Random::makeRandomGenerator() {
 		randomGenerator = std::make_shared<std::mt19937>(seed);
-		intDistribution = std::make_shared<std::uniform_int_distribution<Long> >(0, std::numeric_limits<int>::max());
+		intDistribution = std::make_shared<std::uniform_int_distribution<Long> >(0, CAST_LONG(Integer::MAX_VALUE) - CAST_LONG(Integer::MIN_VALUE) - 1);
 		realDistribution = std::make_shared<std::uniform_real_distribution<double> >(0.0, 1.0);
 	}
 

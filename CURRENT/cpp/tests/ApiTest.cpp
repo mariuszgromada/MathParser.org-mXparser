@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cpp        6.1.0    2024-09-08
+ * @(#)ApiTest.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1334,7 +1334,7 @@ TEST_CASE("testApi0030",
 	ArrayPtr<StringPtr> tokensToRemove2 = mXparser::getBuiltinTokensToRemove();
 	if (
 		(tokensToRemove1->length == 1) &&
-		(*(*tokensToRemove1)[0] == UTF("cos")) &&
+		(*(*tokensToRemove1)(0) == UTF("cos")) &&
 		(tokensToRemove2->length == 0)
 	)
 		testResult = true;
@@ -1360,28 +1360,28 @@ TEST_CASE("testApi0031", "[API]") {
 	mXparser::modifyBuiltinToken("cos", "COS", "NEW COS");
 	mXparser::modifyBuiltinToken("cos", "COS1", "NEW COS1");
 	StringPtr help = mXparser::getHelp("COS");
-	ArrayPtr<StringPtr[3]> tokensToModify1 = mXparser::getBuiltinTokensToModify();
+	ArrayPtr<StringPtr> tokensToModify1 = mXparser::getBuiltinTokensToModify();
 	mXparser::unmodifyBuiltinTokens("", u, "SIN", "tg");
-	ArrayPtr<StringPtr[3]> tokensToModify2 = mXparser::getBuiltinTokensToModify();
+	ArrayPtr<StringPtr> tokensToModify2 = mXparser::getBuiltinTokensToModify();
 	mXparser::unmodifyAllBuiltinTokens();
-	ArrayPtr<StringPtr[3]> tokensToModify3 = mXparser::getBuiltinTokensToModify();
+	ArrayPtr<StringPtr> tokensToModify3 = mXparser::getBuiltinTokensToModify();
 
 	if (
-		(tokensToModify1->length == 3) &&
-		(tokensToModify2->length == 1) &&
-		(tokensToModify3->length == 0) &&
-		(*(*tokensToModify1)[0][0] == UTF("sin")) &&
-		(*(*tokensToModify1)[0][1] == UTF("SIN")) &&
-		((*tokensToModify1)[0][2] == nullptr) &&
-		(*(*tokensToModify1)[1][0] == UTF("tg")) &&
-		(*(*tokensToModify1)[1][1] == UTF("TG")) &&
-		(*(*tokensToModify1)[1][2] == UTF("NEW TG")) &&
-		(*(*tokensToModify1)[2][0] == UTF("cos")) &&
-		(*(*tokensToModify1)[2][1] == UTF("COS")) &&
-		(*(*tokensToModify1)[2][2] == UTF("NEW COS")) &&
-		(*(*tokensToModify2)[0][0] == UTF("cos")) &&
-		(*(*tokensToModify2)[0][1] == UTF("COS")) &&
-		(*(*tokensToModify2)[0][2] == UTF("NEW COS")) &&
+		(tokensToModify1->rows == 3) &&
+		(tokensToModify2->rows == 1) &&
+		(tokensToModify3->rows == 0) &&
+		(*(*tokensToModify1)(0, 0) == UTF("sin")) &&
+		(*(*tokensToModify1)(0, 1) == UTF("SIN")) &&
+		((*tokensToModify1)(0, 2) == nullptr) &&
+		(*(*tokensToModify1)(1, 0) == UTF("tg")) &&
+		(*(*tokensToModify1)(1, 1) == UTF("TG")) &&
+		(*(*tokensToModify1)(1, 2) == UTF("NEW TG")) &&
+		(*(*tokensToModify1)(2, 0) == UTF("cos")) &&
+		(*(*tokensToModify1)(2, 1) == UTF("COS")) &&
+		(*(*tokensToModify1)(2, 2) == UTF("NEW COS")) &&
+		(*(*tokensToModify2)(0, 0) == UTF("cos")) &&
+		(*(*tokensToModify2)(0, 1) == UTF("COS")) &&
+		(*(*tokensToModify2)(0, 2) == UTF("NEW COS")) &&
 		(StringUtils::contains(*help, UTF("COS(x)")))
 	)
 		testResult = true;
@@ -2506,9 +2506,9 @@ TEST_CASE("testApi0049", "[API]") {
 	ExpressionPtr e = new_Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
 	ArrayPtr<StringPtr> misArgs = e->getMissingUserDefinedArguments();
 	if (
-		(*(*misArgs)[0] == UTF("x")) &&
-		(*(*misArgs)[1] == UTF("y")) &&
-		(*(*misArgs)[2] == UTF("z")) &&
+		(*(*misArgs)(0) == UTF("x")) &&
+		(*(*misArgs)(1) == UTF("y")) &&
+		(*(*misArgs)(2) == UTF("z")) &&
 		(misArgs->length == 3)
 	)
 		testResult = true;
@@ -2524,7 +2524,7 @@ TEST_CASE("testApi0050", "[API]") {
 	ExpressionPtr e = new_Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
 	ArrayPtr<StringPtr> misFun = e->getMissingUserDefinedFunctions();
 	if (
-		(*(*misFun)[0] == UTF("f")) &&
+		(*(*misFun)(0) == UTF("f")) &&
 		(misFun->length == 1)
 	)
 		testResult = true;
@@ -2944,8 +2944,8 @@ TEST_CASE("testApi0065", "[API]") {
 	ArrayPtr<StringPtr> args = e->getMissingUserDefinedArguments();
 	ArrayPtr<StringPtr> fun = e->getMissingUserDefinedFunctions();
 	if (units->length == 2 && args->length == 1 && fun->length == 1)
-		if (*(*units)[0] == UTF("[ww]") && *(*units)[1] == UTF("[qq1]"))
-			if (*(*args)[0] == UTF("a") && *(*fun)[0] == UTF("f"))
+		if (*(*units)(0) == UTF("[ww]") && *(*units)(1) == UTF("[qq1]"))
+			if (*(*args)(0) == UTF("a") && *(*fun)(0) == UTF("f"))
 				testResult = true;
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
@@ -5857,7 +5857,7 @@ TEST_CASE("testApi0218", "[API]") {
 	FunctionExtensionVariadicPtr longComputingFunExtVar = new_LongComputingFunExtVar();
 	FunctionPtr fExt = new_Function("f", longComputingFunExt);
 	FunctionPtr fExtVar = new_Function("f", longComputingFunExtVar);
-	double range = 1000000;
+	double range = 2000000;
 	double result = 0;
 	for (int i = 1; i <= range; i++)
 		result += i;
@@ -5902,7 +5902,7 @@ TEST_CASE("testApi0219", "[API]") {
 	FunctionExtensionVariadicPtr longComputingFunExtVar = new_LongComputingFunExtVar();
 	FunctionPtr fExt = new_Function("f", longComputingFunExt);
 	FunctionPtr fExtVar = new_Function("f", longComputingFunExtVar);
-	ArgumentPtr range = new_Argument("range = 1000000");
+	ArgumentPtr range = new_Argument("range = 2000000");
 	double result = 0;
 	double drange = range->getArgumentValue();
 	for (int i = 1; i <= drange; i++)
@@ -5943,7 +5943,7 @@ TEST_CASE("testApi0220", "[API]") {
 	TestCommonTools::consolePrintTestApiStart(220, testDescr);
 	FunctionExtensionPtr longComputingFunExt = new_LongComputingFunExt();
 	FunctionExtensionVariadicPtr longComputingFunExtVar = new_LongComputingFunExtVar();
-	ArgumentPtr range = new_Argument("range = 1000000");
+	ArgumentPtr range = new_Argument("range = 2000000");
 	FunctionPtr fErr = new_Function("f = 2+3");
 	FunctionPtr f = new_Function("f(n) = sum(i, 1, n, i)");
 	ExpressionPtr e = new_Expression("f(range)", range, f);
@@ -5991,7 +5991,7 @@ TEST_CASE("testApi0221", "[API]") {
 	FunctionExtensionVariadicPtr longComputingFunExtVar = new_LongComputingFunExtVar();
 	FunctionPtr fExt = new_Function("f", longComputingFunExt);
 	FunctionPtr fExtVar = new_Function("f", longComputingFunExtVar);
-	double range = 1000000;
+	double range = 2000000;
 	double result = 0;
 	for (int i = 1; i <= range; i++)
 		result += i;
@@ -6407,8 +6407,8 @@ TEST_CASE("testApi0230", "[API]") {
 	mXparser::consolePrintSettings();
 	mXparser::consolePrintSettings("aaa");
 	ArrayPtr<StringPtr> strArray = new_Array<StringPtr>(2);
-	(*strArray)[0] = S("a");
-	(*strArray)[1] = S("b");
+	(*strArray)(0) = S("a");
+	(*strArray)(1) = S("b");
 	ListPtr<StringPtr> nullStrArray = nullptr;
 	mXparser::consolePrintln(strArray);
 	mXparser::consolePrintln(nullStrArray);
@@ -6442,12 +6442,10 @@ TEST_CASE("testApi0230", "[API]") {
 	CHECK(testResult);
 }
 
-TEST_CASE("testApi0231",
-          "[API]") {
+TEST_CASE("testApi0231", "[API]") {
 	TestCommonTools::testApiSettingsInit();
 	bool testResult = false;
-	string testDescr =
-			"mXparser API - consolePrintln / consolePrintln / resetConsoleOutput / getConsoleOutput / setConsoleOutputPrefix";
+	string testDescr = "mXparser API - consolePrintln / consolePrintln / resetConsoleOutput / getConsoleOutput / setConsoleOutputPrefix";
 	TestCommonTools::consolePrintTestApiStart(231, testDescr);
 	mXparser::resetConsoleOutput();
 	StringPtr cleanA = mXparser::getConsoleOutput();

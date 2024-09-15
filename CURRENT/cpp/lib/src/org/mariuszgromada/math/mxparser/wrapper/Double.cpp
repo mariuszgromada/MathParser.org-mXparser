@@ -1,5 +1,5 @@
 /*
- * @(#)Double.cpp        6.1.0    2024-09-08
+ * @(#)Double.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -296,12 +296,11 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		const std::string& valueStrToReParse = valueStr;
 		if (valueStr.length() >= 9) {
 
-#ifdef COMP_MSVC_BASED
+#ifdef _MSC_VER
 			int percChange = -2;
 #else
 			int percChange = -1;
 #endif
-
 			if (fractionalPartLength(valueStr) >= 6) {
 				const std::string& valueStrTrunc = decimalFormat(value, 340, percChange);
 				if (valueStr.length() - valueStrTrunc.length() >= 4) {

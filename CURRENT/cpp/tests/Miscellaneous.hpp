@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.hpp        6.1.0    2024-09-08
+ * @(#)Miscellaneous.hpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -728,7 +728,7 @@ inline std::string getTempDir() {
 		temp_dir = buffer;
 	}
 #elif defined(__unix__) || defined(__APPLE__)
-	temp_dir = secure_getenv("TMPDIR");
+	temp_dir = getenv("TMPDIR");
 	if (!temp_dir) temp_dir = "/tmp";
 #endif
 	return temp_dir ? std::string(temp_dir) : std::string();

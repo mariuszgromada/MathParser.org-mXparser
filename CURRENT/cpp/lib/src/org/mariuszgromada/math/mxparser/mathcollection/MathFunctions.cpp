@@ -1,5 +1,5 @@
 /*
- * @(#)MathFunctions.cpp        6.1.0    2024-09-08
+ * @(#)MathFunctions.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -359,20 +359,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (n > 1) {
 			n -= 1;
 			if ((n + 1) * (n + 1) >= Integer::MAX_VALUE) return Double::NaN;
-			ArrayPtr<ArrayPtr<Long> > bellTriangle = new_Array<ArrayPtr<Long> >(n + 1);
-			for (int i = 0; i < n + 1; i++)
-				(*bellTriangle)[i] = new_Array<Long>(n + 1);
+			ArrayPtr<Long> bellTriangle = new_Array<Long>(n + 1, n + 1);
 
-			(*(*bellTriangle)[0])[0] = 1;
-			(*(*bellTriangle)[1])[0] = 1;
+			(*bellTriangle)(0, 0) = 1;
+			(*bellTriangle)(1, 0) = 1;
 			for (int r = 1; r <= n; r++) {
 				for (int k = 0; k < r; k++)
-					(*(*bellTriangle)[r])[k + 1] = (*(*bellTriangle)[r - 1])[k] + (*(*bellTriangle)[r])[k];
+					(*bellTriangle)(r, k + 1) = (*bellTriangle)(r - 1, k) + (*bellTriangle)(r, k);
 				if (r < n)
-					(*(*bellTriangle)[r + 1])[0] = (*(*bellTriangle)[r])[r];
+					(*bellTriangle)(r + 1, 0) = (*bellTriangle)(r, r);
 				if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 			}
-			result = static_cast<double>((*(*bellTriangle)[n])[n]);
+			result = static_cast<double>((*bellTriangle)(n, n));
 		} else if (n >= 0)
 			result = 1;
 		return result;
@@ -1038,10 +1036,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double cf = 0;
 		double a;
 		if (sequence->length == 1)
-			return (*sequence)[0];
+			return (*sequence)(0);
 		int lastIndex = sequence->length - 1;
 		for (int i = lastIndex; i >= 0; i--) {
-			a = (*sequence)[i];
+			a = (*sequence)(i);
 			if (Double::isNaN(a))
 				return Double::NaN;
 			if (i == lastIndex) {
@@ -1071,9 +1069,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (n == 0)
 			return 1;
 		if (n == 1)
-			return (*x)[0];
+			return (*x)(0);
 		if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-		return (*x)[n - 1] * continuedPolynomial(n - 1, x) + continuedPolynomial(n - 2, x);
+		return (*x)(n - 1) * continuedPolynomial(n - 1, x) + continuedPolynomial(n - 2, x);
 	}
 
 	/**
@@ -1164,14 +1162,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Characteristic function x in [a,b]
+	 * Characteristic function x in (a,b)
 	 *
 	 * @param      x                   the x value
 	 * @param      a                   the left (lower) limit
 	 * @param      b                   the right (upper) limit
 	 *
 	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the [a,b] range.
+	 * 			   characteristic function value on the (a,b) range.
 	 */
 	API_VISIBLE double MathFunctions::chi_LR(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
@@ -1188,14 +1186,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Characteristic function x in [a,b)
+	 * Characteristic function x in (a,b)
 	 *
 	 * @param      x                   the x value
 	 * @param      a                   the left (lower) limit
 	 * @param      b                   the right (upper) limit
 	 *
 	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the [a,b) range.
+	 * 			   characteristic function value on the (a,b) range.
 	 */
 	API_VISIBLE double MathFunctions::chi_L(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
@@ -1212,14 +1210,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	}
 
 	/**
-	 * Characteristic function x in (a,b]
+	 * Characteristic function x in (a,b)
 	 *
 	 * @param      x                   the x value
 	 * @param      a                   the left (lower) limit
 	 * @param      b                   the right (upper) limit
 	 *
 	 * @return     if x, a, b &lt;&gt; Double::NaN returns
-	 * 			   characteristic function value on the (a,b] range.
+	 * 			   characteristic function value on the (a,b) range.
 	 */
 	API_VISIBLE double MathFunctions::chi_R(double x, double a, double b) {
 		if (Double::isNaN(x) || Double::isNaN(a) || Double::isNaN(b))
@@ -2615,10 +2613,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			values = new_double(n);
 			int j = 0;
 			for (double i = from; i < to; i += delta) {
-				(*values)[j] = getFunctionValue(f, index, i);
+				(*values)(j) = getFunctionValue(f, index, i);
 				j++;
 			}
-			(*values)[j] = getFunctionValue(f, index, to);
+			(*values)(j) = getFunctionValue(f, index, to);
 		} else if (to <= from && delta < 0) {
 			for (double i = from; i > to; i += delta)
 				n++;
@@ -2626,14 +2624,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			values = new_double(n);
 			int j = 0;
 			for (double i = from; i > to; i += delta) {
-				(*values)[j] = getFunctionValue(f, index, i);
+				(*values)(j) = getFunctionValue(f, index, i);
 				j++;
 			}
-			(*values)[j] = getFunctionValue(f, index, to);
+			(*values)(j) = getFunctionValue(f, index, to);
 		} else if (from == to) {
 			n = 1;
 			values = new_double(n);
-			(*values)[0] = getFunctionValue(f, index, from);
+			(*values)(0) = getFunctionValue(f, index, from);
 		} else values = nullptr;
 		return values;
 	}

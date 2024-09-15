@@ -1,5 +1,5 @@
 /*
- * @(#)Array.hpp        6.1.0    2024-09-08
+ * @(#)Array.hpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -229,18 +229,30 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	public:
 		std::shared_ptr<T[]> data;
 		size_t sizet;
+		int rows;
+		int columns;
 		int length;
 
-		Array() : data(nullptr), sizet(0), length(0) { }
+		Array() {
+			data = nullptr;
+			sizet = 0;
+			length = 0;
+			rows = 0;
+			columns = 0;
+		}
 
 		static ArrayPtr<T> toArray(const ListPtr<T> &list) {
 			ArrayPtr<T> arrayList = std::make_shared<Array<T> >(list->size());
 			for (size_t i = 0; i < list->size(); i++)
-				(*arrayList)[i] = list->get(i);
+				(*arrayList)(i) = list->get(i);
 			return arrayList;
 		}
 
-		Array(std::initializer_list<T> init) : sizet(init.size()), length(init.size()) {
+		Array(std::initializer_list<T> init) {
+			sizet = init.size();
+			length = init.size();
+			rows = CAST_INT(sizet);
+			columns = 1;
 			data = std::shared_ptr<T[]>(new T[sizet]);
 			size_t i = 0;
 			for (const T& item : init) {
@@ -248,16 +260,36 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			}
 		}
 
-		explicit Array(size_t initSize) : sizet(initSize), length(Integer::castSizetToInt(initSize)) {
+		explicit Array(size_t rows) {
+			this->rows = CAST_INT(rows);
+			this->columns = 1;
+			sizet = rows;
+			length = sizet;
 			data = std::shared_ptr<T[]>(new T[sizet]);
 		}
 
-		T &operator[](size_t index) {
-			return data[index];
+		explicit Array(size_t rows, size_t columns) {
+			this->rows = CAST_INT(rows);
+			this->columns = CAST_INT(columns);
+			sizet = rows * columns;
+			length = sizet;
+			data = std::shared_ptr<T[]>(new T[sizet]);
 		}
 
-		const T &operator[](size_t index) const {
-			return data[index];
+		T& operator()(size_t row) {
+			return data[row * columns];
+		}
+
+		const T& operator()(size_t row) const {
+			return data[row * columns];
+		}
+
+		T& operator()(size_t row, size_t col) {
+			return data[row * columns + col];
+		}
+
+		const T& operator()(size_t row, size_t col) const {
+			return data[row * columns + col];
 		}
 
 		T *begin() {
@@ -279,21 +311,39 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	};
 
 	template<typename T>
-	ArrayPtr<T> new_Array(size_t length) {
-		return std::make_shared<Array<T> >(length);
+	ArrayPtr<T> new_Array(size_t rows) {
+		return std::make_shared<Array<T> >(rows);
 	}
 
-	inline ArrayPtr<int> new_int(size_t length) {
-		return new_Array<int>(length);
+	inline ArrayPtr<int> new_int(size_t rows) {
+		return new_Array<int>(rows);
 	}
 
-	inline ArrayPtr<Long> new_Long(size_t length) {
-		return new_Array<Long>(length);
+	inline ArrayPtr<Long> new_Long(size_t rows) {
+		return new_Array<Long>(rows);
 	}
 
-	inline ArrayPtr<double> new_double(size_t length) {
-		return new_Array<double>(length);
+	inline ArrayPtr<double> new_double(size_t rows) {
+		return new_Array<double>(rows);
 	}
+
+	template<typename T>
+	ArrayPtr<T> new_Array(size_t rows, size_t columns) {
+		return std::make_shared<Array<T>>(rows, columns);
+	}
+
+	inline ArrayPtr<int> new_int(size_t rows, size_t columns) {
+		return new_Array<int>(rows, columns);
+	}
+
+	inline ArrayPtr<Long> new_Long(size_t rows, size_t columns) {
+		return new_Array<Long>(rows, columns);
+	}
+
+	inline ArrayPtr<double> new_double(size_t rows, size_t columns) {
+		return new_Array<double>(rows, columns);
+	}
+
 } // namespace org::mariuszgromada::math::mxparser::wrapper
 
 

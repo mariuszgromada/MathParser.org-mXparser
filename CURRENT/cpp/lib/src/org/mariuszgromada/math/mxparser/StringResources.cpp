@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cpp        6.1.0    2024-09-08
+ * @(#)StringResources.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1684,7 +1684,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE StringPtr StringResources::getLocaleString() {
 		// TODO lang
-		std::setlocale(LC_ALL, "");
+		setlocale(LC_ALL, "");
 		return S(UTF("en"));
 		//return S(std::setlocale(LC_ALL, ""));
 	}

@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cpp        6.1.0    2024-09-08
+ * @(#)ExpressionUtils.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1898,7 +1898,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int n = missingArguments->size();
 		ArrayPtr<StringPtr> missArgs = new_Array<StringPtr>(n);
 		for (int i = 0; i < n; i++)
-			(*missArgs)[i] = missingArguments->getRef(i);
+			(*missArgs)(i) = missingArguments->getRef(i);
 		return missArgs;
 	}
 
@@ -1919,7 +1919,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int n = missingUnits->size();
 		ArrayPtr<StringPtr> missUnits = new_Array<StringPtr>(n);
 		for (int i = 0; i < n; i++)
-			(*missUnits)[i] = missingUnits->getRef(i);
+			(*missUnits)(i) = missingUnits->getRef(i);
 		return missUnits;
 	}
 
@@ -1940,7 +1940,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int n = missingFunctions->size();
 		ArrayPtr<StringPtr> missFun = new_Array<StringPtr>(n);
 		for (int i = 0; i < n; i++)
-			(*missFun)[i] = missingFunctions->getRef(i);
+			(*missFun)(i) = missingFunctions->getRef(i);
 		return missFun;
 	}
 

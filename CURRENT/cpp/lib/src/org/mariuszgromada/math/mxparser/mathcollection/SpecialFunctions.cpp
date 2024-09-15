@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialFunctions.cpp        6.1.0    2024-09-08
+ * @(#)SpecialFunctions.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -345,7 +345,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			term = (factorial * (edx * Sm - 1.0)) / xxj;
 			Sn += term;
 		}
-		return Coefficients::EI[k - 7] + Sn * Math::exp(xx);
+		return Coefficients::EI(k - 7) + Sn * Math::exp(xx);
 	}
 
 	/**
@@ -662,10 +662,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double g = 7.0;
 		Array<double> coefficients = Coefficients::lanchosGamma;
 		x -= 1.0;
-		double a = coefficients[0];
+		double a = coefficients(0);
 		double t = x + g + 0.5;
 		for (int i = 1; i < coefficients.length; i++) {
-			a += coefficients[i] / (x + i);
+			a += coefficients(i) / (x + i);
 		}
 		return Math::sqrt(2.0 * MathConstants::PI) * Math::pow(t, x + 0.5) * Math::exp(-t) * a;
 	}
@@ -1341,15 +1341,15 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Ner zero approximation
 	 */
 	API_VISIBLE double SpecialFunctions::seriesEval(double r) {
-		double t8 = Coefficients::lambertWqNearZero[8] + r * (
-			            Coefficients::lambertWqNearZero[9] + r * (
-				            Coefficients::lambertWqNearZero[10] + r * Coefficients::lambertWqNearZero[11]));
-		double t5 = Coefficients::lambertWqNearZero[5] + r * (
-			            Coefficients::lambertWqNearZero[6] + r * (Coefficients::lambertWqNearZero[7] + r * t8));
-		double t1 = Coefficients::lambertWqNearZero[1] + r * (
-			            Coefficients::lambertWqNearZero[2] + r * (
-				            Coefficients::lambertWqNearZero[3] + r * (Coefficients::lambertWqNearZero[4] + r * t5)));
-		return Coefficients::lambertWqNearZero[0] + r * t1;
+		double t8 = Coefficients::lambertWqNearZero(8) + r * (
+			            Coefficients::lambertWqNearZero(9) + r * (
+				            Coefficients::lambertWqNearZero(10) + r * Coefficients::lambertWqNearZero(11)));
+		double t5 = Coefficients::lambertWqNearZero(5) + r * (
+			            Coefficients::lambertWqNearZero(6) + r * (Coefficients::lambertWqNearZero(7) + r * t8));
+		double t1 = Coefficients::lambertWqNearZero(1) + r * (
+			            Coefficients::lambertWqNearZero(2) + r * (
+				            Coefficients::lambertWqNearZero(3) + r * (Coefficients::lambertWqNearZero(4) + r * t5)));
+		return Coefficients::lambertWqNearZero(0) + r * t1;
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * @(#)Statistics.cpp        6.1.0    2024-09-08
+ * @(#)Statistics.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -335,7 +335,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Statistics::avg(const ArrayPtr<double> &numbers) {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
-		if (numbers->length == 1) return (*numbers)[0];
+		if (numbers->length == 1) return (*numbers)(0);
 		double sum = 0;
 		for (double xi: *numbers) {
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
@@ -359,7 +359,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) {
-			if (Double::isNaN((*numbers)[0])) return Double::NaN;
+			if (Double::isNaN((*numbers)(0))) return Double::NaN;
 			return 0;
 		}
 		double m = avg(numbers);
@@ -386,7 +386,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) {
-			if (Double::isNaN((*numbers)[0])) return Double::NaN;
+			if (Double::isNaN((*numbers)(0))) return Double::NaN;
 			return 0;
 		}
 		return MathFunctions::sqrt(var(numbers));
@@ -400,8 +400,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Statistics::median(const ArrayPtr<double> &numbers) {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
-		if (numbers->length == 1) return (*numbers)[0];
-		if (numbers->length == 2) return ((*numbers)[0] + (*numbers)[1]) / 2.0;
+		if (numbers->length == 1) return (*numbers)(0);
+		if (numbers->length == 2) return ((*numbers)(0) + (*numbers)(1)) / 2.0;
 		for (double v: *numbers) {
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 			if (Double::isNaN(v)) return Double::NaN;
@@ -409,10 +409,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		NumberTheory::sortAsc(numbers);
 		if ((numbers->length % 2) == 1) {
 			int i = (numbers->length - 1) / 2;
-			return (*numbers)[i];
+			return (*numbers)(i);
 		} else {
 			int i = (numbers->length / 2) - 1;
-			return ((*numbers)[i] + (*numbers)[i + 1]) / 2.0;
+			return ((*numbers)(i) + (*numbers)(i + 1)) / 2.0;
 		}
 	}
 
@@ -424,12 +424,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Statistics::mode(const ArrayPtr<double> &numbers) {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
-		if (numbers->length == 1) return (*numbers)[0];
+		if (numbers->length == 1) return (*numbers)(0);
 		for (double v: *numbers) {
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 			if (Double::isNaN(v)) return Double::NaN;
 		}
-		ArrayPtr<double[3]> dist = NumberTheory::getDistValues(numbers, true);
-		return (*dist)[0][0];
+		ArrayPtr<double> dist = NumberTheory::getDistValues(numbers, true);
+		return (*dist)(0, 0);
 	}
 } // org::mariuszgromada::math::mxparser::mathcollection

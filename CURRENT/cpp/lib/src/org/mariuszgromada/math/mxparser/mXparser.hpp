@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.hpp        6.1.0    2024-09-08
+ * @(#)mXparser.hpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -429,7 +429,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 		// ***********************************************************
 
-		static ArrayPtr<StringPtr[3]> getBuiltinTokensToModify();
+		static ArrayPtr<StringPtr> getBuiltinTokensToModify();
 
 		// ***********************************************************
 

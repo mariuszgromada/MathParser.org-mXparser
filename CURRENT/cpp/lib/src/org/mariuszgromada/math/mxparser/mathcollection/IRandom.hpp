@@ -1,5 +1,5 @@
 /*
- * @(#)IRandom.hpp        6.1.0    2024-09-08
+ * @(#)IRandom.hpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -228,8 +228,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	class API_VISIBLE IRandom {
 	public:
 		virtual ~IRandom() = default;
-		virtual int nextInt(Long bound) = 0;
-		virtual int nextInt() { return nextInt(Integer::MAX_VALUE); }
+		virtual Long nextInt(Long bound) = 0;
+		virtual Long nextInt() { return nextInt(Integer::MAX_VALUE); }
 		virtual double nextDouble() = 0;
 		virtual void setSeed(unsigned int seed) = 0;
 	};

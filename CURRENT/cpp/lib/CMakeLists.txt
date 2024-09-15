@@ -575,14 +575,23 @@ if (HOST_IOS)
 	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_HOST_IOS)
 endif()
 if (COMP_CL OR COMP_CLANG_CL)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_COMP_MSVC_BASED)
+	target_compile_definitions(MathParserOrgMXparser PRIVATE COMP_MSVC_BASED)
 endif()
 
 set_target_properties(MathParserOrgMXparser PROPERTIES
 		WINDOWS_EXPORT_ALL_SYMBOLS TRUE
 )
 
-target_link_libraries(MathParserOrgMXparser cereal)
+find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
+
+if(COREFOUNDATION_FRAMEWORK)
+	target_link_libraries(MathParserOrgMXparser cereal ${COREFOUNDATION_FRAMEWORK})
+else()
+	target_link_libraries(MathParserOrgMXparser cereal)
+endif()
+
+
+
 
 message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
 message(STATUS "CMAKE_CXX_FLAGS for MathParserOrgMXparser: ${CMAKE_CXX_FLAGS}")

@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.hpp        6.1.0    2024-09-08
+ * @(#)NumberTheory.hpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -297,7 +297,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		// ***********************************************************
 
 		static ArrayPtr<int> sortAsc(const ArrayPtr<double> &doubleArray);
-		static ArrayPtr<double[3]> getDistValues(const ArrayPtr<double> &doubleArray, bool returnOrderByDescFreqAndAscOrigPos);
+		static ArrayPtr<double> getDistValues(const ArrayPtr<double> &doubleArray, bool returnOrderByDescFreqAndAscOrigPos);
 
 		// ***********************************************************
 

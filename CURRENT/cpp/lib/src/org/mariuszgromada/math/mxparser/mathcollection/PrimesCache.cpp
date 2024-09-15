@@ -1,5 +1,5 @@
 /*
- * @(#)PrimesCache.cpp        6.1.0    2024-09-08
+ * @(#)PrimesCache.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -245,11 +245,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			/*
 			 * Initially assume all integers are primes
 			 */
-			auto a = (*isPrime)[0];
-			(*isPrime)[0] = false;
-			(*isPrime)[1] = false;
+			auto a = (*isPrime)(0);
+			(*isPrime)(0) = false;
+			(*isPrime)(1) = false;
 			for (int i = 2; i <= maxNumInCache; i++) {
-				(*isPrime)[i] = true;
+				(*isPrime)(i) = true;
 				if (mXparser::isCurrentCalculationCancelled()) return;
 			}
 			/*
@@ -257,9 +257,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			 */
 			for (int i = 2; i * i <= maxNumInCache; i++) {
 				if (mXparser::isCurrentCalculationCancelled()) return;
-				if ((*isPrime)[i])
+				if ((*isPrime)(i))
 					for (int j = i; i * j <= maxNumInCache; j++) {
-						(*isPrime)[i * j] = false;
+						(*isPrime)(i * j) = false;
 						if (mXparser::isCurrentCalculationCancelled()) return;
 					}
 			}
@@ -278,7 +278,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE void PrimesCache::countPrimes() {
 		for (int i = 0; i <= maxNumInCache; i++) {
-			if ((*isPrime)[i]) numberOfPrimes++;
+			if ((*isPrime)(i)) numberOfPrimes++;
 			if (mXparser::isCurrentCalculationCancelled()) return;
 		}
 	}
@@ -364,7 +364,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE int PrimesCache::primeTest(int n) const {
 		if (n <= 1) return IS_NOT_PRIME;
 		if ((n <= maxNumInCache) && (cacheStatus == CACHING_FINISHED))
-			if ((*isPrime)[n])
+			if ((*isPrime)(n))
 				return IS_PRIME;
 			else
 				return IS_NOT_PRIME;

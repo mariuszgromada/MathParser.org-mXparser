@@ -1,5 +1,5 @@
 /*
- * @(#)Evaluate.cpp        6.1.0    2024-09-08
+ * @(#)Evaluate.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,13 +233,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(x)) return Double::NaN;
 		if (coefficients.data == nullptr) return Double::NaN;
 		if (coefficients.length == 0) return Double::NaN;
-		if (coefficients.length == 1) return coefficients[0];
-		double sum = coefficients[coefficients.length - 1];
+		if (coefficients.length == 1) return coefficients(0);
+		double sum = coefficients(coefficients.length - 1);
 		if (Double::isNaN(sum)) return Double::NaN;
 		for (int i = coefficients.length - 2; i >= 0; i--) {
-			if (Double::isNaN(coefficients[i])) return Double::NaN;
+			if (Double::isNaN(coefficients(i))) return Double::NaN;
 			sum *= x;
-			sum += coefficients[i];
+			sum += coefficients(i);
 		}
 		return sum;
 	}
@@ -253,8 +253,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double Evaluate::p1evl(double x, const Array<double> &coef, int n) {
 		double ans;
-		ans = x + coef[0];
-		for (int i = 1; i < n; i++) { ans = ans * x + coef[i]; }
+		ans = x + coef(0);
+		for (int i = 1; i < n; i++) { ans = ans * x + coef(i); }
 		return ans;
 	}
 
@@ -267,8 +267,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double Evaluate::polevl(double x, const Array<double> &coef, int n) {
 		double ans;
-		ans = coef[0];
-		for (int i = 1; i <= n; i++) ans = ans * x + coef[i];
+		ans = coef(0);
+		for (int i = 1; i <= n; i++) ans = ans * x + coef(i);
 		return ans;
 	}
 } // org::mariuszgromada::math::mxparser::mathcollection

@@ -1,5 +1,5 @@
 /*
- * @(#)Random.hpp        6.1.0    2024-09-08
+ * @(#)Random.hpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -232,7 +232,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		~Random() override = default;
 		Random();
 		explicit Random(unsigned int seed);
-		int nextInt(Long bound) override;
+		Long nextInt(Long bound) override;
 		double nextDouble() override;
 		void setSeed(unsigned int seed) override;
 

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cpp        6.1.0    2024-09-08
+ * @(#)mXparser.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -454,7 +454,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int size = numbers->size();
 		ArrayPtr<double> newNumbers = new_double(size);
 		for (int i = 0; i < size; i++)
-			(*newNumbers)[i] = numbers->get(i);
+			(*newNumbers)(i) = numbers->get(i);
 		return newNumbers;
 	}
 
@@ -1073,7 +1073,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int tokensNum = tokensToRemove->size();
 		ArrayPtr<StringPtr> tokensToRemoveArray = new_Array<StringPtr>(tokensNum);
 		for (int i = 0; i < tokensNum; i++)
-			(*tokensToRemoveArray)[i] = tokensToRemove->getRef(i);
+			(*tokensToRemoveArray)(i) = tokensToRemove->getRef(i);
 		return tokensToRemoveArray;
 	}
 
@@ -1161,18 +1161,18 @@ namespace org::mariuszgromada::math::mxparser {
 
 	/**
 	 * Return details on tokens marked to be modified.
-	 * @return String[i][0] - current token, String[i][1] - new token,
-	 *                        String[i][2] - new token description.
+	 * @return String(i, 0) - current token, String(i, 1) - new token,
+	 *                        String(i, 2) - new token description.
 	 */
-	ArrayPtr<StringPtr[3]> mXparser::getBuiltinTokensToModify() {
+	ArrayPtr<StringPtr> mXparser::getBuiltinTokensToModify() {
 		LOCK(tokensToModify);
 		int tokensNum = tokensToModify->size();
-		ArrayPtr<StringPtr[3]> tokensToModifyArray = new_Array<StringPtr[3]>(tokensNum);
+		ArrayPtr<StringPtr> tokensToModifyArray = new_Array<StringPtr>(tokensNum, 3);
 		for (int i = 0; i < tokensNum; i++) {
 			const TokenModificationPtr& tm = tokensToModify->getRef(i);
-			(*tokensToModifyArray)[i][0] = tm->currentToken;
-			(*tokensToModifyArray)[i][1] = tm->newToken;
-			(*tokensToModifyArray)[i][2] = tm->newTokenDescription;
+			(*tokensToModifyArray)(i, 0) = tm->currentToken;
+			(*tokensToModifyArray)(i, 1) = tm->newToken;
+			(*tokensToModifyArray)(i, 2) = tm->newTokenDescription;
 		}
 		return tokensToModifyArray;
 	}

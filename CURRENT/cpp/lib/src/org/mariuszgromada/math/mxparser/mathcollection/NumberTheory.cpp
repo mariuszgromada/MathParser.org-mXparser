@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.cpp        6.1.0    2024-09-08
+ * @(#)NumberTheory.cpp        6.1.0    2024-09-15
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -324,7 +324,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double min = Double::POSITIVE_INFINITY;
 		double minIndex = -1;
 		for (int i = 0; i < numbers->length; i++) {
-			double number = (*numbers)[i];
+			double number = (*numbers)(i);
 			if (Double::isNaN(number))
 				return Double::NaN;
 			if (BinaryRelations::lt(number, min) == BooleanAlgebra::TRUE) {
@@ -419,7 +419,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double max = Double::NEGATIVE_INFINITY;
 		double maxIndex = -1;
 		for (int i = 0; i < numbers->length; i++) {
-			double number = (*numbers)[i];
+			double number = (*numbers)(i);
 			if (Double::isNaN(number))
 				return Double::NaN;
 			if (BinaryRelations::gt(number, max) == BooleanAlgebra::TRUE) {
@@ -460,25 +460,25 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	                           int rightIndex) {
 		int i = leftIndex;
 		int j = rightIndex;
-		double x = (*array)[(leftIndex + rightIndex) / 2];
+		double x = (*array)((leftIndex + rightIndex) / 2);
 		double w;
 		int v;
 		do {
-			while (BinaryRelations::lt((*array)[i], x) == BooleanAlgebra::TRUE) {
+			while (BinaryRelations::lt((*array)(i), x) == BooleanAlgebra::TRUE) {
 				i++;
 				if (mXparser::isCurrentCalculationCancelled()) return;
 			}
-			while (BinaryRelations::gt((*array)[j], x) == BooleanAlgebra::TRUE) {
+			while (BinaryRelations::gt((*array)(j), x) == BooleanAlgebra::TRUE) {
 				j--;
 				if (mXparser::isCurrentCalculationCancelled()) return;
 			}
 			if (i <= j) {
-				w = (*array)[i];
-				(*array)[i] = (*array)[j];
-				(*array)[j] = w;
-				v = (*initOrder)[i];
-				(*initOrder)[i] = (*initOrder)[j];
-				(*initOrder)[j] = v;
+				w = (*array)(i);
+				(*array)(i) = (*array)(j);
+				(*array)(j) = w;
+				v = (*initOrder)(i);
+				(*initOrder)(i) = (*initOrder)(j);
+				(*initOrder)(j) = v;
 				i++;
 				j--;
 			}
@@ -499,7 +499,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (array == nullptr) return nullptr;
 		ArrayPtr<int> initOrder = new_int(array->length);
 		for (int i = 0; i < array->length; i++) {
-			(*initOrder)[i] = i;
+			(*initOrder)(i) = i;
 			if (mXparser::isCurrentCalculationCancelled()) return initOrder;
 		}
 		if (array->length < 2) return initOrder;
@@ -515,37 +515,37 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
 	 *                                        2 - minimal value position in original array
 	 */
-	API_VISIBLE ArrayPtr<double[3]> NumberTheory::getDistValues(const ArrayPtr<double> &array,
+	API_VISIBLE ArrayPtr<double> NumberTheory::getDistValues(const ArrayPtr<double> &array,
 	                                                bool returnOrderByDescFreqAndAscOrigPos) {
 		if (array == nullptr) return nullptr;
 		/*
-		 * double[n][3] is returned
-		 * double[i][value]         - unique value
-		 * double[i][count]         - number of appearance in data
-		 * double[i][initPosFirst]  - initial first position in data
+		 * double(n, 3) is returned
+		 * double(i, value)         - unique value
+		 * double(i, count)         - number of appearance in data
+		 * double(i, initPosFirst)  - initial first position in data
 		 */
 		const int value = 0;
 		const int count = 1;
 		const int initPosFirst = 2;
-		if (array->length * 3 >= Integer::MAX_VALUE) return new_Array<double[3]>(0);
-		ArrayPtr<double[3]> distVal = new_Array<double[3]>(array->length);
-		if (array->length == 0) return distVal;
-		if (array->length == 1) {
-			(*distVal)[0][value] = (*array)[0];
-			(*distVal)[0][count] = 1;
-			(*distVal)[0][initPosFirst] = 0;
+		if (array->rows >= Integer::MAX_VALUE) return new_Array<double>(0, 3);
+		ArrayPtr<double> distVal = new_Array<double>(array->rows, 3);
+		if (array->rows == 0) return distVal;
+		if (array->rows == 1) {
+			(*distVal)(0, value) = (*array)(0);
+			(*distVal)(0, count) = 1;
+			(*distVal)(0, initPosFirst) = 0;
 			return distVal;
 		}
 		/*
 		 * Sort ascending by value
 		 */
-		ArrayPtr<int> initPos = sortAsc(array);
+		ArrayPtr<int> initPos = sortAsc(array); 
 		/*
 		 * Building unique values list
 		 */
-		double unqValue = (*array)[0];
+		double unqValue = (*array)(0);
 		int unqValCnt = 1;
-		int unqValMinPos = (*initPos)[0];
+		int unqValMinPos = (*initPos)(0);
 		/*
 		 * This will be the number of found unique values
 		 */
@@ -554,26 +554,26 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 * Iterating from the second element
 		 * First element is considered above
 		 */
-		for (int i = 1; i < array->length; i++) {
+		for (int i = 1; i < array->rows; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) break;
 			/* if the same value */
-			if (BinaryRelations::eq(unqValue, (*array)[i]) == BooleanAlgebra::TRUE) {
+			if (BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::TRUE) {
 				/*
 				 * - increase counter
 				 * - check if found smaller original position
 				 */
 				unqValCnt++;
-				if ((*initPos)[i] < unqValMinPos)
-					unqValMinPos = (*initPos)[i];
+				if ((*initPos)(i) < unqValMinPos)
+					unqValMinPos = (*initPos)(i);
 			}
-			if ((BinaryRelations::eq(unqValue, (*array)[i]) == BooleanAlgebra::FALSE) && (i < array->length - 1)) {
+			if ((BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::FALSE) && (i < array->length - 1)) {
 				/* if new value found and not end of the list */
 				/*
 				 * Store analyzed value
 				 */
-				(*distVal)[unqCnt][value] = unqValue;
-				(*distVal)[unqCnt][count] = unqValCnt;
-				(*distVal)[unqCnt][initPosFirst] = unqValMinPos;
+				(*distVal)(unqCnt, value) = unqValue;
+				(*distVal)(unqCnt, count) = unqValCnt;
+				(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
 				/*
 				 * Increase unique values counter
 				 */
@@ -581,18 +581,18 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				/*
 				 * Initiate new value to be further iterated
 				 */
-				unqValue = (*array)[i];
+				unqValue = (*array)(i);
 				unqValCnt = 1;
-				unqValMinPos = (*initPos)[i];
-			} else if ((BinaryRelations::eq(unqValue, (*array)[i]) == BooleanAlgebra::FALSE) && (
+				unqValMinPos = (*initPos)(i);
+			} else if ((BinaryRelations::eq(unqValue, (*array)(i)) == BooleanAlgebra::FALSE) && (
 				           i == array->length - 1)) {
 				/* if new value found and end of the list */
 				/*
 				 * Store analyzed value
 				 */
-				(*distVal)[unqCnt][value] = unqValue;
-				(*distVal)[unqCnt][count] = unqValCnt;
-				(*distVal)[unqCnt][initPosFirst] = unqValMinPos;
+				(*distVal)(unqCnt, value) = unqValue;
+				(*distVal)(unqCnt, count) = unqValCnt;
+				(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
 				/*
 				 * Increase unique values counter
 				 */
@@ -600,36 +600,36 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				/*
 				 * Store last value
 				 */
-				(*distVal)[unqCnt][value] = (*array)[i];
-				(*distVal)[unqCnt][count] = 1;
-				(*distVal)[unqCnt][initPosFirst] = (*initPos)[i];
+				(*distVal)(unqCnt, value) = (*array)(i);
+				(*distVal)(unqCnt, count) = 1;
+				(*distVal)(unqCnt, initPosFirst) = (*initPos)(i);
 				/*
 				 * Increase unique values counter
 				 */
 				unqCnt++;
-			} else if (i == array->length - 1) {
+			} else if (i == array->rows - 1) {
 				/* if no new vale and end of the list */
 				/*
 				 * Store analyzed value
 				 */
-				(*distVal)[unqCnt][value] = unqValue;
-				(*distVal)[unqCnt][count] = unqValCnt;
-				(*distVal)[unqCnt][initPosFirst] = unqValMinPos;
+				(*distVal)(unqCnt, value) = unqValue;
+				(*distVal)(unqCnt, count) = unqValCnt;
+				(*distVal)(unqCnt, initPosFirst) = unqValMinPos;
 				/*
 				 * Increase unique values counter
 				 */
 				unqCnt++;
 			}
 		}
-		ArrayPtr<double[3]> distValFinal = new_Array<double[3]>(unqCnt);
+		ArrayPtr<double> distValFinal = new_Array<double>(unqCnt, 3);
 		double maxBase = 0;
 		for (int i = 0; i < unqCnt; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) break;
-			(*distValFinal)[i][value] = (*distVal)[i][value];
-			(*distValFinal)[i][count] = (*distVal)[i][count];
-			(*distValFinal)[i][initPosFirst] = (*distVal)[i][initPosFirst];
-			if ((*distVal)[i][count] > maxBase) maxBase = (*distVal)[i][count];
-			if ((*distVal)[i][initPosFirst] > maxBase) maxBase = (*distVal)[i][initPosFirst];
+			(*distValFinal)(i, value) = (*distVal)(i, value);
+			(*distValFinal)(i, count) = (*distVal)(i, count);
+			(*distValFinal)(i, initPosFirst) = (*distVal)(i, initPosFirst);
+			if ((*distVal)(i, count) > maxBase) maxBase = (*distVal)(i, count);
+			if ((*distVal)(i, initPosFirst) > maxBase) maxBase = (*distVal)(i, initPosFirst);
 		}
 		if (!returnOrderByDescFreqAndAscOrigPos) return distValFinal;
 		/*
@@ -646,7 +646,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		ArrayPtr<double> key = new_double(unqCnt);
 		for (int i = 0; i < unqCnt; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) break;
-			(*key)[i] = (maxBase - (*distVal)[i][count] - 1) * maxBase + (*distVal)[i][initPosFirst];
+			(*key)(i) = (maxBase - (*distVal)(i, count) - 1) * maxBase + (*distVal)(i, initPosFirst);
 		}
 		/*
 		 * Sorting descending
@@ -657,9 +657,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		 */
 		for (int i = 0; i < unqCnt; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) break;
-			(*distValFinal)[i][value] = (*distVal)[(*keyInitOrder)[i]][value];
-			(*distValFinal)[i][count] = (*distVal)[(*keyInitOrder)[i]][count];
-			(*distValFinal)[i][initPosFirst] = (*distVal)[(*keyInitOrder)[i]][initPosFirst];
+			(*distValFinal)(i, value) = (*distVal)((*keyInitOrder)(i), value);
+			(*distValFinal)(i, count) = (*distVal)((*keyInitOrder)(i), count);
+			(*distValFinal)(i, initPosFirst) = (*distVal)((*keyInitOrder)(i), initPosFirst);
 		}
 		return distValFinal;
 	}
@@ -672,13 +672,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double NumberTheory::numberOfDistValues(const ArrayPtr<double> &numbers) {
 		if (numbers->data == nullptr) return Double::NaN;
-		if (numbers->length == 0) return 0;
+		if (numbers->rows == 0) return 0;
 		for (double v: *numbers) {
 			if (Double::isNaN(v)) return Double::NaN;
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 		}
-		if (numbers->length == 1) return 1;
-		return getDistValues(numbers, false)->length;
+		if (numbers->rows == 1) return 1;
+		return getDistValues(numbers, false)->rows;
 	}
 
 	/**
@@ -768,17 +768,17 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return -1;
 		if (numbers->length == 0) return -1;
 		if (numbers->length == 1) {
-			if ((*numbers)[0] >= 0) return (*numbers)[0];
-			return -(*numbers)[0];
+			if ((*numbers)(0) >= 0) return (*numbers)(0);
+			return -(*numbers)(0);
 		}
 		if (numbers->length == 2)
-			return gcd((*numbers)[0], (*numbers)[1]);
+			return gcd((*numbers)(0), (*numbers)(1));
 		for (int i = 1; i < numbers->length; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
-			(*numbers)[i] = gcd((*numbers)[i - 1], (*numbers)[i]);
+			(*numbers)(i) = gcd((*numbers)(i - 1), (*numbers)(i));
 		}
 
-		return (*numbers)[numbers->length - 1];
+		return (*numbers)(numbers->length - 1);
 	}
 
 	/**
@@ -794,14 +794,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1)
-			return MathFunctions::floor(MathFunctions::abs((*numbers)[0]));
+			return MathFunctions::floor(MathFunctions::abs((*numbers)(0)));
 		if (numbers->length == 2)
-			return gcd((*numbers)[0], (*numbers)[1]);
+			return gcd((*numbers)(0), (*numbers)(1));
 		for (int i = 1; i < numbers->length; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-			(*numbers)[i] = gcd((*numbers)[i - 1], (*numbers)[i]);
+			(*numbers)(i) = gcd((*numbers)(i - 1), (*numbers)(i));
 		}
-		return (*numbers)[numbers->length - 1];
+		return (*numbers)(numbers->length - 1);
 	}
 
 	/**
@@ -848,16 +848,16 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return -1;
 		if (numbers->length == 0) return -1;
 		if (numbers->length == 1) {
-			if ((*numbers)[0] >= 0) return (*numbers)[0];
-			return -(*numbers)[0];
+			if ((*numbers)(0) >= 0) return (*numbers)(0);
+			return -(*numbers)(0);
 		}
 		if (numbers->length == 2)
-			return lcm((*numbers)[0], (*numbers)[1]);
+			return lcm((*numbers)(0), (*numbers)(1));
 		for (int i = 1; i < numbers->length; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
-			(*numbers)[i] = lcm((*numbers)[i - 1], (*numbers)[i]);
+			(*numbers)(i) = lcm((*numbers)(i - 1), (*numbers)(i));
 		}
-		return (*numbers)[numbers->length - 1];
+		return (*numbers)(numbers->length - 1);
 	}
 
 	/**
@@ -873,14 +873,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1)
-			MathFunctions::floor(MathFunctions::abs((*numbers)[0]));
+			MathFunctions::floor(MathFunctions::abs((*numbers)(0)));
 		if (numbers->length == 2)
-			return lcm((*numbers)[0], (*numbers)[1]);
+			return lcm((*numbers)(0), (*numbers)(1));
 		for (int i = 1; i < numbers->length; i++) {
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
-			(*numbers)[i] = lcm((*numbers)[i - 1], (*numbers)[i]);
+			(*numbers)(i) = lcm((*numbers)(i - 1), (*numbers)(i));
 		}
-		return (*numbers)[numbers->length - 1];
+		return (*numbers)(numbers->length - 1);
 	}
 
 	/**
@@ -895,7 +895,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double NumberTheory::sum(const ArrayPtr<double> &numbers) {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
-		if (numbers->length == 1) return (*numbers)[0];
+		if (numbers->length == 1) return (*numbers)(0);
 		if (mXparser::checkIfCanonicalRounding()) {
 			BigDecimal dsum = BigDecimal::ZERO;
 			for (double xi: *numbers) {
@@ -929,7 +929,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double NumberTheory::prod(const ArrayPtr<double> &numbers) {
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
-		if (numbers->length == 1) return (*numbers)[0];
+		if (numbers->length == 1) return (*numbers)(0);
 		if (mXparser::checkIfCanonicalRounding()) {
 			BigDecimal dprod = BigDecimal::ONE;
 			for (double xi: *numbers) {
@@ -989,7 +989,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				 * is in cache the cache answer will be returned
 				 */
 				if (n <= mXparser::primesCache->maxNumInCache)
-					return (*mXparser::primesCache->isPrime)[CAST_INT(n)];
+					return (*mXparser::primesCache->isPrime)(CAST_INT(n));
 				else {
 					/*
 					 * If number is bigger than maximum stored in cache
@@ -999,7 +999,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					Long topCache = Math::min(top, CAST_LONG(mXparser::primesCache->maxNumInCache));
 					Long i;
 					for (i = 3; i <= topCache; i += 2) {
-						if ((*mXparser::primesCache->isPrime)[CAST_INT(i)])
+						if ((*mXparser::primesCache->isPrime)(CAST_INT(i)))
 							if (n % i == 0) return false;
 						if (mXparser::isCurrentCalculationCancelled()) return false;
 					}
@@ -1675,9 +1675,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		ArrayPtr<int> digitsInt = new_int(length);
 		double digit;
 		for (int i = 0; i < length; i++) {
-			digit = (*digits)[i];
+			digit = (*digits)(i);
 			if (Double::isNaN(digit)) return Double::NaN;
-			(*digitsInt)[i] = CAST_INT(digit);
+			(*digitsInt)(i) = CAST_INT(digit);
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 		}
 		return convOthBase2Decimal(numeralSystemBaseInt, digitsInt);
@@ -1696,10 +1696,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const ArrayPtr<int> &baseAndDigits) {
 		if (baseAndDigits == nullptr) return Double::NaN;
 		if (baseAndDigits->length == 0) return Double::NaN;
-		int numeralSystemBase = (*baseAndDigits)[0];
+		int numeralSystemBase = (*baseAndDigits)(0);
 		ArrayPtr<int> digits = new_int(baseAndDigits->length - 1);
 		for (int i = 1; i < baseAndDigits->length; i++) {
-			(*digits)[i - 1] = (*baseAndDigits)[i];
+			(*digits)(i - 1) = (*baseAndDigits)(i);
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 		}
 		return convOthBase2Decimal(numeralSystemBase, digits);
@@ -1718,10 +1718,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(const ArrayPtr<double> &baseAndDigits) {
 		if (baseAndDigits == nullptr) return Double::NaN;
 		if (baseAndDigits->length == 0) return Double::NaN;
-		double numeralSystemBase = (*baseAndDigits)[0];
+		double numeralSystemBase = (*baseAndDigits)(0);
 		ArrayPtr<double> digits = new_double(baseAndDigits->length - 1);
 		for (int i = 1; i < baseAndDigits->length; i++) {
-			(*digits)[i - 1] = (*baseAndDigits)[i];
+			(*digits)(i - 1) = (*baseAndDigits)(i);
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 		}
 		return convOthBase2Decimal(numeralSystemBase, digits);
@@ -1928,10 +1928,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			digit = CAST_INT(quotient % numeralSystemBase);
 			quotient = quotient / numeralSystemBase;
 			digitIndex--;
-			(*digits)[digitIndex] = digit;
+			(*digits)(digitIndex) = digit;
 		}
-		if (position >= 1) return (*digits)[position - 1];
-		else return (*digits)[digitsNum + position - 1];
+		if (position >= 1) return (*digits)(position - 1);
+		else return (*digits)(digitsNum + position - 1);
 	}
 
 	/**
@@ -1980,10 +1980,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			digit = MathFunctions::floor(Math::mod(quotient, numeralSystemBase));
 			quotient = MathFunctions::floor(quotient / numeralSystemBase);
 			digitIndex--;
-			(*digits)[digitIndex] = digit;
+			(*digits)(digitIndex) = digit;
 		}
-		if (position >= 1) return (*digits)[CAST_INT(position - 1)];
-		else return (*digits)[CAST_INT(digitsNum + position - 1)];
+		if (position >= 1) return (*digits)(CAST_INT(position - 1));
+		else return (*digits)(CAST_INT(digitsNum + position - 1));
 	}
 
 	/**
@@ -2010,7 +2010,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (number < 0) number = -number;
 		if (number == 1) {
 			factors = new_Long(1);
-			(*factors)[0] = 1;
+			(*factors)(0) = 1;
 			return factors;
 		}
 		if (mXparser::primesCache != nullptr)
@@ -2018,7 +2018,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (number <= Integer::MAX_VALUE)
 					if (mXparser::primesCache->primeTest(CAST_INT(number)) == PrimesCache::IS_PRIME) {
 						factors = new_Long(1);
-						(*factors)[0] = number;
+						(*factors)(0) = number;
 						return factors;
 					}
 		Long n = number;
@@ -2034,7 +2034,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int nfact = factorsList->size();
 		factors = new_Long(nfact);
 		for (int i = 0; i < nfact; i++) {
-			(*factors)[i] = factorsList->get(i);
+			(*factors)(i) = factorsList->get(i);
 			if (mXparser::isCurrentCalculationCancelled()) return longZeroArray;
 		}
 		return factors;
@@ -2055,7 +2055,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (number == 0.0) return doubleZeroArray;
 		if (number == 1.0) {
 			factors = new_double(1);
-			(*factors)[0] = 1.0;
+			(*factors)(0) = 1.0;
 			return factors;
 		}
 		if (mXparser::primesCache != nullptr)
@@ -2063,7 +2063,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 				if (number <= Integer::MAX_VALUE)
 					if (mXparser::primesCache->primeTest(CAST_INT(number)) == PrimesCache::IS_PRIME) {
 						factors = new_double(1);
-						(*factors)[0] = number;
+						(*factors)(0) = number;
 						return factors;
 					}
 		double n = number;
@@ -2079,7 +2079,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int nfact = factorsList->size();
 		factors = new_double(nfact);
 		for (int i = 0; i < nfact; i++) {
-			(*factors)[i] = factorsList->get(i);
+			(*factors)(i) = factorsList->get(i);
 			if (mXparser::isCurrentCalculationCancelled()) return doubleZeroArray;
 		}
 		return factors;
@@ -2094,9 +2094,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double NumberTheory::numberOfPrimeFactors(double number) {
 		if (Double::isNaN(number)) return Double::NaN;
 		ArrayPtr<double> factors = primeFactors(number);
-		if (factors->length <= 1) return factors->length;
-		ArrayPtr<double[3]> factorsDist = NumberTheory::getDistValues(factors, false);
-		return factorsDist->length;
+		if (factors->rows <= 1) return factors->rows;
+		ArrayPtr<double> factorsDist = NumberTheory::getDistValues(factors, false);
+		return factorsDist->rows;
 	}
 
 	/**
@@ -2119,10 +2119,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		id = MathFunctions::floor(id);
 		if (id > Integer::MAX_VALUE) return 1;
 		ArrayPtr<double> factors = primeFactors(number);
-		ArrayPtr<double[3]> factorsDist = NumberTheory::getDistValues(factors, false);
-		int nfact = factorsDist->length;
+		ArrayPtr<double> factorsDist = NumberTheory::getDistValues(factors, false);
+		int nfact = factorsDist->rows;
 		if (id > nfact) return 1;
-		return (*factorsDist)[CAST_INT(id - 1)][0];
+		return (*factorsDist)(CAST_INT(id - 1), 0);
 	}
 
 	/**
@@ -2145,10 +2145,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		id = MathFunctions::floor(id);
 		if (id > Integer::MAX_VALUE) return 0;
 		ArrayPtr<double> factors = primeFactors(number);
-		ArrayPtr<double[3]> factorsDist = NumberTheory::getDistValues(factors, false);
-		int nfact = factorsDist->length;
+		ArrayPtr<double> factorsDist = NumberTheory::getDistValues(factors, false);
+		int nfact = factorsDist->rows;
 		if (id > nfact) return 0;
-		return (*factorsDist)[CAST_INT(id - 1)][1];
+		return (*factorsDist)(CAST_INT(id - 1), 1);
 	}
 
 	/**
@@ -2163,9 +2163,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::fractionToDoubleArray(double sign, double numerator, double denominator) {
 		ArrayPtr<double> fraction = new_double(3);
-		(*fraction)[0] = sign;
-		(*fraction)[1] = numerator;
-		(*fraction)[2] = denominator;
+		(*fraction)(0) = sign;
+		(*fraction)(1) = numerator;
+		(*fraction)(2) = denominator;
 		return fraction;
 	}
 
@@ -2183,10 +2183,10 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE ArrayPtr<double> NumberTheory::mixedFractionToDoubleArray(double sign, double whole, double numerator,
 	                                                          double denominator) {
 		ArrayPtr<double> mixedFraction = new_double(4);
-		(*mixedFraction)[0] = sign;
-		(*mixedFraction)[1] = whole;
-		(*mixedFraction)[2] = numerator;
-		(*mixedFraction)[3] = denominator;
+		(*mixedFraction)(0) = sign;
+		(*mixedFraction)(1) = whole;
+		(*mixedFraction)(2) = numerator;
+		(*mixedFraction)(3) = denominator;
 		return mixedFraction;
 	}
 
@@ -2302,9 +2302,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE ArrayPtr<double> NumberTheory::toMixedFraction(double value) {
 		ArrayPtr<double> fraction = toFraction(value);
-		double sign = (*fraction)[0];
-		double numerator = (*fraction)[1];
-		double denominator = (*fraction)[2];
+		double sign = (*fraction)(0);
+		double numerator = (*fraction)(1);
+		double denominator = (*fraction)(2);
 		if (Double::isNaN(numerator))
 			return mixedFractionToDoubleArray(Double::NaN, Double::NaN, Double::NaN, Double::NaN);
 		if (Double::isNaN(denominator))
@@ -2340,13 +2340,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			numeratorIdx = 1;
 			denominatorIdx = 2;
 		}
-		if (Double::isNaN((*fraction)[0])) return ConstantValue::NAN_STR;
-		if (Double::isNaN((*fraction)[1])) return ConstantValue::NAN_STR;
-		if (Double::isNaN((*fraction)[2])) return ConstantValue::NAN_STR;
-		if (mixedFraction) if (Double::isNaN((*fraction)[3])) return ConstantValue::NAN_STR;
-		double sign = (*fraction)[signIdx];
-		double numerator = (*fraction)[numeratorIdx];
-		double denominator = (*fraction)[denominatorIdx];
+		if (Double::isNaN((*fraction)(0))) return ConstantValue::NAN_STR;
+		if (Double::isNaN((*fraction)(1))) return ConstantValue::NAN_STR;
+		if (Double::isNaN((*fraction)(2))) return ConstantValue::NAN_STR;
+		if (mixedFraction) if (Double::isNaN((*fraction)(3))) return ConstantValue::NAN_STR;
+		double sign = (*fraction)(signIdx);
+		double numerator = (*fraction)(numeratorIdx);
+		double denominator = (*fraction)(denominatorIdx);
 		StringPtr numeratorStr = S(Double::decimalFormat(numerator, 0));
 		StringPtr denominatorStr = S(Double::decimalFormat(denominator, 0));
 		if (!mixedFraction) {
@@ -2363,7 +2363,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 					return UTF("-") + numeratorStr + UTF("/") + denominatorStr;
 			}
 		} else {
-			double whole = (*fraction)[wholeIdx];
+			double whole = (*fraction)(wholeIdx);
 			StringPtr wholeStr = S(Double::decimalFormat(whole, 0));
 			if (numerator == 0) {
 				if (whole == 0)
@@ -2397,7 +2397,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  StringPtr representation of fraction.
 	 *
 	 * @see NumberTheory#toFraction(double)
-	 * @see NumberTheory#fractionToString(double[])
+	 * @see NumberTheory#fractionToString(double())
 	 */
 	API_VISIBLE StringPtr NumberTheory::toFractionString(double value) {
 		return fractionToString(toFraction(value));
@@ -2410,7 +2410,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return  StringPtr representation of fraction.
 	 *
 	 * @see NumberTheory#toMixedFraction(double)
-	 * @see NumberTheory#fractionToString(double[])
+	 * @see NumberTheory#fractionToString(double())
 	 */
 	API_VISIBLE StringPtr NumberTheory::toMixedFractionString(double value) {
 		return fractionToString(toMixedFraction(value));
