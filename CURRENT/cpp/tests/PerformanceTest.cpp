@@ -232,6 +232,7 @@
 #include <catch2/internal/catch_assertion_handler.hpp>
 #include <catch2/internal/catch_decomposer.hpp>
 #include <catch2/internal/catch_preprocessor_internal_stringify.hpp>
+#include <memory>
 #include <thread>
 #include <vector>
 

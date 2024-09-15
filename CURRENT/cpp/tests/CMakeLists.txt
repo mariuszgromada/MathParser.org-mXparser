@@ -25,7 +25,12 @@ add_executable(UnitTests ExpressionTest.cpp
 		TestsRun.cpp
 		UnicodeTest.cpp)
 
-target_link_libraries(UnitTests PRIVATE MathParserOrgMXparser Catch2::Catch2WithMain)
+
+if (UNIX)
+	target_link_libraries(UnitTests PRIVATE MathParserOrgMXparser Catch2::Catch2WithMain pthread)
+else()
+	target_link_libraries(UnitTests PRIVATE MathParserOrgMXparser Catch2::Catch2WithMain)
+endif()
 
 add_custom_command(TARGET UnitTests POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
