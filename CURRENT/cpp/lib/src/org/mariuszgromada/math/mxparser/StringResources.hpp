@@ -821,10 +821,11 @@ namespace org::mariuszgromada::math::mxparser {
 	private:
 		static StringPtr newLine;
 		static StringPtr endLine;
-		static StringPtr quoteString(const StringPtr &str);
-		static void printCurrentVsDefault(const String &nameStr, const StringPtr &currentValue, const StringPtr &defaultValue, bool printDefault);
+		static StringPtr quoteString(const StringPtr &str, bool asSrc);
+		static void printCurrentVsDefault(const String &nameStr, const StringPtr &currentValue, const StringPtr &defaultValue, bool printDefault, bool printAsSrc);
 		static StringPtr LINE_BREAK;
 		static void printResources(const StringResources &stringResources, bool printDefault);
+		static void printResources(const StringResources &stringResources, bool printDefault, bool printAsSrc);
 		static StringPtr getLocaleString();
 		static StringPtr mapToLanguageCode(const String &stringContainingLanguage);
 		static StringPtr mapToLanguageCode(const StringPtr &stringContainingLanguage);

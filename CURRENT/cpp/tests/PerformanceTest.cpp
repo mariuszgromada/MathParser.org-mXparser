@@ -344,7 +344,7 @@ public:
 	}
 };
 inline TestThreadPtr new_TestSimpleCalcThread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, TestSimpleCalcThread>(std::make_shared<TestSimpleCalcThread>(test));
+	return std::make_shared<TestSimpleCalcThread>(test);
 }
 
 /**
@@ -369,7 +369,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test011Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test011Thread>(std::make_shared<Test011Thread>(test));
+	return std::make_shared<Test011Thread>(test);
 }
 
 /**
@@ -397,7 +397,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test012Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test012Thread>(std::make_shared<Test012Thread>(test));
+	return std::make_shared<Test012Thread>(test);
 }
 
 /**
@@ -419,7 +419,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test013Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test013Thread>(std::make_shared<Test013Thread>(test));
+	return std::make_shared<Test013Thread>(test);
 }
 
 /**
@@ -441,7 +441,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test014Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test014Thread>(std::make_shared<Test014Thread>(test));
+	return std::make_shared<Test014Thread>(test);
 }
 
 
@@ -464,7 +464,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test015Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test015Thread>(std::make_shared<Test015Thread>(test));
+	return std::make_shared<Test015Thread>(test);
 }
 
 /**
@@ -486,7 +486,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test016Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test016Thread>(std::make_shared<Test016Thread>(test));
+	return std::make_shared<Test016Thread>(test);
 }
 
 /**
@@ -508,7 +508,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test017Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test017Thread>(std::make_shared<Test017Thread>(test));
+	return std::make_shared<Test017Thread>(test);
 }
 
 
@@ -531,7 +531,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test018Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test018Thread>(std::make_shared<Test018Thread>(test));
+	return std::make_shared<Test018Thread>(test);
 }
 
 /**
@@ -553,7 +553,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test019Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test019Thread>(std::make_shared<Test019Thread>(test));
+	return std::make_shared<Test019Thread>(test);
 }
 
 /**
@@ -578,7 +578,7 @@ public:
 	}
 };
 inline TestThreadPtr new_Test020Thread(const PerformanceTestResultPtr &test) {
-	return PtrCast<TestThread, Test020Thread>(std::make_shared<Test020Thread>(test));
+	return std::make_shared<Test020Thread>(test);
 }
 
 /**

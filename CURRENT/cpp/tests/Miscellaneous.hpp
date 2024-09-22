@@ -454,9 +454,6 @@ public:
  * ArgumentExtension interface
  * @see ArgumentExtension
  */
-class PiMultArgExt;
-using PiMultArgExtPtr = std::shared_ptr<PiMultArgExt>;
-
 class PiMultArgExt : public ArgumentExtension {
 private:
 	int multiple = 0;
@@ -468,20 +465,15 @@ public:
 		return  Math::PI * multiple;
 	}
 	ArgumentExtensionPtr clone() override {
-		PiMultArgExtPtr thisPiMultArgExtClone = std::make_shared<PiMultArgExt>();
-		return PtrCast<ArgumentExtension, PiMultArgExt>(thisPiMultArgExtClone);
+		return std::make_shared<PiMultArgExt>();
 	}
 };
 
 POLYMORPHIC_SERIALIZE(org::mariuszgromada::math::mxparser::ArgumentExtension, PiMultArgExt);
 
 inline ArgumentExtensionPtr new_PiMultArgExt() {
-	PiMultArgExtPtr newPiMultArgExt = std::make_shared<PiMultArgExt>();
-	return PtrCast<ArgumentExtension, PiMultArgExt>(newPiMultArgExt);
+	return std::make_shared<PiMultArgExt>();
 }
-
-class LongComputingArgExt;
-using LongComputingArgExtPtr = std::shared_ptr<LongComputingArgExt>;
 
 class LongComputingArgExt : public ArgumentExtension {
 public:
@@ -492,8 +484,7 @@ public:
 		return j;
 	}
 	ArgumentExtensionPtr clone() override {
-		LongComputingArgExtPtr thisLongComputingArgExtClone = std::make_shared<LongComputingArgExt>();
-		return PtrCast<ArgumentExtension, LongComputingArgExt>(thisLongComputingArgExtClone);
+		return std::make_shared<LongComputingArgExt>();
 	}
 private:
 	SERIALIZE_EMPTY(92);
@@ -502,8 +493,7 @@ private:
 POLYMORPHIC_SERIALIZE(org::mariuszgromada::math::mxparser::ArgumentExtension, LongComputingArgExt);
 
 inline ArgumentExtensionPtr new_LongComputingArgExt() {
-	LongComputingArgExtPtr newLongComputingArgExt = std::make_shared<LongComputingArgExt>();
-	return PtrCast<ArgumentExtension, LongComputingArgExt>(newLongComputingArgExt);
+	return std::make_shared<LongComputingArgExt>();
 }
 
 /**
@@ -511,10 +501,6 @@ inline ArgumentExtensionPtr new_LongComputingArgExt() {
  * FunctionExtension interface
  * @see FunctionExtension
  */
-
-class FunExt;
-using FunExtPtr = std::shared_ptr<FunExt>;
-
 class FunExt : public FunctionExtension {
 private:
 	double x;
@@ -546,27 +532,20 @@ public:
 		return x*y;
 	}
 	FunctionExtensionPtr clone() override {
-		FunExtPtr thisFunExtClone = std::make_shared<FunExt>();
-		return PtrCast<FunctionExtension, FunExt>(thisFunExtClone);
+		return std::make_shared<FunExt>();
 	}
 };
 
 POLYMORPHIC_SERIALIZE(org::mariuszgromada::math::mxparser::FunctionExtension, FunExt);
 
 inline FunctionExtensionPtr new_FunExt() {
-	FunExtPtr newFunExt = std::make_shared<FunExt>();
-	return PtrCast<FunctionExtension, FunExt>(newFunExt);
+	return std::make_shared<FunExt>();
 }
 
 inline FunctionExtensionPtr new_FunExt(double x, double y) {
-	FunExtPtr newFunExt = std::make_shared<FunExt>(x, y);
-	return PtrCast<FunctionExtension, FunExt>(newFunExt);
+	return std::make_shared<FunExt>(x, y);
 }
 
-
-
-class LongComputingFunExt;
-using LongComputingFunExtPtr = std::shared_ptr<LongComputingFunExt>;
 
 class LongComputingFunExt : public FunctionExtension {
 private:
@@ -597,26 +576,20 @@ public:
 		return sum;
 	}
 	FunctionExtensionPtr clone() override {
-		LongComputingFunExtPtr thisLongComputingFunExtClone = std::make_shared<LongComputingFunExt>();
-		return PtrCast<FunctionExtension, LongComputingFunExt>(thisLongComputingFunExtClone);
+		return std::make_shared<LongComputingFunExt>();
 	}
 };
 
 POLYMORPHIC_SERIALIZE(org::mariuszgromada::math::mxparser::FunctionExtension, LongComputingFunExt);
 
 inline FunctionExtensionPtr new_LongComputingFunExt() {
-	LongComputingFunExtPtr newLongComputingFunExt = std::make_shared<LongComputingFunExt>();
-	return PtrCast<FunctionExtension, LongComputingFunExt>(newLongComputingFunExt);
+	return std::make_shared<LongComputingFunExt>();
 }
 
 inline FunctionExtensionPtr new_LongComputingFunExt(double n) {
-	LongComputingFunExtPtr newLongComputingFunExt = std::make_shared<LongComputingFunExt>(n);
-	return PtrCast<FunctionExtension, LongComputingFunExt>(newLongComputingFunExt);
+	return std::make_shared<LongComputingFunExt>(n);
 }
 
-
-class FunExtVar;
-using FunExtVarPtr = std::shared_ptr<FunExtVar>;
 
 /**
  * Example of implementation
@@ -634,8 +607,7 @@ public:
 		return result;
 	}
 	FunctionExtensionVariadicPtr clone() override {
-		FunExtVarPtr thisFunExtVarClone = std::make_shared<FunExtVar>();
-		return PtrCast<FunctionExtensionVariadic, FunExtVar>(thisFunExtVarClone);
+		return std::make_shared<FunExtVar>();
 	}
 private:
 	SERIALIZE_EMPTY(95);
@@ -644,12 +616,9 @@ private:
 POLYMORPHIC_SERIALIZE(org::mariuszgromada::math::mxparser::FunctionExtensionVariadic, FunExtVar);
 
 inline FunctionExtensionVariadicPtr new_FunExtVar() {
-	FunExtVarPtr newFunExtVar = std::make_shared<FunExtVar>();
-	return PtrCast<FunctionExtensionVariadic, FunExtVar>(newFunExtVar);
+	return std::make_shared<FunExtVar>();
 }
 
-class LongComputingFunExtVar;
-using LongComputingFunExtVarPtr = std::shared_ptr<LongComputingFunExtVar>;
 
 class LongComputingFunExtVar : public FunctionExtensionVariadic {
 public:
@@ -662,8 +631,7 @@ public:
 		return result;
 	}
 	FunctionExtensionVariadicPtr clone() override {
-		LongComputingFunExtVarPtr thisLongComputingFunExtVarClone = std::make_shared<LongComputingFunExtVar>();
-		return PtrCast<FunctionExtensionVariadic, LongComputingFunExtVar>(thisLongComputingFunExtVarClone);
+		return std::make_shared<LongComputingFunExtVar>();
 	}
 private:
 	SERIALIZE_EMPTY(96);
@@ -672,8 +640,7 @@ private:
 POLYMORPHIC_SERIALIZE(org::mariuszgromada::math::mxparser::FunctionExtensionVariadic, LongComputingFunExtVar);
 
 inline FunctionExtensionVariadicPtr new_LongComputingFunExtVar() {
-	LongComputingFunExtVarPtr newLongComputingFunExtVar = std::make_shared<LongComputingFunExtVar>();
-	return PtrCast<FunctionExtensionVariadic, LongComputingFunExtVar>(newLongComputingFunExtVar);
+	return std::make_shared<LongComputingFunExtVar>();
 }
 
 class LongTest {

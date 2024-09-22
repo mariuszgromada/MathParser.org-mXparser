@@ -419,8 +419,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE ArgumentPtr RecursiveArgument::cloneForThreadSafe() {
 		CloneCachePtr cloneCache = new_CloneCache();
-		RecursiveArgumentPtr recursiveArgumentClone = PtrCast<RecursiveArgument, Argument>(
-			RecursiveArgument::cloneForThreadSafeInternal(cloneCache));
+		RecursiveArgumentPtr recursiveArgumentClone = PtrCast<RecursiveArgument, Argument>(RecursiveArgument::cloneForThreadSafeInternal(cloneCache));
 		cloneCache->addAllAtTheEndElements();
 		cloneCache->clearCache();
 		return recursiveArgumentClone;
