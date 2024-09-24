@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.java        6.0.0    2024-05-19
+ * @(#)ExpressionTest.java        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -241,7 +241,7 @@ import static org.mariuszgromada.math.mxparser.mathcollection.MathConstants.PI;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.0
  *
  */
 public final class ExpressionTest {
@@ -23304,6 +23304,82 @@ public final class ExpressionTest {
         double value = testExp.calculate();
         double reg = (~(0b1101 ^ 0b1001)) + (~(0b1101 & 0b1001)) + (~(0b1101 | 0b1001));
         if (MathFunctions.abs(reg - value) == 0)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1419() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        Argument x = new Argument("x");
+        x.setArgumentValue(MathConstants.PIBY2);
+        String expStr = "tan(x)";
+        TestCommonTools.consolePrintTestExprStart(1419, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = Double.NaN;
+        if (Double.isNaN(value))
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1420() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        Argument x = new Argument("x");
+        x.setArgumentValue(MathConstants.PIBY2);
+        String expStr = "cos(x)";
+        TestCommonTools.consolePrintTestExprStart(1420, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 0;
+        if (value == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1421() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        Argument x = new Argument("x");
+        x.setArgumentValue(MathConstants.PIBY2);
+        String expStr = "tan(x)";
+        TestCommonTools.consolePrintTestExprStart(1421, expStr);
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        mXparser.disableSpecialCases();
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = Math.tan(MathConstants.PIBY2);
+        if (value == reg)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1422() {
+        TestCommonTools.testExprSettingsInit();
+        boolean testResult = false;
+        Argument x = new Argument("x");
+        x.setArgumentValue(MathConstants.PIBY2);
+        String expStr = "cos(x)";
+        TestCommonTools.consolePrintTestExprStart(1422, expStr);
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        mXparser.disableSpecialCases();
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = Math.cos(MathConstants.PIBY2);
+        if (value == reg)
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        6.1.0    2024-09-08
+ * @(#)mXparser.cs        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -882,6 +882,39 @@ namespace org.mariuszgromada.math.mxparser {
 			return almostIntRounding;
 		}
 		/**
+		 * Enables special case recognition options, e.g. tan(pi/2) = NaN.
+		 * Default behaviour is 'enableSpecialCases'.
+		 */
+		public static void enableSpecialCases() {
+			SpecialValue.specialCasesDisabled = false;
+		}
+		/**
+		 * Disables special case recognition options, e.g. tan(pi/2) will return value
+		 * according to the standard math library implementation.
+		 * Default behaviour is 'enableSpecialCases'.
+		 */
+		public static void disableSpecialCases() {
+			SpecialValue.specialCasesDisabled = true;
+		}
+		/**
+		 * Enables special case recognition options, e.g. tan(pi/2) = NaN or
+		 * disables special case recognition options, e.g. tan(pi/2) will return value
+		 * according to the standard math library implementation.
+		 * Default behaviour is 'enableSpecialCases'.
+		 *
+		 * @param specialCasesState   true to enable, false to disable.
+		 */
+		public static void setSpecialCases(bool specialCasesState) {
+			SpecialValue.specialCasesDisabled = !specialCasesState;
+		}
+		/**
+		 * Checks if special case recognition is enabled.
+		 * @return true in case if special case recognition is enabled, otherwise false.
+		 */
+		public static bool checkIfSpecialCases() {
+			return !SpecialValue.specialCasesDisabled;
+		}
+		/**
 		 * Internal limit to avoid infinite loops while calculating
 		 * expression defined in the way shown by below examples.
 		 *
@@ -1335,6 +1368,7 @@ namespace org.mariuszgromada.math.mxparser {
 			enableUnicodeBuiltinKeyWordsMode();
 			enableAttemptToFixExpStrMode();
 			enableSelectBestMatchingLanguage();
+			enableSpecialCases();
 			optionsChangesetNumber++;
 		}
 		/**
@@ -1694,6 +1728,7 @@ namespace org.mariuszgromada.math.mxparser {
 			mXparser.consolePrintln(prefix + "getToFractionInitSearchSize = " + mXparser.getToFractionInitSearchSize());
 			mXparser.consolePrintln(prefix + "checkIfsetToOverrideBuiltinTokens = " + mXparser.checkIfsetToOverrideBuiltinTokens());
 			mXparser.consolePrintln(prefix + "checkIfSelectBestMatchingLanguage = " + mXparser.checkIfSelectBestMatchingLanguage());
+			mXparser.consolePrintln(prefix + "checkIfSpecialValues = " + mXparser.checkIfSpecialCases());
 		}
 		public static void consolePrintSettings() {
 			consolePrintSettings(StringInvariant.EMPTY);

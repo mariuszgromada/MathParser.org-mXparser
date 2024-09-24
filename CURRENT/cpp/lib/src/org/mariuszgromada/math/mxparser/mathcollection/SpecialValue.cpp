@@ -232,6 +232,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * double fvdeg: The function value in degrees for inverse trigonometric functions
 	 */
 
+	API_VISIBLE bool SpecialValue::specialCasesDisabled = false;
 
 	/**
 	 * Main constructor - functions only with main unit

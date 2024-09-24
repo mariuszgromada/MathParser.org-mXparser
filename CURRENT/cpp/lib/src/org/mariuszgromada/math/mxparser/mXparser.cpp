@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cpp        6.1.0    2024-09-15
+ * @(#)mXparser.cpp        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -226,6 +226,7 @@
 #include "org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/PrimesCache.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.hpp"
+#include "org/mariuszgromada/math/mxparser/mathcollection/SpecialValue.hpp"
 #include "org/mariuszgromada/math/mxparser/Miscellaneous.hpp"
 #include "org/mariuszgromada/math/mxparser/parsertokens/Token.hpp"
 #include "org/mariuszgromada/math/mxparser/StringResources.hpp"
@@ -727,7 +728,6 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void mXparser::disableAlmostIntRounding() {
 		almostIntRounding = false;
 	}
-
 	/**
 	 * Enables / disables almost integer rounding option causing
 	 * rounding final calculation result to precise integer
@@ -755,7 +755,39 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE bool mXparser::checkIfAlmostIntRounding() {
 		return almostIntRounding;
 	}
-
+	/**
+	 * Enables special case recognition options, e.g. tan(pi/2) = NaN.
+	 * Default behaviour is 'enableSpecialCases'.
+	 */
+	API_VISIBLE void mXparser::enableSpecialCases() {
+		SpecialValue::specialCasesDisabled = false;
+	}
+	/**
+	 * Disables special case recognition options, e.g. tan(pi/2) will return value
+	 * according to the standard math library implementation.
+	 * Default behaviour is 'enableSpecialCases'.
+	 */
+	API_VISIBLE void mXparser::disableSpecialCases() {
+		SpecialValue::specialCasesDisabled = true;
+	}
+	/**
+	 * Enables special case recognition options, e.g. tan(pi/2) = NaN or
+	 * disables special case recognition options, e.g. tan(pi/2) will return value
+	 * according to the standard math library implementation.
+	 * Default behaviour is 'enableSpecialCases'.
+	 *
+	 * @param specialCasesState   true to enable, false to disable.
+	 */
+	API_VISIBLE void mXparser::setSpecialCases(bool specialCasesState) {
+		SpecialValue::specialCasesDisabled = !specialCasesState;
+	}
+	/**
+	 * Checks if special case recognition is enabled.
+	 * @return true in case if special case recognition is enabled, otherwise false.
+	 */
+	API_VISIBLE bool mXparser::checkIfSpecialCases() {
+		return !SpecialValue::specialCasesDisabled;
+	}
 	/**
 	 * Internal limit to aAPI_VISIBLE void mXparser::infinite loops while calculating
 	 * expression defined in the way shown by below examples.

@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        6.1.0    2024-09-08
+ * @(#)SyntaxTest.java        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -5645,7 +5645,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Function API - calculate(CalcStepsRegister calcStepsRegister) + getComputingTime";
         TestCommonTools.consolePrintTestApiStart(220, testDescr);
-        Argument range = new Argument("range = 1000000");
+        Argument range = new Argument("range = 2000000");
         Function fErr = new Function("f = 2+3");
         Function f = new Function("f(n) = sum(i, 1, n, i)");
         Expression e = new Expression("f(range)", range, f);
@@ -10818,6 +10818,29 @@ public final class ApiTest {
         TestCommonTools.consolePrintTestApiEnd(testResult);
         Assertions.assertTrue(testResult);
         StringModel.setDefaultStringResources();
+    }
+    @Test
+    public void testApi0367() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "disable / enable / check if Special Cases";
+        TestCommonTools.consolePrintTestApiStart(367, testDescr);
+        boolean specialCases0 = mXparser.checkIfSpecialCases();
+        mXparser.disableSpecialCases();
+        boolean specialCases1 = mXparser.checkIfSpecialCases();
+        mXparser.setSpecialCases(false);
+        boolean specialCases2 = mXparser.checkIfSpecialCases();
+        mXparser.enableSpecialCases();
+        boolean specialCases3 = mXparser.checkIfSpecialCases();
+        mXparser.setSpecialCases(true);
+        boolean specialCases4 = mXparser.checkIfSpecialCases();
+        mXparser.setSpecialCases(false);
+        boolean specialCases5 = mXparser.checkIfSpecialCases();
+
+        if (specialCases0 && !specialCases1 && !specialCases2 && specialCases3 && specialCases4 && !specialCases5)
+            testResult = true;
+
+        Assertions.assertTrue(testResult);
     }
     public static String cleanMarkdownBackslash(String str) {
         return str.replace("\\\\", "").replace("\\|", "");

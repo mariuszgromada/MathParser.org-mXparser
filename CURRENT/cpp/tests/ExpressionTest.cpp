@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cpp        6.1.0    2024-09-08
+ * @(#)ExpressionTest.cpp        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -23733,5 +23733,80 @@ TEST_CASE("testExpr1418", "[Expression]") {
 		testResult = true;
 	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
 	CHECK(testResult);
-	FINALIZE_TESTS_EXPRESSION;
+}
+
+TEST_CASE("testExpr1419", "[Expression]") {
+    TestCommonTools::testExprSettingsInit();
+    bool testResult = false;
+    ArgumentPtr x = new_Argument("x");
+    x->setArgumentValue(MathConstants::PIBY2);
+    string expStr = "tan(x)";
+    TestCommonTools::consolePrintTestExprStart(1419, expStr);
+    ExpressionPtr testExp = new_Expression(expStr, x);
+    testExp->calculate();
+    double value = testExp->calculate();
+    double reg = Double::NaN;
+    if (Double::isNaN(value))
+        testResult = true;
+    TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+    CHECK(testResult);
+}
+
+TEST_CASE("testExpr1420", "[Expression]") {
+    TestCommonTools::testExprSettingsInit();
+    bool testResult = false;
+    ArgumentPtr x = new_Argument("x");
+    x->setArgumentValue(MathConstants::PIBY2);
+    string expStr = "cos(x)";
+    TestCommonTools::consolePrintTestExprStart(1420, expStr);
+    ExpressionPtr testExp = new_Expression(expStr, x);
+    testExp->calculate();
+    double value = testExp->calculate();
+    double reg = 0;
+    if (value == reg)
+        testResult = true;
+    TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+    CHECK(testResult);
+}
+
+TEST_CASE("testExpr1421", "[Expression]") {
+    TestCommonTools::testExprSettingsInit();
+    bool testResult = false;
+    ArgumentPtr x = new_Argument("x");
+    x->setArgumentValue(MathConstants::PIBY2);
+    string expStr = "tan(x)";
+    TestCommonTools::consolePrintTestExprStart(1421, expStr);
+    mXparser::disableAlmostIntRounding();
+    mXparser::disableCanonicalRounding();
+    mXparser::disableUlpRounding();
+    mXparser::disableSpecialCases();
+    ExpressionPtr testExp = new_Expression(expStr, x);
+    testExp->calculate();
+    double value = testExp->calculate();
+    double reg = Math::tan(MathConstants::PIBY2);
+    if (value == reg)
+        testResult = true;
+    TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+   CHECK(testResult);
+}
+
+TEST_CASE("testExpr1422", "[Expression]") {
+    TestCommonTools::testExprSettingsInit();
+    bool testResult = false;
+    ArgumentPtr x = new_Argument("x");
+    x->setArgumentValue(MathConstants::PIBY2);
+    string expStr = "cos(x)";
+    TestCommonTools::consolePrintTestExprStart(1422, expStr);
+    mXparser::disableAlmostIntRounding();
+    mXparser::disableCanonicalRounding();
+    mXparser::disableUlpRounding();
+    mXparser::disableSpecialCases();
+    ExpressionPtr testExp = new_Expression(expStr, x);
+    testExp->calculate();
+    double value = testExp->calculate();
+    double reg = Math::cos(MathConstants::PIBY2);
+    if (value == reg)
+        testResult = true;
+    TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+    CHECK(testResult);
 }

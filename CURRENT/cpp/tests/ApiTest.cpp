@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cpp        6.1.0    2024-09-15
+ * @(#)ApiTest.cpp        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -10964,5 +10964,27 @@ TEST_CASE("testApi0366", "[API]") {
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
 	StringModel::setDefaultStringResources();
-	FINALIZE_TESTS_API;
+}
+
+TEST_CASE("testApi0367", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	bool testResult = false;
+	string testDescr = "disable / enable / check if Special Cases";
+	TestCommonTools::consolePrintTestApiStart(367, testDescr);
+	bool specialCases0 = mXparser::checkIfSpecialCases();
+	mXparser::disableSpecialCases();
+	bool specialCases1 = mXparser::checkIfSpecialCases();
+	mXparser::setSpecialCases(false);
+	bool specialCases2 = mXparser::checkIfSpecialCases();
+	mXparser::enableSpecialCases();
+	bool specialCases3 = mXparser::checkIfSpecialCases();
+	mXparser::setSpecialCases(true);
+	bool specialCases4 = mXparser::checkIfSpecialCases();
+	mXparser::setSpecialCases(false);
+	bool specialCases5 = mXparser::checkIfSpecialCases();
+
+	if (specialCases0 && !specialCases1 && !specialCases2 && specialCases3 && specialCases4 && !specialCases5)
+		testResult = true;
+
+	CHECK(testResult);
 }

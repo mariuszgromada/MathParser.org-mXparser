@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValue.hpp        6.1.0    2024-09-08
+ * @(#)SpecialValue.hpp        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -231,7 +231,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		SpecialValue(double x, double fv, double fvdeg);
 
 		/**
-		 * Epsilon is used to compare the x value with regards to some given small interval
+		 * If true, special value / special case will not be recognized
+		 */
+		static bool specialCasesDisabled;
+		/**
+		 * Epsilon is used to compare the x value in regard to some given small interval
 		 */
 		static constexpr double EPSILON = 10 * BinaryRelations::DEFAULT_COMPARISON_EPSILON;
 

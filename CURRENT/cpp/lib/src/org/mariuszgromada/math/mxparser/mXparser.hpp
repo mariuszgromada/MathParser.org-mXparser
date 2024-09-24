@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.hpp        6.1.0    2024-09-15
+ * @(#)mXparser.hpp        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -322,6 +322,13 @@ namespace org::mariuszgromada::math::mxparser {
 		static void disableAlmostIntRounding();
 		static void setAlmostIntRounding(bool almostIntRoundingState);
 		static bool checkIfAlmostIntRounding();
+
+		// ***********************************************************
+
+		static void enableSpecialCases();
+		static void disableSpecialCases();
+		static void setSpecialCases(bool specialCasesState);
+		static bool checkIfSpecialCases();
 
 		// ***********************************************************
 

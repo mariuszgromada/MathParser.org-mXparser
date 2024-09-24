@@ -446,6 +446,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * otherwise returns null
 	 */
 	API_VISIBLE SpecialValueTrigonometricPtr SpecialValueTrigonometric::getSpecialValueTrigonometric(double xrad) {
+		if (SpecialValue::specialCasesDisabled) return nullptr;
 		if (Double::isNaN(xrad)) return nullptr;
 		if (Double::isInfinite(xrad)) return nullptr;
 		for (SpecialValueTrigonometricPtr& sv : valuesListTrig) {
@@ -522,6 +523,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * otherwise returns null.
 	 */
 	SpecialValuePtr SpecialValueTrigonometric::getSpecialValue(double x, const ListPtr<SpecialValuePtr> &valuesList) {
+		if (SpecialValue::specialCasesDisabled) return nullptr;
 		if (Double::isNaN(x)) return nullptr;
 		if (Double::isInfinite(x)) return nullptr;
 		for (SpecialValuePtr& sv : *valuesList) {

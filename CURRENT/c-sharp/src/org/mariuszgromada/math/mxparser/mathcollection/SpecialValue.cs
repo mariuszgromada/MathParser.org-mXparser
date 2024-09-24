@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValue.cs        6.1.0    2024-09-08
+ * @(#)SpecialValue.cs        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	[CLSCompliant(true)]
 	public class SpecialValue {
 		/**
-		 * Epsilon is used to compare the x value with regards to some given small interval
+		 * If true, special value / special case will not be recognized
+		 */
+		public static bool specialCasesDisabled = false;
+		/**
+		 * Epsilon is used to compare the x value in regard to some given small interval
 		 */
 		public static readonly double EPSILON = 10 * BinaryRelations.DEFAULT_COMPARISON_EPSILON;
 		/**

@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValueTrigonometric.cs        6.0.0    2024-05-19
+ * @(#)SpecialValueTrigonometric.cs        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -231,7 +231,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.1.0
 	 */
 	[CLSCompliant(true)]
 	public class SpecialValueTrigonometric {
@@ -591,6 +591,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * otherwise returns null
 		 */
 		public static SpecialValueTrigonometric getSpecialValueTrigonometric(double xrad) {
+			if (SpecialValue.specialCasesDisabled) return null;
 			if (Double.IsNaN(xrad)) return null;
 			if (Double.IsInfinity(xrad)) return null;
 			foreach (SpecialValueTrigonometric sv in valuesListTrig) {
@@ -660,6 +661,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * otherwise returns null.
 		 */
 		private static SpecialValue getSpecialValue(double x, List<SpecialValue> valuesList) {
+			if (SpecialValue.specialCasesDisabled) return null;
 			if (Double.IsNaN(x)) return null;
 			if (Double.IsInfinity(x)) return null;
 			foreach (SpecialValue sv in valuesList) {

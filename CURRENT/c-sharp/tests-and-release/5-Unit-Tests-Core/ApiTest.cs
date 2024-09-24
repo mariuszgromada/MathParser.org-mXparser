@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.1.0    2024-09-08
+ * @(#)ApiTest.cs        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -10889,6 +10889,29 @@ namespace org.mariuszgromada.math.mxparser.test {
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
+		}
+		[TestMethod]
+		public void testApi0367() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "disable / enable / check if Special Cases";
+			TestCommonTools.consolePrintTestApiStart(367, testDescr);
+			bool specialCases0 = mXparser.checkIfSpecialCases();
+			mXparser.disableSpecialCases();
+			bool specialCases1 = mXparser.checkIfSpecialCases();
+			mXparser.setSpecialCases(false);
+			bool specialCases2 = mXparser.checkIfSpecialCases();
+			mXparser.enableSpecialCases();
+			bool specialCases3 = mXparser.checkIfSpecialCases();
+			mXparser.setSpecialCases(true);
+			bool specialCases4 = mXparser.checkIfSpecialCases();
+			mXparser.setSpecialCases(false);
+			bool specialCases5 = mXparser.checkIfSpecialCases();
+
+			if (specialCases0 && !specialCases1 && !specialCases2 && specialCases3 && specialCases4 && !specialCases5)
+				testResult = true;
+
+			Assert.IsTrue(testResult);
 		}
 		public static String cleanMarkdownBackslash(String str) {
 			return str.Replace("\\\\", "").Replace("\\|", "");

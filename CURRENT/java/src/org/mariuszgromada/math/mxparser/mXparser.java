@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        6.1.0    2024-09-08
+ * @(#)mXparser.java        6.1.0    2024-09-24
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -785,6 +785,39 @@ public final class mXparser {
 		return almostIntRounding;
 	}
 	/**
+	 * Enables special case recognition options, e.g. tan(pi/2) = NaN.
+	 * Default behaviour is 'enableSpecialCases'.
+	 */
+	public static void enableSpecialCases() {
+		SpecialValue.specialCasesDisabled = false;
+	}
+	/**
+	 * Disables special case recognition options, e.g. tan(pi/2) will return value
+	 * according to the standard math library implementation.
+	 * Default behaviour is 'enableSpecialCases'.
+	 */
+	public static void disableSpecialCases() {
+		SpecialValue.specialCasesDisabled = true;
+	}
+	/**
+	 * Enables special case recognition options, e.g. tan(pi/2) = NaN or
+	 * disables special case recognition options, e.g. tan(pi/2) will return value
+	 * according to the standard math library implementation.
+	 * Default behaviour is 'enableSpecialCases'.
+	 *
+	 * @param specialCasesState   true to enable, false to disable.
+	 */
+	public static void setSpecialCases(boolean specialCasesState) {
+		SpecialValue.specialCasesDisabled = !specialCasesState;
+	}
+	/**
+	 * Checks if special case recognition is enabled.
+	 * @return true in case if special case recognition is enabled, otherwise false.
+	 */
+	public static boolean checkIfSpecialCases() {
+		return !SpecialValue.specialCasesDisabled;
+	}
+	/**
 	 * Internal limit to avoid infinite loops while calculating
 	 * expression defined in the way shown by below examples.
 	 *
@@ -1240,6 +1273,7 @@ public final class mXparser {
 		enableUnicodeBuiltinKeyWordsMode();
 		enableAttemptToFixExpStrMode();
 		enableSelectBestMatchingLanguage();
+		enableSpecialCases();
 		optionsChangesetNumber++;
 	}
 	/**
@@ -1590,6 +1624,7 @@ public final class mXparser {
 		mXparser.consolePrintln(prefix + "getMaxNumInPrimesCache = " + mXparser.getMaxNumInPrimesCache());
 		mXparser.consolePrintln(prefix + "getToFractionInitSearchSize = " + mXparser.getToFractionInitSearchSize());
 		mXparser.consolePrintln(prefix + "checkIfsetToOverrideBuiltinTokens = " + mXparser.checkIfsetToOverrideBuiltinTokens());
+		mXparser.consolePrintln(prefix + "checkIfSpecialValues = " + mXparser.checkIfSpecialCases());
 		mXparser.consolePrintln(prefix + "Java version = " + System.getProperty("java.version"));
 	}
 	public static void consolePrintSettings() {
@@ -2174,4 +2209,5 @@ public final class mXparser {
 	public static final String NAMEv51 = "5.1";
 	public static final String NAMEv52 = "5.2";
 	public static final String NAMEv60 = "6.0";
+	public static final String NAMEv61 = "6.1";
 }
