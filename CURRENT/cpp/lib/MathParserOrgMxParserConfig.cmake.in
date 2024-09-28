@@ -7,4 +7,4 @@ find_dependency(cereal REQUIRED)
 include("${CMAKE_CURRENT_LIST_DIR}/MathParserOrgMxParserTargets.cmake")
 
 set(MathParserOrgMxParser_LIBRARIES MathParserOrgMxParser)
-set(MathParserOrgMxParser_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIR@")
+set(MathParserOrgMxParser_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/../../include")
