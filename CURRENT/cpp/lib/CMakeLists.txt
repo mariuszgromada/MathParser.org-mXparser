@@ -587,6 +587,7 @@ message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
 message(STATUS "CMAKE_CXX_FLAGS for MathParserOrgMxParser: ${CMAKE_CXX_FLAGS}")
 
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 install(TARGETS cereal EXPORT MathParserOrgMxParserTargets)
 
@@ -605,5 +606,23 @@ install(DIRECTORY src
 
 install(EXPORT MathParserOrgMxParserTargets
 		FILE MathParserOrgMxParserTargets.cmake
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MathParserOrgMxParser
+)
+
+write_basic_package_version_file(
+		"${CMAKE_CURRENT_BINARY_DIR}/MathParserOrgMxParserConfigVersion.cmake"
+		VERSION ${PROJECT_VERSION}
+		COMPATIBILITY AnyNewerVersion
+)
+
+configure_package_config_file(
+		"${CMAKE_CURRENT_SOURCE_DIR}/MathParserOrgMxParserConfig.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/MathParserOrgMxParserConfig.cmake"
+		INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/MathParserOrgMxParser"
+)
+
+install(FILES
+		"${CMAKE_CURRENT_BINARY_DIR}/MathParserOrgMxParserConfig.cmake"
+		"${CMAKE_CURRENT_BINARY_DIR}/MathParserOrgMxParserConfigVersion.cmake"
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MathParserOrgMxParser
 )
