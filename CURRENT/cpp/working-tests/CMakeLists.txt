@@ -6,8 +6,8 @@ endif()
 
 add_executable(WorkingTests WorkingTests.cpp WorkingTests.hpp)
 
-target_link_libraries(WorkingTests PRIVATE MathParserOrgMXparser)
+target_link_libraries(WorkingTests PRIVATE MathParserOrgMxParser)
 
 add_custom_command(TARGET WorkingTests POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		$<TARGET_FILE:MathParserOrgMXparser> $<TARGET_FILE_DIR:WorkingTests>)
+		$<TARGET_FILE:MathParserOrgMxParser> $<TARGET_FILE_DIR:WorkingTests>)

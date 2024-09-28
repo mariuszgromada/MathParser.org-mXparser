@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("mXparser - Math Parser Java C# Library")]
-[assembly: AssemblyDescription("A flexible mathematical expressions parser for JAVA and C# .NET")]
+[assembly: AssemblyTitle("mXparser - Math Parser Java C# C++ Library")]
+[assembly: AssemblyDescription("A flexible mathematical expressions parser for JAVA, C# .NET and C++")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mariusz Gromada, MathParser.org")]
 [assembly: AssemblyProduct("mXparser")]
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("6.0.0.0")]
-[assembly: AssemblyFileVersion("6.0.0.0")]
+[assembly: AssemblyVersion("6.1.0.0")]
+[assembly: AssemblyFileVersion("6.1.0.0")]

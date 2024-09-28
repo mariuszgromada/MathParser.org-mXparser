@@ -27,14 +27,14 @@ add_executable(UnitTests ExpressionTest.cpp
 
 
 if (UNIX)
-	target_link_libraries(UnitTests PRIVATE MathParserOrgMXparser Catch2::Catch2WithMain pthread)
+	target_link_libraries(UnitTests PRIVATE MathParserOrgMxParser Catch2::Catch2WithMain pthread)
 else()
-	target_link_libraries(UnitTests PRIVATE MathParserOrgMXparser Catch2::Catch2WithMain)
+	target_link_libraries(UnitTests PRIVATE MathParserOrgMxParser Catch2::Catch2WithMain)
 endif()
 
 add_custom_command(TARGET UnitTests POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		$<TARGET_FILE:MathParserOrgMXparser> $<TARGET_FILE_DIR:UnitTests>)
+		$<TARGET_FILE:MathParserOrgMxParser> $<TARGET_FILE_DIR:UnitTests>)
 
 
 message(STATUS "CMAKE_CXX_FLAGS for TestsRun: ${CMAKE_CXX_FLAGS}")

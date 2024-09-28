@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(MathParserOrgMXparser VERSION 6.1.0 LANGUAGES CXX)
+project(MathParserOrgMxParser VERSION 6.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -55,7 +55,6 @@ message(STATUS "CMAKE_VS_PLATFORM_NAME: ${CMAKE_VS_PLATFORM_NAME}")
 message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 message(STATUS "==============================================================")
-
 
 # =========================================
 # Recognizing compiler/variants
@@ -286,8 +285,8 @@ endif()
 
 # =========================================
 
-if (NOT TARGET MathParserOrgMXparser)
-add_library(MathParserOrgMXparser SHARED
+if (NOT TARGET MathParserOrgMxParser)
+add_library(MathParserOrgMxParser SHARED
 		src/org/mariuszgromada/math/mxparser.hpp
 		src/org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp
 		src/org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp
@@ -462,13 +461,9 @@ add_library(MathParserOrgMXparser SHARED
 )
 endif()
 
-
 set(CMAKE_ENV_SPECIFIC_CONFIG "${ENV_SPECIFIC_CONFIG_1}${ENV_SPECIFIC_CONFIG_2}${ENV_SPECIFIC_CONFIG_3}${ENV_SPECIFIC_CONFIG_4}")
 
-
-
-
-target_compile_definitions(MathParserOrgMXparser PUBLIC
+target_compile_definitions(MathParserOrgMxParser PUBLIC
 		MXPARSER_BUILD_PROJECT_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
 		MXPARSER_BUILD_PROJECT_VERSION_MINOR=${PROJECT_VERSION_MINOR}
 		MXPARSER_BUILD_PROJECT_VERSION_PATCH=${PROJECT_VERSION_PATCH}
@@ -495,103 +490,120 @@ target_compile_definitions(MathParserOrgMXparser PUBLIC
 		MXPARSER_BUILD_CMAKE_CXX_FLAGS_RELEASE="${CMAKE_CXX_FLAGS_RELEASE}"
 )
 
-target_include_directories(MathParserOrgMXparser PUBLIC
-		${CMAKE_SOURCE_DIR}/src
-		${CMAKE_SOURCE_DIR}/lib/src
+target_include_directories(MathParserOrgMxParser PUBLIC
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+		$<INSTALL_INTERFACE:include>
 )
 
-message(STATUS "CMAKE_SOURCE_DIR/src: ${CMAKE_SOURCE_DIR}/src")
-message(STATUS "CMAKE_SOURCE_DIR/lib/src: ${CMAKE_SOURCE_DIR}/lib/src")
-
-target_compile_definitions(MathParserOrgMXparser PRIVATE BUILDING_MATHPARSER_ORG_MXPARSER_LIBRARY)
+target_compile_definitions(MathParserOrgMxParser PRIVATE BUILDING_MATHPARSER_ORG_MXPARSER_LIBRARY)
 
 if (COMP_CL)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_COMP_CL)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_COMP_CL)
 endif()
 if (COMP_CLANG_CL)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_COMP_CLANG_CL)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_COMP_CLANG_CL)
 endif()
 if (COMP_CLANG)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_COMP_CLANG)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_COMP_CLANG)
 endif()
 if (COMP_GCC)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_COMP_GCC)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_COMP_GCC)
 endif()
 if (COMP_OTHER)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_COMP_OTHER)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_COMP_OTHER)
 endif()
 if (ENV_MSYS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ENV_MSYS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ENV_MSYS)
 endif()
 if (ENV_WSL)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ENV_WSL)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ENV_WSL)
 endif()
 if (ENV_MINGW)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ENV_MINGW)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ENV_MINGW)
 endif()
 if (ARCH_X86)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ARCH_X86)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ARCH_X86)
 endif()
 if (ARCH_ARM)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ARCH_ARM)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ARCH_ARM)
 endif()
 if (ARCH_64_BIT)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ARCH_64_BIT)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ARCH_64_BIT)
 endif()
 if (ARCH_64_BIT_TARGET)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ARCH_64_BIT_TARGET)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ARCH_64_BIT_TARGET)
 endif()
 if (ARCH_32_BIT_TARGET)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_ARCH_32_BIT_TARGET)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_ARCH_32_BIT_TARGET)
 endif()
 if (TARGET_WINDOWS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_TARGET_WINDOWS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_TARGET_WINDOWS)
 endif()
 if (TARGET_LINUX)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_TARGET_LINUX)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_TARGET_LINUX)
 endif()
 if (TARGET_ANDROID)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_TARGET_ANDROID)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_TARGET_ANDROID)
 endif()
 if (TARGET_MACOS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_TARGET_MACOS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_TARGET_MACOS)
 endif()
 if (TARGET_IOS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_TARGET_IOS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_TARGET_IOS)
 endif()
 if (HOST_WINDOWS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_HOST_WINDOWS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_HOST_WINDOWS)
 endif()
 if (HOST_LINUX)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_HOST_LINUX)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_HOST_LINUX)
 endif()
 if (HOST_ANDROID)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_HOST_ANDROID)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_HOST_ANDROID)
 endif()
 if (HOST_MACOS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_HOST_MACOS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_HOST_MACOS)
 endif()
 if (HOST_IOS)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE MXPARSER_BUILD_HOST_IOS)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE MXPARSER_BUILD_HOST_IOS)
 endif()
 if (COMP_CL OR COMP_CLANG_CL)
-	target_compile_definitions(MathParserOrgMXparser PRIVATE COMP_MSVC_BASED)
+	target_compile_definitions(MathParserOrgMxParser PRIVATE COMP_MSVC_BASED)
 endif()
 
-set_target_properties(MathParserOrgMXparser PROPERTIES
+set_target_properties(MathParserOrgMxParser PROPERTIES
 		WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+		OUTPUT_NAME "MathParser.org-mXparser"
 )
 
 find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
 
 if(COREFOUNDATION_FRAMEWORK)
-	target_link_libraries(MathParserOrgMXparser cereal ${COREFOUNDATION_FRAMEWORK})
+	target_link_libraries(MathParserOrgMxParser cereal ${COREFOUNDATION_FRAMEWORK})
 else()
-	target_link_libraries(MathParserOrgMXparser cereal)
+	target_link_libraries(MathParserOrgMxParser cereal)
 endif()
 
-
-
-
 message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
-message(STATUS "CMAKE_CXX_FLAGS for MathParserOrgMXparser: ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMAKE_CXX_FLAGS for MathParserOrgMxParser: ${CMAKE_CXX_FLAGS}")
+
+include(GNUInstallDirs)
+
+install(TARGETS cereal EXPORT MathParserOrgMxParserTargets)
+
+install(TARGETS MathParserOrgMxParser
+		EXPORT MathParserOrgMxParserTargets
+		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+		INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(DIRECTORY src
+		DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+		FILES_MATCHING PATTERN "*.hpp"
+)
+
+install(EXPORT MathParserOrgMxParserTargets
+		FILE MathParserOrgMxParserTargets.cmake
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MathParserOrgMxParser
+)
