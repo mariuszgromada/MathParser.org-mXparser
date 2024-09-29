@@ -95,6 +95,19 @@ implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.0.0'
 implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.0.0")
 ```
 
+## CMake - Dependency / FetchContent 
+
+```
+include(FetchContent)
+FetchContent_Declare(
+   MathParserOrgMxParser
+   GIT_REPOSITORY https://github.com/mariuszgromada/MathParser.org-mXparser.git
+   SOURCE_SUBDIR CURRENT/cpp/lib
+)
+FetchContent_MakeAvailable(MathParserOrgMxParser)
+target_link_libraries(YourExecutable MathParserOrgMxParser)
+```
+
 ## NPM
 
     $ npm i mathparser.org-mxparser
