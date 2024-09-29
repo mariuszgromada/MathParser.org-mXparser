@@ -625,3 +625,9 @@ install(FILES
 		"${CMAKE_CURRENT_BINARY_DIR}/MathParserOrgMxParserConfigVersion.cmake"
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MathParserOrgMxParser
 )
+
+add_custom_command(TARGET MathParserOrgMxParser POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		$<TARGET_FILE:MathParserOrgMxParser> ${CMAKE_BINARY_DIR})
+
+message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
