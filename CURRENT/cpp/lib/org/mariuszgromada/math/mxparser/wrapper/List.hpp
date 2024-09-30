@@ -233,10 +233,12 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 		List() {
 			vectorList = new_Vector<T>();
+			vectorList->reserve(10);
 		}
 
 		explicit List(int size) {
-			vectorList = new_Vector<T>(size);
+			vectorList = new_Vector<T>();
+			vectorList->reserve(size);
 		}
 
 		void add(const T &element) {
@@ -385,7 +387,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	template<typename T>
 	ListPtr<T> new_List() {
-		return std::make_shared<List<T>>();
+		return std::make_shared<List<T>>();;
 	}
 
 	template<typename T>

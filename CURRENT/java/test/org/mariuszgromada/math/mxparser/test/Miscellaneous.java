@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        6.0.0    2024-05-19
+ * @(#)Miscellaneous.java        6.1.0    2024-09-30
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -301,6 +301,7 @@ class TestCommonTools {
         mXparser.enableImpliedMultiplicationMode();
         mXparser.enableUnicodeBuiltinKeyWordsMode();
         mXparser.setRadiansMode();
+        mXparser.enableSpecialCases();
     }
     static void testSynSettingsInit() {
         mXparser.setDefaultOptions();

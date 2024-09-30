@@ -1,5 +1,5 @@
 /*
- * @(#)License.cs        6.1.0    2024-09-08
+ * @(#)License.cs        6.1.0    2024-09-30
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -249,7 +249,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private static String message = StringInvariant.EMPTY;
 		private static String errorMessage = StringInvariant.EMPTY;
 		private const String ERROR_NOT_CONFIRMED = "The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License.geTermsOfAgreement().";
-		private const int MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 100;
+		private const int MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 1000;
 		private static int numberOfWarningDisplay = 0;
 		private static void displayWarning() {
 			numberOfWarningDisplay++;

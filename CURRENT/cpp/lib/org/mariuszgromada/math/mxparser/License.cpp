@@ -233,7 +233,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE StringPtr License::errorMessage = nullptr;
 	API_VISIBLE const StringPtr License::ERROR_NOT_CONFIRMED = S(UTF(
 		"The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License::geTermsOfAgreement()."));
-	API_VISIBLE const int License::MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 100;
+	API_VISIBLE const int License::MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 1000;
 
 	API_VISIBLE int License::numberOfWarningDisplay = 0;
 

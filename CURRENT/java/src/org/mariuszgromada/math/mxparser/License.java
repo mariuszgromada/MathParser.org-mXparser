@@ -1,5 +1,5 @@
 /*
- * @(#)License.java        6.1.0    2024-09-08
+ * @(#)License.java        6.1.0    2024-09-30
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -247,7 +247,7 @@ public class License {
 	private static String message = StringInvariant.EMPTY;
 	private static String errorMessage = StringInvariant.EMPTY;
 	private static final String ERROR_NOT_CONFIRMED = "The type of use has not been confirmed. You can test the software, but its distribution does not comply with the License.geTermsOfAgreement().";
-	private static final int MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 100;
+	private static final int MAXIMUM_NUMBER_OF_WARNING_DISPLAY = 1000;
 	private static int numberOfWarningDisplay = 0;
 	private static void displayWarning() {
 		numberOfWarningDisplay++;

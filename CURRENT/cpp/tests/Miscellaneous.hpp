@@ -419,6 +419,7 @@ public:
 		mXparser::enableImpliedMultiplicationMode();
 		mXparser::enableUnicodeBuiltinKeyWordsMode();
 		mXparser::setRadiansMode();
+		mXparser::enableSpecialCases();
 	}
 
 	static void testSynSettingsInit() {

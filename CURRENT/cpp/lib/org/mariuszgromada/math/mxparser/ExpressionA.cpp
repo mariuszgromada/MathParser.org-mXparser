@@ -4934,7 +4934,7 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 		if (prepareInitialTokensListInfo) {
-			tokensList = new_List<TokenPtr>();
+			tokensList = new_List<TokenPtr>(initialTokens->size());
 			for (const TokenPtr &token : *initialTokens) {
 				tokensList->add(Token::cloneFast(token));
 				if (token->tokenTypeId == CalculusOperator::TYPE_ID)
@@ -4945,7 +4945,7 @@ namespace org::mariuszgromada::math::mxparser {
 					initialCompilationDetails->containsIf = true;
 			}
 		} else {
-			tokensList = std::make_shared<List<TokenPtr>>();
+			tokensList = std::make_shared<List<TokenPtr>>(initialTokens->size());
 			for (const TokenPtr &token : *initialTokens) {
 				tokensList->add(std::make_shared<Token>(token));
 			}
