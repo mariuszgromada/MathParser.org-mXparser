@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cpp        6.1.0    2024-09-24
+ * @(#)ApiTest.cpp        6.1.0    2024-10-06
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
