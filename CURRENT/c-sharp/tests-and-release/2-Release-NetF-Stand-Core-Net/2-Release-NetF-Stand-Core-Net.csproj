@@ -97,6 +97,7 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringInvariant.cs" Link="src\org\mariuszgromada\math\mxparser\StringInvariant.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringModel.cs" Link="src\org\mariuszgromada\math\mxparser\StringModel.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResources.cs" Link="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesChinese.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesChinese.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" Link="src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" />

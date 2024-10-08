@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.java        6.1.0    2024-10-06
+ * @(#)StringResources.java        6.1.0    2024-10-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -222,7 +222,7 @@ import java.util.Locale;
 /**
  * A class containing definition of user (interface) language.
  * List of available languages:
- * English, French, German, Italian, Polish, Portuguese, Spanish.
+ * English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.
  *
  * Class also allows a new user language definition - for instance
  * user defined translation. Translation can be done via extending
@@ -256,6 +256,17 @@ public class StringResources {
      * @see StringModel#setDefaultStringResources()
      */
     public static StringResources languageDefault() { return new StringResources(); }
+    /**
+     * Simplified Chinese translations
+     *
+     * @return Returns a new instance of StringResources object
+     * containing English translations.
+     *
+     * @see StringModel
+     * @see StringModel#setStringResources(StringResources)
+     * @see StringModel#setDefaultStringResources()
+     */
+    public static StringResources languageChinese() { return new StringResourcesChinese(); }
     /**
      * English translations
      *
@@ -336,9 +347,9 @@ public class StringResources {
 
     /**
      * Returns translation that best matches to provided language code.
-     * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+     * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.
      *
-     * @param language     Supported language codes: en, fr, de, it, pl, pt, es.
+     * @param language     Supported language codes: en, fr, de, it, pl, pt, es, zh.
      * @return             Returns translation that matches the language code.
      *                     If language code does not belong to the supported language codes
      *                     English translation is returned.
@@ -348,6 +359,7 @@ public class StringResources {
      * @see StringModel#setDefaultStringResources()
      */
     public static StringResources bestMatchingLanguage(String language) {
+        if (language.equals("zh")) return languageChinese();
         if (language.equals("en")) return languageEnglish();
         if (language.equals("fr")) return languageFrench();
         if (language.equals("de")) return languageGerman();
@@ -360,9 +372,9 @@ public class StringResources {
 
     /**
      * Returns translation that best matches to provided locale.
-     * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+     * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.
      *
-     * @param locale    Supported locale language codes: en, fr, de, it, pl, pt, es.
+     * @param locale    Supported locale language codes: en, fr, de, it, pl, pt, es, zh.
      * @return          Returns translation that matches the language code in locale.
      *                  If language code does not belong to the supported languages
      *                  English translation is returned.
@@ -378,7 +390,7 @@ public class StringResources {
 
     /**
      * Returns translation that best matches to the current system locale.
-     * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+     * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Simplified Chinese.
      *
      * @return          Returns translation that matches the language code in locale.
      *                  If language code does not belong to the supported languages
@@ -760,7 +772,7 @@ public class StringResources {
     static final String DEFAULT_FUNCTION_1_ARG_SECH = "Hyperbolic secant";
     static final String DEFAULT_FUNCTION_1_ARG_CSCH = "Hyperbolic cosecant";
     static final String DEFAULT_FUNCTION_1_ARG_DEG = "Radians to degrees";
-    static final String DEFAULT_FUNCTION_1_ARG_ABS = "Absolut value";
+    static final String DEFAULT_FUNCTION_1_ARG_ABS = "Absolute value";
     static final String DEFAULT_FUNCTION_1_ARG_SGN = "Signum";
     static final String DEFAULT_FUNCTION_1_ARG_FLOOR = "Floor";
     static final String DEFAULT_FUNCTION_1_ARG_CEIL = "Ceiling";

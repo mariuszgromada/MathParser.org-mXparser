@@ -676,6 +676,8 @@ add_library(MathParserOrgMxParser SHARED
 		org/mariuszgromada/math/mxparser/wrapper/SystemUtils.hpp
 		org/mariuszgromada/math/mxparser/wrapper/VariadicProcessor.cpp
 		org/mariuszgromada/math/mxparser/wrapper/VariadicProcessor.hpp
+		org/mariuszgromada/math/mxparser/StringResourcesChinese.hpp
+		org/mariuszgromada/math/mxparser/StringResourcesChinese.cpp
 )
 endif()
 

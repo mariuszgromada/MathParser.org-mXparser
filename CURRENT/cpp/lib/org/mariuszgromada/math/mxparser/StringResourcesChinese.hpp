@@ -1,5 +1,5 @@
 /*
- * @(#)mxparser.hpp        6.1.0    2024-10-10
+ * @(#)StringResourcesChinese.hpp        6.1.0    2024-10-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -216,105 +216,22 @@
  * - online store: https://payhip.com/infima
  */
 
-#ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_H
-#define ORG_MARIUSZGROMADA_MATH_MXPARSER_H
+#ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_STRINGRESOURCESCHINESE_H
+#define ORG_MARIUSZGROMADA_MATH_MXPARSER_STRINGRESOURCESCHINESE_H
 
-#include "org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp"
-#include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
-#include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
-#include "org/mariuszgromada/math/mxparser/Argument.hpp"
-#include "org/mariuszgromada/math/mxparser/ArgumentExtension.hpp"
-#include "org/mariuszgromada/math/mxparser/CalcStepRecord.hpp"
-#include "org/mariuszgromada/math/mxparser/CalcStepsRegister.hpp"
-#include "org/mariuszgromada/math/mxparser/CloneCache.hpp"
-#include "org/mariuszgromada/math/mxparser/Constant.hpp"
-#include "org/mariuszgromada/math/mxparser/Expression.hpp"
-#include "org/mariuszgromada/math/mxparser/ExpressionUtils.hpp"
-#include "org/mariuszgromada/math/mxparser/Function.hpp"
-#include "org/mariuszgromada/math/mxparser/FunctionExtension.hpp"
-#include "org/mariuszgromada/math/mxparser/FunctionExtensionVariadic.hpp"
-#include "org/mariuszgromada/math/mxparser/License.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/AstronomicalConstants.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/BooleanAlgebra.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/Calculus.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/Coefficients.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/Evaluate.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/IRandom.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/MathConstants.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/PhysicalConstants.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/PrimesCache.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/SpecialValue.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/SpecialValueTrigonometric.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/Statistics.hpp"
-#include "org/mariuszgromada/math/mxparser/mathcollection/Units.hpp"
-#include "org/mariuszgromada/math/mxparser/Miscellaneous.hpp"
-#include "org/mariuszgromada/math/mxparser/mXparser.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/BinaryRelation.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/BitwiseOperator.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/BooleanOperator.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/CalculusOperator.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/ConstantValue.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/Function1Arg.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/Function2Arg.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/Function3Arg.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/FunctionVariadic.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/KeyWord.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/Operator.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/ParserSymbol.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/RandomVariable.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/SyntaxStringBuilder.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/Token.hpp"
-#include "org/mariuszgromada/math/mxparser/parsertokens/Unit.hpp"
-#include "org/mariuszgromada/math/mxparser/PrimitiveElement.hpp"
-#include "org/mariuszgromada/math/mxparser/RecursiveArgument.hpp"
-#include "org/mariuszgromada/math/mxparser/SerializationUtils.hpp"
-#include "org/mariuszgromada/math/mxparser/StringInvariant.hpp"
-#include "org/mariuszgromada/math/mxparser/StringModel.hpp"
 #include "org/mariuszgromada/math/mxparser/StringResources.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesChinese.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesFrench.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesGerman.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesItalian.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesPolish.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesPortuguese.hpp"
-#include "org/mariuszgromada/math/mxparser/StringResourcesSpanish.hpp"
-#include "org/mariuszgromada/math/mxparser/StringUtils.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/Array.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/BigDecimal.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/Double.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/Integer.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/PtrsMap.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/PtrsSet.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/Random.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/StringBuilder.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/SystemUtils.hpp"
-#include "org/mariuszgromada/math/mxparser/wrapper/VariadicProcessor.hpp"
 
-CEREAL_REGISTER_ARCHIVE(cereal::BinaryOutputArchive);
-CEREAL_REGISTER_ARCHIVE(cereal::BinaryInputArchive);
+namespace org::mariuszgromada::math::mxparser {
 
-CEREAL_REGISTER_TYPE(org::mariuszgromada::math::mxparser::Constant);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::PrimitiveElement, org::mariuszgromada::math::mxparser::Constant);
+	class API_VISIBLE StringResourcesChinese : public StringResources {
+	public:
+		StringResourcesChinese();
+	};
 
-CEREAL_REGISTER_TYPE(org::mariuszgromada::math::mxparser::Argument);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::PrimitiveElement, org::mariuszgromada::math::mxparser::Argument);
+	inline StringResourcesPtr new_StringResourcesChinese() {
+		return std::make_shared<StringResourcesChinese>();
+	}
 
-CEREAL_REGISTER_TYPE(org::mariuszgromada::math::mxparser::Function);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::PrimitiveElement, org::mariuszgromada::math::mxparser::Function);
+} // namespace org::mariuszgromada::math::mxparser
 
-CEREAL_REGISTER_TYPE(org::mariuszgromada::math::mxparser::Expression);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::PrimitiveElement, org::mariuszgromada::math::mxparser::Expression);
-
-CEREAL_REGISTER_TYPE(org::mariuszgromada::math::mxparser::RecursiveArgument);
-CEREAL_REGISTER_POLYMORPHIC_RELATION(org::mariuszgromada::math::mxparser::Argument, org::mariuszgromada::math::mxparser::RecursiveArgument);
-
-using namespace org::mariuszgromada::math::mxparser;
-
-#endif // ORG_MARIUSZGROMADA_MATH_MXPARSER_H
+#endif // ORG_MARIUSZGROMADA_MATH_MXPARSER_STRINGRESOURCESCHINESE_H

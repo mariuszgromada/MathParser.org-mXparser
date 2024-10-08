@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.1.0    2024-10-06
+ * @(#)ApiTest.cs        6.1.0    2024-10-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -10711,12 +10711,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String pl = StringResources.languagePolish().BITWISE_OPERATOR_NAND;
 			String pt = StringResources.languagePortuguese().BITWISE_OPERATOR_NAND;
 			String es = StringResources.languageSpanish().BITWISE_OPERATOR_NAND;
+			String zh = StringResources.languageChinese().BITWISE_OPERATOR_NAND;
 			if (en.Equals(fr)) testResult = false;
 			if (en.Equals(de)) testResult = false;
 			if (en.Equals(it)) testResult = false;
 			if (en.Equals(pl)) testResult = false;
 			if (en.Equals(pt)) testResult = false;
 			if (en.Equals(es)) testResult = false;
+			if (en.Equals(zh)) testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
@@ -10734,12 +10736,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String pl = StringResources.languagePolish().BITWISE_OPERATOR_NOR;
 			String pt = StringResources.languagePortuguese().BITWISE_OPERATOR_NOR;
 			String es = StringResources.languageSpanish().BITWISE_OPERATOR_NOR;
+			String zh = StringResources.languageChinese().BITWISE_OPERATOR_NOR;
 			if (en.Equals(fr)) testResult = false;
 			if (en.Equals(de)) testResult = false;
 			if (en.Equals(it)) testResult = false;
 			if (en.Equals(pl)) testResult = false;
 			if (en.Equals(pt)) testResult = false;
 			if (en.Equals(es)) testResult = false;
+			if (en.Equals(zh)) testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
@@ -10757,12 +10761,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String pl = StringResources.languagePolish().BITWISE_OPERATOR_XNOR;
 			String pt = StringResources.languagePortuguese().BITWISE_OPERATOR_XNOR;
 			String es = StringResources.languageSpanish().BITWISE_OPERATOR_XNOR;
+			String zh = StringResources.languageChinese().BITWISE_OPERATOR_XNOR;
 			if (en.Equals(fr)) testResult = false;
 			if (en.Equals(de)) testResult = false;
 			if (en.Equals(it)) testResult = false;
 			if (en.Equals(pl)) testResult = false;
 			if (en.Equals(pt)) testResult = false;
 			if (en.Equals(es)) testResult = false;
+			if (en.Equals(zh)) testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
@@ -10780,12 +10786,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 			String pl = StringResources.languagePolish().OPERATOR_DIVIDE_QUOTIENT;
 			String pt = StringResources.languagePortuguese().OPERATOR_DIVIDE_QUOTIENT;
 			String es = StringResources.languageSpanish().OPERATOR_DIVIDE_QUOTIENT;
+			String zh = StringResources.languageChinese().OPERATOR_DIVIDE_QUOTIENT;
 			if (en.Equals(fr)) testResult = false;
 			if (en.Equals(de)) testResult = false;
 			if (en.Equals(it)) testResult = false;
 			if (en.Equals(pl)) testResult = false;
 			if (en.Equals(pt)) testResult = false;
 			if (en.Equals(es)) testResult = false;
+			if (en.Equals(zh)) testResult = false;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
@@ -10912,6 +10920,66 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 
 			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testApi0368() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "StringResources - Chinese";
+			TestCommonTools.consolePrintTestApiStart(368, testDescr);
+			StringResources Chinese = StringResources.languageChinese();
+			StringModel.setStringResources(Chinese);
+			String userLanguage = StringModel.getStringResources().USER_LANGUAGE;
+			mXparser.consolePrintln("USER_LANGUAGE = " + userLanguage);
+			if (userLanguage.Equals("中文"))
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+			StringModel.setDefaultStringResources();
+		}
+
+		[TestMethod]
+		public void testApi0369() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "StringResources - BestMatchingLanguage(String) - Chinese";
+			TestCommonTools.consolePrintTestApiStart(369, testDescr);
+			StringResources lang = StringResources.bestMatchingLanguage("zh");
+			mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+			if (lang.USER_LANGUAGE.Equals(StringResources.languageChinese().USER_LANGUAGE))
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+			StringModel.setDefaultStringResources();
+		}
+		[TestMethod]
+		public void testApi0370() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "StringResources - BestMatchingLanguage(Locale) - zh-CN";
+			TestCommonTools.consolePrintTestApiStart(370, testDescr);
+			StringResources lang = StringResources.bestMatchingLanguage(new CultureInfo("zh-CN"));
+			mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+			if (lang.USER_LANGUAGE.Equals(StringResources.languageChinese().USER_LANGUAGE))
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+			StringModel.setDefaultStringResources();
+		}
+		[TestMethod]
+		public void testApi0371() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "mXparser - changeLanguageTo(String) - zh";
+			TestCommonTools.consolePrintTestApiStart(371, testDescr);
+			mXparser.changeLanguageTo("zh");
+			StringResources lang = StringModel.getStringResources();
+			mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
+			if (lang.USER_LANGUAGE.Equals(StringResources.languageChinese().USER_LANGUAGE))
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+			StringModel.setDefaultStringResources();
 		}
 		public static String cleanMarkdownBackslash(String str) {
 			return str.Replace("\\\\", "").Replace("\\|", "");

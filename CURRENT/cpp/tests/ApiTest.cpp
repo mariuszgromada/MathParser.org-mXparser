@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cpp        6.1.0    2024-10-06
+ * @(#)ApiTest.cpp        6.1.0    2024-10-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -10801,12 +10801,14 @@ TEST_CASE("testApi0358", "[API]") {
 	StringPtr pl = StringResources::languagePolish()->BITWISE_OPERATOR_NAND;
 	StringPtr pt = StringResources::languagePortuguese()->BITWISE_OPERATOR_NAND;
 	StringPtr es = StringResources::languageSpanish()->BITWISE_OPERATOR_NAND;
+	StringPtr zh = StringResources::languageChinese()->BITWISE_OPERATOR_NAND;
 	if (*en == *fr) testResult = false;
 	if (*en == *de) testResult = false;
 	if (*en == *it) testResult = false;
 	if (*en == *pl) testResult = false;
 	if (*en == *pt) testResult = false;
 	if (*en == *es) testResult = false;
+	if (*en == *zh) testResult = false;
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
 	StringModel::setDefaultStringResources();
@@ -10824,12 +10826,14 @@ TEST_CASE("testApi0359", "[API]") {
 	StringPtr pl = StringResources::languagePolish()->BITWISE_OPERATOR_NOR;
 	StringPtr pt = StringResources::languagePortuguese()->BITWISE_OPERATOR_NOR;
 	StringPtr es = StringResources::languageSpanish()->BITWISE_OPERATOR_NOR;
+	StringPtr zh = StringResources::languageChinese()->BITWISE_OPERATOR_NOR;
 	if (*en == *fr) testResult = false;
 	if (*en == *de) testResult = false;
 	if (*en == *it) testResult = false;
 	if (*en == *pl) testResult = false;
 	if (*en == *pt) testResult = false;
 	if (*en == *es) testResult = false;
+	if (*en == *zh) testResult = false;
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
 	StringModel::setDefaultStringResources();
@@ -10847,12 +10851,14 @@ TEST_CASE("testApi0360", "[API]") {
 	StringPtr pl = StringResources::languagePolish()->BITWISE_OPERATOR_XNOR;
 	StringPtr pt = StringResources::languagePortuguese()->BITWISE_OPERATOR_XNOR;
 	StringPtr es = StringResources::languageSpanish()->BITWISE_OPERATOR_XNOR;
+	StringPtr zh = StringResources::languageChinese()->BITWISE_OPERATOR_XNOR;
 	if (*en == *fr) testResult = false;
 	if (*en == *de) testResult = false;
 	if (*en == *it) testResult = false;
 	if (*en == *pl) testResult = false;
 	if (*en == *pt) testResult = false;
 	if (*en == *es) testResult = false;
+	if (*en == *zh) testResult = false;
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
 	StringModel::setDefaultStringResources();
@@ -10870,12 +10876,14 @@ TEST_CASE("testApi0361", "[API]") {
 	StringPtr pl = StringResources::languagePolish()->OPERATOR_DIVIDE_QUOTIENT;
 	StringPtr pt = StringResources::languagePortuguese()->OPERATOR_DIVIDE_QUOTIENT;
 	StringPtr es = StringResources::languageSpanish()->OPERATOR_DIVIDE_QUOTIENT;
+	StringPtr zh = StringResources::languageChinese()->OPERATOR_DIVIDE_QUOTIENT;
 	if (*en == *fr) testResult = false;
 	if (*en == *de) testResult = false;
 	if (*en == *it) testResult = false;
 	if (*en == *pl) testResult = false;
 	if (*en == *pt) testResult = false;
 	if (*en == *es) testResult = false;
+	if (*en == *zh) testResult = false;
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
 	StringModel::setDefaultStringResources();
@@ -10987,4 +10995,63 @@ TEST_CASE("testApi0367", "[API]") {
 		testResult = true;
 
 	CHECK(testResult);
+}
+
+TEST_CASE("testApi0368", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	bool testResult = false;
+	string testDescr = "StringResources - Chinese";
+	TestCommonTools::consolePrintTestApiStart(368, testDescr);
+	StringResourcesPtr Chinese = StringResources::languageChinese();
+	StringModel::setStringResources(Chinese);
+	StringPtr userLanguage = StringModel::getStringResources()->USER_LANGUAGE;
+	mXparser::consolePrintln("USER_LANGUAGE = " + userLanguage);
+	if (*userLanguage == UTF("中文"))
+		testResult = true;
+	TestCommonTools::consolePrintTestApiEnd(testResult);
+	CHECK(testResult);
+	StringModel::setDefaultStringResources();
+}
+
+TEST_CASE("testApi0369", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	bool testResult = false;
+	string testDescr = "StringResources - BestMatchingLanguage(String) - Chinese";
+	TestCommonTools::consolePrintTestApiStart(369, testDescr);
+	StringResourcesPtr lang = StringResources::bestMatchingLanguage("zh");
+	mXparser::consolePrintln("USER_LANGUAGE = " + lang->USER_LANGUAGE);
+	if (*lang->USER_LANGUAGE == *StringResources::languageChinese()->USER_LANGUAGE)
+		testResult = true;
+	TestCommonTools::consolePrintTestApiEnd(testResult);
+	CHECK(testResult);
+	StringModel::setDefaultStringResources();
+}
+
+TEST_CASE("testApi0370", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	bool testResult = false;
+	string testDescr = "StringResources - BestMatchingLanguage(Locale) - zh-CN";
+	TestCommonTools::consolePrintTestApiStart(370, testDescr);
+	StringResourcesPtr lang = StringResources::bestMatchingLanguage("zh-CN");
+	mXparser::consolePrintln("USER_LANGUAGE = " + lang->USER_LANGUAGE);
+	if (*lang->USER_LANGUAGE == *StringResources::languageChinese()->USER_LANGUAGE)
+		testResult = true;
+	TestCommonTools::consolePrintTestApiEnd(testResult);
+	CHECK(testResult);
+	StringModel::setDefaultStringResources();
+}
+
+TEST_CASE("testApi0371", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	bool testResult = false;
+	string testDescr = "mXparser - changeLanguageTo(String) - zh";
+	TestCommonTools::consolePrintTestApiStart(371, testDescr);
+	mXparser::changeLanguageTo("zh");
+	StringResourcesPtr lang = StringModel::getStringResources();
+	mXparser::consolePrintln("USER_LANGUAGE = " + lang->USER_LANGUAGE);
+	if (*lang->USER_LANGUAGE == *StringResources::languageChinese()->USER_LANGUAGE)
+		testResult = true;
+	TestCommonTools::consolePrintTestApiEnd(testResult);
+	CHECK(testResult);
+	StringModel::setDefaultStringResources();
 }

@@ -1,5 +1,5 @@
 /*
- * @(#)StringResources.cpp        6.1.0    2024-10-06
+ * @(#)StringResources.cpp        6.1.0    2024-10-08
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -220,6 +220,7 @@
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/mXparser.hpp"
 #include "org/mariuszgromada/math/mxparser/StringInvariant.hpp"
+#include "org/mariuszgromada/math/mxparser/StringResourcesChinese.hpp"
 #include "org/mariuszgromada/math/mxparser/StringResourcesFrench.hpp"
 #include "org/mariuszgromada/math/mxparser/StringResourcesGerman.hpp"
 #include "org/mariuszgromada/math/mxparser/StringResourcesItalian.hpp"
@@ -1221,7 +1222,7 @@ namespace org::mariuszgromada::math::mxparser {
 		DEFAULT_FUNCTION_1_ARG_SECH = S(UTF("Hyperbolic secant"));
 		DEFAULT_FUNCTION_1_ARG_CSCH = S(UTF("Hyperbolic cosecant"));
 		DEFAULT_FUNCTION_1_ARG_DEG = S(UTF("Radians to degrees"));
-		DEFAULT_FUNCTION_1_ARG_ABS = S(UTF("Absolut value"));
+		DEFAULT_FUNCTION_1_ARG_ABS = S(UTF("Absolute value"));
 		DEFAULT_FUNCTION_1_ARG_SGN = S(UTF("Signum"));
 		DEFAULT_FUNCTION_1_ARG_FLOOR = S(UTF("Floor"));
 		DEFAULT_FUNCTION_1_ARG_CEIL = S(UTF("Ceiling"));
@@ -1457,6 +1458,17 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE StringResourcesPtr StringResources::languageDefault() { return new_StringResources(); }
 	/**
+	 * Simplified Chinese translations
+	 *
+	 * @return Returns a new instance of StringResources object
+	 * containing English translations.
+	 *
+	 * @see StringModel
+	 * @see StringModel#setStringResources(StringResources)
+	 * @see StringModel#setDefaultStringResources()
+	 */
+	API_VISIBLE StringResourcesPtr StringResources::languageChinese() { return new_StringResourcesChinese(); }
+	/**
 	 * English translations
 	 *
 	 * @return Returns a new instance of StringResources object
@@ -1535,9 +1547,9 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE StringResourcesPtr StringResources::languageSpanish() { return new_StringResourcesSpanish(); }
 	/**
 	 * Returns translation that best matches to provided language code.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
 	 *
-	 * @param language Supported language codes: en, fr, de, it, pl, pt, es.
+	 * @param language Supported language codes: en, fr, de, it, pl, pt, es, zh.
 	 * @return Returns translation that matches the language code.
 	 * If language code does not belong to the supported language codes
 	 * English translation is returned.
@@ -1558,6 +1570,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (lang == "pl") return languagePolish();
 		if (lang == "pt") return languagePortuguese();
 		if (lang == "es") return languageSpanish();
+		if (lang == "zh") return languageChinese();
 
 		return languageEnglish(); // Default to English if no match is found
 	}
@@ -1571,6 +1584,7 @@ namespace org::mariuszgromada::math::mxparser {
 		std::string languagePolish = "pl";
 		std::string languagePortuguese = "pt";
 		std::string languageSpanish = "es";
+		std::string languageChinese = "zh";
 
 		StringPtr lang = StringUtils::toLowerCase(StringUtils::trim(S(language)));
 		if (lang->length() < 2) return languageEnglish;
@@ -1583,6 +1597,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (*lang == UTF("pl")) return languagePolish;
 		if (*lang == UTF("pt")) return languagePortuguese;
 		if (*lang == UTF("es")) return languageSpanish;
+		if (*lang == UTF("zh")) return languageChinese;
 
 		if (StringUtils::contains(lang, UTF("french"))) return languageFrench;
 		if (StringUtils::contains(lang, UTF("france"))) return languageFrench;
@@ -1620,6 +1635,9 @@ namespace org::mariuszgromada::math::mxparser {
 		if (StringUtils::contains(lang, UTF("spanish"))) return languageSpanish;
 		if (StringUtils::contains(lang, UTF("espa"))) return languageSpanish;
 
+		if (StringUtils::contains(lang, UTF("china"))) return languageChinese;
+		if (StringUtils::contains(lang, UTF("chinese"))) return languageChinese;
+
 		if (lang->length() > 5) return languageEnglish;
 
 		if (StringUtils::contains(lang, UTF("en"))) return languageEnglish;
@@ -1629,13 +1647,14 @@ namespace org::mariuszgromada::math::mxparser {
 		if (StringUtils::contains(lang, UTF("pl"))) return languagePolish;
 		if (StringUtils::contains(lang, UTF("pt"))) return languagePortuguese;
 		if (StringUtils::contains(lang, UTF("es"))) return languageSpanish;
+		if (StringUtils::contains(lang, UTF("zh"))) return languageChinese;
 
 		return languageEnglish;
 	}
 
 	/**
 	 * Returns translation that best matches to the current system locale.
-	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish.
+	 * Supported languages: English, French, German, Italian, Polish, Portuguese, Spanish, Chinese.
 	 *
 	 * @return  Returns translation that matches the language code in locale.
 	 *  If language code does not belong to the supported languages
