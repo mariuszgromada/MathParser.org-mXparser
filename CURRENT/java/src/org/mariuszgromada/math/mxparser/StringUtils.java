@@ -1,5 +1,5 @@
 /*
- * @(#)StringUtils.java        6.1.0    2024-10-06
+ * @(#)StringUtils.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -567,8 +567,8 @@ public final class StringUtils {
             ,StringBuilder stringBuilder
             ,String... partsToAppend
     ) {
-        boolean tagBefore = rowBeforeTag == null || rowBeforeTag.length() > 0;
-        boolean tagAfter = rowAfterTag == null || rowAfterTag.length() > 0;
+        boolean tagBefore = rowBeforeTag == null || !rowBeforeTag.isEmpty();
+        boolean tagAfter = rowAfterTag == null || !rowAfterTag.isEmpty();
 
         if (tagBefore) stringBuilder.append(rowBeforeTag);
         stringBuilderPartsAppendDelimited(partTagLeft, partTagRight, delimiter, clearForHtml, clearForMarkdown, clearForJson, stringBuilder, partsToAppend);
@@ -823,7 +823,7 @@ public final class StringUtils {
     }
     public static int countLines(String text) {
         if (text == null) return -1;
-        if (text.length() == 0) return 0;
+        if (text.isEmpty()) return 0;
         return countOccurrences(text, StringInvariant.NEW_LINE) + 1;
     }
 }

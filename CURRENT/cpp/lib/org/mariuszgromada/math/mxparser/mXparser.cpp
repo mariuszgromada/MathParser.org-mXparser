@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cpp        6.1.0    2024-10-06
+ * @(#)mXparser.cpp        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -802,15 +802,30 @@ namespace org::mariuszgromada::math::mxparser {
 	 * f->addDefinitions(g);
 	 * g->addDefinitions(f);
 	 *
-	 * Currently, does not affect properly defined recursive mode.
-	 *
 	 * @param maxAllowedRecursionDepth  Maximum number of allowed recursion calls
 	 */
 	API_VISIBLE void mXparser::setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 		MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
 		Argument::refreshMaxAllowedRecursionDepth();
 	}
-
+	/**
+	 * Internal default limit to aAPI_VISIBLE void mXparser::infinite loops while calculating
+	 * expression defined in the way shown by below examples.
+	 *
+	 * Argument x = new_Argument("x = 2*y");
+	 * Argument y = new_Argument("y = 2*x");
+	 * x->addDefinitions(y);
+	 * y->addDefinitions(x);
+	 *
+	 * Function f = new_Function("f(x) = 2*g(x)");
+	 * Function g = new_Function("g(x) = 2*f(x)");
+	 * f->addDefinitions(g);
+	 * g->addDefinitions(f);
+	 */
+	API_VISIBLE void mXparser::setDefaultMaxAllowedRecursionDepth() {
+		MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
+		Argument::refreshMaxAllowedRecursionDepth();
+	}
 	/**
 	 * Internal limit to aAPI_VISIBLE void mXparser::infinite loops while calculating
 	 * expression defined in the way shown by below examples.
@@ -1077,8 +1092,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void mXparser::unremoveBuiltinTokens(const ListPtr<StringPtr> &tokens) {
 		if (tokens == nullptr) return;
-		if (tokens->size() == 0) return;
-		if (tokensToRemove->size() == 0) return;
+		if (tokens->isEmpty()) return;
+		if (tokensToRemove->isEmpty()) return;
 		LOCK(tokensToRemove);
 		for (const StringPtr& token : *tokens)
 			if (token != nullptr)
@@ -1167,8 +1182,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void mXparser::unmodifyBuiltinTokens(const ListPtr<StringPtr> &currentOrNewTokens) {
 		if (currentOrNewTokens == nullptr) return;
-		if (currentOrNewTokens->size() == 0) return;
-		if (tokensToModify->size() == 0) return;
+		if (currentOrNewTokens->isEmpty()) return;
+		if (tokensToModify->isEmpty()) return;
 		LOCK(tokensToModify);
 		ListPtr<TokenModificationPtr> toRemove = new_List<TokenModificationPtr>();
 		for (const StringPtr& token: *currentOrNewTokens)
@@ -1244,7 +1259,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void mXparser::setDefaultOptions() {
 		enableUlpRounding();
 		enableAlmostIntRounding();
-		setMaxAllowedRecursionDepth(DEFAULT_MAX_RECURSION_CALLS);
+		setDefaultMaxAllowedRecursionDepth();
 		setNotToOverrideBuiltinTokens();
 		unmodifyAllBuiltinTokens();
 		setRadiansMode();

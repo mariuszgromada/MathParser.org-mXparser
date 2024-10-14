@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.java        6.1.0    2024-10-06
+ * @(#)ExpressionUtils.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -324,7 +324,7 @@ final class ExpressionUtils {
     }
 
     static List<KeyWord> makeParserKeyWords(boolean parserKeyWordsOnly, boolean UDFExpression, boolean unicodeKeyWordsEnabled) {
-        List<KeyWord> keyWordsList = new ArrayList<KeyWord>();
+        List<KeyWord> keyWordsList = new ArrayList<>();
         makeParserKeyWords(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled, keyWordsList);
         return keyWordsList;
     }
@@ -933,7 +933,7 @@ final class ExpressionUtils {
         boolean comma;
         boolean paren;
         boolean end = false;
-        List<Token> paramTkones = new ArrayList<Token>();
+        List<Token> paramTkones = new ArrayList<>();
         StringBuilder paramStrBuilder = new StringBuilder();
         do {
             Token t = tokensList.get(cPos);
@@ -950,7 +950,7 @@ final class ExpressionUtils {
             if (paren || comma) {
                 if (cPos > pos + 2) {
                     functionParameters.add( new FunctionParameter(paramTkones, paramStrBuilder.toString(), pPos, cPos-1 ) );
-                    paramTkones = new ArrayList<Token>();
+                    paramTkones = new ArrayList<>();
                     paramStrBuilder = new StringBuilder();
                     pPos = cPos+1;
                 }
@@ -995,8 +995,8 @@ final class ExpressionUtils {
                     if (pos+1 < expressionStringCleaned.length())
                         rightPart = expressionStringCleaned.substring(pos+1);
                     expressionStringCleaned = leftPart;
-                    if (rightPart.length() > 0) {
-                        if (leftPart.length() > 0)
+                    if (!rightPart.isEmpty()) {
+                        if (!leftPart.isEmpty())
                             expressionStringCleaned = expressionStringCleaned + "+" + rightPart;
                         else
                             expressionStringCleaned = rightPart;
@@ -1062,7 +1062,7 @@ final class ExpressionUtils {
     }
     static String createExpressionDescription(String description, String expressionString) {
         String expressionDescription = StringUtils.surroundSquareBrackets(expressionString) + StringInvariant.COLON_SPACE;
-        if (description.trim().length() > 0)
+        if (!description.trim().isEmpty())
             expressionDescription = StringUtils.surroundSquareBrackets(description) + expressionDescription;
         return expressionDescription;
     }
@@ -1081,9 +1081,9 @@ final class ExpressionUtils {
 	 * @see mXparser#consolePrintTokens(List)
 	 */
     static List<Token> getCopyOfInitialTokens(String expressionString, List<Token> initialTokens) {
-        List<Token> tokensListCopy = new ArrayList<Token>();
-        if (expressionString.length() == 0) return tokensListCopy;
-        if (initialTokens.size() == 0) return tokensListCopy;
+        List<Token> tokensListCopy = new ArrayList<>();
+        if (expressionString.isEmpty()) return tokensListCopy;
+        if (initialTokens.isEmpty()) return tokensListCopy;
         Token token;
         for (int i = 0; i < initialTokens.size(); i++) {
             token =  initialTokens.get(i);
@@ -1115,7 +1115,7 @@ final class ExpressionUtils {
 	 * - distinct strings.
 	 */
     static String[] getMissingUserDefinedArguments(List<Token> tokens) {
-        List<String> missingArguments = new ArrayList<String>();
+        List<String> missingArguments = new ArrayList<>();
         for (Token t : tokens)
             if (t.looksLike.equals(ARGUMENT))
                 if (!missingArguments.contains(t.tokenStr))
@@ -1135,7 +1135,7 @@ final class ExpressionUtils {
 	 * - distinct strings.
 	 */
     static String[] getMissingUserDefinedUnits(List<Token> tokens) {
-        List<String> missingUnits = new ArrayList<String>();
+        List<String> missingUnits = new ArrayList<>();
         for (Token t : tokens)
             if (t.looksLike.equals(UNITCONST))
                 if (!missingUnits.contains(t.tokenStr))
@@ -1155,7 +1155,7 @@ final class ExpressionUtils {
 	 * - distinct strings.
 	 */
     static String[] getMissingUserDefinedFunctions(List<Token> tokens) {
-        List<String> missingFunctions = new ArrayList<String>();
+        List<String> missingFunctions = new ArrayList<>();
         for (Token t : tokens)
             if (t.looksLike.equals(FUNCTION))
                 if (!missingFunctions.contains(t.tokenStr))
@@ -1346,14 +1346,14 @@ final class ExpressionUtils {
 
     private static String buildHelpCaption(String query) {
         StringResources stringResources = StringModel.getStringResources();
-        if (query.length() > 0)
+        if (!query.isEmpty())
             return stringResources.HELP_CONTENT_LIMITED_TO_QUERY + StringInvariant.COLON_SPACE + StringUtils.surroundApostrophe(query);
 
         return stringResources.ALL_HELP_CONTENT;
     }
 
     private static String selectCaption(String query, String caption) {
-        if (caption == null || caption.length() == 0)
+        if (caption == null || caption.isEmpty())
             return buildHelpCaption(query);
 
         return caption;
@@ -1378,7 +1378,7 @@ final class ExpressionUtils {
         String cssClassDef = StringInvariant.EMPTY;
         String captionText = selectCaption(query, caption);
 
-        if (cssClass != null && cssClass.length() > 0)
+        if (cssClass != null && !cssClass.isEmpty())
             cssClassDef = makeCssClassDef(cssClass);
 
         if (addFigure)
@@ -1437,7 +1437,7 @@ final class ExpressionUtils {
                             + makeJsonKeyValuePair(stringResources.CAPTION, selectCaption(query, caption))
                             + StringInvariant.SPACE + StringInvariant.RIGHT_CURLY_BRACKET
             );
-            if (keyWordsResult.size() > 0)
+            if (!keyWordsResult.isEmpty())
                 result.append(StringInvariant.COMMA);
         }
         buildJsonRows(keyWordsResult, result);
@@ -1508,7 +1508,7 @@ final class ExpressionUtils {
 	 * @see Expression#getHelp(String)
 	 */
     static List<KeyWord> getKeyWords(String query, List<KeyWord> keyWordsList) {
-        List<KeyWord> kwyWordsToReturn = new ArrayList<KeyWord>();
+        List<KeyWord> kwyWordsToReturn = new ArrayList<>();
         java.util.Collections.sort(keyWordsList, new KwTypeComparator() );
         String queryLower = StringInvariant.EMPTY;
         if (query != null)
@@ -1518,7 +1518,7 @@ final class ExpressionUtils {
         boolean advancedSearch = checkIfAdvancedSearch(query);
         for (KeyWord kw : keyWordsList) {
             searchLine = buildHelpSearchLine(kw, advancedSearch);
-            if (queryLower.length() == 0 || searchLine.toLowerCase().contains(queryLower))
+            if (queryLower.isEmpty() || searchLine.toLowerCase().contains(queryLower))
                 kwyWordsToReturn.add(kw);
         }
         return kwyWordsToReturn;
@@ -1591,7 +1591,7 @@ final class ExpressionUtils {
     }
     static String tokensListToString(List<Token> tokensList) {
         if (tokensList == null) return StringInvariant.EMPTY;
-        if (tokensList.size() == 0) return StringInvariant.EMPTY;
+        if (tokensList.isEmpty()) return StringInvariant.EMPTY;
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < tokensList.size(); i++) {
             Token t0 = null;
@@ -1617,9 +1617,9 @@ final class ExpressionUtils {
 	 */
     static void evaluateTokensLevels(List<Token> initialTokens) {
         int tokenLevel = 0;
-        Stack<TokenStackElement> tokenStack =  new Stack<TokenStackElement>();
+        Stack<TokenStackElement> tokenStack = new Stack<>();
         boolean precedingFunction = false;
-        if (initialTokens.size() > 0)
+        if (!initialTokens.isEmpty())
             for (int tokenIndex = 0; tokenIndex < initialTokens.size(); tokenIndex++) {
                 Token token = initialTokens.get(tokenIndex);
                 if (	token.tokenTypeId == Function1Arg.TYPE_ID ||
@@ -1714,7 +1714,7 @@ final class ExpressionUtils {
         return Integer.MIN_VALUE;
     }
     static List<Argument> cloneForThreadSafeArgumenstList(Expression relatedExpressionThatInitiatedClone, List<Argument> argumentsListToClone, CloneCache cloneCache) {
-        List<Argument> argumentListClone = new ArrayList<Argument>();
+        List<Argument> argumentListClone = new ArrayList<>();
         for (int i = 0; i < argumentsListToClone.size(); i++) {
             Argument arg = argumentsListToClone.get(i);
             if (cloneCache.isCloneInProgress(arg)) {
@@ -1732,7 +1732,7 @@ final class ExpressionUtils {
         return argumentListClone;
     }
     static List<Function> cloneForThreadSafeFunctionsList(Expression relatedExpressionThatInitiatedClone, List<Function> functionsListToClone, CloneCache cloneCache) {
-        List<Function> functionListClone = new ArrayList<Function>();
+        List<Function> functionListClone = new ArrayList<>();
         for (int i = 0; i < functionsListToClone.size(); i++) {
             Function fun = functionsListToClone.get(i);
             if (cloneCache.isCloneInProgress(fun)) {
@@ -1745,7 +1745,7 @@ final class ExpressionUtils {
         return functionListClone;
     }
     static List<Constant> cloneForThreadSafeConstantsList(Expression relatedExpressionThatInitiatedClone, List<Constant> constantsListToClone, CloneCache cloneCache) {
-        List<Constant> constantListClone = new ArrayList<Constant>();
+        List<Constant> constantListClone = new ArrayList<>();
         for (int i = 0; i < constantsListToClone.size(); i++) {
             Constant con = constantsListToClone.get(i);
             if (cloneCache.isCloneInProgress(con)) {

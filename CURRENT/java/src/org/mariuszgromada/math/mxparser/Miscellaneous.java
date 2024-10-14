@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.java        6.1.0    2024-10-06
+ * @(#)Miscellaneous.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -429,7 +429,7 @@ class KwTypeComparator implements Comparator<KeyWord>, Serializable {
 class HeadEqBody implements Serializable {
 	private static final int serialClassID = 88;
 	private static final long serialVersionUID = SerializationUtils.getSerialVersionUID(serialClassID);
-	private boolean ONLY_PARSER_KEYWORDS = true;
+	private final boolean ONLY_PARSER_KEYWORDS = true;
 	String headStr;
 	String bodyStr;
 	int eqPos;

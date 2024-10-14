@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        6.1.0    2024-10-06
+ * @(#)mXparser.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -328,20 +328,20 @@ public final class mXparser {
 	/**
 	 * The maximum error message length in expression
 	 */
-	static volatile int ERROR_MESSAGE_MAXIMUM_LENGTH = 10000;
+	static final int ERROR_MESSAGE_MAXIMUM_LENGTH = 10000;
 	/**
 	 * The maximum number of expected tokens presented
 	 * in error message when lexical error was encountered
 	 */
-	static volatile int ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS = 5;
+	static final int ERROR_MESSAGE_MAXIMUM_NUMBER_OF_EXPECTED_TOKENS = 5;
 	/**
 	 * List of built-in tokens to remove.
 	 */
-	static volatile List<String> tokensToRemove = new ArrayList<String>();
+	static volatile List<String> tokensToRemove = new ArrayList<>();
 	/**
 	 * List of built-in tokens to modify
 	 */
-	static volatile List<TokenModification> tokensToModify = new ArrayList<TokenModification>();
+	static volatile List<TokenModification> tokensToModify = new ArrayList<>();
 	/**
 	 * Indicator whether mXparser operates in radians / degrees mode
 	 * true - degrees mode
@@ -831,12 +831,29 @@ public final class mXparser {
 	 * f.addDefinitions(g);
 	 * g.addDefinitions(f);
 	 *
-	 * Currently, does not affect properly defined recursive mode.
-	 *
 	 * @param maxAllowedRecursionDepth  Maximum number of allowed recursion calls
 	 */
 	public static void setMaxAllowedRecursionDepth(int maxAllowedRecursionDepth) {
 		MAX_RECURSION_CALLS = maxAllowedRecursionDepth;
+		Argument.refreshMaxAllowedRecursionDepth();
+	}
+	/**
+	 * Internal default limit to avoid infinite loops while calculating
+	 * expression defined in the way shown by below examples.
+	 *
+	 * Argument x = new Argument("x = 2*y");
+	 * Argument y = new Argument("y = 2*x");
+	 * x.addDefinitions(y);
+	 * y.addDefinitions(x);
+	 *
+	 * Function f = new Function("f(x) = 2*g(x)");
+	 * Function g = new Function("g(x) = 2*f(x)");
+	 * f.addDefinitions(g);
+	 * g.addDefinitions(f);
+	 *
+	 */
+	public static void setDefaultMaxAllowedRecursionDepth() {
+		MAX_RECURSION_CALLS = DEFAULT_MAX_RECURSION_CALLS;
 		Argument.refreshMaxAllowedRecursionDepth();
 	}
 	/**
@@ -1087,7 +1104,7 @@ public final class mXparser {
 		synchronized (tokensToRemove) {
 			for (String token : tokens)
 				if (token != null)
-					if (token.length() > 0)
+					if (!token.isEmpty())
 						if (!tokensToRemove.contains(token))
 							tokensToRemove.add(token);
 			optionsChangesetNumber++;
@@ -1100,7 +1117,7 @@ public final class mXparser {
 	public static void unremoveBuiltinTokens(String... tokens) {
 		if (tokens == null) return;
 		if (tokens.length == 0) return;
-		if (tokensToRemove.size() == 0) return;
+		if (tokensToRemove.isEmpty()) return;
 		synchronized (tokensToRemove) {
 			for (String token : tokens)
 				if (token != null)
@@ -1141,9 +1158,9 @@ public final class mXparser {
 	 */
 	public static void modifyBuiltinToken(String currentToken, String newToken) {
 		if (currentToken == null) return;
-		if (currentToken.length() == 0) return;
+		if (currentToken.isEmpty()) return;
 		if (newToken == null) return;
-		if (newToken.length() == 0) return;
+		if (newToken.isEmpty()) return;
 		synchronized (tokensToModify) {
 			for (TokenModification tm : tokensToModify)
 				if (tm.currentToken.equals(currentToken)) return;
@@ -1167,9 +1184,9 @@ public final class mXparser {
 	 */
 	public static void modifyBuiltinToken(String currentToken, String newToken, String newTokenDescription) {
 		if (currentToken == null) return;
-		if (currentToken.length() == 0) return;
+		if (currentToken.isEmpty()) return;
 		if (newToken == null) return;
-		if (newToken.length() == 0) return;
+		if (newToken.isEmpty()) return;
 		synchronized (tokensToModify) {
 			for (TokenModification tm : tokensToModify)
 				if (tm.currentToken.equals(currentToken)) return;
@@ -1188,12 +1205,12 @@ public final class mXparser {
 	public static void unmodifyBuiltinTokens(String... currentOrNewTokens) {
 		if (currentOrNewTokens == null) return;
 		if (currentOrNewTokens.length == 0) return;
-		if (tokensToModify.size() == 0) return;
+		if (tokensToModify.isEmpty()) return;
 		synchronized (tokensToModify) {
-			List<TokenModification> toRemove = new ArrayList<TokenModification>();
+			List<TokenModification> toRemove = new ArrayList<>();
 			for (String token : currentOrNewTokens)
 				if (token != null)
-					if (token.length() > 0) {
+					if (!token.isEmpty()) {
 						for (TokenModification tm : tokensToModify)
 							if ( (token.equals(tm.currentToken)) || (token.equals(tm.newToken)) ) toRemove.add(tm);
 					}
@@ -1256,12 +1273,11 @@ public final class mXparser {
 	}
 	/**
 	 * Sets default mXparser options
-	 *
 	 */
 	public static synchronized void setDefaultOptions() {
 		enableUlpRounding();
 		enableAlmostIntRounding();
-		setMaxAllowedRecursionDepth(DEFAULT_MAX_RECURSION_CALLS);
+		setDefaultMaxAllowedRecursionDepth();
 		setNotToOverrideBuiltinTokens();
 		unmodifyAllBuiltinTokens();
 		setRadiansMode();

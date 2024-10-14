@@ -1,5 +1,5 @@
 /*
- * @(#)CloneCache.java        6.1.0    2024-10-06
+ * @(#)CloneCache.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -247,14 +247,14 @@ class CloneCache {
     private final List<ElementAtTheEnd<Constant>> constantsToAddCloneAtTheEnd;
 
     CloneCache() {
-        argumentClones = new HashMap<Argument, Argument>();
-        functionClones = new HashMap<Function, Function>();
-        constantClones = new HashMap<Constant, Constant>();
-        expressionClones = new HashMap<Expression, Expression>();
-        cloneInProgress = new HashSet<PrimitiveElement>();
-        argumentsToAddCloneAtTheEnd = new ArrayList<ElementAtTheEnd<Argument>>();
-        functionsToAddCloneAtTheEnd = new ArrayList<ElementAtTheEnd<Function>>();
-        constantsToAddCloneAtTheEnd = new ArrayList<ElementAtTheEnd<Constant>>();
+        argumentClones = new HashMap<>();
+        functionClones = new HashMap<>();
+        constantClones = new HashMap<>();
+        expressionClones = new HashMap<>();
+        cloneInProgress = new HashSet<>();
+        argumentsToAddCloneAtTheEnd = new ArrayList<>();
+        functionsToAddCloneAtTheEnd = new ArrayList<>();
+        constantsToAddCloneAtTheEnd = new ArrayList<>();
     }
 
     void clearCache() {
@@ -268,13 +268,13 @@ class CloneCache {
         constantsToAddCloneAtTheEnd.clear();
     }
     void cacheArgumentToAddCloneAtTheEnd(List<Argument> argumentsList, Argument argumentBeingCloned, int addAtIndex) {
-        argumentsToAddCloneAtTheEnd.add(new ElementAtTheEnd<Argument>(argumentsList, argumentBeingCloned, addAtIndex));
+        argumentsToAddCloneAtTheEnd.add(new ElementAtTheEnd<>(argumentsList, argumentBeingCloned, addAtIndex));
     }
     void cacheFunctionToAddCloneAtTheEnd(List<Function> functionsList, Function functionBeingCloned, int addAtIndex) {
-        functionsToAddCloneAtTheEnd.add(new ElementAtTheEnd<Function>(functionsList, functionBeingCloned, addAtIndex));
+        functionsToAddCloneAtTheEnd.add(new ElementAtTheEnd<>(functionsList, functionBeingCloned, addAtIndex));
     }
     void cacheConstantToAddCloneAtTheEnd(List<Constant> constantsList, Constant constantBeingCloned, int addAtIndex) {
-        constantsToAddCloneAtTheEnd.add(new ElementAtTheEnd<Constant>(constantsList, constantBeingCloned, addAtIndex));
+        constantsToAddCloneAtTheEnd.add(new ElementAtTheEnd<>(constantsList, constantBeingCloned, addAtIndex));
     }
     void addAllAtTheEndElements() {
         for (ElementAtTheEnd<Argument> elementAtTheEnd : argumentsToAddCloneAtTheEnd) {

@@ -1,5 +1,5 @@
 /*
- * @(#)SpecialValueTrigonometric.java        6.1.0    2024-10-06
+ * @(#)SpecialValueTrigonometric.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -562,9 +562,9 @@ public class SpecialValueTrigonometric {
 		 * Adding values to the special values lists of inverse trigonometric functions
 		 */
 		if ( (-MathConstants.PIBY2 - EPSILON <= xrad) && (xrad <= MathConstants.PIBY2 + EPSILON) ) {
-			if (valuesListAsin == null) valuesListAsin = new ArrayList<SpecialValue>();
-			if (valuesListAtan == null) valuesListAtan = new ArrayList<SpecialValue>();
-			if (valuesListAcsc == null) valuesListAcsc = new ArrayList<SpecialValue>();
+			if (valuesListAsin == null) valuesListAsin = new ArrayList<>();
+			if (valuesListAtan == null) valuesListAtan = new ArrayList<>();
+			if (valuesListAcsc == null) valuesListAcsc = new ArrayList<>();
 			valuesListAsin.add(new SpecialValue(sin, xrad, xdeg));
 			valuesListAtan.add(new SpecialValue(tan, xrad, xdeg));
 			valuesListAcsc.add(new SpecialValue(csc, xrad, xdeg));
@@ -575,9 +575,9 @@ public class SpecialValueTrigonometric {
 		 * Adding values to the special values lists of inverse trigonometric functions
 		 */
 		if ( (-EPSILON <= xrad) && (xrad <= MathConstants.PI + EPSILON) ) {
-			if (valuesListAcos == null) valuesListAcos = new ArrayList<SpecialValue>();
-			if (valuesListActan == null) valuesListActan = new ArrayList<SpecialValue>();
-			if (valuesListAsec == null) valuesListAsec = new ArrayList<SpecialValue>();
+			if (valuesListAcos == null) valuesListAcos = new ArrayList<>();
+			if (valuesListActan == null) valuesListActan = new ArrayList<>();
+			if (valuesListAsec == null) valuesListAsec = new ArrayList<>();
 			valuesListAcos.add(new SpecialValue(cos, xrad, xdeg));
 			valuesListActan.add(new SpecialValue(ctan, xrad, xdeg));
 			valuesListAsec.add(new SpecialValue(sec, xrad, xdeg));

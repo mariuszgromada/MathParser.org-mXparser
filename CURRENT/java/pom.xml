@@ -12,19 +12,25 @@
 			<name>Mariusz Gromada</name>
 			<email>mariuszgromada.org@gmail.com</email>
 			<organization>MathParser.org</organization>
-			<organizationUrl>https://mathparser.org/</organizationUrl>
+			<organizationUrl>https://mathparser.org</organizationUrl>
+		</developer>
+		<developer>
+			<name>INFIMA</name>
+			<email>info@mathparser.org</email>
+			<organization>MathSpace.pl</organization>
+			<organizationUrl>https://payhip.com/INFIMA</organizationUrl>
 		</developer>
 		<developer>
 			<name>MathSpace.pl</name>
 			<email>mathspace.pl@gmail.com</email>
 			<organization>MathSpace.pl</organization>
-			<organizationUrl>https://mathspace.pl/</organizationUrl>
+			<organizationUrl>https://mathspace.pl</organizationUrl>
 		</developer>
 		<developer>
 			<name>ScalarMath.org</name>
 			<email>scalar.math@gmail.com</email>
 			<organization>ScalarMath.org</organization>
-			<organizationUrl>https://scalarmath.org/</organizationUrl>
+			<organizationUrl>https://scalarmath.org</organizationUrl>
 		</developer>
 		<developer>
 			<name>Scalar - The Most Advanced Scientific Calculator</name>

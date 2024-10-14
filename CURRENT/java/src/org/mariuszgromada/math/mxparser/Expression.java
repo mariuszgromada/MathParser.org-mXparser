@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        6.1.0    2024-10-06
+ * @(#)Expression.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -458,7 +458,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Optional message from calculate method
 	 */
 	private String errorMessageCalculate = StringInvariant.EMPTY;
-	private static int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
+	private static final int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
 	/**
 	 * Log used internally to mark started recursion
 	 * call on the current object, necessary to
@@ -674,10 +674,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * New lists
 		 */
-		argumentsList = new ArrayList<Argument>();
-		functionsList = new ArrayList<Function>();
-		constantsList = new ArrayList<Constant>();
-		relatedExpressionsList = new ArrayList<Expression>();
+		argumentsList = new ArrayList<>();
+		functionsList = new ArrayList<>();
+		constantsList = new ArrayList<>();
+		relatedExpressionsList = new ArrayList<>();
 		/*
 		 * Empty description
 		 * Silent mode
@@ -764,7 +764,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		this.argumentsList = argumentsList;
 		this.functionsList = functionsList;
 		this.constantsList = constantsList;
-		relatedExpressionsList = new ArrayList<Expression>();
+		relatedExpressionsList = new ArrayList<>();
 		expressionWasModified = false;
 		syntaxStatus = NO_SYNTAX_ERRORS;
 		isFullyCompiled = false;
@@ -818,7 +818,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		this.constantsList = constantsList;
 		this.UDFExpression = UDFExpression;
 		this.UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
-		relatedExpressionsList = new ArrayList<Expression>();
+		relatedExpressionsList = new ArrayList<>();
 		setExpressionModifiedFlag();
 	}
 	/*
@@ -855,7 +855,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		if (isThreadSafeClone) {
 			internalClone = expressionToClone.internalClone;
-			relatedExpressionsList = new ArrayList<Expression>();
+			relatedExpressionsList = new ArrayList<>();
 			argumentsList = ExpressionUtils.cloneForThreadSafeArgumenstList(this, expressionToClone.argumentsList, cloneCache);
 			functionsList = ExpressionUtils.cloneForThreadSafeFunctionsList(this, expressionToClone.functionsList, cloneCache);
 			constantsList = ExpressionUtils.cloneForThreadSafeConstantsList(this, expressionToClone.constantsList, cloneCache);
@@ -1851,10 +1851,10 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int rPos = lPos+1;
 		while ( !(tokensList.get(rPos).tokenTypeId == ParserSymbol.TYPE_ID
 				&& tokensList.get(rPos).tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
-				&& tokensList.get(rPos).tokenLevel ==  tokensList.get(lPos).tokenLevel) )
+				&& tokensList.get(rPos).tokenLevel ==  tokensList.get(lPos).tokenLevel) ) {
 			rPos++;
-		for (int p = rPos; p >= lPos; p--)
-			tokensList.remove(p);
+		}
+		tokensList.subList(lPos, rPos + 1).clear();
 	}
 	private void calcSetDecreaseRemove(int pos, double result) {
 		calcSetDecreaseRemove(pos, result, false);
@@ -1875,8 +1875,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	private void variadicSetDecreaseRemove(int pos, double value, int length, boolean ulpRound) {
 		setToNumber(pos, value, ulpRound);
 		tokensList.get(pos).tokenLevel--;
-		for (int p = pos + length; p > pos; p--)
-			tokensList.remove(p);
+		tokensList.subList(pos + 1, pos + length + 1).clear();
 	}
 	private void variadicSetDecreaseRemove(int pos, double value, int length) {
 		variadicSetDecreaseRemove(pos, value, length, false);
@@ -1944,8 +1943,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	private void removeTokens(int from, int to) {
 		if (from < to) {
-			for (int p = to; p >= from; p--)
-				tokensList.remove(p);
+			tokensList.subList(from, to + 1).clear();
 		} else if (from == to)
 			tokensList.remove(from);
 	}
@@ -1961,7 +1959,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     tokens list representing requested subexpression.
 	 */
 	private static List<Token> createInitialTokens(int startPos, int endPos, List<Token> tokensList) {
-		List<Token> tokens = new ArrayList<Token>();
+		List<Token> tokens = new ArrayList<>();
 		Token t;
 		for (int p = startPos; p<= endPos; p++) {
 			t = tokensList.get(p).clone();
@@ -3336,7 +3334,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @return     List of function parameters.
 	 */
 	private List<Double> getNumbers(int pos) {
-		List<Double> numbers = new ArrayList<Double>();
+		List<Double> numbers = new ArrayList<>();
 		int pn = pos;
 		int lastIndex = tokensList.size() - 1;
 		boolean isNumber;
@@ -4689,7 +4687,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean syntax = NO_SYNTAX_ERRORS;
 		recursionCallsCounter = 0;
 		cleanExpressionString();
-		if (expressionStringCleaned.length() == 0) {
+		if (expressionStringCleaned.isEmpty()) {
 	    	syntax = SYNTAX_ERROR;
 			registerFinalSyntaxExpressionStringIsEmpty(StringInvariant.EMPTY);
 			return syntax;
@@ -5147,7 +5145,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	private static void performSyntaxStackPopIfEndOfSectionLevel(Token token, Stack<SyntaxStackElement> syntaxStack) {
 		if (token.tokenTypeId == ParserSymbol.TYPE_ID && token.tokenId == ParserSymbol.RIGHT_PARENTHESES_ID)
-			if (syntaxStack.size() > 0)
+			if (!syntaxStack.isEmpty())
 				if (token.tokenLevel == syntaxStack.lastElement().tokenLevel)
 					syntaxStack.pop();
 	}
@@ -5171,7 +5169,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		registerPartialSyntaxStartingSyntaxCheck(recursionInfoLevel);
 		boolean syntax = NO_SYNTAX_ERRORS;
 		cleanExpressionString();
-		if (expressionStringCleaned.length() == 0) {
+		if (expressionStringCleaned.isEmpty()) {
 			registerFinalSyntaxExpressionStringIsEmpty(recursionInfoLevel);
 			return SYNTAX_ERROR;
 		}
@@ -5184,7 +5182,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 			syntax = checkPartialSyntaxDuplicatedKeywords(recursionInfoLevel) && syntax;
 
 			int tokensNumber = initialTokens.size();
-			Stack<SyntaxStackElement> syntaxStack = new Stack<SyntaxStackElement>();
+			Stack<SyntaxStackElement> syntaxStack = new Stack<>();
 
 			for (int tokenIndex = 0; tokenIndex < tokensNumber; tokenIndex++ ) {
 				Token token = initialTokens.get(tokenIndex);
@@ -5251,7 +5249,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 	private String makeStepDescription() {
 		String stepDescription;
-		if (description.trim().length() > 0) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
+		if (!description.trim().isEmpty()) stepDescription = description.trim() + StringInvariant.SPACE_EQUAL_SPACE + expressionString.trim();
 		else stepDescription = expressionString.trim();
 		return stepDescription;
 	}
@@ -5488,7 +5486,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 							else if (bitwisePos < 0 && leftIsNumber && rigthIsNumber) bitwisePos = pos;
 						} else if (token.tokenTypeId == ParserSymbol.TYPE_ID) {
 							if (token.tokenId == ParserSymbol.COMMA_ID) {
-								if (commaPos < 0) commas = new ArrayList<Integer>();
+								if (commaPos < 0) commas = new ArrayList<>();
 								commas.add(pos);
 								commaPos = pos;
 							} else if (token.tokenId == ParserSymbol.LEFT_PARENTHESES_ID && lParPos < 0) lParPos = pos;
@@ -5734,7 +5732,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * if nothing to calculate return Double.NaN
 		 */
-		if (tokensList.size() == 0) {
+		if (tokensList.isEmpty()) {
 			registerErrorWhileCalculate(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
 			if (verboseMode)
 				printSystemInfo(StringModel.STRING_RESOURCES.EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS + StringInvariant.NEW_LINE, NO_EXP_STR);
@@ -6079,7 +6077,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * Creates parser keywords list
 	 */
 	private void initParserKeyWords() {
-		keyWordsList = new ArrayList<KeyWord>();
+		keyWordsList = new ArrayList<>();
 		ExpressionUtils.addParserKeyWords(parserKeyWordsOnly, UDFExpression, unicodeKeyWordsEnabled, keyWordsList);
 		modifyParserKeyWords();
 		validateParserKeyWords();
@@ -6087,13 +6085,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 	}
 
 	private void modifyParserKeyWords() {
-		boolean toRemove = mXparser.tokensToRemove.size() > 0;
-		boolean toModify = mXparser.tokensToModify.size() > 0;
+		boolean toRemove = !mXparser.tokensToRemove.isEmpty();
+		boolean toModify = !mXparser.tokensToModify.isEmpty();
 
 		if (!toRemove && !toModify)
 			return;
 
-		List<KeyWord> keyWordsToRemove = new ArrayList<KeyWord>();
+		List<KeyWord> keyWordsToRemove = new ArrayList<>();
 		for (int i = 0; i < keyWordsList.size(); i++) {
 			KeyWord kw = keyWordsList.get(i);
 
@@ -6130,7 +6128,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 
 		}
 
-		if (toRemove && keyWordsToRemove.size() > 0)
+		if (toRemove && !keyWordsToRemove.isEmpty())
 			for (KeyWord kw : keyWordsToRemove)
 				keyWordsList.remove(kw);
 	}
@@ -6145,7 +6143,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * Building list of user defined tokens
 		 */
-		List<String> userDefinedTokens = new ArrayList<String>();
+		List<String> userDefinedTokens = new ArrayList<>();
 		for (Argument arg : argumentsList)
 			userDefinedTokens.add( arg.getArgumentName() );
 		for (Function fun : functionsList)
@@ -6159,7 +6157,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * Building list of built-in tokens to remove
 		 */
-		List<KeyWord> keyWordsToOverride = new ArrayList<KeyWord>();
+		List<KeyWord> keyWordsToOverride = new ArrayList<>();
 		for (KeyWord kw : keyWordsList)
 			if (userDefinedTokens.contains(kw.wordString))
 				keyWordsToOverride.add(kw);
@@ -6345,7 +6343,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param token The token
 	 */
 	private void initialTokensAdd(Token token) {
-		if (initialTokens.size() == 0) {
+		if (initialTokens.isEmpty()) {
 			initialTokens.add(token);
 			return;
 		}
@@ -6548,7 +6546,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		int lPos = 0;
 		int rPos;
 		int lastConsumedPos = -1;
-		List<TokenPart> tokenParts = new ArrayList<TokenPart>();
+		List<TokenPart> tokenParts = new ArrayList<>();
 		TokenPart tokenPart = null;
 
 		do {
@@ -6772,8 +6770,8 @@ public class Expression extends PrimitiveElement implements Serializable {
 				if (keyWordsList.get(kwId).wordId == Operator.MINUS_ID) minusKwId = kwId;
 			}
 		}
-		initialTokens = new ArrayList<Token>();
-		neverParseForImpliedMultiplication = new HashSet<String>();
+		initialTokens = new ArrayList<>();
+		neverParseForImpliedMultiplication = new HashSet<>();
 		int expLen = expressionString.length();
 		if (expLen == 0) return;
 		/*
@@ -6784,7 +6782,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		/*
 		 * words list and tokens list
 		 */
-		if (newExpressionString.length() == 0) return;
+		if (newExpressionString.isEmpty()) return;
 		int lastPos = 0; /* position of the keyword previously added*/
 		int pos = 0; /* current position */
 		String tokenStr = StringInvariant.EMPTY;
@@ -6881,7 +6879,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 				firstChar = newExpressionString.charAt(pos);
 				boolean leadingOp = true;
 				if (firstChar == '-' || firstChar == '+') {
-					if (initialTokens.size() > 0) {
+					if (!initialTokens.isEmpty()) {
 						Token lastToken = initialTokens.get(initialTokens.size()-1);
 						if (	(lastToken.tokenTypeId == Operator.TYPE_ID && lastToken.tokenId != Operator.FACT_ID && lastToken.tokenId != Operator.PERC_ID) ||
 								lastToken.tokenTypeId == BinaryRelation.TYPE_ID ||
@@ -7073,11 +7071,11 @@ public class Expression extends PrimitiveElement implements Serializable {
 		boolean prepareInitialTokensListInfo = false;
 		if (initialCompilationDetails == null) {
 			initialCompilationDetails = new CompilationDetails();
-			initialCompilationDetails.compiledElements = new ArrayList<CompiledElement>();
+			initialCompilationDetails.compiledElements = new ArrayList<>();
 			prepareInitialTokensListInfo = true;
 		}
 
-		tokensList = new ArrayList<Token>();
+		tokensList = new ArrayList<>();
 
 		if (prepareInitialTokensListInfo) {
 			for (Token token : initialTokens) {
@@ -7567,7 +7565,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	@Override
 	protected Expression clone() {
 		Expression newExp = new Expression(this, false, null);
-		if (initialTokens != null && initialTokens.size() > 0) {
+		if (initialTokens != null && !initialTokens.isEmpty()) {
 			newExp.initialTokens = createInitialTokens(0, initialTokens.size() - 1, initialTokens);
 			newExp.initialCompilationDetails = initialCompilationDetails;
 		}
@@ -7578,7 +7576,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		if (expressionClone == null) {
 			cloneCache.cacheCloneInProgress(this);
 			expressionClone = new Expression(this, true, cloneCache);
-			if (initialTokens != null && initialTokens.size() > 0) {
+			if (initialTokens != null && !initialTokens.isEmpty()) {
 				expressionClone.initialTokens = createInitialTokens(0, initialTokens.size() - 1, initialTokens);
 				expressionClone.initialCompilationDetails = initialCompilationDetails;
 			}

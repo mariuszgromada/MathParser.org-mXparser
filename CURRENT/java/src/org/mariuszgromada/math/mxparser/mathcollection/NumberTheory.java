@@ -1,5 +1,5 @@
 /*
- * @(#)NumberTheory.java        6.1.0    2024-10-06
+ * @(#)NumberTheory.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1459,7 +1459,7 @@ public final class NumberTheory {
 	public static double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
 		if (numberLiteral == null) return Double.NaN;
 		numberLiteral = numberLiteral.trim();
-		if (numberLiteral.length() == 0) {
+		if (numberLiteral.isEmpty()) {
 			if (numeralSystemBase == 1) return 0;
 			else return Double.NaN;
 		}
@@ -2242,7 +2242,7 @@ public final class NumberTheory {
 						return factors;
 					}
 		long n = number;
-		List<Long> factorsList = new ArrayList<Long>();
+		List<Long> factorsList = new ArrayList<>();
 		for (long i = 2; i <= n / i; i++) {
 			while (n % i == 0) {
 				factorsList.add(i);
@@ -2286,7 +2286,7 @@ public final class NumberTheory {
 						return factors;
 					}
 		double n = number;
-		List<Double> factorsList = new ArrayList<Double>();
+		List<Double> factorsList = new ArrayList<>();
 		for (double i = 2.0; i <= MathFunctions.floor(n / i); MathFunctions.floor(i++)) {
 			while (n % i == 0) {
 				factorsList.add(i);

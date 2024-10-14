@@ -1,5 +1,5 @@
 /*
- * @(#)Constant.java        6.1.0    2024-10-06
+ * @(#)Constant.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -332,7 +332,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 */
 	public Constant(String constantName, double constantValue) {
 		super(Constant.TYPE_ID);
-		relatedExpressionsList = new ArrayList<Expression>();
+		relatedExpressionsList = new ArrayList<>();
 		if (constantName == null) {
 			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
@@ -356,7 +356,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 */
 	public Constant(String constantName, double constantValue, String description) {
 		super(Constant.TYPE_ID);
-		relatedExpressionsList = new ArrayList<Expression>();
+		relatedExpressionsList = new ArrayList<>();
 		if (constantName == null || description == null) {
 			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
@@ -383,7 +383,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 	 */
 	public Constant(String constantDefinitionString, PrimitiveElement...elements) {
 		super(Constant.TYPE_ID);
-		relatedExpressionsList = new ArrayList<Expression>();
+		relatedExpressionsList = new ArrayList<>();
 		if (constantDefinitionString == null) {
 			registerSyntaxErrorInDefinition(StringModel.STRING_RESOURCES.PROVIDED_STRING_IS_NULL);
 			return;
@@ -414,7 +414,7 @@ public class Constant extends PrimitiveElement implements Serializable {
 		description = constantToClone.description;
 		syntaxStatus = constantToClone.syntaxStatus;
 		errorMessage = constantToClone.errorMessage;
-		relatedExpressionsList = new ArrayList<Expression>();
+		relatedExpressionsList = new ArrayList<>();
 	}
 	/**
 	 * Gets constant name

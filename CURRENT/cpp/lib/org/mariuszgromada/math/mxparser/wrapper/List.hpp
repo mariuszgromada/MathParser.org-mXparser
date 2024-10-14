@@ -1,5 +1,5 @@
 /*
- * @(#)List.hpp        6.1.0    2024-10-06
+ * @(#)List.hpp        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -279,6 +279,10 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			vectorList->at(index) = element;
 		}
 
+		bool isEmpty() {
+			return vectorList->empty();
+		}
+
 		bool contains(const T &element) {
 			for (const T& item : *vectorList) {
 				if (item == element) {
@@ -335,6 +339,11 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 					return;
 				}
 			}
+		}
+
+		void clearSubList(int startIndexInclusive, int endIndexExclusive) {
+			auto vectorListBegin = vectorList->begin();
+			vectorList->erase(vectorListBegin + startIndexInclusive, vectorListBegin + endIndexExclusive);
 		}
 
 		void clear() {

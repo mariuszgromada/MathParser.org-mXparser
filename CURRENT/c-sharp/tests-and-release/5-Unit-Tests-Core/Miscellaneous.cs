@@ -1,5 +1,5 @@
 /*
- * @(#)Miscellaneous.cs        6.1.0    2024-10-06
+ * @(#)Miscellaneous.cs        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -302,6 +302,7 @@ namespace org.mariuszgromada.math.mxparser.test {
         }
 
         internal static void testExprSettingsInit() {
+            mXparser.setDefaultOptions();
             mXparser.setEpsilonComparison();
             mXparser.setDefaultEpsilon();
             mXparser.enableUlpRounding();

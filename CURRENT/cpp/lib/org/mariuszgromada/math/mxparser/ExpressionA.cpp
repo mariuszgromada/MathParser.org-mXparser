@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionA.cpp        6.1.0    2024-10-06
+ * @(#)ExpressionA.cpp        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1749,10 +1749,10 @@ namespace org::mariuszgromada::math::mxparser {
 		int rPos = lPos + 1;
 		while (!(tokensList->getRef(rPos)->tokenTypeId == ParserSymbol::TYPE_ID
 		         && tokensList->getRef(rPos)->tokenId == ParserSymbol::RIGHT_PARENTHESES_ID
-		         && tokensList->getRef(rPos)->tokenLevel == tokensList->getRef(lPos)->tokenLevel))
+		         && tokensList->getRef(rPos)->tokenLevel == tokensList->getRef(lPos)->tokenLevel)) {
 			rPos++;
-		for (int p = rPos; p >= lPos; p--)
-			tokensList->remove(p);
+		}
+		tokensList->clearSubList(lPos, rPos + 1);
 	}
 
 	API_VISIBLE void Expression::calcSetDecreaseRemove(int pos, double result) {
@@ -1775,8 +1775,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::variadicSetDecreaseRemove(int pos, double value, int length, bool ulpRound) {
 		setToNumber(pos, value, ulpRound);
 		tokensList->getRef(pos)->tokenLevel--;
-		for (int p = pos + length; p > pos; p--)
-			tokensList->remove(p);
+		tokensList->clearSubList(pos + 1, pos + length + 1);
 	}
 
 	API_VISIBLE void Expression::variadicSetDecreaseRemove(int pos, double value, int length) {
@@ -1847,8 +1846,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE void Expression::removeTokens(int from, int to) {
 		if (from < to) {
-			for (int p = to; p >= from; p--)
-				tokensList->remove(p);
+			tokensList->clearSubList(from, to + 1);
 		} else if (from == to)
 			tokensList->remove(from);
 	}
@@ -2662,7 +2660,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::performSyntaxStackPopIfEndOfSectionLevel(const TokenPtr &token,
 	                                                          const StackPtr<SyntaxStackElementPtr> &syntaxStack) {
 		if (token->tokenTypeId == ParserSymbol::TYPE_ID && token->tokenId == ParserSymbol::RIGHT_PARENTHESES_ID)
-			if (syntaxStack->size() > 0)
+			if (!syntaxStack->isEmpty())
 				if (token->tokenLevel == syntaxStack->top()->tokenLevel)
 					syntaxStack->pop();
 	}
@@ -3356,7 +3354,7 @@ namespace org::mariuszgromada::math::mxparser {
 		/*
 		 * if nothing to calculate return Double::NaN
 		 */
-		if (tokensList->size() == 0) {
+		if (tokensList->isEmpty()) {
 			registerErrorWhileCalculate(StringModel::STRING_RESOURCES->EXPRESSION_DOES_NOT_CONTAIN_ANY_TOKENS);
 			if (verboseMode)
 				printSystemInfo(
@@ -3920,8 +3918,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE void Expression::modifyParserKeyWords() {
-		bool toRemove = mXparser::tokensToRemove->size() > 0;
-		bool toModify = mXparser::tokensToModify->size() > 0;
+		bool toRemove = !mXparser::tokensToRemove->isEmpty();
+		bool toModify = !mXparser::tokensToModify->isEmpty();
 
 		if (!toRemove && !toModify)
 			return;
@@ -3962,7 +3960,7 @@ namespace org::mariuszgromada::math::mxparser {
 			}
 		}
 
-		if (toRemove && keyWordsToRemove->size() > 0)
+		if (toRemove && !keyWordsToRemove->isEmpty())
 			for (const KeyWordPtr &kw : *keyWordsToRemove)
 				keyWordsList->remove(kw);
 	}
@@ -4188,7 +4186,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param token The token
 	 */
 	API_VISIBLE void Expression::initialTokensAdd(const TokenPtr &token) {
-		if (initialTokens->size() == 0) {
+		if (initialTokens->isEmpty()) {
 			initialTokens->add(token);
 			return;
 		}
@@ -4734,7 +4732,7 @@ namespace org::mariuszgromada::math::mxparser {
 				firstChar = newExpressionString->at(pos);
 				bool leadingOp = true;
 				if (firstChar == UTF('-') || firstChar == UTF('+')) {
-					if (initialTokens->size() > 0) {
+					if (!initialTokens->isEmpty()) {
 						const TokenPtr& lastToken = initialTokens->getRef(initialTokens->size() - 1);
 						if ((lastToken->tokenTypeId == Operator::TYPE_ID && lastToken->tokenId != Operator::FACT_ID &&
 						     lastToken->tokenId != Operator::PERC_ID) ||
@@ -5473,7 +5471,7 @@ namespace org::mariuszgromada::math::mxparser {
 	//@Override
 	API_VISIBLE ExpressionPtr Expression::clone() {
 		ExpressionPtr newExp = new_Expression(THIS(Expression), false, CloneCache::Null);
-		if (initialTokens != nullptr && initialTokens->size() > 0) {
+		if (initialTokens != nullptr && !initialTokens->isEmpty()) {
 			newExp->initialTokens = createInitialTokens(0, initialTokens->size() - 1, initialTokens);
 			newExp->initialCompilationDetails = initialCompilationDetails;
 		}
@@ -5486,7 +5484,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (expressionClone == nullptr) {
 			cloneCache->cacheCloneInProgress(thisPtr);
 			expressionClone = new_Expression(thisPtr, true, cloneCache);
-			if (initialTokens != nullptr && initialTokens->size() > 0) {
+			if (initialTokens != nullptr && !initialTokens->isEmpty()) {
 				expressionClone->initialTokens = createInitialTokens(0, initialTokens->size() - 1, initialTokens);
 				expressionClone->initialCompilationDetails = initialCompilationDetails;
 			}

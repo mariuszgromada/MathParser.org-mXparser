@@ -1,5 +1,5 @@
 /*
- * @(#)CalcStepsRegister.java        6.1.0    2024-10-06
+ * @(#)CalcStepsRegister.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -248,7 +248,7 @@ public class CalcStepsRegister implements Serializable {
     /**
      * List that stores all the calculation steps
      */
-    public List<CalcStepRecord> calcStepRecords = new ArrayList<CalcStepRecord>();
+    public List<CalcStepRecord> calcStepRecords = new ArrayList<>();
     /**
      * If a root of the calculation tree is an argument
      * then argument name is provided here

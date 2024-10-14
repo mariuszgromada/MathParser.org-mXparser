@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionUtils.cpp        6.1.0    2024-10-06
+ * @(#)ExpressionUtils.cpp        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1857,7 +1857,7 @@ namespace org::mariuszgromada::math::mxparser {
 	                                                          const ListPtr<TokenPtr> &initialTokens) {
 		ListPtr<TokenPtr> tokensListCopy = new_List<TokenPtr>();
 		if (expressionString->empty()) return tokensListCopy;
-		if (initialTokens->size() == 0) return tokensListCopy;
+		if (initialTokens->isEmpty()) return tokensListCopy;
 		for (int i = 0; i < initialTokens->size(); i++) {
 			const TokenPtr& token = initialTokens->getRef(i);
 			token->looksLike = StringInvariant::EMPTY;
@@ -2417,7 +2417,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE StringPtr ExpressionUtils::tokensListToString(const ListPtr<TokenPtr> &tokensList) {
 		if (tokensList == nullptr) return StringInvariant::EMPTY;
-		if (tokensList->size() == 0) return StringInvariant::EMPTY;
+		if (tokensList->isEmpty()) return StringInvariant::EMPTY;
 		StringBuilderPtr result = new_StringBuilder();
 		for (int i = 0; i < tokensList->size(); i++) {
 			TokenPtr t0 = nullptr;

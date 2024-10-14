@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.1.0    2024-10-06
+ * @(#)Expression.cs        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -435,7 +435,7 @@ namespace org.mariuszgromada.math.mxparser {
          * Optional message from calculate method
          */
         private String errorMessageCalculate = StringInvariant.EMPTY;
-        private static int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
+        private const int ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH = mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH / 5;
         /**
 		 * Flag used internally to mark started recursion
 		 * call on the current object, necessary to
@@ -1818,12 +1818,12 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Evaluate right parenthesis position
 			 */
 			int rPos = lPos+1;
-			while ( !(tokensList[rPos].tokenTypeId == ParserSymbol.TYPE_ID
+			while (!(tokensList[rPos].tokenTypeId == ParserSymbol.TYPE_ID
 					&& tokensList[rPos].tokenId == ParserSymbol.RIGHT_PARENTHESES_ID
-					&& tokensList[rPos].tokenLevel ==  tokensList[lPos].tokenLevel) )
+					&& tokensList[rPos].tokenLevel == tokensList[lPos].tokenLevel)) {
 				rPos++;
-			for (int p = rPos; p >= lPos; p--)
-				tokensList.RemoveAt(p);
+			}
+			tokensList.RemoveRange(lPos, rPos + 1 - lPos);
 		}
 		private void calcSetDecreaseRemove(int pos, double result) {
 			calcSetDecreaseRemove(pos, result, false);
@@ -1844,8 +1844,7 @@ namespace org.mariuszgromada.math.mxparser {
 		private void variadicSetDecreaseRemove(int pos, double value, int length, bool ulpRound) {
 			setToNumber(pos, value, ulpRound);
 			tokensList[pos].tokenLevel--;
-			for (int p = pos + length; p > pos; p--)
-				tokensList.RemoveAt(p);
+			tokensList.RemoveRange(pos + 1, length);
 		}
 		private void variadicSetDecreaseRemove(int pos, double value, int length) {
 			variadicSetDecreaseRemove(pos, value, length, false);
@@ -1913,8 +1912,7 @@ namespace org.mariuszgromada.math.mxparser {
 		}
 		private void removeTokens(int from, int to) {
 			if (from < to) {
-				for (int p = to; p >= from; p--)
-					tokensList.RemoveAt(p);
+				tokensList.RemoveRange(from, to - from + 1);
 			} else if (from == to)
 				tokensList.RemoveAt(from);
 		}

@@ -1,5 +1,5 @@
 /*
- * @(#)SerializationUtils.java        6.1.0    2024-10-06
+ * @(#)SerializationUtils.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -250,7 +250,7 @@ import java.util.Base64;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.0
  *
  * @see Expression
  * @see Argument
@@ -523,7 +523,7 @@ public final class SerializationUtils {
             logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_FILE_PATH_PROVIDED);
             return false;
         }
-        if (filePath.length() == 0) {
+        if (filePath.isEmpty()) {
             logLastOperationMessage(StringModel.STRING_RESOURCES.FILE_PATH_ZERO_LENGTH_PROVIDED);
             return false;
         }
@@ -671,7 +671,7 @@ public final class SerializationUtils {
             logLastOperationMessage(StringModel.STRING_RESOURCES.NULL_FILE_PATH_PROVIDED);
             return null;
         }
-        if (filePath.length() == 0) {
+        if (filePath.isEmpty()) {
             logLastOperationMessage(StringModel.STRING_RESOURCES.FILE_PATH_ZERO_LENGTH_PROVIDED);
             return null;
         }

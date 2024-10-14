@@ -1,5 +1,5 @@
 /*
- * @(#)Argument.java        6.1.0    2024-10-06
+ * @(#)Argument.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -696,9 +696,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	 * @see RecursiveArgument
 	 */
 	public boolean getRecursiveMode() {
-		if (argumentType == RECURSIVE_ARGUMENT)
-			return true;
-		return false;
+		return argumentType == RECURSIVE_ARGUMENT;
 	}
 	/**
 	 * Gets computing time
@@ -817,7 +815,7 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public boolean checkSyntax() {
 		if (!syntaxStatusDefinition)
 			return SYNTAX_ERROR;
-		if (argumentName.length() == 0)
+		if (argumentName.isEmpty())
 			return SYNTAX_ERROR;
 		if (argumentBodyType == BODY_EXTENDED) {
 			if (argumentExtension == null)
@@ -836,14 +834,14 @@ public class Argument extends PrimitiveElement implements Serializable {
 	public String getErrorMessage() {
 		if (!syntaxStatusDefinition)
 			return errorMessageDefinition;
-		if (argumentName.length() == 0)
+		if (argumentName.isEmpty())
 			return errorMessageDefinition;
 		if (argumentBodyType == BODY_EXTENDED && argumentExtension == null)
 			return errorMessageDefinition;
 		if (argumentType == FREE_ARGUMENT)
 			return errorMessageDefinition;
 		String argumentExpressionErrorMessage = argumentExpression.getErrorMessage();
-		if (errorMessageDefinition.length() > 0 && argumentExpressionErrorMessage.length() == 0)
+		if (!errorMessageDefinition.isEmpty() && argumentExpressionErrorMessage.isEmpty())
 			return errorMessageDefinition;
 		return argumentExpressionErrorMessage;
 	}

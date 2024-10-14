@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        6.1.0    2024-10-06
+ * @(#)Token.java        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -340,7 +340,7 @@ public class Token implements Serializable {
 				token.tokenTypeId == Unit.TYPE_ID ||
 				token.tokenTypeId == Argument.TYPE_ID;
 	}
-	public boolean isIdentifier() { return isIdentifier(this); };
+	public boolean isIdentifier() { return isIdentifier(this); }
 	/**
 	 * Verification if the token is a binary operator.
 	 *

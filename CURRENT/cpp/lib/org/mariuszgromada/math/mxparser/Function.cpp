@@ -1,5 +1,5 @@
 /*
- * @(#)Function.cpp        6.1.0    2024-10-06
+ * @(#)Function.cpp        6.1.0    2024-10-14
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -274,14 +274,14 @@ namespace org::mariuszgromada::math::mxparser {
 			return;
 		}
 
-		if (paramsString && paramsString->size() > 0) {
+		if (paramsString && !paramsString->isEmpty()) {
 			for (const StringPtr& argName : *paramsString) {
 				functionExpression->addArguments(new_Argument(argName));
 			}
 			parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 		}
 
-		if (paramsPrimitiveElement && paramsPrimitiveElement->size() > 0)
+		if (paramsPrimitiveElement && !paramsPrimitiveElement->isEmpty())
 			functionExpression->addDefinitions(paramsPrimitiveElement);
 
 		functionExpression->setDescription(this->functionName);
@@ -791,7 +791,7 @@ namespace org::mariuszgromada::math::mxparser {
 			return Double::NaN;
 		if (parameters == nullptr)
 			return Double::NaN;
-		if (parameters->size() == 0)
+		if (parameters->isEmpty())
 			return Double::NaN;
 
 		Long startTime = SystemUtils::currentTimeMillis();
@@ -847,7 +847,7 @@ namespace org::mariuszgromada::math::mxparser {
 			return Double::NaN;
 		if (arguments == nullptr)
 			return Double::NaN;
-		if (arguments->size() == 0)
+		if (arguments->isEmpty())
 			return Double::NaN;
 
 		Long startTime = SystemUtils::currentTimeMillis();
