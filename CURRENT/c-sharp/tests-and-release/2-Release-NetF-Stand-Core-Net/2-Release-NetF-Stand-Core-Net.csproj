@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net35;net462;net472;net481;netstandard2.1;netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
@@ -8,11 +7,11 @@
     <Version>6.1.0</Version>
     <AssemblyVersion>6.1.0.0</AssemblyVersion>
     <FileVersion>6.1.0.0</FileVersion>
-    <Authors>Mariusz Gromada - MathParser.org</Authors>
+    <Authors>Mariusz Gromada</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
-    <Product>mXparser</Product>
-    <Description>A flexible mathematical expressions parser for JAVA, C# .NET and C++</Description>
-    <Copyright>Copyright © Mariusz Gromada 2010 - 2024</Copyright>
+    <Product>MathParser.org-mXparser</Product>
+    <Description>mXparser - Math Expressions Parser / Formula Evaluator library for Java, C#, C++, Kotlin, Android, and all .NET platforms, MONO, CLS compliant (Nuget, Maven, CMake)</Description>
+    <Copyright>Copyright © 2010 - 2024, Mariusz Gromada - MathParser.org</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://mathparser.org</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>

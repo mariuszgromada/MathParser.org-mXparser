@@ -4,7 +4,7 @@
 	<artifactId>MathParser.org-mXparser</artifactId>
 	<version>6.1.0</version>
 	<packaging>jar</packaging>
-	<name>MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for JAVA, Android, C# .NET, C++, Kotlin</name>
+	<name>MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for Java, C#, C++, Kotlin, Android, and all .NET platforms, MONO, CLS compliant (Nuget, Maven, CMake)</name>
 	<description>mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). *** If you find the software useful donation or purchase is something you might consider: https://mathparser.org/donate/ *** Online store: https://payhip.com/INFIMA *** Scalar Scientific Calculator, Charts and Scripts, Scalar Lite: https://play.google.com/store/apps/details?id=org.mathparser.scalar.lite *** Scalar Pro: https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro *** ScalarMath.org: https://scalarmath.org/ *** MathSpace.pl: https://mathspace.pl/ ***</description>
 	<url>https://mathparser.org/</url>
 	<developers>
@@ -71,7 +71,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.6.3</version>
+				<version>3.10.1</version>
 				<configuration>
 					<excludePackageNames>org.mariuszgromada.math.mxparser.syntaxchecker</excludePackageNames>
 				</configuration>
@@ -87,7 +87,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>3.2.4</version>
+				<version>3.2.7</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -100,7 +100,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-install-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>3.1.3</version>
 				<configuration>
 					<createChecksum>true</createChecksum>
 				</configuration>
@@ -108,7 +108,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
+				<version>3.5.1</version>
 				<configuration>
 					<argLine>-Dfile.encoding=UTF-8</argLine>
 					<includes>
@@ -151,7 +151,7 @@
 			<name>DUAL LICENSE</name>
 			<url>https://github.com/mariuszgromada/MathParser.org-mXparser/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
-			<comments>DUAL LICENSE model designed to meet the needs of both Non-Commercial Use as well as Commercial Use (https://payhip.com/INFIMA).</comments>
+			<comments>DUAL LICENSE model designed to meet the needs of both Non-Commercial Use and Commercial Use (https://payhip.com/INFIMA). Copyright © 2010 - 2024, Mariusz Gromada - MathParser.org</comments>
 		</license>
 	</licenses>
 	<organization>
@@ -166,19 +166,13 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.10.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-surefire-provider</artifactId>
-			<version>1.3.2</version>
+			<version>5.11.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.10.2</version>
+			<version>5.11.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

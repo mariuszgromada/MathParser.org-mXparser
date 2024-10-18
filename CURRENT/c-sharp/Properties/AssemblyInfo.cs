@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("mXparser - Math Parser Java C# C++ Library")]
-[assembly: AssemblyDescription("A flexible mathematical expressions parser for JAVA, C# .NET and C++")]
+[assembly: AssemblyTitle("MathParser.org-mXparser - Math Expressions Parser / Formula Evaluator library for Java, C#, C++, Kotlin, Android, and all .NET platforms, MONO, CLS compliant (Nuget, Maven, CMake)")]
+[assembly: AssemblyDescription("mXparser is a super easy, rich, fast and highly flexible math expression parser library (parser and evaluator of mathematical expressions / formulas provided as plain text / string). Software delivers easy to use API for JAVA, Android and C# .NET/MONO (Common Language Specification compliant: F#, Visual Basic, C++/CLI). Expression parser comes with extensive documentation, easy to follow tutorial, \"Hello World!\" projects for different languages explained with many screenshots, and finally - last, but not least - performance test summary. Formula evaluator is distributed under the DUAL LICENSE model, that is designed to meet the needs of both Non-Commercial Use and Commercial Use.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mariusz Gromada, MathParser.org")]
-[assembly: AssemblyProduct("mXparser")]
-[assembly: AssemblyCopyright("Copyright © Mariusz Gromada 2010 - 2024")]
-[assembly: AssemblyTrademark("mXparser")]
+[assembly: AssemblyCompany("Mariusz Gromada - MathParser.org")]
+[assembly: AssemblyProduct("MathParser.org-mXparser")]
+[assembly: AssemblyCopyright("Copyright © 2010 - 2024, Mariusz Gromada - MathParser.org")]
+[assembly: AssemblyTrademark("MathParser.org-mXparser")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
