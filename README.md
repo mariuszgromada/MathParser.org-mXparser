@@ -58,19 +58,19 @@
 ## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 6.0.0
+Install-Package MathParser.org-mXparser -Version 6.1.0
 ```
 
 ## Nuget – .NET CLI
 
 ```
-dotnet add package MathParser.org-mXparser --version 6.0.0
+dotnet add package MathParser.org-mXparser --version 6.1.0
 ```
 
 ## Nuget – Package Reference
 
 ```
-<PackageReference Include="MathParser.org-mXparser" Version="6.0.0"/>
+<PackageReference Include="MathParser.org-mXparser" Version="6.1.0"/>
 ```
 
 ## Maven - Dependency
@@ -79,20 +79,20 @@ dotnet add package MathParser.org-mXparser --version 6.0.0
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>6.0.0</version>
+    <version>6.1.0</version>
 </dependency>
 ```
 
 ## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.0.0'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.0'
 ```
 
 ## Maven – Gradle (Kotlin)
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.0.0")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.0")
 ```
 
 ## CMake - Dependency / FetchContent 
@@ -102,6 +102,7 @@ include(FetchContent)
 FetchContent_Declare(
    MathParserOrgMxParser
    GIT_REPOSITORY https://github.com/mariuszgromada/MathParser.org-mXparser.git
+   GIT_TAG v.6.1.0
    SOURCE_SUBDIR CURRENT/cpp/lib
 )
 FetchContent_MakeAvailable(MathParserOrgMxParser)
