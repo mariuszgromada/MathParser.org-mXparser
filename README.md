@@ -1,8 +1,16 @@
-# MathParser.org-mXparser has been downloaded more than 3,500,000 times!
+# MathParser.org-mXparser has been downloaded more than 3,800,000 times!
 ![mXparser icon](https://mathparser.org/wp-content/uploads/2024/09/mxparser-logo-250.png)
 [![Subscription-Form](https://mathparser.org/wp-content/uploads/2022/08/mailing_list_subscription_form.png)](https://forms.aweber.com/form/82/2120798082.htm)
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Kotlin, Android, C++, C# .NET
+
+## v.6.1.0 (2024-10-19): mXparser supports C++, Chinese Translation
+- [**C++ support**](https://mathparser.org/mxparser-tutorial/cpp-support-in-mxparser-key-assumptions/),
+- [**mXparser in Chinese**](https://mathparser.org/mxparser-tutorial/mxparser-in-chinese/),
+
+### Translations:
+- [**mXparser in French**](https://mathparser.org/mxparser-tutorial/mxparser-in-french/), 
+- [**mXparser in German**](https://mathparser.org/mxparser-tutorial/mxparser-in-german/), 
 
 ## v.6.0.0 (2024-05-19): Translations (French, German, Italian, Polish, Portuguese, Spanish) + New operators
 
