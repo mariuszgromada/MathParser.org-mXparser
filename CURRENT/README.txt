@@ -15,6 +15,11 @@
                         *** https://scalarmath.org/ ***
 
 
+v.6.1.0 (2024-10-19): Sagitara - mXparser supports C++, Chinese Translation
+
+     * C++ support: https://mathparser.org/mxparser-tutorial/cpp-support-in-mxparser-key-assumptions/
+	 * mXparser in Chinese: https://mathparser.org/mxparser-tutorial/mxparser-in-chinese/
+
 v.6.0.0 (2024-05-19): Picon - Translations, New operators
 
      * Translations: French, German, Italian, Polish, Portuguese, Spanish:
