@@ -124,6 +124,9 @@ target_link_libraries(YourExecutable MathParserOrgMxParser)
 [![INFIMA](https://mathparser.org/wp-content/uploads/2022/04/INFIMA-logo-small.png)](https://payhip.com/INFIMA)
 * or consider donation: **[DONATION](https://mathparser.org/donate/)**
 
+# Customer First, Value Next – The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth
+[![CustomerFirst](https://customerfirst.tech/wp-content/uploads/2026/01/Customer-First-Value-Next.png)](https://customerfirst.tech/)
+
 # Scalar Scientific Calculator, Charts & Scripts
 
 [![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2022/05/scalar-presentation-web-small.png)](https://scalarmath.org/)
