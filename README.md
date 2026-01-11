@@ -127,6 +127,8 @@ target_link_libraries(YourExecutable MathParserOrgMxParser)
 # Customer First, Value Next – The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth
 [![CustomerFirst](https://customerfirst.tech/wp-content/uploads/2026/01/Customer-First-Value-Next.png)](https://customerfirst.tech/)
 
+### >>> [Click Here to see the Playbook](https://customerfirst.tech/) <<<
+
 # Scalar Scientific Calculator, Charts & Scripts
 
 [![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2022/05/scalar-presentation-web-small.png)](https://scalarmath.org/)
