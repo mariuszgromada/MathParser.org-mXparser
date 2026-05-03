@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.1.0    2024-10-14
+ * @(#)Expression.cs        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -251,7 +251,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.0
+	 * @version        6.1.1
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -2117,6 +2117,8 @@ namespace org.mariuszgromada.math.mxparser {
 				value = Double.NaN;
 				errorMessage = StringUtils.trimNotNull(soe.Message);
 			}
+			if (fun.getRecursiveMode())
+				recursionCallsCounter = function.functionExpression.recursionCallsCounter;
 			if (forwardErrorMessage && this != function.functionExpression) {
 				errorMessageCalculate = StringUtils.stringConcatenateMaxLength(errorMessageCalculate, function.functionExpression.errorMessageCalculate, ERROR_MESSAGE_CALCULATE_MAXIMUM_LENGTH);
 				errorMessage = StringUtils.stringConcatenateMaxLength(errorMessage, function.functionExpression.errorMessageCalculate, mXparser.ERROR_MESSAGE_MAXIMUM_LENGTH);
@@ -5731,7 +5733,6 @@ namespace org.mariuszgromada.math.mxparser {
 			if (recursionCallsCounter >= mXparser.MAX_RECURSION_CALLS) {
                 if (verboseMode)
                     printSystemInfo(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant.NEW_LINE, NO_EXP_STR);
-                recursionCallsCounter--;
                 registerErrorWhileCalculate(StringModel.STRING_RESOURCES.RECURSION_CALLS_COUNTER_EXCEEDED);
                 return Double.NaN;
 			}
@@ -5753,7 +5754,10 @@ namespace org.mariuszgromada.math.mxparser {
 				stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
 			} else {
 				stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
-				if (stepsRegisteredCounter < 0) return Double.NaN;
+				if (stepsRegisteredCounter < 0) {
+					recursionCallsCounter--;
+					return Double.NaN;
+				}
 			}
 
 			if (verboseMode) {
@@ -5764,7 +5768,8 @@ namespace org.mariuszgromada.math.mxparser {
 
             long endTime = mXparser.currentTimeMillis();
 			computingTime = (endTime - startTime) / 1000.0;
-			recursionCallsCounter--;
+			if (recursionCallsCounter < mXparser.MAX_RECURSION_CALLS)
+				recursionCallsCounter--;
 
 			double result = tokensList[0].tokenValue;
 			if (!disableRounding) {

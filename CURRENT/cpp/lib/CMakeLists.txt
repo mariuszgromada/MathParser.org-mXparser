@@ -1,5 +1,5 @@
 #/*
-# @(#)CMakeLists.txt        6.1.0    2024-10-06
+# @(#)CMakeLists.txt        6.1.1    2026-05-03
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -217,7 +217,7 @@
 #*/
 
 cmake_minimum_required(VERSION 3.22)
-project(MathParserOrgMxParser VERSION 6.1.0 LANGUAGES CXX)
+project(MathParserOrgMxParser VERSION 6.1.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)

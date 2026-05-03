@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cpp        6.1.0    2024-10-06
+ * @(#)ExpressionTest.cpp        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -23809,4 +23809,36 @@ TEST_CASE("testExpr1422", "[Expression]") {
         testResult = true;
     TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
     CHECK(testResult);
+}
+
+TEST_CASE("testExpr1423", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	bool testResult = false;
+	FunctionPtr h = new_Function("h(x) = h(h(0))");
+	string expStr = "h(0)";
+	TestCommonTools::consolePrintTestExprStart(1423, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, h);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = Double::NaN;
+	if (Double::isNaN(value))
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1424", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	bool testResult = false;
+	FunctionPtr f = new_Function("f(x) = f(x)*f(x)");
+	string expStr = "f(0)";
+	TestCommonTools::consolePrintTestExprStart(1424, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, f);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = Double::NaN;
+	if (Double::isNaN(value))
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
 }

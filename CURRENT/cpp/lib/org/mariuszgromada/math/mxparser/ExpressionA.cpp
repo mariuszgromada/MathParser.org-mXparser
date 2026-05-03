@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionA.cpp        6.1.0    2024-10-14
+ * @(#)ExpressionA.cpp        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -3383,7 +3383,6 @@ namespace org::mariuszgromada::math::mxparser {
 				printSystemInfo(
 					StringModel::STRING_RESOURCES->RECURSION_CALLS_COUNTER_EXCEEDED + StringInvariant::NEW_LINE,
 					NO_EXP_STR);
-			recursionCallsCounter--;
 			registerErrorWhileCalculate(StringModel::STRING_RESOURCES->RECURSION_CALLS_COUNTER_EXCEEDED);
 			return Double::NaN;
 		}
@@ -3408,6 +3407,10 @@ namespace org::mariuszgromada::math::mxparser {
 			stepsRegisteredCounter = applySequenceFromCompilation(calcStepsRegister, stepDescription);
 		} else {
 			stepsRegisteredCounter = calculateFirstAndFullyCompile(calcStepsRegister, stepDescription);
+			if (stepsRegisteredCounter < 0) {
+				recursionCallsCounter--;
+				return Double::NaN;
+			}
 		}
 
 		if (verboseMode) {
@@ -3420,7 +3423,8 @@ namespace org::mariuszgromada::math::mxparser {
 
 		Long endTime = SystemUtils::currentTimeMillis();
 		computingTime = CAST_DOUBLE(endTime - startTime) / 1000.0;
-		recursionCallsCounter--;
+		if (recursionCallsCounter < mXparser::MAX_RECURSION_CALLS)
+			recursionCallsCounter--;
 
 		if (stepsRegisteredCounter < 0) return Double::NaN;
 

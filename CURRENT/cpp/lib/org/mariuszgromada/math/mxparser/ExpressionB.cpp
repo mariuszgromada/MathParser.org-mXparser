@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionB.cpp        6.1.0    2024-10-06
+ * @(#)ExpressionB.cpp        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -358,6 +358,8 @@ namespace org::mariuszgromada::math::mxparser {
 			value = Double::NaN;
 			errorMessage = StringUtils::trimNotNull(S(e.what()));
 		}
+		if (fun->getRecursiveMode())
+			recursionCallsCounter = function->functionExpression->recursionCallsCounter;
 		if (forwardErrorMessage && THIS(Expression) != function->functionExpression) {
 			errorMessageCalculate = StringUtils::stringConcatenateMaxLength(
 				errorMessageCalculate, function->functionExpression->errorMessageCalculate,

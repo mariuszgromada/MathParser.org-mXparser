@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cs        6.1.0    2024-10-06
+ * @(#)ExpressionTest.cs        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -236,7 +236,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.0
+	 * @version        6.1.1
 	 *
 	 */
 	[TestClass]
@@ -23404,6 +23404,38 @@ namespace org.mariuszgromada.math.mxparser.test {
 			double value = testExp.calculate();
 			double reg = Math.Cos(MathConstants.PIBY2);
 			if (value == reg)
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1423() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Function h = new Function("h(x) = h(h(0))");
+			String expStr = "h(0)";
+			TestCommonTools.consolePrintTestExprStart(1423, expStr);
+			Expression testExp = new Expression(expStr, h);
+			testExp.calculate();
+			double value = testExp.calculate();
+			double reg = Double.NaN;
+			if (Double.IsNaN(value))
+				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		public void testExpr1424() {
+			TestCommonTools.testExprSettingsInit();
+			bool testResult = false;
+			Function f = new Function("f(x) = f(x)*f(x)");
+			String expStr = "f(0)";
+			TestCommonTools.consolePrintTestExprStart(1424, expStr);
+			Expression testExp = new Expression(expStr, f);
+			testExp.calculate();
+			double value = testExp.calculate();
+			double reg = Double.NaN;
+			if (Double.IsNaN(value))
 				testResult = true;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
