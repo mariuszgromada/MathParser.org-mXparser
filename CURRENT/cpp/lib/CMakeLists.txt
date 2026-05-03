@@ -812,9 +812,9 @@ set_target_properties(MathParserOrgMxParser PROPERTIES
 find_library(COREFOUNDATION_FRAMEWORK CoreFoundation)
 
 if(COREFOUNDATION_FRAMEWORK)
-	target_link_libraries(MathParserOrgMxParser cereal ${COREFOUNDATION_FRAMEWORK})
+	target_link_libraries(MathParserOrgMxParser PUBLIC cereal::cereal ${COREFOUNDATION_FRAMEWORK})
 else()
-	target_link_libraries(MathParserOrgMxParser cereal)
+	target_link_libraries(MathParserOrgMxParser PUBLIC cereal::cereal)
 endif()
 
 message(STATUS "CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
