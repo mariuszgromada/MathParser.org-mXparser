@@ -226,6 +226,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Add Cereal ===
 set(SKIP_PERFORMANCE_COMPARISON ON)
 include(FetchContent)
+
+# cereal is header-only; do not build its sandbox/examples/tests/docs
+set(JUST_INSTALL_CEREAL ON CACHE BOOL "Use cereal as header-only dependency only" FORCE)
+set(BUILD_SANDBOX OFF CACHE BOOL "Do not build cereal sandbox examples" FORCE)
+set(BUILD_TESTS OFF CACHE BOOL "Do not build cereal tests" FORCE)
+set(BUILD_DOC OFF CACHE BOOL "Do not build cereal documentation" FORCE)
+set(SKIP_PERFORMANCE_COMPARISON ON CACHE BOOL "Skip cereal performance comparison" FORCE)
+
 FetchContent_Declare(
 	cereal
 	GIT_REPOSITORY https://github.com/USCiLab/cereal.git
