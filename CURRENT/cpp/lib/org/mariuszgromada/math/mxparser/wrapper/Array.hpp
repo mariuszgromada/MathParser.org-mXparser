@@ -242,9 +242,13 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		static ArrayPtr<T> toArray(const ListPtr<T> &list) {
-			ArrayPtr<T> arrayList = std::make_shared<Array<T> >(list->size());
-			for (size_t i = 0; i < list->size(); i++)
-				(*arrayList)(i) = CAST_INT(list->get(i));
+			const int size = CAST_INT(list->size());
+
+			ArrayPtr<T> arrayList = std::make_shared<Array<T> >(size);
+
+			for (int i = 0; i < size; i++)
+				(*arrayList)(i) = list->get(i);
+
 			return arrayList;
 		}
 
