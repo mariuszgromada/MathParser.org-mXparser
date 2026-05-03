@@ -681,6 +681,12 @@ add_library(MathParserOrgMxParser SHARED
 )
 endif()
 
+# Silence MSVC warning:
+# C4251: class needs to have dll-interface to be used by clients
+if (MSVC)
+	target_compile_options(MathParserOrgMxParser PRIVATE /wd4251)
+endif()
+
 set(CMAKE_ENV_SPECIFIC_CONFIG "${ENV_SPECIFIC_CONFIG_1}${ENV_SPECIFIC_CONFIG_2}${ENV_SPECIFIC_CONFIG_3}${ENV_SPECIFIC_CONFIG_4}")
 
 target_compile_definitions(MathParserOrgMxParser PUBLIC
