@@ -1,5 +1,5 @@
 /*
- * @(#)Integer.hpp        6.1.0    2024-10-06
+ * @(#)Integer.hpp        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,7 +234,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 		static constexpr Long MAX_VALUE_LONG = std::numeric_limits<Long>::max();
 		static constexpr Long MIN_VALUE_LONG = std::numeric_limits<Long>::lowest();
-		static constexpr int NaN_LONG = std::numeric_limits<Long>::quiet_NaN();
+		static constexpr Long NaN_LONG = std::numeric_limits<Long>::quiet_NaN();
 
 		static int parseInt(const String &str, int base);
 		static int parseInt(const StringPtr &str, int base);
