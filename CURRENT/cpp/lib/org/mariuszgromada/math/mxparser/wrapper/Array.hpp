@@ -1,5 +1,5 @@
 /*
- * @(#)Array.hpp        6.1.0    2024-10-06
+ * @(#)Array.hpp        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -244,13 +244,13 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		static ArrayPtr<T> toArray(const ListPtr<T> &list) {
 			ArrayPtr<T> arrayList = std::make_shared<Array<T> >(list->size());
 			for (size_t i = 0; i < list->size(); i++)
-				(*arrayList)(i) = list->get(i);
+				(*arrayList)(i) = CAST_INT(list->get(i));
 			return arrayList;
 		}
 
 		Array(std::initializer_list<T> init) {
 			sizet = init.size();
-			length = init.size();
+			length = CAST_INT(init.size());
 			rows = CAST_INT(sizet);
 			columns = 1;
 			data = std::shared_ptr<T[]>(new T[sizet]);
@@ -264,7 +264,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			this->rows = CAST_INT(rows);
 			this->columns = 1;
 			sizet = rows;
-			length = sizet;
+			length = CAST_INT(sizet);
 			data = std::shared_ptr<T[]>(new T[sizet]);
 		}
 
@@ -272,7 +272,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			this->rows = CAST_INT(rows);
 			this->columns = CAST_INT(columns);
 			sizet = rows * columns;
-			length = sizet;
+			length = CAST_INT(sizet);
 			data = std::shared_ptr<T[]>(new T[sizet]);
 		}
 

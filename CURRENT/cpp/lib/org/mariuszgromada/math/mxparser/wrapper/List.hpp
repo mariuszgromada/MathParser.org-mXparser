@@ -1,5 +1,5 @@
 /*
- * @(#)List.hpp        6.1.0    2024-10-14
+ * @(#)List.hpp        6.1.1    2026-05-03
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -355,7 +355,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		int size() {
-			return vectorList->size();
+			return CAST_INT(vectorList->size());
 		}
 
 		void push(const T &element) {
