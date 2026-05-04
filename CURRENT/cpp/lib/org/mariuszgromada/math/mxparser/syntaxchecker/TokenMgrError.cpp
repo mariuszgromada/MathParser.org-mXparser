@@ -316,7 +316,7 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 					continue;
 				default:
 					if (ch < 0xff) {
-						retval += ch;
+						retval += CAST_CHAR(ch);
 						continue;
 					}
 					retval.append("\\u");

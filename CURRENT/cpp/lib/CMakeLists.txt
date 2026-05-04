@@ -1,5 +1,5 @@
 #/*
-# @(#)CMakeLists.txt        6.1.1    2026-05-03
+# @(#)CMakeLists.txt        6.1.1    2026-05-04
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -692,7 +692,7 @@ endif()
 # Silence MSVC warning:
 # C4251: class needs to have dll-interface to be used by clients
 if (MSVC)
-	target_compile_options(MathParserOrgMxParser PRIVATE /wd4251)
+	target_compile_options(MathParserOrgMxParser PUBLIC /wd4251)
 endif()
 
 set(CMAKE_ENV_SPECIFIC_CONFIG "${ENV_SPECIFIC_CONFIG_1}${ENV_SPECIFIC_CONFIG_2}${ENV_SPECIFIC_CONFIG_3}${ENV_SPECIFIC_CONFIG_4}")
