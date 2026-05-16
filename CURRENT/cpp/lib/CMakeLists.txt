@@ -1,5 +1,5 @@
 #/*
-# @(#)CMakeLists.txt        6.1.1    2026-05-04
+# @(#)CMakeLists.txt        6.1.1    2026-05-16
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -860,8 +860,28 @@ install(FILES
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MathParserOrgMxParser
 )
 
-add_custom_command(TARGET MathParserOrgMxParser POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		$<TARGET_FILE:MathParserOrgMxParser> ${CMAKE_BINARY_DIR})
+if (TARGET MathParserOrgMxParser AND NOT TARGET MathParserOrgMxParser::MathParserOrgMxParser)
+	add_library(MathParserOrgMxParser::MathParserOrgMxParser ALIAS MathParserOrgMxParser)
+endif()
 
-message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
+function(mxparser_link target_name)
+	if (NOT TARGET ${target_name})
+		message(FATAL_ERROR "mxparser_link: target '${target_name}' does not exist")
+	endif()
+
+	target_link_libraries(${target_name}
+			PRIVATE
+			MathParserOrgMxParser::MathParserOrgMxParser
+	)
+
+	if (WIN32)
+		add_custom_command(TARGET ${target_name} POST_BUILD
+				COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				$<TARGET_RUNTIME_DLLS:${target_name}>
+				$<TARGET_FILE_DIR:${target_name}>
+				COMMAND_EXPAND_LISTS
+				COMMENT "Copying MathParser.org-mXparser runtime DLLs next to ${target_name}"
+				VERBATIM
+		)
+	endif()
+endfunction()
