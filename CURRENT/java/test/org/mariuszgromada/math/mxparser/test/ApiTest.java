@@ -5575,7 +5575,7 @@ public final class ApiTest {
         Function fVar = new Function("f(...) = sum(i, 1, par(1), i)");
         Function fExt = new Function("f", new LongComputingFunExt());
         Function fExtVar = new Function("f", new LongComputingFunExtVar());
-        double range = 1000000;
+        double range = 2000000;
         double result = 0;
         for (int i = 1; i <= range; i++)
             result += i;
@@ -5612,7 +5612,7 @@ public final class ApiTest {
         Function fVar = new Function("f(...) = sum(i, 1, par(1), i)");
         Function fExt = new Function("f", new LongComputingFunExt());
         Function fExtVar = new Function("f", new LongComputingFunExtVar());
-        Argument range = new Argument("range = 1000000");
+        Argument range = new Argument("range = 2000000");
         double result = 0;
         double drange = range.getArgumentValue();
         for (int i = 1; i <= drange; i++)
@@ -5645,7 +5645,7 @@ public final class ApiTest {
         boolean testResult = false;
         String testDescr = "Function API - calculate(CalcStepsRegister calcStepsRegister) + getComputingTime";
         TestCommonTools.consolePrintTestApiStart(220, testDescr);
-        Argument range = new Argument("range = 2000000");
+        Argument range = new Argument("range = 4000000");
         Function fErr = new Function("f = 2+3");
         Function f = new Function("f(n) = sum(i, 1, n, i)");
         Expression e = new Expression("f(range)", range, f);
