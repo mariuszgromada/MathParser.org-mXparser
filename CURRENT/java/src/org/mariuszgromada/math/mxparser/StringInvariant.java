@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.java        6.1.0    2024-10-06
+ * @(#)StringInvariant.java        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -230,7 +230,7 @@ package org.mariuszgromada.math.mxparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.1
  */
 final class StringInvariant {
     static final String EMPTY = "";
@@ -468,4 +468,9 @@ final class StringInvariant {
     static final String PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS_EXAMPLE = "b1.111, b2.1001, b3.12021, -b16.af12, h.af1, -b.1001, o.0127";
     // -------------------------------------------------
     static final String SEPARATOR = " - ";
+    // -------------------------------------------------
+    static final String WARM_UP_BEFORE_CONCURRENT_USE = "warmUpBeforeConcurrentUse";
+    static final String WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE = WARM_UP_BEFORE_CONCURRENT_USE + COLON_SPACE;
+    static final String UNINITIALIZED_CLASS = "Uninitialized_class";
+    static final String WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE = WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE + UNINITIALIZED_CLASS + COLON_SPACE;
 }

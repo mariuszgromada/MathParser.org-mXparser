@@ -1,5 +1,5 @@
 /*
- * @(#)StringInvariant.hpp        6.1.0    2024-10-06
+ * @(#)StringInvariant.hpp        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -462,6 +462,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 		static StringPtr PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS_EXAMPLE;
 		// -------------------------------------------------
 		static StringPtr SEPARATOR;
+	    // -------------------------------------------------
+	    static StringPtr WARM_UP_BEFORE_CONCURRENT_USE;
+	    static StringPtr WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE;
+	    static StringPtr UNINITIALIZED_CLASS;
+	    static StringPtr WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE;
 
 		STATIC_VARS_INITI_H;
 	};

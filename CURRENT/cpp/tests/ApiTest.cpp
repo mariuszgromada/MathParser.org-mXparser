@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cpp        6.1.0    2024-10-08
+ * @(#)ApiTest.cpp        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -11050,6 +11050,21 @@ TEST_CASE("testApi0371", "[API]") {
 	StringResourcesPtr lang = StringModel::getStringResources();
 	mXparser::consolePrintln("USER_LANGUAGE = " + lang->USER_LANGUAGE);
 	if (*lang->USER_LANGUAGE == *StringResources::languageChinese()->USER_LANGUAGE)
+		testResult = true;
+	TestCommonTools::consolePrintTestApiEnd(testResult);
+	CHECK(testResult);
+	StringModel::setDefaultStringResources();
+}
+
+TEST_CASE("testApi0372", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	bool testResult = false;
+	string testDescr = "mXparser - warmUpBeforeConcurrentUse()";
+	TestCommonTools::consolePrintTestApiStart(372, testDescr);
+	bool isWarmedUpFalse = mXparser::checkIfWarmedUpBeforeConcurrentUse();
+	bool isWarmedUp = mXparser::warmUpBeforeConcurrentUse();
+	bool isWarmedUpTrue = mXparser::checkIfWarmedUpBeforeConcurrentUse();
+	if (!isWarmedUpFalse && isWarmedUp && isWarmedUpTrue)
 		testResult = true;
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);

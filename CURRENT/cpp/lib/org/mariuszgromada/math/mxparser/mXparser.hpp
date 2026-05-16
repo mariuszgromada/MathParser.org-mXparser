@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.hpp        6.1.0    2024-10-14
+ * @(#)mXparser.hpp        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -259,6 +259,11 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Framework used to compile mXparser
 		 */
 		static StringPtr BUIT_FOR;
+
+		// ***********************************************************
+
+		static bool checkIfWarmedUpBeforeConcurrentUse();
+		static bool warmUpBeforeConcurrentUse();
 
 		// ***********************************************************
 
@@ -788,6 +793,9 @@ namespace org::mariuszgromada::math::mxparser {
 		static StringPtr NAMEv51;
 		static StringPtr NAMEv52;
 		static StringPtr NAMEv60;
+		static StringPtr NAMEv61;
+
+		mutable std::mutex mtx;
 
 	private:
 		/**
@@ -814,6 +822,11 @@ namespace org::mariuszgromada::math::mxparser {
 		 */
 		static constexpr int NOT_FOUND = -1;
 		static constexpr int FOUND = 0;
+
+		/**
+		 * Flag indicating whether the library has already been warmed up before concurrent use
+		 */
+		static bool isWarmedUpBeforeConcurrentUse;
 
 		/**
 		 * Double floating-point precision arithmetic causes

@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cpp        6.1.0    2024-10-14
+ * @(#)mXparser.cpp        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -220,6 +220,9 @@
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Argument.hpp"
 #include "org/mariuszgromada/math/mxparser/Expression.hpp"
+#include "org/mariuszgromada/math/mxparser/Function.hpp"
+#include "org/mariuszgromada/math/mxparser/Constant.hpp"
+#include "org/mariuszgromada/math/mxparser/RecursiveArgument.hpp"
 #include "org/mariuszgromada/math/mxparser/License.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.hpp"
@@ -241,7 +244,7 @@ namespace org::mariuszgromada::math::mxparser {
 	using namespace org::mariuszgromada::math::mxparser::miscellaneous;
 	using namespace org::mariuszgromada::math::mxparser::mathcollection;
 
-
+	API_VISIBLE bool mXparser::isWarmedUpBeforeConcurrentUse = false;
 	API_VISIBLE StringBuilderPtr mXparser::CONSOLE_OUTPUT = new_StringBuilder();
 	API_VISIBLE StringPtr mXparser::CONSOLE_PREFIX = nullptr;
 	API_VISIBLE StringPtr mXparser::CONSOLE_OUTPUT_PREFIX = nullptr;
@@ -289,6 +292,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE StringPtr mXparser::NAMEv51 = nullptr;
 	API_VISIBLE StringPtr mXparser::NAMEv52 = nullptr;
 	API_VISIBLE StringPtr mXparser::NAMEv60 = nullptr;
+	API_VISIBLE StringPtr mXparser::NAMEv61 = nullptr;
 
 	STATIC_VARS_INITI_CPP(mXparser,
 		STATIC_VARS_INITI_DEPENDENCY(StringUtils);
@@ -328,10 +332,83 @@ namespace org::mariuszgromada::math::mxparser {
 		NAMEv51 = S(UTF("5.1"));
 		NAMEv52 = S(UTF("5.2"));
 		NAMEv60 = S(UTF("6.0"));
+		NAMEv61 = S(UTF("6.1"));
 
 		CONSOLE_PREFIX = UTF("[mXparser-v.") + VERSION + UTF("] ");
 		CONSOLE_OUTPUT_PREFIX = CONSOLE_PREFIX;
 	);
+
+
+	/**
+	 * Checks whether the library has already been warmed up before concurrent use
+	 *
+	 * @return True if the warm-up was completed successfully, false otherwise.
+	 *
+	 * @see #warmUpBeforeConcurrentUse()
+	 */
+	API_VISIBLE bool mXparser::checkIfWarmedUpBeforeConcurrentUse() {
+		return isWarmedUpBeforeConcurrentUse;
+	}
+
+	/**
+	 * Performs a deterministic, single-threaded warm-up of the core mXparser classes
+	 * before concurrent use.
+	 *
+	 * @return True if the warm-up was completed successfully, false otherwise.
+	 */
+	API_VISIBLE bool mXparser::warmUpBeforeConcurrentUse() {
+		if (isWarmedUpBeforeConcurrentUse) return true;
+		StringPtr a = nullptr;
+		StringPtr c = nullptr;
+		StringPtr e = nullptr;
+		StringPtr f = nullptr;
+		StringPtr r = nullptr;
+		StringResourcesPtr sr = nullptr;
+		bool isWarmedUpBeforeConcurrentUseLocal = false;
+		try {
+			sr = StringModel::getStringResources();
+			c = Constant::TYPE_DESC;
+			a = Argument::TYPE_DESC;
+			f = Function::TYPE_DESC;
+			e = Expression::TYPE_DESC;
+			r = RecursiveArgument::TYPE_DESC_RECURSIVE;
+			isWarmedUpBeforeConcurrentUseLocal = true;
+		} catch (std::exception &err) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE + S(typeid(e).name()) + StringInvariant::SPACE + StringUtils::trimNotNull(S(err.what())) + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUse = false;
+			return false;
+		} catch (...) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE + "Error/Exception" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUse = false;
+			return false;
+		}
+		if (a == nullptr) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Argument" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUseLocal = false;
+		}
+		if (c == nullptr) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Constant" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUseLocal = false;
+		}
+		if (e == nullptr) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Expression" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUseLocal = false;
+		}
+		if (f == nullptr) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Function" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUseLocal = false;
+		}
+		if (r == nullptr) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "RecursiveArgument" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUseLocal = false;
+		}
+		if (sr == nullptr) {
+			StringUtils::errorPrintln(StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "StringModel" + StringInvariant::NEW_LINE);
+			isWarmedUpBeforeConcurrentUseLocal = false;
+		}
+		isWarmedUpBeforeConcurrentUse = isWarmedUpBeforeConcurrentUseLocal;
+		return isWarmedUpBeforeConcurrentUse;
+	}
 
 	API_VISIBLE void mXparser::refreshHelp() {
 		HELP_EXPRESSION = new_Expression();

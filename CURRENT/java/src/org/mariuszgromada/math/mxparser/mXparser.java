@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.java        6.1.1    2026-05-03
+ * @(#)mXparser.java        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -262,6 +262,20 @@ public final class mXparser {
 	 */
 	public static final String BUIT_FOR = "JDK8";
 	/**
+	 * Flag indicating whether the library has already been warmed up before concurrent use
+	 */
+	private static volatile boolean isWarmedUpBeforeConcurrentUse = false;
+	/**
+	 * Checks whether the library has already been warmed up before concurrent use
+	 *
+	 * @return True if the warm-up was completed successfully, false otherwise.
+	 *
+	 * @see #warmUpBeforeConcurrentUse()
+	 */
+	public static boolean checkIfWarmedUpBeforeConcurrentUse() {
+		return isWarmedUpBeforeConcurrentUse;
+	}
+	/**
 	 * FOUND / NOT_FOUND
 	 * used for matching purposes
 	 */
@@ -394,6 +408,64 @@ public final class mXparser {
 	static volatile Expression HELP_EXPRESSION = new Expression();
 	static void refreshHelp() {
 		HELP_EXPRESSION = new Expression();
+	}
+	/**
+	 * Performs a deterministic, single-threaded warm-up of the core mXparser classes
+	 * before concurrent use.
+	 *
+	 * @return True if the warm-up was completed successfully, false otherwise.
+	 */
+	public static boolean warmUpBeforeConcurrentUse() {
+		if (isWarmedUpBeforeConcurrentUse) return true;
+		synchronized (mXparser.class) {
+			if (isWarmedUpBeforeConcurrentUse) return true;
+			String a = null;
+			String c = null;
+			String e = null;
+			String f = null;
+			String r = null;
+			StringResources sr = null;
+			boolean isWarmedUpBeforeConcurrentUseLocal = false;
+			try {
+				sr = StringModel.getStringResources();
+				c = Constant.TYPE_DESC;
+				a = Argument.TYPE_DESC;
+				f = Function.TYPE_DESC;
+				e = Expression.TYPE_DESC;
+				r = RecursiveArgument.TYPE_DESC_RECURSIVE;
+				isWarmedUpBeforeConcurrentUseLocal = true;
+			} catch (Throwable err) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE + err + StringInvariant.NEW_LINE);
+				isWarmedUpBeforeConcurrentUse = false;
+				return false;
+			}
+			if (a == null) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Argument");
+				isWarmedUpBeforeConcurrentUseLocal = false;
+			}
+			if (c == null) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Constant");
+				isWarmedUpBeforeConcurrentUseLocal = false;
+			}
+			if (e == null) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Expression");
+				isWarmedUpBeforeConcurrentUseLocal = false;
+			}
+			if (f == null) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "Function");
+				isWarmedUpBeforeConcurrentUseLocal = false;
+			}
+			if (r == null) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "RecursiveArgument");
+				isWarmedUpBeforeConcurrentUseLocal = false;
+			}
+			if (sr == null) {
+				StringUtils.errorPrintln(StringInvariant.WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE + "StringModel");
+				isWarmedUpBeforeConcurrentUseLocal = false;
+			}
+			isWarmedUpBeforeConcurrentUse = isWarmedUpBeforeConcurrentUseLocal;
+		}
+		return isWarmedUpBeforeConcurrentUse;
 	}
 	/**
 	 * Initialization of prime numbers cache.

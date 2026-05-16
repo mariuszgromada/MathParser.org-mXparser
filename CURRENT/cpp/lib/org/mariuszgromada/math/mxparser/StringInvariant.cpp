@@ -458,6 +458,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	API_VISIBLE StringPtr StringInvariant::PARSER_SYMBOL_NUMBER_OTHER_NUMERAL_SYSTEMS_EXAMPLE = nullptr;
 	// -------------------------------------------------
 	API_VISIBLE StringPtr StringInvariant::SEPARATOR = nullptr;
+	// -------------------------------------------------
+	API_VISIBLE StringPtr StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE = nullptr;
+	API_VISIBLE StringPtr StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE = nullptr;
+	API_VISIBLE StringPtr StringInvariant::UNINITIALIZED_CLASS = nullptr;
+	API_VISIBLE StringPtr StringInvariant::WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE = nullptr;
 
 	STATIC_VARS_INITI_CPP(StringInvariant,
 		EMPTY = S(UTF(""));
@@ -697,6 +702,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 			"b1.111, b2.1001, b3.12021, -b16.af12, h.af1, -b.1001, o.0127"));
 		// -------------------------------------------------
 		SEPARATOR = S(UTF(" - "));
+	    // -------------------------------------------------
+	    WARM_UP_BEFORE_CONCURRENT_USE = S(UTF("warmUpBeforeConcurrentUse"));
+	    WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE = WARM_UP_BEFORE_CONCURRENT_USE + COLON_SPACE;
+	    UNINITIALIZED_CLASS = S(UTF("Uninitialized_class"));
+	    WARM_UP_BEFORE_CONCURRENT_USE_CLASS_MESSAGE = WARM_UP_BEFORE_CONCURRENT_USE_COLON_SPACE + UNINITIALIZED_CLASS + COLON_SPACE;
 	);
 
 } // namespace org::mariuszgromada::math::mxparser::stringutils

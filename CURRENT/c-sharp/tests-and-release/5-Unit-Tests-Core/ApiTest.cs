@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.1.0    2024-10-08
+ * @(#)ApiTest.cs        6.1.1    2026-05-16
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -239,7 +239,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.0
+	 * @version        6.1.1
 	 *
 	 */
 	[TestClass]
@@ -10976,6 +10976,21 @@ namespace org.mariuszgromada.math.mxparser.test {
 			StringResources lang = StringModel.getStringResources();
 			mXparser.consolePrintln("USER_LANGUAGE = " + lang.USER_LANGUAGE);
 			if (lang.USER_LANGUAGE.Equals(StringResources.languageChinese().USER_LANGUAGE))
+				testResult = true;
+			TestCommonTools.consolePrintTestApiEnd(testResult);
+			Assert.IsTrue(testResult);
+			StringModel.setDefaultStringResources();
+		}
+		[TestMethod]
+		public void testApi0372() {
+			TestCommonTools.testApiSettingsInit();
+			bool testResult = false;
+			String testDescr = "mXparser - warmUpBeforeConcurrentUse()";
+			TestCommonTools.consolePrintTestApiStart(372, testDescr);
+			bool isWarmedUpFalse = mXparser.checkIfWarmedUpBeforeConcurrentUse();
+			bool isWarmedUp = mXparser.warmUpBeforeConcurrentUse();
+			bool isWarmedUpTrue = mXparser.checkIfWarmedUpBeforeConcurrentUse();
+			if (!isWarmedUpFalse && isWarmedUp && isWarmedUpTrue)
 				testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
