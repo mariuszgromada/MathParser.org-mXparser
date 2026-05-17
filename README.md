@@ -4,6 +4,15 @@
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Kotlin, Android, C++, C# .NET
 
+## v.6.1.1 (2026-05-17): Sagitara: maintenance release with bug fixes and improvements
+
+- [**Warm-up before concurrent use**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/331)
+
+### Bugs fixed: #333, #334
+- [**Function h(x) = h(h(0)), recursion problem**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/333)
+- [**n-th derivative bug**]( https://github.com/mariuszgromada/MathParser.org-mXparser/issues/334)
+
+
 ## v.6.1.0 (2024-10-19): mXparser supports C++, Chinese Translation
 - [**C++ support**](https://mathparser.org/mxparser-tutorial/cpp-support-in-mxparser-key-assumptions/),
 - [**mXparser in Chinese**](https://mathparser.org/mxparser-tutorial/mxparser-in-chinese/),
@@ -66,19 +75,19 @@
 ## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 6.1.0
+Install-Package MathParser.org-mXparser -Version 6.1.1
 ```
 
 ## Nuget – .NET CLI
 
 ```
-dotnet add package MathParser.org-mXparser --version 6.1.0
+dotnet add package MathParser.org-mXparser --version 6.1.1
 ```
 
 ## Nuget – Package Reference
 
 ```
-<PackageReference Include="MathParser.org-mXparser" Version="6.1.0"/>
+<PackageReference Include="MathParser.org-mXparser" Version="6.1.1"/>
 ```
 
 ## Maven - Dependency
@@ -87,20 +96,20 @@ dotnet add package MathParser.org-mXparser --version 6.1.0
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>6.1.0</version>
+    <version>6.1.1</version>
 </dependency>
 ```
 
 ## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.0'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.1'
 ```
 
 ## Maven – Gradle (Kotlin)
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.0")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.1")
 ```
 
 ## CMake - Dependency / FetchContent 
@@ -110,11 +119,11 @@ include(FetchContent)
 FetchContent_Declare(
    MathParserOrgMxParser
    GIT_REPOSITORY https://github.com/mariuszgromada/MathParser.org-mXparser.git
-   GIT_TAG v.6.1.0
+   GIT_TAG v.6.1.1
    SOURCE_SUBDIR CURRENT/cpp/lib
 )
 FetchContent_MakeAvailable(MathParserOrgMxParser)
-target_link_libraries(YourExecutable MathParserOrgMxParser)
+mxparser_link(YourExecutable)
 ```
 
 ## NPM
@@ -1248,6 +1257,62 @@ mXparser provides a rich collection of built-in math functions, math expressions
 * or purchase the license via **[ORDER Page](https://mathparser.org/order-commercial-license/)** or **[INFIMA Online Store](https://payhip.com/INFIMA)**
 
 [![INFIMA](http://mathparser.org/wp-content/uploads/2022/04/infima-logo.jpg)](https://payhip.com/INFIMA)
+
+
+## **Customer First, Value Next: The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth** (a book by Mariusz Gromada)
+
+### ✖ STOP running campaigns. ✅ START scaling empathy.
+
+We are facing the **Scalability GAP**: Data volumes and customer contexts are growing exponentially, while your teams can only expand linearly. In this environment, the traditional approach of “**campaign madness**” – overwhelming customers with disconnected offers – is not just inefficient; it erodes trust and burns budget.
+
+To succeed today, you don't need a better marketing calendar. You need a **Personalization Factory**.
+
+**Customer First, Value Next** is the executive playbook for creating an AI-driven organization that shifts from “pushing” products to “serving” needs. This is not a theoretical treatise. It’s a proven strategy for leaders who recognize that in the era of AI, the most significant competitive advantage is maintaining **humanity at scale**.
+
+### Inside this playbook, you will discover how to:
+
+- ⛔ End “Campaign Madness”: Replace disconnected offers with an always-on, intelligent conversation strategy tailored to the individual.
+- ⚙️ Build the Personalization Factory: Implement the AI by Design & Real-Time by Design architectures (Senses, Brain, Voice).
+- 🧠 Master the CI-RM Framework: Deploy 16 practical analytical tactics – including Next Best Action (NBA) strategies and Incremental Uplift Modeling – to - drive true, measured customer-centric growth.
+- 📈 Measure What Matters: Shift from vanity metrics to Incremental ROI, Uplift, and Customer Lifetime Value (CLV).
+- 🤝 Scale Empathy: Use technology not to replace humans, but to augment their ability to serve millions of customers personally.
+
+### Who This Book Is For
+
+This transformation requires more than just a CCO. It demands an Executive Team that understands value and risk, aligned with a Data & Tech team capable of building the foundation. This book offers dedicated paths for:
+
+### 🚀 The Executive Team (CEO, CCO, CMO, CFO)
+
+Understand the vision, the risks, and the Return on Investment. Learn how to measure real value, make the business case, and defend the transformation to the CFO by connecting "trust" directly to the P&L.
+
+### 📈 Growth & CRM Leaders (Head of CRM, Digital, Marketing)
+
+Translate strategy into operations. Move from "send" to "serve" by constructing the Value Map and deploying practical tactics that choose the best offer for every customer context.
+
+### 💻 Data & Technology Leaders (CTO, CIO, Head of Data)
+
+Build technology within the context of business strategy. Discover fundamental design principles (AI by Design) and architecture plans that automate Data Science without killing your analytics team.
+
+**📣 “Technology isn’t just an automation tool. It’s a megaphone for empathy. Put the Customer First. Value comes next.”**
+
+### See more
+
+- Book on [**CustomerFirst.tech**](https://customerfirst.tech/)
+- Book on [**goodreads.com**](https://www.goodreads.com/book/show/245806557-customer-first-value-next)
+- Book on [**Amazon US**](https://www.amazon.com/dp/8397899812)
+- Book on [**Amazon UK**](https://www.amazon.co.uk/dp/8397899812)
+- Book on [**Amazon DE**](https://www.amazon.de/dp/8397899812)
+- Book on [**Amazon FR**](https://www.amazon.fr/dp/8397899812)
+- Book on [**Amazon ES**](https://www.amazon.es/dp/8397899812)
+- Book on [**Amazon IT**](https://www.amazon.it/dp/8397899812)
+- Book on [**Amazon NL**](https://www.amazon.nl/dp/8397899812)
+- Book on [**Amazon PL**](https://www.amazon.pl/dp/8397899812)
+- Book on [**Amazon SE**](https://www.amazon.se/dp/8397899812)
+- Book on [**Amazon BE**](https://www.amazon.com.be/dp/8397899812)
+- Book on [**Amazon IE**](https://www.amazon.ie/dp/8397899812)
+- Book on [**Amazon JP**](https://www.amazon.co.jp/dp/8397899812)
+- Book on [**Amazon CA**](https://www.amazon.ca/dp/8397899812)
+- Book on [**Amazon AU**](https://www.amazon.com.au/dp/8397899812)
 
 
 Best regards,
