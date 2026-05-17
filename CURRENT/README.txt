@@ -15,6 +15,20 @@
                         *** https://scalarmath.org/ ***
 
 
+                     *** Customer First, Value Next ***
+                          The Executive Playbook
+                for AI-Driven Omnichannel Personalization
+                        and Customer-Centric Growth
+                     *** https://customerfirst.tech/ ***
+
+
+v.6.1.1 (2026-05-17): Sagitara: maintenance release with bug fixes and improvements
+
+     * Warm-up before concurrent use: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/331
+     * Bugs fixed: #333, #334
+       - Function h(x) = h(h(0)), recursion problem: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/333
+       - n-th derivative bug: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/334
+
 v.6.1.0 (2024-10-19): Sagitara - mXparser supports C++, Chinese Translation
 
      * C++ support: https://mathparser.org/mxparser-tutorial/cpp-support-in-mxparser-key-assumptions/
