@@ -1,5 +1,5 @@
 /*
- * @(#)Token.java        6.1.0    2024-10-14
+ * @(#)Token.java        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,7 +233,7 @@ import java.io.Serializable;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.1.0
+ * @version        6.1.1
  */
 public class Token implements Serializable {
 	private static final int serialClassID = 92;
@@ -420,6 +420,141 @@ public class Token implements Serializable {
 		multiplyToken.tokenId = Operator.MULTIPLY_ID;
 		multiplyToken.tokenStr = Operator.MULTIPLY_STR;
 		return multiplyToken;
+	}
+	/**
+	 * Creates token representing number.
+	 *
+	 * @return token representing number.
+	 */
+	public static Token makeNumberToken() {
+		Token numberToken = new Token();
+		numberToken.tokenTypeId = ParserSymbol.NUMBER_TYPE_ID;
+		numberToken.tokenId = ParserSymbol.NUMBER_ID;
+		return numberToken;
+	}
+	/**
+	 * Creates token representing number.
+	 *
+	 * @param number Number
+	 * @return token representing number.
+	 */
+	public static Token makeNumberToken(double number, int tokenLevel) {
+		Token numberToken = makeNumberToken();
+		numberToken.tokenValue = number;
+		numberToken.tokenStr = Double.toString(number);
+		numberToken.tokenLevel = tokenLevel;
+		return numberToken;
+	}
+	/**
+	 * Creates token representing comma parser symbol.
+	 *
+	 * @return token representing comma parser symbol.
+	 */
+	public static Token makeCommaToken() {
+		Token commaToken = new Token();
+		commaToken.tokenTypeId = ParserSymbol.TYPE_ID;
+		commaToken.tokenId = ParserSymbol.COMMA_ID;
+		commaToken.tokenStr = ParserSymbol.COMMA_STR;
+		commaToken.keyWord = ParserSymbol.COMMA_STR;
+		return commaToken;
+	}
+	/**
+	 * Creates token representing comma parser symbol.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing comma parser symbol.
+	 */
+	public static Token makeCommaToken(int tokenLevel) {
+		Token commaToken = makeCommaToken();
+		commaToken.tokenLevel = tokenLevel;
+		return commaToken;
+	}
+	/**
+	 * Creates token representing left parenthesis parser symbol.
+	 *
+	 * @return token representing left parenthesis parser symbol.
+	 */
+	public static Token makeLeftParenthesisToken() {
+		Token leftParenthesisToken = new Token();
+		leftParenthesisToken.tokenTypeId = ParserSymbol.TYPE_ID;
+		leftParenthesisToken.tokenId = ParserSymbol.LEFT_PARENTHESES_ID;
+		leftParenthesisToken.tokenStr = ParserSymbol.LEFT_PARENTHESES_STR;
+		leftParenthesisToken.keyWord = ParserSymbol.LEFT_PARENTHESES_STR;
+		return leftParenthesisToken;
+	}
+	/**
+	 * Creates token representing left parenthesis parser symbol.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing left parenthesis parser symbol.
+	 */
+	public static Token makeLeftParenthesisToken(int tokenLevel) {
+		Token leftParenthesisToken = makeLeftParenthesisToken();
+		leftParenthesisToken.tokenLevel = tokenLevel;
+		return leftParenthesisToken;
+	}
+	/**
+	 * Creates token representing right parenthesis parser symbol.
+	 *
+	 * @return token representing right parenthesis parser symbol.
+	 */
+	public static Token makeRightParenthesisToken() {
+		Token rightParenthesisToken = new Token();
+		rightParenthesisToken.tokenTypeId = ParserSymbol.TYPE_ID;
+		rightParenthesisToken.tokenId = ParserSymbol.RIGHT_PARENTHESES_ID;
+		rightParenthesisToken.tokenStr = ParserSymbol.RIGHT_PARENTHESES_STR;
+		rightParenthesisToken.keyWord = ParserSymbol.RIGHT_PARENTHESES_STR;
+		return rightParenthesisToken;
+	}
+	/**
+	 * Creates token representing right parenthesis parser symbol.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing right parenthesis parser symbol.
+	 */
+	public static Token makeRightParenthesisToken(int tokenLevel) {
+		Token rightParenthesisToken = makeRightParenthesisToken();
+		rightParenthesisToken.tokenLevel = tokenLevel;
+		return rightParenthesisToken;
+	}
+	/**
+	 * Creates token representing derivative calculus operator.
+	 *
+	 * @return token representing derivative calculus operator.
+	 */
+	public static Token makeDerToken() {
+		Token derToken = new Token();
+		derToken.tokenTypeId = CalculusOperator.TYPE_ID;
+		derToken.tokenId = CalculusOperator.DER_ID;
+		derToken.tokenStr = CalculusOperator.DER_STR;
+		derToken.keyWord = CalculusOperator.DER_STR;
+		return derToken;
+	}
+	/**
+	 * Creates token representing derivative calculus operator.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing derivative calculus operator.
+	 */
+	public static Token makeDerToken(int tokenLevel) {
+		Token derToken = makeDerToken();
+		derToken.tokenLevel = tokenLevel;
+		return derToken;
+	}
+	/**
+	 * Creates token representing user argument token.
+	 *
+	 * @return token representing user argument token.
+	 */
+	public static Token makeArgumentToken(String argumentName, int argumentIndex, int tokenLevel, double initialValue) {
+		Token argumentToken = new Token();
+		argumentToken.tokenTypeId = Argument.TYPE_ID;
+		argumentToken.tokenId = argumentIndex;
+		argumentToken.tokenStr = argumentName;
+		argumentToken.keyWord = argumentName;
+		argumentToken.tokenLevel = tokenLevel;
+		argumentToken.tokenValue = initialValue;
+		return argumentToken;
 	}
 	/**
 	 * Returns token type description.

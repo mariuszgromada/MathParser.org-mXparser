@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.java        6.1.0    2024-10-06
+ * @(#)Calculus.java        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -234,7 +234,7 @@ import org.mariuszgromada.math.mxparser.mXparser;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        5.2.0
+ * @version        6.1.1
  */
 public final class Calculus {
 	/**
@@ -360,10 +360,10 @@ public final class Calculus {
 		double dx = 0.01;
 		double derF = 0;
 		if (derType == RIGHT_DERIVATIVE)
-			for (int i = 1; i <= n; i++)
+			for (int i = 0; i <= n; i++)
 				derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0+i*dx);
 		else
-			for (int i = 1; i <= n; i++)
+			for (int i = 0; i <= n; i++)
 				derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0-i*dx);
 		derF = derF / Math.pow(dx, n);
 		do {
@@ -371,10 +371,10 @@ public final class Calculus {
 			dx = dx/2.0;
 			derF = 0;
 			if (derType == RIGHT_DERIVATIVE)
-				for (int i = 1; i <= n; i++)
+				for (int i = 0; i <= n; i++)
 					derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0+i*dx);
 			else
-				for (int i = 1; i <= n; i++)
+				for (int i = 0; i <= n; i++)
 					derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0-i*dx);
 			derF = derF / Math.pow(dx, n);
 			error = Math.abs(derF - derFprev);

@@ -1,5 +1,5 @@
 /*
- * @(#)Token.hpp        6.1.0    2024-10-06
+ * @(#)Token.hpp        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -254,6 +254,17 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		[[nodiscard]] static TokenPtr clone(const TokenPtr& token);
 		[[nodiscard]] static TokenPtr cloneFast(const TokenPtr& token);
 		[[nodiscard]] static TokenPtr makeMultiplyToken();
+		[[nodiscard]] static TokenPtr makeNumberToken();
+		[[nodiscard]] static TokenPtr makeNumberToken(double number, int tokenLevel);
+		[[nodiscard]] static TokenPtr makeCommaToken();
+		[[nodiscard]] static TokenPtr makeCommaToken(int tokenLevel);
+		[[nodiscard]] static TokenPtr makeLeftParenthesisToken();
+		[[nodiscard]] static TokenPtr makeLeftParenthesisToken(int tokenLevel);
+		[[nodiscard]] static TokenPtr makeRightParenthesisToken();
+		[[nodiscard]] static TokenPtr makeRightParenthesisToken(int tokenLevel);
+		[[nodiscard]] static TokenPtr makeDerToken();
+		[[nodiscard]] static TokenPtr makeDerToken(int tokenLevel);
+		[[nodiscard]] static TokenPtr makeArgumentToken(const StringPtr& argumentName, int argumentIndex, int tokenLevel, double initialValue);
 		[[nodiscard]] static StringPtr getTokenTypeDescription(int tokenTypeId);
 
 

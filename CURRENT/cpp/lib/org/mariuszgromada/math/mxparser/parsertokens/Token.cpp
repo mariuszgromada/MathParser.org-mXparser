@@ -1,5 +1,5 @@
 /*
- * @(#)Token.cpp        6.1.0    2024-10-06
+ * @(#)Token.cpp        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -416,6 +416,141 @@ namespace org::mariuszgromada::math::mxparser::parsertokens {
 		multiplyToken->tokenId = Operator::MULTIPLY_ID;
 		multiplyToken->tokenStr = Operator::MULTIPLY_STR;
 		return multiplyToken;
+	}
+	/**
+	 * Creates token representing number.
+	 *
+	 * @return token representing number.
+	 */
+	API_VISIBLE TokenPtr Token::makeNumberToken() {
+		TokenPtr numberToken = new_Token();
+		numberToken->tokenTypeId = ParserSymbol::NUMBER_TYPE_ID;
+		numberToken->tokenId = ParserSymbol::NUMBER_ID;
+		return numberToken;
+	}
+	/**
+	 * Creates token representing number.
+	 *
+	 * @param number Number
+	 * @return token representing number.
+	 */
+	API_VISIBLE TokenPtr Token::makeNumberToken(double number, int tokenLevel) {
+		TokenPtr numberToken = makeNumberToken();
+		numberToken->tokenValue = number;
+		numberToken->tokenStr = Double::toString(number);
+		numberToken->tokenLevel = tokenLevel;
+		return numberToken;
+	}
+	/**
+	 * Creates token representing comma parser symbol.
+	 *
+	 * @return token representing comma parser symbol.
+	 */
+	API_VISIBLE TokenPtr Token::makeCommaToken() {
+		TokenPtr commaToken = new_Token();
+		commaToken->tokenTypeId = ParserSymbol::TYPE_ID;
+		commaToken->tokenId = ParserSymbol::COMMA_ID;
+		commaToken->tokenStr = ParserSymbol::COMMA_STR;
+		commaToken->keyWord = ParserSymbol::COMMA_STR;
+		return commaToken;
+	}
+	/**
+	 * Creates token representing comma parser symbol.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing comma parser symbol.
+	 */
+	API_VISIBLE TokenPtr Token::makeCommaToken(int tokenLevel) {
+		TokenPtr commaToken = makeCommaToken();
+		commaToken->tokenLevel = tokenLevel;
+		return commaToken;
+	}
+	/**
+	 * Creates token representing left parenthesis parser symbol.
+	 *
+	 * @return token representing left parenthesis parser symbol.
+	 */
+	API_VISIBLE TokenPtr Token::makeLeftParenthesisToken() {
+		TokenPtr leftParenthesisToken = new_Token();
+		leftParenthesisToken->tokenTypeId = ParserSymbol::TYPE_ID;
+		leftParenthesisToken->tokenId = ParserSymbol::LEFT_PARENTHESES_ID;
+		leftParenthesisToken->tokenStr = ParserSymbol::LEFT_PARENTHESES_STR;
+		leftParenthesisToken->keyWord = ParserSymbol::LEFT_PARENTHESES_STR;
+		return leftParenthesisToken;
+	}
+	/**
+	 * Creates token representing left parenthesis parser symbol.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing left parenthesis parser symbol.
+	 */
+	API_VISIBLE TokenPtr Token::makeLeftParenthesisToken(int tokenLevel) {
+		TokenPtr leftParenthesisToken = makeLeftParenthesisToken();
+		leftParenthesisToken->tokenLevel = tokenLevel;
+		return leftParenthesisToken;
+	}
+	/**
+	 * Creates token representing right parenthesis parser symbol.
+	 *
+	 * @return token representing right parenthesis parser symbol.
+	 */
+	API_VISIBLE TokenPtr Token::makeRightParenthesisToken() {
+		TokenPtr rightParenthesisToken = new_Token();
+		rightParenthesisToken->tokenTypeId = ParserSymbol::TYPE_ID;
+		rightParenthesisToken->tokenId = ParserSymbol::RIGHT_PARENTHESES_ID;
+		rightParenthesisToken->tokenStr = ParserSymbol::RIGHT_PARENTHESES_STR;
+		rightParenthesisToken->keyWord = ParserSymbol::RIGHT_PARENTHESES_STR;
+		return rightParenthesisToken;
+	}
+	/**
+	 * Creates token representing right parenthesis parser symbol.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing right parenthesis parser symbol.
+	 */
+	API_VISIBLE TokenPtr Token::makeRightParenthesisToken(int tokenLevel) {
+		TokenPtr rightParenthesisToken = makeRightParenthesisToken();
+		rightParenthesisToken->tokenLevel = tokenLevel;
+		return rightParenthesisToken;
+	}
+	/**
+	 * Creates token representing derivative calculus operator.
+	 *
+	 * @return token representing derivative calculus operator.
+	 */
+	API_VISIBLE TokenPtr Token::makeDerToken() {
+		TokenPtr derToken = new_Token();
+		derToken->tokenTypeId = CalculusOperator::TYPE_ID;
+		derToken->tokenId = CalculusOperator::DER_ID;
+		derToken->tokenStr = CalculusOperator::DER_STR;
+		derToken->keyWord = CalculusOperator::DER_STR;
+		return derToken;
+	}
+	/**
+	 * Creates token representing derivative calculus operator.
+	 *
+	 * @param tokenLevel Level of token in the token lists.
+	 * @return token representing derivative calculus operator.
+	 */
+	API_VISIBLE TokenPtr Token::makeDerToken(int tokenLevel) {
+		TokenPtr derToken = makeDerToken();
+		derToken->tokenLevel = tokenLevel;
+		return derToken;
+	}
+	/**
+	 * Creates token representing user argument token.
+	 *
+	 * @return token representing user argument token.
+	 */
+	API_VISIBLE TokenPtr Token::makeArgumentToken(const StringPtr& argumentName, int argumentIndex, int tokenLevel, double initialValue) {
+		TokenPtr argumentToken = new_Token();
+		argumentToken->tokenTypeId = Argument::TYPE_ID;
+		argumentToken->tokenId = argumentIndex;
+		argumentToken->tokenStr = argumentName;
+		argumentToken->keyWord = argumentName;
+		argumentToken->tokenLevel = tokenLevel;
+		argumentToken->tokenValue = initialValue;
+		return argumentToken;
 	}
 	//StringPtr Token::getTypeDesc() {return BinaryRelation::TYPE_DESC;}
 	/**

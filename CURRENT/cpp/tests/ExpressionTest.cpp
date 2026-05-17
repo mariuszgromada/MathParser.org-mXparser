@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.cpp        6.1.1    2026-05-03
+ * @(#)ExpressionTest.cpp        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -23838,6 +23838,310 @@ TEST_CASE("testExpr1424", "[Expression]") {
 	double value = testExp->calculate();
 	double reg = Double::NaN;
 	if (Double::isNaN(value))
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1425", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x, 1, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1425, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 1;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1426", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x, 1, x)";
+	ArgumentPtr x = new_Argument("x = 2");
+	TestCommonTools::consolePrintTestExprStart(1426, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 1;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1427", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^2, 2, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1427, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 2;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1428", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^2, 2, x)";
+	ArgumentPtr x = new_Argument("x = 2");
+	TestCommonTools::consolePrintTestExprStart(1428, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 2;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1429", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^3, 2, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1429, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 6;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1430", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^3, 2, x)";
+	ArgumentPtr x = new_Argument("x = -1");
+	TestCommonTools::consolePrintTestExprStart(1430, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = -6;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1431", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^3, 2, x)";
+	ArgumentPtr x = new_Argument("x = 2");
+	TestCommonTools::consolePrintTestExprStart(1431, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 12;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1432", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^3, 3, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1432, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 6;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1433", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^3, 3, x)";
+	ArgumentPtr x = new_Argument("x = -3");
+	TestCommonTools::consolePrintTestExprStart(1433, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 6;
+	if (MathFunctions::abs(reg - value) < 0.001)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1434", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^4, 3, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1434, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 24;
+	if (MathFunctions::abs(reg - value) < 0.7)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1435", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^4, 3, x)";
+	ArgumentPtr x = new_Argument("x = -1");
+	TestCommonTools::consolePrintTestExprStart(1435, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = -24;
+	if (MathFunctions::abs(reg - value) < 0.7)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1436", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^4, 3, x)";
+	ArgumentPtr x = new_Argument("x = 1.5");
+	TestCommonTools::consolePrintTestExprStart(1436, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 36;
+	if (MathFunctions::abs(reg - value) < 0.1)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1437", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^5, 3, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1437, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 60;
+	if (MathFunctions::abs(reg - value) < 0.7)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1438", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^5, 3, x)";
+	ArgumentPtr x = new_Argument("x = 2");
+	TestCommonTools::consolePrintTestExprStart(1438, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 240;
+	if (MathFunctions::abs(reg - value) < 0.3)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1439", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^6, 3, x)";
+	ArgumentPtr x = new_Argument("x = 1");
+	TestCommonTools::consolePrintTestExprStart(1439, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 120;
+	if (MathFunctions::abs(reg - value) < 0.01)
+		testResult = true;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+}
+
+TEST_CASE("testExpr1440", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	mXparser::disableAlmostIntRounding();
+	mXparser::disableCanonicalRounding();
+	mXparser::disableUlpRounding();
+	bool testResult = false;
+	string expStr = "dern(x^6, 3, x)";
+	ArgumentPtr x = new_Argument("x = 1.5");
+	TestCommonTools::consolePrintTestExprStart(1440, expStr);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 405;
+	if (MathFunctions::abs(reg - value) < 0.5)
 		testResult = true;
 	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
 	CHECK(testResult);

@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.cpp        6.1.0    2024-10-06
+ * @(#)Calculus.cpp        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -350,11 +350,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double dx = 0.01;
 		double derF = 0;
 		if (derType == RIGHT_DERIVATIVE)
-			for (int i = 1; i <= n; i++)
+			for (int i = 0; i <= n; i++)
 				derF += MathFunctions::binomCoeff(-1, n - i) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
 						MathFunctions::getFunctionValue(f, x, x0 + i * dx);
 		else
-			for (int i = 1; i <= n; i++)
+			for (int i = 0; i <= n; i++)
 				derF += MathFunctions::binomCoeff(-1, CAST_LONG(i)) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
 						MathFunctions::getFunctionValue(f, x, x0 - i * dx);
 		derF = derF / Math::pow(dx, n);
@@ -363,11 +363,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			dx = dx / 2.0;
 			derF = 0;
 			if (derType == RIGHT_DERIVATIVE)
-				for (int i = 1; i <= n; i++)
+				for (int i = 0; i <= n; i++)
 					derF += MathFunctions::binomCoeff(-1, n - i) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
 							MathFunctions::getFunctionValue(f, x, x0 + i * dx);
 			else
-				for (int i = 1; i <= n; i++)
+				for (int i = 0; i <= n; i++)
 					derF += MathFunctions::binomCoeff(-1, CAST_LONG(i)) * MathFunctions::binomCoeff(n, CAST_LONG(i)) *
 							MathFunctions::getFunctionValue(f, x, x0 - i * dx);
 			derF = derF / Math::pow(dx, n);

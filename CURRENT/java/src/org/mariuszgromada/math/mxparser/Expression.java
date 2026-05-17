@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.java        6.1.1    2025-05-03
+ * @(#)Expression.java        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -4184,6 +4184,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		}
 		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double x0 = Double.NaN;
+
 		/*
 		 * der( f(x), x )
 		 * der( f(x), x, eps, maxsteps )
@@ -4245,7 +4246,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 * @param      derivativeType      the type of derivative (left, right, etc...)
 	 */
 	private void DERIVATIVE_NTH(int pos, int derivativeType) {
-		final double DEF_EPS		= 1E-6;
+		final double DEF_EPS		= 1E-8;
 		/*
 		 * Default max number of steps
 		 */
@@ -4272,9 +4273,61 @@ public class Expression extends PrimitiveElement implements Serializable {
 			updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 		}
-		Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 		double n = nExp.calculate();
+		int nInt = (int)Math.round(n);
+
+		String funParamStr;
+		List<Token> funParamTokens = new ArrayList<>();
+
+		if (nInt <= 1 || funParam.tokens.isEmpty()) {
+			funParamStr = funParam.paramStr;
+			funParamTokens.addAll(funParam.tokens);
+		} else {
+			int wraps = nInt - 1;
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < wraps; i++)
+				sb.append(CalculusOperator.DER_STR).append(ParserSymbol.LEFT_PARENTHESES_STR);
+
+			sb.append(funParam.paramStr);
+
+			for (int i = 0; i < wraps; i++)
+				sb.append(ParserSymbol.COMMA_STR).append(xParam.paramStr).append(ParserSymbol.RIGHT_PARENTHESES_STR);
+
+			funParamStr = sb.toString();
+
+			int baseLevel = funParam.tokens.get(0).tokenLevel;
+
+			for (int i = 0; i < wraps; i++) {
+				int derLevel = baseLevel + i;
+				int parenLevel = baseLevel + i + 1;
+				funParamTokens.add(Token.makeDerToken(derLevel));
+				funParamTokens.add(Token.makeLeftParenthesisToken(parenLevel));
+			}
+
+			for (Token t : funParam.tokens) {
+				t.tokenLevel += wraps;
+				funParamTokens.add(t);
+			}
+
+			for (int i = wraps - 1; i >= 0; i--) {
+				int closingLevel = baseLevel + i + 1;
+				double internalEps = DEF_EPS / Math.pow(10.0, 1.0+i);
+				double internalMaxSteps = Math.max(Math.round(DEF_MAX_STEPS * (1.0 + wraps - i) / (2.0 + wraps)), 2);
+				funParamTokens.add(Token.makeCommaToken(closingLevel));
+				funParamTokens.add(Token.makeArgumentToken(xParam.paramStr, x.index, closingLevel, x.initialValue));
+				funParamTokens.add(Token.makeCommaToken(closingLevel));
+				funParamTokens.add(Token.makeNumberToken(internalEps, closingLevel));
+				funParamTokens.add(Token.makeCommaToken(closingLevel));
+				funParamTokens.add(Token.makeNumberToken(internalMaxSteps, closingLevel));
+				funParamTokens.add(Token.makeRightParenthesisToken(closingLevel));
+			}
+		}
+
+		Expression funExp = new Expression(funParamStr, funParamTokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+
 		double x0 = x.argument.getArgumentValue();
 		double eps = DEF_EPS;
 		int maxSteps = DEF_MAX_STEPS;
@@ -4291,14 +4344,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 			maxSteps = (int)Math.round(maxStepsExp.calculate());
 		}
 		if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
-			double left = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
-			double right = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
-			calcSetDecreaseRemove(pos, (left + right) / 2.0);
+			double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
+			calcSetDecreaseRemove(pos, general);
 		} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
-			double left = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+			double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
 			calcSetDecreaseRemove(pos, left);
 		} else {
-			double right = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
+			double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 			calcSetDecreaseRemove(pos, right);
 		}
 		clearParamArgument(x);

@@ -1,5 +1,5 @@
 /*
- * @(#)Calculus.cs        6.1.0    2024-10-06
+ * @(#)Calculus.cs        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -231,7 +231,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        5.2.0
+	 * @version        6.1.1
 	 */
 	[CLSCompliant(true)]
 	public sealed class Calculus {
@@ -361,10 +361,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double dx = 0.01;
 			double derF = 0;
 			if (derType == RIGHT_DERIVATIVE)
-				for (int i = 1; i <= n; i++)
+				for (int i = 0; i <= n; i++)
 					derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0+i*dx);
 			else
-				for (int i = 1; i <= n; i++)
+				for (int i = 0; i <= n; i++)
 					derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0-i*dx);
 			derF = derF / Math.Pow(dx, n);
 			do {
@@ -372,10 +372,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				dx = dx/2.0;
 				derF = 0;
 				if (derType == RIGHT_DERIVATIVE)
-					for (int i = 1; i <= n; i++)
+					for (int i = 0; i <= n; i++)
 						derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0+i*dx);
 				else
-					for (int i = 1; i <= n; i++)
+					for (int i = 0; i <= n; i++)
 						derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * MathFunctions.getFunctionValue(f,x,x0-i*dx);
 				derF = derF / Math.Pow(dx, n);
 				error = Math.Abs(derF - derFprev);

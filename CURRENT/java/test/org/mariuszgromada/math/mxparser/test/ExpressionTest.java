@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionTest.java        6.1.1    2026-05-03
+ * @(#)ExpressionTest.java        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -23412,6 +23412,310 @@ public final class ExpressionTest {
         double value = testExp.calculate();
         double reg = Double.NaN;
         if (Double.isNaN(value))
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1425() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x, 1, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1425, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 1;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1426() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x, 1, x)";
+        Argument x = new Argument("x = 2");
+        TestCommonTools.consolePrintTestExprStart(1426, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 1;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1427() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^2, 2, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1427, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 2;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1428() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^2, 2, x)";
+        Argument x = new Argument("x = 2");
+        TestCommonTools.consolePrintTestExprStart(1428, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 2;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1429() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^3, 2, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1429, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 6;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1430() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^3, 2, x)";
+        Argument x = new Argument("x = -1");
+        TestCommonTools.consolePrintTestExprStart(1430, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = -6;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1431() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^3, 2, x)";
+        Argument x = new Argument("x = 2");
+        TestCommonTools.consolePrintTestExprStart(1431, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 12;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1432() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^3, 3, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1432, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 6;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1433() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^3, 3, x)";
+        Argument x = new Argument("x = -3");
+        TestCommonTools.consolePrintTestExprStart(1433, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 6;
+        if (MathFunctions.abs(reg - value) < 0.001)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1434() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^4, 3, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1434, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 24;
+        if (MathFunctions.abs(reg - value) < 0.7)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1435() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^4, 3, x)";
+        Argument x = new Argument("x = -1");
+        TestCommonTools.consolePrintTestExprStart(1435, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = -24;
+        if (MathFunctions.abs(reg - value) < 0.7)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1436() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^4, 3, x)";
+        Argument x = new Argument("x = 1.5");
+        TestCommonTools.consolePrintTestExprStart(1436, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 36;
+        if (MathFunctions.abs(reg - value) < 0.1)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1437() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^5, 3, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1437, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 60;
+        if (MathFunctions.abs(reg - value) < 0.7)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1438() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^5, 3, x)";
+        Argument x = new Argument("x = 2");
+        TestCommonTools.consolePrintTestExprStart(1438, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 240;
+        if (MathFunctions.abs(reg - value) < 0.3)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1439() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^6, 3, x)";
+        Argument x = new Argument("x = 1");
+        TestCommonTools.consolePrintTestExprStart(1439, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 120;
+        if (MathFunctions.abs(reg - value) < 0.01)
+            testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testExpr1440() {
+        TestCommonTools.testExprSettingsInit();
+        mXparser.disableAlmostIntRounding();
+        mXparser.disableCanonicalRounding();
+        mXparser.disableUlpRounding();
+        boolean testResult = false;
+        String expStr = "dern(x^6, 3, x)";
+        Argument x = new Argument("x = 1.5");
+        TestCommonTools.consolePrintTestExprStart(1440, expStr);
+        Expression testExp = new Expression(expStr, x);
+        testExp.calculate();
+        double value = testExp.calculate();
+        double reg = 405;
+        if (MathFunctions.abs(reg - value) < 0.5)
             testResult = true;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);

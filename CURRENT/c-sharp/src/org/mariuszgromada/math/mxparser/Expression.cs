@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.1.1    2026-05-03
+ * @(#)Expression.cs        6.1.1    2026-05-17
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -4217,7 +4217,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      derivativeType      the type of derivative (left, right, etc...)
 		 */
 		private void DERIVATIVE_NTH(int pos, int derivativeType) {
-			const double DEF_EPS		= 1E-6;
+			const double DEF_EPS		= 1E-8;
 			/*
 			 * Default max number of steps
 			 */
@@ -4244,9 +4244,61 @@ namespace org.mariuszgromada.math.mxparser {
 				updateMissingTokens(funParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 				updateMissingTokens(nParam.tokens, xParam.paramStr, x.index, Argument.TYPE_ID );
 			}
-			Expression funExp = new Expression(funParam.paramStr, funParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			Expression nExp = new Expression(nParam.paramStr, nParam.tokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
 			double n = nExp.calculate();
+			int nInt = (int)Math.Round(n);
+
+			String funParamStr;
+			List<Token> funParamTokens = new List<Token>();
+
+			if (nInt <= 1 || funParam.tokens.Count == 0) {
+				funParamStr = funParam.paramStr;
+				funParamTokens.AddRange(funParam.tokens);
+			} else {
+				int wraps = nInt - 1;
+
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < wraps; i++)
+					sb.Append(CalculusOperator.DER_STR).Append(ParserSymbol.LEFT_PARENTHESES_STR);
+
+				sb.Append(funParam.paramStr);
+
+				for (int i = 0; i < wraps; i++)
+					sb.Append(ParserSymbol.COMMA_STR).Append(xParam.paramStr).Append(ParserSymbol.RIGHT_PARENTHESES_STR);
+
+				funParamStr = sb.ToString();
+
+				int baseLevel = funParam.tokens[0].tokenLevel;
+
+				for (int i = 0; i < wraps; i++) {
+					int derLevel = baseLevel + i;
+					int parenLevel = baseLevel + i + 1;
+					funParamTokens.Add(Token.makeDerToken(derLevel));
+					funParamTokens.Add(Token.makeLeftParenthesisToken(parenLevel));
+				}
+
+				foreach (Token t in funParam.tokens) {
+					t.tokenLevel += wraps;
+					funParamTokens.Add(t);
+				}
+
+				for (int i = wraps - 1; i >= 0; i--) {
+					int closingLevel = baseLevel + i + 1;
+					double internalEps = DEF_EPS / Math.Pow(10.0, 1.0+i);
+					double internalMaxSteps = Math.Max(Math.Round(DEF_MAX_STEPS * (1.0 + wraps - i) / (2.0 + wraps)), 2);
+					funParamTokens.Add(Token.makeCommaToken(closingLevel));
+					funParamTokens.Add(Token.makeArgumentToken(xParam.paramStr, x.index, closingLevel, x.initialValue));
+					funParamTokens.Add(Token.makeCommaToken(closingLevel));
+					funParamTokens.Add(Token.makeNumberToken(internalEps, closingLevel));
+					funParamTokens.Add(Token.makeCommaToken(closingLevel));
+					funParamTokens.Add(Token.makeNumberToken(internalMaxSteps, closingLevel));
+					funParamTokens.Add(Token.makeRightParenthesisToken(closingLevel));
+				}
+			}
+
+			Expression funExp = new Expression(funParamStr, funParamTokens, argumentsList, functionsList, constantsList, DISABLE_ROUNDING, UDFExpression, UDFVariadicParamsAtRunTime);
+
 			double x0 = x.argument.getArgumentValue();
 			double eps = DEF_EPS;
 			int maxSteps = DEF_MAX_STEPS;
@@ -4263,14 +4315,13 @@ namespace org.mariuszgromada.math.mxparser {
 				maxSteps = (int)Math.Round(maxStepsExp.calculate());
 			}
 			if (derivativeType == Calculus.GENERAL_DERIVATIVE) {
-				double left = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
-				double right = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
-				calcSetDecreaseRemove(pos, (left + right) / 2.0);
+				double general = Calculus.derivative(funExp, x.argument, x0, Calculus.GENERAL_DERIVATIVE, eps, maxSteps);
+				calcSetDecreaseRemove(pos, general);
 			} else if (derivativeType == Calculus.LEFT_DERIVATIVE) {
-				double left = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
+				double left = Calculus.derivative(funExp, x.argument, x0, Calculus.LEFT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, left);
 			} else {
-				double right = Calculus.derivativeNth(funExp, n, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
+				double right = Calculus.derivative(funExp, x.argument, x0, Calculus.RIGHT_DERIVATIVE, eps, maxSteps);
 				calcSetDecreaseRemove(pos, right);
 			}
 			clearParamArgument(x);
