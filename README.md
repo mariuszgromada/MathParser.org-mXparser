@@ -135,6 +135,7 @@ mxparser_link(YourExecutable)
 
 # Customer First, Value Next – The Executive Playbook for AI-Driven Omnichannel Personalization and Customer-Centric Growth
 [![CustomerFirst](https://customerfirst.tech/wp-content/uploads/2026/01/Customer-First-Value-Next.png)](https://customerfirst.tech/)
+[![CustomerFirst](http://customerfirst.tech/wp-content/uploads/2026/05/Customer-First-Value-Next-On-Goodreads-20260524.jpg)](https://www.goodreads.com/author/list/66829237.Mariusz_Gromada)
 
 ### >>> [Click Here to see the Playbook](https://customerfirst.tech/) <<<
 
