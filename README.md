@@ -139,6 +139,24 @@ mxparser_link(YourExecutable)
 
 ### >>> [Click Here to see the Playbook](https://customerfirst.tech/) <<<
 
+### Audiobook
+- ↗️ [Apple Books](https://books.apple.com/us/audiobook/customer-first-value-next-the-executive-playbook-for/id6779149158)
+- ↗️ [Audiobooks Now](https://www.audiobooksnow.com/audiobook/customer-first-value-next/10469106/)
+- ↗️ [Libro.FM](https://libro.fm/audiobooks/9788397899858-customer-first-value-next)
+- ↗️ [Chirp](https://www.chirpbooks.com/audiobooks/customer-first-value-next-by-mariusz-gromada)
+
+### eBook
+- ↗️ [Google Play Books](https://play.google.com/store/books/details/Mariusz_Gromada_Customer_First_Value_Next?id=Mk7sEQAAQBAJ)
+- ↗️ [Apple Books](http://books.apple.com/us/book/id6782600570)
+- ↗️ [Amazon](https://www.amazon.com/dp/B0GB26C5F3)
+
+### Print book / eBook
+- ↗️ [Amazon US](https://www.amazon.com/dp/8397899812)
+- ↗️ [Amazon UK](https://www.amazon.co.uk/dp/8397899812)
+- ↗️ [Amazon DE](https://www.amazon.de/dp/8397899812)
+- ↗️ [Amazon PL](https://www.amazon.pl/dp/8397899812)
+
+
 # Scalar Scientific Calculator, Charts & Scripts
 
 [![Scalar-Lite](https://scalarmath.org/wp-content/uploads/2022/05/scalar-presentation-web-small.png)](https://scalarmath.org/)
