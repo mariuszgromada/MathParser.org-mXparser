@@ -140,6 +140,7 @@ mxparser_link(YourExecutable)
 ### >>> [Click Here to see the Playbook](https://customerfirst.tech/) <<<
 
 ### Audiobook
+- ↗️ [Google Play Books](https://play.google.com/store/audiobooks/details/Mariusz_Gromada_Customer_First_Value_Next?id=AQAAAEB6alMqOM)
 - ↗️ [Apple Books](https://books.apple.com/us/audiobook/customer-first-value-next-the-executive-playbook-for/id6779149158)
 - ↗️ [Audiobooks Now](https://www.audiobooksnow.com/audiobook/customer-first-value-next/10469106/)
 - ↗️ [Libro.FM](https://libro.fm/audiobooks/9788397899858-customer-first-value-next)
