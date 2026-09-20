@@ -157,6 +157,11 @@ mxparser_link(YourExecutable)
 - ↗️ [Amazon DE](https://www.amazon.de/dp/8397899812)
 - ↗️ [Amazon PL](https://www.amazon.pl/dp/8397899812)
 
+### Customer First. Value Next. - Worth reading.
+- ↗️ [Customer First. Value Next. – Explore Key Concepts](https://customerfirst.tech/wp-content/uploads/2026/01/Mariusz-Gromada-Customer-First-Value-Next-Key-Concepts.pdf)
+- ↗️ [Customer First. Value Next. – Look inside the book](https://customerfirst.tech/wp-content/uploads/2026/01/Mariusz-Gromada-Customer-First-Value-Next-Parts.pdf)
+- ↗️ [Customer First, Value Next Earns a 5-Star Review and Finalist Award from Readers’ Favorite](https://customerfirst.tech/wp-content/uploads/2026/09/readersfavorite-com-customer-first-value-next-book-review-and-award.pdf)
+- ↗️ [Mariusz Gromada in conversation with Adam Jadczak for ITwiz: “How well-used data builds relationships and creates business value”](https://customerfirst.tech/wp-content/uploads/2026/09/how-well-used-data-builds-relationships-and-business-value-itwiz-pl.pdf)
 
 # Scalar Scientific Calculator, Charts & Scripts
 
