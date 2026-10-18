@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false" showNewOnSourceInSync="false">
+    <option name="confirmBeforeUploading" value="false" />
+    <serverData>
+      <paths name="BSD Clang (04acc41e-b8e4-44b4-93a0-35811e2bb17b)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bumper/clion" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-bsd-clang" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-bsd-clang" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="BSD GCC (988be834-b3b5-4afd-87c3-1cdc436cdb0f)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bumper/clion" local="$PROJECT_DIR$" web="" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-bsd-gcc" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-bsd-gcc" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="DEB Clang (56f5d703-6ed9-4cd0-b279-657284cc62e2)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bumper/clion" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-deb-clang" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-deb-clang" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="Deb GCC (6289a2a1-9116-408d-aedb-f40052e17db3)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/bumper/clion" local="$PROJECT_DIR$" web="" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-deb-gcc" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-deb-gcc" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="MAC Clang (001a621d-a3f4-43d4-8628-effbf471110e)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/Users/mariuszgromada/clion" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-mac-clang" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-mac-clang" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

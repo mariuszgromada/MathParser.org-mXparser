@@ -20,3 +20,5 @@ ipch/
 *.csproj.user
 DTAR_*_DTAR/
 /CURRENT/c-sharp/UpgradeLog.htm
+cmake-build-*/
+.understand-anything/

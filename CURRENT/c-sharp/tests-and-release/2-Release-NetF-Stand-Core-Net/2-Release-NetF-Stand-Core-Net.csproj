@@ -4,20 +4,20 @@
     <AssemblyName>MathParser.org-mXparser</AssemblyName>
     <RootNamespace>mxparser</RootNamespace>
     <PackageId>MathParser.org-mXparser</PackageId>
-    <Version>6.1.0</Version>
-    <AssemblyVersion>6.1.0.0</AssemblyVersion>
-    <FileVersion>6.1.0.0</FileVersion>
+    <Version>6.1.1</Version>
+    <AssemblyVersion>6.1.1.0</AssemblyVersion>
+    <FileVersion>6.1.1.0</FileVersion>
     <Authors>Mariusz Gromada</Authors>
     <Company>Mariusz Gromada - MathParser.org</Company>
     <Product>MathParser.org-mXparser</Product>
     <Description>mXparser - Math Expressions Parser / Formula Evaluator library for Java, C#, C++, Kotlin, Android, and all .NET platforms, MONO, CLS compliant (Nuget, Maven, CMake)</Description>
-    <Copyright>Copyright © 2010 - 2024, Mariusz Gromada - MathParser.org</Copyright>
+    <Copyright>Copyright © 2010 - 2026, Mariusz Gromada - MathParser.org</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://mathparser.org</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/mariuszgromada/MathParser.org-mXparser</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageReleaseNotes>v.6.1 Sagitara</PackageReleaseNotes>
+    <PackageReleaseNotes>v.6.1.1 Sagitara</PackageReleaseNotes>
     <PackageTags>Math Mathematics Mathematical Expression Expressions Parser Formula Evaluator Calculator Units Solve Probability Integration Derivative Calculus Recursion Operator Logic Condition Bitwise Custom</PackageTags>
   </PropertyGroup>
   <PropertyGroup>

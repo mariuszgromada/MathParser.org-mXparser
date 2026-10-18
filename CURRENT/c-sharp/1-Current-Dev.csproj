@@ -138,6 +138,7 @@
     <Compile Include="src\org\mariuszgromada\math\mxparser\Tutorial.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResources.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesFrench.cs" />
+    <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesChinese.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesGerman.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesItalian.cs" />
     <Compile Include="src\org\mariuszgromada\math\mxparser\StringResourcesPolish.cs" />
