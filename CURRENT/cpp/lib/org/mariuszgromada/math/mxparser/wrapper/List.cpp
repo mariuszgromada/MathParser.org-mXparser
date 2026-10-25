@@ -228,5 +228,6 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	template class List<PrimitiveElementPtr>;
 	template class List<CalcStepRecordPtr>;
+	template parsertokens::KeyWordPtr List<parsertokens::KeyWordPtr>::get(int) const;
 
 } // namespace org::mariuszgromada::math::mxparser::wrapper

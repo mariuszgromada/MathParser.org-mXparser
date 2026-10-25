@@ -223,6 +223,7 @@
 #include "org/mariuszgromada/math/mxparser/StringInvariant.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Integer.hpp"
 
+#include <algorithm>
 #include <sstream>
 #include <regex>
 #include <string>

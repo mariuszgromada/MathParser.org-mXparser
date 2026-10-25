@@ -5646,8 +5646,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 					&& Double.IsNaN(dZerLengthParams)  && tZerLengthParams == 0
 					&& df == result && tf > 0
 					&& dfVar == result && tfVar > 0
+#if NETFRAMEWORK && NET481
+					// A short compiled extension can finish within one clock tick.
+					&& dfExt == result && tfExt >= 0
+					&& dfExtVar == result && tfExtVar >= 0
+#else
 					&& dfExt == result && tfExt > 0
 					&& dfExtVar == result && tfExtVar > 0
+#endif
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
@@ -5684,8 +5690,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 					&& Double.IsNaN(dZerLengthParams)  && tZerLengthParams == 0
 					&& df == result && tf > 0
 					&& dfVar == result && tfVar > 0
+#if NETFRAMEWORK && NET481
+					// A short compiled extension can finish within one clock tick.
+					&& dfExt == result && tfExt >= 0
+					&& dfExtVar == result && tfExtVar >= 0
+#else
 					&& dfExt == result && tfExt > 0
 					&& dfExtVar == result && tfExtVar > 0
+#endif
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
@@ -5721,8 +5733,14 @@ namespace org.mariuszgromada.math.mxparser.test {
 			if (Double.IsNaN(dErr) && tErr == 0
 					&& df == result && tf > 0
 					&& dfVar == result && tfVar > 0
+#if NETFRAMEWORK && NET481
+					// A short compiled extension can finish within one clock tick.
+					&& dfExt == result && tfExt >= 0
+					&& dfExtVar == result && tfExtVar >= 0
+#else
 					&& dfExt == result && tfExt > 0
 					&& dfExtVar == result && tfExtVar > 0
+#endif
 			) testResult = true;
 			TestCommonTools.consolePrintTestApiEnd(testResult);
 			Assert.IsTrue(testResult);
