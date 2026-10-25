@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cs        6.1.0    2024-10-06
+ * @(#)SyntaxTest.cs        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -235,7 +235,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.0.0
+	 * @version        6.1.2
 	 *
 	 */
 	[TestClass]
@@ -6658,6 +6658,86 @@ namespace org.mariuszgromada.math.mxparser.test {
 				testResult = true;
 			TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
 			Assert.IsTrue(testResult);
+		}
+		[TestMethod]
+		[Timeout(20000)]
+		public void testSyn0418() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Long numeric literals and implied multiplication - GHSA-7fcj-crmh-pvhp";
+			TestCommonTools.consolePrintTestSynStart(418, testDescr);
+			Expression testExp = null;
+			bool syn = false;
+			bool reg = false;
+			try {
+				String zeros = new String('0', 40000);
+				String[] literals = {zeros + "1", "0." + zeros + "1", "1e-" + zeros + "2",
+						zeros + "1pi", zeros + "1e"};
+				double[] values = {1, 0, 0.01, Math.PI, Math.E};
+				for (int i = 0; i < literals.Length; i++) {
+					Expression expression = new Expression(literals[i]);
+					testExp = expression;
+					Assert.IsTrue(expression.checkSyntax());
+					Assert.AreEqual(values[i], expression.calculate(), 1e-14);
+					Assert.AreEqual(i < 3 ? 1 : 3, expression.getCopyOfInitialTokens().Count);
+				}
+				mXparser.disableAttemptToFixExpStrMode();
+				Expression invalid = new Expression(zeros + "1e+");
+				testExp = invalid;
+				syn = invalid.checkSyntax();
+				Assert.IsFalse(syn);
+				Assert.IsTrue(Double.IsNaN(invalid.calculate()));
+				Assert.AreEqual(4, invalid.getCopyOfInitialTokens().Count);
+				testResult = true;
+			} finally {
+				if (testExp != null) TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, testExp);
+				TestCommonTools.testSynSettingsInit();
+			}
+		}
+		[TestMethod]
+		public void testSyn0419() {
+			TestCommonTools.testSynSettingsInit();
+			bool testResult = false;
+			String testDescr = "Numeric literal boundaries and compatibility - GHSA-7fcj-crmh-pvhp";
+			TestCommonTools.consolePrintTestSynStart(419, testDescr);
+			Expression testExp = null;
+			bool syn = false;
+			bool reg = false;
+			try {
+				String[] expressions = {"00012", ".5", "1-2", "-1+2", "(-2)+3", "1e-2+3",
+						"1e", "1e+", "1e-", "1e++2", "1.2.3", "1_2", "2_1_2", "1_2pi", "b.101"};
+				double[] values = {12, .5, -1, 1, 1, 3.01, Math.E, Math.E, Math.E, 100, .36,
+						.5, 2.5, Math.PI / 2, 5};
+				for (int i = 0; i < expressions.Length; i++) {
+					Expression expression = new Expression(expressions[i]);
+					testExp = expression;
+					Assert.IsTrue(expression.checkSyntax(), expressions[i]);
+					Assert.AreEqual(values[i], expression.calculate(), 1e-13, expressions[i]);
+				}
+				foreach (String str in new String[]{"1.", "1.e2", "1..2", "pi12", "1e2e3"}) {
+					Expression expression = new Expression(str);
+					testExp = expression;
+					Assert.IsFalse(expression.checkSyntax(), str);
+					Assert.IsTrue(Double.IsNaN(expression.calculate()), str);
+				}
+				// TryParse accepts these spellings even though the grammar rejects them.
+				foreach (String str in new String[]{"1.", "1.e2"}) {
+					var tokens = new Expression(str).getCopyOfInitialTokens();
+					Assert.AreEqual(1, tokens.Count);
+					Assert.AreEqual(str, tokens[0].tokenStr);
+					Assert.AreEqual(0, tokens[0].tokenTypeId);
+				}
+				Expression adjacent = new Expression("12pi");
+				testExp = adjacent;
+				adjacent.disableImpliedMultiplicationMode();
+				syn = adjacent.checkSyntax();
+				Assert.IsFalse(syn);
+				Assert.AreEqual(1, adjacent.getCopyOfInitialTokens().Count);
+				testResult = true;
+			} finally {
+				if (testExp != null) TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, testExp);
+				TestCommonTools.testSynSettingsInit();
+			}
 		}
     }
 }

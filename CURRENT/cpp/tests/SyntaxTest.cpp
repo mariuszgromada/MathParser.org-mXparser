@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.cpp        6.1.0    2024-10-06
+ * @(#)SyntaxTest.cpp        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -6796,4 +6796,91 @@ TEST_CASE("testSyn0417", "[Syntax]") {
 		testResult = true;
 	TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, e);
 	CHECK(testResult);
+}
+
+namespace {
+// Restore parser settings and print the standard summary even after a fatal assertion.
+struct NumericLiteralTestSettings {
+	ExpressionPtr &testExp;
+	bool &syn;
+	bool &reg;
+	bool &testResult;
+	~NumericLiteralTestSettings() {
+		if (testExp != nullptr) TestCommonTools::consolePrintTestSynEnd(syn, reg, testResult, testExp);
+		TestCommonTools::testSynSettingsInit();
+	}
+};
+}
+
+TEST_CASE("testSyn0418", "[Syntax]") {
+	TestCommonTools::testSynSettingsInit();
+	bool testResult = false;
+	string testDescr = "Long numeric literals and implied multiplication - GHSA-7fcj-crmh-pvhp";
+	TestCommonTools::consolePrintTestSynStart(418, testDescr);
+	ExpressionPtr testExp = nullptr;
+	bool syn = false;
+	bool reg = false;
+	NumericLiteralTestSettings settings{testExp, syn, reg, testResult};
+	bool allPassed = true;
+	auto check = [&](bool condition) { CHECK(condition); allPassed = allPassed && condition; };
+	std::string zeros(40000, '0');
+	std::string literals[] = {zeros + "1", "0." + zeros + "1", "1e-" + zeros + "2",
+			zeros + "1pi", zeros + "1e"};
+	double values[] = {1, 0, 0.01, MathConstants::PI, MathConstants::E};
+	for (int i = 0; i < 5; i++) {
+		ExpressionPtr expression = new_Expression(literals[i]);
+		testExp = expression;
+		CAPTURE(i);
+		check(expression->checkSyntax());
+		check(Math::abs(expression->calculate() - values[i]) <= 1e-14);
+		check(expression->getCopyOfInitialTokens()->size() == (i < 3 ? 1 : 3));
+	}
+	mXparser::disableAttemptToFixExpStrMode();
+	std::string invalidLiteral = zeros + "1e+";
+	ExpressionPtr invalid = new_Expression(invalidLiteral);
+	testExp = invalid;
+	REQUIRE_FALSE(invalid->getExpressionString()->empty());
+	syn = invalid->checkSyntax();
+	check(!syn);
+	check(Double::isNaN(invalid->calculate()));
+	check(invalid->getCopyOfInitialTokens()->size() == 4);
+	testResult = allPassed;
+}
+
+TEST_CASE("testSyn0419", "[Syntax]") {
+	TestCommonTools::testSynSettingsInit();
+	bool testResult = false;
+	string testDescr = "Numeric literal boundaries and compatibility - GHSA-7fcj-crmh-pvhp";
+	TestCommonTools::consolePrintTestSynStart(419, testDescr);
+	ExpressionPtr testExp = nullptr;
+	bool syn = false;
+	bool reg = false;
+	NumericLiteralTestSettings settings{testExp, syn, reg, testResult};
+	bool allPassed = true;
+	auto check = [&](bool condition) { CHECK(condition); allPassed = allPassed && condition; };
+	std::string expressions[] = {"00012", ".5", "1-2", "-1+2", "(-2)+3", "1e-2+3",
+			"1e", "1e+", "1e-", "1e++2", "1.2.3", "1_2", "2_1_2", "1_2pi", "b.101"};
+	double values[] = {12, .5, -1, 1, 1, 3.01, MathConstants::E, MathConstants::E,
+			MathConstants::E, 100, .36, .5, 2.5, MathConstants::PI / 2, 5};
+	for (int i = 0; i < 15; i++) {
+		ExpressionPtr expression = new_Expression(expressions[i]);
+		testExp = expression;
+		CAPTURE(i);
+		check(expression->checkSyntax());
+		check(Math::abs(expression->calculate() - values[i]) <= 1e-13);
+	}
+	for (const std::string &str : {"1.", "1.e2", "1..2", "pi12", "1e2e3"}) {
+		ExpressionPtr expression = new_Expression(str);
+		testExp = expression;
+		CAPTURE(str);
+		check(!expression->checkSyntax());
+		check(Double::isNaN(expression->calculate()));
+	}
+	ExpressionPtr adjacent = new_Expression("12pi");
+	testExp = adjacent;
+	adjacent->disableImpliedMultiplicationMode();
+	syn = adjacent->checkSyntax();
+	check(!syn);
+	check(adjacent->getCopyOfInitialTokens()->size() == 1);
+	testResult = allPassed;
 }

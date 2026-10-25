@@ -1,5 +1,5 @@
 /*
- * @(#)mXparser.cs        6.1.1    2026-05-16
+ * @(#)mXparser.cs        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -240,7 +240,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.1
+	 * @version        6.1.2
 	 *
 	 * @see RecursiveArgument
 	 * @see Expression
@@ -254,7 +254,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public const int VERSION_MAJOR = 6;
 		public const int VERSION_MINOR = 1;
-		public const int VERSION_PATCH = 1;
+		public const int VERSION_PATCH = 2;
 		public static readonly String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH;
 		public const String VERSION_CODE_NAME = "Sagitara";
 		public static readonly String VERSION_NAME = VERSION + " " + VERSION_CODE_NAME;

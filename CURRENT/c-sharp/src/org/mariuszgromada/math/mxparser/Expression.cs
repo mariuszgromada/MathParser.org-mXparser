@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.1.1    2026-05-17
+ * @(#)Expression.cs        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -251,7 +251,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.1
+	 * @version        6.1.2
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -6368,9 +6368,56 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		private bool checkFraction(Token token) {
 			if (token.tokenStr.Length < 3) return false;
-			if (!StringUtils.regexMatch(token.tokenStr, ParserSymbol.FRACTION)) return false;
+			if (findFractionLiteralEnd(token.tokenStr, 0) != token.tokenStr.Length - 1) return false;
 			addFractionToken(token);
 			return true;
+		}
+		/**
+		 * Finds the longest decimal prefix without copying or rechecking prefixes.
+		 * Returns its inclusive end, or -1. An unfinished fraction/exponent keeps
+		 * the last complete prefix. allowTrailingDot preserves the .NET tokenizer's
+		 * NumberStyles.Float spelling; regex-based callers require fractional digits.
+		 */
+		private static int findDecimalLiteralEnd(String str, int start, bool allowTrailingDot) {
+			int length = str.Length;
+			int pos = start;
+			if (pos < length && (str[pos] == '+' || str[pos] == '-')) pos++;
+			int integerStart = pos;
+			while (pos < length && StringUtils.is0To9Digit(str[pos])) pos++;
+			int numEnd = pos > integerStart ? pos - 1 : -1;
+			if (pos < length && str[pos] == '.') {
+				pos++;
+				int fractionStart = pos;
+				while (pos < length && StringUtils.is0To9Digit(str[pos])) pos++;
+				if (pos > fractionStart || (allowTrailingDot && numEnd >= 0)) numEnd = pos - 1;
+				else return numEnd;
+			}
+			if (numEnd < 0) return -1;
+			if (pos < length && (str[pos] == 'e' || str[pos] == 'E')) {
+				pos++;
+				if (pos < length && (str[pos] == '+' || str[pos] == '-')) pos++;
+				int exponentStart = pos;
+				while (pos < length && StringUtils.is0To9Digit(str[pos])) pos++;
+				if (pos > exponentStart) numEnd = pos - 1;
+			}
+			return numEnd;
+		}
+		/** Finds the longest INTEGER_INTEGER or INTEGER_INTEGER_INTEGER prefix. */
+		private static int findFractionLiteralEnd(String str, int start) {
+			int length = str.Length;
+			int pos = start;
+			while (pos < length && StringUtils.is0To9Digit(str[pos])) pos++;
+			if (pos == start) return -1;
+			int numEnd = -1;
+			for (int part = 0; part < 2; part++) {
+				if (pos >= length || str[pos] != '_') break;
+				pos++;
+				int partStart = pos;
+				while (pos < length && StringUtils.is0To9Digit(str[pos])) pos++;
+				if (pos == partStart) break;
+				numEnd = pos - 1;
+			}
+			return numEnd;
 		}
 		/**
 		 * Handles implied multiplication while adding single token to the tokens list
@@ -6608,17 +6655,21 @@ namespace org.mariuszgromada.math.mxparser {
 				fractionFound = false;
 				keywordFound = false;
 				parserKeyword = null;
-				for (rPos = tokenStrLength; rPos > lPos; rPos--) {
+				// Numeric candidates are scanned once; retain longest-match priority.
+				int decimalEnd = canStartDecimal ? findDecimalLiteralEnd(token.tokenStr, lPos, false) : -1;
+				int fractionEnd = canStartFraction ? findFractionLiteralEnd(token.tokenStr, lPos) : -1;
+				int numberEnd = Math.Max(decimalEnd, fractionEnd);
+				for (rPos = canStartDecimal ? numberEnd + 1 : tokenStrLength; rPos > lPos; rPos--) {
 					substr = token.tokenStr.Substring(lPos, rPos - lPos);
 					//  Longest possible decimal checking
 					if (canStartDecimal) {
-						decimalFound = StringUtils.regexMatch(substr, ParserSymbol.DECIMAL_REG_EXP);
+						decimalFound = rPos == decimalEnd + 1;
 						if (decimalFound)
 							break;
 					}
 					//  Longest possible fraction checking
 					if (canStartFraction) {
-						fractionFound = StringUtils.regexMatch(substr, ParserSymbol.FRACTION);
+						fractionFound = rPos == fractionEnd + 1;
 						if (fractionFound)
 							break;
 					}
@@ -6658,7 +6709,9 @@ namespace org.mariuszgromada.math.mxparser {
 					tokenPart = new TokenPart();
 					tokenPart.str = substr;
 					if (decimalFound) {
-						if (StringUtils.regexMatch(tokenPart.str, ParserSymbol.INTEGER)) tokenPart.type = TokenPart.INTEGER;
+						if (StringUtils.is0To9Digit(tokenPart.str[0])
+								&& tokenPart.str.IndexOf('.') < 0 && tokenPart.str.IndexOf('e') < 0
+								&& tokenPart.str.IndexOf('E') < 0) tokenPart.type = TokenPart.INTEGER;
 						else tokenPart.type = TokenPart.DECIMAL;
 					}
 
@@ -6842,56 +6895,19 @@ namespace org.mariuszgromada.math.mxparser {
 			 * Check all available positions in the expression tokens list
 			 */
 			do {
-				/*
-				 * 1st step
-				 *
-				 * compare with the regExp for real numbers
-				 * find the longest word which could be matched
-				 * with the given regExp
-				 */
+				/* Scan once, and never rescan a suffix whose left boundary rejects it. */
 				int numEnd = -1;
-				/*
-				 * Number has to start with digit or dot
-				 */
-				firstChar = newExpressionString[pos];
-				if (	firstChar == '+' ||
-						firstChar == '-' ||
-						firstChar == '.' ||
-                        StringUtils.is0To9Digit(firstChar)	) {
-					for (int i = pos; i < newExpressionString.Length; i++) {
-						/*
-						 * Escaping if encountering char that can not
-						 * be included in number
-						 */
-						if (i > pos) {
-							c = newExpressionString[i];
-							if (	c != '+' &&
-									c != '-' &&
-									!StringUtils.is0To9Digit(c) &&
-									c != '.' &&
-									c != 'e' &&
-									c != 'E'	) break;
-						}
-						/*
-						 * Checking if substring represents number
-						 */
-						String str = newExpressionString.Substring(pos, i + 1 - pos);
-						if (Double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed)) numEnd = i;
-					}
-				}
-				/*
-				 * If number was found
-				 */
-				if (numEnd >= 0)
-					if (pos > 0) {
-						precedingChar = newExpressionString[pos-1];
-						if (!StringUtils.canBeSeparatingChar(precedingChar)) numEnd = -1;
-					}
+				if (pos == 0 || StringUtils.canBeSeparatingChar(newExpressionString[pos - 1]))
+					numEnd = findDecimalLiteralEnd(newExpressionString, pos, true);
 				if (numEnd >= 0)
 					if (numEnd < newExpressionString.Length - 1) {
 						followingChar = newExpressionString[numEnd + 1];
 						if (!StringUtils.canBeSeparatingChar(followingChar)) numEnd = -1;
 					}
+				// Older .NET runtimes reject overflow. Any shorter accepted prefix
+				// ends before a digit, dot or exponent, so cannot pass the right boundary.
+				if (numEnd >= 0 && !Double.TryParse(newExpressionString.Substring(pos, numEnd + 1 - pos),
+						NumberStyles.Float, CultureInfo.InvariantCulture, out tmpParsed)) numEnd = -1;
 				if (numEnd >= 0) {
 					/*
 					 * If preceding word was unknown

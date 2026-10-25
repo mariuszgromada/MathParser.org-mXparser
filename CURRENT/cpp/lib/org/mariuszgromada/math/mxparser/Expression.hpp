@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.hpp        6.1.0    2024-10-06
+ * @(#)Expression.hpp        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1471,6 +1471,8 @@ namespace org::mariuszgromada::math::mxparser {
 		bool checkOtherNumberBases(const TokenPtr &token);
 		void addFractionToken(const TokenPtr &token);
 		bool checkFraction(const TokenPtr &token);
+		static int findDecimalLiteralEnd(const StringPtr &str, int start, bool allowTrailingDot);
+		static int findFractionLiteralEnd(const StringPtr &str, int start);
 		void initialTokensAdd(const TokenPtr &token);
 		void assignKnownKeyword(const TokenPtr &token, const KeyWordPtr &keyWord);
 		KeyWordPtr tryFindKnownKeyword(const StringPtr &tokenStr);

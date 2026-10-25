@@ -22,6 +22,16 @@
                      *** https://customerfirst.tech/ ***
 
 
+v.6.1.2 (2026-10-25): Sagitara — Security and performance maintenance release
+
+     * Security fix: Addresses GHSA-7fcj-crmh-pvhp, a quadratic-time numeric literal tokenization issue that
+       could cause excessive CPU consumption when checking or evaluating expressions containing very long
+       numeric literals.
+     * Performance improvement: Replaces repeated numeric-prefix validation with efficient scanning in Java,
+       C#, and C++, including related implied multiplication and fraction recognition paths.
+     * Compatibility: Preserves the existing public API and expression syntax, with additional regression
+       coverage.
+
 v.6.1.1 (2026-05-17): Sagitara: maintenance release with bug fixes and improvements
 
      * Warm-up before concurrent use: https://github.com/mariuszgromada/MathParser.org-mXparser/issues/331

@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        6.1.0    2024-10-06
+ * @(#)SyntaxTest.java        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,7 +233,7 @@ import org.mariuszgromada.math.mxparser.*;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.0.0
+ * @version        6.1.2
  *
  */
 public final class SyntaxTest {
@@ -6655,5 +6655,80 @@ public final class SyntaxTest {
             testResult = true;
         TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, e);
         Assertions.assertTrue(testResult);
+    }
+    @Test
+    @org.junit.jupiter.api.Timeout(20)
+    public void testSyn0418() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Long numeric literals and implied multiplication - GHSA-7fcj-crmh-pvhp";
+        TestCommonTools.consolePrintTestSynStart(418, testDescr);
+        Expression testExp = null;
+        boolean syn = false;
+        boolean reg = false;
+        try {
+            char[] digits = new char[40000];
+            java.util.Arrays.fill(digits, '0');
+            String zeros = new String(digits);
+            String[] literals = {zeros + "1", "0." + zeros + "1", "1e-" + zeros + "2",
+                    zeros + "1pi", zeros + "1e"};
+            double[] values = {1, 0, 0.01, Math.PI, Math.E};
+            for (int i = 0; i < literals.length; i++) {
+                Expression expression = new Expression(literals[i]);
+                testExp = expression;
+                Assertions.assertTrue(expression.checkSyntax());
+                Assertions.assertEquals(values[i], expression.calculate(), 1e-14);
+                Assertions.assertEquals(i < 3 ? 1 : 3, expression.getCopyOfInitialTokens().size());
+            }
+            mXparser.disableAttemptToFixExpStrMode();
+            Expression invalid = new Expression(zeros + "1e+");
+            testExp = invalid;
+            syn = invalid.checkSyntax();
+            Assertions.assertFalse(syn);
+            Assertions.assertTrue(Double.isNaN(invalid.calculate()));
+            Assertions.assertEquals(4, invalid.getCopyOfInitialTokens().size());
+            testResult = true;
+        } finally {
+            if (testExp != null) TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, testExp);
+            TestCommonTools.testSynSettingsInit();
+        }
+    }
+    @Test
+    public void testSyn0419() {
+        TestCommonTools.testSynSettingsInit();
+        boolean testResult = false;
+        String testDescr = "Numeric literal boundaries and compatibility - GHSA-7fcj-crmh-pvhp";
+        TestCommonTools.consolePrintTestSynStart(419, testDescr);
+        Expression testExp = null;
+        boolean syn = false;
+        boolean reg = false;
+        try {
+            String[] expressions = {"00012", ".5", "1-2", "-1+2", "(-2)+3", "1e-2+3",
+                    "1e", "1e+", "1e-", "1e++2", "1.2.3", "1_2", "2_1_2", "1_2pi", "b.101"};
+            double[] values = {12, .5, -1, 1, 1, 3.01, Math.E, Math.E, Math.E, 100, .36,
+                    .5, 2.5, Math.PI / 2, 5};
+            for (int i = 0; i < expressions.length; i++) {
+                Expression expression = new Expression(expressions[i]);
+                testExp = expression;
+                Assertions.assertTrue(expression.checkSyntax(), expressions[i]);
+                Assertions.assertEquals(values[i], expression.calculate(), 1e-13, expressions[i]);
+            }
+            for (String str : new String[]{"1.", "1.e2", "1..2", "pi12", "1e2e3"}) {
+                Expression expression = new Expression(str);
+                testExp = expression;
+                Assertions.assertFalse(expression.checkSyntax(), str);
+                Assertions.assertTrue(Double.isNaN(expression.calculate()), str);
+            }
+            Expression adjacent = new Expression("12pi");
+            testExp = adjacent;
+            adjacent.disableImpliedMultiplicationMode();
+            syn = adjacent.checkSyntax();
+            Assertions.assertFalse(syn);
+            Assertions.assertEquals(1, adjacent.getCopyOfInitialTokens().size());
+            testResult = true;
+        } finally {
+            if (testExp != null) TestCommonTools.consolePrintTestSynEnd(syn, reg, testResult, testExp);
+            TestCommonTools.testSynSettingsInit();
+        }
     }
 }

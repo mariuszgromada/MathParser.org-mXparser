@@ -4,6 +4,12 @@
 
 ## mXparser - a super easy, rich and highly flexible Mathematical Expression Parser (Math Parser, Expression Evaluator) library for JAVA, Kotlin, Android, C++, C# .NET
 
+## v.6.1.2 (2026-10-25): Sagitara — Security and performance maintenance release
+
+- **Security fix:** Addresses GHSA-7fcj-crmh-pvhp, a quadratic-time numeric literal tokenization issue that could cause excessive CPU consumption when checking or evaluating expressions containing very long numeric literals.
+- **Performance improvement:** Replaces repeated numeric-prefix validation with efficient scanning in Java, C#, and C++, including related implied multiplication and fraction recognition paths.
+- **Compatibility:** Preserves the existing public API and expression syntax, with additional regression coverage.
+
 ## v.6.1.1 (2026-05-17): Sagitara: maintenance release with bug fixes and improvements
 
 - [**Warm-up before concurrent use**](https://github.com/mariuszgromada/MathParser.org-mXparser/issues/331)
@@ -75,19 +81,19 @@
 ## Nuget - Packgae Manager
 
 ```
-Install-Package MathParser.org-mXparser -Version 6.1.1
+Install-Package MathParser.org-mXparser -Version 6.1.2
 ```
 
 ## Nuget – .NET CLI
 
 ```
-dotnet add package MathParser.org-mXparser --version 6.1.1
+dotnet add package MathParser.org-mXparser --version 6.1.2
 ```
 
 ## Nuget – Package Reference
 
 ```
-<PackageReference Include="MathParser.org-mXparser" Version="6.1.1"/>
+<PackageReference Include="MathParser.org-mXparser" Version="6.1.2"/>
 ```
 
 ## Maven - Dependency
@@ -96,20 +102,20 @@ dotnet add package MathParser.org-mXparser --version 6.1.1
 <dependency>
     <groupId>org.mariuszgromada.math</groupId>
     <artifactId>MathParser.org-mXparser</artifactId>
-    <version>6.1.1</version>
+    <version>6.1.2</version>
 </dependency>
 ```
 
 ## Maven - Gradle
 
 ```
-implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.1'
+implementation 'org.mariuszgromada.math:MathParser.org-mXparser:6.1.2'
 ```
 
 ## Maven – Gradle (Kotlin)
 
 ```
-implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.1")
+implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.1.2")
 ```
 
 ## CMake - Dependency / FetchContent 
@@ -119,7 +125,7 @@ include(FetchContent)
 FetchContent_Declare(
    MathParserOrgMxParser
    GIT_REPOSITORY https://github.com/mariuszgromada/MathParser.org-mXparser.git
-   GIT_TAG v.6.1.1
+   GIT_TAG v.6.1.2
    SOURCE_SUBDIR CURRENT/cpp/lib
 )
 FetchContent_MakeAvailable(MathParserOrgMxParser)

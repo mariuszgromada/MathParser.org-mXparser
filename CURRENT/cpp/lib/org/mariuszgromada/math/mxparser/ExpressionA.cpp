@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionA.cpp        6.1.1    2026-05-03
+ * @(#)ExpressionA.cpp        6.1.2    2026-10-25
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -4179,11 +4179,58 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE bool Expression::checkFraction(const TokenPtr &token) {
 		if (token->tokenStr->length() < 3) return false;
-		if (!StringUtils::regexMatch(token->tokenStr, ParserSymbol::FRACTION)) return false;
+		if (findFractionLiteralEnd(token->tokenStr, 0) != CAST_INT(token->tokenStr->length()) - 1) return false;
 		addFractionToken(token);
 		return true;
 	}
 
+	/**
+	 * Finds the longest decimal prefix without copying or rechecking prefixes.
+	 * Returns its inclusive end, or -1. An unfinished fraction/exponent keeps
+	 * the last complete prefix. allowTrailingDot preserves the .NET tokenizer's
+	 * NumberStyles.Float spelling; regex-based callers require fractional digits.
+	 */
+	API_VISIBLE int Expression::findDecimalLiteralEnd(const StringPtr &str, int start, bool allowTrailingDot) {
+		int length = CAST_INT(str->length());
+		int pos = start;
+		if (pos < length && (str->at(pos) == UTF('+') || str->at(pos) == UTF('-'))) pos++;
+		int integerStart = pos;
+		while (pos < length && StringUtils::is0To9Digit(str->at(pos))) pos++;
+		int numEnd = pos > integerStart ? pos - 1 : -1;
+		if (pos < length && str->at(pos) == UTF('.')) {
+			pos++;
+			int fractionStart = pos;
+			while (pos < length && StringUtils::is0To9Digit(str->at(pos))) pos++;
+			if (pos > fractionStart || (allowTrailingDot && numEnd >= 0)) numEnd = pos - 1;
+			else return numEnd;
+		}
+		if (numEnd < 0) return -1;
+		if (pos < length && (str->at(pos) == UTF('e') || str->at(pos) == UTF('E'))) {
+			pos++;
+			if (pos < length && (str->at(pos) == UTF('+') || str->at(pos) == UTF('-'))) pos++;
+			int exponentStart = pos;
+			while (pos < length && StringUtils::is0To9Digit(str->at(pos))) pos++;
+			if (pos > exponentStart) numEnd = pos - 1;
+		}
+		return numEnd;
+	}
+	/** Finds the longest INTEGER_INTEGER or INTEGER_INTEGER_INTEGER prefix. */
+	API_VISIBLE int Expression::findFractionLiteralEnd(const StringPtr &str, int start) {
+		int length = CAST_INT(str->length());
+		int pos = start;
+		while (pos < length && StringUtils::is0To9Digit(str->at(pos))) pos++;
+		if (pos == start) return -1;
+		int numEnd = -1;
+		for (int part = 0; part < 2; part++) {
+			if (pos >= length || str->at(pos) != UTF('_')) break;
+			pos++;
+			int partStart = pos;
+			while (pos < length && StringUtils::is0To9Digit(str->at(pos))) pos++;
+			if (pos == partStart) break;
+			numEnd = pos - 1;
+		}
+		return numEnd;
+	}
 	/**
 	 * Handles implied multiplication while adding single token to the tokens list
 	 * is checking preceding token
@@ -4424,17 +4471,21 @@ namespace org::mariuszgromada::math::mxparser {
 			fractionFound = false;
 			keywordFound = false;
 			parserKeyword = nullptr;
-			for (rPos = tokenStrLength; rPos > lPos; rPos--) {
+			// Numeric candidates are scanned once; retain longest-match priority.
+			int decimalEnd = canStartDecimal ? findDecimalLiteralEnd(token->tokenStr, lPos, false) : -1;
+			int fractionEnd = canStartFraction ? findFractionLiteralEnd(token->tokenStr, lPos) : -1;
+			int numberEnd = std::max(decimalEnd, fractionEnd);
+			for (rPos = canStartDecimal ? numberEnd + 1 : tokenStrLength; rPos > lPos; rPos--) {
 				substr = S(token->tokenStr->substr(lPos, rPos - lPos));
 				//  Longest possible decimal checking
 				if (canStartDecimal) {
-					decimalFound = StringUtils::regexMatch(substr, ParserSymbol::DECIMAL_REG_EXP);
+					decimalFound = rPos == decimalEnd + 1;
 					if (decimalFound)
 						break;
 				}
 				//  Longest possible fraction checking
 				if (canStartFraction) {
-					fractionFound = StringUtils::regexMatch(substr, ParserSymbol::FRACTION);
+					fractionFound = rPos == fractionEnd + 1;
 					if (fractionFound)
 						break;
 				}
@@ -4473,8 +4524,9 @@ namespace org::mariuszgromada::math::mxparser {
 				tokenPart = new_TokenPart();
 				tokenPart->str = substr;
 				if (decimalFound) {
-					if (StringUtils::regexMatch(tokenPart->str, ParserSymbol::INTEGER))
-						tokenPart->type = TokenPart::INTEGER;
+					if (StringUtils::is0To9Digit(tokenPart->str->at(0))
+							&& tokenPart->str->find(UTF('.')) == String::npos && tokenPart->str->find(UTF('e')) == String::npos
+							&& tokenPart->str->find(UTF('E')) == String::npos) tokenPart->type = TokenPart::INTEGER;
 					else tokenPart->type = TokenPart::DECIMAL;
 				}
 
@@ -4657,52 +4709,10 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Check all available positions in the expression tokens list
 		 */
 		do {
-			/*
-			 * 1st step
-			 *
-			 * compare with the regExp for real numbers
-			 * find the longest word which could be matched
-			 * with the given regExp
-			 */
+			/* Scan once, and never rescan a suffix whose left boundary rejects it. */
 			int numEnd = -1;
-			/*
-			 * Number has to start with digit or dot
-			 */
-			firstChar = newExpressionString->at(pos);
-			if (firstChar == UTF('+') ||
-			    firstChar == UTF('-') ||
-			    firstChar == UTF('.') ||
-			    StringUtils::is0To9Digit(firstChar)) {
-				for (int i = pos; i < newExpressionString->length(); i++) {
-					/*
-					 * Escaping if encountering char that can not
-					 * be included in number
-					 */
-					if (i > pos) {
-						c = newExpressionString->at(i);
-						if (c != UTF('+') &&
-						    c != UTF('-') &&
-						    !StringUtils::is0To9Digit(c) &&
-						    c != UTF('.') &&
-						    c != UTF('e') &&
-						    c != UTF('E'))
-							break;
-					}
-					/*
-					 * Checking if substring represents number
-					 */
-					StringPtr str = S(newExpressionString->substr(pos, i + 1 - pos));
-					if (StringUtils::regexMatch(str, ParserSymbol::DECIMAL_REG_EXP)) numEnd = i;
-				}
-			}
-			/*
-			 * If number was found
-			 */
-			if (numEnd >= 0)
-				if (pos > 0) {
-					precedingChar = newExpressionString->at(pos - 1);
-					if (!StringUtils::canBeSeparatingChar(precedingChar)) numEnd = -1;
-				}
+			if (pos == 0 || StringUtils::canBeSeparatingChar(newExpressionString->at(pos - 1)))
+				numEnd = findDecimalLiteralEnd(newExpressionString, pos, false);
 			if (numEnd >= 0)
 				if (numEnd < newExpressionString->length() - 1) {
 					followingChar = newExpressionString->at(numEnd + 1);
