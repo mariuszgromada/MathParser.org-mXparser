@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/StringUtils.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/StringModel.hpp"
@@ -227,6 +228,7 @@
 #include <sstream>
 #include <regex>
 #include <string>
+#include <stdexcept>
 
 #include <cwctype>
 #include <cstdio>
@@ -302,6 +304,8 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE StringPtr StringUtils::surroundSquareBrackets(const StringPtr &str) {
+		if (str == nullptr)
+			throw std::invalid_argument("Native StringUtils.surroundSquareBrackets requires non-null text");
 		return StringInvariant::LEFT_SQUARE_BRACKET + str + StringInvariant::RIGHT_SQUARE_BRACKET;
 	}
 
@@ -365,6 +369,8 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE StringPtr StringUtils::trim(const StringPtr &str) {
+		if (str == nullptr)
+			throw std::invalid_argument("Native StringUtils.trim requires non-null text");
 		return S(lTrim(rTrim(*str)));
 	}
 
@@ -597,6 +603,8 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE void StringUtils::consolePrintln() {
+		if (StringInvariant::NEW_LINE == nullptr)
+			throw std::invalid_argument("Native StringUtils.consolePrintln requires non-null NEW_LINE");
 		std::wprintf(StringInvariant::NEW_LINE->c_str());
 	}
 
@@ -605,6 +613,8 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE void StringUtils::errorPrintln() {
+		if (StringInvariant::NEW_LINE == nullptr)
+			throw std::invalid_argument("Native StringUtils.errorPrintln requires non-null NEW_LINE");
 		std::fwprintf(stderr, StringInvariant::NEW_LINE->c_str());
 	}
 
@@ -613,17 +623,23 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE StringPtr StringUtils::cleanForHtml(const StringPtr &text) {
+		if (text == nullptr)
+			throw std::invalid_argument("Native StringUtils.cleanForHtml requires non-null text");
 		StringPtr r1 = replace(text, UTF("&"), UTF("&amp;"));
 		StringPtr r2 = replace(r1, UTF("<"), UTF("&lt;"));
 		return replace(r2, UTF(">"), UTF("&gt;"));
 	}
 
 	API_VISIBLE StringPtr StringUtils::cleanForMarkdown(const StringPtr &text) {
+		if (text == nullptr)
+			throw std::invalid_argument("Native StringUtils.cleanForMarkdown requires non-null text");
 		StringPtr r1 = replace(text, UTF("\\"), UTF("\\\\"));
 		return replace(r1, UTF("|"), UTF("\\|"));
 	}
 
 	API_VISIBLE StringPtr StringUtils::cleanForJson(const StringPtr &text) {
+		if (text == nullptr)
+			throw std::invalid_argument("Native StringUtils.cleanForJson requires non-null text");
 		return replace(text, UTF("\\"), UTF("\\\\"));
 	}
 
@@ -687,7 +703,7 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	 * @return         Hex StringPtr (i.e. FF23)
 	 */
 	API_VISIBLE StringPtr StringUtils::numberToHexString(double number) {
-		return numberToHexString(CAST_LONG(number));
+		return numberToHexString(native_numeric_detail::javaLongCast(number));
 	}
 
 	/**
@@ -788,7 +804,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE void StringUtils::stringBuilderPartsAppend(const StringBuilderPtr &stringBuilder, const ListPtr<StringPtr> &partsToAppend) {
+		if (partsToAppend == nullptr)
+			throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppend requires a non-null parts list");
 		for (const StringPtr& part : *partsToAppend) {
+			if (stringBuilder == nullptr)
+				throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppend requires a non-null builder for nonempty parts");
 			stringBuilder->append(part);
 		}
 	}
@@ -798,7 +818,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	}
 
 	API_VISIBLE void StringUtils::stringBuilderLinesAppend(const StringBuilderPtr &stringBuilder, const ListPtr<StringPtr> &linesToAppend) {
+		if (linesToAppend == nullptr)
+			throw std::invalid_argument("Native StringUtils.stringBuilderLinesAppend requires a non-null parts list");
 		for (const StringPtr& line : *linesToAppend) {
+			if (stringBuilder == nullptr)
+				throw std::invalid_argument("Native StringUtils.stringBuilderLinesAppend requires a non-null builder for nonempty parts");
 			stringBuilder->append(line);
 			stringBuilder->append(StringInvariant::NEW_LINE);
 		}
@@ -813,8 +837,12 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 	                                              bool clearForMarkdown, bool clearForJson,
 	                                              const StringBuilderPtr &stringBuilder,
 	                                              const ListPtr<StringPtr> &partsToAppend) {
+		if (partsToAppend == nullptr)
+			throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppendDelimited requires a non-null parts list");
 		int n = 0;
 		for (const StringPtr& part : *partsToAppend) {
+			if (stringBuilder == nullptr)
+				throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppendDelimited requires a non-null builder for nonempty parts");
 			n++;
 			if (n > 1) stringBuilder->append(delimiter);
 			stringBuilder->append(partTagLeft);
@@ -852,10 +880,18 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 		bool tagBefore = rowBeforeTag == nullptr || !rowBeforeTag->empty();
 		bool tagAfter = rowAfterTag == nullptr || !rowAfterTag->empty();
 
-		if (tagBefore) stringBuilder->append(rowBeforeTag);
+		if (tagBefore) {
+			if (stringBuilder == nullptr)
+				throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppendDelimitedRow requires a non-null builder for a row tag");
+			stringBuilder->append(rowBeforeTag);
+		}
 		stringBuilderPartsAppendDelimited(partTagLeft, partTagRight, delimiter, clearForHtml, clearForMarkdown,
 										  clearForJson, stringBuilder, partsToAppend);
-		if (tagAfter) stringBuilder->append(rowAfterTag);
+		if (tagAfter) {
+			if (stringBuilder == nullptr)
+				throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppendDelimitedRow requires a non-null builder for a row tag");
+			stringBuilder->append(rowAfterTag);
+		}
 	}
 
 	API_VISIBLE void StringUtils::stringBuilderPartsAppendDelimitedRow(const StringPtr &partTagLeft, const StringPtr &partTagRight,

@@ -223,6 +223,7 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
 #include "org/mariuszgromada/math/mxparser/StringModel.hpp"
+#include "org/mariuszgromada/math/mxparser/DeserializationCleanup.hpp"
 #include <cereal/archives/binary.hpp>
 #include <filesystem>
 #include <fstream>
@@ -451,12 +452,18 @@ namespace org::mariuszgromada::math::mxparser {
 			try {
 				StringStreamPtr ss = new_StringStream();
 				*ss << *data;
-				cereal::BinaryInputArchive iarchive(*ss);
+				serialization_detail::NativeDeserializationArchive iarchive(*ss);
 				Ptr<SerializableType> deserializedObject;
-				iarchive(deserializedObject);
-				lastOperationWasSuccessful = true;
-				logLastOperationMessage(StringModel::STRING_RESOURCES->DESERIALIZATION_PERFORMED + StringInvariant::SPACE + getSimpleName<SerializableType>(deserializedObject));
-				return deserializedObject;
+				try {
+					iarchive(deserializedObject);
+					lastOperationWasSuccessful = true;
+					logLastOperationMessage(StringModel::STRING_RESOURCES->DESERIALIZATION_PERFORMED + StringInvariant::SPACE + getSimpleName<SerializableType>(deserializedObject));
+					return deserializedObject;
+				} catch (...) {
+					// Roll back only this failed load, while cereal still owns its nodes.
+					iarchive.rollback();
+					throw;
+				}
 			} catch (const cereal::Exception& e) {
 				logLastOperationMessage(StringModel::STRING_RESOURCES->EXCEPTION + StringInvariant::COLON_SPACE + getSimpleName(e) + StringInvariant::COLON_SPACE + e.what());
 				return nullptr;
@@ -594,6 +601,9 @@ namespace org::mariuszgromada::math::mxparser {
 		}
 
 	private:
+		friend class serialization_detail::NativeDeserializationArchive;
+		static void discardFailedNode(const PrimitiveElementPtr &node) noexcept;
+
 
 		// ***********************************************************
 

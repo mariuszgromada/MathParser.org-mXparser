@@ -269,7 +269,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			this->columns = 1;
 			sizet = rows;
 			length = CAST_INT(sizet);
-			data = std::shared_ptr<T[]>(new T[sizet]);
+			data = std::shared_ptr<T[]>(new T[sizet]());
 		}
 
 		explicit Array(size_t rows, size_t columns) {
@@ -277,7 +277,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			this->columns = CAST_INT(columns);
 			sizet = rows * columns;
 			length = CAST_INT(sizet);
-			data = std::shared_ptr<T[]>(new T[sizet]);
+			data = std::shared_ptr<T[]>(new T[sizet]());
 		}
 
 		T& operator()(size_t row) {

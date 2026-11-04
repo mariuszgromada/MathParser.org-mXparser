@@ -241,7 +241,8 @@ add_executable(UnitTests ExpressionTest.cpp
 		PerformanceTest.cpp
 		ApiTest.cpp
 		TestsRun.cpp
-		UnicodeTest.cpp)
+		UnicodeTest.cpp
+		OwnershipTest.cpp)
 
 
 if (UNIX)

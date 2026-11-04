@@ -474,7 +474,7 @@ namespace org::mariuszgromada::math::mxparser {
 		explicit RecursiveArgument(const String &argumentDefinitionString, PrimitiveElements &&... elements) : Argument(
 			true, S(argumentDefinitionString)) {
 			iAmFullyConstructed = false;
-			executeConstrutorConstE(FORWARD_PRIMITIVE(elements)...);
+			executeConstrutorE(FORWARD_PRIMITIVE(elements)...);
 			iAmFullyConstructed = true;
 		}
 

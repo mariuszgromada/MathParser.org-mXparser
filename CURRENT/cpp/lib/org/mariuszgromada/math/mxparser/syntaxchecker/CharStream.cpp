@@ -276,8 +276,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 
 		available = bufsize = buffersize;
 		buffer = new JJChar[buffersize];
-		bufline = new int[buffersize];
-		bufcolumn = new int[buffersize];
+		bufline = new int[buffersize]{};
+		bufcolumn = new int[buffersize]{};
 
 		column = startcolumn - 1;
 		inputStream = input_stream;
@@ -292,6 +292,9 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		delete[] buffer;
 		delete[] bufline;
 		delete[] bufcolumn;
+		buffer = nullptr;
+		bufline = nullptr;
+		bufcolumn = nullptr;
 	}
 
 	void CharStream::adjustBeginLineColumn(int newLine, int newCol) {
@@ -307,14 +310,15 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		int i = 0, j = 0, k = 0;
 		int nextColDiff = 0, columnDiff = 0;
 
-		while (i < len && bufline[j = start % bufsize] ==
-		       bufline[k = (start + 1) % bufsize]) {
+		while (i < len) {
+			j = start % bufsize;
+			k = (++start) % bufsize;
+			if (bufline[j] != bufline[k]) break;
 			bufline[j] = newLine;
 			nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];
 			bufcolumn[j] = newCol + columnDiff;
 			columnDiff = nextColDiff;
 			i++;
-			start++;
 		}
 
 		if (i < len) {
@@ -322,11 +326,12 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 			bufcolumn[j] = newCol + columnDiff;
 
 			while (i++ < len) {
-				if (bufline[j = start % bufsize] != bufline[(start + 1) % bufsize])
+				j = start % bufsize;
+				++start;
+				if (bufline[j] != bufline[start % bufsize])
 					bufline[j] = newLine++;
 				else
 					bufline[j] = newLine;
-				start++;
 			}
 		}
 
@@ -336,8 +341,8 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 
 	void CharStream::ExpandBuff(bool wrapAround) {
 		auto *newbuffer = new JJChar[bufsize + 2048];
-		int *newbufline = new int[bufsize + 2048];
-		int *newbufcolumn = new int[bufsize + 2048];
+		int *newbufline = new int[bufsize + 2048]{};
+		int *newbufcolumn = new int[bufsize + 2048]{};
 
 		if (wrapAround) {
 			ArrayCopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);

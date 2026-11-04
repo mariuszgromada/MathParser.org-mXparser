@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/Expression.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Argument.hpp"
@@ -262,7 +263,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::FREE_ARGUMENT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::FREE_ARGUMENT, pos);
-		const ArgumentPtr& argument = argumentsList->getRef(tokensList->getRef(pos)->tokenId);
+		const ArgumentPtr& argument = argumentsList->get(tokensList->getRef(pos)->tokenId);
 		bool argumentVerboseMode = argument->getVerboseMode();
 		if (verboseMode)
 			argument->setVerboseMode();
@@ -278,7 +279,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::DEPENDENT_ARGUMENT(int pos, const CalcStepsRegisterPtr &calcStepsRegister) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::DEPENDENT_ARGUMENT, pos);
-		const ArgumentPtr& argument = argumentsList->getRef(tokensList->getRef(pos)->tokenId);
+		const ArgumentPtr& argument = argumentsList->get(tokensList->getRef(pos)->tokenId);
 		bool argumentVerboseMode = argument->getVerboseMode();
 		if (verboseMode)
 			argument->setVerboseMode();
@@ -323,7 +324,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::USER_FUNCTION(int pos, const CalcStepsRegisterPtr &calcStepsRegister) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::USER_FUNCTION, pos);
 		FunctionPtr function;
-		const FunctionPtr& fun = functionsList->getRef(tokensList->getRef(pos)->tokenId);
+		const FunctionPtr& fun = functionsList->get(tokensList->getRef(pos)->tokenId);
 		if (fun->getRecursiveMode()) {
 			function = fun->clone();
 			function->functionExpression->recursionCallsCounter = recursionCallsCounter;
@@ -403,7 +404,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::RECURSIVE_ARGUMENT(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::RECURSIVE_ARGUMENT, pos);
 		double index = tokensList->getRef(pos + 1)->tokenValue;
-		RecursiveArgumentPtr argument = PtrCast<RecursiveArgument, Argument>(argumentsList->getRef(tokensList->getRef(pos)->tokenId));
+		RecursiveArgumentPtr argument = PtrCast<RecursiveArgument, Argument>(argumentsList->get(tokensList->getRef(pos)->tokenId));
 		bool argumentVerboseMode = argument->getVerboseMode();
 		if (verboseMode)
 			argument->setVerboseMode();
@@ -834,7 +835,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::BITWISE_COMPL(int pos) {
 		if (!isFullyCompiled) registerCompiledElement(CompiledElement::ToCall::BITWISE_COMPL, pos);
-		Long a = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		setToNumber(pos, CAST_DOUBLE(~a));
 		tokensList->remove(pos + 1);
 	}
@@ -845,8 +846,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_AND(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		opSetDecreaseRemove(pos, CAST_DOUBLE(a & b));
 	}
 
@@ -856,8 +857,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_OR(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		opSetDecreaseRemove(pos, CAST_DOUBLE(a | b));
 	}
 
@@ -867,8 +868,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_XOR(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		opSetDecreaseRemove(pos, CAST_DOUBLE(a ^ b));
 	}
 
@@ -878,8 +879,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_NAND(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		opSetDecreaseRemove(pos, CAST_DOUBLE(~(a & b)));
 	}
 
@@ -889,8 +890,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_NOR(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		opSetDecreaseRemove(pos, CAST_DOUBLE(~(a | b)));
 	}
 
@@ -900,8 +901,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_XNOR(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
 		opSetDecreaseRemove(pos, CAST_DOUBLE(~(a ^ b)));
 	}
 
@@ -911,9 +912,9 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_LEFT_SHIFT(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
-		opSetDecreaseRemove(pos, CAST_DOUBLE(a << b));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
+		opSetDecreaseRemove(pos, CAST_DOUBLE(native_numeric_detail::nativeLeftShift(a, b)));
 	}
 
 	/**
@@ -922,9 +923,9 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      pos                 the token position
 	 */
 	API_VISIBLE void Expression::BITWISE_RIGHT_SHIFT(int pos) {
-		Long a = CAST_LONG(getTokenValue(pos - 1));
-		Long b = CAST_LONG(getTokenValue(pos + 1));
-		opSetDecreaseRemove(pos, CAST_DOUBLE(a >> b));
+		Long a = native_numeric_detail::javaLongCast(getTokenValue(pos - 1));
+		Long b = native_numeric_detail::javaLongCast(getTokenValue(pos + 1));
+		opSetDecreaseRemove(pos, CAST_DOUBLE(native_numeric_detail::nativeRightShift(a, b)));
 	}
 
 	/**
@@ -1623,10 +1624,10 @@ namespace org::mariuszgromada::math::mxparser {
 			double x = getTokenValue(pos + 1);
 			int npar = UDFVariadicParamsAtRunTime->size();
 			if (!Double::isNaN(x) && x != Double::POSITIVE_INFINITY && x != Double::NEGATIVE_INFINITY) {
-				int i = CAST_INT(MathFunctions::integerPart(x));
+				int i = native_numeric_detail::javaIntCast(MathFunctions::integerPart(x));
 				if (i == 0) {
 					value = npar;
-				} else if (Math::abs(i) <= npar) {
+				} else if (i >= -npar && i <= npar) {
 					if (i >= 1) {
 						value = UDFVariadicParamsAtRunTime->get(i - 1);
 					} else if (i <= -1) {
@@ -1872,7 +1873,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Expression::ROUND(int pos) {
 		double value = getTokenValue(pos + 1);
-		int places = CAST_INT(getTokenValue(pos + 2));
+		int places = native_numeric_detail::javaIntCast(getTokenValue(pos + 2));
 		f2SetDecreaseRemove(pos, MathFunctions::round(value, places));
 	}
 
@@ -2663,7 +2664,7 @@ namespace org::mariuszgromada::math::mxparser {
 			                                           functionsList, constantsList, DISABLE_ROUNDING, UDFExpression,
 			                                           UDFVariadicParamsAtRunTime);
 			eps = epsExpr->calculate();
-			maxSteps = CAST_INT(Math::round(maxStepsExp->calculate()));
+			maxSteps = native_numeric_detail::roundedNativeInt(Math::round(maxStepsExp->calculate()));
 		}
 		if (derivativeType == Calculus::GENERAL_DERIVATIVE) {
 			double general = Calculus::derivative(funExp, x->argument, x0, Calculus::GENERAL_DERIVATIVE, eps, maxSteps);
@@ -2792,7 +2793,7 @@ namespace org::mariuszgromada::math::mxparser {
 			                                           functionsList, constantsList, DISABLE_ROUNDING, UDFExpression,
 			                                           UDFVariadicParamsAtRunTime);
 			eps = epsExpr->calculate();
-			maxSteps = CAST_INT(Math::round(maxStepsExp->calculate()));
+			maxSteps = native_numeric_detail::roundedNativeInt(Math::round(maxStepsExp->calculate()));
 		}
 		if (derivativeType == Calculus::GENERAL_DERIVATIVE) {
 			double general = Calculus::derivative(funExp, x->argument, x0, Calculus::GENERAL_DERIVATIVE, eps, maxSteps);

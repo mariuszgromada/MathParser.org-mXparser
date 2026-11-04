@@ -323,7 +323,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		static long double atan(long double x) { return std::atan(x); }
 		static long double tanh(long double x) { return std::tanh(x); }
 
-		static double nextUp(double x) { return std::nextafter(0.0, Double::POSITIVE_INFINITY); }
+		static double nextUp(double x) { return std::nextafter(x, Double::POSITIVE_INFINITY); }
 
 		static double mod(double a, double b) { return std::fmod(a, b); }
 		static double max(double a, double b) { return std::fmax(a, b); }

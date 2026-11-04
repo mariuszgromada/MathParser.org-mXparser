@@ -220,6 +220,9 @@
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/wrapper/Integer.hpp"
 
+#include <limits>
+#include <stdexcept>
+
 namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	using namespace org::mariuszgromada::math::mxparser::mathcollection;
@@ -236,6 +239,8 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	}
 
 	API_VISIBLE Long Random::nextInt(Long bound) {
+		if (bound == 0 || bound == std::numeric_limits<Long>::min())
+			throw std::invalid_argument("Random.nextInt requires a nonzero bound with a representable signed64 absolute value");
 		Long boundToApply;
 		if (bound >= 0) boundToApply = bound;
 		else boundToApply = -bound;

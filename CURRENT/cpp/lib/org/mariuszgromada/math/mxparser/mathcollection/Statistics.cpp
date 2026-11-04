@@ -227,6 +227,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/Double.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 
+
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
 	using namespace org::mariuszgromada::math::mxparser;
@@ -333,6 +334,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Statistics::avg(const ArrayPtr<double> &numbers) {
+		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
@@ -356,6 +358,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Statistics::var(const ArrayPtr<double> &numbers) {
+		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) {
@@ -383,6 +386,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 *             otherwise returns Double::NaN.
 	 */
 	API_VISIBLE double Statistics::std(const ArrayPtr<double> &numbers) {
+		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) {
@@ -398,6 +402,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return          Sample median, if table was empty or nullptr then Double::NaN is returned.
 	 */
 	API_VISIBLE double Statistics::median(const ArrayPtr<double> &numbers) {
+		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);
@@ -422,6 +427,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return          Sample median, if table was empty or nullptr then Double::NaN is returned.
 	 */
 	API_VISIBLE double Statistics::mode(const ArrayPtr<double> &numbers) {
+		if (numbers == nullptr) return Double::NaN;
 		if (numbers->data == nullptr) return Double::NaN;
 		if (numbers->length == 0) return Double::NaN;
 		if (numbers->length == 1) return (*numbers)(0);

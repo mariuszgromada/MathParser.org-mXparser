@@ -238,6 +238,7 @@ namespace org::mariuszgromada::math::mxparser {
 	class API_VISIBLE Argument : public PrimitiveElement {
 
 		ADD_FRIENDS_OF(Argument);
+		friend struct OwnershipTestAccess;
 
 	private:
 
@@ -249,6 +250,11 @@ namespace org::mariuszgromada::math::mxparser {
 		void analyzeArgumentDefinitionString(bool isRecursive, bool forceDependent, const StringPtr &argumentDefinitionString);
 
 	public:
+		Argument(const Argument& other) noexcept;
+		Argument(Argument&& other) noexcept;
+		Argument& operator=(const Argument& other) noexcept;
+		Argument& operator=(Argument&& other) noexcept;
+
 
 		// ***********************************************************
 		// ********************** CONSTRUCTORS ***********************
@@ -990,6 +996,9 @@ namespace org::mariuszgromada::math::mxparser {
 		static StringPtr buildErrorMessageInvalidArgumentDefinition(const StringPtr &argumentDefinitionString, const StringPtr &argumentDefinitionExamples);
 		static StringPtr buildErrorMessageInvalidArgumentDefinition(const StringPtr &argumentDefinitionString);
 		void registerNoSyntaxErrorInDefinition();
+		void restoreSelfReferenceOwnership();
+		void refreshSelfReferencePin();
+		std::shared_ptr<wrapper::List<ArgumentPtr>::SelfPin> shallowCloneSelfOwnerKeepAlive;
 		void registerSyntaxErrorInDefinition(const StringPtr &errorMessage);
 
 		// package:
@@ -1008,7 +1017,7 @@ namespace org::mariuszgromada::math::mxparser {
 		virtual ArgumentPtr cloneForThreadSafeInternal(const CloneCachePtr &cloneCache);
 		virtual ArgumentPtr cloneForThreadSafeInternal(const ExpressionPtr &relatedExpressionThatInitiatedClone, const CloneCachePtr &cloneCache);
 		
-		SERIALIZE_DERIVED(2, PrimitiveElement,
+		SERIALIZE_DERIVED_POST_LOAD(2, PrimitiveElement,
 			(
 				NVP(argumentName)
 				,NVP(argumentExpression)
@@ -1022,7 +1031,7 @@ namespace org::mariuszgromada::math::mxparser {
 				,NVP(errorMessageDefinition)
 				,NVP(syntaxStatusDefinition)
 				,NVP(n)
-			)
+			), restoreSelfReferenceOwnership()
 		);
 
 

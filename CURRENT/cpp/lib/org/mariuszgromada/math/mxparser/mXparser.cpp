@@ -237,6 +237,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/SystemUtils.hpp"
 #include <chrono>
 #include <mutex>
+#include <stdexcept>
 #include <thread>
 
 namespace org::mariuszgromada::math::mxparser {
@@ -1710,6 +1711,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE void mXparser::consolePrintSettings(const StringPtr &prefix) {
+		if (prefix == nullptr)
+			throw std::invalid_argument("Native mXparser.consolePrintSettings requires non-null prefix");
 		mXparser::consolePrintln(prefix + UTF("mXparser::VERSION = ") + VERSION);
 		mXparser::consolePrintln(prefix + UTF("mXparser::BUIT_FOR = ") + BUIT_FOR);
 		mXparser::consolePrintln(

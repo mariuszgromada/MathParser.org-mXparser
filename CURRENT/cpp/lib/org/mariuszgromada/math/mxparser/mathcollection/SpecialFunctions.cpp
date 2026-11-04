@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"
@@ -632,7 +633,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double xabs = MathFunctions::abs(x);
 		double xint = Math::round(xabs);
 		if (MathFunctions::abs(xabs - xint) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) {
-			Long n = CAST_LONG(xint);
+			Long n = native_numeric_detail::checkedNativeLong(xint, "SpecialFunctions.gamma");
 			if (x < 0) n = -n;
 			return gammaInt(n);
 		}
@@ -681,9 +682,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x == Double::NEGATIVE_INFINITY) return Double::NaN;
 		if (MathFunctions::isInteger(x)) {
 			if (x >= 0)
-				return Math::log(Math::abs(gammaInt(CAST_LONG((Math::round(x))))));
+				return Math::log(Math::abs(gammaInt(native_numeric_detail::checkedNativeLong(Math::round(x), "SpecialFunctions.logGamma"))));
 			else
-				return Math::log(Math::abs(gammaInt(-CAST_LONG((Math::round(-x))))));
+				return Math::log(Math::abs(gammaInt(-native_numeric_detail::checkedNativeLong(Math::round(-x), "SpecialFunctions.gamma integer argument"))));
 		}
 		double p, q, w, z;
 		if (x < -34.0) {
@@ -739,7 +740,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (x == Double::POSITIVE_INFINITY) return 1;
 		if (x == Double::NEGATIVE_INFINITY) return Double::NaN;
 		if (x > 0) return 1;
-		if (MathFunctions::isInteger(x)) return MathFunctions::sgn(gammaInt(-CAST_LONG((Math::round(-x)))));
+		if (MathFunctions::isInteger(x)) return MathFunctions::sgn(gammaInt(-native_numeric_detail::checkedNativeLong(Math::round(-x), "SpecialFunctions.gamma integer argument")));
 		x = -x;
 		double fx = Math::floor(x);
 		double div2remainder = Math::floor(Math::mod(fx, 2));
@@ -765,8 +766,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		if (x < 0) return Double::NaN;
 
-		if (s < 0)
-			return regularizedGammaLowerP(s + 1, x) + (Math::pow(x, s) * Math::exp(-x)) / (s * gamma(s));
+		if (s < 0) {
+			double sNext = s + 1;
+			if (sNext == s) return Double::NaN;
+			return regularizedGammaLowerP(sNext, x) + (Math::pow(x, s) * Math::exp(-x)) / (s * gamma(s));
+		}
 
 		const double epsilon = 0.000000000000001;
 		const double bigNumber = 4503599627370496.0;
@@ -922,8 +926,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 
 		if (x < 0) return Double::NaN;
 
-		if (s < 0)
-			return regularizedGammaUpperQ(s + 1, x) - (Math::pow(x, s) * Math::exp(-x)) / (s * gamma(s));
+		if (s < 0) {
+			double sNext = s + 1;
+			if (sNext == s) return Double::NaN;
+			return regularizedGammaUpperQ(sNext, x) - (Math::pow(x, s) * Math::exp(-x)) / (s * gamma(s));
+		}
 
 		double ax = s * Math::log(x) - x - logGamma(s);
 		if (ax < -709.78271289338399) {
@@ -1093,8 +1100,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		bool aIsInt = MathFunctions::isInteger(a);
 		bool bIsInt = MathFunctions::isInteger(b);
 		Long aInt = 0, bInt = 0;
-		if (aIsInt) aInt = CAST_LONG(MathFunctions::integerPart(a));
-		if (bIsInt) bInt = CAST_LONG(MathFunctions::integerPart(b));
+		if (aIsInt) aInt = native_numeric_detail::checkedNativeLong(MathFunctions::integerPart(a), "SpecialFunctions.incompleteBeta");
+		if (bIsInt) bInt = native_numeric_detail::checkedNativeLong(MathFunctions::integerPart(b), "SpecialFunctions.incompleteBeta");
 
 		Long n;
 		if (aEq0 && bEq0) return Math::log(x / (1 - x));

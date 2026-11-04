@@ -338,7 +338,7 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		retval += expected.toString();
 		return retval;
 #endif
-		return (JJChar *) "Parse exception";
+		return L"Parse exception";
 	}
 
 	/**

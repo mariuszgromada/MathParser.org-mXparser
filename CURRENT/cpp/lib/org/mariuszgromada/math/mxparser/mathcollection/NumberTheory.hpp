@@ -453,7 +453,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		static double convOthBase2Decimal(const Char* numberLiteral) { return convOthBase2Decimal(S(numberLiteral)); }
 		static double convOthBase2Decimal(const char* numberLiteral) { return convOthBase2Decimal(S(numberLiteral)); }
 		static double convOthBase2Decimal(int numeralSystemBase, const ListPtr<int> &digits) {
-			const ArrayPtr<int> digitsArray = Array<int>::toArray(digits);
+			const ArrayPtr<int> digitsArray = digits == nullptr ? nullptr : Array<int>::toArray(digits);
 			return convOthBase2Decimal(numeralSystemBase, digitsArray);
 		}
 		static double convOthBase2Decimal(int numeralSystemBase, ListPtr<int> &digits) { return convOthBase2Decimal(numeralSystemBase, static_cast<const ListPtr<int> &>(digits)); }
@@ -467,7 +467,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return convOthBase2Decimal(numeralSystemBase, vp.paramsDouble);
 		}
 		static double convOthBase2Decimal(double numeralSystemBase, const ListPtr<double> &digits) {
-			ArrayPtr<double> arrayDigits = Array<double>::toArray(digits);
+			ArrayPtr<double> arrayDigits = digits == nullptr ? nullptr : Array<double>::toArray(digits);
 			return convOthBase2Decimal(numeralSystemBase, arrayDigits);
 		}
 		static double convOthBase2Decimal(double numeralSystemBase, ListPtr<double> &digits) { return convOthBase2Decimal(numeralSystemBase, CONST_LIST_DOUBLE(digits)); }

@@ -226,6 +226,7 @@
 #include "org/mariuszgromada/math/mxparser/StringModel.hpp"
 #include "org/mariuszgromada/math/mxparser/StringUtils.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
+#include "org/mariuszgromada/math/mxparser/wrapper/Integer.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/StringBuilder.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/VariadicProcessor.hpp"
 
@@ -480,11 +481,15 @@ namespace org::mariuszgromada::math::mxparser {
 
 		template<typename... Integers>
 		static double convOthBase2Decimal(int numeralSystemBase, Integers &&... digits) {
-			VariadicProcessorString vp;
+			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Integers>(digits)...);
 			ListPtr<int> digitsInt = std::make_shared<List<int> >();;
-			for (double d : *vp.paramsDouble)
+			for (double d : *vp.paramsDouble) {
+				if (Double::isNaN(d) || d <= CAST_DOUBLE(Integer::MIN_VALUE) - 1.0
+					|| d >= CAST_DOUBLE(Integer::MAX_VALUE) + 1.0)
+					return Double::NaN;
 				digitsInt->add(CAST_INT(d));
+			}
 
 			return convOthBase2Decimal(numeralSystemBase, digitsInt);
 		}
@@ -493,7 +498,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 		template<typename... Integers>
 		static double convOthBase2Decimal(double numeralSystemBase, Integers &&... digits) {
-			VariadicProcessorString vp;
+			VariadicProcessorDouble vp;
 			vp.processArgs(std::forward<Integers>(digits)...);
 			return convOthBase2Decimal(numeralSystemBase, vp.paramsDouble);
 		}

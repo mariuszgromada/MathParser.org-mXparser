@@ -252,6 +252,17 @@
 		; \
 	}
 
+// Record a newly loaded native node before any owning fields are loaded.
+#define SERIALIZE_PRE_LOAD(SERIAL_CLASS_ID, ELEMENTS, PRE_LOAD) \
+	static inline const int serialClassID = SERIAL_CLASS_ID; \
+	static inline const Long serialVersionUID = getSerialVersionUID(serialClassID); \
+	friend class cereal::access; \
+	template<class Archive> \
+	void serialize(Archive & archive) { \
+		if constexpr (Archive::is_loading::value) { PRE_LOAD; } \
+		archive ELEMENTS; \
+	}
+
 #define SERIALIZE_EMPTY(SERIAL_CLASS_ID) \
 	bool _internal_serialization_ = true; \
 	static inline const int serialClassID = SERIAL_CLASS_ID; \
@@ -275,6 +286,22 @@
 		; \
 	}
 
+
+
+// Ownership restoration runs for completed and partially failed native loads.
+// Saving uses exactly the existing base/field order and binary representation.
+#define SERIALIZE_DERIVED_POST_LOAD(SERIAL_CLASS_ID, BASE_CLASS, ELEMENTS, POST_LOAD) \
+	static inline const int serialClassID = SERIAL_CLASS_ID; \
+	static inline const Long serialVersionUID = getSerialVersionUID(serialClassID); \
+	friend class cereal::access; \
+	template<class Archive> \
+	void serialize(Archive & archive) { \
+		auto transfer = [&]() { BASE_CLASS::serialize(archive); archive ELEMENTS; }; \
+		if constexpr (Archive::is_loading::value) { \
+			try { transfer(); } catch (...) { POST_LOAD; throw; } \
+			POST_LOAD; \
+		} else { transfer(); } \
+	}
 
 #define VIRTUAL_SERIALIZE \
 	static inline const int serialClassID; \

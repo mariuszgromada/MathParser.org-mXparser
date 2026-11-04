@@ -255,6 +255,24 @@ using namespace org::mariuszgromada::math::mxparser::parsertokens;
 using namespace org::mariuszgromada::math::mxparser::wrapper;
 
 
+TEST_CASE("testBellNumberInputBounds", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	const double bellNumbers[] = {1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975};
+	for (int n = 0; n < 11; n++) {
+		CHECK(MathFunctions::bellNumber(n) == bellNumbers[n]);
+		CHECK(MathFunctions::bellNumber(static_cast<double>(n)) == bellNumbers[n]);
+	}
+	const int oversized[] = {-1, Integer::MIN_VALUE, 46341, 65536, 1305134913, Integer::MAX_VALUE};
+	for (int n : oversized)
+		CHECK(Double::isNaN(MathFunctions::bellNumber(n)));
+	const double invalid[] = {Double::NaN, Double::NEGATIVE_INFINITY, Double::POSITIVE_INFINITY,
+		-Double::MAX_VALUE, Double::MAX_VALUE, -4294967296.0, 4294967296.0,
+		999999.0 * 9999999.0, Integer::MIN_VALUE, Integer::MAX_VALUE};
+	for (double n : invalid)
+		CHECK(Double::isNaN(MathFunctions::bellNumber(n)));
+	CHECK(Double::isNaN(new_Expression("Bell(2^32)")->calculate()));
+}
+
 TEST_CASE("testExpr0000", "[Expression]") {
 	START_TESTS_EXPRESSION;
 	TestCommonTools::testExprSettingsInit();
@@ -24163,4 +24181,151 @@ TEST_CASE("testExpr1440", "[Expression]") {
 		testResult = true;
 	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
 	CHECK(testResult);
+}
+TEST_CASE("testExpr1441", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	string expStr = "sin(0)+cos(0)";
+	TestCommonTools::consolePrintTestExprStart(1441, expStr);
+	ExpressionPtr testExp = new_Expression(expStr);
+	testExp->calculate();
+	double initial = testExp->calculate();
+	mXparser::removeBuiltinTokens("sin");
+	double removedFirst = testExp->calculate();
+	double removedSecond = testExp->calculate();
+	mXparser::unremoveBuiltinTokens("sin");
+	double restoredFirst = testExp->calculate();
+	double value = testExp->calculate();
+	double reg = 1;
+	bool testResult = initial == reg && Double::isNaN(removedFirst)
+	        && Double::isNaN(removedSecond) && restoredFirst == reg && value == reg;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+	mXparser::unremoveAllBuiltinTokens();
+	mXparser::unmodifyAllBuiltinTokens();
+}
+
+TEST_CASE("testExpr1442", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	string expStr = "sin(0)+cos(0)";
+	TestCommonTools::consolePrintTestExprStart(1442, expStr);
+	ExpressionPtr testExp = new_Expression(expStr);
+	testExp->calculate();
+	double initial = testExp->calculate();
+	mXparser::modifyBuiltinToken("sin", "sine");
+	double renamedSin = testExp->calculate();
+	mXparser::unmodifyBuiltinTokens("sine");
+	double restoredSin = testExp->calculate();
+	mXparser::modifyBuiltinToken("cos", "cosine");
+	double renamedCos = testExp->calculate();
+	mXparser::unmodifyAllBuiltinTokens();
+	double value = testExp->calculate();
+	double reg = 1;
+	bool testResult = initial == reg && Double::isNaN(renamedSin)
+	        && restoredSin == reg && Double::isNaN(renamedCos) && value == reg;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+	mXparser::unremoveAllBuiltinTokens();
+	mXparser::unmodifyAllBuiltinTokens();
+}
+
+TEST_CASE("testExpr1443", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	string expStr = "sin(0)+cos(0)";
+	TestCommonTools::consolePrintTestExprStart(1443, expStr);
+	ExpressionPtr testExp = new_Expression(expStr);
+	testExp->calculate();
+	double initial = testExp->calculate();
+	mXparser::removeBuiltinTokens(StringPtr{}, "", "sin", "cos", "sin");
+	double removed = testExp->calculate();
+	mXparser::unremoveBuiltinTokens("sin");
+	double partiallyRestored = testExp->calculate();
+	mXparser::unremoveAllBuiltinTokens();
+	double value = testExp->calculate();
+	double reg = 1;
+	bool testResult = initial == reg && Double::isNaN(removed)
+	        && Double::isNaN(partiallyRestored) && value == reg;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+	mXparser::unremoveAllBuiltinTokens();
+	mXparser::unmodifyAllBuiltinTokens();
+}
+
+TEST_CASE("testExpr1444", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	string expStr = "f(2)";
+	TestCommonTools::consolePrintTestExprStart(1444, expStr);
+	const StringPtr argumentDefinition = S(UTF("a=sin(0)+1"));
+	ArgumentPtr a = new_Argument(argumentDefinition, true);
+	const StringPtr functionDefinition = S(UTF("f(t)=a+t"));
+	FunctionPtr f = new_Function(functionDefinition);
+	f->addDefinitions(a);
+	CHECK(a->getArgumentType() == Argument::DEPENDENT_ARGUMENT);
+	CHECK(f->getParametersNumber() == 1);
+	ExpressionPtr testExp = new_Expression(expStr, f);
+	testExp->calculate();
+	double initial = testExp->calculate();
+	mXparser::removeBuiltinTokens("sin");
+	double removed = testExp->calculate();
+	mXparser::unremoveAllBuiltinTokens();
+	double value = testExp->calculate();
+	double reg = 3;
+	bool testResult = initial == reg && Double::isNaN(removed) && value == reg;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+	mXparser::unremoveAllBuiltinTokens();
+	mXparser::unmodifyAllBuiltinTokens();
+}
+
+TEST_CASE("testExpr1445", "[Expression]") {
+	TestCommonTools::testExprSettingsInit();
+	string expStr = "sin(0)+x";
+	TestCommonTools::consolePrintTestExprStart(1445, expStr);
+	ArgumentPtr x = new_Argument("x", 0);
+	ExpressionPtr testExp = new_Expression(expStr, x);
+	testExp->calculate();
+	bool testResult = true;
+	for (int i = 0; i < 16; i++) {
+	    x->setArgumentValue(i);
+	    if (testExp->calculate() != i) testResult = false;
+	}
+	mXparser::removeBuiltinTokens("sin");
+	if (!Double::isNaN(testExp->calculate())) testResult = false;
+	mXparser::unremoveBuiltinTokens("sin");
+	for (int i = 16; i < 32; i++) {
+	    x->setArgumentValue(i);
+	    if (testExp->calculate() != i) testResult = false;
+	}
+	double value = testExp->calculate();
+	double reg = 31;
+	testResult = testResult && value == reg;
+	TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+	CHECK(testResult);
+	mXparser::unremoveAllBuiltinTokens();
+	mXparser::unmodifyAllBuiltinTokens();
+}
+
+TEST_CASE("testExpr1446", "[Expression]") {
+    TestCommonTools::testExprSettingsInit();
+    string expStr = "Internal prevalidated tokens must not be tokenized again";
+    TestCommonTools::consolePrintTestExprStart(1446, expStr);
+    const StringPtr tokenSourceText = S(UTF("2+3"));
+    ExpressionPtr tokenSource = new_Expression(tokenSourceText);
+    tokenSource->checkSyntax();
+    const StringPtr description = S(expStr);
+    const ListPtr<TokenPtr> initialTokens = tokenSource->getCopyOfInitialTokens();
+    const ListPtr<ArgumentPtr> arguments = new_List<ArgumentPtr>();
+    const ListPtr<FunctionPtr> functions = new_List<FunctionPtr>();
+    const ListPtr<ConstantPtr> constants = new_List<ConstantPtr>();
+    const ListPtr<double> variadicParameters;
+    using InternalFactory = ExpressionPtr(*)(const StringPtr&, const ListPtr<TokenPtr>&,
+        const ListPtr<ArgumentPtr>&, const ListPtr<FunctionPtr>&, const ListPtr<ConstantPtr>&,
+        bool, bool, const ListPtr<double>&);
+    const InternalFactory makeInternal = static_cast<InternalFactory>(&new_Expression);
+    ExpressionPtr testExp = makeInternal(description, initialTokens, arguments, functions,
+        constants, false, false, variadicParameters);
+    double value = testExp->calculate();
+    double reg = 5;
+    bool testResult = value == reg && testExp->calculate() == reg;
+    TestCommonTools::consolePrintTestExprEnd(value, reg, testResult, testExp);
+    CHECK(testResult);
 }

@@ -291,12 +291,18 @@ namespace org::mariuszgromada::math::mxparser {
 			cloneCacheInThreadSafeClonePostConstructorSync);
 
 		isThreadSafeCloneSyncNeeded = false;
+		expressionToCloneInThreadSafeClonePostConstructorSync.reset();
+		cloneCacheInThreadSafeClonePostConstructorSync.reset();
 	}
 
 	API_VISIBLE void PrimitiveElement::postConstructorSync() {
 		postConstructorRelatedExpressionToPostConstructorSync();
 		postConstructorSelfThisSync();
 		postConstructorThreadSafeCloneSync();
+		if (myTypeId == Function::TYPE_ID)
+			PtrCast<Function>(shared_from_this())->restoreSelfReferenceOwnership();
+		else if (myTypeId == Argument::TYPE_ID)
+			PtrCast<Argument>(shared_from_this())->restoreSelfReferenceOwnership();
 	}
 
 

@@ -242,6 +242,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	class API_VISIBLE Function : public PrimitiveElement {
 		ADD_FRIENDS_OF(Function);
+		friend struct OwnershipTestAccess;
 
 	private:
 		// ***********************************************************
@@ -339,6 +340,11 @@ namespace org::mariuszgromada::math::mxparser {
 				,const ListPtr<ExpressionPtr>& paramsExpression);
 
 	public:
+		Function(const Function& other) noexcept;
+		Function(Function&& other) noexcept;
+		Function& operator=(const Function& other) noexcept;
+		Function& operator=(Function&& other) noexcept;
+
 
 		// ***********************************************************
 		// ********************** CONSTRUCTORS ***********************
@@ -1064,6 +1070,9 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		void registerNoSyntaxErrorInDefinition();
+		void restoreSelfReferenceOwnership();
+		void refreshSelfReferencePin();
+		std::shared_ptr<wrapper::List<FunctionPtr>::SelfPin> sharedBodySelfOwnerKeepAlive;
 		void registerSyntaxErrorInDefinition(const StringPtr &errorMessage);
 
 		// ***********************************************************
@@ -1098,7 +1107,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	private:
 
-		SERIALIZE_DERIVED(3, PrimitiveElement,
+		SERIALIZE_DERIVED_POST_LOAD(3, PrimitiveElement,
 			(
 				NVP(functionName)
 				,NVP(functionExpression)
@@ -1112,7 +1121,7 @@ namespace org::mariuszgromada::math::mxparser {
 				,NVP(thisAlreadyAdded)
 				,NVP(isVariadic)
 				,NVP(computingTime)
-			)
+			), restoreSelfReferenceOwnership()
 		);
 
 	public:

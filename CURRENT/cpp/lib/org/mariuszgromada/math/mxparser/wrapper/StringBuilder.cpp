@@ -220,6 +220,7 @@
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp"
 #include <memory>
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
 
@@ -231,6 +232,8 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	API_VISIBLE StringBuilder::StringBuilder(const StringPtr &str) {
 		buffer = std::make_shared<OSTRINGSTREAM>();
+		if (str == nullptr)
+			throw std::invalid_argument("Native StringBuilder construction requires non-null text");
 		*buffer << *str;
 	}
 
@@ -240,6 +243,8 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	}
 
 	API_VISIBLE void StringBuilder::append(const StringPtr &str) const {
+		if (str == nullptr)
+			throw std::invalid_argument("Native StringBuilder.append requires non-null text");
 		*buffer << *str;
 	}
 
@@ -252,7 +257,9 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	}
 
 	API_VISIBLE void StringBuilder::append(const Char *str) const {
-		*buffer << *str;
+		if (str == nullptr)
+			throw std::invalid_argument("Native StringBuilder pointer append requires non-null text");
+		*buffer << str;
 	}
 
 	API_VISIBLE void StringBuilder::append(const char str) const {
@@ -260,6 +267,8 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	}
 
 	API_VISIBLE void StringBuilder::append(const char *str) const {
+		if (str == nullptr)
+			throw std::invalid_argument("Native StringBuilder pointer append requires non-null text");
 		std::string bstring(str);
 		String wstring(bstring.begin(), bstring.end());
 		*buffer << wstring;

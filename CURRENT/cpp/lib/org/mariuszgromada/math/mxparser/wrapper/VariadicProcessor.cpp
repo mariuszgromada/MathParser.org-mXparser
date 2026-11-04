@@ -528,23 +528,33 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	// String
 	API_VISIBLE void VariadicProcessor::ifElementTypeIs(const String &element) {
+		paramsStringNumberNotNull++;
 		paramsString->add(std::make_shared<String>(element));
 	}
 
 	API_VISIBLE void VariadicProcessor::ifElementTypeIs(const String *element) {
-		if (element == nullptr) paramsStringNumberNull++;
-		else paramsStringNumberNotNull++;
-		paramsString->add(std::make_shared<String>(*element));
+		if (element == nullptr) {
+			paramsStringNumberNull++;
+			paramsString->add(nullptr);
+		} else {
+			paramsStringNumberNotNull++;
+			paramsString->add(std::make_shared<String>(*element));
+		}
 	}
 
 	API_VISIBLE void VariadicProcessor::ifElementTypeIs(const std::string &element) {
+		paramsStringNumberNotNull++;
 		paramsString->add(S(element));
 	}
 
 	API_VISIBLE void VariadicProcessor::ifElementTypeIs(const std::string *element) {
-		if (element == nullptr) paramsStringNumberNull++;
-		else paramsStringNumberNotNull++;
-		paramsString->add(S(*element));
+		if (element == nullptr) {
+			paramsStringNumberNull++;
+			paramsString->add(nullptr);
+		} else {
+			paramsStringNumberNotNull++;
+			paramsString->add(S(*element));
+		}
 	}
 
 	API_VISIBLE void VariadicProcessor::ifElementTypeIs(const Char *element) {

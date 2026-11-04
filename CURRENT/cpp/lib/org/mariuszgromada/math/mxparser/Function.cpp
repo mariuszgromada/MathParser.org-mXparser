@@ -333,12 +333,19 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE void Function::executeContructorConstPPL(const StringPtr &functionName, const StringPtr &functionExpressionString, const ListPtr<StringPtr> &argumentsNames) {
+		if (functionName == nullptr || functionExpressionString == nullptr || argumentsNames == nullptr) {
+			registerSyntaxErrorInDefinition(StringModel::STRING_RESOURCES->PROVIDED_STRING_IS_NULL);
+			return;
+		}
 		if (!contructorStringParamsOk(functionName, functionExpressionString))
 			return;
+		functionExpression->setDescription(this->functionName);
+		functionExpression->UDFExpression = true;
 		for (const StringPtr& argName : *argumentsNames) {
 			functionExpression->addArguments(new_Argument(argName));
 		}
 		parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
+		registerNoSyntaxErrorInDefinition();
 	}
 
 	API_VISIBLE void Function::executeContructorPPL(StringPtr &functionName, StringPtr &functionExpressionString, ListPtr<StringPtr> &argumentsNames) {
@@ -364,6 +371,97 @@ namespace org::mariuszgromada::math::mxparser {
 			expectedNumberOfParameters, providedNumberOfParameters);
 	}
 
+	API_VISIBLE Function::Function(const Function& other) noexcept : PrimitiveElement(other),
+		functionBodyType(other.functionBodyType),
+		functionName(other.functionName),
+		syntaxStatusDefinition(other.syntaxStatusDefinition),
+		errorMessageDefinition(other.errorMessageDefinition),
+		description(other.description),
+		parametersNumber(other.parametersNumber),
+		functionExtension(other.functionExtension),
+		functionExtensionVariadic(other.functionExtensionVariadic),
+		thisAlreadyAdded(other.thisAlreadyAdded),
+		functionExpression(other.functionExpression),
+		isVariadic(other.isVariadic),
+		computingTime(other.computingTime) {
+		refreshSelfReferencePin();
+	}
+
+	API_VISIBLE Function& Function::operator=(const Function& other) noexcept {
+		if (this == &other) return *this;
+		auto previousSelfPin = std::move(sharedBodySelfOwnerKeepAlive);
+		PrimitiveElement::operator=(other);
+		functionBodyType = other.functionBodyType;
+		functionName = other.functionName;
+		syntaxStatusDefinition = other.syntaxStatusDefinition;
+		errorMessageDefinition = other.errorMessageDefinition;
+		description = other.description;
+		parametersNumber = other.parametersNumber;
+		functionExtension = other.functionExtension;
+		functionExtensionVariadic = other.functionExtensionVariadic;
+		thisAlreadyAdded = other.thisAlreadyAdded;
+		functionExpression = other.functionExpression;
+		isVariadic = other.isVariadic;
+		computingTime = other.computingTime;
+		refreshSelfReferencePin();
+		return *this;
+	}
+
+	API_VISIBLE Function::Function(Function&& other) noexcept : PrimitiveElement(std::move(other)),
+		functionBodyType(std::move(other.functionBodyType)),
+		functionName(std::move(other.functionName)),
+		syntaxStatusDefinition(std::move(other.syntaxStatusDefinition)),
+		errorMessageDefinition(std::move(other.errorMessageDefinition)),
+		description(std::move(other.description)),
+		parametersNumber(std::move(other.parametersNumber)),
+		functionExtension(std::move(other.functionExtension)),
+		functionExtensionVariadic(std::move(other.functionExtensionVariadic)),
+		thisAlreadyAdded(std::move(other.thisAlreadyAdded)),
+		functionExpression(std::move(other.functionExpression)),
+		isVariadic(std::move(other.isVariadic)),
+		computingTime(std::move(other.computingTime)) {
+		refreshSelfReferencePin();
+		other.sharedBodySelfOwnerKeepAlive.reset();
+	}
+
+	API_VISIBLE Function& Function::operator=(Function&& other) noexcept {
+		if (this == &other) return *this;
+		auto previousSelfPin = std::move(sharedBodySelfOwnerKeepAlive);
+		PrimitiveElement::operator=(std::move(other));
+		functionBodyType = std::move(other.functionBodyType);
+		functionName = std::move(other.functionName);
+		syntaxStatusDefinition = std::move(other.syntaxStatusDefinition);
+		errorMessageDefinition = std::move(other.errorMessageDefinition);
+		description = std::move(other.description);
+		parametersNumber = std::move(other.parametersNumber);
+		functionExtension = std::move(other.functionExtension);
+		functionExtensionVariadic = std::move(other.functionExtensionVariadic);
+		thisAlreadyAdded = std::move(other.thisAlreadyAdded);
+		functionExpression = std::move(other.functionExpression);
+		isVariadic = std::move(other.isVariadic);
+		computingTime = std::move(other.computingTime);
+		refreshSelfReferencePin();
+		other.sharedBodySelfOwnerKeepAlive.reset();
+		return *this;
+	}
+
+
+	API_VISIBLE void Function::refreshSelfReferencePin() {
+		if (functionExpression == nullptr || functionExpression->functionsList == nullptr) { sharedBodySelfOwnerKeepAlive.reset(); return; }
+		functionExpression->functionsList->configureSelfPin(sharedBodySelfOwnerKeepAlive, this, true);
+	}
+
+	API_VISIBLE void Function::restoreSelfReferenceOwnership() {
+		if (functionExpression == nullptr) { sharedBodySelfOwnerKeepAlive.reset(); return; }
+		functionExpression->isDefinitionBody = true;
+		if (functionExpression->functionBodyOwner.expired()) functionExpression->functionBodyOwner = THIS(Function);
+		if (functionExpression->functionsList != nullptr) {
+			functionExpression->functionsList->makeSelfWeak(functionExpression->functionBodyOwner.lock());
+			refreshSelfReferencePin();
+		}
+		functionExpression->retainWeakDefinitionOwners();
+	}
+
 	API_VISIBLE void Function::registerNoSyntaxErrorInDefinition() {
 		syntaxStatusDefinition = NO_SYNTAX_ERRORS;
 		errorMessageDefinition = StringModel::STRING_RESOURCES->NO_ERRORS_DETECTED_IN_FUNCTION_DEFINITION;
@@ -372,12 +470,14 @@ namespace org::mariuszgromada::math::mxparser {
 			else isSelfThisSyncNeeded = true;
 			thisAlreadyAdded = true;
 		}
+		if (iAmFullyConstructed) restoreSelfReferenceOwnership();
 	}
 
 	API_VISIBLE void Function::registerSyntaxErrorInDefinition(const StringPtr &errorMessage) {
 		syntaxStatusDefinition = SYNTAX_ERROR;
 		errorMessageDefinition = errorMessage;
 		functionExpression = new_Expression(StringInvariant::EMPTY);
+		if (iAmFullyConstructed) restoreSelfReferenceOwnership();
 	}
 
 	/**
@@ -518,6 +618,7 @@ namespace org::mariuszgromada::math::mxparser {
 			parametersNumber = functionExpression->getArgumentsNumber() - countRecursiveArguments();
 			description = StringInvariant::EMPTY;
 			functionBodyType = BODY_RUNTIME;
+			thisAlreadyAdded = functionExpression->getFunction(functionName).get() == this;
 			registerNoSyntaxErrorInDefinition();
 			return;
 		}
@@ -531,6 +632,7 @@ namespace org::mariuszgromada::math::mxparser {
 			parametersNumber = -1;
 			description = StringInvariant::EMPTY;
 			functionBodyType = BODY_RUNTIME;
+			thisAlreadyAdded = functionExpression->getFunction(functionName).get() == this;
 			registerNoSyntaxErrorInDefinition();
 			return;
 		}
@@ -613,7 +715,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (isVariadic)
 			return;
 		if (functionBodyType == BODY_RUNTIME)
-			functionExpression->argumentsList->getRef(argumentIndex)->argumentValue = argumentValue;
+			functionExpression->argumentsList->get(argumentIndex)->argumentValue = argumentValue;
 		else
 			functionExtension->setParameterValue(argumentIndex, argumentValue);
 	}
@@ -948,8 +1050,8 @@ namespace org::mariuszgromada::math::mxparser {
 		if (functionBodyType != Function::BODY_RUNTIME)
 			return 0;
 		int numOfRecursiveArguments = 0;
-		for (const ArgumentPtr& argument : *functionExpression->argumentsList)
-			if (argument->getArgumentType() == Argument::RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
+		for (int i = 0; i < functionExpression->argumentsList->size(); i++)
+			if (functionExpression->argumentsList->get(i)->getArgumentType() == Argument::RECURSIVE_ARGUMENT) numOfRecursiveArguments++;
 		return numOfRecursiveArguments;
 	}
 
@@ -1483,8 +1585,8 @@ namespace org::mariuszgromada::math::mxparser {
 		if (functionBodyType != Function::BODY_RUNTIME)
 			return 0;
 		int recursiveThisCorrection = 0;
-		for (const FunctionPtr& f : *functionExpression->functionsList)
-			if (THIS(Function) == f)
+		for (int i = 0; i < functionExpression->functionsList->size(); i++)
+			if (THIS(Function) == functionExpression->functionsList->get(i))
 				recursiveThisCorrection++;
 		return functionExpression->getFunctionsNumber() - recursiveThisCorrection;
 	}
@@ -1667,3 +1769,10 @@ namespace org::mariuszgromada::math::mxparser {
 		return functionClone;
 	}
 } // org::mariuszgromada::math::mxparser
+
+
+// Native DLL consumers of runtime expression collections need this existing
+// header-defined specialization emitted by the engine as well.
+namespace org::mariuszgromada::math::mxparser::wrapper {
+	template API_VISIBLE ExpressionPtr List<ExpressionPtr>::get(int) const;
+}

@@ -237,6 +237,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	class API_VISIBLE Expression : public PrimitiveElement {
 		ADD_FRIENDS_OF(Expression);
+		friend struct OwnershipTestAccess;
 
 	private:
 
@@ -1495,11 +1496,19 @@ namespace org::mariuszgromada::math::mxparser {
 		StringPtr expressionString = StringInvariantEMPTY();
 		ListPtr<ArgumentPtr> argumentsList = nullptr;
 		ListPtr<FunctionPtr> functionsList = nullptr;
+		// Independent expression views own weak-self targets they actually use.
+		std::shared_ptr<wrapper::List<ArgumentPtr>::SelfPin> weakArgumentOwnerKeepAlive;
+		std::shared_ptr<wrapper::List<FunctionPtr>::SelfPin> weakFunctionOwnerKeepAlive;
+		std::weak_ptr<Argument> argumentBodyOwner;
+		std::weak_ptr<Function> functionBodyOwner;
+		bool isDefinitionBody = false;
+		void retainWeakDefinitionOwners();
 		ListPtr<ConstantPtr> constantsList = nullptr;
 
 		ListPtr<TokenPtr> initialTokens = nullptr;
 
-		ListPtr<ExpressionPtr> relatedExpressionsList = nullptr;
+		// Reverse invalidation observers do not own their parent expressions.
+		ListPtr<std::weak_ptr<Expression>> relatedExpressionsList = nullptr;
 		double computingTime = 0;
 		bool expressionWasModified = false;
 		bool recursiveMode = false;
@@ -1538,7 +1547,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	private:
 
-		SERIALIZE_DERIVED(6, PrimitiveElement,
+		SERIALIZE_DERIVED_POST_LOAD(6, PrimitiveElement,
 			(
 				NVP(expressionString)
 				,NVP(expressionStringCleaned)
@@ -1573,7 +1582,7 @@ namespace org::mariuszgromada::math::mxparser {
 				,NVP(expressionWasModified)
 				,NVP(internalClone)
 				,NVP(verboseMode)
-			)
+			), retainWeakDefinitionOwners()
 		);
 
 	public:

@@ -279,11 +279,103 @@ namespace org::mariuszgromada::math::mxparser {
 		                                                  StringInvariant::ARGUMENT_DEFINITION_EXAMPLES);
 	}
 
+	API_VISIBLE Argument::Argument(const Argument& other) noexcept : PrimitiveElement(other),
+		syntaxStatusDefinition(other.syntaxStatusDefinition),
+		n(other.n),
+		argumentBodyType(other.argumentBodyType),
+		argumentExtension(other.argumentExtension),
+		description(other.description),
+		argumentName(other.argumentName),
+		errorMessageDefinition(other.errorMessageDefinition),
+		recursionCallsCounter(other.recursionCallsCounter),
+		argumentExpression(other.argumentExpression),
+		argumentType(other.argumentType),
+		argumentValue(other.argumentValue),
+		computingTime(other.computingTime) {
+		refreshSelfReferencePin();
+	}
+
+	API_VISIBLE Argument& Argument::operator=(const Argument& other) noexcept {
+		if (this == &other) return *this;
+		auto previousSelfPin = std::move(shallowCloneSelfOwnerKeepAlive);
+		PrimitiveElement::operator=(other);
+		syntaxStatusDefinition = other.syntaxStatusDefinition;
+		n = other.n;
+		argumentBodyType = other.argumentBodyType;
+		argumentExtension = other.argumentExtension;
+		description = other.description;
+		argumentName = other.argumentName;
+		errorMessageDefinition = other.errorMessageDefinition;
+		recursionCallsCounter = other.recursionCallsCounter;
+		argumentExpression = other.argumentExpression;
+		argumentType = other.argumentType;
+		argumentValue = other.argumentValue;
+		computingTime = other.computingTime;
+		refreshSelfReferencePin();
+		return *this;
+	}
+
+	API_VISIBLE Argument::Argument(Argument&& other) noexcept : PrimitiveElement(std::move(other)),
+		syntaxStatusDefinition(std::move(other.syntaxStatusDefinition)),
+		n(std::move(other.n)),
+		argumentBodyType(std::move(other.argumentBodyType)),
+		argumentExtension(std::move(other.argumentExtension)),
+		description(std::move(other.description)),
+		argumentName(std::move(other.argumentName)),
+		errorMessageDefinition(std::move(other.errorMessageDefinition)),
+		recursionCallsCounter(std::move(other.recursionCallsCounter)),
+		argumentExpression(std::move(other.argumentExpression)),
+		argumentType(std::move(other.argumentType)),
+		argumentValue(std::move(other.argumentValue)),
+		computingTime(std::move(other.computingTime)) {
+		refreshSelfReferencePin();
+		other.shallowCloneSelfOwnerKeepAlive.reset();
+	}
+
+	API_VISIBLE Argument& Argument::operator=(Argument&& other) noexcept {
+		if (this == &other) return *this;
+		auto previousSelfPin = std::move(shallowCloneSelfOwnerKeepAlive);
+		PrimitiveElement::operator=(std::move(other));
+		syntaxStatusDefinition = std::move(other.syntaxStatusDefinition);
+		n = std::move(other.n);
+		argumentBodyType = std::move(other.argumentBodyType);
+		argumentExtension = std::move(other.argumentExtension);
+		description = std::move(other.description);
+		argumentName = std::move(other.argumentName);
+		errorMessageDefinition = std::move(other.errorMessageDefinition);
+		recursionCallsCounter = std::move(other.recursionCallsCounter);
+		argumentExpression = std::move(other.argumentExpression);
+		argumentType = std::move(other.argumentType);
+		argumentValue = std::move(other.argumentValue);
+		computingTime = std::move(other.computingTime);
+		refreshSelfReferencePin();
+		other.shallowCloneSelfOwnerKeepAlive.reset();
+		return *this;
+	}
+
+
+	API_VISIBLE void Argument::refreshSelfReferencePin() {
+		if (argumentExpression == nullptr || argumentExpression->argumentsList == nullptr) { shallowCloneSelfOwnerKeepAlive.reset(); return; }
+		argumentExpression->argumentsList->configureSelfPin(shallowCloneSelfOwnerKeepAlive, this, true);
+	}
+
+	API_VISIBLE void Argument::restoreSelfReferenceOwnership() {
+		if (argumentExpression == nullptr) { shallowCloneSelfOwnerKeepAlive.reset(); return; }
+		argumentExpression->isDefinitionBody = true;
+		if (argumentExpression->argumentBodyOwner.expired()) argumentExpression->argumentBodyOwner = THIS(Argument);
+		if (argumentExpression->argumentsList != nullptr) {
+			argumentExpression->argumentsList->makeSelfWeak(argumentExpression->argumentBodyOwner.lock());
+			refreshSelfReferencePin();
+		}
+		argumentExpression->retainWeakDefinitionOwners();
+	}
+
 	API_VISIBLE void Argument::registerNoSyntaxErrorInDefinition() {
 		syntaxStatusDefinition = NO_SYNTAX_ERRORS;
 		errorMessageDefinition = StringModel::STRING_RESOURCES->NO_ERRORS_DETECTED_IN_ARGUMENT_DEFINITION;
 		if (argumentExpression == nullptr)
 			argumentExpression = new_Expression();
+		if (iAmFullyConstructed) restoreSelfReferenceOwnership();
 	}
 
 	API_VISIBLE void Argument::registerSyntaxErrorInDefinition(const StringPtr &errorMessage) {
@@ -291,6 +383,7 @@ namespace org::mariuszgromada::math::mxparser {
 		errorMessageDefinition = errorMessage;
 		if (argumentExpression == nullptr)
 			argumentExpression = new_Expression();
+		if (iAmFullyConstructed) restoreSelfReferenceOwnership();
 	}
 
 	/**

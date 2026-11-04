@@ -223,9 +223,31 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
 #include <mutex>
+#include <memory>
+#include <set>
 #include <vector>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
+
+	namespace detail {
+		// Only private native definition lists mark self slots. Other lists retain
+		// their original strong-value storage and do not allocate this metadata.
+		template<typename T> struct SelfSlotType {
+			static constexpr bool supported = false;
+			using Weak = std::weak_ptr<void>;
+			static T lock(const Weak&) { return T{}; }
+			static Weak observe(const T&) { return {}; }
+			static bool matches(const Weak&, const T&) { return false; }
+		};
+		template<typename T> struct SelfSlotType<std::shared_ptr<T>> {
+			static constexpr bool supported = true;
+			using Weak = std::weak_ptr<T>;
+			static std::shared_ptr<T> lock(const Weak& value) { return value.lock(); }
+			static Weak observe(const std::shared_ptr<T>& value) { return value; }
+			static bool matches(const Weak& owner, const std::shared_ptr<T>& value) { return value && owner.lock() == value; }
+		};
+	} // namespace detail
+
 
 	template<typename T>
 	class API_VISIBLE List {
@@ -242,20 +264,31 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		void add(const T &element) {
-			vectorList->push_back(element);
+			const int index = size();
+			const bool weak = prepareWeakSelfSlot(index, element);
+			try { vectorList->push_back(weak ? T{} : element); }
+			catch (...) { if (weak) selfSlots->positions.erase(index); throw; }
+			refreshSelfPins();
 		}
 
 		void addAll(const ListPtr<T> &listToAdd) {
-			for (const T& element : *listToAdd) {
-				vectorList->push_back(element);
-			}
+			const int count = listToAdd->size();
+			for (int i = 0; i < count; i++) add(listToAdd->get(i));
 		}
 
 		void add(int index, const T &element) {
+			if (selfSlots) {
+				std::set<int> positions;
+				for (int position : selfSlots->positions) positions.insert(position >= index ? position + 1 : position);
+				selfSlots->positions.swap(positions);
+			}
 			vectorList->insert(vectorList->begin() + index, element);
+			storeSelfWeakly(index, element);
+			refreshSelfPins();
 		}
 
 		T get(int index) const {
+			if (selfSlots && selfSlots->positions.count(index)) return detail::SelfSlotType<T>::lock(selfSlots->owner);
 			return vectorList->at(index);
 		}
 
@@ -264,7 +297,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		T top() const {
-			return vectorList->back();
+			return get(CAST_INT(vectorList->size()) - 1);
 		}
 
 		const T& topRef() const {
@@ -272,11 +305,17 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		void pop() const {
+			if (selfSlots) selfSlots->positions.erase(CAST_INT(vectorList->size()) - 1);
 			vectorList->pop_back();
+			refreshSelfPins();
 		}
 
 		void set(int index, const T &element) {
-			vectorList->at(index) = element;
+			(void)vectorList->at(index);
+			const bool weak = prepareWeakSelfSlot(index, element);
+			if (!weak && selfSlots) selfSlots->positions.erase(index);
+			vectorList->at(index) = weak ? T{} : element;
+			refreshSelfPins();
 		}
 
 		bool isEmpty() {
@@ -284,70 +323,67 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		bool contains(const T &element) {
-			for (const T& item : *vectorList) {
-				if (item == element) {
-					return true;
-				}
+			for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
+				if (get(i) == element) return true;
 			}
 			return false;
 		}
 
 		bool contains(const T &element) const {
-			for (const T& item : *vectorList) {
-				if (item == element) {
-					return true;
-				}
+			for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
+				if (get(i) == element) return true;
 			}
 			return false;
 		}
 
 		bool containsByPtrDeref(const T &element) {
-			for (const T& item : *vectorList) {
-				if (*item == *element) {
-					return true;
-				}
+			for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
+				if (*get(i) == *element) return true;
 			}
 			return false;
 		}
 
 		bool containsByPtrDeref(const T &element) const {
-			for (const T& item : *vectorList) {
-				if (*item == *element) {
-					return true;
-				}
+			for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
+				if (*get(i) == *element) return true;
 			}
 			return false;
 		}
 
 		void remove(int index) {
+			eraseSelfPositions(index, index + 1);
 			vectorList->erase(vectorList->begin() + index);
+			refreshSelfPins();
 		}
 
 		void remove(const T &element) {
-			for (auto it = vectorList->begin(); it != vectorList->end(); ++it) {
-				if (*it == element) {
-					vectorList->erase(it);
-					return;
-				}
+			for (int i = 0; i < size(); i++) {
+				if (get(i) == element) { remove(i); return; }
 			}
 		}
 
 		void removeByPtrDeref(const T &element) const {
-			for (int i = 0; i < vectorList->size(); i++) {
-				if (*vectorList->at(i) == *element) {
+			for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
+				if (*get(i) == *element) {
+					eraseSelfPositions(i, i + 1);
 					vectorList->erase(vectorList->begin() + i);
+					refreshSelfPins();
 					return;
 				}
 			}
 		}
 
 		void clearSubList(int startIndexInclusive, int endIndexExclusive) {
+			eraseSelfPositions(startIndexInclusive, endIndexExclusive);
 			auto vectorListBegin = vectorList->begin();
 			vectorList->erase(vectorListBegin + startIndexInclusive, vectorListBegin + endIndexExclusive);
+			refreshSelfPins();
 		}
 
 		void clear() {
 			vectorList->clear();
+			if (selfSlots) selfSlots->positions.clear();
+			refreshSelfPins();
 		}
 
 		[[nodiscard]] bool isEmpty() const {
@@ -359,7 +395,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		}
 
 		void push(const T &element) {
-			vectorList->push_back(element);
+			add(element);
 		}
 
 		T &operator[](size_t index) {
@@ -391,7 +427,155 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	private:
 		VectorPtr<T> vectorList = nullptr;
 
-		SERIALIZE(71, (NVP(vectorList)));
+		friend class org::mariuszgromada::math::mxparser::Expression;
+		friend class org::mariuszgromada::math::mxparser::Argument;
+		friend class org::mariuszgromada::math::mxparser::Function;
+		friend class org::mariuszgromada::math::mxparser::PrimitiveElement;
+		friend class org::mariuszgromada::math::mxparser::RecursiveArgument;
+
+		struct SelfPin {
+			T value{};
+			const void* excludedOwner = nullptr;
+			const void* sourceList = nullptr;
+			bool enabled = true;
+		};
+		struct SelfSlots {
+			typename detail::SelfSlotType<T>::Weak owner;
+			std::set<int> positions;
+			std::vector<std::weak_ptr<SelfPin>> views;
+			mutable std::recursive_mutex viewsMutex;
+			bool (*isIntrinsicSelf)(const T&, const void*) = nullptr;
+		};
+		std::unique_ptr<SelfSlots> selfSlots;
+
+		T lockSelfOwner() const {
+			return selfSlots ? detail::SelfSlotType<T>::lock(selfSlots->owner) : T{};
+		}
+
+		T lockReferencedSelfOwner() const {
+			return selfSlots && !selfSlots->positions.empty() ? lockSelfOwner() : T{};
+		}
+
+		void makeSelfWeak(const T& owner) {
+			if constexpr (detail::SelfSlotType<T>::supported) {
+			if (owner == T{}) return;
+			if (selfSlots && lockSelfOwner() != owner && !selfSlots->positions.empty()) return;
+			if (!selfSlots) selfSlots = std::make_unique<SelfSlots>();
+			selfSlots->owner = detail::SelfSlotType<T>::observe(owner);
+			for (int i = 0; i < size(); i++) {
+				if (vectorList->at(i) == owner) {
+					selfSlots->positions.insert(i);
+					vectorList->at(i) = T{};
+				}
+			}
+			refreshSelfPins();
+			}
+		}
+
+		bool prepareWeakSelfSlot(int index, const T& element) {
+			if constexpr (detail::SelfSlotType<T>::supported) {
+				if (!selfSlots || !element) return false;
+				const std::lock_guard<std::recursive_mutex> lock(selfSlots->viewsMutex);
+				if (selfSlots->positions.empty() && selfSlots->isIntrinsicSelf && selfSlots->isIntrinsicSelf(element, this))
+					selfSlots->owner = detail::SelfSlotType<T>::observe(element);
+				if (detail::SelfSlotType<T>::matches(selfSlots->owner, element)) {
+					// Allocate metadata before publishing a self entry, so failure
+					// cannot strand a new strong constructor self cycle.
+					selfSlots->positions.insert(index);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void storeSelfWeakly(int index, const T& element) {
+			if (selfSlots && detail::SelfSlotType<T>::matches(selfSlots->owner, element)) {
+				selfSlots->positions.insert(index);
+				vectorList->at(index) = T{};
+			}
+		}
+
+		void refreshSelfPins() const {
+			if (!selfSlots) return;
+			const std::lock_guard<std::recursive_mutex> lock(selfSlots->viewsMutex);
+			if constexpr (detail::SelfSlotType<T>::supported) {
+				if (selfSlots->positions.empty() && selfSlots->isIntrinsicSelf) {
+					for (int i = 0; i < CAST_INT(vectorList->size()); i++) {
+						const T candidate = vectorList->at(i);
+						if (candidate && selfSlots->isIntrinsicSelf(candidate, this)) {
+							const_cast<List*>(this)->makeSelfWeak(candidate);
+							break;
+						}
+					}
+				}
+			}
+			refreshSelfPinsLocked();
+		}
+
+		void refreshSelfPinsLocked() const {
+			if constexpr (detail::SelfSlotType<T>::supported) {
+				if (!selfSlots) return;
+				const T target = lockReferencedSelfOwner();
+				for (size_t i = selfSlots->views.size(); i-- > 0;) {
+					const auto view = selfSlots->views[i].lock();
+					if (!view) { selfSlots->views.erase(selfSlots->views.begin() + i); continue; }
+					view->value = view->enabled && target.get() != view->excludedOwner ? target : T{};
+				}
+			}
+		}
+
+		void configureSelfPin(std::shared_ptr<SelfPin>& view, const void* excludedOwner, bool enabled) {
+			if (!enabled || !selfSlots) { view.reset(); return; }
+			const std::lock_guard<std::recursive_mutex> lock(selfSlots->viewsMutex);
+			if (!view || view->sourceList != this) {
+				view = std::make_shared<SelfPin>();
+				view->sourceList = this;
+				selfSlots->views.push_back(view);
+			}
+			view->excludedOwner = excludedOwner;
+			view->enabled = enabled;
+			refreshSelfPinsLocked();
+		}
+
+		void setSelfTest(bool (*test)(const T&, const void*)) {
+			if (!selfSlots) selfSlots = std::make_unique<SelfSlots>();
+			const std::lock_guard<std::recursive_mutex> lock(selfSlots->viewsMutex);
+			selfSlots->isIntrinsicSelf = test;
+		}
+
+		void eraseSelfPositions(int start, int end) const {
+			if (!selfSlots) return;
+			std::set<int> positions;
+			for (int position : selfSlots->positions) {
+				if (position < start) positions.insert(position);
+				else if (position >= end) positions.insert(position - (end - start));
+			}
+			selfSlots->positions.swap(positions);
+		}
+
+		static inline const int serialClassID = 71;
+		static inline const Long serialVersionUID = getSerialVersionUID(serialClassID);
+		friend class cereal::access;
+		template<class Archive>
+		void serialize(Archive& archive) {
+			if constexpr (Archive::is_saving::value) {
+				if (selfSlots && !selfSlots->positions.empty()) {
+					// Keep the original List/vector/shared_ptr binary shape and order.
+					auto values = new_Vector<T>();
+					values->reserve(vectorList->size());
+					for (int i = 0; i < size(); i++) values->push_back(get(i));
+					archive(cereal::make_nvp("vectorList", values));
+					return;
+				}
+			}
+			if constexpr (Archive::is_loading::value) selfSlots.reset();
+			archive(NVP(vectorList));
+			// A nested Function can tag this list while its vector is loading.
+			// Preserve that tag, then convert self entries after vector assignment.
+			if constexpr (Archive::is_loading::value) {
+				if (selfSlots) makeSelfWeak(lockSelfOwner());
+			}
+		}
 	};
 
 	template<typename T>

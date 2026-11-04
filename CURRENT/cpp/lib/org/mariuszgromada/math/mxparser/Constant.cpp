@@ -264,7 +264,7 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE void Constant::executeContructorConstPEnonTemplatePart(const StringPtr &constantDefinitionString, const ListPtr<PrimitiveElementPtr>& paramsPrimitiveElement) {
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		if (constantDefinitionString == nullptr) {
 			registerSyntaxErrorInDefinition(StringModel::STRING_RESOURCES->PROVIDED_STRING_IS_NULL);
 			return;
@@ -295,7 +295,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      constantValue       the constant value
 	 */
 	API_VISIBLE void Constant::executeContructorConst(const StringPtr &constantName, double constantValue) {
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		if (constantName == nullptr) {
 			registerSyntaxErrorInDefinition(StringModel::STRING_RESOURCES->PROVIDED_STRING_IS_NULL);
 			return;
@@ -320,7 +320,7 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE void Constant::executeContructorConst(const StringPtr &constantName, double constantValue,
 	                                      const StringPtr &description) {
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		if (constantName == nullptr || description == nullptr) {
 			registerSyntaxErrorInDefinition(StringModel::STRING_RESOURCES->PROVIDED_STRING_IS_NULL);
 			return;
@@ -345,7 +345,7 @@ namespace org::mariuszgromada::math::mxparser {
 		description = constantToClone->description;
 		syntaxStatus = constantToClone->syntaxStatus;
 		errorMessage = constantToClone->errorMessage;
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		iAmFullyConstructed = true;
 	}
 
@@ -448,8 +448,12 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Constant::addRelatedExpression(const ExpressionPtr &expression) {
 		if (expression == nullptr)
 			return;
-		if (!relatedExpressionsList->contains(expression))
-			relatedExpressionsList->add(expression);
+		for (int i = relatedExpressionsList->size() - 1; i >= 0; i--) {
+			const ExpressionPtr related = relatedExpressionsList->getRef(i).lock();
+			if (related == expression) return;
+			if (related == nullptr) relatedExpressionsList->remove(i);
+		}
+		relatedExpressionsList->add(expression);
 	}
 
 	/**
@@ -458,16 +462,19 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      expression          the related expression.
 	 */
 	API_VISIBLE void Constant::removeRelatedExpression(const ExpressionPtr &expression) {
-		if (expression != nullptr)
-			relatedExpressionsList->remove(expression);
+		if (expression == nullptr) return;
+		for (int i = relatedExpressionsList->size() - 1; i >= 0; i--) {
+			const ExpressionPtr related = relatedExpressionsList->getRef(i).lock();
+			if (related == nullptr || related == expression) relatedExpressionsList->remove(i);
+		}
 	}
 
 	/**
 	 * Sets expression modified flag to each related expression.
 	 */
 	API_VISIBLE void Constant::setExpressionModifiedFlags() {
-		for (const ExpressionPtr &e: *relatedExpressionsList)
-			e->setExpressionModifiedFlag();
+		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList)
+			if (const ExpressionPtr e = observer.lock()) e->setExpressionModifiedFlag();
 	}
 
 	API_VISIBLE ConstantPtr Constant::cloneForThreadSafeInternal(const CloneCachePtr &cloneCache) {

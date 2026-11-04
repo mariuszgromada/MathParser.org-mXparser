@@ -219,6 +219,7 @@
 #ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_WRAPPER_VARIADICPROCESSOR_H
 #define ORG_MARIUSZGROMADA_MATH_MXPARSER_WRAPPER_VARIADICPROCESSOR_H
 
+#include <stdexcept>
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
@@ -239,6 +240,16 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 			auto tuple = std::make_tuple(args...);
 			processTuple(tuple, std::index_sequence_for<Args...>{});
 			makeOutputNullIfOnlyNulls();
+		}
+
+		// Runtime collections use the same native scalar classification and order.
+		// This permits foreign-language argument arrays without an arity cap.
+		template<typename T>
+		void processElement(const ListPtr<T> &elements) {
+			if (elements == nullptr)
+				throw std::invalid_argument("A variadic collection must not be null");
+			for (int i = 0; i < elements->size(); i++)
+				processElement(elements->get(i));
 		}
 
 		template<typename T>
@@ -361,7 +372,7 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 		template<typename T>
 		void typeNotAllowedRuntimeError(const T &element) {
 			auto typeName = typeid(T).name();
-			fwprintf(stderr, UTF("VariadicProcessor: Type not allowed: %hs.\n"), typeName);
+			fwprintf(stderr, UTF("VariadicProcessor: Type not allowed: %ls.\n"), S(typeName)->c_str());
 			fwprintf(stderr, UTF("VariadicProcessor: Types allowed: %ls.\n"), typesAllowed.c_str());
 		}
 

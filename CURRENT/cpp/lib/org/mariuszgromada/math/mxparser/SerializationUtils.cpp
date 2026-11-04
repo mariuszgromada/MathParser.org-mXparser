@@ -217,6 +217,9 @@
  */
 
 #include "org/mariuszgromada/math/mxparser/SerializationUtils.hpp"
+#include "org/mariuszgromada/math/mxparser/Argument.hpp"
+#include "org/mariuszgromada/math/mxparser/Expression.hpp"
+#include "org/mariuszgromada/math/mxparser/Function.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/StringModel.hpp"
 #include "org/mariuszgromada/math/mxparser/StringResourcesPolish.hpp"
@@ -372,3 +375,42 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 } // org::mariuszgromada::math::mxparser
+
+namespace org::mariuszgromada::math::mxparser {
+	API_VISIBLE void SerializationUtils::discardFailedNode(const PrimitiveElementPtr &node) noexcept {
+		// These nodes belong to an unsuccessful input transaction, never an existing
+		// caller graph. Cereal's original shared-pointer cache keeps them alive here.
+		if (const auto expression = std::dynamic_pointer_cast<Expression>(node)) {
+			expression->weakArgumentOwnerKeepAlive.reset();
+			expression->weakFunctionOwnerKeepAlive.reset();
+			expression->argumentsList.reset();
+			expression->functionsList.reset();
+			expression->constantsList.reset();
+		} else if (const auto argument = std::dynamic_pointer_cast<Argument>(node)) {
+			argument->shallowCloneSelfOwnerKeepAlive.reset();
+			argument->argumentExpression.reset();
+			argument->argumentExtension.reset();
+			argument->n.reset();
+		} else if (const auto function = std::dynamic_pointer_cast<Function>(node)) {
+			function->sharedBodySelfOwnerKeepAlive.reset();
+			function->functionExpression.reset();
+			function->functionExtension.reset();
+			function->functionExtensionVariadic.reset();
+		}
+	}
+
+	// Anchor this private archive RTTI in the engine DLL as well as its callers.
+	API_VISIBLE serialization_detail::NativeDeserializationArchive::~NativeDeserializationArchive() = default;
+
+	API_VISIBLE void serialization_detail::NativeDeserializationArchive::rollback() noexcept {
+		for (const auto &observer : loadedNodes)
+			if (const auto node = observer.lock()) SerializationUtils::discardFailedNode(node);
+		loadedNodes.clear();
+	}
+
+	API_VISIBLE void serialization_detail::observeLoadedPrimitive(cereal::BinaryInputArchive &archive,
+		const std::weak_ptr<PrimitiveElement> &node) {
+		if (auto *transaction = dynamic_cast<serialization_detail::NativeDeserializationArchive *>(&archive))
+			transaction->observe(node);
+	}
+}

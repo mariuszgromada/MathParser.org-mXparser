@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp"
@@ -232,6 +233,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/List.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 #include <cstdio>
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser;
@@ -689,8 +691,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     GCD(a,b)
 	 */
 	API_VISIBLE Long NumberTheory::gcd(Long a, Long b) {
-		if (a < 0) a = -a;
-		if (b < 0) b = -b;
+		if (a < 0) a = native_numeric_detail::checkedNativeAbsoluteLong(a, "NumberTheory.gcd");
+		if (b < 0) b = native_numeric_detail::checkedNativeAbsoluteLong(b, "NumberTheory.gcd");
 		if ((a == 0) && (b != 0)) return b;
 		if ((a != 0) && (b == 0)) return a;
 		if (a == 0) return -1;
@@ -698,7 +700,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (a == b) return a;
 		Long quotient;
 		while (b != 0) {
-			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
+			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
 			if (a > b) {
 				quotient = a / b - 1;
 				if (quotient > 0)
@@ -769,12 +771,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->length == 0) return -1;
 		if (numbers->length == 1) {
 			if ((*numbers)(0) >= 0) return (*numbers)(0);
-			return -(*numbers)(0);
+			return native_numeric_detail::checkedNativeAbsoluteLong((*numbers)(0), "NumberTheory.gcd");
 		}
 		if (numbers->length == 2)
 			return gcd((*numbers)(0), (*numbers)(1));
 		for (int i = 1; i < numbers->length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
+			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
 			(*numbers)(i) = gcd((*numbers)(i - 1), (*numbers)(i));
 		}
 
@@ -813,11 +815,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return     LCM(a,b)
 	 */
 	API_VISIBLE Long NumberTheory::lcm(Long a, Long b) {
-		a = Math::abs(a);
-		b = Math::abs(b);
+		a = native_numeric_detail::checkedNativeAbsoluteLong(a, "NumberTheory.lcm");
+		b = native_numeric_detail::checkedNativeAbsoluteLong(b, "NumberTheory.lcm");
 		if ((a == 0) || (b == 0))
 			return 0;
-		return (a * b) / gcd(a, b);
+		return native_numeric_detail::checkedNativeLongQuotient(
+			native_numeric_detail::checkedNonnegativeLongProduct(a, b, "NumberTheory.lcm"),
+			gcd(a, b), "NumberTheory.lcm");
 	}
 
 	/**
@@ -849,12 +853,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (numbers->length == 0) return -1;
 		if (numbers->length == 1) {
 			if ((*numbers)(0) >= 0) return (*numbers)(0);
-			return -(*numbers)(0);
+			return native_numeric_detail::checkedNativeAbsoluteLong((*numbers)(0), "NumberTheory.lcm");
 		}
 		if (numbers->length == 2)
 			return lcm((*numbers)(0), (*numbers)(1));
 		for (int i = 1; i < numbers->length; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
+			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
 			(*numbers)(i) = lcm((*numbers)(i - 1), (*numbers)(i));
 		}
 		return (*numbers)(numbers->length - 1);
@@ -1031,7 +1035,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double NumberTheory::primeTest(double n) {
 		if (Double::isNaN(n)) return Double::NaN;
-		bool isPrime = primeTest(CAST_LONG(n));
+		bool isPrime = primeTest(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeTest"));
 		if (isPrime)
 			return 1;
 		else
@@ -1050,7 +1054,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (n == 2) return 1;
 		Long numberOfPrimes = 1;
 		for (Long i = 3; i <= n; i++) {
-			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
+			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
 			if (primeTest(i))
 				numberOfPrimes++;
 		}
@@ -1065,7 +1069,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return Number of primes below or equal x
 	 */
 	API_VISIBLE double NumberTheory::primeCount(double n) {
-		return CAST_DOUBLE(primeCount(CAST_LONG(n)));
+		if (Double::isNaN(n)) return 0.0;
+		return CAST_DOUBLE(primeCount(native_numeric_detail::checkedNativeLong(n, "NumberTheory.primeCount")));
 	}
 
 	/**
@@ -1665,7 +1670,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double NumberTheory::convOthBase2Decimal(double numeralSystemBase, const ArrayPtr<double> &digits) {
 		if (numeralSystemBase < 0) return Double::NaN;
 		if (Double::isNaN(numeralSystemBase)) return Double::NaN;
-		int numeralSystemBaseInt = CAST_INT(MathFunctions::floor(numeralSystemBase));
+		int numeralSystemBaseInt = native_numeric_detail::checkedNativeInt(MathFunctions::floor(numeralSystemBase), "NumberTheory.convOthBase2Decimal");
 		if (digits == nullptr) return Double::NaN;
 		int length = digits->length;
 		if (length == 0) {
@@ -1677,7 +1682,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		for (int i = 0; i < length; i++) {
 			digit = (*digits)(i);
 			if (Double::isNaN(digit)) return Double::NaN;
-			(*digitsInt)(i) = CAST_INT(digit);
+			(*digitsInt)(i) = native_numeric_detail::checkedNativeInt(digit, "NumberTheory.convOthBase2Decimal");
 			if (mXparser::isCurrentCalculationCancelled()) return Double::NaN;
 		}
 		return convOthBase2Decimal(numeralSystemBaseInt, digitsInt);
@@ -1760,13 +1765,13 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int reminder;
 		if (numeralSystemBase > 1)
 			while (quotient >= 1.0) {
-				reminder = CAST_INT((Math::mod(quotient, numeralSystemBase)));
+				reminder = native_numeric_detail::checkedNativeInt(Math::mod(quotient, numeralSystemBase), "NumberTheory.convDecimal2OthBase");
 				quotient = MathFunctions::floor(quotient / numeralSystemBase);
 				numberLiteral = S(digitChar(reminder)) + S(*numberLiteral);
 				if (mXparser::isCurrentCalculationCancelled()) return S(UTF("NaN"));
 			}
 		else {
-			String repeat(CAST_INT(intPart), UTF('1'));
+			String repeat(native_numeric_detail::checkedNativeInt(intPart, "NumberTheory.convDecimal2OthBase"), UTF('1'));
 			numberLiteral = S(repeat);
 		}
 		return signChar + numberLiteral;
@@ -1818,7 +1823,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return         Number of digits needed to represent given number in base 10 numeral system.
 	 */
 	API_VISIBLE int NumberTheory::numberOfDigits(Long number) {
-		if (number < 0) number = -number;
+		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.numberOfDigits");
 		if (number < 10) return 1;
 		if (number < 100) return 2;
 		if (number < 1000) return 3;
@@ -1856,14 +1861,14 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE Long NumberTheory::numberOfDigits(Long number, Long numeralSystemBase) {
 		if (numeralSystemBase < 1) return -1;
-		if (number < 0) number = -number;
+		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.numberOfDigits");
 		if (numeralSystemBase == 10) return numberOfDigits(number);
 		if (numeralSystemBase == 1) return CAST_INT(number);
 		if (number < numeralSystemBase) return 1;
 		Long quotient = number;
 		Long digitsNum = 0;
 		while (quotient >= 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return CAST_LONG(Double::NaN);
+			if (mXparser::isCurrentCalculationCancelled()) return Long{0};
 			quotient = quotient / numeralSystemBase;
 			digitsNum++;
 		}
@@ -1889,7 +1894,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		number = MathFunctions::floor(number);
 		numeralSystemBase = MathFunctions::floor(numeralSystemBase);
 		if (numeralSystemBase == 10.0) return numberOfDigits(number);
-		if (numeralSystemBase == 1.0) return CAST_INT(number);
+		if (numeralSystemBase == 1.0) return native_numeric_detail::checkedNativeInt(number, "NumberTheory.numberOfDigits");
 		if (number < numeralSystemBase) return 1;
 		double quotient = number;
 		double digitsNum = 0;
@@ -1911,9 +1916,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE int NumberTheory::digitAtPosition(Long number, int position, int numeralSystemBase) {
 		if (numeralSystemBase < 1) return -1;
-		if (number < 0) number = -number;
+		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.digitAtPosition");
 		int digitsNum = CAST_INT(numberOfDigits(number, numeralSystemBase));
-		if (position <= -digitsNum) {
+		// Java int negation wraps at MIN_VALUE; avoid undefined C++ negation.
+		const int negativeDigitsNum = digitsNum == Integer::MIN_VALUE ? digitsNum : -digitsNum;
+		if (position <= negativeDigitsNum) {
 			if (numeralSystemBase > 1) return 0;
 			else return -1;
 		}
@@ -1924,10 +1931,12 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		int digit;
 		int digitIndex = digitsNum;
 		while (quotient >= 1) {
-			if (mXparser::isCurrentCalculationCancelled()) return CAST_INT(Double::NaN);
+			if (mXparser::isCurrentCalculationCancelled()) return 0;
 			digit = CAST_INT(quotient % numeralSystemBase);
 			quotient = quotient / numeralSystemBase;
 			digitIndex--;
+			// Preserve the implicit Java array bound failure before an unsafe write.
+			if (digitIndex < 0) throw std::out_of_range("NumberTheory.digitAtPosition digit index outside the native array");
 			(*digits)(digitIndex) = digit;
 		}
 		if (position >= 1) return (*digits)(position - 1);
@@ -1964,7 +1973,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (number < 0) number = -number;
 		number = MathFunctions::floor(number);
 		numeralSystemBase = MathFunctions::floor(numeralSystemBase);
-		int digitsNum = CAST_INT(numberOfDigits(number, numeralSystemBase));
+		int digitsNum = native_numeric_detail::checkedNativeInt(numberOfDigits(number, numeralSystemBase), "NumberTheory.digitAtPosition");
 		if (position <= -digitsNum) {
 			if (numeralSystemBase > 1.0) return 0;
 			else return Double::NaN;
@@ -2007,7 +2016,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		ArrayPtr<Long> longZeroArray = new_Long(0);
 		ArrayPtr<Long> factors;
 		if (number == 0) return longZeroArray;
-		if (number < 0) number = -number;
+		if (number < 0) number = native_numeric_detail::checkedNativeAbsoluteLong(number, "NumberTheory.primeFactors");
 		if (number == 1) {
 			factors = new_Long(1);
 			(*factors)(0) = 1;

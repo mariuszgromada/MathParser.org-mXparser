@@ -234,10 +234,38 @@
 #include <iomanip>
 #include <locale>
 #include <sstream>
+#include <cmath>
+#include <limits>
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser;
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
+
+	namespace {
+		// These inputs have already been rounded/floored by the original caller.
+		// Guard the C++ conversion, preserving the existing rounding and all
+		// previously defined results. Java/C# have different runtime cast rules.
+		int checkedMathIntConversion(double value, const char* operation) {
+			if (!std::isfinite(value)
+				|| value < (std::numeric_limits<int>::min)()
+				|| value > (std::numeric_limits<int>::max)())
+				throw std::invalid_argument(std::string("Native MathFunctions.") + operation
+					+ " requires an int-representable conversion value");
+			return static_cast<int>(value);
+		}
+
+		Long checkedMathLongConversion(double value, const char* operation) {
+			constexpr double lower = static_cast<double>((std::numeric_limits<Long>::min)());
+			// Long is signed64 on the supported native/WASM ABIs. The exclusive
+			// upper bound avoids rounding Long::max to the unrepresentable 2^63.
+			constexpr double upper = -lower;
+			if (!std::isfinite(value) || value < lower || value >= upper)
+				throw std::invalid_argument(std::string("Native MathFunctions.") + operation
+					+ " requires a Long-representable conversion value");
+			return static_cast<Long>(value);
+		}
+	}
 
 	API_VISIBLE int MathFunctions::MAX_RECURSION_CALLS = Integer::NaN;
 
@@ -358,7 +386,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		double result = Double::NaN;
 		if (n > 1) {
 			n -= 1;
-			if ((n + 1) * (n + 1) >= Integer::MAX_VALUE) return Double::NaN;
+			if (CAST_LONG(n + 1) * (n + 1) >= Integer::MAX_VALUE) return Double::NaN;
 			ArrayPtr<Long> bellTriangle = new_Array<Long>(n + 1, n + 1);
 
 			(*bellTriangle)(0, 0) = 1;
@@ -380,11 +408,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * Bell number
 	 * @param      n                   the n
 	 *
-	 * @return     if n &lt;&gt; Double::NaN return bellNumber( (int)Math::round(n) ),
+	 * @return     if n is within the int range return bellNumber( (int)Math::round(n) ),
 	 *             otherwise return Double::NaN.
 	 */
 	API_VISIBLE double MathFunctions::bellNumber(double n) {
-		if (Double::isNaN(n))
+		if (Double::isNaN(n) || n < Integer::MIN_VALUE || n > Integer::MAX_VALUE)
 			return Double::NaN;
 		return bellNumber(CAST_INT(Math::round(n)));
 	}
@@ -440,7 +468,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double MathFunctions::eulerNumber(double n, double k) {
 		if (Double::isNaN(n) || Double::isNaN(k)) return Double::NaN;
-		return eulerNumber(CAST_INT(Math::round(n)), CAST_INT(Math::round(k)));
+		return eulerNumber(checkedMathIntConversion(Math::round(n), "eulerNumber"), checkedMathIntConversion(Math::round(k), "eulerNumber"));
 	}
 
 	/**
@@ -477,7 +505,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::factorial(double n) {
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return factorial(CAST_INT(Math::round(n)));
+		return factorial(checkedMathIntConversion(Math::round(n), "factorial"));
 	}
 
 	/**
@@ -563,7 +591,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::binomCoeff(double n, double k) {
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return binomCoeff(n, static_cast<Long>(Math::round(k)));
+		return binomCoeff(n, checkedMathLongConversion(Math::round(k), "binomCoeff"));
 	}
 
 	/**
@@ -603,7 +631,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	API_VISIBLE double MathFunctions::numberOfPermutations(double n, double k) {
 		if (Double::isNaN(n) || Double::isNaN(k)) return Double::NaN;
-		Long lk = CAST_LONG(Math::round(k));
+		Long lk = checkedMathLongConversion(Math::round(k), "numberOfPermutations");
 		return numberOfPermutations(n, lk);
 	}
 
@@ -642,7 +670,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::bernoulliNumber(double m, double n) {
 		if (Double::isNaN(m) || Double::isNaN(n))
 			return Double::NaN;
-		return bernoulliNumber(CAST_INT(Math::round(m)), CAST_INT(Math::round(n)));
+		return bernoulliNumber(checkedMathIntConversion(Math::round(m), "bernoulliNumber"), checkedMathIntConversion(Math::round(n), "bernoulliNumber"));
 	}
 
 	/**
@@ -695,7 +723,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::Stirling1Number(double n, double k) {
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return Stirling1Number(CAST_INT(Math::round(n)), CAST_INT(Math::round(k)));
+		return Stirling1Number(checkedMathIntConversion(Math::round(n), "Stirling1Number"), checkedMathIntConversion(Math::round(k), "Stirling1Number"));
 	}
 
 	/**
@@ -748,7 +776,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::Stirling2Number(double n, double k) {
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return Stirling2Number(CAST_INT(Math::round(n)), CAST_INT(Math::round(k)));
+		return Stirling2Number(checkedMathIntConversion(Math::round(n), "Stirling2Number"), checkedMathIntConversion(Math::round(k), "Stirling2Number"));
 	}
 
 	/**
@@ -784,7 +812,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::worpitzkyNumber(double n, double k) {
 		if (Double::isNaN(n) || Double::isNaN(k))
 			return Double::NaN;
-		return worpitzkyNumber(CAST_INT(Math::round(n)), CAST_INT(Math::round(k)));
+		return worpitzkyNumber(checkedMathIntConversion(Math::round(n), "worpitzkyNumber"), checkedMathIntConversion(Math::round(k), "worpitzkyNumber"));
 	}
 
 	/**
@@ -819,7 +847,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::harmonicNumber(double n) {
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return harmonicNumber(CAST_INT(Math::round(n)));
+		return harmonicNumber(checkedMathIntConversion(Math::round(n), "harmonicNumber"));
 	}
 
 	/**
@@ -858,7 +886,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::harmonicNumber(double x, double n) {
 		if ((Double::isNaN(x)) || (Double::isNaN(n)))
 			return Double::NaN;
-		return harmonicNumber(x, CAST_INT(Math::round(n)));
+		return harmonicNumber(x, checkedMathIntConversion(Math::round(n), "harmonicNumber"));
 	}
 
 	/**
@@ -883,7 +911,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::catalanNumber(double n) {
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return catalanNumber(CAST_INT(Math::round(n)));
+		return catalanNumber(checkedMathIntConversion(Math::round(n), "catalanNumber"));
 	}
 
 	/**
@@ -934,7 +962,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::fibonacciNumber(double n) {
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return fibonacciNumber(CAST_INT(Math::round(n)));
+		return fibonacciNumber(checkedMathIntConversion(Math::round(n), "fibonacciNumber"));
 	}
 
 	/**
@@ -985,7 +1013,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::lucasNumber(double n) {
 		if (Double::isNaN(n))
 			return Double::NaN;
-		return lucasNumber(CAST_INT(Math::round(n)));
+		return lucasNumber(checkedMathIntConversion(Math::round(n), "lucasNumber"));
 	}
 
 	/**
@@ -1134,7 +1162,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double MathFunctions::eulerPolynomial(double m, double x) {
 		if (Double::isNaN(m) || Double::isNaN(x))
 			return Double::NaN;
-		return eulerPolynomial(CAST_INT(Math::round(m)), x);
+		return eulerPolynomial(checkedMathIntConversion(Math::round(m), "eulerPolynomial"), x);
 	}
 
 	/**
@@ -1301,7 +1329,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			double ndob = 1.0 / abs(b);
 			double nint = Math::round(ndob);
 			if (MathFunctions::abs(ndob - nint) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) {
-				Long n = CAST_LONG(nint);
+				Long n = checkedMathLongConversion(nint, "power");
 				if (n % 2 == 1)
 					if (b > 0)
 						return -Math::pow(abs(a), 1.0 / ndob);
@@ -1329,7 +1357,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			else if (abs(x - 1) <= BinaryRelations::DEFAULT_COMPARISON_EPSILON) return 1;
 			else return Double::NaN;
 		}
-		Long nint = CAST_LONG(floor(n));
+		Long nint = checkedMathLongConversion(floor(n), "root");
 		if (nint == 1) return x;
 		if (nint == 2) return sqrt(x);
 		if (nint == 3) return Math::cbrt(x);
@@ -2585,7 +2613,9 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Expression
 	 */
 	API_VISIBLE double MathFunctions::getFunctionValue(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
+		if (x == nullptr) throw std::invalid_argument("MathFunctions.getFunctionValue requires a non-null argument");
 		x->setArgumentValue(x0);
+		if (f == nullptr) throw std::invalid_argument("MathFunctions.getFunctionValue requires a non-null expression");
 		return f->calculate();
 	}
 

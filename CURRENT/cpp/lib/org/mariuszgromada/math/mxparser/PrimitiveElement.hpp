@@ -222,6 +222,7 @@
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
 #include "org/mariuszgromada/math/mxparser/CloneCache.hpp"
+#include "org/mariuszgromada/math/mxparser/DeserializationCleanup.hpp"
 #include <memory>
 
 namespace org::mariuszgromada::math::mxparser {
@@ -297,11 +298,11 @@ namespace org::mariuszgromada::math::mxparser {
 
 		PrimitiveElement(): myTypeId(0) {} ;
 
-		SERIALIZE(1,
+		SERIALIZE_PRE_LOAD(1,
 			(
 				NVP(myTypeId)
 				,NVP(iAmFullyConstructed)
-			)
+			), serialization_detail::observeLoadedPrimitive(archive, weak_from_this())
 		);
 
 	};

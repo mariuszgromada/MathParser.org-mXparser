@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/ProbabilityDistributions.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Constant.hpp"
@@ -229,6 +230,8 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/Double.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Random.hpp"
+
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser;
@@ -273,6 +276,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(b)) return Double::NaN;
 		if (b < a) return Double::NaN;
 		if (a == b) return a;
+		if (rnd == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndUniformContinuous requires a non-null random generator");
 		return a + rnd->nextDouble() * (b - a);
 	}
 
@@ -294,6 +298,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @return        Random number.
 	 */
 	API_VISIBLE double ProbabilityDistributions::rndUniformContinuous(const RandomPtr &rnd) {
+		if (rnd == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndUniformContinuous requires a non-null random generator");
 		return rnd->nextDouble();
 	}
 
@@ -399,6 +404,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (lb < la) return Double::NaN;
 		if (la == lb) return a;
 		Long n = (lb - la) + 1;
+		if (rnd == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndInteger requires a non-null random generator");
 		return CAST_DOUBLE(la + rnd->nextInt(n));
 	}
 
@@ -415,7 +421,8 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double ProbabilityDistributions::rndInteger(double a, double b, const RandomPtr &rnd) {
 		if (Double::isNaN(a)) return Double::NaN;
 		if (Double::isNaN(b)) return Double::NaN;
-		return rndInteger(CAST_INT(a), CAST_INT(b), rnd);
+		return rndInteger(native_numeric_detail::checkedNativeInt(a, "ProbabilityDistributions.rndInteger"),
+		                  native_numeric_detail::checkedNativeInt(b, "ProbabilityDistributions.rndInteger"), rnd);
 	}
 
 	/**
@@ -450,6 +457,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	int API_VISIBLE ProbabilityDistributions::rndIndex(int n, const RandomPtr &rnd) {
 		if (n < 0) return -1;
+		if (rnd == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndIndex requires a non-null random generator");
 		return CAST_INT(rnd->nextInt(n));
 	}
 
@@ -461,6 +469,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 */
 	int API_VISIBLE ProbabilityDistributions::rndIndex(int n) {
 		if (n < 0) return -1;
+		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndIndex requires a non-null random generator");
 		return CAST_INT(randomGenerator->nextInt(n));
 	}
 
@@ -762,6 +771,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 API_VISIBLE double ProbabilityDistributions::rndStudentT(double v) {
 		if (Double::isNaN(v)) return Double::NaN;
 		if (v <= 0) return Double::NaN;
+		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndStudentT requires a non-null random generator");
 		return qntStudentT(randomGenerator->nextDouble(), v);
 	}
 
@@ -908,6 +918,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (Double::isNaN(k)) return Double::NaN;
 		k = Math::round(k);
 		if (k < 1.0) return Double::NaN;
+		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndChiSquared requires a non-null random generator");
 		return qntChiSquared(randomGenerator->nextDouble(), k);
 	}
 
@@ -1014,6 +1025,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 		if (d2 < 0.0) return Double::NaN;
 		if (BinaryRelations::isEqualOrAlmost(d1, 0.0)) return Double::NaN;
 		if (BinaryRelations::isEqualOrAlmost(d2, 0.0)) return Double::NaN;
+		if (randomGenerator == nullptr) throw std::invalid_argument("ProbabilityDistributions.rndSnedecordF requires a non-null random generator");
 		return qntSnedecordF(randomGenerator->nextDouble(), d1, d2);
 	}
 

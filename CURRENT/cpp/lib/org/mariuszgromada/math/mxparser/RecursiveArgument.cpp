@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/RecursiveArgument.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/CloneCache.hpp"
@@ -309,9 +310,9 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Remember starting index
 		 */
 		if (recursiveCounter == -1)
-			startingIndex = CAST_INT(Math::round(index));
+			startingIndex = native_numeric_detail::checkedNativeInt(Math::round(index), "RecursiveArgument.getArgumentValue");
 		int recSize = baseValues->size();
-		int idx = CAST_INT(Math::round(index));
+		int idx = native_numeric_detail::checkedNativeInt(Math::round(index), "RecursiveArgument.getArgumentValue");
 		/*
 		 * Count recursive calls
 		 */

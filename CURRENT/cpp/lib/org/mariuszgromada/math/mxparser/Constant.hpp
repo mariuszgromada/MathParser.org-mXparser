@@ -520,7 +520,8 @@ namespace org::mariuszgromada::math::mxparser {
 		StringPtr constantName = StringInvariantEMPTY();
 		double constantValue = Double::NaN;
 		StringPtr description = StringInvariantEMPTY();
-		ListPtr<ExpressionPtr> relatedExpressionsList = nullptr;
+		// Reverse invalidation observers do not own their parent expressions.
+		ListPtr<std::weak_ptr<Expression>> relatedExpressionsList = nullptr;
 		bool syntaxStatus = SYNTAX_ERROR;
 		StringPtr errorMessage = StringInvariantEMPTY();
 

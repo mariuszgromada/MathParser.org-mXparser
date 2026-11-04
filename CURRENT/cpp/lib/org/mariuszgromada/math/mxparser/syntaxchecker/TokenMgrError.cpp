@@ -315,7 +315,7 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 					retval.append("\\\\");
 					continue;
 				default:
-					if (ch < 0xff) {
+					if (ch < 0x80) {
 						retval += CAST_CHAR(ch);
 						continue;
 					}

@@ -1249,7 +1249,13 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 		indent = 0;
 		trace = false;
 		jj_ntk = -1;
+		jj_nt = nullptr;
 		jj_gen = 0;
+		for (int i = 0; i < static_cast<int>(sizeof(jj_2_rtns) / sizeof(jj_2_rtns[0])); i++) {
+			delete jj_2_rtns[i].next;
+			jj_2_rtns[i].next = nullptr;
+			jj_2_rtns[i] = JJCalls();
+		}
 	}
 
 
@@ -1264,6 +1270,7 @@ namespace org::mariuszgromada::math::mxparser::syntaxchecker {
 				delete t;
 				t = next;
 			}
+			head = nullptr;
 		}
 		if (errorHandler) {
 			delete errorHandler, errorHandler = nullptr;

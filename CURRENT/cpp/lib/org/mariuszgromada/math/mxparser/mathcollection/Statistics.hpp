@@ -261,7 +261,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return avg(vp.paramsDouble);
 		}
 		static double avg(const ListPtr<double> &numbers) {
-			ArrayPtr<double> numbersArra = Array<double>::toArray(numbers);
+			ArrayPtr<double> numbersArra = numbers == nullptr ? nullptr : Array<double>::toArray(numbers);
 			return avg(numbersArra);
 		}
 		static double avg(ListPtr<double> &numbers) { return avg(CONST_LIST_DOUBLE(numbers)); }
@@ -277,7 +277,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return var(vp.paramsDouble);
 		}
 		static double var(const ListPtr<double> &numbers) {
-			ArrayPtr<double> numbersArray = Array<double>::toArray(numbers);
+			ArrayPtr<double> numbersArray = numbers == nullptr ? nullptr : Array<double>::toArray(numbers);
 			return var(numbersArray);
 		}
 		static double var(ListPtr<double> &numbers) { return var(CONST_LIST_DOUBLE(numbers)); }
@@ -293,7 +293,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return std(vp.paramsDouble);
 		}
 		static double std(const ListPtr<double> &numbers) {
-			ArrayPtr<double> numbersArra = Array<double>::toArray(numbers);
+			ArrayPtr<double> numbersArra = numbers == nullptr ? nullptr : Array<double>::toArray(numbers);
 			return std(numbersArra);
 		}
 		static double std(ListPtr<double> &numbers) { return std(CONST_LIST_DOUBLE(numbers)); }
@@ -309,7 +309,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return median(vp.paramsDouble);
 		}
 		static double median(const ListPtr<double> &numbers) {
-			ArrayPtr<double> numbersArra = Array<double>::toArray(numbers);
+			ArrayPtr<double> numbersArra = numbers == nullptr ? nullptr : Array<double>::toArray(numbers);
 			return median(numbersArra);
 		}
 		static double median(ListPtr<double> &numbers) { return median(CONST_LIST_DOUBLE(numbers)); }
@@ -325,7 +325,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 			return mode(vp.paramsDouble);
 		}
 		static double mode(const ListPtr<double> &numbers) {
-			ArrayPtr<double> numbersArra = Array<double>::toArray(numbers);
+			ArrayPtr<double> numbersArra = numbers == nullptr ? nullptr : Array<double>::toArray(numbers);
 			return mode(numbersArra);
 		}
 		static double mode(ListPtr<double> &numbers) { return mode(CONST_LIST_DOUBLE(numbers)); }

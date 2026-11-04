@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/NativeNumericConversion.hpp"
 #include "org/mariuszgromada/math/mxparser/ExpressionUtils.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Argument.hpp"
@@ -245,6 +246,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/StringBuilder.hpp"
 #include <algorithm>
+#include <stdexcept>
 
 namespace org::mariuszgromada::math::mxparser {
 	using namespace org::mariuszgromada::math::mxparser::parsertokens;
@@ -267,7 +269,7 @@ namespace org::mariuszgromada::math::mxparser {
 	                                           const ListPtr<KeyWordPtr> &keyWordsList) {
 		int argumentsNumber = argumentsList->size();
 		for (int argumentIndex = 0; argumentIndex < argumentsNumber; argumentIndex++) {
-			const ArgumentPtr& arg = argumentsList->getRef(argumentIndex);
+			const ArgumentPtr& arg = argumentsList->get(argumentIndex);
 			if (arg->getArgumentType() != Argument::RECURSIVE_ARGUMENT)
 				addKeyWord(arg->getArgumentName(), arg->getDescription(), argumentIndex, arg->getArgumentName(),
 				           StringInvariant::EMPTY, Argument::TYPE_ID, keyWordsList);
@@ -282,7 +284,7 @@ namespace org::mariuszgromada::math::mxparser {
 	                                           const ListPtr<KeyWordPtr> &keyWordsList) {
 		int functionsNumber = functionsList->size();
 		for (int functionIndex = 0; functionIndex < functionsNumber; functionIndex++) {
-			const FunctionPtr& fun = functionsList->getRef(functionIndex);
+			const FunctionPtr& fun = functionsList->get(functionIndex);
 			StringBuilderPtr syntax = new_StringBuilder(fun->getFunctionName());
 			syntax->append(UTF("("));
 			int paramsNum = fun->getParametersNumber();
@@ -1946,6 +1948,8 @@ namespace org::mariuszgromada::math::mxparser {
 
 
 	API_VISIBLE void ExpressionUtils::showKeyWords(const ListPtr<KeyWordPtr> &keyWordsList) {
+		if (keyWordsList == nullptr)
+			throw std::invalid_argument("Native Expression.showKeyWords requires initialized keywords");
 		int keyWordsNumber = keyWordsList->size();
 		StringPtr maxStr = S(UTF("KEY_WORD"));
 		mXparser::consolePrintln(UTF("Keywords:"));
@@ -2125,6 +2129,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE StringPtr ExpressionUtils::makeJsonKeyValuePair(const StringPtr &key, const StringPtr &value) {
+		if (key == nullptr || value == nullptr)
+			throw std::invalid_argument("Native JSON help requires non-null key and value text");
 		return StringUtils::surroundQuote(key)
 		       + StringInvariant::COLON_SPACE
 		       + StringUtils::surroundQuote(value);
@@ -2150,6 +2156,8 @@ namespace org::mariuszgromada::math::mxparser {
 	}
 
 	API_VISIBLE StringPtr ExpressionUtils::buildHelpCaption(const StringPtr &query) {
+		if (query == nullptr)
+			throw std::invalid_argument("Native help caption requires non-null query text");
 		StringResourcesPtr stringResources = StringModel::getStringResources();
 		if (!query->empty())
 			return stringResources->HELP_CONTENT_LIMITED_TO_QUERY + StringInvariant::COLON_SPACE +
@@ -2408,7 +2416,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (parsertokens::Token::isNumber(token)) {
 			double intTokenValue = Math::round(token->tokenValue);
 			if (intTokenValue == token->tokenValue)
-				return StringUtils::toString(CAST_LONG(intTokenValue));
+				return StringUtils::toString(native_numeric_detail::javaLongCast(intTokenValue));
 			else
 				return Double::toString(token->tokenValue);
 		}
@@ -2551,7 +2559,7 @@ namespace org::mariuszgromada::math::mxparser {
 		const CloneCachePtr &cloneCache) {
 		ListPtr<ArgumentPtr> argumentListClone = new_List<ArgumentPtr>();
 		for (int i = 0; i < argumentsListToClone->size(); i++) {
-			const ArgumentPtr& arg = argumentsListToClone->getRef(i);
+			const ArgumentPtr& arg = argumentsListToClone->get(i);
 			if (cloneCache->isCloneInProgress(arg)) {
 				argumentListClone->add(nullptr);
 				cloneCache->cacheArgumentToAddCloneAtTheEnd(argumentListClone, arg, i);
@@ -2573,7 +2581,7 @@ namespace org::mariuszgromada::math::mxparser {
 		const CloneCachePtr &cloneCache) {
 		ListPtr<FunctionPtr> functionListClone = new_List<FunctionPtr>();
 		for (int i = 0; i < functionsListToClone->size(); i++) {
-			const FunctionPtr& fun = functionsListToClone->getRef(i);
+			const FunctionPtr& fun = functionsListToClone->get(i);
 			if (cloneCache->isCloneInProgress(fun)) {
 				functionListClone->add(nullptr);
 				cloneCache->cacheFunctionToAddCloneAtTheEnd(functionListClone, fun, i);

@@ -225,6 +225,8 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/Double.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/Math.hpp"
 
+#include <stdexcept>
+
 namespace org::mariuszgromada::math::mxparser::mathcollection {
 	using namespace org::mariuszgromada::math::mxparser;
 	using namespace org::mariuszgromada::math::mxparser::wrapper;
@@ -393,6 +395,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		double delta = MathFunctions::getFunctionValue(f, x, x0 + 1) - MathFunctions::getFunctionValue(f, x, x0);
 		x->setArgumentValue(xb);
@@ -411,9 +414,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, const ArgumentPtr &x) {
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		if (Double::isNaN(xb))
 			return Double::NaN;
+		if (f == nullptr) throw std::invalid_argument("Calculus difference requires a non-null expression");
 		double fv = f->calculate();
 		x->setArgumentValue(xb + 1);
 		double delta = f->calculate() - fv;
@@ -436,6 +441,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		double delta = MathFunctions::getFunctionValue(f, x, x0) - MathFunctions::getFunctionValue(f, x, x0 - 1);
 		x->setArgumentValue(xb);
@@ -454,9 +460,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, const ArgumentPtr &x) {
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		if (Double::isNaN(xb))
 			return Double::NaN;
+		if (f == nullptr) throw std::invalid_argument("Calculus difference requires a non-null expression");
 		double fv = f->calculate();
 		x->setArgumentValue(xb - 1);
 		double delta = fv - f->calculate();
@@ -480,6 +488,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		double delta = MathFunctions::getFunctionValue(f, x, x0 + h) - MathFunctions::getFunctionValue(f, x, x0);
 		x->setArgumentValue(xb);
@@ -499,9 +508,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Calculus::forwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x) {
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		if (Double::isNaN(xb))
 			return Double::NaN;
+		if (f == nullptr) throw std::invalid_argument("Calculus difference requires a non-null expression");
 		double fv = f->calculate();
 		x->setArgumentValue(xb + h);
 		double delta = f->calculate() - fv;
@@ -525,6 +536,7 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x, double x0) {
 		if (Double::isNaN(x0))
 			return Double::NaN;
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		double delta = MathFunctions::getFunctionValue(f, x, x0) - MathFunctions::getFunctionValue(f, x, x0 - h);
 		x->setArgumentValue(xb);
@@ -544,9 +556,11 @@ namespace org::mariuszgromada::math::mxparser::mathcollection {
 	 * @see        Argument
 	 */
 	API_VISIBLE double Calculus::backwardDifference(const ExpressionPtr &f, double h, const ArgumentPtr &x) {
+		if (x == nullptr) throw std::invalid_argument("Calculus difference requires a non-null argument");
 		double xb = x->getArgumentValue();
 		if (Double::isNaN(xb))
 			return Double::NaN;
+		if (f == nullptr) throw std::invalid_argument("Calculus difference requires a non-null expression");
 		double fv = f->calculate();
 		x->setArgumentValue(xb - h);
 		double delta = fv - f->calculate();

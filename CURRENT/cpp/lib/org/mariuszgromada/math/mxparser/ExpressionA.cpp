@@ -302,8 +302,12 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::addRelatedExpression(const ExpressionPtr &expression) {
 		if (expression == nullptr || expression == THIS(Expression))
 			return;
-		if (!relatedExpressionsList->contains(expression))
-			relatedExpressionsList->add(expression);
+		for (int i = relatedExpressionsList->size() - 1; i >= 0; i--) {
+			const ExpressionPtr related = relatedExpressionsList->getRef(i).lock();
+			if (related == expression) return;
+			if (related == nullptr) relatedExpressionsList->remove(i);
+		}
+		relatedExpressionsList->add(expression);
 	}
 
 	/**
@@ -312,7 +316,10 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @param      expression          the expression
 	 */
 	API_VISIBLE void Expression::removeRelatedExpression(const ExpressionPtr &expression) {
-		relatedExpressionsList->remove(expression);
+		for (int i = relatedExpressionsList->size() - 1; i >= 0; i--) {
+			const ExpressionPtr related = relatedExpressionsList->getRef(i).lock();
+			if (related == nullptr || related == expression) relatedExpressionsList->remove(i);
+		}
 	}
 
 	/**
@@ -322,10 +329,11 @@ namespace org::mariuszgromada::math::mxparser {
 		mXparser::consolePrintln();
 		mXparser::consolePrintln(
 			description + StringInvariant::SPACE_EQUAL_SPACE + expressionString + StringInvariant::COLON);
-		for (const ExpressionPtr& e : *relatedExpressionsList)
-			mXparser::consolePrintln(
-				StringInvariant::RIGHT_ARROW_SPACE + e->description + StringInvariant::SPACE_EQUAL_SPACE + e->
-				expressionString);
+		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList)
+			if (const ExpressionPtr e = observer.lock())
+				mXparser::consolePrintln(
+					StringInvariant::RIGHT_ARROW_SPACE + e->description + StringInvariant::SPACE_EQUAL_SPACE + e->
+					expressionString);
 	}
 
 	/**
@@ -386,8 +394,8 @@ namespace org::mariuszgromada::math::mxparser {
 		syntaxStatus = SYNTAX_STATUS_UNKNOWN;
 		markAsNotFullyCompiled();
 		errorMessage = StringInvariant::EMPTY;
-		for (const ExpressionPtr& e : *relatedExpressionsList)
-			e->setExpressionModifiedFlag();
+		for (const std::weak_ptr<Expression>& observer : *relatedExpressionsList)
+			if (const ExpressionPtr e = observer.lock()) e->setExpressionModifiedFlag();
 		recursionCallPending = false;
 	}
 
@@ -423,7 +431,7 @@ namespace org::mariuszgromada::math::mxparser {
 		argumentsList = new_List<ArgumentPtr>();
 		functionsList = new_List<FunctionPtr>();
 		constantsList = new_List<ConstantPtr>();
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		/*
 		 * Empty description
 		 * Silent mode
@@ -493,9 +501,11 @@ namespace org::mariuszgromada::math::mxparser {
 		this->argumentsList = argumentsList;
 		this->functionsList = functionsList;
 		this->constantsList = constantsList;
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		retainWeakDefinitionOwners();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		expressionWasModified = false;
 		syntaxStatus = NO_SYNTAX_ERRORS;
+		optionsChangesetNumber = mXparser::optionsChangesetNumber;
 		isFullyCompiled = false;
 		description = StringInvariant::INTERNAL;
 		errorMessage = StringInvariant::EMPTY;
@@ -559,9 +569,10 @@ namespace org::mariuszgromada::math::mxparser {
 		this->argumentsList = argumentsList;
 		this->functionsList = functionsList;
 		this->constantsList = constantsList;
+		retainWeakDefinitionOwners();
 		this->UDFExpression = UDFExpression;
 		this->UDFVariadicParamsAtRunTime = UDFVariadicParamsAtRunTime;
-		relatedExpressionsList = new_List<ExpressionPtr>();
+		relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 		setExpressionModifiedFlag();
 	}
 
@@ -609,7 +620,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 		if (isThreadSafeClone) {
 			internalClone = expressionToClone->internalClone;
-			relatedExpressionsList = new_List<ExpressionPtr>();
+			relatedExpressionsList = new_List<std::weak_ptr<Expression>>();
 			registerThreadSafeCloneElementsToPostConstructorSync(expressionToClone, cloneCache);
 			return;
 		}
@@ -618,6 +629,7 @@ namespace org::mariuszgromada::math::mxparser {
 		argumentsList = expressionToClone->argumentsList;
 		functionsList = expressionToClone->functionsList;
 		constantsList = expressionToClone->constantsList;
+		retainWeakDefinitionOwners();
 		relatedExpressionsList = expressionToClone->relatedExpressionsList;
 	}
 
@@ -894,6 +906,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @see PrimitiveElement
 	 */
 	API_VISIBLE void Expression::addDefinitions(const ListPtr<PrimitiveElementPtr> &elements) {
+		if (elements == nullptr)
+			throw std::invalid_argument("Native definition list must not be null");
 		for (const PrimitiveElementPtr &e: *elements)
 			addDefinitions(e);
 	}
@@ -968,6 +982,11 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE void Expression::addArguments(const ArgumentPtr &argument) {
 		if (argument == nullptr) return;
+		if (argumentBodyOwner.expired() && argument->argumentExpression.get() == this) {
+			argumentBodyOwner = argument;
+			isDefinitionBody = true;
+			retainWeakDefinitionOwners();
+		}
 		argumentsList->add(argument);
 
 		if (argument->getArgumentBodyType() == Argument::BODY_RUNTIME) {
@@ -1037,7 +1056,7 @@ namespace org::mariuszgromada::math::mxparser {
 			return NOT_FOUND;
 
 		for (int argumentIndex = 0; argumentIndex < argumentsNumber; argumentIndex++)
-			if (*argumentsList->getRef(argumentIndex)->getArgumentName() == *argumentName)
+			if (*argumentsList->get(argumentIndex)->getArgumentName() == *argumentName)
 				return argumentIndex;
 
 		return NOT_FOUND;
@@ -1059,7 +1078,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
 			return nullptr;
-		return argumentsList->getRef(argumentIndex);
+		return argumentsList->get(argumentIndex);
 	}
 
 	/**
@@ -1077,7 +1096,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE ArgumentPtr Expression::getArgument(int argumentIndex) const {
 		if (argumentIndex < 0 || argumentIndex >= argumentsList->size())
 			return nullptr;
-		return argumentsList->getRef(argumentIndex);
+		return argumentsList->get(argumentIndex);
 	}
 
 	/**
@@ -1101,7 +1120,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE void Expression::setArgumentValue(const StringPtr &argumentName, double argumentValue) {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex != NOT_FOUND)
-			argumentsList->getRef(argumentIndex)->setArgumentValue(argumentValue);
+			argumentsList->get(argumentIndex)->setArgumentValue(argumentValue);
 	}
 
 	/**
@@ -1116,7 +1135,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND)
 			return Double::NaN;
-		return argumentsList->getRef(argumentIndex)->getArgumentValue();
+		return argumentsList->get(argumentIndex)->getArgumentValue();
 	}
 
 	/**
@@ -1141,7 +1160,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (argumentName == nullptr) return;
 		int argumentIndex = getArgumentIndex(argumentName);
 		if (argumentIndex == NOT_FOUND) return;;
-		const ArgumentPtr& arg = argumentsList->getRef(argumentIndex);
+		const ArgumentPtr& arg = argumentsList->get(argumentIndex);
 		arg->removeRelatedExpression(THIS(Expression));
 		argumentsList->remove(argumentIndex);
 		setExpressionModifiedFlag();
@@ -1178,8 +1197,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @see        RecursiveArgument
 	 */
 	API_VISIBLE void Expression::removeAllArguments() {
-		for (const ArgumentPtr &arg : *argumentsList)
-			arg->removeRelatedExpression(THIS(Expression));
+		for (int i = 0; i < argumentsList->size(); i++)
+			argumentsList->get(i)->removeRelatedExpression(THIS(Expression));
 		argumentsList->clear();
 		setExpressionModifiedFlag();
 	}
@@ -1387,6 +1406,11 @@ namespace org::mariuszgromada::math::mxparser {
 
 	API_VISIBLE void Expression::addFunctions(const FunctionPtr &function) {
 		if (function == nullptr) return;
+		if (functionBodyOwner.expired() && function->functionExpression.get() == this) {
+			functionBodyOwner = function;
+			isDefinitionBody = true;
+			retainWeakDefinitionOwners();
+		}
 		functionsList->add(function);
 
 		if (function->getFunctionBodyType() == Function::BODY_RUNTIME) {
@@ -1436,7 +1460,7 @@ namespace org::mariuszgromada::math::mxparser {
 			return NOT_FOUND;
 
 		for (int functionIndex = 0; functionIndex < functionsNumber; functionIndex++)
-			if (*functionsList->getRef(functionIndex)->getFunctionName() == *functionName)
+			if (*functionsList->get(functionIndex)->getFunctionName() == *functionName)
 				return functionIndex;
 
 		return NOT_FOUND;
@@ -1456,7 +1480,7 @@ namespace org::mariuszgromada::math::mxparser {
 		int functionIndex = getFunctionIndex(functionName);
 		if (functionIndex == NOT_FOUND)
 			return nullptr;
-		return functionsList->getRef(functionIndex);
+		return functionsList->get(functionIndex);
 	}
 
 	/**
@@ -1473,7 +1497,7 @@ namespace org::mariuszgromada::math::mxparser {
 	API_VISIBLE FunctionPtr Expression::getFunction(int functionIndex) const {
 		if (functionIndex < 0 || functionIndex >= functionsList->size())
 			return nullptr;
-		return functionsList->getRef(functionIndex);
+		return functionsList->get(functionIndex);
 	}
 
 	/**
@@ -1507,7 +1531,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (functionName == nullptr) return;
 		int functionIndex = getFunctionIndex(functionName);
 		if (functionIndex == NOT_FOUND) return;
-		const FunctionPtr& f = functionsList->getRef(functionIndex);
+		const FunctionPtr& f = functionsList->get(functionIndex);
 		f->removeRelatedExpression(THIS(Expression));
 		functionsList->remove(f);
 		setExpressionModifiedFlag();
@@ -1543,8 +1567,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * @see        Function
 	 */
 	API_VISIBLE void Expression::removeAllFunctions() {
-		for (const FunctionPtr &f : *functionsList)
-			f->removeRelatedExpression(THIS(Expression));
+		for (int i = 0; i < functionsList->size(); i++)
+			functionsList->get(i)->removeRelatedExpression(THIS(Expression));
 		functionsList->clear();
 		setExpressionModifiedFlag();
 	}
@@ -2767,9 +2791,13 @@ namespace org::mariuszgromada::math::mxparser {
 	 */
 	API_VISIBLE double Expression::calculate(const CalcStepsRegisterPtr &calcStepsRegister) {
 		License::checkLicense();
+		int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 		try {
 			return calculateInternal(calcStepsRegister);
 		} catch (std::exception &e) {
+			recursionCallsCounter = recursionCallsCounterBeforeCalculation;
+			if (recursionCallsCounterBeforeCalculation == 0)
+				markAsNotFullyCompiled();
 			registerErrorWhileCalculate(
 				StringModel::STRING_RESOURCES->ERROR_WHILE_EXECUTING_THE_CALCULATE
 				+ StringInvariant::SPACE + StringModel::STRING_RESOURCES->EXCEPTION
@@ -2780,6 +2808,9 @@ namespace org::mariuszgromada::math::mxparser {
 			);
 			return Double::NaN;
 		} catch (...) {
+			recursionCallsCounter = recursionCallsCounterBeforeCalculation;
+			if (recursionCallsCounterBeforeCalculation == 0)
+				markAsNotFullyCompiled();
 			registerErrorWhileCalculate(
 				StringModel::STRING_RESOURCES->ERROR_WHILE_EXECUTING_THE_CALCULATE
 				+ StringInvariant::SPACE + StringModel::STRING_RESOURCES->EXCEPTION
@@ -2948,7 +2979,7 @@ namespace org::mariuszgromada::math::mxparser {
 						rPos = tokenIndex;
 
 					if (token->tokenTypeId == Argument::TYPE_ID) {
-						const ArgumentPtr& argument = argumentsList->getRef(tokensList->getRef(tokenIndex)->tokenId);
+						const ArgumentPtr& argument = argumentsList->get(tokensList->getRef(tokenIndex)->tokenId);
 						/*
 						 * Only free arguments can be directly
 						 * replaced with numbers. This is in order to
@@ -2988,7 +3019,7 @@ namespace org::mariuszgromada::math::mxparser {
 							const TokenPtr& token = tokensList->getRef(tokenIndex);
 							if (token->tokenTypeId != Argument::TYPE_ID)
 								continue;
-							const ArgumentPtr& argument = argumentsList->getRef(tokensList->getRef(tokenIndex)->tokenId);
+							const ArgumentPtr& argument = argumentsList->get(tokensList->getRef(tokenIndex)->tokenId);
 							if (argument->argumentType != Argument::DEPENDENT_ARGUMENT)
 								continue;
 							if (calcStepsRegister != nullptr) stepTypePrev = calcStepsRegister->stepType;
@@ -3313,7 +3344,7 @@ namespace org::mariuszgromada::math::mxparser {
 		 * evaluate expression string tokens
 		 *
 		 */
-		if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
+		if (!syntaxIsAlreadyCheckedNorErrors())
 			syntaxStatus = checkSyntax();
 		if (syntaxStatus == SYNTAX_ERROR) {
 			if (verboseMode)
@@ -3980,10 +4011,10 @@ namespace org::mariuszgromada::math::mxparser {
 		 * Building list of user defined tokens
 		 */
 		ListPtr<StringPtr> userDefinedTokens = new_List<StringPtr>();
-		for (const ArgumentPtr &arg : *argumentsList)
-			userDefinedTokens->add(arg->getArgumentName());
-		for (const FunctionPtr &fun : *functionsList)
-			userDefinedTokens->add(fun->getFunctionName());
+		for (int i = 0; i < argumentsList->size(); i++)
+			userDefinedTokens->add(argumentsList->get(i)->getArgumentName());
+		for (int i = 0; i < functionsList->size(); i++)
+			userDefinedTokens->add(functionsList->get(i)->getFunctionName());
 		for (const ConstantPtr &cons : *constantsList)
 			userDefinedTokens->add(cons->getConstantName());
 		/*
@@ -4357,7 +4388,7 @@ namespace org::mariuszgromada::math::mxparser {
 		token->tokenTypeId = keyWord->wordTypeId;
 		token->tokenId = keyWord->wordId;
 		if (token->tokenTypeId == Argument::TYPE_ID)
-			token->tokenValue = argumentsList->getRef(token->tokenId)->argumentValue;
+			token->tokenValue = argumentsList->get(token->tokenId)->argumentValue;
 	}
 
 	/**
@@ -4617,7 +4648,7 @@ namespace org::mariuszgromada::math::mxparser {
 		if (token->tokenTypeId != Token::NOT_MATCHED)
 			initialTokensAdd(token);
 		if (token->tokenTypeId == Argument::TYPE_ID) {
-			token->tokenValue = argumentsList->getRef(token->tokenId)->argumentValue;
+			token->tokenValue = argumentsList->get(token->tokenId)->argumentValue;
 		} else if (token->tokenTypeId == ParserSymbol::NUMBER_TYPE_ID) {
 			token->tokenValue = Double::parseDouble(token->tokenStr);
 			token->keyWord = ParserSymbol::NUMBER_STR;
@@ -5454,7 +5485,8 @@ namespace org::mariuszgromada::math::mxparser {
 	 * show arguments
 	 */
 	API_VISIBLE void Expression::showArguments() const {
-		for (const ArgumentPtr &a : *argumentsList) {
+		for (int i = 0; i < argumentsList->size(); i++) {
+			const ArgumentPtr a = argumentsList->get(i);
 			bool vMode = a->getVerboseMode();
 			a->setSilentMode();
 			printSystemInfo(
@@ -5490,6 +5522,36 @@ namespace org::mariuszgromada::math::mxparser {
 			newExp->initialCompilationDetails = initialCompilationDetails;
 		}
 		return newExp;
+	}
+
+	API_VISIBLE void Expression::retainWeakDefinitionOwners() {
+		const ArgumentPtr argumentOwner = argumentBodyOwner.lock();
+		const FunctionPtr functionOwner = functionBodyOwner.lock();
+		if (argumentOwner && argumentsList != nullptr) {
+			argumentsList->setSelfTest([](const ArgumentPtr& a, const void* list) {
+				return a && a->argumentExpression && a->argumentExpression->argumentsList.get() == list;
+			});
+			argumentsList->makeSelfWeak(argumentOwner);
+			argumentOwner->refreshSelfReferencePin();
+			for (int i = 0; i < argumentsList->size(); i++) {
+				const ArgumentPtr a = argumentsList->get(i);
+				if (a && a->argumentExpression && a->argumentExpression->argumentsList == argumentsList) a->refreshSelfReferencePin();
+			}
+		}
+		if (functionOwner && functionsList != nullptr) {
+			functionsList->setSelfTest([](const FunctionPtr& f, const void* list) {
+				return f && f->functionExpression && f->functionExpression->functionsList.get() == list;
+			});
+			functionsList->makeSelfWeak(functionOwner);
+			functionOwner->refreshSelfReferencePin();
+			for (int i = 0; i < functionsList->size(); i++) {
+				const FunctionPtr f = functionsList->get(i);
+				if (f && f->functionExpression && f->functionExpression->functionsList == functionsList) f->refreshSelfReferencePin();
+			}
+		}
+		const bool independentView = !isDefinitionBody;
+		if (argumentsList != nullptr) argumentsList->configureSelfPin(weakArgumentOwnerKeepAlive, nullptr, independentView);
+		if (functionsList != nullptr) functionsList->configureSelfPin(weakFunctionOwnerKeepAlive, nullptr, independentView);
 	}
 
 	API_VISIBLE ExpressionPtr Expression::cloneForThreadSafeInternal(const CloneCachePtr &cloneCache) {

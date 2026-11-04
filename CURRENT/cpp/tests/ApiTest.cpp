@@ -216,8 +216,13 @@
  * - online store: https://payhip.com/infima
  */
 
+#include <cstdint>
+#include <cstring>
 #include "Miscellaneous.hpp"
 #include "org/mariuszgromada/math/mxparser.hpp"
+#include "org/mariuszgromada/math/mxparser/syntaxchecker/SyntaxChecker.hpp"
+#include "org/mariuszgromada/math/mxparser/syntaxchecker/SyntaxCheckerTokenManager.hpp"
+#include "org/mariuszgromada/math/mxparser/syntaxchecker/CharStream.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesFunctionsStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesStd.hpp"
 #include "org/mariuszgromada/math/mxparser/aliases/AliasesTypesUser.hpp"
@@ -238,6 +243,7 @@
 #include "org/mariuszgromada/math/mxparser/mathcollection/MathConstants.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/MathFunctions.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/NumberTheory.hpp"
+#include "org/mariuszgromada/math/mxparser/mathcollection/SpecialFunctions.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/SpecialValue.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/SpecialValueTrigonometric.hpp"
 #include "org/mariuszgromada/math/mxparser/mXparser.hpp"
@@ -265,6 +271,7 @@
 #include "org/mariuszgromada/math/mxparser/wrapper/PtrsMap.hpp"
 #include "org/mariuszgromada/math/mxparser/wrapper/PtrsSet.hpp"
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/internal/catch_assertion_handler.hpp>
 #include <catch2/internal/catch_decomposer.hpp>
 #include <catch2/internal/catch_preprocessor_internal_stringify.hpp>
@@ -285,11 +292,167 @@
 #include <string>
 #include <string>
 #include <thread>
+#include <stdexcept>
+#include <functional>
+#include <limits>
+#include <cmath>
 
 using namespace org::mariuszgromada::math::mxparser;
 using namespace org::mariuszgromada::math::mxparser::mathcollection;
 using namespace org::mariuszgromada::math::mxparser::parsertokens;
 using namespace org::mariuszgromada::math::mxparser::wrapper;
+
+TEST_CASE("testNativeConsolePreconditions") {
+	const StringPtr nullText, savedNewLine = StringInvariant::NEW_LINE;
+	struct RestoreConsole {
+		StringPtr newLine;
+		~RestoreConsole() {
+			StringInvariant::NEW_LINE = newLine;
+			mXparser::setDefaultConsolePrefix();
+			mXparser::setDefaultConsoleOutputPrefix();
+			mXparser::resetConsoleOutput();
+		}
+	} restore{savedNewLine};
+	mXparser::setDefaultConsolePrefix();
+	mXparser::setDefaultConsoleOutputPrefix();
+	mXparser::resetConsoleOutput();
+	CHECK_NOTHROW(StringUtils::consolePrint(S("native console before")));
+	CHECK_NOTHROW(StringUtils::consolePrintln());
+	CHECK_NOTHROW(StringUtils::errorPrint(S("native error before")));
+	CHECK_NOTHROW(StringUtils::errorPrintln());
+	CHECK_THROWS_AS(StringUtils::consolePrint(nullText), std::invalid_argument);
+	CHECK_THROWS_WITH(StringUtils::consolePrint(nullText), "Native StringUtils.consolePrint requires non-null text");
+	CHECK_THROWS_AS(StringUtils::errorPrint(nullText), std::invalid_argument);
+	CHECK_THROWS_WITH(StringUtils::errorPrint(nullText), "Native StringUtils.errorPrint requires non-null text");
+	CHECK_THROWS_AS(mXparser::consolePrintSettings(nullText), std::invalid_argument);
+	CHECK_THROWS_WITH(mXparser::consolePrintSettings(nullText), "Native mXparser.consolePrintSettings requires non-null prefix");
+	CHECK_NOTHROW(mXparser::consolePrintSettings(S("")));
+	CHECK_NOTHROW(mXparser::setConsolePrefix(nullText));
+	CHECK_NOTHROW(mXparser::resetConsoleOutput());
+	CHECK_THROWS_AS(mXparser::consolePrintln(), std::invalid_argument);
+	CHECK_NOTHROW(mXparser::setDefaultConsolePrefix());
+	CHECK_NOTHROW(mXparser::consolePrintln(S("recovered live prefix")));
+	CHECK(StringUtils::contains(mXparser::getConsoleOutput(), S("recovered live prefix")));
+	CHECK_NOTHROW(mXparser::setConsoleOutputPrefix(nullText));
+	CHECK_NOTHROW(mXparser::resetConsoleOutput());
+	CHECK_THROWS_AS(mXparser::consolePrintln(S("null stored output prefix")), std::invalid_argument);
+	CHECK_NOTHROW(mXparser::setDefaultConsoleOutputPrefix());
+	CHECK_NOTHROW(mXparser::consolePrintln(S("recovered output prefix")));
+	CHECK(StringUtils::contains(mXparser::getConsoleOutput(), S("recovered output prefix")));
+	REQUIRE(savedNewLine != nullptr);
+	StringInvariant::NEW_LINE = nullptr;
+	CHECK_THROWS_AS(StringUtils::consolePrintln(), std::invalid_argument);
+	CHECK_THROWS_WITH(StringUtils::consolePrintln(), "Native StringUtils.consolePrintln requires non-null NEW_LINE");
+	CHECK_THROWS_AS(StringUtils::errorPrintln(), std::invalid_argument);
+	CHECK_THROWS_WITH(StringUtils::errorPrintln(), "Native StringUtils.errorPrintln requires non-null NEW_LINE");
+	CHECK_NOTHROW(StringUtils::consolePrint(S("stdout without newline")));
+	CHECK_NOTHROW(StringUtils::errorPrint(S("stderr without newline")));
+	CHECK_THROWS_AS(mXparser::consolePrintln(S("missing newline")), std::invalid_argument);
+	StringInvariant::NEW_LINE = savedNewLine;
+	CHECK(*StringInvariant::NEW_LINE == *savedNewLine);
+	CHECK_NOTHROW(StringUtils::consolePrintln());
+	CHECK_NOTHROW(StringUtils::errorPrintln());
+	mXparser::resetConsoleOutput();
+	CHECK_NOTHROW(mXparser::consolePrintln(S("complete recovery")));
+	CHECK(StringUtils::contains(mXparser::getConsoleOutput(), S("complete recovery")));
+	std::weak_ptr<Expression> expressionObserver;
+	std::weak_ptr<Argument> argumentObserver;
+	{
+		const auto argument = new_Argument("nativeConsoleArgument", 2);
+		const auto expression = new_Expression("nativeConsoleArgument+2", argument);
+		argumentObserver = argument;
+		expressionObserver = expression;
+		expression->setVerboseMode();
+		mXparser::setConsolePrefix(nullText);
+		mXparser::resetConsoleOutput();
+		// calculate() preserves its existing catch/register/NaN contract.
+		CHECK(Double::isNaN(expression->calculate()));
+		CHECK(StringUtils::contains(expression->getErrorMessage(),
+		    S("Native StringUtils.consolePrint requires non-null text")));
+		expression->setSilentMode();
+		mXparser::setDefaultConsolePrefix();
+		expression->setExpressionString(S("nativeConsoleArgument+2"));
+		CHECK(expression->calculate() == 4);
+		CHECK_FALSE(argumentObserver.expired());
+	}
+	CHECK(expressionObserver.expired());
+	CHECK(argumentObserver.expired());
+}
+
+TEST_CASE("testNativePointerPreconditions") {
+	mXparser::setDefaultOptions();
+	const StringPtr nullText, text = S(" value "), empty = S(""), caption = S("guard caption");
+	const auto builder = new_StringBuilder();
+	builder->append(text);
+	CHECK(*builder->toString() == *text);
+	CHECK_THROWS_AS(builder->append(nullText), std::invalid_argument);
+	CHECK(*builder->toString() == *text);
+	CHECK(*StringUtils::trim(text) == UTF("value"));
+	CHECK_THROWS_AS(StringUtils::trim(nullText), std::invalid_argument);
+	CHECK(*StringUtils::surroundSquareBrackets(text) == UTF("[ value ]"));
+	CHECK_THROWS_AS(StringUtils::surroundSquareBrackets(nullText), std::invalid_argument);
+
+	const auto fresh = new_Expression("2+2");
+	CHECK_THROWS_AS(fresh->showKeyWords(), std::invalid_argument);
+	const auto keywords = fresh->getKeyWords();
+	REQUIRE(keywords != nullptr);
+	CHECK(keywords->size() > 0);
+	CHECK_NOTHROW(fresh->showKeyWords());
+
+	const StringPtr noMatch = S("key=___nativePointerNoMatch_9c40f638___"), matching = S("key=sin");
+	CHECK(fresh->getHelpAsCsv(noMatch, nullText, nullText, false)->empty());
+	CHECK_THROWS_AS(fresh->getHelpAsCsv(matching, nullText, nullText, false), std::invalid_argument);
+	CHECK_THROWS_AS(fresh->getHelpAsCsv(noMatch, nullText, nullText, true), std::invalid_argument);
+	CHECK_FALSE(fresh->getHelp(nullText, false, false, nullText)->empty());
+	CHECK(fresh->getHelp(nullText, false, true, caption)->find(*caption) == 0);
+	CHECK_THROWS_AS(fresh->getHelp(nullText), std::invalid_argument);
+	CHECK_THROWS_AS(fresh->getHelpAsHtmlTable(nullText, false, false, false, nullText, nullText), std::invalid_argument);
+	CHECK(fresh->getHelpAsHtmlTable(nullText, false, false, false, caption, nullText)->find(UTF("<table>")) == 0);
+	CHECK_FALSE(fresh->getHelpAsMarkdownTable(nullText, false, false, nullText)->empty());
+	CHECK_THROWS_AS(fresh->getHelpAsMarkdownTable(nullText), std::invalid_argument);
+	CHECK_FALSE(fresh->getHelpAsJson(nullText, false, nullText)->empty());
+	CHECK_THROWS_AS(fresh->getHelpAsJson(nullText), std::invalid_argument);
+
+	const auto expression = new_Expression("2+2");
+	CHECK(expression->calculate() == 4);
+	expression->setDescription(nullText);
+	CHECK(expression->getDescription() == nullptr);
+	CHECK(expression->calculate() == 4);
+	const auto steps = new_CalcStepsRegister();
+	CHECK_THROWS_AS(expression->calculate(steps), std::invalid_argument);
+	expression->clearDescription();
+	// Existing invalidation resets native recursion/compilation state after a
+	// failed calculation; the pointer guard does not invent rollback semantics.
+	expression->setExpressionString(S("2+2"));
+	CHECK(expression->calculate() == 4);
+	expression->setExpressionString(nullText);
+	CHECK(expression->getExpressionString() == nullptr);
+	CHECK_THROWS_AS(expression->calculate(), std::invalid_argument);
+	expression->setExpressionString(S("2+2"));
+	CHECK(expression->calculate() == 4);
+
+	struct NativePointerFailure final : ArgumentExtension {
+		bool fail = false;
+		double getArgumentValue() override {
+			if (fail) throw std::runtime_error("native callback failure");
+			return 2;
+		}
+		ArgumentExtensionPtr clone() override { return std::make_shared<NativePointerFailure>(*this); }
+	};
+	const auto implementation = std::make_shared<NativePointerFailure>();
+	const ArgumentExtensionPtr extension = implementation;
+	const StringPtr argumentName = S("nativeGuardArgument");
+	const auto argument = new_Argument(argumentName, extension);
+	const auto dependent = new_Expression("nativeGuardArgument+2", argument);
+	CHECK(dependent->calculate() == 4);
+	dependent->setDescription(nullText);
+	implementation->fail = true;
+	CHECK_THROWS_AS(dependent->calculate(), std::invalid_argument);
+	implementation->fail = false;
+	dependent->clearDescription();
+	dependent->setExpressionString(S("nativeGuardArgument+2"));
+	CHECK(dependent->calculate() == 4);
+}
 
 
 static StringPtr cleanMarkdownBackslash(const String &str) {
@@ -11069,4 +11232,954 @@ TEST_CASE("testApi0372", "[API]") {
 	TestCommonTools::consolePrintTestApiEnd(testResult);
 	CHECK(testResult);
 	StringModel::setDefaultStringResources();
+}
+
+namespace {
+class RecoveringArgumentSource final : public ArgumentExtension {
+public:
+	double value = 2;
+	int failureKind = 0;
+	double getArgumentValue() override {
+		const int failure = failureKind;
+		failureKind = 0;
+		if (failure == 1) throw std::runtime_error("planned callback failure");
+		if (failure == 2) throw 373;
+		return value;
+	}
+	ArgumentExtensionPtr clone() override {
+		return std::make_shared<RecoveringArgumentSource>(*this);
+	}
+};
+class NestedRecoverySource final : public ArgumentExtension {
+	ExpressionPtr expression;
+public:
+	explicit NestedRecoverySource(const ExpressionPtr &expression) : expression(expression) {}
+	double getArgumentValue() override { return expression->calculate(); }
+	ArgumentExtensionPtr clone() override {
+		return std::make_shared<NestedRecoverySource>(expression->cloneForThreadSafe());
+	}
+};
+}
+
+TEST_CASE("testApi0373", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	TestCommonTools::consolePrintTestApiStart(373, "Repeated calculation after callback exceptions");
+	for (bool compiled : {false, true}) {
+		for (int failureKind : {1, 2}) {
+			for (bool registerSteps : {false, true}) {
+				auto source = std::make_shared<RecoveringArgumentSource>();
+				ArgumentExtensionPtr extension = source;
+				auto expression = new_Expression("recoveringValue+1", new_Argument("recoveringValue", extension));
+				if (compiled) CHECK(expression->calculate() == 3);
+				source->failureKind = failureKind;
+				CHECK(Double::isNaN(expression->calculate(registerSteps ? new_CalcStepsRegister() : nullptr)));
+				if (failureKind == 1)
+					CHECK(expression->getErrorMessage()->find(UTF("planned callback failure")) != String::npos);
+				else
+					CHECK(expression->getErrorMessage()->find(*StringModel::getStringResources()->ERROR_WHILE_EXECUTING_THE_CALCULATE) != String::npos);
+				for (double nextValue : {5.0, 8.0, 11.0}) {
+					source->value = nextValue;
+					CHECK(expression->calculate(registerSteps ? new_CalcStepsRegister() : nullptr) == nextValue + 1);
+				}
+				source->failureKind = failureKind;
+				CHECK(Double::isNaN(expression->calculate()));
+				for (double nextValue : {14.0, 17.0, 20.0}) {
+					source->value = nextValue;
+					CHECK(expression->calculate() == nextValue + 1);
+				}
+			}
+		}
+	}
+	std::weak_ptr<Expression> originalObserver, cloneObserver, innerObserver, outerObserver;
+	std::weak_ptr<Argument> argumentObserver;
+	{
+		auto source = std::make_shared<RecoveringArgumentSource>();
+		auto base = new_Argument("baseValue", 1.0);
+		ArgumentExtensionPtr extension = source;
+		auto original = new_Expression("recoveringValue+baseValue", new_Argument("recoveringValue", extension), base);
+		originalObserver = original;
+		argumentObserver = base;
+		CHECK(original->calculate() == 3);
+		auto clone = original->cloneForThreadSafe();
+		cloneObserver = clone;
+		source->failureKind = 1;
+		CHECK(Double::isNaN(original->calculate()));
+		clone->getArgument("baseValue")->setArgumentValue(5);
+		CHECK(clone->calculate() == 7);
+		base->setArgumentValue(8);
+		source->value = 3;
+		CHECK(original->calculate() == 11);
+		base->setArgumentValue(9);
+		source->value = 4;
+		CHECK(original->calculate() == 13);
+		clone->getArgument("baseValue")->setArgumentValue(10);
+		CHECK(clone->calculate() == 12);
+
+		auto innerSource = std::make_shared<RecoveringArgumentSource>();
+		ArgumentExtensionPtr innerExtension = innerSource;
+		auto inner = new_Expression("recoveringValue+1", new_Argument("recoveringValue", innerExtension));
+		ArgumentExtensionPtr outerExtension = std::make_shared<NestedRecoverySource>(inner);
+		auto outer = new_Expression("nestedValue*2", new_Argument("nestedValue", outerExtension));
+		innerObserver = inner;
+		outerObserver = outer;
+		innerSource->failureKind = 1;
+		CHECK(Double::isNaN(outer->calculate()));
+		innerSource->value = 5;
+		CHECK(outer->calculate() == 12);
+		innerSource->value = 8;
+		CHECK(outer->calculate() == 18);
+	}
+	CHECK(originalObserver.expired());
+	CHECK(cloneObserver.expired());
+	CHECK(argumentObserver.expired());
+	CHECK(innerObserver.expired());
+	CHECK(outerObserver.expired());
+	TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+TEST_CASE("testApi0374", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	TestCommonTools::consolePrintTestApiStart(374, "Gamma recurrence without representable progress");
+	using Gamma = double (*)(double, double);
+	const Gamma regularized[] = {SpecialFunctions::regularizedGammaLowerP, SpecialFunctions::regularizedGammaUpperQ};
+	for (int kind = 0; kind < 2; ++kind) {
+		for (double shape : {Double::NEGATIVE_INFINITY, -Double::MAX_VALUE, -0x1.0p54}) {
+			CHECK(shape + 1 == shape);
+			for (double value : {1.0, 2.0, -1.0, Double::NaN})
+				CHECK(Double::isNaN(regularized[kind](shape, value)));
+			for (double value : {0.0, -0.0, BinaryRelations::DEFAULT_COMPARISON_EPSILON / 2, -BinaryRelations::DEFAULT_COMPARISON_EPSILON / 2})
+				CHECK(regularized[kind](shape, value) == kind);
+		}
+		CHECK(Double::isNaN(regularized[kind](Double::NaN, 0)));
+	}
+	CHECK(Double::isNaN(SpecialFunctions::incompleteGammaLower(Double::NEGATIVE_INFINITY, 2)));
+	CHECK(Double::isNaN(SpecialFunctions::incompleteGammaUpper(Double::NEGATIVE_INFINITY, 2)));
+	for (const char *name : {"GammaL", "GammaU", "GammaRegL", "GammaRegU", "GammaP", "GammaQ"}) {
+		const std::string functionName(name);
+		const double expected = functionName == "GammaU" || functionName == "GammaRegU" || functionName == "GammaQ"
+			? 0.1353352832366127 : 0.8646647167633873;
+		for (bool compiled : {false, true}) {
+			auto shape = new_Argument("shape", 1.0);
+			std::string expressionText = functionName + "(shape,2)";
+			auto expression = new_Expression(expressionText, shape);
+			REQUIRE(expression->checkSyntax());
+			if (compiled) CHECK(Math::abs(expression->calculate() - expected) <= 1e-14);
+			for (int reuse = 0; reuse < 2; ++reuse) {
+				shape->setArgumentValue(Double::NEGATIVE_INFINITY);
+				CHECK(Double::isNaN(expression->calculate()));
+				shape->setArgumentValue(1);
+				CHECK(Math::abs(expression->calculate() - expected) <= 1e-14);
+			}
+		}
+	}
+	TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+TEST_CASE("testOwnershipArgumentObservers", "[API][Ownership]") {
+	TestCommonTools::testApiSettingsInit();
+	std::weak_ptr<Argument> argument;
+	std::weak_ptr<Expression> first, second;
+	{
+		auto x = new_Argument("x", 2.0);
+		auto e1 = new_Expression("x+1", x);
+		auto e2 = new_Expression("x+2", x);
+		argument = x; first = e1; second = e2;
+		x.reset();
+		REQUIRE_FALSE(argument.expired());
+		CHECK(e1->getArgument("x") == e2->getArgument("x"));
+		CHECK(e1->calculate() == 3);
+		CHECK(e2->calculate() == 4);
+		e1.reset();
+		CHECK(first.expired());
+		e2->getArgument("x")->setArgumentName("y");
+		e2->setExpressionString("y+2");
+		CHECK(e2->calculate() == 4);
+	}
+	CHECK(first.expired());
+	CHECK(second.expired());
+	CHECK(argument.expired());
+	{
+		auto x = new_Argument("x", 2.0);
+		{ auto e = new_Expression("x", x); first = e; }
+		CHECK(first.expired());
+		x->setArgumentName("y");
+		CHECK(x->getArgumentValue() == 2);
+	}
+}
+
+TEST_CASE("testOwnershipConstantObservers", "[API][Ownership]") {
+	TestCommonTools::testApiSettingsInit();
+	std::weak_ptr<Constant> constant;
+	std::weak_ptr<Expression> expression;
+	{
+		auto c = new_Constant("cc", 2.0);
+		auto e = new_Expression("cc+1", c);
+		constant = c; expression = e;
+		CHECK(e->calculate() == 3);
+		c->setConstantName("dd");
+		CHECK_FALSE(e->checkSyntax());
+		e->setExpressionString("dd+1");
+		CHECK(e->calculate() == 3);
+		c.reset();
+		REQUIRE_FALSE(constant.expired());
+		CHECK(e->calculate() == 3);
+	}
+	CHECK(constant.expired());
+	CHECK(expression.expired());
+}
+
+TEST_CASE("testOwnershipDependentArguments", "[API][Ownership]") {
+	TestCommonTools::testApiSettingsInit();
+	std::weak_ptr<Argument> source, dependent;
+	std::weak_ptr<Expression> expression;
+	{
+		auto x = new_Argument("x", 2.0);
+		auto y = new_Argument("y=x^2", x);
+		auto e = new_Expression("x+y", x, y);
+		source = x; dependent = y; expression = e;
+		x.reset(); y.reset();
+		CHECK(e->calculate() == 6);
+		e->getArgument("x")->setArgumentValue(3);
+		CHECK(e->calculate() == 12);
+	}
+	CHECK(source.expired()); CHECK(dependent.expired()); CHECK(expression.expired());
+}
+
+TEST_CASE("testOwnershipCloneDoesNotRetainOriginal", "[API][Ownership]") {
+	TestCommonTools::testApiSettingsInit();
+	std::weak_ptr<Expression> original, cloned;
+	std::weak_ptr<Argument> source, clonedArgument;
+	ExpressionPtr clone;
+	{
+		auto x = new_Argument("x", 2.0);
+		auto e = new_Expression("x+1", x);
+		CHECK(e->calculate() == 3);
+		clone = e->cloneForThreadSafe();
+		original = e; source = x; cloned = clone; clonedArgument = clone->getArgument("x");
+		CHECK(clone->getArgument("x") != x);
+		CHECK(clone->calculate() == 3);
+	}
+	CHECK(original.expired()); CHECK(source.expired());
+	clone->getArgument("x")->setArgumentValue(8);
+	CHECK(clone->calculate() == 9);
+	clone.reset();
+	CHECK(cloned.expired()); CHECK(clonedArgument.expired());
+}
+
+TEST_CASE("testOwnershipRemoveReaddAndDeserialize", "[API][Ownership]") {
+	TestCommonTools::testApiSettingsInit();
+	std::weak_ptr<Argument> removed, retained;
+	std::weak_ptr<Expression> restored;
+	{
+		auto x = new_Argument("x", 2.0);
+		auto e = new_Expression("x+1", x);
+		removed = x;
+		e->removeArguments(x); x.reset();
+		CHECK(removed.expired());
+		x = new_Argument("x", 4.0); e->addArguments(x);
+		CHECK(e->calculate() == 5);
+		SerializationUtils::enableBinarySerializationIamAwareOfSecurityRisks();
+		auto bytes = SerializationUtils::serializeToBytes(e);
+		SerializationUtils::disableBinarySerialization();
+		REQUIRE(bytes != nullptr);
+		SerializationUtils::enableBinarySerializationIamAwareOfSecurityRisks();
+		auto copy = SerializationUtils::deserializeFromBytes<Expression>(bytes);
+		SerializationUtils::disableBinarySerialization();
+		REQUIRE(copy != nullptr);
+		CHECK(copy->calculate() == 5);
+		CHECK(copy->getArgument("x") != x);
+		restored = copy; retained = copy->getArgument("x");
+	}
+	CHECK(restored.expired()); CHECK(retained.expired());
+}
+
+TEST_CASE("testFunctionNamedListConstructor", "[API]") {
+	TestCommonTools::testApiSettingsInit();
+	const ListPtr<StringPtr> names = new_List<StringPtr>();
+	names->add(S("x")); names->add(S("y"));
+	const StringPtr name = S("ff"), body = S("x+y");
+	auto f = new_Function(name, body, names);
+	REQUIRE(f->checkSyntax());
+	CHECK(f->getParametersNumber() == 2);
+	CHECK(f->getFunction("ff") == f);
+	CHECK(f->calculate(1.0, 2.0) == 3);
+	auto clone = f->cloneForThreadSafe();
+	CHECK(clone->calculate(2.0, 3.0) == 5);
+	const ListPtr<StringPtr> nullNames = nullptr;
+	const StringPtr nullString = nullptr;
+	CHECK_FALSE(new_Function(name, body, nullNames)->checkSyntax());
+	CHECK_FALSE(new_Function(nullString, body, names)->checkSyntax());
+	CHECK_FALSE(new_Function(name, nullString, names)->checkSyntax());
+	CHECK_FALSE(new_Function(S("1!"), body, names)->checkSyntax());
+}
+
+TEST_CASE("testPolishResourceDescriptions", "[API][Localization]") {
+	TestCommonTools::testApiSettingsInit();
+	const StringResourcesPtr polish = StringResources::languagePolish();
+	REQUIRE(polish != nullptr);
+	REQUIRE(polish->DESCRIPTION != nullptr);
+	CHECK(*polish->DESCRIPTION == UTF("Opis"));
+	REQUIRE(polish->DESCRIPTION_SHORT != nullptr);
+	CHECK(*polish->DESCRIPTION_SHORT == UTF("opis"));
+	REQUIRE(polish->CONSTANT_VALUE_VENUS_RADIUS_MEAN != nullptr);
+	CHECK(*polish->CONSTANT_VALUE_VENUS_RADIUS_MEAN == UTF("Średni promień Wenus"));
+	REQUIRE(polish->CONSTANT_VALUE_VENUS_MASS != nullptr);
+	CHECK(*polish->CONSTANT_VALUE_VENUS_MASS == UTF("Masa Wenus"));
+	REQUIRE(polish->FUNCTION_1_ARG_SIN != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_SIN == UTF("Trygonometryczny sinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_COS != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_COS == UTF("Trygonometryczny cosinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_TAN != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_TAN == UTF("Trygonometryczny tangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_CTAN != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_CTAN == UTF("Trygonometryczny cotangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_SEC != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_SEC == UTF("Trygonometryczny secans"));
+	REQUIRE(polish->FUNCTION_1_ARG_COSEC != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_COSEC == UTF("Trygonometryczny cosecans"));
+	REQUIRE(polish->FUNCTION_1_ARG_ASIN != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ASIN == UTF("Odwrotny trygonometryczny sinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_ACOS != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ACOS == UTF("Odwrotny trygonometryczny cosinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_ATAN != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ATAN == UTF("Odwrotny trygonometryczny tangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_ACTAN != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ACTAN == UTF("Odwrotny trygonometryczny cotangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_SINH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_SINH == UTF("Hiperboliczny sinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_COSH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_COSH == UTF("Hiperboliczny cosinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_TANH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_TANH == UTF("Hiperboliczny tangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_COTH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_COTH == UTF("Hiperboliczny cotangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_SECH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_SECH == UTF("Hiperboliczny secans"));
+	REQUIRE(polish->FUNCTION_1_ARG_CSCH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_CSCH == UTF("Hiperboliczny cosecans"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARSINH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARSINH == UTF("Odwrotny hiperboliczny sinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARCOSH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARCOSH == UTF("Odwrotny hiperboliczny cosinus"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARTANH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARTANH == UTF("Odwrotny hiperboliczny tangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARCOTH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARCOTH == UTF("Odwrotny hiperboliczny cotangens"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARSECH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARSECH == UTF("Odwrotny hiperboliczny secans"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARCSCH != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARCSCH == UTF("Odwrotny hiperboliczny cosecans"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARCSEC != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARCSEC == UTF("Odwrotny trygonometryczny secans"));
+	REQUIRE(polish->FUNCTION_1_ARG_ARCCSC != nullptr);
+	CHECK(*polish->FUNCTION_1_ARG_ARCCSC == UTF("Odwrotny trygonometryczny cosecans"));
+	REQUIRE(polish->PARSER_SYMBOL_LEFT_PARENTHESES != nullptr);
+	CHECK(*polish->PARSER_SYMBOL_LEFT_PARENTHESES == UTF("Lewy nawias"));
+	REQUIRE(polish->PARSER_SYMBOL_RIGHT_PARENTHESES != nullptr);
+	CHECK(*polish->PARSER_SYMBOL_RIGHT_PARENTHESES == UTF("Prawy nawias"));
+}
+
+TEST_CASE("testNativeMathConversionPreconditions", "[API][NativePreconditions]") {
+    auto check = [](bool value) { CHECK(value); };
+    auto expect = [&](const char* operation, const char* type, const std::function<void()>& action) {
+        bool caught = false;
+        std::string message;
+        try { action(); } catch (const std::invalid_argument& error) { caught = true; message = error.what(); }
+        CHECK(caught);
+        CHECK(message == std::string("Native MathFunctions.") + operation + " requires "
+              + (std::string(type) == "int" ? "an " : "a ") + type + "-representable conversion value");
+    };
+    TestCommonTools::testApiSettingsInit();
+    const double nan=Double::NaN,inf=Double::POSITIVE_INFINITY;
+    using Unary=std::pair<const char*,std::function<double(double)>>;
+    const Unary unary[]={
+        {"factorial",[](double x){return MathFunctions::factorial(x);}},
+        {"harmonicNumber",[](double x){return MathFunctions::harmonicNumber(x);}},
+        {"catalanNumber",[](double x){return MathFunctions::catalanNumber(x);}},
+        {"fibonacciNumber",[](double x){return MathFunctions::fibonacciNumber(x);}},
+        {"lucasNumber",[](double x){return MathFunctions::lucasNumber(x);}}
+    };
+    using Binary=std::pair<const char*,std::function<double(double,double)>>;
+    const Binary binary[]={
+        {"eulerNumber",[](double n,double k){return MathFunctions::eulerNumber(n,k);}},
+        {"bernoulliNumber",[](double n,double k){return MathFunctions::bernoulliNumber(n,k);}},
+        {"Stirling1Number",[](double n,double k){return MathFunctions::Stirling1Number(n,k);}},
+        {"Stirling2Number",[](double n,double k){return MathFunctions::Stirling2Number(n,k);}},
+        {"worpitzkyNumber",[](double n,double k){return MathFunctions::worpitzkyNumber(n,k);}}
+    };
+    for(double bad:{inf,-inf,1e40}) {
+        for(const auto& row:unary)expect(row.first,"int",[&]{row.second(bad);});
+        for(const auto& row:binary) {
+            expect(row.first,"int",[&]{row.second(bad,2.0);});
+            expect(row.first,"int",[&]{row.second(2.0,bad);});
+        }
+        expect("harmonicNumber","int",[&]{MathFunctions::harmonicNumber(2.0,bad);});
+        expect("eulerPolynomial","int",[&]{MathFunctions::eulerPolynomial(bad,2.0);});
+        expect("binomCoeff","Long",[&]{MathFunctions::binomCoeff(2.0,bad);});
+        expect("numberOfPermutations","Long",[&]{MathFunctions::numberOfPermutations(2.0,bad);});
+    }
+    // The fixed default-epsilon integer branch already makes this safe.
+    check(MathFunctions::power(-2.0,1e-20)==1);
+    expect("root","Long",[]{MathFunctions::root(1e40,2.0);});
+    for(const auto& row:unary)check(Double::isNaN(row.second(nan)));
+    for(const auto& row:binary) {
+        check(Double::isNaN(row.second(nan,inf)));
+        check(Double::isNaN(row.second(inf,nan)));
+    }
+    check(Double::isNaN(MathFunctions::harmonicNumber(nan,inf)));
+    check(Double::isNaN(MathFunctions::harmonicNumber(2.0,nan)));
+    check(Double::isNaN(MathFunctions::eulerPolynomial(inf,nan)));
+    check(Double::isNaN(MathFunctions::eulerPolynomial(nan,2.0)));
+    check(Double::isNaN(MathFunctions::binomCoeff(nan,inf)));
+    check(Double::isNaN(MathFunctions::binomCoeff(2.0,nan)));
+    check(Double::isNaN(MathFunctions::numberOfPermutations(nan,inf)));
+    check(Double::isNaN(MathFunctions::numberOfPermutations(2.0,nan)));
+    check(Double::isNaN(MathFunctions::root(inf,2.0)));
+    check(Double::isNaN(MathFunctions::root(-inf,2.0)));
+    check(Double::isNaN(MathFunctions::root(2.0,nan)));
+    check(Double::isNaN(MathFunctions::power(nan,1e-20)));
+    check(Double::isNaN(MathFunctions::power(-2.0,nan)));
+    check(Double::isInfinite(MathFunctions::power(2.0,inf)));
+    check(MathFunctions::power(2.0,-inf)==0);
+    // Preserve the currently defined C++ rounding, including its known Java
+    // discrepancy. This safety proposal does not silently change that policy.
+    check(MathFunctions::factorial(2.5)==6);
+    check(Double::isNaN(MathFunctions::factorial(-0.5)));
+    check(MathFunctions::fibonacciNumber(5.0)==5);
+    check(MathFunctions::root(3.0,-8.0)==-2);
+    check(MathFunctions::power(-2.0,2.0)==4);
+    check(Double::isNaN(MathFunctions::fibonacciNumber(-2147483648.0)));
+    check(Double::isNaN(MathFunctions::fibonacciNumber(-2147483648.25)));
+    check(Double::isNaN(MathFunctions::fibonacciNumber(2147483647.25)));
+    check(Double::isNaN(MathFunctions::binomCoeff(2.0,-9223372036854775808.0)));
+    const double belowUpper=std::nextafter(9223372036854775808.0,0.0);
+    mXparser::cancelCurrentCalculation();
+    check(Double::isNaN(MathFunctions::binomCoeff(2.0,belowUpper)));
+    check(Double::isNaN(MathFunctions::numberOfPermutations(2.0,belowUpper)));
+    mXparser::resetCancelCurrentCalculationFlag();
+    std::weak_ptr<Expression> expressionObserver;
+    std::weak_ptr<Argument> argumentObserver;
+    {
+        const auto argument=new_Argument("guardedValue",inf);
+        const auto expression=new_Expression("Fib(guardedValue)",argument);
+        expressionObserver=expression;argumentObserver=argument;
+        check(expression->checkSyntax());
+        check(Double::isNaN(expression->calculate()));
+        check(expression->getErrorMessage()->find(UTF("Native MathFunctions.fibonacciNumber"))!=String::npos);
+        argument->setArgumentValue(5);
+        check(expression->calculate()==5);
+    }
+    check(expressionObserver.expired());check(argumentObserver.expired());
+}
+
+#include "NumericRuntimeChecks.hpp"
+TEST_CASE("testNativeNumericRuntimeConversions", "[API][NativePreconditions]") {
+    unsigned predicate=0;
+    const auto count=numericRuntimeChecks([&](bool value){INFO("public numeric predicate " << ++predicate);CHECK(value);});
+    CHECK(count>150);
+}
+
+
+TEST_CASE("testNativeMathNextUp", "[API][NativeMath]") {
+    // Binary64 neighbors observed from the canonical JDK Math.nextUp.
+    // NaN payload identity is not part of the contract; only NaN is required.
+    struct Vector { std::uint64_t input; std::uint64_t expected; bool nan; };
+    const Vector vectors[] = {
+        {0x0000000000000000ULL, 0x0000000000000001ULL, false},
+        {0x8000000000000000ULL, 0x0000000000000001ULL, false},
+        {0x0000000000000001ULL, 0x0000000000000002ULL, false},
+        {0x8000000000000001ULL, 0x8000000000000000ULL, false},
+        {0x000fffffffffffffULL, 0x0010000000000000ULL, false},
+        {0x800fffffffffffffULL, 0x800ffffffffffffeULL, false},
+        {0x0010000000000000ULL, 0x0010000000000001ULL, false},
+        {0x8010000000000000ULL, 0x800fffffffffffffULL, false},
+        {0x3ff0000000000000ULL, 0x3ff0000000000001ULL, false},
+        {0xbff0000000000000ULL, 0xbfefffffffffffffULL, false},
+        {0x3fe0000000000000ULL, 0x3fe0000000000001ULL, false},
+        {0xbfe0000000000000ULL, 0xbfdfffffffffffffULL, false},
+        {0x3fffffffffffffffULL, 0x4000000000000000ULL, false},
+        {0xbfffffffffffffffULL, 0xbffffffffffffffeULL, false},
+        {0x4000000000000000ULL, 0x4000000000000001ULL, false},
+        {0xc000000000000000ULL, 0xbfffffffffffffffULL, false},
+        {0x7fefffffffffffffULL, 0x7ff0000000000000ULL, false},
+        {0xffefffffffffffffULL, 0xffeffffffffffffeULL, false},
+        {0x7ff0000000000000ULL, 0x7ff0000000000000ULL, false},
+        {0xfff0000000000000ULL, 0xffefffffffffffffULL, false},
+        {0x7ff8000000000000ULL, 0x7ff8000000000000ULL, true},
+        {0xfff8000000000000ULL, 0xfff8000000000000ULL, true},
+        {0x7ff8000000000123ULL, 0x7ff8000000000123ULL, true},
+        {0xfff8000000000123ULL, 0xfff8000000000123ULL, true},
+    };
+    for (const auto& vector : vectors) {
+        double input;
+        std::memcpy(&input, &vector.input, sizeof(input));
+        INFO("nextUp input bits " << std::hex << vector.input);
+        const double actual = wrapper::Math::nextUp(input);
+        if (vector.nan) CHECK(Double::isNaN(actual));
+        else {
+            std::uint64_t actualBits;
+            std::memcpy(&actualBits, &actual, sizeof(actualBits));
+            CHECK(actualBits == vector.expected);
+        }
+    }
+}
+
+TEST_CASE("testApi0375", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(375, "Function setFunction restores recursive self without duplicate registration");
+    for (bool variadic : {false, true})
+        for (bool suppliedSelf : {false, true})
+            for (int overload = 0; overload < 3; ++overload) {
+                auto function = new_Function("old(t)=t+1");
+                std::weak_ptr<Function> weak = function;
+                for (const std::string name : {"f", "g"}) {
+                    const std::string definition = variadic
+                        ? name + "(...)=if(par(1)>0,par(1)*" + name + "(par(1)-1),1)"
+                        : name + "(t)=if(t>0,t*" + name + "(t-1),1)";
+                    const StringPtr text = S(definition);
+                    const String wide = *text;
+                    if (overload == 0) {
+                        if (suppliedSelf) function->setFunction<FunctionPtr&>(text, function);
+                        else function->setFunction<>(text);
+                    } else if (overload == 1) {
+                        if (suppliedSelf) function->setFunction<FunctionPtr&>(wide, function);
+                        else function->setFunction<>(wide);
+                    } else {
+                        const auto elements = new_List<PrimitiveElementPtr>();
+                        if (suppliedSelf) elements->add(function);
+                        function->setFunction(text, elements);
+                    }
+                    CHECK(function->getFunction(S(name)).get() == function.get());
+                    REQUIRE(function->checkSyntax());
+                    CHECK(function->calculate(5.0) == 120.0);
+                    CHECK(function->calculate(3.0) == 6.0);
+                }
+                const StringPtr definition = S("h(t)=t+2");
+                function->setFunction<>(definition);
+                CHECK(function->getFunction(S("h")).get() == function.get());
+                CHECK(function->calculate(5.0) == 7.0);
+                function.reset();
+                CHECK(weak.expired());
+            }
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0376", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(376, "Other numeral base conversion from int and double digit parameters");
+    for (int base : {2, 3, 8, 10, 16, 36}) {
+        const double expected = base * base + 1;
+        CHECK(mXparser::convOthBase2Decimal(base, 1, 0, 1) == expected);
+        CHECK(mXparser::convOthBase2Decimal(CAST_DOUBLE(base), 1.0, 0.0, 1.0) == expected);
+        const auto ints = new_List<int>();
+        const auto doubles = new_List<double>();
+        for (int digit : {1, 0, 1}) {
+            ints->add(digit);
+            doubles->add(CAST_DOUBLE(digit));
+        }
+        CHECK(std::invoke(static_cast<double(*)(int, const ListPtr<int>&)>(&mXparser::convOthBase2Decimal), base, ints) == expected);
+        CHECK(std::invoke(static_cast<double(*)(double, const ListPtr<double>&)>(&mXparser::convOthBase2Decimal), CAST_DOUBLE(base), doubles) == expected);
+        CHECK(mXparser::convOthBase2Decimal<const ListPtr<double>&>(base, doubles) == expected);
+        CHECK(mXparser::convOthBase2Decimal<const ListPtr<int>&>(CAST_DOUBLE(base), ints) == expected);
+    }
+    CHECK(mXparser::convOthBase2Decimal(16, 15, 10) == 250.0);
+    CHECK(mXparser::convOthBase2Decimal(16.0, 15.0, 10.0) == 250.0);
+    CHECK(mXparser::convOthBase2Decimal(10, 0, 1, 2, 3) == 123.0);
+    CHECK(mXparser::convOthBase2Decimal(10.0, 0.0, 1.0, 2.0, 3.0) == 123.0);
+    CHECK(mXparser::convOthBase2Decimal(1, 1, 1, 1) == 3.0);
+    CHECK(mXparser::convOthBase2Decimal(1.0, 1.0, 1.0, 1.0) == 3.0);
+    CHECK(mXparser::convOthBase2Decimal(1) == 0.0);
+    CHECK(mXparser::convOthBase2Decimal(1.0) == 0.0);
+    CHECK(mXparser::convOthBase2Decimal(2.9, 1.9, 0.2, 1.8) == 5.0);
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(2)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(2.0)));
+    const ListPtr<int> nullInts = nullptr;
+    const ListPtr<double> nullDoubles = nullptr;
+    CHECK(Double::isNaN(std::invoke(static_cast<double(*)(int, const ListPtr<int>&)>(&mXparser::convOthBase2Decimal), 2, nullInts)));
+    CHECK(Double::isNaN(std::invoke(static_cast<double(*)(double, const ListPtr<double>&)>(&mXparser::convOthBase2Decimal), 2.0, nullDoubles)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(2, 1, 2)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(2.0, 1.0, 2.0)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(1, 1, 0)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(1.0, 1.0, 0.0)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(0, 1)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(0.0, 1.0)));
+    CHECK(Double::isNaN(mXparser::convOthBase2Decimal(2.0, Double::NaN)));
+    // C++ packs can admit doubles even with the int base overload. Guard the
+    // newly reachable undefined casts; Java/C# int arrays cannot represent these.
+    for (double digit : {Double::NaN, Double::POSITIVE_INFINITY, Double::NEGATIVE_INFINITY,
+                         CAST_DOUBLE(Integer::MAX_VALUE) + 1.0, CAST_DOUBLE(Integer::MIN_VALUE) - 1.0}) {
+        CHECK(Double::isNaN(mXparser::convOthBase2Decimal(2, digit)));
+    }
+    CHECK(mXparser::convOthBase2Decimal(2, 1.9, 0.2, 1.8) == 5.0);
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0377", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(377, "Native C++ string wrappers preserve text, nullable processor state and formatting exceptions");
+    auto builder = new_StringBuilder();
+    builder->append(UTF("ABβ🧮"));
+    CHECK(*builder->toString() == String(UTF("ABβ🧮")));
+    builder->clear();
+    builder->append(UTF(""));
+    CHECK(builder->length() == 0);
+    CHECK_THROWS_AS(new_StringBuilder(StringPtr{}), std::invalid_argument);
+    CHECK_THROWS_AS(builder->append(static_cast<const Char*>(nullptr)), std::invalid_argument);
+    CHECK_THROWS_AS(builder->append(static_cast<const char*>(nullptr)), std::invalid_argument);
+    const StringPtr nullText;
+    const String wide = UTF("x");
+    const std::string narrow = "y";
+    VariadicProcessorString wideProcessor;
+    wideProcessor.processArgs(nullText, wide);
+    REQUIRE(wideProcessor.paramsString != nullptr);
+    REQUIRE(wideProcessor.paramsString->size() == 2);
+    CHECK(wideProcessor.paramsString->get(0) == nullptr);
+    CHECK(*wideProcessor.paramsString->get(1) == wide);
+    CHECK(wideProcessor.paramsStringNumberNull == 1);
+    CHECK(wideProcessor.paramsStringNumberNotNull == 1);
+    VariadicProcessorString narrowProcessor;
+    narrowProcessor.processArgs(nullText, narrow);
+    REQUIRE(narrowProcessor.paramsString != nullptr);
+    CHECK(*narrowProcessor.paramsString->get(1) == String(UTF("y")));
+    CHECK(narrowProcessor.paramsStringNumberNotNull == 1);
+    VariadicProcessorString nullWideProcessor;
+    const String* nullWide = nullptr;
+    nullWideProcessor.processArgs(nullWide);
+    CHECK(nullWideProcessor.paramsString == nullptr);
+    CHECK(nullWideProcessor.paramsStringNumberNull == 1);
+    VariadicProcessorString nullNarrowProcessor;
+    const std::string* nullNarrow = nullptr;
+    nullNarrowProcessor.processArgs(nullNarrow);
+    CHECK(nullNarrowProcessor.paramsString == nullptr);
+    CHECK(nullNarrowProcessor.paramsStringNumberNull == 1);
+    CHECK_THROWS_AS(StringUtils::cleanForHtml(nullText), std::invalid_argument);
+    CHECK_THROWS_AS(StringUtils::cleanForMarkdown(nullText), std::invalid_argument);
+    CHECK_THROWS_AS(StringUtils::cleanForJson(nullText), std::invalid_argument);
+    CHECK(*StringUtils::cleanForHtml(S("<&>")) == String(UTF("&lt;&amp;&gt;")));
+    using Append = void(*)(const StringBuilderPtr&, const ListPtr<StringPtr>&);
+    const Append appendParts = static_cast<Append>(&StringUtils::stringBuilderPartsAppend);
+    const Append appendLines = static_cast<Append>(&StringUtils::stringBuilderLinesAppend);
+    const ListPtr<StringPtr> noParts;
+    const ListPtr<StringPtr> emptyParts = new_List<StringPtr>();
+    const ListPtr<StringPtr> onePart = new_List<StringPtr>();
+    onePart->add(S("x"));
+    const StringBuilderPtr noBuilder;
+    CHECK_THROWS_AS(appendParts(builder, noParts), std::invalid_argument);
+    CHECK_THROWS_AS(appendLines(builder, noParts), std::invalid_argument);
+    CHECK_NOTHROW(appendParts(noBuilder, emptyParts));
+    CHECK_NOTHROW(appendLines(noBuilder, emptyParts));
+    CHECK_THROWS_AS(appendParts(noBuilder, onePart), std::invalid_argument);
+    CHECK_THROWS_AS(appendLines(noBuilder, onePart), std::invalid_argument);
+    using Delimited = void(*)(const StringPtr&, const StringPtr&, const StringPtr&, bool, bool, bool, const StringBuilderPtr&, const ListPtr<StringPtr>&);
+    const Delimited appendDelimited = static_cast<Delimited>(&StringUtils::stringBuilderPartsAppendDelimited);
+    const StringPtr empty = S(UTF(""));
+    CHECK_NOTHROW(appendDelimited(empty, empty, empty, false, false, false, noBuilder, emptyParts));
+    CHECK_THROWS_AS(appendDelimited(empty, empty, empty, false, false, false, noBuilder, onePart), std::invalid_argument);
+    using Row = void(*)(const StringPtr&, const StringPtr&, const StringPtr&, const StringPtr&, const StringPtr&, bool, bool, bool, const StringBuilderPtr&, const ListPtr<StringPtr>&);
+    const Row appendRow = static_cast<Row>(&StringUtils::stringBuilderPartsAppendDelimitedRow);
+    CHECK_NOTHROW(appendRow(empty, empty, empty, empty, empty, false, false, false, noBuilder, emptyParts));
+    CHECK_THROWS_AS(appendRow(empty, empty, empty, S("["), empty, false, false, false, noBuilder, emptyParts), std::invalid_argument);
+    CHECK_THROWS_AS(appendRow(empty, empty, empty, empty, S("]"), false, false, false, noBuilder, emptyParts), std::invalid_argument);
+    builder->append(S("seed"));
+    CHECK_THROWS_AS(appendRow(empty, empty, empty, S("["), S("]"), false, false, false, builder, noParts), std::invalid_argument);
+    CHECK(*builder->toString() == String(UTF("seed[")));
+    const ListPtr<StringPtr> mixed = new_List<StringPtr>();
+    mixed->add(S("<&>"));
+    mixed->add(nullptr);
+    builder->clear();
+    CHECK_THROWS_AS(appendDelimited(S("<p>"), S("</p>"), S("|"), true, false, false, builder, mixed), std::invalid_argument);
+    CHECK(*builder->toString() == String(UTF("<p>&lt;&amp;&gt;</p>|<p>")));
+    CHECK_THROWS_AS(StringUtils::stringBuilderPartsAppendMarkdownTableHead(false, builder, nullText), std::invalid_argument);
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0378", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(378, "C++ JSON help rejects reached null labels and preserves empty filtered output");
+    const auto resources = StringModel::getStringResources();
+    const auto keywords = new_List<KeyWordPtr>();
+    keywords->add(new_KeyWord(S("jsonNullLabel"), S("description"), 1, S("jsonNullLabel"), S("1.0"), Function1Arg::TYPE_ID));
+    const StringPtr empty = S("");
+    const StringPtr noMatch = S("key=___jsonNullLabelNoMatch_378___");
+    const StringPtr caption = S("custom caption");
+    const StringPtr original = expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, empty, empty);
+    CHECK(StringUtils::contains(original, S("jsonNullLabel")));
+    const StringPtr filtered = expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, noMatch, empty);
+    StringPtr StringResources::* fields[] = {&StringResources::KEYWORD, &StringResources::TYPE,
+        &StringResources::SYNTAX, &StringResources::SINCE, &StringResources::DESCRIPTION};
+    for (const auto field : fields) {
+        struct Restore {
+            StringPtr& target;
+            StringPtr saved;
+            ~Restore() { target = saved; }
+        } restore{resources.get()->*field, resources.get()->*field};
+        resources.get()->*field = nullptr;
+        CHECK_THROWS_AS(expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, empty, empty), std::invalid_argument);
+        CHECK(*expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, noMatch, empty) == *filtered);
+    }
+    CHECK(*expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, empty, empty) == *original);
+    const StringPtr captionLabel = resources->CAPTION;
+    resources->CAPTION = nullptr;
+    CHECK_THROWS_AS(expressionutils::ExpressionUtils::getHelpAsJson(keywords, true, empty, caption), std::invalid_argument);
+    CHECK(*expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, empty, caption) == *original);
+    resources->CAPTION = captionLabel;
+    const StringPtr allHelp = resources->ALL_HELP_CONTENT;
+    resources->ALL_HELP_CONTENT = nullptr;
+    CHECK_THROWS_AS(expressionutils::ExpressionUtils::getHelpAsJson(keywords, true, empty, empty), std::invalid_argument);
+    CHECK_NOTHROW(expressionutils::ExpressionUtils::getHelpAsJson(keywords, true, empty, caption));
+    CHECK(*expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, empty, empty) == *original);
+    resources->ALL_HELP_CONTENT = allHelp;
+    CHECK(*expressionutils::ExpressionUtils::getHelpAsJson(keywords, false, empty, empty) == *original);
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0379", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(379, "C++ recursive argument wide-value definition factory matches StringPtr with empty and nonempty packs");
+    const String definition = UTF("wideRecursive(n)=n+1");
+    const auto wide = new_RecursiveArgument(definition);
+    const auto pointer = new_RecursiveArgument(S(definition));
+    CHECK(wide->checkSyntax());
+    CHECK(pointer->checkSyntax());
+    CHECK(*wide->getArgumentName() == *pointer->getArgumentName());
+    CHECK(wide->getArgumentValue(4.0) == 5.0);
+    CHECK(wide->getArgumentValue(4.0) == pointer->getArgumentValue(4.0));
+    const auto argument = new_Argument("wideDependency", 2.0);
+    const String dependentDefinition = UTF("wideDependent(n)=n+wideDependency");
+    const auto wideDependent = new_RecursiveArgument(dependentDefinition, argument);
+    const auto pointerDependent = new_RecursiveArgument(S(dependentDefinition), argument);
+    CHECK(wideDependent->checkSyntax());
+    CHECK(pointerDependent->checkSyntax());
+    CHECK(wideDependent->getArgumentValue(4.0) == 6.0);
+    CHECK(wideDependent->getArgumentValue(4.0) == pointerDependent->getArgumentValue(4.0));
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0380", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(380, "C++ null definition lists raise an exception without dereferencing a null list");
+    const auto expression = new_Expression("2+3");
+    const ListPtr<PrimitiveElementPtr> nullElements;
+    CHECK_THROWS_AS(expression->addDefinitions(nullElements), std::invalid_argument);
+    CHECK(expression->calculate() == 5.0);
+    const PrimitiveElementPtr nullElement;
+    CHECK_NOTHROW(expression->addDefinitions(nullElement));
+    CHECK(expression->calculate() == 5.0);
+    const auto elements = new_List<PrimitiveElementPtr>();
+    const auto dependency = new_Argument("definitionListDependency", 2.0);
+    elements->add(dependency);
+    elements->add(nullptr);
+    const auto dependent = new_Expression("definitionListDependency+1", elements);
+    CHECK(dependent->calculate() == 3.0);
+    dependency->setArgumentValue(7.0);
+    CHECK(dependent->calculate() == 8.0);
+    {
+        struct Restore {
+            ListPtr<PrimitiveElementPtr> saved;
+            ~Restore() { VariadicProcessor::paramsPrimitiveElementEmpty = saved; }
+        } restore{VariadicProcessor::paramsPrimitiveElementEmpty};
+        VariadicProcessor::paramsPrimitiveElementEmpty = nullptr;
+        const String definition = UTF("definitionListRecursive(n)=n+1");
+        CHECK_THROWS_AS(new_RecursiveArgument(definition), std::invalid_argument);
+        CHECK_THROWS_AS(new_RecursiveArgument(S(definition)), std::invalid_argument);
+    }
+    CHECK(expression->calculate() == 5.0);
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0381", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(381, "C++ character stream buffer cleanup is repeatable");
+    auto stream = syntaxchecker::new_CharStream(S("ab"));
+    const std::weak_ptr<syntaxchecker::CharStream> observer = stream;
+    CHECK(stream->BeginToken() == UTF('a'));
+    CHECK_NOTHROW(stream->DeleteBuffers());
+    CHECK_NOTHROW(stream->DeleteBuffers());
+    CHECK_NOTHROW(stream->ReInit(UTF("xy"), 1, 1));
+    CHECK(stream->BeginToken() == UTF('x'));
+    CHECK(stream->readChar() == UTF('y'));
+    CHECK(stream->endOfInput());
+    CHECK_NOTHROW(stream->DeleteBuffers());
+    CHECK_NOTHROW(stream.reset());
+    CHECK(observer.expired());
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0382", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(382, "C++ syntax checker cleanup is repeatable");
+    const auto stream = syntaxchecker::new_CharStream(S("1+2"));
+    auto manager = syntaxchecker::new_SyntaxCheckerTokenManager(stream);
+    auto parser = syntaxchecker::new_SyntaxChecker(manager);
+    const std::weak_ptr<syntaxchecker::SyntaxChecker> observer = parser;
+    CHECK(parser->checkSyntax());
+    CHECK_NOTHROW(parser->clear());
+    CHECK_NOTHROW(parser->clear());
+    CHECK_NOTHROW(stream->ReInit(UTF("2+3"), 1, 1));
+    CHECK_NOTHROW(manager->ReInit(stream.get()));
+    CHECK_NOTHROW(parser->ReInit(manager.get()));
+    CHECK(parser->checkSyntax());
+    CHECK_NOTHROW(parser->clear());
+    CHECK_NOTHROW(parser.reset());
+    CHECK(observer.expired());
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0383", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(383, "C++ Unicode syntax diagnostics preserve valid UTF-8");
+    for (int code = 0x80; code < 0xff; code++) {
+        const String text(1, static_cast<Char>(code));
+        const auto escaped = syntaxchecker::addUnicodeEscapes(text);
+        CHECK_NOTHROW(UTF8toUTF16(escaped));
+        CHECK(escaped.size() == 6);
+        for (const unsigned char byte : escaped) CHECK(byte < 0x80);
+    }
+    CHECK(syntaxchecker::addUnicodeEscapes(UTF("\u00ac")) == "\\u00ac");
+    const auto stream = syntaxchecker::new_CharStream(S(UTF("\u00ac")));
+    auto manager = syntaxchecker::new_SyntaxCheckerTokenManager(stream);
+    const auto parser = syntaxchecker::new_SyntaxChecker(manager);
+    CHECK_FALSE(parser->checkSyntax());
+    CHECK(parser->errorMessages->size() > 0);
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0384", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(384, "C++ character stream positional adjustment follows Java increment order");
+    const String inputs[] = {UTF("abcdefgh"), UTF("a\nbc\nxyz"), UTF("ab\r\ncdef")};
+    const int expected[3][8][2] = {
+        {{11, 20}, {10, 21}, {10, 22}, {10, 23}, {10, 24}, {10, 25}, {10, 26}, {10, 27}},
+        {{13, 20}, {10, 21}, {11, 1}, {11, 2}, {11, 3}, {12, 1}, {12, 2}, {12, 3}},
+        {{12, 20}, {10, 21}, {10, 22}, {10, 23}, {11, 1}, {11, 2}, {11, 3}, {11, 4}}
+    };
+    for (int mode = 0; mode < 3; mode++) {
+        syntaxchecker::CharStream stream(inputs[mode], 1, 1, 8);
+        CHECK(stream.BeginToken() == inputs[mode][0]);
+        for (int index = 1; index < 8; index++) CHECK(stream.readChar() == inputs[mode][index]);
+        // Initialize every position cell before adjustment can wrap the ring.
+        CHECK_NOTHROW(stream.adjustBeginLineColumn(10, 20));
+        stream.backup(8);
+        for (int index = 0; index < 8; index++) {
+            CHECK(stream.readChar() == inputs[mode][index]);
+            CHECK(stream.getEndLine() == expected[mode][index][0]);
+            CHECK(stream.getEndColumn() == expected[mode][index][1]);
+        }
+    }
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+#include "org/mariuszgromada/math/mxparser/syntaxchecker/ParseException.hpp"
+
+TEST_CASE("testApi0385", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(385, "C++ character stream initializes newly allocated position cells");
+    class PositionStream : public syntaxchecker::CharStream {
+    public:
+        using syntaxchecker::CharStream::CharStream;
+        int capacity() const { return bufsize; }
+        int position() const { return bufpos; }
+        bool zeroPositionsFrom(int first) const {
+            for (int i = first; i < bufsize; i++)
+                if (bufline[i] != 0 || bufcolumn[i] != 0) return false;
+            return true;
+        }
+    };
+    PositionStream partial(String(UTF("abcdefgh")), 1, 1, 8);
+    CHECK(partial.zeroPositionsFrom(0));
+    CHECK(partial.BeginToken() == UTF('a'));
+    CHECK(partial.readChar() == UTF('b'));
+    CHECK(partial.readChar() == UTF('c'));
+    CHECK_NOTHROW(partial.adjustBeginLineColumn(10, 20));
+    CHECK(partial.getBeginLine() == 10);
+    CHECK(partial.getBeginColumn() == 20);
+    CHECK(partial.getEndLine() == 10);
+    CHECK(partial.getEndColumn() == 22);
+    partial.ReInit(UTF("xy"), 2, 3, 8);
+    CHECK(partial.zeroPositionsFrom(0));
+    CHECK(partial.BeginToken() == UTF('x'));
+    CHECK(partial.getEndLine() == 2);
+    CHECK(partial.getEndColumn() == 3);
+
+    const String input(10000, UTF('x'));
+    PositionStream expanded(input, 1, 1, 8);
+    CHECK(expanded.BeginToken() == UTF('x'));
+    for (int i = 1; i <= 8; i++) CHECK(expanded.readChar() == UTF('x'));
+    CHECK(expanded.capacity() == 2056);
+    CHECK(expanded.position() == 8);
+    CHECK(expanded.getEndColumn() == 9);
+    CHECK(expanded.zeroPositionsFrom(9));
+
+    PositionStream wrapped(input, 1, 1, 4096);
+    for (int i = 0; i < 3000; i++) CHECK(wrapped.BeginToken() == UTF('x'));
+    CHECK(wrapped.BeginToken() == UTF('x'));
+    for (int i = 1; i <= 4096; i++) CHECK(wrapped.readChar() == UTF('x'));
+    CHECK(wrapped.capacity() == 6144);
+    CHECK(wrapped.position() == 4096);
+    CHECK(wrapped.getBeginColumn() == 3001);
+    CHECK(wrapped.getEndColumn() == 7097);
+    CHECK(wrapped.zeroPositionsFrom(4097));
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0386", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(386, "C++ syntax checker reinitialization releases saved lookahead calls");
+    const auto stream = syntaxchecker::new_CharStream(S("1+2"));
+    auto manager = syntaxchecker::new_SyntaxCheckerTokenManager(stream);
+    const auto parser = syntaxchecker::new_SyntaxChecker(manager);
+    for (int iteration = 0; iteration < 8; iteration++) {
+        stream->ReInit(UTF("1+2"), 1, 1);
+        manager->ReInit(stream.get());
+        parser->ReInit(manager.get());
+        CHECK_NOTHROW(parser->jj_2_1(2));
+        for (int repetition = 0; repetition < 3; repetition++) {
+            parser->jj_save(0, 3);
+            parser->jj_save(153, 3);
+            parser->jj_save(154, 3);
+        }
+        stream->ReInit(UTF("3+4"), 1, 1);
+        manager->ReInit(stream.get());
+        CHECK_NOTHROW(parser->ReInit(manager.get()));
+        CHECK(parser->token->kind == 0);
+        CHECK_NOTHROW(parser->jj_rescan_token());
+        CHECK(parser->checkSyntax());
+    }
+    TestCommonTools::consolePrintTestApiEnd(true);
+}
+
+
+TEST_CASE("testApi0387", "[API]") {
+    TestCommonTools::testApiSettingsInit();
+    TestCommonTools::consolePrintTestApiStart(387, "C++ parse exception constructor safely preserves borrowed native inputs");
+    int row[] = {1, 0};
+    int *expected[] = {row};
+    syntaxchecker::JJString images[] = {UTF("<EOF>"), UTF("token")};
+    syntaxchecker::JavaCCToken current(0, UTF("current")), unexpected(1, UTF("unexpected"));
+    current.next = &unexpected;
+    for (int iteration = 0; iteration < 32; iteration++) {
+        const syntaxchecker::ParseException exception(current, expected, images);
+        CHECK(exception.currentToken.kind == 0);
+        CHECK(exception.currentToken.image == UTF("current"));
+        CHECK(exception.currentToken.next == &unexpected);
+        CHECK(exception.expectedTokenSequences == expected);
+        CHECK(exception.tokenImage == images);
+        CHECK(exception.expectedTokenSequences[0][0] == 1);
+        CHECK(exception.tokenImage[1] == UTF("token"));
+    }
+    CHECK(current.next == &unexpected);
+    CHECK(unexpected.image == UTF("unexpected"));
+    CHECK(row[0] == 1);
+    TestCommonTools::consolePrintTestApiEnd(true);
 }

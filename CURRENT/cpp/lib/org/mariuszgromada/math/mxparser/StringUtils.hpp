@@ -218,6 +218,7 @@
 
 #ifndef ORG_MARIUSZGROMADA_MATH_MXPARSER_STRINGUTILS_H
 #define ORG_MARIUSZGROMADA_MATH_MXPARSER_STRINGUTILS_H
+#include <stdexcept>
 #include <type_traits>
 #include <utility>
 
@@ -373,7 +374,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 
 		static void consolePrintln();
 		static void consolePrint(const String &str);
-		static void consolePrint(const StringPtr &str) { consolePrint(*str); }
+		static void consolePrint(const StringPtr &str) {
+			if (str == nullptr)
+				throw std::invalid_argument("Native StringUtils.consolePrint requires non-null text");
+			consolePrint(*str);
+		}
 		static void consolePrint(const std::string &val) { consolePrint(toString(val)); }
 		static void consolePrint(const std::string *val) { consolePrint(toString(val)); }
 		static void consolePrint(const Char *val) { consolePrint(toString(val)); }
@@ -431,7 +436,11 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 		// ***********************************************************
 
 		static void errorPrint(const String &str);
-		static void errorPrint(const StringPtr &str) { errorPrint(*str); }
+		static void errorPrint(const StringPtr &str) {
+			if (str == nullptr)
+				throw std::invalid_argument("Native StringUtils.errorPrint requires non-null text");
+			errorPrint(*str);
+		}
 		static void errorPrint(const std::string &val) { errorPrint(toString(val)); }
 		static void errorPrint(const std::string *val) { errorPrint(toString(val)); }
 		static void errorPrint(const Char *val) { errorPrint(toString(val)); }
@@ -696,6 +705,8 @@ namespace org::mariuszgromada::math::mxparser::stringutils {
 
 			if (!addHeader) {
 				ListPtr<StringPtr> mdTableEmptyHeader = new_List<StringPtr>();
+				if (vp.paramsString == nullptr)
+					throw std::invalid_argument("Native StringUtils.stringBuilderPartsAppendMarkdownTableHead requires a non-null parts list");
 				for (const StringPtr& part : *vp.paramsString)
 					mdTableEmptyHeader->add(S("   "));
 
