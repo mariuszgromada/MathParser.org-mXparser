@@ -11014,6 +11014,117 @@ namespace org.mariuszgromada.math.mxparser.test {
 			Assert.IsTrue(testResult);
 			StringModel.setDefaultStringResources();
 		}
+        private sealed class RecoveringArgumentSource : ArgumentExtension {
+            internal double value = 2;
+            internal int failureKind;
+            public double getArgumentValue() {
+                int failure = failureKind;
+                failureKind = 0;
+                if (failure == 1) throw new InvalidOperationException("planned callback failure");
+                if (failure == 2) throw new ApplicationException("planned callback failure");
+                return value;
+            }
+            public ArgumentExtension clone() {
+                return new RecoveringArgumentSource { value = value, failureKind = failureKind };
+            }
+        }
+        private sealed class NestedRecoverySource : ArgumentExtension {
+            private readonly Expression expression;
+            internal NestedRecoverySource(Expression expression) { this.expression = expression; }
+            public double getArgumentValue() { return expression.calculate(); }
+            public ArgumentExtension clone() { return new NestedRecoverySource(expression.cloneForThreadSafe()); }
+        }
+        [TestMethod]
+        public void testApi0373() {
+            TestCommonTools.testApiSettingsInit();
+            TestCommonTools.consolePrintTestApiStart(373, "Repeated calculation after callback exceptions");
+            foreach (bool compiled in new[] { false, true }) {
+                foreach (int failureKind in new[] { 1, 2 }) {
+                    foreach (bool registerSteps in new[] { false, true }) {
+                        RecoveringArgumentSource source = new RecoveringArgumentSource();
+                        Expression expression = new Expression("recoveringValue+1", new Argument("recoveringValue", source));
+                        if (compiled) Assert.AreEqual(3.0, expression.calculate());
+                        source.failureKind = failureKind;
+                        Assert.IsTrue(Double.IsNaN(expression.calculate(registerSteps ? new CalcStepsRegister() : null)));
+                        Assert.IsTrue(expression.getErrorMessage().Contains("planned callback failure"));
+                        foreach (double nextValue in new[] { 5.0, 8.0, 11.0 }) {
+                            source.value = nextValue;
+                            Assert.AreEqual(nextValue + 1, expression.calculate(registerSteps ? new CalcStepsRegister() : null));
+                        }
+                        source.failureKind = failureKind;
+                        Assert.IsTrue(Double.IsNaN(expression.calculate()));
+                        foreach (double nextValue in new[] { 14.0, 17.0, 20.0 }) {
+                            source.value = nextValue;
+                            Assert.AreEqual(nextValue + 1, expression.calculate());
+                        }
+                    }
+                }
+            }
+            RecoveringArgumentSource originalSource = new RecoveringArgumentSource();
+            Argument baseValue = new Argument("baseValue", 1);
+            Expression original = new Expression("recoveringValue+baseValue", new Argument("recoveringValue", originalSource), baseValue);
+            Assert.AreEqual(3.0, original.calculate());
+            Expression copy = original.cloneForThreadSafe();
+            originalSource.failureKind = 1;
+            Assert.IsTrue(Double.IsNaN(original.calculate()));
+            copy.getArgument("baseValue").setArgumentValue(5);
+            Assert.AreEqual(7.0, copy.calculate());
+            baseValue.setArgumentValue(8);
+            originalSource.value = 3;
+            Assert.AreEqual(11.0, original.calculate());
+            baseValue.setArgumentValue(9);
+            originalSource.value = 4;
+            Assert.AreEqual(13.0, original.calculate());
+            copy.getArgument("baseValue").setArgumentValue(10);
+            Assert.AreEqual(12.0, copy.calculate());
+            RecoveringArgumentSource innerSource = new RecoveringArgumentSource();
+            Expression inner = new Expression("recoveringValue+1", new Argument("recoveringValue", innerSource));
+            Expression outer = new Expression("nestedValue*2", new Argument("nestedValue", new NestedRecoverySource(inner)));
+            innerSource.failureKind = 1;
+            Assert.IsTrue(Double.IsNaN(outer.calculate()));
+            innerSource.value = 5;
+            Assert.AreEqual(12.0, outer.calculate());
+            innerSource.value = 8;
+            Assert.AreEqual(18.0, outer.calculate());
+            TestCommonTools.consolePrintTestApiEnd(true);
+        }
+        [TestMethod]
+        public void testApi0374() {
+            TestCommonTools.testApiSettingsInit();
+            TestCommonTools.consolePrintTestApiStart(374, "Gamma recurrence without representable progress");
+            Func<double, double, double>[] regularized = {
+                SpecialFunctions.regularizedGammaLowerP, SpecialFunctions.regularizedGammaUpperQ
+            };
+            for (int kind = 0; kind < regularized.Length; kind++) {
+                foreach (double shape in new[] { Double.NegativeInfinity, -Double.MaxValue, -18014398509481984.0 }) {
+                    Assert.AreEqual(shape, shape + 1);
+                    foreach (double value in new[] { 1.0, 2.0, -1.0, Double.NaN })
+                        Assert.IsTrue(Double.IsNaN(regularized[kind](shape, value)));
+                    foreach (double value in new[] { 0.0, -0.0, BinaryRelations.DEFAULT_COMPARISON_EPSILON / 2, -BinaryRelations.DEFAULT_COMPARISON_EPSILON / 2 })
+                        Assert.AreEqual((double)kind, regularized[kind](shape, value));
+                }
+                Assert.IsTrue(Double.IsNaN(regularized[kind](Double.NaN, 0)));
+            }
+            Assert.IsTrue(Double.IsNaN(SpecialFunctions.incompleteGammaLower(Double.NegativeInfinity, 2)));
+            Assert.IsTrue(Double.IsNaN(SpecialFunctions.incompleteGammaUpper(Double.NegativeInfinity, 2)));
+            foreach (String name in new[] { "GammaL", "GammaU", "GammaRegL", "GammaRegU", "GammaP", "GammaQ" }) {
+                double expected = name == "GammaU" || name == "GammaRegU" || name == "GammaQ"
+                    ? 0.1353352832366127 : 0.8646647167633873;
+                foreach (bool compiled in new[] { false, true }) {
+                    Argument shape = new Argument("shape", 1);
+                    Expression expression = new Expression(name + "(shape,2)", shape);
+                    Assert.IsTrue(expression.checkSyntax());
+                    if (compiled) Assert.AreEqual(expected, expression.calculate(), 1e-14);
+                    for (int reuse = 0; reuse < 2; reuse++) {
+                        shape.setArgumentValue(Double.NegativeInfinity);
+                        Assert.IsTrue(Double.IsNaN(expression.calculate()));
+                        shape.setArgumentValue(1);
+                        Assert.AreEqual(expected, expression.calculate(), 1e-14);
+                    }
+                }
+            }
+            TestCommonTools.consolePrintTestApiEnd(true);
+        }
 		public static String cleanMarkdownBackslash(String str) {
 			return str.Replace("\\\\", "").Replace("\\|", "");
 		}
@@ -11030,5 +11141,64 @@ namespace org.mariuszgromada.math.mxparser.test {
             mXparser.consolePrintln("------ canExprStr = " + canExprStr);
             return expResStr.Equals(canExprStr);
 		}
+    
+        [TestMethod]
+        public void testApi0375() {
+            TestCommonTools.testApiSettingsInit();
+            TestCommonTools.consolePrintTestApiStart(375, "Function setFunction restores recursive self without duplicate registration");
+            foreach (bool variadic in new[] { false, true })
+                foreach (bool suppliedSelf in new[] { false, true }) {
+                    Function function = new Function("old(t)=t+1");
+                    foreach (String name in new[] { "f", "g" }) {
+                        String definition = variadic
+                            ? name + "(...)=if(par(1)>0,par(1)*" + name + "(par(1)-1),1)"
+                            : name + "(t)=if(t>0,t*" + name + "(t-1),1)";
+                        function.setFunction(definition, suppliedSelf
+                            ? new PrimitiveElement[] { function } : new PrimitiveElement[0]);
+                        Assert.IsTrue(function.getFunction(name) == function);
+                        Assert.IsTrue(function.checkSyntax());
+                        Assert.AreEqual(120.0, function.calculate(5.0));
+                        Assert.AreEqual(6.0, function.calculate(3.0));
+                    }
+                    function.setFunction("h(t)=t+2");
+                    Assert.IsTrue(function.getFunction("h") == function);
+                    Assert.AreEqual(7.0, function.calculate(5.0));
+                }
+            TestCommonTools.consolePrintTestApiEnd(true);
+        }
+
+    [TestMethod]
+    public void testApi0376() {
+        TestCommonTools.testApiSettingsInit();
+        TestCommonTools.consolePrintTestApiStart(376, "Other numeral base conversion from int and double digit parameters");
+        foreach (int baseValue in new int[] {2, 3, 8, 10, 16, 36}) {
+            double expected = baseValue * baseValue + 1;
+            Assert.AreEqual(expected, mXparser.convOthBase2Decimal(baseValue, 1, 0, 1));
+            Assert.AreEqual(expected, mXparser.convOthBase2Decimal((double)baseValue, 1.0, 0.0, 1.0));
+            Assert.AreEqual(expected, mXparser.convOthBase2Decimal(baseValue, new int[] {1, 0, 1}));
+            Assert.AreEqual(expected, mXparser.convOthBase2Decimal((double)baseValue, new double[] {1.0, 0.0, 1.0}));
+        }
+        Assert.AreEqual(250.0, mXparser.convOthBase2Decimal(16, 15, 10));
+        Assert.AreEqual(250.0, mXparser.convOthBase2Decimal(16.0, 15.0, 10.0));
+        Assert.AreEqual(123.0, mXparser.convOthBase2Decimal(10, 0, 1, 2, 3));
+        Assert.AreEqual(123.0, mXparser.convOthBase2Decimal(10.0, 0.0, 1.0, 2.0, 3.0));
+        Assert.AreEqual(3.0, mXparser.convOthBase2Decimal(1, 1, 1, 1));
+        Assert.AreEqual(3.0, mXparser.convOthBase2Decimal(1.0, 1.0, 1.0, 1.0));
+        Assert.AreEqual(0.0, mXparser.convOthBase2Decimal(1, new int[0]));
+        Assert.AreEqual(0.0, mXparser.convOthBase2Decimal(1.0, new double[0]));
+        Assert.AreEqual(5.0, mXparser.convOthBase2Decimal(2.9, 1.9, 0.2, 1.8));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2, new int[0])));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2.0, new double[0])));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2, (int[])null)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2.0, (double[])null)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2, 1, 2)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2.0, 1.0, 2.0)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(1, 1, 0)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(1.0, 1.0, 0.0)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(0, 1)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(0.0, 1.0)));
+        Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2.0, Double.NaN)));
+        TestCommonTools.consolePrintTestApiEnd(true);
     }
+}
 }

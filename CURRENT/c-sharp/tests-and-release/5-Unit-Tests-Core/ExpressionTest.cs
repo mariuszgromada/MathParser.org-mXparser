@@ -242,6 +242,22 @@ namespace org.mariuszgromada.math.mxparser.test {
 	[TestClass]
     public class ExpressionTest {
 		[TestMethod]
+		public void testBellNumberInputBounds() {
+			TestCommonTools.testExprSettingsInit();
+			double[] bellNumbers = {1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975};
+			for (int n = 0; n < bellNumbers.Length; n++) {
+				Assert.AreEqual(bellNumbers[n], MathFunctions.bellNumber(n));
+				Assert.AreEqual(bellNumbers[n], MathFunctions.bellNumber((double)n));
+			}
+			foreach (int n in new int[] {-1, int.MinValue, 46341, 65536, 1305134913, int.MaxValue})
+				Assert.IsTrue(Double.IsNaN(MathFunctions.bellNumber(n)), "int n=" + n);
+			foreach (double n in new double[] {Double.NaN, Double.NegativeInfinity, Double.PositiveInfinity,
+					-Double.MaxValue, Double.MaxValue, -4294967296.0, 4294967296.0,
+					999999.0 * 9999999.0, int.MinValue, int.MaxValue})
+				Assert.IsTrue(Double.IsNaN(MathFunctions.bellNumber(n)), "double n=" + n);
+			Assert.IsTrue(Double.IsNaN(new Expression("Bell(2^32)").calculate()));
+		}
+		[TestMethod]
 		public void testExpr0000() {
 			TestCommonTools.testExprSettingsInit();
 			bool testResult = false;
@@ -23741,6 +23757,178 @@ namespace org.mariuszgromada.math.mxparser.test {
 			double reg = 405;
 			if (MathFunctions.abs(reg - value) < 0.5)
 				testResult = true;
+			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+			Assert.IsTrue(testResult);
+		}
+
+		[TestMethod]
+		public void testExpr1441() {
+			TestCommonTools.testExprSettingsInit();
+			String expStr = "sin(0)+cos(0)";
+			TestCommonTools.consolePrintTestExprStart(1441, expStr);
+			Expression testExp = new Expression(expStr);
+			try {
+				testExp.calculate();
+				double initial = testExp.calculate();
+				mXparser.removeBuiltinTokens("sin");
+				double removedFirst = testExp.calculate();
+				double removedSecond = testExp.calculate();
+				mXparser.unremoveBuiltinTokens("sin");
+				double restoredFirst = testExp.calculate();
+				double value = testExp.calculate();
+				double reg = 1;
+				bool testResult = initial == reg && Double.IsNaN(removedFirst)
+						&& Double.IsNaN(removedSecond) && restoredFirst == reg && value == reg;
+				TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+				Assert.IsTrue(testResult);
+			} finally {
+				mXparser.unremoveAllBuiltinTokens();
+				mXparser.unmodifyAllBuiltinTokens();
+			}
+		}
+
+		[TestMethod]
+		public void testExpr1442() {
+			TestCommonTools.testExprSettingsInit();
+			String expStr = "sin(0)+cos(0)";
+			TestCommonTools.consolePrintTestExprStart(1442, expStr);
+			Expression testExp = new Expression(expStr);
+			try {
+				testExp.calculate();
+				double initial = testExp.calculate();
+				mXparser.modifyBuiltinToken("sin", "sine");
+				double renamedSin = testExp.calculate();
+				mXparser.unmodifyBuiltinTokens("sine");
+				double restoredSin = testExp.calculate();
+				mXparser.modifyBuiltinToken("cos", "cosine");
+				double renamedCos = testExp.calculate();
+				mXparser.unmodifyAllBuiltinTokens();
+				double value = testExp.calculate();
+				double reg = 1;
+				bool testResult = initial == reg && Double.IsNaN(renamedSin)
+						&& restoredSin == reg && Double.IsNaN(renamedCos) && value == reg;
+				TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+				Assert.IsTrue(testResult);
+			} finally {
+				mXparser.unremoveAllBuiltinTokens();
+				mXparser.unmodifyAllBuiltinTokens();
+			}
+		}
+
+		[TestMethod]
+		public void testExpr1443() {
+			TestCommonTools.testExprSettingsInit();
+			String expStr = "sin(0)+cos(0)";
+			TestCommonTools.consolePrintTestExprStart(1443, expStr);
+			Expression testExp = new Expression(expStr);
+			try {
+				testExp.calculate();
+				double initial = testExp.calculate();
+				mXparser.removeBuiltinTokens((String)null, "", "sin", "cos", "sin");
+				double removed = testExp.calculate();
+				mXparser.unremoveBuiltinTokens("sin");
+				double partiallyRestored = testExp.calculate();
+				mXparser.unremoveAllBuiltinTokens();
+				double value = testExp.calculate();
+				double reg = 1;
+				bool testResult = initial == reg && Double.IsNaN(removed)
+						&& Double.IsNaN(partiallyRestored) && value == reg;
+				TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+				Assert.IsTrue(testResult);
+			} finally {
+				mXparser.unremoveAllBuiltinTokens();
+				mXparser.unmodifyAllBuiltinTokens();
+			}
+		}
+
+		[TestMethod]
+		public void testExpr1444() {
+			TestCommonTools.testExprSettingsInit();
+			String expStr = "f(2)";
+			TestCommonTools.consolePrintTestExprStart(1444, expStr);
+			Argument a = new Argument("a=sin(0)+1", true);
+			Function f = new Function("f(t)=a+t");
+			f.addDefinitions(a);
+			Assert.AreEqual(Argument.DEPENDENT_ARGUMENT, a.getArgumentType());
+			Assert.AreEqual(1, f.getParametersNumber());
+			Expression testExp = new Expression(expStr, f);
+			try {
+				testExp.calculate();
+				double initial = testExp.calculate();
+				mXparser.removeBuiltinTokens("sin");
+				double removed = testExp.calculate();
+				mXparser.unremoveAllBuiltinTokens();
+				double value = testExp.calculate();
+				double reg = 3;
+				bool testResult = initial == reg && Double.IsNaN(removed) && value == reg;
+				TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+				Assert.IsTrue(testResult);
+			} finally {
+				mXparser.unremoveAllBuiltinTokens();
+				mXparser.unmodifyAllBuiltinTokens();
+			}
+		}
+
+		[TestMethod]
+		public void testExpr1445() {
+			TestCommonTools.testExprSettingsInit();
+			String expStr = "sin(0)+x";
+			TestCommonTools.consolePrintTestExprStart(1445, expStr);
+			Argument x = new Argument("x", 0);
+			Expression testExp = new Expression(expStr, x);
+			try {
+				testExp.calculate();
+				bool testResult = true;
+				for (int i = 0; i < 16; i++) {
+					x.setArgumentValue(i);
+					if (testExp.calculate() != i) testResult = false;
+				}
+				mXparser.removeBuiltinTokens("sin");
+				if (!Double.IsNaN(testExp.calculate())) testResult = false;
+				mXparser.unremoveBuiltinTokens("sin");
+				for (int i = 16; i < 32; i++) {
+					x.setArgumentValue(i);
+					if (testExp.calculate() != i) testResult = false;
+				}
+				double value = testExp.calculate();
+				double reg = 31;
+				testResult = testResult && value == reg;
+				TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+				Assert.IsTrue(testResult);
+			} finally {
+				mXparser.unremoveAllBuiltinTokens();
+				mXparser.unmodifyAllBuiltinTokens();
+			}
+		}
+
+		[TestMethod]
+		public void testExpr1446() {
+			TestCommonTools.testExprSettingsInit();
+			String expStr = "Internal prevalidated tokens must not be tokenized again";
+			TestCommonTools.consolePrintTestExprStart(1446, expStr);
+			Expression tokenSource = new Expression("2+3");
+			tokenSource.checkSyntax();
+			Type[] signature = {
+				typeof(String),
+				typeof(System.Collections.Generic.List<org.mariuszgromada.math.mxparser.parsertokens.Token>),
+				typeof(System.Collections.Generic.List<Argument>),
+				typeof(System.Collections.Generic.List<Function>),
+				typeof(System.Collections.Generic.List<Constant>),
+				typeof(bool), typeof(bool), typeof(System.Collections.Generic.List<Double>)
+			};
+			System.Reflection.ConstructorInfo constructor = typeof(Expression).GetConstructor(
+				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+				null, signature, null);
+			Assert.IsNotNull(constructor);
+			Expression testExp = (Expression)constructor.Invoke(new object[] {
+				expStr, tokenSource.getCopyOfInitialTokens(),
+				new System.Collections.Generic.List<Argument>(),
+				new System.Collections.Generic.List<Function>(),
+				new System.Collections.Generic.List<Constant>(), false, false, null
+			});
+			double value = testExp.calculate();
+			double reg = 5;
+			bool testResult = value == reg && testExp.calculate() == reg;
 			TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
 			Assert.IsTrue(testResult);
 		}

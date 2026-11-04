@@ -392,7 +392,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double result = Double.NaN;
 			if (n > 1) {
 				n -= 1;
-				if ((n + 1) * (n + 1) >= int.MaxValue) return Double.NaN;
+				if ((long)(n + 1) * (n + 1) >= int.MaxValue) return Double.NaN;
 				long[,] bellTriangle = new long[n+1, n+1];
 				bellTriangle[0, 0] = 1;
 				bellTriangle[1, 0] = 1;
@@ -412,11 +412,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Bell number
 		 * @param      n                   the n
 		 *
-		 * @return     if n <> Double.NaN return bellNumber( (int)Math.round(n) ),
+		 * @return     if n is within the int range return bellNumber( (int)Math.Round(n) ),
 		 *             otherwise return Double.NaN.
 		 */
 		public static double bellNumber(double n) {
-			if (Double.IsNaN(n))
+			if (Double.IsNaN(n) || n < int.MinValue || n > int.MaxValue)
 				return Double.NaN;
 			return bellNumber( (int)Math.Round(n) );
 		}

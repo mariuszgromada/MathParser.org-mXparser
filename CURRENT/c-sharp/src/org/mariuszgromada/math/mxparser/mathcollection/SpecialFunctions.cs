@@ -730,8 +730,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			if (x < 0) return Double.NaN;
 
-			if (s < 0)
-				return regularizedGammaLowerP(s + 1, x) + ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gamma(s) );
+			if (s < 0) {
+				double sNext = s + 1;
+				if (sNext == s) return Double.NaN;
+				return regularizedGammaLowerP(sNext, x) + ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gamma(s) );
+			}
 
 			const double epsilon = 0.000000000000001;
 			const double bigNumber = 4503599627370496.0;
@@ -884,8 +887,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 			if (x < 0) return Double.NaN;
 
-			if (s < 0)
-				return regularizedGammaUpperQ(s + 1, x) - ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gamma(s) );
+			if (s < 0) {
+				double sNext = s + 1;
+				if (sNext == s) return Double.NaN;
+				return regularizedGammaUpperQ(sNext, x) - ( Math.Pow(x,  s) * Math.Exp(-x) ) / ( s * gamma(s) );
+			}
 
 			double ax = s * Math.Log(x) - x - logGamma(s);
 			if (ax < -709.78271289338399) {

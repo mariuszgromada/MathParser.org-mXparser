@@ -626,6 +626,7 @@ namespace org.mariuszgromada.math.mxparser {
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
+				thisAlreadyAdded = functionExpression.getFunction(functionName) == this;
 				registerNoSyntaxErrorInDefinition();
 				return;
 			}
@@ -639,6 +640,7 @@ namespace org.mariuszgromada.math.mxparser {
 				parametersNumber = -1;
 				description = StringInvariant.EMPTY;
 				functionBodyType = BODY_RUNTIME;
+				thisAlreadyAdded = functionExpression.getFunction(functionName) == this;
 				registerNoSyntaxErrorInDefinition();
 				return;
 			}

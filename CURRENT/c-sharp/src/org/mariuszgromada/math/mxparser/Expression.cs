@@ -741,6 +741,7 @@ namespace org.mariuszgromada.math.mxparser {
 			relatedExpressionsList = new List<Expression>();
 			expressionWasModified = false;
 			syntaxStatus = NO_SYNTAX_ERRORS;
+			optionsChangesetNumber = mXparser.optionsChangesetNumber;
 			isFullyCompiled = false;
             description = StringInvariant.INTERNAL;
             errorMessage = StringInvariant.EMPTY;
@@ -5259,9 +5260,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 */
 		public double calculate(CalcStepsRegister calcStepsRegister) {
             License.checkLicense();
+            int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
             try {
 				return calculateInternal(calcStepsRegister);
 			} catch (Exception e) {
+				recursionCallsCounter = recursionCallsCounterBeforeCalculation;
+				if (recursionCallsCounterBeforeCalculation == 0)
+					markAsNotFullyCompiled();
 				registerErrorWhileCalculate(
 						StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
 								+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
@@ -5720,7 +5725,7 @@ namespace org.mariuszgromada.math.mxparser {
 			 * evaluate expression string tokens
 			 *
 			 */
-			if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
+			if (!syntaxIsAlreadyCheckedNorErrors())
 				syntaxStatus = checkSyntax();
 			if (syntaxStatus == SYNTAX_ERROR) {
 				if (verboseMode)
