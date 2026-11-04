@@ -1,0 +1,67 @@
+{
+  "name": "@mathparser.org/mxparser",
+  "version": "6.2.0",
+  "description": "mXparser is a rich, fast and flexible mathematical expression parser and formula evaluator for JavaScript and TypeScript, powered by WebAssembly. It evaluates expressions supplied as plain text and supports custom functions, arguments, constants, units and numerical calculus.",
+  "type": "module",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "author": {
+    "name": "Mariusz Gromada",
+    "email": "info@mathparser.org",
+    "url": "https://mathparser.org/"
+  },
+  "homepage": "https://mathparser.org/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariuszgromada/MathParser.org-mXparser.git",
+    "directory": "CURRENT/javascript"
+  },
+  "bugs": {
+    "url": "https://github.com/mariuszgromada/MathParser.org-mXparser/issues",
+    "email": "info@mathparser.org"
+  },
+  "keywords": [
+    "math",
+    "mathematics",
+    "expression",
+    "parser",
+    "formula",
+    "evaluator",
+    "calculator",
+    "calculus",
+    "units",
+    "webassembly",
+    "wasm",
+    "javascript",
+    "typescript"
+  ],
+  "funding": "https://mathparser.org/mxparser-license",
+  "engines": {
+    "node": ">=24.19.0 <25"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./mxparser-native.wasm": "./dist/mxparser-native.wasm"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.txt",
+    "docs",
+    "examples"
+  ],
+  "scripts": {
+    "build": "python scripts/build.py",
+    "test": "node test/public-runtime.mjs && node test/interop.mjs",
+    "test:types": "tsc --noEmit --project tsconfig.json",
+    "test:browser": "node scripts/serve.mjs",
+    "test:browser:headless": "node scripts/browser-test.mjs",
+    "example": "node examples/basic.mjs"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}
