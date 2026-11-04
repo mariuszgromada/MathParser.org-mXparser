@@ -357,7 +357,7 @@ public final class MathFunctions {
 		double result = Double.NaN;
 		if (n > 1) {
 			n -= 1;
-			if ( (n+1)*(n+1) >= Integer.MAX_VALUE ) return Double.NaN;
+			if ( (long)(n+1)*(n+1) >= Integer.MAX_VALUE ) return Double.NaN;
 			long[][] bellTriangle = new long[n+1][n+1];
 			bellTriangle[0][0] = 1;
 			bellTriangle[1][0] = 1;
@@ -377,11 +377,11 @@ public final class MathFunctions {
 	 * Bell number
 	 * @param      n                   the n
 	 *
-	 * @return     if n &lt;&gt; Double.NaN return bellNumber( (int)Math.round(n) ),
+	 * @return     if n is within the int range return bellNumber( (int)Math.round(n) ),
 	 *             otherwise return Double.NaN.
 	 */
 	public static double bellNumber(double n) {
-		if (Double.isNaN(n))
+		if (Double.isNaN(n) || n < Integer.MIN_VALUE || n > Integer.MAX_VALUE)
 			return Double.NaN;
 		return bellNumber( (int)Math.round(n) );
 	}

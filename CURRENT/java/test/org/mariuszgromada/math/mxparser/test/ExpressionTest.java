@@ -246,6 +246,22 @@ import static org.mariuszgromada.math.mxparser.mathcollection.MathConstants.PI;
  */
 public final class ExpressionTest {
     @Test
+    public void testBellNumberInputBounds() {
+        TestCommonTools.testExprSettingsInit();
+        double[] bellNumbers = {1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975};
+        for (int n = 0; n < bellNumbers.length; n++) {
+            Assertions.assertEquals(bellNumbers[n], MathFunctions.bellNumber(n));
+            Assertions.assertEquals(bellNumbers[n], MathFunctions.bellNumber((double)n));
+        }
+        for (int n : new int[] {-1, Integer.MIN_VALUE, 46341, 65536, 1305134913, Integer.MAX_VALUE})
+            Assertions.assertTrue(Double.isNaN(MathFunctions.bellNumber(n)), "int n=" + n);
+        for (double n : new double[] {Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
+                -Double.MAX_VALUE, Double.MAX_VALUE, -4294967296.0, 4294967296.0,
+                999999.0 * 9999999.0, Integer.MIN_VALUE, Integer.MAX_VALUE})
+            Assertions.assertTrue(Double.isNaN(MathFunctions.bellNumber(n)), "double n=" + n);
+        Assertions.assertTrue(Double.isNaN(new Expression("Bell(2^32)").calculate()));
+    }
+    @Test
     public void testExpr0000() {
         TestCommonTools.testExprSettingsInit();
         boolean testResult = false;
@@ -23717,6 +23733,167 @@ public final class ExpressionTest {
         double reg = 405;
         if (MathFunctions.abs(reg - value) < 0.5)
             testResult = true;
+        TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+        Assertions.assertTrue(testResult);
+    }
+
+    @Test
+    public void testExpr1441() {
+        TestCommonTools.testExprSettingsInit();
+        String expStr = "sin(0)+cos(0)";
+        TestCommonTools.consolePrintTestExprStart(1441, expStr);
+        Expression testExp = new Expression(expStr);
+        try {
+            testExp.calculate();
+            double initial = testExp.calculate();
+            mXparser.removeBuiltinTokens("sin");
+            double removedFirst = testExp.calculate();
+            double removedSecond = testExp.calculate();
+            mXparser.unremoveBuiltinTokens("sin");
+            double restoredFirst = testExp.calculate();
+            double value = testExp.calculate();
+            double reg = 1;
+            boolean testResult = initial == reg && Double.isNaN(removedFirst)
+                    && Double.isNaN(removedSecond) && restoredFirst == reg && value == reg;
+            TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assertions.assertTrue(testResult);
+        } finally {
+            mXparser.unremoveAllBuiltinTokens();
+            mXparser.unmodifyAllBuiltinTokens();
+        }
+    }
+
+    @Test
+    public void testExpr1442() {
+        TestCommonTools.testExprSettingsInit();
+        String expStr = "sin(0)+cos(0)";
+        TestCommonTools.consolePrintTestExprStart(1442, expStr);
+        Expression testExp = new Expression(expStr);
+        try {
+            testExp.calculate();
+            double initial = testExp.calculate();
+            mXparser.modifyBuiltinToken("sin", "sine");
+            double renamedSin = testExp.calculate();
+            mXparser.unmodifyBuiltinTokens("sine");
+            double restoredSin = testExp.calculate();
+            mXparser.modifyBuiltinToken("cos", "cosine");
+            double renamedCos = testExp.calculate();
+            mXparser.unmodifyAllBuiltinTokens();
+            double value = testExp.calculate();
+            double reg = 1;
+            boolean testResult = initial == reg && Double.isNaN(renamedSin)
+                    && restoredSin == reg && Double.isNaN(renamedCos) && value == reg;
+            TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assertions.assertTrue(testResult);
+        } finally {
+            mXparser.unremoveAllBuiltinTokens();
+            mXparser.unmodifyAllBuiltinTokens();
+        }
+    }
+
+    @Test
+    public void testExpr1443() {
+        TestCommonTools.testExprSettingsInit();
+        String expStr = "sin(0)+cos(0)";
+        TestCommonTools.consolePrintTestExprStart(1443, expStr);
+        Expression testExp = new Expression(expStr);
+        try {
+            testExp.calculate();
+            double initial = testExp.calculate();
+            mXparser.removeBuiltinTokens((String)null, "", "sin", "cos", "sin");
+            double removed = testExp.calculate();
+            mXparser.unremoveBuiltinTokens("sin");
+            double partiallyRestored = testExp.calculate();
+            mXparser.unremoveAllBuiltinTokens();
+            double value = testExp.calculate();
+            double reg = 1;
+            boolean testResult = initial == reg && Double.isNaN(removed)
+                    && Double.isNaN(partiallyRestored) && value == reg;
+            TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assertions.assertTrue(testResult);
+        } finally {
+            mXparser.unremoveAllBuiltinTokens();
+            mXparser.unmodifyAllBuiltinTokens();
+        }
+    }
+
+    @Test
+    public void testExpr1444() {
+        TestCommonTools.testExprSettingsInit();
+        String expStr = "f(2)";
+        TestCommonTools.consolePrintTestExprStart(1444, expStr);
+        Argument a = new Argument("a=sin(0)+1", true);
+        Function f = new Function("f(t)=a+t");
+        f.addDefinitions(a);
+        Assertions.assertEquals(Argument.DEPENDENT_ARGUMENT, a.getArgumentType());
+        Assertions.assertEquals(1, f.getParametersNumber());
+        Expression testExp = new Expression(expStr, f);
+        try {
+            testExp.calculate();
+            double initial = testExp.calculate();
+            mXparser.removeBuiltinTokens("sin");
+            double removed = testExp.calculate();
+            mXparser.unremoveAllBuiltinTokens();
+            double value = testExp.calculate();
+            double reg = 3;
+            boolean testResult = initial == reg && Double.isNaN(removed) && value == reg;
+            TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assertions.assertTrue(testResult);
+        } finally {
+            mXparser.unremoveAllBuiltinTokens();
+            mXparser.unmodifyAllBuiltinTokens();
+        }
+    }
+
+    @Test
+    public void testExpr1445() {
+        TestCommonTools.testExprSettingsInit();
+        String expStr = "sin(0)+x";
+        TestCommonTools.consolePrintTestExprStart(1445, expStr);
+        Argument x = new Argument("x", 0);
+        Expression testExp = new Expression(expStr, x);
+        try {
+            testExp.calculate();
+            boolean testResult = true;
+            for (int i = 0; i < 16; i++) {
+                x.setArgumentValue(i);
+                if (testExp.calculate() != i) testResult = false;
+            }
+            mXparser.removeBuiltinTokens("sin");
+            if (!Double.isNaN(testExp.calculate())) testResult = false;
+            mXparser.unremoveBuiltinTokens("sin");
+            for (int i = 16; i < 32; i++) {
+                x.setArgumentValue(i);
+                if (testExp.calculate() != i) testResult = false;
+            }
+            double value = testExp.calculate();
+            double reg = 31;
+            testResult = testResult && value == reg;
+            TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
+            Assertions.assertTrue(testResult);
+        } finally {
+            mXparser.unremoveAllBuiltinTokens();
+            mXparser.unmodifyAllBuiltinTokens();
+        }
+    }
+
+    @Test
+    public void testExpr1446() throws ReflectiveOperationException {
+        TestCommonTools.testExprSettingsInit();
+        String expStr = "Internal prevalidated tokens must not be tokenized again";
+        TestCommonTools.consolePrintTestExprStart(1446, expStr);
+        Expression tokenSource = new Expression("2+3");
+        tokenSource.checkSyntax();
+        java.lang.reflect.Constructor<Expression> constructor = Expression.class.getDeclaredConstructor(
+                String.class, java.util.List.class, java.util.List.class, java.util.List.class,
+                java.util.List.class, boolean.class, boolean.class, java.util.List.class);
+        constructor.setAccessible(true);
+        Expression testExp = constructor.newInstance(expStr, tokenSource.getCopyOfInitialTokens(),
+                new java.util.ArrayList<Argument>(), new java.util.ArrayList<Function>(),
+                new java.util.ArrayList<Constant>(), false, false, null);
+        double value = testExp.calculate();
+        double reg = 5;
+        boolean testResult = value == reg && testExp.calculate() == reg;
         TestCommonTools.consolePrintTestExprEnd(value, reg, testResult, testExp);
         Assertions.assertTrue(testResult);
     }

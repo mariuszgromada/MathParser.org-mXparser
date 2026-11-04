@@ -398,9 +398,14 @@ class LongComputingFunExt implements FunctionExtension {
         return "";
     }
     public double calculate() {
-        double sum = 0;
-        for (int i = 1; i <= n; i++)
-            sum += i;
+        // Timing tests need work spanning a tick of Function's millisecond clock.
+        long startTime = System.currentTimeMillis();
+        double sum;
+        do {
+            sum = 0;
+            for (int i = 1; i <= n; i++)
+                sum += i;
+        } while (System.currentTimeMillis() == startTime);
         return sum;
     }
     public LongComputingFunExt clone() {
@@ -432,9 +437,14 @@ class LongComputingFunExtVar implements FunctionExtensionVariadic {
     public double calculate(double... parameters) {
         if (parameters == null) return Double.NaN;
         if (parameters.length == 0) return Double.NaN;
-        double result = 0;
-        for (int i = 1; i <= parameters[0]; i++)
-            result += i;
+        // Timing tests need work spanning a tick of Function's millisecond clock.
+        long startTime = System.currentTimeMillis();
+        double result;
+        do {
+            result = 0;
+            for (int i = 1; i <= parameters[0]; i++)
+                result += i;
+        } while (System.currentTimeMillis() == startTime);
         return result;
     }
     public LongComputingFunExtVar clone() {

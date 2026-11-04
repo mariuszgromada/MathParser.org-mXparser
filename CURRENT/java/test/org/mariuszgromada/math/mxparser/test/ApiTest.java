@@ -10925,6 +10925,128 @@ public final class ApiTest {
         Assertions.assertTrue(testResult);
         StringModel.setDefaultStringResources();
     }
+    private static final class RecoveringArgumentSource implements ArgumentExtension {
+        double value = 2;
+        int failureKind;
+        public double getArgumentValue() {
+            int failure = failureKind;
+            failureKind = 0;
+            if (failure == 1) throw new IllegalStateException("planned callback failure");
+            if (failure == 2) throw new AssertionError("planned callback failure");
+            return value;
+        }
+        public ArgumentExtension clone() {
+            RecoveringArgumentSource copy = new RecoveringArgumentSource();
+            copy.value = value;
+            copy.failureKind = failureKind;
+            return copy;
+        }
+    }
+    private static final class NestedRecoverySource implements ArgumentExtension {
+        final Expression expression;
+        NestedRecoverySource(Expression expression) { this.expression = expression; }
+        public double getArgumentValue() { return expression.calculate(); }
+        public ArgumentExtension clone() { return new NestedRecoverySource(expression.cloneForThreadSafe()); }
+    }
+    @Test
+    public void testApi0373() {
+        TestCommonTools.testApiSettingsInit();
+        TestCommonTools.consolePrintTestApiStart(373, "Repeated calculation after callback exceptions");
+        for (boolean compiled : new boolean[] {false, true}) {
+            for (int failureKind : new int[] {1, 2}) {
+                for (boolean registerSteps : new boolean[] {false, true}) {
+                    RecoveringArgumentSource source = new RecoveringArgumentSource();
+                    Argument value = new Argument("recoveringValue", source);
+                    Expression expression = new Expression("recoveringValue+1", value);
+                    if (compiled) Assertions.assertEquals(3, expression.calculate());
+                    source.failureKind = failureKind;
+                    Assertions.assertTrue(Double.isNaN(expression.calculate(registerSteps ? new CalcStepsRegister() : null)));
+                    Assertions.assertTrue(expression.getErrorMessage().contains("planned callback failure"));
+                    for (double nextValue : new double[] {5, 8, 11}) {
+                        source.value = nextValue;
+                        Assertions.assertEquals(nextValue + 1, expression.calculate(registerSteps ? new CalcStepsRegister() : null));
+                    }
+                    source.failureKind = failureKind;
+                    Assertions.assertTrue(Double.isNaN(expression.calculate()));
+                    for (double nextValue : new double[] {14, 17, 20}) {
+                        source.value = nextValue;
+                        Assertions.assertEquals(nextValue + 1, expression.calculate());
+                    }
+                }
+            }
+        }
+        RecoveringArgumentSource source = new RecoveringArgumentSource();
+        Argument base = new Argument("baseValue", 1);
+        Expression original = new Expression("recoveringValue+baseValue", new Argument("recoveringValue", source), base);
+        Assertions.assertEquals(3, original.calculate());
+        Expression clone = original.cloneForThreadSafe();
+        source.failureKind = 1;
+        Assertions.assertTrue(Double.isNaN(original.calculate()));
+        clone.getArgument("baseValue").setArgumentValue(5);
+        Assertions.assertEquals(7, clone.calculate());
+        base.setArgumentValue(8);
+        source.value = 3;
+        Assertions.assertEquals(11, original.calculate());
+        base.setArgumentValue(9);
+        source.value = 4;
+        Assertions.assertEquals(13, original.calculate());
+        clone.getArgument("baseValue").setArgumentValue(10);
+        Assertions.assertEquals(12, clone.calculate());
+
+        RecoveringArgumentSource innerSource = new RecoveringArgumentSource();
+        Expression inner = new Expression("recoveringValue+1", new Argument("recoveringValue", innerSource));
+        Expression outer = new Expression("nestedValue*2", new Argument("nestedValue", new NestedRecoverySource(inner)));
+        innerSource.failureKind = 1;
+        Assertions.assertTrue(Double.isNaN(outer.calculate()));
+        innerSource.value = 5;
+        Assertions.assertEquals(12, outer.calculate());
+        innerSource.value = 8;
+        Assertions.assertEquals(18, outer.calculate());
+        TestCommonTools.consolePrintTestApiEnd(true);
+    }
+    @Test
+    public void testApi0374() {
+        TestCommonTools.testApiSettingsInit();
+        TestCommonTools.consolePrintTestApiStart(374, "Gamma recurrence without representable progress");
+        for (double s : new double[] {Double.NEGATIVE_INFINITY, -Double.MAX_VALUE, -0x1.0p54}) {
+            Assertions.assertEquals(s, s + 1);
+            for (double x : new double[] {1, 2}) {
+                Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaLowerP(s, x)));
+                Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaUpperQ(s, x)));
+            }
+            for (double x : new double[] {0, -0.0, BinaryRelations.DEFAULT_COMPARISON_EPSILON / 2, -BinaryRelations.DEFAULT_COMPARISON_EPSILON / 2}) {
+                Assertions.assertEquals(0, SpecialFunctions.regularizedGammaLowerP(s, x));
+                Assertions.assertEquals(1, SpecialFunctions.regularizedGammaUpperQ(s, x));
+            }
+            Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaLowerP(s, -1)));
+            Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaUpperQ(s, -1)));
+            Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaLowerP(s, Double.NaN)));
+            Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaUpperQ(s, Double.NaN)));
+        }
+        Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaLowerP(Double.NaN, 0)));
+        Assertions.assertTrue(Double.isNaN(SpecialFunctions.regularizedGammaUpperQ(Double.NaN, 0)));
+        Assertions.assertTrue(Double.isNaN(SpecialFunctions.incompleteGammaLower(Double.NEGATIVE_INFINITY, 2)));
+        Assertions.assertTrue(Double.isNaN(SpecialFunctions.incompleteGammaUpper(Double.NEGATIVE_INFINITY, 2)));
+        for (String name : new String[] {"GammaL", "GammaU", "GammaRegL", "GammaRegU", "GammaP", "GammaQ"}) {
+            double expected = name.equals("GammaU") || name.equals("GammaRegU") || name.equals("GammaQ")
+                    ? 0.1353352832366127 : 0.8646647167633873;
+            for (boolean compiled : new boolean[] {false, true}) {
+                Argument s = new Argument("s", 1);
+                Expression expression = new Expression(name + "(s,2)", s);
+                Assertions.assertTrue(expression.checkSyntax());
+                if (compiled) Assertions.assertEquals(expected, expression.calculate(), 1e-14);
+                s.setArgumentValue(Double.NEGATIVE_INFINITY);
+                Assertions.assertTrue(Double.isNaN(expression.calculate()));
+                s.setArgumentValue(1);
+                Assertions.assertEquals(expected, expression.calculate(), 1e-14);
+                s.setArgumentValue(Double.NEGATIVE_INFINITY);
+                Assertions.assertTrue(Double.isNaN(expression.calculate()));
+                s.setArgumentValue(1);
+                Assertions.assertEquals(expected, expression.calculate(), 1e-14);
+            }
+        }
+        TestCommonTools.consolePrintTestApiEnd(true);
+    }
     public static String cleanMarkdownBackslash(String str) {
         return str.replace("\\\\", "").replace("\\|", "");
     }
@@ -10940,5 +11062,65 @@ public final class ApiTest {
         String canExprStr = e.getCanonicalExpressionString();
         mXparser.consolePrintln("------ canExprStr = " + canExprStr);
         return expResStr.equals(canExprStr);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void testApi0375() {
+        TestCommonTools.testApiSettingsInit();
+        TestCommonTools.consolePrintTestApiStart(375, "Function setFunction restores recursive self without duplicate registration");
+        for (boolean variadic : new boolean[] {false, true})
+            for (boolean suppliedSelf : new boolean[] {false, true}) {
+                Function function = new Function("old(t)=t+1");
+                for (String name : new String[] {"f", "g"}) {
+                    String definition = variadic
+                        ? name + "(...)=if(par(1)>0,par(1)*" + name + "(par(1)-1),1)"
+                        : name + "(t)=if(t>0,t*" + name + "(t-1),1)";
+                    function.setFunction(definition, suppliedSelf
+                        ? new PrimitiveElement[] {function} : new PrimitiveElement[0]);
+                    Assertions.assertTrue(function.getFunction(name) == function);
+                    Assertions.assertTrue(function.checkSyntax());
+                    Assertions.assertEquals(120, function.calculate(5.));
+                    Assertions.assertEquals(6, function.calculate(3.));
+                }
+                function.setFunction("h(t)=t+2");
+                Assertions.assertTrue(function.getFunction("h") == function);
+                Assertions.assertEquals(7, function.calculate(5.));
+            }
+        TestCommonTools.consolePrintTestApiEnd(true);
+    }
+
+    @Test
+    public void testApi0376() {
+        TestCommonTools.testApiSettingsInit();
+        TestCommonTools.consolePrintTestApiStart(376, "Other numeral base conversion from int and double digit parameters");
+        for (int base : new int[] {2, 3, 8, 10, 16, 36}) {
+            double expected = base * base + 1;
+            Assertions.assertEquals(expected, mXparser.convOthBase2Decimal(base, 1, 0, 1));
+            Assertions.assertEquals(expected, mXparser.convOthBase2Decimal((double)base, 1., 0., 1.));
+            Assertions.assertEquals(expected, mXparser.convOthBase2Decimal(base, new int[] {1, 0, 1}));
+            Assertions.assertEquals(expected, mXparser.convOthBase2Decimal((double)base, new double[] {1., 0., 1.}));
+        }
+        Assertions.assertEquals(250, mXparser.convOthBase2Decimal(16, 15, 10));
+        Assertions.assertEquals(250, mXparser.convOthBase2Decimal(16., 15., 10.));
+        Assertions.assertEquals(123, mXparser.convOthBase2Decimal(10, 0, 1, 2, 3));
+        Assertions.assertEquals(123, mXparser.convOthBase2Decimal(10., 0., 1., 2., 3.));
+        Assertions.assertEquals(3, mXparser.convOthBase2Decimal(1, 1, 1, 1));
+        Assertions.assertEquals(3, mXparser.convOthBase2Decimal(1., 1., 1., 1.));
+        Assertions.assertEquals(0, mXparser.convOthBase2Decimal(1, new int[0]));
+        Assertions.assertEquals(0, mXparser.convOthBase2Decimal(1., new double[0]));
+        Assertions.assertEquals(5, mXparser.convOthBase2Decimal(2.9, 1.9, 0.2, 1.8));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2, new int[0])));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2., new double[0])));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2, (int[])null)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2., (double[])null)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2, 1, 2)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2., 1., 2.)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(1, 1, 0)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(1., 1., 0.)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(0, 1)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(0., 1.)));
+        Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2., Double.NaN)));
+        TestCommonTools.consolePrintTestApiEnd(true);
     }
 }

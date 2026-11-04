@@ -767,6 +767,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		relatedExpressionsList = new ArrayList<>();
 		expressionWasModified = false;
 		syntaxStatus = NO_SYNTAX_ERRORS;
+		optionsChangesetNumber = mXparser.optionsChangesetNumber;
 		isFullyCompiled = false;
 		description = StringInvariant.INTERNAL;
 		errorMessage = StringInvariant.EMPTY;
@@ -5287,9 +5288,13 @@ public class Expression extends PrimitiveElement implements Serializable {
 	 */
 	public double calculate(CalcStepsRegister calcStepsRegister) {
 		License.checkLicense();
+		int recursionCallsCounterBeforeCalculation = recursionCallsCounter;
 		try {
 			return calculateInternal(calcStepsRegister);
 		} catch (Throwable e) {
+			recursionCallsCounter = recursionCallsCounterBeforeCalculation;
+			if (recursionCallsCounterBeforeCalculation == 0)
+				markAsNotFullyCompiled();
 			registerErrorWhileCalculate(
 					StringModel.STRING_RESOURCES.ERROR_WHILE_EXECUTING_THE_CALCULATE
 							+ StringInvariant.SPACE + StringModel.STRING_RESOURCES.EXCEPTION
@@ -5747,7 +5752,7 @@ public class Expression extends PrimitiveElement implements Serializable {
 		 * evaluate expression string tokens
 		 *
 		 */
-		if (expressionWasModified || syntaxStatus != NO_SYNTAX_ERRORS)
+		if (!syntaxIsAlreadyCheckedNorErrors())
 				syntaxStatus = checkSyntax();
 		if (syntaxStatus == SYNTAX_ERROR) {
 			if (verboseMode)

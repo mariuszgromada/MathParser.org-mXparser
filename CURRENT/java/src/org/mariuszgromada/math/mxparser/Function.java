@@ -637,6 +637,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			description = StringInvariant.EMPTY;
 			functionBodyType = BODY_RUNTIME;
+			thisAlreadyAdded = functionExpression.getFunction(functionName) == this;
 			registerNoSyntaxErrorInDefinition();
 			return;
 		}
@@ -650,6 +651,7 @@ public class Function extends PrimitiveElement implements Serializable {
 			parametersNumber = -1;
 			description = StringInvariant.EMPTY;
 			functionBodyType = BODY_RUNTIME;
+			thisAlreadyAdded = functionExpression.getFunction(functionName) == this;
 			registerNoSyntaxErrorInDefinition();
 			return;
 		}
