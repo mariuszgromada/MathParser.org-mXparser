@@ -217,11 +217,32 @@
  */
 
 import assert from 'node:assert/strict';
+import {readFileSync, writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {testCallbackRecovery} from './callback-recovery.mjs';
 import {testCloneContract} from './clone-contract.mjs';
 import {testSerialization} from './serialization.mjs';
 
-const {initMxParser} = await import(process.env.MXPARSER_MODULE ?? '@mathparser.org/mxparser');
+const moduleURL = process.env.MXPARSER_MODULE ?? import.meta.resolve('@mathparser.org/mxparser');
+const {initMxParser} = await import(moduleURL);
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+const assets = () => Object.fromEntries(['index.js', 'api.json', 'mxparser-native.mjs', 'mxparser-native.wasm']
+    .map(name => [name, digest(readFileSync(new URL(name, moduleURL)))]));
+let prefixArchives = null;
+if (process.env.MXPARSER_SERIALIZATION_ARCHIVES) {
+    const bytes = readFileSync(process.env.MXPARSER_SERIALIZATION_ARCHIVES);
+    assert.equal(digest(bytes), process.env.MXPARSER_SERIALIZATION_ARCHIVES_SHA256);
+    const manifest = JSON.parse(bytes);
+    assert.equal(manifest.schema, 1);
+    assert.deepEqual(manifest.assets, assets());
+    prefixArchives = manifest.roots.map((entry, index) => {
+        assert.equal(entry.index, index);
+        const value = new Uint8Array(Buffer.from(entry.base64, 'base64'));
+        assert.equal(value.length, entry.bytes);
+        assert.equal(digest(value), entry.sha256);
+        return value;
+    });
+}
 const mx = await initMxParser({
     print() {
     }, printErr: process.env.MXPARSER_TEST_VERBOSE ? console.error : () => {
@@ -242,12 +263,22 @@ const throws = (operation, expected) => {
     checks++;
 };
 const groups = {};
+const archives = [];
 try {
     groups.callbacks = testCallbackRecovery(mx, equal, keep);
     groups.cloning = testCloneContract(mx, equal, throws, keep);
     const prefixStart = Number(process.env.MXPARSER_SERIALIZATION_PREFIX_START ?? 0);
     const prefixEnd = process.env.MXPARSER_SERIALIZATION_PREFIX_END === undefined ? null : Number(process.env.MXPARSER_SERIALIZATION_PREFIX_END);
-    groups.serialization = testSerialization(mx, {equal, throws, keep, prefixStart, prefixEnd});
+    groups.serialization = testSerialization(mx, {
+        equal, throws, keep, prefixStart, prefixEnd, prefixArchives,
+        archiveObserver: process.env.MXPARSER_SERIALIZATION_ARCHIVES_OUT ? (index, bytes) => {
+            archives.push({index, bytes: bytes.length, sha256: digest(bytes), base64: Buffer.from(bytes).toString('base64')});
+        } : null
+    });
+    if (process.env.MXPARSER_SERIALIZATION_ARCHIVES_OUT) {
+        writeFileSync(process.env.MXPARSER_SERIALIZATION_ARCHIVES_OUT,
+            JSON.stringify({schema: 1, assets: assets(), roots: archives}));
+    }
     console.log(JSON.stringify({status: 'PASS', checks, groups}));
 } finally {
     for (const object of owned.reverse()) if (!object.isDeleted()) object.delete();

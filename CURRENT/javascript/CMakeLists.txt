@@ -225,7 +225,7 @@ endif ()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-add_compile_options(-pthread -fwasm-exceptions)
+add_compile_options(-fwasm-exceptions)
 option(MXPARSER_ADDRESS_SANITIZER "Instrument the engine and binding with ASan" OFF)
 if (MXPARSER_ADDRESS_SANITIZER)
     add_compile_options(-fsanitize=address -g)
@@ -292,10 +292,14 @@ if (MXPARSER_ADDRESS_SANITIZER)
     string(APPEND mxp_runtime_methods ",'count_emval_handles'")
 endif ()
 target_link_options(mxparser_js PRIVATE
-        -O2 -pthread -fwasm-exceptions --bind --no-entry
+        -O2 -fwasm-exceptions --bind --no-entry
         -Wl,--wrap=wprintf -Wl,--wrap=fwprintf
         -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=web,node
-        -sPTHREAD_POOL_SIZE=2 -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=8388608
+        -sALLOW_MEMORY_GROWTH=1 -sSTACK_SIZE=8388608
         -sEXCEPTION_STACK_TRACES=1 -sPRINTF_LONG_DOUBLE=1
         "-sEXPORTED_RUNTIME_METHODS=[${mxp_runtime_methods}]")
+if (MXPARSER_ADDRESS_SANITIZER)
+    # --no-entry has no main/exit hook: the test loader explicitly checks leaks.
+    target_link_options(mxparser_js PRIVATE "-sEXPORTED_FUNCTIONS=['___lsan_do_recoverable_leak_check']")
+endif ()
 set_target_properties(mxparser_js PROPERTIES OUTPUT_NAME "mxparser-native" SUFFIX ".mjs")

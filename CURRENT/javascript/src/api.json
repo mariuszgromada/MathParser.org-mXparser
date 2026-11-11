@@ -1,6 +1,6 @@
 {
   "public_profile": {
-    "status": "DRAFT_NOT_PACKAGE_ACCEPTANCE",
+    "status": "MAINTAINED_PUBLIC_PROFILE_RUNTIME_VALIDATION_REQUIRED",
     "policy": "Intersection of existing native public binding with effectively public Java/C# source declarations,plus reviewed necessary native transport. Original engine semantics;no managed serializer/parser/math emulation. Public source-only constructs lacking C++ counterpart explicitly excluded.",
     "public_classes": [
       "PrimitiveElement",

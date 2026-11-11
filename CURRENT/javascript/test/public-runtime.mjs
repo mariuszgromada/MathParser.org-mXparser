@@ -234,7 +234,7 @@ const mx = await initMxParser({
         };
     }
 }), baseline = native.count_emval_handles?.();
-let checks = 0, negative = 0, current = '';
+let checks = 0, negative = 0, registrationChecks = 0, current = '';
 const values = [], keep = p => {
     if (p) values.push(p);
     return p;
@@ -249,7 +249,10 @@ try {
     current = 'compiled public API boundary';
     eq(randomReads, 0);
     const expected = new Set(catalog.emitted.flatMap(item => item.kind === 'field' ? [item.export + '_get', ...(!item.readonly ? [item.export + '_set'] : [])] : [item.export]));
-    for (const name of expected) eq(typeof native[name], 'function');
+    for (const name of expected) {
+        eq(typeof native[name], 'function');
+        registrationChecks++;
+    }
     const actual = Object.keys(native).filter(name => /^api_C1_/.test(name));
     eq(actual.sort(), [...expected].sort());
     eq(Object.keys(native).some(name => name.startsWith('__Test')), false);
@@ -340,6 +343,8 @@ try {
     const report = {
         status: 'MANAGED_PUBLIC_ACTUAL_PRUNED_WASM_PUBLIC_OPERATIONS_AND_PHYSICAL_API_BOUNDARY_PASS',
         checks,
+        registrationChecks,
+        behaviorChecks: checks - registrationChecks,
         negative,
         node: process.version,
         sdkVal: baseline === undefined ? null : {baseline, final: native.count_emval_handles()}

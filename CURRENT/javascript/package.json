@@ -49,17 +49,26 @@
   "files": [
     "dist",
     "README.md",
+    "TUTORIAL.md",
     "LICENSE.txt",
-    "docs",
+    "docs/API.md",
+    "docs/LIMITS.md",
+    "docs/THIRD_PARTY_LICENSES.md",
     "examples"
   ],
   "scripts": {
     "build": "python scripts/build.py",
-    "test": "node test/public-runtime.mjs && node test/interop.mjs",
+    "test": "node test/public-runtime.mjs && node test/browser-host-assertions.mjs && node test/varargs.mjs && node test/numeric-types.mts && node test/behavior-runtime.mjs && node test/extension-serialization.mjs && node test/resilience.mjs && node test/worker.mjs && node test/interop.mjs",
     "test:types": "tsc --noEmit --project tsconfig.json",
     "test:browser": "node scripts/serve.mjs",
     "test:browser:headless": "node scripts/browser-test.mjs",
-    "example": "node examples/basic.mjs"
+    "example": "node examples/basic.mjs",
+    "check:bindings": "python scripts/check-bindings.py",
+    "test:regression": "node test/regression/run.mjs",
+    "test:tutorial": "python scripts/tutorial.py --run",
+    "validate": "python scripts/validate.py",
+    "test:resilience": "node test/resilience.mjs && node test/worker.mjs",
+    "test:browser:conformance": "python scripts/browser-conformance.py"
   },
   "devDependencies": {
     "typescript": "7.0.2"

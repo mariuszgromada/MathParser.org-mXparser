@@ -318,6 +318,12 @@ export async function initMxParser(options = {}) {
     const configuration = {...options};
     for (const key of ['locateFile', 'wasmBinary', 'print', 'printErr'])
         if (!Object.hasOwn(configuration, key) && key in options) configuration[key] = options[key];
+    let nativeFailure;
+    const onAbort = configuration.onAbort;
+    configuration.onAbort = function (reason) {
+        nativeFailure ??= new Error(String(reason));
+        onAbort?.call(this, reason);
+    };
     const native = await initialize(configuration);
     const handle = Symbol('native Embind handle'), constructing = Symbol('internal constructor'),
         elementDescriptor = Symbol('native list element type'), vectorKind = Symbol('native vector kind');
@@ -363,7 +369,7 @@ export async function initMxParser(options = {}) {
 
     function fileSystemCall(method, args) {
         try {
-            return native.FS[method](...args);
+            return call(() => native.FS[method](...args));
         } catch (error) {
             if (error?.name === 'ErrnoError' && Number.isInteger(error.errno)) {
                 const converted = new Error(error.message ?? `Virtual filesystem ${method} failed (errno ${error.errno})`, {cause: error});
@@ -413,10 +419,22 @@ export async function initMxParser(options = {}) {
         ...new Set(catalog.emitted.filter(item => item.result?.kind === 'fixed_array').map(item => native['Native' + item.result.element.name + 'Array']))];
 
     function call(operation) {
+        assertUsable();
         const stack = native.stackSave();
         try {
-            return operation();
+            const result = operation();
+            // A callback can catch a nested native failure. The outer call must
+            // still fail closed instead of returning a result from that module.
+            assertUsable();
+            return result;
         } catch (error) {
+            if (error instanceof WebAssembly.RuntimeError ||
+                (error instanceof RangeError || error?.name === 'InternalError') &&
+                /call stack|stack overflow|too much recursion|out of memory|allocation failed|memory size exceeded/i.test(error.message)) {
+                nativeFailure ??= error;
+                if (Object.isExtensible(error) && !Object.hasOwn(error, 'code'))
+                    Object.defineProperty(error, 'code', {value: 'MXPARSER_MODULE_UNUSABLE'});
+            }
             try {
                 if (typeof WebAssembly.Exception === 'function' && error instanceof WebAssembly.Exception) {
                     let details;
@@ -431,9 +449,17 @@ export async function initMxParser(options = {}) {
                 }
                 throw error;
             } finally {
-                native.stackRestore(stack);
+                if (!nativeFailure) native.stackRestore(stack);
             }
         }
+    }
+
+    function assertUsable() {
+        if (!nativeFailure) return;
+        const error = new Error('This mXparser module is unusable after a native stack overflow, WebAssembly trap or abort. Terminate its Worker or discard this module and initialize a new one; do not reuse its handles.', {cause: nativeFailure});
+        error.name = 'MxParserModuleUnavailableError';
+        Object.defineProperty(error, 'code', {value: 'MXPARSER_MODULE_UNUSABLE'});
+        throw error;
     }
 
     function validateBorrowedLexerHandlerHandle(self) {
@@ -442,6 +468,10 @@ export async function initMxParser(options = {}) {
     }
 
     class NativeHandle {
+        get [handle]() {
+            throw new TypeError('Invalid native handle receiver: use a constructor or factory from this mXparser module');
+        }
+
         constructor(token, value) {
             if (token !== constructing) throw new TypeError('Native handles require a concrete factory');
             Object.defineProperty(this, handle, {value});
@@ -1549,6 +1579,8 @@ export async function initMxParser(options = {}) {
             case 'stdio':
                 return ['stdin', 'stdout', 'stderr'].includes(value);
             case 'array': {
+                if (value instanceof NullNativeListValue)
+                    return managedDescriptorMatches(catalog.lists[value.kind].element, type.element);
                 if (value instanceof NativeListHandle) return managedDescriptorMatches(value[elementDescriptor], type.element);
                 if (value instanceof NativeFixedArrayHandle) return managedDescriptorMatches(value[elementDescriptor], type.element);
                 if (Array.isArray(value) || ArrayBuffer.isView(value)) return Array.from(value).every(v => managedValueMatches(v, type.element));
@@ -1585,7 +1617,11 @@ export async function initMxParser(options = {}) {
     function managedGuard(owner, name, isStatic, args) {
         const key = owner + '|' + name + '|' + (isStatic ? 'static' : 'instance'),
             families = managedProfile.signatures[key];
-        if (families && !families.some(s => managedSignatureMatches(args, s))) throw new TypeError('Arguments do not match a public Java/C# overload of ' + name);
+        if (families && !families.some(s => managedSignatureMatches(args, s))) throw overloadError(owner, name, args);
+    }
+
+    function overloadError(owner, name, args) {
+        return new TypeError(`No matching overload of ${owner}.${name} for ${args.length} parameters (public Java/C# API)`);
     }
 
     function managedConstructorGuard(name, args) {
@@ -1971,6 +2007,19 @@ export async function initMxParser(options = {}) {
         Object.defineProperty(target, first.name, {
             configurable: true, value: function (...args) {
                 managedGuard(first.owner, first.name, first.static, args);
+                // Managed numeric varargs whose native counterpart accepts a single
+                // array/list. Only normalize the container; calculation stays native.
+                const numericPrefix = first.static && first.name === 'convOthBase2Decimal'
+                    && ['mXparser', 'mathcollection::NumberTheory'].includes(first.owner) ? 1
+                    : first.static && first.owner === 'mathcollection::MathFunctions'
+                    && ['continuedFraction', 'continuedPolynomial'].includes(first.name) ? 0 : null;
+                if (numericPrefix !== null && args.length >= numericPrefix
+                    && (numericPrefix === 0 || typeof args[0] === 'number' || args[0] instanceof Int32Value)
+                    && args.slice(numericPrefix).every(value => typeof value === 'number'))
+                    args = [...args.slice(0, numericPrefix), args.slice(numericPrefix)];
+                if (first.static && first.owner === 'mathcollection::NumberTheory'
+                    && ['gcd', 'lcm'].includes(first.name) && args.length !== 2 && args.length > 0
+                    && args.every(value => typeof value === 'bigint')) args = [args];
                 let processorOverload;
                 if (first.owner === 'wrapper::VariadicProcessor' && first.name === 'ifElementTypeIs') {
                     if (args.length === 2) {
@@ -2217,7 +2266,7 @@ export async function initMxParser(options = {}) {
                         }
                     }
                     if (typeof inherited === 'function' && inherited !== Object.prototype[first.name] && inherited !== Function.prototype[first.name]) return inherited.apply(this, args);
-                    throw new TypeError(`No matching overload of ${first.owner}.${first.name} for ${args.length} parameters`);
+                    throw overloadError(first.owner, first.name, args);
                 }
                 const {item, values} = matched[0];
                 if (item.owner === 'mathcollection::Evaluate' && item.name !== 'polynomial') {

@@ -304,3 +304,19 @@ exception.delete();
 f.delete();
 e.delete();
 x.delete();
+
+// Public managed numeric varargs are runtime-tested by varargs.mjs.
+mx.mXparser.convOthBase2Decimal(2, 1, 0, 1);
+mx.NumberTheory.convOthBase2Decimal(2, 1, 0, 1);
+mx.MathFunctions.continuedFraction(1, 2, 3);
+mx.MathFunctions.continuedPolynomial(1, 2, 3);
+// @ts-expect-error digit strings are not numeric varargs
+mx.mXparser.convOthBase2Decimal(2, 1, '0');
+// @ts-expect-error sequences contain numbers
+mx.MathFunctions.continuedFraction(1, {});
+
+mx.mXparser.convOthBase2Decimal(2, mx.nullList('int'));
+mx.mXparser.convOthBase2Decimal(2, mx.nullList('double'));
+mx.NumberTheory.convOthBase2Decimal(2, new Float64Array([1, 0, 1]));
+// @ts-expect-error a string list cannot hold numeric digits
+mx.mXparser.convOthBase2Decimal(2, mx.nullList('StringPtr'));

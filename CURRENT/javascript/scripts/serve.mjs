@@ -216,7 +216,8 @@
  * - online store: https://payhip.com/infima
  */
 
-// Local browser test server. All files are confined to this product directory.
+// Local test server. Product paths stay confined to this directory. The optional
+// conformance route exposes only the enumerated, read-only native test fixtures.
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
@@ -224,15 +225,32 @@ import {extname, resolve, relative, isAbsolute} from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const port = Number(process.env.PORT ?? 8080);
+const nativeFixtures = new Map();
+if (process.env.MXPARSER_BROWSER_CONFORMANCE === '1') {
+    const fixtures = JSON.parse(await readFile(resolve(root, 'test/regression/cases.json'), 'utf8'));
+    const nativeRoot = resolve(root, '../cpp/tests');
+    for (const name of Object.keys(fixtures.sources)) {
+        if (!/^CURRENT\/cpp\/tests\/[A-Za-z0-9_.-]+$/.test(name)) throw new Error('Invalid native regression fixture');
+        const file = name.split('/').at(-1);
+        nativeFixtures.set('/__mxparser_regression_sources/' + file, await readFile(resolve(nativeRoot, file)));
+    }
+}
 const mime = {
     '.html': 'text/html; charset=utf-8', '.mjs': 'text/javascript', '.js': 'text/javascript',
     '.wasm': 'application/wasm', '.json': 'application/json'
 };
 const server = createServer(async (request, response) => {
-    response.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-    response.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    if (process.env.MXPARSER_ISOLATED === '1') {
+        response.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+        response.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    }
     try {
         const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+        if (nativeFixtures.has(pathname)) {
+            response.setHeader('Content-Type', 'application/octet-stream');
+            response.writeHead(200).end(nativeFixtures.get(pathname));
+            return;
+        }
         const path = resolve(root, '.' + (pathname === '/' ? '/test/browser.html' : pathname));
         const inside = relative(root, path);
         if (inside.startsWith('..') || isAbsolute(inside)) {

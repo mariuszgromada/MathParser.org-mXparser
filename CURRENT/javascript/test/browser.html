@@ -224,6 +224,9 @@ CONTACT
 <pre id="result">Running…</pre>
 <script type="module">
     import {initMxParser} from '../dist/index.js';
+    import {runPublicBehavior} from '../test/behavior.mjs';
+    import {evaluateIsolated} from '../examples/worker-client.mjs';
+    import {runWorkerBehavior} from '../test/worker-behavior.mjs';
 
     const result = document.querySelector('#result');
     const owned = [];
@@ -239,7 +242,6 @@ CONTACT
     }
 
     try {
-        if (!crossOriginIsolated) throw new Error('COOP/COEP isolation is required; use npm run test:browser');
         const mx = await initMxParser({
             print() {
             }, printErr() {
@@ -276,7 +278,11 @@ CONTACT
         } finally {
             mx.SerializationUtils.disableBinarySerialization();
         }
-        globalThis.testResult = {status: 'PASS', checks};
+        const behavior = runPublicBehavior(mx);
+        checks += behavior.checks;
+        const worker = await runWorkerBehavior(evaluateIsolated);
+        checks += worker.checks;
+        globalThis.testResult = {status: 'PASS', checks, crossOriginIsolated, scenarios: behavior.scenarios, worker};
         result.textContent = JSON.stringify(globalThis.testResult, null, 2);
     } catch (error) {
         globalThis.testResult = {status: 'FAIL', checks, error: String(error), stack: error.stack};

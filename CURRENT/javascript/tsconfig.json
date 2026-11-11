@@ -7,5 +7,8 @@
     "skipLibCheck": false,
     "noEmit": true
   },
-  "files": ["test/public-types.mts"]
+  "files": [
+    "test/public-types.mts",
+    "test/numeric-types.mts"
+  ]
 }

@@ -1,0 +1,433 @@
+/*
+ * @(#)assertions.mjs.in        6.2.0    2026-11-04
+ *
+ * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
+ * The most up-to-date license is available at the below link:
+ * - https://mathparser.org/mxparser-license
+ *
+ * AUTHOR: Copyright 2010 - 2026 Mariusz Gromada - All rights reserved
+ * PUBLISHER: INFIMA - https://payhip.com/infima
+ *
+ * SOFTWARE means source code and/or binary form and/or documentation.
+ * PRODUCT: MathParser.org-mXparser SOFTWARE
+ * LICENSE: DUAL LICENSE AGREEMENT
+ *
+ * BY INSTALLING, COPYING, OR OTHERWISE USING THE PRODUCT, YOU AGREE TO BE
+ * BOUND BY ALL OF THE TERMS AND CONDITIONS OF THE DUAL LICENSE AGREEMENT.
+ *
+ * The AUTHOR & PUBLISHER provide the PRODUCT under the DUAL LICENSE AGREEMENT
+ * model designed to meet the needs of both non-commercial use and commercial
+ * use.
+ *
+ * NON-COMMERCIAL USE means any use or activity where a fee is not charged
+ * and the purpose is not the sale of a good or service, and the use or
+ * activity is not intended to produce a profit. Examples of NON-COMMERCIAL USE
+ * include:
+ *
+ * 1. Non-commercial open-source software.
+ * 2. Non-commercial mobile applications.
+ * 3. Non-commercial desktop software.
+ * 4. Non-commercial web applications/solutions.
+ * 5. Non-commercial use in research, scholarly and educational context.
+ *
+ * The above list is non-exhaustive and illustrative only.
+ *
+ * COMMERCIAL USE means any use or activity where a fee is charged or the
+ * purpose is the sale of a good or service, or the use or activity is
+ * intended to produce a profit. COMMERCIAL USE examples:
+ *
+ * 1. OEMs (Original Equipment Manufacturers).
+ * 2. ISVs (Independent Software Vendors).
+ * 3. VARs (Value Added Resellers).
+ * 4. Other distributors that combine and distribute commercially licensed
+ *    software.
+ *
+ * The above list is non-exhaustive and illustrative only.
+ *
+ * IN CASE YOU WANT TO USE THE PRODUCT COMMERCIALLY, YOU MUST PURCHASE THE
+ * APPROPRIATE LICENSE FROM "INFIMA" ONLINE STORE, STORE ADDRESS:
+ *
+ * 1. https://mathparser.org/order-commercial-license
+ * 2. https://payhip.com/infima
+ *
+ * NON-COMMERCIAL LICENSE
+ *
+ * Redistribution and use of the PRODUCT in source and/or binary forms,
+ * with or without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * 1. Redistributions of source code must retain the unmodified content of
+ *    the entire MathParser.org-mXparser DUAL LICENSE AGREEMENT, including
+ *    the definition of NON-COMMERCIAL USE, the definition of COMMERCIAL USE,
+ *    the NON-COMMERCIAL LICENSE conditions, the COMMERCIAL LICENSE conditions,
+ *    and the following DISCLAIMER.
+ * 2. Redistributions in binary form must reproduce the entire content of
+ *    MathParser.org-mXparser DUAL LICENSE AGREEMENT in the documentation
+ *    and/or other materials provided with the distribution, including the
+ *    definition of NON-COMMERCIAL USE, the definition of COMMERCIAL USE, the
+ *    NON-COMMERCIAL LICENSE conditions, the COMMERCIAL LICENSE conditions,
+ *    and the following DISCLAIMER.
+ * 3. Any form of redistribution requires confirmation and signature of
+ *    the NON-COMMERCIAL USE by successfully calling the method:
+ *       License.iConfirmNonCommercialUse(...)
+ *    The method call is used only internally for logging purposes, and
+ *    there is no connection with other external services, and no data is
+ *    sent or collected. The lack of a method call (or its successful call)
+ *    does not affect the operation of the PRODUCT in any way. Please see
+ *    the API documentation.
+ *
+ * COMMERCIAL LICENSE
+ *
+ *  1. Before purchasing a commercial license, the AUTHOR & PUBLISHER allow
+ *     you to download, install, and use up to three copies of the PRODUCT to
+ *     perform integration tests, confirm the quality of the PRODUCT, and
+ *     its suitability. The testing period should be limited to fourteen
+ *     days. Tests should be performed under the test environments conditions
+ *     and not for profit generation.
+ *  2. Provided that you purchased a license from "INFIMA" online store
+ *     (store address: https://mathparser.org/order-commercial-license or
+ *     https://payhip.com/infima), and you comply with all terms and
+ *     conditions below, and you have acknowledged and understood the
+ *     following DISCLAIMER, the AUTHOR & PUBLISHER grant you a nonexclusive
+ *     license with the following rights:
+ *  3. The license is granted only to you, the person or entity that made
+ *     the purchase, identified and confirmed by the data provided during
+ *     the purchase.
+ *  4. If you purchased a license in the "ONE-TIME PURCHASE" model, the
+ *     license is granted only for the PRODUCT version specified in the
+ *     purchase. The upgrade policy gives you additional rights, described
+ *     in the dedicated section below.
+ *  5. If you purchased a license in the "SUBSCRIPTION" model, you may
+ *     install and use any version of the PRODUCT during the subscription
+ *     validity period.
+ *  6. If you purchased a "SINGLE LICENSE" you may install and use the
+ *     PRODUCT on/from one workstation that is located/accessible at/from
+ *     any of your premises.
+ *  7. Additional copies of the PRODUCT may be installed and used on/from
+ *     more than one workstation, limited to the number of workstations
+ *     purchased per order.
+ *  8. If you purchased a "SITE LICENSE", the PRODUCT may be installed
+ *     and used on/from all workstations located/accessible at/from any
+ *     of your premises.
+ *  9. You may incorporate the unmodified PRODUCT into your own products
+ *     and software.
+ * 10. If you purchased a license with the "SOURCE CODE" option, you may
+ *     modify the PRODUCT's source code and incorporate the modified source
+ *     code into your own products and/or software.
+ * 11. Provided that the license validity period has not expired, you may
+ *     distribute your product and/or software with the incorporated
+ *     PRODUCT royalty-free.
+ * 12. You may make copies of the PRODUCT for backup and archival purposes.
+ * 13. Any form of redistribution requires confirmation and signature of
+ *     the COMMERCIAL USE by successfully calling the method:
+ *        License.iConfirmCommercialUse(...)
+ *     The method call is used only internally for logging purposes, and
+ *     there is no connection with other external services, and no data is
+ *     sent or collected. The lack of a method call (or its successful call)
+ *     does not affect the operation of the PRODUCT in any way. Please see
+ *     the API documentation.
+ * 14. The AUTHOR & PUBLISHER reserve all rights not expressly granted to
+ *     you in this agreement.
+ *
+ * ADDITIONAL CLARIFICATION ON WORKSTATION
+ *
+ * A workstation is a device, a remote device, or a virtual device, used by
+ * you, your employees, or other entities to whom you have commissioned
+ * tasks. For example, the number of workstations may refer to the number
+ * of software developers, engineers, architects, scientists, and other
+ * professionals who use the PRODUCT on your behalf. The number of
+ * workstations is not the number of copies of your end-product that you
+ * distribute to your end-users.
+ *
+ * By purchasing the COMMERCIAL LICENSE, you only pay for the number of
+ * workstations, while the number of copies/users of your final product
+ * (delivered to your end-users) is not limited.
+ *
+ * Below are some examples to help you select the right license size:
+ *
+ * Example 1: Single Workstation License
+ * Only one developer works on the development of your application. You do
+ * not use separate environments for testing, meaning you design, create,
+ * test, and compile your final application on one environment. In this
+ * case, you need a license for a single workstation.
+ *
+ * Example 2: Up to 5 Workstations License
+ * Two developers are working on the development of your application.
+ * Additionally, one tester conducts tests in a separate environment.
+ * You use three workstations in total, so you need a license for up to
+ * five workstations.
+ *
+ * Example 3: Up to 20 Workstations License
+ * Ten developers are working on the development of your application.
+ * Additionally, five testers conduct tests in separate environments.
+ * You use fifteen workstations in total, so you need a license for
+ * up to twenty workstations.
+ *
+ * Example 4: Site License
+ * Several dozen developers and testers work on the development of your
+ * application using multiple environments. You have a large,
+ * multi-disciplinary team involved in creating your solution. As your team
+ * is growing and you want to avoid licensing limitations, the best choice
+ * would be a site license.
+ *
+ * UPGRADE POLICY
+ *
+ * The PRODUCT is versioned according to the following convention:
+ *
+ *    [MAJOR].[MINOR].[PATCH]
+ *
+ * 1. COMMERCIAL LICENSE holders can install and use the updated version
+ *    for bug fixes free of charge, i.e. if you have purchased a license
+ *    for the [MAJOR].[MINOR] version (e.g., 5.0), you can freely install
+ *    all releases specified in the [PATCH] version (e.g., 5.0.2).
+ *    The license terms remain unchanged after the update.
+ * 2. COMMERCIAL LICENSE holders for the [MAJOR].[MINOR] version (e.g., 5.0)
+ *    can install and use the updated version [MAJOR].[MINOR + 1] free of
+ *    charge, i.e., plus one release in the [MINOR] range (e.g., 5.1). The
+ *    license terms remain unchanged after the update.
+ * 3. COMMERCIAL LICENSE holders who wish to upgrade their version, but are
+ *    not eligible for the free upgrade, can claim a discount when
+ *    purchasing the upgrade. For this purpose, please contact us via e-mail.
+ *
+ * DISCLAIMER
+ *
+ * THIS PRODUCT IS PROVIDED BY THE AUTHOR & PUBLISHER "AS IS" AND ANY EXPRESS
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL AUTHOR OR PUBLISHER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS PRODUCT, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * THE VIEWS AND CONCLUSIONS CONTAINED IN THE PRODUCT AND DOCUMENTATION ARE
+ * THOSE OF THE AUTHORS AND SHOULD NOT BE INTERPRETED AS REPRESENTING
+ * OFFICIAL POLICIES, EITHER EXPRESSED OR IMPLIED, OF THE AUTHOR OR PUBLISHER.
+ *
+ * CONTACT
+ *
+ * - e-mail: info@mathparser.org
+ * - website: https://mathparser.org
+ * - source code: https://github.com/mariuszgromada/MathParser.org-mXparser
+ * - online store: https://mathparser.org/order-commercial-license
+ * - online store: https://payhip.com/infima
+ */
+
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {writeFile} from 'node:fs/promises';
+const {initMxParser: initialize} = await import(process.env.MXPARSER_MODULE ?? '@mathparser.org/mxparser');
+const definitions=BLOCKS;
+import {readFileSync} from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+const reference=JSON.parse(gunzipSync(readFileSync(new URL(REFERENCE))).toString('utf8'));
+const {native,licenseNative}=reference;
+const report={scope:'Every executable fence in the final public tutorial',status:'RUNNING',executed:0,passed:0,failed:0,examples:[]};
+const output=console.log;let current,events=[],scriptEvents=[],scriptModes=[],nativeEvents=[],initializedModule,settingsBefore=0;
+console.log=(...args)=>{scriptEvents.push(args);scriptModes.push(initializedModule?.mXparser.checkIfUlpRounding());events.push(args);};
+const nativeOutput=text=>{nativeEvents.push([text]);events.push([text]);};
+const initMxParser=async(options={})=>{initializedModule=await initialize({...options,print:nativeOutput,printErr:nativeOutput});return initializedModule;};
+function begin(id){current=definitions.find(x=>x.id===id);events=[];scriptEvents=[];scriptModes=[];nativeEvents=[];report.executed++;if(current.nativeConsole||current.nativeStepsConsole||current.nativeVerbose)initializedModule.mXparser.resetConsoleOutput();}
+function finish(settingsAfter=0){
+ if(current.setting)assert.equal(settingsAfter-settingsBefore,current.settingAssertions,'All concrete native setting assertions actually executed');
+ const references=native.filter(row=>row.id===current.id).sort((a,b)=>a.index-b.index);
+ if(current.nativeReference){
+   const expected=references.filter(row=>row.kind==='numeric'&&!(current.nativeLoop&&row.expression==='input'));
+   const actual=scriptEvents.filter(row=>typeof row.at(-1)==='number');assert.equal(actual.length,expected.length);
+   const modes=scriptModes.filter((_,index)=>typeof scriptEvents[index].at(-1)==='number');
+   for(let i=0;i<expected.length;i++){
+     assert.equal(modes[i],Boolean(expected[i].ulp),'Matching native rounding configuration at actual result emission, before cleanup');
+     const bytes=new DataView(new ArrayBuffer(8));bytes.setBigUint64(0,BigInt('0x'+expected[i].bits),false);
+     if(current.argumentValues){
+       assert.equal(actual[i].length,4);assert.equal(actual[i][0],'x =');
+       if(current.argumentValues[i]==='NaN')assert.ok(Number.isNaN(actual[i][1]),'Original displayed NaN argument');
+       else assert.equal(actual[i][1],current.argumentValues[i],'Original displayed argument value');
+     }
+     assert.equal(actual[i][current.argumentValues?2:0],expected[i].expression,'Original expression source');
+     assert.ok(Object.is(actual[i].at(-1),bytes.getFloat64(0,false)),current.id+': exact native reference result');
+   }
+ }
+ if(current.nativeSerialization){
+   const rows=references.filter(row=>row.kind.startsWith('serialization_'));
+   const expectedCount=current.id==='C2-example-205'?5:current.id==='C2-example-209'?15:8;
+   assert.equal(rows.length,expectedCount);assert.equal(scriptEvents.length,expectedCount,'Complete original serialization events');
+   const number=bits=>{const view=new DataView(new ArrayBuffer(8));view.setBigUint64(0,BigInt('0x'+bits),false);return view.getFloat64(0,false);};
+   const text=value=>value===null?null:new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(value));
+   for(let i=0;i<rows.length;i++){
+     const row=rows[i],actual=scriptEvents[i];assert.equal(actual[0],row.label,'Original serialization event label/order');
+     assert.equal(scriptModes[i],Boolean(row.ulp),'Matching native rounding mode at serialization output');
+     assert.equal(actual.length,row.kind==='serialization_literal'?1:2);
+     if(row.kind==='serialization_boolean')assert.equal(actual[1],Boolean(row.value));
+     else if(row.kind==='serialization_text')assert.equal(actual[1],text(row.bytes),'Complete native diagnostic including original security warning');
+     else if(row.kind==='serialization_number')assert.ok(Object.is(actual[1],number(row.bits)),'Exact original native restored calculation');
+     else assert.equal(row.kind,'serialization_literal');
+   }
+ }
+ if(current.nativeClone){
+   const expected=references.filter(row=>row.kind==='clone_values');
+   assert.equal(expected.length,{'C2-example-210':5,'C2-example-211':2,'C2-example-212':3,'C2-example-213':2,'C2-example-214':2}[current.id]);
+   assert.equal(scriptEvents.length,expected.length,'Every original clone output row');
+   for(let index=0;index<expected.length;index++){
+     const row=expected[index],event=scriptEvents[index];assert.equal(event.length,1);assert.ok(Array.isArray(event[0]));assert.equal(event[0].length,row.bits.length);
+     assert.equal(scriptModes[index],Boolean(row.ulp),'Matching original native rounding mode for clone calculations');
+     for(let field=0;field<row.bits.length;field++){
+       const view=new DataView(new ArrayBuffer(8));view.setBigUint64(0,BigInt('0x'+row.bits[field]),false);const value=view.getFloat64(0,false);
+       if(row.mask&(1<<field)){assert.ok(value===0||value===1);assert.equal(event[0][field],Boolean(value),'Original native graph identity');}
+       else assert.ok(Object.is(event[0][field],value),'Exact original native cloned graph value');
+     }
+   }
+ }
+ if(current.nativeLicense){
+   const expected=licenseNative[current.id];assert.ok(expected,'Fresh original native license data is present');
+   if(current.id==='C2-example-263'||current.id==='C2-example-265')assert.deepEqual(scriptEvents,[[expected.successful]]);
+   else{
+     const message=new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(expected.message));
+     assert.deepEqual(scriptEvents,[['isCallSuccessful =',expected.successful],['isConfirmed =',expected.confirmed],['message =',message]],'Exact native confirmation state and complete original message');
+   }
+ }
+ if(current.nativeLocale){
+   assert.equal(references.length,2);assert.equal(scriptEvents.length,2);
+   const text=value=>value===null?null:new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(value));
+   for(let index=0;index<2;index++){
+     const row=references[index],event=scriptEvents[index];assert.equal(row.kind,'locale_diagnostic');assert.equal(row.nan,true);
+     assert.equal(event.length,1);assert.ok(Array.isArray(event[0]));assert.equal(event[0].length,3);
+     assert.equal(event[0][0],text(row.expression));assert.ok(Number.isNaN(event[0][1]));
+     assert.equal(event[0][2],text(row.error),'Complete original native localized diagnostic');
+     assert.equal(scriptModes[index],Boolean(row.ulp));
+   }
+ }
+ if(current.nativeHelpCounts){
+   assert.equal(references.length,1);assert.equal(references[0].kind,'help_counts');
+   assert.deepEqual(scriptEvents,[[references[0].values]],'All original native help byte/keyword counts');
+   assert.equal(scriptModes[0],Boolean(references[0].ulp));
+ }
+ if(current.nativeHelpText){
+   assert.equal(references.length,1);assert.equal(references[0].kind,'help_text');
+   assert.ok(references[0].bytes!==null,'Native help result is present');
+   const wanted=new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(references[0].bytes));
+   assert.deepEqual(scriptEvents,[[wanted]],'Complete original native formatted help text');
+   assert.equal(scriptModes[0],Boolean(references[0].ulp));
+ }
+ if(current.nativeHelpKeywords){
+   assert.equal(references.length,1);const expected=references[0];assert.equal(expected.kind,'help_keywords');
+   assert.equal(expected.count,expected.words.length);assert.equal(scriptEvents.length,expected.count+1);
+   assert.deepEqual(scriptEvents[0],[[expected.count]]);
+   const text=value=>value===null?null:new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(value));
+   const labels=expected.labels.map(text);assert.equal(labels.length,5);
+   const words=expected.words.map(word=>({labels,keyword:text(word.keyword),description:text(word.description),syntax:text(word.syntax),since:text(word.since),type:text(word.type),typeId:word.typeId,id:word.id}));
+   assert.deepEqual(scriptEvents.slice(1),words.map(word=>[word]),'Every original keyword field, localized label, type description and row order');
+   assert.ok(scriptModes.every(mode=>mode===Boolean(expected.ulp)));
+ }
+ if(current.nativeLoop){
+   const benchmark=Number(current.id.slice(-3))>=180;
+   if(!benchmark){
+     const inputs=references.filter(row=>row.kind==='numeric'&&row.expression==='input');assert.equal(inputs.length,11);
+     const actual=scriptEvents.filter(row=>row.length===1&&row[0]&&typeof row[0]==='object'&&Object.hasOwn(row[0],'input'));
+     const number=bits=>{const view=new DataView(new ArrayBuffer(8));view.setBigUint64(0,BigInt('0x'+bits),false);return view.getFloat64(0,false);};
+     assert.deepEqual(actual.map(row=>row[0]),inputs.map(row=>({input:number(row.bits)})),'All original loop input values in order');
+   }else{
+     const entries=scriptEvents.filter(row=>row.length===1&&row[0]?.benchmark===true);assert.equal(entries.length,1);
+     const value=entries[0][0];assert.equal(value.numOfIter,10000000);assert.equal(value.evaluations,10000001);
+     assert.ok(Number.isFinite(value.computingTimeSec)&&value.computingTimeSec>=0);
+     assert.equal(value.iterationsPerSecond,value.computingTimeSec>0?value.numOfIter/value.computingTimeSec:null);
+     const flags=references.filter(row=>row.kind==='rounding_flags');assert.equal(flags.length,1);
+     assert.deepEqual([value.almost,value.ulp,value.canonical],flags[0].values.map(Boolean),'All three actual benchmark rounding modes');
+   }
+ }
+ if(current.nativeRadix){
+   const expected=references.filter(row=>row.kind==='radix');assert.equal(expected.length,1);
+   const actual=scriptEvents.filter(row=>row.length===1&&typeof row[0]==='string');
+   assert.deepEqual(actual,[[new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(expected[0].bytes))]],'Original native radix conversion');
+ }
+ if(current.nativeSteps){
+   const rows=references.filter(row=>row.kind==='steps');assert.equal(rows.length,1);const expected=rows[0];
+   const text=value=>value===null?null:new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(value));
+   const number=bits=>{const bytes=new DataView(new ArrayBuffer(8));bytes.setBigUint64(0,BigInt('0x'+bits),false);return bytes.getFloat64(0,false);};
+   const registerRows=scriptEvents.filter(row=>row[0]==='register');assert.equal(registerRows.length,1);
+   const {computingTime,...actual}=registerRows[0][1];assert.ok(Number.isFinite(computingTime)&&computingTime>=0);
+   const wanted={};for(const key of ['argumentNameStart','functionNameStart','expressionStringStart','errorMessage'])wanted[key]=text(expected[key]);
+   wanted.result=number(expected.resultBits);assert.deepEqual(actual,wanted,'Every original native register value');
+   const wantedRecords=expected.records.map(row=>({...row,typeText:text(row.typeText),description:text(row.description),content:text(row.content)}));
+   assert.deepEqual(scriptEvents.filter(row=>row[0]==='step').map(row=>row[1]),wantedRecords,'Every original native step field and order');
+   if(current.nativeStepsConsole){
+     const wantedTrace=wantedRecords.map(row=>row.numberGroup+'.'+row.numberGroupWithin+' '+'   '.repeat(row.numberGroup-1)+row.typeText+' '+row.content);
+     assert.deepEqual(scriptEvents.filter(row=>row[0]==='trace').map(row=>row[1]),wantedTrace,'Original hierarchical display');
+     assert.ok(nativeEvents.length>0,'Native register actually printed');
+     const normalizeTime=value=>{let matches=0;const result=value.replace(/(Computing time = )([0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)( s\.)/g,(_,left,seconds,right)=>{matches++;assert.ok(Number.isFinite(Number(seconds))&&Number(seconds)>=0);return left+'<elapsed>'+right;});assert.equal(matches,1,'Exactly one native elapsed-time field');return result;};
+     assert.equal(normalizeTime(initializedModule.mXparser.getConsoleOutput()),normalizeTime(text(expected.console)),'Complete native step console except actual elapsed seconds');
+   }
+ }
+ if(current.nativeCanonical){
+   const actual=scriptEvents.filter(row=>row.length===2&&row.every(value=>typeof value==='string'));
+   assert.deepEqual(actual,references.map(row=>[row.expression,row.canonical]),'Original native canonical forms');
+ }
+ if(current.nativeCanonicalSyntax){
+   assert.equal(references.length,15);
+   const actual=scriptEvents.filter(row=>row.length===3&&typeof row[0]==='string'&&typeof row[1]==='string'&&typeof row[2]==='boolean');
+   assert.deepEqual(actual,references.map(row=>[row.expression,row.canonical,Boolean(row.syntax)]),'All original canonical forms and syntax outcomes in order');
+ }
+ if(current.nativeBuiltin){
+   const text=value=>value===null?null:new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(value));
+   const syntax=references.filter(row=>row.kind==='builtin_syntax');
+   assert.equal(syntax.length,{'C2-example-168':4,'C2-example-169':5,'C2-example-170':3}[current.id]);
+   assert.deepEqual(scriptEvents.filter(row=>row.length===1&&typeof row[0]==='boolean').map(row=>row[0]),syntax.map(row=>Boolean(row.syntax)),'All original settings syntax outcomes');
+   assert.deepEqual(scriptEvents.filter(row=>row.length===1&&typeof row[0]==='string').map(row=>row[0]),syntax.map(row=>text(row.bytes)),'Every complete original settings diagnostic');
+   const removed=references.filter(row=>row.kind==='builtin_values');
+   assert.deepEqual(scriptEvents.filter(row=>row[0]==='removed').map(row=>row[1]),removed.map(row=>row.values.map(text)),'Original removed-name contents/order');
+   const modified=references.filter(row=>row.kind==='builtin_table');
+   assert.deepEqual(scriptEvents.filter(row=>row[0]==='modified').map(row=>row[1]),modified.map(row=>row.values.map(cells=>cells.map(text))),'Complete original nullable modification cells');
+   const help=references.filter(row=>row.kind==='builtin_help');
+   assert.deepEqual(scriptEvents.filter(row=>row[0]==='help').map(row=>row[1]),help.map(row=>text(row.bytes)),'Original and explicitly corrected native help queries');
+   if(help.length)assert.ok(nativeEvents.length>0,'Native modified help emitted output');
+   const flags=references.filter(row=>row.kind==='builtin_flag');
+   assert.deepEqual(scriptEvents.filter(row=>row[0]==='override').map(row=>row[1]),flags.map(row=>Boolean(row.value)),'Original override mode');
+ }
+ if(current.nativeRounding){
+   const expected=references.filter(row=>row.kind==='rounding_flags');assert.equal(expected.length,1);
+   assert.deepEqual(scriptEvents.filter(row=>row.length===1&&typeof row[0]==='boolean').map(row=>row[0]),expected[0].values.map(Boolean),'Original almost-integer/ULP/canonical flags');
+ }
+ if(current.nativeVerbose){
+   const rows=references.filter(row=>row.kind==='console');assert.equal(rows.length,1);
+   assert.ok(nativeEvents.length>0,'Verbose engine actually emitted output');
+   assert.equal(initializedModule.mXparser.getConsoleOutput(),new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(rows[0].bytes)),'Complete original native verbose trace');
+ }
+ if(current.nativeText){
+   assert.equal(references.length,1);assert.equal(references[0].kind,'text');
+   const actual=scriptEvents.filter(row=>row.length===(current.nativeTextExpression?2:1)&&row.every(value=>typeof value==='string'));
+   const text=new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(references[0].bytes));
+   assert.deepEqual(actual,[current.nativeTextExpression?[references[0].expression,text]:[text]],'Complete original native text value');
+ }
+ if(current.nativeConsole){
+   assert.equal(references.length,1);assert.equal(references[0].kind,'console');
+   assert.ok(nativeEvents.length>0,'Native console actually emitted output');
+   assert.equal(initializedModule.mXparser.getConsoleOutput(),new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(references[0].bytes)),'Complete original native console buffer');
+ }
+ if(current.nativeSyntax){
+   assert.equal(references.length,1);const expected=references[0];
+   const actual=scriptEvents.filter(row=>row.length===1&&typeof row[0]==='boolean').map(row=>row[0]);
+   assert.deepEqual(actual,(expected.syntaxStates??[expected.syntax]).map(Boolean),'Original native syntax outcomes');
+   const messages=scriptEvents.filter(row=>row.length===1&&typeof row[0]==='string').map(row=>row[0]);
+   assert.deepEqual(messages,expected.errors.map(bytes=>new TextDecoder().decode(new Uint8Array(bytes))),'Exact original English native diagnostics');
+ }
+ if(current.nativeTokens){
+   assert.equal(references.length,1);
+   const actual=scriptEvents.filter(row=>row.length===1&&Array.isArray(row[0])).map(row=>row[0]);
+   assert.deepEqual(actual,[references[0].tokens],'Original initial token strings including implied operators');
+ }
+ if(current.nativeMissing){
+   assert.equal(references.length,1);
+   const actual=scriptEvents.filter(row=>row.length===1&&Array.isArray(row[0])).map(row=>row[0]);
+   assert.deepEqual(actual,[references[0].missing],'Original native missing argument names');
+ }
+ if(current.nativeMissingFunctions){
+   assert.equal(references.length,1);
+   const actual=scriptEvents.filter(row=>row.length===1&&Array.isArray(row[0])).map(row=>row[0]);
+   assert.deepEqual(actual,[references[0].missingFunctions,references[0].missing],'Original native missing function/argument names');
+ }
+ for(const needle of current.nativeContains??[])assert.ok(events.flat().join('\\n').toLowerCase().includes(needle.toLowerCase()),current.id+': missing native help '+needle);
+ report.passed++;report.examples.push({id:current.id,status:'PASS',chapter:current.chapter,case:current.case,outputs:events,script_outputs:scriptEvents,native_outputs:nativeEvents,native_reference:current.nativeReference??false,setting:current.setting??null,setting_assertions:current.setting?settingsAfter-settingsBefore:0});
+ writeFileSync(new URL('./tutorial-progress.json',reportDirectory),JSON.stringify({executed:report.executed,passed:report.passed,last:current.id}));
+}

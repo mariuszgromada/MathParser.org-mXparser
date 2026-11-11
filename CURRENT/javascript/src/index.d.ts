@@ -216,7 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
-// Isolated proposal types: represented runtime only, not complete product acceptance.
+// Maintained public-profile declarations; see docs/MAINTENANCE.md and runtime tests.
 declare const cstringValueMarker: unique symbol;
 declare const int32ValueMarker: unique symbol;
 
@@ -2843,6 +2843,9 @@ export interface mXparserStatics {
 
     "numberToAsciiString"(p0: number): string | null;
 
+    /** Digits are forwarded to the native conversion, without JS numerical conversion. */
+    "convOthBase2Decimal"(numeralSystemBase: number, ...digits: number[]): number;
+
     "convOthBase2Decimal"(p0: string | null, p1: number | Int32Value): number;
 
     "convOthBase2Decimal"(p0: string | null): number;
@@ -3334,7 +3337,13 @@ export interface mathcollection_MathFunctionsStatics {
 
     "kroneckerDelta"(p0: number | Int32Value, p1: number | Int32Value): number;
 
+    /** Native continued fraction; the rest form packs numbers into its native array. */
+    "continuedFraction"(...sequence: number[]): number;
+
     "continuedFraction"(p0: Array<number> | Float64Array | null): number;
+
+    /** Native continued polynomial; accepts a JS array or spread numbers. */
+    "continuedPolynomial"(...sequence: number[]): number;
 
     "continuedPolynomial"(p0: Array<number> | Float64Array | null): number;
 
@@ -3498,21 +3507,45 @@ export interface mathcollection_NumberTheoryStatics {
 
     "numberOfDistValues"(...p0: (number | readonly (number)[] | NativeList<number, "double"> | Float64Array | null)[]): number;
 
-    "gcd"(p0: bigint, p1: bigint): bigint;
+    /** Scalar numbers use the native double overload; int64 bigint pairs retain bigint. */
+    "gcd"(): number;
 
-    "gcd"(p0: number, p1: number): bigint;
+    "gcd"(a: bigint, b: bigint): bigint;
 
-    "gcd"(...p0: (bigint | readonly (bigint)[] | NativeList<bigint, "Long"> | null)[]): bigint;
+    "gcd"(first: bigint, ...rest: bigint[]): bigint;
 
-    "gcd"(...p0: (number | readonly (number)[] | NativeList<number, "double"> | Float64Array | null)[]): bigint;
+    "gcd"(a: number, b: number): number;
 
-    "lcm"(p0: bigint, p1: bigint): bigint;
+    "gcd"(numbers: readonly []): number;
 
-    "lcm"(p0: number, p1: number): bigint;
+    "gcd"(numbers: readonly [bigint, ...bigint[]]): bigint;
 
-    "lcm"(...p0: (bigint | readonly (bigint)[] | NativeList<bigint, "Long"> | null)[]): bigint;
+    /** An empty untyped JS array selects double; a nonempty bigint array selects int64. */
+    "gcd"(numbers: readonly bigint[]): number | bigint;
 
-    "lcm"(...p0: (number | readonly (number)[] | NativeList<number, "double"> | Float64Array | null)[]): bigint;
+    "gcd"(...numbers: number[]): number;
+
+    "gcd"(numbers: readonly number[] | NativeList<number, "double"> | Float64Array): number;
+
+    /** Scalar numbers use the native double overload; int64 bigint pairs retain bigint. */
+    "lcm"(): number;
+
+    "lcm"(a: bigint, b: bigint): bigint;
+
+    "lcm"(first: bigint, ...rest: bigint[]): bigint;
+
+    "lcm"(a: number, b: number): number;
+
+    "lcm"(numbers: readonly []): number;
+
+    "lcm"(numbers: readonly [bigint, ...bigint[]]): bigint;
+
+    /** An empty untyped JS array selects double; a nonempty bigint array selects int64. */
+    "lcm"(numbers: readonly bigint[]): number | bigint;
+
+    "lcm"(...numbers: number[]): number;
+
+    "lcm"(numbers: readonly number[] | NativeList<number, "double"> | Float64Array): number;
 
     "sum"(...p0: (number | readonly (number)[] | NativeList<number, "double"> | Float64Array | null)[]): number;
 
@@ -3537,6 +3570,9 @@ export interface mathcollection_NumberTheoryStatics {
     "getNumeralSystemBase"(p0: string | null): number;
 
     "getNumeralSystemBase"(p0: string): number;
+
+    /** Digits are forwarded to the native conversion, without JS numerical conversion. */
+    "convOthBase2Decimal"(numeralSystemBase: number, ...digits: number[]): number;
 
     "convOthBase2Decimal"(p0: string | null, p1: number | Int32Value): number;
 

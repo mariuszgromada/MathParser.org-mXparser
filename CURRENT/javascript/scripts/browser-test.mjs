@@ -218,16 +218,23 @@
 
 // Headless Chromium smoke test using Node's built-in WebSocket/CDP support.
 import {spawn} from 'node:child_process';
-import {mkdir, mkdtemp, readFile} from 'node:fs/promises';
-import {resolve, join} from 'node:path';
+import {mkdir, mkdtemp, readFile, rm} from 'node:fs/promises';
+import {resolve, join, relative, isAbsolute} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const executable = process.argv[2] ?? process.env.BROWSER;
 if (!executable) throw new Error('Supply a Chromium browser executable: node scripts/browser-test.mjs <path>');
 const pause = ms => new Promise(done => setTimeout(done, ms));
-await mkdir(join(root, 'build'), {recursive: true});
-const profile = await mkdtemp(join(root, 'build/browser-'));
+const buildRoot = resolve(root, 'build');
+const targetPath = process.env.MXPARSER_BROWSER_PATH ?? '/';
+if (!targetPath.startsWith('/') || targetPath.startsWith('//')) throw new Error('Browser test path must stay on the local test server');
+const requiredChecks = Number(process.env.MXPARSER_BROWSER_CHECKS ?? 600);
+const timeout = Number(process.env.MXPARSER_BROWSER_TIMEOUT_MS ?? 90000);
+if (!Number.isSafeInteger(requiredChecks) || requiredChecks < 1 || !Number.isSafeInteger(timeout) || timeout < 1)
+    throw new Error('Browser check count and timeout must be positive integers');
+await mkdir(buildRoot, {recursive: true});
+const profile = await mkdtemp(join(buildRoot, 'browser-'));
 let browser, socket;
 const server = spawn(process.execPath, [join(root, 'scripts/serve.mjs')],
     {cwd: root, env: {...process.env, PORT: '0'}, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe']});
@@ -250,14 +257,15 @@ try {
             }
         });
     });
+    const pageAddress = new URL(targetPath, address).href;
     browser = spawn(resolve(executable), ['--headless=new', '--disable-gpu', '--no-first-run',
-            '--no-default-browser-check', '--remote-debugging-port=0', `--user-data-dir=${profile}`, address],
+            '--no-default-browser-check', '--remote-debugging-port=0', `--user-data-dir=${profile}`, pageAddress],
         {windowsHide: true, stdio: ['ignore', 'ignore', 'ignore']});
     let spawnError;
     browser.once('error', error => {
         spawnError = error;
     });
-    const deadline = Date.now() + 90000;
+    const deadline = Date.now() + timeout;
     let target;
     while (!target && Date.now() < deadline) {
         if (spawnError) throw spawnError;
@@ -265,7 +273,7 @@ try {
         try {
             const port = (await readFile(join(profile, 'DevToolsActivePort'), 'utf8')).split('\n')[0];
             const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-            target = targets.find(item => item.type === 'page' && item.url.startsWith(address));
+            target = targets.find(item => item.type === 'page' && item.url.startsWith(pageAddress));
         } catch { /* The fresh browser may still be starting. */
         }
         if (!target) await pause(100);
@@ -283,6 +291,7 @@ try {
         if (!message.id) return;
         const operation = pending.get(message.id);
         pending.delete(message.id);
+        if (operation) clearTimeout(operation.timer);
         if (message.error) operation?.reject(new Error(JSON.stringify(message.error)));
         else operation?.resolve(message.result);
     });
@@ -290,7 +299,11 @@ try {
     function evaluate(expression) {
         const id = ++sequence;
         return new Promise((resolve, reject) => {
-            pending.set(id, {resolve, reject});
+            const timer = setTimeout(() => {
+                pending.delete(id);
+                reject(new Error('Browser test exceeded its deadline'));
+            }, Math.max(1, deadline - Date.now()));
+            pending.set(id, {resolve, reject, timer});
             socket.send(JSON.stringify({id, method: 'Runtime.evaluate', params: {expression, returnByValue: true}}));
         });
     }
@@ -305,12 +318,24 @@ try {
         }
         if (!report) await pause(100);
     }
-    if (!report || report.status !== 'PASS' || report.checks !== 11) {
-        throw new Error(`Browser test failed: ${JSON.stringify(report)}`);
-    }
     console.log(JSON.stringify({...report, browser: executable}));
+    if (!report || report.status !== 'PASS' || report.checks < requiredChecks
+        || targetPath === '/' && (report.scenarios?.length !== 10 || report.worker?.status !== 'PASS' || report.worker?.checks !== 13)
+        || report.crossOriginIsolated !== (process.env.MXPARSER_ISOLATED === '1')) {
+        const summary = {status: report?.status, checks: report?.checks, error: report?.error,
+            failedIds: report?.report?.tests?.filter(x => x.status === 'FAIL').map(x => x.cpp_id)};
+        throw new Error(`Browser test failed: ${JSON.stringify(summary)}`);
+    }
 } finally {
     socket?.close();
-    browser?.kill();
-    server.kill();
+    for (const child of [browser, server]) if (child && child.exitCode === null) {
+        child.kill();
+        await Promise.race([new Promise(done => child.once('exit', done)), pause(5000)]);
+    }
+    if (process.env.MXPARSER_KEEP_BROWSER_PROFILE !== '1') {
+        const inside = relative(buildRoot, resolve(profile));
+        if (!inside || inside.startsWith('..') || isAbsolute(inside) || !/^browser-[^/\\]+$/.test(inside))
+            throw new Error('Refusing to remove a browser profile outside its generated build directory');
+        await rm(profile, {recursive: true, force: true, maxRetries: 20, retryDelay: 250});
+    }
 }

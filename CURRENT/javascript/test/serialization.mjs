@@ -218,7 +218,9 @@
 
 import assert from 'node:assert/strict';
 
-export function testSerialization(mx, {equal, throws, keep, prefixStart = 0, prefixEnd = null}) {
+export function testSerialization(mx, {
+    equal, throws, keep, prefixStart = 0, prefixEnd = null, prefixArchives = null, archiveObserver = null
+}) {
     const serial = mx.SerializationUtils;
     const source = keep(new mx.Expression('2+2'));
     const unicode = 'Zażółć — λ 🧮 \ud800 \u0000';
@@ -274,11 +276,13 @@ export function testSerialization(mx, {equal, throws, keep, prefixStart = 0, pre
                 equal(copy.wordId, 123);
             }]
         ];
+        if (prefixArchives !== null) assert.equal(prefixArchives.length, roots.length);
         if (!Number.isInteger(prefixStart) || prefixStart < 0 || prefixEnd !== null && (!Number.isInteger(prefixEnd) || prefixEnd < prefixStart)) throw new RangeError('Invalid serialization prefix range');
         let prefixes = 0, prefixCursor = 0;
         for (let index = 0; index < roots.length; index++) {
             const [type, object, validate] = roots[index];
             const bytes = serial.serializeToBytes(object);
+            archiveObserver?.(index, bytes);
             equal(bytes instanceof Uint8Array, true);
             equal(bytes.length > 0, true);
             equal(bytes.buffer instanceof ArrayBuffer, true);
@@ -300,15 +304,23 @@ export function testSerialization(mx, {equal, throws, keep, prefixStart = 0, pre
             const fromFile = keep(serial.deserializeFromFile(path, type));
             equal(fromFile instanceof type, true);
             validate(fromFile);
+            // ASan batches share one frozen corpus, including native timing fields.
+            // The ordinary run uses the bytes just serialized above.
+            const prefixBytes = prefixArchives === null ? bytes : prefixArchives[index];
+            if (prefixArchives !== null) {
+                const trusted = keep(serial.deserializeFromBytes(prefixBytes, type));
+                equal(trusted instanceof type, true);
+                validate(trusted);
+            }
             // Every incomplete prefix of each trusted native root archive is exercised.
             const begin = Math.max(0, prefixStart - prefixCursor),
-                end = prefixEnd === null ? bytes.length : Math.min(bytes.length, prefixEnd - prefixCursor);
+                end = prefixEnd === null ? prefixBytes.length : Math.min(prefixBytes.length, prefixEnd - prefixCursor);
             for (let size = begin; size < end; size++) {
-                equal(serial.deserializeFromBytes(bytes.subarray(0, size), type), null);
+                equal(serial.deserializeFromBytes(prefixBytes.subarray(0, size), type), null);
                 equal(serial.checkLastOperationWasSuccessful(), false);
                 prefixes++;
             }
-            prefixCursor += bytes.length;
+            prefixCursor += prefixBytes.length;
             validate(object);
         }
         const fa = keep(new mx.Function('sa(t)=t+1')), fb = keep(new mx.Function('sb(t)=t+2'));

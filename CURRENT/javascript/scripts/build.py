@@ -263,6 +263,8 @@ def main():
     parser.add_argument('--ninja', help='Optional Ninja executable')
     parser.add_argument('--jobs', type=int, default=2)
     parser.add_argument('--asan', action='store_true')
+    parser.add_argument('--build-dir', type=Path, help='Optional isolated build directory')
+    parser.add_argument('--dist-dir', type=Path, help='Optional output directory')
     args = parser.parse_args()
     if args.jobs < 1:
         parser.error('--jobs must be positive')
@@ -274,8 +276,8 @@ def main():
     ninja = args.ninja or shutil.which('ninja', path=env.get('PATH'))
     if not cmake or not ninja:
         parser.error('CMake and Ninja are required; supply --cmake / --ninja if needed')
-    build = PROJECT / 'build' / ('asan' if args.asan else 'release')
-    dist = PROJECT / ('build/asan/dist' if args.asan else 'dist')
+    build = (args.build_dir or PROJECT / 'build' / ('asan' if args.asan else 'release')).resolve()
+    dist = (args.dist_dir or PROJECT / ('build/asan/dist' if args.asan else 'dist')).resolve()
     configure = [emcmake, cmake, '-S', str(PROJECT), '-B', str(build), '-G', 'Ninja',
                  '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_EXPORT_COMPILE_COMMANDS=ON',
                  f'-DCMAKE_MAKE_PROGRAM={ninja}',
