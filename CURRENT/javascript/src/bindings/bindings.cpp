@@ -1,5 +1,5 @@
 /*
- * @(#)bindings.cpp        6.2.0    2026-11-04
+ * @(#)bindings.cpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -248,9 +248,40 @@
 #include "BindingNativeArray.hpp"
 #include "BindingExtensionFactories.hpp"
 #include "BindingOwnedSyntax.hpp"
+#include "BindingLaTeX.hpp"
 using namespace mx_binding;
 
 EMSCRIPTEN_BINDINGS (mxparser_public_bindings) {
+    // Public Java/C# LaTeX surface. No exporter internals or C++ list API.
+    emscripten::class_<LaTeXParser::Node>("NativeLaTeXNode")
+        .smart_ptr<LaTeXParser::NodePtr>("LaTeXNodePtr")
+        .function("nativeAliasOf", emscripten::optional_override(
+            [](const LaTeXParser::Node& self, const LaTeXParser::Node& other) { return &self == &other; }));
+    emscripten::function("api_C1_LTX_0001", &MemberCall<&Expression::getExpressionAsLaTeX>::call);
+    emscripten::function("api_C1_LTX_0002", &StaticCall<static_cast<LaTeXParser::NodePtr (*)(const StringPtr&)>(&LaTeXParser::parse)>::call);
+    emscripten::function("api_C1_LTX_0003", &MemberCall<&LaTeXParser::Node::getKind>::call);
+    emscripten::function("api_C1_LTX_0004", &MemberCall<&LaTeXParser::Node::getText>::call);
+    emscripten::function("api_C1_LTX_0005", &MemberCall<&LaTeXParser::Node::getSymbolStyle>::call);
+    emscripten::function("api_C1_LTX_0006", &MemberCall<&LaTeXParser::Node::getChildren>::call);
+    emscripten::function("api_C1_LTX_0007", &MemberCall<&LaTeXParser::Node::getStartOffset>::call);
+    emscripten::function("api_C1_LTX_0008", &MemberCall<&LaTeXParser::Node::getEndOffset>::call);
+    emscripten::function("api_C1_LTX_0009", &MemberCall<&LaTeXParser::Node::getSourceText>::call);
+    emscripten::function("api_C1_LTX_0010_get", +[]() { return static_cast<int>(LaTeXParser::Kind::NUMBER); });
+    emscripten::function("api_C1_LTX_0011_get", +[]() { return static_cast<int>(LaTeXParser::Kind::SYMBOL); });
+    emscripten::function("api_C1_LTX_0012_get", +[]() { return static_cast<int>(LaTeXParser::Kind::POSITIVE); });
+    emscripten::function("api_C1_LTX_0013_get", +[]() { return static_cast<int>(LaTeXParser::Kind::NEGATIVE); });
+    emscripten::function("api_C1_LTX_0014_get", +[]() { return static_cast<int>(LaTeXParser::Kind::ADD); });
+    emscripten::function("api_C1_LTX_0015_get", +[]() { return static_cast<int>(LaTeXParser::Kind::SUBTRACT); });
+    emscripten::function("api_C1_LTX_0016_get", +[]() { return static_cast<int>(LaTeXParser::Kind::MULTIPLY); });
+    emscripten::function("api_C1_LTX_0017_get", +[]() { return static_cast<int>(LaTeXParser::Kind::DIVIDE); });
+    emscripten::function("api_C1_LTX_0018_get", +[]() { return static_cast<int>(LaTeXParser::Kind::POWER); });
+    emscripten::function("api_C1_LTX_0019_get", +[]() { return static_cast<int>(LaTeXParser::Kind::FACTORIAL); });
+    emscripten::function("api_C1_LTX_0020_get", +[]() { return static_cast<int>(LaTeXParser::Kind::PERCENT); });
+    emscripten::function("api_C1_LTX_0021_get", +[]() { return static_cast<int>(LaTeXParser::Kind::FLOOR); });
+    emscripten::function("api_C1_LTX_0022_get", +[]() { return static_cast<int>(LaTeXParser::Kind::REMAINDER); });
+    emscripten::function("api_C1_LTX_0023_get", +[]() { return static_cast<int>(LaTeXParser::SymbolStyle::DEFAULT); });
+    emscripten::function("api_C1_LTX_0024_get", +[]() { return static_cast<int>(LaTeXParser::SymbolStyle::ITALIC); });
+    emscripten::function("api_C1_LTX_0025_get", +[]() { return static_cast<int>(LaTeXParser::SymbolStyle::UPRIGHT); });
     emscripten::function("ctor_StdLocale", &constructStdLocale);
     emscripten::function("native_stdLocale_name", &stdLocaleName);
     emscripten::function("factory_StdString", &stdStringFactory);

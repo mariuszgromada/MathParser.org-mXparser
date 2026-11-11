@@ -23,7 +23,9 @@
       "CharStream",
       "SyntaxCheckerTokenManager",
       "SyntaxChecker",
-      "License"
+      "License",
+      "LaTeXParser",
+      "LaTeXNode"
     ],
     "transport_classes": [
       "Random",
@@ -86,7 +88,11 @@
       "syntaxchecker::SyntaxChecker",
       "syntaxchecker::SyntaxCheckerTokenManager",
       "syntaxchecker::TokenMgrError",
-      "wrapper::Random"
+      "wrapper::Random",
+      "LaTeXParser",
+      "LaTeXParser::Node",
+      "LaTeXParser::Kind",
+      "LaTeXParser::SymbolStyle"
     ],
     "infrastructure_roots": [
       "FS",
@@ -19370,6 +19376,83 @@
           "line": 249,
           "language": "csharp"
         }
+      ],
+      "Expression|getExpressionAsLaTeX|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/Expression.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser|parse|static": [
+        {
+          "parameters": [
+            {
+              "kind": "string",
+              "nullable": true
+            }
+          ],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getKind|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getText|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getSymbolStyle|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getChildren|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getStartOffset|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getEndOffset|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
+      ],
+      "LaTeXParser::Node|getSourceText|instance": [
+        {
+          "parameters": [],
+          "variadic": false,
+          "source": "CURRENT/java/src/org/mariuszgromada/math/mxparser/LaTeXParser.java",
+          "language": "java"
+        }
       ]
     },
     "constructors": {
@@ -21622,7 +21705,18 @@
       "Vector<RecursiveArgumentPtr>",
       "Vector<char>",
       "Vector<Char>"
-    ]
+    ],
+    "nested_only_owners": [
+      "LaTeXParser::Node",
+      "LaTeXParser::Kind",
+      "LaTeXParser::SymbolStyle"
+    ],
+    "latex_extension_review": {
+      "managed_public_methods": 9,
+      "enum_values": 16,
+      "experimental": "LaTeXParser only",
+      "native_helpers_exposed": false
+    }
   },
   "parse_exception_arrays": true,
   "lexer_stdio": {
@@ -22035,7 +22129,8 @@
     "TokenManagerErrorHandler": "syntaxchecker::TokenManagerErrorHandler",
     "StdLocale": "std::locale",
     "StdStringStream": "std::stringstream",
-    "License": "License"
+    "License": "License",
+    "LaTeXNode": "LaTeXParser::Node"
   },
   "native_equality": {},
   "arrays": {
@@ -23575,6 +23670,98 @@
           "name": "Unknown",
           "value": 3,
           "native_id": "C1-00290"
+        }
+      ]
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "native_id": "C1-LTX-Kind",
+      "values": [
+        {
+          "name": "NUMBER",
+          "value": 0,
+          "native_id": "C1-LTX-0010"
+        },
+        {
+          "name": "SYMBOL",
+          "value": 1,
+          "native_id": "C1-LTX-0011"
+        },
+        {
+          "name": "POSITIVE",
+          "value": 2,
+          "native_id": "C1-LTX-0012"
+        },
+        {
+          "name": "NEGATIVE",
+          "value": 3,
+          "native_id": "C1-LTX-0013"
+        },
+        {
+          "name": "ADD",
+          "value": 4,
+          "native_id": "C1-LTX-0014"
+        },
+        {
+          "name": "SUBTRACT",
+          "value": 5,
+          "native_id": "C1-LTX-0015"
+        },
+        {
+          "name": "MULTIPLY",
+          "value": 6,
+          "native_id": "C1-LTX-0016"
+        },
+        {
+          "name": "DIVIDE",
+          "value": 7,
+          "native_id": "C1-LTX-0017"
+        },
+        {
+          "name": "POWER",
+          "value": 8,
+          "native_id": "C1-LTX-0018"
+        },
+        {
+          "name": "FACTORIAL",
+          "value": 9,
+          "native_id": "C1-LTX-0019"
+        },
+        {
+          "name": "PERCENT",
+          "value": 10,
+          "native_id": "C1-LTX-0020"
+        },
+        {
+          "name": "FLOOR",
+          "value": 11,
+          "native_id": "C1-LTX-0021"
+        },
+        {
+          "name": "REMAINDER",
+          "value": 12,
+          "native_id": "C1-LTX-0022"
+        }
+      ]
+    },
+    {
+      "owner": "LaTeXParser::SymbolStyle",
+      "native_id": "C1-LTX-SymbolStyle",
+      "values": [
+        {
+          "name": "DEFAULT",
+          "value": 0,
+          "native_id": "C1-LTX-0023"
+        },
+        {
+          "name": "ITALIC",
+          "value": 1,
+          "native_id": "C1-LTX-0024"
+        },
+        {
+          "name": "UPRIGHT",
+          "value": 2,
+          "native_id": "C1-LTX-0025"
         }
       ]
     }
@@ -96231,6 +96418,387 @@
         "nullable": true
       },
       "export": "api_C1_06508"
+    },
+    {
+      "owner": "Expression",
+      "name": "getExpressionAsLaTeX",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-LTX-0001"
+      ],
+      "export": "api_C1_LTX_0001"
+    },
+    {
+      "owner": "LaTeXParser",
+      "name": "parse",
+      "kind": "method",
+      "static": true,
+      "parameters": [
+        {
+          "kind": "string",
+          "nullable": true
+        }
+      ],
+      "result": {
+        "kind": "handle",
+        "name": "LaTeXNode"
+      },
+      "native_ids": [
+        "C1-LTX-0002"
+      ],
+      "export": "api_C1_LTX_0002"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getKind",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0003"
+      ],
+      "export": "api_C1_LTX_0003"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getText",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-LTX-0004"
+      ],
+      "export": "api_C1_LTX_0004"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getSymbolStyle",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0005"
+      ],
+      "export": "api_C1_LTX_0005"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getChildren",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "array",
+        "readonly": true,
+        "element": {
+          "kind": "handle",
+          "name": "LaTeXNode"
+        }
+      },
+      "native_ids": [
+        "C1-LTX-0006"
+      ],
+      "export": "api_C1_LTX_0006"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getStartOffset",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0007"
+      ],
+      "export": "api_C1_LTX_0007"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getEndOffset",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0008"
+      ],
+      "export": "api_C1_LTX_0008"
+    },
+    {
+      "owner": "LaTeXParser::Node",
+      "name": "getSourceText",
+      "kind": "method",
+      "static": false,
+      "parameters": [],
+      "result": {
+        "kind": "string"
+      },
+      "native_ids": [
+        "C1-LTX-0009"
+      ],
+      "export": "api_C1_LTX_0009"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "NUMBER",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0010"
+      ],
+      "export": "api_C1_LTX_0010"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "SYMBOL",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0011"
+      ],
+      "export": "api_C1_LTX_0011"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "POSITIVE",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0012"
+      ],
+      "export": "api_C1_LTX_0012"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "NEGATIVE",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0013"
+      ],
+      "export": "api_C1_LTX_0013"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "ADD",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0014"
+      ],
+      "export": "api_C1_LTX_0014"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "SUBTRACT",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0015"
+      ],
+      "export": "api_C1_LTX_0015"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "MULTIPLY",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0016"
+      ],
+      "export": "api_C1_LTX_0016"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "DIVIDE",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0017"
+      ],
+      "export": "api_C1_LTX_0017"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "POWER",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0018"
+      ],
+      "export": "api_C1_LTX_0018"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "FACTORIAL",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0019"
+      ],
+      "export": "api_C1_LTX_0019"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "PERCENT",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0020"
+      ],
+      "export": "api_C1_LTX_0020"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "FLOOR",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0021"
+      ],
+      "export": "api_C1_LTX_0021"
+    },
+    {
+      "owner": "LaTeXParser::Kind",
+      "name": "REMAINDER",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0022"
+      ],
+      "export": "api_C1_LTX_0022"
+    },
+    {
+      "owner": "LaTeXParser::SymbolStyle",
+      "name": "DEFAULT",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0023"
+      ],
+      "export": "api_C1_LTX_0023"
+    },
+    {
+      "owner": "LaTeXParser::SymbolStyle",
+      "name": "ITALIC",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0024"
+      ],
+      "export": "api_C1_LTX_0024"
+    },
+    {
+      "owner": "LaTeXParser::SymbolStyle",
+      "name": "UPRIGHT",
+      "kind": "field",
+      "static": true,
+      "readonly": true,
+      "result": {
+        "kind": "int",
+        "native": "int"
+      },
+      "native_ids": [
+        "C1-LTX-0025"
+      ],
+      "export": "api_C1_LTX_0025"
     }
   ]
 }

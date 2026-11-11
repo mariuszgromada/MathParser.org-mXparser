@@ -130,7 +130,19 @@ Deployments must serve the `.wasm` asset with `application/wasm`.
 See [API notes](docs/API.md) for ownership and platform
 differences. The runnable example is [examples/basic.mjs](examples/basic.mjs).
 
-## Layout
+## LaTeX export and experimental parsing
+
+`expression.getExpressionAsLaTeX()` returns the native engine's mathematical
+LaTeX fragment, without `$` delimiters and without calculating the expression.
+For example, `sin(x)^2+cos(x)^2` exports as `\sin^{2}x+\cos^{2}x`.
+The full accepted rule dictionary runs in C++, not in JavaScript.
+
+`mx.LaTeXParser.parse(text)` exposes the **experimental arithmetic subset parser**,
+with immutable `mx.LaTeXParser.Node` handles, `Kind` and `SymbolStyle`.
+It is preparation for future import work, not a complete LaTeX-to-mXparser importer.
+See [LaTeX API and ownership](docs/API.md#latex-export-and-experimental-parser).
+
+## Project layout
 
 | Directory | Contents |
 | --- | --- |

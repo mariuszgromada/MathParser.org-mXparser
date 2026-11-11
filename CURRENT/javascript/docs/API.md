@@ -74,3 +74,65 @@ pairs or nonempty bigint inputs. An empty plain JS array selects the double path
 a dynamically sized bigint array therefore has a `number | bigint` return type.
 The explicit number/bigint distinction is reflected in the declarations and
 checked both by TypeScript and actual runtime `typeof` tests.
+
+## LaTeX export and experimental parser
+
+```js
+const expression = new mx.Expression('sin(x)^2+cos(x)^2');
+try {
+    console.log(expression.getExpressionAsLaTeX()); // \sin^{2}x+\cos^{2}x
+} finally {
+    expression.delete();
+}
+
+const root = mx.LaTeXParser.parse('\\frac{x+1}{y}^{2}');
+const children = root.getChildren();
+try {
+    console.log(root.getKind() === mx.LaTeXParser.Kind.POWER); // true
+    console.log(root.getStartOffset(), root.getEndOffset());
+} finally {
+    for (const child of children) child.delete();
+    root.delete();
+}
+```
+
+Export uses the existing C++ `Expression.getExpressionAsLaTeX()` and its copy of
+initial tokens. It needs no evaluation or defined numeric values for symbols.
+Its fragment contains no surrounding math delimiters. Mathematical typography,
+operator grouping and the full token dictionary are the accepted native rules.
+Invalid or unsupported structure throws an `Error` named `std::logic_error` with
+the native diagnostic. The existing null-stored-expression boundary guard throws
+`std::invalid_argument`, matching other token-inspection operations in this binding.
+Token acquisition retains its existing native state/cache and extension-metadata
+behavior; export does not introduce a separate JS tokenizer or evaluator.
+
+**Only the parser API is experimental.** Its supported subset, node metadata and
+API may evolve before stabilization. The export API is not experimental.
+`LaTeXParser.parse(string | null)` returns an owning opaque node or throws an
+`Error` named `std::invalid_argument` containing a zero-based UTF-16 offset.
+Passing a non-string/non-null value is a JS `TypeError`. It accepts an arithmetic
+fragment, not a TeX document, functions, general macros or mathematical delimiters.
+For example, `x^{12}` is one power, while `x^12` follows TeX's single-token script
+rule and means `(x^1)*2`; `xy` is juxtaposition, whereas `\mathit{xy}` is one name.
+`\sin x`, `\alpha`, `f(x)` and `\frac12` are outside the current subset.
+No numeric evaluation, definition resolution or reverse conversion is performed.
+
+Each node exposes exactly `getKind()`, `getText()`, `getSymbolStyle()`,
+`getChildren()`, `getStartOffset()`, `getEndOffset()` and `getSourceText()`.
+`Kind` has the 13 arithmetic operations from Java/C#; `SymbolStyle` has `DEFAULT`,
+`ITALIC`, `UPRIGHT`. Both are frozen numeric constant objects nested under
+`mx.LaTeXParser`. Nodes have no public constructor or mutators.
+`getChildren()` returns a frozen JS array of **owning native handles**, not a
+mutable native list. Release each returned handle, even for repeated calls.
+Children and cloned handles remain valid after the parent handle is released.
+`cloneHandle()` shares the native node; `isAliasOf()` tests native identity while
+two wrappers need not satisfy `===`. The source and offsets survive parent release.
+
+Offsets and source slices use UTF-16 units on every host, including WASM's 32-bit
+`wchar_t`. The parser uses the same closed ASCII-plus-mathematical-symbol alphabet
+as the native implementation and preserves explicit italic/upright typography.
+Its current limits are 1,000,000 input UTF-16 units, 100,000 nodes and depth 128;
+these do not imply that every fragment produced by the full exporter is accepted
+by this intentionally smaller parser. Use the general Worker guidance for
+untrusted work. C++ implementation helpers (`LaTeXExporter`, `ReadOnlyList`,
+`new_Node`, string overloads) are not exposed as public JS/TS APIs.

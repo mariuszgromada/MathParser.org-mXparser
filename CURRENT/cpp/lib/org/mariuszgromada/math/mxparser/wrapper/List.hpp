@@ -1,5 +1,5 @@
 /*
- * @(#)List.hpp        6.1.1    2026-05-03
+ * @(#)List.hpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -252,6 +252,8 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 	template<typename T>
 	class API_VISIBLE List {
 	public:
+		// Explicit declaration permits portable member-level DLL instantiation.
+		~List() = default;
 
 		List() {
 			vectorList = new_Vector<T>();

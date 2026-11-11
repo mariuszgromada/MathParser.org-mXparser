@@ -1,5 +1,5 @@
 /*
- * @(#)List.cpp        6.1.0    2024-10-06
+ * @(#)List.cpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -220,6 +220,7 @@
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/CalcStepRecord.hpp"
 #include "org/mariuszgromada/math/mxparser/PrimitiveElement.hpp"
+#include "org/mariuszgromada/math/mxparser/LaTeXParser.hpp"
 #include <memory>
 
 namespace org::mariuszgromada::math::mxparser::wrapper {
@@ -228,6 +229,20 @@ namespace org::mariuszgromada::math::mxparser::wrapper {
 
 	template class List<PrimitiveElementPtr>;
 	template class List<CalcStepRecordPtr>;
+	#if defined(_MSC_VER)
+	// Export only the operations used by immutable parser trees and traversals.
+	// Dereferenced equality is deliberately not part of the Node API.
+	template List<LaTeXParser::NodePtr>::List();
+	template List<LaTeXParser::NodePtr>::~List();
+	template void List<LaTeXParser::NodePtr>::add(const LaTeXParser::NodePtr&);
+	template void List<LaTeXParser::NodePtr>::push(const LaTeXParser::NodePtr&);
+	template LaTeXParser::NodePtr List<LaTeXParser::NodePtr>::get(int) const;
+	template LaTeXParser::NodePtr List<LaTeXParser::NodePtr>::top() const;
+	template void List<LaTeXParser::NodePtr>::pop() const;
+	template bool List<LaTeXParser::NodePtr>::isEmpty();
+	template bool List<LaTeXParser::NodePtr>::isEmpty() const;
+	template int List<LaTeXParser::NodePtr>::size();
+	#endif
 	template parsertokens::KeyWordPtr List<parsertokens::KeyWordPtr>::get(int) const;
 
 } // namespace org::mariuszgromada::math::mxparser::wrapper

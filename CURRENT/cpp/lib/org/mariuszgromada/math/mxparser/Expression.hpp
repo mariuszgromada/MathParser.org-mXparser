@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.hpp        6.1.2    2026-10-25
+ * @(#)Expression.hpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -846,6 +846,11 @@ namespace org::mariuszgromada::math::mxparser {
 		// ***********************************************************
 
 		ListPtr<TokenPtr> getCopyOfInitialTokens();
+        /** Classical mathematical LaTeX without delimiters or evaluation.
+         * Uses getCopyOfInitialTokens() with the same cache/metadata behavior.
+         * @throws std::logic_error Invalid structure, builtin arity, identifier or resource budget.
+         * @since 6.1.2 */
+        StringPtr getExpressionAsLaTeX();
 		ArrayPtr<StringPtr> getMissingUserDefinedArguments();
 		ArrayPtr<StringPtr> getMissingUserDefinedUnits();
 		ArrayPtr<StringPtr> getMissingUserDefinedFunctions();

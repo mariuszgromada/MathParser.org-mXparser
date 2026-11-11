@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-@(#)browser.html        6.2.0    2026-11-04
+@(#)browser.html        6.2.0    2026-11-11
 
 MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 The most up-to-date license is available at the below link:
@@ -225,6 +225,7 @@ CONTACT
 <script type="module">
     import {initMxParser} from '../dist/index.js';
     import {runPublicBehavior} from '../test/behavior.mjs';
+    import {runLaTeXBehavior} from '../test/latex-behavior.mjs';
     import {evaluateIsolated} from '../examples/worker-client.mjs';
     import {runWorkerBehavior} from '../test/worker-behavior.mjs';
 
@@ -282,7 +283,9 @@ CONTACT
         checks += behavior.checks;
         const worker = await runWorkerBehavior(evaluateIsolated);
         checks += worker.checks;
-        globalThis.testResult = {status: 'PASS', checks, crossOriginIsolated, scenarios: behavior.scenarios, worker};
+        const latex = runLaTeXBehavior(mx);
+        checks += latex.checks;
+        globalThis.testResult = {status: 'PASS', checks, crossOriginIsolated, scenarios: behavior.scenarios, worker, latex};
         result.textContent = JSON.stringify(globalThis.testResult, null, 2);
     } catch (error) {
         globalThis.testResult = {status: 'FAIL', checks, error: String(error), stack: error.stack};

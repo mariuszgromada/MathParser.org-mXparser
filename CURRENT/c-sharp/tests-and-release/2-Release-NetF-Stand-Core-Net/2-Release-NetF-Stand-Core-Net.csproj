@@ -39,6 +39,8 @@
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Argument.cs" Link="src\org\mariuszgromada\math\mxparser\Argument.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Constant.cs" Link="src\org\mariuszgromada\math\mxparser\Constant.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Expression.cs" Link="src\org\mariuszgromada\math\mxparser\Expression.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\LaTeXExporter.cs" Link="src\org\mariuszgromada\math\mxparser\LaTeXExporter.cs" />
+    <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\LaTeXParser.cs" Link="src\org\mariuszgromada\math\mxparser\LaTeXParser.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\ExpressionUtils.cs" Link="src\org\mariuszgromada\math\mxparser\ExpressionUtils.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\Function.cs" Link="src\org\mariuszgromada\math\mxparser\Function.cs" />
     <Compile Include="..\..\src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" Link="src\org\mariuszgromada\math\mxparser\FunctionExtension.cs" />

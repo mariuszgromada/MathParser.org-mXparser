@@ -1,5 +1,5 @@
 #/*
-# @(#)CMakeLists.txt        6.1.0    2024-10-06
+# @(#)CMakeLists.txt        6.2.0    2026-11-11
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -239,7 +239,9 @@ add_executable(UnitTests ExpressionTest.cpp
 		Miscellaneous.hpp
 		SyntaxTest.cpp
 		PerformanceTest.cpp
-		ApiTest.cpp
+		ApiTestA.cpp
+		ApiTestB.cpp
+		ApiTestTools.hpp
 		TestsRun.cpp
 		UnicodeTest.cpp
 		OwnershipTest.cpp)

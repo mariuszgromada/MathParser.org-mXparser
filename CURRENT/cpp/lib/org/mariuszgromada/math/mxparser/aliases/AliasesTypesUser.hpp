@@ -1,5 +1,5 @@
 /*
- * @(#)AliasesTypesUser.hpp        6.1.0    2024-10-06
+ * @(#)AliasesTypesUser.hpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -286,6 +286,7 @@ namespace org::mariuszgromada::math::mxparser {
 
 	namespace wrapper {
 		template<typename T> class List;
+		template<typename T> class ReadOnlyList;
 		template<typename T> class PtrsSet;
 		template<typename T> class ValSet;
 		template<typename K, typename V> class PtrsMap;
@@ -296,6 +297,7 @@ namespace org::mariuszgromada::math::mxparser {
 		using StringBuilderPtr = std::shared_ptr<StringBuilder>;
 		using BigDecimalPtr = std::shared_ptr<BigDecimal>;
 		template<typename T> using ListPtr = std::shared_ptr<List<T>>;
+		template<typename T> using ReadOnlyListPtr = std::shared_ptr<const ReadOnlyList<T>>;
 		template<typename T> using PtrsSetPtr = std::shared_ptr<PtrsSet<T>>;
 		template<typename T> using ValSetPtr = std::shared_ptr<ValSet<T>>;
 		template<typename K, typename V> using PtrsMapPtr = std::shared_ptr<PtrsMap<K, V>>;

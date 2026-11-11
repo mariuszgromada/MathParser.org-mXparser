@@ -9,6 +9,7 @@
   },
   "files": [
     "test/public-types.mts",
-    "test/numeric-types.mts"
+    "test/numeric-types.mts",
+    "test/latex-types.mts"
   ]
 }

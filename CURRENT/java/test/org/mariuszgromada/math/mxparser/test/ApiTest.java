@@ -1,5 +1,5 @@
 /*
- * @(#)SyntaxTest.java        6.1.1    2026-05-16
+ * @(#)ApiTest.java        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -219,6 +219,15 @@ package org.mariuszgromada.math.mxparser.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.mariuszgromada.math.mxparser.*;
 import org.mariuszgromada.math.mxparser.mathcollection.*;
 import org.mariuszgromada.math.mxparser.parsertokens.*;
@@ -242,7 +251,7 @@ import java.util.Locale;
  *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
  *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
  *
- * @version        6.1.1
+ * @version        6.2.0
  *
  */
 public final class ApiTest {
@@ -11122,5 +11131,1033 @@ public final class ApiTest {
         Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(0., 1.)));
         Assertions.assertTrue(Double.isNaN(mXparser.convOthBase2Decimal(2., Double.NaN)));
         TestCommonTools.consolePrintTestApiEnd(true);
+    }
+
+    // LaTeX API IDs 0388-0422 are reserved for matching Java/C#/C++ scenarios.
+
+    private static List<KeyWord> latexKeywords() { return mXparser.getKeyWords(); }
+
+    private static Expression latexExpression(String source) {
+        Expression e = new Expression(source);
+        if (source.equals("a(b+c)")) e.addArguments(new Argument("a"));
+        if (source.equals("[my_unit]")) e.addConstants(new Constant("[my_unit]", 1));
+        return e;
+    }
+    private static String latexExport(String source) {
+        String text = latexExpression(source).getExpressionAsLaTeX();
+        return text;
+    }
+    private static long latexTokenKey(int type, int id) { return ((long)type << 32) | (id & 0xffffffffL); }
+    @Test
+    public void testApi0388() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: public token inventory and equivalent square root rules";
+        TestCommonTools.consolePrintTestApiStart(388, testDescr);
+        List<KeyWord> keywords = latexKeywords();
+        Set<Long> actual = new HashSet<>();
+        for (KeyWord kw : keywords) actual.add(latexTokenKey(kw.wordTypeId, kw.wordId));
+        // The two additional UDF-context keys are not in the public ordinary-expression vocabulary.
+        Assertions.assertEquals(527, keywords.size());
+        Assertions.assertEquals(412, actual.size());
+        Assertions.assertEquals(latexExport("sqrt(x+1)"), latexExport("√(x+1)"));
+        Assertions.assertEquals("\\sqrt[{3}]{x}", latexExport("root(3,x)"));
+        Assertions.assertEquals("\\sqrt[3]{x}", latexExport("∛x"));
+        Assertions.assertEquals("\\sqrt[{4}]{x}", latexExport("root(4,x)"));
+        Assertions.assertEquals("\\sqrt[4]{x}", latexExport("∜x"));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    private static String latexCalculusArguments(int id, int count) {
+        if (id == CalculusOperator.INT_ID || id == CalculusOperator.SOLVE_ID) return "f(x),x,a,b";
+        if (id == CalculusOperator.DERN_ID) return count == 3 ? "f(x),n,x" : "f(x),n,x,eps,m";
+        if (id == CalculusOperator.DER_ID || id == CalculusOperator.DER_LEFT_ID || id == CalculusOperator.DER_RIGHT_ID)
+            return count == 2 ? "f(x),x" : count == 3 ? "f(x),x,p" : count == 4 ? "f(x),x,eps,m" : "f(x),x,p,eps,m";
+        if (id == CalculusOperator.FORW_DIFF_ID || id == CalculusOperator.BACKW_DIFF_ID) return count == 2 ? "f(x),x" : "f(x),x,h";
+        return count == 4 ? "i,a,b,f(i)" : "i,a,b,f(i),h";
+    }
+    private static int[] latexCalculusArities(int id) {
+        if (id == CalculusOperator.INT_ID || id == CalculusOperator.SOLVE_ID) return new int[]{4};
+        if (id == CalculusOperator.DERN_ID) return new int[]{3, 5};
+        if (id == CalculusOperator.DER_ID || id == CalculusOperator.DER_LEFT_ID || id == CalculusOperator.DER_RIGHT_ID) return new int[]{2, 3, 4, 5};
+        if (id == CalculusOperator.FORW_DIFF_ID || id == CalculusOperator.BACKW_DIFF_ID) return new int[]{2, 3};
+        return new int[]{4, 5};
+    }
+    private static String latexAliasInput(KeyWord kw) {
+        int t = kw.wordTypeId, id = kw.wordId;
+        String w = kw.wordString;
+        if (t == ParserSymbol.NUMBER_TYPE_ID) return "2.10";
+        if (t == ParserSymbol.TYPE_ID) return id == ParserSymbol.BLANK_ID ? " " : id == ParserSymbol.COMMA_ID ? "f(a" + w + "b)" : "(a)";
+        if (t == Function1Arg.TYPE_ID) return w + "(x)";
+        if (t == Function2Arg.TYPE_ID) return w + "(a,b)";
+        if (t == Function3Arg.TYPE_ID) return w + "(a,b,c)";
+        if (t == FunctionVariadic.TYPE_ID) return w + (id == FunctionVariadic.IFF_ID ? "(a,b,c,x)" : "(a,b,c)");
+        if (t == CalculusOperator.TYPE_ID) return w + "(" + latexCalculusArguments(id, latexCalculusArities(id)[0]) + ")";
+        Token token = new Token(); token.tokenTypeId = t; token.tokenId = id;
+        if (token.isUnaryLeftOperator()) return w + "a";
+        if (token.isUnaryRightOperator()) return "a" + w;
+        if (token.isBinaryOperator()) return "a" + w + "b";
+        return w;
+    }
+    @Test
+    public void testApi0389() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: builtin aliases and calculus arity variants";
+        TestCommonTools.consolePrintTestApiStart(389, testDescr);
+        Map<Long, String> canonical = new HashMap<>();
+        for (KeyWord kw : latexKeywords()) {
+            long key = latexTokenKey(kw.wordTypeId, kw.wordId);
+            String input = latexAliasInput(kw);
+            canonical.putIfAbsent(key, input);
+            String reference = canonical.get(key);
+            String scenario = "Alias " + kw.wordTypeId + ":" + kw.wordId + " " + kw.wordString;
+            String actual = latexExport(input), expected = latexExport(reference);
+            Assertions.assertEquals(expected, actual, scenario);
+            Assertions.assertFalse(actual.contains("@+"), scenario);
+            Assertions.assertFalse(actual.contains("@-"), scenario);
+            if (kw.wordTypeId == CalculusOperator.TYPE_ID) {
+                for (int count : latexCalculusArities(kw.wordId)) {
+                    String variant = kw.wordString + "(" + latexCalculusArguments(kw.wordId, count) + ")";
+                    Assertions.assertEquals(latexCalculusExpected(kw.wordId, count), latexExport(variant), "Calculus arity " + variant);
+                }
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    private static String latexCalculusExpected(int id, int count) {
+        if (id == CalculusOperator.INT_ID) return "\\int_a^bf(x)\\,\\mathrm{d}x";
+        if (id == CalculusOperator.SOLVE_ID) return "\\operatorname{root}_{x\\in[a,b]}(f(x)=0)";
+        if (id == CalculusOperator.DERN_ID) return "\\frac{\\mathrm d^{n}}{\\mathrm d x^{n}}[f(x)]";
+        if (id == CalculusOperator.DER_ID || id == CalculusOperator.DER_LEFT_ID || id == CalculusOperator.DER_RIGHT_ID) {
+            String derivative = id == CalculusOperator.DER_ID ? "\\frac{\\mathrm d}{\\mathrm d x}[f(x)]"
+                    : "D_x^" + (id == CalculusOperator.DER_LEFT_ID ? "-" : "+") + "[f(x)]";
+            return count == 3 || count == 5 ? "\\left." + derivative + "\\right\\rvert_{x=p}" : derivative;
+        }
+        if (id == CalculusOperator.FORW_DIFF_ID || id == CalculusOperator.BACKW_DIFF_ID)
+            return (id == CalculusOperator.FORW_DIFF_ID ? "\\Delta" : "\\nabla") + "_{x," + (count == 2 ? "1" : "h") + "}[f(x)]";
+        String range = count == 4 ? "_{i=a}^{b}" : "_{\\substack{i=a+k\\cdot h\\\\k\\in\\mathbb Z,\\;0\\le k\\le\\frac{b-a}{h}}}";
+        if (id == CalculusOperator.SUM_ID) return "\\sum" + range + "f(i)";
+        if (id == CalculusOperator.PROD_ID) return "\\prod" + range + "f(i)";
+        if (id == CalculusOperator.MIN_ID) return "\\min" + range + "f(i)";
+        if (id == CalculusOperator.MAX_ID) return "\\max" + range + "f(i)";
+        String statistic = id == CalculusOperator.AVG_ID ? "\\operatorname{mean}" : id == CalculusOperator.VAR_ID ? "s^2" : "s";
+        return statistic + "\\left((f(i))" + range + "\\right)";
+    }
+    private static final String[][] LATEX_REFERENCE = {
+        {"(a+b)/c", "\\frac{a+b}{c}"},
+        {"a/(b+c)", "\\frac{a}{b+c}"},
+        {"a*b/c", "\\frac{a\\cdot b}{c}"},
+        {"a/b*c", "\\frac{a}{b}\\cdot c"},
+        {"a/(b*c)", "\\frac{a}{b\\cdot c}"},
+        {"a/b^c", "\\frac{a}{b^{c}}"},
+        {"a/(b/c)", "\\frac{a}{\\frac{b}{c}}"},
+        {"(a/b)/c", "\\frac{\\frac{a}{b}}{c}"},
+        {"a^b^c", "a^{b^{c}}"},
+        {"(a^b)^c", "(a^{b})^{c}"},
+        {"-a^2", "-a^{2}"},
+        {"(-a)^2", "(-a)^{2}"},
+        {"2x^2", "2x^{2}"},
+        {"a(b+c)", "a\\cdot(b+c)"},
+        {"sin(x)", "\\sin x"},
+        {"(sin(x))^2", "\\sin^{2}x"},
+        {"(sin(x+2))^2", "\\sin^{2}(x+2)"},
+        {"sin(x)^n", "\\sin^{n}x"},
+        {"sin(x^2)", "\\sin(x^{2})"},
+        {"sin(x^2)^3", "\\sin^{3}(x^{2})"},
+        {"((sin((x))))^2", "\\sin^{2}x"},
+        {"sin(cos(x)^2)^3", "\\sin^{3}(\\cos^{2}x)"},
+        {"sin(2*x)", "\\sin 2x"},
+        {"sin(2*x)+y", "\\sin 2x+y"},
+        {"sin(2*x)*y", "\\sin(2x)\\cdot y"},
+        {"sin(x)/cos(x)^2", "\\frac{\\sin x}{\\cos^{2}x}"},
+        {"sin(x/y)", "\\sin\\left(\\frac{x}{y}\\right)"},
+        {"sin(x)*cos(y)", "\\sin(x)\\cdot\\cos(y)"},
+        {"-sin(x)^2", "-\\sin^{2}x"},
+        {"(-sin(x))^2", "(-\\sin x)^{2}"},
+        {"sin(x)^(-1)", "(\\sin x)^{-1}"},
+        {"sin(x)^(-n)", "(\\sin x)^{-n}"},
+        {"sin(x)^(n+1)", "(\\sin x)^{n+1}"},
+        {"sin(x)^2^3", "(\\sin x)^{2^{3}}"},
+        {"(sin(x)^2)^3", "(\\sin^{2}x)^{3}"},
+        {"asin(x)", "\\arcsin x"},
+        {"asin(x)^2", "(\\arcsin x)^{2}"},
+        {"ctg(x)^2", "\\cot^{2}x"},
+        {"tgh(x)^3", "\\tanh^{3}x"},
+        {"cosech(x)^2", "\\operatorname{csch}^{2}x"},
+        {"sin(x+2)", "\\sin(x+2)"},
+        {"sin(x)^2+cos(x)^2", "\\sin^{2}x+\\cos^{2}x"},
+        {"sin(x)*y", "\\sin(x)\\cdot y"},
+        {"sqrt(x^2+y^2)", "\\sqrt{x^{2}+y^{2}}"},
+        {"sqrt(x+1)", "\\sqrt{x+1}"},
+        {"√(x+1)", "\\sqrt{x+1}"},
+        {"root(3,x+y)", "\\sqrt[{3}]{x+y}"},
+        {"abs(x-2)", "\\left\\lvert x-2\\right\\rvert"},
+        {"log(2,x+y)", "\\log_{2}(x+y)"},
+        {"mod(-5,3)", "\\operatorname{rem}(-5,3)"},
+        {"C(n,k)", "\\binom{n}{k}"},
+        {"Bern(2,n)", "B_2(n)"},
+        {"Stirl1(n,k)", "\\left[\\genfrac{}{}{0pt}{}{n}{k}\\right]"},
+        {"EulerPol(m,x)", "E_m(x)"},
+        {"Gamma(0)", "\\Gamma(0)"},
+        {"logGamma(x)", "\\ln\\left\\lvert\\Gamma(x)\\right\\rvert"},
+        {"LambW1(z)", "W_{-1}(z)"},
+        {"GammaRegU(s,x)", "Q(s,x)"},
+        {"BetaInc(x,a,b)", "B_x(a,b)"},
+        {"BetaI(x,a,b)", "I_x(a,b)"},
+        {"sum(i,1,5,i^2)", "\\sum_{i=1}^{5}i^{2}"},
+        {"prod(i,5,1,f(i),-2)", "\\prod_{\\substack{i=5-2k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\ge1}}f(i)"},
+        {"int(sin(x),x,a,b)", "\\int_a^b\\sin(x)\\,\\mathrm{d}x"},
+        {"der-(f(x),x,p)", "\\left.D_x^-[f(x)]\\right\\rvert_{x=p}"},
+        {"der(f(x),x,p,eps,m)", "\\left.\\frac{\\mathrm d}{\\mathrm d x}[f(x)]\\right\\rvert_{x=p}"},
+        {"diff(f(x),x,h)", "\\Delta_{x,h}[f(x)]"},
+        {"solve(f(x),x,a,b)", "\\operatorname{root}_{x\\in[a,b]}(f(x)=0)"},
+        {"if(x,1,-1)", "\\begin{cases}1&\\text{if }x\\ne0\\\\-1&\\text{otherwise}\\end{cases}"},
+        {"iff(x<0,-1,x>0,1)", "\\begin{cases}-1&\\text{if }x<0\\\\1&\\text{else if }x>0\\\\\\text{undefined}&\\text{otherwise}\\end{cases}"},
+        {"ConFrac(a,b,c)", "a+\\frac{1}{b+\\frac{1}{c}}"},
+        {"ConPol(a,b,c)", "K_{3}(a,b,c)"},
+        {"mean(a,b,c)", "\\frac{a+b+c}{3}"},
+        {"var(a,b,c)", "s^2(a,b,c)"},
+        {"pNor(x,mu,sigma)", "f_{\\mathcal N(\\mathit{mu},\\mathit{sigma}^{2})}(x)"},
+        {"qStud(p,v)", "Q_{t_v}(p)"},
+        {"rList(1,1,2)", "\\operatorname{draw}(\\mathcal U_{\\mathrm{list}}(1,1,2))"},
+        {"[Int3]", "\\operatorname{draw}(\\mathcal U_{\\mathbb Z}[-10^{3},10^{3}])"},
+        {"xor(a,b,c)", "\\operatorname{exactlyOne}(a,b,c)"},
+        {"a @>> b", "\\operatorname{ashr}(a,b)"},
+        {"CHi(x,a,b)", "\\mathbf{1}_{[a,b]}(x)"},
+        {"[Mb]", "\\mathrm{Mibit}"},
+        {"[MB]", "\\mathrm{MiB}"},
+        {"2*[km/h]", "2\\,\\mathrm{km}/\\mathrm{h}"},
+        {"my_Function(x; y)", "\\operatorname{my\\_Function}(x,y)"}
+    };
+    @Test
+    public void testApi0390() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: mathematical reference expressions";
+        TestCommonTools.consolePrintTestApiStart(390, testDescr);
+        for (String[] c : LATEX_REFERENCE) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0391() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: observable binding of powers, signs and postfixes";
+        TestCommonTools.consolePrintTestApiStart(391, testDescr);
+        String[][] cases = {
+            {"a^b!", "(a^{b})!"}, {"a*-b", "a\\cdot(-b)"},
+            {"a#b*c", "\\operatorname{rem}(a,b)\\cdot c"},
+            {"a^^b^c", "(\\mathord{{}^{b}\\!a})^{c}"},
+            {"f(a,g(b,c);sin(a+b))", "f(a,g(b,c),\\sin(a+b))"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0392() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: argument separators and token levels";
+        TestCommonTools.consolePrintTestApiStart(392, testDescr);
+        Assertions.assertEquals("f(a,g(b,c),a+b)", latexExport("f(a;g(b,c),a+b)"));
+        Assertions.assertEquals(latexExport("f(a,g(b,c),a+b)"), latexExport("f(a;g(b;c);a+b)"));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0393() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: structure reconstruction preserves copied tokens";
+        TestCommonTools.consolePrintTestApiStart(393, testDescr);
+        Expression expression = new Expression("sin(x)^2+x/y");
+        List<Token> tokens = expression.getCopyOfInitialTokens();
+        StringBuilder before = new StringBuilder();
+        for (Token t : tokens) before.append(t.tokenStr).append(':').append(t.tokenTypeId).append(':')
+                .append(t.tokenId).append(':').append(t.tokenLevel).append(':').append(t.tokenValue).append(';');
+        Assertions.assertEquals("\\sin^{2}x+\\frac{x}{y}", expression.getExpressionAsLaTeX());
+        StringBuilder after = new StringBuilder();
+        for (Token t : tokens) after.append(t.tokenStr).append(':').append(t.tokenTypeId).append(':')
+                .append(t.tokenId).append(':').append(t.tokenLevel).append(':').append(t.tokenValue).append(';');
+        Assertions.assertEquals(before.toString(), after.toString());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0394() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: malformed expression structure diagnostics";
+        TestCommonTools.consolePrintTestApiStart(394, testDescr);
+        for (String s : new String[]{"a/(b", "sin(,a)", "a**b", "f(a,,b)", "a,b", "()"})
+            Assertions.assertThrows(IllegalStateException.class, () -> latexExport(s), s);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0395() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: mathematical typography and numeric notation";
+        TestCommonTools.consolePrintTestApiStart(395, testDescr);
+        String[][] cases = {
+            {"", ""}, {"   ", ""}, {"002.10", "002.10"}, {".25", "0.25"},
+            {"2.30e-4", "2.30\\times 10^{-4}"}, {"14_3", "\\frac{14}{3}"},
+            {"2_1_3", "2\\,\\frac{1}{3}"}, {"b1.", "(\\varepsilon)_{1}"},
+            {"h.af1", "(\\mathrm{af1})_{16}"}, {"B36.z", "(\\mathrm{z})_{36}"},
+            {"sin(x)!", "(\\sin x)!"}, {"sin(x)%", "(\\sin x)\\%"},
+            {"sin(x)^2*y", "\\sin^{2}(x)\\cdot y"}, {"-sin(x)*y", "-\\sin(x)\\cdot y"},
+            {"sin(-x)", "\\sin(-x)"}, {"sin(x)^0", "(\\sin x)^{0}"},
+            {"sin(x)^2.5", "(\\sin x)^{2.5}"}, {"ln(x)^2", "(\\ln x)^{2}"},
+            {"not(a|b)", "\\neg (a\\lor b)"}, {"a<(b<c)", "a<(b<c)"},
+            {"(a<b)<c", "(a<b)<c"}, {"a-(b-c)", "a-(b-c)"},
+            {"2*3", "2\\cdot 3"}, {"ab*cd", "\\mathit{ab}\\cdot \\mathit{cd}"},
+            {"30*[deg]", "30^{\\circ}"}, {"2*[km]", "2\\,\\mathrm{km}"},
+            {"[km/h]^2", "(\\mathrm{km}/\\mathrm{h})^{2}"}, {"[k]^2", "(10^{3})^{2}"},
+            {"sin([km/h])", "\\sin(\\mathrm{km}/\\mathrm{h})"}, {"sin([k])", "\\sin(10^{3})"},
+            {"logGamma(x+y)", "\\ln\\left\\lvert\\Gamma(x+y)\\right\\rvert"},
+            {"GammaL(s,x)", "\\gamma(s,x)"}, {"GammaU(s,x)", "\\Gamma(s,x)"},
+            {"GammaP(s,x)", "P(s,x)"}, {"diGamma(x)", "\\psi(x)"},
+            {"rNor(mu,sigma+1)", "\\operatorname{draw}(\\mathcal N(\\mathit{mu},(\\mathit{sigma}+1)^{2}))"},
+            {"ConFrac(a)", "a"}, {"ConFrac(a,b,c,d)", "a+\\frac{1}{b+\\frac{1}{c+\\frac{1}{d}}}"},
+            {"mean(a,b+c,d)", "\\frac{a+b+c+d}{3}"},
+            {"sum(i,1,n,x+y)", "\\sum_{i=1}^{n}(x+y)"},
+            {"sum(i,1,n,f(i))*x", "(\\sum_{i=1}^{n}f(i))\\cdot x"},
+            {"dern(f(x),n,x)", "\\frac{\\mathrm d^{n}}{\\mathrm d x^{n}}[f(x)]"},
+            {"der+(f(x),x,p)", "\\left.D_x^+[f(x)]\\right\\rvert_{x=p}"},
+            {"der(f(x),x,eps,m)", "\\frac{\\mathrm d}{\\mathrm d x}[f(x)]"},
+            {"difb(f(x),x)", "\\nabla_{x,1}[f(x)]"},
+            {"x_1+y2", "\\mathit{x\\_1}+\\mathit{y2}"},
+            {"α+ς+Γ", "\\alpha+\\varsigma+\\Gamma"},
+            {"[my_unit]", "[\\mathrm{my\\_unit}]"},
+            {"f(a,b,c,d,x,y,z)", "f(a,b,c,d,x,y,z)"}
+        };
+        for (String[] c : cases) {
+            try { Assertions.assertEquals(c[1], latexExport(c[0]), c[0]); } catch (IllegalStateException ex) {
+                StringBuilder detail = new StringBuilder(c[0]);
+                for (Token t : latexExpression(c[0]).getCopyOfInitialTokens()) detail.append(" [").append(t.tokenStr).append(":").append(t.tokenTypeId).append("]");
+                throw new IllegalStateException(detail.toString(), ex);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0396() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: invalid builtin arities and calculus variables";
+        TestCommonTools.consolePrintTestApiStart(396, testDescr);
+        Set<Long> seen = new HashSet<>();
+        for (KeyWord kw : latexKeywords()) {
+            if (!seen.add(latexTokenKey(kw.wordTypeId, kw.wordId))) continue;
+            if (kw.wordTypeId == Function1Arg.TYPE_ID || kw.wordTypeId == Function2Arg.TYPE_ID
+                    || kw.wordTypeId == Function3Arg.TYPE_ID || kw.wordTypeId == FunctionVariadic.TYPE_ID
+                    || kw.wordTypeId == CalculusOperator.TYPE_ID) {
+                if (kw.wordTypeId == Function1Arg.TYPE_ID && kw.wordId == Function1Arg.PARAM_ID) continue;
+                String source = kw.wordString + "()";
+                Assertions.assertThrows(IllegalStateException.class, () -> latexExport(source), "Invalid arity " + source);
+            }
+        }
+        for (String s : new String[]{"sin(a,b)", "log(a)", "if(a,b)", "iff(a,b,c)", "der(a)", "dern(a,b,c,d)", "int(a,b,c)", "sum(i,a,b)", "sum(2,a,b,f(i))", "diff(f(x),x+1)"})
+            Assertions.assertThrows(IllegalStateException.class, () -> latexExport(s), s);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0397() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: compiled expressions, dependencies and calculation history";
+        TestCommonTools.consolePrintTestApiStart(397, testDescr);
+        Argument x = new Argument("x=2");
+        Argument y = new Argument("y=3*x", x);
+        Function f = new Function("f(t)=t^2");
+        Expression e = new Expression("f(y)+sin(x)", x, y, f);
+        CalcStepsRegister steps = new CalcStepsRegister();
+        double before = e.calculate(steps);
+        String history = steps.toString();
+        String diagnostic = e.getErrorMessage();
+        double time = e.getComputingTime();
+        boolean syntax = e.getSyntaxStatus();
+        String text = e.getExpressionAsLaTeX();
+        for (int i = 0; i < 10; i++) Assertions.assertEquals(text, e.getExpressionAsLaTeX());
+        Assertions.assertEquals(diagnostic, e.getErrorMessage());
+        Assertions.assertEquals(time, e.getComputingTime());
+        Assertions.assertEquals(syntax, e.getSyntaxStatus());
+        Assertions.assertEquals(history, steps.toString());
+        Assertions.assertEquals(before, e.calculate());
+        x.setArgumentValue(3);
+        Assertions.assertEquals(text, e.getExpressionAsLaTeX());
+        Assertions.assertEquals(81 + Math.sin(3), e.calculate(), 1e-12);
+        e.setExpressionString("sqrt(x)");
+        Assertions.assertEquals("\\sqrt{x}", e.getExpressionAsLaTeX());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    private static final class LaTeXFunctionExtension implements FunctionExtension {
+        int calculations, assignments, metadata;
+        public int getParametersNumber() { return 1; }
+        public void setParameterValue(int index, double value) { assignments++; }
+        public String getParameterName(int index) { metadata++; return "x"; }
+        public double calculate() { calculations++; return 42; }
+        public LaTeXFunctionExtension clone() { return new LaTeXFunctionExtension(); }
+    }
+    @Test
+    public void testApi0398() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: token metadata callbacks without evaluation";
+        TestCommonTools.consolePrintTestApiStart(398, testDescr);
+        LaTeXFunctionExtension extension = new LaTeXFunctionExtension();
+        Function f = new Function("custom", extension);
+        Expression e = new Expression("custom(x)", f);
+        int metadataBefore = extension.metadata;
+        Assertions.assertEquals("\\operatorname{custom}(x)", e.getExpressionAsLaTeX());
+        Assertions.assertTrue(extension.metadata > metadataBefore);
+        Assertions.assertEquals(0, extension.calculations);
+        Assertions.assertEquals(0, extension.assignments);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0399() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: random stream and cancellation state";
+        TestCommonTools.consolePrintTestApiStart(399, testDescr);
+        Random expected = new Random(12345);
+        mXparser.setRandomGenerator(new Random(12345));
+        try {
+            Expression e = new Expression("[Uni]+rNor(0,1)");
+            String once = e.getExpressionAsLaTeX();
+            Assertions.assertEquals(once, e.getExpressionAsLaTeX());
+            Assertions.assertEquals(expected.nextDouble(), new Expression("[Uni]").calculate());
+            mXparser.cancelCurrentCalculation();
+            Assertions.assertEquals("\\sin x", latexExport("sin(x)"));
+            Assertions.assertTrue(mXparser.isCurrentCalculationCancelled());
+        } finally { mXparser.resetCancelCurrentCalculationFlag(); mXparser.setRandomGenerator(new Random()); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0400() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: deterministic independent parallel exports";
+        TestCommonTools.consolePrintTestApiStart(400, testDescr);
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+        try {
+            List<Callable<String>> calls = new ArrayList<>();
+            for (int i = 0; i < 32; i++) calls.add(() -> latexExport("sin(x)^n+sqrt(y/z)"));
+            for (Future<String> value : pool.invokeAll(calls)) Assertions.assertEquals("\\sin^{n}x+\\sqrt{\\frac{y}{z}}", value.get());
+        } finally { pool.shutdown(); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0401() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: resource budgets and untrusted identifier safety";
+        TestCommonTools.consolePrintTestApiStart(401, testDescr);
+        StringBuilder deep = new StringBuilder();
+        for (int i = 0; i < 300; i++) deep.append('(');
+        deep.append('x'); for (int i = 0; i < 300; i++) deep.append(')');
+        Assertions.assertThrows(IllegalStateException.class, () -> latexExport(deep.toString()));
+        StringBuilder flat = new StringBuilder("x");
+        for (int i = 0; i < 5999; i++) flat.append("+x");
+        Assertions.assertEquals(flat.toString(), latexExport(flat.toString()));
+        // A valid flat scope close to the token limit must also remain usable.
+        StringBuilder nearLimit = new StringBuilder("x");
+        for (int i = 1; i < 50000; i++) nearLimit.append("+x");
+        Assertions.assertEquals(nearLimit.toString(), latexExport(nearLimit.toString()));
+        nearLimit.append("+x");
+        Assertions.assertThrows(IllegalStateException.class, () -> latexExport(nearLimit.toString()));
+        StringBuilder continued = new StringBuilder("ConFrac(x");
+        for (int i = 0; i < 300; i++) continued.append(",x");
+        continued.append(')');
+        Assertions.assertThrows(IllegalStateException.class, () -> latexExport(continued.toString()));
+        for (String malicious : new String[]{"\\input{secret}", "a_b}", "a$", "a#"})
+            Assertions.assertThrows(IllegalStateException.class, () -> latexExport(malicious));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    /* Numeric interpretation of an already parsed tree. No LaTeX recognition,
+     * parser state or source binding rules remain in the test suite. */
+    private static double latexArithmeticValue(LaTeXParser.Node node, Map<String, Double> values) {
+        List<LaTeXParser.Node> children = node.getChildren();
+        if (node.getKind() == LaTeXParser.Kind.NUMBER) return Double.parseDouble(node.getText());
+        if (node.getKind() == LaTeXParser.Kind.SYMBOL) {
+            Assertions.assertTrue(values.containsKey(node.getText()), node.getText());
+            return values.get(node.getText());
+        }
+        double left = latexArithmeticValue(children.get(0), values);
+        switch (node.getKind()) {
+            case POSITIVE: return left;
+            case NEGATIVE: return -left;
+            case PERCENT: return left / 100;
+            case FLOOR: return Math.floor(left);
+            case FACTORIAL:
+                double value = 1; for (int i = 2; i <= left; i++) value *= i; return value;
+            default: break;
+        }
+        double right = latexArithmeticValue(children.get(1), values);
+        switch (node.getKind()) {
+            case ADD: return left + right;
+            case SUBTRACT: return left - right;
+            case MULTIPLY: return left * right;
+            case DIVIDE: return left / right;
+            case POWER: return Math.pow(left, right);
+            case REMAINDER: return left % right;
+            default: throw new AssertionError("Unexpected arithmetic tree operation " + node.getKind());
+        }
+    }
+    @Test
+    public void testApi0402() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: arithmetic binding compared with independent values and evaluator";
+        TestCommonTools.consolePrintTestApiStart(402, testDescr);
+        Map<String, Double> values = new HashMap<>();
+        values.put("a", 2.0); values.put("b", 3.0); values.put("c", 2.0);
+        String[] operators = {Operator.PLUS_STR, Operator.MINUS_STR, Operator.MULTIPLY_STR,
+            Operator.DIVIDE_STR, Operator.DIVIDE_QUOTIENT_STR, Operator.MOD_STR, Operator.POWER_STR};
+        for (String first : operators) for (String second : operators) {
+            for (String source : new String[]{"a" + first + "b" + second + "c",
+                    "(a" + first + "b)" + second + "c", "a" + first + "(b" + second + "c)"}) {
+                Expression e = new Expression(source, new Argument("a=2"), new Argument("b=3"), new Argument("c=2"));
+                Assertions.assertTrue(e.checkSyntax(), source);
+                double symbolic = latexArithmeticValue(LaTeXParser.parse(e.getExpressionAsLaTeX()), values);
+                Assertions.assertEquals(symbolic, e.calculate(), 1e-10, source);
+                Assertions.assertFalse(e.getExpressionAsLaTeX().isEmpty(), source);
+            }
+        }
+        for (String source : new String[]{"-a^2", "(-a)^2", "a*-b", "a^-b^c", "a^b!", "-2^2", "2^-3!", "a%*b"}) {
+            Expression e = new Expression(source, new Argument("a=2"), new Argument("b=3"), new Argument("c=2"));
+            Assertions.assertTrue(e.checkSyntax(), source);
+            Assertions.assertEquals(latexArithmeticValue(LaTeXParser.parse(e.getExpressionAsLaTeX()), values), e.calculate(), 1e-10, source);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0403() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: renamed builtins and user function overrides";
+        TestCommonTools.consolePrintTestApiStart(403, testDescr);
+        mXparser.modifyBuiltinToken(Function1Arg.SIN_STR, "sine");
+        Assertions.assertEquals("\\sin^{2}x", latexExport("sine(x)^2"));
+        mXparser.unmodifyBuiltinTokens();
+        mXparser.setToOverrideBuiltinTokens();
+        Function f = new Function("sin(x)=x+1");
+        Assertions.assertEquals("\\operatorname{sin}(x)", new Expression("sin(x)", f).getExpressionAsLaTeX());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0404() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: minimum variadic arities and mathematical notation";
+        TestCommonTools.consolePrintTestApiStart(404, testDescr);
+        String[][] cases = {
+            {"iff(x,y)", "\\begin{cases}y&\\text{if }x\\ne0\\\\\\text{undefined}&\\text{otherwise}\\end{cases}"},
+            {"min(x)", "\\min(x)"}, {"max(x)", "\\max(x)"}, {"ConFrac(x)", "x"},
+            {"ConPol(x)", "K_{1}(x)"}, {"gcd(x)", "\\gcd(x)"}, {"lcm(x)", "\\operatorname{lcm}(x)"},
+            {"add(x)", "x"}, {"multi(x)", "x"}, {"mean(x)", "\\frac{x}{1}"},
+            {"var(x)", "s^2(x)"}, {"std(x)", "s(x)"},
+            {"rList(x)", "\\operatorname{draw}(\\mathcal U_{\\mathrm{list}}(x))"},
+            {"coalesce(x)", "\\operatorname{first}_{\\ne\\mathrm{NaN}}(x)"},
+            {"or(x)", "x\\ne0"}, {"and(x)", "x\\ne0"}, {"xor(x)", "\\operatorname{exactlyOne}(x)"},
+            {"argmin(x)", "\\operatorname*{arg\\,min}_{\\mathrm{first},\\,1}(x)"},
+            {"argmax(x)", "\\operatorname*{arg\\,max}_{\\mathrm{first},\\,1}(x)"},
+            {"med(x)", "\\operatorname{median}(x)"}, {"mode(x)", "\\operatorname{mode}(x)"},
+            {"base(x)", "\\operatorname{value}_x(\\varepsilon)"}, {"ndist(x)", "\\operatorname{nDistinct}(x)"}
+        };
+        Assertions.assertEquals(23, cases.length);
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0405() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: all builtin rules in powers and function arguments";
+        TestCommonTools.consolePrintTestApiStart(405, testDescr);
+        String[] contexts = {"X", "(X)^2", "(X)*c", "c-(X)", "(X)!", "c/(X)", "sin(X)",
+                "-(X)", "sin(X)^2", "2*(X)", "rNor(0,X)", "(X)+c", "c^(X)"};
+        Set<Long> seen = new HashSet<>();
+        int rows = 0;
+        for (KeyWord kw : latexKeywords()) {
+            seen.add(latexTokenKey(kw.wordTypeId, kw.wordId));
+            String source = kw.wordTypeId == ParserSymbol.TYPE_ID && kw.wordId == ParserSymbol.BLANK_ID ? " a " : latexAliasInput(kw);
+            for (String context : contexts) {
+                String input = context.replace("X", source);
+                String actual = latexExport(input);
+                Assertions.assertFalse(actual.contains("@+"), input);
+                Assertions.assertFalse(actual.contains("@-"), input);
+                // Ordinary numbered test output, consumed separately by real-renderer QA.
+                // No lifecycle hook, private access, process property or test artifact writer.
+                mXparser.consolePrintln("LATEX-CONTEXT\t" + input + "\t=> " + actual);
+                rows++;
+            }
+        }
+        Assertions.assertEquals(412, seen.size());
+        Assertions.assertEquals(527 * contexts.length, rows);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0406() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: review regressions: command boundaries, scopes and compound numbers";
+        TestCommonTools.consolePrintTestApiStart(406, testDescr);
+        String[][] cases = {
+            {"2*x%", "2\\cdot x\\%"},
+            {"a*b%", "a\\cdot b\\%"},
+            {"100*r%", "100\\cdot r\\%"},
+            {"sum(i,1,n,i,2)", "\\sum_{\\substack{i=1+2k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\le n}}i"},
+            {"prod(i,10,a,i,-1)", "\\prod_{\\substack{i=10-k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\ge a}}i"},
+            {"sum(i,0.5,n,i)", "\\sum_{\\substack{i=0.5+k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\le n}}i"},
+            {"ConFrac(a+b)*c", "(a+b)\\cdot c"},
+            {"c-ConFrac(a+b)", "c-(a+b)"},
+            {"rNor(0,1e3)", "\\operatorname{draw}(\\mathcal N(0,(1\\times 10^{3})^{2}))"},
+            {"rNor(0,2_1_3)", "\\operatorname{draw}(\\mathcal N(0,(2\\,\\frac{1}{3})^{2}))"},
+            {"pNor(x,0,14_3)", "f_{\\mathcal N(0,(\\frac{14}{3})^{2})}(x)"},
+            {"(a/b)^2", "(\\frac{a}{b})^{2}"},
+            {"(a/b)!", "(\\frac{a}{b})!"},
+            {"2e3!", "(2\\times 10^{3})!"},
+            {"2*[k]", "2\\cdot 10^{3}"},
+            {"3*[%]", "3\\cdot 10^{-2}"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0407() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: review regressions: glyph identity, signs and iterated operator scope";
+        TestCommonTools.consolePrintTestApiStart(407, testDescr);
+        String[][] cases = {
+            {"c*[c]", "{c}_{\\mathrm{user}}\\cdot c"},
+            {"γ*[gam]", "{\\gamma}_{\\mathrm{user}}\\cdot\\gamma"},
+            {"φ+[phi]", "{\\varphi}_{\\mathrm{user}}+\\varphi"},
+            {"Ω*[Om]", "{\\Omega}_{\\mathrm{user}}\\cdot\\Omega"},
+            {"-(-a)", "-(-a)"},
+            {"a+(+b)", "a+(+b)"},
+            {"add(a,-b)", "a+(-b)"},
+            {"mean(a,-b)", "\\frac{a+(-b)}{2}"},
+            {"a*(-b)", "a\\cdot(-b)"},
+            {"sum(i,1,n,i)+1", "(\\sum_{i=1}^{n}i)+1"},
+            {"1+sum(i,1,n,i)", "1+(\\sum_{i=1}^{n}i)"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0408() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: review regressions: predicates and professional self-delimiting notation";
+        TestCommonTools.consolePrintTestApiStart(408, testDescr);
+        String[][] cases = {
+            {"if(and(a,b),1,0)", "\\begin{cases}1&\\text{if }a\\ne0\\land b\\ne0\\\\0&\\text{otherwise}\\end{cases}"},
+            {"if(or(a,b),1,0)", "\\begin{cases}1&\\text{if }a\\ne0\\lor b\\ne0\\\\0&\\text{otherwise}\\end{cases}"},
+            {"if(xor(a,b),1,0)", "\\begin{cases}1&\\text{if }\\operatorname{exactlyOne}(a,b)\\\\0&\\text{otherwise}\\end{cases}"},
+            {"if([true],1,0)", "\\begin{cases}1&\\text{if }\\mathrm{true}\\\\0&\\text{otherwise}\\end{cases}"},
+            {"a*(b#c)", "a\\cdot\\operatorname{rem}(b,c)"},
+            {"@~a+b", "\\operatorname{bitNot}(a)+b"},
+            {"abs(x)^2", "\\left\\lvert x\\right\\rvert^{2}"},
+            {"-sin(x)*y", "-\\sin(x)\\cdot y"},
+            {"mean(a,b+c,d)", "\\frac{a+b+c+d}{3}"},
+            {"base(x)", "\\operatorname{value}_x(\\varepsilon)"},
+            {"logGamma(x)^2", "(\\ln\\left\\lvert\\Gamma(x)\\right\\rvert)^{2}"},
+            {"logBeta(a,b)^2", "(\\ln B(a,b))^{2}"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0409() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: diagnostics refer to existing offending tokens";
+        TestCommonTools.consolePrintTestApiStart(409, testDescr);
+        IllegalStateException missing = Assertions.assertThrows(IllegalStateException.class, () -> latexExport("a*"));
+        Assertions.assertTrue(missing.getMessage().contains("token 1"), missing.getMessage());
+        IllegalStateException middle = Assertions.assertThrows(IllegalStateException.class, () -> latexExport("a+*b"));
+        Assertions.assertTrue(middle.getMessage().contains("token 1") || middle.getMessage().contains("token 2"), middle.getMessage());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0410() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: protected root degree with nested radicals and bracketed symbols";
+        TestCommonTools.consolePrintTestApiStart(410, testDescr);
+        String[][] cases = {
+            {"root(root(3,n),x)", "\\sqrt[{\\sqrt[{3}]{n}}]{x}"},
+            {"root([my_unit],x)", "\\sqrt[{[\\mathrm{my\\_unit}]}]{x}"},
+            {"root([Int3],x)", "\\sqrt[{\\operatorname{draw}(\\mathcal U_{\\mathbb Z}[-10^{3},10^{3}])}]{x}"},
+            {"root(3,root(n,x))", "\\sqrt[{3}]{\\sqrt[{n}]{x}}"},
+            {"root(root(root(2,n),m),x)", "\\sqrt[{\\sqrt[{\\sqrt[{2}]{n}}]{m}}]{x}"},
+            {"root(n+1,x+y)", "\\sqrt[{n+1}]{x+y}"},
+            {"root(n/x,y)", "\\sqrt[{\\frac{n}{x}}]{y}"},
+            {"root(∛n,x)", "\\sqrt[{\\sqrt[3]{n}}]{x}"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], new Expression(c[0], new Constant("[my_unit]", 1)).getExpressionAsLaTeX(), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0411() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "LaTeX export: complete scope of iterated minima and maxima";
+        TestCommonTools.consolePrintTestApiStart(411, testDescr);
+        String[][] cases = {
+            {"mini(i,1,n,i)*2", "(\\min_{i=1}^{n}i)\\cdot 2"},
+            {"2*mini(i,1,n,i)", "2\\cdot(\\min_{i=1}^{n}i)"},
+            {"mini(i,1,n,i)+1", "(\\min_{i=1}^{n}i)+1"},
+            {"1+mini(i,1,n,i)", "1+(\\min_{i=1}^{n}i)"},
+            {"mini(i,1,n,i)-1", "(\\min_{i=1}^{n}i)-1"},
+            {"1-mini(i,1,n,i)", "1-(\\min_{i=1}^{n}i)"},
+            {"(mini(i,1,n,i))^2", "(\\min_{i=1}^{n}i)^{2}"},
+            {"(mini(i,1,n,i))!", "(\\min_{i=1}^{n}i)!"},
+            {"add(mini(i,1,n,i),1)", "(\\min_{i=1}^{n}i)+1"},
+            {"mean(mini(i,1,n,i),1)", "\\frac{(\\min_{i=1}^{n}i)+1}{2}"},
+            {"ConFrac(mini(i,1,n,i))+1", "(\\min_{i=1}^{n}i)+1"},
+            {"sin(mini(i,1,n,i))", "\\sin(\\min_{i=1}^{n}i)"},
+            {"maxi(i,1,n,i)*2", "(\\max_{i=1}^{n}i)\\cdot 2"},
+            {"2*maxi(i,1,n,i)", "2\\cdot(\\max_{i=1}^{n}i)"},
+            {"maxi(i,1,n,i)+1", "(\\max_{i=1}^{n}i)+1"},
+            {"1+maxi(i,1,n,i)", "1+(\\max_{i=1}^{n}i)"},
+            {"maxi(i,1,n,i)-1", "(\\max_{i=1}^{n}i)-1"},
+            {"1-maxi(i,1,n,i)", "1-(\\max_{i=1}^{n}i)"},
+            {"(maxi(i,1,n,i))^2", "(\\max_{i=1}^{n}i)^{2}"},
+            {"(maxi(i,1,n,i))!", "(\\max_{i=1}^{n}i)!"},
+            {"add(maxi(i,1,n,i),1)", "(\\max_{i=1}^{n}i)+1"},
+            {"mean(maxi(i,1,n,i),1)", "\\frac{(\\max_{i=1}^{n}i)+1}{2}"},
+            {"ConFrac(maxi(i,1,n,i))+1", "(\\max_{i=1}^{n}i)+1"},
+            {"sin(maxi(i,1,n,i))", "\\sin(\\max_{i=1}^{n}i)"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    private static String latexTreeShape(LaTeXParser.Node node) {
+        if (node.getChildren().isEmpty()) return node.getKind() + ":" + node.getText();
+        StringBuilder shape = new StringBuilder(node.getKind().name()).append('(');
+        for (int i = 0; i < node.getChildren().size(); i++) {
+            if (i > 0) shape.append(',');
+            shape.append(latexTreeShape(node.getChildren().get(i)));
+        }
+        return shape.append(')').toString();
+    }
+
+    @Test
+    public void testApi0412() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: arithmetic structure and grouping";
+        TestCommonTools.consolePrintTestApiStart(412, testDescr);
+        String[][] cases = {
+            {"\\frac{x+1}{y-2}", "DIVIDE(ADD(SYMBOL:x,NUMBER:1),SUBTRACT(SYMBOL:y,NUMBER:2))"},
+            {"\\frac{a}{b}\\cdot c", "MULTIPLY(DIVIDE(SYMBOL:a,SYMBOL:b),SYMBOL:c)"},
+            {"a/\\frac{b}{c}", "DIVIDE(SYMBOL:a,DIVIDE(SYMBOL:b,SYMBOL:c))"},
+            {"2(x+1)", "MULTIPLY(NUMBER:2,ADD(SYMBOL:x,NUMBER:1))"},
+            {"(a+b)c", "MULTIPLY(ADD(SYMBOL:a,SYMBOL:b),SYMBOL:c)"},
+            {"\\left\\lfloor\\frac{-a}{b}\\right\\rfloor", "FLOOR(DIVIDE(NEGATIVE(SYMBOL:a),SYMBOL:b))"},
+            {"\\lfloor x+1\\rfloor", "FLOOR(ADD(SYMBOL:x,NUMBER:1))"},
+            {"\\operatorname{rem}(a,b)", "REMAINDER(SYMBOL:a,SYMBOL:b)"},
+            {"\\operatorname{rem}\\left(a,b\\right)", "REMAINDER(SYMBOL:a,SYMBOL:b)"},
+            {"a\\,\\cdot\\!b", "MULTIPLY(SYMBOL:a,SYMBOL:b)"},
+            {"\\left(a+b\\right)/c", "DIVIDE(ADD(SYMBOL:a,SYMBOL:b),SYMBOL:c)"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexTreeShape(LaTeXParser.parse(c[0])), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0413() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: TeX scripts, signs and juxtaposition";
+        TestCommonTools.consolePrintTestApiStart(413, testDescr);
+        String[][] cases = {
+            {"x^12", "MULTIPLY(POWER(SYMBOL:x,NUMBER:1),NUMBER:2)"},
+            {"x^{12}", "POWER(SYMBOL:x,NUMBER:12)"},
+            {"x^{y^{z}}", "POWER(SYMBOL:x,POWER(SYMBOL:y,SYMBOL:z))"},
+            {"(x^y)^z", "POWER(POWER(SYMBOL:x,SYMBOL:y),SYMBOL:z)"},
+            {"-x^2", "NEGATIVE(POWER(SYMBOL:x,NUMBER:2))"},
+            {"(-x)^2", "POWER(NEGATIVE(SYMBOL:x),NUMBER:2)"},
+            {"x!^2", "POWER(FACTORIAL(SYMBOL:x),NUMBER:2)"},
+            {"x^2!", "FACTORIAL(POWER(SYMBOL:x,NUMBER:2))"},
+            {"x^{2!}", "POWER(SYMBOL:x,FACTORIAL(NUMBER:2))"},
+            {"xy", "MULTIPLY(SYMBOL:x,SYMBOL:y)"},
+            {"\\mathit{xy}", "SYMBOL:xy"},
+            {"1e3", "MULTIPLY(MULTIPLY(NUMBER:1,SYMBOL:e),NUMBER:3)"},
+            {"1\\times10^{-3}", "MULTIPLY(NUMBER:1,POWER(NUMBER:10,NEGATIVE(NUMBER:3)))"},
+            {"+x\\%", "POSITIVE(PERCENT(SYMBOL:x))"}
+        };
+        for (String[] c : cases) Assertions.assertEquals(c[1], latexTreeShape(LaTeXParser.parse(c[0])), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0414() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: names, exact source ranges and immutable nodes";
+        TestCommonTools.consolePrintTestApiStart(414, testDescr);
+        String source = "  ( \\mathit{x\\_1} + .250 )  ";
+        LaTeXParser.Node root = LaTeXParser.parse(source);
+        Assertions.assertEquals(LaTeXParser.Kind.ADD, root.getKind());
+        Assertions.assertEquals(2, root.getStartOffset());
+        Assertions.assertEquals(source.length() - 2, root.getEndOffset());
+        Assertions.assertEquals(source.substring(2, source.length() - 2), root.getSourceText());
+        LaTeXParser.Node name = root.getChildren().get(0);
+        Assertions.assertEquals("x_1", name.getText());
+        Assertions.assertEquals(source.indexOf("\\mathit"), name.getStartOffset());
+        Assertions.assertEquals("\\mathit{x\\_1}", name.getSourceText());
+        Assertions.assertEquals(".250", root.getChildren().get(1).getText());
+        Assertions.assertEquals("km", LaTeXParser.parse("\\mathrm{km}").getText());
+        Assertions.assertEquals("α", LaTeXParser.parse("α").getText());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse("\uD835\uDC65"));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> root.getChildren().clear());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> name.getChildren().add(root));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0415() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: strict subset, unsafe macros and located failures";
+        TestCommonTools.consolePrintTestApiStart(415, testDescr);
+        String[] invalid = {"", "  ", "a+", "()", "\\frac{x}", "\\frac{}{y}",
+            "\\operatorname{rem}(a,b,c)", "x^{2}^{3}", "x^", "x^-1", "a_b", "\\sin x",
+            "\\sqrt{x}", "\\input{secret}", "\\write18{cmd}", "\\def\\x{x}", "a%b", "$x$",
+            "\\cdotx", "\\fracx{x}{y}", "\\mathit{x_1}", "\\mathit{}", "f(x)", "2f(x)", "-f(x)", "f^{2}(x)",
+            "a\\left[b\\right]", "\\left(a)", "(a\\right)", "1 2", "x!!", "\uD800"};
+        for (String source : invalid) Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(source), source);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(null));
+        Assertions.assertTrue(Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse("a+")).getMessage().contains("offset 2"));
+        Assertions.assertTrue(Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse("a+}")).getMessage().contains("offset 2"));
+        Assertions.assertTrue(Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse("\\frac{x}")).getMessage().contains("offset 8"));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0416() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: bounded recursive syntax and large flat structures";
+        TestCommonTools.consolePrintTestApiStart(416, testDescr);
+        StringBuilder flat = new StringBuilder("x");
+        for (int i = 1; i < 50000; i++) flat.append("+x");
+        LaTeXParser.Node root = LaTeXParser.parse(flat.toString());
+        Assertions.assertEquals(LaTeXParser.Kind.ADD, root.getKind());
+        Assertions.assertEquals(flat.length(), root.getEndOffset());
+        java.util.ArrayDeque<LaTeXParser.Node> pending = new java.util.ArrayDeque<>();
+        pending.push(root); int count = 0;
+        while (!pending.isEmpty()) { LaTeXParser.Node node = pending.pop(); count++; for (LaTeXParser.Node child : node.getChildren()) pending.push(child); }
+        Assertions.assertEquals(99999, count);
+        flat.append("+x");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(flat.toString()));
+        StringBuilder deep = new StringBuilder("x");
+        for (int i = 0; i < 300; i++) { deep.insert(0, '('); deep.append(')'); }
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(deep.toString()));
+        StringBuilder signs = new StringBuilder(); for (int i = 0; i < 300; i++) signs.append('-'); signs.append('x');
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(signs.toString()));
+        char[] huge = new char[1000001]; java.util.Arrays.fill(huge, ' ');
+        Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(new String(huge)));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0417() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: preserves literals and unbound symbols without calculating";
+        TestCommonTools.consolePrintTestApiStart(417, testDescr);
+        LaTeXParser.Node unbound = LaTeXParser.parse("\\mathit{unboundName}^{99999999999999999999999999999}");
+        Assertions.assertEquals("unboundName", unbound.getChildren().get(0).getText());
+        Assertions.assertEquals("99999999999999999999999999999", unbound.getChildren().get(1).getText());
+        Assertions.assertEquals("0002.300", LaTeXParser.parse("0002.300").getText());
+        Assertions.assertEquals(LaTeXParser.Kind.DIVIDE, LaTeXParser.parse("\\frac{1}{0}").getKind());
+        Assertions.assertEquals("DIVIDE(NUMBER:0,NUMBER:0)", latexTreeShape(LaTeXParser.parse("0/0")));
+        LaTeXParser.Node first = LaTeXParser.parse("x+1"), second = LaTeXParser.parse("y+2");
+        Assertions.assertEquals("ADD(SYMBOL:x,NUMBER:1)", latexTreeShape(first));
+        Assertions.assertEquals("ADD(SYMBOL:y,NUMBER:2)", latexTreeShape(second));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0418() throws Exception {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "symbolic LaTeX parser: independent parallel parses";
+        TestCommonTools.consolePrintTestApiStart(418, testDescr);
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+        try {
+            List<Callable<String>> calls = new ArrayList<>();
+            for (int i = 0; i < 32; i++) calls.add(() -> latexTreeShape(LaTeXParser.parse("\\frac{x+1}{y}^{2}")));
+            for (Future<String> value : pool.invokeAll(calls)) Assertions.assertEquals("POWER(DIVIDE(ADD(SYMBOL:x,NUMBER:1),SYMBOL:y),NUMBER:2)", value.get());
+        } finally { pool.shutdown(); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0419() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "experimental LaTeX parser: explicit symbol typography survives grouping";
+        TestCommonTools.consolePrintTestApiStart(419, testDescr);
+        String[][] cases = {
+            {"e", "e", "DEFAULT"}, {"\\mathrm{e}", "e", "UPRIGHT"}, {"\\mathit{e}", "e", "ITALIC"},
+            {"\\mathrm e", "e", "UPRIGHT"}, {"\\mathit e", "e", "ITALIC"},
+            {"\\mathrm{km}", "km", "UPRIGHT"}, {"\\mathit{km}", "km", "ITALIC"},
+            {"(\\mathrm e)", "e", "UPRIGHT"}, {"{\\mathit{e}}", "e", "ITALIC"},
+            {"\\left(\\mathrm{km}\\right)", "km", "UPRIGHT"},
+            {"\\mathrm α", "α", "UPRIGHT"}, {"\\mathit{\\_}", "_", "ITALIC"}
+        };
+        for (String[] c : cases) {
+            LaTeXParser.Node node = LaTeXParser.parse(c[0]);
+            Assertions.assertEquals(LaTeXParser.Kind.SYMBOL, node.getKind(), c[0]);
+            Assertions.assertEquals(c[1], node.getText(), c[0]);
+            Assertions.assertEquals(c[2], node.getSymbolStyle().name(), c[0]);
+            Assertions.assertEquals(c[0], node.getSourceText(), c[0]);
+        }
+        LaTeXParser.Node power = LaTeXParser.parse("\\mathrm e^{2}");
+        Assertions.assertEquals(LaTeXParser.Kind.POWER, power.getKind());
+        Assertions.assertEquals(LaTeXParser.SymbolStyle.DEFAULT, power.getSymbolStyle());
+        Assertions.assertEquals(LaTeXParser.SymbolStyle.UPRIGHT, power.getChildren().get(0).getSymbolStyle());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0420() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "experimental LaTeX parser: exhaustive closed BMP alphabet matches parser metadata";
+        TestCommonTools.consolePrintTestApiStart(420, testDescr);
+        java.util.regex.Pattern reference = java.util.regex.Pattern.compile("[A-Za-z]|" + ParserSymbol.UNICODE_NAME_REG_EXP);
+        int symbols = 0, unicode = 0, numbers = 0;
+        for (int code = 0; code <= 0xffff; code++) {
+            String input = String.valueOf((char)code);
+            if (reference.matcher(input).matches()) {
+                LaTeXParser.Node node = LaTeXParser.parse(input);
+                Assertions.assertEquals(LaTeXParser.Kind.SYMBOL, node.getKind(), "Character " + code);
+                Assertions.assertEquals(input, node.getText());
+                Assertions.assertEquals(1, node.getEndOffset());
+                Assertions.assertEquals(LaTeXParser.SymbolStyle.DEFAULT, node.getSymbolStyle());
+                symbols++; if (code > 127) unicode++;
+            } else if (code >= '0' && code <= '9') {
+                Assertions.assertEquals(LaTeXParser.Kind.NUMBER, LaTeXParser.parse(input).getKind()); numbers++;
+            } else Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(input), "Character " + code);
+        }
+        Assertions.assertEquals(112, symbols);
+        Assertions.assertEquals(60, unicode);
+        Assertions.assertEquals(10, numbers);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0421() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "experimental LaTeX parser: quoted names and font command token boundaries";
+        TestCommonTools.consolePrintTestApiStart(421, testDescr);
+        String[] names = {"x", "speed", "ABC123", "x_1", "_", "_123", "α", "∑", "ⅇ"};
+        for (String name : names) {
+            Assertions.assertTrue(name.matches(ParserSymbol.nameOnlyTokenRegExp), name);
+            String input = "\\mathit{" + name.replace("_", "\\_") + "}";
+            LaTeXParser.Node node = LaTeXParser.parse(input);
+            Assertions.assertEquals(name, node.getText());
+            Assertions.assertEquals(LaTeXParser.SymbolStyle.ITALIC, node.getSymbolStyle());
+        }
+        LaTeXParser.Node product = LaTeXParser.parse("\\mathrm km");
+        Assertions.assertEquals(LaTeXParser.Kind.MULTIPLY, product.getKind());
+        Assertions.assertEquals("k", product.getChildren().get(0).getText());
+        Assertions.assertEquals(LaTeXParser.SymbolStyle.UPRIGHT, product.getChildren().get(0).getSymbolStyle());
+        Assertions.assertEquals("m", product.getChildren().get(1).getText());
+        Assertions.assertEquals(LaTeXParser.SymbolStyle.DEFAULT, product.getChildren().get(1).getSymbolStyle());
+        String[] invalid = {"\\mathrm", "\\mathit", "\\mathrmex", "\\mathrm 3", "\\mathit{x٣}",
+            "\\mathit{ł}", "\\mathrm{中}", "\\mathit{ℵ}", "\\mathit{αx}", "\\mathit{xα}",
+            "\\mathit{αβ}", "\\mathrm{1x}", "\\mathrm{a_b}", "\\mathit{\\input{x}}", "\\mathrm\\quad e", "\\mathrm\\,e", "\\mathit\\quad\\_"};
+        for (String input : invalid) Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(input), input);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
+    }
+    @Test
+    public void testApi0422() {
+        TestCommonTools.testApiSettingsInit();
+        boolean testResult = false;
+        String testDescr = "experimental LaTeX parser: portable ASCII whitespace and invalid Unicode offsets";
+        TestCommonTools.consolePrintTestApiStart(422, testDescr);
+        for (char c : new char[]{' ', '\t', '\n', '\r', '\f', '\u000b'}) {
+            LaTeXParser.Node node = LaTeXParser.parse(c + "x" + c + "+" + c + "1" + c);
+            Assertions.assertEquals(LaTeXParser.Kind.ADD, node.getKind());
+        }
+        for (String input : new String[]{"x\u00a0+1", "x\u2003+1", "x\u3000+1", "x+\uD835\uDC65", "x+\uDC65", "x+中"}) {
+            IllegalArgumentException error = Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(input));
+            int expectedOffset = input.charAt(1) == '+' ? 2 : 1;
+            Assertions.assertTrue(error.getMessage().contains("offset " + expectedOffset), error.getMessage());
+        }
+        Assertions.assertEquals(LaTeXParser.Kind.ADD, LaTeXParser.parse("x\\quad+\\qquad 1").getKind());
+        for (String input : new String[]{"x^\\quad2", "x^\\,2", "\\frac\\quad{x}{y}",
+                "\\frac{x}\\quad{y}", "\\operatorname\\quad{rem}(x,y)"})
+            Assertions.assertThrows(IllegalArgumentException.class, () -> LaTeXParser.parse(input), input);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assertions.assertTrue(testResult);
     }
 }

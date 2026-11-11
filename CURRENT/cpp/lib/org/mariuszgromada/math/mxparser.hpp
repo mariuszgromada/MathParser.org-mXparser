@@ -1,5 +1,5 @@
 /*
- * @(#)mxparser.hpp        6.1.0    2024-10-10
+ * @(#)mxparser.hpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -233,6 +233,7 @@
 #include "org/mariuszgromada/math/mxparser/Function.hpp"
 #include "org/mariuszgromada/math/mxparser/FunctionExtension.hpp"
 #include "org/mariuszgromada/math/mxparser/FunctionExtensionVariadic.hpp"
+#include "org/mariuszgromada/math/mxparser/LaTeXParser.hpp"
 #include "org/mariuszgromada/math/mxparser/License.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/AstronomicalConstants.hpp"
 #include "org/mariuszgromada/math/mxparser/mathcollection/BinaryRelations.hpp"

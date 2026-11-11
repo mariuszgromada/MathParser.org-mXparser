@@ -1,0 +1,1355 @@
+{
+  "source": "CURRENT/java/test/org/mariuszgromada/math/mxparser/test/ApiTest.java",
+  "sha256": "6019fb11653f6eac35fed156c7067e0eef123799675dbbc8a3ee06b0075d29fb",
+  "exports": [
+    {
+      "test": "0390",
+      "input": "(a+b)/c",
+      "expected": "\\frac{a+b}{c}"
+    },
+    {
+      "test": "0390",
+      "input": "a/(b+c)",
+      "expected": "\\frac{a}{b+c}"
+    },
+    {
+      "test": "0390",
+      "input": "a*b/c",
+      "expected": "\\frac{a\\cdot b}{c}"
+    },
+    {
+      "test": "0390",
+      "input": "a/b*c",
+      "expected": "\\frac{a}{b}\\cdot c"
+    },
+    {
+      "test": "0390",
+      "input": "a/(b*c)",
+      "expected": "\\frac{a}{b\\cdot c}"
+    },
+    {
+      "test": "0390",
+      "input": "a/b^c",
+      "expected": "\\frac{a}{b^{c}}"
+    },
+    {
+      "test": "0390",
+      "input": "a/(b/c)",
+      "expected": "\\frac{a}{\\frac{b}{c}}"
+    },
+    {
+      "test": "0390",
+      "input": "(a/b)/c",
+      "expected": "\\frac{\\frac{a}{b}}{c}"
+    },
+    {
+      "test": "0390",
+      "input": "a^b^c",
+      "expected": "a^{b^{c}}"
+    },
+    {
+      "test": "0390",
+      "input": "(a^b)^c",
+      "expected": "(a^{b})^{c}"
+    },
+    {
+      "test": "0390",
+      "input": "-a^2",
+      "expected": "-a^{2}"
+    },
+    {
+      "test": "0390",
+      "input": "(-a)^2",
+      "expected": "(-a)^{2}"
+    },
+    {
+      "test": "0390",
+      "input": "2x^2",
+      "expected": "2x^{2}"
+    },
+    {
+      "test": "0390",
+      "input": "a(b+c)",
+      "expected": "a\\cdot(b+c)"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)",
+      "expected": "\\sin x"
+    },
+    {
+      "test": "0390",
+      "input": "(sin(x))^2",
+      "expected": "\\sin^{2}x"
+    },
+    {
+      "test": "0390",
+      "input": "(sin(x+2))^2",
+      "expected": "\\sin^{2}(x+2)"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)^n",
+      "expected": "\\sin^{n}x"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x^2)",
+      "expected": "\\sin(x^{2})"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x^2)^3",
+      "expected": "\\sin^{3}(x^{2})"
+    },
+    {
+      "test": "0390",
+      "input": "((sin((x))))^2",
+      "expected": "\\sin^{2}x"
+    },
+    {
+      "test": "0390",
+      "input": "sin(cos(x)^2)^3",
+      "expected": "\\sin^{3}(\\cos^{2}x)"
+    },
+    {
+      "test": "0390",
+      "input": "sin(2*x)",
+      "expected": "\\sin 2x"
+    },
+    {
+      "test": "0390",
+      "input": "sin(2*x)+y",
+      "expected": "\\sin 2x+y"
+    },
+    {
+      "test": "0390",
+      "input": "sin(2*x)*y",
+      "expected": "\\sin(2x)\\cdot y"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)/cos(x)^2",
+      "expected": "\\frac{\\sin x}{\\cos^{2}x}"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x/y)",
+      "expected": "\\sin\\left(\\frac{x}{y}\\right)"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)*cos(y)",
+      "expected": "\\sin(x)\\cdot\\cos(y)"
+    },
+    {
+      "test": "0390",
+      "input": "-sin(x)^2",
+      "expected": "-\\sin^{2}x"
+    },
+    {
+      "test": "0390",
+      "input": "(-sin(x))^2",
+      "expected": "(-\\sin x)^{2}"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)^(-1)",
+      "expected": "(\\sin x)^{-1}"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)^(-n)",
+      "expected": "(\\sin x)^{-n}"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)^(n+1)",
+      "expected": "(\\sin x)^{n+1}"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)^2^3",
+      "expected": "(\\sin x)^{2^{3}}"
+    },
+    {
+      "test": "0390",
+      "input": "(sin(x)^2)^3",
+      "expected": "(\\sin^{2}x)^{3}"
+    },
+    {
+      "test": "0390",
+      "input": "asin(x)",
+      "expected": "\\arcsin x"
+    },
+    {
+      "test": "0390",
+      "input": "asin(x)^2",
+      "expected": "(\\arcsin x)^{2}"
+    },
+    {
+      "test": "0390",
+      "input": "ctg(x)^2",
+      "expected": "\\cot^{2}x"
+    },
+    {
+      "test": "0390",
+      "input": "tgh(x)^3",
+      "expected": "\\tanh^{3}x"
+    },
+    {
+      "test": "0390",
+      "input": "cosech(x)^2",
+      "expected": "\\operatorname{csch}^{2}x"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x+2)",
+      "expected": "\\sin(x+2)"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)^2+cos(x)^2",
+      "expected": "\\sin^{2}x+\\cos^{2}x"
+    },
+    {
+      "test": "0390",
+      "input": "sin(x)*y",
+      "expected": "\\sin(x)\\cdot y"
+    },
+    {
+      "test": "0390",
+      "input": "sqrt(x^2+y^2)",
+      "expected": "\\sqrt{x^{2}+y^{2}}"
+    },
+    {
+      "test": "0390",
+      "input": "sqrt(x+1)",
+      "expected": "\\sqrt{x+1}"
+    },
+    {
+      "test": "0390",
+      "input": "\u221a(x+1)",
+      "expected": "\\sqrt{x+1}"
+    },
+    {
+      "test": "0390",
+      "input": "root(3,x+y)",
+      "expected": "\\sqrt[{3}]{x+y}"
+    },
+    {
+      "test": "0390",
+      "input": "abs(x-2)",
+      "expected": "\\left\\lvert x-2\\right\\rvert"
+    },
+    {
+      "test": "0390",
+      "input": "log(2,x+y)",
+      "expected": "\\log_{2}(x+y)"
+    },
+    {
+      "test": "0390",
+      "input": "mod(-5,3)",
+      "expected": "\\operatorname{rem}(-5,3)"
+    },
+    {
+      "test": "0390",
+      "input": "C(n,k)",
+      "expected": "\\binom{n}{k}"
+    },
+    {
+      "test": "0390",
+      "input": "Bern(2,n)",
+      "expected": "B_2(n)"
+    },
+    {
+      "test": "0390",
+      "input": "Stirl1(n,k)",
+      "expected": "\\left[\\genfrac{}{}{0pt}{}{n}{k}\\right]"
+    },
+    {
+      "test": "0390",
+      "input": "EulerPol(m,x)",
+      "expected": "E_m(x)"
+    },
+    {
+      "test": "0390",
+      "input": "Gamma(0)",
+      "expected": "\\Gamma(0)"
+    },
+    {
+      "test": "0390",
+      "input": "logGamma(x)",
+      "expected": "\\ln\\left\\lvert\\Gamma(x)\\right\\rvert"
+    },
+    {
+      "test": "0390",
+      "input": "LambW1(z)",
+      "expected": "W_{-1}(z)"
+    },
+    {
+      "test": "0390",
+      "input": "GammaRegU(s,x)",
+      "expected": "Q(s,x)"
+    },
+    {
+      "test": "0390",
+      "input": "BetaInc(x,a,b)",
+      "expected": "B_x(a,b)"
+    },
+    {
+      "test": "0390",
+      "input": "BetaI(x,a,b)",
+      "expected": "I_x(a,b)"
+    },
+    {
+      "test": "0390",
+      "input": "sum(i,1,5,i^2)",
+      "expected": "\\sum_{i=1}^{5}i^{2}"
+    },
+    {
+      "test": "0390",
+      "input": "prod(i,5,1,f(i),-2)",
+      "expected": "\\prod_{\\substack{i=5-2k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\ge1}}f(i)"
+    },
+    {
+      "test": "0390",
+      "input": "int(sin(x),x,a,b)",
+      "expected": "\\int_a^b\\sin(x)\\,\\mathrm{d}x"
+    },
+    {
+      "test": "0390",
+      "input": "der-(f(x),x,p)",
+      "expected": "\\left.D_x^-[f(x)]\\right\\rvert_{x=p}"
+    },
+    {
+      "test": "0390",
+      "input": "der(f(x),x,p,eps,m)",
+      "expected": "\\left.\\frac{\\mathrm d}{\\mathrm d x}[f(x)]\\right\\rvert_{x=p}"
+    },
+    {
+      "test": "0390",
+      "input": "diff(f(x),x,h)",
+      "expected": "\\Delta_{x,h}[f(x)]"
+    },
+    {
+      "test": "0390",
+      "input": "solve(f(x),x,a,b)",
+      "expected": "\\operatorname{root}_{x\\in[a,b]}(f(x)=0)"
+    },
+    {
+      "test": "0390",
+      "input": "if(x,1,-1)",
+      "expected": "\\begin{cases}1&\\text{if }x\\ne0\\\\-1&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0390",
+      "input": "iff(x<0,-1,x>0,1)",
+      "expected": "\\begin{cases}-1&\\text{if }x<0\\\\1&\\text{else if }x>0\\\\\\text{undefined}&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0390",
+      "input": "ConFrac(a,b,c)",
+      "expected": "a+\\frac{1}{b+\\frac{1}{c}}"
+    },
+    {
+      "test": "0390",
+      "input": "ConPol(a,b,c)",
+      "expected": "K_{3}(a,b,c)"
+    },
+    {
+      "test": "0390",
+      "input": "mean(a,b,c)",
+      "expected": "\\frac{a+b+c}{3}"
+    },
+    {
+      "test": "0390",
+      "input": "var(a,b,c)",
+      "expected": "s^2(a,b,c)"
+    },
+    {
+      "test": "0390",
+      "input": "pNor(x,mu,sigma)",
+      "expected": "f_{\\mathcal N(\\mathit{mu},\\mathit{sigma}^{2})}(x)"
+    },
+    {
+      "test": "0390",
+      "input": "qStud(p,v)",
+      "expected": "Q_{t_v}(p)"
+    },
+    {
+      "test": "0390",
+      "input": "rList(1,1,2)",
+      "expected": "\\operatorname{draw}(\\mathcal U_{\\mathrm{list}}(1,1,2))"
+    },
+    {
+      "test": "0390",
+      "input": "[Int3]",
+      "expected": "\\operatorname{draw}(\\mathcal U_{\\mathbb Z}[-10^{3},10^{3}])"
+    },
+    {
+      "test": "0390",
+      "input": "xor(a,b,c)",
+      "expected": "\\operatorname{exactlyOne}(a,b,c)"
+    },
+    {
+      "test": "0390",
+      "input": "a @>> b",
+      "expected": "\\operatorname{ashr}(a,b)"
+    },
+    {
+      "test": "0390",
+      "input": "CHi(x,a,b)",
+      "expected": "\\mathbf{1}_{[a,b]}(x)"
+    },
+    {
+      "test": "0390",
+      "input": "[Mb]",
+      "expected": "\\mathrm{Mibit}"
+    },
+    {
+      "test": "0390",
+      "input": "[MB]",
+      "expected": "\\mathrm{MiB}"
+    },
+    {
+      "test": "0390",
+      "input": "2*[km/h]",
+      "expected": "2\\,\\mathrm{km}/\\mathrm{h}"
+    },
+    {
+      "test": "0390",
+      "input": "my_Function(x; y)",
+      "expected": "\\operatorname{my\\_Function}(x,y)"
+    },
+    {
+      "test": "0391",
+      "input": "a^b!",
+      "expected": "(a^{b})!"
+    },
+    {
+      "test": "0391",
+      "input": "a*-b",
+      "expected": "a\\cdot(-b)"
+    },
+    {
+      "test": "0391",
+      "input": "a#b*c",
+      "expected": "\\operatorname{rem}(a,b)\\cdot c"
+    },
+    {
+      "test": "0391",
+      "input": "a^^b^c",
+      "expected": "(\\mathord{{}^{b}\\!a})^{c}"
+    },
+    {
+      "test": "0391",
+      "input": "f(a,g(b,c);sin(a+b))",
+      "expected": "f(a,g(b,c),\\sin(a+b))"
+    },
+    {
+      "test": "0395",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "test": "0395",
+      "input": "   ",
+      "expected": ""
+    },
+    {
+      "test": "0395",
+      "input": "002.10",
+      "expected": "002.10"
+    },
+    {
+      "test": "0395",
+      "input": ".25",
+      "expected": "0.25"
+    },
+    {
+      "test": "0395",
+      "input": "2.30e-4",
+      "expected": "2.30\\times 10^{-4}"
+    },
+    {
+      "test": "0395",
+      "input": "14_3",
+      "expected": "\\frac{14}{3}"
+    },
+    {
+      "test": "0395",
+      "input": "2_1_3",
+      "expected": "2\\,\\frac{1}{3}"
+    },
+    {
+      "test": "0395",
+      "input": "b1.",
+      "expected": "(\\varepsilon)_{1}"
+    },
+    {
+      "test": "0395",
+      "input": "h.af1",
+      "expected": "(\\mathrm{af1})_{16}"
+    },
+    {
+      "test": "0395",
+      "input": "B36.z",
+      "expected": "(\\mathrm{z})_{36}"
+    },
+    {
+      "test": "0395",
+      "input": "sin(x)!",
+      "expected": "(\\sin x)!"
+    },
+    {
+      "test": "0395",
+      "input": "sin(x)%",
+      "expected": "(\\sin x)\\%"
+    },
+    {
+      "test": "0395",
+      "input": "sin(x)^2*y",
+      "expected": "\\sin^{2}(x)\\cdot y"
+    },
+    {
+      "test": "0395",
+      "input": "-sin(x)*y",
+      "expected": "-\\sin(x)\\cdot y"
+    },
+    {
+      "test": "0395",
+      "input": "sin(-x)",
+      "expected": "\\sin(-x)"
+    },
+    {
+      "test": "0395",
+      "input": "sin(x)^0",
+      "expected": "(\\sin x)^{0}"
+    },
+    {
+      "test": "0395",
+      "input": "sin(x)^2.5",
+      "expected": "(\\sin x)^{2.5}"
+    },
+    {
+      "test": "0395",
+      "input": "ln(x)^2",
+      "expected": "(\\ln x)^{2}"
+    },
+    {
+      "test": "0395",
+      "input": "not(a|b)",
+      "expected": "\\neg (a\\lor b)"
+    },
+    {
+      "test": "0395",
+      "input": "a<(b<c)",
+      "expected": "a<(b<c)"
+    },
+    {
+      "test": "0395",
+      "input": "(a<b)<c",
+      "expected": "(a<b)<c"
+    },
+    {
+      "test": "0395",
+      "input": "a-(b-c)",
+      "expected": "a-(b-c)"
+    },
+    {
+      "test": "0395",
+      "input": "2*3",
+      "expected": "2\\cdot 3"
+    },
+    {
+      "test": "0395",
+      "input": "ab*cd",
+      "expected": "\\mathit{ab}\\cdot \\mathit{cd}"
+    },
+    {
+      "test": "0395",
+      "input": "30*[deg]",
+      "expected": "30^{\\circ}"
+    },
+    {
+      "test": "0395",
+      "input": "2*[km]",
+      "expected": "2\\,\\mathrm{km}"
+    },
+    {
+      "test": "0395",
+      "input": "[km/h]^2",
+      "expected": "(\\mathrm{km}/\\mathrm{h})^{2}"
+    },
+    {
+      "test": "0395",
+      "input": "[k]^2",
+      "expected": "(10^{3})^{2}"
+    },
+    {
+      "test": "0395",
+      "input": "sin([km/h])",
+      "expected": "\\sin(\\mathrm{km}/\\mathrm{h})"
+    },
+    {
+      "test": "0395",
+      "input": "sin([k])",
+      "expected": "\\sin(10^{3})"
+    },
+    {
+      "test": "0395",
+      "input": "logGamma(x+y)",
+      "expected": "\\ln\\left\\lvert\\Gamma(x+y)\\right\\rvert"
+    },
+    {
+      "test": "0395",
+      "input": "GammaL(s,x)",
+      "expected": "\\gamma(s,x)"
+    },
+    {
+      "test": "0395",
+      "input": "GammaU(s,x)",
+      "expected": "\\Gamma(s,x)"
+    },
+    {
+      "test": "0395",
+      "input": "GammaP(s,x)",
+      "expected": "P(s,x)"
+    },
+    {
+      "test": "0395",
+      "input": "diGamma(x)",
+      "expected": "\\psi(x)"
+    },
+    {
+      "test": "0395",
+      "input": "rNor(mu,sigma+1)",
+      "expected": "\\operatorname{draw}(\\mathcal N(\\mathit{mu},(\\mathit{sigma}+1)^{2}))"
+    },
+    {
+      "test": "0395",
+      "input": "ConFrac(a)",
+      "expected": "a"
+    },
+    {
+      "test": "0395",
+      "input": "ConFrac(a,b,c,d)",
+      "expected": "a+\\frac{1}{b+\\frac{1}{c+\\frac{1}{d}}}"
+    },
+    {
+      "test": "0395",
+      "input": "mean(a,b+c,d)",
+      "expected": "\\frac{a+b+c+d}{3}"
+    },
+    {
+      "test": "0395",
+      "input": "sum(i,1,n,x+y)",
+      "expected": "\\sum_{i=1}^{n}(x+y)"
+    },
+    {
+      "test": "0395",
+      "input": "sum(i,1,n,f(i))*x",
+      "expected": "(\\sum_{i=1}^{n}f(i))\\cdot x"
+    },
+    {
+      "test": "0395",
+      "input": "dern(f(x),n,x)",
+      "expected": "\\frac{\\mathrm d^{n}}{\\mathrm d x^{n}}[f(x)]"
+    },
+    {
+      "test": "0395",
+      "input": "der+(f(x),x,p)",
+      "expected": "\\left.D_x^+[f(x)]\\right\\rvert_{x=p}"
+    },
+    {
+      "test": "0395",
+      "input": "der(f(x),x,eps,m)",
+      "expected": "\\frac{\\mathrm d}{\\mathrm d x}[f(x)]"
+    },
+    {
+      "test": "0395",
+      "input": "difb(f(x),x)",
+      "expected": "\\nabla_{x,1}[f(x)]"
+    },
+    {
+      "test": "0395",
+      "input": "x_1+y2",
+      "expected": "\\mathit{x\\_1}+\\mathit{y2}"
+    },
+    {
+      "test": "0395",
+      "input": "\u03b1+\u03c2+\u0393",
+      "expected": "\\alpha+\\varsigma+\\Gamma"
+    },
+    {
+      "test": "0395",
+      "input": "[my_unit]",
+      "expected": "[\\mathrm{my\\_unit}]"
+    },
+    {
+      "test": "0395",
+      "input": "f(a,b,c,d,x,y,z)",
+      "expected": "f(a,b,c,d,x,y,z)"
+    },
+    {
+      "test": "0404",
+      "input": "iff(x,y)",
+      "expected": "\\begin{cases}y&\\text{if }x\\ne0\\\\\\text{undefined}&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0404",
+      "input": "min(x)",
+      "expected": "\\min(x)"
+    },
+    {
+      "test": "0404",
+      "input": "max(x)",
+      "expected": "\\max(x)"
+    },
+    {
+      "test": "0404",
+      "input": "ConFrac(x)",
+      "expected": "x"
+    },
+    {
+      "test": "0404",
+      "input": "ConPol(x)",
+      "expected": "K_{1}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "gcd(x)",
+      "expected": "\\gcd(x)"
+    },
+    {
+      "test": "0404",
+      "input": "lcm(x)",
+      "expected": "\\operatorname{lcm}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "add(x)",
+      "expected": "x"
+    },
+    {
+      "test": "0404",
+      "input": "multi(x)",
+      "expected": "x"
+    },
+    {
+      "test": "0404",
+      "input": "mean(x)",
+      "expected": "\\frac{x}{1}"
+    },
+    {
+      "test": "0404",
+      "input": "var(x)",
+      "expected": "s^2(x)"
+    },
+    {
+      "test": "0404",
+      "input": "std(x)",
+      "expected": "s(x)"
+    },
+    {
+      "test": "0404",
+      "input": "rList(x)",
+      "expected": "\\operatorname{draw}(\\mathcal U_{\\mathrm{list}}(x))"
+    },
+    {
+      "test": "0404",
+      "input": "coalesce(x)",
+      "expected": "\\operatorname{first}_{\\ne\\mathrm{NaN}}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "or(x)",
+      "expected": "x\\ne0"
+    },
+    {
+      "test": "0404",
+      "input": "and(x)",
+      "expected": "x\\ne0"
+    },
+    {
+      "test": "0404",
+      "input": "xor(x)",
+      "expected": "\\operatorname{exactlyOne}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "argmin(x)",
+      "expected": "\\operatorname*{arg\\,min}_{\\mathrm{first},\\,1}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "argmax(x)",
+      "expected": "\\operatorname*{arg\\,max}_{\\mathrm{first},\\,1}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "med(x)",
+      "expected": "\\operatorname{median}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "mode(x)",
+      "expected": "\\operatorname{mode}(x)"
+    },
+    {
+      "test": "0404",
+      "input": "base(x)",
+      "expected": "\\operatorname{value}_x(\\varepsilon)"
+    },
+    {
+      "test": "0404",
+      "input": "ndist(x)",
+      "expected": "\\operatorname{nDistinct}(x)"
+    },
+    {
+      "test": "0406",
+      "input": "2*x%",
+      "expected": "2\\cdot x\\%"
+    },
+    {
+      "test": "0406",
+      "input": "a*b%",
+      "expected": "a\\cdot b\\%"
+    },
+    {
+      "test": "0406",
+      "input": "100*r%",
+      "expected": "100\\cdot r\\%"
+    },
+    {
+      "test": "0406",
+      "input": "sum(i,1,n,i,2)",
+      "expected": "\\sum_{\\substack{i=1+2k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\le n}}i"
+    },
+    {
+      "test": "0406",
+      "input": "prod(i,10,a,i,-1)",
+      "expected": "\\prod_{\\substack{i=10-k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\ge a}}i"
+    },
+    {
+      "test": "0406",
+      "input": "sum(i,0.5,n,i)",
+      "expected": "\\sum_{\\substack{i=0.5+k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\le n}}i"
+    },
+    {
+      "test": "0406",
+      "input": "ConFrac(a+b)*c",
+      "expected": "(a+b)\\cdot c"
+    },
+    {
+      "test": "0406",
+      "input": "c-ConFrac(a+b)",
+      "expected": "c-(a+b)"
+    },
+    {
+      "test": "0406",
+      "input": "rNor(0,1e3)",
+      "expected": "\\operatorname{draw}(\\mathcal N(0,(1\\times 10^{3})^{2}))"
+    },
+    {
+      "test": "0406",
+      "input": "rNor(0,2_1_3)",
+      "expected": "\\operatorname{draw}(\\mathcal N(0,(2\\,\\frac{1}{3})^{2}))"
+    },
+    {
+      "test": "0406",
+      "input": "pNor(x,0,14_3)",
+      "expected": "f_{\\mathcal N(0,(\\frac{14}{3})^{2})}(x)"
+    },
+    {
+      "test": "0406",
+      "input": "(a/b)^2",
+      "expected": "(\\frac{a}{b})^{2}"
+    },
+    {
+      "test": "0406",
+      "input": "(a/b)!",
+      "expected": "(\\frac{a}{b})!"
+    },
+    {
+      "test": "0406",
+      "input": "2e3!",
+      "expected": "(2\\times 10^{3})!"
+    },
+    {
+      "test": "0406",
+      "input": "2*[k]",
+      "expected": "2\\cdot 10^{3}"
+    },
+    {
+      "test": "0406",
+      "input": "3*[%]",
+      "expected": "3\\cdot 10^{-2}"
+    },
+    {
+      "test": "0407",
+      "input": "c*[c]",
+      "expected": "{c}_{\\mathrm{user}}\\cdot c"
+    },
+    {
+      "test": "0407",
+      "input": "\u03b3*[gam]",
+      "expected": "{\\gamma}_{\\mathrm{user}}\\cdot\\gamma"
+    },
+    {
+      "test": "0407",
+      "input": "\u03c6+[phi]",
+      "expected": "{\\varphi}_{\\mathrm{user}}+\\varphi"
+    },
+    {
+      "test": "0407",
+      "input": "\u03a9*[Om]",
+      "expected": "{\\Omega}_{\\mathrm{user}}\\cdot\\Omega"
+    },
+    {
+      "test": "0407",
+      "input": "-(-a)",
+      "expected": "-(-a)"
+    },
+    {
+      "test": "0407",
+      "input": "a+(+b)",
+      "expected": "a+(+b)"
+    },
+    {
+      "test": "0407",
+      "input": "add(a,-b)",
+      "expected": "a+(-b)"
+    },
+    {
+      "test": "0407",
+      "input": "mean(a,-b)",
+      "expected": "\\frac{a+(-b)}{2}"
+    },
+    {
+      "test": "0407",
+      "input": "a*(-b)",
+      "expected": "a\\cdot(-b)"
+    },
+    {
+      "test": "0407",
+      "input": "sum(i,1,n,i)+1",
+      "expected": "(\\sum_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0407",
+      "input": "1+sum(i,1,n,i)",
+      "expected": "1+(\\sum_{i=1}^{n}i)"
+    },
+    {
+      "test": "0408",
+      "input": "if(and(a,b),1,0)",
+      "expected": "\\begin{cases}1&\\text{if }a\\ne0\\land b\\ne0\\\\0&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0408",
+      "input": "if(or(a,b),1,0)",
+      "expected": "\\begin{cases}1&\\text{if }a\\ne0\\lor b\\ne0\\\\0&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0408",
+      "input": "if(xor(a,b),1,0)",
+      "expected": "\\begin{cases}1&\\text{if }\\operatorname{exactlyOne}(a,b)\\\\0&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0408",
+      "input": "if([true],1,0)",
+      "expected": "\\begin{cases}1&\\text{if }\\mathrm{true}\\\\0&\\text{otherwise}\\end{cases}"
+    },
+    {
+      "test": "0408",
+      "input": "a*(b#c)",
+      "expected": "a\\cdot\\operatorname{rem}(b,c)"
+    },
+    {
+      "test": "0408",
+      "input": "@~a+b",
+      "expected": "\\operatorname{bitNot}(a)+b"
+    },
+    {
+      "test": "0408",
+      "input": "abs(x)^2",
+      "expected": "\\left\\lvert x\\right\\rvert^{2}"
+    },
+    {
+      "test": "0408",
+      "input": "-sin(x)*y",
+      "expected": "-\\sin(x)\\cdot y"
+    },
+    {
+      "test": "0408",
+      "input": "mean(a,b+c,d)",
+      "expected": "\\frac{a+b+c+d}{3}"
+    },
+    {
+      "test": "0408",
+      "input": "base(x)",
+      "expected": "\\operatorname{value}_x(\\varepsilon)"
+    },
+    {
+      "test": "0408",
+      "input": "logGamma(x)^2",
+      "expected": "(\\ln\\left\\lvert\\Gamma(x)\\right\\rvert)^{2}"
+    },
+    {
+      "test": "0408",
+      "input": "logBeta(a,b)^2",
+      "expected": "(\\ln B(a,b))^{2}"
+    },
+    {
+      "test": "0410",
+      "input": "root(root(3,n),x)",
+      "expected": "\\sqrt[{\\sqrt[{3}]{n}}]{x}"
+    },
+    {
+      "test": "0410",
+      "input": "root([my_unit],x)",
+      "expected": "\\sqrt[{[\\mathrm{my\\_unit}]}]{x}"
+    },
+    {
+      "test": "0410",
+      "input": "root([Int3],x)",
+      "expected": "\\sqrt[{\\operatorname{draw}(\\mathcal U_{\\mathbb Z}[-10^{3},10^{3}])}]{x}"
+    },
+    {
+      "test": "0410",
+      "input": "root(3,root(n,x))",
+      "expected": "\\sqrt[{3}]{\\sqrt[{n}]{x}}"
+    },
+    {
+      "test": "0410",
+      "input": "root(root(root(2,n),m),x)",
+      "expected": "\\sqrt[{\\sqrt[{\\sqrt[{2}]{n}}]{m}}]{x}"
+    },
+    {
+      "test": "0410",
+      "input": "root(n+1,x+y)",
+      "expected": "\\sqrt[{n+1}]{x+y}"
+    },
+    {
+      "test": "0410",
+      "input": "root(n/x,y)",
+      "expected": "\\sqrt[{\\frac{n}{x}}]{y}"
+    },
+    {
+      "test": "0410",
+      "input": "root(\u221bn,x)",
+      "expected": "\\sqrt[{\\sqrt[3]{n}}]{x}"
+    },
+    {
+      "test": "0411",
+      "input": "mini(i,1,n,i)*2",
+      "expected": "(\\min_{i=1}^{n}i)\\cdot 2"
+    },
+    {
+      "test": "0411",
+      "input": "2*mini(i,1,n,i)",
+      "expected": "2\\cdot(\\min_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "mini(i,1,n,i)+1",
+      "expected": "(\\min_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0411",
+      "input": "1+mini(i,1,n,i)",
+      "expected": "1+(\\min_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "mini(i,1,n,i)-1",
+      "expected": "(\\min_{i=1}^{n}i)-1"
+    },
+    {
+      "test": "0411",
+      "input": "1-mini(i,1,n,i)",
+      "expected": "1-(\\min_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "(mini(i,1,n,i))^2",
+      "expected": "(\\min_{i=1}^{n}i)^{2}"
+    },
+    {
+      "test": "0411",
+      "input": "(mini(i,1,n,i))!",
+      "expected": "(\\min_{i=1}^{n}i)!"
+    },
+    {
+      "test": "0411",
+      "input": "add(mini(i,1,n,i),1)",
+      "expected": "(\\min_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0411",
+      "input": "mean(mini(i,1,n,i),1)",
+      "expected": "\\frac{(\\min_{i=1}^{n}i)+1}{2}"
+    },
+    {
+      "test": "0411",
+      "input": "ConFrac(mini(i,1,n,i))+1",
+      "expected": "(\\min_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0411",
+      "input": "sin(mini(i,1,n,i))",
+      "expected": "\\sin(\\min_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "maxi(i,1,n,i)*2",
+      "expected": "(\\max_{i=1}^{n}i)\\cdot 2"
+    },
+    {
+      "test": "0411",
+      "input": "2*maxi(i,1,n,i)",
+      "expected": "2\\cdot(\\max_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "maxi(i,1,n,i)+1",
+      "expected": "(\\max_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0411",
+      "input": "1+maxi(i,1,n,i)",
+      "expected": "1+(\\max_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "maxi(i,1,n,i)-1",
+      "expected": "(\\max_{i=1}^{n}i)-1"
+    },
+    {
+      "test": "0411",
+      "input": "1-maxi(i,1,n,i)",
+      "expected": "1-(\\max_{i=1}^{n}i)"
+    },
+    {
+      "test": "0411",
+      "input": "(maxi(i,1,n,i))^2",
+      "expected": "(\\max_{i=1}^{n}i)^{2}"
+    },
+    {
+      "test": "0411",
+      "input": "(maxi(i,1,n,i))!",
+      "expected": "(\\max_{i=1}^{n}i)!"
+    },
+    {
+      "test": "0411",
+      "input": "add(maxi(i,1,n,i),1)",
+      "expected": "(\\max_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0411",
+      "input": "mean(maxi(i,1,n,i),1)",
+      "expected": "\\frac{(\\max_{i=1}^{n}i)+1}{2}"
+    },
+    {
+      "test": "0411",
+      "input": "ConFrac(maxi(i,1,n,i))+1",
+      "expected": "(\\max_{i=1}^{n}i)+1"
+    },
+    {
+      "test": "0411",
+      "input": "sin(maxi(i,1,n,i))",
+      "expected": "\\sin(\\max_{i=1}^{n}i)"
+    }
+  ],
+  "shapes": [
+    {
+      "test": "0412",
+      "input": "\\frac{x+1}{y-2}",
+      "expected": "DIVIDE(ADD(SYMBOL:x,NUMBER:1),SUBTRACT(SYMBOL:y,NUMBER:2))"
+    },
+    {
+      "test": "0412",
+      "input": "\\frac{a}{b}\\cdot c",
+      "expected": "MULTIPLY(DIVIDE(SYMBOL:a,SYMBOL:b),SYMBOL:c)"
+    },
+    {
+      "test": "0412",
+      "input": "a/\\frac{b}{c}",
+      "expected": "DIVIDE(SYMBOL:a,DIVIDE(SYMBOL:b,SYMBOL:c))"
+    },
+    {
+      "test": "0412",
+      "input": "2(x+1)",
+      "expected": "MULTIPLY(NUMBER:2,ADD(SYMBOL:x,NUMBER:1))"
+    },
+    {
+      "test": "0412",
+      "input": "(a+b)c",
+      "expected": "MULTIPLY(ADD(SYMBOL:a,SYMBOL:b),SYMBOL:c)"
+    },
+    {
+      "test": "0412",
+      "input": "\\left\\lfloor\\frac{-a}{b}\\right\\rfloor",
+      "expected": "FLOOR(DIVIDE(NEGATIVE(SYMBOL:a),SYMBOL:b))"
+    },
+    {
+      "test": "0412",
+      "input": "\\lfloor x+1\\rfloor",
+      "expected": "FLOOR(ADD(SYMBOL:x,NUMBER:1))"
+    },
+    {
+      "test": "0412",
+      "input": "\\operatorname{rem}(a,b)",
+      "expected": "REMAINDER(SYMBOL:a,SYMBOL:b)"
+    },
+    {
+      "test": "0412",
+      "input": "\\operatorname{rem}\\left(a,b\\right)",
+      "expected": "REMAINDER(SYMBOL:a,SYMBOL:b)"
+    },
+    {
+      "test": "0412",
+      "input": "a\\,\\cdot\\!b",
+      "expected": "MULTIPLY(SYMBOL:a,SYMBOL:b)"
+    },
+    {
+      "test": "0412",
+      "input": "\\left(a+b\\right)/c",
+      "expected": "DIVIDE(ADD(SYMBOL:a,SYMBOL:b),SYMBOL:c)"
+    },
+    {
+      "test": "0413",
+      "input": "x^12",
+      "expected": "MULTIPLY(POWER(SYMBOL:x,NUMBER:1),NUMBER:2)"
+    },
+    {
+      "test": "0413",
+      "input": "x^{12}",
+      "expected": "POWER(SYMBOL:x,NUMBER:12)"
+    },
+    {
+      "test": "0413",
+      "input": "x^{y^{z}}",
+      "expected": "POWER(SYMBOL:x,POWER(SYMBOL:y,SYMBOL:z))"
+    },
+    {
+      "test": "0413",
+      "input": "(x^y)^z",
+      "expected": "POWER(POWER(SYMBOL:x,SYMBOL:y),SYMBOL:z)"
+    },
+    {
+      "test": "0413",
+      "input": "-x^2",
+      "expected": "NEGATIVE(POWER(SYMBOL:x,NUMBER:2))"
+    },
+    {
+      "test": "0413",
+      "input": "(-x)^2",
+      "expected": "POWER(NEGATIVE(SYMBOL:x),NUMBER:2)"
+    },
+    {
+      "test": "0413",
+      "input": "x!^2",
+      "expected": "POWER(FACTORIAL(SYMBOL:x),NUMBER:2)"
+    },
+    {
+      "test": "0413",
+      "input": "x^2!",
+      "expected": "FACTORIAL(POWER(SYMBOL:x,NUMBER:2))"
+    },
+    {
+      "test": "0413",
+      "input": "x^{2!}",
+      "expected": "POWER(SYMBOL:x,FACTORIAL(NUMBER:2))"
+    },
+    {
+      "test": "0413",
+      "input": "xy",
+      "expected": "MULTIPLY(SYMBOL:x,SYMBOL:y)"
+    },
+    {
+      "test": "0413",
+      "input": "\\mathit{xy}",
+      "expected": "SYMBOL:xy"
+    },
+    {
+      "test": "0413",
+      "input": "1e3",
+      "expected": "MULTIPLY(MULTIPLY(NUMBER:1,SYMBOL:e),NUMBER:3)"
+    },
+    {
+      "test": "0413",
+      "input": "1\\times10^{-3}",
+      "expected": "MULTIPLY(NUMBER:1,POWER(NUMBER:10,NEGATIVE(NUMBER:3)))"
+    },
+    {
+      "test": "0413",
+      "input": "+x\\%",
+      "expected": "POSITIVE(PERCENT(SYMBOL:x))"
+    }
+  ],
+  "styles": [
+    [
+      "e",
+      "e",
+      "DEFAULT"
+    ],
+    [
+      "\\mathrm{e}",
+      "e",
+      "UPRIGHT"
+    ],
+    [
+      "\\mathit{e}",
+      "e",
+      "ITALIC"
+    ],
+    [
+      "\\mathrm e",
+      "e",
+      "UPRIGHT"
+    ],
+    [
+      "\\mathit e",
+      "e",
+      "ITALIC"
+    ],
+    [
+      "\\mathrm{km}",
+      "km",
+      "UPRIGHT"
+    ],
+    [
+      "\\mathit{km}",
+      "km",
+      "ITALIC"
+    ],
+    [
+      "(\\mathrm e)",
+      "e",
+      "UPRIGHT"
+    ],
+    [
+      "{\\mathit{e}}",
+      "e",
+      "ITALIC"
+    ],
+    [
+      "\\left(\\mathrm{km}\\right)",
+      "km",
+      "UPRIGHT"
+    ],
+    [
+      "\\mathrm \u03b1",
+      "\u03b1",
+      "UPRIGHT"
+    ],
+    [
+      "\\mathit{\\_}",
+      "_",
+      "ITALIC"
+    ]
+  ]
+}

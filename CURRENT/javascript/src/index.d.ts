@@ -1,5 +1,5 @@
 /*
- * @(#)index.d.ts        6.2.0    2026-11-04
+ * @(#)index.d.ts        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -894,6 +894,9 @@ export interface Expression extends PrimitiveElement {
     "getExpressionString"(): string | null;
 
     "getCanonicalExpressionString"(): string | null;
+
+    /** Export a mathematical LaTeX fragment, without delimiters or evaluation. */
+    "getExpressionAsLaTeX"(): string;
 
     "clearExpressionString"(): void;
 
@@ -6734,7 +6737,60 @@ export interface VirtualFileSystem {
     rmdir(path: string): void;
 }
 
+/** Experimental arithmetic LaTeX subset; not a full TeX importer.
+ * API/subset/metadata may evolve. Offsets count UTF-16 code units.
+ * @version        6.2.0
+ */
+export namespace LaTeXParser {
+    /** Experimental immutable parser node.
+     * @version        6.2.0
+     */
+    interface Node extends NativeHandle {
+        cloneHandle(): Node;
+        "getKind"(): Kind;
+        "getText"(): string;
+        "getSymbolStyle"(): SymbolStyle;
+        /** Frozen snapshot of owning handles. Release each returned handle. */
+        "getChildren"(): readonly Node[];
+        "getStartOffset"(): number;
+        "getEndOffset"(): number;
+        "getSourceText"(): string;
+    }
+    type Kind = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+    interface KindStatics {
+        readonly NUMBER: 0;
+        readonly SYMBOL: 1;
+        readonly POSITIVE: 2;
+        readonly NEGATIVE: 3;
+        readonly ADD: 4;
+        readonly SUBTRACT: 5;
+        readonly MULTIPLY: 6;
+        readonly DIVIDE: 7;
+        readonly POWER: 8;
+        readonly FACTORIAL: 9;
+        readonly PERCENT: 10;
+        readonly FLOOR: 11;
+        readonly REMAINDER: 12;
+    }
+    type SymbolStyle = 0 | 1 | 2;
+    interface SymbolStyleStatics {
+        readonly DEFAULT: 0;
+        readonly ITALIC: 1;
+        readonly UPRIGHT: 2;
+    }
+}
+/** Experimental parser; unsupported input throws a native invalid_argument Error.
+ * @version        6.2.0
+ */
+export interface LaTeXParserStatics {
+    "parse"(latex: string | null): LaTeXParser.Node;
+    readonly Node: { readonly prototype: LaTeXParser.Node };
+    readonly Kind: LaTeXParser.KindStatics;
+    readonly SymbolStyle: LaTeXParser.SymbolStyleStatics;
+}
+
 export interface MxParser {
+    readonly LaTeXParser: LaTeXParserStatics;
     readonly FS: Readonly<VirtualFileSystem>;
     readonly LongDouble: {};
     readonly int32: (value: number) => Int32Value;

@@ -1,5 +1,5 @@
 /*
- * @(#)ApiTest.cs        6.1.1    2026-05-16
+ * @(#)ApiTest.cs        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -221,6 +221,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.parsertokens;
@@ -239,7 +241,7 @@ namespace org.mariuszgromada.math.mxparser.test {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.1
+	 * @version        6.2.0
 	 *
 	 */
 	[TestClass]
@@ -11200,5 +11202,1027 @@ namespace org.mariuszgromada.math.mxparser.test {
         Assert.IsTrue(Double.IsNaN(mXparser.convOthBase2Decimal(2.0, Double.NaN)));
         TestCommonTools.consolePrintTestApiEnd(true);
     }
+    // LaTeX API IDs 0388-0422 are reserved for matching Java/C#/C++ scenarios.
+
+    private static List<KeyWord> latexKeywords() { return mXparser.getKeyWords(); }
+
+    private static Expression latexExpression(String source) {
+        Expression e = new Expression(source);
+        if (source.Equals("a(b+c)")) e.addArguments(new Argument("a"));
+        if (source.Equals("[my_unit]")) e.addConstants(new Constant("[my_unit]", 1));
+        return e;
+    }
+    private static String latexExport(String source) {
+        String text = latexExpression(source).getExpressionAsLaTeX();
+        return text;
+    }
+    private static long latexTokenKey(int type, int id) { return ((long)type << 32) | (id & 0xffffffffL); }
+    [TestMethod]
+    public void testApi0388() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: public token inventory and equivalent square root rules";
+        TestCommonTools.consolePrintTestApiStart(388, testDescr);
+        List<KeyWord> keywords = latexKeywords();
+        HashSet<long> actual = new HashSet<long>();
+        foreach (KeyWord kw in keywords) actual.Add(latexTokenKey(kw.wordTypeId, kw.wordId));
+        // The two additional UDF-context keys are not in the public ordinary-expression vocabulary.
+        Assert.AreEqual(527, keywords.Count);
+        Assert.AreEqual(412, actual.Count);
+        Assert.AreEqual(latexExport("sqrt(x+1)"), latexExport("√(x+1)"));
+        Assert.AreEqual("\\sqrt[{3}]{x}", latexExport("root(3,x)"));
+        Assert.AreEqual("\\sqrt[3]{x}", latexExport("∛x"));
+        Assert.AreEqual("\\sqrt[{4}]{x}", latexExport("root(4,x)"));
+        Assert.AreEqual("\\sqrt[4]{x}", latexExport("∜x"));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    private static String latexCalculusArguments(int id, int count) {
+        if (id == CalculusOperator.INT_ID || id == CalculusOperator.SOLVE_ID) return "f(x),x,a,b";
+        if (id == CalculusOperator.DERN_ID) return count == 3 ? "f(x),n,x" : "f(x),n,x,eps,m";
+        if (id == CalculusOperator.DER_ID || id == CalculusOperator.DER_LEFT_ID || id == CalculusOperator.DER_RIGHT_ID)
+            return count == 2 ? "f(x),x" : count == 3 ? "f(x),x,p" : count == 4 ? "f(x),x,eps,m" : "f(x),x,p,eps,m";
+        if (id == CalculusOperator.FORW_DIFF_ID || id == CalculusOperator.BACKW_DIFF_ID) return count == 2 ? "f(x),x" : "f(x),x,h";
+        return count == 4 ? "i,a,b,f(i)" : "i,a,b,f(i),h";
+    }
+    private static int[] latexCalculusArities(int id) {
+        if (id == CalculusOperator.INT_ID || id == CalculusOperator.SOLVE_ID) return new int[]{4};
+        if (id == CalculusOperator.DERN_ID) return new int[]{3, 5};
+        if (id == CalculusOperator.DER_ID || id == CalculusOperator.DER_LEFT_ID || id == CalculusOperator.DER_RIGHT_ID) return new int[]{2, 3, 4, 5};
+        if (id == CalculusOperator.FORW_DIFF_ID || id == CalculusOperator.BACKW_DIFF_ID) return new int[]{2, 3};
+        return new int[]{4, 5};
+    }
+    private static String latexAliasInput(KeyWord kw) {
+        int t = kw.wordTypeId, id = kw.wordId;
+        String w = kw.wordString;
+        if (t == ParserSymbol.NUMBER_TYPE_ID) return "2.10";
+        if (t == ParserSymbol.TYPE_ID) return id == ParserSymbol.BLANK_ID ? " " : id == ParserSymbol.COMMA_ID ? "f(a" + w + "b)" : "(a)";
+        if (t == Function1Arg.TYPE_ID) return w + "(x)";
+        if (t == Function2Arg.TYPE_ID) return w + "(a,b)";
+        if (t == Function3Arg.TYPE_ID) return w + "(a,b,c)";
+        if (t == FunctionVariadic.TYPE_ID) return w + (id == FunctionVariadic.IFF_ID ? "(a,b,c,x)" : "(a,b,c)");
+        if (t == CalculusOperator.TYPE_ID) return w + "(" + latexCalculusArguments(id, latexCalculusArities(id)[0]) + ")";
+        Token token = new Token(); token.tokenTypeId = t; token.tokenId = id;
+        if (token.isUnaryLeftOperator()) return w + "a";
+        if (token.isUnaryRightOperator()) return "a" + w;
+        if (token.isBinaryOperator()) return "a" + w + "b";
+        return w;
+    }
+    [TestMethod]
+    public void testApi0389() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: builtin aliases and calculus arity variants";
+        TestCommonTools.consolePrintTestApiStart(389, testDescr);
+        Dictionary<long, String> canonical = new Dictionary<long, String>();
+        foreach (KeyWord kw in latexKeywords()) {
+            long key = latexTokenKey(kw.wordTypeId, kw.wordId);
+            String input = latexAliasInput(kw);
+            if (!canonical.ContainsKey(key)) canonical[key] = input;
+            String reference = canonical[key];
+            String scenario = "Alias " + kw.wordTypeId + ":" + kw.wordId + " " + kw.wordString;
+            String actual = latexExport(input), expected = latexExport(reference);
+            Assert.AreEqual(expected, actual, scenario);
+            Assert.IsFalse(actual.Contains("@+"), scenario);
+            Assert.IsFalse(actual.Contains("@-"), scenario);
+            if (kw.wordTypeId == CalculusOperator.TYPE_ID) {
+                foreach (int count in latexCalculusArities(kw.wordId)) {
+                    String variant = kw.wordString + "(" + latexCalculusArguments(kw.wordId, count) + ")";
+                    Assert.AreEqual(latexCalculusExpected(kw.wordId, count), latexExport(variant), "Calculus arity " + variant);
+                }
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    private static String latexCalculusExpected(int id, int count) {
+        if (id == CalculusOperator.INT_ID) return "\\int_a^bf(x)\\,\\mathrm{d}x";
+        if (id == CalculusOperator.SOLVE_ID) return "\\operatorname{root}_{x\\in[a,b]}(f(x)=0)";
+        if (id == CalculusOperator.DERN_ID) return "\\frac{\\mathrm d^{n}}{\\mathrm d x^{n}}[f(x)]";
+        if (id == CalculusOperator.DER_ID || id == CalculusOperator.DER_LEFT_ID || id == CalculusOperator.DER_RIGHT_ID) {
+            String derivative = id == CalculusOperator.DER_ID ? "\\frac{\\mathrm d}{\\mathrm d x}[f(x)]"
+                    : "D_x^" + (id == CalculusOperator.DER_LEFT_ID ? "-" : "+") + "[f(x)]";
+            return count == 3 || count == 5 ? "\\left." + derivative + "\\right\\rvert_{x=p}" : derivative;
+        }
+        if (id == CalculusOperator.FORW_DIFF_ID || id == CalculusOperator.BACKW_DIFF_ID)
+            return (id == CalculusOperator.FORW_DIFF_ID ? "\\Delta" : "\\nabla") + "_{x," + (count == 2 ? "1" : "h") + "}[f(x)]";
+        String range = count == 4 ? "_{i=a}^{b}" : "_{\\substack{i=a+k\\cdot h\\\\k\\in\\mathbb Z,\\;0\\le k\\le\\frac{b-a}{h}}}";
+        if (id == CalculusOperator.SUM_ID) return "\\sum" + range + "f(i)";
+        if (id == CalculusOperator.PROD_ID) return "\\prod" + range + "f(i)";
+        if (id == CalculusOperator.MIN_ID) return "\\min" + range + "f(i)";
+        if (id == CalculusOperator.MAX_ID) return "\\max" + range + "f(i)";
+        String statistic = id == CalculusOperator.AVG_ID ? "\\operatorname{mean}" : id == CalculusOperator.VAR_ID ? "s^2" : "s";
+        return statistic + "\\left((f(i))" + range + "\\right)";
+    }
+    private static readonly String[][] LATEX_REFERENCE = {
+        new String[]{"(a+b)/c", "\\frac{a+b}{c}"},
+        new String[]{"a/(b+c)", "\\frac{a}{b+c}"},
+        new String[]{"a*b/c", "\\frac{a\\cdot b}{c}"},
+        new String[]{"a/b*c", "\\frac{a}{b}\\cdot c"},
+        new String[]{"a/(b*c)", "\\frac{a}{b\\cdot c}"},
+        new String[]{"a/b^c", "\\frac{a}{b^{c}}"},
+        new String[]{"a/(b/c)", "\\frac{a}{\\frac{b}{c}}"},
+        new String[]{"(a/b)/c", "\\frac{\\frac{a}{b}}{c}"},
+        new String[]{"a^b^c", "a^{b^{c}}"},
+        new String[]{"(a^b)^c", "(a^{b})^{c}"},
+        new String[]{"-a^2", "-a^{2}"},
+        new String[]{"(-a)^2", "(-a)^{2}"},
+        new String[]{"2x^2", "2x^{2}"},
+        new String[]{"a(b+c)", "a\\cdot(b+c)"},
+        new String[]{"sin(x)", "\\sin x"},
+        new String[]{"(sin(x))^2", "\\sin^{2}x"},
+        new String[]{"(sin(x+2))^2", "\\sin^{2}(x+2)"},
+        new String[]{"sin(x)^n", "\\sin^{n}x"},
+        new String[]{"sin(x^2)", "\\sin(x^{2})"},
+        new String[]{"sin(x^2)^3", "\\sin^{3}(x^{2})"},
+        new String[]{"((sin((x))))^2", "\\sin^{2}x"},
+        new String[]{"sin(cos(x)^2)^3", "\\sin^{3}(\\cos^{2}x)"},
+        new String[]{"sin(2*x)", "\\sin 2x"},
+        new String[]{"sin(2*x)+y", "\\sin 2x+y"},
+        new String[]{"sin(2*x)*y", "\\sin(2x)\\cdot y"},
+        new String[]{"sin(x)/cos(x)^2", "\\frac{\\sin x}{\\cos^{2}x}"},
+        new String[]{"sin(x/y)", "\\sin\\left(\\frac{x}{y}\\right)"},
+        new String[]{"sin(x)*cos(y)", "\\sin(x)\\cdot\\cos(y)"},
+        new String[]{"-sin(x)^2", "-\\sin^{2}x"},
+        new String[]{"(-sin(x))^2", "(-\\sin x)^{2}"},
+        new String[]{"sin(x)^(-1)", "(\\sin x)^{-1}"},
+        new String[]{"sin(x)^(-n)", "(\\sin x)^{-n}"},
+        new String[]{"sin(x)^(n+1)", "(\\sin x)^{n+1}"},
+        new String[]{"sin(x)^2^3", "(\\sin x)^{2^{3}}"},
+        new String[]{"(sin(x)^2)^3", "(\\sin^{2}x)^{3}"},
+        new String[]{"asin(x)", "\\arcsin x"},
+        new String[]{"asin(x)^2", "(\\arcsin x)^{2}"},
+        new String[]{"ctg(x)^2", "\\cot^{2}x"},
+        new String[]{"tgh(x)^3", "\\tanh^{3}x"},
+        new String[]{"cosech(x)^2", "\\operatorname{csch}^{2}x"},
+        new String[]{"sin(x+2)", "\\sin(x+2)"},
+        new String[]{"sin(x)^2+cos(x)^2", "\\sin^{2}x+\\cos^{2}x"},
+        new String[]{"sin(x)*y", "\\sin(x)\\cdot y"},
+        new String[]{"sqrt(x^2+y^2)", "\\sqrt{x^{2}+y^{2}}"},
+        new String[]{"sqrt(x+1)", "\\sqrt{x+1}"},
+        new String[]{"√(x+1)", "\\sqrt{x+1}"},
+        new String[]{"root(3,x+y)", "\\sqrt[{3}]{x+y}"},
+        new String[]{"abs(x-2)", "\\left\\lvert x-2\\right\\rvert"},
+        new String[]{"log(2,x+y)", "\\log_{2}(x+y)"},
+        new String[]{"mod(-5,3)", "\\operatorname{rem}(-5,3)"},
+        new String[]{"C(n,k)", "\\binom{n}{k}"},
+        new String[]{"Bern(2,n)", "B_2(n)"},
+        new String[]{"Stirl1(n,k)", "\\left[\\genfrac{}{}{0pt}{}{n}{k}\\right]"},
+        new String[]{"EulerPol(m,x)", "E_m(x)"},
+        new String[]{"Gamma(0)", "\\Gamma(0)"},
+        new String[]{"logGamma(x)", "\\ln\\left\\lvert\\Gamma(x)\\right\\rvert"},
+        new String[]{"LambW1(z)", "W_{-1}(z)"},
+        new String[]{"GammaRegU(s,x)", "Q(s,x)"},
+        new String[]{"BetaInc(x,a,b)", "B_x(a,b)"},
+        new String[]{"BetaI(x,a,b)", "I_x(a,b)"},
+        new String[]{"sum(i,1,5,i^2)", "\\sum_{i=1}^{5}i^{2}"},
+        new String[]{"prod(i,5,1,f(i),-2)", "\\prod_{\\substack{i=5-2k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\ge1}}f(i)"},
+        new String[]{"int(sin(x),x,a,b)", "\\int_a^b\\sin(x)\\,\\mathrm{d}x"},
+        new String[]{"der-(f(x),x,p)", "\\left.D_x^-[f(x)]\\right\\rvert_{x=p}"},
+        new String[]{"der(f(x),x,p,eps,m)", "\\left.\\frac{\\mathrm d}{\\mathrm d x}[f(x)]\\right\\rvert_{x=p}"},
+        new String[]{"diff(f(x),x,h)", "\\Delta_{x,h}[f(x)]"},
+        new String[]{"solve(f(x),x,a,b)", "\\operatorname{root}_{x\\in[a,b]}(f(x)=0)"},
+        new String[]{"if(x,1,-1)", "\\begin{cases}1&\\text{if }x\\ne0\\\\-1&\\text{otherwise}\\end{cases}"},
+        new String[]{"iff(x<0,-1,x>0,1)", "\\begin{cases}-1&\\text{if }x<0\\\\1&\\text{else if }x>0\\\\\\text{undefined}&\\text{otherwise}\\end{cases}"},
+        new String[]{"ConFrac(a,b,c)", "a+\\frac{1}{b+\\frac{1}{c}}"},
+        new String[]{"ConPol(a,b,c)", "K_{3}(a,b,c)"},
+        new String[]{"mean(a,b,c)", "\\frac{a+b+c}{3}"},
+        new String[]{"var(a,b,c)", "s^2(a,b,c)"},
+        new String[]{"pNor(x,mu,sigma)", "f_{\\mathcal N(\\mathit{mu},\\mathit{sigma}^{2})}(x)"},
+        new String[]{"qStud(p,v)", "Q_{t_v}(p)"},
+        new String[]{"rList(1,1,2)", "\\operatorname{draw}(\\mathcal U_{\\mathrm{list}}(1,1,2))"},
+        new String[]{"[Int3]", "\\operatorname{draw}(\\mathcal U_{\\mathbb Z}[-10^{3},10^{3}])"},
+        new String[]{"xor(a,b,c)", "\\operatorname{exactlyOne}(a,b,c)"},
+        new String[]{"a @>> b", "\\operatorname{ashr}(a,b)"},
+        new String[]{"CHi(x,a,b)", "\\mathbf{1}_{[a,b]}(x)"},
+        new String[]{"[Mb]", "\\mathrm{Mibit}"},
+        new String[]{"[MB]", "\\mathrm{MiB}"},
+        new String[]{"2*[km/h]", "2\\,\\mathrm{km}/\\mathrm{h}"},
+        new String[]{"my_Function(x; y)", "\\operatorname{my\\_Function}(x,y)"}
+    };
+    [TestMethod]
+    public void testApi0390() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: mathematical reference expressions";
+        TestCommonTools.consolePrintTestApiStart(390, testDescr);
+        foreach (String[] c in LATEX_REFERENCE) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0391() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: observable binding of powers, signs and postfixes";
+        TestCommonTools.consolePrintTestApiStart(391, testDescr);
+        String[][] cases = {
+            new String[]{"a^b!", "(a^{b})!"}, new String[]{"a*-b", "a\\cdot(-b)"},
+            new String[]{"a#b*c", "\\operatorname{rem}(a,b)\\cdot c"},
+            new String[]{"a^^b^c", "(\\mathord{{}^{b}\\!a})^{c}"},
+            new String[]{"f(a,g(b,c);sin(a+b))", "f(a,g(b,c),\\sin(a+b))"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0392() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: argument separators and token levels";
+        TestCommonTools.consolePrintTestApiStart(392, testDescr);
+        Assert.AreEqual("f(a,g(b,c),a+b)", latexExport("f(a;g(b,c),a+b)"));
+        Assert.AreEqual(latexExport("f(a,g(b,c),a+b)"), latexExport("f(a;g(b;c);a+b)"));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0393() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: structure reconstruction preserves copied tokens";
+        TestCommonTools.consolePrintTestApiStart(393, testDescr);
+        Expression expression = new Expression("sin(x)^2+x/y");
+        List<Token> tokens = expression.getCopyOfInitialTokens();
+        StringBuilder before = new StringBuilder();
+        foreach (Token t in tokens) before.Append(t.tokenStr).Append(':').Append(t.tokenTypeId).Append(':')
+                .Append(t.tokenId).Append(':').Append(t.tokenLevel).Append(':').Append(t.tokenValue).Append(';');
+        Assert.AreEqual("\\sin^{2}x+\\frac{x}{y}", expression.getExpressionAsLaTeX());
+        StringBuilder after = new StringBuilder();
+        foreach (Token t in tokens) after.Append(t.tokenStr).Append(':').Append(t.tokenTypeId).Append(':')
+                .Append(t.tokenId).Append(':').Append(t.tokenLevel).Append(':').Append(t.tokenValue).Append(';');
+        Assert.AreEqual(before.ToString(), after.ToString());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0394() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: malformed expression structure diagnostics";
+        TestCommonTools.consolePrintTestApiStart(394, testDescr);
+        foreach (String s in new String[]{"a/(b", "sin(,a)", "a**b", "f(a,,b)", "a,b", "()"})
+            Assert.ThrowsException<InvalidOperationException>( () => latexExport(s), s);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0395() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: mathematical typography and numeric notation";
+        TestCommonTools.consolePrintTestApiStart(395, testDescr);
+        String[][] cases = {
+            new String[]{"", ""}, new String[]{"   ", ""}, new String[]{"002.10", "002.10"}, new String[]{".25", "0.25"},
+            new String[]{"2.30e-4", "2.30\\times 10^{-4}"}, new String[]{"14_3", "\\frac{14}{3}"},
+            new String[]{"2_1_3", "2\\,\\frac{1}{3}"}, new String[]{"b1.", "(\\varepsilon)_{1}"},
+            new String[]{"h.af1", "(\\mathrm{af1})_{16}"}, new String[]{"B36.z", "(\\mathrm{z})_{36}"},
+            new String[]{"sin(x)!", "(\\sin x)!"}, new String[]{"sin(x)%", "(\\sin x)\\%"},
+            new String[]{"sin(x)^2*y", "\\sin^{2}(x)\\cdot y"}, new String[]{"-sin(x)*y", "-\\sin(x)\\cdot y"},
+            new String[]{"sin(-x)", "\\sin(-x)"}, new String[]{"sin(x)^0", "(\\sin x)^{0}"},
+            new String[]{"sin(x)^2.5", "(\\sin x)^{2.5}"}, new String[]{"ln(x)^2", "(\\ln x)^{2}"},
+            new String[]{"not(a|b)", "\\neg (a\\lor b)"}, new String[]{"a<(b<c)", "a<(b<c)"},
+            new String[]{"(a<b)<c", "(a<b)<c"}, new String[]{"a-(b-c)", "a-(b-c)"},
+            new String[]{"2*3", "2\\cdot 3"}, new String[]{"ab*cd", "\\mathit{ab}\\cdot \\mathit{cd}"},
+            new String[]{"30*[deg]", "30^{\\circ}"}, new String[]{"2*[km]", "2\\,\\mathrm{km}"},
+            new String[]{"[km/h]^2", "(\\mathrm{km}/\\mathrm{h})^{2}"}, new String[]{"[k]^2", "(10^{3})^{2}"},
+            new String[]{"sin([km/h])", "\\sin(\\mathrm{km}/\\mathrm{h})"}, new String[]{"sin([k])", "\\sin(10^{3})"},
+            new String[]{"logGamma(x+y)", "\\ln\\left\\lvert\\Gamma(x+y)\\right\\rvert"},
+            new String[]{"GammaL(s,x)", "\\gamma(s,x)"}, new String[]{"GammaU(s,x)", "\\Gamma(s,x)"},
+            new String[]{"GammaP(s,x)", "P(s,x)"}, new String[]{"diGamma(x)", "\\psi(x)"},
+            new String[]{"rNor(mu,sigma+1)", "\\operatorname{draw}(\\mathcal N(\\mathit{mu},(\\mathit{sigma}+1)^{2}))"},
+            new String[]{"ConFrac(a)", "a"}, new String[]{"ConFrac(a,b,c,d)", "a+\\frac{1}{b+\\frac{1}{c+\\frac{1}{d}}}"},
+            new String[]{"mean(a,b+c,d)", "\\frac{a+b+c+d}{3}"},
+            new String[]{"sum(i,1,n,x+y)", "\\sum_{i=1}^{n}(x+y)"},
+            new String[]{"sum(i,1,n,f(i))*x", "(\\sum_{i=1}^{n}f(i))\\cdot x"},
+            new String[]{"dern(f(x),n,x)", "\\frac{\\mathrm d^{n}}{\\mathrm d x^{n}}[f(x)]"},
+            new String[]{"der+(f(x),x,p)", "\\left.D_x^+[f(x)]\\right\\rvert_{x=p}"},
+            new String[]{"der(f(x),x,eps,m)", "\\frac{\\mathrm d}{\\mathrm d x}[f(x)]"},
+            new String[]{"difb(f(x),x)", "\\nabla_{x,1}[f(x)]"},
+            new String[]{"x_1+y2", "\\mathit{x\\_1}+\\mathit{y2}"},
+            new String[]{"α+ς+Γ", "\\alpha+\\varsigma+\\Gamma"},
+            new String[]{"[my_unit]", "[\\mathrm{my\\_unit}]"},
+            new String[]{"f(a,b,c,d,x,y,z)", "f(a,b,c,d,x,y,z)"}
+        };
+        foreach (String[] c in cases) {
+            try { Assert.AreEqual(c[1], latexExport(c[0]), c[0]); } catch (InvalidOperationException ex) {
+                StringBuilder detail = new StringBuilder(c[0]);
+                foreach (Token t in latexExpression(c[0]).getCopyOfInitialTokens()) detail.Append(" [").Append(t.tokenStr).Append(":").Append(t.tokenTypeId).Append("]");
+                throw new InvalidOperationException(detail.ToString(), ex);
+            }
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0396() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: invalid builtin arities and calculus variables";
+        TestCommonTools.consolePrintTestApiStart(396, testDescr);
+        HashSet<long> seen = new HashSet<long>();
+        foreach (KeyWord kw in latexKeywords()) {
+            if (!seen.Add(latexTokenKey(kw.wordTypeId, kw.wordId))) continue;
+            if (kw.wordTypeId == Function1Arg.TYPE_ID || kw.wordTypeId == Function2Arg.TYPE_ID
+                    || kw.wordTypeId == Function3Arg.TYPE_ID || kw.wordTypeId == FunctionVariadic.TYPE_ID
+                    || kw.wordTypeId == CalculusOperator.TYPE_ID) {
+                if (kw.wordTypeId == Function1Arg.TYPE_ID && kw.wordId == Function1Arg.PARAM_ID) continue;
+                String source = kw.wordString + "()";
+                Assert.ThrowsException<InvalidOperationException>( () => latexExport(source), "Invalid arity " + source);
+            }
+        }
+        foreach (String s in new String[]{"sin(a,b)", "log(a)", "if(a,b)", "iff(a,b,c)", "der(a)", "dern(a,b,c,d)", "int(a,b,c)", "sum(i,a,b)", "sum(2,a,b,f(i))", "diff(f(x),x+1)"})
+            Assert.ThrowsException<InvalidOperationException>( () => latexExport(s), s);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0397() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: compiled expressions, dependencies and calculation history";
+        TestCommonTools.consolePrintTestApiStart(397, testDescr);
+        Argument x = new Argument("x=2");
+        Argument y = new Argument("y=3*x", x);
+        Function f = new Function("f(t)=t^2");
+        Expression e = new Expression("f(y)+sin(x)", x, y, f);
+        CalcStepsRegister steps = new CalcStepsRegister();
+        double before = e.calculate(steps);
+        String history = steps.ToString();
+        String diagnostic = e.getErrorMessage();
+        double time = e.getComputingTime();
+        bool syntax = e.getSyntaxStatus();
+        String text = e.getExpressionAsLaTeX();
+        for (int i = 0; i < 10; i++) Assert.AreEqual(text, e.getExpressionAsLaTeX());
+        Assert.AreEqual(diagnostic, e.getErrorMessage());
+        Assert.AreEqual(time, e.getComputingTime());
+        Assert.AreEqual(syntax, e.getSyntaxStatus());
+        Assert.AreEqual(history, steps.ToString());
+        Assert.AreEqual(before, e.calculate());
+        x.setArgumentValue(3);
+        Assert.AreEqual(text, e.getExpressionAsLaTeX());
+        Assert.AreEqual(81 + Math.Sin(3), e.calculate(), 1e-12);
+        e.setExpressionString("sqrt(x)");
+        Assert.AreEqual("\\sqrt{x}", e.getExpressionAsLaTeX());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    private sealed class LaTeXFunctionExtension : FunctionExtension {
+        internal int calculations, assignments, metadata;
+        public int getParametersNumber() { return 1; }
+        public void setParameterValue(int index, double value) { assignments++; }
+        public String getParameterName(int index) { metadata++; return "x"; }
+        public double calculate() { calculations++; return 42; }
+        public FunctionExtension clone() { return new LaTeXFunctionExtension(); }
+    }
+    [TestMethod]
+    public void testApi0398() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: token metadata callbacks without evaluation";
+        TestCommonTools.consolePrintTestApiStart(398, testDescr);
+        LaTeXFunctionExtension extension = new LaTeXFunctionExtension();
+        Function f = new Function("custom", extension);
+        Expression e = new Expression("custom(x)", f);
+        int metadataBefore = extension.metadata;
+        Assert.AreEqual("\\operatorname{custom}(x)", e.getExpressionAsLaTeX());
+        Assert.IsTrue(extension.metadata > metadataBefore);
+        Assert.AreEqual(0, extension.calculations);
+        Assert.AreEqual(0, extension.assignments);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0399() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: random stream and cancellation state";
+        TestCommonTools.consolePrintTestApiStart(399, testDescr);
+        Random expected = new Random(12345);
+        mXparser.setRandomGenerator(new Random(12345));
+        try {
+            Expression e = new Expression("[Uni]+rNor(0,1)");
+            String once = e.getExpressionAsLaTeX();
+            Assert.AreEqual(once, e.getExpressionAsLaTeX());
+            Assert.AreEqual(expected.NextDouble(), new Expression("[Uni]").calculate());
+            mXparser.cancelCurrentCalculation();
+            Assert.AreEqual("\\sin x", latexExport("sin(x)"));
+            Assert.IsTrue(mXparser.isCurrentCalculationCancelled());
+        } finally { mXparser.resetCancelCurrentCalculationFlag(); mXparser.setRandomGenerator(new Random()); }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0400() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: deterministic independent parallel exports";
+        TestCommonTools.consolePrintTestApiStart(400, testDescr);
+        List<System.Threading.Tasks.Task<String>> calls = new List<System.Threading.Tasks.Task<String>>();
+        for (int i = 0; i < 32; i++) calls.Add(System.Threading.Tasks.Task.Run(() => latexExport("sin(x)^n+sqrt(y/z)")));
+        foreach (System.Threading.Tasks.Task<String> value in calls) Assert.AreEqual("\\sin^{n}x+\\sqrt{\\frac{y}{z}}", value.Result);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0401() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: resource budgets and untrusted identifier safety";
+        TestCommonTools.consolePrintTestApiStart(401, testDescr);
+        StringBuilder deep = new StringBuilder();
+        for (int i = 0; i < 300; i++) deep.Append('(');
+        deep.Append('x'); for (int i = 0; i < 300; i++) deep.Append(')');
+        Assert.ThrowsException<InvalidOperationException>( () => latexExport(deep.ToString()));
+        StringBuilder flat = new StringBuilder("x");
+        for (int i = 0; i < 5999; i++) flat.Append("+x");
+        Assert.AreEqual(flat.ToString(), latexExport(flat.ToString()));
+        // A valid flat scope close to the token limit must also remain usable.
+        StringBuilder nearLimit = new StringBuilder("x");
+        for (int i = 1; i < 50000; i++) nearLimit.Append("+x");
+        Assert.AreEqual(nearLimit.ToString(), latexExport(nearLimit.ToString()));
+        nearLimit.Append("+x");
+        Assert.ThrowsException<InvalidOperationException>( () => latexExport(nearLimit.ToString()));
+        StringBuilder continued = new StringBuilder("ConFrac(x");
+        for (int i = 0; i < 300; i++) continued.Append(",x");
+        continued.Append(')');
+        Assert.ThrowsException<InvalidOperationException>( () => latexExport(continued.ToString()));
+        foreach (String malicious in new String[]{"\\input{secret}", "a_b}", "a$", "a#"})
+            Assert.ThrowsException<InvalidOperationException>( () => latexExport(malicious));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    /* Numeric interpretation of an already parsed tree. No LaTeX recognition,
+     * parser state or source binding rules remain in the test suite. */
+    private static double latexArithmeticValue(LaTeXParser.Node node, Dictionary<String, double> values) {
+        IList<LaTeXParser.Node> children = node.getChildren();
+        if (node.getKind() == LaTeXParser.Kind.NUMBER) return double.Parse(node.getText(), CultureInfo.InvariantCulture);
+        if (node.getKind() == LaTeXParser.Kind.SYMBOL) {
+            Assert.IsTrue(values.ContainsKey(node.getText()), node.getText());
+            return values[node.getText()];
+        }
+        double left = latexArithmeticValue(children[0], values);
+        switch (node.getKind()) {
+            case LaTeXParser.Kind.POSITIVE: return left;
+            case LaTeXParser.Kind.NEGATIVE: return -left;
+            case LaTeXParser.Kind.PERCENT: return left / 100;
+            case LaTeXParser.Kind.FLOOR: return Math.Floor(left);
+            case LaTeXParser.Kind.FACTORIAL:
+                double value = 1; for (int i = 2; i <= left; i++) value *= i; return value;
+            default: break;
+        }
+        double right = latexArithmeticValue(children[1], values);
+        switch (node.getKind()) {
+            case LaTeXParser.Kind.ADD: return left + right;
+            case LaTeXParser.Kind.SUBTRACT: return left - right;
+            case LaTeXParser.Kind.MULTIPLY: return left * right;
+            case LaTeXParser.Kind.DIVIDE: return left / right;
+            case LaTeXParser.Kind.POWER: return Math.Pow(left, right);
+            case LaTeXParser.Kind.REMAINDER: return left % right;
+            default: throw new AssertFailedException("Unexpected arithmetic tree operation " + node.getKind());
+        }
+    }
+    [TestMethod]
+    public void testApi0402() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: arithmetic binding compared with independent values and evaluator";
+        TestCommonTools.consolePrintTestApiStart(402, testDescr);
+        Dictionary<String, double> values = new Dictionary<String, double>();
+        values["a"] = 2.0; values["b"] = 3.0; values["c"] = 2.0;
+        String[] operators = {Operator.PLUS_STR, Operator.MINUS_STR, Operator.MULTIPLY_STR,
+            Operator.DIVIDE_STR, Operator.DIVIDE_QUOTIENT_STR, Operator.MOD_STR, Operator.POWER_STR};
+        foreach (String first in operators) foreach (String second in operators) {
+            foreach (String source in new String[]{"a" + first + "b" + second + "c",
+                    "(a" + first + "b)" + second + "c", "a" + first + "(b" + second + "c)"}) {
+                Expression e = new Expression(source, new Argument("a=2"), new Argument("b=3"), new Argument("c=2"));
+                Assert.IsTrue(e.checkSyntax(), source);
+                double symbolic = latexArithmeticValue(LaTeXParser.parse(e.getExpressionAsLaTeX()), values);
+                Assert.AreEqual(symbolic, e.calculate(), 1e-10, source);
+                Assert.IsFalse((e.getExpressionAsLaTeX().Length == 0), source);
+            }
+        }
+        foreach (String source in new String[]{"-a^2", "(-a)^2", "a*-b", "a^-b^c", "a^b!", "-2^2", "2^-3!", "a%*b"}) {
+            Expression e = new Expression(source, new Argument("a=2"), new Argument("b=3"), new Argument("c=2"));
+            Assert.IsTrue(e.checkSyntax(), source);
+            Assert.AreEqual(latexArithmeticValue(LaTeXParser.parse(e.getExpressionAsLaTeX()), values), e.calculate(), 1e-10, source);
+        }
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0403() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: renamed builtins and user function overrides";
+        TestCommonTools.consolePrintTestApiStart(403, testDescr);
+        mXparser.modifyBuiltinToken(Function1Arg.SIN_STR, "sine");
+        Assert.AreEqual("\\sin^{2}x", latexExport("sine(x)^2"));
+        mXparser.unmodifyBuiltinTokens();
+        mXparser.setToOverrideBuiltinTokens();
+        Function f = new Function("sin(x)=x+1");
+        Assert.AreEqual("\\operatorname{sin}(x)", new Expression("sin(x)", f).getExpressionAsLaTeX());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0404() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: minimum variadic arities and mathematical notation";
+        TestCommonTools.consolePrintTestApiStart(404, testDescr);
+        String[][] cases = {
+            new String[]{"iff(x,y)", "\\begin{cases}y&\\text{if }x\\ne0\\\\\\text{undefined}&\\text{otherwise}\\end{cases}"},
+            new String[]{"min(x)", "\\min(x)"}, new String[]{"max(x)", "\\max(x)"}, new String[]{"ConFrac(x)", "x"},
+            new String[]{"ConPol(x)", "K_{1}(x)"}, new String[]{"gcd(x)", "\\gcd(x)"}, new String[]{"lcm(x)", "\\operatorname{lcm}(x)"},
+            new String[]{"add(x)", "x"}, new String[]{"multi(x)", "x"}, new String[]{"mean(x)", "\\frac{x}{1}"},
+            new String[]{"var(x)", "s^2(x)"}, new String[]{"std(x)", "s(x)"},
+            new String[]{"rList(x)", "\\operatorname{draw}(\\mathcal U_{\\mathrm{list}}(x))"},
+            new String[]{"coalesce(x)", "\\operatorname{first}_{\\ne\\mathrm{NaN}}(x)"},
+            new String[]{"or(x)", "x\\ne0"}, new String[]{"and(x)", "x\\ne0"}, new String[]{"xor(x)", "\\operatorname{exactlyOne}(x)"},
+            new String[]{"argmin(x)", "\\operatorname*{arg\\,min}_{\\mathrm{first},\\,1}(x)"},
+            new String[]{"argmax(x)", "\\operatorname*{arg\\,max}_{\\mathrm{first},\\,1}(x)"},
+            new String[]{"med(x)", "\\operatorname{median}(x)"}, new String[]{"mode(x)", "\\operatorname{mode}(x)"},
+            new String[]{"base(x)", "\\operatorname{value}_x(\\varepsilon)"}, new String[]{"ndist(x)", "\\operatorname{nDistinct}(x)"}
+        };
+        Assert.AreEqual(23, cases.Length);
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0405() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: all builtin rules in powers and function arguments";
+        TestCommonTools.consolePrintTestApiStart(405, testDescr);
+        String[] contexts = {"X", "(X)^2", "(X)*c", "c-(X)", "(X)!", "c/(X)", "sin(X)",
+                "-(X)", "sin(X)^2", "2*(X)", "rNor(0,X)", "(X)+c", "c^(X)"};
+        HashSet<long> seen = new HashSet<long>();
+        int rows = 0;
+        foreach (KeyWord kw in latexKeywords()) {
+            seen.Add(latexTokenKey(kw.wordTypeId, kw.wordId));
+            String source = kw.wordTypeId == ParserSymbol.TYPE_ID && kw.wordId == ParserSymbol.BLANK_ID ? " a " : latexAliasInput(kw);
+            foreach (String context in contexts) {
+                String input = context.Replace("X", source);
+                String actual = latexExport(input);
+                Assert.IsFalse(actual.Contains("@+"), input);
+                Assert.IsFalse(actual.Contains("@-"), input);
+                // Ordinary numbered test output, consumed separately by real-renderer QA.
+                // No lifecycle hook, private access, process property or test artifact writer.
+                mXparser.consolePrintln("LATEX-CONTEXT\t" + input + "\t=> " + actual);
+                rows++;
+            }
+        }
+        Assert.AreEqual(412, seen.Count);
+        Assert.AreEqual(527 * contexts.Length, rows);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0406() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: review regressions: command boundaries, scopes and compound numbers";
+        TestCommonTools.consolePrintTestApiStart(406, testDescr);
+        String[][] cases = {
+            new String[]{"2*x%", "2\\cdot x\\%"},
+            new String[]{"a*b%", "a\\cdot b\\%"},
+            new String[]{"100*r%", "100\\cdot r\\%"},
+            new String[]{"sum(i,1,n,i,2)", "\\sum_{\\substack{i=1+2k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\le n}}i"},
+            new String[]{"prod(i,10,a,i,-1)", "\\prod_{\\substack{i=10-k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\ge a}}i"},
+            new String[]{"sum(i,0.5,n,i)", "\\sum_{\\substack{i=0.5+k\\\\k\\in\\mathbb Z_{\\ge0},\\,i\\le n}}i"},
+            new String[]{"ConFrac(a+b)*c", "(a+b)\\cdot c"},
+            new String[]{"c-ConFrac(a+b)", "c-(a+b)"},
+            new String[]{"rNor(0,1e3)", "\\operatorname{draw}(\\mathcal N(0,(1\\times 10^{3})^{2}))"},
+            new String[]{"rNor(0,2_1_3)", "\\operatorname{draw}(\\mathcal N(0,(2\\,\\frac{1}{3})^{2}))"},
+            new String[]{"pNor(x,0,14_3)", "f_{\\mathcal N(0,(\\frac{14}{3})^{2})}(x)"},
+            new String[]{"(a/b)^2", "(\\frac{a}{b})^{2}"},
+            new String[]{"(a/b)!", "(\\frac{a}{b})!"},
+            new String[]{"2e3!", "(2\\times 10^{3})!"},
+            new String[]{"2*[k]", "2\\cdot 10^{3}"},
+            new String[]{"3*[%]", "3\\cdot 10^{-2}"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0407() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: review regressions: glyph identity, signs and iterated operator scope";
+        TestCommonTools.consolePrintTestApiStart(407, testDescr);
+        String[][] cases = {
+            new String[]{"c*[c]", "{c}_{\\mathrm{user}}\\cdot c"},
+            new String[]{"γ*[gam]", "{\\gamma}_{\\mathrm{user}}\\cdot\\gamma"},
+            new String[]{"φ+[phi]", "{\\varphi}_{\\mathrm{user}}+\\varphi"},
+            new String[]{"Ω*[Om]", "{\\Omega}_{\\mathrm{user}}\\cdot\\Omega"},
+            new String[]{"-(-a)", "-(-a)"},
+            new String[]{"a+(+b)", "a+(+b)"},
+            new String[]{"add(a,-b)", "a+(-b)"},
+            new String[]{"mean(a,-b)", "\\frac{a+(-b)}{2}"},
+            new String[]{"a*(-b)", "a\\cdot(-b)"},
+            new String[]{"sum(i,1,n,i)+1", "(\\sum_{i=1}^{n}i)+1"},
+            new String[]{"1+sum(i,1,n,i)", "1+(\\sum_{i=1}^{n}i)"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0408() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: review regressions: predicates and professional self-delimiting notation";
+        TestCommonTools.consolePrintTestApiStart(408, testDescr);
+        String[][] cases = {
+            new String[]{"if(and(a,b),1,0)", "\\begin{cases}1&\\text{if }a\\ne0\\land b\\ne0\\\\0&\\text{otherwise}\\end{cases}"},
+            new String[]{"if(or(a,b),1,0)", "\\begin{cases}1&\\text{if }a\\ne0\\lor b\\ne0\\\\0&\\text{otherwise}\\end{cases}"},
+            new String[]{"if(xor(a,b),1,0)", "\\begin{cases}1&\\text{if }\\operatorname{exactlyOne}(a,b)\\\\0&\\text{otherwise}\\end{cases}"},
+            new String[]{"if([true],1,0)", "\\begin{cases}1&\\text{if }\\mathrm{true}\\\\0&\\text{otherwise}\\end{cases}"},
+            new String[]{"a*(b#c)", "a\\cdot\\operatorname{rem}(b,c)"},
+            new String[]{"@~a+b", "\\operatorname{bitNot}(a)+b"},
+            new String[]{"abs(x)^2", "\\left\\lvert x\\right\\rvert^{2}"},
+            new String[]{"-sin(x)*y", "-\\sin(x)\\cdot y"},
+            new String[]{"mean(a,b+c,d)", "\\frac{a+b+c+d}{3}"},
+            new String[]{"base(x)", "\\operatorname{value}_x(\\varepsilon)"},
+            new String[]{"logGamma(x)^2", "(\\ln\\left\\lvert\\Gamma(x)\\right\\rvert)^{2}"},
+            new String[]{"logBeta(a,b)^2", "(\\ln B(a,b))^{2}"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0409() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: diagnostics refer to existing offending tokens";
+        TestCommonTools.consolePrintTestApiStart(409, testDescr);
+        InvalidOperationException missing = Assert.ThrowsException<InvalidOperationException>( () => latexExport("a*"));
+        Assert.IsTrue(missing.Message.Contains("token 1"), missing.Message);
+        InvalidOperationException middle = Assert.ThrowsException<InvalidOperationException>( () => latexExport("a+*b"));
+        Assert.IsTrue(middle.Message.Contains("token 1") || middle.Message.Contains("token 2"), middle.Message);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0410() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: protected root degree with nested radicals and bracketed symbols";
+        TestCommonTools.consolePrintTestApiStart(410, testDescr);
+        String[][] cases = {
+            new String[]{"root(root(3,n),x)", "\\sqrt[{\\sqrt[{3}]{n}}]{x}"},
+            new String[]{"root([my_unit],x)", "\\sqrt[{[\\mathrm{my\\_unit}]}]{x}"},
+            new String[]{"root([Int3],x)", "\\sqrt[{\\operatorname{draw}(\\mathcal U_{\\mathbb Z}[-10^{3},10^{3}])}]{x}"},
+            new String[]{"root(3,root(n,x))", "\\sqrt[{3}]{\\sqrt[{n}]{x}}"},
+            new String[]{"root(root(root(2,n),m),x)", "\\sqrt[{\\sqrt[{\\sqrt[{2}]{n}}]{m}}]{x}"},
+            new String[]{"root(n+1,x+y)", "\\sqrt[{n+1}]{x+y}"},
+            new String[]{"root(n/x,y)", "\\sqrt[{\\frac{n}{x}}]{y}"},
+            new String[]{"root(∛n,x)", "\\sqrt[{\\sqrt[3]{n}}]{x}"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], new Expression(c[0], new Constant("[my_unit]", 1)).getExpressionAsLaTeX(), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0411() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "LaTeX export: complete scope of iterated minima and maxima";
+        TestCommonTools.consolePrintTestApiStart(411, testDescr);
+        String[][] cases = {
+            new String[]{"mini(i,1,n,i)*2", "(\\min_{i=1}^{n}i)\\cdot 2"},
+            new String[]{"2*mini(i,1,n,i)", "2\\cdot(\\min_{i=1}^{n}i)"},
+            new String[]{"mini(i,1,n,i)+1", "(\\min_{i=1}^{n}i)+1"},
+            new String[]{"1+mini(i,1,n,i)", "1+(\\min_{i=1}^{n}i)"},
+            new String[]{"mini(i,1,n,i)-1", "(\\min_{i=1}^{n}i)-1"},
+            new String[]{"1-mini(i,1,n,i)", "1-(\\min_{i=1}^{n}i)"},
+            new String[]{"(mini(i,1,n,i))^2", "(\\min_{i=1}^{n}i)^{2}"},
+            new String[]{"(mini(i,1,n,i))!", "(\\min_{i=1}^{n}i)!"},
+            new String[]{"add(mini(i,1,n,i),1)", "(\\min_{i=1}^{n}i)+1"},
+            new String[]{"mean(mini(i,1,n,i),1)", "\\frac{(\\min_{i=1}^{n}i)+1}{2}"},
+            new String[]{"ConFrac(mini(i,1,n,i))+1", "(\\min_{i=1}^{n}i)+1"},
+            new String[]{"sin(mini(i,1,n,i))", "\\sin(\\min_{i=1}^{n}i)"},
+            new String[]{"maxi(i,1,n,i)*2", "(\\max_{i=1}^{n}i)\\cdot 2"},
+            new String[]{"2*maxi(i,1,n,i)", "2\\cdot(\\max_{i=1}^{n}i)"},
+            new String[]{"maxi(i,1,n,i)+1", "(\\max_{i=1}^{n}i)+1"},
+            new String[]{"1+maxi(i,1,n,i)", "1+(\\max_{i=1}^{n}i)"},
+            new String[]{"maxi(i,1,n,i)-1", "(\\max_{i=1}^{n}i)-1"},
+            new String[]{"1-maxi(i,1,n,i)", "1-(\\max_{i=1}^{n}i)"},
+            new String[]{"(maxi(i,1,n,i))^2", "(\\max_{i=1}^{n}i)^{2}"},
+            new String[]{"(maxi(i,1,n,i))!", "(\\max_{i=1}^{n}i)!"},
+            new String[]{"add(maxi(i,1,n,i),1)", "(\\max_{i=1}^{n}i)+1"},
+            new String[]{"mean(maxi(i,1,n,i),1)", "\\frac{(\\max_{i=1}^{n}i)+1}{2}"},
+            new String[]{"ConFrac(maxi(i,1,n,i))+1", "(\\max_{i=1}^{n}i)+1"},
+            new String[]{"sin(maxi(i,1,n,i))", "\\sin(\\max_{i=1}^{n}i)"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexExport(c[0]), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    private static String latexTreeShape(LaTeXParser.Node node) {
+        if ((node.getChildren().Count == 0)) return node.getKind().ToString() + ":" + node.getText();
+        StringBuilder shape = new StringBuilder(node.getKind().ToString()).Append('(');
+        for (int i = 0; i < node.getChildren().Count; i++) {
+            if (i > 0) shape.Append(',');
+            shape.Append(latexTreeShape(node.getChildren()[i]));
+        }
+        return shape.Append(')').ToString();
+    }
+
+    [TestMethod]
+    public void testApi0412() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: arithmetic structure and grouping";
+        TestCommonTools.consolePrintTestApiStart(412, testDescr);
+        String[][] cases = {
+            new String[]{"\\frac{x+1}{y-2}", "DIVIDE(ADD(SYMBOL:x,NUMBER:1),SUBTRACT(SYMBOL:y,NUMBER:2))"},
+            new String[]{"\\frac{a}{b}\\cdot c", "MULTIPLY(DIVIDE(SYMBOL:a,SYMBOL:b),SYMBOL:c)"},
+            new String[]{"a/\\frac{b}{c}", "DIVIDE(SYMBOL:a,DIVIDE(SYMBOL:b,SYMBOL:c))"},
+            new String[]{"2(x+1)", "MULTIPLY(NUMBER:2,ADD(SYMBOL:x,NUMBER:1))"},
+            new String[]{"(a+b)c", "MULTIPLY(ADD(SYMBOL:a,SYMBOL:b),SYMBOL:c)"},
+            new String[]{"\\left\\lfloor\\frac{-a}{b}\\right\\rfloor", "FLOOR(DIVIDE(NEGATIVE(SYMBOL:a),SYMBOL:b))"},
+            new String[]{"\\lfloor x+1\\rfloor", "FLOOR(ADD(SYMBOL:x,NUMBER:1))"},
+            new String[]{"\\operatorname{rem}(a,b)", "REMAINDER(SYMBOL:a,SYMBOL:b)"},
+            new String[]{"\\operatorname{rem}\\left(a,b\\right)", "REMAINDER(SYMBOL:a,SYMBOL:b)"},
+            new String[]{"a\\,\\cdot\\!b", "MULTIPLY(SYMBOL:a,SYMBOL:b)"},
+            new String[]{"\\left(a+b\\right)/c", "DIVIDE(ADD(SYMBOL:a,SYMBOL:b),SYMBOL:c)"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexTreeShape(LaTeXParser.parse(c[0])), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0413() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: TeX scripts, signs and juxtaposition";
+        TestCommonTools.consolePrintTestApiStart(413, testDescr);
+        String[][] cases = {
+            new String[]{"x^12", "MULTIPLY(POWER(SYMBOL:x,NUMBER:1),NUMBER:2)"},
+            new String[]{"x^{12}", "POWER(SYMBOL:x,NUMBER:12)"},
+            new String[]{"x^{y^{z}}", "POWER(SYMBOL:x,POWER(SYMBOL:y,SYMBOL:z))"},
+            new String[]{"(x^y)^z", "POWER(POWER(SYMBOL:x,SYMBOL:y),SYMBOL:z)"},
+            new String[]{"-x^2", "NEGATIVE(POWER(SYMBOL:x,NUMBER:2))"},
+            new String[]{"(-x)^2", "POWER(NEGATIVE(SYMBOL:x),NUMBER:2)"},
+            new String[]{"x!^2", "POWER(FACTORIAL(SYMBOL:x),NUMBER:2)"},
+            new String[]{"x^2!", "FACTORIAL(POWER(SYMBOL:x,NUMBER:2))"},
+            new String[]{"x^{2!}", "POWER(SYMBOL:x,FACTORIAL(NUMBER:2))"},
+            new String[]{"xy", "MULTIPLY(SYMBOL:x,SYMBOL:y)"},
+            new String[]{"\\mathit{xy}", "SYMBOL:xy"},
+            new String[]{"1e3", "MULTIPLY(MULTIPLY(NUMBER:1,SYMBOL:e),NUMBER:3)"},
+            new String[]{"1\\times10^{-3}", "MULTIPLY(NUMBER:1,POWER(NUMBER:10,NEGATIVE(NUMBER:3)))"},
+            new String[]{"+x\\%", "POSITIVE(PERCENT(SYMBOL:x))"}
+        };
+        foreach (String[] c in cases) Assert.AreEqual(c[1], latexTreeShape(LaTeXParser.parse(c[0])), c[0]);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0414() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: names, exact source ranges and immutable nodes";
+        TestCommonTools.consolePrintTestApiStart(414, testDescr);
+        String source = "  ( \\mathit{x\\_1} + .250 )  ";
+        LaTeXParser.Node root = LaTeXParser.parse(source);
+        Assert.AreEqual(LaTeXParser.Kind.ADD, root.getKind());
+        Assert.AreEqual(2, root.getStartOffset());
+        Assert.AreEqual(source.Length - 2, root.getEndOffset());
+        Assert.AreEqual(source.Substring(2, (source.Length - 2) - (2)), root.getSourceText());
+        LaTeXParser.Node name = root.getChildren()[0];
+        Assert.AreEqual("x_1", name.getText());
+        Assert.AreEqual(source.IndexOf("\\mathit"), name.getStartOffset());
+        Assert.AreEqual("\\mathit{x\\_1}", name.getSourceText());
+        Assert.AreEqual(".250", root.getChildren()[1].getText());
+        Assert.AreEqual("km", LaTeXParser.parse("\\mathrm{km}").getText());
+        Assert.AreEqual("α", LaTeXParser.parse("α").getText());
+        Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse("\uD835\uDC65"));
+        Assert.ThrowsException<NotSupportedException>( () => root.getChildren().Clear());
+        Assert.ThrowsException<NotSupportedException>( () => name.getChildren().Add(root));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0415() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: strict subset, unsafe macros and located failures";
+        TestCommonTools.consolePrintTestApiStart(415, testDescr);
+        String[] invalid = {"", "  ", "a+", "()", "\\frac{x}", "\\frac{}{y}",
+            "\\operatorname{rem}(a,b,c)", "x^{2}^{3}", "x^", "x^-1", "a_b", "\\sin x",
+            "\\sqrt{x}", "\\input{secret}", "\\write18{cmd}", "\\def\\x{x}", "a%b", "$x$",
+            "\\cdotx", "\\fracx{x}{y}", "\\mathit{x_1}", "\\mathit{}", "f(x)", "2f(x)", "-f(x)", "f^{2}(x)",
+            "a\\left[b\\right]", "\\left(a)", "(a\\right)", "1 2", "x!!", "\uD800"};
+        foreach (String source in invalid) Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(source), source);
+        Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(null));
+        Assert.IsTrue(Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse("a+")).Message.Contains("offset 2"));
+        Assert.IsTrue(Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse("a+}")).Message.Contains("offset 2"));
+        Assert.IsTrue(Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse("\\frac{x}")).Message.Contains("offset 8"));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0416() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: bounded recursive syntax and large flat structures";
+        TestCommonTools.consolePrintTestApiStart(416, testDescr);
+        StringBuilder flat = new StringBuilder("x");
+        for (int i = 1; i < 50000; i++) flat.Append("+x");
+        LaTeXParser.Node root = LaTeXParser.parse(flat.ToString());
+        Assert.AreEqual(LaTeXParser.Kind.ADD, root.getKind());
+        Assert.AreEqual(flat.Length, root.getEndOffset());
+        Stack<LaTeXParser.Node> pending = new Stack<LaTeXParser.Node>();
+        pending.Push(root); int count = 0;
+        while (!(pending.Count == 0)) { LaTeXParser.Node node = pending.Pop(); count++; foreach (LaTeXParser.Node child in node.getChildren()) pending.Push(child); }
+        Assert.AreEqual(99999, count);
+        flat.Append("+x");
+        Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(flat.ToString()));
+        StringBuilder deep = new StringBuilder("x");
+        for (int i = 0; i < 300; i++) { deep.Insert(0, '('); deep.Append(')'); }
+        Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(deep.ToString()));
+        StringBuilder signs = new StringBuilder(); for (int i = 0; i < 300; i++) signs.Append('-'); signs.Append('x');
+        Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(signs.ToString()));
+        char[] huge = new char[1000001]; for (int i = 0; i < huge.Length; i++) huge[i] = ' ';
+        Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(new String(huge)));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0417() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: preserves literals and unbound symbols without calculating";
+        TestCommonTools.consolePrintTestApiStart(417, testDescr);
+        LaTeXParser.Node unbound = LaTeXParser.parse("\\mathit{unboundName}^{99999999999999999999999999999}");
+        Assert.AreEqual("unboundName", unbound.getChildren()[0].getText());
+        Assert.AreEqual("99999999999999999999999999999", unbound.getChildren()[1].getText());
+        Assert.AreEqual("0002.300", LaTeXParser.parse("0002.300").getText());
+        Assert.AreEqual(LaTeXParser.Kind.DIVIDE, LaTeXParser.parse("\\frac{1}{0}").getKind());
+        Assert.AreEqual("DIVIDE(NUMBER:0,NUMBER:0)", latexTreeShape(LaTeXParser.parse("0/0")));
+        LaTeXParser.Node first = LaTeXParser.parse("x+1"), second = LaTeXParser.parse("y+2");
+        Assert.AreEqual("ADD(SYMBOL:x,NUMBER:1)", latexTreeShape(first));
+        Assert.AreEqual("ADD(SYMBOL:y,NUMBER:2)", latexTreeShape(second));
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0418() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "symbolic LaTeX parser: independent parallel parses";
+        TestCommonTools.consolePrintTestApiStart(418, testDescr);
+        List<System.Threading.Tasks.Task<String>> calls = new List<System.Threading.Tasks.Task<String>>();
+        for (int i = 0; i < 32; i++) calls.Add(System.Threading.Tasks.Task.Run(() => latexTreeShape(LaTeXParser.parse("\\frac{x+1}{y}^{2}"))));
+        foreach (System.Threading.Tasks.Task<String> value in calls) Assert.AreEqual("POWER(DIVIDE(ADD(SYMBOL:x,NUMBER:1),SYMBOL:y),NUMBER:2)", value.Result);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0419() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "experimental LaTeX parser: explicit symbol typography survives grouping";
+        TestCommonTools.consolePrintTestApiStart(419, testDescr);
+        String[][] cases = {
+            new String[]{"e", "e", "DEFAULT"}, new String[]{"\\mathrm{e}", "e", "UPRIGHT"}, new String[]{"\\mathit{e}", "e", "ITALIC"},
+            new String[]{"\\mathrm e", "e", "UPRIGHT"}, new String[]{"\\mathit e", "e", "ITALIC"},
+            new String[]{"\\mathrm{km}", "km", "UPRIGHT"}, new String[]{"\\mathit{km}", "km", "ITALIC"},
+            new String[]{"(\\mathrm e)", "e", "UPRIGHT"}, new String[]{"{\\mathit{e}}", "e", "ITALIC"},
+            new String[]{"\\left(\\mathrm{km}\\right)", "km", "UPRIGHT"},
+            new String[]{"\\mathrm α", "α", "UPRIGHT"}, new String[]{"\\mathit{\\_}", "_", "ITALIC"}
+        };
+        foreach (String[] c in cases) {
+            LaTeXParser.Node node = LaTeXParser.parse(c[0]);
+            Assert.AreEqual(LaTeXParser.Kind.SYMBOL, node.getKind(), c[0]);
+            Assert.AreEqual(c[1], node.getText(), c[0]);
+            Assert.AreEqual(c[2], node.getSymbolStyle().ToString(), c[0]);
+            Assert.AreEqual(c[0], node.getSourceText(), c[0]);
+        }
+        LaTeXParser.Node power = LaTeXParser.parse("\\mathrm e^{2}");
+        Assert.AreEqual(LaTeXParser.Kind.POWER, power.getKind());
+        Assert.AreEqual(LaTeXParser.SymbolStyle.DEFAULT, power.getSymbolStyle());
+        Assert.AreEqual(LaTeXParser.SymbolStyle.UPRIGHT, power.getChildren()[0].getSymbolStyle());
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0420() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "experimental LaTeX parser: exhaustive closed BMP alphabet matches parser metadata";
+        TestCommonTools.consolePrintTestApiStart(420, testDescr);
+        Regex reference = new Regex("\\A(?:[A-Za-z]|" + ParserSymbol.UNICODE_NAME_REG_EXP + ")\\z");
+        int symbols = 0, unicode = 0, numbers = 0;
+        for (int code = 0; code <= 0xffff; code++) {
+            String input = Convert.ToString((char)code);
+            if (reference.IsMatch(input)) {
+                LaTeXParser.Node node = LaTeXParser.parse(input);
+                Assert.AreEqual(LaTeXParser.Kind.SYMBOL, node.getKind(), "Character " + code);
+                Assert.AreEqual(input, node.getText());
+                Assert.AreEqual(1, node.getEndOffset());
+                Assert.AreEqual(LaTeXParser.SymbolStyle.DEFAULT, node.getSymbolStyle());
+                symbols++; if (code > 127) unicode++;
+            } else if (code >= '0' && code <= '9') {
+                Assert.AreEqual(LaTeXParser.Kind.NUMBER, LaTeXParser.parse(input).getKind()); numbers++;
+            } else Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(input), "Character " + code);
+        }
+        Assert.AreEqual(112, symbols);
+        Assert.AreEqual(60, unicode);
+        Assert.AreEqual(10, numbers);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0421() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "experimental LaTeX parser: quoted names and font command token boundaries";
+        TestCommonTools.consolePrintTestApiStart(421, testDescr);
+        String[] names = {"x", "speed", "ABC123", "x_1", "_", "_123", "α", "∑", "ⅇ"};
+        foreach (String name in names) {
+            Assert.IsTrue(Regex.IsMatch(name, "\\A(?:" + ParserSymbol.nameOnlyTokenRegExp + ")\\z"), name);
+            String input = "\\mathit{" + name.Replace("_", "\\_") + "}";
+            LaTeXParser.Node node = LaTeXParser.parse(input);
+            Assert.AreEqual(name, node.getText());
+            Assert.AreEqual(LaTeXParser.SymbolStyle.ITALIC, node.getSymbolStyle());
+        }
+        LaTeXParser.Node product = LaTeXParser.parse("\\mathrm km");
+        Assert.AreEqual(LaTeXParser.Kind.MULTIPLY, product.getKind());
+        Assert.AreEqual("k", product.getChildren()[0].getText());
+        Assert.AreEqual(LaTeXParser.SymbolStyle.UPRIGHT, product.getChildren()[0].getSymbolStyle());
+        Assert.AreEqual("m", product.getChildren()[1].getText());
+        Assert.AreEqual(LaTeXParser.SymbolStyle.DEFAULT, product.getChildren()[1].getSymbolStyle());
+        String[] invalid = {"\\mathrm", "\\mathit", "\\mathrmex", "\\mathrm 3", "\\mathit{x٣}",
+            "\\mathit{ł}", "\\mathrm{中}", "\\mathit{ℵ}", "\\mathit{αx}", "\\mathit{xα}",
+            "\\mathit{αβ}", "\\mathrm{1x}", "\\mathrm{a_b}", "\\mathit{\\input{x}}", "\\mathrm\\quad e", "\\mathrm\\,e", "\\mathit\\quad\\_"};
+        foreach (String input in invalid) Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(input), input);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+    [TestMethod]
+    public void testApi0422() {
+        TestCommonTools.testApiSettingsInit();
+        bool testResult = false;
+        String testDescr = "experimental LaTeX parser: portable ASCII whitespace and invalid Unicode offsets";
+        TestCommonTools.consolePrintTestApiStart(422, testDescr);
+        foreach (char c in new char[]{' ', '\t', '\n', '\r', '\f', '\u000b'}) {
+            LaTeXParser.Node node = LaTeXParser.parse(c + "x" + c + "+" + c + "1" + c);
+            Assert.AreEqual(LaTeXParser.Kind.ADD, node.getKind());
+        }
+        foreach (String input in new String[]{"x\u00a0+1", "x\u2003+1", "x\u3000+1", "x+\uD835\uDC65", "x+\uDC65", "x+中"}) {
+            ArgumentException error = Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(input));
+            int expectedOffset = input[1] == '+' ? 2 : 1;
+            Assert.IsTrue(error.Message.Contains("offset " + expectedOffset), error.Message);
+        }
+        Assert.AreEqual(LaTeXParser.Kind.ADD, LaTeXParser.parse("x\\quad+\\qquad 1").getKind());
+        foreach (String input in new String[]{"x^\\quad2", "x^\\,2", "\\frac\\quad{x}{y}",
+                "\\frac{x}\\quad{y}", "\\operatorname\\quad{rem}(x,y)"})
+            Assert.ThrowsException<ArgumentException>( () => LaTeXParser.parse(input), input);
+        testResult = true;
+        TestCommonTools.consolePrintTestApiEnd(testResult);
+        Assert.IsTrue(testResult);
+    }
+
 }
 }

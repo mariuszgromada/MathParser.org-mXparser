@@ -1,5 +1,5 @@
 #/*
-# @(#)CMakeLists.txt        6.1.2    2026-10-25
+# @(#)CMakeLists.txt        6.2.0    2026-11-11
 #
 # MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
 # The most up-to-date license is available at the below link:
@@ -537,6 +537,12 @@ add_library(MathParserOrgMxParser SHARED
 		org/mariuszgromada/math/mxparser/Function.hpp
 		org/mariuszgromada/math/mxparser/FunctionExtension.hpp
 		org/mariuszgromada/math/mxparser/FunctionExtensionVariadic.hpp
+		org/mariuszgromada/math/mxparser/LaTeXParser.cpp
+		org/mariuszgromada/math/mxparser/LaTeXParser.hpp
+		org/mariuszgromada/math/mxparser/LaTeXExporter.cpp
+		org/mariuszgromada/math/mxparser/LaTeXExporter.hpp
+		org/mariuszgromada/math/mxparser/LaTeXSupport.hpp
+		org/mariuszgromada/math/mxparser/wrapper/ReadOnlyList.hpp
 		org/mariuszgromada/math/mxparser/License.cpp
 		org/mariuszgromada/math/mxparser/License.hpp
 		org/mariuszgromada/math/mxparser/macro/MacroBuild.hpp

@@ -1,5 +1,5 @@
 /*
- * @(#)ExpressionA.cpp        6.1.2    2026-10-25
+ * @(#)ExpressionA.cpp        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -216,6 +216,7 @@
  * - online store: https://payhip.com/infima
  */
 
+#include "org/mariuszgromada/math/mxparser/LaTeXExporter.hpp"
 #include "org/mariuszgromada/math/mxparser/Expression.hpp"
 // --------------------------------------------------------------------------
 #include "org/mariuszgromada/math/mxparser/Argument.hpp"
@@ -5015,6 +5016,10 @@ namespace org::mariuszgromada::math::mxparser {
 		tokenizeExpressionString();
 		return ExpressionUtils::getCopyOfInitialTokens(expressionString, initialTokens);
 	}
+
+    API_VISIBLE StringPtr Expression::getExpressionAsLaTeX() {
+        return LaTeXExporter::format(getCopyOfInitialTokens());
+    }
 
 	/**
 	 * Prints to the console copy of initial tokens. Presents how

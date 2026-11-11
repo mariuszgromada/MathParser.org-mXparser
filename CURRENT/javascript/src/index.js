@@ -1,5 +1,5 @@
 /*
- * @(#)index.js        6.2.0    2026-11-04
+ * @(#)index.js        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -1931,6 +1931,16 @@ export async function initMxParser(options = {}) {
         }
     };
     classes.Random = concrete('Random', classes.IRandom);
+    /** Opaque, immutable parser nodes are created exclusively by native parse().
+     * @version        6.2.0
+     */
+    classes.LaTeXNode = class extends NativeHandle {
+        constructor(token, value) {
+            if (token !== constructing) throw new TypeError('LaTeXParser.Node has no public constructor; use LaTeXParser.parse');
+            super(token, value);
+        }
+    };
+    owners.LaTeXParser = Object.create(null);
     Object.defineProperty(classes.IRandom, 'implement', {
         value(implementation) {
             if (!interfaceMatches(implementation, ['nextInt', 'nextDouble', 'setSeed'])) throw new TypeError('Expected an IRandom implementation object');
@@ -1944,7 +1954,7 @@ export async function initMxParser(options = {}) {
         let scope = mx;
         for (const part of parts.slice(0, -1)) scope = scope[part] ??= Object.create(null);
         scope[parts.at(-1)] = value;
-        mx[parts.at(-1)] ??= value;
+        if (!managedProfile.nested_only_owners?.includes(owner)) mx[parts.at(-1)] ??= value;
     }
 
     const methods = new Map();
@@ -2823,11 +2833,11 @@ export async function initMxParser(options = {}) {
     for (const owner of managedProfile.visible_owners) {
         const parts = owner.split('::');
         for (let i = 1; i <= parts.length; i++) publicPaths.add(parts.slice(0, i).join('::'));
-        publicPaths.add(parts.at(-1));
+        if (!managedProfile.nested_only_owners?.includes(owner)) publicPaths.add(parts.at(-1));
     }
     for (const item of catalog.emitted) if (item.static) {
         publicPaths.add(item.owner + '::' + item.name);
-        publicPaths.add(item.owner.split('::').at(-1) + '::' + item.name);
+        if (!managedProfile.nested_only_owners?.includes(item.owner)) publicPaths.add(item.owner.split('::').at(-1) + '::' + item.name);
     }
     for (const key of Object.keys(managedProfile.signatures)) {
         const [owner, name] = key.split('|');

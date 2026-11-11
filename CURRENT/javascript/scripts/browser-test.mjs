@@ -1,5 +1,5 @@
 /*
- * @(#)browser-test.mjs        6.2.0    2026-11-04
+ * @(#)browser-test.mjs        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -320,7 +320,7 @@ try {
     }
     console.log(JSON.stringify({...report, browser: executable}));
     if (!report || report.status !== 'PASS' || report.checks < requiredChecks
-        || targetPath === '/' && (report.scenarios?.length !== 10 || report.worker?.status !== 'PASS' || report.worker?.checks !== 13)
+        || targetPath === '/' && (report.latex?.status !== 'PASS' || report.latex?.exports !== 232 || report.latex?.shapes !== 25 || report.latex?.aliases !== 527 || report.scenarios?.length !== 10 || report.worker?.status !== 'PASS' || report.worker?.checks !== 13)
         || report.crossOriginIsolated !== (process.env.MXPARSER_ISOLATED === '1')) {
         const summary = {status: report?.status, checks: report?.checks, error: report?.error,
             failedIds: report?.report?.tests?.filter(x => x.status === 'FAIL').map(x => x.cpp_id)};

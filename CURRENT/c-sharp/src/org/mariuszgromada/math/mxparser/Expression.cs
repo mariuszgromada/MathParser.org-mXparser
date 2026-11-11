@@ -1,5 +1,5 @@
 /*
- * @(#)Expression.cs        6.1.2    2026-10-25
+ * @(#)Expression.cs        6.2.0    2026-11-11
  *
  * MathParser.org-mXparser DUAL LICENSE AGREEMENT as of date 2024-05-19
  * The most up-to-date license is available at the below link:
@@ -251,7 +251,7 @@ namespace org.mariuszgromada.math.mxparser {
 	 *                 <a href="https://play.google.com/store/apps/details?id=org.mathparser.scalar.pro" target="_blank">Scalar Pro</a><br>
 	 *                 <a href="https://mathspace.pl" target="_blank">MathSpace.pl</a><br>
 	 *
-	 * @version        6.1.2
+	 * @version        6.2.0
 	 *
 	 * @see            Argument
 	 * @see            RecursiveArgument
@@ -7174,6 +7174,28 @@ namespace org.mariuszgromada.math.mxparser {
             tokenizeExpressionString();
             return ExpressionUtils.getCopyOfInitialTokens(expressionString, initialTokens);
         }
+		/**
+		 * Returns this expression in classical mathematical LaTeX notation, without
+		 * math-mode delimiters. Values, user function bodies and numerical algorithm
+		 * settings are not evaluated. Undefined symbols with unambiguous structure
+		 * are supported. This method uses {@link #getCopyOfInitialTokens()} and has
+		 * the same tokenization/cache and extension-metadata behavior as that method.
+		 * The returned notation describes the formula, not numerical implementation
+		 * details such as rounding, angular mode or special values at singularities.
+		 *
+		 * @return A mathematical LaTeX fragment, or an empty string for empty input.
+		 * @throws InvalidOperationException If the token structure, builtin arity or an
+		 *         identifier is invalid, or a rendering resource budget is exceeded.
+		 * @since 6.1.2
+		 */
+		/// <summary>Returns the formula in classical mathematical LaTeX without math-mode delimiters.
+		/// Does not evaluate values or user function bodies. Uses getCopyOfInitialTokens() with the same
+		/// tokenization/cache and extension-metadata behavior; numerical implementation details are omitted.</summary>
+		/// <returns>A mathematical fragment, or an empty string for empty input.</returns>
+		/// <exception cref="InvalidOperationException">Invalid structure, builtin arity, identifier or rendering resource budget.</exception>
+		public String getExpressionAsLaTeX() {
+			return LaTeXExporter.format(getCopyOfInitialTokens());
+		}
         /**
 		 * Prints to the console copy of initial tokens. Presents how
 		 * expression string is interpreted by the parser.
@@ -7183,6 +7205,7 @@ namespace org.mariuszgromada.math.mxparser {
         public void consolePrintCopyOfInitialTokens() {
 			mXparser.consolePrintTokens(getCopyOfInitialTokens());
 		}
+
 		/**
 		 * Returns missing user defined arguments names, i.e.
 		 * sin(x) + cos(y) where x and y are not defined
