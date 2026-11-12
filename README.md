@@ -183,7 +183,7 @@ mxparser_link(YourExecutable)
 
 # MathParser.org-mXparser
 
-**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA, C# .NET, TypeScript and JavaScript. 
+**mXparser** is **a highly flexible parser of mathematical expressions provided as text**. Software delivers easy to use API for JAVA, C# .NET. 
 
 # Supported frameworks
 ![mXparser frameworks](https://github.com/futurearchitec/tempresources/raw/main/supported-frameworks.png)
@@ -191,9 +191,6 @@ mxparser_link(YourExecutable)
 - Android - tested with mxparser compiled using jdk 1.7
 - .NET Framework (2+) / MONO CLS, .NET Core: 1+, .NET Standard: 1+, .NET PCL
 - Xamarin
-- TypeScript, JavaScript
-- Chrome, Firefox, MS Edge, Safari
-- nodeJS
 
 ## **Tutorial**
 The tutorial consists of c.a. 180 live examples from c.a. 40 sections. Each of the examples can be copied and run on your own environment. In addition, mXparser provides an extensive collection of over 500 built-in math functions, expressions and symbols. Familiarize yourself with the scope and the syntax. Live testing is the best way to learn. Good luck! 
@@ -467,8 +464,6 @@ mXparser provides a rich collection of built-in math functions, math expressions
 # C# intro
 ![mXparser demo - csharp](http://mathparser.org/wp-content/uploads/2017/05/mxparser-demo-vs-r2.gif)
 
-# TypeScript intro
-![mXparser demo - TypeScript](https://github.com/futurearchitec/tempresources/raw/main/mxparser-demo-ts-r1.gif)
 
 # Main functionalities:
 - **basic operators**, i.e.: +, -, *, ^, !
